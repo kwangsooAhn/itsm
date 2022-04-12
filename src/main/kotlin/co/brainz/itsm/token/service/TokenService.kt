@@ -105,6 +105,7 @@ class TokenService(
             val component = componentList.first { it.componentId == data.componentId }
             when (component.componentType) {
                 WfComponentConstants.ComponentType.CI.code -> {
+                    if (data.value.isEmpty()) { return@forEach }
                     val dataValueList: List<WfCIComponentValueDto> =
                         mapper.readValue(data.value,
                             TypeFactory.defaultInstance().constructCollectionType(List::class.java, WfCIComponentValueDto::class.java))
