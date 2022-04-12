@@ -102,6 +102,7 @@ class TokenService(
         }
         val componentList = wfComponentService.getComponents(componentIds)
         componentData.forEach { data ->
+            if (data.value.isEmpty()) { return@forEach }
             val component = componentList.first { it.componentId == data.componentId }
             when (component.componentType) {
                 WfComponentConstants.ComponentType.CI.code -> {
