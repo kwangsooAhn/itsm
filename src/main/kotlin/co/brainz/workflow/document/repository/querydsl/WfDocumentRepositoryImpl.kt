@@ -163,9 +163,7 @@ class WfDocumentRepositoryImpl :
             sqlBuilder.append(field.name)
         }
         sqlBuilder.append(" from " + fieldOptionDto.table)
-        if (fieldOptionDto.documentNo.isNotEmpty()) {
-            sqlBuilder.append(" where document_no = '${fieldOptionDto.documentNo}'")
-        }
+        sqlBuilder.append(" where ${fieldOptionDto.keyField} = '${fieldOptionDto.documentNo}'")
         if (fieldOptionDto.sort.field.isNotEmpty()) {
             sqlBuilder.append(" order by ${fieldOptionDto.sort.field} ${fieldOptionDto.sort.order}")
         }
