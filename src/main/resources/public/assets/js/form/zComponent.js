@@ -29,6 +29,7 @@ import { timeMixin } from './component/zTime.js';
 import { fileDownloadMixin } from './component/zFileDownload.js';
 import { dropdownCodeMixin } from './component/zDropdownCode.js';
 import { userSearchMixin } from './component/zUserSearch.js';
+import { organizationSearchMixin } from './component/zOrganizationSearch.js';
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -166,6 +167,8 @@ export default class ZComponent {
                 return dropdownCodeMixin;
             case 'userSearch':
                 return userSearchMixin;
+            case 'organizationSearch':
+                return organizationSearchMixin;
             default:
                 break;
         }
