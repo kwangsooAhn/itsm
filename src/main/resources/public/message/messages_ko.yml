@@ -835,6 +835,7 @@ form:
       dateTime: "DateTime"
       input: "InputBox"
       label: "Label"
+      organizationSearch: "Organization Search"
       time: "Time"
       userSearch: "User Search"
     dataAttribute: "데이터 속성"

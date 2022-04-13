@@ -107,6 +107,11 @@ export const propertyExtends = {
         columnValidation: {
             required: false // 필수값 여부
         }
+    },
+    organizationSearch: {
+        columnValidation: {
+            required: false // 필수값 여부
+        }
     }
 };
 
@@ -160,6 +165,7 @@ export default class ZColumnProperty extends ZProperty {
     afterEvent() {}
     // 컬럼 추가
     addColumn(option, index) {
+        // 최대값 추출
         if (index === -1 ) { index = this.value.length; }
         // 공통 컬럼 옵션
         const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
@@ -171,7 +177,7 @@ export default class ZColumnProperty extends ZProperty {
             .setUIClass('z-button-icon')
             .addUIClass('z-tab')
             .setUIId('column' + index)
-            .onUIClick(this.selectColumn.bind(this, 'column' + index));
+            .onUIClick(this.selectColumn.bind(this));
         this.UITabPanel.tabGroup.addUI(tab);
         this.tabs.push(tab);
 
@@ -186,8 +192,6 @@ export default class ZColumnProperty extends ZProperty {
         this.UITabPanel.panelGroup.addUI(panel);
         this.panels.push(panel);
 
-        this.selectColumn('column' + index);
-
         // 옵션 신규 추가
         if (this.value.length <= index) {
             this.value.push(columnOption);
@@ -199,28 +203,33 @@ export default class ZColumnProperty extends ZProperty {
             }
             this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
         }
+        // 현재 탭 선택
+        tab.domElement.dispatchEvent(new Event('click'));
     }
     addColumnForColumnCommon(option, index) {
         const columnCommonGroup = new UIDiv().setUIClass('z-panel-common');
         // 순서 변경 < > 버튼 추가
         const arrowLeftButton = new UIButton().setUIClass('z-button-icon')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
+            .setUIAttribute('data-swap-direction', '-1')
             .setUIDisabled(!this.isEditable)
-            .onUIClick(this.swapColumn.bind(this, 'column' + index, - 1));
+            .onUIClick(this.swapColumn.bind(this));
         const arrowRightButton = new UIButton().setUIClass('z-button-icon')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-next'))
+            .setUIAttribute('data-swap-direction', '1')
             .setUIDisabled(!this.isEditable)
-            .onUIClick(this.swapColumn.bind(this, 'column' + index, + 1));
+            .onUIClick(this.swapColumn.bind(this));
         // 패널 삭제 버튼 추가
         const deleteButton = new UIButton().setUIClass('z-button-icon').addUIClass('panel-delete-button')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
             .setUIDisabled(!this.isEditable)
-            .onUIClick(this.removeColumn.bind(this, 'column' + index));
+            .onUIClick(this.removeColumn.bind(this));
 
+        columnCommonGroup.UICount = new UISpan().setUIInnerHTML(index + 1);
         columnCommonGroup.addUI(
             new UISpan().setUIClass('panel-name').setUIInnerHTML(i18n.msg('form.properties.element.columnOrder')),
             arrowLeftButton,
-            new UISpan().setUIInnerHTML(index + 1).setUIId('count'+index),
+            columnCommonGroup.UICount,
             arrowRightButton,
             deleteButton
         );
@@ -255,7 +264,8 @@ export default class ZColumnProperty extends ZProperty {
         });
     }
     // 컬럼 선택
-    selectColumn(id) {
+    selectColumn(e) {
+        const id = e.target.id;
         let tab;
         let panel;
         const scope = this;
@@ -298,9 +308,9 @@ export default class ZColumnProperty extends ZProperty {
         return this;
     }
     // 컬럼 삭제
-    removeColumn(id) {
+    removeColumn(e) {
+        const id = e.target.parentNode.parentNode.id;
         const index = this.tabs.findIndex((tab) => tab.getUIId() === id);
-
         if (index === -1) { return false; }
 
         if (this.value.length === 1) {
@@ -316,15 +326,27 @@ export default class ZColumnProperty extends ZProperty {
             if (this.UITabPanel.tabGroup.addButton.hasUIClass('off')) {
                 this.UITabPanel.tabGroup.addButton.removeUIClass('off').addUIClass('on');
             }
+            // 선택 컬럼 변경
+            for (let i = index; i < this.panels.length; i++) {
+                this.panels[i].setUIId('column' + i);
+                this.tabs[i].setUIId('column' + i);
+                this.panels[i].UICommon.UICount.setUIInnerHTML(i + 1);
+            }
+
             // 이전 탭 선택
-            const prevTab = this.tabs[index - 1];
-            this.selectColumn(prevTab.getUIId());
+            if (index > 0) {
+                this.tabs[index - 1].domElement.dispatchEvent(new Event('click'));
+            } else {
+                this.tabs[index].domElement.dispatchEvent(new Event('click'));
+            }
 
             this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
         }
     }
     // 컬럼 순서 변경
-    swapColumn(id, offset) {
+    swapColumn(e) {
+        const id = e.target.parentNode.parentNode.id;
+        const offset = Number(e.target.getAttribute('data-swap-direction'));
         const curIndex = this.tabs.findIndex((tab) => tab.getUIId() === id);
         const changeIndex = curIndex + offset;
         if (changeIndex === -1 || changeIndex === this.value.length) { return false; }
@@ -337,8 +359,13 @@ export default class ZColumnProperty extends ZProperty {
 
         [this.value[curIndex], this.value[changeIndex]] = [this.value[changeIndex], this.value[curIndex]];
 
-        this.UITabPanel.panelGroup.domElement.childNodes[curIndex].childNodes[0].childNodes[2].innerHTML= curIndex+1;
-        this.UITabPanel.panelGroup.domElement.childNodes[changeIndex].childNodes[0].childNodes[2].innerHTML= changeIndex+1;
+        this.panels[curIndex].setUIId('column' + curIndex);
+        this.tabs[curIndex].setUIId('column' + curIndex);
+        this.panels[curIndex].UICommon.UICount.setUIInnerHTML(curIndex + 1);
+
+        this.panels[changeIndex].setUIId('column' + changeIndex);
+        this.tabs[changeIndex].setUIId('column' + changeIndex);
+        this.panels[changeIndex].UICommon.UICount.setUIInnerHTML(changeIndex + 1);
 
         this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
     }
@@ -353,7 +380,8 @@ export default class ZColumnProperty extends ZProperty {
                 { name: i18n.msg('form.properties.columnType.time'), value: 'time' },
                 { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' },
                 { name: i18n.msg('form.properties.columnType.label'), value: 'label' },
-                { name: i18n.msg('form.properties.columnType.userSearch'), value: 'userSearch' }
+                { name: i18n.msg('form.properties.columnType.userSearch'), value: 'userSearch' },
+                { name: i18n.msg('form.properties.columnType.organizationSearch'), value: 'organizationSearch'}
             ]);
 
         // head - input
@@ -453,6 +481,8 @@ export default class ZColumnProperty extends ZProperty {
                 return this.getPropertyForColumnTypeLabel(option, id);
             case 'userSearch':
                 return this.getPropertyForColumnTypeUserSearch(option, id);
+            case 'organizationSearch':
+                return this.getPropertyForColumnTypeOrganizationSearch(option, id);
             default:
                 return [];
         }
@@ -555,6 +585,13 @@ export default class ZColumnProperty extends ZProperty {
         return [
             new ZGroupProperty('group.columnElement')
                 .addProperty(userSearchProperty),
+            new ZGroupProperty('group.columnValidation')
+                .addProperty(new ZSwitchProperty(id + '|columnValidation.required', 'validation.requiredInput', option.columnValidation.required))
+        ];
+    }
+    // 컬럼 세부 속성 - OrganizationSearch
+    getPropertyForColumnTypeOrganizationSearch(option, id) {
+        return [
             new ZGroupProperty('group.columnValidation')
                 .addProperty(new ZSwitchProperty(id + '|columnValidation.required', 'validation.requiredInput', option.columnValidation.required))
         ];

@@ -835,6 +835,7 @@ form:
       dropdown: "DropDown"
       input: "InputBox"
       label: "Label"
+      organizationSearch: "Organization Search"
       time: "Time"
       userSearch: "User Search"
     dataAttribute: "Data Attribute"
