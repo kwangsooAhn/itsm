@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service
 class CurrentSessionUser {
     fun getUserDto(): AliceUserDto? = SecurityContextHolder.getContext().authentication.details as? AliceUserDto
     fun getUserKey(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userKey
-    fun getUserName(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userName
     fun getUserId(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.userId
     fun getEmail(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.email
     fun getTimezone(): String = (SecurityContextHolder.getContext().authentication.details as? AliceUserDto)!!.timezone
