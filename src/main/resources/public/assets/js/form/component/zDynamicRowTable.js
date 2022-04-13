@@ -345,7 +345,9 @@ export const dynamicRowTableMixin = {
             case 'label':
                 return this.getLabelForColumn(column);
             case 'userSearch':
-                return this.getUserSearchFormColumn(column, cellValue, index);
+                return this.getUserSearchForColumn(column, cellValue, index);
+            case 'organizationSearch':
+                return this.getOrganizationSearchForColumn(column, cellValue, index);
             default:
                 return new UISpan().setUIInnerHTML(cellValue);
         }
@@ -447,7 +449,7 @@ export const dynamicRowTableMixin = {
         return label;
     },
     // column Type - userSearch
-    getUserSearchFormColumn(column, cellValue, index) {
+    getUserSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
         return new UIInput().setUIClass('z-input i-user-search text-ellipsis')
             .setUIId('userSearch' + index +  ZWorkflowUtil.generateUUID())
@@ -459,7 +461,26 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-user-id', (defaultValues.length > 1) ? defaultValues[2] : '')
             .setUIAttribute('data-user-search', (defaultValues.length > 1) ? defaultValues[0] : '')
             .setUIAttribute('data-user-search-target', column.columnElement.defaultValueUserSearch)
+            .setUIAttribute('oncontextmenu', 'return false;')
+            .setUIAttribute('onkeypress', 'return false;')
+            .setUIAttribute('onkeydown', 'return false;')
             .onUIClick(this.openUserSearchModal.bind(this))
+            .onUIChange(this.updateValue.bind(this));
+    },
+    // column Type - OrganizationSearch
+    getOrganizationSearchForColumn(column, cellValue, index) {
+        const defaultValues = cellValue.split('|');
+        return new UIInput().setUIClass('z-input i-organization-search text-ellipsis')
+            .setUIId('organizationSearch' + index +  ZWorkflowUtil.generateUUID())
+            .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
+            .setUIRequired(column.columnValidation.required)
+            .setUIAttribute('data-validation-required', column.columnValidation.required)
+            .setUIAttribute('data-modal-title', column.columnName)
+            .setUIAttribute('data-organization-search', (defaultValues.length > 1) ? defaultValues[0] : '')
+            .setUIAttribute('oncontextmenu', 'return false;')
+            .setUIAttribute('onkeypress', 'return false;')
+            .setUIAttribute('onkeydown', 'return false;')
+            .onUIClick(this.openOrganizationSearchModal.bind(this))
             .onUIChange(this.updateValue.bind(this));
     },
     // 컴포넌트별 기본값 세팅
@@ -688,10 +709,15 @@ export const dynamicRowTableMixin = {
 
         // 사용자 검색용 컴포넌트일 경우
         if (e.target.classList.contains('i-user-search')) {
-            changeValue = `${e.target.id}|${e.target.value}`;
+            const userSearchData = e.target.getAttribute('data-user-search');
+            const userId = e.target.getAttribute('data-user-id');
+            changeValue = `${userSearchData}|${e.target.value}|${userId}`;
+        } else if (e.target.classList.contains('i-organization-search')) { // 부서 검색용 컴포넌트일 경우
+            const organizationSearchData = e.target.getAttribute('data-organization-search');
+            changeValue = `${organizationSearchData}|${e.target.value}`;
         }
+        
         newValue[cellElement.parentNode.rowIndex][cellElement.cellIndex] = changeValue;
-
         this.value = newValue;
     },
     updateDateTimeValue(e) {
@@ -830,6 +856,27 @@ export const dynamicRowTableMixin = {
             const targetRadio = searchUserList.querySelector('input[id="' + targetUserKey + '"]');
             if (!zValidation.isEmpty(targetUserKey) && !zValidation.isEmpty(targetRadio)) {
                 targetRadio.checked = true;
+            }
+        });
+    },
+    // 부서 선택 모달
+    openOrganizationSearchModal(e) {
+        const organizationSearchData = e.target.getAttribute('data-organization-search');
+        tree.load({
+            view: 'modal',
+            title: e.target.getAttribute('data-modal-title'),
+            dataUrl: '/rest/organizations',
+            target: 'treeList',
+            source: 'organization',
+            text: 'organizationName',
+            nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
+            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
+            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
+            selectedValue: organizationSearchData,
+            callbackFunc: (response) => {
+                e.target.value = response.textContent;
+                e.target.setAttribute('data-organization-search', response.id);
+                e.target.dispatchEvent(new Event('change'));
             }
         });
     },

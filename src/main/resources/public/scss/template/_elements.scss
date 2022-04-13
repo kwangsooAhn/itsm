@@ -354,6 +354,10 @@ input, textarea, select {
     @include backgroundImage($icon-folder-path + 'icon_document_user.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
+  &.i-organization-search {
+    @include backgroundImage($icon-folder-path + 'icon_document_user.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+  }
+
   &.i-px {
     @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
