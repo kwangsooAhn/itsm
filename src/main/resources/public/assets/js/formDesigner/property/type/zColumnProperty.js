@@ -95,9 +95,9 @@ export const propertyExtends = {
         }
     },
     fieldCommon: {
-        field: '',
+        name: '',
         alias: '',
-        columnWidth: '12', // 컬럼 너비
+        width: '12', // 컬럼 너비
     }
 };
 
@@ -545,20 +545,20 @@ export default class ZColumnProperty extends ZProperty {
     // 필드 세부 속성
     getPropertyForFieldCommon(option, id) {
         // head - field
-        const fieldInputProperty = new ZInputBoxProperty(id + '|field', 'element.field', option.field)
+        const fieldInputProperty = new ZInputBoxProperty(id + '|name', 'element.field', option.name)
             .setValidation(true, '', '', '', '', '128');
         fieldInputProperty.columnWidth = '6';
 
         // head - alias
         const aliasProperty = new ZInputBoxProperty(id + '|alias', 'element.columnName', option.alias)
-            .setValidation(false, '', '', '', '', '128');
+            .setValidation(true, '', '', '', '', '128');
         aliasProperty.columnWidth = '6';
 
         return [
             new ZGroupProperty('group.modalTable')
                 .addProperty(fieldInputProperty)
                 .addProperty(aliasProperty)
-                .addProperty(new ZSliderProperty(id + '|columnWidth', 'element.columnWidth', option.columnWidth))
+                .addProperty(new ZSliderProperty(id + '|width', 'element.columnWidth', option.width))
         ];
     }
     // 입력 유형 타입 변경

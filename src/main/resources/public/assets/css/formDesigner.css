@@ -8052,6 +8052,8 @@ span.modal_node_selected label {
   justify-content: space-between;
   width: 100%;
   padding: 1.5625rem 0.75rem 0.625rem 0.75rem;
+}
+.property-group:not(:last-child) {
   border-bottom: 0.0625rem solid #CFD5D9;
 }
 .property-group:first-child {

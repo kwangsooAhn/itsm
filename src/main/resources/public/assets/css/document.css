@@ -3653,6 +3653,110 @@ body.modal-active {
   overflow-y: auto;
   border: none;
 }
+.modal-wrapper .modal-dialog.modal-button-search-modal {
+  --default-modal-width: 0;
+  --default-modal-height: 0;
+  width: var(--default-modal-width);
+  height: var(--default-modal-height);
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content {
+  height: calc(var(--default-modal-height) - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid {
+  display: grid;
+  flex: 1;
+  align-content: start;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__row {
+  display: grid;
+  grid-template-columns: var(--data-columns-width);
+  grid-template-rows: 49px;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__cell {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  font-weight: 500;
+  color: #424242;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row {
+  color: #757575;
+  border-bottom: 0.125rem solid #CFD5D9;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
+  cursor: pointer;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
+  background: #757575;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body {
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row {
+  color: #222529;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  cursor: pointer;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row.read-only {
+  cursor: default;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row:hover {
+  background-color: #EEEEEE;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .sub-text {
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid--noData .grid__cell {
+  grid-column: 1/-1;
+  justify-content: center;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon {
+  padding: 0;
+  background-color: transparent;
+  border-color: transparent;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:hover, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:focus, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:active, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon .z-icon {
+  background-color: #63686C;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:hover .z-icon {
+  background-color: #ABB0B5;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:focus .z-icon {
+  background-color: #222529;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:active .z-icon {
+  background-color: #222529;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled .z-icon {
+  background-color: #CFD5D9;
+}
 
 /* form, group, row, component 디자인 - document ver. */
 .z-group-tooltip {

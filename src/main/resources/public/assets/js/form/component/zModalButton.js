@@ -25,7 +25,7 @@ import { zValidation } from '../../lib/zValidation.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '12',
-        columns: [{
+        fields: [{
             ...propertyExtends.fieldCommon
         }],
         text: i18n.msg('common.btn.inquiry'),
@@ -37,8 +37,8 @@ const DEFAULT_COMPONENT_PROPERTY = {
             field: '',
             order: FORM.FIELD_ORDER_BY.ASC
         },
-        searchTarget: '',
-        options: [FORM.FIELD_OPTION_ROW]
+        table: '',
+        keyField: ''
     },
     validation: {
         required: false, // 필수값 여부
@@ -64,6 +64,7 @@ export const modalButtonMixin = {
             .setUIClass('z-button')
             .addUIClass('z-modal-button')
             .addUIClass('secondary')
+            .onUIClick(this.openModal.bind(this));
         element.UIButton.UIText = new UISpan()
             .setUIId('elementButtonText')
             .addUIClass('z-modal-button-text')
@@ -110,22 +111,22 @@ export const modalButtonMixin = {
         return this._element.size.h;
     },
     set elementSearchTarget(value) {
-        this._element.searchTarget = value;
+        this._element.table = value;
     },
     get elementSearchTarget() {
-        return this._element.searchTarget;
-    },
-    set elementOptions(options) {
-        this._element.options = options;
-    },
-    get elementOptions() {
-        return this._element.options;
+        return this._element.table;
     },
     set elementColumns(columns) {
-        this._element.columns = columns;
+        this._element.fields = columns;
     },
     get elementColumns() {
-        return this._element.columns;
+        return this._element.fields;
+    },
+    set keyField(value) {
+        this._element.keyField = value;
+    },
+    get keyField() {
+        return this._element.keyField;
     },
     set fieldOrderTarget(value) {
         this._element.sort.field = value;
@@ -153,6 +154,97 @@ export const modalButtonMixin = {
     get value() {
         return this._value;
     },
+    /** @brief 모달 생성 시 데이터 호출에 필요한 필수 조건은 2개이다.
+     *          1. documentNo : 처리할 문서의 문서번호
+     *          2. componentId : 모달 버튼
+     *  @author jy.lim
+     *  @date 2022-04-12
+     */
+    // 설정된 데이터에 따라 모달 생성
+    openModal() {
+        // 엘리먼트들에서 필요한 값들을 던져서 데이터를 가져온다.
+        const documentNo = document.getElementById('documentNumber')?.getAttribute('document-no') || '';
+        const componentId = this.id;
+        const strUrl = `/rest/documents/${documentNo}/components/${componentId}/value`;
+        const strUrlTest = `/rest/documents/components/${componentId}/value?documentNo=${documentNo}`;
+
+        aliceJs.fetchJson(strUrlTest, {
+            method: 'GET'
+        }).then((data) => {
+            const field = data.fields;
+            const rowData = data.data[0] || '';
+            // 전체 column
+            let totalColumn = 0;
+            field.filter(it => totalColumn += Number(it.width));
+            // grid 관련 변수 초기화
+            let columnsWidth = '';
+            let gridHead = '';
+            let gridBodyRow = '';
+            let gridBody = '';
+
+            field.map((item) => {
+                // 그리드 구성을 위한 width
+                columnsWidth += `${((Number(item.width) / totalColumn) * 100).toFixed(2)}% `;
+                // table header template
+                gridHead += `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">` +
+                            `<span class="text-ellipsis" title="${item.alias}">${item.alias}</span>` +
+                            `</div>`;
+            });
+
+            // table body template
+            if (rowData.length > 0) {
+                rowData.map((row) => {
+                    gridBody = '';
+                    row.forEach((item) => {
+                        gridBody += `<div class="grid__cell pr-2 pl-2">` +
+                            `<span class="text-ellipsis" title="${item}">${item}</span>` +
+                            `</div>`;
+                    });
+                    gridBodyRow += `<div class="grid__row">${gridBody}</div>`;
+                });
+            } else {
+                // noData
+                gridBodyRow = `<div class="grid__row grid--noData read-only">` +
+                    `<div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>` +
+                    `</div>`;
+            }
+
+            // modal template
+            const tableModalContent = `<div class="grid" style="--data-columns-width: ${columnsWidth}">` +
+                `<div class="grid__head">` +
+                `<div class="grid__row">${gridHead}</div>` +
+                `</div>` +
+                `<div class="grid__body">${gridBodyRow}</div>` +
+                `</div>`;
+
+            const targetTableModal = new modal({
+                title: this.elementButtonText,
+                body: tableModalContent,
+                classes: 'modal-button-search-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => modal.hide()
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: () => {
+                    // 컴포넌트 설정에 따라 모달 크기 리사이즈
+                    const modalContent = document.querySelector('.modal-button-search-modal');
+                    modalContent.style.setProperty('--default-modal-width', this.elementModalWidth + UNIT.PX);
+                    modalContent.style.setProperty('--default-modal-height', this.elementModalHeight + UNIT.PX);
+
+                    // 모달 내부 스크롤 바 추가
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    // 목록 스크롤 바 추가
+
+                }
+            });
+            targetTableModal.show();
+        });
+    },
     // 세부 속성 조회
     getProperty() {
         // element - 모달 크기
@@ -169,8 +261,18 @@ export const modalButtonMixin = {
         const targetTableProperty = new ZInputBoxProperty('elementSearchTarget', 'element.searchTargetTable', this.elementSearchTarget)
             .setValidation(true, '', '', '', '', '');
         targetTableProperty.help = 'form.help.target-table';
-        // 조회 대상 기준
-        const orderTableProperty = new ZInputBoxProperty('fieldOrderTarget', 'element.searchTargetCriteria', this.fieldOrderTarget);
+
+        /**
+         * @date 2022-04-13
+         * @author jy.lim
+         * @summary 이력 조회 외에도 특정 테이블 내역 조회를 위해 keyField 속성이 추가되었습니다. (레드마인 #12830 참고)
+         */
+        // 조회 대상 기준 필드
+        const keyFieldProperty = new ZInputBoxProperty('keyField', 'element.searchTargetField', this.keyField)
+            .setValidation(true, '', '', '', '', '');
+
+        // orderBy 정렬 조건
+        const orderTableProperty = new ZInputBoxProperty('fieldOrderTarget', 'element.orderByCondition', this.fieldOrderTarget);
         orderTableProperty.help = 'form.help.order-table';
 
         return [
@@ -183,6 +285,7 @@ export const modalButtonMixin = {
                 .addProperty(modalHeightProperty),
             new ZGroupProperty('group.display')
                 .addProperty(targetTableProperty)
+                .addProperty(keyFieldProperty)
                 .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.FIELD, this.elementColumns))
                 .addProperty(orderTableProperty)
                 .addProperty(new ZSwitchProperty('fieldOrderBy', 'element.orderByAsc', this.fieldOrderBy))
@@ -209,7 +312,7 @@ export const modalButtonMixin = {
         // 모달 테이블 속성 중 필드가 누락되었을 때
         const modalTableOption = this.elementColumns;
         for (let i = 0; i < modalTableOption.length; i++) {
-            if (zValidation.isEmpty(modalTableOption[i].field)) {
+            if (zValidation.isEmpty(modalTableOption[i].name)) {
                 zAlert.warning(i18n.msg('form.msg.modalTableRequired', i + 1));
                 return false;
             }

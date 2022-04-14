@@ -1266,7 +1266,7 @@ insert into awf_url values ('/rest/workflows/{id}/display', 'put', '신청서 �
 insert into awf_url values ('/rest/workflows/{id}/export', 'get', '신청서 export 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/workflows/import', 'post', '업무흐름 import', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
-insert into awf_url values ('/rest/documents/{id}/components/{id}/value', 'get', '이력조회 컴포넌트 조회', 'TRUE');
+insert into awf_url values ('/rest/documents/components/{id}/value', 'get', '이력조회 컴포넌트 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
 insert into awf_url values ('/rest/downloads/{id}', 'delete', '자료실 삭제', 'TRUE');
@@ -1616,7 +1616,7 @@ insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.m
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'general');
-insert into awf_url_auth_map values ('/rest/documents/{id}/components/{id}/value', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/documents/components/{id}/value', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'portal.manage');
