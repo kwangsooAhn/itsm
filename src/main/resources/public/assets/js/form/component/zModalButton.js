@@ -238,8 +238,6 @@ export const modalButtonMixin = {
 
                     // 모달 내부 스크롤 바 추가
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    // 목록 스크롤 바 추가
-
                 }
             });
             targetTableModal.show();
