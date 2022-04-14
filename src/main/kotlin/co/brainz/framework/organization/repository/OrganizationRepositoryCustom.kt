@@ -14,4 +14,5 @@ interface OrganizationRepositoryCustom : AliceRepositoryCustom {
     fun findByOrganizationSearchList(organizationSearchCondition: OrganizationSearchCondition): QueryResults<OrganizationEntity>
     fun existsByOrganizationName(organizationName: String, organizationId: String?): Long
     fun getOrganizationListByIds(organizationIds: Set<String>): List<OrganizationEntity>
+    fun findOrganizationsByUseYn(): QueryResults<OrganizationEntity>
 }

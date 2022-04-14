@@ -5,6 +5,7 @@
 
 package co.brainz.framework.organization.repository
 
+import co.brainz.framework.organization.dto.OrganizationListDto
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.entity.QOrganizationEntity
@@ -45,5 +46,12 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
         return from(organization)
             .where(organization.organizationId.`in`(organizationIds))
             .fetch()
+    }
+
+    override fun findOrganizationsByUseYn(): QueryResults<OrganizationEntity> {
+        val organization = QOrganizationEntity.organizationEntity
+        return from(organization)
+            .where(organization.useYn.eq(true))
+            .fetchResults()
     }
 }
