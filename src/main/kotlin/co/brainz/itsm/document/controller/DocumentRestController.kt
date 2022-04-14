@@ -14,6 +14,7 @@ import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -43,10 +44,10 @@ class DocumentRestController(
         return documentService.getDocumentList(documentSearchCondition).data
     }
 
-    @GetMapping("/{documentNo}/components/{componentId}/value")
+    @GetMapping("/components/{componentId}/value")
     fun getDocumentComponentValue(
-        @PathVariable documentNo: String,
-        @PathVariable componentId: String
+        @PathVariable componentId: String,
+        @RequestParam(value = "documentNo", defaultValue = "") documentNo: String
     ): FieldReturnDto {
         return documentService.getDocumentComponentValue(documentNo, componentId)
     }

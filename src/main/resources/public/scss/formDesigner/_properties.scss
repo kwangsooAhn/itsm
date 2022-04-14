@@ -7,7 +7,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 1.5625rem 0.75rem 0.625rem 0.75rem; // 25px 12px 10px 12px;
-  @include border(0.0625rem, solid, $gray300, bottom); // 1px
+  &:not(:last-child) { @include border(0.0625rem, solid, $gray300, bottom); } // 1px
   &:first-child { @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top); }
 
   // 라벨

@@ -166,6 +166,8 @@ class WfDocumentRepositoryImpl :
         sqlBuilder.append(" where ${fieldOptionDto.keyField} = '${fieldOptionDto.documentNo}'")
         if (fieldOptionDto.sort.field.isNotEmpty()) {
             sqlBuilder.append(" order by ${fieldOptionDto.sort.field} ${fieldOptionDto.sort.order}")
+        } else {
+            sqlBuilder.append(" order by 1 ${fieldOptionDto.sort.order}")
         }
         sqlBuilder.append(" limit ${WfComponentConstants.LIST_LIMIT}")
         return entityManager?.createNativeQuery(sqlBuilder.toString())?.resultList as List<Array<Any>>
