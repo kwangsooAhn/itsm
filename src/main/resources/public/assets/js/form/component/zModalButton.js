@@ -110,10 +110,10 @@ export const modalButtonMixin = {
     get elementModalHeight() {
         return this._element.size.h;
     },
-    set elementSearchTarget(value) {
+    set elementSearchTable(value) {
         this._element.table = value;
     },
-    get elementSearchTarget() {
+    get elementSearchTable() {
         return this._element.table;
     },
     set elementColumns(columns) {
@@ -154,72 +154,66 @@ export const modalButtonMixin = {
     get value() {
         return this._value;
     },
-    /** @brief 모달 생성 시 데이터 호출에 필요한 필수 조건은 2개이다.
-     *          1. documentNo : 처리할 문서의 문서번호
-     *          2. componentId : 모달 버튼
-     *  @author jy.lim
-     *  @date 2022-04-12
-     */
+    // 모달 화면 내 grid 구성
+    drawGridTemplate(data) {
+        const field = data.fields;
+        const rowData = data.data[0] || '';
+        // 전체 column
+        let totalColumn = 0;
+        field.filter(it => totalColumn += Number(it.width));
+        // grid 관련 변수 초기화
+        let columnsWidth = '';
+        let gridHead = '';
+        let gridBodyRow = '';
+        let gridBody = '';
+
+        field.map((item) => {
+            // 그리드 구성을 위한 width
+            columnsWidth += `${((Number(item.width) / totalColumn) * 100).toFixed(2)}% `;
+            // table header template
+            gridHead += `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">` +
+                `<span class="text-ellipsis" title="${item.alias}">${item.alias}</span>` +
+                `</div>`;
+        });
+
+        // table body template
+        if (rowData.length > 0) {
+            rowData.map((row) => {
+                gridBody = '';
+                row.forEach((item) => {
+                    gridBody += `<div class="grid__cell pr-2 pl-2">` +
+                        `<span class="text-ellipsis" title="${item}">${item}</span>` +
+                        `</div>`;
+                });
+                gridBodyRow += `<div class="grid__row">${gridBody}</div>`;
+            });
+        } else {
+            // noData
+            gridBodyRow = `<div class="grid__row grid--noData read-only">` +
+                `<div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>` +
+                `</div>`;
+        }
+
+        // modal template
+        return `<div class="grid" style="--data-columns-width: ${columnsWidth}">` +
+            `<div class="grid__head">` +
+            `<div class="grid__row">${gridHead}</div>` +
+            `</div>` +
+            `<div class="grid__body">${gridBodyRow}</div>` +
+            `</div>`;
+    },
     // 설정된 데이터에 따라 모달 생성
     openModal() {
-        // 엘리먼트들에서 필요한 값들을 던져서 데이터를 가져온다.
         const documentNo = document.getElementById('documentNumber')?.getAttribute('document-no') || '';
         const componentId = this.id;
-        const strUrl = `/rest/documents/${documentNo}/components/${componentId}/value`;
-        const strUrlTest = `/rest/documents/components/${componentId}/value?documentNo=${documentNo}`;
+        const strUrl = `/rest/documents/components/${componentId}/value?documentNo=${documentNo}`;
 
-        aliceJs.fetchJson(strUrlTest, {
+        aliceJs.fetchJson(strUrl, {
             method: 'GET'
         }).then((data) => {
-            const field = data.fields;
-            const rowData = data.data[0] || '';
-            // 전체 column
-            let totalColumn = 0;
-            field.filter(it => totalColumn += Number(it.width));
-            // grid 관련 변수 초기화
-            let columnsWidth = '';
-            let gridHead = '';
-            let gridBodyRow = '';
-            let gridBody = '';
-
-            field.map((item) => {
-                // 그리드 구성을 위한 width
-                columnsWidth += `${((Number(item.width) / totalColumn) * 100).toFixed(2)}% `;
-                // table header template
-                gridHead += `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">` +
-                            `<span class="text-ellipsis" title="${item.alias}">${item.alias}</span>` +
-                            `</div>`;
-            });
-
-            // table body template
-            if (rowData.length > 0) {
-                rowData.map((row) => {
-                    gridBody = '';
-                    row.forEach((item) => {
-                        gridBody += `<div class="grid__cell pr-2 pl-2">` +
-                            `<span class="text-ellipsis" title="${item}">${item}</span>` +
-                            `</div>`;
-                    });
-                    gridBodyRow += `<div class="grid__row">${gridBody}</div>`;
-                });
-            } else {
-                // noData
-                gridBodyRow = `<div class="grid__row grid--noData read-only">` +
-                    `<div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>` +
-                    `</div>`;
-            }
-
-            // modal template
-            const tableModalContent = `<div class="grid" style="--data-columns-width: ${columnsWidth}">` +
-                `<div class="grid__head">` +
-                `<div class="grid__row">${gridHead}</div>` +
-                `</div>` +
-                `<div class="grid__body">${gridBodyRow}</div>` +
-                `</div>`;
-
             const targetTableModal = new modal({
                 title: this.elementButtonText,
-                body: tableModalContent,
+                body: this.drawGridTemplate(data),
                 classes: 'modal-button-search-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
@@ -256,7 +250,7 @@ export const modalButtonMixin = {
         modalHeightProperty.unit = UNIT.PX;
 
         // 조회 대상 테이블
-        const targetTableProperty = new ZInputBoxProperty('elementSearchTarget', 'element.searchTargetTable', this.elementSearchTarget)
+        const targetTableProperty = new ZInputBoxProperty('elementSearchTable', 'element.searchTargetTable', this.elementSearchTable)
             .setValidation(true, '', '', '', '', '');
         targetTableProperty.help = 'form.help.target-table';
 
