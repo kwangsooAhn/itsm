@@ -66,10 +66,10 @@ export const modalButtonMixin = {
             .addUIClass('secondary')
             .onUIClick(this.openModal.bind(this));
         element.UIButton.UIText = new UISpan()
-            .setUIId('elementButtonText')
+            .setUIId('elementText')
             .addUIClass('z-modal-button-text')
             .addUIClass('text-ellipsis')
-            .setUITextContent(this.elementButtonText)
+            .setUITextContent(this.elementText)
         element.UIButton.addUI(element.UIButton.UIText);
         element.addUI(element.UIButton);
         return element;
@@ -91,53 +91,53 @@ export const modalButtonMixin = {
     get element() {
         return this._element;
     },
-    set elementButtonText(value) {
+    set elementText(value) {
         this._element.text = value;
         this.UIElement.UIComponent.UIElement.UIButton.UIText.setUITextContent(value);
     },
-    get elementButtonText() {
+    get elementText() {
         return this._element.text;
     },
-    set elementModalWidth(value) {
+    set elementSizeW(value) {
         this._element.size.w = value;
     },
-    get elementModalWidth() {
+    get elementSizeW() {
         return this._element.size.w;
     },
-    set elementModalHeight(value) {
+    set elementSizeH(value) {
         this._element.size.h = value;
     },
-    get elementModalHeight() {
+    get elementSizeH() {
         return this._element.size.h;
     },
-    set elementSearchTable(value) {
+    set elementTable(value) {
         this._element.table = value;
     },
-    get elementSearchTable() {
+    get elementTable() {
         return this._element.table;
     },
-    set elementColumns(columns) {
+    set elementFields(columns) {
         this._element.fields = columns;
     },
-    get elementColumns() {
+    get elementFields() {
         return this._element.fields;
     },
-    set keyField(value) {
+    set elementKeyField(value) {
         this._element.keyField = value;
     },
     get keyField() {
-        return this._element.keyField;
+        return this._element.elementKeyField;
     },
-    set fieldOrderTarget(value) {
+    set elementSortField(value) {
         this._element.sort.field = value;
     },
-    get fieldOrderTarget() {
+    get elementSortField() {
         return this._element.sort.field;
     },
-    set fieldOrderBy(value) {
+    set elementSortOrder(value) {
         this._element.sort.order = value ? FORM.FIELD_ORDER_BY.ASC : FORM.FIELD_ORDER_BY.DESC;
     },
-    get fieldOrderBy() {
+    get elementSortOrder() {
         return (this._element.sort.order === FORM.FIELD_ORDER_BY.ASC);
     },
     set validation(validation) {
@@ -212,7 +212,7 @@ export const modalButtonMixin = {
             method: 'GET'
         }).then((data) => {
             const targetTableModal = new modal({
-                title: this.elementButtonText,
+                title: this.elementText,
                 body: this.drawGridTemplate(data),
                 classes: 'modal-button-search-modal',
                 buttons: [{
@@ -227,8 +227,8 @@ export const modalButtonMixin = {
                 onCreate: () => {
                     // 컴포넌트 설정에 따라 모달 크기 리사이즈
                     const modalContent = document.querySelector('.modal-button-search-modal');
-                    modalContent.style.setProperty('--default-modal-width', this.elementModalWidth + UNIT.PX);
-                    modalContent.style.setProperty('--default-modal-height', this.elementModalHeight + UNIT.PX);
+                    modalContent.style.setProperty('--default-modal-width', this.elementSizeW + UNIT.PX);
+                    modalContent.style.setProperty('--default-modal-height', this.elementSizeH + UNIT.PX);
 
                     // 모달 내부 스크롤 바 추가
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
@@ -240,17 +240,17 @@ export const modalButtonMixin = {
     // 세부 속성 조회
     getProperty() {
         // element - 모달 크기
-        const modalWidthProperty = new ZInputBoxProperty('elementModalWidth', 'element.modalWidth', this.elementModalWidth)
+        const modalWidthProperty = new ZInputBoxProperty('elementSizeW', 'element.modalWidth', this.elementSizeW)
             .setValidation(false, 'number', '400', '1720', '', '');
         modalWidthProperty.columnWidth = '6';
         modalWidthProperty.unit = UNIT.PX;
-        const modalHeightProperty = new ZInputBoxProperty('elementModalHeight', 'element.modalHeight', this.elementModalHeight)
+        const modalHeightProperty = new ZInputBoxProperty('elementSizeH', 'element.modalHeight', this.elementSizeH)
             .setValidation(false, 'number', '120', '800', '', '');
         modalHeightProperty.columnWidth = '6';
         modalHeightProperty.unit = UNIT.PX;
 
         // 조회 대상 테이블
-        const targetTableProperty = new ZInputBoxProperty('elementSearchTable', 'element.searchTargetTable', this.elementSearchTable)
+        const targetTableProperty = new ZInputBoxProperty('elementTable', 'element.searchTargetTable', this.elementTable)
             .setValidation(true, '', '', '', '', '');
         targetTableProperty.help = 'form.help.target-table';
 
@@ -260,27 +260,27 @@ export const modalButtonMixin = {
          * @summary 이력 조회 외에도 특정 테이블 내역 조회를 위해 keyField 속성이 추가되었습니다. (레드마인 #12830 참고)
          */
         // 조회 대상 기준 필드
-        const keyFieldProperty = new ZInputBoxProperty('keyField', 'element.searchTargetField', this.keyField)
+        const keyFieldProperty = new ZInputBoxProperty('elementKeyField', 'element.searchTargetField', this.elementKeyField)
             .setValidation(true, '', '', '', '', '');
 
         // orderBy 정렬 조건
-        const orderTableProperty = new ZInputBoxProperty('fieldOrderTarget', 'element.orderByCondition', this.fieldOrderTarget);
+        const orderTableProperty = new ZInputBoxProperty('elementSortField', 'element.orderByCondition', this.fieldOrderTarget);
         orderTableProperty.help = 'form.help.order-table';
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZInputBoxProperty('elementButtonText', 'element.buttonText', this.elementButtonText)
+                .addProperty(new ZInputBoxProperty('elementText', 'element.buttonText', this.elementText)
                     .setValidation(true, '', '', '', '', ''))
                 .addProperty(modalWidthProperty)
                 .addProperty(modalHeightProperty),
             new ZGroupProperty('group.display')
                 .addProperty(targetTableProperty)
                 .addProperty(keyFieldProperty)
-                .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.FIELD, this.elementColumns))
+                .addProperty(new ZColumnProperty('elementFields', '', FORM.COLUMN_PROPERTY.FIELD, this.elementFields))
                 .addProperty(orderTableProperty)
-                .addProperty(new ZSwitchProperty('fieldOrderBy', 'element.orderByAsc', this.fieldOrderBy))
+                .addProperty(new ZSwitchProperty('elementSortOrder', 'element.orderByAsc', this.elementSortOrder))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)
@@ -302,7 +302,7 @@ export const modalButtonMixin = {
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
         // 모달 테이블 속성 중 필드가 누락되었을 때
-        const modalTableOption = this.elementColumns;
+        const modalTableOption = this.elementFields;
         for (let i = 0; i < modalTableOption.length; i++) {
             if (zValidation.isEmpty(modalTableOption[i].name)) {
                 zAlert.warning(i18n.msg('form.msg.modalTableRequired', i + 1));
