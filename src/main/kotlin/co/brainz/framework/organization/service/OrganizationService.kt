@@ -44,8 +44,12 @@ class OrganizationService(
     fun getOrganizationList(organizationSearchCondition: OrganizationSearchCondition): OrganizationListReturnDto {
         val treeOrganizationList = mutableListOf<OrganizationListDto>()
         val pOrganizationList = mutableListOf<OrganizationEntity>()
-        val queryResults: QueryResults<OrganizationEntity> =
-            organizationRepository.findByOrganizationSearchList(organizationSearchCondition)
+        val queryResults: QueryResults<OrganizationEntity>
+        if (organizationSearchCondition.searchValue != null) {
+            queryResults = organizationRepository.findByOrganizationSearchList(organizationSearchCondition)
+        } else {
+            queryResults = organizationRepository.findOrganizationsByUseYn()
+        }
         var organizationSearchList = queryResults.results
         val count: Long = organizationSearchList.size.toLong()
         for (organization in organizationSearchList) {
@@ -104,7 +108,7 @@ class OrganizationService(
             useYn = organizationEntity.useYn,
             level = organizationEntity.level,
             seqNum = organizationEntity.seqNum,
-            editable= organizationEntity.editable,
+            editable = organizationEntity.editable,
             roles = organizationRoleMapRepository.findRoleListByOrganizationId(organizationId)
         )
     }
