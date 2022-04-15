@@ -14,7 +14,7 @@ import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::class.java), CIRelationRepositoryCustom {
-    override fun selectByCiId(ciId: String): List<CIRelationDto> {
+    override fun selectByCiId(ciId: String): MutableList<CIRelationDto> {
         val ciRelation = QCIRelationEntity.cIRelationEntity
         val ci = QCIEntity.cIEntity
         return from(ciRelation)
@@ -32,6 +32,27 @@ class CIRelationRepositoryImpl : QuerydslRepositorySupport(CIRelationEntity::cla
             )
             .innerJoin(ci).on(ci.ciId.eq(ciRelation.targetCIId))
             .where(ciRelation.ciId.eq(ciId))
+            .fetch()
+    }
+
+    override fun selectByTargetCiId(ciId: String): MutableList<CIRelationDto> {
+        val ciRelation = QCIRelationEntity.cIRelationEntity
+        val ci = QCIEntity.cIEntity
+        return from(ciRelation)
+            .select(
+                Projections.constructor(
+                    CIRelationDto::class.java,
+                    ciRelation.relationId,
+                    ciRelation.ciId,
+                    ciRelation.targetCIId,
+                    ci.ciName,
+                    ci.ciTypeEntity.typeIcon,
+                    Expressions.asString(""),
+                    ci.ciTypeEntity.typeName
+                )
+            )
+            .innerJoin(ci).on(ci.ciId.eq(ciRelation.ciId))
+            .where(ciRelation.targetCIId.eq(ciId))
             .fetch()
     }
 }

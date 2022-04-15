@@ -152,6 +152,7 @@ class CIService(
         val ciEntity = ciRepository.findByCiId(ciId)
         if (ciEntity != null) {
             val relationList = ciRelationRepository.selectByCiId(ciEntity.ciId)
+            relationList += ciRelationRepository.selectByTargetCiId(ciEntity.ciId)
             relationList.forEach { relation ->
                 relation.targetCIIconData = relation.targetCIIcon?.let { ciTypeService.getCITypeImageData(it) }
             }
@@ -615,6 +616,7 @@ class CIService(
 
     fun getCIRelations(ciId: String): List<CIRelationDto> {
         val relationList = ciRelationRepository.selectByCiId(ciId)
+        relationList += ciRelationRepository.selectByTargetCiId(ciId)
         relationList.forEach { relation ->
             relation.targetCIIconData = relation.targetCIIcon?.let { ciTypeService.getCITypeImageData(it) }
         }

@@ -691,6 +691,9 @@ export const ciMixin = {
                         const ciRelation = JSON.parse(ciRelations);
                         if (zValidation.isDefined(ciRelation)) {
                             for (let i = 0; i < ciRelation.length; i++) {
+                                if (data.ciId !== ciRelation[i].ciId) {
+                                    ciRelation[i].targetCIId = ciRelation[i].ciId;
+                                }
                                 this.addCIRelation(ciRelation[i], false);
                             }
                         }
