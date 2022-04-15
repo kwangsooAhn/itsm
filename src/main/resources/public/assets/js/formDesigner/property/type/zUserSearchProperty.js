@@ -12,7 +12,7 @@
  */
 import { UIButton, UICell, UIDiv, UIInput, UIRow, UISelect, UISpan, UITable } from '../../../lib/zUI.js';
 import ZProperty from '../zProperty.js';
-import { zValidation } from "../../../lib/zValidation.js";
+import { zValidation } from '../../../lib/zValidation.js';
 
 const propertyExtends = {
     selectOptions: [

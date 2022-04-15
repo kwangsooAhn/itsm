@@ -70,4 +70,6 @@ object WfComponentConstants {
     }
 
     const val DEFAULT_VALUE = "\${default}"
+
+    const val LIST_LIMIT = 100
 }

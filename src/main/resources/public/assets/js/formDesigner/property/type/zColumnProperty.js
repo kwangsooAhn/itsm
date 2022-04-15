@@ -112,18 +112,25 @@ export const propertyExtends = {
         columnValidation: {
             required: false // 필수값 여부
         }
+    },
+    fieldCommon: {
+        name: '',
+        alias: '',
+        width: '200'
     }
 };
 
 export default class ZColumnProperty extends ZProperty {
-    constructor(key, name, value, isAlwaysEditable) {
-        super(key, name, 'columnProperty', value, isAlwaysEditable);
+    constructor(key, name, type, value, isAlwaysEditable) {
+        super(key, name, type, value, isAlwaysEditable);
 
         this.tabs = [];
         this.panels = [];
         this.selectedTabId = '';
 
         this.validationStatus = true;
+
+        this.isDefault = (this.type === FORM.COLUMN_PROPERTY.COLUMN);
     }
     // DOM Element 생성
     makeProperty(panel) {
@@ -156,7 +163,7 @@ export default class ZColumnProperty extends ZProperty {
             .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
             .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'))
             .setUIDisabled(!this.isEditable)
-            .onUIClick(this.addColumn.bind(this, { columnType: 'input' }, -1));
+            .onUIClick(this.addColumn.bind(this, (this.isDefault) ? { columnType: 'input' } : '', -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
         return this.UIElement;
@@ -167,11 +174,16 @@ export default class ZColumnProperty extends ZProperty {
     addColumn(option, index) {
         // 최대값 추출
         if (index === -1 ) { index = this.value.length; }
-        // 공통 컬럼 옵션
-        const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
-        const resetColumn = JSON.parse(JSON.stringify(propertyExtends[commonColumnOption.columnType]));
-        // 열 속성 기본 값 조회
-        const columnOption = aliceJs.mergeObject(resetColumn, commonColumnOption);
+
+        let columnOption;
+        if (this.isDefault) {
+            const commonColumnOption = Object.assign({}, propertyExtends.columnCommon, option);
+            const resetColumn =  JSON.parse(JSON.stringify(propertyExtends[commonColumnOption.columnType]));
+            columnOption = aliceJs.mergeObject(resetColumn, commonColumnOption);
+        } else {
+            columnOption = Object.assign({}, propertyExtends.fieldCommon, option);
+        }
+
         // tab 버튼
         const tab = new UIButton()
             .setUIClass('z-button-icon')
@@ -186,9 +198,16 @@ export default class ZColumnProperty extends ZProperty {
             .setUIClass('z-panel')
             .setUIId('column' + index)
             .setUIDisplay('none');
-        panel.UICommon = this.addColumnForColumnCommon(columnOption, index); // 컬럼 공통 속성
-        panel.UIColumn = this.addColumnForColumnType(columnOption, index); // 입력 유형별 속성
-        panel.addUI(panel.UICommon).addUI(panel.UIColumn);
+
+        // 컬럼 공통 속성
+        panel.UICommon = this.addColumnForColumnCommon(columnOption, index);
+        panel.addUI(panel.UICommon);
+        // 입력 유형별 속성
+        if (this.isDefault) {
+            panel.UIColumn = this.addColumnForColumnType(columnOption, index);
+            panel.addUI(panel.UIColumn);
+        }
+
         this.UITabPanel.panelGroup.addUI(panel);
         this.panels.push(panel);
 
@@ -233,7 +252,9 @@ export default class ZColumnProperty extends ZProperty {
             arrowRightButton,
             deleteButton
         );
-        const property = this.getPropertyForColumnCommon(option, 'column' + index);
+        const property = this.isDefault
+            ? this.getPropertyForColumnCommon(option, 'column' + index)
+            : this.getPropertyForFieldCommon(option, 'column' + index);
         this.makePropertyRecursive(columnCommonGroup, property);
         return columnCommonGroup;
     }
@@ -594,6 +615,30 @@ export default class ZColumnProperty extends ZProperty {
         return [
             new ZGroupProperty('group.columnValidation')
                 .addProperty(new ZSwitchProperty(id + '|columnValidation.required', 'validation.requiredInput', option.columnValidation.required))
+        ];
+    }
+    // 필드 세부 속성
+    getPropertyForFieldCommon(option, id) {
+        // head - field
+        const fieldInputProperty = new ZInputBoxProperty(id + '|name', 'element.field', option.name)
+            .setValidation(true, '', '', '', '', '128');
+        fieldInputProperty.columnWidth = '6';
+
+        // head - alias
+        const aliasProperty = new ZInputBoxProperty(id + '|alias', 'element.columnName', option.alias)
+            .setValidation(true, '', '', '', '', '128');
+        aliasProperty.columnWidth = '6';
+
+        // head - width
+        const widthProperty = new ZInputBoxProperty(id + '|width', 'element.columnWidth', option.width)
+            .setValidation(true, 'number', '0', '1920', '', '');
+        widthProperty.unit = UNIT.PX;
+
+        return [
+            new ZGroupProperty('group.modalTable')
+                .addProperty(fieldInputProperty)
+                .addProperty(aliasProperty)
+                .addProperty(widthProperty)
         ];
     }
     // 입력 유형 타입 변경

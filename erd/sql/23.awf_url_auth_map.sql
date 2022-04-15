@@ -185,6 +185,7 @@ insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.m
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/documents/components/{id}/value', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'portal.manage');
