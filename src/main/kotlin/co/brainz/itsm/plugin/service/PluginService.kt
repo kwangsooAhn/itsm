@@ -8,9 +8,9 @@ package co.brainz.itsm.plugin.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.repository.PluginRepository
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -21,17 +21,18 @@ class PluginService(
     private val pluginRepository: PluginRepository
 ) {
 
-    @Value("\${plugins.dir}")
-    private val pluginsDir: String? = null
-
     /**
      * [pluginId] 에 따른 처리
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    fun executePlugin(pluginId: String, body: String?, param: LinkedHashMap<String, Any>): ZResponse {
+    fun executePlugin(
+        pluginId: String,
+        pluginParam: PluginParamDto,
+        body: String?,
+        param: LinkedHashMap<String, Any>): ZResponse {
         val pluginServiceImpl = pluginFactory.getFactory(pluginId)
-        pluginServiceImpl.init(pluginsDir)
-        return pluginServiceImpl.execute(this.getPlugin(pluginId), body, param)
+        pluginServiceImpl.initialize(this.getPlugin(pluginId), pluginParam, body)
+        return pluginServiceImpl.execute(param)
     }
 
     /**
