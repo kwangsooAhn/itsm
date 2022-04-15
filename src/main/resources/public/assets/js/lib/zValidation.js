@@ -16,7 +16,7 @@ class ZValidation {
         this.alert = options.alert; // 알림창 사용여부
 
         this.regex = Object.assign({}, {
-            number: /^[-+]?[0-9]*\.?[0-9]+$/, // 숫자
+            number: /^[+-]?\d*(\.?\d*)?$/, // 숫자
             integer: /^[0-9]*$/,              // 정수
             char: /^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]*$/,          // 영문자, 한글
             specialChar: /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/, // 특수문자
