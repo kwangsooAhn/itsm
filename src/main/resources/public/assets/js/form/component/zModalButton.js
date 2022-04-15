@@ -169,7 +169,7 @@ export const modalButtonMixin = {
 
         field.map((item) => {
             // 그리드 구성을 위한 width
-            columnsWidth += `${Number(item.width)}px `;
+            columnsWidth += `${Number(item.width) + UNIT.PX} `;
             // table header template
             gridHead += `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">` +
                 `<span class="text-ellipsis" title="${item.alias}">${item.alias}</span>` +

@@ -116,7 +116,7 @@ export const propertyExtends = {
     fieldCommon: {
         name: '',
         alias: '',
-        width: ''
+        width: '200'
     }
 };
 
