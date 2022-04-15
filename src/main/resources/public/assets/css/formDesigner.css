@@ -2145,11 +2145,11 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-search {
+.z-icon.i-historyInquiry {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_search.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_search.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
+  mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;

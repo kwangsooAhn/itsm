@@ -166,8 +166,7 @@ export default class ZUserSearchProperty extends ZProperty {
             source: 'organization',
             text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
-            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
-            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
             selectedValue: selectedValue,
             callbackFunc: (response) => {
                 this.UIElement.UIGroup.UIInputButton.UIInput.setUIValue(response.textContent);
