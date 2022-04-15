@@ -2353,7 +2353,14 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background-position-y: 50%;
 }
 .z-input.i-user-search {
-  background-image: url("../../../media/icons/icon_document_user.svg");
+  background-image: url("../../../media/icons/document/icon_user.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-organization-search {
+  background-image: url("../../../media/icons/document/icon_organization.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -8788,7 +8795,6 @@ body.modal-active {
 }
 .reply-list {
   padding: 0 0;
-  border-bottom: 0.0625rem solid #CFD5D9;
   margin-top: 0.0625rem;
 }
 .reply-list .vertical-bar {
@@ -8812,8 +8818,9 @@ body.modal-active {
   font-weight: 400;
 }
 .reply-list .reply-row {
-  margin-top: 1.875rem;
-  margin-bottom: 1.875rem;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding-top: 1.875rem;
+  padding-bottom: 1.875rem;
 }
 .reply-list .reply-edit, .reply-list .reply-delete {
   padding: 0 1.25rem 0 0;

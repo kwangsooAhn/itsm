@@ -57,7 +57,7 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{cmdb.type.label.icon}"></label>
             <div class="flex-row z-input-button">
-                <input class="z-input inherit" id="typeIcon" name="typeIcon" type="text" readonly>
+                <input class="z-input" id="typeIcon" name="typeIcon" type="text" readonly>
                 <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="z-icon i-remove"></span>
                 </button>
@@ -68,7 +68,7 @@
         <div class="z-edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.class}"></label>
             <div class="flex-row z-input-button">
-                <input class="z-input inherit" id="typeClass" name="typeClass" type="text" readonly>
+                <input class="z-input" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
 <!--                <span class="z-icon i-remove" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>-->
                 <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
@@ -130,9 +130,13 @@
             target: 'treeList',
             text: 'typeName',
             totalCount: true,
+            onCreate: function () {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
             selectedNode: function(response) {
                 onGetDetail(response.id);
                 document.getElementById('typeLevel').value = response.getAttribute('data-depth');
+                response.classList = 'node_selected';
             }
         });
     }
@@ -163,9 +167,13 @@
             // 설명
             const typeDesc = document.getElementById('typeDesc');
             typeDesc.value = responseJson.typeDesc;
+            // 식별자
+            const typeAlias = document.getElementById('typeAlias');
+            typeDesc.value = responseJson.typeDesc;
             // 정렬 순서
             const typeSeq = document.getElementById('typeSeq');
             typeSeq.value = responseJson.typeSeq;
+
             if (responseJson.editable) {
                 if (document.querySelector('#btnUpdate') != null) {
                     document.querySelector('#btnUpdate').removeAttribute('disabled');
@@ -179,10 +187,10 @@
                 if (document.querySelector('button[name=typeClassSelector]') != null) {
                     document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
                 }
-                document.getElementById('typeAlias').readOnly = true;
                 document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
                 typeName.readOnly = false;
                 typeDesc.readOnly = false;
+                typeAlias.readOnly = false;
                 typeSeq.readOnly = false;
             } else {
                 if (document.querySelector('#btnUpdate') != null) {
@@ -200,6 +208,7 @@
                 document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
                 typeName.readOnly = true;
                 typeDesc.readOnly = true;
+                typeAlias.readOnly = true;
                 typeSeq.readOnly = true;
             }
             onEdit();
@@ -227,11 +236,25 @@
         if (document.querySelector('button[name=typeClassSelector]') != null) {
             document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
         }
-        document.querySelectorAll('input[type=text]:not(.inherit)').forEach(function(object){
+        document.querySelectorAll('input[type=text]').forEach(function(object){
             object.value = '';
         });
+
+        // 유형 이름
+        const typeName = document.getElementById('typeName');
+        // 설명
+        const typeDesc = document.getElementById('typeDesc');
+        // 식별자
+        const typeAlias = document.getElementById('typeAlias');
+        // 정렬 순서
+        const typeSeq = document.getElementById('typeSeq');
+
+        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
         document.querySelector('textarea').value = '';
-        document.querySelector('input[name=typeAlias]').removeAttribute('readOnly');
+        typeName.readOnly = false;
+        typeDesc.readOnly = false;
+        typeAlias.readOnly = false;
+        typeSeq.readOnly = false;
 
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 아래는 가상의 IF_MONITOR 테이블을 대상으로 하는 샘플 쿼리입니다. -->
+<!-- 샘플을 참고하여 ducoment_no, check_flag 필드를 뽑는 쿼리문을 상황에 맞게 작성해야 합니다. -->
+<query>
+    <node id = "getDocumentNoData">
+        select document_no
+        from if_monitor
+    </node>
+    <node id = "updateCheckFlagColumn">
+        update if_monitor
+        set check_flag = true
+        where document_no = ?
+    </node>
+</query>

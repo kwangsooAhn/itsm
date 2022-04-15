@@ -1098,6 +1098,9 @@ export const ciMixin = {
         deleteRel.appendChild(deleteBtn);
         trRow.appendChild(deleteRel);
 
+        if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
+            deleteBtn.disabled = true;
+        }
         document.getElementById('ciRelation').appendChild(trRow);
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

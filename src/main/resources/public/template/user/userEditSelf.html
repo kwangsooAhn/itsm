@@ -86,7 +86,7 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.position}" for="position"></label>
                         <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}"
-                               maxlength="100">
+                               maxlength="100" onchange="isSpecialChar('position','validation.msg.checkPositionFormat')">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
@@ -106,12 +106,14 @@
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
                         <input type="text" class="z-input" id="officeNumber" name="officeNumber"
-                               th:value="${users?.officeNumber}" maxlength="100">
+                               th:value="${users?.officeNumber}" maxlength="100"
+                               onchange="isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
                         <input type="text" class="z-input" id="mobileNumber" name="mobileNumber"
-                               th:value="${users?.mobileNumber}" maxlength="100">
+                               th:value="${users?.mobileNumber}" maxlength="100"
+                               onchange="isPhoneNumberOrExtenstionNumber('mobileNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                 </div>
                 <div class="flex-column avatar-edit ml-4">
@@ -470,8 +472,7 @@
             source: 'organization',
             text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
-            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
-            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
             selectedValue: document.getElementById('organizationCode').value,
             callbackFunc: function (response) {
                 setDepartment(response);

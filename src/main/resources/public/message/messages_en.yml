@@ -227,8 +227,8 @@ board:
     register: "Board Register"
     reply: "Board Reply"
     replyYn: "Reply enable"
-    searchBoardPlaceholder: "Category / Title / Writer"
-    searchPlaceholder: "Board Title / CreateUser"
+    searchBoardPlaceholder: "Category / Title / Create User"
+    searchPlaceholder: "Board Name / Create User"
     title: "Title"
     useYn: "Use enable"
     view: "Board View"
@@ -788,6 +788,7 @@ form:
     customCode: "Custom Code"
     date: "Date"
     dateTime: "Date Time"
+    organizationSearch: "Organization Search"
     divider: "Divider"
     dropdown: "Dropdown"
     dropdownCode: "Dropdown Code"
@@ -838,7 +839,10 @@ form:
       dateTime: "DateTime"
       dropdown: "DropDown"
       input: "InputBox"
+      label: "Label"
+      organizationSearch: "Organization Search"
       time: "Time"
+      userSearch: "User Search"
     dataAttribute: "Data Attribute"
     department: "Department"
     default:
@@ -1113,7 +1117,8 @@ organization:
     editDescription: "Add, view and manage department."
     enterOrganizationId: "Please enter a department Id."
     enterOrganizationName: "Please enter a department name"
-    failedOrganizationDelete: "Failed to delete a department because of a member."
+    failedDeleteUserExist: "Failed to delete a department because of a member."
+    failedDeleteSubOrganization: "Failed to delete a department because of a sub department."
     enterPOrganizationName: "Please enter a parent department name."
     pOrganizationNotExist: "Parent organization does not exist."
     selectRole: "Please select a member default role."
@@ -1300,7 +1305,7 @@ role:
     editDescription: "Add, view and manage roles."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
-    searchPlaceholder: "Role Name / Role Desc."
+    searchPlaceholder: "Role Name / Role Desc"
     selectAuth: "Please select a auth."
 
 # Scheduler
@@ -1466,7 +1471,7 @@ user:
     rePassword: "rePassword"
     register: "User Register"
     role: "User Role"
-    searchPlaceholder: "ID/Name/Dept/Position/Number"
+    searchPlaceholder: "Name / ID / Dept / Position / officeNum / mobileNum"
     signUpDate: "SignUp Date"
     substituteUser: "Substitute User"
     userSearchPlaceholder: "ID/Name/Department"
@@ -1564,6 +1569,7 @@ validation:
     unacceptableCharacters: "Contains special characters (/ \ % ;) that are not allowed."
     checkPhoneNumberFormat: "Please include (-) according to the phone number format."
     checkPhoneNumberOrExtentionNumberFormat: "Please Extension format (4 digits) or<br>include (-) according to the phone number format."
+    checkPositionFormat: "Contains special characters that are not allowed."
 
 # Project
 project:
@@ -1637,6 +1643,7 @@ rule:
     searchPlaceholder: "Document Number"
     selectSequence: "It must contain at least one sequence."
     usedRule: "This document number is being used."
+    duplicateRulePattern: "Duplicate document number pattern. Please choice other pattern."
 
 # Product
 product:

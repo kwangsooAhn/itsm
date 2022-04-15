@@ -199,7 +199,10 @@
 
         // 추가 버튼
         &:last-child { padding: 0.25rem 0; }
-        .z-icon { width: 0.82rem; } // 15px
+        .z-icon {
+          width: 0.82rem;
+          pointer-events: none;
+        } // 15px
         .i-plus {
           -webkit-mask-size: 1.2rem;
           mask-size: 1.2rem;
@@ -229,11 +232,12 @@
           }
         }
 
-        .z-button-icon {
+        .z-button-icon:not(.z-button-code) {
           padding: 0;
           .z-icon {
             display: inline-block;
             background: $property-panel-icon-color;
+            pointer-events: none;
 
             &.z-prev {
               @include rotate(180);

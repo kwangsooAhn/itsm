@@ -321,20 +321,24 @@ class ZDocument {
                 showProgressbar: true
             }).then(rtn => {
                 if (rtn === 'true') {
-                    opener.location.reload();
-                    window.close();
+                    zAlert.success(i18n.msg(actionMsg), () => {
+                        opener.location.reload();
+                        window.close();
+                    });
                 }
+            }).catch((err) => {
+                console.error(err);
+                zAlert.danger(i18n.msg('common.msg.fail'));
             });
         };
+
         if (actionType === 'cancel') {
             zAlert.confirm(i18n.msg('document.msg.cancel'), finishAction);
         } else if (actionType === 'terminate') {
             zAlert.confirm(i18n.msg('document.msg.terminate'), finishAction);
         } else {
-            zAlert.success(i18n.msg(actionMsg), finishAction);
+            finishAction();
         }
-
-
     }
     /**
      * 프로세스 맵 팝업 호출
