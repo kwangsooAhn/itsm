@@ -87,6 +87,7 @@ class ExcelComponent(
         cellStyle.borderLeft = BorderStyle.THIN
         cellStyle.borderTop = BorderStyle.THIN
         cellStyle.borderBottom = BorderStyle.THIN
+        cellStyle.dataFormat = workbook.createDataFormat().getFormat("@")
 
         return cellStyle
     }
