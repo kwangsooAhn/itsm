@@ -2182,9 +2182,6 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-token-properties .z-token-panels .z-token-viewer-table .z-icon.i-clear {
   background: #8B9094;
 }
-.z-document-container .z-dr-table-row .z-input {
-  text-indent: 0 !important;
-}
 
 /* _elements.scss
  *

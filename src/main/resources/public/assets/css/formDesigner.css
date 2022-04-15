@@ -7786,7 +7786,7 @@ body.modal-active {
   border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header td {
-  padding: 0.6875rem 0.3125rem 0.6875rem 0;
+  padding: 0.6875rem 0 0.6875rem 0.3125rem;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header .z-dr-table-header-cell {
   display: inline-block;

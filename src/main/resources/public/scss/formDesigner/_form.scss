@@ -337,7 +337,7 @@
       // 제목
       .z-dr-table-header {
         @include border(0.125rem, solid, $component-drTable-border-color, bottom);
-        td { padding: 0.6875rem 0.3125rem 0.6875rem 0; } // 11px 5px 11px 0
+        td { padding: 0.6875rem 0 0.6875rem 0.3125rem; } // 11px 5px 11px 0
         .z-dr-table-header-cell {
           @include ellipsis();
           padding: 0 0.5rem;
