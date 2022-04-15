@@ -8824,8 +8824,7 @@ CREATE TABLE awf_organization
     create_dt timestamp,
     update_user_key varchar(128),
     update_dt timestamp,
-    CONSTRAINT awf_organization_pk PRIMARY KEY (organization_id),
-    CONSTRAINT awf_organization_uk UNIQUE (organization_name)
+    CONSTRAINT awf_organization_pk PRIMARY KEY (organization_id)
 );
 
 COMMENT ON TABLE awf_organization IS '조직관리';
