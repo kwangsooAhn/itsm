@@ -21,7 +21,7 @@ class WfManualTask(
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
         super.setNextTokenDto(createNextTokenDto)
-        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto.elementType)
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto)
             .createToken(createNextTokenDto)
     }
 

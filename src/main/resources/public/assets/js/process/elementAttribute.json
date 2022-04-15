@@ -136,6 +136,7 @@
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
             {"id": "notification", "name": "Notification", "type": "checkbox", "default": "N", "required": "N"},
+            {"id": "auto-complete", "name": "Auto Complete", "type": "checkbox", "default": "Y", "required": "N" },
             {"id": "description", "name": "Description", "type": "textarea", "default": "", "required": "N"}
           ]
         },

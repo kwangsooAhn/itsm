@@ -1190,6 +1190,7 @@ process:
       action-value: "동작 시 전달 값"
       action: "사용자 선택"
       annotationArtifact: "주석"
+      auto-complete: "자동 종료"
       arrowConnector: "연결선"
       assignee-type: "담당자 타입"
       assignee: "담당자"
