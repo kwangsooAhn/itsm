@@ -87,8 +87,20 @@ class UserRestController(
      * 사용자가 다른 사용자의 정보를 업데이트한다.
      */
     @PutMapping("/{userKey}/all")
-    fun updateUserEdit(@RequestBody @Valid user: UserUpdateDto): String {
-        return userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
+    fun updateUserEdit(
+        @RequestBody @Valid user: UserUpdateDto,
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ): String {
+        val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
+        if (SecurityContextHolder.getContext().authentication != null) {
+            if (user.userKey == currentSessionUser.getUserKey()) {
+                localeResolver.setLocale(request, response, Locale(user.lang))
+                SecurityContextHolder.getContext().authentication =
+                    userDetailsService.createNewAuthentication(user.userKey)
+            }
+        }
+        return result
     }
 
     /**

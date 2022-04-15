@@ -306,6 +306,7 @@ export const dynamicRowTableMixin = {
                 `${column.columnContent.underline ? 'text-decoration:underline;' : ''}`;
 
             const td = new UICell(row)
+                .addUIClass('align-' + column.columnContent.align)
                 .setUICSSText(tdCssText)
                 .addUI(this.getElementByColumnType(column, columnData[index], index));
             row.addUICell(td);
@@ -341,6 +342,12 @@ export const dynamicRowTableMixin = {
                 return this.getTimeForColumn(column, cellValue, index);
             case 'dateTime':
                 return this.getDateTimeForColumn(column, cellValue, index);
+            case 'label':
+                return this.getLabelForColumn(column);
+            case 'userSearch':
+                return this.getUserSearchForColumn(column, cellValue, index);
+            case 'organizationSearch':
+                return this.getOrganizationSearchForColumn(column, cellValue, index);
             default:
                 return new UISpan().setUIInnerHTML(cellValue);
         }
@@ -431,6 +438,91 @@ export const dynamicRowTableMixin = {
         }
         return dateTimeWrapper;
     },
+    // column Type - label
+    getLabelForColumn(column) {
+        const label = new UISpan().setUIClass('text-ellipsis')
+            .setUITextContent(column.columnElement.text);
+
+        if (column.columnContent.underline) {
+            label.setUITextDecoration('underline');
+        }
+        return label;
+    },
+    // column Type - userSearch
+    getUserSearchForColumn(column, cellValue, index) {
+        const defaultValues = cellValue.split('|');
+        return new UIInput().setUIClass('z-input i-user-search text-ellipsis')
+            .setUIId('userSearch' + index +  ZWorkflowUtil.generateUUID())
+            .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
+            .setUIRequired(column.columnValidation.required)
+            .setUIAttribute('data-validation-required', column.columnValidation.required)
+            .setUIAttribute('data-modal-title', column.columnName)
+            .setUIAttribute('data-realtime-selected-user', cellValue)
+            .setUIAttribute('data-user-id', (defaultValues.length > 1) ? defaultValues[2] : '')
+            .setUIAttribute('data-user-search', (defaultValues.length > 1) ? defaultValues[0] : '')
+            .setUIAttribute('data-user-search-target', column.columnElement.defaultValueUserSearch)
+            .setUIAttribute('oncontextmenu', 'return false;')
+            .setUIAttribute('onkeypress', 'return false;')
+            .setUIAttribute('onkeydown', 'return false;')
+            .onUIClick(this.openUserSearchModal.bind(this))
+            .onUIChange(this.updateValue.bind(this));
+    },
+    // column Type - OrganizationSearch
+    getOrganizationSearchForColumn(column, cellValue, index) {
+        const defaultValues = cellValue.split('|');
+        return new UIInput().setUIClass('z-input i-organization-search text-ellipsis')
+            .setUIId('organizationSearch' + index +  ZWorkflowUtil.generateUUID())
+            .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
+            .setUIRequired(column.columnValidation.required)
+            .setUIAttribute('data-validation-required', column.columnValidation.required)
+            .setUIAttribute('data-modal-title', column.columnName)
+            .setUIAttribute('data-organization-search', (defaultValues.length > 1) ? defaultValues[0] : '')
+            .setUIAttribute('oncontextmenu', 'return false;')
+            .setUIAttribute('onkeypress', 'return false;')
+            .setUIAttribute('onkeydown', 'return false;')
+            .onUIClick(this.openOrganizationSearchModal.bind(this))
+            .onUIChange(this.updateValue.bind(this));
+    },
+    // 컴포넌트별 기본값 세팅
+    setDefaultValue(column) {
+        let defaultValue = '${default}';
+        switch (column.columnType) {
+            case 'input':
+                defaultValue = column.columnElement.defaultValueSelect.split('|');
+                if (defaultValue[0] === 'input') {
+                    defaultValue = defaultValue[1];
+                } else {
+                    defaultValue = ZSession.get(defaultValue[1]) || '';
+                }
+                break;
+            case 'dropdown':
+                for (let i = 0; i < column.columnElement.options.length; i++) {
+                    let checkedYn = column.columnElement.options[i].checked || false;
+                    if (checkedYn) {
+                        defaultValue = column.columnElement.options[i].value;
+                    }
+                    defaultValue = defaultValue === '${default}' ? '' : defaultValue;
+                }
+                break;
+            case 'time':
+                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
+                break;
+            case 'date':
+                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
+                break;
+            case 'dateTime':
+                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
+                break;
+            case 'label':
+            case 'userSearch':
+                defaultValue = '';
+                break;
+            default:
+                break;
+        }
+        return defaultValue;
+    },
+    // 기본값 조회
     getDefaultValueForDate(column, cellValue) {
         if (cellValue === '${default}') {
             // none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등 기본 값이 전달된다.
@@ -610,10 +702,21 @@ export const dynamicRowTableMixin = {
             return false;
         }
         const newValue = JSON.parse(JSON.stringify(this.value));
-        const changeValue = (e.target instanceof HTMLSelectElement) ? e.target.options[e.target.selectedIndex].value :
-            e.target.value;
         const cellElement = (e.target instanceof HTMLSelectElement) ? e.target.parentNode.parentNode :
             e.target.parentNode;
+        let changeValue = (e.target instanceof HTMLSelectElement) ? e.target.options[e.target.selectedIndex].value :
+            e.target.value;
+
+        // 사용자 검색용 컴포넌트일 경우
+        if (e.target.classList.contains('i-user-search')) {
+            const userSearchData = e.target.getAttribute('data-user-search');
+            const userId = e.target.getAttribute('data-user-id');
+            changeValue = `${userSearchData}|${e.target.value}|${userId}`;
+        } else if (e.target.classList.contains('i-organization-search')) { // 부서 검색용 컴포넌트일 경우
+            const organizationSearchData = e.target.getAttribute('data-organization-search');
+            changeValue = `${organizationSearchData}|${e.target.value}`;
+        }
+        
         newValue[cellElement.parentNode.rowIndex][cellElement.cellIndex] = changeValue;
         this.value = newValue;
     },
@@ -626,7 +729,6 @@ export const dynamicRowTableMixin = {
         const cellIndex = e.parentNode.parentNode.parentNode.cellIndex;
         newValue[rowIndex][cellIndex] = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT,
             e.getAttribute('type').replace('Picker', ''), e.value);
-
         this.value = newValue;
     },
     // 플러그인 유효성 검증
@@ -658,6 +760,122 @@ export const dynamicRowTableMixin = {
                 // error > 실패
                 this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
                     .removeUIClass('primary').addUIClass('error');
+            }
+        });
+    },
+    // 사용자 선택 모달
+    openUserSearchModal(e) {
+        const target = e.target; // userSearch 컴포넌트
+        const userSearchModal = new modal({
+            title: e.target.getAttribute('data-modal-title'),
+            body: `<div class="target-user-list">` +
+                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
+                `<span id="spanTotalCount" class="search-count"></span>` +
+                `<div class="table-set" id="searchUserList"></div>` +
+                `</div>`,
+            classes: 'target-user-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    const realTimeSelectedUser = target.getAttribute('data-realtime-selected-user').split('|');
+                    // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
+                    if (realTimeSelectedUser.length === 1) {
+                        zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
+                        return false;
+                    }
+
+                    target.setAttribute('data-user-search', realTimeSelectedUser[0]);
+                    target.setAttribute('data-user-id', realTimeSelectedUser[2]);
+                    target.value = realTimeSelectedUser[1];
+                    target.dispatchEvent(new Event('change'));
+
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: () => {
+                // 모달 오픈시 선택된 값이 있으면 설정한다.
+                const targetUserKey = target.getAttribute('data-user-search');
+                const targetUserId = target.getAttribute('data-user-id');
+                if (!zValidation.isEmpty(targetUserKey)) {
+                    target.setAttribute('data-realtime-selected-user', `${targetUserKey}|${target.value}|${targetUserId}`);
+                } else {
+                    target.setAttribute('data-realtime-selected-user', '');
+                }
+                // 검색 이벤트 추가
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    this.getUserSearchList(target, e.target.value, false);
+                });
+                this.getUserSearchList(target, document.getElementById('search').value, true);
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+            }
+        });
+        userSearchModal.show();
+    },
+    // 사용자 선택 모달 - 검색 목록 조회
+    getUserSearchList(target, search, showProgressbar) {
+        const userSearchTarget = JSON.parse(target.getAttribute('data-user-search-target'));
+        let searchKeys = '';
+        userSearchTarget.searchKey.forEach( (elem, index) => {
+            searchKeys += (index > 0) ? '+' + elem.id : elem.id;
+        });
+
+        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
+            '&targetCriteria=' + userSearchTarget.targetCriteria + '&searchKeys=' + searchKeys;
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            const searchUserList = document.getElementById('searchUserList');
+            searchUserList.innerHTML = htmlData;
+            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            // 갯수 가운트
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+            // 체크 이벤트
+            searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
+                element.addEventListener('change', () => {
+                    const userId = element.getAttribute('data-user-id');
+                    target.setAttribute('data-realtime-selected-user', element.checked ?
+                        `${element.id}|${element.value}|${userId}` : '');
+                });
+            });
+            // 기존 선택값 표시
+            const targetUserKey = target.getAttribute('data-realtime-selected-user').split('|')[0];
+            const targetRadio = searchUserList.querySelector('input[id="' + targetUserKey + '"]');
+            if (!zValidation.isEmpty(targetUserKey) && !zValidation.isEmpty(targetRadio)) {
+                targetRadio.checked = true;
+            }
+        });
+    },
+    // 부서 선택 모달
+    openOrganizationSearchModal(e) {
+        const organizationSearchData = e.target.getAttribute('data-organization-search');
+        tree.load({
+            view: 'modal',
+            title: e.target.getAttribute('data-modal-title'),
+            dataUrl: '/rest/organizations',
+            target: 'treeList',
+            source: 'organization',
+            text: 'organizationName',
+            nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
+            defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
+            selectedValue: organizationSearchData,
+            callbackFunc: (response) => {
+                e.target.value = response.textContent;
+                e.target.setAttribute('data-organization-search', response.id);
+                e.target.dispatchEvent(new Event('change'));
             }
         });
     },
@@ -707,42 +925,22 @@ export const dynamicRowTableMixin = {
             if (optionListType.includes(column.columnType) && zValidation.isEmptyOptions(column.columnElement.options)) {
                 return false;
             }
+            // 사용자 검색용 컴포넌트
+            if (column.columnType === 'userSearch') {
+                // 사용자 목록이 없을 떄
+                const userSearchTarget = column.columnElement.defaultValueUserSearch;
+                const userSearchTargetData = !zValidation.isEmpty(userSearchTarget) ? JSON.parse(userSearchTarget) : '';
+                if (zValidation.isEmpty(userSearchTargetData) || zValidation.isEmpty(userSearchTargetData.searchKey[0])) {
+                    zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.userList')));
+                    return false;
+                }
+                // 조회 대상이 없을 떄
+                if (zValidation.isEmpty(userSearchTargetData.searchKey[0].value)) {
+                    zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
+                    return false;
+                }
+            }
         }
         return true;
-    },
-    // 컴포넌트별 기본값 세팅
-    setDefaultValue(column) {
-        let defaultValue = '${default}';
-        switch (column.columnType) {
-            case 'input':
-                defaultValue = column.columnElement.defaultValueSelect.split('|');
-                if (defaultValue[0] === 'input') {
-                    defaultValue = defaultValue[1];
-                } else {
-                    defaultValue = ZSession.get(defaultValue[1]) || '';
-                }
-                break;
-            case 'dropdown':
-                for (let i = 0; i < column.columnElement.options.length; i++) {
-                    let checkedYn = column.columnElement.options[i].checked || false;
-                    if (checkedYn) {
-                        defaultValue = column.columnElement.options[i].value;
-                    }
-                    defaultValue = defaultValue === '${default}' ? '' : defaultValue;
-                }
-                break;
-            case 'time':
-                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
-                break;
-            case 'date':
-                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
-                break;
-            case 'dateTime':
-                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
-                break;
-            default:
-                break;
-        }
-        return defaultValue;
     }
 };

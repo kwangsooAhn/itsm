@@ -87,7 +87,7 @@
                     <div class="flex-column z-edit-row">
                         <label for="position" th:text="#{user.label.position}"></label>
                         <input class="z-input text-ellipsis" id="position" maxlength="100" name="position" th:readonly="${view}"
-                               th:value="${users?.position}" type="text" >
+                               th:value="${users?.position}" type="text" onchange="isSpecialChar('position','validation.msg.checkPositionFormat')">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label th:text="#{user.label.department}"></label>
@@ -107,12 +107,14 @@
                     <div class="flex-column z-edit-row">
                         <label for="officeNumber" th:text="#{user.label.officeNumber}"></label>
                         <input class="z-input" id="officeNumber" maxlength="100" name="officeNumber"
-                               th:readonly="${view}" th:value="${users?.officeNumber}" type="text">
+                               th:readonly="${view}" th:value="${users?.officeNumber}" type="text"
+                               onchange="isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                     <div class="flex-column z-edit-row">
                         <label for="mobileNumber" th:text="#{user.label.mobileNumber}"></label>
                         <input class="z-input text-ellipsis" id="mobileNumber" maxlength="100" name="mobileNumber"
-                               th:readonly="${view}" th:value="${users?.mobileNumber}" type="text">
+                               th:readonly="${view}" th:value="${users?.mobileNumber}" type="text"
+                               onchange="isPhoneNumberOrExtenstionNumber('mobileNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                 </div>
                 <div class="flex-column avatar-edit ml-4">
@@ -180,7 +182,7 @@
             </div>
         </div>
         <div class="flex-column z-edit-row">
-            <h3 class="sub-title under-bar bold required" th:text="#{user.label.role}"></h3>
+            <h3 th:classappend="${view} ? '':'required'" class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
         </div>
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
@@ -595,8 +597,7 @@
             target: 'treeList',
             text: 'organizationName',
             nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
-            defaultIcon: '/assets/media/icons/tree/icon_tree_groups.svg',
-            leafIcon: '/assets/media/icons/tree/icon_tree_group.svg',
+            defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
             selectedValue: document.getElementById('organizationId').value,
             callbackFunc: function (response) {
                 document.getElementById('organizationId').value = response.id;

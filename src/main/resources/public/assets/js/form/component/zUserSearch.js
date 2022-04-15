@@ -54,6 +54,7 @@ export const userSearchMixin = {
             .setUIId('userSearch' + this.id)
             .setUIValue((this.value === '${default}') ? '' : defaultValues[1])
             .setUIRequired(this.validationRequired)
+            .setUIAttribute('data-user-id', (this.value === '${default}') ? '' : defaultValues[2])
             .setUIAttribute('data-user-search', (this.value === '${default}') ? '' : defaultValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
@@ -130,13 +131,14 @@ export const userSearchMixin = {
 
         // 사용자 검색 결과로 들어간 내용이 있는지 this.value와 'data-user-search' 확인하고 값을 저장한다.
         const userSearchData = e.target.getAttribute('data-user-search');
+        const userId = e.target.getAttribute('data-user-id');
 
         // 값이 입력되었을 경우 error 없애기
         if (zValidation.isRequired(userSearchData)) {
             zValidation.removeDOMElementError(e.target);
         }
 
-        this.value = `${userSearchData}|${e.target.value}`;
+        this.value = `${userSearchData}|${e.target.value}|${userId}`;
     },
 
     // 사용자 선택 모달
@@ -163,6 +165,7 @@ export const userSearchMixin = {
                         return false;
                     } else {
                         this.UIElement.UIComponent.UIElement.UIInput
+                            .setUIAttribute('data-user-id', this.realTimeSelectedUser.split('|')[2])
                             .setUIAttribute('data-user-search', this.realTimeSelectedUser.split('|')[0])
                             .setUIValue(this.realTimeSelectedUser.split('|')[1]);
                         this.UIElement.UIComponent.UIElement.UIInput.domElement.dispatchEvent(new Event('change'));
@@ -216,16 +219,18 @@ export const userSearchMixin = {
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
-                    this.realTimeSelectedUser = element.checked ? `${element.id}|${element.value}` : '';
+                    const userId = element.getAttribute('data-user-id');
+                    this.realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
                 });
             });
             // 기존 선택값 표시
             const targetId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
             const targetName = this.UIElement.UIComponent.UIElement.UIInput.getUIValue();
-            this.realTimeSelectedUser = (this.value !== '${default}') ? `${targetId}|${targetName}` : '';
+            const targetUserId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-id');
+            this.realTimeSelectedUser = (this.value !== '${default}') ? `${targetId}|${targetName}|${targetUserId}` : '';
 
-            const targetUserId = this.realTimeSelectedUser.split('|')[0];
-            const targetRadio = searchUserList.querySelector('input[id="' + targetUserId + '"]');
+            const checkedTargetId = this.realTimeSelectedUser.split('|')[0];
+            const targetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
             if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
                 targetRadio.checked = true;
             }

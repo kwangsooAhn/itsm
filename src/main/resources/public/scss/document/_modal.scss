@@ -252,10 +252,13 @@
       height: var(--default-modal-height);
 
       .modal-content {
-        height: calc(var(--default-modal-height) - #{$modal-header-height} - #{$modal-bottom-height});
-        padding: 0.625rem 1.25rem; // 10px 20px
+        height: calc(var(--default-modal-height) - #{$modal-header-height} - #{$modal-bottom-height} - 1.25rem);
+        margin: 0.625rem 1.25rem 0 1.25rem; // 10px 20px 0 20px
 
         @include gridTemplate();
+        .grid {
+          width: fit-content;
+        }
       }
     }
   }

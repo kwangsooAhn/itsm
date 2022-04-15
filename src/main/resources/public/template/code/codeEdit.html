@@ -86,7 +86,7 @@
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
-            <div class="under-bar"></div>
+            <div class="horizontal-bar"></div>
             <div id="codeLang"></div>
         </div>
         <div class="flex-row justify-content-end">
@@ -301,6 +301,13 @@
             return false;
         }
 
+        if (codeUnacceptableChar(jsonData.code) === false) {
+            zAlert.warning(i18n.msg('validation.msg.unacceptableCharacters'), function () {
+                document.getElementById('txtCode').focus();
+            });
+            return false;
+        }
+
         const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
         for (let i = 0; i < codeLangList.length; i++) {
             if (codeLangList[i].value.trim() === "") {
@@ -381,6 +388,11 @@
                     break;
             }
         });
+    }
+
+    function codeUnacceptableChar(code) {
+        let regex = new RegExp("[/\\\\%;]");
+        return !code.match(regex);
     }
 
     function drawCodeLang(param) {

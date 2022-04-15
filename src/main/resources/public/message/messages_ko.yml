@@ -227,7 +227,7 @@ board:
     register: "게시글 작성"
     reply: "답글 작성"
     replyYn: "답글 사용 여부"
-    searchBoardPlaceholder: "분류 / 제목 / 작성자"
+    searchBoardPlaceholder: "분류 / 제목 / 등록자"
     searchPlaceholder: "게시판 이름 / 등록자"
     title: "제목"
     useYn: "사용 여부"
@@ -789,6 +789,7 @@ form:
     customCode: "Custom Code"
     date: "Date"
     dateTime: "Date Time"
+    organizationSearch: "Organization Search"
     divider: "Divider"
     dropdown: "Dropdown"
     dropdownCode: "Dropdown Code"
@@ -839,7 +840,10 @@ form:
       date: "Date"
       dateTime: "DateTime"
       input: "InputBox"
+      label: "Label"
+      organizationSearch: "Organization Search"
       time: "Time"
+      userSearch: "User Search"
     dataAttribute: "데이터 속성"
     department: "부서"
     default:
@@ -1116,7 +1120,8 @@ organization:
     enterOrganizationId: "부서 아이디를 입력하세요."
     enterOrganizationName: "부서 이름을 입력하세요."
     enterPOrganizationName: "상위부서 이름을 입력하세요."
-    failedOrganizationDelete: "부서에 구성원이 존재하여 삭제할 수 없습니다."
+    failedDeleteUserExist: "부서에 구성원이 존재하여 삭제할 수 없습니다."
+    failedDeleteSubOrganization: "부서에 하위 부서가 존재하여 삭제할 수 없습니다."
     pOrganizationNotExist: "상위부서가 존재하지 않습니다."
     selectRole: "구성원 기본 역할을 선택하세요."
     systemUserNotExist: "시스템 관리자 역할을 가진 사용자는 최소 1명은 필요하므로 수정할 수 없습니다."
@@ -1569,6 +1574,7 @@ validation:
     unacceptableCharacters: "허용하지 않는 특수문자(/ \ % ;)가 포함되어 있습니다."
     checkPhoneNumberFormat: "전화번호 형식에 맞게 (-)을 포함하여 입력하세요."
     checkPhoneNumberOrExtentionNumberFormat: "내선번호 형식(4자리 숫자) 또는<br>전화번호 형식에 맞게 (-)을 포함하여 입력하세요."
+    checkPositionFormat: "특수문자 사용이 불가합니다."
 
 # Project
 project:
@@ -1642,6 +1648,7 @@ rule:
     searchPlaceholder: "문서번호 규칙 이름"
     selectSequence: "Sequence를 최소 하나 이상 포함해야 합니다."
     usedRule: "해당 문서번호 규칙을 사용 중입니다."
+    duplicateRulePattern: "동일한 문서번호 패턴이 존재합니다.<br>다른 패턴을 선택해 주세요."
 
 # Product
 product:
