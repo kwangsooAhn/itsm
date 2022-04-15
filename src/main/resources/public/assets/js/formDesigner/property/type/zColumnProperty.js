@@ -121,12 +121,13 @@ export const propertyExtends = {
 };
 
 export default class ZColumnProperty extends ZProperty {
-    constructor(key, name, type, value, isAlwaysEditable) {
+    constructor(key, name, type, value, isAlwaysEditable, isFixedColumn = false) {
         super(key, name, type, value, isAlwaysEditable);
 
         this.tabs = [];
         this.panels = [];
         this.selectedTabId = '';
+        this.isFixedColumn = isFixedColumn; // 컬럼이 고정되어 있을 경우 true 값을 보내주면 됨
 
         this.validationStatus = true;
 
@@ -162,7 +163,7 @@ export default class ZColumnProperty extends ZProperty {
             .addUIClass('extra')
             .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
             .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'))
-            .setUIDisabled(!this.isEditable)
+            .setUIDisabled(!this.isEditable  || this.isFixedColumn)
             .onUIClick(this.addColumn.bind(this, (this.isDefault) ? { columnType: 'input' } : '', -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
 
@@ -238,20 +239,21 @@ export default class ZColumnProperty extends ZProperty {
             .setUIAttribute('data-swap-direction', '1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
-        // 패널 삭제 버튼 추가
-        const deleteButton = new UIButton().setUIClass('z-button-icon').addUIClass('panel-delete-button')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
-            .setUIDisabled(!this.isEditable)
-            .onUIClick(this.removeColumn.bind(this));
 
         columnCommonGroup.UICount = new UISpan().setUIInnerHTML(index + 1);
         columnCommonGroup.addUI(
             new UISpan().setUIClass('panel-name').setUIInnerHTML(i18n.msg('form.properties.element.columnOrder')),
             arrowLeftButton,
             columnCommonGroup.UICount,
-            arrowRightButton,
-            deleteButton
+            arrowRightButton
         );
+        // 패널 삭제 버튼 추가
+        const deleteButton = new UIButton().setUIClass('z-button-icon').addUIClass('panel-delete-button')
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
+            .setUIDisabled(!this.isEditable || this.isFixedColumn)
+            .onUIClick(this.removeColumn.bind(this));
+        columnCommonGroup.addUI(deleteButton);
+
         const property = this.isDefault
             ? this.getPropertyForColumnCommon(option, 'column' + index)
             : this.getPropertyForFieldCommon(option, 'column' + index);
