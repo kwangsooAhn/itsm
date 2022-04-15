@@ -936,7 +936,7 @@ CREATE TABLE awf_scheduled_task_mst
 	use_yn boolean default true,
 	editable boolean default true,
 	execute_class varchar(512),
-	execute_query varchar(1024),
+	execute_query text,
 	execute_command varchar(1024),
 	execute_cycle_type varchar(100),
 	execute_cycle_period bigint,
@@ -8824,8 +8824,7 @@ CREATE TABLE awf_organization
     create_dt timestamp,
     update_user_key varchar(128),
     update_dt timestamp,
-    CONSTRAINT awf_organization_pk PRIMARY KEY (organization_id),
-    CONSTRAINT awf_organization_uk UNIQUE (organization_name)
+    CONSTRAINT awf_organization_pk PRIMARY KEY (organization_id)
 );
 
 COMMENT ON TABLE awf_organization IS '조직관리';
