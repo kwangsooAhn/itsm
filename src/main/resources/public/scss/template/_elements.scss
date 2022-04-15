@@ -351,11 +351,11 @@ input, textarea, select {
   }
 
   &.i-user-search {
-    @include backgroundImage($icon-folder-path + 'icon_document_user.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+    @include backgroundImage($icon-folder-path + 'document/icon_user.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
   &.i-organization-search {
-    @include backgroundImage($icon-folder-path + 'icon_document_user.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+    @include backgroundImage($icon-folder-path + 'document/icon_organization.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
   }
 
   &.i-px {
