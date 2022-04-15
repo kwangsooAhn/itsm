@@ -586,6 +586,7 @@ class UITable extends UIElement {
     }
 
     clearUIRow() {
+        this.clearUI();
         this.rows = [];
         return this;
     }
