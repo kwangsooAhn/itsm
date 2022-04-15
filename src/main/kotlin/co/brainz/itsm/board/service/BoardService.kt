@@ -169,7 +169,9 @@ class BoardService(
      */
     @Transactional
     fun deleteBoard(boardAdminId: String): Boolean {
-        boardAdminRepository.deleteById(boardAdminId)
+        if (!boardAdminRepository.existsById(boardAdminId)) {
+            boardAdminRepository.deleteById(boardAdminId)
+        }
         return !boardAdminRepository.existsById(boardAdminId)
     }
 
