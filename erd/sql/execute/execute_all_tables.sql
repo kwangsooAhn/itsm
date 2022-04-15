@@ -936,7 +936,7 @@ CREATE TABLE awf_scheduled_task_mst
 	use_yn boolean default true,
 	editable boolean default true,
 	execute_class varchar(512),
-	execute_query varchar(1024),
+	execute_query text,
 	execute_command varchar(1024),
 	execute_cycle_type varchar(100),
 	execute_cycle_period bigint,
