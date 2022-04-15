@@ -22,7 +22,6 @@ import { FORM, UNIT } from '../../lib/zConstants.js';
 import { ZSession } from '../../lib/zSession.js';
 import { UIButton, UICell, UIDiv, UIInput, UIRow, UISelect, UISpan, UITable } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
-import { zDocument } from '../../document/zDocument.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -343,7 +342,7 @@ export const dynamicRowTableMixin = {
             case 'dateTime':
                 return this.getDateTimeForColumn(column, cellValue, index);
             case 'label':
-                return this.getLabelForColumn(column);
+                return this.getLabelForColumn(column, cellValue);
             case 'userSearch':
                 return this.getUserSearchForColumn(column, cellValue, index);
             case 'organizationSearch':
@@ -439,9 +438,9 @@ export const dynamicRowTableMixin = {
         return dateTimeWrapper;
     },
     // column Type - label
-    getLabelForColumn(column) {
+    getLabelForColumn(column, cellValue) {
         const label = new UISpan().setUIClass('text-ellipsis')
-            .setUITextContent(column.columnElement.text);
+            .setUITextContent(zValidation.isEmpty(cellValue) ? column.columnElement.text : cellValue);
 
         if (column.columnContent.underline) {
             label.setUITextDecoration('underline');
@@ -716,7 +715,7 @@ export const dynamicRowTableMixin = {
             const organizationSearchData = e.target.getAttribute('data-organization-search');
             changeValue = `${organizationSearchData}|${e.target.value}`;
         }
-        
+
         newValue[cellElement.parentNode.rowIndex][cellElement.cellIndex] = changeValue;
         this.value = newValue;
     },
