@@ -97,7 +97,7 @@ export const propertyExtends = {
     fieldCommon: {
         name: '',
         alias: '',
-        width: '12', // 컬럼 너비
+        width: ''
     }
 };
 
@@ -554,11 +554,16 @@ export default class ZColumnProperty extends ZProperty {
             .setValidation(true, '', '', '', '', '128');
         aliasProperty.columnWidth = '6';
 
+        // head - width
+        const widthProperty = new ZInputBoxProperty(id + '|width', 'element.columnWidth', option.width)
+            .setValidation(true, 'number', '0', '1920', '', '');
+        widthProperty.unit = UNIT.PX;
+
         return [
             new ZGroupProperty('group.modalTable')
                 .addProperty(fieldInputProperty)
                 .addProperty(aliasProperty)
-                .addProperty(new ZSliderProperty(id + '|width', 'element.columnWidth', option.width))
+                .addProperty(widthProperty)
         ];
     }
     // 입력 유형 타입 변경

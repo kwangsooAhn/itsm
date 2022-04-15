@@ -125,8 +125,8 @@ export const modalButtonMixin = {
     set elementKeyField(value) {
         this._element.keyField = value;
     },
-    get keyField() {
-        return this._element.elementKeyField;
+    get elementKeyField() {
+        return this._element.keyField;
     },
     set elementSortField(value) {
         this._element.sort.field = value;
@@ -169,7 +169,7 @@ export const modalButtonMixin = {
 
         field.map((item) => {
             // 그리드 구성을 위한 width
-            columnsWidth += `${((Number(item.width) / totalColumn) * 100).toFixed(2)}% `;
+            columnsWidth += `${Number(item.width)}px `;
             // table header template
             gridHead += `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">` +
                 `<span class="text-ellipsis" title="${item.alias}">${item.alias}</span>` +
@@ -264,7 +264,7 @@ export const modalButtonMixin = {
             .setValidation(true, '', '', '', '', '');
 
         // orderBy 정렬 조건
-        const orderTableProperty = new ZInputBoxProperty('elementSortField', 'element.orderByCondition', this.fieldOrderTarget);
+        const orderTableProperty = new ZInputBoxProperty('elementSortField', 'element.orderByCondition', this.elementSortField);
         orderTableProperty.help = 'form.help.order-table';
 
         return [

@@ -3660,8 +3660,8 @@ body.modal-active {
   height: var(--default-modal-height);
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content {
-  height: calc(var(--default-modal-height) - 3.875rem - 5rem);
-  padding: 0.625rem 1.25rem;
+  height: calc(var(--default-modal-height) - 3.875rem - 5rem - 1.25rem);
+  margin: 0.625rem 1.25rem 0 1.25rem;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid {
   display: grid;
@@ -3756,6 +3756,9 @@ body.modal-active {
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled .z-icon {
   background-color: #CFD5D9;
+}
+.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid {
+  width: fit-content;
 }
 
 /* form, group, row, component 디자인 - document ver. */
