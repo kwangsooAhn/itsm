@@ -7,6 +7,7 @@ package co.brainz.framework.organization.service
 
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.organization.constants.OrganizationConstants
 import co.brainz.framework.organization.dto.OrganizationDetailDto
 import co.brainz.framework.organization.dto.OrganizationListDto
 import co.brainz.framework.organization.dto.OrganizationListReturnDto
@@ -198,23 +199,20 @@ class OrganizationService(
      * 조직 정보 삭제
      */
     @Transactional
-    fun deleteOrganization(organizationId: String) : Boolean {
+    fun deleteOrganization(organizationId: String): String {
         // 조직에 구성원이 있는지 확인
-        when (userRepository.existsByDepartment(organizationId)) {
-            true -> {
-                throw AliceException(
-                    AliceErrorConstants.ERR_00004,
-                    aliceMessageSource.getMessage("organization.msg.failedOrganizationDelete")
-                )
-            }
-            false -> {
-                // 조직에 설정된 역할 삭제
-                organizationRoleMapRepository.deleteByOrganization(OrganizationEntity(organizationId))
-                // 조직 삭제
-                organizationRepository.deleteByOrganizationId(organizationId)
-                return true
-            }
+        if (userRepository.existsByDepartment(organizationId)) {
+            return OrganizationConstants.Status.STATUS_ERROR_USER_EXIST.code
         }
+        // 하위 부서가 있는지 확인
+        if (organizationRepository.existsByPOrganizationId(organizationId)) {
+            return OrganizationConstants.Status.STATUS_ERROR_SUB_DEPT_EXIST.code
+        }
+        // 조직에 설정된 역할 삭제
+        organizationRoleMapRepository.deleteByOrganization(OrganizationEntity(organizationId))
+        // 조직 삭제
+        organizationRepository.deleteByOrganizationId(organizationId)
+        return OrganizationConstants.Status.STATUS_SUCCESS.code
     }
 
     /**

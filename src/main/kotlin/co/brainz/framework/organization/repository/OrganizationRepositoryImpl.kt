@@ -48,6 +48,13 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             .fetch()
     }
 
+    override fun existsByPOrganizationId(organizationId: String): Boolean {
+        val organization = QOrganizationEntity.organizationEntity
+        return from(organization)
+            .where(organization.pOrganization.organizationId.eq(organizationId))
+            .fetchCount() > 0
+    }
+
     override fun findOrganizationsByUseYn(): QueryResults<OrganizationEntity> {
         val organization = QOrganizationEntity.organizationEntity
         return from(organization)

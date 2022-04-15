@@ -93,6 +93,9 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_USER_EXIST = '1';
+    const STATUS_ERROR_SUB_DEPT_EXITS = '2';
     let observer = aliceJs.pageObserver;
 
     window.onload = function () {
@@ -298,10 +301,18 @@
         aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
             method: 'DELETE'
         }).then((response) => {
-            if (response.status === 200) {
-                zAlert.success(i18n.msg('common.msg.delete'), function () {
-                    window.location.href = '/organizations/edit';
-                });
+            switch (response.data) {
+                case STATUS_SUCCESS :
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/organizations/edit';
+                    });
+                    break;
+                case STATUS_ERROR_USER_EXIST :
+                    zAlert.warning(i18n.msg('organization.msg.failedDeleteUserExist'));
+                    break;
+                case STATUS_ERROR_SUB_DEPT_EXITS :
+                    zAlert.warning(i18n.msg('organization.msg.failedDeleteSubOrganization'));
+                    break;
             }
         });
     }
