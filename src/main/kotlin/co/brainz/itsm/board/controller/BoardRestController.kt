@@ -79,7 +79,7 @@ class BoardRestController(
      * @param boardAdminId
      */
     @DeleteMapping("/{boardAdminId}")
-    fun deleteBoard(@PathVariable boardAdminId: String): Boolean {
+    fun deleteBoard(@PathVariable boardAdminId: String): String {
         return boardService.deleteBoard(boardAdminId)
     }
 
