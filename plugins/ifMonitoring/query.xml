@@ -5,6 +5,7 @@
     <node id = "getDocumentNoData">
         select document_no
         from if_monitor
+        where check_flag = false
     </node>
     <node id = "updateCheckFlagColumn">
         update if_monitor
