@@ -7,7 +7,6 @@ package co.brainz.framework.download.excel
 
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.download.excel.impl.ExcelCellComponent
-import co.brainz.framework.download.excel.impl.ExcelSheetComponent
 import co.brainz.framework.util.AliceUtil
 import java.io.ByteArrayOutputStream
 import org.apache.poi.ss.usermodel.BorderStyle
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class ExcelComponent(
-    private val excelSheetComponent: ExcelSheetComponent,
     private val excelCellComponent: ExcelCellComponent
 ) {
 
@@ -37,7 +35,6 @@ class ExcelComponent(
         if (excelVO.fileName.isNullOrEmpty()) {
             excelVO.fileName = AliceUtil().getUUID()
         }
-//        workbook.createDataFormat().getFormat("@")
 
         // Excel 디자인 적용
         val headerCellStyle = this.setDefaultCellStyle(workbook, true)
@@ -92,6 +89,7 @@ class ExcelComponent(
 
         return cellStyle
     }
+
     fun setDefaultCellFormat(workbook: Workbook): CellStyle {
         val cellStyle = workbook.createCellStyle()
         cellStyle.dataFormat = workbook.createDataFormat().getFormat("@")
