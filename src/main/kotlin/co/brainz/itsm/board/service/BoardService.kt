@@ -8,6 +8,7 @@ package co.brainz.itsm.board.service
 
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.board.constants.BoardConstants
 import co.brainz.itsm.board.dto.BoardCategoryDetailDto
 import co.brainz.itsm.board.dto.BoardCategoryDto
 import co.brainz.itsm.board.dto.BoardDto
@@ -16,6 +17,7 @@ import co.brainz.itsm.board.dto.BoardListReturnDto
 import co.brainz.itsm.board.dto.BoardSearchCondition
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.PortalBoardCategoryEntity
+import co.brainz.itsm.board.repository.BoardRepository
 import co.brainz.itsm.board.repository.BoardAdminRepository
 import co.brainz.itsm.board.repository.BoardCategoryRepository
 import javax.transaction.Transactional
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class BoardService(
+    private val boardRepository: BoardRepository,
     private val boardAdminRepository: BoardAdminRepository,
     private val boardCategoryRepository: BoardCategoryRepository
 ) {
@@ -168,11 +171,13 @@ class BoardService(
      * @param boardAdminId
      */
     @Transactional
-    fun deleteBoard(boardAdminId: String): Boolean {
-        if (!boardAdminRepository.existsById(boardAdminId)) {
+    fun deleteBoard(boardAdminId: String): String {
+        return if (boardRepository.countByBoardAdminId(boardAdminId) > 0) {
+            BoardConstants.Status.STATUS_FAIL.code
+        } else {
             boardAdminRepository.deleteById(boardAdminId)
+            BoardConstants.Status.STATUS_SUCCESS.code
         }
-        return !boardAdminRepository.existsById(boardAdminId)
     }
 
     /**
