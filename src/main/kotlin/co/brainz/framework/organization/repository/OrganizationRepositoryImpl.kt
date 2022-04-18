@@ -31,16 +31,6 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
         return query.fetchResults()
     }
 
-    override fun existsByOrganizationName(organizationName: String, organizationId: String?): Long {
-        val organization = QOrganizationEntity.organizationEntity
-        val query = from(organization)
-            .where(organization.organizationName.eq(organizationName))
-        if (!organizationId.isNullOrEmpty()) {
-            query.where(organization.organizationId.ne(organizationId))
-        }
-        return query.fetchCount()
-    }
-
     override fun getOrganizationListByIds(organizationIds: Set<String>): List<OrganizationEntity> {
         val organization = QOrganizationEntity.organizationEntity
         return from(organization)

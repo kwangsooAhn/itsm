@@ -118,14 +118,6 @@ class OrganizationService(
      */
     @Transactional
     fun createOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
-        if (organizationRepository.existsByOrganizationName(
-                organizationRoleDto.organizationName!!,
-                organizationRoleDto.organizationId) > 0) {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("organization.msg.duplicateOrganizationName")
-            )
-        }
         var organizationEntity = OrganizationEntity(
             organizationName = organizationRoleDto.organizationName,
             organizationDesc = organizationRoleDto.organizationDesc,
@@ -152,15 +144,6 @@ class OrganizationService(
      */
     @Transactional
     fun updateOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
-        if (organizationRepository.existsByOrganizationName(
-                organizationRoleDto.organizationName!!,
-                organizationRoleDto.organizationId) > 0) {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("organization.msg.duplicateOrganizationName")
-            )
-        }
-
         if (!roleService.isExistSystemRoleByOrganization(
                 organizationRoleDto.organizationId,
                 organizationRoleDto.roleIds.toSet())) {

@@ -254,10 +254,6 @@
             nodes.forEach(function (node) {
                 nodeNames.push(node.getAttribute('data-name'));
             });
-            if (nodeNames.includes(organizationName)) {
-                zAlert.warning(i18n.msg('organization.msg.duplicateOrganizationName'));
-                return false;
-            }
         }
 
         // 저장
