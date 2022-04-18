@@ -37,6 +37,7 @@ class ExcelComponent(
         if (excelVO.fileName.isNullOrEmpty()) {
             excelVO.fileName = AliceUtil().getUUID()
         }
+//        workbook.createDataFormat().getFormat("@")
 
         // Excel 디자인 적용
         val headerCellStyle = this.setDefaultCellStyle(workbook, true)
@@ -47,6 +48,7 @@ class ExcelComponent(
             sheetVO.rows.forEachIndexed { rowsIndex, rowsVO ->
                 val row = sheet.createRow(rowsIndex)
                 rowsVO.cells?.forEachIndexed { index, cellVO ->
+                    sheet.setDefaultColumnStyle(index, this.setDefaultCellText(workbook))
                     val cell = row.createCell(index)
                     if (rowsIndex == 0) {
                         cell.cellStyle = headerCellStyle
@@ -87,6 +89,12 @@ class ExcelComponent(
         cellStyle.borderLeft = BorderStyle.THIN
         cellStyle.borderTop = BorderStyle.THIN
         cellStyle.borderBottom = BorderStyle.THIN
+
+        return cellStyle
+    }
+    fun setDefaultCellText(workbook: Workbook): CellStyle {
+        val cellStyle = workbook.createCellStyle()
+
         cellStyle.dataFormat = workbook.createDataFormat().getFormat("@")
 
         return cellStyle
