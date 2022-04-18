@@ -27,6 +27,7 @@ import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
 import co.brainz.itsm.plugin.constants.PluginConstants
 import co.brainz.itsm.plugin.dto.PluginDto
+import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.service.PluginService
 import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.entity.UserCustomEntity
@@ -209,16 +210,16 @@ class WfTokenManagerService(
     /**
      * 플러그인 실행
      */
-    fun executePlugin(pluginId: String?, tokenDataList: List<WfTokenDataDto>?) {
+    fun executePlugin(pluginId: String?, tokenId: String, tokenDataList: List<WfTokenDataDto>?) {
         val param: LinkedHashMap<String, Any> = linkedMapOf()
         val dataMap: LinkedHashMap<String, String> = linkedMapOf()
         param[PluginConstants.ASYNCHRONOUS] = false
 
         // tokenDataList의 모든 데이터 중에서 태그가 적용되고 타입이 컴포넌트인 데이터만 추출한다.
         val componentIds: LinkedHashSet<String> = linkedSetOf()
-        tokenDataList?.let { tokenDataList ->
-            tokenDataList.forEach { tokenData ->
-                componentIds.add(tokenData.componentId)
+        if (tokenDataList != null) {
+            tokenDataList.forEach {
+                componentIds.add(it.componentId)
             }
             val tagData = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.COMPONENT.code, componentIds)
             tokenDataList.forEach { tokenData ->
@@ -236,7 +237,7 @@ class WfTokenManagerService(
                     data = dataMap
                 )
             )
-            pluginService.executePlugin(pluginId, body, param)
+            pluginService.executePlugin(pluginId, PluginParamDto(tokenId = tokenId), body, param)
         }
     }
 
