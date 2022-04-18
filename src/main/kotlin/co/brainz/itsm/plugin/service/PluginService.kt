@@ -29,7 +29,8 @@ class PluginService(
         pluginId: String,
         pluginParam: PluginParamDto,
         body: String?,
-        param: LinkedHashMap<String, Any>): ZResponse {
+        param: LinkedHashMap<String, Any>
+    ): ZResponse {
         val pluginServiceImpl = pluginFactory.getFactory(pluginId)
         pluginServiceImpl.initialize(this.getPlugin(pluginId), pluginParam, body)
         return pluginServiceImpl.execute(param)
