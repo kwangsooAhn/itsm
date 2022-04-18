@@ -30,6 +30,7 @@ import { fileDownloadMixin } from './component/zFileDownload.js';
 import { dropdownCodeMixin } from './component/zDropdownCode.js';
 import { userSearchMixin } from './component/zUserSearch.js';
 import { organizationSearchMixin } from './component/zOrganizationSearch.js';
+import { modalButtonMixin } from './component/zModalButton.js';
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -118,6 +119,7 @@ export default class ZComponent {
             case 'divider':
             case 'fileUpload':
             case 'fileDownload':
+            case 'modalButton':
                 // 라벨 숨김
                 this._label.position = FORM.LABEL.POSITION.HIDDEN;
                 break;
@@ -169,6 +171,8 @@ export default class ZComponent {
                 return userSearchMixin;
             case 'organizationSearch':
                 return organizationSearchMixin;
+            case 'modalButton':
+                return modalButtonMixin;
             default:
                 break;
         }

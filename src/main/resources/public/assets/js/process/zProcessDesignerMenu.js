@@ -2075,7 +2075,7 @@
      * @param processId 프로세스 ID
      */
     async function loadItems(processId) {
-        const loadAtributeData = async () => await aliceJs.fetchJson('/assets/js/process/processAttribute.json', {
+        const loadAttributeData = async () => await aliceJs.fetchJson('/assets/js/process/processAttribute.json', {
             method: 'GET'
         }).then((data) => {
             processProperties = data;
@@ -2125,7 +2125,7 @@
             documents = data;
         });
 
-        await loadAtributeData();
+        await loadAttributeData();
         await loadElementData();
         await loadProcessData();
         await loadAssigneeUsers();

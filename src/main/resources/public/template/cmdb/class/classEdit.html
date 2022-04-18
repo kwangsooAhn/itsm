@@ -122,7 +122,7 @@
     /*<![CDATA[*/
     const STATUS_SUCCESS = '0';
     const STATUS_SUCCESS_EDIT_CLASS = '1';
-    const STATUS_FAILE_CLASS_HAVE_TYPE = '2';
+    const STATUS_FAIL_CLASS_HAVE_TYPE = '2';
     let extendsAttributeList = document.getElementById('extendsAttributeList');
     let attributeList = document.getElementById('attributeList');
     let classAttributeMap = new Map();
@@ -447,7 +447,7 @@
                         window.location.href = '/cmdb/class/edit';
                     });
                     break;
-                case STATUS_FAILE_CLASS_HAVE_TYPE:
+                case STATUS_FAIL_CLASS_HAVE_TYPE:
                     zAlert.danger(i18n.msg('cmdb.class.msg.relatedTypes'));
                     break;
                 default:

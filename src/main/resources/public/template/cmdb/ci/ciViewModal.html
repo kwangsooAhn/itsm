@@ -59,7 +59,7 @@
                 </label>
                 <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
                 <input type="text" id="className" class="z-input" maxlength="100" th:value="${ciData?.className}"
-                       th:attr="data-validation-required-namee=#{cmdb.type.label.class}" readonly required="true"/>
+                       th:attr="data-validation-required-name=#{cmdb.type.label.class}" readonly required="true"/>
             </div>
             <!-- CI 태그 -->
             <div class="flex-column view-row">
@@ -74,7 +74,7 @@
             <!-- 연관 관계 -->
             <div class="flex-row z-edit-row under-bar mt-4 z-relation-group">
                 <h3 id="relationLabel" class="z-sub-title" th:text="#{cmdb.ci.label.relation}"></h3>
-                <button id="editCIRelationBtn" type="button" class="z-button-icon extra ml-auto">
+                <button id="editCIRelationBtn" type="button" class="z-button-icon extra ml-auto" disabled>
                     <span class="z-icon i-edit"></span>
                 </button>
             </div>

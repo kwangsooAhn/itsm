@@ -83,7 +83,7 @@ class WfScriptTask(
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
         super.setNextTokenDto(createNextTokenDto)
-        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto.elementType)
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto)
             .createToken(createNextTokenDto)
     }
 
@@ -297,7 +297,7 @@ class WfScriptTask(
             tokenData = it
         }
 
-        wfTokenManagerService.executePlugin(pluginId, tokenData)
+        wfTokenManagerService.executePlugin(pluginId, createTokenDto.tokenId, tokenData)
     }
 
     /**

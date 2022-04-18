@@ -8,6 +8,7 @@ package co.brainz.workflow.engine.manager
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.impl.WfCommonEndEvent
 import co.brainz.workflow.engine.manager.impl.WfCommonStartEvent
 import co.brainz.workflow.engine.manager.impl.WfExclusiveGateway
@@ -24,8 +25,8 @@ class WfTokenManagerFactory(
     private val wfTokenManagerService: WfTokenManagerService
 ) {
 
-    fun createTokenManager(elementType: String): WfTokenManager {
-        return when (elementType) {
+    fun createTokenManager(tokenDto: WfTokenDto): WfTokenManager {
+        return when (tokenDto.elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
                 WfCommonStartEvent(wfTokenManagerService)
             }
@@ -48,7 +49,19 @@ class WfTokenManagerFactory(
                 WfExclusiveGateway(wfTokenManagerService)
             }
             WfElementConstants.ElementType.SCRIPT_TASK.value -> {
-                WfScriptTask(wfTokenManagerService)
+                val tokenManager = WfScriptTask(wfTokenManagerService)
+                val element = wfTokenManagerService.getElement(tokenDto.elementId)
+                run loop@{
+                    element.elementDataEntities.forEach { data ->
+                        if (data.attributeId == WfElementConstants.AttributeId.AUTO_COMPLETE.value) {
+                            if (data.attributeValue == "N") {
+                                tokenManager.isAutoComplete = false
+                            }
+                            return@loop
+                        }
+                    }
+                }
+                return tokenManager
             }
             else -> throw AliceException(AliceErrorConstants.ERR, "Element tokenManager not found.")
         }
