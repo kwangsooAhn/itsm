@@ -306,7 +306,9 @@ export const dynamicRowTableMixin = {
                 `${column.columnContent.underline ? 'text-decoration:underline;' : ''}`;
 
             const td = new UICell(row)
-                .addUI(this.getElementByColumnType(column, columnData[index], index).addUIClass('align-' + column.columnContent.align).setUICSSText(tdCssText));
+                .setUICSSText(tdCssText)
+                .addUIClass('align-' + column.columnContent.align)
+                .addUI(this.getElementByColumnType(column, columnData[index], index));
             row.addUICell(td);
         });
         // 데이터 추가

@@ -360,6 +360,16 @@
         .z-select .z-select-box.readonly { border-bottom: none; }
 
         span { line-height: 1.6; }
+
+        // 문서양식에서 설정한 컬럼에 대한 style을 상속 받음
+        .readonly input, input:read-only {
+          color: inherit;
+          font-size: inherit;
+          font-style: inherit;
+          font-weight: inherit;
+          text-align: inherit;
+        }
+        .z-select-box { padding: 0.5rem $element-indent; };
       }
       // 데이터 없음
       .no-data-found-list {
