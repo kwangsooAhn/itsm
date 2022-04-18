@@ -8,15 +8,15 @@
  * https://www.brainz.co.kr
  */
 
-const KEY_UP_VALID_TYPE = ['char', 'number'];
-const CHANGE_VALID_TYPE = ['email', 'phone'];
+const KEY_UP_VALID_TYPE = ['char'];
+const CHANGE_VALID_TYPE = ['email', 'phone', 'number'];
 class ZValidation {
     constructor(options = { alert: true }) {
         // 알림창 사용 여부가 false일 경우 DOM을 검색하여 'error-msg' class를 찾아서 에러 메시지를 표기한다.
         this.alert = options.alert; // 알림창 사용여부
 
         this.regex = Object.assign({}, {
-            number: /^[+-]?\d*(\.?\d*)?$/, // 숫자
+            number: /^[+-]?([1-9](\d*\.)?\d*|(0\.)\d+|0)(?![0-9.])$/, // 숫자
             integer: /^[0-9]*$/,              // 정수
             char: /^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]*$/,          // 영문자, 한글
             specialChar: /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/, // 특수문자
@@ -470,7 +470,7 @@ class ZValidation {
         return rtn;
     }
     /**
-     * keyup시 type(number, char, email 등), min, max, minLength, maxLength 체크
+     * keyup시 type( char ), min, max, minLength, maxLength 체크
      * @param target
      * @returns target 유효성 결과값
      */
@@ -488,7 +488,7 @@ class ZValidation {
         return rtn;
     }
     /**
-     * change시 필수값
+     * change시 필수값, type ('email', 'phone', 'number')
      * @param target 이벤트객체
      */
     changeValidationCheck(target) {
