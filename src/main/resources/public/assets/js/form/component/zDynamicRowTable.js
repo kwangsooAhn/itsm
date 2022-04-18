@@ -305,8 +305,8 @@ export const dynamicRowTableMixin = {
                 `${column.columnContent.underline ? 'text-decoration:underline;' : ''}`;
 
             const td = new UICell(row)
-                .setUICSSText(tdCssText)
                 .addUIClass('align-' + column.columnContent.align)
+                .setUICSSText(tdCssText)
                 .addUI(this.getElementByColumnType(column, columnData[index], index));
             row.addUICell(td);
         });
