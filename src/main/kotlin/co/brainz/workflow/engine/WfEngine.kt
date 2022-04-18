@@ -40,7 +40,7 @@ class WfEngine(
         tokenDto.elementId = element.elementId
 
         // 시작 이벤트 생성 및 완료 처리.
-        val tokenManager = this.createTokenManager(tokenDto.elementType)
+        val tokenManager = this.createTokenManager(tokenDto)
         var startTokenDto = tokenManager.createToken(tokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
@@ -82,13 +82,13 @@ class WfEngine(
             do {
                 // 현재 토큰 처리.
                 currentTokenDto = this.getTokenDto(currentTokenDto)
-                currentTokenManager = this.createTokenManager(currentTokenDto.elementType)
+                currentTokenManager = this.createTokenManager(currentTokenDto)
                 currentTokenDto = currentTokenManager.completeToken(currentTokenDto)
 
                 // 다음 토큰 생성.
                 nextTokenDto = currentTokenManager.createNextToken(currentTokenDto)
                 if (nextTokenDto != null) {
-                    nextTokenManager = this.createTokenManager(nextTokenDto.elementType)
+                    nextTokenManager = this.createTokenManager(nextTokenDto)
                     currentTokenDto = nextTokenDto
                 } else { // 다음 토큰이 없으면 종료.
                     nextTokenManager = currentTokenManager
@@ -137,7 +137,7 @@ class WfEngine(
     /**
      * Get TokenManager.
      */
-    private fun createTokenManager(elementType: String): WfTokenManager {
-        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(elementType)
+    private fun createTokenManager(tokenDto: WfTokenDto): WfTokenManager {
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(tokenDto)
     }
 }

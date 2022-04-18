@@ -72,7 +72,7 @@ class WfTokenAction(
             data = tokenDto.data
         )
         val tokenManager =
-            WfTokenManagerFactory(wfTokenManagerService).createTokenManager(commonEndTokenDto.elementType)
+            WfTokenManagerFactory(wfTokenManagerService).createTokenManager(commonEndTokenDto)
         WfEngine(wfTokenManagerService).progressWorkflow(tokenManager.createToken(commonEndTokenDto))
     }
 
@@ -142,7 +142,7 @@ class WfTokenAction(
         newTokenDto.elementType = baseToken.element.elementType
         // 반려 또는 회수 시 이전 담당자로 할당
         newTokenDto.assigneeId = baseToken.assigneeId
-        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).createTokenManager(newTokenDto.elementType)
+        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).createTokenManager(newTokenDto)
         tokenManager.createToken(newTokenDto)
     }
 

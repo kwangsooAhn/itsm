@@ -7,12 +7,14 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.FieldReturnDto
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -40,5 +42,13 @@ class DocumentRestController(
         documentSearchCondition: DocumentSearchCondition
     ): List<DocumentDto> {
         return documentService.getDocumentList(documentSearchCondition).data
+    }
+
+    @GetMapping("/components/{componentId}/value")
+    fun getDocumentComponentValue(
+        @PathVariable componentId: String,
+        @RequestParam(value = "documentNo", defaultValue = "") documentNo: String
+    ): FieldReturnDto {
+        return documentService.getDocumentComponentValue(documentNo, componentId)
     }
 }

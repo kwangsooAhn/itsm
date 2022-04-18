@@ -18,6 +18,7 @@ import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
+import co.brainz.itsm.document.dto.FieldOptionDto
 import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
@@ -55,7 +56,6 @@ import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.time.LocalDateTime
 import java.util.ArrayDeque
 import java.util.UUID
-import kotlin.collections.LinkedHashMap
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -863,5 +863,12 @@ class WfDocumentService(
         )
         wfProcessService.updateProcessData(documentImportDto.processData)
         return documentImportDto
+    }
+
+    /**
+     * 이력 조회 컴포넌트 데이터 조회
+     */
+    fun getSearchFieldValues(filedOption: FieldOptionDto): List<Array<Any>> {
+        return wfDocumentRepository.getSearchFieldValues(filedOption)
     }
 }
