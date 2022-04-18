@@ -48,7 +48,7 @@ class ExcelComponent(
             sheetVO.rows.forEachIndexed { rowsIndex, rowsVO ->
                 val row = sheet.createRow(rowsIndex)
                 rowsVO.cells?.forEachIndexed { index, cellVO ->
-                    sheet.setDefaultColumnStyle(index, this.setDefaultCellText(workbook))
+                    sheet.setDefaultColumnStyle(index, this.setDefaultCellFormat(workbook))
                     val cell = row.createCell(index)
                     if (rowsIndex == 0) {
                         cell.cellStyle = headerCellStyle
@@ -92,11 +92,9 @@ class ExcelComponent(
 
         return cellStyle
     }
-    fun setDefaultCellText(workbook: Workbook): CellStyle {
+    fun setDefaultCellFormat(workbook: Workbook): CellStyle {
         val cellStyle = workbook.createCellStyle()
-
         cellStyle.dataFormat = workbook.createDataFormat().getFormat("@")
-
         return cellStyle
     }
 }
