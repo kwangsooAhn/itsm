@@ -939,6 +939,7 @@ form:
     title: "Form"
     userId: "User Id"
     userKey: "User Key"
+    userList: "User List"
     userName: "User Name"
     validate: "Validate"
     validation:
@@ -1203,6 +1204,7 @@ process:
       action-value: "Action Value"
       action: "Action"
       annotationArtifact: "Annotation"
+      auto-complete: "Auto Complete"
       arrowConnector: "Connector"
       assignee-type: "Assignee Type"
       assignee: "Assignee"

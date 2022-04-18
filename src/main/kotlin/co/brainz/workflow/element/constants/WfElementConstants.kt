@@ -81,7 +81,8 @@ object WfElementConstants {
         SCRIPT_ACTION("script-action"),
         CONDITION("condition"),
         FILE("file"),
-        ACTION("action")
+        ACTION("action"),
+        AUTO_COMPLETE("auto-complete")
     }
 
     /**
