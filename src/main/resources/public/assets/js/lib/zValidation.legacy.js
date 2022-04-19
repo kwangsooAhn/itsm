@@ -816,7 +816,7 @@ function isSpecialChar(elementId, messageId, callbackFunc) {
         elem.focus();
     };
     if (elem !== null) {
-        if (specialCharIncludeReg.test(elem.value)) {
+        if (elem.value.match(specialCharIncludeReg)) {
             if (messageId !== undefined) {
                 zAlert.warning(i18n.msg(messageId), callback);
             }
