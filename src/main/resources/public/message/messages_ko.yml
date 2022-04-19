@@ -29,6 +29,7 @@ common:
     toModify: "수정"
     withdraw: "회수"
   label:
+    all: "전체"
     attachFile: "첨부 파일"
     blank: " "
     bracketOpen: "["
