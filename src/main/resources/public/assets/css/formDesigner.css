@@ -7826,7 +7826,7 @@ body.modal-active {
   border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header td {
-  padding: 0.6875rem 0.3125rem 0.6875rem 0;
+  padding: 0.6875rem 0 0.6875rem 0.3125rem;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header .z-dr-table-header-cell {
   display: inline-block;
@@ -7854,6 +7854,16 @@ body.modal-active {
 }
 .z-component .z-element .z-dr-table .z-dr-table-row span {
   line-height: 1.6;
+}
+.z-component .z-element .z-dr-table .z-dr-table-row .readonly input, .z-component .z-element .z-dr-table .z-dr-table-row input:read-only {
+  color: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+}
+.z-component .z-element .z-dr-table .z-dr-table-row .z-select-box {
+  padding: 0.5rem 0.75rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
   height: 2.5625rem;
