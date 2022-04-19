@@ -7,5 +7,5 @@ package co.brainz.itsm.plugin.dto
 
 data class PluginDto(
     var pluginId: String,
-    val data: Any?
+    var data: Any? = null
 )

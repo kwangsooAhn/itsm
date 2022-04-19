@@ -32,7 +32,7 @@ data class PluginHistoryEntity(
     val endDt: LocalDateTime? = null,
 
     @Column(name = "plugin_param")
-    val pluginParam: String? = null,
+    var pluginParam: String? = null,
 
     @Column(name = "plugin_result")
     val pluginResult: String? = null,
@@ -41,5 +41,5 @@ data class PluginHistoryEntity(
     val message: String? = null,
 
     @Column(name = "plugin_data")
-    val pluginData: String?
+    var pluginData: String? = null
 ) : Serializable
