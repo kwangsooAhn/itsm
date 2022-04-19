@@ -288,6 +288,16 @@
             });
         });
 
+        if (property.option !== undefined && property.option !== null) {
+            property.option.forEach(function () {
+                addBtn.click();
+            });
+            document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)').forEach(function (object, index) {
+                object.querySelectorAll('input')[0].value = property.option[index].text;
+                object.querySelectorAll('input')[1].value = property.option[index].value;
+            });
+        }
+
         aliceJs.initDesignedSelectTag();
     }
 
@@ -930,8 +940,7 @@
                 labels.push(labelObject.value.trim());
                 values.push(valueObject.value.trim());
             }
-        }
-        if (type === 'dropdown') {
+        } else if (type === 'dropdown') {
             let detailsObject = document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)');
             let labels = [];
             let values = [];
@@ -975,8 +984,10 @@
                 }
                 break;
             case 'dropdown':
+                details.required = parent.querySelector('#' + attributeTypeList[1].type + '-required').value;
+
                 let dropdownOption = [];
-                document.querySelectorAll('#dropdownListData > .flex-row:not(:first-child)').forEach(function (object) {
+                document.querySelectorAll('#dropdownListData > .flex-row').forEach(function (object) {
                     dropdownOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim()
