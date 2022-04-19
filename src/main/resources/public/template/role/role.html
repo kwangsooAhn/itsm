@@ -167,12 +167,19 @@
             return;
         }
 
+        if (unacceptableChar(obj.roleId)) {
+            zAlert.warning(i18n.msg('validation.msg.unacceptableCharacters'), function () {
+                document.getElementById('txtRoleId').focus();
+            });
+            return;
+        }
+
         obj.arrAuthId = arrAuthId;
         let strUrl = '/rest/roles';
         if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtRoleId').value;
         }
-        aliceJs.fetchText(strUrl, {
+        aliceJs.fetchJson(strUrl, {
             method: flag,
             headers: {
                 'Content-Type': 'application/json'
@@ -187,10 +194,10 @@
 
     /** 삭제 버튼  */
     function onDelete() {
-        aliceJs.fetchText('/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value), {
+        aliceJs.fetchJson('/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value), {
             method: 'DELETE'
-        }).then((status) => {
-            switch (status) {
+        }).then((response) => {
+            switch (response.data) {
                 case "true":
                     zAlert.success([[#{common.msg.delete}]], function () {
                         window.location.href = '/roles/search';
@@ -215,6 +222,12 @@
         } else {
             btn.disabled = false;
         }
+    }
+
+    /** 허용하지 않는 특수문자 체크 */
+    function unacceptableChar(roleId) {
+        let regex = new RegExp("[/\\\\%;]");
+        return roleId.match(regex);
     }
 
     /*]]>*/

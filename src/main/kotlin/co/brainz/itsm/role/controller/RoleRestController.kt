@@ -5,6 +5,8 @@
 
 package co.brainz.itsm.role.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListReturnDto
 import co.brainz.itsm.role.dto.RoleSearchCondition
@@ -50,24 +52,24 @@ class RoleRestController(private val roleService: RoleService) {
      * 역할 등록 한다.
      */
     @PostMapping("/", "")
-    fun insertRole(@RequestBody @Valid role: RoleDto): String {
-        return roleService.insertRole(role)
+    fun insertRole(@RequestBody @Valid role: RoleDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(roleService.insertRole(role))
     }
 
     /**
      * 역할 수정 한다.
      */
     @PutMapping("/{roleId}")
-    fun updateRole(@RequestBody @Valid role: RoleDto): String {
-        return roleService.updateRole(role)
+    fun updateRole(@RequestBody @Valid role: RoleDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(roleService.updateRole(role))
     }
 
     /**
      * 역할 삭제 한다.
      */
     @DeleteMapping("/{roleId}")
-    fun deleteRole(@PathVariable roleId: String): String {
-        return roleService.deleteRole(roleId)
+    fun deleteRole(@PathVariable roleId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(roleService.deleteRole(roleId))
     }
 
     /**
