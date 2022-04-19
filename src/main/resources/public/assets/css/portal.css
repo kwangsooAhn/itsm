@@ -2865,14 +2865,14 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .z-input.i-user-search {
   background-image: url("../media/icons/document/icon_user.svg");
-  background-size: auto;
+  background-size: 1.5rem 1.5rem;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-organization-search {
   background-image: url("../media/icons/document/icon_organization.svg");
-  background-size: auto;
+  background-size: 1.5rem 1.5rem;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
