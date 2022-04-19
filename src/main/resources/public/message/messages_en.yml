@@ -327,6 +327,7 @@ cmdb:
         code: "Code"
         required: "Required"
         label: "Label"
+        listData: "List Data"
         none: "None"
         maxDate: "Max Date"
         minDate: "Min Date"
