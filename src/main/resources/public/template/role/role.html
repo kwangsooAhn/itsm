@@ -128,7 +128,7 @@
     function onSave(flag) {
         if (isEmpty('txtRoleId', 'role.msg.enterRoleId')) return;
         if (isEmpty('txtRoleName', 'role.msg.enterRoleName')) return;
-        if (!isSpecialChar('txtRoleId', 'validation.msg.checkPositionFormat')) return;
+        if(!isSpecialChar('txtRoleId', 'validation.msg.checkPositionFormat')) return;
 
         let roleIds = [];
         let roleNames = [];
@@ -179,12 +179,10 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(obj)
-        }).then((data) => {
-            if ( data === obj.roleId) {
-                zAlert.success([[#{common.msg.save}]], function () {
-                    window.location.href = '/roles/search';
-                });
-            }
+        }).then((status) => {
+            zAlert.success([[#{common.msg.save}]], function () {
+                window.location.href = '/roles/search';
+            });
         });
     }
 
