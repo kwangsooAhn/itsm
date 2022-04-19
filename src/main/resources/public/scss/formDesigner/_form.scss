@@ -370,16 +370,8 @@
         td { vertical-align: middle; }
       }
     }
-    .z-dr-table-button-group {
-      display: inline-block;
-      @include absolute($top: 0, $right: 0.8125rem); // 0 13px
-      height: 2.5rem;
-      line-height: 2rem;
-      padding-top: 0.375rem; // 6px
-
-      .plugIn-check {
-        &.off { display: none; }
-      }
+    .plugIn-check {
+      &.off { display: none; }
     }
 
     // custom code 컴포넌트

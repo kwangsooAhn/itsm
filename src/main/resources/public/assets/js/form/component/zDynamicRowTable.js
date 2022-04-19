@@ -71,19 +71,13 @@ export const dynamicRowTableMixin = {
         const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        // 테이블
-        element.UITable = new UITable()
-            .setUIClass('z-option-table')
-            .addUIClass('z-dr-table')
-            .setUIId('drTable' + this.id)
-            .setUIAttribute('tabindex', '-1')
-            .setUIAttribute('data-validation-required', this.validationRequired);
-        element.addUI(element.UITable);
-
-        this.makeTable(element.UITable);
-
-        element.UIDiv = new UIDiv().setUIClass('z-dr-table-button-group');
+        // 버튼 목록
+        element.UIDiv = new UIDiv().setUIClass('z-button-list');
         element.addUI(element.UIDiv);
+
+        // 추가 버튼
+        element.UIDiv.addUIButton = new UIButton(i18n.msg('form.label.addRow')).addUIClass('secondary');
+        element.UIDiv.addUI(element.UIDiv.addUIButton);
 
         // 플러그인 검증 버튼 생성
         element.UIDiv.plugInUIButton = new UIButton()
@@ -98,25 +92,34 @@ export const dynamicRowTableMixin = {
         element.UIDiv.plugInUIButton.addUI(element.UIDiv.plugInUIButton.UIText);
         element.UIDiv.addUI(element.UIDiv.plugInUIButton);
 
-        // 추가 버튼
-        element.UIDiv.addUIButton = new UIButton()
-            .setUIClass('z-button-icon')
-            .addUIClass('extra')
-            .onUIClick(this.addTableRow.bind(this, element.UITable, {}))
-            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'));
-        element.UIDiv.addUI(element.UIDiv.addUIButton);
+        // 테이블
+        element.UITable = new UITable()
+            .setUIClass('z-option-table')
+            .addUIClass('z-dr-table')
+            .addUIClass('mt-2')
+            .setUIId('drTable' + this.id)
+            .setUIAttribute('tabindex', '-1')
+            .setUIAttribute('data-validation-required', this.validationRequired);
+        element.addUI(element.UITable);
+
+        this.makeTable(element.UITable);
 
         return element;
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        const drTable = this.UIElement.UIComponent.UIElement.UITable;
+        const addRowButton = this.UIElement.UIComponent.UIElement.UIDiv.addUIButton;
+
+        // 행 추가 버튼 > 클릭 이벤트 부여
+        addRowButton.onUIClick(this.addTableRow.bind(this, drTable, {}));
+
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIDisabled(true);
             this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIDisabled(true);
             // 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
-            const drTable = this.UIElement.UIComponent.UIElement.UITable.domElement;
-            for (const row of drTable.rows) {
+            for (const row of drTable.domElement.rows) {
                 for (const cell of row.cells) {
                     const elem = cell.querySelector('input, select, button');
                     if (zValidation.isDefined(elem)) {
