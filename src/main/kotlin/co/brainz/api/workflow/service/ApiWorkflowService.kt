@@ -151,26 +151,36 @@ class ApiWorkflowService(
      */
     fun callWorkflow(documentNo: String): Boolean {
         val instance = wfInstanceService.getInstanceListInDocumentNo(documentNo).first()
-        val token = wfInstanceService.getInstanceLatestToken(instance.instanceId)
-        // 현재 토큰 처리자는 시스템으로 고정
-        token.assigneeId = AliceUserConstants.CREATE_USER_ID
-        val tokenDto = WfTokenDto(
-            tokenId = token.tokenId,
-            documentId = instance.document.documentId,
-            documentName = instance.document.documentName,
-            instanceId = instance.instanceId,
-            elementId = token.elementId,
-            elementType = token.elementType,
-            tokenStatus = token.tokenStatus,
-            tokenAction = token.action,
-            assigneeId = token.assigneeId,
-            numberingId = token.numberingId,
-            parentTokenId = token.parentTokenId,
-            instanceCreateUser = token.instanceCreateUser,
-            action = WfElementConstants.Action.PROGRESS.value,
-            instancePlatform = WorkflowConstants.InstancePlatform.API.code,
-            data = wfTokenDataRepository.getTokenDataList(token.tokenId)
-        )
-        return wfEngine.progressWorkflow(tokenDto)
+        when (instance.document.apiEnable) {
+            true -> {
+                val token = wfInstanceService.getInstanceLatestToken(instance.instanceId)
+                // 현재 토큰 처리자는 시스템으로 고정
+                token.assigneeId = AliceUserConstants.CREATE_USER_ID
+                val tokenDto = WfTokenDto(
+                    tokenId = token.tokenId,
+                    documentId = instance.document.documentId,
+                    documentName = instance.document.documentName,
+                    instanceId = instance.instanceId,
+                    elementId = token.elementId,
+                    elementType = token.elementType,
+                    tokenStatus = token.tokenStatus,
+                    tokenAction = token.action,
+                    assigneeId = token.assigneeId,
+                    numberingId = token.numberingId,
+                    parentTokenId = token.parentTokenId,
+                    instanceCreateUser = token.instanceCreateUser,
+                    action = WfElementConstants.Action.PROGRESS.value,
+                    instancePlatform = WorkflowConstants.InstancePlatform.API.code,
+                    data = wfTokenDataRepository.getTokenDataList(token.tokenId)
+                )
+                return wfEngine.progressWorkflow(tokenDto)
+            }
+            false -> {
+                throw AliceException(
+                    AliceErrorConstants.ERR_00003,
+                    aliceMessageSource.getMessage("auth.msg.accessDenied")
+                )
+            }
+        }
     }
 }

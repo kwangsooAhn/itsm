@@ -215,8 +215,8 @@ class CISearchService(
                         value.add(this.getValue(ciData))
                     }
                 }
-                if (!isValid) { // 값이 존재하지 않을 경우 null로 해당 순번 채우기
-                    value.add(null)
+                if (!isValid) { // 값이 존재하지 않을 경우 빈값으로 해당 순번 채우기
+                    value.add("")
                 }
             }
 
@@ -452,7 +452,10 @@ class CISearchService(
                     val attribute = this.getAttribute(attributeList, basic.columnName[index])
                     if (attribute.attributeId.isNotEmpty()) {
                         basic.contents.forEach {
-                            it.value[index] = it.value[index].toString().trim().split("|")[1]
+                            val attributeValue = it.value[index].toString()
+                            if (attributeValue.isNotEmpty()) {
+                                it.value[index] = attributeValue.substring(attributeValue.lastIndexOf("|") + 1)
+                            }
                         }
                     }
                 }

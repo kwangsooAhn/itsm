@@ -297,7 +297,7 @@ class WfScriptTask(
             tokenData = it
         }
 
-        wfTokenManagerService.executePlugin(pluginId, tokenData)
+        wfTokenManagerService.executePlugin(pluginId, createTokenDto.tokenId, tokenData)
     }
 
     /**
