@@ -417,6 +417,7 @@
 // tooptip
 .z-tooltip-menu {
   visibility: hidden;
+  z-index: $z-index-tooltip;
   @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
   background-color: $tooltip-menu-bg-color;
   height: 2.5rem; // 40px;
