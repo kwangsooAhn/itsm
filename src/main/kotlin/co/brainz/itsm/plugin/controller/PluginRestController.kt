@@ -7,8 +7,8 @@ package co.brainz.itsm.plugin.controller
 
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.plugin.constants.PluginConstants
-import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.service.PluginService
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -34,7 +34,7 @@ class PluginRestController(
     ): ZResponse {
         val param: LinkedHashMap<String, Any> = linkedMapOf()
         param[PluginConstants.ASYNCHRONOUS] = true
-        return pluginService.executePlugin(pluginId, PluginParamDto(tokenId = tokenId), body, param)
+        return pluginService.executePlugin(pluginId, WfTokenDto(tokenId = tokenId), body, param)
     }
 
     @GetMapping("")

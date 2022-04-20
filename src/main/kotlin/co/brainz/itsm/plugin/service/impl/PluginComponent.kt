@@ -14,6 +14,7 @@ import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.entity.PluginHistoryEntity
 import co.brainz.itsm.plugin.repository.PluginHistoryRepository
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -45,6 +46,7 @@ abstract class PluginComponent(
     lateinit var plugin: PluginEntity
     lateinit var pluginHistory: PluginHistoryEntity
     lateinit var pluginParam: PluginParamDto
+    lateinit var tokenDto: WfTokenDto
     protected var body: String? = null
 
     /**
@@ -52,11 +54,11 @@ abstract class PluginComponent(
      */
     fun initialize(
         plugin: PluginEntity,
-        pluginParam: PluginParamDto,
+        tokenDto: WfTokenDto,
         body: String?
     ) {
-        this.plugin = plugin
-        this.pluginParam = pluginParam
+        this.tokenDto = tokenDto
+        this.pluginParam = this.initPluginParam()
         this.body = body
         this.pluginHistory = PluginHistoryEntity(
             historyId = "",
@@ -151,7 +153,7 @@ abstract class PluginComponent(
      */
     protected fun getPluginDataByTag(): LinkedHashMap<String, String> {
         val dataMap: LinkedHashMap<String, String> = linkedMapOf()
-        val tokenDataList = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(this.pluginParam.tokenId)
+        val tokenDataList = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(this.tokenDto.tokenId)
         val componentIds: LinkedHashSet<String> = linkedSetOf()
         tokenDataList.forEach {
             componentIds.add(it.component.componentId)
@@ -167,11 +169,9 @@ abstract class PluginComponent(
         return dataMap
     }
 
-    /**
-     * PluginData 를 MappingId 정보로 조회하여 처리
-     */
-    protected fun getPluginDataByMappingId(): LinkedHashMap<String, String> {
-        val dataMap: LinkedHashMap<String, String> = linkedMapOf()
-        return dataMap
+    fun initPluginParam(): PluginParamDto {
+        return PluginParamDto(
+            tokenId = this.tokenDto.tokenId
+        )
     }
 }

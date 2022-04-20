@@ -24,7 +24,6 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
-import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.service.PluginService
 import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.entity.UserCustomEntity
@@ -207,8 +206,8 @@ class WfTokenManagerService(
     /**
      * 플러그인 실행
      */
-    fun executePlugin(pluginId: String, pluginParam: PluginParamDto, param: LinkedHashMap<String, Any>) {
-        pluginService.executePlugin(pluginId, pluginParam, null, param)
+    fun executePlugin(pluginId: String, tokenDto: WfTokenDto, param: LinkedHashMap<String, Any>) {
+        pluginService.executePlugin(pluginId, tokenDto, null, param)
     }
 
 
@@ -546,7 +545,7 @@ class WfTokenManagerService(
     fun updateReview(instanceId: String): Boolean {
         val viewerKey = currentSessionUser.getUserKey()
         if (viewerRepository.findByInstanceIdAndViewerKey(instanceId, viewerKey) != null) {
-            return  viewerRepository.updateReviewYn(instanceId, viewerKey) == 1
+            return viewerRepository.updateReviewYn(instanceId, viewerKey) == 1
         }
         return false
     }
