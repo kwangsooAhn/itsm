@@ -4550,6 +4550,7 @@ select {
 }
 .z-itsm-container .z-main-content .z-page-edit .z-edit-row label {
   margin: 0.625rem 0;
+  height: 1rem;
 }
 .z-itsm-container .z-main-content .z-page-edit .z-edit-row.off {
   display: none;

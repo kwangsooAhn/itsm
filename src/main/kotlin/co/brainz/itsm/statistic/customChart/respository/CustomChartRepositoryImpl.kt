@@ -9,6 +9,7 @@ package co.brainz.itsm.statistic.customChart.respository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartDataDto
+import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
 import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
@@ -90,5 +91,16 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
             )
             .orderBy(reportMap.displayOrder.asc())
             .fetch()
+    }
+
+    override fun existsDuplicationData(chartDto: ChartDto): Boolean {
+        val chart = QChartEntity.chartEntity
+        val query = from(chart)
+            .where(chart.chartName.eq(chartDto.chartName)
+                .and(chart.chartType.eq(chartDto.chartType)))
+        if (chartDto.chartId.isNotEmpty()) {
+            query.where(!chart.chartId.eq(chartDto.chartId))
+        }
+        return query.fetchCount() > 0
     }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 data class ChartTokenData(
     val instanceId: String,
     val instanceStartDt: LocalDateTime,
-    val instanceEndDt: LocalDateTime,
+    val instanceEndDt: LocalDateTime?,
     val tokenId: String,
     val value: String
 ) : Serializable

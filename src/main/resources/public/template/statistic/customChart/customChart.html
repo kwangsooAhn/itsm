@@ -86,7 +86,15 @@
                 <div class="flex-row">
                     <!--/* 기간 */-->
                     <div class="flex-column col-3">
-                        <label class="field-label required" th:text="#{chart.label.duration}"></label>
+                        <label>
+                            <span class="field-label required" th:text="#{chart.label.duration}"></span>
+                            <div class="z-help-tooltip">
+                                <span class="z-icon i-tooltip"></span>
+                                <div class="z-tooltip-contents right">
+                                    <span th:utext="#{chart.tooltip.timezoneInfo(${chartTimezone})}"></span>
+                                </div>
+                            </div>
+                        </label>
                         <div>
                             <select id="rangeType" name="rangeType" onchange="changeRangeType(this.value, false)" th:classappend="${view ? 'readonly' : ''}">
                                 <option th:each="unit:${code.range}" th:value="${unit.codeValue}"
@@ -101,14 +109,14 @@
                             <label class="field-label required" th:text="#{common.label.startDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeFromDt"
-                                       name="rangeFromDt" th:value="${chart?.chartConfig?.range?.from}" th:readonly="${view}" />
+                                       name="rangeFromDt" th:value="${chart?.chartConfig?.range?.fromDate}" th:readonly="${view}" />
                             </div>
                         </div>
                         <div class="flex-column col-3 pl-4">
                             <label class="field-label required" th:text="#{common.label.endDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeToDt"
-                                       name="rangeToDt" th:value="${chart?.chartConfig?.range?.to}" th:readonly="${view}" />
+                                       name="rangeToDt" th:value="${chart?.chartConfig?.range?.toDate}" th:readonly="${view}" />
                             </div>
                         </div>
                     </div>
@@ -194,18 +202,12 @@
 
             // 기간 조회 날짜 데이터 조기화
             const fromDtElement = document.getElementById('rangeFromDt');
-            fromDtElement.setAttribute('data-userDateTime', i18n.userDateTime(fromDtElement.value));
-            fromDtElement.value = i18n.userDate(fromDtElement.value);
-
             const toDtElement = document.getElementById('rangeToDt');
-            toDtElement.setAttribute('data-userDateTime', i18n.userDateTime(toDtElement.value));
-            toDtElement.value = i18n.userDate(toDtElement.value);
+
             // 한달 전 ~ 현재 기간으로 설정
             if (!fromDtElement.value || !toDtElement.value) {
                 fromDtElement.value = i18n.getDate({ months: -1 });
-                fromDtElement.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                 toDtElement.value = i18n.getDate();
-                toDtElement.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
             }
             zDateTimePicker.initDatePicker(fromDtElement, changeDatePicker);
             zDateTimePicker.initDatePicker(toDtElement, changeDatePicker);
@@ -242,11 +244,9 @@
 
             if (element.id === 'rangeFromDt') {
                 const toDtValue = document.getElementById('rangeToDt').value;
-                element.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(element.value)));
                 if (!i18n.compareSystemDate(element.value, toDtValue)) {
                     zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
                         element.value = i18n.getDate({ months: -1 });
-                        element.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         picker.open();
                     });
                 }
@@ -256,7 +256,6 @@
                 if (!i18n.compareSystemDate(fromDtValue, element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                         element.value = i18n.getDate();
-                        element.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         picker.open();
                     });
                 }
@@ -359,10 +358,9 @@
             }
             // 간격이 '시간' 단위일때, 시작일자와 종료일자의 차이가 3일 이상일 경우 경고창 표시
             if (document.getElementById('periodUnitSelectBox').value === PERIOD_HOUR) {
-                const fromDtValue = document.getElementById('rangeFromDt').value;
-                const validToDtValue =  i18n.userDate(i18n.systemDate(fromDtValue, { days : MAX_PERIOD_RANGE }));
-                const toDtValue = document.getElementById('rangeToDt').value;
-                if (!i18n.compareSystemDate(toDtValue, validToDtValue)) {
+                const fromDtValue = new Date(document.getElementById('rangeFromDt').value);
+                const toDtValue = new Date(document.getElementById('rangeToDt').value);
+                if ((toDtValue - fromDtValue) / (1000 * 60 * 60 * 24) >= MAX_PERIOD_RANGE) {
                     zAlert.warning(i18n.msg('chart.msg.maxPeriodUnitRange', MAX_PERIOD_RANGE));
                     return false;
                 }
@@ -428,54 +426,31 @@
                         // 시작일자(from) = 오늘로부터 한달 전 데이터
                         // 종료일자(to) = 오늘
                         fromDt.value = i18n.getDate({ months: -1 });
-                        fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         toDt.value = i18n.getDate();
-                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         break;
                     case RANGE_LAST_MONTH: // 지난달
                         // 시작일자(from) = 지난달 01일 데이터
                         // 종료일자(to) = 지난달 마지막 날짜 데이터
                         fromDt.value = i18n.getStartOfDate({ months: -1 }, 'month');
-                        fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ months: -1 }, 'month'));
                         toDt.value = i18n.getEndOfDate({ months: -1 }, 'month');
-                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ months: -1 }, 'month'));
                         break;
                     case RANGE_ALL: // 전체
                         // 시작일자(from) = 2000년 01월 01일 00시 00분 00초 데이터
                         // 종료일자(to) = 현재 날짜 23시 59분 59초 데이터
                         // 기간에 따라 현재 날짜 전체 조정
                         fromDt.value = i18n.getCustomDate(2000, 1, 1);
-                        fromDt.setAttribute('data-userDateTime', i18n.userDateTime(i18n.systemDate(fromDt.value)));
                         toDt.value = i18n.getDate();
-                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: 0 }, 'day'));
                         break;
                     case RANGE_LAST_DAY: // 어제
                         // 시작일자(from) = 어제 날짜 00시 00분 00초 데이터
                         // 종료일자(to) = 어제 날짜 23시 59분 59초 데이터
                         fromDt.value = i18n.getDate({ days: -1 });
-                        fromDt.setAttribute('data-userDateTime', i18n.getStartOfDateTime({ days: -1 }, 'day'));
                         toDt.value = i18n.getDate({ days: -1 });
-                        toDt.setAttribute('data-userDateTime', i18n.getEndOfDateTime({ days: -1 }, 'day'));
                         break;
                     default:
                         break;
                 }
             }
-
-            // TODO: #11574 [사용자 정의 차트] 기간 - 간격 설정
-            /*if (type === BASIC_LINE_CHART || type === STACKED_COLUMN_CHART) {
-                // 2021-10-06 By Jung Hee Chan
-                // 기간 항목은 드롭박스에 디자인이 입혀지면서 div 가 새로 생김. 이것까지 숨기거나 보여주려면 처리를 아래와 같이 추가.
-                document.getElementById('periodUnit').style.display = '';
-                Array.from(document.getElementById('periodUnit').children).forEach((child) => {
-                    child.style.display = '';
-                });
-            } else {
-                document.getElementById('periodUnit').style.display = 'none';
-                Array.from(document.getElementById('periodUnit').children).forEach((child) => {
-                    child.style.display = 'none';
-                });
-            }*/
 
             // select box 디자인
             aliceJs.initDesignedSelectTag(range);
@@ -494,11 +469,6 @@
                 });
             }
 
-            let fromDt = document.getElementById('rangeFromDt').getAttribute('data-userDateTime');
-            let toDt = document.getElementById('rangeToDt').getAttribute('data-userDateTime');
-            fromDt = i18n.systemDateTime(fromDt);
-            toDt = i18n.systemDateTime(toDt);
-
             return {
                 chartId: chartId || '',
                 chartType: document.getElementById('typeSelectBox').value,
@@ -509,8 +479,10 @@
                     periodUnit: document.getElementById('periodUnitSelectBox').value,
                     range: {
                         type: document.getElementById('rangeType').value,
-                        from: fromDt,
-                        to: toDt
+                        fromDate: document.getElementById('rangeFromDt').value,
+                        toDate: document.getElementById('rangeToDt').value,
+                        fromDateTime: document.getElementById('rangeFromDt').value + 'T00:00:00',
+                        toDateTime: document.getElementById('rangeToDt').value + 'T23:59:59',
                     },
                     documentStatus: document.getElementById('targetStatusSelectBox').value,
                     condition: document.getElementById('condition').value
