@@ -386,7 +386,8 @@
             formData.append('files', importFile);
             aliceJs.fetchJson('/rest/cmdb/cis/templateUpload', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                showProgressBar: true
             }).then((response) => {
                 // 성공시 페이지 새로 고침
                 zAlert.success(i18n.msg('common.msg.save'), function () {
