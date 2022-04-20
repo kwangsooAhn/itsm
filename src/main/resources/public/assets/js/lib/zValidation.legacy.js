@@ -9,7 +9,7 @@ const integerReg = /^[0-9]*$/; // 정수
 const numberReg = /^[-+]?[0-9]*\.?[0-9]+$/; // 숫자
 const charReg = /^[a-zA-Z가-힣]*$/; // 영문자 , 한글
 const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/; //특수문자만
-const specialCharIncludeReg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; //특수문자 포함
+const specialCharIncludeReg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자 포함
 const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
 const regularCharacterReg = /^[a-zA-Z가-힣0-9ㄱ-ㅎㅏ-ㅣ]*$/;

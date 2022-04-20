@@ -128,6 +128,7 @@
     function onSave(flag) {
         if (isEmpty('txtRoleId', 'role.msg.enterRoleId')) return;
         if (isEmpty('txtRoleName', 'role.msg.enterRoleName')) return;
+        if(!isSpecialChar('txtRoleId', 'validation.msg.checkPositionFormat')) return;
 
         let roleIds = [];
         let roleNames = [];
