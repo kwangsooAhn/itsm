@@ -65,9 +65,8 @@
     function getList(pageNum = 1) {
         const searchValue = encodeURIComponent(document.getElementById('searchValue').value);
         const formStatus =  encodeURIComponent(document.getElementById('searchFormStatus').value);
-        const urlParam = !formStatus ? searchValue + + '&pageNum=' + pageNum
-                : searchValue + '&pageNum=' + pageNum + '&status=' + formStatus;
-        console.log(urlParam);
+        const urlParam = !formStatus ? `${searchValue}&pageNum=${pageNum}`
+            : `${searchValue}&pageNum=${pageNum}&status=${formStatus}`;
 
         aliceJs.fetchText('/forms?searchValue=' + urlParam, {
             method: 'GET'
