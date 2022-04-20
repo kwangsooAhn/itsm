@@ -26,7 +26,6 @@ import java.io.InputStreamReader
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
@@ -40,8 +39,7 @@ abstract class PluginComponent(
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
-    @Value("\${plugins.dir}")
-    protected val pluginsDir: String? = null
+    protected val pluginsDir: String? = "C:\\\\plugins"
 
     lateinit var plugin: PluginEntity
     lateinit var pluginHistory: PluginHistoryEntity
@@ -57,6 +55,7 @@ abstract class PluginComponent(
         tokenDto: WfTokenDto,
         body: String?
     ) {
+        this.plugin = plugin
         this.tokenDto = tokenDto
         this.pluginParam = this.initPluginParam()
         this.body = body
