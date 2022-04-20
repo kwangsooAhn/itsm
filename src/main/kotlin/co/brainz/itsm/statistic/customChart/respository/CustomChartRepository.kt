@@ -12,5 +12,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface CustomChartRepository : JpaRepository<ChartEntity, String>,
     CustomChartRepositoryCustom {
     fun findChartEntityByChartId(chartId: String): ChartEntity?
-    fun existsByChartNameAndChartType(chartName: String, chartType: String): Boolean
 }

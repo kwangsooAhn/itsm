@@ -337,7 +337,7 @@
       // 제목
       .z-dr-table-header {
         @include border(0.125rem, solid, $component-drTable-border-color, bottom);
-        td { padding: 0.6875rem 0.3125rem 0.6875rem 0; } // 11px 5px 11px 0
+        td { padding: 0.6875rem 0 0.6875rem 0.3125rem; } // 11px 5px 11px 0
         .z-dr-table-header-cell {
           @include ellipsis();
           padding: 0 0.5rem;
@@ -360,6 +360,16 @@
         .z-select .z-select-box.readonly { border-bottom: none; }
 
         span { line-height: 1.6; }
+
+        // 문서양식에서 설정한 컬럼에 대한 style을 상속 받음
+        .readonly input, input:read-only {
+          color: inherit;
+          font-size: inherit;
+          font-style: inherit;
+          font-weight: inherit;
+          text-align: inherit;
+        }
+        .z-select-box { padding: 0.5rem $element-indent; };
       }
       // 데이터 없음
       .no-data-found-list {
@@ -407,6 +417,7 @@
 // tooptip
 .z-tooltip-menu {
   visibility: hidden;
+  z-index: $z-index-tooltip;
   @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
   background-color: $tooltip-menu-bg-color;
   height: 2.5rem; // 40px;

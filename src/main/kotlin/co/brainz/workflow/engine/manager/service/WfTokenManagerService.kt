@@ -18,15 +18,12 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
-import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.util.AliceFileUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
-import co.brainz.itsm.plugin.constants.PluginConstants
-import co.brainz.itsm.plugin.dto.PluginDto
 import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.service.PluginService
 import co.brainz.itsm.user.dto.UserAbsenceDto
@@ -210,35 +207,8 @@ class WfTokenManagerService(
     /**
      * 플러그인 실행
      */
-    fun executePlugin(pluginId: String?, tokenId: String, tokenDataList: List<WfTokenDataDto>?) {
-        val param: LinkedHashMap<String, Any> = linkedMapOf()
-        val dataMap: LinkedHashMap<String, String> = linkedMapOf()
-        param[PluginConstants.ASYNCHRONOUS] = false
-
-        // tokenDataList의 모든 데이터 중에서 태그가 적용되고 타입이 컴포넌트인 데이터만 추출한다.
-        val componentIds: LinkedHashSet<String> = linkedSetOf()
-        if (tokenDataList != null) {
-            tokenDataList.forEach {
-                componentIds.add(it.componentId)
-            }
-            val tagData = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.COMPONENT.code, componentIds)
-            tokenDataList.forEach { tokenData ->
-                tagData.forEach { tag ->
-                    if (tag.targetId == tokenData.componentId) {
-                        dataMap[tag.tagValue] = tokenData.value
-                    }
-                }
-            }
-        }
-        if (!pluginId.isNullOrBlank()) {
-            val body = mapper.writeValueAsString(
-                PluginDto(
-                    pluginId = "",
-                    data = dataMap
-                )
-            )
-            pluginService.executePlugin(pluginId, PluginParamDto(tokenId = tokenId), body, param)
-        }
+    fun executePlugin(pluginId: String, pluginParam: PluginParamDto, param: LinkedHashMap<String, Any>) {
+        pluginService.executePlugin(pluginId, pluginParam, null, param)
     }
 
 
