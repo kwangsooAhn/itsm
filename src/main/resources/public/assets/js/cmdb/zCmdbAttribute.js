@@ -296,6 +296,7 @@
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
+            document.querySelector('#dropdownListData').children[1].remove();
         }
 
         aliceJs.initDesignedSelectTag();
