@@ -13,6 +13,7 @@ package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/forms")
-class FormController(private val formService: FormService) {
+class FormController(
+    private val formService: FormService
+) {
 
     private val formSearchPage: String = "formDesigner/formSearch"
     private val formListPage: String = "formDesigner/formList"
@@ -38,6 +41,7 @@ class FormController(private val formService: FormService) {
      */
     @GetMapping("/search")
     fun getFormSearch(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("statusList", WorkflowConstants.FormStatus.values())
         return formSearchPage
     }
 
