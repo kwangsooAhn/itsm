@@ -1694,6 +1694,49 @@
                 zDateTimePicker.initDateTimePicker(dateTimeElem, validateDateTimeValue);
                 parent.appendChild(elem);
                 return elem;
+            case 'userSearch':
+                const userDefaultValues = (data.value !== null) ? data.value.split('|') : ['', '', ''];
+                elem = document.createElement('input');
+                elem.type = 'text';
+                elem.className = 'z-input i-user-search text-ellipsis';
+                elem.id = ZWorkflowUtil.generateUUID();
+                elem.setAttribute('data-attributeId', data.attributeId);
+                elem.setAttribute('data-attributeValue', data.attributeValue);
+                elem.setAttribute('oncontextmenu', 'return false;');
+                elem.setAttribute('onkeypress', 'return false;');
+                elem.setAttribute('onkeydown', 'return false;');
+                elem.setAttribute('data-user-id', userDefaultValues[2]);
+                elem.setAttribute('data-user-search', userDefaultValues[0]);
+                elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null) ? data.value : ''));
+                elem.value = userDefaultValues[1];
+                if (attributeValue.required === 'true') {
+                    elem.required = true;
+                    elem.setAttribute('data-validation-required', 'true');
+                    elem.setAttribute('data-validation-required-name', data.attributeText);
+                }
+                elem.addEventListener('click', openUserSearchModal, false);
+                parent.appendChild(elem);
+                return elem;
+            case 'organizationSearch':
+                const defaultValues = (data.value !== null) ? data.value.split('|') : ['', ''];
+                elem = document.createElement('input');
+                elem.type = 'text';
+                elem.className = 'z-input i-organization-search text-ellipsis';
+                elem.id = ZWorkflowUtil.generateUUID();
+                elem.setAttribute('data-attributeId', data.attributeId);
+                elem.setAttribute('data-organization-search', defaultValues[0]);
+                elem.setAttribute('oncontextmenu', 'return false;');
+                elem.setAttribute('onkeypress', 'return false;');
+                elem.setAttribute('onkeydown', 'return false;');
+                elem.value = defaultValues[1];
+                if (attributeValue.required === 'true') {
+                    elem.required = true;
+                    elem.setAttribute('data-validation-required', 'true');
+                    elem.setAttribute('data-validation-required-name', data.attributeText);
+                }
+                elem.addEventListener('click', openOrganizationSearchModal, false);
+                parent.appendChild(elem);
+                return elem;
             default:
                 break;
         }
@@ -1791,6 +1834,132 @@
         // 삭제
         const childAttributeRow = e.target.parentNode;
         childAttributeRow.parentElement.removeChild(childAttributeRow);
+    }
+
+    /**
+     * 사용자 검색 모달
+     */
+    function openUserSearchModal(e) {
+        const target = e.target || e;
+        const targetUserModalTemplate = `<div class="target-user-list">` +
+            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+            `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
+            `<span id="spanTotalCount" class="search-count"></span>` +
+            `<div class="table-set" id="targetUserList"></div>` +
+            `</div>`;
+
+        const targetUserModal = new modal({
+            title: target.getAttribute('data-validation-required-name'),
+            body: targetUserModalTemplate,
+            classes: 'target-user-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
+                    if (target.getAttribute('data-realTimeSelectedUser') === '') {
+                        zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
+                        return false;
+                    } else {
+                        const realTimeSelectedUserArr = target.getAttribute('data-realTimeSelectedUser').split('|');
+                        target.setAttribute('data-user-search', realTimeSelectedUserArr[0]);
+                        target.setAttribute('data-user-id', realTimeSelectedUserArr[2]);
+                        target.value = realTimeSelectedUserArr[1];
+                    }
+                    console.log(target);
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: { closable: false },
+            onCreate: function() {
+                // 기존 선택된 값 할당
+                if (target.getAttribute('data-user-search') !== null) {
+                    const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
+                        `${target.value}|${target.getAttribute('data-user-id')}`;
+                    target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
+                }
+                document.getElementById('search').addEventListener('keyup', (e) => {
+                    getUserList(target, e.target.value, false);
+                });
+                getUserList(target, document.getElementById('search').value, true);
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+            }
+        });
+        targetUserModal.show();
+    }
+
+    /**
+     * 사용자 검색 모달 - 사용자 조회
+     */
+    function getUserList(target, search, showProgressbar) {
+        const attributeValue = JSON.parse(target.getAttribute('data-attributeValue'));
+        const targetCriteria = attributeValue.targetCriteria;
+        let searchKeys = '';
+        attributeValue.searchKey.forEach( (elem, index) => {
+            searchKeys += (index > 0) ? '+' + elem.id : elem.id;
+        });
+        // 검색
+        const strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
+            '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
+        aliceJs.fetchText(strUrl, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            const searchUserList = document.getElementById('searchUserList');
+            searchUserList.innerHTML = htmlData;
+            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            // 갯수 가운트
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+            // 체크 이벤트
+            searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
+                element.addEventListener('change', () => {
+                    const userId = element.getAttribute('data-user-id');
+                    const realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
+                    target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
+                    console.log(target);
+                });
+            });
+            // 기존 선택값 표시
+            const realTimeSelectedUser = target.getAttribute('data-realTimeSelectedUser');
+            console.log(realTimeSelectedUser);
+            const checkedTargetId = realTimeSelectedUser.split('|')[0];
+            const checkedTargetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
+            if (checkedTargetId !== '' && checkedTargetRadio !== null) {
+                checkedTargetRadio.checked = true;
+            }
+        });
+    }
+
+    /**
+     * 부서 선택 모달
+     */
+    function openOrganizationSearchModal(e) {
+        e.stopPropagation();
+
+        const organizationSearchData = e.target.getAttribute('data-organization-search');
+        tree.load({
+            view: 'modal',
+            title: i18n.msg('department.label.deptList'),
+            dataUrl: '/rest/organizations',
+            target: 'treeList',
+            source: 'organization',
+            text: 'organizationName',
+            nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
+            defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
+            selectedValue: organizationSearchData,
+            callbackFunc: (response) => {
+                e.target.value = response.textContent;
+                e.target.setAttribute('data-organization-search', response.id);
+            }
+        });
     }
 
     /**
