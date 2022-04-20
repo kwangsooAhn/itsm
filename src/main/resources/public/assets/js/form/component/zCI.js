@@ -433,8 +433,6 @@ export const ciMixin = {
                 saveData.values.ciTags.push({'id': data.ciId, 'value': tag.value});
             });
         }
-        console.log(saveData);
-        return false;
         aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data', {
             method: 'POST',
             headers: {
@@ -529,7 +527,7 @@ export const ciMixin = {
                 rtn.id = organizationSearchElem.getAttribute('data-attributeId');
                 rtn.type = type;
                 rtn.value = `${organizationSearchElem.getAttribute('data-organization-search')}|` +
-                    `${userSearchElem.value}`;
+                    `${organizationSearchElem.value}`;
                 break;
             default:
                 break;

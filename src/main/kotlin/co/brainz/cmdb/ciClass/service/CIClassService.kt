@@ -149,10 +149,10 @@ class CIClassService(
         // 대상 리스트 (부모 속성 포함)
         val alarmTargetAttributes = mutableListOf<CIClassAlarmAttributeDto>()
         if (!extendsAttributes.isNullOrEmpty()) {
-            alarmTargetAttributes.addAll(this.getAttributesInType(extendsAttributes, setOf(CIClassConstants.AttributeType.CUSTOM_CODE.code)))
+            alarmTargetAttributes.addAll(this.getAttributesInType(extendsAttributes, setOf(CIClassConstants.AttributeType.USER_SEARCH.code)))
         }
         if (!attributes.isNullOrEmpty()) {
-            alarmTargetAttributes.addAll(this.getAttributesInType(attributes, setOf(CIClassConstants.AttributeType.CUSTOM_CODE.code)))
+            alarmTargetAttributes.addAll(this.getAttributesInType(attributes, setOf(CIClassConstants.AttributeType.USER_SEARCH.code)))
         }
 
         return CIClassDetailDto(

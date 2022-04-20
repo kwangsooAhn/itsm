@@ -11,6 +11,7 @@ object CIClassConstants {
     enum class AttributeType(val code: String) {
         CUSTOM_CODE("custom-code"),
         DATE("date"),
-        DATE_TIME("datetime")
+        DATE_TIME("datetime"),
+        USER_SEARCH("userSearch")
     }
 }

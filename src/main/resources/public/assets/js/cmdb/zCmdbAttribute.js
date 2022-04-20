@@ -1702,12 +1702,14 @@
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-attributeValue', data.attributeValue);
+                elem.setAttribute('data-modalTitle', data.attributeText);
                 elem.setAttribute('oncontextmenu', 'return false;');
                 elem.setAttribute('onkeypress', 'return false;');
                 elem.setAttribute('onkeydown', 'return false;');
                 elem.setAttribute('data-user-id', userDefaultValues[2]);
                 elem.setAttribute('data-user-search', userDefaultValues[0]);
                 elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null) ? data.value : ''));
+                elem.readOnly = (displayMode === 'view');
                 elem.value = userDefaultValues[1];
                 if (attributeValue.required === 'true') {
                     elem.required = true;
@@ -1724,10 +1726,12 @@
                 elem.className = 'z-input i-organization-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
+                elem.setAttribute('data-modalTitle', data.attributeText);
                 elem.setAttribute('data-organization-search', defaultValues[0]);
                 elem.setAttribute('oncontextmenu', 'return false;');
                 elem.setAttribute('onkeypress', 'return false;');
                 elem.setAttribute('onkeydown', 'return false;');
+                elem.readOnly = (displayMode === 'view');
                 elem.value = defaultValues[1];
                 if (attributeValue.required === 'true') {
                     elem.required = true;
@@ -1845,11 +1849,11 @@
             `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
             `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
-            `<div class="table-set" id="targetUserList"></div>` +
+            `<div class="table-set" id="searchUserList"></div>` +
             `</div>`;
 
         const targetUserModal = new modal({
-            title: target.getAttribute('data-validation-required-name'),
+            title: target.getAttribute('data-modalTitle'),
             body: targetUserModalTemplate,
             classes: 'target-user-modal',
             buttons: [{
@@ -1867,7 +1871,6 @@
                         target.setAttribute('data-user-id', realTimeSelectedUserArr[2]);
                         target.value = realTimeSelectedUserArr[1];
                     }
-                    console.log(target);
                     modal.hide();
                 }
             }, {
@@ -1881,7 +1884,7 @@
             close: { closable: false },
             onCreate: function() {
                 // 기존 선택된 값 할당
-                if (target.getAttribute('data-user-search') !== null) {
+                if (target.getAttribute('data-user-search') !== '') {
                     const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
                         `${target.value}|${target.getAttribute('data-user-id')}`;
                     target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
@@ -1924,12 +1927,10 @@
                     const userId = element.getAttribute('data-user-id');
                     const realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
                     target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
-                    console.log(target);
                 });
             });
             // 기존 선택값 표시
             const realTimeSelectedUser = target.getAttribute('data-realTimeSelectedUser');
-            console.log(realTimeSelectedUser);
             const checkedTargetId = realTimeSelectedUser.split('|')[0];
             const checkedTargetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
             if (checkedTargetId !== '' && checkedTargetRadio !== null) {
@@ -1947,7 +1948,7 @@
         const organizationSearchData = e.target.getAttribute('data-organization-search');
         tree.load({
             view: 'modal',
-            title: i18n.msg('department.label.deptList'),
+            title: e.target.getAttribute('data-modalTitle'),
             dataUrl: '/rest/organizations',
             target: 'treeList',
             source: 'organization',
