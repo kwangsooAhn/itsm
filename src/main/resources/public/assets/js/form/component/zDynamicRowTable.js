@@ -110,18 +110,20 @@ export const dynamicRowTableMixin = {
     afterEvent() {
         const drTable = this.UIElement.UIComponent.UIElement.UITable;
         const addRowButton = this.UIElement.UIComponent.UIElement.UIDiv.addUIButton;
-
+        const plugInButton = this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton;
         // 행 추가 버튼 > 클릭 이벤트 부여
         addRowButton.onUIClick(this.addTableRow.bind(this, drTable, {}));
-
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
-            this.UIElement.UIComponent.UIElement.UIDiv.addUIButton.setUIDisabled(true);
-            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.setUIDisabled(true);
-            // 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
+            // 모든 버튼을 disabled 처리
+            addRowButton.setUIDisabled(true);
+            plugInButton.setUIDisabled(true);
+            // 테이블의 상단 여백 제거
+            drTable.removeUIClass('mt-2');
+            // 테이블의 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
             for (const row of drTable.domElement.rows) {
                 for (const cell of row.cells) {
-                    const elem = cell.querySelector('input, select, button');
+                    const elem = cell.querySelector('indynamicRowTable put, select, button');
                     if (zValidation.isDefined(elem)) {
                         // 버튼일 경우 readonly 대신 disabled 처리 필요
                         if (elem.tagName === 'BUTTON') {

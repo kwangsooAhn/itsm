@@ -68,6 +68,8 @@ export const ciMixin = {
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
                 elem.disabled = !elem.querySelector('span.i-search');
             });
+            // 테이블의 상단 여백 제거
+            this.UIElement.UIComponent.UIElement.UITable.removeUIClass('mt-2');
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
                 this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';

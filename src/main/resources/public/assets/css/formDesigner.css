@@ -7872,9 +7872,6 @@ body.modal-active {
 .z-component .z-element .z-custom-code > .z-button-icon {
   margin-left: 0.5rem;
 }
-.z-component.dynamicRowTable label {
-  min-height: 2rem;
-}
 
 .z-component .z-component-label .required.off {
   display: none;
