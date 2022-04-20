@@ -6,6 +6,7 @@ package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessAdminService
+import co.brainz.workflow.provider.constants.WorkflowConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -24,6 +25,7 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
      */
     @GetMapping("/search")
     fun getProcessSearch(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("statusList", WorkflowConstants.ProcessStatus.values())
         return processSearchPage
     }
 
