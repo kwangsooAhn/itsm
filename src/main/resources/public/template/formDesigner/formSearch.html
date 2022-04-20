@@ -19,7 +19,7 @@
     <input id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}" type="hidden"/>
     <input id="deletable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}" type="hidden"/>
     <form id="searchFrm" onsubmit = "return false">
-        <select name="searchFormStatus" id="searchFormStatus" class="col-3" >
+        <select name="searchFormStatus" id="searchFormStatus" class="col-2" >
             <option value="" th:text="#{common.label.all}" selected></option>
             <option th:each="status: ${statusList}" th:value="${status.value}" th:text="#{|${status.value}|}"></option>
         </select>
