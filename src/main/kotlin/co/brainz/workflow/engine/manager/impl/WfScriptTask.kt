@@ -14,13 +14,14 @@ import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.plugin.constants.PluginConstants
+import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
-import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.WorkflowConstants
@@ -290,14 +291,11 @@ class WfScriptTask(
             scriptValue = mapper.readValue(it.scriptValue, object : TypeReference<Map<String, Any>>() {})
         }
         val pluginId = scriptValue[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value]
-
-        // 최신 토큰이 가지고 있는 토큰 데이터 추출
-        var tokenData: List<WfTokenDataDto>? = null
-        createTokenDto.data?.let {
-            tokenData = it
+        val param: LinkedHashMap<String, Any> = linkedMapOf()
+        param[PluginConstants.ASYNCHRONOUS] = false
+        if (pluginId != null) {
+            wfTokenManagerService.executePlugin(pluginId, PluginParamDto(tokenId = createTokenDto.tokenId), param)
         }
-
-        wfTokenManagerService.executePlugin(pluginId, createTokenDto.tokenId, tokenData)
     }
 
     /**
