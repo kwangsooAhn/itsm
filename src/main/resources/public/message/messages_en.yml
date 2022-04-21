@@ -29,6 +29,7 @@ common:
     toModify: "MODIFY"
     withdraw: "WITHDRAW"
   label:
+    all: "All"
     attachFile: "Attach file"
     blank: " "
     bracketOpen: "["
