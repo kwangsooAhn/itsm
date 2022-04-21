@@ -733,6 +733,7 @@ form:
     actionType: "Type"
     addAbove: "Add above"
     addBelow: "Add below"
+    addRow: "Add Row"
     copy: "Copy-Just below"
     customCodeTarget: "Target Select"
     description: "Description"
