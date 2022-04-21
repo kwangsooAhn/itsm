@@ -435,7 +435,6 @@ export const ciMixin = {
                 saveData.values.ciTags.push({'id': data.ciId, 'value': tag.value});
             });
         }
-
         aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data', {
             method: 'POST',
             headers: {
@@ -517,6 +516,20 @@ export const ciMixin = {
                 rtn.id = dateTimeElem.getAttribute('data-attributeId');
                 rtn.type = type;
                 rtn.value = i18n.systemDateTime(dateTimeElem.value);
+                break;
+            case 'userSearch':
+                const userSearchElem = el.querySelector('input');
+                rtn.id = userSearchElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = `${userSearchElem.getAttribute('data-user-search')}|` +
+                    `${userSearchElem.value}|${userSearchElem.getAttribute('data-user-id')}`;
+                break;
+            case 'organizationSearch':
+                const organizationSearchElem = el.querySelector('input');
+                rtn.id = organizationSearchElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = `${organizationSearchElem.getAttribute('data-organization-search')}|` +
+                    `${organizationSearchElem.value}`;
                 break;
             default:
                 break;

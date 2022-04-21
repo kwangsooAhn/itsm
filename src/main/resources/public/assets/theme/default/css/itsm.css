@@ -7920,27 +7920,39 @@ body.modal-active {
   padding: 0 1.5rem 0.625rem 0;
   overflow: initial;
 }
-.modal-dialog.cmdb-class-attribute-modal, .modal-dialog.sub-user-modal {
+.modal-dialog.cmdb-class-attribute-modal, .modal-dialog.sub-user-modal, .modal-dialog.target-user-modal {
   width: 62.5rem;
   height: 53.0625rem;
 }
-.modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content {
+.modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content, .modal-dialog.target-user-modal .modal-content {
   height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list,
-.modal-dialog.sub-user-modal .modal-content .sub-user-list {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list,
+.modal-dialog.sub-user-modal .modal-content .target-user-list, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list,
+.modal-dialog.target-user-modal .modal-content .sub-user-list,
+.modal-dialog.target-user-modal .modal-content .target-user-list {
   margin-top: 0.9375rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set,
-.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set {
   margin-top: 1.875rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
-.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body {
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body {
   display: block;
   width: 60rem;
   height: 35.313rem;
@@ -7950,10 +7962,19 @@ body.modal-active {
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
 .modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
-.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
 .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
 .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
-.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list {
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .instance-list {
   display: flex;
   width: 100%;
   height: 2.188rem;

@@ -150,7 +150,8 @@
   // CMDB > Class > AttributeList 모달
   // 사용자 정보 수정 > 업무 대리인 모달
   &.cmdb-class-attribute-modal,
-  &.sub-user-modal {
+  &.sub-user-modal,
+  &.target-user-modal {
     width: $token-list-modal-width;
     height: $token-list-modal-height;
 
@@ -161,7 +162,8 @@
       // CMDB > Class > AttributeList 목록
       // 사용자 정보 수정 > 업무 대리인 목록
       .cmdb-class-attribute-list,
-      .sub-user-list {
+      .sub-user-list,
+      .target-user-list {
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px
