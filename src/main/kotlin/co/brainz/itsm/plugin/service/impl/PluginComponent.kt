@@ -59,11 +59,14 @@ abstract class PluginComponent(
         this.tokenDto = tokenDto
         this.pluginParam = this.initPluginParam()
         this.body = body
-        this.pluginHistory = PluginHistoryEntity(
-            historyId = "",
-            pluginId = plugin.pluginId,
-            startDt = LocalDateTime.now()
+        val pluginHistory = pluginHistoryRepository.save(
+            PluginHistoryEntity(
+                historyId = "",
+                pluginId = plugin.pluginId,
+                startDt = LocalDateTime.now()
+            )
         )
+        this.pluginHistory = pluginHistory
         this.constructor()
         pluginHistoryRepository.save(pluginHistory)
     }
@@ -89,6 +92,7 @@ abstract class PluginComponent(
             if (it == AliceConstants.SCHEDULER_COMMAND_JAR) {
                 command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE + "=" + home + "/logback.xml")
                 command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME + "=" + home + "/logs")
+                command.add(AliceConstants.PLUGINS_VM_OPTIONS_ENCODING + "=" + "UTF-8")
             }
             command.add(it.trim())
         }
