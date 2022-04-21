@@ -133,21 +133,21 @@ export const ciMixin = {
         const buttonGroup = new UIDiv().setUIClass('z-button-list');
         if (this.elementIsEditable) {
             // 등록
-            const registerButton = new UIButton(i18n.msg('cmdb.ci.label.new') + ' ' + i18n.msg('cmdb.ci.label.register'))
+            const registerButton = new UIButton(i18n.msg('form.component.ci') + ' ' + i18n.msg('cmdb.ci.label.new'))
                 .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
                 .onUIClick(this.openRegisterModal.bind(this));
             buttonGroup.addUI(registerButton);
 
             // 수정
-            const updateButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.update'))
+            const updateButton = new UIButton(i18n.msg('cmdb.ci.label.update'))
                 .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(updateButton);
 
             // 삭제
-            const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.delete'))
+            const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.delete'))
                 .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
                 .onUIClick(this.openSelectModal.bind(this));
