@@ -21,7 +21,6 @@ class ProcessController(
 
     private val processDesignerEditPage: String = "process/processDesignerEdit"
     private val processImportPage: String = "process/processImport"
-    private val processStatusPage: String = "process/processStatus"
 
     /**
      * 프로세스 디자이너 편집 화면.
@@ -50,13 +49,4 @@ class ProcessController(
         return processImportPage
     }
 
-    /**
-     * 프로세스 상태 화면.
-     */
-    @GetMapping("/{instanceId}/status")
-    fun getProcessStatus(@PathVariable instanceId: String, model: Model): String {
-        val processStatusDto = processService.getProcessStatus(instanceId)
-        model.addAttribute("processStatus", processStatusDto)
-        return processStatusPage
-    }
 }

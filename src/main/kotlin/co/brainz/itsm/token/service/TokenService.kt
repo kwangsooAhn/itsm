@@ -12,11 +12,13 @@ import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.service.DocumentActionService
+import co.brainz.itsm.process.dto.TokenStatusDto
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.dto.WfCIComponentValueDto
@@ -36,12 +38,18 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.Gson
 import java.time.format.DateTimeFormatter
+import javax.xml.parsers.DocumentBuilderFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 
 @Service
 class TokenService(
+    private val aliceFileProvider: AliceFileProvider,
     private val documentActionService: DocumentActionService,
     private val wfInstanceService: WfInstanceService,
     private val wfTokenService: WfTokenService,
@@ -263,5 +271,52 @@ class TokenService(
             )
         }
         return excelComponent.download(excelVO)
+    }
+
+    /**
+     * 프로세스 맵.
+     */
+    fun getTokenStatus(instanceId: String): TokenStatusDto {
+        val resultString = Gson().toJson(wfInstanceService.getInstanceLatestToken(instanceId))
+        val tokenStatusDto = Gson().fromJson(resultString, TokenStatusDto::class.java)
+        val xmlFile = aliceFileProvider.getProcessStatusFile(tokenStatusDto.processId)
+        if (xmlFile.exists()) {
+            val xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
+            xmlDoc.documentElement.normalize()
+
+            val imageNodeList: NodeList = xmlDoc.getElementsByTagName("image")
+            if (imageNodeList.length > 0) {
+                val imageNode: Node = imageNodeList.item(0)
+                if (imageNode.nodeType == Node.ELEMENT_NODE) {
+                    val element = imageNode as Element
+                    for (i in 0 until element.attributes.length) {
+                        val nodeValue = element.attributes.item(i).nodeValue
+                        when (element.attributes.item(i).nodeName) {
+                            "left" -> tokenStatusDto.left = nodeValue
+                            "top" -> tokenStatusDto.top = nodeValue
+                            "width" -> tokenStatusDto.width = nodeValue
+                            "height" -> tokenStatusDto.height = nodeValue
+                        }
+                    }
+                    tokenStatusDto.imageData = element.textContent
+                }
+
+                val elementList = mutableListOf<LinkedHashMap<String, String>>()
+                val elementNodeList: NodeList = xmlDoc.getElementsByTagName("element")
+                for (i in 0 until elementNodeList.length) {
+                    val elementNode: Node = elementNodeList.item(i)
+                    if (elementNode.nodeType == Node.ELEMENT_NODE) {
+                        val element = elementNode as Element
+                        val elementMap = LinkedHashMap<String, String>()
+                        for (j in 0 until element.attributes.length) {
+                            elementMap[element.attributes.item(j).nodeName] = element.attributes.item(j).nodeValue
+                        }
+                        elementList.add(elementMap)
+                    }
+                }
+                tokenStatusDto.elements = elementList
+            }
+        }
+        return tokenStatusDto
     }
 }

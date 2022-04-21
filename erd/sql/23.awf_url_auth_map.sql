@@ -117,7 +117,6 @@ insert into awf_url_auth_map values ('/numberingRules/{id}/view', 'get', 'workfl
 insert into awf_url_auth_map values ('/oauth/{service}/login', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/organizations/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/edit', 'get', 'workflow.manage');
-insert into awf_url_auth_map values ('/process/{id}/status', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/process/{id}/view', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/processes', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/processes/search', 'get', 'workflow.manage');
