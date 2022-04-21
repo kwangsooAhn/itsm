@@ -29,6 +29,7 @@ common:
     toModify: "MODIFY"
     withdraw: "WITHDRAW"
   label:
+    all: "All"
     attachFile: "Attach file"
     blank: " "
     bracketOpen: "["
@@ -308,6 +309,7 @@ chart:
     condition: "• The condition expression supports arithmetic operations (+, -, *, /) and logical operators &&, ||, and comparative operators such as ==, !=, <, >, <=, >= .<br/><br/>
     • [] can be used to express the tag. If the tag name contains brackets ([ or ]), write the tag name in the expression such as '\\]'.<br/><br/>
     • () can be used to prioritize logical operations. If the tag name contains brackets (( or )), write the tag name in the expression such as '\\)'."
+    timezoneInfo: "Chart settings are based on time zone {0}."
 
 # CMDB
 cmdb:
@@ -732,6 +734,7 @@ form:
     actionType: "Type"
     addAbove: "Add above"
     addBelow: "Add below"
+    addRow: "Add Row"
     copy: "Copy-Just below"
     customCodeTarget: "Target Select"
     description: "Description"
@@ -1157,7 +1160,6 @@ process:
     importFile: "Import File"
     name: "Process Name"
     process: "Process"
-    processMap: "Process Map"
     redo: "Redo"
     register: "Process Register"
     searchPlaceholder: "Process Name / Process Description"
@@ -1183,7 +1185,6 @@ process:
     uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
-    processMap: "Zenius ITMS : Process Map"
     update: "Zenius ITSM : Process Update"
   status:
     destroy: "Destroy"
@@ -1402,11 +1403,14 @@ token:
     viewerAdd: "+ CC Add"
     write: "My Document"
     process: "Process"
+    processMap: "Process Map"
   msg:
     selectToken: "Check the related documents to be added."
     selectViewer: "Check the viewers to be added."
     searchDescription: "View and search documents relating to me."
     tag: "Insert tags."
+  title:
+    processMap: "Zenius ITMS : Process Map"
   type:
     completed: "Completed Documents"
     progress: "Document in progress"

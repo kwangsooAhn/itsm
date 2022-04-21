@@ -260,18 +260,6 @@ export  default class ZChart {
     }
 
     /**
-     * 전달받은 category 날짜 데이터를 사용자 시간으로 변환하여 준다.
-     * 자세한 내용은 #1874 일감을 참고한다.
-     * @param utcTime 카테고리 시간 문자열 (전달된 서버시간 2021-12-01 15:00:00)
-     * @returns localTime 변환된 시간 문자열 (local 시간 2021-12-01 00:00:00)
-     */
-    convertCategoryToLocal(utcTime) {
-        const systemLocalTime = luxon.DateTime.fromFormat(
-            i18n.systemHourType(utcTime), CHART.DATETIME_FORMAT, { zone: 'utc' }).setZone(i18n.timezone).toISO();
-        return i18n.userDateTime(systemLocalTime, CHART.DATETIME_FORMAT);
-    }
-
-    /**
      * 전달받은 데이터의 날짜 데이터를 Date 타입으로 변경
      * @param userDateTime 데이터 문자열
      * @returns 날짜 데이터
@@ -281,9 +269,13 @@ export  default class ZChart {
         if (!zValidation.isDefined(matchDateTime)) {
             matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)$/); // 2021-12-01 00:00
         }
+        if (!zValidation.isDefined(matchDateTime)) {
+            matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+)T(\d+)\:(\d+)\:(\d+)$/);// 2021-12-01T00:00:00
+        }
         return new Date(matchDateTime[1], matchDateTime[2] - 1, matchDateTime[3],
             matchDateTime[4], matchDateTime[5], (matchDateTime.length === 7 ) ? matchDateTime[6] : '00').getTime();
     }
+
     /**
      * 연산 방법 설정에 따른 라벨 포맷 조회
      * @param value 현재 값

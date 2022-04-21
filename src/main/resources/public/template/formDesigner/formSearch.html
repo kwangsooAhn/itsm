@@ -19,6 +19,10 @@
     <input id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}" type="hidden"/>
     <input id="deletable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}" type="hidden"/>
     <form id="searchFrm" onsubmit = "return false">
+        <select name="searchFormStatus" id="searchFormStatus" class="col-2" >
+            <option value="" th:text="#{common.label.all}" selected></option>
+            <option th:each="status: ${statusList}" th:value="${status.value}" th:text="#{|${status.value}|}"></option>
+        </select>
         <input class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" maxlength="100" name="searchValue" th:placeholder="#{form.label.searchPlaceholder}"
                type="text"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
@@ -50,13 +54,20 @@
         getList();
     }
 
+    document.getElementById('searchFormStatus').onchange = function () {
+        getList();
+    };
     document.getElementById('searchValue').onkeyup = function() {
         getList();
     };
 
     // 폼 리스트 조회
     function getList(pageNum = 1) {
-        const urlParam = encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum;
+        const searchValue = encodeURIComponent(document.getElementById('searchValue').value);
+        const formStatus =  encodeURIComponent(document.getElementById('searchFormStatus').value);
+        const urlParam = !formStatus ? `${searchValue}&pageNum=${pageNum}`
+            : `${searchValue}&pageNum=${pageNum}&status=${formStatus}`;
+
         aliceJs.fetchText('/forms?searchValue=' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {

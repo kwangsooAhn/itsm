@@ -1184,6 +1184,9 @@ aliceJs.clearText = function (req) {
     let target = req.parentElement.getElementsByTagName('input');
     for (let i = 0; i < target.length; i++) {
         target[i].value = '';
+        if (target[i].getAttribute('data-value') !== null) {
+            target[i].setAttribute('data-value', '');
+        }
     }
 };
 

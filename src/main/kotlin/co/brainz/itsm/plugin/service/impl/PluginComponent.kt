@@ -7,12 +7,14 @@ package co.brainz.itsm.plugin.service.impl
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.framework.tag.constants.AliceTagConstants
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.util.AliceUtil
-import co.brainz.itsm.plugin.dto.PluginDto
 import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.entity.PluginHistoryEntity
 import co.brainz.itsm.plugin.repository.PluginHistoryRepository
+import co.brainz.workflow.token.repository.WfTokenDataRepository
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -28,7 +30,9 @@ import org.springframework.stereotype.Component
 
 @Component
 abstract class PluginComponent(
-    val pluginHistoryRepository: PluginHistoryRepository
+    val pluginHistoryRepository: PluginHistoryRepository,
+    val aliceTagRepository: AliceTagRepository,
+    val wfTokenDataRepository: WfTokenDataRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -40,22 +44,27 @@ abstract class PluginComponent(
 
     lateinit var plugin: PluginEntity
     lateinit var pluginHistory: PluginHistoryEntity
+    lateinit var pluginParam: PluginParamDto
+    protected var body: String? = null
 
     /**
      * 공통 초기화 (공통 처리 후 각 세부 설정 호출)
      */
-    fun initialize(plugin: PluginEntity, pluginParam: PluginParamDto, body: String?) {
+    fun initialize(
+        plugin: PluginEntity,
+        pluginParam: PluginParamDto,
+        body: String?
+    ) {
         this.plugin = plugin
-        this.pluginHistory = pluginHistoryRepository.save(
-            PluginHistoryEntity(
-                historyId = "",
-                pluginId = plugin.pluginId,
-                startDt = LocalDateTime.now(),
-                pluginParam = mapper.writeValueAsString(pluginParam),
-                pluginData = mapper.writeValueAsString(mapper.readValue(body, PluginDto::class.java))
-            )
+        this.pluginParam = pluginParam
+        this.body = body
+        this.pluginHistory = PluginHistoryEntity(
+            historyId = "",
+            pluginId = plugin.pluginId,
+            startDt = LocalDateTime.now()
         )
-        return this.constructor()
+        this.constructor()
+        pluginHistoryRepository.save(pluginHistory)
     }
 
     /**
@@ -135,5 +144,34 @@ abstract class PluginComponent(
             message = errorMsg,
             data = resultMap
         )
+    }
+
+    /**
+     * PluginData 를 Tag 정보로 조회하여 처리
+     */
+    protected fun getPluginDataByTag(): LinkedHashMap<String, String> {
+        val dataMap: LinkedHashMap<String, String> = linkedMapOf()
+        val tokenDataList = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(this.pluginParam.tokenId)
+        val componentIds: LinkedHashSet<String> = linkedSetOf()
+        tokenDataList.forEach {
+            componentIds.add(it.component.componentId)
+        }
+        val tagData = aliceTagRepository.findByTargetIds(AliceTagConstants.TagType.COMPONENT.code, componentIds)
+        tokenDataList.forEach { tokenData ->
+            tagData.forEach { tag ->
+                if (tag.targetId == tokenData.component.componentId) {
+                    dataMap[tag.tagValue] = tokenData.value
+                }
+            }
+        }
+        return dataMap
+    }
+
+    /**
+     * PluginData 를 MappingId 정보로 조회하여 처리
+     */
+    protected fun getPluginDataByMappingId(): LinkedHashMap<String, String> {
+        val dataMap: LinkedHashMap<String, String> = linkedMapOf()
+        return dataMap
     }
 }

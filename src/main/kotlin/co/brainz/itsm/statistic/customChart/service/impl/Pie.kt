@@ -27,15 +27,27 @@ class Pie(
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun average(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
+    override fun average(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstance: List<ChartTagInstanceDto>
+    ): List<ChartData> {
         return emptyList() // Pie 차트는 평균 없음
     }
 
-    override fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
+    override fun percent(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstance: List<ChartTagInstanceDto>
+    ): List<ChartData> {
         return emptyList() // Pie 차트는 퍼센트 없음
     }
 
-    override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<ChartTagInstanceDto>): List<ChartData> {
+    override fun count(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstances: List<ChartTagInstanceDto>
+    ): List<ChartData> {
         val valueList = mutableListOf<ChartData>()
 
         // category: tagValue, series: 빈 값
@@ -46,15 +58,9 @@ class Pie(
 
         tagList.forEach { tag ->
             var tagCount = 0
-            var seriesDt = ""
-            category.iterator().forEach {
-                if (seriesDt.isEmpty()) {
-                    seriesDt = it
-                }
-                tagInstances.forEach { tagInstance ->
-                    if (tagInstance.tag == tag) {
-                        tagCount += tagInstance.instances.size
-                    }
+            tagInstances.forEach { tagInstance ->
+                if (tagInstance.tag == tag) {
+                    tagCount += tagInstance.instances.size
                 }
             }
 
@@ -63,7 +69,7 @@ class Pie(
                     id = tag.tagId.toString(),
                     category = tag.tagValue,
                     value = tagCount.toString(),
-                    series = seriesDt
+                    series = "" // 하이차트에서 파이차트는 시리즈는 1개이며 화면에서 카테고리를 이용해서 시리즈 데이터를 만들어서 사용함.
                 )
             )
         }

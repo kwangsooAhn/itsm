@@ -34,7 +34,7 @@ class AliceScheduleTaskService(
 ) {
     private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
 
-    @Value("\${schedule.plugins.timezone}")
+    @Value("\${timezone.scheduler}")
     private val timezone: String? = null
 
     val taskMap: HashMap<String, ScheduledFuture<*>?> = hashMapOf()

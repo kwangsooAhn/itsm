@@ -108,8 +108,7 @@ class CustomChartService(
      */
     @Transactional
     fun saveChart(chartDto: ChartDto): String {
-        // duplication check.
-        if (customChartRepository.existsByChartNameAndChartType(chartDto.chartName, chartDto.chartType)) {
+        if (customChartRepository.existsDuplicationData(chartDto)) {
             return ChartConstants.Status.STATUS_ERROR_DUPLICATION.code
         }
 

@@ -6,8 +6,11 @@
 package co.brainz.itsm.plugin.service.impl
 
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.plugin.constants.PluginConstants
+import co.brainz.itsm.plugin.dto.PluginDto
 import co.brainz.itsm.plugin.repository.PluginHistoryRepository
+import co.brainz.workflow.token.repository.WfTokenDataRepository
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -18,8 +21,14 @@ import org.springframework.stereotype.Component
 
 @Component
 class FocsComponent(
-    pluginHistoryRepository: PluginHistoryRepository
-) : PluginComponent(pluginHistoryRepository) {
+    pluginHistoryRepository: PluginHistoryRepository,
+    aliceTagRepository: AliceTagRepository,
+    wfTokenDataRepository: WfTokenDataRepository
+) : PluginComponent(
+    pluginHistoryRepository,
+    aliceTagRepository,
+    wfTokenDataRepository
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -34,7 +43,19 @@ class FocsComponent(
     /**
      * initialize
      */
-    override fun constructor() { }
+    override fun constructor() {
+        val pluginData = PluginDto(
+            pluginId = this.plugin.pluginId
+        )
+        // body 가 없을 경우 WF, 있을 경우 화면에서 호출
+        if (super.body.isNullOrEmpty()) {
+            pluginData.data = super.getPluginDataByTag()
+        } else {
+            pluginData.data = super.body
+        }
+        super.pluginHistory.pluginData = mapper.writeValueAsString(pluginData)
+        super.pluginHistory.pluginParam = mapper.writeValueAsString(super.pluginParam)
+    }
 
     /**
      * FOCS 플러그인 실행

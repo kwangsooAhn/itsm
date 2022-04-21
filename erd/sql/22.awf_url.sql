@@ -121,7 +121,6 @@ insert into awf_url values ('/processes', 'get', '프로세스 목록', 'TRUE');
 insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/process/{id}/edit', 'get', '프로세스 디자이너 편집 화면' ,'TRUE');
 insert into awf_url values ('/process/{id}/view', 'get', '프로세스 디자이너 보기 화면' ,'TRUE');
-insert into awf_url values ('/process/{id}/status', 'get', '프로세스 상태', 'FALSE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
@@ -234,7 +233,7 @@ insert into awf_url values ('/rest/numberingRules', 'post', '문서번호 등록
 insert into awf_url values ('/rest/numberingRules/{id}', 'get', '문서번호 세부 조회', 'TRUE');
 insert into awf_url values ('/rest/numberingRules/{id}', 'put', '문서번호 정보 변경', 'TRUE');
 insert into awf_url values ('/rest/numberingRules/{id}', 'delete', '문서번호 삭제', 'TRUE');
-insert into awf_url values ('/rest/organizations', 'get', '조직 조회', 'TRUE');
+insert into awf_url values ('/rest/organizations', 'get', '조직 조회', 'FALSE');
 insert into awf_url values ('/rest/organizations/{id}', 'get', '조직 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/organizations/{id}', 'put', '조직 수정', 'TRUE');
 insert into awf_url values ('/rest/organizations/{id}', 'delete', '조직 삭제', 'TRUE');
@@ -325,6 +324,7 @@ insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 �
 insert into awf_url values ('/tokens/{id}/edit', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
+insert into awf_url values ('/tokens/{id}/status', 'get', '프로세스맵 팝업 화면', 'FALSE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
 insert into awf_url values ('/tokens/tokenTab','get','문서조회 탭화면', 'TRUE');
 insert into awf_url values ('/users', 'get', '사용자 조회 목록 화면', 'TRUE');

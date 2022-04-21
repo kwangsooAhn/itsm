@@ -7,6 +7,7 @@ package co.brainz.workflow
 
 import co.brainz.itsm.customCode.service.CustomCodeService
 import org.junit.jupiter.api.Assumptions.assumeTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
+@Disabled
 @SpringBootTest
 @DisplayName("CustomCode 테스트")
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
