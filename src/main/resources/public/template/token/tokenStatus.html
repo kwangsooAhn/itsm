@@ -12,22 +12,22 @@
 <body style="margin: 0;">
     <svg id="elementContainer"
          style="position: absolute; top: 0; left: 0; background-size: initial;"
-         th:width="${processStatus.width}"
-         th:height="${processStatus.height}"
-         th:viewBox="${processStatus.left + ' ' + processStatus.top + ' ' + processStatus.width + ' ' + processStatus.height}"></svg>
+         th:width="${tokenStatus.width}"
+         th:height="${tokenStatus.height}"
+         th:viewBox="${tokenStatus.left + ' ' + tokenStatus.top + ' ' + tokenStatus.width + ' ' + tokenStatus.height}"></svg>
 </body>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function() {
         window.resizeTo(
-            window.outerWidth - window.innerWidth + Number(/*[[${processStatus.width}]]*/),
-            window.outerHeight - window.innerHeight + Number(/*[[${processStatus.height}]]*/)
+            window.outerWidth - window.innerWidth + Number(/*[[${tokenStatus.width}]]*/),
+            window.outerHeight - window.innerHeight + Number(/*[[${tokenStatus.height}]]*/)
         );
         let statusGroup = d3.select('#elementContainer')
-            .style('background-image', 'url([[${processStatus.imageData}]])')
+            .style('background-image', 'url([[${tokenStatus.imageData}]])')
             .append('g');
-        /*[# th:each="element : ${processStatus.elements}"]*/
-        /*[# th:if="${element.id == processStatus.elementId}"]*/
+        /*[# th:each="element : ${tokenStatus.elements}"]*/
+        /*[# th:if="${element.id == tokenStatus.elementId}"]*/
         const type = /*[[${element.type}]]*/ '',
               width = Number(/*[[${element.width}]]*/),
               height = Number(/*[[${element.height}]]*/),
