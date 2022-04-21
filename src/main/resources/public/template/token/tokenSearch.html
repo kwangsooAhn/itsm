@@ -68,8 +68,12 @@
             }, false);
         });
 
+        let keyupDelay;
         document.getElementById('searchValue').addEventListener('keyup', function () {
-            getList();
+            keyupDelay = setTimeout(function () {
+                clearTimeout(keyupDelay);
+                getList();
+            }, 500);
         }, false);
 
         new zTag(document.getElementById('searchTag'), {
