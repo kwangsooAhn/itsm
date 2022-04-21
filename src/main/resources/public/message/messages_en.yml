@@ -1158,7 +1158,6 @@ process:
     importFile: "Import File"
     name: "Process Name"
     process: "Process"
-    processMap: "Process Map"
     redo: "Redo"
     register: "Process Register"
     searchPlaceholder: "Process Name / Process Description"
@@ -1184,7 +1183,6 @@ process:
     uncheckWithdraw: "Can't set withdraw in the first element.<br>Please uncheck withdraw in {0} element."
   title:
     preview: "Zenius ITSM : Process Preview"
-    processMap: "Zenius ITMS : Process Map"
     update: "Zenius ITSM : Process Update"
   status:
     destroy: "Destroy"
@@ -1403,11 +1401,14 @@ token:
     viewerAdd: "+ CC Add"
     write: "My Document"
     process: "Process"
+    processMap: "Process Map"
   msg:
     selectToken: "Check the related documents to be added."
     selectViewer: "Check the viewers to be added."
     searchDescription: "View and search documents relating to me."
     tag: "Insert tags."
+  title:
+    processMap: "Zenius ITMS : Process Map"
   type:
     completed: "Completed Documents"
     progress: "Document in progress"
