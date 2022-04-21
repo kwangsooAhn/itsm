@@ -96,7 +96,7 @@
                 <label for="executeQuery">
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.query}"></span>
                 </label>
-                <textarea class="z-textarea textarea-scroll-wrapper" id="executeQuery" maxlength="5000"
+                <textarea class="z-textarea textarea-scroll-wrapper" id="executeQuery" maxlength="5000" th:classappend="${view} ? 'z-textarea-readonly'"
                           name="executeQuery" required="required" rows="10"
                           th:disabled="${schedule != null && !schedule.editable}"
                           th:readonly="${view}" th:text="${schedule?.executeQuery}"></textarea>
@@ -184,7 +184,7 @@
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);
         changeContainer(document.getElementById('executeCycleType').value);
-        OverlayScrollbars(document.getElementById('#type-query-container'), {
+        OverlayScrollbars(document.querySelector('#type-query-container textarea'), {
             className: 'scrollbar',
             resize: 'vertical',
             sizeAutoCapable: true,
