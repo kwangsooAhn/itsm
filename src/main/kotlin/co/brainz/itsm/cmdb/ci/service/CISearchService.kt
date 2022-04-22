@@ -171,6 +171,8 @@ class CISearchService(
                             CIAttributeConstants.Type.DROP_DOWN.code -> CIAttributeConstants.Type.DROP_DOWN.code
                             CIAttributeConstants.Type.GROUP_LIST.code -> CIAttributeConstants.Type.GROUP_LIST.code
                             CIAttributeConstants.Type.RADIO.code -> CIAttributeConstants.Type.RADIO.code
+                            CIAttributeConstants.Type.USER_SEARCH.code -> CIAttributeConstants.Type.USER_SEARCH.code
+                            CIAttributeConstants.Type.ORGANIZATION_SEARCH.code -> CIAttributeConstants.Type.ORGANIZATION_SEARCH.code
                             else -> CIAttributeConstants.Type.INPUT_BOX.code
                         }
                     )
