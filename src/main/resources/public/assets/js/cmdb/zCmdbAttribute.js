@@ -239,7 +239,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-5">` +
-            `<input type="text" class="z-input" maxlength="50" value="-" readonly>` +
+            `<input type="text" class="z-input" maxlength="50" readonly>` +
             `</div>` +
             `</div>` +
             `</div>` +
