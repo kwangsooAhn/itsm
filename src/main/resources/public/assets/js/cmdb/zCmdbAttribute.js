@@ -1695,7 +1695,7 @@
                 parent.appendChild(elem);
                 return elem;
             case 'userSearch':
-                const userDefaultValues = (data.value !== null) ? data.value.split('|') : ['', '', ''];
+                const userDefaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : ['', '', ''];
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-user-search text-ellipsis';
@@ -1708,7 +1708,7 @@
                 elem.setAttribute('onkeydown', 'return false;');
                 elem.setAttribute('data-user-id', userDefaultValues[2]);
                 elem.setAttribute('data-user-search', userDefaultValues[0]);
-                elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null) ? data.value : ''));
+                elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null && data.value !== '') ? data.value : ''));
                 elem.readOnly = (displayMode === 'view');
                 elem.value = userDefaultValues[1];
                 if (attributeValue.required === 'true') {
@@ -1720,7 +1720,7 @@
                 parent.appendChild(elem);
                 return elem;
             case 'organizationSearch':
-                const defaultValues = (data.value !== null) ? data.value.split('|') : ['', ''];
+                const defaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : ['', ''];
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-organization-search text-ellipsis';

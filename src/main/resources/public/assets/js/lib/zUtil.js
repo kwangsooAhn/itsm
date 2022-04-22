@@ -1047,6 +1047,8 @@ aliceJs.doFetch = async function(url, option) {
             if (response.status === 403) {
                 window.location.href = '/sessionInValid';
             } else {
+                // TODO: #11697 Response 규격 정리시 수정 예정
+                //window.location.href = '/error';
                 throw new Error('HTTP error, status = ' + response.status + ', url = ' + response.url);
             }
         }
