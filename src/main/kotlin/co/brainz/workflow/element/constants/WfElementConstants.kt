@@ -128,7 +128,8 @@ object WfElementConstants {
                     REJECT.value,
                     WITHDRAW.value,
                     CANCEL.value,
-                    TERMINATE.value -> true
+                    TERMINATE.value,
+                    REVIEW.value -> true
                     else -> false
                 }
             }

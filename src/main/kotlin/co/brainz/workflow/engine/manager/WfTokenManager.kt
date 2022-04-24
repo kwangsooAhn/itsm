@@ -30,7 +30,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * 기본 토큰 생성
      *  - 토큰 엔티티 생성 및 저장.
-     *  - 엘리먼트 별 토큰 생성시 처리 (createElementToken 호출)
      *  - 알람 발송
      */
     fun createToken(newTokenDto: WfTokenDto): WfTokenDto {
@@ -44,9 +43,15 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         this.tokenEntity.assigneeId?.let {
             newTokenDto.assigneeId = it
         }
-
-        this.createElementToken(newTokenDto)
         wfTokenManagerService.notificationCheck(tokenEntity)
+        return newTokenDto
+    }
+
+    /**
+     * 생성된 토큰의 데이터가 반영 된 후 타입에 따라 후속 작업 진행 + 알람 발송
+     */
+    fun nextTokenOptionProcessing(newTokenDto: WfTokenDto): WfTokenDto {
+        this.createElementToken(newTokenDto)
         return newTokenDto
     }
 
