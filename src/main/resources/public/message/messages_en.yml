@@ -852,6 +852,7 @@ form:
     default:
       session: "Session"
       code: "Code"
+      custom: "Custom"
     desc: "Description"
     direct: "Direct"
     display:

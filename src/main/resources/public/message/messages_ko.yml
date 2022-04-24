@@ -852,6 +852,7 @@ form:
     default:
       session: "세션"
       code: "코드"
+      custom: "지정"
     desc: "설명"
     direct: "직접"
     display:
