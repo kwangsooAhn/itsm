@@ -328,6 +328,7 @@ cmdb:
         code: "코드"
         required: "필수 조건"
         label: "Label"
+        listData: "목록 데이터"
         none: "없음"
         maxDate: "최대 날짜"
         minDate: "최소 날짜"

@@ -233,6 +233,14 @@
                 return;
             }
 
+            if (document.getElementById('attributeType').value === 'dropdown') {
+                const dropdownElems = document.getElementById('dropdownListData').childNodes;
+                if (dropdownElems.length === 1) {
+                    zAlert.warning(i18n.msg('cmdb.attribute.msg.details'));
+                    return;
+                }
+            }
+
             let data = {
                 attributeId: '',
                 attributeName: document.getElementById('attributeName').value,
