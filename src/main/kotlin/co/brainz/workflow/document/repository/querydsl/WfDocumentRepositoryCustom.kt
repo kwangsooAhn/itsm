@@ -42,4 +42,6 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
      * 이력 조회 컴포넌트 데이터 조회
      */
     fun getSearchFieldValues(fieldOptionDto: FieldOptionDto): List<Array<Any>>
+
+    fun existsByFormId(formId: String): Boolean
 }
