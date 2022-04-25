@@ -121,6 +121,11 @@ object AliceConstants {
     const val PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE = "-Dlogback.configurationFile"
 
     /**
+     * 플러그인 인코딩.
+     */
+    const val PLUGINS_VM_OPTIONS_ENCODING = "-Dfile.encoding"
+
+    /**
      * 세션 만료시 로그인 페이지 자동 이동 시간.
      */
     const val SESSION_INVALID_AUTO_REDIRECT_TIME = 3

@@ -15,7 +15,6 @@ import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.plugin.constants.PluginConstants
-import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -294,7 +293,7 @@ class WfScriptTask(
         val param: LinkedHashMap<String, Any> = linkedMapOf()
         param[PluginConstants.ASYNCHRONOUS] = false
         if (pluginId != null) {
-            wfTokenManagerService.executePlugin(pluginId, PluginParamDto(tokenId = createTokenDto.tokenId), param)
+            wfTokenManagerService.executePlugin(pluginId, createTokenDto, param)
         }
     }
 
