@@ -13,39 +13,29 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.entity.PluginHistoryEntity
-import co.brainz.itsm.plugin.repository.PluginHistoryRepository
+import co.brainz.itsm.plugin.service.PluginHistoryService
 import co.brainz.workflow.token.repository.WfTokenDataRepository
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
 abstract class PluginComponent(
-    val pluginHistoryRepository: PluginHistoryRepository,
+    val pluginHistoryService: PluginHistoryService,
     val aliceTagRepository: AliceTagRepository,
     val wfTokenDataRepository: WfTokenDataRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-
-    @Value("\${plugins.dir}")
-    protected val pluginsDir: String? = null
-
     lateinit var plugin: PluginEntity
     lateinit var pluginHistory: PluginHistoryEntity
     lateinit var pluginParam: PluginParamDto
     protected var body: String? = null
+    protected var pluginsDir: String? = null
 
     /**
      * 공통 초기화 (공통 처리 후 각 세부 설정 호출)
@@ -55,6 +45,7 @@ abstract class PluginComponent(
         pluginParam: PluginParamDto,
         body: String?
     ) {
+        this.pluginsDir = pluginHistoryService.getPluginDir()
         this.plugin = plugin
         this.pluginParam = pluginParam
         this.body = body
@@ -64,7 +55,7 @@ abstract class PluginComponent(
             startDt = LocalDateTime.now()
         )
         this.constructor()
-        pluginHistoryRepository.save(pluginHistory)
+        pluginHistoryService.insertPluginHistory(pluginHistory)
     }
 
     /**
