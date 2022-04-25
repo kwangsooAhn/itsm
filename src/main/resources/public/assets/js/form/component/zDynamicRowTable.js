@@ -464,7 +464,7 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-realtime-selected-user', cellValue)
             .setUIAttribute('data-user-id', (defaultValues.length > 1) ? defaultValues[2] : '')
             .setUIAttribute('data-user-search', (defaultValues.length > 1) ? defaultValues[0] : '')
-            .setUIAttribute('data-user-search-target', column.columnElement.defaultValueUserSearch)
+            .setUIAttribute('data-user-search-target', column.columnElement.userSearchTarget)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
             .setUIAttribute('onkeydown', 'return false;')
@@ -932,7 +932,7 @@ export const dynamicRowTableMixin = {
             // 사용자 검색용 컴포넌트
             if (column.columnType === 'userSearch') {
                 // 사용자 목록이 없을 떄
-                const userSearchTarget = column.columnElement.defaultValueUserSearch;
+                const userSearchTarget = column.columnElement.userSearchTarget;
                 const userSearchTargetData = !zValidation.isEmpty(userSearchTarget) ? JSON.parse(userSearchTarget) : '';
                 if (zValidation.isEmpty(userSearchTargetData) || zValidation.isEmpty(userSearchTargetData.searchKey[0])) {
                     zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.userList')));

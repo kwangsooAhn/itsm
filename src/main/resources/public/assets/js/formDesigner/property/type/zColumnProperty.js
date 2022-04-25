@@ -102,7 +102,7 @@ export const propertyExtends = {
     },
     userSearch: {
         columnElement: {
-            defaultValueUserSearch: ''
+            userSearchTarget: ''
         },
         columnValidation: {
             required: false // 필수값 여부
@@ -603,8 +603,8 @@ export default class ZColumnProperty extends ZProperty {
     }
     // 컬럼 세부 속성 - userSearch
     getPropertyForColumnTypeUserSearch(option, id) {
-        const userSearchProperty = new ZUserSearchProperty(id + '|columnElement.defaultValueUserSearch',
-            'element.searchTargetCriteria', option.columnElement.defaultValueUserSearch);
+        const userSearchProperty = new ZUserSearchProperty(id + '|columnElement.userSearchTarget',
+            'element.searchTargetCriteria', option.columnElement.userSearchTarget);
         return [
             new ZGroupProperty('group.columnElement')
                 .addProperty(userSearchProperty),

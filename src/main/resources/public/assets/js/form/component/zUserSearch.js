@@ -26,7 +26,8 @@ import { zValidation } from '../../lib/zValidation.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValueUserSearch: ''
+        defaultValue: '2c91808e7c75dad2017c781635e20000|cmdb.admin|CMDB 관리자',
+        userSearchTarget: ''
     },
     validation: {
         required: false // 필수값 여부
@@ -69,6 +70,12 @@ export const userSearchMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        // 컴포넌트에 설정된 기본값이 유효한  확인
+        if (zValidation.isEmpty(this.UIElement.UIComponent.UIElement.UIInput.getUIValue())
+            && !zValidation.isEmpty(this.elementDefaultValue)) {
+            this.getUserList(this.elementDefaultValue.split('|')[1], false);
+        }
+
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIInput.setUIReadOnly(true);
@@ -87,12 +94,19 @@ export const userSearchMixin = {
     get elementColumnWidth() {
         return this._element.columnWidth;
     },
+    // 컴포넌트에 설정된 기본 값
+    set elementDefaultValue(value) {
+        this._element.defaultValue = value;
+    },
+    get elementDefaultValue() {
+        return this._element.defaultValue;
+    },
     // 컴포넌트에 설정된 검색조건
     set elementUserSearchTarget(value) {
-        this._element.defaultValueUserSearch = value;
+        this._element.userSearchTarget = value;
     },
     get elementUserSearchTarget() {
-        return this._element.defaultValueUserSearch;
+        return this._element.userSearchTarget;
     },
     // 컴포넌트 > 모달에서 선택된 임시 값
     set realTimeSelectedUser(userKey) {
@@ -212,27 +226,39 @@ export const userSearchMixin = {
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             const searchUserList = document.getElementById('searchUserList');
-            searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
-            // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
-            // 체크 이벤트
-            searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
-                element.addEventListener('change', () => {
-                    const userId = element.getAttribute('data-user-id');
-                    this.realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
+            // 사용자 선택 모달 생성
+            if (!zValidation.isEmpty(searchUserList)) {
+                searchUserList.innerHTML = htmlData;
+                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+                // 갯수 가운트
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+                // 체크 이벤트
+                searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
+                    element.addEventListener('change', () => {
+                        const userId = element.getAttribute('data-user-id');
+                        this.realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
+                    });
                 });
-            });
-            // 기존 선택값 표시
-            const targetId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
-            const targetName = this.UIElement.UIComponent.UIElement.UIInput.getUIValue();
-            const targetUserId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-id');
-            this.realTimeSelectedUser = (this.value !== '${default}') ? `${targetId}|${targetName}|${targetUserId}` : '';
+                // 기존 선택값 표시
+                const targetId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
+                const targetName = this.UIElement.UIComponent.UIElement.UIInput.getUIValue();
+                const targetUserId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-id');
+                this.realTimeSelectedUser = (this.value !== '${default}') ? `${targetId}|${targetName}|${targetUserId}` : '';
 
-            const checkedTargetId = this.realTimeSelectedUser.split('|')[0];
-            const targetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
-            if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
-                targetRadio.checked = true;
+                const checkedTargetId = this.realTimeSelectedUser.split('|')[0];
+                const targetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
+                if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
+                    targetRadio.checked = true;
+                }
+            } else {
+            // 기본값 사용자 정보
+                const userListElem = new DOMParser().parseFromString(htmlData, 'text/html');
+                if (userListElem.querySelectorAll('.z-table-row').length > 0) {
+                    const defaultValue = this.elementDefaultValue.split('|');
+                    this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultValue[2])
+                        .setUIAttribute('data-user-id', defaultValue[1])
+                        .setUIAttribute('data-user-search', defaultValue[0]);
+                }
             }
         });
     },
