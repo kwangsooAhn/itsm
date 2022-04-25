@@ -12,7 +12,7 @@ import co.brainz.itsm.role.dto.RoleSearchCondition
 import com.querydsl.core.QueryResults
 
 interface RoleRepositoryCustom : AliceRepositoryCustom {
-    fun findRoleSearch(roleSearchCondition: RoleSearchCondition): QueryResults<RoleListDto>
+    fun findRoleSearch(roleSearchCondition: RoleSearchCondition): List<RoleListDto>
 
     fun findByRoleAll() : MutableList<RoleListDto>
 }

@@ -47,7 +47,7 @@ class FaqService(
         val currentSessionUserCodeList = codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
         val fapList: MutableList<FaqListDto> = mutableListOf()
 
-        for (faq in queryResult.results) {
+        for (faq in queryResult) {
             for (code in currentSessionUserCodeList) {
                 if (faq.faqGroup == code.code) {
                     faq.faqGroupName = code.codeName.toString()
@@ -59,10 +59,10 @@ class FaqService(
         return FaqListReturnDto(
             data = fapList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.size.toLong(),
                 totalCountWithoutCondition = faqRepository.count(),
                 currentPageNum = faqSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / faqSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.size.toDouble() / faqSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CATEGORY_ASC.code
             )
         )

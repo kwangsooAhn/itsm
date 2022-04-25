@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository
 @Repository
 class WfTokenRepositoryImpl : QuerydslRepositorySupport(WfTokenEntity::class.java),
     WfTokenRepositoryCustom {
-    override fun findTokenByInstanceIdIn(instanceId: String): QueryResults<WfTokenEntity> {
+    override fun findTokenByInstanceIdIn(instanceId: String): List<WfTokenEntity> {
         val token = QWfTokenEntity.wfTokenEntity
         return from(token)
             .select(token)
             .where(token.instance.instanceId.eq(instanceId))
-            .fetchResults()
+            .fetch()
     }
 
     override fun findProcessTokenByAssignee(assignee: String): List<WfTokenEntity> {

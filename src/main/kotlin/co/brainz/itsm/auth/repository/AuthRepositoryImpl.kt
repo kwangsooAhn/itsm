@@ -17,7 +17,7 @@ class AuthRepositoryImpl : QuerydslRepositorySupport(
     AliceAuthEntity::class.java
 ), AuthRepositoryCustom {
 
-    override fun findAuthSearch(authSearchCondition: AuthSearchCondition): QueryResults<AuthListDto> {
+    override fun findAuthSearch(authSearchCondition: AuthSearchCondition): List<AuthListDto> {
         val auth = QAliceAuthEntity.aliceAuthEntity
         return from(auth)
             .select(
@@ -35,6 +35,6 @@ class AuthRepositoryImpl : QuerydslRepositorySupport(
             .orderBy(auth.authName.asc())
             .limit(authSearchCondition.contentNumPerPage)
             .offset((authSearchCondition.pageNum - 1) * authSearchCondition.contentNumPerPage)
-            .fetchResults()
+            .fetch()
     }
 }

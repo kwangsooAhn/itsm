@@ -11,5 +11,5 @@ import co.brainz.itsm.auth.dto.AuthSearchCondition
 import com.querydsl.core.QueryResults
 
 interface AuthRepositoryCustom : AliceRepositoryCustom {
-    fun findAuthSearch(authSearchCondition: AuthSearchCondition): QueryResults<AuthListDto>
+    fun findAuthSearch(authSearchCondition: AuthSearchCondition): List<AuthListDto>
 }

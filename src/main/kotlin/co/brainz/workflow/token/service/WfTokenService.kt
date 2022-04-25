@@ -203,7 +203,7 @@ class WfTokenService(
         val tokenData = wfTokenRepository.findTokenByInstanceIdIn(instanceId)
         val tokenList = mutableListOf<WfTokenDto>()
 
-        tokenData.results.forEach { data ->
+        tokenData.forEach { data ->
             val token = WfTokenDto(
                 tokenId = data.tokenId,
                 instanceId = data.instance.instanceId,

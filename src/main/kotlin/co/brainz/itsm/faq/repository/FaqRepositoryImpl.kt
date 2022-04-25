@@ -28,7 +28,7 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(faqSearchCondition: FaqSearchCondition): QueryResults<FaqListDto> {
+    override fun findFaqs(faqSearchCondition: FaqSearchCondition): List<FaqListDto> {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
@@ -62,7 +62,7 @@ class FaqRepositoryImpl(
             query.offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun findFaqTopList(limit: Long): List<PortalTopDto> {

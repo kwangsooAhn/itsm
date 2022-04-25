@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.java), BoardRepositoryCustom {
-    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): QueryResults<BoardArticleListDto> {
+    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): List<BoardArticleListDto> {
         val board = QPortalBoardEntity.portalBoardEntity
         val user = QAliceUserEntity.aliceUserEntity
         val category = QPortalBoardCategoryEntity("category")
@@ -74,7 +74,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             query.offset((boardArticleSearchCondition.pageNum - 1) * boardArticleSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun findByBoardId(boardId: String): BoardArticleViewDto {

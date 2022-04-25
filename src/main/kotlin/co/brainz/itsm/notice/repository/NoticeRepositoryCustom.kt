@@ -17,7 +17,7 @@ interface NoticeRepositoryCustom : AliceRepositoryCustom {
 
     fun findNoticeTopList(limit: Long): List<PortalTopDto>
 
-    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): QueryResults<NoticeListDto>
+    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): List<NoticeListDto>
 
     fun findTopNotice(): MutableList<NoticeListDto>
 

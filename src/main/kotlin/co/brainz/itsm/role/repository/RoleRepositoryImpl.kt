@@ -18,7 +18,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
     AliceRoleEntity::class.java
 ), RoleRepositoryCustom {
 
-    override fun findRoleSearch(roleSearchCondition: RoleSearchCondition): QueryResults<RoleListDto> {
+    override fun findRoleSearch(roleSearchCondition: RoleSearchCondition): List<RoleListDto> {
         val role = QAliceRoleEntity.aliceRoleEntity
         val query = from(role)
             .select(
@@ -38,7 +38,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
             query.limit(roleSearchCondition.contentNumPerPage)
             query.offset((roleSearchCondition.pageNum - 1) * roleSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun findByRoleAll(): MutableList<RoleListDto> {

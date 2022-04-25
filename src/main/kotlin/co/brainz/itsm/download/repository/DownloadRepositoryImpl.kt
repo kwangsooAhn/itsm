@@ -24,7 +24,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.java), DownloadRepositoryCustom {
 
-    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): QueryResults<DownloadListDto> {
+    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): List<DownloadListDto> {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
@@ -67,7 +67,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             query.offset((downloadSearchCondition.pageNum - 1) * downloadSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun findDownloadTopList(limit: Long): List<PortalTopDto> {

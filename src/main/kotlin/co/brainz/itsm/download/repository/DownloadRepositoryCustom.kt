@@ -15,7 +15,7 @@ import com.querydsl.core.QueryResults
 
 interface DownloadRepositoryCustom : AliceRepositoryCustom {
 
-    fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): QueryResults<DownloadListDto>
+    fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): List<DownloadListDto>
 
     fun findDownloadTopList(limit: Long): List<PortalTopDto>
 

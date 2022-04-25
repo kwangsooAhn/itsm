@@ -13,7 +13,7 @@ import co.brainz.itsm.board.dto.BoardArticleViewDto
 import com.querydsl.core.QueryResults
 
 interface BoardRepositoryCustom : AliceRepositoryCustom {
-    fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): QueryResults<BoardArticleListDto>
+    fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): List<BoardArticleListDto>
 
     fun findByBoardId(boardId: String): BoardArticleViewDto
 }

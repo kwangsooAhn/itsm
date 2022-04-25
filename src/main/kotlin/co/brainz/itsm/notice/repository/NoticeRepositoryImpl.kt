@@ -39,7 +39,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             .fetch()
     }
 
-    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): QueryResults<NoticeListDto> {
+    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): List<NoticeListDto> {
         val notice = QNoticeEntity.noticeEntity
 
         val query = from(notice)
@@ -74,7 +74,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             query.offset((noticeSearchCondition.pageNum - 1) * noticeSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun findTopNotice(): MutableList<NoticeListDto> {

@@ -36,13 +36,13 @@ class DownloadService(
     fun getDownloadList(downloadSearchCondition: DownloadSearchCondition): DownloadListReturnDto {
         val queryResult = downloadRepository.findDownloadEntityList(downloadSearchCondition)
         return DownloadListReturnDto(
-            data = queryResult.results,
+            data = queryResult,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.size.toLong(),
                 totalCountWithoutCondition = downloadRepository.count(),
                 currentPageNum = downloadSearchCondition.pageNum,
                 totalPageNum =
-                    ceil(queryResult.total.toDouble() / downloadSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                    ceil(queryResult.size.toDouble() / downloadSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

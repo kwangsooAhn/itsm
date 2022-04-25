@@ -17,7 +17,7 @@ interface FaqRepositoryCustom : AliceRepositoryCustom {
     /**
      * FAQ 목록을 조회한다.
      */
-    fun findFaqs(faqSearchCondition: FaqSearchCondition): QueryResults<FaqListDto>
+    fun findFaqs(faqSearchCondition: FaqSearchCondition): List<FaqListDto>
 
     /**
      * Portal FAQ 목록 조회 (갯수).

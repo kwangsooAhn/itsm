@@ -36,12 +36,12 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
         val queryResult = noticeRepository.findNoticeSearch(noticeSearchCondition)
 
         return NoticeListReturnDto(
-            data = queryResult.results,
+            data = queryResult,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.size.toLong(),
                 totalCountWithoutCondition = noticeRepository.count(),
                 currentPageNum = noticeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / noticeSearchCondition.contentNumPerPage).toLong(),
+                totalPageNum = ceil(queryResult.size.toDouble() / noticeSearchCondition.contentNumPerPage).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

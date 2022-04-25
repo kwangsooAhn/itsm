@@ -52,9 +52,9 @@ class RoleService(
     fun selectRoleList(): RoleListReturnDto {
         val roleList = roleRepository.findRoleSearch(RoleSearchCondition(""))
         return RoleListReturnDto(
-            data = roleList.results,
+            data = roleList,
             paging = AlicePagingData(
-                totalCount = roleList.total,
+                totalCount = roleList.size.toLong(),
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = 0L,
                 totalPageNum = 0L,
@@ -160,12 +160,12 @@ class RoleService(
         val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
 
         return RoleListReturnDto(
-            data = queryResult.results,
+            data = queryResult,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.size.toLong(),
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = roleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.size.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -216,7 +216,7 @@ class RoleService(
                 )
             )
         )
-        queryResult.results.forEach { result ->
+        queryResult.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
