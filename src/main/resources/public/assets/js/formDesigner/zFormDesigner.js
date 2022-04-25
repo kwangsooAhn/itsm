@@ -53,11 +53,9 @@ class ZFormDesigner {
      * @param formData 폼 데이터
      */
     init(formData, isView) {
-        //console.log(formData)
         this.formId = formData.id;
         this.isView = (isView === 'true');
-        //this.isCreatedWorkFlow = formData.isCreatedWorkFlow;
-        //console.log(formData.isCreatedWorkFlow)
+        this.isCreatedWorkFlow = formData.createdWorkFlow;
         // 문서 상태
         this.isEditable = formData.status === FORM.STATUS.EDIT;
         this.isDestory = formData.status === FORM.STATUS.DESTROY;
