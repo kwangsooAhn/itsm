@@ -13,9 +13,9 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.entity.PluginHistoryEntity
-import co.brainz.itsm.plugin.repository.PluginHistoryRepository
-import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.itsm.plugin.service.PluginHistoryService
+import co.brainz.workflow.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import java.io.BufferedReader
 import java.io.File
@@ -29,12 +29,10 @@ import org.springframework.stereotype.Component
 abstract class PluginComponent(
     val pluginHistoryService: PluginHistoryService,
     val aliceTagRepository: AliceTagRepository,
-    val wfTokenDataRepository: WfTokenDataRepository
+    val wfTokenDataRepository: WfTokenDataRepository,
+    val wfComponentRepository: WfComponentRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
     lateinit var plugin: PluginEntity
     lateinit var pluginHistory: PluginHistoryEntity
@@ -56,7 +54,7 @@ abstract class PluginComponent(
         this.tokenDto = tokenDto
         this.pluginParam = this.initPluginParam()
         this.body = body
-        val pluginHistory = pluginHistoryRepository.save(
+        val pluginHistory = pluginHistoryService.insertPluginHistory(
             PluginHistoryEntity(
                 historyId = "",
                 pluginId = plugin.pluginId,

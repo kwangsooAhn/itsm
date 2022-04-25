@@ -10,6 +10,7 @@ import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.plugin.constants.PluginConstants
 import co.brainz.itsm.plugin.dto.PluginDto
 import co.brainz.itsm.plugin.service.PluginHistoryService
+import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -23,11 +24,13 @@ import org.springframework.stereotype.Component
 class FocsComponent(
     pluginHistoryService: PluginHistoryService,
     aliceTagRepository: AliceTagRepository,
-    wfTokenDataRepository: WfTokenDataRepository
+    wfTokenDataRepository: WfTokenDataRepository,
+    wfComponentRepository: WfComponentRepository
 ) : PluginComponent(
     pluginHistoryService,
     aliceTagRepository,
-    wfTokenDataRepository
+    wfTokenDataRepository,
+    wfComponentRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
