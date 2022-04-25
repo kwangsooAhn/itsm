@@ -63,9 +63,6 @@
 </div>
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_DUPLICATION = '1';
-
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('faqTitle').focus();
@@ -95,18 +92,20 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((result) => {
-            switch (result.data) {
-                case STATUS_SUCCESS:
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
                     zAlert.success(i18n.msg('common.msg.save'), function () {
                         location.href = '/faqs/search';
                     });
                     break;
-                case STATUS_ERROR_DUPLICATION:
+                case aliceJs.response.duplicate:
                     zAlert.warning(i18n.msg('faq.msg.duplicateTitleInCategory'));
                     break;
-                default :
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
                     break;
             }
         });
@@ -118,12 +117,9 @@
     function deleteFaq() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchJson('/rest/faqs/' + /*[[${faq?.faqId}]]*/'', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }).then((result) => {
-                if (result.status === 200) {
+                method: 'DELETE'
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         location.href = '/faqs/search';
                     });
