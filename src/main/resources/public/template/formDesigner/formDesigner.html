@@ -38,6 +38,7 @@
             method: 'GET',
             showProgressbar: true
         }).then((formData) => {
+            console.log(formData)
             zFormDesigner.init(formData, '[[${isView}]]');
         });
         window.zFormDesigner = zFormDesigner;
