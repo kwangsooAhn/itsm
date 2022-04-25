@@ -764,7 +764,7 @@ class ZFormDesigner {
                     }
                     break;
                 case RESPONSE_CODE.STATUS_ERROR_DUPLICATE:
-                    zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
+                    zAlert.warning(i18n.msg('form.msg.duplicateName'));
                     break;
                 default:
                     break;
@@ -839,7 +839,7 @@ class ZFormDesigner {
             showProgressbar: true
         }).then((formId) => {
             if (formId.toString() === RESPONSE_CODE.STATUS_ERROR_DUPLICATE) {
-                zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
+                zAlert.warning(i18n.msg('form.msg.duplicateName'));
             } else {
                 zAlert.success(i18n.msg('common.msg.save'), () => {
                     if (window.opener && !window.opener.closed) {

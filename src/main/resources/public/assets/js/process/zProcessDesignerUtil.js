@@ -265,7 +265,7 @@
             let resultCode = response.responseText;
             switch (resultCode) {
                 case RESPONSE_DUPLICATION:
-                    zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
+                    zAlert.warning(i18n.msg('process.msg.duplicateName'));
                     return;
                 case RESPONSE_FAIL:
                     zAlert.warning(i18n.msg('common.msg.fail'));
@@ -358,7 +358,7 @@
                 let resultCode = resultToJson.result;
                 switch (resultCode.toString()) {
                     case RESPONSE_DUPLICATION:
-                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
+                        zAlert.warning(i18n.msg('process.msg.duplicateName'));
                         return;
                     case RESPONSE_FAIL:
                         zAlert.warning(i18n.msg('common.msg.fail'));

@@ -92,9 +92,11 @@ class FormService(
     fun createForm(formData: RestTemplateFormDataDto): String {
         return when (wfFormService.checkFormData(formId = null, formName = formData.name)) {
             WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
-                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code // TODO: 중복코드 - E-0001
             }
             else -> {
+                // TODO: formId를 data 안에 포함한다. 아래 구조와 같아야 함
+                // { status: '', message: '', data: { formId: ''} }
                 val newFormId = wfFormService.createForm(
                     RestTemplateFormDto(
                         name = formData.name,
@@ -135,7 +137,7 @@ class FormService(
     fun saveFormData(formId: String, formDataDto: RestTemplateFormDataDto): String {
         return when (wfFormService.checkFormData(formId = formId, formName = formDataDto.name)) {
             WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
-                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code // TODO: 중복코드 - E-0001
             }
             else -> {
                 formDataDto.updateDt = LocalDateTime.now()

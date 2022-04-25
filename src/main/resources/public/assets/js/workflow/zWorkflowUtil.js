@@ -312,30 +312,40 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
  * @param type form/process/workflow
  */
 ZWorkflowUtil.export = async function(id, url, type) {
-    // 버전 정보
+    // 버전 정보 { status: '', messages: '', data: null }
     const version = await aliceJs.fetchJson('/rest/codes/version.workflow', { method: 'GET' });
-    
+    if (version.status === aliceJs.response.error) {
+        zAlert.danger(i18n.msg('code.msg.codeNotExist'), 'version.workflow');
+        return false;
+    }
+
     // XML 추출
     aliceJs.fetchJson(url, {
         method: 'GET'
-    }).then((data) => {
-        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-            zAlert.danger(i18n.msg('form.msg.failedExport'));
-            return false;
+    }).then((response) => {
+        switch (response.status) {
+            case aliceJs.response.success:
+                let xmlString = '';
+                switch (type) {
+                    case 'form':
+                        xmlString = ZWorkflowUtil.createFormXMLString(data, version.codeValue);
+                        break;
+                    case 'process':
+                        xmlString = ZWorkflowUtil.createProcessXMLString(data, version.codeValue);
+                        break;
+                    case 'workflow':
+                        xmlString = ZWorkflowUtil.createDocumentXMLString(data, version.codeValue);
+                        break;
+                }
+                ZWorkflowUtil.downloadXML(id, type, xmlString);
+                break;
+            case aliceJs.response.error:
+                const exportTarget = (type === 'workflow') ? 'workflowAdmin' : type;
+                zAlert.danger(i18n.msg('common.msg.failedExport'), i18n.msg(exportTarget + '.label.exportTarget'));
+                break;
+            default:
+                break;
         }
-        let xmlString = '';
-        switch (type) {
-            case 'form':
-                xmlString = ZWorkflowUtil.createFormXMLString(data, version.codeValue);
-                break;
-            case 'process':
-                xmlString = ZWorkflowUtil.createProcessXMLString(data, version.codeValue);
-                break;
-            case 'workflow':
-                xmlString = ZWorkflowUtil.createDocumentXMLString(data, version.codeValue);
-                break;
-        }
-        ZWorkflowUtil.downloadXML(id, type, xmlString);
     });
 };
 
@@ -607,7 +617,7 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
         reader.addEventListener('load', function(e) {
             let saveData = {};
             let saveUrl = '';
-            let result = false;
+            let result = { status: '', message: '', data: null };
             if (type === xmlFile.name.split('_')[0]) {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(e.target.result, 'text/xml');
@@ -633,7 +643,7 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                         break;
                     default: //none
                 }
-                aliceJs.fetchText(saveUrl, {
+                aliceJs.fetchJson(saveUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -641,14 +651,9 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     showProgressbar: true,
                     body: JSON.stringify(saveData)
                 }).then((response) => {
-                    // TODO: 추후 response 구조 통일 후 if else 없앨 예정
+                    result = response;
                     if (type === 'process') {
-                        let resultToJson = JSON.parse(response);
-                        result = resultToJson.result;
-                    } else if (type === 'workflow') {
-                        result =  JSON.parse(response);
-                    } else {
-                        result = response;
+                        result.data = response.data.result;
                     }
 
                     if (typeof callbackFunc === 'function') {

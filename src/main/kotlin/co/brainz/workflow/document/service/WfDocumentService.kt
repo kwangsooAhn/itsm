@@ -266,7 +266,7 @@ class WfDocumentService(
         val isDuplicateName = wfDocumentLinkRepository.existsByDocumentLinkName(documentDto.documentName, documentDto.documentId)
         if (isDuplicateName) {
             isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            message = aliceMessageSource.getMessage("document.msg.duplicateName")
         }
         if (isSuccess) {
             val documentLinkEntity = WfDocumentLinkEntity(
@@ -305,7 +305,7 @@ class WfDocumentService(
         val isDuplicateName = wfDocumentRepository.existsByDocumentName(documentDto.documentName, documentDto.documentId)
         if (isDuplicateName) {
             isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            message = aliceMessageSource.getMessage("document.msg.duplicateName")
         }
 
         if (isSuccess) {
@@ -376,7 +376,7 @@ class WfDocumentService(
         val isDuplicateName = wfDocumentLinkRepository.existsByDocumentLinkName(documentDto.documentName, documentDto.documentId)
         if (isDuplicateName) {
             isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            message = aliceMessageSource.getMessage("document.msg.duplicateName")
         }
 
         if (isSuccess) {
@@ -436,6 +436,7 @@ class WfDocumentService(
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
 
+        // TODO: 시작된 인스턴스가 있어서 삭제 불가능할 경우 E-0004 코드 반환 필요
         val isDel = if (instanceCnt == 0) {
             logger.debug("Try delete document...")
             wfDocumentDisplayRepository.deleteByDocumentId(documentId)
@@ -704,23 +705,23 @@ class WfDocumentService(
         var isSuccess = true
         var message = ""
         var importDto: DocumentImportDto
-
+        // TODO : 중복코드는 E-0001 로 동일하게 전달하고 message에 어떤 항목이 중복인지 타입을 넣는다.
         // 폼 중복 체크
         if (wfFormRepository.existsByFormName(documentImportDto.formData.name)) {
             isSuccess = false
-            message = aliceMessageSource.getMessage("form.msg.duplicateFormName")
+            message = "form"
         }
 
         // 프로세스 중복 체크
         if (isSuccess && wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)) {
             isSuccess = false
-            message = aliceMessageSource.getMessage("process.msg.duplicateProcessName")
+            message = "process"
         }
 
         // 문서 중복 체크
         if (isSuccess && wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")) {
             isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            message = "document"
         }
 
         // 유효성 검증 후 처리
