@@ -34,15 +34,19 @@ class ZFormDesigner {
         if (FORM.CUSTOM_CODE.length === 0) {
             aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
                 method: 'GET'
-            }).then((customData) => {
-                FORM.CUSTOM_CODE = zValidation.isDefined(customData.data) ? customData.data : [];
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    FORM.CUSTOM_CODE = zValidation.isDefined(response.data) ? response.data : [];
+                }
             });
         }
         if (FORM.PLUGIN_LIST.length === 0) {
             aliceJs.fetchJson('/rest/plugins', {
                 method: 'GET'
-            }).then((pluginData) => {
-                FORM.PLUGIN_LIST = zValidation.isDefined(pluginData.data) ? pluginData.data : [];
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    FORM.PLUGIN_LIST = zValidation.isDefined(response.data) ? response.data : [];
+                }
             });
         }
     }
@@ -741,9 +745,9 @@ class ZFormDesigner {
             },
             body: JSON.stringify(saveData),
             showProgressbar: true
-        }).then((formData) => {
-            switch(formData.toString()) {
-                case RESPONSE_CODE.STATUS_SUCCESS:
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
                     this.data = saveData;
                     this.history.saveHistoryIndex = this.history.undoList.length;
                     this.history.status = 0;
@@ -763,7 +767,7 @@ class ZFormDesigner {
                         zAlert.success(i18n.msg('common.msg.save'));
                     }
                     break;
-                case RESPONSE_CODE.STATUS_ERROR_DUPLICATE:
+                case aliceJs.response.duplicate:
                     zAlert.warning(i18n.msg('form.msg.duplicateName'));
                     break;
                 default:
@@ -830,27 +834,33 @@ class ZFormDesigner {
         saveData.desc = document.getElementById('newFormDesc').value;
         console.debug(saveData);
         // 저장
-        aliceJs.fetchText('/rest/forms?saveType=saveas', {
+        aliceJs.fetchJson('/rest/forms?saveType=saveas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(saveData),
             showProgressbar: true
-        }).then((formId) => {
-            if (formId.toString() === RESPONSE_CODE.STATUS_ERROR_DUPLICATE) {
-                zAlert.warning(i18n.msg('form.msg.duplicateName'));
-            } else {
-                zAlert.success(i18n.msg('common.msg.save'), () => {
-                    if (window.opener && !window.opener.closed) {
-                        opener.location.reload();
-                    }
-                    window.name = 'form_' + formId + '_edit';
-                    location.href = '/forms/' + formId + '/edit';
-                });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
+                        if (window.opener && !window.opener.closed) {
+                            opener.location.reload();
+                        }
+                        window.name = 'form_' + response.data.formId + '_edit';
+                        location.href = '/forms/' + response.data.formId + '/edit';
+                    });
+                    break;
+                case aliceJs.response.duplicate:
+                    zAlert.warning(i18n.msg('form.msg.duplicateName'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
-        }).catch(err => {
-            zAlert.warning(err);
         });
     }
     /**

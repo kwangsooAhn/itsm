@@ -417,6 +417,7 @@ cmdb:
       deleteInformation: "All asset information being created will be deleted."
       duplicateRelatedCIData: "The same relation CI exist."
       enterCiName: "Please enter a CI Name."
+      failedDeleteCI: "Failed to delete asset information."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
       selectImportFile: "Please select an import file."
