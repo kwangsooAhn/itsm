@@ -8,9 +8,9 @@ package co.brainz.itsm.plugin.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.repository.PluginRepository
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -27,12 +27,12 @@ class PluginService(
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     fun executePlugin(
         pluginId: String,
-        pluginParam: PluginParamDto,
+        tokenDto: WfTokenDto,
         body: String?,
         param: LinkedHashMap<String, Any>
     ): ZResponse {
         val pluginServiceImpl = pluginFactory.getFactory(pluginId)
-        pluginServiceImpl.initialize(this.getPlugin(pluginId), pluginParam, body)
+        pluginServiceImpl.initialize(this.getPlugin(pluginId), tokenDto, body)
         return pluginServiceImpl.execute(param)
     }
 

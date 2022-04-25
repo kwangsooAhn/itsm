@@ -27,12 +27,22 @@ class WfEngine(
     /**
      * Start workflow.
      */
-    @Transactional
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.info("Start Workflow : {}", tokenDto.documentName)
+
         // 참조인, 댓글, 태그 입력시 임시로 등록된 데이터가 존재할 경우가 있으므로 삭제한 후 다시 시작 이벤트를 생성한다.
         wfTokenManagerService.deleteTokenByInstanceId(tokenDto.instanceId)
-        
+        // 시작 이벤트 이후 첫번째 토큰 생성.
+        val firstTokenDto = this.getFirstToken(tokenDto)
+
+        return this.progressWorkflow(firstTokenDto!!)
+    }
+
+    /**
+     * Get First Token.
+     */
+    @Transactional
+    fun getFirstToken(tokenDto: WfTokenDto): WfTokenDto? {
         val instance = wfTokenManagerService.createInstance(tokenDto)
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
         tokenDto.instanceId = instance.instanceId
@@ -45,9 +55,7 @@ class WfEngine(
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
         // 시작 이벤트 이후 첫번째 토큰 생성.
-        val firstTokenDto = tokenManager.createNextToken(startTokenDto)
-
-        return this.progressWorkflow(firstTokenDto!!)
+        return tokenManager.createNextToken(startTokenDto)
     }
 
     /**
