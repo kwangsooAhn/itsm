@@ -755,6 +755,9 @@ export const dynamicRowTableMixin = {
             body: JSON.stringify(pluginData),
             showProgressbar: true
         }).then((response) => {
+            if (response.status !== aliceJs.response.success) {
+                return false;
+            }
             // primary > 검증 안됨
             if (response.data.result) {
                 // success--check > 성공

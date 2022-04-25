@@ -160,6 +160,8 @@ class FormService(
                 WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
             }
             else -> {
+                // TODO: formId를 data 안에 포함한다. 아래 구조와 같아야 함
+                // { status: '', message: '', data: { formId: ''} }
                 formData.status = WorkflowConstants.FormStatus.EDIT.value
                 formData.createUserKey = currentSessionUser.getUserKey()
                 formData.createDt = LocalDateTime.now()

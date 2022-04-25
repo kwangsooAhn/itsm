@@ -218,9 +218,9 @@ export const dropdownCodeMixin = {
             return Promise.resolve(options);
         }
         return aliceJs.fetchJson('/rest/codes/related/' + code, { method: 'GET' })
-            .then((codeList) => {
-                if (codeList.length > 0) {
-                    codeList.forEach((codeData) => {
+            .then((response) => {
+                if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
+                    response.data.forEach((codeData) => {
                         options.push({
                             name: codeData.codeName,
                             value: codeData.code,
