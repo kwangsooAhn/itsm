@@ -68,6 +68,8 @@ export const ciMixin = {
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
                 elem.disabled = !elem.querySelector('span.i-search');
             });
+            // 테이블의 상단 여백 제거
+            this.UIElement.UIComponent.UIElement.UITable.removeUIClass('mt-2');
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
                 this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
@@ -131,21 +133,21 @@ export const ciMixin = {
         const buttonGroup = new UIDiv().setUIClass('z-button-list');
         if (this.elementIsEditable) {
             // 등록
-            const registerButton = new UIButton(i18n.msg('cmdb.ci.label.new') + ' ' + i18n.msg('cmdb.ci.label.register'))
+            const registerButton = new UIButton(i18n.msg('form.component.ci') + ' ' + i18n.msg('cmdb.ci.label.new'))
                 .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
                 .onUIClick(this.openRegisterModal.bind(this));
             buttonGroup.addUI(registerButton);
 
             // 수정
-            const updateButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.update'))
+            const updateButton = new UIButton(i18n.msg('cmdb.ci.label.update'))
                 .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(updateButton);
 
             // 삭제
-            const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.existing') + ' ' + i18n.msg('cmdb.ci.label.delete'))
+            const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.delete'))
                 .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
                 .onUIClick(this.openSelectModal.bind(this));
@@ -433,7 +435,6 @@ export const ciMixin = {
                 saveData.values.ciTags.push({'id': data.ciId, 'value': tag.value});
             });
         }
-
         aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data', {
             method: 'POST',
             headers: {
@@ -515,6 +516,20 @@ export const ciMixin = {
                 rtn.id = dateTimeElem.getAttribute('data-attributeId');
                 rtn.type = type;
                 rtn.value = i18n.systemDateTime(dateTimeElem.value);
+                break;
+            case 'userSearch':
+                const userSearchElem = el.querySelector('input');
+                rtn.id = userSearchElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = `${userSearchElem.getAttribute('data-user-search')}|` +
+                    `${userSearchElem.value}|${userSearchElem.getAttribute('data-user-id')}`;
+                break;
+            case 'organizationSearch':
+                const organizationSearchElem = el.querySelector('input');
+                rtn.id = organizationSearchElem.getAttribute('data-attributeId');
+                rtn.type = type;
+                rtn.value = `${organizationSearchElem.getAttribute('data-organization-search')}|` +
+                    `${organizationSearchElem.value}`;
                 break;
             default:
                 break;

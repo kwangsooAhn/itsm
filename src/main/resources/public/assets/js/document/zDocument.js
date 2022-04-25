@@ -344,7 +344,7 @@ class ZDocument {
      * 프로세스 맵 팝업 호출
      */
     openProcessStatusPopUp() {
-        window.open('/process/' + this.data.instanceId + '/status', 'process_status_' + this.data.instanceId,
+        window.open('/tokens/' + this.data.instanceId + '/status', 'token_status_' + this.data.instanceId,
             'width=1300, height=500');
     }
     /**

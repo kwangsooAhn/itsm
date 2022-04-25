@@ -58,7 +58,7 @@ class ZFormButton {
         // 문서함에서 출력되는 경우 프로세스 맵, 인쇄 버튼도 출력
         if (this.isToken) {
             // 프로세스 맵 버튼
-            const UIProcessMapButton = new UIButton(i18n.msg('process.label.processMap')).addUIClass('secondary')
+            const UIProcessMapButton = new UIButton(i18n.msg('token.label.processMap')).addUIClass('secondary')
                 .onUIClick(this.zForm.openProcessStatusPopUp.bind(this.zForm));
             UIButtonGroup.addUI(UIProcessMapButton);
 

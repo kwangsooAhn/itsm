@@ -5,10 +5,7 @@
 
 package co.brainz.itsm.process.service
 
-import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.process.dto.ProcessStatusDto
-import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
@@ -18,21 +15,14 @@ import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.Gson
 import java.time.LocalDateTime
-import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.w3c.dom.Element
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 
 @Service
 @Transactional
 class ProcessService(
-    private val aliceFileProvider: AliceFileProvider,
-    private val wfInstanceService: WfInstanceService,
     private val wfProcessService: WfProcessService,
     private val wfProcessRepository: WfProcessRepository,
     private val currentSessionUser: CurrentSessionUser
@@ -119,52 +109,5 @@ class ProcessService(
      */
     fun getProcessSimulation(processId: String): String {
         return mapper.writeValueAsString(wfProcessService.getProcessSimulation(processId))
-    }
-
-    /**
-     * 프로세스 상태.
-     */
-    fun getProcessStatus(instanceId: String): ProcessStatusDto {
-        val resultString = Gson().toJson(wfInstanceService.getInstanceLatestToken(instanceId))
-        val processStatusDto = Gson().fromJson(resultString, ProcessStatusDto::class.java)
-        val xmlFile = aliceFileProvider.getProcessStatusFile(processStatusDto.processId)
-        if (xmlFile.exists()) {
-            val xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
-            xmlDoc.documentElement.normalize()
-
-            val imageNodeList: NodeList = xmlDoc.getElementsByTagName("image")
-            if (imageNodeList.length > 0) {
-                val imageNode: Node = imageNodeList.item(0)
-                if (imageNode.nodeType == Node.ELEMENT_NODE) {
-                    val element = imageNode as Element
-                    for (i in 0 until element.attributes.length) {
-                        val nodeValue = element.attributes.item(i).nodeValue
-                        when (element.attributes.item(i).nodeName) {
-                            "left" -> processStatusDto.left = nodeValue
-                            "top" -> processStatusDto.top = nodeValue
-                            "width" -> processStatusDto.width = nodeValue
-                            "height" -> processStatusDto.height = nodeValue
-                        }
-                    }
-                    processStatusDto.imageData = element.textContent
-                }
-
-                val elementList = mutableListOf<LinkedHashMap<String, String>>()
-                val elementNodeList: NodeList = xmlDoc.getElementsByTagName("element")
-                for (i in 0 until elementNodeList.length) {
-                    val elementNode: Node = elementNodeList.item(i)
-                    if (elementNode.nodeType == Node.ELEMENT_NODE) {
-                        val element = elementNode as Element
-                        val elementMap = LinkedHashMap<String, String>()
-                        for (j in 0 until element.attributes.length) {
-                            elementMap[element.attributes.item(j).nodeName] = element.attributes.item(j).nodeValue
-                        }
-                        elementList.add(elementMap)
-                    }
-                }
-                processStatusDto.elements = elementList
-            }
-        }
-        return processStatusDto
     }
 }

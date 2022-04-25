@@ -51,18 +51,6 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
             .fetch()
     }
 
-    override fun updateDisplayYn(instanceId: String, viewerKey: String) {
-        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
-
-        update(viewer)
-            .where(
-                viewer.instance.instanceId.eq(instanceId)
-                    .and(viewer.viewer.eq(AliceUserEntity(viewerKey)))
-            )
-            .set(viewer.displayYn, true)
-            .execute()
-    }
-
     override fun findByInstanceIdAndViewerKey(instanceId: String, viewerKey: String): WfInstanceViewerEntity? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
@@ -71,18 +59,5 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
                 viewer.instance.instanceId.eq(instanceId)
                     .and(viewer.viewer.userKey.eq(viewerKey))
             ).fetchOne()
-    }
-
-    override fun updateReviewYn(instanceId: String, viewerKey: String): Int {
-        val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
-
-        return update(viewer)
-            .where(
-                viewer.instance.instanceId.eq(instanceId)
-                    .and(viewer.viewer.eq(AliceUserEntity(viewerKey)))
-            )
-            .set(viewer.reviewYn, true)
-            .execute()
-            .toInt()
     }
 }
