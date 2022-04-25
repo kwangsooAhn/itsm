@@ -534,18 +534,18 @@ class UserService(
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
 
         if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) { // 현재 비밀번호가 틀릴 경우
-            return UserConstants.UserUpdatePassword.NOT_EQUAL_NOW_PASSWORD.code
+            return UserConstants.UserUpdatePassword.NOT_EQUAL_NOW_PASSWORD.code // TODO: 에러코드 - E-0000 로 반환 필요
         }
 
         if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) { // 새 비밀번호가 현재 비밀번호와 같을 경우
-            return UserConstants.UserUpdatePassword.SAME_AS_CURRENT_PASSWORD.code
+            return UserConstants.UserUpdatePassword.SAME_AS_CURRENT_PASSWORD.code  // TODO: 중복코드 - E-0001 로 반환 필요
         }
 
         userEntity.password =
             BCryptPasswordEncoder().encode(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!))
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
-        return UserConstants.UserUpdatePassword.SUCCESS.code
+        return UserConstants.UserUpdatePassword.SUCCESS.code // TODO: 성공코드 - Z-0000 로 반환 필요
     }
 
     /**
@@ -555,7 +555,7 @@ class UserService(
     fun extendExpiryDate(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
-        return UserConstants.UserUpdatePassword.SUCCESS.code
+        return UserConstants.UserUpdatePassword.SUCCESS.code // TODO: 성공코드 - Z-0000 로 반환 필요
     }
 
     /**

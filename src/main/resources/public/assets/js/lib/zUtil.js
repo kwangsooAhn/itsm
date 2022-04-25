@@ -11,6 +11,18 @@ aliceJs.imageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
 aliceJs.searchDataCount = 15;
 aliceJs.fileOffsetCount = 17;
 aliceJs.autoRefreshPeriod = 60000;
+
+// 응답 코드 - 서버에서 전달되는 코드값과 항상 일치하도록 관리한다.
+aliceJs.response = {
+    success: 'Z-0000',
+    error: 'E-0000',
+    duplicate: 'E-0001',
+    expired: 'E-0002',
+    notExist: 'E-0003',
+    exist: 'E-0004',
+    notFound: 'E-0005',
+    accessDeny: 'E-0006'
+};
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
@@ -1047,9 +1059,10 @@ aliceJs.doFetch = async function(url, option) {
             if (response.status === 403) {
                 window.location.href = '/sessionInValid';
             } else {
-                // TODO: #11697 Response 규격 정리시 수정 예정
-                //window.location.href = '/error';
-                throw new Error('HTTP error, status = ' + response.status + ', url = ' + response.url);
+                // 에러 페이지 호출은 최대한 줄여야하며, 되도록 화면에서 경고창을 띄우도록 처리하자.
+                const storageName = 'alice_error-message';
+                sessionStorage.setItem(storageName, JSON.stringify({ status: response.status, url: response.url }));
+                window.location.href = '/error';
             }
         }
         return response;
