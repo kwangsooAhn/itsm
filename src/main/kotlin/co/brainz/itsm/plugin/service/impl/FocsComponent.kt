@@ -9,7 +9,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.plugin.constants.PluginConstants
 import co.brainz.itsm.plugin.dto.PluginDto
-import co.brainz.itsm.plugin.repository.PluginHistoryRepository
+import co.brainz.itsm.plugin.service.PluginHistoryService
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -21,11 +21,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class FocsComponent(
-    pluginHistoryRepository: PluginHistoryRepository,
+    pluginHistoryService: PluginHistoryService,
     aliceTagRepository: AliceTagRepository,
     wfTokenDataRepository: WfTokenDataRepository
 ) : PluginComponent(
-    pluginHistoryRepository,
+    pluginHistoryService,
     aliceTagRepository,
     wfTokenDataRepository
 ) {
