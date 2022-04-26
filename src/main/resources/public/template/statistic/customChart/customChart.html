@@ -178,8 +178,6 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
         const chartId = [[${chart?.chartId}]];
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_DUPLICATION = '1';
         // 차트 종류
         const PIE_CHART = 'chart.pie';
         const STACKED_COLUMN_CHART = 'chart.stackedColumn';
@@ -277,16 +275,15 @@
                 },
                 body: JSON.stringify(previewData),
                 showProgressbar: true
-            }).then((data) => {
-                if (typeof data.chartConfig === 'undefined') { return false; }
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success || typeof response.data.chartConfig === 'undefined') { return false; }
                 // 기존 차트를 지우고 새로 그려준다.
                 zChartManager.destroy();
                 // 차트 초기화
-                zChartManager.load(data);
+                zChartManager.load(response.data);
 
                 // 차트 데이터 업데이트
-                if (typeof data.chartConfig === 'undefined') { return false; }
-                zChartManager.update(data.chartData);
+                zChartManager.update(response.data.chartData);
             });
         }
 
@@ -298,24 +295,27 @@
 
             const saveData = getChartData();
             const url = '/rest/statistics/customChart' + (chartId !== null ? '/' + chartId : '');
-            aliceJs.fetchText(url, {
+            const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+            aliceJs.fetchJson(url, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(saveData)
-            }).then((rtn) => {
-                switch (rtn) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
-                            location.href = '/statistics/customChart/search';
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(resultMsg, function () {
+                            window.location.href = '/statistics/customChart/search';
                         });
                         break;
-                    case STATUS_ERROR_DUPLICATION:
+                    case aliceJs.response.duplicate:
                         zAlert.warning(i18n.msg('chart.msg.duplicateChartNameAndChartType'));
                         break;
-                    default:
+                    case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default :
                         break;
                 }
             });
@@ -326,20 +326,22 @@
          */
         function deleteChart() {
             zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-                aliceJs.fetchText('/rest/statistics/customChart/' + chartId, {
+                aliceJs.fetchJson('/rest/statistics/customChart/' + chartId, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then((rtn) => {
-                    switch (rtn) {
-                        case STATUS_SUCCESS:
-                            zAlert.success(/*[[#{common.msg.delete}]]*/'', function () {
+                }).then((response) => {
+                    switch (response.status) {
+                        case aliceJs.response.success:
+                            zAlert.success(i18n.msg('common.msg.delete'), function () {
                                 window.location.href = '/statistics/customChart/search';
                             });
                             break;
-                        default:
+                        case aliceJs.response.error:
                             zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                        default:
                             break;
                     }
                 });

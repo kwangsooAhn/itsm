@@ -84,7 +84,7 @@
             data.downloadId = /*[[${download?.downloadId}]]*/'';
             data.views = /*[[${download?.views}]]*/'';
         }
-        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.save') : i18n.msg('common.msg.update');
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson('/rest/downloads', {
             method: method,
             headers: {

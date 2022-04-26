@@ -186,10 +186,7 @@
     function removeFile(imgObj) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
             aliceJs.fetchText('/rest/files/' + imgObj.dataset.name, {
-                method: 'delete',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                method: 'DELETE'
             }).then((rtn) => {
                 if (rtn === 'true') {
                     zAlert.success(i18n.msg('common.msg.delete'));

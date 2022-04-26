@@ -186,6 +186,7 @@
 
     // 게시글 수정
     function editBoard(method, data) {
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson('/rest/boards/articles', {
             method: method,
             headers: {
@@ -195,7 +196,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                    zAlert.success(resultMsg, function () {
                         searchBoard();
                     });
                     break;
@@ -210,6 +211,7 @@
 
     // 답글 저장
     function saveReply(method, data) {
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson('/rest/boards/articles/reply', {
             method: method,
             headers: {
@@ -219,7 +221,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                    zAlert.success(resultMsg, function () {
                         searchBoard();
                     });
                     break;

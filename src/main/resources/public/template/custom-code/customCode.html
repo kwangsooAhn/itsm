@@ -394,7 +394,7 @@
         if (method === 'PUT') {
             data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
         }
-
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson('/rest/custom-codes', {
             method: method,
             headers: {
@@ -404,7 +404,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                    zAlert.success(resultMsg, function () {
                         location.href = '/custom-codes/search';
                     });
                     break;

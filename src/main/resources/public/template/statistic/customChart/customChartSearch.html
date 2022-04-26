@@ -124,9 +124,10 @@
             aliceJs.fetchJson('/rest/statistics/customChart/' + chartId, {
                 method: 'GET',
                 showProgressbar: true
-            }).then((data) => {
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success) { return false; }
                 // 차트 초기화
-                zChartManager.load(data);
+                zChartManager.load(response.data);
             });
 
             // 가데이터 표시 (필요시 주석 제거하여 사용 바람)

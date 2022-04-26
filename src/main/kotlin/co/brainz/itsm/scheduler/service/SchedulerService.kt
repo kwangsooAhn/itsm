@@ -222,6 +222,7 @@ class SchedulerService(
      */
     @Transactional
     fun deleteScheduler(taskId: String): String {
+        // TODO: 유효성 검증 추가 - 사용중인 스케쥴러는 삭제 할 수 없어야 한다.
         aliceScheduleTaskService.removeTaskFromScheduler(taskId)
         aliceScheduleTaskRepository.deleteById(taskId)
         return SchedulerConstants.Status.STATUS_SUCCESS.code

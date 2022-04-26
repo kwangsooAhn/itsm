@@ -101,8 +101,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_TEMPLATE_NAME_DUPLICATION = '1';
     const chartListData = /*[[${chartList}]]*/ null;
     const data = /*[[${template}]]*/ null;
     window.onload = function () {
@@ -185,11 +183,18 @@
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchJson('/rest/statistics/customReportTemplate/' + /*[[${template?.templateId}]]*/'', {
                 method: 'DELETE'
-            }).then((status) => {
-                if (status.code === STATUS_SUCCESS) {
-                    zAlert.success(i18n.msg('common.msg.delete'), function () {
-                        location.href = '/statistics/customReportTemplate/search';
-                    });
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                            location.href = '/statistics/customReportTemplate/search';
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -222,21 +227,25 @@
         });
         data.charts = charts;
 
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((status) => {
-            switch (status.code) {
-                case STATUS_SUCCESS:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
-                        location.href = '/statistics/customReportTemplate/search';
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function () {
+                        window.location.href = '/statistics/customReportTemplate/search';
                     });
                     break;
-                case STATUS_ERROR_TEMPLATE_NAME_DUPLICATION:
-                    zAlert.success(i18n.msg('statistic.msg.templateNameUsed'));
+                case aliceJs.response.duplicate:
+                    zAlert.warning(i18n.msg('statistic.msg.templateNameUsed'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                     break;
                 default :
                     break;
@@ -271,20 +280,18 @@
 
     // 생성하기
     function makeReport(templateId) {
-        const STATUS_SUCESS = "0";
-        const STATUS_FAIL = "1";
-
-        aliceJs.fetchText('/rest/statistics/customReportTemplate/' + templateId, {
+        aliceJs.fetchJson('/rest/statistics/customReportTemplate/' + templateId, {
             method: 'POST'
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCESS:
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
                     zAlert.success(i18n.msg("statistic.msg.createSucess"));
-                    break
-                case STATUS_FAIL:
+                    break;
+                case aliceJs.response.error:
                     zAlert.warning(i18n.msg("statistic.msg.creatFail"));
                     break;
-                default:
+                default :
+                    break;
             }
         });
     }

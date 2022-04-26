@@ -88,8 +88,11 @@
             roleId.setAttribute('disabled', '');
             aliceJs.fetchJson('/rest/roles/' + encodeURIComponent(roleId.value), {
                 method: 'GET'
-            }).then((responseJson) => {
-                let arrAuthList = responseJson.arrAuthList;
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success) {
+                    return false;
+                }
+                let arrAuthList = response.data.arrAuthList;
                 Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]'), function (roleAuth) {
                     roleAuth.checked = false;
                     for (let i = 0; i < arrAuthList.length; i++) {
@@ -98,7 +101,7 @@
                         }
                     }
                 });
-                disabledButton(responseJson.userRoleMapCount);
+                disabledButton(response.data.userRoleMapCount);
                 Array.prototype.forEach.call(document.querySelectorAll('.z-switch-list'), function (target) {
                     OverlayScrollbars(target, {
                         className: 'inner-scrollbar',
@@ -173,35 +176,44 @@
         if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtRoleId').value;
         }
-        aliceJs.fetchText(strUrl, {
+        const resultMsg = (flag === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson(strUrl, {
             method: flag,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(obj)
-        }).then((status) => {
-            zAlert.success([[#{common.msg.save}]], function () {
-                window.location.href = '/roles/search';
-            });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function () {
+                        window.location.href = '/roles/search';
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
+            }
         });
     }
 
     /** 삭제 버튼  */
     function onDelete() {
-        aliceJs.fetchText('/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value), {
+        aliceJs.fetchJson('/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value), {
             method: 'DELETE'
-        }).then((status) => {
-            switch (status) {
-                case "true":
-                    zAlert.success([[#{common.msg.delete}]], function () {
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
                         window.location.href = '/roles/search';
                     });
                     break;
-                case "false":
-                    zAlert.danger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                     break;
-                default :
-                    zAlert.danger([[#{common.msg.fail}]]);
+                default:
                     break;
             }
         });

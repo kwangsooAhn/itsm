@@ -255,7 +255,7 @@
             if (method === 'PUT') {
                 data.boardAdminId = boardAdminId;
             }
-
+            const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
             aliceJs.fetchJson('/rest/boards', {
                 method: method,
                 headers: {
@@ -265,7 +265,7 @@
             }).then((response) => {
                 switch (response.status) {
                     case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                        zAlert.success(resultMsg, function () {
                             location.href = '/boards/search';
                         });
                         break;

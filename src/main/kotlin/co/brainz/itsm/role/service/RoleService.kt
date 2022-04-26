@@ -82,9 +82,9 @@ class RoleService(
                 roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(roleInfo.roleId, roleAuthMap.auth.authId))
             }
             roleRepository.deleteById(roleId)
-            "true"
+            "Z-0000"
         } else {
-            "false"
+            "E-0000"
         }
     }
 

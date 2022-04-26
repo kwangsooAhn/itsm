@@ -86,6 +86,7 @@
         if (!validation()) { return false; }
         const faqId = (method === 'POST') ? '' : '/' + /*[[${faq?.faqId}]]*/'';
         const data = aliceJs.formDataToObject(document.getElementById('faqForm'))
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson('/rest/faqs' + faqId, {
             method: method,
             headers: {
@@ -95,7 +96,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                    zAlert.success(resultMsg, function () {
                         location.href = '/faqs/search';
                     });
                     break;
