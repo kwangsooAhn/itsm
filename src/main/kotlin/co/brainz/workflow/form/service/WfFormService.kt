@@ -130,7 +130,7 @@ class WfFormService(
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
         val linkedMapType = TypeFactory.defaultInstance()
             .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
-        val createdWorkFlow = wfDocumentRepository.existsByFormId(formId)
+        val createdWorkFlow = this.checkCreatedWorkFlow(formId)
 
         val formGroupList: MutableList<FormGroupDto> = mutableListOf()
         val formGroupEntityList = wfFormGroupRepository.findByFormId(formId)
@@ -572,5 +572,12 @@ class WfFormService(
             }
         }
         return status
+    }
+
+    /**
+     * 문서양식에 연결된 업무흐름이 있는지 체크.
+     */
+    fun checkCreatedWorkFlow(formId: String): Boolean {
+        return wfDocumentRepository.existsByFormId(formId)
     }
 }

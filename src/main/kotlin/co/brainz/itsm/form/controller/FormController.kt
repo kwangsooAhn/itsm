@@ -13,6 +13,7 @@ package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
+import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -24,7 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/forms")
 class FormController(
-    private val formService: FormService
+    private val formService: FormService,
+    private val wfFormService: WfFormService
 ) {
 
     private val formSearchPage: String = "formDesigner/formSearch"
@@ -71,6 +73,7 @@ class FormController(
     @GetMapping("/{formId}/edit")
     fun getFormDesignerEdit(@PathVariable formId: String, model: Model): String {
         model.addAttribute("formId", formId)
+        model.addAttribute("createdWorkFlow", wfFormService.checkCreatedWorkFlow(formId))
         return formDesignerEditPage
     }
 
@@ -100,6 +103,7 @@ class FormController(
     fun getFormDesignerView(@PathVariable formId: String, model: Model): String {
         model.addAttribute("formId", formId)
         model.addAttribute("isView", true)
+        model.addAttribute("createdWorkFlow", wfFormService.checkCreatedWorkFlow(formId))
         return formDesignerEditPage
     }
 }
