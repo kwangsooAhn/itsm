@@ -240,17 +240,19 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((result) => {
-            if (result.status === 200) {
-                if (method === 'POST') {
-                    zAlert.success(i18n.msg('common.msg.register'), function () {
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    const message = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.modify');
+                    zAlert.success(message, function () {
                         window.location.href = '/notices/search';
                     });
-                } else if (method === 'PUT') {
-                    zAlert.success(i18n.msg('common.msg.modify'), function () {
-                        window.location = '/notices/search';
-                    });
-                }
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
         });
     }
@@ -259,8 +261,8 @@
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchJson('/rest/notices/' + [[${notice?.noticeNo}]], {
                 method: 'DELETE'
-            }).then((result) => {
-                if (result.status === 200) {
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         location.href = '/notices/search';
                     });
