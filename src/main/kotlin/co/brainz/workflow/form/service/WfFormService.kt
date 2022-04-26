@@ -130,7 +130,6 @@ class WfFormService(
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
         val linkedMapType = TypeFactory.defaultInstance()
             .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
-        val createdWorkFlow = this.checkCreatedWorkFlow(formId)
 
         val formGroupList: MutableList<FormGroupDto> = mutableListOf()
         val formGroupEntityList = wfFormGroupRepository.findByFormId(formId)
@@ -227,7 +226,7 @@ class WfFormService(
             createUserKey = formEntity.get().createUser?.userKey,
             group = formGroupList,
             display = displayOption,
-            createdWorkFlow = createdWorkFlow
+            createdWorkFlow = this.checkCreatedWorkFlow(formId)
         )
     }
 
