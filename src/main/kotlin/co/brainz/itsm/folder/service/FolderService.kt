@@ -114,6 +114,7 @@ class FolderService(
 
     @Transactional
     fun insertFolderDto(instanceFolderListDto: InstanceFolderListDto): String {
+        // TODO: { status: '', message: '', data: { folderId: '' } } 로 구조 변경
         var isSuccess = true
         var folderId = ""
         if (instanceFolderListDto.instanceId.isNotEmpty()) {

@@ -187,7 +187,7 @@
                 switch (response.status) {
                     case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            location.href = '/statistics/customReportTemplate/search';
+                            window.location.href = '/statistics/customReportTemplate/search';
                         });
                         break;
                     case aliceJs.response.error:

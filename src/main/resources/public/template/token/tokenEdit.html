@@ -83,17 +83,26 @@
         aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
             method: 'GET',
             showProgressbar: true
-        }).then((formDataJson) => {
-            document.getElementById('instanceId').value = formDataJson.instanceId;
-            formDataJson.tokenId = document.getElementById('tokenId').value;
-            formDataJson.folderId = document.getElementById('folderId').value;
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    document.getElementById('instanceId').value = response.data.instanceId;
+                    response.data.tokenId = document.getElementById('tokenId').value;
+                    response.data.folderId = document.getElementById('folderId').value;
 
-            zDocument.init(formDataJson, true);
-            zFormButton.init(formDataJson, zDocument);
-            zFormTokenTab.init(formDataJson, true);
+                    zDocument.init(response.data, true);
+                    zFormButton.init(response.data, zDocument);
+                    zFormTokenTab.init(response.data, true);
 
-            window.zDocument = zDocument;
-            window.zFormTokenTab = zFormTokenTab;
+                    window.zDocument = zDocument;
+                    window.zFormTokenTab = zFormTokenTab;
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+            }
         });
         /*]]>*/
     </script>

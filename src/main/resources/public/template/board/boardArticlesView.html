@@ -121,8 +121,8 @@
                     switch (response.status) {
                         case aliceJs.response.success:
                             if (response.data) {
-                                zAlert.success(i18n.msg('common.msg.delete'), () => {
-                                    location.href = '/boards/articles/search/param?boardAdminId=' + boardAdminId;
+                                zAlert.success(i18n.msg('common.msg.delete'), function () {
+                                    window.location.href = '/boards/articles/search/param?boardAdminId=' + boardAdminId;
                                 });
                             }
                             break;

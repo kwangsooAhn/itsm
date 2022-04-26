@@ -404,7 +404,7 @@
                 switch (response.status) {
                     case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            location.href = '/schedulers/search';
+                            window.location.href = '/schedulers/search';
                         });
                         break;
                     case aliceJs.response.exist:

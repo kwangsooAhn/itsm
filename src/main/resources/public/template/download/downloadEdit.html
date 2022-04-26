@@ -113,8 +113,8 @@
                 method: 'DELETE'
             }).then((response) => {
                 if (response.status === aliceJs.response.success) {
-                    zAlert.success(i18n.msg('common.msg.delete'), () => {
-                        location.href = '/downloads/search';
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/downloads/search';
                     });
                 }
             });
