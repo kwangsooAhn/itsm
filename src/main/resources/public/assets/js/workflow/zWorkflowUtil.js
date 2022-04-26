@@ -328,13 +328,13 @@ ZWorkflowUtil.export = async function(id, url, type) {
                 let xmlString = '';
                 switch (type) {
                     case 'form':
-                        xmlString = ZWorkflowUtil.createFormXMLString(data, version.codeValue);
+                        xmlString = ZWorkflowUtil.createFormXMLString(data, version.data.codeValue);
                         break;
                     case 'process':
-                        xmlString = ZWorkflowUtil.createProcessXMLString(data, version.codeValue);
+                        xmlString = ZWorkflowUtil.createProcessXMLString(data, version.data.codeValue);
                         break;
                     case 'workflow':
-                        xmlString = ZWorkflowUtil.createDocumentXMLString(data, version.codeValue);
+                        xmlString = ZWorkflowUtil.createDocumentXMLString(data, version.data.codeValue);
                         break;
                 }
                 ZWorkflowUtil.downloadXML(id, type, xmlString);

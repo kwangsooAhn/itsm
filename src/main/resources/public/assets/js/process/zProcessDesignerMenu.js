@@ -1200,10 +1200,12 @@
             const targetPlugInSelect = document.createElement('select');
             aliceJs.fetchJson('/rest/plugins', {
                 method: 'GET'
-            }).then((pluginList) => {
-                if (pluginList.data.length === 0) { return false; }
-                for (let i = 0; i < pluginList.data.length; i++) {
-                    const option = pluginList.data[i];
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success || response.data.length === 0) {
+                    return false;
+                }
+                for (let i = 0; i < response.data.length; i++) {
+                    const option = response.data[i];
                     const selectOption = document.createElement('option');
                     selectOption.value = option.pluginId;
                     selectOption.text = option.pluginName;
@@ -2091,38 +2093,53 @@
         // load process data
         const loadProcessData = async () => await aliceJs.fetchJson('/rest/process/' + processId + '/data', {
             method: 'GET'
-        }).then((data) => {
-            zProcessDesigner.data = data;
-            const elements = zProcessDesigner.data.elements;
-            initialStatus = zProcessDesigner.data.process.status;
-            elements.forEach(function(element) {
-                const category = getElementCategory(element.type);
-                element.required = getAttributeRequired(category, element.type);
-            });
-            setElementMenu();
-            zProcessDesigner.drawProcess(processId, elements);
-            exports.initialStatus = initialStatus;
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zProcessDesigner.data = response.data;
+                    const elements = zProcessDesigner.data.elements;
+                    initialStatus = zProcessDesigner.data.process.status;
+                    elements.forEach(function(element) {
+                        const category = getElementCategory(element.type);
+                        element.required = getAttributeRequired(category, element.type);
+                    });
+                    setElementMenu();
+                    zProcessDesigner.drawProcess(processId, elements);
+                    exports.initialStatus = initialStatus;
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+            }
         });
 
         // assigneeTypeData users
         const loadAssigneeUsers = async () => await aliceJs.fetchJson('/rest/users/all', {
             method: 'GET'
-        }).then((data) => {
-            assigneeTypeData.users = data;
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                assigneeTypeData.users = response.data;
+            }
         });
 
         // assigneeTypeData groups
         const loadAssigneeGroups = async () => await aliceJs.fetchJson('/rest/roles', {
             method: 'GET'
-        }).then((groupList) => {
-            assigneeTypeData.groups = groupList.data;
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                assigneeTypeData.groups = response.data;
+            }
         });
 
         // documents
         const loadDocuments = async () => await aliceJs.fetchJson('/rest/documents?searchDocumentStatus=document.status.use', {
             method: 'GET'
-        }).then((data) => {
-            documents = data;
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                documents = response.data;
+            }
         });
 
         await loadAttributeData();

@@ -81,6 +81,8 @@ class ProcessService(
      * 프로세스 다른 이름 저장.
      */
     fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): String {
+        // TODO: processId를 data 안에 포함한다. 아래 구조와 같아야 함
+        // { status: '', message: '', data: { processId: ''} }
         restTemplateProcessElementDto.process?.createDt = LocalDateTime.now()
         restTemplateProcessElementDto.process?.createUserKey = currentSessionUser.getUserKey()
         restTemplateProcessElementDto.process?.updateDt = null

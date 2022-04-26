@@ -681,17 +681,17 @@
         // data source 옵션에 따라 데이터를 load 한다.
         aliceJs.fetchJson(options.dataUrl, {
             method: 'GET'
-        }).then((responseJson) => {
+        }).then((response) => {
             let totalCount = 0;
-            if (responseJson.data.length > 0) {
-                options.data = responseJson.data;
+            if (response.status === aliceJs.response.success && response.data.length > 0) {
+                options.data = response.data;
                 if (options.totalCount) {
-                    totalCount = responseJson.totalCount;
+                    totalCount = response.totalCount;
                     document.getElementById('totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                 }
                 // 사용자가 root를 지정하지 않았을 경우, root는 가져온 데이터의 최상위로 지정
                 if (options.view === 'modal' && options.source === 'code' && !userOptions.hasOwnProperty('root')) {
-                    const rootData = responseJson.data.reduce(function (prev, curr) {
+                    const rootData = response.data.reduce(function (prev, curr) {
                         return prev.level < curr.level ? prev : curr;
                     });
                     options.root = rootData.code;

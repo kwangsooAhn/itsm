@@ -35,6 +35,7 @@ class RoleRestController(private val roleService: RoleService) {
      */
     @GetMapping("/", "")
     fun getRoles(): RoleListReturnDto {
+        // TODO: {status: '', messages: '', data: List<RoleListDto>}로 변경필요. 페이지 필요없음
         return roleService.selectRoleList()
     }
 

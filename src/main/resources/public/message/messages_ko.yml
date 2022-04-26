@@ -47,6 +47,7 @@ common:
     delete: "삭제"
     edit: "편집"
     endDate: "종료일자"
+    error: "오류"
     export: "내보내기"
     fail: "실패"
     group: "그룹"
