@@ -512,6 +512,7 @@ code:
     enterCodeLangValue: "Please enter the multilingual code value."
     pCodeNotExist: "Parent code does not exist."
     referenceCodeExist: "Code exists that references the code."
+    selectAvailableCode: "Please select a available Code."
     selectNotDuplicateLang: "There are redundant multilingual options."
 
 # Comment
@@ -1131,6 +1132,7 @@ organization:
     failedDeleteSubOrganization: "Failed to delete a department because of a sub department."
     enterPOrganizationName: "Please enter a parent department name."
     pOrganizationNotExist: "Parent organization does not exist."
+    selectAvailableOrganization: "Please select a available department."
     selectRole: "Please select a member default role."
     systemUserNotExist: "You cannot modify because you need at least one user with the system administrator role."
 

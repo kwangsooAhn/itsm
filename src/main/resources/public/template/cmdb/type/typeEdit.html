@@ -149,7 +149,7 @@
             method: 'GET'
         }).then((response) => {
             if (response.status !== aliceJs.response.success) {
-                zAlert.danger(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                zAlert.warning(i18n.msg('cmdb.type.msg.selectAvailableType'));
                 return false;
             }
             document.getElementById('parentTypeName').setAttribute('readonly','');

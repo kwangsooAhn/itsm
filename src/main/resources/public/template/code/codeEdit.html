@@ -116,11 +116,6 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_SUCCESS_EDIT_CODE = '1';
-    const STATUS_ERROR_CODE_DUPLICATION = '2';
-    const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
-    const STATUS_ERROR_CODE_P_CODE_USED = '4';
     let CODE_DELETE = false;
     let CODE_CREATE = false;
     let CODE_UPDATE = false;
@@ -176,32 +171,36 @@
 
         aliceJs.fetchJson('/rest/codes/' + codeId, {
             method: 'GET',
-        }).then((responseJson) => {
+        }).then((response) => {
+            if (response.status !== aliceJs.response.success) {
+                zAlert.warning(i18n.msg('code.msg.selectAvailableCode'));
+                return false;
+            }
             // 코드
             const txtCode = document.getElementById('txtCode');
-            txtCode.value = responseJson.code;
+            txtCode.value = response.data.code;
             txtCode.disabled = true;
-            document.getElementById('tooltipCode').title = responseJson.code;
+            document.getElementById('tooltipCode').title = response.data.code;
             // 부모 코드
             const pTxtCode = document.getElementById('txtPCode');
-            pTxtCode.value = responseJson.pcode;
+            pTxtCode.value = response.data.pcode;
             pTxtCode.disabled = true;
-            document.getElementById('tooltipPcode').title = responseJson.pcode;
+            document.getElementById('tooltipPcode').title = response.data.pcode;
             // 코드 이름
-            document.getElementById('txtCodeName').value = responseJson.codeName;
+            document.getElementById('txtCodeName').value = response.data.codeName;
             // 코드 값
-            document.getElementById('txtCodeValue').value = responseJson.codeValue;
+            document.getElementById('txtCodeValue').value = response.data.codeValue;
             // 출력 순서
-            document.getElementById('txtSeqNum').value = responseJson.seqNum;
+            document.getElementById('txtSeqNum').value = response.data.seqNum;
             // 코드 설명
             const txtCodeDesc = document.getElementById('txtCodeDesc');
-            txtCodeDesc.value = responseJson.codeDesc;
+            txtCodeDesc.value = response.data.codeDesc;
             // 사용 여부
-            document.getElementById('codeUseYn').checked = responseJson.useYn;
+            document.getElementById('codeUseYn').checked = response.data.useYn;
             // 다국어 코드
-            initCodeLang(responseJson.codeLang, responseJson.editable);
+            initCodeLang(response.data.codeLang, response.data.editable);
             // 편집 가능 여부에 따른 처리
-            if (responseJson.editable) {
+            if (response.data.editable) {
                 if (CODE_UPDATE) {
                     document.getElementById('btnUpdate').disabled = false;
                     document.getElementById('codeUseYn').disabled = false;
@@ -227,7 +226,7 @@
             // 편집 불가 처리
             const editInputElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text]');
             editInputElems.forEach((elem) => {
-                elem.readOnly = !responseJson.editable;
+                elem.readOnly = !response.data.editable;
             });
             onEdit();
             observer.isChanged = false;
@@ -336,33 +335,31 @@
         if (method !== 'POST') {
             url += '/' + document.getElementById('txtCode').value;
         }
-        aliceJs.fetchText(url, {
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(jsonData)
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
                     tree.setTreeExpandNode(sessionKey);
-                    zAlert.success(i18n.msg('common.msg.register'), function () {
+                    zAlert.success(resultMsg, function () {
                         window.location.href = '/codes/edit';
                     });
                     break;
-                case STATUS_SUCCESS_EDIT_CODE:
-                    tree.setTreeExpandNode(sessionKey);
-                    zAlert.success(i18n.msg('common.msg.modify'), function () {
-                        window.location.href = '/codes/edit';
-                    });
-                    break;
-                case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
-                    zAlert.warning(i18n.msg('code.msg.pCodeNotExist'));
-                    break;
-                case STATUS_ERROR_CODE_DUPLICATION:
+                case aliceJs.response.duplicate:
                     zAlert.warning(i18n.msg('code.msg.duplicateCode'));
                     break;
-                default:
+                case aliceJs.response.notExist:
+                    zAlert.warning(i18n.msg('code.msg.pCodeNotExist'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
                     break;
             }
         });
@@ -370,21 +367,23 @@
 
     /** delete **/
     function onDelete() {
-        aliceJs.fetchText('/rest/codes/' + document.getElementById('txtCode').value, {
+        aliceJs.fetchJson('/rest/codes/' + document.getElementById('txtCode').value, {
             method: 'DELETE'
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
                     tree.setTreeExpandNode(sessionKey);
                     zAlert.success(i18n.msg('common.msg.delete'), function () {
                         window.location.href = '/codes/edit';
                     });
                     break;
-                case STATUS_ERROR_CODE_P_CODE_USED:
+                case aliceJs.response.exist:
                     zAlert.warning(i18n.msg('code.msg.referenceCodeExist'));
                     break;
-                default:
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
                     break;
             }
         });

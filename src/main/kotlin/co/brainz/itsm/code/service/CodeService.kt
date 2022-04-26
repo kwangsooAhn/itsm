@@ -221,7 +221,7 @@ class CodeService(
      */
     @Transactional
     fun updateCode(codeDetailDto: CodeDetailDto): String {
-        var status = CodeConstants.Status.STATUS_SUCCESS_EDIT_CODE.code
+        var status = CodeConstants.Status.STATUS_SUCCESS.code
         val codeEntity = CodeEntity(
             code = codeDetailDto.code,
             pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),

@@ -70,7 +70,9 @@
             aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
                 method: 'GET'
             }).then((response) => {
-                ZSession.add('departmentName', response.data.organizationName);
+                if (response.status === aliceJs.response.success) {
+                    ZSession.add('departmentName', response.data.organizationName);
+                }
             });
         }
 

@@ -118,6 +118,7 @@ class OrganizationService(
      */
     @Transactional
     fun createOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
+        // TODO: 부서 이름 중복 체크 기능 필요 > E-0001 반환
         var organizationEntity = OrganizationEntity(
             organizationName = organizationRoleDto.organizationName,
             organizationDesc = organizationRoleDto.organizationDesc,
@@ -144,6 +145,7 @@ class OrganizationService(
      */
     @Transactional
     fun updateOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
+        // TODO: 시스템관리자는 수정 불가능하므로 accessDeny 를 뜻하는 E-0006 반환
         if (!roleService.isExistSystemRoleByOrganization(
                 organizationRoleDto.organizationId,
                 organizationRoleDto.roleIds.toSet())) {

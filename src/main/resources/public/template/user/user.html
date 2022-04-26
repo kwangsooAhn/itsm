@@ -539,16 +539,18 @@
         aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
             method: 'GET',
         }).then((response) => {
-            const allRoles = document.querySelectorAll('input[name=roles]');
-            allRoles.forEach(function (allRole) {
-                const matching = response.data.roles.find(function (organizationRole) {
-                    return organizationRole.roleId === allRole.value
+            if (response.status === aliceJs.response.success) {
+                const allRoles = document.querySelectorAll('input[name=roles]');
+                allRoles.forEach(function (allRole) {
+                    const matching = response.data.roles.find(function (organizationRole) {
+                        return organizationRole.roleId === allRole.value
+                    });
+                    if (matching) {
+                        allRole.disabled = true;
+                        allRole.checked = true;
+                    }
                 });
-                if (matching) {
-                    allRole.disabled = true;
-                    allRole.checked = true;
-                }
-            });
+            }
         });
     }
 
