@@ -49,6 +49,7 @@ class CIClassService(
      * CMDB CI Class 등록
      */
     fun createCIClass(ciClassDto: CIClassDto): String {
+        // TODO: {status: 'Z-0000', messages: '', data: true|false}로 변경 필요.
         var returnValue = ""
         ciClassDto.createDt = LocalDateTime.now()
         ciClassDto.createUserKey = currentSessionUser.getUserKey()
@@ -62,6 +63,7 @@ class CIClassService(
      * CMDB CI Class 수정
      */
     fun updateCIClass(ciClassDto: CIClassDto): String {
+        // TODO: {status: 'Z-0000', messages: '', data: true|false}로 변경 필요.
         var returnValue = ""
         ciClassDto.updateDt = LocalDateTime.now()
         ciClassDto.updateUserKey = currentSessionUser.getUserKey()
@@ -81,6 +83,7 @@ class CIClassService(
                 returnValue = CIClassConstants.Status.STATUS_SUCCESS.code
             }
         } else {
+            // TODO: 관련된 CI 유형 존재시 삭제 불가능 이므로  'E-0004' 코드 반환 필요
             returnValue = CIClassConstants.Status.STATUS_FAIL_CLASS_HAVE_TYPE.code
         }
         return returnValue
