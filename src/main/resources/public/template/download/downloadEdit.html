@@ -91,11 +91,18 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((result) => {
-            if (result.status === 200) {
-                zAlert.success(resultMsg, function() {
-                    location.href = '/downloads/search';
-                });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function() {
+                        location.href = '/downloads/search';
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
         });
     }
@@ -104,8 +111,8 @@
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchJson('/rest/downloads/' + /*[[${download?.downloadId}]]*/'', {
                 method: 'DELETE'
-            }).then((result) => {
-                if (result.status === 200) {
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
                     zAlert.success(i18n.msg('common.msg.delete'), () => {
                         location.href = '/downloads/search';
                     });
