@@ -44,4 +44,6 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     fun getSearchFieldValues(fieldOptionDto: FieldOptionDto): List<Array<Any>>
 
     fun existsByFormId(formId: String): Boolean
+
+    fun existsByProcessId(processId: String): Boolean
 }
