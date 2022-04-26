@@ -115,7 +115,7 @@ class ZFormDesigner {
      * 컴포넌트 팔레트 초기화 및 이벤트 추가
      */
     initComponentPalette() {
-        if (!this.isEditable && !this.isCreatedWorkFlow) { return false; }
+        if (!this.isEditable) { return false; }
         // drag & drop 이벤트 추가
         const componentIconBoxes = document.querySelectorAll('.z-component-icon-box');
         componentIconBoxes.forEach(icon => {
