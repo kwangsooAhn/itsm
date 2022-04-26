@@ -119,7 +119,7 @@
     function init(elem) {
         if (typeof elem !== 'undefined') { eventTarget = elem; }
 
-        eventTarget.addEventListener('keydown', onKeyDownShortcutHandler, false);
+        eventTarget.addEventListener('keydown', onKeyDownShortcutHandler, true);
         eventTarget.addEventListener('keyup', onKeyUpShortcutHandler, false);
     }
 
