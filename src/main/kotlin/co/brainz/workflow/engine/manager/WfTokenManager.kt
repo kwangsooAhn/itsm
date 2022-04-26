@@ -51,6 +51,8 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      * 생성된 토큰의 데이터가 반영 된 후 타입에 따라 후속 작업 진행 + 알람 발송
      */
     fun nextTokenOptionProcessing(newTokenDto: WfTokenDto): WfTokenDto {
+        this.assigneeId = newTokenDto.assigneeId.toString()
+        this.tokenEntity = wfTokenManagerService.getToken(newTokenDto.tokenId)
         this.createElementToken(newTokenDto)
         return newTokenDto
     }

@@ -18,8 +18,8 @@ class PluginHistoryService(
     @Value("\${plugins.dir}")
     val pluginsDir: String? = null
 
-    fun insertPluginHistory(pluginHistoryEntity: PluginHistoryEntity) {
-        pluginHistoryRepository.save(pluginHistoryEntity)
+    fun insertPluginHistory(pluginHistoryEntity: PluginHistoryEntity): PluginHistoryEntity {
+        return pluginHistoryRepository.save(pluginHistoryEntity)
     }
 
     fun getPluginDir(): String? {
