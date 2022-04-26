@@ -114,7 +114,7 @@ class WfProcessService(
         )
         val restTemplateElementDtoList = mutableListOf<RestTemplateElementDto>()
 
-        wfProcessDto.createdWorkFlow = wfDocumentRepository.existsByProcessId(processId)
+        wfProcessDto.createdWorkFlow = this.checkCreatedWorkFlow(processId)
 
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
@@ -551,5 +551,9 @@ class WfProcessService(
                 }
             }
         }
+    }
+
+    fun checkCreatedWorkFlow(processId: String): Boolean {
+        return wfDocumentRepository.existsByProcessId(processId)
     }
 }

@@ -80,7 +80,7 @@
                     </button>
                 </div>
                 <!--저장하기-->
-                <th:block th:if="${#strings.isEmpty(isView)}">
+                <th:block th:if="${!createdWorkFlow}">
                     <div id="fileCommand">
                         <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand"
                                 onclick="zProcessDesigner.saveProcess();">
@@ -108,7 +108,7 @@
                     </div>
                 </th:block>
                 <!--프로세스가 사용일때 다른이름으로 저장하기 만 가능-->
-                <th:block th:unless="${#strings.isEmpty(isView)}">
+                <th:block th:unless="${!createdWorkFlow}">
                     <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.saveAsProcess();">
                         <span class="z-icon i-save-as"></span>
                         <div class="z-header-tooltip-contents last">
