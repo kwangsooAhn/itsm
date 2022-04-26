@@ -107,7 +107,7 @@
                         </ul>
                     </div>
                 </th:block>
-                <!--프로세스가 사용일때 다른이름으로 저장하기 만 가능-->
+                <!--프로세스에 연결된 업무흐름이 있을 땐 다른이름으로 저장하기 만 가능-->
                 <th:block th:unless="${!createdWorkFlow}">
                     <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.saveAsProcess();">
                         <span class="z-icon i-save-as"></span>

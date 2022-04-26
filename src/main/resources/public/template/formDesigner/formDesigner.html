@@ -132,7 +132,7 @@
                             </ul>
                         </div>
                     </th:block>
-                    <!--문서가 사용일때 다른이름으로 저장하기 만 가능-->
+                    <!--문서에 연결된 업무흐름이 있을 땐 다른이름으로 저장하기 만 가능-->
                     <th:block th:unless="${!createdWorkFlow}" sec:authorize="hasAuthority('workflow.manage')">
                         <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zFormDesigner.openSaveAsModal();">
                             <span class="z-icon i-save-as"></span>
