@@ -70,6 +70,7 @@ class BoardService(
         )
         val preBoardEntity: PortalBoardAdminEntity? =
             boardAdminRepository.findByBoardAdminId(portalBoardAdminEntity.boardAdminId)
+        // TODO: 중복코드 - E-0001 로 반환 필요
         val duplicateCount = boardAdminRepository.countByBoardAdminTitle(boardDto.boardAdminTitle!!)
         if (duplicateCount > 0 && !boardDto.boardAdminTitle.equals(preBoardEntity?.boardAdminTitle)) {
             return false
@@ -173,6 +174,7 @@ class BoardService(
     @Transactional
     fun deleteBoard(boardAdminId: String): String {
         return if (boardRepository.countByBoardAdminId(boardAdminId) > 0) {
+            // TODO: 기존 게시물 존제시 삭제 불가능 이므로  'E-0004' 코드 반환 필요
             BoardConstants.Status.STATUS_FAIL.code
         } else {
             boardAdminRepository.deleteById(boardAdminId)

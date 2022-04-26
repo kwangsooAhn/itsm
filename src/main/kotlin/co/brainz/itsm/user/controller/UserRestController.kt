@@ -178,7 +178,7 @@ class UserRestController(
      */
     @PutMapping("colors")
     private fun updateUserCustomColors(@RequestBody userCustomDto: UserCustomDto): Boolean {
-        // TODO: {status: '', messages: '', data: {result: true|false} }로 변경필요.
+        // TODO: {status: '', messages: '', data: true|false }로 변경필요.
         return userService.updateUserCustomColors(userCustomDto)
     }
 

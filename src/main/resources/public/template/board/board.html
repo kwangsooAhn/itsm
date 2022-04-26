@@ -145,8 +145,6 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        const STATUS_FAIL = '-1';
-        const STATUS_SUCCESS = '0';
         let boardAdminId = /*[[${boardAdmin?.boardAdminId}]]*/;
         let attachDisable = /*[[${boardAdmin?.attachYn}]]*/;
         let boardCategoryList = /*[[${boardAdmin?.categoryList}]]*/;
@@ -201,17 +199,22 @@
         //게시판 관리 삭제
         function deleteBoardAdmin() {
             zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.fetchText('/rest/boards/' + boardAdminId, {
+                aliceJs.fetchJson('/rest/boards/' + boardAdminId, {
                     method: 'DELETE'
-                }).then((status) => {
-                    switch (status) {
-                        case STATUS_SUCCESS:
+                }).then((response) => {
+                    switch (response.status) {
+                        case aliceJs.response.success:
                             zAlert.success(i18n.msg('common.msg.delete'), () => {
                                 location.href = '/boards/search';
                             });
                             break;
-                        case STATUS_FAIL:
+                        case aliceJs.response.exist:
                             zAlert.warning(i18n.msg('board.msg.deleteWithArticleExist'));
+                            break;
+                        case aliceJs.response.error:
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                        default :
                             break;
                     }
                 });
@@ -253,22 +256,29 @@
                 data.boardAdminId = boardAdminId;
             }
 
-            aliceJs.fetchText('/rest/boards', {
+            aliceJs.fetchJson('/rest/boards', {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then((rtn) => {
-                if (rtn === 'true') {
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
-                        location.href = '/boards/search';
-                    });
-                } else {
-                    zAlert.warning(i18n.msg('board.msg.duplicateBoardAdminTitle'));
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                            location.href = '/boards/search';
+                        });
+                        break;
+                    case aliceJs.response.duplicate:
+                        zAlert.warning(i18n.msg('board.msg.duplicateBoardAdminTitle'));
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default :
+                        break;
                 }
             });
-
         }
 
         // Category 삭제

@@ -8,10 +8,6 @@
     let savedData = {};
     let isEdited = false;
 
-    const RESPONSE_SUCCESS = '1';
-    const RESPONSE_FAIL = '0';
-    const RESPONSE_DUPLICATION = '-1';
-
     window.addEventListener('beforeunload', function (event) {
         if (isEdited) {
             event.returnValue = '';

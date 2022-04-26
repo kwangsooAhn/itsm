@@ -578,7 +578,7 @@ Object.assign(zColorPicker.prototype, {
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    if (response.data.result) {
+                    if (response.data) {
                         this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
                         this.closeCustomColorControl();
                     }

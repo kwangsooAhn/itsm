@@ -175,6 +175,7 @@ class BoardArticleService(
      */
     @Transactional
     fun deleteBoardArticle(boardId: String) {
+        // TODO: { status: '', message: '', data: true|false } 로 구조 변경
         val boardReadCount = boardReadRepository.findById(boardId)
         if (!boardReadCount.isEmpty) {
             boardReadRepository.deleteById(boardId)
@@ -195,6 +196,7 @@ class BoardArticleService(
      */
     @Transactional
     fun deleteBoardArticleComment(boardCommentId: String) {
+        // TODO: { status: '', message: '', data: true|false } 로 구조 변경
         boardCommentRepository.deleteById(boardCommentId)
     }
 

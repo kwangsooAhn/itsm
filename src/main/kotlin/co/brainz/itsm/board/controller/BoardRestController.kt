@@ -35,6 +35,7 @@ class BoardRestController(
     @GetMapping("/{boardAdminId}/view")
     fun getBoardView(@PathVariable boardAdminId: String): BoardDetailDto {
         val boardAdminDetail = boardService.getBoardDetail(boardAdminId)
+        // TODO: { status: '', message: '', data: BoardDetailDto } 로 구조 변경
         return BoardDetailDto(
             boardAdminId = boardAdminDetail.boardAdminId,
             boardAdminTitle = boardAdminDetail.boardAdminTitle,

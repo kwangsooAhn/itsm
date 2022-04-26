@@ -209,31 +209,38 @@
         if (flag !== 'post') {
             strUrl += '/' + document.getElementById('txtAuthId').value;
         }
-        aliceJs.fetchText(strUrl, {
+        aliceJs.fetchJson(strUrl, {
             method: flag,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(obj)
-        }).then((rtn) => {
-            zAlert.success([[#{common.msg.save}]], function () {
-                window.location.href = '/auths/search';
-            });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success([[#{common.msg.save}]], function () {
+                        window.location.href = '/auths/search';
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
+            }
         });
     }
 
     /* 삭제 버튼  */
     function onDelete() {
-        aliceJs.fetchText('/rest/auths/' + document.getElementById('txtAuthId').value, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then((rtn) => {
-            zAlert.success([[#{common.msg.delete}]], function () {
-                window.location.href = '/auths/search';
-            });
+        aliceJs.fetchJson('/rest/auths/' + document.getElementById('txtAuthId').value, {
+            method: 'DELETE'
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                zAlert.success([[#{common.msg.delete}]], function () {
+                    window.location.href = '/auths/search';
+                });
+            }
         });
     }
 
