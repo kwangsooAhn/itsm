@@ -605,6 +605,17 @@ class WfInstanceRepositoryImpl(
                         .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
                 )
             )
+            .where(
+                instance.instanceId.notIn(
+                    JPAExpressions.select(instance.instanceId)
+                        .from(instance)
+                        .innerJoin(token).on(instance.instanceId.eq(token.instance.instanceId))
+                        .where(
+                            token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code)
+                                .and(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
+                        )
+                )
+            )
         if (documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
             query.where(
                 (instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
