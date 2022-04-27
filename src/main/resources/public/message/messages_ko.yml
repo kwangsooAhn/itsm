@@ -710,7 +710,7 @@ faq:
     edit: "FAQ 수정"
     faq: "FAQ"
     register: "FAQ 등록"
-    searchPlaceholder: "분류 / 제목"
+    searchPlaceholder: "제목"
     title: "제목"
     view: "FAQ 조회"
   msg:

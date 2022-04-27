@@ -711,7 +711,7 @@ faq:
     edit: "FAQ Edit"
     faq: "FAQ"
     register: "FAQ Register"
-    searchPlaceholder: "Category / Title"
+    searchPlaceholder: "Title"
     title: "Title"
     view: "FAQ View"
   msg:
