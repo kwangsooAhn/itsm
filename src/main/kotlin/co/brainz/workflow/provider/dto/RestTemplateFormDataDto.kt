@@ -26,6 +26,7 @@ data class RestTemplateFormDataDto(
     var updateUserKey: String?,
     var createDt: LocalDateTime?,
     var createUserKey: String?,
+    val createdWorkFlow: Boolean,
     val group: MutableList<FormGroupDto>? = mutableListOf()
 ) : Serializable
 
