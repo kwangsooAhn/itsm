@@ -351,6 +351,18 @@ function hiddenProgressBar() {
     divCheck.parentNode.removeChild(divCheck);
 }
 
+/*
+ * 검색 시간 딜레이 (0.5s)
+ */
+function searchDelay(func, timeout = 500) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+}
+const searchLoading = searchDelay(() => getList());
+
 /**
  * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.
  * @param p_date 입력받는 날짜 2020-02-03 or 2020-02-03 14:30 or 2020-02-03 14:30 오전

@@ -65,7 +65,7 @@
         document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
             element.addEventListener('change', getList, false);
         });
-        document.getElementById('searchValue').addEventListener('keyup', searchDelay, false);
+        document.getElementById('searchValue').addEventListener('keyup', searchLoading, false);
 
         new zTag(document.getElementById('searchTag'), {
             suggestion: true,
@@ -105,15 +105,6 @@
                 getList();
             }
         }
-    }
-
-    // 검색 시간 딜레이 (0.5s)
-    function searchDelay() {
-        let timeout = null;
-        timeout = setTimeout(function () {
-            clearTimeout(timeout);
-            getList();
-        }, 500);
     }
 
     /**
