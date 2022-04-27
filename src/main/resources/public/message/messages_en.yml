@@ -677,6 +677,7 @@ document:
 # Download
 download:
   label:
+    all: "All"
     category: "Category"
     download: "Download"
     edit: "Download Edit"

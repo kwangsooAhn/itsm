@@ -676,6 +676,7 @@ document:
 # Download
 download:
   label:
+    all: "전체"
     category: "분류"
     download: "자료실"
     edit: "자료실 수정"
