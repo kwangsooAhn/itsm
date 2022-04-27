@@ -7,12 +7,12 @@
 package co.brainz.itsm.customCode.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository
 class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     CustomCodeRepositoryCustom {
 
-    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): MutableList<CustomCodeListDto> {
+    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): PagingReturnDto {
         val customCode = QCustomCodeEntity.customCodeEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(customCode)
@@ -51,7 +51,14 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             query.offset((customCodeSearchCondition.pageNum - 1) * customCodeSearchCondition.contentNumPerPage)
         }
 
-        return query.fetch()
+        val countQuery = from(customCode)
+            .select(customCode.count())
+            .where(super.eq(customCode.type, customCodeSearchCondition.searchType))
+            .where(super.likeIgnoreCase(customCode.customCodeName, customCodeSearchCondition.searchValue))
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findByCustomCode(customCodeId: String): CustomCodeCoreDto {

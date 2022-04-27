@@ -12,6 +12,7 @@ import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
+import co.brainz.itsm.board.dto.BoardArticleListDto
 import co.brainz.itsm.board.dto.BoardArticleListReturnDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
@@ -47,12 +48,12 @@ class BoardArticleService(
     fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto {
         val queryResult = boardRepository.findByBoardList(boardArticleSearchCondition)
         val boardArticleList = BoardArticleListReturnDto(
-            data = queryResult.content,
+            data = queryResult.dataList as List<BoardArticleListDto>,
             paging = AlicePagingData(
-                totalCount = queryResult.totalElements,
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = boardRepository.count(),
                 currentPageNum = boardArticleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalElements.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalCount.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             ),
             categoryUseYn = false

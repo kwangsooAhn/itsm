@@ -6,17 +6,14 @@
 
 package co.brainz.workflow.form.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.form.entity.QWfFormEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.provider.constants.WorkflowConstants
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -24,9 +21,8 @@ import org.springframework.stereotype.Repository
 class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java),
     WfFormRepositoryCustom {
 
-    override fun findFormEntityList(formSearchCondition: FormSearchCondition): Page<WfFormEntity> {
+    override fun findFormEntityList(formSearchCondition: FormSearchCondition): PagingReturnDto {
         val form = QWfFormEntity.wfFormEntity
-        val pageable = Pageable.unpaged()
         val query = from(form)
             .innerJoin(form.createUser).fetchJoin()
             .leftJoin(form.updateUser).fetchJoin()
@@ -48,13 +44,33 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             query.orderBy(statusNumber.asc())
                 .orderBy(form.updateDt.coalesce(form.createDt).desc())
         }
-        val totalCount = query.fetch().size
         if (formSearchCondition.isPaging) {
             query.limit(formSearchCondition.contentNumPerPage)
             query.offset((formSearchCondition.pageNum - 1) * formSearchCondition.contentNumPerPage)
         }
 
-        return PageImpl<WfFormEntity>(query.fetch(), pageable, totalCount.toLong())
+        val countQuery = from(form)
+            .select(form.count())
+        if (formSearchCondition.searchValue?.isNotEmpty() == true) {
+            countQuery.where(
+                form.formName.containsIgnoreCase(formSearchCondition.searchValue.trim())
+                    .or(form.formDesc.containsIgnoreCase(formSearchCondition.searchValue.trim()))
+            )
+        }
+        if (formSearchCondition.statusArray?.isNotEmpty() == true) {
+            countQuery.where(form.formStatus.`in`(formSearchCondition.statusArray))
+        }  else {
+            CaseBuilder()
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.EDIT.value)).then(1)
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.PUBLISH.value)).then(2)
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.USE.value)).then(3)
+                .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.DESTROY.value)).then(4)
+                .otherwise(5)
+        }
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findFormDocumentExist(formId: String): Boolean {

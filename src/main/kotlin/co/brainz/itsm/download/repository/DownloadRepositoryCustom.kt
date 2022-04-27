@@ -7,16 +7,13 @@
 package co.brainz.itsm.download.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.download.dto.DownloadListDto
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import com.querydsl.core.QueryResults
-import org.springframework.data.domain.Page
-
 interface DownloadRepositoryCustom : AliceRepositoryCustom {
 
-    fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): Page<DownloadListDto>
+    fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): PagingReturnDto
 
     fun findDownloadTopList(limit: Long): List<PortalTopDto>
 

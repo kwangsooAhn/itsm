@@ -7,6 +7,7 @@
 package co.brainz.itsm.notice.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
@@ -18,7 +19,7 @@ interface NoticeRepositoryCustom : AliceRepositoryCustom {
 
     fun findNoticeTopList(limit: Long): List<PortalTopDto>
 
-    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): Page<NoticeListDto>
+    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): PagingReturnDto
 
     fun findTopNotice(): MutableList<NoticeListDto>
 

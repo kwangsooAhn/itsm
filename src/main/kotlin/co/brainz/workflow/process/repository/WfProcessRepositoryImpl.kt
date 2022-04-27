@@ -5,13 +5,13 @@
 
 package co.brainz.workflow.process.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.process.entity.QWfProcessEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.provider.constants.WorkflowConstants
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository
 class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class.java),
     WfProcessRepositoryCustom {
 
-    override fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): List<WfProcessEntity> {
+    override fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): PagingReturnDto {
         val process = QWfProcessEntity.wfProcessEntity
         val query = from(process)
             .innerJoin(process.createUser).fetchJoin()
@@ -48,7 +48,30 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             query.offset((processSearchCondition.pageNum - 1) * processSearchCondition.contentNumPerPage)
         }
 
-        return query.fetch()
+        val countQuery = from(process)
+            .select(process.count())
+        if (processSearchCondition.searchValue?.isNotEmpty() == true) {
+            countQuery.where(
+                process.processName.containsIgnoreCase(processSearchCondition.searchValue.trim())
+                    .or(process.processDesc.containsIgnoreCase(processSearchCondition.searchValue.trim()))
+            )
+        }
+        if (processSearchCondition.statusArray?.isNotEmpty() == true) {
+            countQuery.where(process.processStatus.`in`(processSearchCondition.statusArray))
+        } else {
+            CaseBuilder()
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.EDIT.value)).then(1)
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.PUBLISH.value)).then(2)
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.USE.value)).then(3)
+                .`when`(process.processStatus.eq(WorkflowConstants.ProcessStatus.DESTROY.value)).then(4)
+                .otherwise(5)
+
+        }
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findProcessDocumentExist(processId: String): Boolean {

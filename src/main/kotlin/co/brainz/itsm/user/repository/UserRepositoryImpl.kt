@@ -14,14 +14,10 @@ import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListExcelDto
 import co.brainz.itsm.user.dto.UserSearchCondition
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
-import org.springframework.data.repository.support.PageableExecutionUtils
 import org.springframework.stereotype.Repository
 
 @Repository

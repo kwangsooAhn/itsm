@@ -22,6 +22,7 @@ import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
+import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
@@ -78,12 +79,12 @@ class CustomCodeService(
     fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
         val queryResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
         return CustomCodeListReturnDto(
-            data = queryResult,
+            data = queryResult.dataList as MutableList<CustomCodeListDto>,
             paging = AlicePagingData(
-                totalCount = queryResult.size.toLong(),
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = customCodeRepository.count(),
                 currentPageNum = customCodeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.size.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalCount.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

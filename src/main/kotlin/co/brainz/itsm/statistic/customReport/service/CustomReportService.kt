@@ -14,6 +14,7 @@ import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.ChartManagerFactory
 import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
+import co.brainz.itsm.statistic.customReport.dto.CustomReportListDto
 import co.brainz.itsm.statistic.customReport.dto.CustomReportListReturnDto
 import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
 import co.brainz.itsm.statistic.customReport.dto.ReportDto
@@ -48,12 +49,12 @@ class CustomReportService(
     fun getReportList(reportSearchCondition: ReportSearchCondition): CustomReportListReturnDto {
         val queryResult = customReportRepository.getReportList(reportSearchCondition)
         return CustomReportListReturnDto(
-            data = queryResult.content,
+            data = queryResult.dataList as List<CustomReportListDto>,
             paging = AlicePagingData(
-                totalCount = queryResult.totalElements,
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = customReportRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
-                totalPageNum = Math.ceil(queryResult.totalElements.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
+                totalPageNum = Math.ceil(queryResult.totalCount.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
                     .toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )

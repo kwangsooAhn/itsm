@@ -7,6 +7,7 @@
 package co.brainz.itsm.notice.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
@@ -15,9 +16,6 @@ import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import java.time.LocalDateTime
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -42,10 +40,8 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             .fetch()
     }
 
-    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): Page<NoticeListDto> {
+    override fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): PagingReturnDto {
         val notice = QNoticeEntity.noticeEntity
-        val pageable = Pageable.unpaged()
-
         val query = from(notice)
             .select(
                 Projections.constructor(
@@ -72,14 +68,26 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 notice.createDt.lt(noticeSearchCondition.formattedToDt)
             )
             .orderBy(notice.createDt.desc())
-        val totalCount = query.fetch().size
 
         if (noticeSearchCondition.isPaging) {
             query.limit(noticeSearchCondition.contentNumPerPage)
             query.offset((noticeSearchCondition.pageNum - 1) * noticeSearchCondition.contentNumPerPage)
         }
 
-        return PageImpl<NoticeListDto>(query.fetch(), pageable, totalCount.toLong())
+        val countQuery = from(notice)
+            .select(notice.count())
+            .where(
+                super.likeIgnoreCase(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
+                    super.likeIgnoreCase(notice.createUser.userName, noticeSearchCondition.searchValue)
+                ),
+                notice.createDt.goe(noticeSearchCondition.formattedFromDt),
+                notice.createDt.lt(noticeSearchCondition.formattedToDt)
+            )
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findTopNotice(): MutableList<NoticeListDto> {

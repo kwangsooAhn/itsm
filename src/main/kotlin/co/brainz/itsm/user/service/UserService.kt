@@ -181,16 +181,14 @@ class UserService(
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
         val totalCount = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID)
-        val dataList: MutableList<UserListDataDto> = mutableListOf()
-        dataList.addAll(queryResult.dataList as MutableList<UserListDataDto>)
-        for (user in queryResult.dataList) {
+        for (user in queryResult.dataList as MutableList<UserListDataDto>) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
         }
 
         val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
-        dataList.forEach { user ->
+        userList.forEach { user ->
             val organization = organizationList.firstOrNull { it.organizationId == user.groupId }
             var organizationName = mutableListOf<String>()
             if (organization != null) {

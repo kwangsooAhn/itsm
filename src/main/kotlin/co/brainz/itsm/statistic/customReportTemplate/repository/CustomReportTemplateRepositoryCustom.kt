@@ -7,13 +7,12 @@
 package co.brainz.itsm.statistic.customReportTemplate.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateCondition
 import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
-import com.querydsl.core.QueryResults
-import org.springframework.data.domain.Page
 
 interface CustomReportTemplateRepositoryCustom : AliceRepositoryCustom {
-    fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): Page<CustomReportTemplateEntity>
+    fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): PagingReturnDto
     fun getReportTemplateDetail(templateId: String): CustomReportTemplateEntity
     fun findDuplicationTemplateName(templateName: String, templateId: String): Long
 }

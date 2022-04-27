@@ -6,23 +6,19 @@
 
 package co.brainz.framework.scheduling.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.entity.QAliceScheduleTaskEntity
 import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleTaskEntity::class.java),
     AliceScheduleTaskRepositoryCustom {
 
-    override fun findByScheduleList(schedulerSearchCondition: SchedulerSearchCondition): Page<AliceScheduleTaskEntity> {
+    override fun findByScheduleList(schedulerSearchCondition: SchedulerSearchCondition): PagingReturnDto {
         val schedule = QAliceScheduleTaskEntity.aliceScheduleTaskEntity
-        val pageable = Pageable.unpaged()
         val query = from(schedule)
             .where(
                 super.likeIgnoreCase(schedule.taskName, schedulerSearchCondition.searchValue)
@@ -31,13 +27,23 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
                     ?.or(super.likeIgnoreCase(schedule.executeClass, schedulerSearchCondition.searchValue))
             )
             .orderBy(schedule.taskName.asc())
-        val totalCount = query.fetch().size
         if (schedulerSearchCondition.isPaging) {
             query.limit(schedulerSearchCondition.contentNumPerPage)
             query.offset((schedulerSearchCondition.pageNum - 1) * schedulerSearchCondition.contentNumPerPage)
         }
 
-        return PageImpl<AliceScheduleTaskEntity>(query.fetch(), pageable, totalCount.toLong())
+        val countQuery = from(schedule)
+            .select(schedule.count())
+            .where(
+                super.likeIgnoreCase(schedule.taskName, schedulerSearchCondition.searchValue)
+                    ?.or(super.likeIgnoreCase(schedule.taskType, schedulerSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(schedule.executeCycleType, schedulerSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(schedule.executeClass, schedulerSearchCondition.searchValue))
+            )
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findByScheduleListByUse(): MutableList<AliceScheduleTaskEntity> {

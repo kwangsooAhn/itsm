@@ -71,7 +71,7 @@ class WfFormService(
     fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
         val queryResult = wfFormRepository.findFormEntityList(formSearchCondition)
         val formList = mutableListOf<RestTemplateFormDto>()
-        for (form in queryResult.content) {
+        for (form in queryResult.dataList as List<WfFormEntity>) {
             val restTemplateDto = wfFormMapper.toFormViewDto(form)
             when (restTemplateDto.status) {
                 WfFormConstants.FormStatus.EDIT.value,
@@ -84,10 +84,10 @@ class WfFormService(
         return RestTemplateFormListReturnDto(
             data = formList,
             paging = AlicePagingData(
-                totalCount = queryResult.totalElements,
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = wfFormRepository.count(),
                 currentPageNum = formSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalElements.toDouble() / formSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalCount.toDouble() / formSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

@@ -10,12 +10,11 @@ import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.dto.CITypeListDto
 import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import com.querydsl.core.QueryResults
-import org.springframework.data.domain.Page
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 
 interface CITypeRepositoryCustom : AliceRepositoryCustom {
     fun findType(typeId: String): CITypeListDto?
-    fun findTypeList(searchDto: SearchDto): Page<CITypeListDto>
+    fun findTypeList(searchDto: SearchDto): PagingReturnDto
     fun findByTypeList(search: String): List<CITypeEntity>
     fun findByCITypeAll(): List<CITypeEntity>?
     fun findCITypeByTypeName(typeName: String): CITypeEntity?

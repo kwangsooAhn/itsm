@@ -1,12 +1,11 @@
 package co.brainz.workflow.process.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.process.dto.ProcessSearchCondition
-import co.brainz.workflow.process.entity.WfProcessEntity
-import com.querydsl.core.QueryResults
 
 interface WfProcessRepositoryCustom {
 
-    fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): List<WfProcessEntity>
+    fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): PagingReturnDto
 
     fun findProcessDocumentExist(processId: String): Boolean
 }

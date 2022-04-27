@@ -11,6 +11,7 @@ import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.download.dto.DownloadDto
+import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.dto.DownloadListReturnDto
 import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.mapper.DownloadMapper
@@ -36,13 +37,13 @@ class DownloadService(
     fun getDownloadList(downloadSearchCondition: DownloadSearchCondition): DownloadListReturnDto {
         val queryResult = downloadRepository.findDownloadEntityList(downloadSearchCondition)
         return DownloadListReturnDto(
-            data = queryResult.content,
+            data = queryResult.dataList as List<DownloadListDto>,
             paging = AlicePagingData(
-                totalCount = queryResult.totalElements,
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = downloadRepository.count(),
                 currentPageNum = downloadSearchCondition.pageNum,
                 totalPageNum =
-                    ceil(queryResult.totalElements.toDouble() / downloadSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                    ceil(queryResult.totalCount.toDouble() / downloadSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

@@ -13,6 +13,7 @@ import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIsDto
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
@@ -20,12 +21,8 @@ import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepositoryCustom {
@@ -68,14 +65,13 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(ciSearchCondition: CISearchCondition): Page<CIsDto> {
+    override fun findCIList(ciSearchCondition: CISearchCondition): PagingReturnDto {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
         val cmdbTag = QAliceTagEntity.aliceTagEntity
         val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
         val wfInstance = QWfInstanceEntity.wfInstanceEntity
-        val pageable = Pageable.unpaged()
 
         val query = from(ci)
             .select(
@@ -140,13 +136,50 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         } else if (ciSearchCondition.flag == "relation") {
             query.where(!ci.ciId.eq(ciSearchCondition.relationSearch))
         }
-        val totalCount = query.fetch().size
         if (ciSearchCondition.isPaging) {
             query.limit(ciSearchCondition.contentNumPerPage)
             query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
         }
 
-        return PageImpl<CIsDto>(query.fetch(),pageable, totalCount.toLong())
+        val countQuery = from(ci)
+            .select(ci.count())
+            .where(builder)
+            .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
+            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
+        if (ciSearchCondition.typeId != null && ciSearchCondition.typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
+            countQuery.where(ci.ciTypeEntity.typeId.eq(ciSearchCondition.typeId))
+        }
+        countQuery.where(!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+        if (ciSearchCondition.tagArray.isNotEmpty()) {
+            countQuery.where(
+                ci.ciId.`in`(
+                    JPAExpressions
+                        .select(cmdbTag.targetId)
+                        .from(cmdbTag)
+                        .where(
+                            cmdbTag.tagValue.`in`(ciSearchCondition.tagArray)
+                                .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
+                        )
+                )
+            )
+        }
+        if (ciSearchCondition.flag == "component") {
+            countQuery.where(
+                ci.ciId.notIn(
+                    JPAExpressions
+                        .select(wfComponentCIData.ciId)
+                        .from(wfComponentCIData)
+                        .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                        .where(wfInstance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                )
+            )
+        } else if (ciSearchCondition.flag == "relation") {
+            countQuery.where(!ci.ciId.eq(ciSearchCondition.relationSearch))
+        }
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     /**

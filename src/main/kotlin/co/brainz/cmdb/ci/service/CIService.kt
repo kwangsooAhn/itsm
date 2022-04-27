@@ -85,17 +85,17 @@ class CIService(
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         val cis = ciRepository.findCIList(ciSearchCondition)
         val ciList = mutableListOf<CIsDto>()
-        for (ci in cis.content) {
+        for (ci in cis.dataList as List<CIsDto>) {
             ciList.add(ci)
         }
 
         return CIListReturnDto(
             data = this.getCIsListDto(ciList),
             paging = AlicePagingData(
-                totalCount = cis.totalElements,
+                totalCount = cis.totalCount,
                 totalCountWithoutCondition = ciRepository.count(),
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(cis.totalElements.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(cis.totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

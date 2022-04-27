@@ -72,12 +72,12 @@ class NumberingRuleService(
     fun getNumberingRuleList(numberingRuleSearchCondition: NumberingRuleSearchCondition): NumberingRuleListReturnDto {
         val queryResult = numberingRuleRepository.findRuleSearch(numberingRuleSearchCondition)
         return NumberingRuleListReturnDto(
-            data = queryResult.content,
+            data = queryResult.dataList as List<NumberingRuleListDto>,
             paging = AlicePagingData(
-                totalCount = queryResult.totalElements,
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = numberingRuleRepository.count(),
                 currentPageNum = numberingRuleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalElements.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalCount.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

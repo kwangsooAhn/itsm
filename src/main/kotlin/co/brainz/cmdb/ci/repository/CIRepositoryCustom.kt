@@ -9,13 +9,12 @@ package co.brainz.cmdb.ci.repository
 import co.brainz.cmdb.ci.entity.CIEntity
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
-import com.querydsl.core.QueryResults
-import org.springframework.data.domain.Page
 
 interface CIRepositoryCustom : AliceRepositoryCustom {
     fun findCI(ciId: String): CIsDto
-    fun findCIList(ciSearchCondition: CISearchCondition): Page<CIsDto>
+    fun findCIList(ciSearchCondition: CISearchCondition): PagingReturnDto
     fun findDuplicateCiNo(ciNo: String): Long
     fun getLastCiByCiNo(ciNoPrefix: String): CIEntity?
     fun countByTypeId(typeId: String): Long

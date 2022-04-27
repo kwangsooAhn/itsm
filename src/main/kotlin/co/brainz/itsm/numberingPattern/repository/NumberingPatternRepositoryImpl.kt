@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.numberingPattern.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
@@ -24,7 +25,7 @@ class NumberingPatternRepositoryImpl(
     QuerydslRepositorySupport(NumberingPatternEntity::class.java),
     NumberingPatternRepositoryCustom {
 
-    override fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): List<NumberingPatternListDto> {
+    override fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): PagingReturnDto {
         val pattern = QNumberingPatternEntity.numberingPatternEntity
         val query = from(pattern)
             .select(
@@ -58,6 +59,15 @@ class NumberingPatternRepositoryImpl(
                 }
             }
         }
-        return query
+
+        val countQuery = from(pattern)
+            .select(pattern.count())
+            .where(super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue))
+            .fetchOne()
+
+        return PagingReturnDto(
+            dataList = query,
+            totalCount = countQuery
+        )
     }
 }

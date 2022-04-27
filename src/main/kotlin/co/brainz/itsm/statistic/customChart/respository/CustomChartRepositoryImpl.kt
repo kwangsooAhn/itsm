@@ -8,6 +8,7 @@ package co.brainz.itsm.statistic.customChart.respository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.querydsl.QuerydslConstants
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customChart.dto.ChartDataDto
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
@@ -15,24 +16,20 @@ import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
 import co.brainz.itsm.statistic.customChart.entity.QChartEntity
 import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateMapEntity
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java),
     CustomChartRepositoryCustom {
-    override fun findChartList(chartSearchCondition: ChartSearchCondition): Page<CustomChartListDto> {
+    override fun findChartList(chartSearchCondition: ChartSearchCondition): PagingReturnDto {
         val chart = QChartEntity.chartEntity
         val user = QAliceUserEntity.aliceUserEntity
-        val pageable = Pageable.unpaged()
+
         val query = from(chart)
             .select(
                 Projections.constructor(
@@ -68,12 +65,20 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
             }
             query.orderBy(OrderSpecifier(direction, column))
         }
-        val totalCount = query.fetch().size
         if (chartSearchCondition.isPaging) {
             query.limit(chartSearchCondition.contentNumPerPage)
             query.offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
         }
-        return PageImpl<CustomChartListDto>(query.fetch(), pageable, totalCount.toLong())
+
+        val countQuery = from(chart)
+            .select(chart.count())
+            .where(super.eq(chart.chartType, chartSearchCondition.searchGroupName))
+            .where(super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue))
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+
+        )
     }
 
     override fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto> {

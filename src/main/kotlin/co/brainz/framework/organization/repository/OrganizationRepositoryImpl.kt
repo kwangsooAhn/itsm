@@ -23,10 +23,6 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             .where(
                 super.likeIgnoreCase(organization.organizationName, organizationSearchCondition.searchValue)
             )
-        if (organizationSearchCondition.isPaging) {
-            query.limit(organizationSearchCondition.contentNumPerPage)
-            query.offset((organizationSearchCondition.pageNum - 1) * organizationSearchCondition.contentNumPerPage)
-        }
         query.orderBy(organization.level.asc(), organization.seqNum.asc())
         return query.fetch()
     }

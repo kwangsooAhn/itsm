@@ -17,15 +17,12 @@ import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIGroupListDto
 import co.brainz.cmdb.dto.CISearchItem
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::class.java),
@@ -34,9 +31,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     /**
      * Attribute 목록 조회.
      */
-    override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): Page<CIAttributeListDto> {
+    override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): PagingReturnDto {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
-        val pageable = Pageable.unpaged()
         val query = from(ciAttribute)
             .select(
                 Projections.constructor(
@@ -56,14 +52,25 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
                     ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
             ).orderBy(ciAttribute.attributeName.asc())
-        val totalCount = query.fetch().size
 
         if (ciAttributeSearchCondition.isPaging) {
             query.limit(ciAttributeSearchCondition.contentNumPerPage)
             query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
         }
 
-        return PageImpl<CIAttributeListDto>(query.fetch(), pageable, totalCount.toLong())
+        val countQuery = from(ciAttribute)
+            .select(ciAttribute.count())
+            .where(
+                super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
+                    ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
+                    ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
+            )
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findAttributeList(attributeIds: Set<String>): List<CISearchItem> {
@@ -199,9 +206,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     override fun findAttributeListWithoutGroupList(
         attributeId: String,
         ciAttributeSearchCondition: CIAttributeSearchCondition
-    ): Page<CIAttributeListDto> {
+    ): PagingReturnDto {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
-        val pageable = Pageable.unpaged()
         val query = from(ciAttribute)
             .select(
                 Projections.constructor(
@@ -225,13 +231,26 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                             ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
                     )
             ).orderBy(ciAttribute.attributeName.asc())
-        val totalCount = query.fetch().size
         if (ciAttributeSearchCondition.isPaging) {
             query.limit(ciAttributeSearchCondition.contentNumPerPage)
             query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
         }
 
-        return PageImpl<CIAttributeListDto>(query.fetch(), pageable, totalCount.toLong())
+        val countQuery = from(ciAttribute)
+            .select(ciAttribute.count())
+            .where(
+                ciAttribute.attributeId.notIn(attributeId)
+                    .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
+                    .and(
+                        super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
+                            ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
+                            ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     /**

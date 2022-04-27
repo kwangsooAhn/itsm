@@ -13,11 +13,8 @@ import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.dto.CIClassListDto
 import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.cmdb.dto.SearchDto
-import com.querydsl.core.QueryResults
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import com.querydsl.core.types.Projections
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.java), CIClassRepositoryCustom {
@@ -42,9 +39,8 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
             .fetchOne()
     }
 
-    override fun findClassList(searchDto: SearchDto): Page<CIClassListDto> {
+    override fun findClassList(searchDto: SearchDto): PagingReturnDto {
         val ciClass = QCIClassEntity.cIClassEntity
-        val pageable = Pageable.unpaged()
         val query = from(ciClass)
             .select(
                 Projections.constructor(
@@ -63,14 +59,24 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                 super.likeIgnoreCase(ciClass.className, searchDto.search)
                     ?.or(super.likeIgnoreCase(ciClass.classDesc, searchDto.search))
             ).orderBy(ciClass.classLevel.asc(), ciClass.classSeq.asc(), ciClass.className.asc())
-        val totalCount = query.fetch().size
         if (searchDto.limit != null) {
             query.limit(searchDto.limit)
         }
         if (searchDto.offset != null) {
             query.offset(searchDto.offset)
         }
-        return PageImpl<CIClassListDto>(query.fetch(), pageable, totalCount.toLong())
+
+        val countQuery = from(ciClass)
+            .select(ciClass.count())
+            .where(
+                super.likeIgnoreCase(ciClass.className, searchDto.search)
+                    ?.or(super.likeIgnoreCase(ciClass.classDesc, searchDto.search))
+            )
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findClassEntityList(search: String): List<CIClassEntity> {

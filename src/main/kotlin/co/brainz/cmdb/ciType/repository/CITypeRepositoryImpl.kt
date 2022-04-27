@@ -10,11 +10,8 @@ import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.dto.CITypeListDto
 import co.brainz.cmdb.dto.SearchDto
-import com.querydsl.core.QueryResults
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import com.querydsl.core.types.Projections
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java), CITypeRepositoryCustom {
@@ -44,9 +41,8 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
             .fetchOne()
     }
 
-    override fun findTypeList(searchDto: SearchDto): Page<CITypeListDto> {
+    override fun findTypeList(searchDto: SearchDto): PagingReturnDto {
         val ciType = QCITypeEntity.cITypeEntity
-        val pageable = Pageable.unpaged()
         val query = from(ciType)
             .select(
                 Projections.constructor(
@@ -72,14 +68,20 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                 )
             )
             .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
-        val totalCount = query.fetch().size
         if (searchDto.limit != null) {
             query.limit(searchDto.limit)
         }
         if (searchDto.offset != null) {
             query.offset(searchDto.offset)
         }
-        return PageImpl<CITypeListDto>(query.fetch(), pageable, totalCount.toLong())
+
+        val countQuery = from(ciType)
+            .select(ciType.count())
+            .where(super.likeIgnoreCase(ciType.typeName, searchDto.search))
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findByTypeList(search: String): List<CITypeEntity> {

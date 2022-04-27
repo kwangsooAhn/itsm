@@ -22,6 +22,7 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.auth.dto.AuthDto
+import co.brainz.itsm.auth.dto.AuthListDto
 import co.brainz.itsm.auth.dto.AuthListReturnDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthSearchCondition
@@ -51,9 +52,9 @@ class AuthService(
             AuthSearchCondition("")
         )
         return AuthListReturnDto(
-            data = authList.content,
+            data = authList.dataList as List<AuthListDto>,
             paging = AlicePagingData(
-                totalCount = authList.totalElements,
+                totalCount = authList.totalCount,
                 totalCountWithoutCondition = authRepository.count(),
                 currentPageNum = 0L,
                 totalPageNum = 0L,
@@ -69,12 +70,12 @@ class AuthService(
         val queryResult = authRepository.findAuthSearch(authSearchCondition)
 
         return AuthListReturnDto(
-            data = queryResult.content,
+            data = queryResult.dataList as List<AuthListDto>,
             paging = AlicePagingData(
-                totalCount = queryResult.totalElements,
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = authRepository.count(),
                 currentPageNum = authSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalElements.toDouble() / authSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalCount.toDouble() / authSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

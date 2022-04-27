@@ -23,6 +23,7 @@ import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CISearchItem
+import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
@@ -122,9 +123,10 @@ class CIService(
      */
     fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): CIDynamicReturnDto {
         ciSearchCondition.isPaging = false
-        val ciList = ciRepository.findCIList(ciSearchCondition)
+        val dataList = ciRepository.findCIList(ciSearchCondition)
+        val ciList = dataList.dataList as List<CIsDto>
         // 공통 출력 데이터 조회
-        var basic = ciSearchService.getBasic(ciList.content)
+        var basic = ciSearchService.getBasic(ciList)
         // 옵션 출력 데이터 조회
         val dynamic = ciSearchCondition.typeId?.let {
             ciSearchService.getDynamic(it, basic, searchItemsData, ciSearchCondition.isExcel)
@@ -137,8 +139,6 @@ class CIService(
         basic.contents = ciSearchService.getConvertValue(basic)
         // 정렬
         basic.contents = ciSearchService.getOrderContents(basic, ciSearchCondition)
-        // 페이징
-        val totalCount = basic.contents.size
         if (!ciSearchCondition.isExcel) {
             basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
         }
@@ -146,10 +146,10 @@ class CIService(
         return CIDynamicReturnDto(
             data = basic,
             paging = AlicePagingData(
-                totalCount = totalCount.toLong(),
-                totalCountWithoutCondition = ciSearchCondition.typeId?.let { ciRepository.countByTypeId(it) } ?: 0,
+                totalCount =  dataList.totalCount,
+                totalCountWithoutCondition = ciRepository.count(),
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(dataList.totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code,
                 orderColName = ciSearchCondition.orderColName,
                 orderDir = ciSearchCondition.orderDir

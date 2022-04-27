@@ -7,14 +7,12 @@
 package co.brainz.itsm.board.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.board.dto.BoardArticleListDto
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
-import com.querydsl.core.QueryResults
-import org.springframework.data.domain.Page
 
 interface BoardRepositoryCustom : AliceRepositoryCustom {
-    fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): Page<BoardArticleListDto>
+    fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): PagingReturnDto
 
     fun findByBoardId(boardId: String): BoardArticleViewDto
 }

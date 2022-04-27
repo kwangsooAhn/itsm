@@ -52,8 +52,8 @@ class CITypeService(
         )
         val ciTypes = ciTypeRepository.findTypeList(searchDto)
         return CITypeReturnDto(
-            data = ciTypes.content,
-            totalCount = ciTypes.totalElements
+            data = ciTypes.dataList as List<CITypeListDto>,
+            totalCount = ciTypes.totalCount
         )
     }
 

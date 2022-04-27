@@ -52,9 +52,9 @@ class RoleService(
     fun selectRoleList(): RoleListReturnDto {
         val roleList = roleRepository.findRoleSearch(RoleSearchCondition(""))
         return RoleListReturnDto(
-            data = roleList.content,
+            data = roleList.dataList as List<RoleListDto>,
             paging = AlicePagingData(
-                totalCount = roleList.totalElements,
+                totalCount = roleList.totalCount,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = 0L,
                 totalPageNum = 0L,
@@ -160,12 +160,12 @@ class RoleService(
         val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
 
         return RoleListReturnDto(
-            data = queryResult.content,
+            data = queryResult.dataList as List<RoleListDto>,
             paging = AlicePagingData(
-                totalCount = queryResult.totalElements,
+                totalCount = queryResult.totalCount,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = roleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalElements.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalCount.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -200,7 +200,7 @@ class RoleService(
      * 역할 목록 Excel 다운로드
      */
     fun getRoleListExcelDownload(roleSearchCondition: RoleSearchCondition): ResponseEntity<ByteArray> {
-        val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
+        val queryResult = roleRepository.findRoleSearch(roleSearchCondition).dataList as List<RoleListDto>
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
@@ -216,7 +216,7 @@ class RoleService(
                 )
             )
         )
-        queryResult.content.forEach { result ->
+        queryResult.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(

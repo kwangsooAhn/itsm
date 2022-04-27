@@ -13,7 +13,6 @@ import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions.constant
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport

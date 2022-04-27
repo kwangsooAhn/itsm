@@ -72,8 +72,8 @@ class CIClassService(
         )
         val ciClasses = ciClassRepository.findClassList(searchDto)
         return CIClassReturnDto(
-            data = ciClasses.content,
-            totalCount = ciClasses.totalElements
+            data = ciClasses.dataList as List<CIClassListDto>,
+            totalCount = ciClasses.totalCount
         )
     }
 
@@ -109,7 +109,7 @@ class CIClassService(
             val ciClassResult = ciClassRepository.findClassList(SearchDto(offset = null, limit = null))
             recursiveClassList.addAll(
                 getRecursiveParentClassId(
-                    ciClassResult.content,
+                    ciClassResult.dataList as List<CIClassListDto>,
                     ciClassEntity.pClass?.classId,
                     mutableListOf()
                 )
