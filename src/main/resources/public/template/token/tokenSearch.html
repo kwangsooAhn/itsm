@@ -109,9 +109,9 @@
 
     // 검색 시간 딜레이 (0.5s)
     function searchDelay() {
-        let searchDelay = null;
-        searchDelay = setTimeout(function () {
-            clearTimeout(searchDelay);
+        let timeout = null;
+        timeout = setTimeout(function () {
+            clearTimeout(timeout);
             getList();
         }, 500);
     }
