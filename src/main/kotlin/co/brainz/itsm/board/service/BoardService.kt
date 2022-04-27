@@ -7,8 +7,9 @@
 package co.brainz.itsm.board.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.board.constants.BoardConstants
 import co.brainz.itsm.board.dto.BoardCategoryDetailDto
 import co.brainz.itsm.board.dto.BoardCategoryDto
 import co.brainz.itsm.board.dto.BoardDto
@@ -17,9 +18,9 @@ import co.brainz.itsm.board.dto.BoardListReturnDto
 import co.brainz.itsm.board.dto.BoardSearchCondition
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.PortalBoardCategoryEntity
-import co.brainz.itsm.board.repository.BoardRepository
 import co.brainz.itsm.board.repository.BoardAdminRepository
 import co.brainz.itsm.board.repository.BoardCategoryRepository
+import co.brainz.itsm.board.repository.BoardRepository
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.stereotype.Service
@@ -55,7 +56,8 @@ class BoardService(
      * @param boardDto
      */
     @Transactional
-    fun saveBoard(boardDto: BoardDto): Boolean {
+    fun saveBoard(boardDto: BoardDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val portalBoardAdminEntity = PortalBoardAdminEntity(
             boardAdminId = boardDto.boardAdminId,
             boardAdminTitle = boardDto.boardAdminTitle,
@@ -70,68 +72,72 @@ class BoardService(
         )
         val preBoardEntity: PortalBoardAdminEntity? =
             boardAdminRepository.findByBoardAdminId(portalBoardAdminEntity.boardAdminId)
-        // TODO: 중복코드 - E-0001 로 반환 필요
         val duplicateCount = boardAdminRepository.countByBoardAdminTitle(boardDto.boardAdminTitle!!)
         if (duplicateCount > 0 && !boardDto.boardAdminTitle.equals(preBoardEntity?.boardAdminTitle)) {
-            return false
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
-        val boardAdmin = boardAdminRepository.save(portalBoardAdminEntity)
-        if (boardDto.categoryYn) {
-            val categoryList = mutableListOf<PortalBoardCategoryEntity>()
-            if (boardDto.boardAdminId.isNotEmpty()) {
-                val boardCategoryList = boardCategoryRepository.findByCategoryList(boardDto.boardAdminId)
-                val newCategoryList = mutableListOf<BoardCategoryDetailDto>()
-                val existsCategoryList = mutableListOf<BoardCategoryDto>()
-                for (boardCategoryDetailDto in boardDto.categoryList) {
-                    if (boardCategoryDetailDto.boardCategoryId.isEmpty()) { // new
-                        newCategoryList.add(boardCategoryDetailDto)
-                    } else {
-                        for (boardCategoryDto in boardCategoryList) {
-                            if (boardCategoryDto.boardCategoryId == boardCategoryDetailDto.boardCategoryId) {
-                                existsCategoryList.add(boardCategoryDto)
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            val boardAdmin = boardAdminRepository.save(portalBoardAdminEntity)
+            if (boardDto.categoryYn) {
+                val categoryList = mutableListOf<PortalBoardCategoryEntity>()
+                if (boardDto.boardAdminId.isNotEmpty()) {
+                    val boardCategoryList = boardCategoryRepository.findByCategoryList(boardDto.boardAdminId)
+                    val newCategoryList = mutableListOf<BoardCategoryDetailDto>()
+                    val existsCategoryList = mutableListOf<BoardCategoryDto>()
+                    for (boardCategoryDetailDto in boardDto.categoryList) {
+                        if (boardCategoryDetailDto.boardCategoryId.isEmpty()) { // new
+                            newCategoryList.add(boardCategoryDetailDto)
+                        } else {
+                            for (boardCategoryDto in boardCategoryList) {
+                                if (boardCategoryDto.boardCategoryId == boardCategoryDetailDto.boardCategoryId) {
+                                    existsCategoryList.add(boardCategoryDto)
+                                }
                             }
                         }
                     }
-                }
 
-                val deleteCategoryList = mutableListOf<BoardCategoryDto>()
-                for (boardCategoryDto in boardCategoryList) {
-                    if (!existsCategoryList.contains(boardCategoryDto)) {
-                        deleteCategoryList.add(boardCategoryDto)
+                    val deleteCategoryList = mutableListOf<BoardCategoryDto>()
+                    for (boardCategoryDto in boardCategoryList) {
+                        if (!existsCategoryList.contains(boardCategoryDto)) {
+                            deleteCategoryList.add(boardCategoryDto)
+                        }
+                    }
+
+                    // 카테고리 삭제
+                    deleteCategoryList.forEach { category ->
+                        boardCategoryRepository.deleteById(category.boardCategoryId)
+                    }
+
+                    newCategoryList.forEach { category ->
+                        categoryList.add(
+                            PortalBoardCategoryEntity(
+                                boardCategoryId = "",
+                                boardAdmin = boardAdminRepository.getOne(boardDto.boardAdminId),
+                                boardCategoryName = category.boardCategoryName,
+                                boardCategorySort = category.boardCategorySort
+                            )
+                        )
+                    }
+                } else {
+                    boardDto.categoryList.forEach { category ->
+                        categoryList.add(
+                            PortalBoardCategoryEntity(
+                                boardCategoryId = "",
+                                boardAdmin = boardAdmin,
+                                boardCategoryName = category.boardCategoryName,
+                                boardCategorySort = category.boardCategorySort
+                            )
+                        )
                     }
                 }
-
-                deleteCategoryList.forEach { category ->
-                    this.deleteBoardCategory(category.boardCategoryId)
+                if (categoryList.isNotEmpty()) {
+                    boardCategoryRepository.saveAll(categoryList)
                 }
-
-                newCategoryList.forEach { category ->
-                    categoryList.add(
-                        PortalBoardCategoryEntity(
-                            boardCategoryId = "",
-                            boardAdmin = boardAdminRepository.getOne(boardDto.boardAdminId),
-                            boardCategoryName = category.boardCategoryName,
-                            boardCategorySort = category.boardCategorySort
-                        )
-                    )
-                }
-            } else {
-                boardDto.categoryList.forEach { category ->
-                    categoryList.add(
-                        PortalBoardCategoryEntity(
-                            boardCategoryId = "",
-                            boardAdmin = boardAdmin,
-                            boardCategoryName = category.boardCategoryName,
-                            boardCategorySort = category.boardCategorySort
-                        )
-                    )
-                }
-            }
-            if (categoryList.isNotEmpty()) {
-                boardCategoryRepository.saveAll(categoryList)
             }
         }
-        return true
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -172,14 +178,16 @@ class BoardService(
      * @param boardAdminId
      */
     @Transactional
-    fun deleteBoard(boardAdminId: String): String {
-        return if (boardRepository.countByBoardAdminId(boardAdminId) > 0) {
-            // TODO: 기존 게시물 존제시 삭제 불가능 이므로  'E-0004' 코드 반환 필요
-            BoardConstants.Status.STATUS_FAIL.code
+    fun deleteBoard(boardAdminId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (boardRepository.countByBoardAdminId(boardAdminId) > 0) {
+            status = ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             boardAdminRepository.deleteById(boardAdminId)
-            BoardConstants.Status.STATUS_SUCCESS.code
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -204,16 +212,6 @@ class BoardService(
             )
         }
         return boardCategoryDetailDtoList
-    }
-
-    /**
-     * 카테고리 삭제
-     *
-     * @param boardCategoryId
-     */
-    @Transactional
-    fun deleteBoardCategory(boardCategoryId: String) {
-        boardCategoryRepository.deleteById(boardCategoryId)
     }
 
     /**
