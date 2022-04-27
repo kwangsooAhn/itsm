@@ -36,24 +36,27 @@ class BoardRestController(
      *
      */
     @GetMapping("/{boardAdminId}/view")
-    fun getBoardView(@PathVariable boardAdminId: String): BoardDetailDto {
+    fun getBoardView(@PathVariable boardAdminId: String): ResponseEntity<ZResponse> {
         val boardAdminDetail = boardService.getBoardDetail(boardAdminId)
-        // TODO: { status: '', message: '', data: BoardDetailDto } 로 구조 변경
-        return BoardDetailDto(
-            boardAdminId = boardAdminDetail.boardAdminId,
-            boardAdminTitle = boardAdminDetail.boardAdminTitle,
-            boardAdminDesc = boardAdminDetail.boardAdminDesc,
-            boardAdminSort = boardAdminDetail.boardAdminSort,
-            boardUseYn = boardAdminDetail.boardUseYn,
-            replyYn = boardAdminDetail.replyYn,
-            commentYn = boardAdminDetail.commentYn,
-            categoryYn = boardAdminDetail.categoryYn,
-            attachYn = boardAdminDetail.attachYn,
-            attachFileSize = boardAdminDetail.attachFileSize,
-            boardBoardCount = boardAdminDetail.boardBoardCount,
-            categoryInfo = boardService.getBoardCategoryDetailList(boardAdminId),
-            createDt = boardAdminDetail.createDt,
-            createUserName = boardAdminDetail.createUser?.userName
+        return ZAliceResponse.response(
+            ZResponse(
+                data = BoardDetailDto(
+                    boardAdminId = boardAdminDetail.boardAdminId,
+                    boardAdminTitle = boardAdminDetail.boardAdminTitle,
+                    boardAdminDesc = boardAdminDetail.boardAdminDesc,
+                    boardAdminSort = boardAdminDetail.boardAdminSort,
+                    boardUseYn = boardAdminDetail.boardUseYn,
+                    replyYn = boardAdminDetail.replyYn,
+                    commentYn = boardAdminDetail.commentYn,
+                    categoryYn = boardAdminDetail.categoryYn,
+                    attachYn = boardAdminDetail.attachYn,
+                    attachFileSize = boardAdminDetail.attachFileSize,
+                    boardBoardCount = boardAdminDetail.boardBoardCount,
+                    categoryInfo = boardService.getBoardCategoryDetailList(boardAdminId),
+                    createDt = boardAdminDetail.createDt,
+                    createUserName = boardAdminDetail.createUser?.userName
+                )
+            )
         )
     }
 
