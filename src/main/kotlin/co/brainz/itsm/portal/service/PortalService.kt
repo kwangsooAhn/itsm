@@ -63,7 +63,7 @@ class PortalService(
             false -> codeRepository.getOne(category)
         }
         val faqAll = faqRepository.findFaqs(FaqSearchCondition(null, null, 0, 0))
-        val faqList = faqAll
+        val faqList = faqAll.content
 
         var selectedFaq = FaqListDto()
         if (faqId.isNotEmpty()) {

@@ -27,6 +27,7 @@ import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.organization.service.OrganizationService
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -156,7 +157,7 @@ class UserService(
         when (userSearchCompCondition.targetCriteria) {
             AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
                 val organization = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
-                val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
+                val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
                 val organizationNameList = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
                 organizationNameList.forEach { targetKeys.add(it) }
             }
@@ -179,19 +180,22 @@ class UserService(
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val userList: MutableList<UserListDataDto> = mutableListOf()
-        for (user in queryResult.results) {
+        val totalCount = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID)
+        val dataList: MutableList<UserListDataDto> = mutableListOf()
+        dataList.addAll(queryResult.dataList as MutableList<UserListDataDto>)
+        for (user in queryResult.dataList) {
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
             userList.add(user)
         }
 
         val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
-        queryResult.results.forEach { user ->
-            val organization = organizationList.results.firstOrNull { it.organizationId == user.groupId }
+        dataList.forEach { user ->
+            val organization = organizationList.firstOrNull { it.organizationId == user.groupId }
             var organizationName = mutableListOf<String>()
             if (organization != null) {
                 if (organization.pOrganization != null) {
-                    organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
+                    organizationName = organizationService.getOrganizationParent(organization, organizationList, organizationName)
                 } else {
                     organizationName.add(organization.organizationName.toString())
                 }
@@ -202,10 +206,10 @@ class UserService(
         return UserListReturnDto(
             data = userList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID),
+                totalCount = queryResult.totalCount,
+                totalCountWithoutCondition = totalCount,
                 currentPageNum = userSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / userSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalCount.toDouble() / userSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -682,7 +686,7 @@ class UserService(
                 )
             )
         )
-        returnDto.results.forEach { result ->
+        returnDto.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
@@ -714,6 +718,6 @@ class UserService(
      * 조직에 속하 사용자 목록 조회
      */
     fun getUserListInOrganization(organizationIds: Set<String>): List<AliceUserEntity> {
-        return userRepository.getUserListInOrganization(organizationIds).results
+        return userRepository.getUserListInOrganization(organizationIds)
     }
 }

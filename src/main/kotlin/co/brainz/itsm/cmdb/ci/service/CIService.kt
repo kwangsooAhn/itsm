@@ -124,7 +124,7 @@ class CIService(
         ciSearchCondition.isPaging = false
         val ciList = ciRepository.findCIList(ciSearchCondition)
         // 공통 출력 데이터 조회
-        var basic = ciSearchService.getBasic(ciList.results)
+        var basic = ciSearchService.getBasic(ciList.content)
         // 옵션 출력 데이터 조회
         val dynamic = ciSearchCondition.typeId?.let {
             ciSearchService.getDynamic(it, basic, searchItemsData, ciSearchCondition.isExcel)

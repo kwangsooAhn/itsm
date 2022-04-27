@@ -20,14 +20,14 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
     CodeRepositoryCustom {
 
-    override fun findByCodeAll(): QueryResults<CodeEntity> {
+    override fun findByCodeAll(): List<CodeEntity> {
         val code = QCodeEntity.codeEntity
         return from(code)
             .orderBy(code.level.asc(), code.seqNum.asc())
-            .fetchResults()
+            .fetch()
     }
 
-    override fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity> {
+    override fun findByCodeList(search: String, pCode: String): List<CodeEntity> {
         val code = QCodeEntity.codeEntity
 
         val builder = BooleanBuilder()
@@ -43,7 +43,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                 )
             )
             .orderBy(code.level.asc(), code.code.asc())
-            .fetchResults()
+            .fetch()
     }
 
     override fun findCodeByPCodeIn(pCodes: Set<String>, lang: String?): List<CodeDto> {

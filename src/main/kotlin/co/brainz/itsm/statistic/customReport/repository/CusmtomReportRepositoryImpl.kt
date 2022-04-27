@@ -13,14 +13,18 @@ import co.brainz.itsm.statistic.customReport.entity.QReportEntity
 import co.brainz.itsm.statistic.customReport.entity.ReportEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class CusmtomReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java), CusmtomReportRepositoryCustom {
 
-    override fun getReportList(reportSearchCondition: ReportSearchCondition): QueryResults<CustomReportListDto> {
+    override fun getReportList(reportSearchCondition: ReportSearchCondition): Page<CustomReportListDto> {
         val report = QReportEntity.reportEntity
+        val pageable = Pageable.unpaged()
         val query = from(report)
             .select(
                 Projections.constructor(
@@ -36,11 +40,12 @@ class CusmtomReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::clas
                 super.eq(report.templateId, reportSearchCondition.searchTemplate)
             )
             .orderBy(report.publishDt.desc())
+        val totalCount = query.fetch().size
         if (reportSearchCondition.isPaging) {
             query.limit(reportSearchCondition.contentNumPerPage)
             query.offset((reportSearchCondition.pageNum - 1) * reportSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+        return PageImpl<CustomReportListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     /**

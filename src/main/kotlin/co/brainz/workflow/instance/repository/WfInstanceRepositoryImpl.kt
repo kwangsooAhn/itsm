@@ -56,6 +56,9 @@ import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -77,12 +80,13 @@ class WfInstanceRepositoryImpl(
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
     val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
     val code: QCodeEntity = QCodeEntity.codeEntity
+    val pageable = Pageable.unpaged()
 
     override fun findTodoInstances(
         status: List<String>?,
         tokenStatus: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto> {
+    ): Page<WfInstanceListViewDto> {
 
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
@@ -179,11 +183,12 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)
+        val totalCount = query.fetch().size
         if (tokenSearchCondition.isPaging) {
             query.limit(tokenSearchCondition.contentNumPerPage)
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+        return PageImpl<WfInstanceListViewDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     /**
@@ -224,7 +229,7 @@ class WfInstanceRepositoryImpl(
         return query
     }
 
-    override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> {
+    override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): Page<WfInstanceListViewDto> {
         val tokenSub = QWfTokenEntity("tokenSub")
         val startDtSubToken = QWfTokenEntity.wfTokenEntity
         val builder = getInstancesWhereCondition(
@@ -257,17 +262,18 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)
+        val totalCount = query.fetch().size
         if (tokenSearchCondition.isPaging) {
             query.limit(tokenSearchCondition.contentNumPerPage)
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+        return PageImpl<WfInstanceListViewDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findRelationInstances(
         status: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto> {
+    ): Page<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
         val startDtSubToken = QWfTokenEntity.wfTokenEntity
@@ -316,11 +322,12 @@ class WfInstanceRepositoryImpl(
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)
+        val totalCount = query.fetch().size
         if (tokenSearchCondition.isPaging) {
             query.limit(tokenSearchCondition.contentNumPerPage)
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+        return PageImpl<WfInstanceListViewDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto> {

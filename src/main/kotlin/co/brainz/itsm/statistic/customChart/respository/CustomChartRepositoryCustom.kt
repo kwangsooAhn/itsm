@@ -12,9 +12,10 @@ import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
 import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface CustomChartRepositoryCustom : AliceRepositoryCustom {
-    fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<CustomChartListDto>
+    fun findChartList(chartSearchCondition: ChartSearchCondition): Page<CustomChartListDto>
     fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto>
     fun existsDuplicationData(chartDto: ChartDto): Boolean
 }

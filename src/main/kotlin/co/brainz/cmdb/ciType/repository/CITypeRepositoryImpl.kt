@@ -12,6 +12,9 @@ import co.brainz.cmdb.dto.CITypeListDto
 import co.brainz.cmdb.dto.SearchDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java), CITypeRepositoryCustom {
@@ -41,8 +44,9 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
             .fetchOne()
     }
 
-    override fun findTypeList(searchDto: SearchDto): QueryResults<CITypeListDto> {
+    override fun findTypeList(searchDto: SearchDto): Page<CITypeListDto> {
         val ciType = QCITypeEntity.cITypeEntity
+        val pageable = Pageable.unpaged()
         val query = from(ciType)
             .select(
                 Projections.constructor(
@@ -68,16 +72,17 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                 )
             )
             .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
+        val totalCount = query.fetch().size
         if (searchDto.limit != null) {
             query.limit(searchDto.limit)
         }
         if (searchDto.offset != null) {
             query.offset(searchDto.offset)
         }
-        return query.fetchResults()
+        return PageImpl<CITypeListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
-    override fun findByTypeList(search: String): QueryResults<CITypeEntity> {
+    override fun findByTypeList(search: String): List<CITypeEntity> {
         val ciType = QCITypeEntity.cITypeEntity
         return from(ciType)
             .select(ciType)
@@ -88,7 +93,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
             )
             .innerJoin(ciType.ciClass).fetchJoin()
             .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
-            .fetchResults()
+            .fetch()
     }
 
     override fun findByCITypeAll(): List<CITypeEntity>? {

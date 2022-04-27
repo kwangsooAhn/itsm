@@ -72,12 +72,12 @@ class NumberingRuleService(
     fun getNumberingRuleList(numberingRuleSearchCondition: NumberingRuleSearchCondition): NumberingRuleListReturnDto {
         val queryResult = numberingRuleRepository.findRuleSearch(numberingRuleSearchCondition)
         return NumberingRuleListReturnDto(
-            data = queryResult.results,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = numberingRuleRepository.count(),
                 currentPageNum = numberingRuleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -338,8 +338,8 @@ class NumberingRuleService(
             numberingRuleDto.patternList,
             numberingRuleDto.numberingId
         )
-        if (numberingRulePatternMapResult.results.isNotEmpty()) {
-            val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
+        if (numberingRulePatternMapResult.isNotEmpty()) {
+            val numberingGrouping = numberingRulePatternMapResult.groupBy { it.numberingRule }
             for (numbering in numberingGrouping) {
                 var order = 0
                 val numberingGroupingList = numbering.value

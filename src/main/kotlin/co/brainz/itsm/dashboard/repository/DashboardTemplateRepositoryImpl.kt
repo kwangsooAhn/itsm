@@ -31,7 +31,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
                     .and(user.department.eq(organization.organizationId))
             )
-            .fetchCount()
+            .fetch().size.toLong()
     }
 
     override fun countByUserRunningDocument(document: WfDocumentEntity, userKey: String): Long {
@@ -42,7 +42,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
                     .and(instance.instanceCreateUser.userKey.eq(userKey))
             )
-            .fetchCount()
+            .fetch().size.toLong()
     }
 
     override fun organizationRunningDocument(

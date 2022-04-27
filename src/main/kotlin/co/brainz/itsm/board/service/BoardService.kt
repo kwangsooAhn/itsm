@@ -38,12 +38,12 @@ class BoardService(
     fun getBoardList(boardSearchCondition: BoardSearchCondition): BoardListReturnDto {
         val queryResult = boardAdminRepository.findByBoardAdminList(boardSearchCondition)
         return BoardListReturnDto(
-            data = queryResult.results,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = boardAdminRepository.count(),
                 currentPageNum = boardSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / boardSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / boardSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

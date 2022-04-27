@@ -24,7 +24,7 @@ class NumberingPatternRepositoryImpl(
     QuerydslRepositorySupport(NumberingPatternEntity::class.java),
     NumberingPatternRepositoryCustom {
 
-    override fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): QueryResults<NumberingPatternListDto> {
+    override fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): List<NumberingPatternListDto> {
         val pattern = QNumberingPatternEntity.numberingPatternEntity
         val query = from(pattern)
             .select(
@@ -42,9 +42,9 @@ class NumberingPatternRepositoryImpl(
             .orderBy(pattern.patternName.asc(), pattern.patternType.asc(), pattern.patternValue.asc())
             .limit(numberingPatternSearchCondition.contentNumPerPage)
             .offset((numberingPatternSearchCondition.pageNum - 1) * numberingPatternSearchCondition.contentNumPerPage)
-            .fetchResults()
+            .fetch()
 
-        for (data in query.results) {
+        for (data in query) {
             data.patternValue = numberingPatternService.getPatternValue(data.patternType, data.patternValue)
             when (data.patternType) {
                 NumberingPatternConstants.PatternType.TEXT.code -> {

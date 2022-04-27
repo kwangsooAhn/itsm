@@ -14,7 +14,7 @@ import com.querydsl.core.QueryResults
 
 interface CustomCodeRepositoryCustom : AliceRepositoryCustom {
 
-    fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): QueryResults<CustomCodeListDto>
+    fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): MutableList<CustomCodeListDto>
 
     fun findByCustomCode(customCodeId: String): CustomCodeCoreDto
 }

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository
 class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
     ViewerRepositoryCustom {
 
-    override fun findByInstanceViewerList(instanceId: String): QueryResults<WfInstanceViewerEntity>? {
+    override fun findByInstanceViewerList(instanceId: String): List<WfInstanceViewerEntity>? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
         return from(viewer)
@@ -25,7 +25,7 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
                 viewer.instance.instanceId.eq(instanceId)
             )
             .orderBy(viewer.createDt.asc())
-            .fetchResults()
+            .fetch()
 
     }
 

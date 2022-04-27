@@ -44,13 +44,13 @@ class OrganizationService(
     fun getOrganizationList(organizationSearchCondition: OrganizationSearchCondition): OrganizationListReturnDto {
         val treeOrganizationList = mutableListOf<OrganizationListDto>()
         val pOrganizationList = mutableListOf<OrganizationEntity>()
-        val queryResults: QueryResults<OrganizationEntity>
+        val queryResults: List<OrganizationEntity>
         if (organizationSearchCondition.searchValue != null) {
             queryResults = organizationRepository.findByOrganizationSearchList(organizationSearchCondition)
         } else {
             queryResults = organizationRepository.findOrganizationsByUseYn()
         }
-        var organizationSearchList = queryResults.results
+        var organizationSearchList = queryResults
         val count: Long = organizationSearchList.size.toLong()
         for (organization in organizationSearchList) {
             var tempOrganization = organization.pOrganization
@@ -62,7 +62,7 @@ class OrganizationService(
             } while (tempOrganization !== null)
         }
         if (pOrganizationList.isNotEmpty()) {
-            organizationSearchList.addAll(pOrganizationList)
+            organizationSearchList += pOrganizationList
             organizationSearchList = organizationSearchList.distinct()
         }
         for (organization in organizationSearchList) {

@@ -45,24 +45,24 @@ class FaqService(
     fun getFaqs(faqSearchCondition: FaqSearchCondition): FaqListReturnDto {
         val queryResult = faqRepository.findFaqs(faqSearchCondition)
         val currentSessionUserCodeList = codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
-        val fapList: MutableList<FaqListDto> = mutableListOf()
+        val faqList: MutableList<FaqListDto> = mutableListOf()
 
         for (faq in queryResult) {
             for (code in currentSessionUserCodeList) {
                 if (faq.faqGroup == code.code) {
                     faq.faqGroupName = code.codeName.toString()
-                    fapList.add(faq)
+                    faqList.add(faq)
                 }
             }
         }
 
         return FaqListReturnDto(
-            data = fapList,
+            data = faqList,
             paging = AlicePagingData(
-                totalCount = queryResult.size.toLong(),
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = faqRepository.count(),
                 currentPageNum = faqSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.size.toDouble() / faqSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / faqSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CATEGORY_ASC.code
             )
         )

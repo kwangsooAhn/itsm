@@ -14,6 +14,9 @@ import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -21,8 +24,9 @@ import org.springframework.stereotype.Repository
 class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java),
     WfFormRepositoryCustom {
 
-    override fun findFormEntityList(formSearchCondition: FormSearchCondition): QueryResults<WfFormEntity> {
+    override fun findFormEntityList(formSearchCondition: FormSearchCondition): Page<WfFormEntity> {
         val form = QWfFormEntity.wfFormEntity
+        val pageable = Pageable.unpaged()
         val query = from(form)
             .innerJoin(form.createUser).fetchJoin()
             .leftJoin(form.updateUser).fetchJoin()
@@ -44,18 +48,19 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             query.orderBy(statusNumber.asc())
                 .orderBy(form.updateDt.coalesce(form.createDt).desc())
         }
+        val totalCount = query.fetch().size
         if (formSearchCondition.isPaging) {
             query.limit(formSearchCondition.contentNumPerPage)
             query.offset((formSearchCondition.pageNum - 1) * formSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return PageImpl<WfFormEntity>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findFormDocumentExist(formId: String): Boolean {
         val form = QWfFormEntity.wfFormEntity
         val document = QWfDocumentEntity.wfDocumentEntity
-        val query = from(form)
+        return from(form)
             .innerJoin(document).on(document.form.formId.eq(form.formId)).fetchJoin()
             .where(
                 form.formId.eq(formId)
@@ -65,8 +70,6 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
                             WfDocumentConstants.Status.TEMPORARY.code
                         )
                     )
-            )
-        val result = query.fetchResults()
-        return result.total > 0
+            ).fetch().size > 0
     }
 }

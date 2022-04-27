@@ -12,13 +12,17 @@ import co.brainz.itsm.scheduler.dto.SchedulerDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleTaskEntity::class.java),
     AliceScheduleTaskRepositoryCustom {
 
-    override fun findByScheduleList(schedulerSearchCondition: SchedulerSearchCondition): QueryResults<AliceScheduleTaskEntity> {
+    override fun findByScheduleList(schedulerSearchCondition: SchedulerSearchCondition): Page<AliceScheduleTaskEntity> {
         val schedule = QAliceScheduleTaskEntity.aliceScheduleTaskEntity
+        val pageable = Pageable.unpaged()
         val query = from(schedule)
             .where(
                 super.likeIgnoreCase(schedule.taskName, schedulerSearchCondition.searchValue)
@@ -27,13 +31,13 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
                     ?.or(super.likeIgnoreCase(schedule.executeClass, schedulerSearchCondition.searchValue))
             )
             .orderBy(schedule.taskName.asc())
-
+        val totalCount = query.fetch().size
         if (schedulerSearchCondition.isPaging) {
             query.limit(schedulerSearchCondition.contentNumPerPage)
             query.offset((schedulerSearchCondition.pageNum - 1) * schedulerSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return PageImpl<AliceScheduleTaskEntity>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findByScheduleListByUse(): MutableList<AliceScheduleTaskEntity> {
@@ -79,6 +83,6 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
         if (taskId != null) {
             query.where(!schedule.taskId.eq(taskId))
         }
-        return query.fetchCount()
+        return query.fetch().size.toLong()
     }
 }

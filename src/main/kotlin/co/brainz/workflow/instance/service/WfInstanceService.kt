@@ -46,6 +46,7 @@ import java.time.LocalDateTime
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
@@ -89,7 +90,7 @@ class WfInstanceService(
         val countSearchCondition = TokenSearchCondition(userKey = currentSessionUser.getUserKey())
         val queryResults = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
-                totalCountWithoutCondition = requestedInstances(countSearchCondition).total
+                totalCountWithoutCondition = requestedInstances(countSearchCondition).totalElements
                 requestedInstances(
                     tokenSearchCondition
                 )
@@ -98,7 +99,7 @@ class WfInstanceService(
                 totalCountWithoutCondition = relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
                     countSearchCondition
-                ).total
+                ).totalElements
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS),
                     tokenSearchCondition
@@ -108,7 +109,7 @@ class WfInstanceService(
                 totalCountWithoutCondition = relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
                     countSearchCondition
-                ).total
+                ).totalElements
                 relatedInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED),
                     tokenSearchCondition
@@ -119,7 +120,7 @@ class WfInstanceService(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
                     countSearchCondition
-                ).total
+                ).totalElements
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
@@ -134,7 +135,7 @@ class WfInstanceService(
         // Topic
         val tokenIds = mutableSetOf<String>()
         val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
-        for (instance in queryResults.results) {
+        for (instance in queryResults.content) {
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
@@ -143,7 +144,7 @@ class WfInstanceService(
 
         // tags
         val instanceIds = mutableSetOf<String>()
-        queryResults.results.forEach {
+        queryResults.content.forEach {
             instanceIds.add(it.instanceEntity.instanceId)
         }
         val tagList = aliceTagManager.getTagsByTargetIds(
@@ -151,7 +152,7 @@ class WfInstanceService(
             instanceIds
         )
 
-        for (instance in queryResults.results) {
+        for (instance in queryResults.content) {
             val topics = mutableListOf<String>()
             val topicComponentIds = mutableListOf<String>()
             tokenDataList.forEach { tokenData ->
@@ -205,10 +206,10 @@ class WfInstanceService(
         return RestTemplateInstanceListReturnDto(
             data = tokens,
             paging = AlicePagingData(
-                totalCount = queryResults.total,
+                totalCount = queryResults.totalElements,
                 totalCountWithoutCondition = totalCountWithoutCondition,
                 currentPageNum = tokenSearchCondition.pageNum,
-                totalPageNum = ceil(queryResults.total.toDouble() / tokenSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResults.totalElements.toDouble() / tokenSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
                 orderColName = tokenSearchCondition.orderColName,
                 orderDir = tokenSearchCondition.orderDir
@@ -220,7 +221,7 @@ class WfInstanceService(
      * 신청한 문서 조회.
      */
     @Suppress("UNCHECKED_CAST")
-    private fun requestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> =
+    private fun requestedInstances(tokenSearchCondition: TokenSearchCondition): Page<WfInstanceListViewDto> =
         wfInstanceRepository.findRequestedInstances(tokenSearchCondition)
 
     /**
@@ -230,7 +231,7 @@ class WfInstanceService(
     private fun relatedInstances(
         status: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto> = wfInstanceRepository.findRelationInstances(status, tokenSearchCondition)
+    ): Page<WfInstanceListViewDto> = wfInstanceRepository.findRelationInstances(status, tokenSearchCondition)
 
     /**
      * 처리할 문서 조회.
@@ -240,7 +241,7 @@ class WfInstanceService(
         status: List<String>?,
         tokenStatus: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto> =
+    ): Page<WfInstanceListViewDto> =
         wfInstanceRepository.findTodoInstances(status, tokenStatus, tokenSearchCondition)
 
     /**
@@ -402,14 +403,14 @@ class WfInstanceService(
         // Topic
         val tokenIds = mutableSetOf<String>()
         val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
-        for (instance in queryResults.results) {
+        for (instance in queryResults) {
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
             tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
         }
         val topics = mutableListOf<String>()
-        for (instance in queryResults.results) {
+        for (instance in queryResults) {
             val topicComponentIds = mutableListOf<String>()
             tokenDataList.forEach { tokenData ->
                 if (tokenData.component.isTopic &&
@@ -427,7 +428,7 @@ class WfInstanceService(
         }
          val tokensForExcel = mutableListOf<RestTemplateInstanceExcelDto>()
 
-        for (instance in queryResults.results) {
+        for (instance in queryResults) {
             val restTemplateInstanceExcelDto = RestTemplateInstanceExcelDto(
                 instanceStartDt = instance.instanceEntity.instanceStartDt!!,
                 instanceEndDt = instance.instanceEntity.instanceEndDt,

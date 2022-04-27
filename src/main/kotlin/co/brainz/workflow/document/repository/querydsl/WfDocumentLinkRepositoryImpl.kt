@@ -21,7 +21,7 @@ class WfDocumentLinkRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentLinkRepositoryCustom {
 
     override fun findByDocumentLink(documentSearchCondition: DocumentSearchCondition):
-            QueryResults<DocumentDto> {
+            List<DocumentDto> {
         val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
 
         val query = from(documentLink)
@@ -68,7 +68,7 @@ class WfDocumentLinkRepositoryImpl :
                     )
             ).orderBy(documentLink.documentName.asc())
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun existsByDocumentLinkName(documentName: String, documentLinkId: String): Boolean {
@@ -78,6 +78,6 @@ class WfDocumentLinkRepositoryImpl :
         if (documentLinkId.isNotEmpty()) {
             query.where(!documentLink.documentLinkId.eq(documentLinkId))
         }
-        return query.fetchCount() > 0
+        return query.fetch().size > 0
     }
 }

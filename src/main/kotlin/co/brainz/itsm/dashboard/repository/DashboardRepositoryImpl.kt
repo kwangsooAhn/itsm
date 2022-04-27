@@ -34,7 +34,7 @@ class DashboardRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::clas
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val element: QWfElementEntity = QWfElementEntity.wfElementEntity
 
-    override fun findTodoStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    override fun findTodoStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
         val tokenSub = QWfTokenEntity("tokenSub")
@@ -117,10 +117,10 @@ class DashboardRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::clas
         val query = getDocumentGroupCountQuery()
         return query
             .where(builder)
-            .fetchResults()
+            .fetch()
     }
 
-    override fun findRunningStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    override fun findRunningStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         val tokenSub = QWfTokenEntity("tokenSub")
         val builder = this.getInstancesWhereCondition(dashboardSearchCondition)
         val startDtSubToken = QWfTokenEntity.wfTokenEntity
@@ -154,14 +154,14 @@ class DashboardRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::clas
         val query = this.getDocumentGroupCountQuery()
         return query
             .where(builder)
-            .fetchResults()
+            .fetch()
     }
 
-    override fun findMonthDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    override fun findMonthDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         return this.findRunningStatistic(dashboardSearchCondition)
     }
 
-    override fun findDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    override fun findDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         return this.findRunningStatistic(dashboardSearchCondition)
     }
 

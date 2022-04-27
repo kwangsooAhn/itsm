@@ -17,7 +17,7 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
 
     override fun findByOrganizationSearchList(
         organizationSearchCondition: OrganizationSearchCondition
-    ): QueryResults<OrganizationEntity> {
+    ): List<OrganizationEntity> {
         val organization = QOrganizationEntity.organizationEntity
         val query = from(organization)
             .where(
@@ -28,7 +28,7 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
             query.offset((organizationSearchCondition.pageNum - 1) * organizationSearchCondition.contentNumPerPage)
         }
         query.orderBy(organization.level.asc(), organization.seqNum.asc())
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun getOrganizationListByIds(organizationIds: Set<String>): List<OrganizationEntity> {
@@ -42,13 +42,13 @@ class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity:
         val organization = QOrganizationEntity.organizationEntity
         return from(organization)
             .where(organization.pOrganization.organizationId.eq(organizationId))
-            .fetchCount() > 0
+            .fetch().size > 0
     }
 
-    override fun findOrganizationsByUseYn(): QueryResults<OrganizationEntity> {
+    override fun findOrganizationsByUseYn(): List<OrganizationEntity> {
         val organization = QOrganizationEntity.organizationEntity
         return from(organization)
             .where(organization.useYn.eq(true))
-            .fetchResults()
+            .fetch()
     }
 }

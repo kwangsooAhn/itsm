@@ -10,6 +10,9 @@ import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateCon
 import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateEntity
 import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -20,19 +23,21 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
     /**
      * 템플릿 조회
      */
-    override fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): QueryResults<CustomReportTemplateEntity> {
+    override fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): Page<CustomReportTemplateEntity> {
         val template = QCustomReportTemplateEntity.customReportTemplateEntity
+        val pageable = Pageable.unpaged()
         val query = from(template)
             .where(
                 super.likeIgnoreCase(template.templateName, customReportTemplateCondition.searchValue)
             )
             .orderBy(template.templateName.asc())
+        val totalCount = query.fetch().size
         if (customReportTemplateCondition.isPaging) {
             query.limit(customReportTemplateCondition.contentNumPerPage)
             query.offset((customReportTemplateCondition.pageNum - 1) * customReportTemplateCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return PageImpl<CustomReportTemplateEntity>(query.fetch(), pageable, totalCount.toLong())
     }
 
     /**
@@ -55,6 +60,6 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
         if (templateId.isNotEmpty()) {
             query.where(!template.templateId.eq(templateId))
         }
-        return query.fetchCount()
+        return query.fetch().size.toLong()
     }
 }

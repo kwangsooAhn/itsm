@@ -11,8 +11,8 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 import com.querydsl.core.QueryResults
 
 interface OrganizationRepositoryCustom : AliceRepositoryCustom {
-    fun findByOrganizationSearchList(organizationSearchCondition: OrganizationSearchCondition): QueryResults<OrganizationEntity>
+    fun findByOrganizationSearchList(organizationSearchCondition: OrganizationSearchCondition): List<OrganizationEntity>
     fun getOrganizationListByIds(organizationIds: Set<String>): List<OrganizationEntity>
     fun existsByPOrganizationId(organizationId: String): Boolean
-    fun findOrganizationsByUseYn(): QueryResults<OrganizationEntity>
+    fun findOrganizationsByUseYn(): List<OrganizationEntity>
 }

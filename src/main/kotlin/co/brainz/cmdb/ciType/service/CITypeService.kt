@@ -52,8 +52,8 @@ class CITypeService(
         )
         val ciTypes = ciTypeRepository.findTypeList(searchDto)
         return CITypeReturnDto(
-            data = ciTypes.results,
-            totalCount = ciTypes.total
+            data = ciTypes.content,
+            totalCount = ciTypes.totalElements
         )
     }
 
@@ -71,9 +71,9 @@ class CITypeService(
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
         val treeTypeList = mutableListOf<CITypeTreeListDto>()
-        val queryResults: QueryResults<CITypeEntity> = ciTypeRepository.findByTypeList(search)
+        val queryResults = ciTypeRepository.findByTypeList(search)
         val returnList: List<CITypeEntity>
-        var typeSearchList = queryResults.results
+        var typeSearchList = queryResults
         val pTypeList = mutableListOf<CITypeEntity>()
         for (type in typeSearchList) {
             var tempType = type.pType
@@ -85,10 +85,10 @@ class CITypeService(
             } while (tempType != null)
         }
         if (pTypeList.isNotEmpty()) {
-            typeSearchList.addAll(pTypeList)
+            typeSearchList += pTypeList
             typeSearchList = typeSearchList.distinct()
         }
-        val count: Long = queryResults.total
+        val count: Long = queryResults.size.toLong()
         returnList = typeSearchList
 
         for (typeEntity in returnList) {

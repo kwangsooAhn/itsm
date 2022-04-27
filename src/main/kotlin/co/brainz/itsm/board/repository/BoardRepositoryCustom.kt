@@ -11,9 +11,10 @@ import co.brainz.itsm.board.dto.BoardArticleListDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface BoardRepositoryCustom : AliceRepositoryCustom {
-    fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): List<BoardArticleListDto>
+    fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): Page<BoardArticleListDto>
 
     fun findByBoardId(boardId: String): BoardArticleViewDto
 }

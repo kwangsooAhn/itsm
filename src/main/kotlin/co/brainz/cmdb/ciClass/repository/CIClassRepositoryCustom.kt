@@ -12,10 +12,11 @@ import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.cmdb.dto.SearchDto
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface CIClassRepositoryCustom : AliceRepositoryCustom {
     fun findClass(classId: String): CIClassListDto?
-    fun findClassList(searchDto: SearchDto): QueryResults<CIClassListDto>
-    fun findClassEntityList(search: String): QueryResults<CIClassEntity>
+    fun findClassList(searchDto: SearchDto): Page<CIClassListDto>
+    fun findClassEntityList(search: String): List<CIClassEntity>
     fun findClassToAttributeList(classList: MutableList<String>): List<CIClassToAttributeDto>?
 }

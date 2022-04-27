@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository
 class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     CustomCodeRepositoryCustom {
 
-    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): QueryResults<CustomCodeListDto> {
+    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): MutableList<CustomCodeListDto> {
         val customCode = QCustomCodeEntity.customCodeEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(customCode)
@@ -51,7 +51,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             query.offset((customCodeSearchCondition.pageNum - 1) * customCodeSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun findByCustomCode(customCodeId: String): CustomCodeCoreDto {
@@ -75,17 +75,17 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 super.eq(customCode.customCodeId, customCodeId)
             )
 
-        val result = query.fetchResults()
+        val result = query.fetch()
         return CustomCodeCoreDto(
-            customCodeId = result.results[0].customCodeId,
-            customCodeName = result.results[0].customCodeName,
-            type = result.results[0].type,
-            targetTable = result.results[0].targetTable,
-            searchColumn = result.results[0].searchColumn,
-            valueColumn = result.results[0].valueColumn,
-            pCode = result.results[0].pCode,
-            condition = result.results[0].condition,
-            sessionKey = result.results[0].sessionKey
+            customCodeId = result[0].customCodeId,
+            customCodeName = result[0].customCodeName,
+            type = result[0].type,
+            targetTable = result[0].targetTable,
+            searchColumn = result[0].searchColumn,
+            valueColumn = result[0].valueColumn,
+            pCode = result[0].pCode,
+            condition = result[0].condition,
+            sessionKey = result[0].sessionKey
         )
     }
 }

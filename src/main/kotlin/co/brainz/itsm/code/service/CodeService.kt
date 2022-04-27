@@ -86,13 +86,13 @@ class CodeService(
      */
     fun getCodeList(search: String, pCode: String): CodeReturnDto {
         val treeCodeList = mutableListOf<CodeDto>()
-        val queryResults: QueryResults<CodeEntity>
+        val queryResults: List<CodeEntity>
         var returnList = emptyList<CodeEntity>()
         var count = 0L
         when (search.isEmpty()) {
             true -> {
                 queryResults = codeRepository.findByCodeAll()
-                val allList = queryResults.results
+                val allList = queryResults
                 val codeSearchList = mutableListOf<CodeEntity>()
                 if (pCode.isNotEmpty()) {
                     val codeList = mutableListOf<CodeEntity>()
@@ -110,9 +110,9 @@ class CodeService(
             }
             false -> {
                 queryResults = codeRepository.findByCodeList(search, pCode)
-                var codeSearchList = queryResults.results
+                var codeSearchList = queryResults
                 val pCodeList = mutableListOf<CodeEntity>()
-                for (code in queryResults.results) {
+                for (code in queryResults) {
                     var tempCode = code.pCode
                     do {
                         if (tempCode != null) {
@@ -122,10 +122,10 @@ class CodeService(
                     } while (tempCode != null)
                 }
                 if (pCodeList.isNotEmpty()) {
-                    codeSearchList.addAll(pCodeList)
+                    codeSearchList += pCodeList
                     codeSearchList = codeSearchList.distinct()
                 }
-                count = queryResults.total
+                count = queryResults.size.toLong()
                 returnList = codeSearchList
             }
         }
@@ -308,7 +308,7 @@ class CodeService(
      * 부모코드로 자식코드를 찾는다.
      */
     private fun getChildCode(
-        allList: MutableList<CodeEntity>,
+        allList: List<CodeEntity>,
         pCodeEntity: CodeEntity,
         codeList: MutableList<CodeEntity>
     ) {

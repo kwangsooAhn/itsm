@@ -14,19 +14,20 @@ import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
-    fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto>
+    fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): Page<CIAttributeListDto>
     fun findAttribute(attributeId: String): CIAttributeListDto
     fun findAttributeDetail(attributeId: String): CIAttributeDto
     fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long
-    fun findAttributeValueList(ciId: String, classId: String): QueryResults<CIAttributeValueDto>
+    fun findAttributeValueList(ciId: String, classId: String): List<CIAttributeValueDto>
     fun findAttributeListWithoutGroupList(
         attributeId: String,
         ciAttributeSearchCondition: CIAttributeSearchCondition
-    ): QueryResults<CIAttributeListDto>
+    ): Page<CIAttributeListDto>
 
-    fun findAttributeListInGroupList(attributeIdList: MutableList<String>): QueryResults<CIAttributeValueDto>
-    fun findGroupListData(attributeId: String, ciId: String): QueryResults<CIGroupListDto>
+    fun findAttributeListInGroupList(attributeIdList: MutableList<String>): List<CIAttributeValueDto>
+    fun findGroupListData(attributeId: String, ciId: String): List<CIGroupListDto>
     fun findAttributeList(attributeIds: Set<String>): List<CISearchItem>
 }

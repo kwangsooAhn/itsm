@@ -18,18 +18,22 @@ import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.java), DownloadRepositoryCustom {
 
-    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): List<DownloadListDto> {
+    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): Page<DownloadListDto> {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
+        val pageable = Pageable.unpaged()
 
         val query = from(download).distinct()
             .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
@@ -61,13 +65,13 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             download.createDt.goe(downloadSearchCondition.formattedFromDt),
             download.createDt.lt(downloadSearchCondition.formattedToDt)
         ).orderBy(download.downloadSeq.desc())
-
+        val totalCount = query.fetch().size
         if (downloadSearchCondition.isPaging) {
             query.limit(downloadSearchCondition.contentNumPerPage)
             query.offset((downloadSearchCondition.pageNum - 1) * downloadSearchCondition.contentNumPerPage)
         }
 
-        return query.fetch()
+        return PageImpl<DownloadListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findDownloadTopList(limit: Long): List<PortalTopDto> {

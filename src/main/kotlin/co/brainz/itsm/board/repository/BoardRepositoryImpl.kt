@@ -21,18 +21,22 @@ import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.java), BoardRepositoryCustom {
-    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): List<BoardArticleListDto> {
+    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): Page<BoardArticleListDto> {
         val board = QPortalBoardEntity.portalBoardEntity
         val user = QAliceUserEntity.aliceUserEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
         val boardAdmin = QPortalBoardAdminEntity("categoryYn")
+        val pageable = Pageable.unpaged()
         val query = from(board)
             .select(
                 Projections.constructor(
@@ -68,13 +72,13 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                 board.createDt.lt(boardArticleSearchCondition.formattedToDt)
             )
             .orderBy(board.boardGroupId.desc(), board.boardOrderSeq.asc())
-
+        val totalCount = query.fetch().size
         if (boardArticleSearchCondition.isPaging) {
             query.limit(boardArticleSearchCondition.contentNumPerPage)
             query.offset((boardArticleSearchCondition.pageNum - 1) * boardArticleSearchCondition.contentNumPerPage)
         }
 
-        return query.fetch()
+        return PageImpl<BoardArticleListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findByBoardId(boardId: String): BoardArticleViewDto {

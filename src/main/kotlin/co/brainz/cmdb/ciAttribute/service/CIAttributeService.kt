@@ -37,12 +37,12 @@ class CIAttributeService(
     fun getCIAttributes(ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
         val queryResult = ciAttributeRepository.findAttributeList(ciAttributeSearchCondition)
         return CIAttributeReturnDto(
-            data = queryResult.results,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = ciAttributeRepository.count(),
                 currentPageNum = ciAttributeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -160,12 +160,12 @@ class CIAttributeService(
             ciAttributeSearchCondition
         )
         return CIAttributeReturnDto(
-            data = queryResult.results,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = ciAttributeRepository.count(),
                 currentPageNum = ciAttributeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / ciAttributeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

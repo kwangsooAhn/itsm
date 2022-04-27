@@ -6,7 +6,7 @@ import com.querydsl.core.QueryResults
 
 interface WfProcessRepositoryCustom {
 
-    fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): QueryResults<WfProcessEntity>
+    fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): List<WfProcessEntity>
 
     fun findProcessDocumentExist(processId: String): Boolean
 }

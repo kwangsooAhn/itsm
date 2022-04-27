@@ -10,7 +10,8 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.numberingRule.dto.NumberingRuleListDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleSearchCondition
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface NumberingRuleRepositoryCustom : AliceRepositoryCustom {
-    fun findRuleSearch(numberingRuleSearchCondition: NumberingRuleSearchCondition): QueryResults<NumberingRuleListDto>
+    fun findRuleSearch(numberingRuleSearchCondition: NumberingRuleSearchCondition): Page<NumberingRuleListDto>
 }

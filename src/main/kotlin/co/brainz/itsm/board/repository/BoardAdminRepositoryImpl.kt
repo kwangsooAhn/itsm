@@ -17,6 +17,9 @@ import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -24,10 +27,11 @@ import org.springframework.stereotype.Repository
 class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     BoardAdminRepositoryCustom {
 
-    override fun findByBoardAdminList(boardSearchCondition: BoardSearchCondition): QueryResults<BoardListDto> {
+    override fun findByBoardAdminList(boardSearchCondition: BoardSearchCondition): Page<BoardListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val user = QAliceUserEntity.aliceUserEntity
         val board = QPortalBoardEntity("board")
+        val pageable = Pageable.unpaged()
         val query = from(boardAdmin)
             .select(
                 Projections.constructor(
@@ -49,13 +53,13 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     boardAdmin.boardAdminTitle, boardSearchCondition.searchValue
                 )?.or(super.likeIgnoreCase(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
             ).orderBy(boardAdmin.createDt.desc())
-
+        val totalCount = query.fetch().size
         if (boardSearchCondition.isPaging) {
             query.limit(boardSearchCondition.contentNumPerPage)
             query.offset((boardSearchCondition.pageNum - 1) * boardSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return PageImpl<BoardListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findPortalBoardAdmin(): List<BoardListDto> {

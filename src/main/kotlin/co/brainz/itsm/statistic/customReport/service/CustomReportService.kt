@@ -48,12 +48,12 @@ class CustomReportService(
     fun getReportList(reportSearchCondition: ReportSearchCondition): CustomReportListReturnDto {
         val queryResult = customReportRepository.getReportList(reportSearchCondition)
         return CustomReportListReturnDto(
-            data = queryResult.results,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = customReportRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
-                totalPageNum = Math.ceil(queryResult.total.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
+                totalPageNum = Math.ceil(queryResult.totalElements.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
                     .toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )

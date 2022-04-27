@@ -24,7 +24,7 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-        QueryResults<DocumentDto> {
+        List<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
 
         val documentQuery = from(document)
@@ -82,7 +82,7 @@ class WfDocumentRepositoryImpl :
                 super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
             ).orderBy(document.documentName.asc())
 
-        return documentQuery.fetchResults()
+        return documentQuery.fetch()
     }
 
     override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
@@ -125,8 +125,7 @@ class WfDocumentRepositoryImpl :
                     )
                 }
             ).orderBy(document.documentName.asc())
-            .fetchResults()
-        return documentQuery.results
+        return documentQuery.fetch()
     }
 
     override fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
@@ -143,7 +142,7 @@ class WfDocumentRepositoryImpl :
         if (documentId.isNotEmpty()) {
             query.where(!documentEntity.documentId.eq(documentId))
         }
-        return query.fetchCount() > 0
+        return query.fetch().size > 0
     }
 
     override fun getDocumentListByIds(documentIds: Set<String>): List<WfDocumentEntity> {

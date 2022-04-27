@@ -12,12 +12,13 @@ import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface NoticeRepositoryCustom : AliceRepositoryCustom {
 
     fun findNoticeTopList(limit: Long): List<PortalTopDto>
 
-    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): List<NoticeListDto>
+    fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): Page<NoticeListDto>
 
     fun findTopNotice(): MutableList<NoticeListDto>
 

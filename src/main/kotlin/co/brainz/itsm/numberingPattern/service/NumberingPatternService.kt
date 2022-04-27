@@ -35,12 +35,12 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     fun getNumberingPatternList(numberingPatternSearchCondition: NumberingPatternSearchCondition): NumberingPatternListReturnDto {
         val queryResult = numberingPatternRepository.findPatternSearch(numberingPatternSearchCondition)
         return NumberingPatternListReturnDto(
-            data = queryResult.results,
+            data = queryResult,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.size.toLong(),
                 totalCountWithoutCondition = numberingPatternRepository.count(),
                 currentPageNum = numberingPatternSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.size.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

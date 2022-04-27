@@ -23,6 +23,9 @@ import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepositoryCustom {
@@ -65,13 +68,14 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(ciSearchCondition: CISearchCondition): QueryResults<CIsDto> {
+    override fun findCIList(ciSearchCondition: CISearchCondition): Page<CIsDto> {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
         val cmdbTag = QAliceTagEntity.aliceTagEntity
         val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
         val wfInstance = QWfInstanceEntity.wfInstanceEntity
+        val pageable = Pageable.unpaged()
 
         val query = from(ci)
             .select(
@@ -136,13 +140,13 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         } else if (ciSearchCondition.flag == "relation") {
             query.where(!ci.ciId.eq(ciSearchCondition.relationSearch))
         }
-
+        val totalCount = query.fetch().size
         if (ciSearchCondition.isPaging) {
             query.limit(ciSearchCondition.contentNumPerPage)
             query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return PageImpl<CIsDto>(query.fetch(),pageable, totalCount.toLong())
     }
 
     /**
@@ -152,7 +156,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         val ciEntity = QCIEntity.cIEntity
         val query = from(ciEntity)
             .where(ciEntity.ciNo.eq(ciNo))
-        return query.fetchCount()
+        return query.fetch().size.toLong()
     }
 
     /**
@@ -177,6 +181,6 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         if (typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
             query.where(ciEntity.ciTypeEntity.typeId.eq(typeId))
         }
-        return query.fetchCount()
+        return query.fetch().size.toLong()
     }
 }

@@ -11,13 +11,14 @@ import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface FaqRepositoryCustom : AliceRepositoryCustom {
 
     /**
      * FAQ 목록을 조회한다.
      */
-    fun findFaqs(faqSearchCondition: FaqSearchCondition): List<FaqListDto>
+    fun findFaqs(faqSearchCondition: FaqSearchCondition): Page<FaqListDto>
 
     /**
      * Portal FAQ 목록 조회 (갯수).

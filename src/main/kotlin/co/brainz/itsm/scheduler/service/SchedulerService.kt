@@ -59,7 +59,7 @@ class SchedulerService(
         val queryResult = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchCondition)
         val schedulerList = mutableListOf<SchedulerListDto>()
 
-        for (scheduler in queryResult.results) {
+        for (scheduler in queryResult.content) {
             val schedulerDto = SchedulerListDto(
                 taskId = scheduler.taskId,
                 taskName = scheduler.taskName,
@@ -83,10 +83,10 @@ class SchedulerService(
         return SchedulerListReturnDto(
             data = schedulerList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = aliceScheduleTaskRepository.count(),
                 currentPageNum = schedulerSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / schedulerSearchCondition.contentNumPerPage).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / schedulerSearchCondition.contentNumPerPage).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

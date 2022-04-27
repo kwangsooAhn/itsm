@@ -78,12 +78,12 @@ class CustomCodeService(
     fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
         val queryResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
         return CustomCodeListReturnDto(
-            data = queryResult.results,
+            data = queryResult,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.size.toLong(),
                 totalCountWithoutCondition = customCodeRepository.count(),
                 currentPageNum = customCodeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.size.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

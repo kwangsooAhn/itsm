@@ -36,7 +36,7 @@ class DashboardService(
     /**
      * 처리할 문서 통계
      */
-    private fun getTodoStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    private fun getTodoStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         dashboardSearchCondition.instanceStatus =
             WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO)
         dashboardSearchCondition.tokenStatus =
@@ -47,7 +47,7 @@ class DashboardService(
     /**
      * 진행 중 문서 통계
      */
-    private fun getRunningStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    private fun getRunningStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         dashboardSearchCondition.instanceStatus =
             WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.PROGRESS)
         return dashboardRepository.findRunningStatistic(dashboardSearchCondition)
@@ -56,7 +56,7 @@ class DashboardService(
     /**
      * 월간 처리 통계
      */
-    private fun getMonthDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    private fun getMonthDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         dashboardSearchCondition.instanceStatus =
             WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED)
 
@@ -77,7 +77,7 @@ class DashboardService(
     /**
      * 전체 처리한 문서 통계
      */
-    private fun getDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): QueryResults<DashboardGroupCountDto> {
+    private fun getDoneStatistic(dashboardSearchCondition: DashboardSearchCondition): List<DashboardGroupCountDto> {
         dashboardSearchCondition.instanceStatus =
             WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.COMPLETED)
         return dashboardRepository.findDoneStatistic(dashboardSearchCondition)

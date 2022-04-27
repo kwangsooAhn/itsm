@@ -12,10 +12,11 @@ import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface DownloadRepositoryCustom : AliceRepositoryCustom {
 
-    fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): List<DownloadListDto>
+    fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): Page<DownloadListDto>
 
     fun findDownloadTopList(limit: Long): List<PortalTopDto>
 

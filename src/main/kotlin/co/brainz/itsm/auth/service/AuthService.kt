@@ -51,9 +51,9 @@ class AuthService(
             AuthSearchCondition("")
         )
         return AuthListReturnDto(
-            data = authList,
+            data = authList.content,
             paging = AlicePagingData(
-                totalCount = authList.size.toLong(),
+                totalCount = authList.totalElements,
                 totalCountWithoutCondition = authRepository.count(),
                 currentPageNum = 0L,
                 totalPageNum = 0L,
@@ -69,12 +69,12 @@ class AuthService(
         val queryResult = authRepository.findAuthSearch(authSearchCondition)
 
         return AuthListReturnDto(
-            data = queryResult,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.size.toLong(),
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = authRepository.count(),
                 currentPageNum = authSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.size.toDouble() / authSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / authSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

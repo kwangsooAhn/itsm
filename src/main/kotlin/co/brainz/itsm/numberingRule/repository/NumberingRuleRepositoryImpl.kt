@@ -12,6 +12,9 @@ import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.QNumberingRuleEntity
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -19,9 +22,10 @@ import org.springframework.stereotype.Repository
 class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntity::class.java),
     NumberingRuleRepositoryCustom {
 
-    override fun findRuleSearch(numberingRuleSearchCondition: NumberingRuleSearchCondition): QueryResults<NumberingRuleListDto> {
+    override fun findRuleSearch(numberingRuleSearchCondition: NumberingRuleSearchCondition): Page<NumberingRuleListDto> {
         val rule = QNumberingRuleEntity.numberingRuleEntity
-        return from(rule)
+        val pageable = Pageable.unpaged()
+        val query = from(rule)
             .select(
                 Projections.constructor(
                     NumberingRuleListDto::class.java,
@@ -36,8 +40,10 @@ class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntit
                 super.likeIgnoreCase(rule.numberingName, numberingRuleSearchCondition.searchValue)
             )
             .orderBy(rule.numberingName.desc())
-            .limit(numberingRuleSearchCondition.contentNumPerPage)
+            val totalCount = query.fetch().size
+
+        query.limit(numberingRuleSearchCondition.contentNumPerPage)
             .offset((numberingRuleSearchCondition.pageNum - 1) * numberingRuleSearchCondition.contentNumPerPage)
-            .fetchResults()
+        return PageImpl<NumberingRuleListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 }

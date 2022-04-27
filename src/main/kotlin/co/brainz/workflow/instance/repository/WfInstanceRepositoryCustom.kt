@@ -12,6 +12,7 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import com.querydsl.core.QueryResults
+import org.springframework.data.domain.Page
 
 interface WfInstanceRepositoryCustom {
 
@@ -19,14 +20,14 @@ interface WfInstanceRepositoryCustom {
         status: List<String>?,
         tokenStatus: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto>
+    ): Page<WfInstanceListViewDto>
 
-    fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto>
+    fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): Page<WfInstanceListViewDto>
 
     fun findRelationInstances(
         status: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto>
+    ): Page<WfInstanceListViewDto>
 
     fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto>
 

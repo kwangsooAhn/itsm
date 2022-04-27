@@ -17,7 +17,11 @@ import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import org.springframework.data.repository.support.PageableExecutionUtils
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -28,10 +32,11 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(faqSearchCondition: FaqSearchCondition): List<FaqListDto> {
+    override fun findFaqs(faqSearchCondition: FaqSearchCondition): Page<FaqListDto> {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
+        val pageable = Pageable.unpaged()
         if (faqSearchCondition.searchValue?.isNotBlank() == true) {
             faqSearchCondition.groupCodes =
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, faqSearchCondition.searchValue)
@@ -57,12 +62,14 @@ class FaqRepositoryImpl(
                     ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
             ).orderBy(code.codeName.asc())
 
+        val totalCount = query.fetch().size
+
         if (faqSearchCondition.isPaging) {
             query.limit(faqSearchCondition.contentNumPerPage)
             query.offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
         }
 
-        return query.fetch()
+        return PageImpl<FaqListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findFaqTopList(limit: Long): List<PortalTopDto> {

@@ -51,12 +51,12 @@ class CustomChartService(
     fun getCharts(chartSearchCondition: ChartSearchCondition): CustomChartListReturnDto {
         val queryResult = customChartRepository.findChartList(chartSearchCondition)
         return CustomChartListReturnDto(
-            data = queryResult.results,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = customChartRepository.count(),
                 currentPageNum = chartSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / chartSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / chartSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
                 orderColName = chartSearchCondition.orderColName,
                 orderDir = chartSearchCondition.orderDir

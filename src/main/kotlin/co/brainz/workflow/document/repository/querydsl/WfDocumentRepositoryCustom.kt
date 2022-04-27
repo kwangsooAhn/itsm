@@ -16,7 +16,7 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     /**
      * 신청서 목록을 조회 후 리턴
      */
-    fun findByDocuments(documentSearchCondition: DocumentSearchCondition): QueryResults<DocumentDto>
+    fun findByDocuments(documentSearchCondition: DocumentSearchCondition): List<DocumentDto>
 
     /**
      * 신청서 전체 리스트

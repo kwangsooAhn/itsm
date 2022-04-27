@@ -20,15 +20,19 @@ import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.java),
     CustomChartRepositoryCustom {
-    override fun findChartList(chartSearchCondition: ChartSearchCondition): QueryResults<CustomChartListDto> {
+    override fun findChartList(chartSearchCondition: ChartSearchCondition): Page<CustomChartListDto> {
         val chart = QChartEntity.chartEntity
         val user = QAliceUserEntity.aliceUserEntity
+        val pageable = Pageable.unpaged()
         val query = from(chart)
             .select(
                 Projections.constructor(
@@ -64,11 +68,12 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
             }
             query.orderBy(OrderSpecifier(direction, column))
         }
+        val totalCount = query.fetch().size
         if (chartSearchCondition.isPaging) {
             query.limit(chartSearchCondition.contentNumPerPage)
             query.offset((chartSearchCondition.pageNum - 1) * chartSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+        return PageImpl<CustomChartListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
     override fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto> {
@@ -101,6 +106,6 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
         if (chartDto.chartId.isNotEmpty()) {
             query.where(!chart.chartId.eq(chartDto.chartId))
         }
-        return query.fetchCount() > 0
+        return query.fetch().size > 0
     }
 }

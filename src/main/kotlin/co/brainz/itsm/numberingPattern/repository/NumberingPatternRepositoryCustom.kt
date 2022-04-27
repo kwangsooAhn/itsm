@@ -12,5 +12,5 @@ import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import com.querydsl.core.QueryResults
 
 interface NumberingPatternRepositoryCustom : AliceRepositoryCustom {
-    fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): QueryResults<NumberingPatternListDto>
+    fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): List<NumberingPatternListDto>
 }

@@ -52,9 +52,9 @@ class RoleService(
     fun selectRoleList(): RoleListReturnDto {
         val roleList = roleRepository.findRoleSearch(RoleSearchCondition(""))
         return RoleListReturnDto(
-            data = roleList,
+            data = roleList.content,
             paging = AlicePagingData(
-                totalCount = roleList.size.toLong(),
+                totalCount = roleList.totalElements,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = 0L,
                 totalPageNum = 0L,
@@ -160,12 +160,12 @@ class RoleService(
         val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
 
         return RoleListReturnDto(
-            data = queryResult,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.size.toLong(),
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = roleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.size.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -216,7 +216,7 @@ class RoleService(
                 )
             )
         )
-        queryResult.forEach { result ->
+        queryResult.content.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
@@ -267,7 +267,7 @@ class RoleService(
         var isExist = roleIds?.contains(AliceConstants.SYSTEM_ROLE) ?: false
         // 현재 데이터에 시스템 관리자가 역할이 존재할 경우 조직에 사용자가 존재하는지 체크
         if (isExist) {
-            if (userRepository.getUserListInOrganization(setOf(organizationId)).results.isNullOrEmpty()) {
+            if (userRepository.getUserListInOrganization(setOf(organizationId)).isNullOrEmpty()) {
                 isExist = false
             }
         }
@@ -314,7 +314,7 @@ class RoleService(
             }
         }
         if (organizationIds.isNotEmpty()) {
-            val organizationUserList = userRepository.getUserListInOrganization(organizationIds).results
+            val organizationUserList = userRepository.getUserListInOrganization(organizationIds)
             if (organizationUserList.isNotEmpty()) {
                 isExist = true
             }

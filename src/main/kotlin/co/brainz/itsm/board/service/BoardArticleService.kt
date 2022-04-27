@@ -47,12 +47,12 @@ class BoardArticleService(
     fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto {
         val queryResult = boardRepository.findByBoardList(boardArticleSearchCondition)
         val boardArticleList = BoardArticleListReturnDto(
-            data = queryResult,
+            data = queryResult.content,
             paging = AlicePagingData(
-                totalCount = queryResult.size.toLong(),
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = boardRepository.count(),
                 currentPageNum = boardArticleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.size.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(queryResult.totalElements.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             ),
             categoryUseYn = false

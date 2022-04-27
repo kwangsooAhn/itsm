@@ -15,6 +15,9 @@ import co.brainz.cmdb.dto.CIClassToAttributeDto
 import co.brainz.cmdb.dto.SearchDto
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.java), CIClassRepositoryCustom {
@@ -39,8 +42,9 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
             .fetchOne()
     }
 
-    override fun findClassList(searchDto: SearchDto): QueryResults<CIClassListDto> {
+    override fun findClassList(searchDto: SearchDto): Page<CIClassListDto> {
         val ciClass = QCIClassEntity.cIClassEntity
+        val pageable = Pageable.unpaged()
         val query = from(ciClass)
             .select(
                 Projections.constructor(
@@ -59,16 +63,17 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                 super.likeIgnoreCase(ciClass.className, searchDto.search)
                     ?.or(super.likeIgnoreCase(ciClass.classDesc, searchDto.search))
             ).orderBy(ciClass.classLevel.asc(), ciClass.classSeq.asc(), ciClass.className.asc())
+        val totalCount = query.fetch().size
         if (searchDto.limit != null) {
             query.limit(searchDto.limit)
         }
         if (searchDto.offset != null) {
             query.offset(searchDto.offset)
         }
-        return query.fetchResults()
+        return PageImpl<CIClassListDto>(query.fetch(), pageable, totalCount.toLong())
     }
 
-    override fun findClassEntityList(search: String): QueryResults<CIClassEntity> {
+    override fun findClassEntityList(search: String): List<CIClassEntity> {
         val ciClass = QCIClassEntity.cIClassEntity
         return from(ciClass)
             .select(ciClass)
@@ -76,7 +81,7 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                 super.likeIgnoreCase(ciClass.className, search)
                     ?.or(super.likeIgnoreCase(ciClass.classDesc, search))
             ).orderBy(ciClass.classLevel.asc(), ciClass.classSeq.asc(), ciClass.className.asc())
-            .fetchResults()
+            .fetch()
     }
 
     override fun findClassToAttributeList(classList: MutableList<String>): List<CIClassToAttributeDto>? {
@@ -102,9 +107,8 @@ class CIClassRepositoryImpl : QuerydslRepositorySupport(CIClassEntity::class.jav
                 ciClassAttributeMap.ciClass.classId.`in`(classList)
             )
             .orderBy(ciClass.classLevel.asc(), ciClassAttributeMap.attributeOrder.asc())
-        val result = query.fetchResults()
         val ciClassToAttributeList = mutableListOf<CIClassToAttributeDto>()
-        for (data in result.results) {
+        for (data in query.fetch()) {
             ciClassToAttributeList.add(data)
         }
         return ciClassToAttributeList.toList()

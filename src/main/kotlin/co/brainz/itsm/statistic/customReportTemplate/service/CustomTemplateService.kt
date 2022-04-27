@@ -60,7 +60,7 @@ class CustomTemplateService(
     fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): CustomReportTemplateListReturnDto {
         val queryResult = customReportTemplateRepository.getReportTemplateList(customReportTemplateCondition)
         val reportTemplateList = mutableListOf<CustomReportTemplateListDto>()
-        queryResult.results.forEach { template ->
+        queryResult.content.forEach { template ->
             val chartList = mutableListOf<ChartDto>()
             val chartIds = mutableSetOf<String>()
             template.charts?.forEach {
@@ -99,10 +99,10 @@ class CustomTemplateService(
         return CustomReportTemplateListReturnDto(
             data = reportTemplateList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = queryResult.totalElements,
                 totalCountWithoutCondition = customReportTemplateRepository.count(),
                 currentPageNum = customReportTemplateCondition.pageNum,
-                totalPageNum = kotlin.math.ceil(queryResult.total.toDouble() / customReportTemplateCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = kotlin.math.ceil(queryResult.totalElements.toDouble() / customReportTemplateCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

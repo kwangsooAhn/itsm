@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository
 class NumberingRulePatternMapRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntity::class.java),
     NumberingRulePatternMapRepositoryCustom {
 
-    override fun findAllByNumberingPatternIn(patternList: MutableList<String>, numberingId: String): QueryResults<NumberingRulePatternMapEntity> {
+    override fun findAllByNumberingPatternIn(patternList: MutableList<String>, numberingId: String): List<NumberingRulePatternMapEntity> {
         val numberingRulePatternMap = QNumberingRulePatternMapEntity.numberingRulePatternMapEntity
         val numberingRulePatternMapSub = QNumberingRulePatternMapEntity.numberingRulePatternMapEntity
         return from(numberingRulePatternMap)
@@ -27,7 +27,7 @@ class NumberingRulePatternMapRepositoryImpl : QuerydslRepositorySupport(Numberin
                     .where(numberingRulePatternMap.numberingPattern.patternId.`in`(patternList)
                         .and(numberingRulePatternMap.numberingRule.numberingId.ne(numberingId)))
             ))
-            .fetchResults()
+            .fetch()
     }
 
 }

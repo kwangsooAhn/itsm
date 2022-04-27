@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository
 class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class.java),
     WfProcessRepositoryCustom {
 
-    override fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): QueryResults<WfProcessEntity> {
+    override fun findProcessEntityList(processSearchCondition: ProcessSearchCondition): List<WfProcessEntity> {
         val process = QWfProcessEntity.wfProcessEntity
         val query = from(process)
             .innerJoin(process.createUser).fetchJoin()
@@ -48,7 +48,7 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             query.offset((processSearchCondition.pageNum - 1) * processSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     override fun findProcessDocumentExist(processId: String): Boolean {
@@ -65,7 +65,7 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
                         )
                     )
             )
-        val result = query.fetchResults()
-        return result.total > 0
+        val result = query.fetch()
+        return result.size > 0
     }
 }

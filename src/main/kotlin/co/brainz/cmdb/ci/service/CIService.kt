@@ -85,17 +85,17 @@ class CIService(
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
         val cis = ciRepository.findCIList(ciSearchCondition)
         val ciList = mutableListOf<CIsDto>()
-        for (ci in cis.results) {
+        for (ci in cis.content) {
             ciList.add(ci)
         }
 
         return CIListReturnDto(
             data = this.getCIsListDto(ciList),
             paging = AlicePagingData(
-                totalCount = cis.total,
+                totalCount = cis.totalElements,
                 totalCountWithoutCondition = ciRepository.count(),
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(cis.total.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(cis.totalElements.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -463,7 +463,7 @@ class CIService(
             }
             val ciAttributeQueryResult = ciAttributeRepository.findAttributeListInGroupList(childAttributeIdList)
             ciEntity.ciGroupListDataEntities.forEach { data ->
-                loop@ for (attribute in ciAttributeQueryResult.results) {
+                loop@ for (attribute in ciAttributeQueryResult) {
                     if (attribute.attributeId == data.cAttributeId) {
                         ciGroupListDataHistoryList.add(
                             CIGroupListDataHistoryEntity(
