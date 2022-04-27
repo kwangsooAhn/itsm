@@ -683,10 +683,10 @@
             method: 'GET'
         }).then((response) => {
             let totalCount = 0;
-            if (response.status === aliceJs.response.success && response.data.length > 0) {
-                options.data = response.data;
+            if (response.status === aliceJs.response.success && response.data.data.length > 0) {
+                options.data = response.data.data;
                 if (options.totalCount) {
-                    totalCount = response.totalCount;
+                    totalCount = response.data.totalCount;
                     document.getElementById('totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                 }
                 // 사용자가 root를 지정하지 않았을 경우, root는 가져온 데이터의 최상위로 지정

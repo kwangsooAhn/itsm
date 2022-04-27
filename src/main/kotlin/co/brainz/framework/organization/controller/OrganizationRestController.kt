@@ -5,7 +5,6 @@
 
 package co.brainz.framework.organization.controller
 
-import co.brainz.framework.organization.dto.OrganizationListReturnDto
 import co.brainz.framework.organization.dto.OrganizationRoleDto
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.service.OrganizationService
@@ -31,8 +30,8 @@ class OrganizationRestController(
      * 조직 전체 목록 조회
      */
     @GetMapping("/", "")
-    fun getOrganizations(organizationSearchCondition: OrganizationSearchCondition): OrganizationListReturnDto {
-        return organizationService.getOrganizationList(organizationSearchCondition)
+    fun getOrganizations(organizationSearchCondition: OrganizationSearchCondition):  ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(organizationService.getOrganizationList(organizationSearchCondition))
     }
 
     /**

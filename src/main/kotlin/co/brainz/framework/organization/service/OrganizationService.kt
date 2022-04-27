@@ -17,6 +17,8 @@ import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.entity.OrganizationRoleMapEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.role.repository.RoleRepository
@@ -41,7 +43,7 @@ class OrganizationService(
     /**
      * 조직 전체 목록 조회
      */
-    fun getOrganizationList(organizationSearchCondition: OrganizationSearchCondition): OrganizationListReturnDto {
+    fun getOrganizationList(organizationSearchCondition: OrganizationSearchCondition): ZResponse {
         val treeOrganizationList = mutableListOf<OrganizationListDto>()
         val pOrganizationList = mutableListOf<OrganizationEntity>()
         val queryResults: QueryResults<OrganizationEntity>
@@ -84,9 +86,12 @@ class OrganizationService(
             )
         }
 
-        return OrganizationListReturnDto (
-            data = treeOrganizationList,
-            totalCount = count
+        return ZResponse(
+            status = ZResponseConstants.STATUS.SUCCESS.code,
+            data = OrganizationListReturnDto (
+                data = treeOrganizationList,
+                totalCount = count
+            )
         )
     }
 
