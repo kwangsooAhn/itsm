@@ -10,7 +10,7 @@ import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
 
 /**
- * @param category : FAQ 종류
+ * @param category : FAQ 분류
  * @param searchValue : 사용자가 입력한 검색어
  * @param groupCodes : FAQ 그룹 코드
  * @param pageNum : 검색결과중에서 요청받은 페이지
