@@ -175,29 +175,39 @@
         /**
          * CI 상세 검색 모달 세부 화면
          */
-        function getItemWithType(data) {
+        function getItemWithType(data, index) {
             const attributeValue = JSON.parse(data.attributeValue);
             switch (data.attributeType) {
                 case 'inputbox':
-                    return `<input type="text" class="z-input field-element" id="${data.attributeId}" value="${data.searchValue}" onBlur="changeSearchDetail(this)">`;
+                    return `<input type="text" class="z-input field-element" id="${data.attributeId}" value="${data.searchValue}" data-attributeType="${data.attributeType}" onBlur="changeSearchDetail(this);">`;
                 case 'dropdown':
                     const optionTemplate = attributeValue.option.map(function (opt) {
                         return `<option value='${opt.value}' ${opt.value === data.searchValue ? 'selected=\'true\'' : ''}>${opt.text}</option>`;
                     }).join('');
-                    return `<select id="${data.attributeId}" class="field-element" onchange="changeSearchDetail(this)">${optionTemplate}</select>`;
+                    return `<select id="${data.attributeId}" class="field-element" data-attributeType="${data.attributeType}" onchange="changeSearchDetail(this)">${optionTemplate}</select>`;
                 case 'radio':
                     const radioTemplate = attributeValue.option.map(function (opt, idx) {
                         return `<label for="${data.attributeId}_${idx}" class="z-radio horizontal" tabindex="-1">` +
-                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" value="${opt.value}" name="${data.attributeId}" ` +
+                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" value="${opt.value}" name="${data.attributeId}" data-attributeType="${data.attributeType}" ` +
                             `${opt.value === data.searchValue ? 'checked=\'true\'' : ''} onclick="changeSearchDetail(this)">` +
                             `<span></span><span>${opt.text}</span>` +
                             `</label>`;
                     }).join('');
                     return `<div class="z-radio-group field-element">${radioTemplate}</div>`;
                 case 'date':
-                    return `<input type="text" class="z-input field-element i-date-picker search-date" id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}">`;
+                    return `<input type="text" class="z-input field-element i-date-picker search-date" id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}" data-attributeType="${data.attributeType}">`;
                 case 'datetime':
-                    return `<input type="text" class="z-input field-element i-datetime-picker search-datetime" id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}">`;
+                    return `<input type="text" class="z-input field-element i-datetime-picker search-datetime" id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}" data-attributeType="${data.attributeType}">`;
+                case 'userSearch':
+                    const userDefaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
+                    return `<input type="text" class="z-input field-element i-user-search text-ellipsis" id="${data.attributeId}" value="${userDefaultValues[1]}" data-attributeType="${data.attributeType}" ` +
+                        `data-attributeIdx="${index}" onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" onClick="openUserSearchModal(this);" ` +
+                        `data-user-id="${userDefaultValues[2]}" data-user-search="${userDefaultValues[0]}" data-realTimeSelectedUser="${(data.searchValue !== '') ? data.searchValue : ''}">`;
+                case 'organizationSearch':
+                    const defaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
+                    return `<input type="text" class="z-input field-element i-organization-search text-ellipsis" id="${data.attributeId}" value="${defaultValues[1]}" data-attributeType="${data.attributeType}" ` +
+                        `data-attributeIdx="${index}" onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" onClick="openOrganizationSearchModal(this);" ` +
+                        `data-organization-search="${defaultValues[0]}">`;
                 default:
                     break;
             }
@@ -206,8 +216,8 @@
         function createDetailSearchContent() {
             let searchTemplate = ``;
             if (searchData !== null) {
-                searchTemplate = searchData.map(function (item) {
-                    const templateWithType = getItemWithType(item);
+                searchTemplate = searchData.map(function (item, index) {
+                    const templateWithType = getItemWithType(item, index);
                     return `<div class="flex-row align-items-center">` +
                         `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
                         `${templateWithType}` +
@@ -295,16 +305,34 @@
          * 상세 검색 날짜 데이터 업데이트시 호출되는 이벤트
          */
         function changeSearchDetail(target) {
+            const targetType = target.getAttribute('data-attributeType');
             const targetId = target.id.split('_')[0];
-            let changeValue = target.value;
-            if (target.classList.contains('search-date')) {
-                changeValue = i18n.systemDate(target.value);
-            } else if (target.classList.contains('search-datetime')) {
-                changeValue = i18n.systemDateTime(target.value);
-            }
             const findIndex = tempSearchData.findIndex(function (item) {
                 return item.attributeId === targetId;
             });
+            let changeValue = '';
+            switch (targetType) {
+                case 'date':
+                    changeValue = i18n.systemDate(target.value);
+                    break;
+                case 'datetime':
+                    changeValue = i18n.systemDateTime(target.value);
+                    break;
+                case 'userSearch':
+                    if (target.value !== '') {
+                        changeValue = `${target.getAttribute('data-user-search')}|` +
+                            `${target.value}|${target.getAttribute('data-user-id')}`;
+                    }
+                    break;
+                case 'organizationSearch':
+                    if (target.value !== '') {
+                        changeValue = `${target.getAttribute('data-organization-search')}|${target.value}`;
+                    }
+                    break;
+                default:
+                    changeValue = target.value;
+                    break;
+            }
             tempSearchData[findIndex].searchValue = changeValue;
         }
 
@@ -347,8 +375,7 @@
         }
 
         /**
-         * TODO: 템플릿 다운로드
-         * #12502 [CI 일괄업로드] 템플릿 다운로드 기능 구현 후 아래 주석 해제 예정
+         * 템플릿 다운로드
          */
         function onTemplateDownload() {
             const urlParam = 'typeId=' + document.getElementById('treeTypeId').value
@@ -378,8 +405,7 @@
             }
         }
         /**
-         * TODO: 템플릿 업로드 모달 오픈
-         * #12503 [CI 일괄업로드] 템플릿 일괄등록 기능 구현 후 아래 주석 해제 예정
+         * 템플릿 업로드 모달 오픈
          */
         function importTemplate() {
             const formData = new FormData();
@@ -499,6 +525,129 @@
                 ciDetailModal.show();
             })
         }
+
+        /**
+         * 사용자 검색 모달
+         */
+        function openUserSearchModal(target) {
+            const targetUserModalTemplate = `<div class="target-user-list">` +
+                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
+                `<span id="spanTotalCount" class="search-count"></span>` +
+                `<div class="table-set" id="searchUserList"></div>` +
+                `</div>`;
+            const targetUserModal = new modal({
+                title: i18n.msg('common.btn.select'),
+                body: targetUserModalTemplate,
+                classes: 'target-user-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.select'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
+                        if (target.getAttribute('data-realTimeSelectedUser') === '') {
+                            zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
+                            return false;
+                        } else {
+                            const realTimeSelectedUserArr = target.getAttribute('data-realTimeSelectedUser').split('|');
+                            target.setAttribute('data-user-search', realTimeSelectedUserArr[0]);
+                            target.setAttribute('data-user-id', realTimeSelectedUserArr[2]);
+                            target.value = realTimeSelectedUserArr[1];
+                            changeSearchDetail(target);
+                        }
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        modal.hide();
+                    }
+                }],
+                close: { closable: false },
+                onCreate: function() {
+                    // 기존 선택된 값 할당
+                    if (target.getAttribute('data-user-search') !== '') {
+                        const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
+                            `${target.value}|${target.getAttribute('data-user-id')}`;
+                        target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
+                    }
+                    document.getElementById('search').addEventListener('keyup', (e) => {
+                        getUserList(target, e.target.value, false);
+                    });
+                    getUserList(target, document.getElementById('search').value, true);
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                }
+            });
+            targetUserModal.show();
+        }
+
+        /**
+         * 사용자 검색 모달 - 사용자 조회
+         */
+        function getUserList(target, search, showProgressbar) {
+            const data = searchData[target.getAttribute('data-attributeIdx')];
+            const attributeValue = JSON.parse(data.attributeValue);
+            const targetCriteria = attributeValue.targetCriteria;
+            let searchKeys = '';
+            attributeValue.searchKey.forEach( (elem, index) => {
+                searchKeys += (index > 0) ? '+' + elem.id : elem.id;
+            });
+            // 검색
+            const strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
+                '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
+            aliceJs.fetchText(strUrl, {
+                method: 'GET',
+                showProgressbar: showProgressbar
+            }).then((htmlData) => {
+                const searchUserList = document.getElementById('searchUserList');
+                searchUserList.innerHTML = htmlData;
+                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+                // 갯수 가운트
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+                // 체크 이벤트
+                searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
+                    element.addEventListener('change', () => {
+                        const userId = element.getAttribute('data-user-id');
+                        const realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
+                        target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
+                    });
+                });
+                // 기존 선택값 표시
+                const realTimeSelectedUser = target.getAttribute('data-realTimeSelectedUser');
+                const checkedTargetId = realTimeSelectedUser.split('|')[0];
+                const checkedTargetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
+                if (checkedTargetId !== '' && checkedTargetRadio !== null) {
+                    checkedTargetRadio.checked = true;
+                }
+            });
+        }
+
+        /**
+         * 부서 선택 모달
+         */
+        function openOrganizationSearchModal(target) {
+            const organizationSearchData = target.getAttribute('data-organization-search');
+            tree.load({
+                view: 'modal',
+                title: i18n.msg('common.btn.select'),
+                dataUrl: '/rest/organizations',
+                target: 'organizationTreeList',
+                source: 'organization',
+                text: 'organizationName',
+                nodeNameLabel: i18n.msg('common.msg.dataSelect', i18n.msg('department.label.deptName')),
+                defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
+                selectedValue: organizationSearchData,
+                callbackFunc: (response) => {
+                    target.value = response.textContent;
+                    target.setAttribute('data-organization-search', response.id);
+                    changeSearchDetail(target);
+                }
+            });
+        }
+
         /*]]>*/
     </script>
     <script type="module">

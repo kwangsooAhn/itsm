@@ -29,6 +29,7 @@ class ZFormDesigner {
         this.history = new ZHistory(this);  // 이력 관리
         this.panel = new ZPanel(this); // 세부 속성 관리
         this.selectedObject = null;
+        this.isCreatedWorkFlow = false; //폼에 연결된 업무흐름이 있는지 여부
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
         if (FORM.CUSTOM_CODE.length === 0) {
@@ -54,6 +55,7 @@ class ZFormDesigner {
     init(formData, isView) {
         this.formId = formData.id;
         this.isView = (isView === 'true');
+        this.isCreatedWorkFlow = formData.createdWorkFlow;
         // 문서 상태
         this.isEditable = formData.status === FORM.STATUS.EDIT;
         this.isDestory = formData.status === FORM.STATUS.DESTROY;
@@ -291,7 +293,7 @@ class ZFormDesigner {
                 addObject = new ZForm(data);
                 addObject.UIElement.addUIClass('list-group');
 
-                if (!this.isEditable) { break; }
+                if (!this.isEditable && !this.isCreatedWorkFlow) { break; }
                 // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.domElement, {
                     group: {
@@ -325,7 +327,7 @@ class ZFormDesigner {
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIGroup.addUIClass('list-group');
 
-                if (!this.isEditable) {
+                if (!this.isEditable && !this.isCreatedWorkFlow) {
                     addObject.UIElement.UITooltipMenu.addUIClass('off');
                     break;
                 }
@@ -420,7 +422,7 @@ class ZFormDesigner {
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIRow.addUIClass('list-group');
 
-                if (!this.isEditable) {
+                if (!this.isEditable && !this.isCreatedWorkFlow) {
                     addObject.UIElement.UITooltipMenu.addUIClass('off');
                     break;
                 }
@@ -533,7 +535,7 @@ class ZFormDesigner {
             case FORM.LAYOUT.COMPONENT:
                 addObject = new ZComponent(data);
                 addObject.UIElement.addUIClass('list-group-item');
-                if (!this.isEditable) {
+                if (!this.isEditable && !this.isCreatedWorkFlow) {
                     addObject.UIElement.UITooltipMenu.addUIClass('off');
                 }
                 break;

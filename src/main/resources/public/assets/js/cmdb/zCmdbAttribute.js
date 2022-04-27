@@ -194,16 +194,60 @@
      */
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
+        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function (option) {
+            return `<option value='${option.value}' ` +
+                `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                `${aliceJs.filterXSS(option.text)}</option>`;
+        }).join('');
         this.template =
-            `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
-            `<span class="z-icon i-plus"></span>` +
-            `</button>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-3">` +
+            `<label>` +
+            `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.required')}</span>` +
+            `<span class="required"></span>` +
+            `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9"><select id="${objectId}-required">${booleanOptions}</select></div>` +
+            `</div>` +
+            `<div class="flex-row mt-2">` +
+            `<div class="flex-column col-3">` +
+            `<label>` +
+            `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.listData')}</span>` +
+            `<span class="required"></span>` +
+            `</label>` +
+            `</div>` +
+            `<div class="flex-column col-9">` +
+            `<div class="inline-flex justify-content-end" id="button_add">` +
+            `<button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button>` +
+            `</div>` +
+            `</div>` +
+            `</div>` +
+            `<div class="flex-row justify-content-end mt-2">` +
+            `<div class="col-9" id="dropdownListData">` +
+            `<div class="flex-row">` +
+            `<div class="flex-column col-1">` +
+            `<label>` +
+            `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
+            `</label>` +
+            `</div>` +
+            `<div class="flex-column col-5 mr-4">` +
+            `<input type="text" class="z-input" maxlength="50" value="선택하세요." readonly>` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+            `<label>` +
+            `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span>` +
+            `</label>` +
+            `</div>` +
+            `<div class="flex-column col-5">` +
+            `<input type="text" class="z-input" maxlength="50" readonly>` +
+            `</div>` +
+            `</div>` +
+            `</div>` +
             `</div>`;
-
-        parent.previousElementSibling.insertAdjacentHTML('beforeend', this.template);
+        parent.insertAdjacentHTML('beforeend', this.template);
 
         const addBtn = document.getElementById(objectId + '_add');
+        const dropdownListData = document.getElementById('dropdownListData');
         addBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             let rowId = ZWorkflowUtil.generateUUID();
@@ -212,22 +256,18 @@
                 `<div class="flex-column col-1">` +
                 `<label>` +
                 `<span class="mr-1">${i18n.msg('cmdb.attribute.label.option.label')}</span>` +
-                `<span class="required"></span>` +
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
-                `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label>` +
                 `<span>${i18n.msg('cmdb.attribute.label.option.value')}</span>` +
-                `<span class="required"></span>` +
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
-                `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
@@ -235,7 +275,7 @@
                 `</button>` +
                 `</div>` +
                 `</div>`;
-            parent.insertAdjacentHTML('beforeend', rowElement);
+            dropdownListData.insertAdjacentHTML('beforeend', rowElement);
 
             const deleteBtn = document.getElementById(rowId + '_delete');
             deleteBtn.addEventListener('click', function (e) {
@@ -248,11 +288,14 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#details > .flex-row').forEach(function (object, index) {
+            document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)').forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
+            document.querySelector('#dropdownListData').children[1].remove();
         }
+
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
@@ -1137,8 +1180,23 @@
      */
     function checkDuplicate(type) {
         let isValid = true;
-        if (type === 'dropdown' || type === 'radio' || type === 'checkbox') {
+        if (type === 'radio' || type === 'checkbox') {
             let detailsObject = document.querySelectorAll('#details .flex-row');
+            let labels = [];
+            let values = [];
+            for (let i = 0, len = detailsObject.length; i < len; i++) {
+                let labelObject = detailsObject[i].querySelectorAll('input')[0];
+                let valueObject = detailsObject[i].querySelectorAll('input')[1];
+                if (labels.indexOf(labelObject.value.trim()) > -1 || values.indexOf(valueObject.value.trim()) > -1) {
+                    zAlert.warning(i18n.msg('validation.msg.dataNotDuplicate'));
+                    isValid = false;
+                    break;
+                }
+                labels.push(labelObject.value.trim());
+                values.push(valueObject.value.trim());
+            }
+        } else if (type === 'dropdown') {
+            let detailsObject = document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)');
             let labels = [];
             let values = [];
             for (let i = 0, len = detailsObject.length; i < len; i++) {
@@ -1189,8 +1247,10 @@
                 }
                 break;
             case 'dropdown':
+                details.required = parent.querySelector('#' + attributeTypeList[1].type + '-required').value;
+
                 let dropdownOption = [];
-                document.querySelectorAll('#details > .flex-row').forEach(function (object) {
+                document.querySelectorAll('#dropdownListData > .flex-row').forEach(function (object) {
                     dropdownOption.push({
                         text: object.querySelectorAll('input')[0].value.trim(),
                         value: object.querySelectorAll('input')[1].value.trim()
@@ -1695,7 +1755,7 @@
                 parent.appendChild(elem);
                 return elem;
             case 'userSearch':
-                const userDefaultValues = (data.value !== null) ? data.value.split('|') : ['', '', ''];
+                const userDefaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : ['', '', ''];
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-user-search text-ellipsis';
@@ -1708,7 +1768,7 @@
                 elem.setAttribute('onkeydown', 'return false;');
                 elem.setAttribute('data-user-id', userDefaultValues[2]);
                 elem.setAttribute('data-user-search', userDefaultValues[0]);
-                elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null) ? data.value : ''));
+                elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null && data.value !== '') ? data.value : ''));
                 elem.readOnly = (displayMode === 'view');
                 elem.value = userDefaultValues[1];
                 if (attributeValue.required === 'true') {
@@ -1720,7 +1780,7 @@
                 parent.appendChild(elem);
                 return elem;
             case 'organizationSearch':
-                const defaultValues = (data.value !== null) ? data.value.split('|') : ['', ''];
+                const defaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : ['', ''];
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-organization-search text-ellipsis';

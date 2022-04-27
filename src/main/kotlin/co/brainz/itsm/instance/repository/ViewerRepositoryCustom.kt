@@ -16,10 +16,5 @@ interface ViewerRepositoryCustom : AliceRepositoryCustom {
 
     fun findViewerByInstanceId(instanceId: String): MutableList<WfInstanceViewerEntity>
 
-    fun updateDisplayYn(instanceId: String, viewerKey: String)
-
     fun findByInstanceIdAndViewerKey(instanceId: String, viewerKey: String): WfInstanceViewerEntity?
-
-    fun updateReviewYn(instanceId: String, viewerKey: String): Int
-
 }

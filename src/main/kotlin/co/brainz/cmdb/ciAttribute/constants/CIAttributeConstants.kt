@@ -17,7 +17,9 @@ object CIAttributeConstants {
         HIDDEN("hidden"),
         GROUP_LIST("group-list"),
         INPUT_BOX("inputbox"),
-        RADIO("radio")
+        RADIO("radio"),
+        USER_SEARCH("userSearch"),
+        ORGANIZATION_SEARCH("organizationSearch")
     }
 
     enum class Column(val value: String) {

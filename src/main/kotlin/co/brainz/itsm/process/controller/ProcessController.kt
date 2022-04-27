@@ -6,6 +6,7 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessService
+import co.brainz.workflow.process.service.WfProcessService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/process")
 class ProcessController(
-    private val processService: ProcessService
+    private val processService: ProcessService,
+    private val wfProcessService: WfProcessService
 ) {
 
     private val processDesignerEditPage: String = "process/processDesignerEdit"
@@ -28,6 +30,7 @@ class ProcessController(
     @GetMapping("/{processId}/edit")
     fun getProcessDesignerEdit(@PathVariable processId: String, model: Model): String {
         model.addAttribute("processId", processId)
+        model.addAttribute("createdWorkFlow", wfProcessService.checkCreatedWorkFlow(processId))
         return processDesignerEditPage
     }
 
@@ -38,6 +41,7 @@ class ProcessController(
     fun getProcessDesignerView(@PathVariable processId: String, model: Model): String {
         model.addAttribute("processId", processId)
         model.addAttribute("isView", true)
+        model.addAttribute("createdWorkFlow", wfProcessService.checkCreatedWorkFlow(processId))
         return processDesignerEditPage
     }
 

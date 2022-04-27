@@ -11,6 +11,7 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.process.dto.ProcessSearchCondition
+import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -47,7 +48,8 @@ import org.springframework.transaction.annotation.Transactional
 class WfProcessService(
     private val wfProcessRepository: WfProcessRepository,
     private val wfProcessSimulator: WfProcessSimulator,
-    private val aliceUserRepository: AliceUserRepository
+    private val aliceUserRepository: AliceUserRepository,
+    private val wfDocumentRepository: WfDocumentRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -111,6 +113,8 @@ class WfProcessService(
             AliceErrorConstants.ERR_00005.message + "[Process Entity]"
         )
         val restTemplateElementDtoList = mutableListOf<RestTemplateElementDto>()
+
+        wfProcessDto.createdWorkFlow = this.checkCreatedWorkFlow(processId)
 
         for (elementEntity in processEntity.elementEntities) {
             val elDto = processMapper.toWfElementDto(elementEntity)
@@ -547,5 +551,9 @@ class WfProcessService(
                 }
             }
         }
+    }
+
+    fun checkCreatedWorkFlow(processId: String): Boolean {
+        return wfDocumentRepository.existsByProcessId(processId)
     }
 }

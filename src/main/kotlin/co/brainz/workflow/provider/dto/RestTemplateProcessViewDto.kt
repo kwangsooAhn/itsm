@@ -14,5 +14,6 @@ data class RestTemplateProcessViewDto(
     var updateDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateUserName: String? = null,
-    var enabled: Boolean? = null
+    var enabled: Boolean? = null,
+    var createdWorkFlow: Boolean? = null
 ) : Serializable

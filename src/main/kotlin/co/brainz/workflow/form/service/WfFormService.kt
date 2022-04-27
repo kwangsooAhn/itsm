@@ -17,6 +17,7 @@ import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
+import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.mapper.WfFormMapper
@@ -53,6 +54,7 @@ class WfFormService(
     private val wfFormRowRepository: WfFormRowRepository,
     private val wfComponentPropertyRepository: WfComponentPropertyRepository,
     private val wfFormGroupPropertyRepository: WfFormGroupPropertyRepository,
+    private val wfDocumentRepository: WfDocumentRepository,
     private val aliceTagManager: AliceTagManager
 ) {
 
@@ -223,7 +225,8 @@ class WfFormService(
             createDt = formEntity.get().createDt,
             createUserKey = formEntity.get().createUser?.userKey,
             group = formGroupList,
-            display = displayOption
+            display = displayOption,
+            createdWorkFlow = this.checkCreatedWorkFlow(formId)
         )
     }
 
@@ -568,5 +571,12 @@ class WfFormService(
             }
         }
         return status
+    }
+
+    /**
+     * 문서양식에 연결된 업무흐름이 있는지 체크.
+     */
+    fun checkCreatedWorkFlow(formId: String): Boolean {
+        return wfDocumentRepository.existsByFormId(formId)
     }
 }

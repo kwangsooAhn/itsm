@@ -27,14 +27,15 @@ class WfTokenAction(
             WfElementConstants.Action.TERMINATE.value -> this.actionTerminate(tokenDto)
             WfElementConstants.Action.WITHDRAW.value -> this.actionWithdraw(tokenDto)
             WfElementConstants.Action.REJECT.value -> this.actionReject(tokenDto)
+            WfElementConstants.Action.REVIEW.value -> this.actionReview(tokenDto)
         }
     }
 
     /**
      * Review
      */
-    fun actionReview(instanceId: String): Boolean {
-        return wfTokenManagerService.updateReview(instanceId)
+    fun actionReview(tokenDto: WfTokenDto): Boolean {
+        return wfTokenManagerService.updateReview(tokenDto)
     }
 
     /**

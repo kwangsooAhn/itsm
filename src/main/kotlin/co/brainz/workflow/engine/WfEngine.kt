@@ -27,12 +27,22 @@ class WfEngine(
     /**
      * Start workflow.
      */
-    @Transactional
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.info("Start Workflow : {}", tokenDto.documentName)
+
         // 참조인, 댓글, 태그 입력시 임시로 등록된 데이터가 존재할 경우가 있으므로 삭제한 후 다시 시작 이벤트를 생성한다.
         wfTokenManagerService.deleteTokenByInstanceId(tokenDto.instanceId)
-        
+        // 시작 이벤트 이후 첫번째 토큰 생성.
+        val firstTokenDto = this.getFirstToken(tokenDto)
+
+        return this.progressWorkflow(firstTokenDto!!)
+    }
+
+    /**
+     * Get First Token.
+     */
+    @Transactional
+    fun getFirstToken(tokenDto: WfTokenDto): WfTokenDto? {
         val instance = wfTokenManagerService.createInstance(tokenDto)
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
         tokenDto.instanceId = instance.instanceId
@@ -45,15 +55,12 @@ class WfEngine(
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
         // 시작 이벤트 이후 첫번째 토큰 생성.
-        val firstTokenDto = tokenManager.createNextToken(startTokenDto)
-
-        return this.progressWorkflow(firstTokenDto!!)
+        return tokenManager.createNextToken(startTokenDto)
     }
 
     /**
      * Progress workflow.
      */
-    @Transactional
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Progress Token")
 
@@ -62,41 +69,60 @@ class WfEngine(
             return false
         }
 
-        // 참조인 처리 (문서 담당자와 참조인이 동일할때 문서 처리와 동시에 읽음처리)
-        val reviewExceptionElementTypeIds = setOf(WfElementConstants.ElementType.COMMON_END_EVENT.value)
-        if (!reviewExceptionElementTypeIds.contains(tokenDto.elementType)) {
-            WfTokenAction(wfTokenManagerService).actionReview(tokenDto.instanceId)
-        }
-
-        if (WfElementConstants.Action.isApplicationAction(tokenDto.action!!)) {
-            // 프로세스로 그려지진 않았지만 반려나 회수처럼 시스템에서 기본적으로 제공하는 동작 선택 시.
-            WfTokenAction(wfTokenManagerService).progressApplicationAction(tokenDto)
-        } else if (WfElementConstants.Action.REVIEW.value == tokenDto.action) {
-            return WfTokenAction(wfTokenManagerService).actionReview(tokenDto.instanceId)
-        } else {
-            // 프로세스로 그려진 동적인 흐름을 진행하는 동작.
-            var currentTokenDto = tokenDto.copy()
-            var currentTokenManager: WfTokenManager
-            var nextTokenDto: WfTokenDto?
-            var nextTokenManager: WfTokenManager
-            do {
-                // 현재 토큰 처리.
-                currentTokenDto = this.getTokenDto(currentTokenDto)
-                currentTokenManager = this.createTokenManager(currentTokenDto)
-                currentTokenDto = currentTokenManager.completeToken(currentTokenDto)
-
-                // 다음 토큰 생성.
-                nextTokenDto = currentTokenManager.createNextToken(currentTokenDto)
-                if (nextTokenDto != null) {
-                    nextTokenManager = this.createTokenManager(nextTokenDto)
-                    currentTokenDto = nextTokenDto
-                } else { // 다음 토큰이 없으면 종료.
-                    nextTokenManager = currentTokenManager
-                    nextTokenManager.isAutoComplete = false
-                }
-            } while (nextTokenManager.isAutoComplete)
+        when (WfElementConstants.Action.isApplicationAction(tokenDto.action!!)) {
+            true -> this.actionProgress(tokenDto)
+            else -> {
+                var isFirst = true // 최초 실행에 대한 옵션 (ex: 처리시 본인 참조인 자동 읽음 처리 등)
+                // 프로세스로 그려진 동적인 흐름을 진행하는 동작.
+                var currentTokenDto = tokenDto.copy()
+                var currentTokenManager: WfTokenManager
+                var nextTokenDto: WfTokenDto?
+                var nextTokenManager: WfTokenManager
+                do {
+                    currentTokenDto = this.getTokenDto(currentTokenDto)
+                    currentTokenManager = this.createTokenManager(currentTokenDto)
+                    nextTokenDto = this.currentTokenCompleteAndCreateNextToken(currentTokenManager, currentTokenDto, isFirst)
+                    if (nextTokenDto != null) {
+                        // 다음 토큰 생성 후 추가작업 (필요한 경우)
+                        nextTokenManager = this.createTokenManager(nextTokenDto)
+                        nextTokenManager.nextTokenOptionProcessing(nextTokenDto)
+                        currentTokenDto = nextTokenDto
+                    } else { // 다음 토큰이 없으면 종료.
+                        nextTokenManager = currentTokenManager
+                        nextTokenManager.isAutoComplete = false
+                    }
+                    isFirst = false
+                } while (nextTokenManager.isAutoComplete)
+            }
         }
         return true
+    }
+
+    /**
+     * 버튼 액션 처리
+     */
+    @Transactional
+    fun actionProgress(tokenDto: WfTokenDto) {
+        WfTokenAction(wfTokenManagerService).progressApplicationAction(tokenDto)
+    }
+
+    /**
+     * 현재 토큰 종료 + 다음 토큰 생성 후 DB 반영
+     */
+    @Transactional
+    fun currentTokenCompleteAndCreateNextToken(
+        currentTokenManager: WfTokenManager,
+        currentTokenDto: WfTokenDto,
+        isFirst: Boolean
+    ): WfTokenDto? {
+        if (isFirst) {
+            // 참조인 처리 (문서 담당자와 참조인이 동일할때 문서 처리와 동시에 읽음처리)
+            if (currentTokenDto.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+                WfTokenAction(wfTokenManagerService).actionReview(currentTokenDto)
+            }
+        }
+        val completedTokenDto = currentTokenManager.completeToken(currentTokenDto)
+        return currentTokenManager.createNextToken(completedTokenDto)
     }
 
     /**

@@ -172,4 +172,18 @@ class WfDocumentRepositoryImpl :
         sqlBuilder.append(" limit ${WfComponentConstants.LIST_LIMIT}")
         return entityManager?.createNativeQuery(sqlBuilder.toString())?.resultList as List<Array<Any>>
     }
+
+    override fun existsByFormId(formId: String): Boolean {
+        val document = QWfDocumentEntity.wfDocumentEntity
+        return from(document)
+            .where(document.form.formId.eq(formId))
+            .fetchFirst() != null
+    }
+
+    override fun existsByProcessId(processId: String): Boolean {
+        val document = QWfDocumentEntity.wfDocumentEntity
+        return from(document)
+            .where(document.process.processId.eq(processId))
+            .fetchFirst() != null
+    }
 }

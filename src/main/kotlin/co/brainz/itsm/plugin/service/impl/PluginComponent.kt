@@ -13,58 +13,57 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.plugin.dto.PluginParamDto
 import co.brainz.itsm.plugin.entity.PluginEntity
 import co.brainz.itsm.plugin.entity.PluginHistoryEntity
-import co.brainz.itsm.plugin.repository.PluginHistoryRepository
+import co.brainz.itsm.plugin.service.PluginHistoryService
+import co.brainz.workflow.component.repository.WfComponentRepository
+import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.token.repository.WfTokenDataRepository
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
 abstract class PluginComponent(
-    val pluginHistoryRepository: PluginHistoryRepository,
+    val pluginHistoryService: PluginHistoryService,
     val aliceTagRepository: AliceTagRepository,
-    val wfTokenDataRepository: WfTokenDataRepository
+    val wfTokenDataRepository: WfTokenDataRepository,
+    val wfComponentRepository: WfComponentRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-
-    @Value("\${plugins.dir}")
-    protected val pluginsDir: String? = null
 
     lateinit var plugin: PluginEntity
     lateinit var pluginHistory: PluginHistoryEntity
     lateinit var pluginParam: PluginParamDto
+    lateinit var tokenDto: WfTokenDto
     protected var body: String? = null
+    protected var pluginsDir: String? = null
 
     /**
      * 공통 초기화 (공통 처리 후 각 세부 설정 호출)
      */
     fun initialize(
         plugin: PluginEntity,
-        pluginParam: PluginParamDto,
+        tokenDto: WfTokenDto,
         body: String?
     ) {
+        this.pluginsDir = pluginHistoryService.getPluginDir()
         this.plugin = plugin
-        this.pluginParam = pluginParam
+        this.tokenDto = tokenDto
+        this.pluginParam = this.initPluginParam()
         this.body = body
-        this.pluginHistory = PluginHistoryEntity(
-            historyId = "",
-            pluginId = plugin.pluginId,
-            startDt = LocalDateTime.now()
+        val pluginHistory = pluginHistoryService.insertPluginHistory(
+            PluginHistoryEntity(
+                historyId = "",
+                pluginId = plugin.pluginId,
+                startDt = LocalDateTime.now()
+            )
         )
+        this.pluginHistory = pluginHistory
         this.constructor()
-        pluginHistoryRepository.save(pluginHistory)
+        pluginHistoryService.insertPluginHistory(pluginHistory)
     }
 
     /**
@@ -88,6 +87,7 @@ abstract class PluginComponent(
             if (it == AliceConstants.SCHEDULER_COMMAND_JAR) {
                 command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_CONFIG_FILE + "=" + home + "/logback.xml")
                 command.add(AliceConstants.PLUGINS_VM_OPTIONS_LOG_HOME + "=" + home + "/logs")
+                command.add(AliceConstants.PLUGINS_VM_OPTIONS_ENCODING + "=" + "UTF-8")
             }
             command.add(it.trim())
         }
@@ -151,7 +151,7 @@ abstract class PluginComponent(
      */
     protected fun getPluginDataByTag(): LinkedHashMap<String, String> {
         val dataMap: LinkedHashMap<String, String> = linkedMapOf()
-        val tokenDataList = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(this.pluginParam.tokenId)
+        val tokenDataList = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(this.tokenDto.tokenId)
         val componentIds: LinkedHashSet<String> = linkedSetOf()
         tokenDataList.forEach {
             componentIds.add(it.component.componentId)
@@ -167,11 +167,9 @@ abstract class PluginComponent(
         return dataMap
     }
 
-    /**
-     * PluginData 를 MappingId 정보로 조회하여 처리
-     */
-    protected fun getPluginDataByMappingId(): LinkedHashMap<String, String> {
-        val dataMap: LinkedHashMap<String, String> = linkedMapOf()
-        return dataMap
+    fun initPluginParam(): PluginParamDto {
+        return PluginParamDto(
+            tokenId = this.tokenDto.tokenId
+        )
     }
 }
