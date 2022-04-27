@@ -15,6 +15,7 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZDefaultValueSearchProperty from '../../formDesigner/property/type/zDefaultValueSearchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
@@ -24,7 +25,12 @@ import { zValidation } from '../../lib/zValidation.js';
  */
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
-        columnWidth: '10'
+        columnWidth: '10',
+        defaultValue: {
+            target: FORM.SEARCH_COMPONENT.ORGANIZATION_SEARCH,
+            type: FORM.DEFAULT_VALUE_TYPE.NONE,
+            data: ''
+        },
     },
     validation: {
         required: false // 필수값 여부
@@ -43,15 +49,19 @@ export const organizationSearchMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const defaultValues = this.value.split('|');
+        // 컴포넌트에 저장된 값
+        const savedValues = this.value.split('|');
+        // 컴포넌트에 설정된 기본 값
+        const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data)) ? this.elementDefaultValue.data.split('|')
+            : Array.from({length: 3}, v => '');
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
             .setUIClass('z-input i-organization-search text-ellipsis')
             .setUIId('organizationSearch' + this.id)
-            .setUIValue((this.value === '${default}') ? '' : defaultValues[1])
+            .setUIValue((this.value === '${default}') ? defaultValues[2] : savedValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-organization-search', (this.value === '${default}') ? '' : defaultValues[0])
+            .setUIAttribute('data-organization-search', (this.value === '${default}') ? defaultValues[1] : savedValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
@@ -100,6 +110,21 @@ export const organizationSearchMixin = {
     get validationRequired() {
         return this._validation.required;
     },
+    // 컴포넌트에 설정된 기본 값
+    set elementDefaultValue(value) {
+        this._element.defaultValue = {
+            target: this.type,
+            type: value.type,
+            data: value.data
+        };
+        // 컴포넌트에 설정된 기본값 정보
+        const defaultData = (!zValidation.isEmpty(value.data)) ? value.data.split('|') : Array.from({length: 3}, v => '');
+        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultData[2])
+            .setUIAttribute('data-organization-search', defaultData[1]);
+    },
+    get elementDefaultValue() {
+        return this._element.defaultValue;
+    },
     set value(value) {
         this._value = value;
     },
@@ -146,11 +171,15 @@ export const organizationSearchMixin = {
 
     // 세부 속성 조회
     getProperty() {
+        const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue)
+        defaultValueSearchProperty.help = 'form.help.date-default'
+
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth)),
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(defaultValueSearchProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];

@@ -16,6 +16,7 @@ import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
 import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
+import ZDefaultValueSearchProperty from '../../formDesigner/property/type/zDefaultValueSearchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
@@ -26,7 +27,11 @@ import { zValidation } from '../../lib/zValidation.js';
 const DEFAULT_COMPONENT_PROPERTY = {
     element: {
         columnWidth: '10',
-        defaultValue: '2c91808e7c75dad2017c781635e20000|cmdb.admin|CMDB 관리자',
+        defaultValue: {
+            target: FORM.SEARCH_COMPONENT.USER_SEARCH,
+            type: FORM.DEFAULT_VALUE_TYPE.NONE,
+            data: ''
+        },
         userSearchTarget: ''
     },
     validation: {
@@ -47,16 +52,21 @@ export const userSearchMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const defaultValues = this.value.split('|');
+        // 컴포넌트에 저장된 값
+        const savedValues = this.value.split('|');
+        // 컴포넌트에 설정된 기본 값
+        const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data)) ? this.elementDefaultValue.data.split('|')
+            : Array.from({length: 3}, v => '')
+
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
             .setUIClass('z-input i-user-search text-ellipsis')
             .setUIId('userSearch' + this.id)
-            .setUIValue((this.value === '${default}') ? '' : defaultValues[1])
+            .setUIValue((this.value === '${default}') ? defaultValues[2] : savedValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-user-id', (this.value === '${default}') ? '' : defaultValues[2])
-            .setUIAttribute('data-user-search', (this.value === '${default}') ? '' : defaultValues[0])
+            .setUIAttribute('data-user-id', (this.value === '${default}') ? defaultValues[1] : savedValues[2])
+            .setUIAttribute('data-user-search', (this.value === '${default}') ? defaultValues[0] : savedValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
@@ -70,10 +80,14 @@ export const userSearchMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
-        // 컴포넌트에 설정된 기본값이 유효한  확인
-        if (zValidation.isEmpty(this.UIElement.UIComponent.UIElement.UIInput.getUIValue())
-            && !zValidation.isEmpty(this.elementDefaultValue)) {
-            this.getUserList(this.elementDefaultValue.split('|')[1], false);
+        // 사용자 검색 조건 미설정 여부
+        const emptySearchTarget = zValidation.isEmpty(this.elementUserSearchTarget)
+            || zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value);
+        // 아래 조건에 모두 해당하는 경우 컴포넌트에 설정된 기본값을 적용합니다.
+        // 1. 사용자 검색 조건이 설정되어 있고 | 2. 폼 디자이너가 아닐 경우
+        if (!emptySearchTarget && !zValidation.isEmpty(this.elementDefaultValue.data)
+                && zValidation.isEmpty(document.querySelector('.z-form-main'))) {
+            this.getUserList(this.elementDefaultValue.data.split('|')[1], false);
         }
 
         // 신청서 양식 편집 화면에 따른 처리
@@ -96,7 +110,16 @@ export const userSearchMixin = {
     },
     // 컴포넌트에 설정된 기본 값
     set elementDefaultValue(value) {
-        this._element.defaultValue = value;
+        this._element.defaultValue = {
+            target: this.type,
+            type: value.type,
+            data: value.data
+        };
+        // 컴포넌트에 설정된 기본값 정보
+        const defaultData = (!zValidation.isEmpty(value.data)) ? value.data.split('|') : Array.from({length: 3}, v => '');
+        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultData[2])
+            .setUIAttribute('data-user-id', defaultData[1])
+            .setUIAttribute('data-user-search', defaultData[0]);
     },
     get elementDefaultValue() {
         return this._element.defaultValue;
@@ -212,15 +235,19 @@ export const userSearchMixin = {
     },
 
     getUserList(search, showProgressbar) {
-        const targetData = JSON.parse(this.elementUserSearchTarget);
-        const targetCriteria = targetData.targetCriteria;
-        let searchKeys = '';
-        targetData.searchKey.forEach( (elem, index) => {
-            searchKeys += (index > 0) ? '+' + elem.id : elem.id;
-        });
+        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim());
 
-        let strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
-            '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
+        // 검색 조건이 있는 경우
+        if (!zValidation.isEmpty(this.elementUserSearchTarget)) {
+            const targetData = JSON.parse(this.elementUserSearchTarget);
+            const targetCriteria = targetData.targetCriteria;
+            let searchKeys = '';
+            targetData.searchKey.forEach( (elem, index) => {
+                searchKeys += (index > 0) ? '+' + elem.id : elem.id;
+            });
+            strUrl += '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
+        }
+
         aliceJs.fetchText(strUrl, {
             method: 'GET',
             showProgressbar: showProgressbar
@@ -243,35 +270,36 @@ export const userSearchMixin = {
                 const targetId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-search');
                 const targetName = this.UIElement.UIComponent.UIElement.UIInput.getUIValue();
                 const targetUserId = this.UIElement.UIComponent.UIElement.UIInput.domElement.getAttribute('data-user-id');
-                this.realTimeSelectedUser = (this.value !== '${default}') ? `${targetId}|${targetName}|${targetUserId}` : '';
-
+                this.realTimeSelectedUser = (this.elementDefaultValue.type !== FORM.DEFAULT_VALUE_TYPE.NONE)
+                    ? `${targetId}|${targetName}|${targetUserId}` : '';
                 const checkedTargetId = this.realTimeSelectedUser.split('|')[0];
                 const targetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
                 if (!zValidation.isEmpty(targetUserId) && !zValidation.isEmpty(targetRadio)) {
                     targetRadio.checked = true;
                 }
             } else {
-            // 기본값 사용자 정보
+            // 기본값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData, 'text/html');
-                if (userListElem.querySelectorAll('.z-table-row').length > 0) {
-                    const defaultValue = this.elementDefaultValue.split('|');
-                    this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultValue[2])
-                        .setUIAttribute('data-user-id', defaultValue[1])
-                        .setUIAttribute('data-user-search', defaultValue[0]);
+                if (userListElem.querySelectorAll('.z-table-row').length === 0) {
+                    this.UIElement.UIComponent.UIElement.UIInput.setUIValue('')
+                        .setUIAttribute('data-user-id', '')
+                        .setUIAttribute('data-user-search', '');
                 }
             }
         });
     },
     // 세부 속성 조회
     getProperty() {
-        const userSearchProperty = new ZUserSearchProperty('elementUserSearchTarget', 'element.searchTargetCriteria',
-            this.elementUserSearchTarget);
+        const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue)
+        defaultValueSearchProperty.help = 'form.help.date-default'
+
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(userSearchProperty),
+                .addProperty(new ZUserSearchProperty('elementUserSearchTarget', 'element.searchTargetCriteria', this.elementUserSearchTarget))
+                .addProperty(defaultValueSearchProperty),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
