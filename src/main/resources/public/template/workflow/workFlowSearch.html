@@ -424,8 +424,7 @@
 
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchJson(url, {
-                method: 'DELETE',
-                showProgressbar: true
+                method: 'DELETE'
             }).then((response) => {
                 switch (response.status) {
                     case aliceJs.response.success:

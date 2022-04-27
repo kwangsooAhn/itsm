@@ -312,7 +312,7 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
  * @param type form/process/workflow
  */
 ZWorkflowUtil.export = async function(id, url, type) {
-    // 버전 정보 { status: '', messages: '', data: null }
+    // 버전 정보
     const version = await aliceJs.fetchJson('/rest/codes/version.workflow', { method: 'GET' });
     if (version.status === aliceJs.response.error) {
         zAlert.danger(i18n.msg('code.msg.codeNotExist'), 'version.workflow');
@@ -328,13 +328,13 @@ ZWorkflowUtil.export = async function(id, url, type) {
                 let xmlString = '';
                 switch (type) {
                     case 'form':
-                        xmlString = ZWorkflowUtil.createFormXMLString(data, version.data.codeValue);
+                        xmlString = ZWorkflowUtil.createFormXMLString(response.data, version.data.codeValue);
                         break;
                     case 'process':
-                        xmlString = ZWorkflowUtil.createProcessXMLString(data, version.data.codeValue);
+                        xmlString = ZWorkflowUtil.createProcessXMLString(response.data, version.data.codeValue);
                         break;
                     case 'workflow':
-                        xmlString = ZWorkflowUtil.createDocumentXMLString(data, version.data.codeValue);
+                        xmlString = ZWorkflowUtil.createDocumentXMLString(response.data, version.data.codeValue);
                         break;
                 }
                 ZWorkflowUtil.downloadXML(id, type, xmlString);
