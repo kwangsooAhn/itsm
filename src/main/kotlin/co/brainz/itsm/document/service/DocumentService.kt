@@ -8,6 +8,7 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
@@ -335,7 +336,7 @@ class DocumentService(
     /**
      * 이력 조회 컴포넌트 데이터 조회
      */
-    fun getDocumentComponentValue(documentNo: String, componentId: String): FieldReturnDto {
+    fun getDocumentComponentValue(documentNo: String, componentId: String): ZResponse {
         // wf_component_property 테이블에서 데이터 조회
         val componentProperties = wfComponentPropertyRepository.findByComponentId(componentId)
         val fieldOption = FieldOptionDto(documentNo = documentNo)
@@ -375,9 +376,11 @@ class DocumentService(
             logger.error(AliceUtil().printStackTraceToString(e))
         }
 
-        return FieldReturnDto(
-            fields = fieldDataList,
-            data = data
+        return ZResponse(
+            data = FieldReturnDto(
+                fields = fieldDataList,
+                data = data
+            )
         )
     }
 }
