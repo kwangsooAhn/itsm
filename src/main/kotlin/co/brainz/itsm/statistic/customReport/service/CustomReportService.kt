@@ -48,14 +48,14 @@ class CustomReportService(
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getReportList(reportSearchCondition: ReportSearchCondition): CustomReportListReturnDto {
-        val paginResult = customReportRepository.getReportList(reportSearchCondition)
+        val pagingResult = customReportRepository.getReportList(reportSearchCondition)
         return CustomReportListReturnDto(
-            data = mapper.convertValue(paginResult.dataList, object : TypeReference<List<CustomReportListDto>>(){}),
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomReportListDto>>(){}),
             paging = AlicePagingData(
-                totalCount = paginResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customReportRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
-                totalPageNum = Math.ceil(paginResult.totalCount.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
+                totalPageNum = Math.ceil(pagingResult.totalCount.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
                     .toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
