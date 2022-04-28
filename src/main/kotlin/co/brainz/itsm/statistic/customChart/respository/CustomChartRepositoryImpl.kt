@@ -16,6 +16,7 @@ import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
 import co.brainz.itsm.statistic.customChart.entity.QChartEntity
 import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateMapEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
@@ -43,12 +44,7 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
                 )
             )
             .innerJoin(chart.createUser, user)
-            .where(
-                super.eq(chart.chartType, chartSearchCondition.searchGroupName)
-            )
-            .where(
-                super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
-            )
+            .where(builder(chartSearchCondition, chart))
 
         if (chartSearchCondition.orderColName.isNullOrEmpty()) {
             query.orderBy(chart.createDt.desc(), chart.chartName.asc(), chart.chartType.asc())
@@ -72,13 +68,23 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
 
         val countQuery = from(chart)
             .select(chart.count())
-            .where(super.eq(chart.chartType, chartSearchCondition.searchGroupName))
-            .where(super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue))
+            .where(builder(chartSearchCondition, chart))
         return PagingReturnDto(
             dataList = query.fetch(),
             totalCount = countQuery.fetchOne()
 
         )
+    }
+
+    private fun builder(chartSearchCondition: ChartSearchCondition, chart: QChartEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+            builder.and(
+                super.eq(chart.chartType, chartSearchCondition.searchGroupName)
+            )
+            builder.and(
+                super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
+            )
+        return builder
     }
 
     override fun findChartDataByChartIdsTemplateId(chartIds: Set<String>, templateId: String): List<ChartDataDto> {

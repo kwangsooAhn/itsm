@@ -12,7 +12,6 @@ import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport

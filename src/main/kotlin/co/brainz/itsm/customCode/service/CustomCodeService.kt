@@ -42,6 +42,7 @@ import co.brainz.itsm.role.specification.RoleCustomCodeSpecification
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.specification.UserCustomCodeSpecification
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -70,6 +71,7 @@ class CustomCodeService(
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
     private val customCodeTableMapper: CustomCodeTableMapper = Mappers.getMapper(CustomCodeTableMapper::class.java)
     private val customCodeColumnMapper: CustomCodeColumnMapper = Mappers.getMapper(CustomCodeColumnMapper::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 사용자 정의 코드 리스트 조회.
@@ -77,14 +79,14 @@ class CustomCodeService(
      * @return MutableList<CustomCodeDto>
      */
     fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
-        val queryResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
+        val pagingResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
         return CustomCodeListReturnDto(
-            data = queryResult.dataList as MutableList<CustomCodeListDto>,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<MutableList<CustomCodeListDto>> () {}),
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customCodeRepository.count(),
                 currentPageNum = customCodeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalCount.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

@@ -17,7 +17,6 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery

@@ -11,6 +11,7 @@ import co.brainz.framework.auth.entity.QAliceRoleEntity
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.dto.RoleSearchCondition
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
@@ -29,10 +30,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
                     role.roleDesc
                 )
             )
-            .where(
-                super.likeIgnoreCase(role.roleName, roleSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(role.roleDesc, roleSearchCondition.searchValue))
-            )
+            .where(builder(roleSearchCondition, role))
             .orderBy(role.roleName.asc())
         if (roleSearchCondition.isPaging) {
             query.limit(roleSearchCondition.contentNumPerPage)
@@ -41,10 +39,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
 
         val countQuery = from(role)
             .select(role.count())
-            .where(
-                super.likeIgnoreCase(role.roleName, roleSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(role.roleDesc, roleSearchCondition.searchValue))
-            )
+            .where(builder(roleSearchCondition, role))
         return PagingReturnDto(
             dataList = query.fetch(),
             totalCount = countQuery.fetchOne()
@@ -63,5 +58,13 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
                 )
             )
             .fetch()
+    }
+
+    private fun builder(roleSearchCondition: RoleSearchCondition, role: QAliceRoleEntity):BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(role.roleName, roleSearchCondition.searchValue)
+            ?.or(super.likeIgnoreCase(role.roleDesc, roleSearchCondition.searchValue)))
+        return builder
     }
 }

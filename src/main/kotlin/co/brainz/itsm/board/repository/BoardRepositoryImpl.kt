@@ -17,6 +17,7 @@ import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardReadEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -59,15 +60,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
             .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
             .leftJoin(boardAdmin).on((board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)))
-            .where(
-                board.boardAdmin.boardAdminId.eq(boardArticleSearchCondition.boardAdminId),
-                super.likeIgnoreCase(
-                    board.boardTitle, boardArticleSearchCondition.searchValue
-                )?.or(super.likeIgnoreCase(category.boardCategoryName, boardArticleSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(board.createUser.userName, boardArticleSearchCondition.searchValue)),
-                board.createDt.goe(boardArticleSearchCondition.formattedFromDt),
-                board.createDt.lt(boardArticleSearchCondition.formattedToDt)
-            )
+            .where(this.builder(boardArticleSearchCondition, board, category))
             .orderBy(board.boardGroupId.desc(), board.boardOrderSeq.asc())
         if (boardArticleSearchCondition.isPaging) {
             query.limit(boardArticleSearchCondition.contentNumPerPage)
@@ -76,15 +69,10 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
 
         val countQuery = from(board)
             .select(board.count())
-            .where(
-                board.boardAdmin.boardAdminId.eq(boardArticleSearchCondition.boardAdminId),
-                super.likeIgnoreCase(
-                    board.boardTitle, boardArticleSearchCondition.searchValue
-                )?.or(super.likeIgnoreCase(category.boardCategoryName, boardArticleSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(board.createUser.userName, boardArticleSearchCondition.searchValue)),
-                board.createDt.goe(boardArticleSearchCondition.formattedFromDt),
-                board.createDt.lt(boardArticleSearchCondition.formattedToDt)
-            )
+            .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
+            .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
+            .leftJoin(boardAdmin).on((board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)))
+            .where(this.builder(boardArticleSearchCondition, board, category))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -111,5 +99,17 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             )
             .where(board.boardId.eq(boardId))
             .fetchOne()
+    }
+    private fun builder(boardArticleSearchCondition: BoardArticleSearchCondition, board: QPortalBoardEntity, category: QPortalBoardCategoryEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(board.boardTitle, boardArticleSearchCondition.searchValue)?.or(
+                super.likeIgnoreCase(board.createUser.userName, boardArticleSearchCondition.searchValue)
+            )
+        )
+        builder.and(board.boardAdmin.boardAdminId.eq(boardArticleSearchCondition.boardAdminId))
+        builder.and(board.createDt.goe(boardArticleSearchCondition.formattedFromDt))
+        builder.and(board.createDt.lt(boardArticleSearchCondition.formattedToDt))
+        return builder
     }
 }

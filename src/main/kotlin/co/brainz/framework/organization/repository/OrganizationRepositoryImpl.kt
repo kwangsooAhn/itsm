@@ -5,11 +5,9 @@
 
 package co.brainz.framework.organization.repository
 
-import co.brainz.framework.organization.dto.OrganizationListDto
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.entity.QOrganizationEntity
-import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class OrganizationRepositoryImpl : QuerydslRepositorySupport(OrganizationEntity::class.java),

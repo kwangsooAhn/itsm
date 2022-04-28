@@ -27,7 +27,6 @@ import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.organization.service.OrganizationService
-import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -52,6 +51,7 @@ import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.itsm.user.repository.UserCustomRepository
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -178,13 +178,12 @@ class UserService(
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
-        val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
-        val userList: MutableList<UserListDataDto> = mutableListOf()
+        val pagingResult = userRepository.findAliceUserEntityList(userSearchCondition)
         val totalCount = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID)
-        for (user in queryResult.dataList as MutableList<UserListDataDto>) {
+        val userList: List<UserListDataDto> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<UserListDataDto>>() {})
+        userList.forEach { user ->
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
-            userList.add(user)
         }
 
         val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
@@ -204,10 +203,10 @@ class UserService(
         return UserListReturnDto(
             data = userList,
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = totalCount,
                 currentPageNum = userSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalCount.toDouble() / userSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / userSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

@@ -24,6 +24,7 @@ import co.brainz.itsm.statistic.customReport.entity.ReportEntity
 import co.brainz.itsm.statistic.customReport.repository.CusmtomReportRepository
 import co.brainz.itsm.statistic.customReport.repository.CustomReportDataRepository
 import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -47,14 +48,14 @@ class CustomReportService(
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getReportList(reportSearchCondition: ReportSearchCondition): CustomReportListReturnDto {
-        val queryResult = customReportRepository.getReportList(reportSearchCondition)
+        val paginResult = customReportRepository.getReportList(reportSearchCondition)
         return CustomReportListReturnDto(
-            data = queryResult.dataList as List<CustomReportListDto>,
+            data = mapper.convertValue(paginResult.dataList, object : TypeReference<List<CustomReportListDto>>(){}),
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = paginResult.totalCount,
                 totalCountWithoutCondition = customReportRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
-                totalPageNum = Math.ceil(queryResult.totalCount.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
+                totalPageNum = Math.ceil(paginResult.totalCount.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
                     .toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )

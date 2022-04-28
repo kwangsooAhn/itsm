@@ -9,7 +9,6 @@ package co.brainz.itsm.instance.repository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
 import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
-import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 

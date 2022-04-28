@@ -22,13 +22,16 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.auth.dto.AuthDto
-import co.brainz.itsm.auth.dto.AuthListDto
 import co.brainz.itsm.auth.dto.AuthListReturnDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthSearchCondition
 import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.itsm.auth.repository.AuthRepository
 import co.brainz.itsm.code.service.CodeService
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.stereotype.Service
@@ -44,6 +47,8 @@ class AuthService(
     private val codeService: CodeService
 ) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * 전체 권한 목록 조회
      */
@@ -52,7 +57,7 @@ class AuthService(
             AuthSearchCondition("")
         )
         return AuthListReturnDto(
-            data = authList.dataList as List<AuthListDto>,
+            data = mapper.convertValue(authList.dataList),
             paging = AlicePagingData(
                 totalCount = authList.totalCount,
                 totalCountWithoutCondition = authRepository.count(),
@@ -67,15 +72,15 @@ class AuthService(
      * 권한 정보 검색
      */
     fun getAuthSearchList(authSearchCondition: AuthSearchCondition): AuthListReturnDto {
-        val queryResult = authRepository.findAuthSearch(authSearchCondition)
+        val pagingResult = authRepository.findAuthSearch(authSearchCondition)
 
         return AuthListReturnDto(
-            data = queryResult.dataList as List<AuthListDto>,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = authRepository.count(),
                 currentPageNum = authSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalCount.toDouble() / authSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / authSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

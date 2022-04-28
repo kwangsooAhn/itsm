@@ -14,8 +14,6 @@ import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
-import com.querydsl.core.QueryResults
-import org.springframework.data.domain.Page
 
 interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
     fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): PagingReturnDto

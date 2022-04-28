@@ -12,7 +12,6 @@ import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.token.constants.WfTokenConstants
-import com.querydsl.core.QueryResults
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

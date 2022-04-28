@@ -8,7 +8,6 @@ package co.brainz.itsm.numberingRule.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapEntity
-import com.querydsl.core.QueryResults
 
 interface NumberingRulePatternMapRepositoryCustom : AliceRepositoryCustom {
     fun findAllByNumberingPatternIn(patternList: MutableList<String>, numberingId: String): List<NumberingRulePatternMapEntity>

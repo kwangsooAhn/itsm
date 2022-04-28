@@ -30,6 +30,10 @@ import co.brainz.itsm.role.dto.RoleListReturnDto
 import co.brainz.itsm.role.dto.RoleSearchCondition
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.repository.UserRepository
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.http.ResponseEntity
@@ -46,13 +50,16 @@ class RoleService(
     private val userRepository: UserRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
+
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * 상단 전체 역할정보를 가져온다.
      */
     fun selectRoleList(): RoleListReturnDto {
         val roleList = roleRepository.findRoleSearch(RoleSearchCondition(""))
         return RoleListReturnDto(
-            data = roleList.dataList as List<RoleListDto>,
+            data = mapper.convertValue(roleList.dataList, object : TypeReference<List<RoleListDto>>() {}),
             paging = AlicePagingData(
                 totalCount = roleList.totalCount,
                 totalCountWithoutCondition = roleRepository.count(),
@@ -157,15 +164,15 @@ class RoleService(
      * 역할 목록을 조회 (검색어 포함).
      */
     fun getRoleSearchList(roleSearchCondition: RoleSearchCondition): RoleListReturnDto {
-        val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
+        val pagingResult = roleRepository.findRoleSearch(roleSearchCondition)
 
         return RoleListReturnDto(
-            data = queryResult.dataList as List<RoleListDto>,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<RoleListDto>>() {}),
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = roleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalCount.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -200,7 +207,7 @@ class RoleService(
      * 역할 목록 Excel 다운로드
      */
     fun getRoleListExcelDownload(roleSearchCondition: RoleSearchCondition): ResponseEntity<ByteArray> {
-        val queryResult = roleRepository.findRoleSearch(roleSearchCondition).dataList as List<RoleListDto>
+        val roleList: List<RoleListDto> = mapper.convertValue(roleRepository.findRoleSearch(roleSearchCondition).dataList, object : TypeReference<List<RoleListDto>>() {})
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
@@ -216,7 +223,7 @@ class RoleService(
                 )
             )
         )
-        queryResult.forEach { result ->
+        roleList.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(

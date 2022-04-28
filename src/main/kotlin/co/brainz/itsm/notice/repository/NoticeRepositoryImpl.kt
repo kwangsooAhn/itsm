@@ -13,7 +13,7 @@ import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -60,13 +60,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                     notice.createUser.userName
                 )
             )
-            .where(
-                super.likeIgnoreCase(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
-                    super.likeIgnoreCase(notice.createUser.userName, noticeSearchCondition.searchValue)
-                ),
-                notice.createDt.goe(noticeSearchCondition.formattedFromDt),
-                notice.createDt.lt(noticeSearchCondition.formattedToDt)
-            )
+            .where(builder(noticeSearchCondition, notice))
             .orderBy(notice.createDt.desc())
 
         if (noticeSearchCondition.isPaging) {
@@ -76,13 +70,7 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
 
         val countQuery = from(notice)
             .select(notice.count())
-            .where(
-                super.likeIgnoreCase(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
-                    super.likeIgnoreCase(notice.createUser.userName, noticeSearchCondition.searchValue)
-                ),
-                notice.createDt.goe(noticeSearchCondition.formattedFromDt),
-                notice.createDt.lt(noticeSearchCondition.formattedToDt)
-            )
+            .where(builder(noticeSearchCondition, notice))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -129,5 +117,18 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
             .leftJoin(notice.updateUser).fetchJoin()
             .where(notice.noticeNo.eq(noticeNo))
             .fetchOne()
+    }
+
+    private fun builder(noticeSearchCondition: NoticeSearchCondition, notice: QNoticeEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(notice.noticeTitle, noticeSearchCondition.searchValue)?.or(
+                super.likeIgnoreCase(notice.createUser.userName, noticeSearchCondition.searchValue)
+            )
+        )
+        builder.and(notice.createDt.goe(noticeSearchCondition.formattedFromDt))
+        builder.and(notice.createDt.lt(noticeSearchCondition.formattedToDt))
+
+        return builder
     }
 }

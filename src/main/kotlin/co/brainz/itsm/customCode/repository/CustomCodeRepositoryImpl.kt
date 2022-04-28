@@ -13,6 +13,7 @@ import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -39,12 +40,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 )
             )
             .innerJoin(customCode.createUser, user)
-            .where(
-                super.eq(customCode.type, customCodeSearchCondition.searchType)
-            )
-            .where(
-                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchCondition.searchValue)
-            )
+            .where(builder(customCodeSearchCondition, customCode))
             .orderBy(customCode.customCodeName.asc())
         if (customCodeSearchCondition.isPaging) {
             query.limit(customCodeSearchCondition.contentNumPerPage)
@@ -53,8 +49,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
 
         val countQuery = from(customCode)
             .select(customCode.count())
-            .where(super.eq(customCode.type, customCodeSearchCondition.searchType))
-            .where(super.likeIgnoreCase(customCode.customCodeName, customCodeSearchCondition.searchValue))
+            .where(builder(customCodeSearchCondition, customCode))
         return PagingReturnDto(
             dataList = query.fetch(),
             totalCount = countQuery.fetchOne()
@@ -94,5 +89,14 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             condition = result[0].condition,
             sessionKey = result[0].sessionKey
         )
+    }
+    private fun builder(customCodeSearchCondition: CustomCodeSearchCondition, customCode: QCustomCodeEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.eq(customCode.type, customCodeSearchCondition.searchType)
+        ).and(
+                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchCondition.searchValue)
+        )
+        return builder
     }
 }

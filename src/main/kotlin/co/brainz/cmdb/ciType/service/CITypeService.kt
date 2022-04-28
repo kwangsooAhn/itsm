@@ -21,7 +21,6 @@ import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants.Status
 import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
-import com.querydsl.core.QueryResults
 import java.io.File
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -71,9 +70,9 @@ class CITypeService(
         var search = ""
         if (parameters["search"] != null) search = parameters["search"].toString()
         val treeTypeList = mutableListOf<CITypeTreeListDto>()
-        val queryResults = ciTypeRepository.findByTypeList(search)
+        val results = ciTypeRepository.findByTypeList(search)
         val returnList: List<CITypeEntity>
-        var typeSearchList = queryResults
+        var typeSearchList = results
         val pTypeList = mutableListOf<CITypeEntity>()
         for (type in typeSearchList) {
             var tempType = type.pType
@@ -88,7 +87,7 @@ class CITypeService(
             typeSearchList += pTypeList
             typeSearchList = typeSearchList.distinct()
         }
-        val count: Long = queryResults.size.toLong()
+        val count: Long = results.size.toLong()
         returnList = typeSearchList
 
         for (typeEntity in returnList) {

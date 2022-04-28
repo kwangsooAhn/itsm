@@ -9,7 +9,6 @@ package co.brainz.itsm.numberingRule.repository
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapEntity
 import co.brainz.itsm.numberingRule.entity.QNumberingRulePatternMapEntity
-import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 

@@ -58,8 +58,9 @@ class CustomTemplateService(
      * 템플릿 목록 조회
      */
     fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): CustomReportTemplateListReturnDto {
-        val queryResult = customReportTemplateRepository.getReportTemplateList(customReportTemplateCondition)
-        val templateList = queryResult.dataList as List<CustomReportTemplateEntity>
+        val pagingResult = customReportTemplateRepository.getReportTemplateList(customReportTemplateCondition)
+        val templateList = pagingResult.dataList as List<CustomReportTemplateEntity>
+//        val templateList: List<CustomReportTemplateEntity> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomReportTemplateEntity>>() {})
         val reportTemplateList = mutableListOf<CustomReportTemplateListDto>()
         templateList.forEach { template ->
             val chartList = mutableListOf<ChartDto>()
@@ -100,10 +101,10 @@ class CustomTemplateService(
         return CustomReportTemplateListReturnDto(
             data = reportTemplateList,
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customReportTemplateRepository.count(),
                 currentPageNum = customReportTemplateCondition.pageNum,
-                totalPageNum = kotlin.math.ceil(queryResult.totalCount.toDouble() / customReportTemplateCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = kotlin.math.ceil(pagingResult.totalCount.toDouble() / customReportTemplateCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

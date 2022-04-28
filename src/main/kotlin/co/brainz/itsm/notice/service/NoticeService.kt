@@ -19,6 +19,10 @@ import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.mapper.NoticeMapper
 import co.brainz.itsm.notice.repository.NoticeRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -29,19 +33,20 @@ import org.springframework.transaction.annotation.Transactional
 class NoticeService(private val noticeRepository: NoticeRepository, private val aliceFileService: AliceFileService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
 
     // 공지사항 검색 결과
     fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
-        val queryResult = noticeRepository.findNoticeSearch(noticeSearchCondition)
+        val pagingResult = noticeRepository.findNoticeSearch(noticeSearchCondition)
 
         return NoticeListReturnDto(
-            data = queryResult.dataList as List<NoticeListDto>,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = noticeRepository.count(),
                 currentPageNum = noticeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalCount.toDouble() / noticeSearchCondition.contentNumPerPage).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / noticeSearchCondition.contentNumPerPage).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

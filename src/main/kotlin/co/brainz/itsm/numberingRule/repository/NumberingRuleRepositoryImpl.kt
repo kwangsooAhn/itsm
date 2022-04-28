@@ -11,6 +11,7 @@ import co.brainz.itsm.numberingRule.dto.NumberingRuleListDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleSearchCondition
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.QNumberingRuleEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -32,17 +33,23 @@ class NumberingRuleRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntit
                     rule.latestValue
                 )
             )
-            .where(super.likeIgnoreCase(rule.numberingName, numberingRuleSearchCondition.searchValue))
+            .where(builder(numberingRuleSearchCondition, rule))
             .orderBy(rule.numberingName.desc())
             .limit(numberingRuleSearchCondition.contentNumPerPage)
             .offset((numberingRuleSearchCondition.pageNum - 1) * numberingRuleSearchCondition.contentNumPerPage)
 
         val countQuery = from(rule)
             .select(rule.count())
-            .where(super.likeIgnoreCase(rule.numberingName, numberingRuleSearchCondition.searchValue))
+            .where(builder(numberingRuleSearchCondition, rule))
+
         return PagingReturnDto(
             dataList = query.fetch(),
             totalCount = countQuery.fetchOne()
         )
+    }
+    private fun builder(numberingRuleSearchCondition: NumberingRuleSearchCondition, rule: QNumberingRuleEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(super.likeIgnoreCase(rule.numberingName, numberingRuleSearchCondition.searchValue))
+        return builder
     }
 }

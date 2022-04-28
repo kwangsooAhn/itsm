@@ -26,7 +26,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.querydsl.core.QueryResults
 import javax.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.ResponseEntity
@@ -86,13 +85,13 @@ class CodeService(
      */
     fun getCodeList(search: String, pCode: String): CodeReturnDto {
         val treeCodeList = mutableListOf<CodeDto>()
-        val queryResults: List<CodeEntity>
+        val pagingResult: List<CodeEntity>
         var returnList = emptyList<CodeEntity>()
         var count = 0L
         when (search.isEmpty()) {
             true -> {
-                queryResults = codeRepository.findByCodeAll()
-                val allList = queryResults
+                pagingResult = codeRepository.findByCodeAll()
+                val allList = pagingResult
                 val codeSearchList = mutableListOf<CodeEntity>()
                 if (pCode.isNotEmpty()) {
                     val codeList = mutableListOf<CodeEntity>()
@@ -109,10 +108,10 @@ class CodeService(
                 returnList = codeSearchList
             }
             false -> {
-                queryResults = codeRepository.findByCodeList(search, pCode)
-                var codeSearchList = queryResults
+                pagingResult = codeRepository.findByCodeList(search, pCode)
+                var codeSearchList = pagingResult
                 val pCodeList = mutableListOf<CodeEntity>()
-                for (code in queryResults) {
+                for (code in pagingResult) {
                     var tempCode = code.pCode
                     do {
                         if (tempCode != null) {
@@ -125,7 +124,7 @@ class CodeService(
                     codeSearchList += pCodeList
                     codeSearchList = codeSearchList.distinct()
                 }
-                count = queryResults.size.toLong()
+                count = pagingResult.size.toLong()
                 returnList = codeSearchList
             }
         }

@@ -32,7 +32,6 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.token.service.WfTokenService
-import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service

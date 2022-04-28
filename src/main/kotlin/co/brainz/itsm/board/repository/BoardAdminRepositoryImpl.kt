@@ -13,6 +13,7 @@ import co.brainz.itsm.board.dto.BoardSearchCondition
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -45,11 +46,8 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 )
             )
             .innerJoin(boardAdmin.createUser, user)
-            .where(
-                super.likeIgnoreCase(
-                    boardAdmin.boardAdminTitle, boardSearchCondition.searchValue
-                )?.or(super.likeIgnoreCase(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
-            ).orderBy(boardAdmin.createDt.desc())
+            .where(this.builder(boardSearchCondition, boardAdmin))
+            .orderBy(boardAdmin.createDt.desc())
         if (boardSearchCondition.isPaging) {
             query.limit(boardSearchCondition.contentNumPerPage)
             query.offset((boardSearchCondition.pageNum - 1) * boardSearchCondition.contentNumPerPage)
@@ -57,10 +55,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
 
         val countQuery = from(boardAdmin)
             .select(boardAdmin.count())
-            .where(
-                super.likeIgnoreCase(
-                    boardAdmin.boardAdminTitle, boardSearchCondition.searchValue
-                )?.or(super.likeIgnoreCase(boardAdmin.createUser.userName, boardSearchCondition.searchValue)))
+            .where(this.builder(boardSearchCondition, boardAdmin))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -87,5 +82,13 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             .where(boardAdmin.boardUseYn.eq(true))
             .orderBy(boardAdmin.boardAdminSort.asc())
             .fetch()
+    }
+private fun builder(boardSearchCondition: BoardSearchCondition, boardAdmin: QPortalBoardAdminEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(boardAdmin.boardAdminTitle, boardSearchCondition.searchValue)
+                ?.or(super.likeIgnoreCase(boardAdmin.createUser.userName, boardSearchCondition.searchValue))
+        )
+        return builder
     }
 }

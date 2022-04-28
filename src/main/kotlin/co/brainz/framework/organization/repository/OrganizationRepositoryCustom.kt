@@ -8,7 +8,6 @@ package co.brainz.framework.organization.repository
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import com.querydsl.core.QueryResults
 
 interface OrganizationRepositoryCustom : AliceRepositoryCustom {
     fun findByOrganizationSearchList(organizationSearchCondition: OrganizationSearchCondition): List<OrganizationEntity>

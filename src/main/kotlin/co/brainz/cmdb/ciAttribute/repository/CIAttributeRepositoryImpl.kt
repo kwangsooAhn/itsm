@@ -19,6 +19,7 @@ import co.brainz.cmdb.dto.CIGroupListDto
 import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -46,12 +47,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.searchWidth
                 )
             )
-            .where(
-                super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
-            ).orderBy(ciAttribute.attributeName.asc())
+            .where(builder(ciAttributeSearchCondition, ciAttribute, null))
+            .orderBy(ciAttribute.attributeName.asc())
 
         if (ciAttributeSearchCondition.isPaging) {
             query.limit(ciAttributeSearchCondition.contentNumPerPage)
@@ -60,12 +57,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
 
         val countQuery = from(ciAttribute)
             .select(ciAttribute.count())
-            .where(
-                super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
-            )
+            .where(builder(ciAttributeSearchCondition, ciAttribute, null))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -222,16 +214,8 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.searchWidth
                 )
             )
-            .where(
-                ciAttribute.attributeId.notIn(attributeId)
-                    .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
-                    .and(
-                        super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
-                    )
-            ).orderBy(ciAttribute.attributeName.asc())
+            .where(builder(ciAttributeSearchCondition, ciAttribute, attributeId))
+            .orderBy(ciAttribute.attributeName.asc())
         if (ciAttributeSearchCondition.isPaging) {
             query.limit(ciAttributeSearchCondition.contentNumPerPage)
             query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
@@ -239,14 +223,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
 
         val countQuery = from(ciAttribute)
             .select(ciAttribute.count())
-            .where(
-                ciAttribute.attributeId.notIn(attributeId)
-                    .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
-                    .and(
-                        super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))))
+            .where(builder(ciAttributeSearchCondition, ciAttribute, attributeId))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -301,5 +278,23 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     .and(cIGroupListDataEntity.ci.ciId.eq(ciId))
             )
         return query.fetch()
+    }
+
+    private fun builder(ciAttributeSearchCondition: CIAttributeSearchCondition, ciAttribute: QCIAttributeEntity, attributeId: String?): BooleanBuilder {
+        val builder = BooleanBuilder()
+
+        if ( attributeId != null) {
+            builder.and(
+                ciAttribute.attributeId.notIn(attributeId)
+                .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
+            )
+        }
+        builder.and(
+            super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
+                ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
+                ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
+                ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
+            )
+        return builder
     }
 }

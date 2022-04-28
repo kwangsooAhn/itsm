@@ -48,6 +48,7 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import java.io.File
 import java.time.LocalDateTime
 import kotlin.math.ceil
@@ -124,7 +125,7 @@ class CIService(
     fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): CIDynamicReturnDto {
         ciSearchCondition.isPaging = false
         val dataList = ciRepository.findCIList(ciSearchCondition)
-        val ciList = dataList.dataList as List<CIsDto>
+        val ciList: List<CIsDto> = mapper.convertValue(dataList.dataList, object : TypeReference<List<CIsDto>> () {})
         // 공통 출력 데이터 조회
         var basic = ciSearchService.getBasic(ciList)
         // 옵션 출력 데이터 조회

@@ -7,7 +7,6 @@ package co.brainz.itsm.instance.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
-import com.querydsl.core.QueryResults
 
 interface ViewerRepositoryCustom : AliceRepositoryCustom {
     fun findByInstanceViewerList(instanceId: String): List<WfInstanceViewerEntity>?

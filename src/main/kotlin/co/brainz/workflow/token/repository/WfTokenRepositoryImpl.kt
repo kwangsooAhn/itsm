@@ -4,7 +4,6 @@ import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
-import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 

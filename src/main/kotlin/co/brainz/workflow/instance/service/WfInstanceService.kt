@@ -87,7 +87,7 @@ class WfInstanceService(
 
         // Get Document List
         val countSearchCondition = TokenSearchCondition(userKey = currentSessionUser.getUserKey())
-        val queryResults = when (tokenSearchCondition.searchTokenType) {
+        val pagingResult = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
                 totalCountWithoutCondition = requestedInstances(countSearchCondition).totalCount
                 requestedInstances(
@@ -134,7 +134,7 @@ class WfInstanceService(
         // Topic
         val tokenIds = mutableSetOf<String>()
         val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
-        val tokenList = queryResults.dataList as List<WfInstanceListViewDto>
+        val tokenList = pagingResult.dataList as List<WfInstanceListViewDto>
         for (instance in tokenList) {
             tokenIds.add(instance.tokenEntity.tokenId)
         }
@@ -206,10 +206,10 @@ class WfInstanceService(
         return RestTemplateInstanceListReturnDto(
             data = tokens,
             paging = AlicePagingData(
-                totalCount = queryResults.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = totalCountWithoutCondition,
                 currentPageNum = tokenSearchCondition.pageNum,
-                totalPageNum = ceil(queryResults.totalCount.toDouble() / tokenSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / tokenSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
                 orderColName = tokenSearchCondition.orderColName,
                 orderDir = tokenSearchCondition.orderDir
@@ -372,7 +372,7 @@ class WfInstanceService(
     }
 
     fun instancesForExcel(tokenSearchCondition: TokenSearchCondition): MutableList<RestTemplateInstanceExcelDto> {
-        val queryResults = when (tokenSearchCondition.searchTokenType) {
+        val pagingResult = when (tokenSearchCondition.searchTokenType) {
             WfTokenConstants.SearchType.REQUESTED.code -> {
                 requestedInstances(
                     tokenSearchCondition
@@ -403,7 +403,7 @@ class WfInstanceService(
         // Topic
         val tokenIds = mutableSetOf<String>()
         val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
-        val instanceList = queryResults.dataList as List<WfInstanceListViewDto>
+        val instanceList = pagingResult.dataList as List<WfInstanceListViewDto>
         for (instance in instanceList) {
             tokenIds.add(instance.tokenEntity.tokenId)
         }

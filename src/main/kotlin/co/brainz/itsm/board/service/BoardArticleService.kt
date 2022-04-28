@@ -12,7 +12,6 @@ import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
-import co.brainz.itsm.board.dto.BoardArticleListDto
 import co.brainz.itsm.board.dto.BoardArticleListReturnDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
@@ -27,6 +26,10 @@ import co.brainz.itsm.board.repository.BoardCategoryRepository
 import co.brainz.itsm.board.repository.BoardCommentRepository
 import co.brainz.itsm.board.repository.BoardReadRepository
 import co.brainz.itsm.board.repository.BoardRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.stereotype.Service
@@ -42,18 +45,20 @@ class BoardArticleService(
     private val userDetailsService: AliceUserDetailsService
 ) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * [boardArticleSearchCondition]을 받아서 게시판 목록을 [List<BoardRestDto>]으로 반환 한다.
      */
     fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto {
-        val queryResult = boardRepository.findByBoardList(boardArticleSearchCondition)
+        val pagingResult = boardRepository.findByBoardList(boardArticleSearchCondition)
         val boardArticleList = BoardArticleListReturnDto(
-            data = queryResult.dataList as List<BoardArticleListDto>,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.totalCount,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = boardRepository.count(),
                 currentPageNum = boardArticleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.totalCount.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             ),
             categoryUseYn = false

@@ -13,7 +13,7 @@ import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.entity.QNumberingPatternEntity
 import co.brainz.itsm.numberingPattern.service.NumberingPatternService
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -37,9 +37,7 @@ class NumberingPatternRepositoryImpl(
                     pattern.patternValue
                 )
             )
-            .where(
-                super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue)
-            )
+            .where(builder(numberingPatternSearchCondition,pattern))
             .orderBy(pattern.patternName.asc(), pattern.patternType.asc(), pattern.patternValue.asc())
             .limit(numberingPatternSearchCondition.contentNumPerPage)
             .offset((numberingPatternSearchCondition.pageNum - 1) * numberingPatternSearchCondition.contentNumPerPage)
@@ -62,12 +60,17 @@ class NumberingPatternRepositoryImpl(
 
         val countQuery = from(pattern)
             .select(pattern.count())
-            .where(super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue))
+            .where(builder(numberingPatternSearchCondition,pattern))
             .fetchOne()
 
         return PagingReturnDto(
             dataList = query,
             totalCount = countQuery
         )
+    }
+    private fun builder(numberingPatternSearchCondition: NumberingPatternSearchCondition, pattern: QNumberingPatternEntity): BooleanBuilder{
+        val builder = BooleanBuilder()
+        builder.and(super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue))
+        return builder
     }
 }

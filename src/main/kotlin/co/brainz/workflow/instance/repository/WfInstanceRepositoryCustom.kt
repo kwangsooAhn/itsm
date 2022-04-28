@@ -8,12 +8,9 @@ package co.brainz.workflow.instance.repository
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.token.dto.TokenSearchCondition
-import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
-import com.querydsl.core.QueryResults
-import org.springframework.data.domain.Page
 
 interface WfInstanceRepositoryCustom {
 

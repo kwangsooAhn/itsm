@@ -10,7 +10,6 @@ import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.document.dto.FieldOptionDto
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import com.querydsl.core.QueryResults
 
 interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     /**

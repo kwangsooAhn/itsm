@@ -37,7 +37,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.querydsl.core.QueryResults
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull

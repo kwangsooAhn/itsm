@@ -16,6 +16,7 @@ import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -52,10 +53,8 @@ class FaqRepositoryImpl(
             )
             .leftJoin(code).on(code.code.eq(faq.faqGroup))
             .innerJoin(faq.createUser, user)
-            .where(
-                super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
-            ).orderBy(code.codeName.asc())
+            .where(builder(faqSearchCondition, faq, code))
+            .orderBy(code.codeName.asc())
 
         if (faqSearchCondition.isPaging) {
             query.limit(faqSearchCondition.contentNumPerPage)
@@ -66,10 +65,7 @@ class FaqRepositoryImpl(
             .select(faq.count())
             .leftJoin(code).on(code.code.eq(faq.faqGroup))
             .innerJoin(faq.createUser, user)
-            .where(
-                super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
-            )
+            .where(builder(faqSearchCondition, faq, code))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -116,5 +112,14 @@ class FaqRepositoryImpl(
             .innerJoin(faq.createUser, user)
             .where(faq.faqId.eq(faqId))
             .fetchOne()
+    }
+
+    private fun builder(faqSearchCondition: FaqSearchCondition, faq: QFaqEntity, code: QCodeEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
+            ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
+        )
+        return builder
     }
 }
