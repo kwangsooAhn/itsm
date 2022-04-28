@@ -58,10 +58,11 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
     override fun findDuplicationTemplateName(templateName: String, templateId: String): Long {
         val template = QCustomReportTemplateEntity.customReportTemplateEntity
         val query = from(template)
+            .select(template.count())
             .where(template.templateName.eq(templateName))
         if (templateId.isNotEmpty()) {
             query.where(!template.templateId.eq(templateId))
         }
-        return query.fetch().size.toLong()
+        return query.fetchOne()
     }
 }

@@ -73,7 +73,6 @@ dependencies {
     implementation("javax.servlet:jstl")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation("com.querydsl:querydsl-core:5.0.0")
-    implementation("org.springframework.data:spring-data-jpa:2.3.9.RELEASE")
     kapt(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // Junit 5 설정

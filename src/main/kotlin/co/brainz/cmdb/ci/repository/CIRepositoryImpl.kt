@@ -188,8 +188,9 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     override fun findDuplicateCiNo(ciNo: String): Long {
         val ciEntity = QCIEntity.cIEntity
         val query = from(ciEntity)
+            .select(ciEntity.count())
             .where(ciEntity.ciNo.eq(ciNo))
-        return query.fetch().size.toLong()
+        return query.fetchOne()
     }
 
     /**
@@ -211,9 +212,10 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     override fun countByTypeId(typeId: String): Long {
         val ciEntity = QCIEntity.cIEntity
         val query = from(ciEntity)
+            .select(ciEntity.count())
         if (typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
             query.where(ciEntity.ciTypeEntity.typeId.eq(typeId))
         }
-        return query.fetch().size.toLong()
+        return query.fetchOne()
     }
 }

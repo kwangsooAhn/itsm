@@ -154,11 +154,12 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     override fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciAttribute)
+            .select(ciAttribute.count())
             .where(ciAttribute.attributeName.eq(attributeName))
         if (attributeId.isNotEmpty()) {
             query.where(!ciAttribute.attributeId.eq(attributeId))
         }
-        return query.fetch().size.toLong()
+        return query.fetchOne()
     }
 
     /**

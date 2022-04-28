@@ -73,7 +73,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
             query.where(user.useYn.eq(true))
         }
         query.orderBy(user.userName.asc())
-val totalCount = query.fetch().size
+
         if (userSearchCondition.isPaging) {
             query.limit(userSearchCondition.contentNumPerPage)
             query.offset((userSearchCondition.pageNum - 1) * userSearchCondition.contentNumPerPage)

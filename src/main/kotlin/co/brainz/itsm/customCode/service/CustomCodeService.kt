@@ -280,9 +280,8 @@ class CustomCodeService(
      */
     fun getTableTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
         var customDataList = mutableListOf<CustomCodeTreeDto>()
-        var dataList = mutableListOf<Any>()
         val condition = jsonToArrayByCondition(customCode.condition)
-        val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
+        val sort = Sort.by(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
                 val roleList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()

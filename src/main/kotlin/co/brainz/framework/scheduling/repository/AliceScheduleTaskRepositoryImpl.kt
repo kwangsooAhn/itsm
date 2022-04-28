@@ -85,10 +85,11 @@ class AliceScheduleTaskRepositoryImpl : QuerydslRepositorySupport(AliceScheduleT
     override fun findDuplicationTaskName(taskName: String, taskId: String?): Long {
         val schedule = QAliceScheduleTaskEntity.aliceScheduleTaskEntity
         val query = from(schedule)
+            .select(schedule.count())
             .where(schedule.taskName.eq(taskName))
         if (taskId != null) {
             query.where(!schedule.taskId.eq(taskId))
         }
-        return query.fetch().size.toLong()
+        return query.fetchOne()
     }
 }
