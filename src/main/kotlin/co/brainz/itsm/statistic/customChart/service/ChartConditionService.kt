@@ -126,26 +126,17 @@ class ChartConditionService(
     }
 
     /**
-     * 조건문(chartCondition)에서 태그 데이터를 추출한다.
+     * 조건식(chartCondition)에서 태그 데이터를 추출한다.
+     * <p>
+     * 조건식을 작성하는 규칙으로 태그는 [] 사이에 입력해서 표현하도록 정해져 있다.
+     * 여기서는 조건식에 사용된 태그를 추출하여 HashSet 으로 리턴한다.
+     *
+     * @param chartCondition 차트 설정중 조건식 데이터
+     * @return 파싱 결과 추출된 태그의 HashSet Collection.
      */
     private fun getTagsInCondition(chartCondition: String): HashSet<String> {
-        val tagSet = LinkedHashSet<String>()
-        var startIndex = 0
-
-        while (startIndex < chartCondition.length) {
-            if (chartCondition[startIndex].toString() == ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) {
-                for (index in startIndex + 1..chartCondition.indices.last) {
-                    if (chartCondition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
-                        tagSet.add(chartCondition.substring(startIndex + 1, index))
-                        startIndex = index
-                        break
-                    }
-                }
-            }
-            startIndex++
-        }
-
-        return tagSet
+        val regex = Regex("""\[(.*?)[]]""")
+        return regex.findAll(chartCondition).map { it.groupValues[1] }.toHashSet()
     }
 
     /**
