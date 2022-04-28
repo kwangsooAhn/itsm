@@ -83,13 +83,15 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    document.getElementById('instanceId').value = response.data.instanceId;
-                    response.data.tokenId = document.getElementById('tokenId').value;
-                    response.data.folderId = document.getElementById('folderId').value;
+                    let data = JSON.parse(response.data)
 
-                    zDocument.init(response.data, false);
-                    zFormButton.init(response.data, zDocument);
-                    zFormTokenTab.init(response.data, false);
+                    document.getElementById('instanceId').value = data.instanceId;
+                    data.tokenId = document.getElementById('tokenId').value;
+                    data.folderId = document.getElementById('folderId').value;
+
+                    zDocument.init(data, true);
+                    zFormButton.init(data, zDocument);
+                    zFormTokenTab.init(data, true);
 
                     window.zDocument = zDocument;
                     window.zFormTokenTab = zFormTokenTab;

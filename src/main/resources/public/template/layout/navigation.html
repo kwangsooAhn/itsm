@@ -96,17 +96,17 @@
 	});
 
 	function getTodoTokenCount() {
-		aliceJs.fetchText('/rest/tokens/todoCount', {
+		aliceJs.fetchJson('/rest/tokens/todoCount', {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'text/plain'
+				'Content-Type': 'application/json'
 			}
-		}).then((tokenCount) => {
+		}).then((result) => {
 			let tokenCountSpan = document.getElementById('tokenCount');
-			tokenCountSpan.innerText = tokenCount
-			if (Number(tokenCount) === 0 && tokenCountSpan.classList.contains('active')) {
+			tokenCountSpan.innerText = result.data
+			if (Number(result.data) === 0 && tokenCountSpan.classList.contains('active')) {
 				 tokenCountSpan.classList.remove('active');
-			} else if (Number(tokenCount) > 0 && !tokenCountSpan.classList.contains('active')) {
+			} else if (Number(result.data) > 0 && !tokenCountSpan.classList.contains('active')) {
 				tokenCountSpan.classList.add('active');
 			}
 		});
