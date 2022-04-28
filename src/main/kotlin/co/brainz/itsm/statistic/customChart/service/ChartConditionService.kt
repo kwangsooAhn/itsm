@@ -60,7 +60,7 @@ class ChartConditionService(
     private fun getTagInstanceList(
         chartCondition: String,
         targetInstanceList: List<WfInstanceEntity>,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): List<WfInstanceEntity> {
         val instanceList = mutableListOf<WfInstanceEntity>()
         targetInstanceList.forEach { targetInstance ->
@@ -78,7 +78,7 @@ class ChartConditionService(
     private fun conditionDiscrimination(
         chartCondition: String,
         instance: WfInstanceEntity,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): Boolean {
         // 태그가 달린 컴포넌트의 최신 값을 가져온다.
         val tagDataMap = this.getConditionTagValue(instance, tags)
@@ -102,7 +102,7 @@ class ChartConditionService(
      */
     private fun getInstanceListIncludeTags(
         instanceList: List<WfInstanceEntity>,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): List<WfInstanceEntity> {
         val targetInstanceList = mutableListOf<WfInstanceEntity>()
         instanceList.forEach { instance ->
@@ -131,7 +131,7 @@ class ChartConditionService(
     /**
      * 조건문(chartCondition)에서 태그 데이터를 추출한다.
      */
-    private fun getTagsInCondition(chartCondition: String): LinkedHashSet<String> {
+    private fun getTagsInCondition(chartCondition: String): HashSet<String> {
         val tagSet = LinkedHashSet<String>()
         var startIndex = 0
 
@@ -156,7 +156,7 @@ class ChartConditionService(
      */
     private fun getConditionTagValue(
         instance: WfInstanceEntity,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): LinkedHashMap<String, String> {
         // 컴포넌트 타입의 태그에 대한 수집을 진행한다.
         val componentTagList = chartManagerService.getTagValueList(

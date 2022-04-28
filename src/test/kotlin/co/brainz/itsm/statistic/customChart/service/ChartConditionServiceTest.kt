@@ -46,12 +46,12 @@ class ChartConditionServiceTest {
         val result6 = method.invoke(chartConditionService, tagString6)
 
         Assertions.assertAll(
-            Executable { Assertions.assertEquals(setOf("tag"), result1) },
-            Executable { Assertions.assertEquals(setOf<String>(), result2) },
-            Executable { Assertions.assertEquals(setOf("tag1","tag2"), result3) },
-            Executable { Assertions.assertEquals(setOf<String>(), result4) },
-            Executable { Assertions.assertEquals(setOf("tag1","tag2"), result5) },
-            Executable { Assertions.assertEquals(setOf<String>(), result6) }
+            Executable { Assertions.assertEquals(hashSetOf("tag"), result1) },
+            Executable { Assertions.assertEquals(hashSetOf<String>(), result2) },
+            Executable { Assertions.assertEquals(hashSetOf("tag1","tag2"), result3) },
+            Executable { Assertions.assertEquals(hashSetOf<String>(), result4) },
+            Executable { Assertions.assertEquals(hashSetOf("tag1","tag2"), result5) },
+            Executable { Assertions.assertEquals(hashSetOf<String>(), result6) }
         )
     }
 }
