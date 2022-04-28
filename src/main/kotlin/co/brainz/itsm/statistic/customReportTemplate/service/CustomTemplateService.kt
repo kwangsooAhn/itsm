@@ -60,7 +60,6 @@ class CustomTemplateService(
     fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): CustomReportTemplateListReturnDto {
         val pagingResult = customReportTemplateRepository.getReportTemplateList(customReportTemplateCondition)
         val templateList = pagingResult.dataList as List<CustomReportTemplateEntity>
-//        val templateList: List<CustomReportTemplateEntity> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomReportTemplateEntity>>() {})
         val reportTemplateList = mutableListOf<CustomReportTemplateListDto>()
         templateList.forEach { template ->
             val chartList = mutableListOf<ChartDto>()
