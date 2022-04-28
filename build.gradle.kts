@@ -72,6 +72,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     implementation("javax.servlet:jstl")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
+    implementation("com.querydsl:querydsl-core:5.0.0")
+    implementation("org.springframework.data:spring-data-jpa:2.3.9.RELEASE")
     kapt(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // Junit 5 설정
@@ -97,8 +99,8 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
 
     kapt("org.springframework.boot:spring-boot-configuration-processor")
-    compile("com.querydsl:querydsl-jpa:4.2.1")
-    kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
+    compile("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
     implementation("org.mapstruct:mapstruct:1.3.0.Final")
     kapt("org.mapstruct:mapstruct-processor:1.3.0.Final")
