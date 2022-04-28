@@ -18,6 +18,7 @@ object ZResponseConstants {
         ERROR_NOT_EXIST("E-0003"),
         ERROR_EXIST("E-0004"),
         ERROR_NOT_FOUND("E-0005"),
-        ERROR_ACCESS_DENY("E-0006")
+        ERROR_ACCESS_DENY("E-0006"),
+        ERROR_ANY("E-0007")
     }
 }

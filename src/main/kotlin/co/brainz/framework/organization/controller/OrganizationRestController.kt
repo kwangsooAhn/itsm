@@ -30,7 +30,7 @@ class OrganizationRestController(
      * 조직 전체 목록 조회
      */
     @GetMapping("/", "")
-    fun getOrganizations(organizationSearchCondition: OrganizationSearchCondition):  ResponseEntity<ZResponse> {
+    fun getOrganizations(organizationSearchCondition: OrganizationSearchCondition): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(organizationService.getOrganizationList(organizationSearchCondition))
     }
 

@@ -196,6 +196,9 @@
                     case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
+                    case 'E-0007':
+                        zAlert.warning(i18n.msg('document.msg.checkDuplication'));
+                        break;
                     default:
                         break;
                 }

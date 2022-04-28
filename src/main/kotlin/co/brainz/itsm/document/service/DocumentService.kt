@@ -9,7 +9,6 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
@@ -170,9 +169,8 @@ class DocumentService(
      * 신청서 생성.
      *
      * @param documentDto
-     * @return String?
      */
-    fun createDocument(documentDto: DocumentDto): ZReturnDto {
+    fun createDocument(documentDto: DocumentDto): ZResponse {
         documentDto.createUserKey = currentSessionUser.getUserKey()
         documentDto.createDt = LocalDateTime.now()
         return wfDocumentService.createDocument(documentDto)
@@ -182,9 +180,8 @@ class DocumentService(
      * 신청서 링크 생성.
      *
      * @param documentDto
-     * @return String?
      */
-    fun createDocumentLink(documentDto: DocumentDto): ZReturnDto {
+    fun createDocumentLink(documentDto: DocumentDto): ZResponse {
         documentDto.createUserKey = currentSessionUser.getUserKey()
         documentDto.createDt = LocalDateTime.now()
         return wfDocumentService.createDocumentLink(documentDto)
@@ -199,8 +196,7 @@ class DocumentService(
     fun updateDocument(
         documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
-    ): ZReturnDto {
-        val documentId = documentDto.documentId
+    ): ZResponse {
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
         return wfDocumentService.updateDocument(documentDto, params)
@@ -214,8 +210,7 @@ class DocumentService(
      */
     fun updateDocumentLink(
         documentDto: DocumentDto
-    ): ZReturnDto {
-        val documentId = documentDto.documentId
+    ): ZResponse {
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
         return wfDocumentService.updateDocumentLink(documentDto)
@@ -225,9 +220,8 @@ class DocumentService(
      * 신청서 삭제.
      *
      * @param documentId
-     * @return Boolean
      */
-    fun deleteDocument(documentId: String): Boolean {
+    fun deleteDocument(documentId: String): ZResponse {
         return wfDocumentService.deleteDocument(documentId)
     }
 
@@ -235,9 +229,8 @@ class DocumentService(
      * 신청서링크 삭제.
      *
      * @param documentId
-     * @return Boolean
      */
-    fun deleteDocumentLink(documentId: String): Boolean {
+    fun deleteDocumentLink(documentId: String): ZResponse {
         return wfDocumentService.deleteDocumentLink(documentId)
     }
 
@@ -293,9 +286,8 @@ class DocumentService(
      * 신청서 양식 데이터 update
      *
      * @param documentDisplay
-     * @return Boolean
      */
-    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplaySaveDto): Boolean {
+    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplaySaveDto): ZResponse {
         return wfDocumentService.updateDocumentDisplay(documentDisplay)
     }
 
@@ -329,7 +321,7 @@ class DocumentService(
     /**
      * 신청서 Import.
      */
-    fun importDocumentData(documentImportDto: DocumentImportDto): ZReturnDto {
+    fun importDocumentData(documentImportDto: DocumentImportDto): ZResponse {
         return wfDocumentService.importDocument(documentImportDto)
     }
 
