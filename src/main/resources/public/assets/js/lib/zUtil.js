@@ -340,7 +340,7 @@ function showProgressBar() {
 }
 
 /*
- * ProgressBar 숨길
+ * ProgressBar 숨김
  */
 function hiddenProgressBar() {
     //divProgressBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
@@ -352,16 +352,16 @@ function hiddenProgressBar() {
 }
 
 /*
- * 검색 시간 딜레이 (0.5s)
+ * 사용자 액션 처리 시간 지연
  */
-function searchDelay(func, timeout = 500) {
+aliceJs.debounce = function(func, timeout = 500) {
     let timer;
-    return (...args) => {
+    return (...args) => { // 화살표 함수에서 가변인자 값을 받아오기 위해 rest파라미터를 활용
         clearTimeout(timer);
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
 }
-const searchLoading = searchDelay(() => getList());
+const searchLoading = aliceJs.debounce (() => getList());
 
 /**
  * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.
