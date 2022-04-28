@@ -14,7 +14,6 @@ import co.brainz.workflow.token.repository.WfTokenDataRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.expression.EvaluationContext
 import org.springframework.expression.Expression
@@ -29,8 +28,6 @@ class ChartConditionService(
     private val chartManagerService: ChartManagerService,
     private val wfTokenDataRepository: WfTokenDataRepository
 ) {
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
     @Value("\${timezone.customChart}")
     val timezone: String? = null
     /**
@@ -106,7 +103,7 @@ class ChartConditionService(
     ): List<WfInstanceEntity> {
         val targetInstanceList = mutableListOf<WfInstanceEntity>()
         instanceList.forEach { instance ->
-            // "대상 태그"를 포함하고 있는 인스턴스 중에서 tagSet에 담겨있는 "조건 태그"를 모두 포함하고 있는 인스턴스를 수집.
+            // "대상 태그"를 포함하고 있는 인스턴스 중에서 tagSet 에 담겨있는 "조건 태그"를 모두 포함하고 있는 인스턴스를 수집.
             val targetTagSet = LinkedHashSet<String>()
             val componentIds = LinkedHashSet<String>()
             // 해당 인스턴스의 컴포넌트 아이디 수집
@@ -169,9 +166,9 @@ class ChartConditionService(
 
         // 위에서 수집한 마지막 토큰을 가지고
         // wf_token_data 테이블에 접근하여 해당 컴포넌트의 최신 값을 추출한다.
-        // 이때 LinkedHashMap에 데이터를 tagValue : value 형태로 담는다
-        // tagValue의 경우 중복이 발생할 수 있는데, 이 경우 가장 첫 번째로 입력되는 데이터만 사용한다. (기술적 한계)
-        var tagDataMap = LinkedHashMap<String, String>()
+        // 이때 LinkedHashMap 에 데이터를 tagValue : value 형태로 담는다
+        // tagValue 의 경우 중복이 발생할 수 있는데, 이 경우 가장 첫 번째로 입력되는 데이터만 사용한다. (기술적 한계)
+        val tagDataMap = LinkedHashMap<String, String>()
         if (lastToken != null) {
             val lastTokenData = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(lastToken.tokenId)
             lastTokenData.forEach { wfTokenDataEntity ->
@@ -200,11 +197,8 @@ class ChartConditionService(
     ): String {
         var targetCondition = ""
         tagDataMap.forEach { tagData ->
-            var value = ""
-            value = if (targetCondition.isBlank()) {
+            val value = targetCondition.ifBlank {
                 chartCondition
-            } else {
-                targetCondition
             }
             targetCondition = value.replace(tagData.key, tagData.value)
         }
