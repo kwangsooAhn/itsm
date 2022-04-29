@@ -2,13 +2,17 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+
 package co.brainz.itsm.process.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.process.service.ProcessService
-import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,10 +31,8 @@ class ProcessRestController(private val processService: ProcessService) {
      * 프로세스 불러오기.
      */
     @GetMapping("/{processId}/data")
-    fun getProcessData(@PathVariable processId: String): RestTemplateProcessElementDto {
-        val processData = processService.getProcessData(processId)
-        logger.debug("get process data. {}", processData)
-        return processData
+    fun getProcessData(@PathVariable processId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(getProcessData(processId))
     }
 
     /**
@@ -40,16 +42,18 @@ class ProcessRestController(private val processService: ProcessService) {
     fun updateProcess(
         @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto,
         @PathVariable processId: String
-    ): Int {
-        return processService.updateProcessData(processId, restTemplateProcessElementDto)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            processService.updateProcessData(processId, restTemplateProcessElementDto)
+        )
     }
 
     /**
      * 프로세스 삭제.
      */
     @DeleteMapping("/{processId}")
-    fun deleteForm(@PathVariable processId: String): Boolean {
-        return processService.deleteProcess(processId)
+    fun deleteForm(@PathVariable processId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(processService.deleteProcess(processId))
     }
 
     /**
@@ -59,15 +63,15 @@ class ProcessRestController(private val processService: ProcessService) {
     fun getProcessSimulation(
         @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto,
         @PathVariable processId: String
-    ): String {
-        var updated = WfProcessConstants.ResultCode.SUCCESS.code
+    ): ResponseEntity<ZResponse> {
+        var updated = ZResponseConstants.STATUS.SUCCESS.code
         if (restTemplateProcessElementDto.process?.status == WorkflowConstants.ProcessStatus.EDIT.value) {
-            updated = processService.updateProcessData(processId, restTemplateProcessElementDto)
+            updated = processService.updateProcessData(processId, restTemplateProcessElementDto).status
         }
-        return if (updated == WfProcessConstants.ResultCode.SUCCESS.code) {
-            processService.getProcessSimulation(restTemplateProcessElementDto.process!!.id)
+        return if (updated == ZResponseConstants.STATUS.SUCCESS.code) {
+            ZAliceResponse.response(processService.getProcessSimulation(restTemplateProcessElementDto.process!!.id))
         } else {
-            "false"
+            ZAliceResponse.response(ZResponse(status = ZResponseConstants.STATUS.ERROR_FAIL.code))
         }
     }
 }

@@ -9,6 +9,8 @@ import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -28,7 +30,6 @@ import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -159,19 +160,23 @@ class WfProcessService(
      * 프로세스 1건 데이터 삭제.
      */
     @Transactional
-    fun deleteProcess(processId: String): Boolean {
-        val processEntity = wfProcessRepository.findByProcessId(processId) ?: throw AliceException(
-            AliceErrorConstants.ERR_00005,
-            AliceErrorConstants.ERR_00005.message + "[Process Entity]"
-        )
-        if (processEntity.processStatus == WfProcessConstants.Status.USE.code ||
-            processEntity.processStatus == WfProcessConstants.Status.DESTROY.code
-        ) {
-            return false
+    fun deleteProcess(processId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val processEntity = wfProcessRepository.findByProcessId(processId)
+        if (processEntity != null) {
+            if (processEntity.processStatus == WfProcessConstants.Status.USE.code ||
+                processEntity.processStatus == WfProcessConstants.Status.DESTROY.code
+            ) {
+                status = ZResponseConstants.STATUS.ERROR_EXIST
+            } else {
+                wfProcessRepository.deleteById(processEntity.processId)
+            }
         } else {
-            wfProcessRepository.deleteById(processEntity.processId)
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         }
-        return true
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

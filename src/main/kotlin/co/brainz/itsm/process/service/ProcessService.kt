@@ -5,6 +5,8 @@
 
 package co.brainz.itsm.process.service
 
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.repository.WfProcessRepository
@@ -59,22 +61,26 @@ class ProcessService(
     /**
      * 프로세스 업데이트
      */
-    fun updateProcessData(processId: String, restTemplateProcessElementDto: RestTemplateProcessElementDto): Int {
+    fun updateProcessData(
+        processId: String,
+        restTemplateProcessElementDto: RestTemplateProcessElementDto
+    ): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         restTemplateProcessElementDto.process?.updateDt = LocalDateTime.now()
         restTemplateProcessElementDto.process?.updateUserKey = currentSessionUser.getUserKey()
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
         val preRestTemplateProcessDto = wfProcessRepository.findByProcessId(processId)
-        var result = WfProcessConstants.ResultCode.FAIL.code
         if (duplicateCount > 0 &&
             (preRestTemplateProcessDto!!.processName != restTemplateProcessElementDto.process!!.name)
         ) {
-            result = WfProcessConstants.ResultCode.DUPLICATE.code
-            return result
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
-        if (wfProcessService.updateProcessData(restTemplateProcessElementDto)) {
-            result = WfProcessConstants.ResultCode.SUCCESS.code
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            wfProcessService.updateProcessData(restTemplateProcessElementDto)
         }
-        return result
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -102,7 +108,7 @@ class ProcessService(
     /**
      * 프로세스 1건 데이터 삭제.
      */
-    fun deleteProcess(processId: String): Boolean {
+    fun deleteProcess(processId: String): ZResponse {
         return wfProcessService.deleteProcess(processId)
     }
 
