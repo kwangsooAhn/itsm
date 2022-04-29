@@ -356,7 +356,7 @@ function hiddenProgressBar() {
  */
 aliceJs.debounce = function(func, timeout = 500) {
     let timer;
-    return (...args) => {
+    return (...args) => { //함수의 파라미터 값들을 배열로 전달 받음
         clearTimeout(timer);
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
