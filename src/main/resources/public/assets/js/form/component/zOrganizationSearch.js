@@ -53,15 +53,15 @@ export const organizationSearchMixin = {
         const savedValues = this.value.split('|');
         // 컴포넌트에 설정된 기본 값
         const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data)) ? this.elementDefaultValue.data.split('|')
-            : Array.from({length: 3}, v => '');
+            : Array.from({length: 2}, v => '');
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
             .setUIClass('z-input i-organization-search text-ellipsis')
             .setUIId('organizationSearch' + this.id)
-            .setUIValue((this.value === '${default}') ? defaultValues[2] : savedValues[1])
+            .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-organization-search', (this.value === '${default}') ? defaultValues[1] : savedValues[0])
+            .setUIAttribute('data-organization-search', (this.value === '${default}') ? defaultValues[0] : savedValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
@@ -118,9 +118,10 @@ export const organizationSearchMixin = {
             data: value.data
         };
         // 컴포넌트에 설정된 기본값 정보
-        const defaultData = (!zValidation.isEmpty(value.data)) ? value.data.split('|') : Array.from({length: 3}, v => '');
-        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultData[2])
-            .setUIAttribute('data-organization-search', defaultData[1]);
+        const defaultData = (!zValidation.isEmpty(value.data)) ? value.data.split('|')
+            : Array.from({length: 2}, v => '');
+        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultData[1])
+            .setUIAttribute('data-organization-search', defaultData[0]);
     },
     get elementDefaultValue() {
         return this._element.defaultValue;

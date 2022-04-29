@@ -63,9 +63,9 @@ export const userSearchMixin = {
         element.UIInput = new UIInput()
             .setUIClass('z-input i-user-search text-ellipsis')
             .setUIId('userSearch' + this.id)
-            .setUIValue((this.value === '${default}') ? defaultValues[2] : savedValues[1])
+            .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-user-id', (this.value === '${default}') ? defaultValues[1] : savedValues[2])
+            .setUIAttribute('data-user-id', (this.value === '${default}') ? defaultValues[2] : savedValues[2])
             .setUIAttribute('data-user-search', (this.value === '${default}') ? defaultValues[0] : savedValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
@@ -87,7 +87,7 @@ export const userSearchMixin = {
         // 1. 사용자 검색 조건이 설정되어 있고 | 2. 폼 디자이너가 아닐 경우
         if (!emptySearchTarget && !zValidation.isEmpty(this.elementDefaultValue.data)
                 && zValidation.isEmpty(document.querySelector('.z-form-main'))) {
-            this.getUserList(this.elementDefaultValue.data.split('|')[1], false);
+            this.getUserList(this.elementDefaultValue.data.split('|')[2], false);
         }
 
         // 신청서 양식 편집 화면에 따른 처리
@@ -117,9 +117,9 @@ export const userSearchMixin = {
         };
         // 컴포넌트에 설정된 기본값 정보
         const defaultData = (!zValidation.isEmpty(value.data)) ? value.data.split('|') : Array.from({length: 3}, v => '');
-        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultData[2])
-            .setUIAttribute('data-user-id', defaultData[1])
-            .setUIAttribute('data-user-search', defaultData[0]);
+        this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultData[1])
+            .setUIAttribute('data-user-search', defaultData[0])
+            .setUIAttribute('data-user-id', defaultData[2]);
     },
     get elementDefaultValue() {
         return this._element.defaultValue;
@@ -278,8 +278,8 @@ export const userSearchMixin = {
                     targetRadio.checked = true;
                 }
             } else {
-            // 기본값 사용자 조회
-                const userListElem = new DOMParser().parseFromString(htmlData, 'text/html');
+                // 기본값 사용자 조회
+                const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
                 if (userListElem.querySelectorAll('.z-table-row').length === 0) {
                     this.UIElement.UIComponent.UIElement.UIInput.setUIValue('')
                         .setUIAttribute('data-user-id', '')

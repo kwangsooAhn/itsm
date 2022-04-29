@@ -56,7 +56,8 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
 
         this.options.forEach((item, idx) => {
             const radioGroup = new UIDiv().setUIClass('radio-property-group').addUIClass('vertical');
-            const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
+            const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length) +
+                ZWorkflowUtil.generateUUID();
             // 라벨
             radioGroup.UILabel = new UILabel()
                 .setUIClass('z-radio')
@@ -94,8 +95,8 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     .setUIReadOnly(true)
                     .setUIId('customValue')
                     .setUIAttribute('data-search-value', this.data[0])
-                    .setUIAttribute('data-value', this.data[1])
-                    .setUIValue(this.data[2])
+                    .setUIAttribute('data-value', this.data[2])
+                    .setUIValue(this.data[1])
                     .onUIChange(this.updateProperty.bind(this));
                 // 컴포넌트 타입 별로 필요한 속성값 추가
                 switch (this.targetComponent) {
@@ -124,14 +125,9 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                 }
             }
-
             this.UIElement.UIGroup['UIRadioGroup' + idx] = radioGroup;
             this.UIElement.UIGroup.addUI(radioGroup);
         });
-
-
-
-
         return this.UIElement;
     }
 
@@ -169,8 +165,8 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                                 return false;
                             } else {
                                 targetInput.setAttribute('data-search-value', this.data[3].split('|')[0])
-                                targetInput.setAttribute('data-value', this.data[3].split('|')[1]);
-                                targetInput.value = this.data[3].split('|')[2];
+                                targetInput.setAttribute('data-value', this.data[3].split('|')[2]);
+                                targetInput.value = this.data[3].split('|')[1];
                                 targetInput.dispatchEvent(new Event('change'));
                             }
                             // 임시값 제거
@@ -242,7 +238,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {
                     const userId = element.getAttribute('data-user-id');
-                    this.data[3] = element.checked ? `${element.id}|${userId}|${element.value}` : '';
+                    this.data[3] = element.checked ? `${element.id}|${element.value}|${userId}` : '';
                 });
             });
             // 기존 선택값 표시
@@ -250,7 +246,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
             const targetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
             if (!zValidation.isEmpty(this.data[3]) && !zValidation.isEmpty(targetRadio)) {
                 targetRadio.checked = true;
-                this.data[3] = `${targetRadio.id}|${targetRadio.getAttribute('data-user-id')}|${targetRadio.value}`;
+                this.data[3] = `${targetRadio.id}|${targetRadio.value}|${targetRadio.getAttribute('data-user-id')}`;
             }
         });
     }
@@ -269,8 +265,11 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
         if (e && e.preventDefault) {
             e.preventDefault();
 
-            const curRadioElem = this.UIElement.UIGroup.domElement.querySelector('input[type=radio]:checked');
-            const customInputElem = this.UIElement.UIGroup.domElement.querySelector('input[type=text]');
+            const elem = e.target || e;
+
+            const parentElem = elem.parentNode.parentNode;
+            const curRadioElem = parentElem.querySelector('input[type=radio]:checked');
+            const customInputElem = parentElem.querySelector('input[type=text]');
             const radioType = curRadioElem.getAttribute('data-value');
             // 업데이트 할 컴포넌트 설정 값
             const defaultValue = {
@@ -286,10 +285,10 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                 case FORM.DEFAULT_VALUE_TYPE.SESSION:
                     if (this.targetComponent === FORM.SEARCH_COMPONENT.USER_SEARCH) {
                         // 사용자 검색 컴포넌트
-                        defaultValue.data = ZSession.get('userKey') + '|' + ZSession.get('userId') + '|' + ZSession.get('userName');
+                        defaultValue.data = ZSession.get('userKey') + '|' + ZSession.get('userName') + '|' + ZSession.get('userId');
                     } else {
                         // 부서 검색 컴포넌트
-                        defaultValue.data = ZSession.get('department') + '|' + ZSession.get('department') + '|' + ZSession.get('departmentName');
+                        defaultValue.data = ZSession.get('department') + '|' + ZSession.get('departmentName');
                     }
                     this.panel.update.call(this.panel, this.key, defaultValue);
                     break;
@@ -297,7 +296,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     // 지정 - 선택 값이 있을 경우
                     if (!zValidation.isEmpty(customInputElem.value)) {
                         defaultValue.data = customInputElem.getAttribute('data-search-value') + '|'
-                        + customInputElem.getAttribute('data-value') + '|' + customInputElem.value;
+                         + customInputElem.value + '|' + customInputElem.getAttribute('data-value');
                     }
                     this.panel.update.call(this.panel, this.key, defaultValue);
                     break;
