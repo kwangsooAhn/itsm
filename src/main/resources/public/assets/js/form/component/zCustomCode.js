@@ -113,7 +113,7 @@ export const customCodeMixin = {
                             method: 'GET'
                         }).then((response) => {
                             if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
-                                const selectedCustomData = response.data.find((item) =>
+                                const selectedCustomData = response.data.data.find((item) =>
                                     item.codeName === ZSession.get(defaultValues[2])
                                 );
                                 this.value = selectedCustomData.code;
@@ -193,7 +193,7 @@ export const customCodeMixin = {
                 method: 'GET'
             }).then((response) => {
                 if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
-                    const selectedCustomData = response.data.find((item) => item.code === this.value);
+                    const selectedCustomData = response.data.data.find((item) => item.code === this.value);
                     target.setUIValue(selectedCustomData.codeName);
                 } else {
                     target.setUIValue('');

@@ -202,7 +202,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
         });
 
         if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
-            let customCodeData = response.data;
+            let customCodeData = response.data.data;
             for (let i = 0; i < customCodeData.length; i++) {
                 if (zValidation.isEmpty(customCodeData[i].name)) {
                     customCodeData[i].name = customCodeData[i].value;

@@ -12,6 +12,8 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.specification.OrganizationCustomCodeSpecification
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.entity.CodeEntity
@@ -122,34 +124,39 @@ class CustomCodeService(
      * 사용자 정의 코드 저장(등록/수정).
      *
      * @param customCodeDto
-     * @return String
      */
     @Transactional
-    fun saveCustomCode(customCodeDto: CustomCodeDto): String {
-        var code = customCodeEditValid(customCodeDto)
-        when (code) {
+    fun saveCustomCode(customCodeDto: CustomCodeDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (customCodeEditValid(customCodeDto)) {
             CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code -> {
                 customCodeRepository.save(customCodeMapper.toCustomCodeEntity(customCodeDto))
-                code = CustomCodeConstants.Status.STATUS_SUCCESS.code
+            }
+            else -> {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
             }
         }
-        return code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 사용자 정의 코드 삭제.
      *
      * @param customCodeId
-     * @return String
      */
     @Transactional
-    fun deleteCustomCode(customCodeId: String): String {
-        return if (getUsedCustomCodeIdList().contains(customCodeId)) {
-            CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
+    fun deleteCustomCode(customCodeId: String): ZResponse {
+        val status = if (getUsedCustomCodeIdList().contains(customCodeId)) {
+            ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             customCodeRepository.deleteById(customCodeId)
-            CustomCodeConstants.Status.STATUS_SUCCESS.code
+            ZResponseConstants.STATUS.SUCCESS
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -193,9 +200,9 @@ class CustomCodeService(
     fun getCustomCodeData(customCodeId: String): CustomCodeTreeReturnDto {
         val customCode = customCodeRepository.findByCustomCode(customCodeId)
         return if (customCode.type == CustomCodeConstants.Type.TABLE.code) {
-            getTableTypeData(customCode)
+            this.getTableTypeData(customCode)
         } else {
-            getCodeTypeData(customCode)
+            this.getCodeTypeData(customCode)
         }
     }
 
