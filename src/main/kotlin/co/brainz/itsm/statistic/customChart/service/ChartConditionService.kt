@@ -14,7 +14,6 @@ import co.brainz.workflow.token.repository.WfTokenDataRepository
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.expression.EvaluationContext
 import org.springframework.expression.Expression
@@ -29,8 +28,6 @@ class ChartConditionService(
     private val chartManagerService: ChartManagerService,
     private val wfTokenDataRepository: WfTokenDataRepository
 ) {
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
     @Value("\${timezone.customChart}")
     val timezone: String? = null
     /**
@@ -60,7 +57,7 @@ class ChartConditionService(
     private fun getTagInstanceList(
         chartCondition: String,
         targetInstanceList: List<WfInstanceEntity>,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): List<WfInstanceEntity> {
         val instanceList = mutableListOf<WfInstanceEntity>()
         targetInstanceList.forEach { targetInstance ->
@@ -78,7 +75,7 @@ class ChartConditionService(
     private fun conditionDiscrimination(
         chartCondition: String,
         instance: WfInstanceEntity,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): Boolean {
         // 태그가 달린 컴포넌트의 최신 값을 가져온다.
         val tagDataMap = this.getConditionTagValue(instance, tags)
@@ -102,11 +99,11 @@ class ChartConditionService(
      */
     private fun getInstanceListIncludeTags(
         instanceList: List<WfInstanceEntity>,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): List<WfInstanceEntity> {
         val targetInstanceList = mutableListOf<WfInstanceEntity>()
         instanceList.forEach { instance ->
-            // "대상 태그"를 포함하고 있는 인스턴스 중에서 tagSet에 담겨있는 "조건 태그"를 모두 포함하고 있는 인스턴스를 수집.
+            // "대상 태그"를 포함하고 있는 인스턴스 중에서 tagSet 에 담겨있는 "조건 태그"를 모두 포함하고 있는 인스턴스를 수집.
             val targetTagSet = LinkedHashSet<String>()
             val componentIds = LinkedHashSet<String>()
             // 해당 인스턴스의 컴포넌트 아이디 수집
@@ -129,26 +126,17 @@ class ChartConditionService(
     }
 
     /**
-     * 조건문(chartCondition)에서 태그 데이터를 추출한다.
+     * 조건식(chartCondition)에서 태그 데이터를 추출한다.
+     * <p>
+     * 조건식을 작성하는 규칙으로 태그는 [] 사이에 입력해서 표현하도록 정해져 있다.
+     * 여기서는 조건식에 사용된 태그를 추출하여 HashSet 으로 리턴한다.
+     *
+     * @param chartCondition 차트 설정중 조건식 데이터
+     * @return 파싱 결과 추출된 태그의 HashSet Collection.
      */
-    private fun getTagsInCondition(chartCondition: String): LinkedHashSet<String> {
-        val tagSet = LinkedHashSet<String>()
-        var startIndex = 0
-
-        while (startIndex < chartCondition.length) {
-            if (chartCondition[startIndex].toString() == ChartConditionConstants.Parentheses.PREFIX_SQUARE_BRACKETS.value) {
-                for (index in startIndex + 1..chartCondition.indices.last) {
-                    if (chartCondition[index].toString() == ChartConditionConstants.Parentheses.SUFFIX_SQUARE_BRACKETS.value) {
-                        tagSet.add(chartCondition.substring(startIndex + 1, index))
-                        startIndex = index
-                        break
-                    }
-                }
-            }
-            startIndex++
-        }
-
-        return tagSet
+    private fun getTagsInCondition(chartCondition: String): HashSet<String> {
+        val regex = Regex("""\[(.*?)[]]""")
+        return regex.findAll(chartCondition).map { it.groupValues[1] }.toHashSet()
     }
 
     /**
@@ -156,7 +144,7 @@ class ChartConditionService(
      */
     private fun getConditionTagValue(
         instance: WfInstanceEntity,
-        tags: LinkedHashSet<String>
+        tags: HashSet<String>
     ): LinkedHashMap<String, String> {
         // 컴포넌트 타입의 태그에 대한 수집을 진행한다.
         val componentTagList = chartManagerService.getTagValueList(
@@ -169,9 +157,9 @@ class ChartConditionService(
 
         // 위에서 수집한 마지막 토큰을 가지고
         // wf_token_data 테이블에 접근하여 해당 컴포넌트의 최신 값을 추출한다.
-        // 이때 LinkedHashMap에 데이터를 tagValue : value 형태로 담는다
-        // tagValue의 경우 중복이 발생할 수 있는데, 이 경우 가장 첫 번째로 입력되는 데이터만 사용한다. (기술적 한계)
-        var tagDataMap = LinkedHashMap<String, String>()
+        // 이때 LinkedHashMap 에 데이터를 tagValue : value 형태로 담는다
+        // tagValue 의 경우 중복이 발생할 수 있는데, 이 경우 가장 첫 번째로 입력되는 데이터만 사용한다. (기술적 한계)
+        val tagDataMap = LinkedHashMap<String, String>()
         if (lastToken != null) {
             val lastTokenData = wfTokenDataRepository.findWfTokenDataEntitiesByTokenTokenId(lastToken.tokenId)
             lastTokenData.forEach { wfTokenDataEntity ->
@@ -200,11 +188,8 @@ class ChartConditionService(
     ): String {
         var targetCondition = ""
         tagDataMap.forEach { tagData ->
-            var value = ""
-            value = if (targetCondition.isBlank()) {
+            val value = targetCondition.ifBlank {
                 chartCondition
-            } else {
-                targetCondition
             }
             targetCondition = value.replace(tagData.key, tagData.value)
         }

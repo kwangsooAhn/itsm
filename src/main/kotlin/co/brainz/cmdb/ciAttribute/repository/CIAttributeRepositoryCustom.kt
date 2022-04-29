@@ -12,21 +12,21 @@ import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIGroupListDto
 import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
-import com.querydsl.core.QueryResults
 
 interface CIAttributeRepositoryCustom : AliceRepositoryCustom {
-    fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto>
+    fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): PagingReturnDto
     fun findAttribute(attributeId: String): CIAttributeListDto
     fun findAttributeDetail(attributeId: String): CIAttributeDto
     fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long
-    fun findAttributeValueList(ciId: String, classId: String): QueryResults<CIAttributeValueDto>
+    fun findAttributeValueList(ciId: String, classId: String): List<CIAttributeValueDto>
     fun findAttributeListWithoutGroupList(
         attributeId: String,
         ciAttributeSearchCondition: CIAttributeSearchCondition
-    ): QueryResults<CIAttributeListDto>
+    ): PagingReturnDto
 
-    fun findAttributeListInGroupList(attributeIdList: MutableList<String>): QueryResults<CIAttributeValueDto>
-    fun findGroupListData(attributeId: String, ciId: String): QueryResults<CIGroupListDto>
+    fun findAttributeListInGroupList(attributeIdList: MutableList<String>): List<CIAttributeValueDto>
+    fun findGroupListData(attributeId: String, ciId: String): List<CIGroupListDto>
     fun findAttributeList(attributeIds: Set<String>): List<CISearchItem>
 }

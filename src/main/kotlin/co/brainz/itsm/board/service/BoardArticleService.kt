@@ -26,6 +26,10 @@ import co.brainz.itsm.board.repository.BoardCategoryRepository
 import co.brainz.itsm.board.repository.BoardCommentRepository
 import co.brainz.itsm.board.repository.BoardReadRepository
 import co.brainz.itsm.board.repository.BoardRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.stereotype.Service
@@ -41,18 +45,20 @@ class BoardArticleService(
     private val userDetailsService: AliceUserDetailsService
 ) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * [boardArticleSearchCondition]을 받아서 게시판 목록을 [List<BoardRestDto>]으로 반환 한다.
      */
     fun getBoardArticleList(boardArticleSearchCondition: BoardArticleSearchCondition): BoardArticleListReturnDto {
-        val queryResult = boardRepository.findByBoardList(boardArticleSearchCondition)
+        val pagingResult = boardRepository.findByBoardList(boardArticleSearchCondition)
         val boardArticleList = BoardArticleListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = boardRepository.count(),
                 currentPageNum = boardArticleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / boardArticleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             ),
             categoryUseYn = false

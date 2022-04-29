@@ -6,10 +6,9 @@
 package co.brainz.itsm.auth.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.auth.dto.AuthListDto
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.auth.dto.AuthSearchCondition
-import com.querydsl.core.QueryResults
 
 interface AuthRepositoryCustom : AliceRepositoryCustom {
-    fun findAuthSearch(authSearchCondition: AuthSearchCondition): QueryResults<AuthListDto>
+    fun findAuthSearch(authSearchCondition: AuthSearchCondition): PagingReturnDto
 }

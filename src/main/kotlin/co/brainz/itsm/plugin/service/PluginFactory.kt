@@ -9,17 +9,18 @@ import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.itsm.plugin.constants.PluginConstants
-import co.brainz.itsm.plugin.repository.PluginHistoryRepository
 import co.brainz.itsm.plugin.service.impl.FocsComponent
 import co.brainz.itsm.plugin.service.impl.PluginComponent
+import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import org.springframework.stereotype.Component
 
 @Component
 class PluginFactory(
-    private val pluginHistoryRepository: PluginHistoryRepository,
+    private val pluginHistoryService: PluginHistoryService,
     private val aliceTagRepository: AliceTagRepository,
-    private val wfTokenDataRepository: WfTokenDataRepository
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val wfComponentRepository: WfComponentRepository
 ) {
 
     /**
@@ -27,7 +28,12 @@ class PluginFactory(
      */
     fun getFactory(pluginId: String): PluginComponent {
         return when (pluginId) {
-            PluginConstants.PluginId.FOCS.code -> FocsComponent(pluginHistoryRepository, aliceTagRepository, wfTokenDataRepository)
+            PluginConstants.PluginId.FOCS.code -> FocsComponent(
+                pluginHistoryService,
+                aliceTagRepository,
+                wfTokenDataRepository,
+                wfComponentRepository
+            )
             else -> throw AliceException(AliceErrorConstants.ERR, "Plugin not found.")
         }
     }

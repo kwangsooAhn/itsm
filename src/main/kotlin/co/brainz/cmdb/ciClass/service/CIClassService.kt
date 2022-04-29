@@ -37,7 +37,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.querydsl.core.QueryResults
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -72,8 +71,8 @@ class CIClassService(
         )
         val ciClasses = ciClassRepository.findClassList(searchDto)
         return CIClassReturnDto(
-            data = ciClasses.results,
-            totalCount = ciClasses.total
+            data = ciClasses.dataList as List<CIClassListDto>,
+            totalCount = ciClasses.totalCount
         )
     }
 
@@ -109,7 +108,7 @@ class CIClassService(
             val ciClassResult = ciClassRepository.findClassList(SearchDto(offset = null, limit = null))
             recursiveClassList.addAll(
                 getRecursiveParentClassId(
-                    ciClassResult.results,
+                    ciClassResult.dataList as List<CIClassListDto>,
                     ciClassEntity.pClass?.classId,
                     mutableListOf()
                 )
@@ -216,11 +215,11 @@ class CIClassService(
         if (parameters["search"] != null) search = parameters["search"].toString()
 
         val treeClassList = mutableListOf<CIClassTreeListDto>()
-        val queryResults: QueryResults<CIClassEntity> = ciClassRepository.findClassEntityList(search)
+        val queryResults: List<CIClassEntity> = ciClassRepository.findClassEntityList(search)
         val returnList: List<CIClassEntity>
         val pClassList = mutableListOf<CIClassEntity>()
         val classIdList = mutableListOf<String>()
-        var classSearchList = queryResults.results
+        var classSearchList = queryResults
 
         for (ciClass in classSearchList) {
             var tempClass = ciClass.pClass
@@ -232,7 +231,7 @@ class CIClassService(
             } while (tempClass != null)
         }
         if (pClassList.isNotEmpty()) {
-            classSearchList.addAll(pClassList)
+            classSearchList += pClassList
             classSearchList = classSearchList.distinct()
         }
         for (ciClass in classSearchList) {
@@ -240,7 +239,7 @@ class CIClassService(
         }
         val classAttributeMapList = ciClassRepository.findClassToAttributeList(classIdList)
 
-        val count: Long = queryResults.total
+        val count: Long = queryResults.size.toLong()
         returnList = classSearchList
 
         for (ciClassEntity in returnList) {
@@ -422,7 +421,7 @@ class CIClassService(
         classList.reversed().forEach {
             val queryResult = ciAttributeRepository.findAttributeValueList(ciId, it)
             val ciAttributeGroupList = mutableListOf<CIAttributeValueGroupListDto>()
-            for (data in queryResult.results) {
+            for (data in queryResult) {
                 var childAttributeList = mutableListOf<CIAttributeValueDto>()
                 if (data.attributeType.equals(RestTemplateConstants.AttributeType.GROUP_LIST.code)) {
                     val attributeValue = mapper.readValue(data.attributeValue, LinkedHashMap::class.java)
@@ -473,9 +472,9 @@ class CIClassService(
         // 2. cmdb_ci_group_list_data 테이블 데이터가 조회
         val groupListQueryResult = ciAttributeRepository.findGroupListData(attributeId, ciId)
         // 3. 데이터가 존재하면 데이터 병합
-        if (groupListQueryResult.total > 0) {
-            for (groupData in groupListQueryResult.results) {
-                loop@ for (attribute in ciAttributeQueryResult.results) {
+        if (groupListQueryResult.isNotEmpty()) {
+            for (groupData in groupListQueryResult) {
+                loop@ for (attribute in ciAttributeQueryResult) {
                     if (groupData.cAttributeId == attribute.attributeId) {
                         ciAttributeDataList.add(
                             CIAttributeValueDto(
@@ -497,7 +496,7 @@ class CIClassService(
             }
         } else {
             // 4. 데이터가 없으면 cmdb_attribute 테이블의 데이터를 이용하여 세부속성 첫번째 그룹을 담음.
-            for (attribute in ciAttributeQueryResult.results) {
+            for (attribute in ciAttributeQueryResult) {
                 ciAttributeDataList.add(attribute)
             }
         }

@@ -7,10 +7,9 @@
 package co.brainz.itsm.numberingPattern.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
-import com.querydsl.core.QueryResults
 
 interface NumberingPatternRepositoryCustom : AliceRepositoryCustom {
-    fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): QueryResults<NumberingPatternListDto>
+    fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): PagingReturnDto
 }

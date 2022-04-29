@@ -13,7 +13,6 @@ import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions.constant
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -24,7 +23,7 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
     override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
-        QueryResults<DocumentDto> {
+        List<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
 
         val documentQuery = from(document)
@@ -82,7 +81,7 @@ class WfDocumentRepositoryImpl :
                 super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
             ).orderBy(document.documentName.asc())
 
-        return documentQuery.fetchResults()
+        return documentQuery.fetch()
     }
 
     override fun findAllByDocuments(documentSearchCondition: DocumentSearchCondition):
@@ -125,8 +124,7 @@ class WfDocumentRepositoryImpl :
                     )
                 }
             ).orderBy(document.documentName.asc())
-            .fetchResults()
-        return documentQuery.results
+        return documentQuery.fetch()
     }
 
     override fun getDocumentListByNumberingId(numberingId: String): List<WfDocumentEntity> {
@@ -143,7 +141,7 @@ class WfDocumentRepositoryImpl :
         if (documentId.isNotEmpty()) {
             query.where(!documentEntity.documentId.eq(documentId))
         }
-        return query.fetchCount() > 0
+        return query.fetch().size > 0
     }
 
     override fun getDocumentListByIds(documentIds: Set<String>): List<WfDocumentEntity> {
@@ -171,5 +169,19 @@ class WfDocumentRepositoryImpl :
         }
         sqlBuilder.append(" limit ${WfComponentConstants.LIST_LIMIT}")
         return entityManager?.createNativeQuery(sqlBuilder.toString())?.resultList as List<Array<Any>>
+    }
+
+    override fun existsByFormId(formId: String): Boolean {
+        val document = QWfDocumentEntity.wfDocumentEntity
+        return from(document)
+            .where(document.form.formId.eq(formId))
+            .fetchFirst() != null
+    }
+
+    override fun existsByProcessId(processId: String): Boolean {
+        val document = QWfDocumentEntity.wfDocumentEntity
+        return from(document)
+            .where(document.process.processId.eq(processId))
+            .fetchFirst() != null
     }
 }
