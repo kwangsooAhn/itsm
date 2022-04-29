@@ -105,7 +105,7 @@ export const dynamicRowTableMixin = {
         element.addUI(element.UITable);
 
         // 기본값 목록 세팅
-        this.getDefaultValues(this.elementColumns);
+        this.setDefaultValues(this.elementColumns);
 
         this.makeTable(element.UITable);
 
@@ -493,7 +493,7 @@ export const dynamicRowTableMixin = {
             .onUIChange(this.updateValue.bind(this));
     },
     // 컴포넌트별 기본값 목록 세팅
-    getDefaultValues(columns) {
+    setDefaultValues(columns) {
         for (const column of columns) {
             let defaultValue = '${default}';
             switch (column.columnType) {
@@ -541,7 +541,6 @@ export const dynamicRowTableMixin = {
             }
             this._defaultValues.push(defaultValue);
         }
-        return this._defaultValues;
     },
     // 기본값 조회
     getDefaultValueForDate(column, cellValue) {
