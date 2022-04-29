@@ -30,15 +30,21 @@ class OrganizationRestController(
      * 조직 전체 목록 조회
      */
     @GetMapping("/", "")
-    fun getOrganizations(organizationSearchCondition: OrganizationSearchCondition): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(organizationService.getOrganizationList(organizationSearchCondition))
+    fun getOrganizations(
+        organizationSearchCondition: OrganizationSearchCondition
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            organizationService.getOrganizationList(organizationSearchCondition)
+        )
     }
 
     /**
      * 조직 상세 정보 조회
      */
     @GetMapping("/{organizationId}")
-    fun getDetailOrganization(@PathVariable organizationId: String): ResponseEntity<ZResponse> {
+    fun getDetailOrganization(
+        @PathVariable organizationId: String
+    ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(organizationService.getDetailOrganization(organizationId))
     }
 
@@ -46,7 +52,9 @@ class OrganizationRestController(
      * 조직 등록
      */
     @PostMapping("/","")
-    fun createOrganization(@RequestBody organizationRoleDto: OrganizationRoleDto): ResponseEntity<ZResponse> {
+    fun createOrganization(
+        @RequestBody organizationRoleDto: OrganizationRoleDto
+    ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(organizationService.createOrganization(organizationRoleDto))
     }
 
@@ -54,7 +62,9 @@ class OrganizationRestController(
      * 조직 정보 수정
      */
     @PutMapping("/{organizationId}")
-    fun updateOrganization(@RequestBody organizationRoleDto: OrganizationRoleDto): ResponseEntity<ZResponse> {
+    fun updateOrganization(
+        @RequestBody organizationRoleDto: OrganizationRoleDto
+    ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(organizationService.updateOrganization(organizationRoleDto))
     }
 

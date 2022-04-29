@@ -5,9 +5,6 @@
 
 package co.brainz.framework.organization.service
 
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
-import co.brainz.framework.organization.constants.OrganizationConstants
 import co.brainz.framework.organization.dto.OrganizationDetailDto
 import co.brainz.framework.organization.dto.OrganizationListDto
 import co.brainz.framework.organization.dto.OrganizationListReturnDto
@@ -86,7 +83,6 @@ class OrganizationService(
         }
 
         return ZResponse(
-            status = ZResponseConstants.STATUS.SUCCESS.code,
             data = OrganizationListReturnDto (
                 data = treeOrganizationList,
                 totalCount = count
@@ -121,8 +117,7 @@ class OrganizationService(
      * 조직 등록
      */
     @Transactional
-    fun createOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
-        // TODO: 부서 이름 중복 체크 기능 필요 > E-0001 반환
+    fun createOrganization(organizationRoleDto: OrganizationRoleDto): ZResponse {
         var organizationEntity = OrganizationEntity(
             organizationName = organizationRoleDto.organizationName,
             organizationDesc = organizationRoleDto.organizationDesc,
@@ -141,67 +136,72 @@ class OrganizationService(
 
         this.saveOrganizationRoleMap(organizationEntity, organizationRoleDto.roleIds)
 
-        return true
+        return ZResponse()
     }
 
     /**
      * 조직 정보 수정
      */
     @Transactional
-    fun updateOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
-        // TODO: 시스템관리자는 수정 불가능하므로 accessDeny 를 뜻하는 E-0006 반환
+    fun updateOrganization(organizationRoleDto: OrganizationRoleDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         if (!roleService.isExistSystemRoleByOrganization(
                 organizationRoleDto.organizationId,
                 organizationRoleDto.roleIds.toSet())) {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("organization.msg.systemUserNotExist")
-            )
+                    status = ZResponseConstants.STATUS.ERROR_ACCESS_DENY
+        }
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            val organizationEntity = organizationRepository.findByOrganizationId(organizationRoleDto.organizationId)
+            organizationEntity.pOrganization =
+                organizationRoleDto.pOrganizationId?.let { organizationRepository.findById(it).get() }
+            organizationEntity.organizationName = organizationRoleDto.organizationName
+            organizationEntity.organizationDesc = organizationRoleDto.organizationDesc
+            organizationEntity.useYn = organizationRoleDto.useYn
+            organizationEntity.seqNum = organizationRoleDto.seqNum
+            organizationEntity.updateUserKey = currentSessionUser.getUserKey()
+            organizationEntity.updateDt = LocalDateTime.now()
+
+            if (organizationEntity.pOrganization == null) {
+                organizationEntity.level = 0
+            } else {
+                organizationEntity.level = organizationEntity.pOrganization!!.level?.plus(1)
+            }
+            organizationRepository.save(organizationEntity)
+
+            organizationRoleMapRepository.deleteByOrganization(organizationEntity)
+            organizationRoleMapRepository.flush()
+
+            this.saveOrganizationRoleMap(organizationEntity, organizationRoleDto.roleIds)
         }
 
-        val organizationEntity = organizationRepository.findByOrganizationId(organizationRoleDto.organizationId)
-        organizationEntity.pOrganization =
-            organizationRoleDto.pOrganizationId?.let { organizationRepository.findById(it).get() }
-        organizationEntity.organizationName = organizationRoleDto.organizationName
-        organizationEntity.organizationDesc = organizationRoleDto.organizationDesc
-        organizationEntity.useYn = organizationRoleDto.useYn
-        organizationEntity.seqNum = organizationRoleDto.seqNum
-        organizationEntity.updateUserKey = currentSessionUser.getUserKey()
-        organizationEntity.updateDt = LocalDateTime.now()
-
-        if (organizationEntity.pOrganization == null) {
-            organizationEntity.level = 0
-        } else {
-            organizationEntity.level = organizationEntity.pOrganization!!.level?.plus(1)
-        }
-        organizationRepository.save(organizationEntity)
-
-        organizationRoleMapRepository.deleteByOrganization(organizationEntity)
-        organizationRoleMapRepository.flush()
-
-        this.saveOrganizationRoleMap(organizationEntity, organizationRoleDto.roleIds)
-
-        return true
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 조직 정보 삭제
      */
     @Transactional
-    fun deleteOrganization(organizationId: String): String {
+    fun deleteOrganization(organizationId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         // 조직에 구성원이 있는지 확인
         if (userRepository.existsByDepartment(organizationId)) {
-            return OrganizationConstants.Status.STATUS_ERROR_USER_EXIST.code
+            status = ZResponseConstants.STATUS.ERROR_EXIST
         }
         // 하위 부서가 있는지 확인
         if (organizationRepository.existsByPOrganizationId(organizationId)) {
-            return OrganizationConstants.Status.STATUS_ERROR_SUB_DEPT_EXIST.code
+            status = ZResponseConstants.STATUS.ERROR_ANY
         }
-        // 조직에 설정된 역할 삭제
-        organizationRoleMapRepository.deleteByOrganization(OrganizationEntity(organizationId))
-        // 조직 삭제
-        organizationRepository.deleteByOrganizationId(organizationId)
-        return OrganizationConstants.Status.STATUS_SUCCESS.code
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            // 조직에 설정된 역할 삭제
+            organizationRoleMapRepository.deleteByOrganization(OrganizationEntity(organizationId))
+            // 조직 삭제
+            organizationRepository.deleteByOrganizationId(organizationId)
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

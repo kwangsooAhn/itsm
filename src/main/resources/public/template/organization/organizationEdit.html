@@ -291,9 +291,6 @@
                         window.location.href = '/organizations/edit';
                     });
                     break;
-                case aliceJs.response.duplicate:
-                    zAlert.warning(i18n.msg('organization.msg.duplicateOrganizationName'));
-                    break;
                 case aliceJs.response.accessDeny:
                     zAlert.warning(i18n.msg('organization.msg.systemUserNotExist'));
                     break;
