@@ -106,8 +106,8 @@
         OverlayScrollbars(document.getElementById('organizationDesc'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), { className: 'inner-scrollbar' });
 
-        document.getElementById('searchValue').addEventListener('keyup', getOrganizationList, false);
         document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getOrganizationList()), false);
 
         getOrganizationList();
     };

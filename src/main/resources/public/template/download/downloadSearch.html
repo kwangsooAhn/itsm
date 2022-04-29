@@ -50,7 +50,7 @@
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
 
         document.getElementById('category').addEventListener('change', function () { getList(); });
-        document.getElementById('searchValue').addEventListener('keyup', function () { getList(); });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
 
         getList();
     };

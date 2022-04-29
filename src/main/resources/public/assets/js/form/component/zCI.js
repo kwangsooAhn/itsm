@@ -823,10 +823,10 @@ export const ciMixin = {
                     }
                 });
 
-                document.getElementById('searchValue').addEventListener('keyup', (e) => {
+                document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce ((e) => {
                     e.preventDefault();
                     this.selectModalSearchCI();
-                });
+                }), false);
             }
         });
         selectModal.show();
@@ -928,11 +928,10 @@ export const ciMixin = {
                         this_.relationSelectModalSearchCI();
                     }
                 });
-
-                document.getElementById('searchValue').addEventListener('keyup', (e) => {
+                document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce ((e) => {
                     e.preventDefault();
                     this.relationSelectModalSearchCI();
-                });
+                }), false);
             }
         });
         selectModal.show();
