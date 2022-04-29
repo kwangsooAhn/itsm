@@ -101,7 +101,7 @@
         onCreate();
 
         getTypeList();
-        document.getElementById('search').addEventListener('keyup', getTypeList, false);
+        document.getElementById('search').addEventListener('keyup', aliceJs.debounce (() => getTypeList()), false);
 
         OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });

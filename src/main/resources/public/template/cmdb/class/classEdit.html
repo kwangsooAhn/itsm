@@ -131,7 +131,7 @@
         onCreate();
 
         getCIClassList();
-        document.getElementById('search').addEventListener('keyup', getCIClassList, false);
+        document.getElementById('search').addEventListener('keyup', aliceJs.debounce (() => getCIClassList()), false);
 
         OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
@@ -541,9 +541,9 @@
                 closable: false,
             },
             onCreate: function (modal) {
-                document.getElementById('attributeSearch').addEventListener('keyup', function () {
-                    getAttributeList(this.value, false);
-                });
+                document.getElementById('attributeSearch').addEventListener('keyup', aliceJs.debounce ((e) => {
+                    getAttributeList(e.target.value, false);
+                }), false);
                 getAttributeList(document.getElementById('attributeSearch').value, true);
             }
         });

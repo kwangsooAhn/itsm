@@ -45,9 +45,7 @@
         window.addEventListener('load', (e) => {
             document.getElementById('searchDocuments').focus();
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
-                search.addEventListener('keyup', () => {
-                    documentSearches(false);
-                });
+                search.addEventListener('keyup', aliceJs.debounce (() => documentSearches()), false);
             });
             documentSearches(false);
 

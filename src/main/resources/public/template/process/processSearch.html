@@ -50,12 +50,8 @@
         getList();
     }
 
-    document.getElementById('searchProcessStatus').onchange = function () {
-        getList();
-    };
-    document.getElementById('searchValue').onkeyup = function() {
-        getList();
-    };
+    document.getElementById('searchProcessStatus').addEventListener('change', function () { getList(); });
+    document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
 
     // 프로세스 리스트 조회
     function getList(pageNum = 1) {

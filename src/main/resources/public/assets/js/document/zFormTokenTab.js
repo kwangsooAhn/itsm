@@ -295,9 +295,9 @@ class ZFormTokenTab {
             }],
             close: { closable: false },
             onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     this.getViewerList(e.target.value, false);
-                });
+                }), false);
                 this.getViewerList(document.getElementById('search').value, true);
             }
         });
@@ -448,9 +448,9 @@ class ZFormTokenTab {
                 closable: false,
             },
             onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     this.getRelatedDoc(e.target.value, false);
-                });
+                }), false);
                 this.getRelatedDoc(document.getElementById('search').value, true);
             }
         });

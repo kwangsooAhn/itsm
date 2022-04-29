@@ -29,9 +29,7 @@
 
     window.onload = function () {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function () {
-            getList();
-        });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
         OverlayScrollbars(document.querySelector('.numbering-pattern-content-edit'), {className: 'scrollbar'});
     };

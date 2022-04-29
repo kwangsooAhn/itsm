@@ -61,13 +61,9 @@
     let offsetCount = 0;
     window.onload = function() {
         document.getElementById('searchDocuments').focus();
+        document.getElementById('searchGroupName').addEventListener('change', function() { getList(); });
         document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
-            search.addEventListener('keyup', function() {
-                getList();
-            });
-        });
-        document.getElementById('searchGroupName').addEventListener('change', function() {
-            getList()
+            search.addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         });
         getList();
     };

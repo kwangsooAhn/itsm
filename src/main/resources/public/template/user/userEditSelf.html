@@ -519,9 +519,9 @@
                 },
                 onCreate: () => {
                     subUserInfo = {};
-                    document.getElementById('search').addEventListener('keyup', (e) => {
+                    document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                         this.getSubUserList(e.target.value, false);
-                    });
+                    }), false);
                     this.getSubUserList(document.getElementById('search').value, true);
                 }
             });
