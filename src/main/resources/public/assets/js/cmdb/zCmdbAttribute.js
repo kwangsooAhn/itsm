@@ -1080,7 +1080,7 @@
     /**
      * Attribute 목록 모달 오픈
      */
-    function openAttributeListModal() {
+    function openAttributeListModal(e) {
         // 저장된 데이터를 담는다.
         attributeMapTemp.length = 0;
         attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
@@ -1092,43 +1092,6 @@
             `<span id="spanTotalCount" class="z-search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
-        /**
-         * 세부 속성 검색
-         */
-        const getAttributeList = function (search, showProgressbar) {
-            const url = '/cmdb/attributes/list-modal?search=' + search.trim() + '&attributeId=' + attributeId;
-            aliceJs.fetchText(url, {
-                method: 'GET',
-                showProgressbar: showProgressbar
-            }).then((htmlData) => {
-                document.getElementById('ciClassAttributeList').innerHTML = htmlData;
-                aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-
-                document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
-                    checkbox.addEventListener('change', function (e) {
-                        if (e.target.checked) {
-                            attributeMapTemp.push({
-                                key: e.target.value,
-                                value: e.target.name,
-                                order: '',
-                                type: e.target.getAttribute('data-attribute-type')
-                            });
-                        } else {
-                            const removeIndex = attributeMapTemp.findIndex(function (attr) {
-                                return attr.key === e.target.value;
-                            });
-                            attributeMapTemp.splice(removeIndex, 1);
-                        }
-                    });
-                    attributeMapTemp.forEach(function (attr) {
-                        if (checkbox.value === attr.key) {
-                            checkbox.checked = true;
-                        }
-                    });
-                });
-            });
-        };
 
         const attributeListModal = new modal({
             title: i18n.msg('cmdb.class.label.attributeList'),
@@ -1163,14 +1126,52 @@
                 closable: false,
             },
             onCreate: function () {
-                document.getElementById('attributeSearch').addEventListener('keyup', function () {
-                    getAttributeList(this.value, false);
-                });
+                document.getElementById('attributeSearch').addEventListener('keyup', aliceJs.debounce ((e) => {
+                    getAttributeList(e.target.value, false);
+                }), false);
                 getAttributeList(document.getElementById('attributeSearch').value, false);
             }
         });
         attributeListModal.show();
     }
+
+    /**
+     * 세부 속성 검색
+     */
+    function getAttributeList (search, showProgressbar) {
+        const url = '/cmdb/attributes/list-modal?search=' + encodeURIComponent(search.trim()) + '&attributeId=' + attributeId;
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+            aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+
+            document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (e) {
+                    if (e.target.checked) {
+                        attributeMapTemp.push({
+                            key: e.target.value,
+                            value: e.target.name,
+                            order: '',
+                            type: e.target.getAttribute('data-attribute-type')
+                        });
+                    } else {
+                        const removeIndex = attributeMapTemp.findIndex(function (attr) {
+                            return attr.key === e.target.value;
+                        });
+                        attributeMapTemp.splice(removeIndex, 1);
+                    }
+                });
+                attributeMapTemp.forEach(function (attr) {
+                    if (checkbox.value === attr.key) {
+                        checkbox.checked = true;
+                    }
+                });
+            });
+        });
+    };
 
     /**
      * 중복 유효성 검사.
