@@ -7,6 +7,7 @@
 package co.brainz.itsm.board.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.board.dto.BoardArticleListDto
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
@@ -16,7 +17,7 @@ import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardReadEntity
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -26,13 +27,14 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.java), BoardRepositoryCustom {
-    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): QueryResults<BoardArticleListDto> {
+    override fun findByBoardList(boardArticleSearchCondition: BoardArticleSearchCondition): PagingReturnDto {
         val board = QPortalBoardEntity.portalBoardEntity
         val user = QAliceUserEntity.aliceUserEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
         val boardAdmin = QPortalBoardAdminEntity("categoryYn")
+
         val query = from(board)
             .select(
                 Projections.constructor(
@@ -58,23 +60,24 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
             .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
             .leftJoin(boardAdmin).on((board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)))
-            .where(
-                board.boardAdmin.boardAdminId.eq(boardArticleSearchCondition.boardAdminId),
-                super.likeIgnoreCase(
-                    board.boardTitle, boardArticleSearchCondition.searchValue
-                )?.or(super.likeIgnoreCase(category.boardCategoryName, boardArticleSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(board.createUser.userName, boardArticleSearchCondition.searchValue)),
-                board.createDt.goe(boardArticleSearchCondition.formattedFromDt),
-                board.createDt.lt(boardArticleSearchCondition.formattedToDt)
-            )
+            .where(this.builder(boardArticleSearchCondition, board, category))
             .orderBy(board.boardGroupId.desc(), board.boardOrderSeq.asc())
-
         if (boardArticleSearchCondition.isPaging) {
             query.limit(boardArticleSearchCondition.contentNumPerPage)
             query.offset((boardArticleSearchCondition.pageNum - 1) * boardArticleSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        val countQuery = from(board)
+            .select(board.count())
+            .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
+            .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
+            .leftJoin(boardAdmin).on((board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)))
+            .where(this.builder(boardArticleSearchCondition, board, category))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findByBoardId(boardId: String): BoardArticleViewDto {
@@ -96,5 +99,17 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             )
             .where(board.boardId.eq(boardId))
             .fetchOne()
+    }
+    private fun builder(boardArticleSearchCondition: BoardArticleSearchCondition, board: QPortalBoardEntity, category: QPortalBoardCategoryEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(board.boardTitle, boardArticleSearchCondition.searchValue)?.or(
+                super.likeIgnoreCase(board.createUser.userName, boardArticleSearchCondition.searchValue)
+            )
+        )
+        builder.and(board.boardAdmin.boardAdminId.eq(boardArticleSearchCondition.boardAdminId))
+        builder.and(board.createDt.goe(boardArticleSearchCondition.formattedFromDt))
+        builder.and(board.createDt.lt(boardArticleSearchCondition.formattedToDt))
+        return builder
     }
 }

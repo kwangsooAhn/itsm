@@ -20,9 +20,11 @@ import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
+import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.dto.CustomChartListReturnDto
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -49,14 +51,14 @@ class CustomChartService(
      * 전체 사용자 정의 차트 조회
      */
     fun getCharts(chartSearchCondition: ChartSearchCondition): CustomChartListReturnDto {
-        val queryResult = customChartRepository.findChartList(chartSearchCondition)
+        val pagingResult = customChartRepository.findChartList(chartSearchCondition)
         return CustomChartListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomChartListDto>>() {}),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customChartRepository.count(),
                 currentPageNum = chartSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / chartSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / chartSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
                 orderColName = chartSearchCondition.orderColName,
                 orderDir = chartSearchCondition.orderDir

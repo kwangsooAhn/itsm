@@ -24,6 +24,10 @@ import co.brainz.itsm.scheduler.dto.SchedulerHistorySearchCondition
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
 import java.nio.file.Paths
 import java.time.Instant
@@ -46,6 +50,7 @@ class SchedulerService(
     private val scheduleTaskTypeJar: ScheduleTaskTypeJar
 ) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Value("\${schedule.plugins.dir}")
@@ -56,10 +61,11 @@ class SchedulerService(
      */
     fun getSchedulers(schedulerSearchCondition: SchedulerSearchCondition): SchedulerListReturnDto {
         val latelyHistory = aliceScheduleHistoryRepository.findScheduleLatelyHistory()
-        val queryResult = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchCondition)
+        val pagingResult = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchCondition)
+        val pagingList: List<AliceScheduleTaskEntity> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<AliceScheduleTaskEntity>>() {})
         val schedulerList = mutableListOf<SchedulerListDto>()
 
-        for (scheduler in queryResult.results) {
+        for (scheduler in pagingList) {
             val schedulerDto = SchedulerListDto(
                 taskId = scheduler.taskId,
                 taskName = scheduler.taskName,
@@ -83,10 +89,10 @@ class SchedulerService(
         return SchedulerListReturnDto(
             data = schedulerList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = aliceScheduleTaskRepository.count(),
                 currentPageNum = schedulerSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / schedulerSearchCondition.contentNumPerPage).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / schedulerSearchCondition.contentNumPerPage).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

@@ -27,6 +27,7 @@ import co.brainz.workflow.document.service.WfDocumentService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
@@ -71,14 +72,14 @@ class NumberingRuleService(
      * 문서번호 리스트 조회
      */
     fun getNumberingRuleList(numberingRuleSearchCondition: NumberingRuleSearchCondition): NumberingRuleListReturnDto {
-        val queryResult = numberingRuleRepository.findRuleSearch(numberingRuleSearchCondition)
+        val pagingResult = numberingRuleRepository.findRuleSearch(numberingRuleSearchCondition)
         return NumberingRuleListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = numberingRuleRepository.count(),
                 currentPageNum = numberingRuleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -343,8 +344,8 @@ class NumberingRuleService(
             numberingRuleDto.patternList,
             numberingRuleDto.numberingId
         )
-        if (numberingRulePatternMapResult.results.isNotEmpty()) {
-            val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
+        if (numberingRulePatternMapResult.isNotEmpty()) {
+            val numberingGrouping = numberingRulePatternMapResult.groupBy { it.numberingRule }
             for (numbering in numberingGrouping) {
                 var order = 0
                 val numberingGroupingList = numbering.value

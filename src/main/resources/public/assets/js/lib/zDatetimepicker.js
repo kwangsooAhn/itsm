@@ -589,6 +589,8 @@
         targetElement.setAttribute('oncontextmenu', 'return false;');
         targetElement.setAttribute('onkeypress', 'return false;');
         targetElement.setAttribute('onkeydown', 'return false;');
+        // 한영키 전환시 keypress, keydown 이 동작하지 않으므로 한글 입력 방지를 처리함
+        targetElement.setAttribute('onkeyup', 'this.value=this.value.replace(/[^a-zA-Z-_0-9]/g,"");');
 
         options.value = (targetElement.value !== '' ? targetElement.value : 'now');
         options.inputEl = targetElement;

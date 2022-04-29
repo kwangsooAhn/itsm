@@ -24,6 +24,7 @@ import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
+import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
@@ -43,6 +44,7 @@ import co.brainz.itsm.role.specification.RoleCustomCodeSpecification
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.specification.UserCustomCodeSpecification
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -71,6 +73,7 @@ class CustomCodeService(
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
     private val customCodeTableMapper: CustomCodeTableMapper = Mappers.getMapper(CustomCodeTableMapper::class.java)
     private val customCodeColumnMapper: CustomCodeColumnMapper = Mappers.getMapper(CustomCodeColumnMapper::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 사용자 정의 코드 리스트 조회.
@@ -78,14 +81,14 @@ class CustomCodeService(
      * @return MutableList<CustomCodeDto>
      */
     fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
-        val queryResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
+        val pagingResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
         return CustomCodeListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<MutableList<CustomCodeListDto>> () {}),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customCodeRepository.count(),
                 currentPageNum = customCodeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -286,9 +289,8 @@ class CustomCodeService(
      */
     fun getTableTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
         var customDataList = mutableListOf<CustomCodeTreeDto>()
-        var dataList = mutableListOf<Any>()
         val condition = jsonToArrayByCondition(customCode.condition)
-        val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
+        val sort = Sort.by(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
                 val roleList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()

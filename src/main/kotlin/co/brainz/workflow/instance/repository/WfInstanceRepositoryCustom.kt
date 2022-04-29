@@ -5,13 +5,12 @@
 
 package co.brainz.workflow.instance.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.token.dto.TokenSearchCondition
-import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
-import com.querydsl.core.QueryResults
 
 interface WfInstanceRepositoryCustom {
 
@@ -19,14 +18,14 @@ interface WfInstanceRepositoryCustom {
         status: List<String>?,
         tokenStatus: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto>
+    ): PagingReturnDto
 
-    fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto>
+    fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): PagingReturnDto
 
     fun findRelationInstances(
         status: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto>
+    ): PagingReturnDto
 
     fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto>
 

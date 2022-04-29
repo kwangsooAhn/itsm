@@ -32,7 +32,6 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.token.service.WfTokenService
-import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
@@ -161,17 +160,16 @@ class InstanceService(
     fun getInstanceViewerList(instanceId: String): ViewerListReturnDto {
         val viewerReturnList: MutableList<ViewerListDto> = mutableListOf()
         var count = 0L
-        val viewerResults: QueryResults<WfInstanceViewerEntity>? = viewerRepository.findByInstanceViewerList(instanceId)
+        val viewerResults = viewerRepository.findByInstanceViewerList(instanceId)
         if (viewerResults != null) {
-            val viewerList = viewerResults.results
-            count = viewerList.size.toLong()
-            for (viewer in viewerList) {
+            count = viewerResults.size.toLong()
+            for (viewer in viewerResults) {
                 val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
-                val organization = organizationList.results.firstOrNull { it.organizationId == viewer.viewer.department }
+                val organization = organizationList.firstOrNull { it.organizationId == viewer.viewer.department }
                 var organizationName = mutableListOf<String>()
                 if (organization != null) {
                     if (organization.pOrganization != null) {
-                        organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
+                        organizationName = organizationService.getOrganizationParent(organization, organizationList, organizationName)
                     } else {
                         organizationName.add(organization.organizationName.toString())
                     }

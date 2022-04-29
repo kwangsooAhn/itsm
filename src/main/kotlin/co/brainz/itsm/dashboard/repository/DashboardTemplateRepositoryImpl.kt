@@ -24,6 +24,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
         val instance = QWfInstanceEntity.wfInstanceEntity
         val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
         return from(instance)
+            .select(instance.count())
             .innerJoin(user).on(instance.instanceCreateUser.eq(user))
             .fetchJoin()
             .where(
@@ -31,18 +32,19 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
                     .and(user.department.eq(organization.organizationId))
             )
-            .fetchCount()
+            .fetchOne()
     }
 
     override fun countByUserRunningDocument(document: WfDocumentEntity, userKey: String): Long {
         val instance = QWfInstanceEntity.wfInstanceEntity
         return from(instance)
+            .select(instance.count())
             .where(
                 instance.document.eq(document)
                     .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
                     .and(instance.instanceCreateUser.userKey.eq(userKey))
             )
-            .fetchCount()
+            .fetchOne()
     }
 
     override fun organizationRunningDocument(

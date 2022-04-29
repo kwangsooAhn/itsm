@@ -17,6 +17,7 @@ import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.entity.WfComponentPropertyEntity
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
+import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.mapper.WfFormMapper
@@ -53,6 +54,7 @@ class WfFormService(
     private val wfFormRowRepository: WfFormRowRepository,
     private val wfComponentPropertyRepository: WfComponentPropertyRepository,
     private val wfFormGroupPropertyRepository: WfFormGroupPropertyRepository,
+    private val wfDocumentRepository: WfDocumentRepository,
     private val aliceTagManager: AliceTagManager
 ) {
 
@@ -69,9 +71,9 @@ class WfFormService(
      * @return List<RestTemplateFormDto>
      */
     fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
-        val queryResult = wfFormRepository.findFormEntityList(formSearchCondition)
+        val pagingResult = wfFormRepository.findFormEntityList(formSearchCondition)
         val formList = mutableListOf<RestTemplateFormDto>()
-        for (form in queryResult.results) {
+        for (form in pagingResult.dataList as List<WfFormEntity>) {
             val restTemplateDto = wfFormMapper.toFormViewDto(form)
             when (restTemplateDto.status) {
                 WfFormConstants.FormStatus.EDIT.value,
@@ -84,10 +86,10 @@ class WfFormService(
         return RestTemplateFormListReturnDto(
             data = formList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = wfFormRepository.count(),
                 currentPageNum = formSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / formSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / formSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -223,7 +225,8 @@ class WfFormService(
             createDt = formEntity.get().createDt,
             createUserKey = formEntity.get().createUser?.userKey,
             group = formGroupList,
-            display = displayOption
+            display = displayOption,
+            createdWorkFlow = this.checkCreatedWorkFlow(formId)
         )
     }
 
@@ -568,5 +571,12 @@ class WfFormService(
             }
         }
         return status
+    }
+
+    /**
+     * 문서양식에 연결된 업무흐름이 있는지 체크.
+     */
+    fun checkCreatedWorkFlow(formId: String): Boolean {
+        return wfDocumentRepository.existsByFormId(formId)
     }
 }

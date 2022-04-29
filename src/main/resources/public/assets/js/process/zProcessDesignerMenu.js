@@ -1667,6 +1667,13 @@
                         elementObject.value = id;
                     }
 
+                    // 프로세스에 연결된 업무흐름이 있으면 '편집'상태로 변경 불가 readonly 처리
+                    if(elemData.createdWorkFlow) {
+                        elementObject.readOnly = true;
+                        elementObject.classList.add('readonly')
+                        elementObject.parentElement.parentElement.parentElement.parentElement.classList.add('z-textarea-readonly')
+                    }
+
                     // change 이벤트 설정
                     let changeEventHandler = function() {
                         changePropertiesDataValue(id);

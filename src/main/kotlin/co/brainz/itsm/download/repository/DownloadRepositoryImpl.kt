@@ -9,13 +9,14 @@ package co.brainz.itsm.download.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.java), DownloadRepositoryCustom {
 
-    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): QueryResults<DownloadListDto> {
+    override fun findDownloadEntityList(downloadSearchCondition: DownloadSearchCondition): PagingReturnDto {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
@@ -50,24 +51,27 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             )
             .leftJoin(code).on(code.code.eq(download.downloadCategory))
             .innerJoin(download.createUser, user)
-        if (downloadSearchCondition.category?.isNotEmpty() == true) {
-            query.where(download.downloadCategory.eq(downloadSearchCondition.category))
-        }
-        query.where(
-            super.likeIgnoreCase(
-                download.downloadTitle, downloadSearchCondition.searchValue
-            )?.or(super.likeIgnoreCase(fileLoc.originName, downloadSearchCondition.searchValue))
-                ?.or(super.likeIgnoreCase(download.createUser.userName, downloadSearchCondition.searchValue)),
-            download.createDt.goe(downloadSearchCondition.formattedFromDt),
-            download.createDt.lt(downloadSearchCondition.formattedToDt)
-        ).orderBy(download.downloadSeq.desc())
-
+            .where(builder(downloadSearchCondition, download, fileLoc))
+            .orderBy(download.downloadSeq.desc())
         if (downloadSearchCondition.isPaging) {
             query.limit(downloadSearchCondition.contentNumPerPage)
             query.offset((downloadSearchCondition.pageNum - 1) * downloadSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        val countQuery = from(download)
+            .select(download.count())
+            .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
+            .leftJoin(fileLoc).on(fileMap.fileLocEntity.fileSeq.eq(fileLoc.fileSeq))
+            .where(builder(downloadSearchCondition, download, fileLoc))
+
+        if (downloadSearchCondition.category?.isNotEmpty() == true) {
+            countQuery.where(download.downloadCategory.eq(downloadSearchCondition.category))
+        }
+
+            return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findDownloadTopList(limit: Long): List<PortalTopDto> {
@@ -99,5 +103,21 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             .leftJoin(download.updateUser).fetchJoin()
             .where(download.downloadId.eq(downloadId))
             .fetchOne()
+    }
+
+    private fun builder(downloadSearchCondition: DownloadSearchCondition, download: QDownloadEntity, fileLoc: QAliceFileLocEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        if (downloadSearchCondition.category?.isNotEmpty() == true) {
+            builder.and(download.downloadCategory.eq(downloadSearchCondition.category))
+        }
+        builder.and(
+            super.likeIgnoreCase(
+                download.downloadTitle, downloadSearchCondition.searchValue
+            )?.or(super.likeIgnoreCase(fileLoc.originName, downloadSearchCondition.searchValue))
+                ?.or(super.likeIgnoreCase(download.createUser.userName, downloadSearchCondition.searchValue))
+        )
+        builder.and(download.createDt.goe(downloadSearchCondition.formattedFromDt))
+        builder.and(download.createDt.lt(downloadSearchCondition.formattedToDt))
+        return builder
     }
 }

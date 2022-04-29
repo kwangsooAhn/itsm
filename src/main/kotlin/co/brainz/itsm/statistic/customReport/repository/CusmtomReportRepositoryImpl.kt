@@ -6,12 +6,12 @@
 
 package co.brainz.itsm.statistic.customReport.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
 import co.brainz.itsm.statistic.customReport.dto.CustomReportListDto
 import co.brainz.itsm.statistic.customReport.dto.ReportSearchCondition
 import co.brainz.itsm.statistic.customReport.entity.QReportEntity
 import co.brainz.itsm.statistic.customReport.entity.ReportEntity
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class CusmtomReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::class.java), CusmtomReportRepositoryCustom {
 
-    override fun getReportList(reportSearchCondition: ReportSearchCondition): QueryResults<CustomReportListDto> {
+    override fun getReportList(reportSearchCondition: ReportSearchCondition): PagingReturnDto {
         val report = QReportEntity.reportEntity
         val query = from(report)
             .select(
@@ -40,7 +40,14 @@ class CusmtomReportRepositoryImpl : QuerydslRepositorySupport(ReportEntity::clas
             query.limit(reportSearchCondition.contentNumPerPage)
             query.offset((reportSearchCondition.pageNum - 1) * reportSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+
+        val countQuery = from(report)
+            .select(report.count())
+            .where(super.eq(report.templateId, reportSearchCondition.searchTemplate))
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     /**

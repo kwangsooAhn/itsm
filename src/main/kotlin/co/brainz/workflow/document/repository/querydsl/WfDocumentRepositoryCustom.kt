@@ -10,13 +10,12 @@ import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.document.dto.FieldOptionDto
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import com.querydsl.core.QueryResults
 
 interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
     /**
      * 신청서 목록을 조회 후 리턴
      */
-    fun findByDocuments(documentSearchCondition: DocumentSearchCondition): QueryResults<DocumentDto>
+    fun findByDocuments(documentSearchCondition: DocumentSearchCondition): List<DocumentDto>
 
     /**
      * 신청서 전체 리스트
@@ -42,4 +41,8 @@ interface WfDocumentRepositoryCustom : AliceRepositoryCustom {
      * 이력 조회 컴포넌트 데이터 조회
      */
     fun getSearchFieldValues(fieldOptionDto: FieldOptionDto): List<Array<Any>>
+
+    fun existsByFormId(formId: String): Boolean
+
+    fun existsByProcessId(processId: String): Boolean
 }
