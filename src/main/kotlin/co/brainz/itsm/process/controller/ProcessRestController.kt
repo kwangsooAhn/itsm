@@ -32,7 +32,7 @@ class ProcessRestController(private val processService: ProcessService) {
      */
     @GetMapping("/{processId}/data")
     fun getProcessData(@PathVariable processId: String): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(getProcessData(processId))
+        return ZAliceResponse.response(processService.getProcessData(processId))
     }
 
     /**

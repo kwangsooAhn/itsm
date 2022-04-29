@@ -9,6 +9,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.workflow.process.constants.WfProcessConstants
+import co.brainz.workflow.process.dto.SimulationReportDto
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.constants.WorkflowConstants
@@ -115,7 +116,7 @@ class ProcessService(
     /**
      * 프로세스 시뮬레이션
      */
-    fun getProcessSimulation(processId: String): String {
-        return mapper.writeValueAsString(wfProcessService.getProcessSimulation(processId))
+    fun getProcessSimulation(processId: String): SimulationReportDto {
+        return wfProcessService.getProcessSimulation(processId)
     }
 }

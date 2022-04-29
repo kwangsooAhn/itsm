@@ -455,8 +455,8 @@
             let mainResultClassName = '';
             switch (response.status) {
                 case aliceJs.response.success:
-                    mainResult = (response.data.success) ? i18n.msg('common.label.success') : i18n.msg('common.label.fail');
-                    mainResultClassName = (response.data.success) ? 'success' : 'failed';
+                    mainResult = (response.data) ? i18n.msg('common.label.success') : i18n.msg('common.label.fail');
+                    mainResultClassName = (response.data) ? 'success' : 'failed';
                     break;
                 case aliceJs.response.error:
                     mainResult = i18n.msg('common.label.error');
