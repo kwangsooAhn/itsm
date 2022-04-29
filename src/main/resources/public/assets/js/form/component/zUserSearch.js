@@ -55,8 +55,8 @@ export const userSearchMixin = {
         // 컴포넌트에 저장된 값
         const savedValues = this.value.split('|');
         // 컴포넌트에 설정된 기본 값
-        const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data)) ? this.elementDefaultValue.data.split('|')
-            : Array.from({length: 3}, v => '')
+        const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data))
+            ? this.elementDefaultValue.data.split('|') : ['', '', ''];
 
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
@@ -116,7 +116,7 @@ export const userSearchMixin = {
             data: value.data
         };
         // 컴포넌트에 설정된 기본값 정보
-        const defaultData = (!zValidation.isEmpty(value.data)) ? value.data.split('|') : Array.from({length: 3}, v => '');
+        const defaultData = (!zValidation.isEmpty(value.data)) ? value.data.split('|') : ['', '', ''];
         this.UIElement.UIComponent.UIElement.UIInput.setUIValue(defaultData[1])
             .setUIAttribute('data-user-search', defaultData[0])
             .setUIAttribute('data-user-id', defaultData[2]);
@@ -291,7 +291,7 @@ export const userSearchMixin = {
     // 세부 속성 조회
     getProperty() {
         const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue)
-        defaultValueSearchProperty.help = 'form.help.date-default'
+        defaultValueSearchProperty.help = 'form.help.search-default'
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),

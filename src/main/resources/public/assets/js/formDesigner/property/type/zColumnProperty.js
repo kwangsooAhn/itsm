@@ -618,7 +618,7 @@ export default class ZColumnProperty extends ZProperty {
     // 컬럼 세부 속성 - userSearch
     getPropertyForColumnTypeUserSearch(option, id) {
         const defaultValueSearchProperty = new ZDefaultValueSearchProperty(id + '|columnElement.defaultValue', 'element.defaultValue', option.columnElement.defaultValue);
-        defaultValueSearchProperty.help = 'form.help.date-default'
+        defaultValueSearchProperty.help = 'form.help.search-default'
         const userSearchProperty = new ZUserSearchProperty(id + '|columnElement.userSearchTarget',
             'element.searchTargetCriteria', option.columnElement.userSearchTarget);
         return [
@@ -632,7 +632,7 @@ export default class ZColumnProperty extends ZProperty {
     // 컬럼 세부 속성 - OrganizationSearch
     getPropertyForColumnTypeOrganizationSearch(option, id) {
         const defaultValueSearchProperty = new ZDefaultValueSearchProperty(id + '|columnElement.defaultValue', 'element.defaultValue', option.columnElement.defaultValue)
-        defaultValueSearchProperty.help = 'form.help.date-default'
+        defaultValueSearchProperty.help = 'form.help.search-default'
         return [
             new ZGroupProperty('group.columnElement')
                 .addProperty(defaultValueSearchProperty),

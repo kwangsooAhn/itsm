@@ -34,8 +34,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
         // 기본값 타입
         this.defaultType = this.value.type;
         // 기본 설정 값. 해당 값이 없는 경우 빈 array를 생성합니다. (defaultSearchValues = key|id|name|(realTimeSelected))
-        this.data = (!zValidation.isEmpty(this.value.data)) ? this.value.data.split('|')
-            : Array.from({length: 3}, v => '');
+        this.data = (!zValidation.isEmpty(this.value.data)) ? this.value.data.split('|') : ['', '', ''];
     }
 
     // DOM Element 생성
