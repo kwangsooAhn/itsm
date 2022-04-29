@@ -17,6 +17,10 @@ import co.brainz.itsm.faq.dto.FaqListReturnDto
 import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.repository.FaqRepository
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import kotlin.math.ceil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -38,31 +42,33 @@ class FaqService(
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * FAQ 목록을 조회한다.
      */
     fun getFaqs(faqSearchCondition: FaqSearchCondition): FaqListReturnDto {
-        val queryResult = faqRepository.findFaqs(faqSearchCondition)
+        val pagingResult = faqRepository.findFaqs(faqSearchCondition)
         val currentSessionUserCodeList = codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE)
-        val fapList: MutableList<FaqListDto> = mutableListOf()
+        val pagingList: List<FaqListDto> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<FaqListDto>>() {})
+        val faqList: MutableList<FaqListDto> = mutableListOf()
 
-        for (faq in queryResult.results) {
+        for (faq in pagingList) {
             for (code in currentSessionUserCodeList) {
                 if (faq.faqGroup == code.code) {
                     faq.faqGroupName = code.codeName.toString()
-                    fapList.add(faq)
+                    faqList.add(faq)
                 }
             }
         }
 
         return FaqListReturnDto(
-            data = fapList,
+            data = faqList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = faqRepository.count(),
                 currentPageNum = faqSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / faqSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / faqSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CATEGORY_ASC.code
             )
         )

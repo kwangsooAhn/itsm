@@ -6,13 +6,14 @@
 
 package co.brainz.itsm.numberingPattern.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternListDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.entity.QNumberingPatternEntity
 import co.brainz.itsm.numberingPattern.service.NumberingPatternService
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -24,7 +25,7 @@ class NumberingPatternRepositoryImpl(
     QuerydslRepositorySupport(NumberingPatternEntity::class.java),
     NumberingPatternRepositoryCustom {
 
-    override fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): QueryResults<NumberingPatternListDto> {
+    override fun findPatternSearch(numberingPatternSearchCondition: NumberingPatternSearchCondition): PagingReturnDto {
         val pattern = QNumberingPatternEntity.numberingPatternEntity
         val query = from(pattern)
             .select(
@@ -36,15 +37,13 @@ class NumberingPatternRepositoryImpl(
                     pattern.patternValue
                 )
             )
-            .where(
-                super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue)
-            )
+            .where(builder(numberingPatternSearchCondition,pattern))
             .orderBy(pattern.patternName.asc(), pattern.patternType.asc(), pattern.patternValue.asc())
             .limit(numberingPatternSearchCondition.contentNumPerPage)
             .offset((numberingPatternSearchCondition.pageNum - 1) * numberingPatternSearchCondition.contentNumPerPage)
-            .fetchResults()
+            .fetch()
 
-        for (data in query.results) {
+        for (data in query) {
             data.patternValue = numberingPatternService.getPatternValue(data.patternType, data.patternValue)
             when (data.patternType) {
                 NumberingPatternConstants.PatternType.TEXT.code -> {
@@ -58,6 +57,20 @@ class NumberingPatternRepositoryImpl(
                 }
             }
         }
-        return query
+
+        val countQuery = from(pattern)
+            .select(pattern.count())
+            .where(builder(numberingPatternSearchCondition,pattern))
+            .fetchOne()
+
+        return PagingReturnDto(
+            dataList = query,
+            totalCount = countQuery
+        )
+    }
+    private fun builder(numberingPatternSearchCondition: NumberingPatternSearchCondition, pattern: QNumberingPatternEntity): BooleanBuilder{
+        val builder = BooleanBuilder()
+        builder.and(super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue))
+        return builder
     }
 }

@@ -28,6 +28,7 @@ import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -60,25 +61,22 @@ class WfProcessService(
      * 프로세스 목록 조회
      */
     fun getProcesses(processSearchCondition: ProcessSearchCondition): ProcessListReturnDto {
-        val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
-        val queryResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
-        for (process in queryResult.results) {
-            val enabled = when (process.processStatus) {
+        val pagingResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
+        val processList: List<RestTemplateProcessViewDto> = objMapper.convertValue(pagingResult.dataList, object : TypeReference<List<RestTemplateProcessViewDto>>() {})
+        for (process in processList) {
+            when (process.status) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
             }
-            val processViewDto = processMapper.toProcessViewDto(process)
-            processViewDto.enabled = enabled
-            processViewDtoList.add(processViewDto)
         }
 
         return ProcessListReturnDto(
-            data = processViewDtoList,
+            data = processList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = wfProcessRepository.count(),
                 currentPageNum = processSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / processSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / processSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

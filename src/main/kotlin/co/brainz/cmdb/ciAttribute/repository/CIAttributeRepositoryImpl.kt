@@ -17,8 +17,9 @@ import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeValueDto
 import co.brainz.cmdb.dto.CIGroupListDto
 import co.brainz.cmdb.dto.CISearchItem
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -31,7 +32,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     /**
      * Attribute 목록 조회.
      */
-    override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): QueryResults<CIAttributeListDto> {
+    override fun findAttributeList(ciAttributeSearchCondition: CIAttributeSearchCondition): PagingReturnDto {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciAttribute)
             .select(
@@ -46,19 +47,22 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.searchWidth
                 )
             )
-            .where(
-                super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
-                    ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
-            ).orderBy(ciAttribute.attributeName.asc())
+            .where(builder(ciAttributeSearchCondition, ciAttribute, null))
+            .orderBy(ciAttribute.attributeName.asc())
 
         if (ciAttributeSearchCondition.isPaging) {
             query.limit(ciAttributeSearchCondition.contentNumPerPage)
             query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        val countQuery = from(ciAttribute)
+            .select(ciAttribute.count())
+            .where(builder(ciAttributeSearchCondition, ciAttribute, null))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findAttributeList(attributeIds: Set<String>): List<CISearchItem> {
@@ -142,17 +146,18 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     override fun findDuplicationAttributeName(attributeName: String, attributeId: String): Long {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciAttribute)
+            .select(ciAttribute.count())
             .where(ciAttribute.attributeName.eq(attributeName))
         if (attributeId.isNotEmpty()) {
             query.where(!ciAttribute.attributeId.eq(attributeId))
         }
-        return query.fetchCount()
+        return query.fetchOne()
     }
 
     /**
      * Attribute, Value 리스트 조회
      */
-    override fun findAttributeValueList(ciId: String, classId: String): QueryResults<CIAttributeValueDto> {
+    override fun findAttributeValueList(ciId: String, classId: String): List<CIAttributeValueDto> {
         val ciAttributeEntity = QCIAttributeEntity.cIAttributeEntity
         val ciDataEntity = QCIDataEntity.cIDataEntity
         val ciClassAttributeMapEntity = QCIClassAttributeMapEntity.cIClassAttributeMapEntity
@@ -185,7 +190,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
             )
             .orderBy(ciClassAttributeMapEntity.attributeOrder.asc())
 
-        return query.fetchResults()
+        return query.fetch()
     }
 
     /**
@@ -194,7 +199,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     override fun findAttributeListWithoutGroupList(
         attributeId: String,
         ciAttributeSearchCondition: CIAttributeSearchCondition
-    ): QueryResults<CIAttributeListDto> {
+    ): PagingReturnDto {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciAttribute)
             .select(
@@ -209,29 +214,27 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                     ciAttribute.searchWidth
                 )
             )
-            .where(
-                ciAttribute.attributeId.notIn(attributeId)
-                    .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
-                    .and(
-                        super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
-                            ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
-                    )
-            ).orderBy(ciAttribute.attributeName.asc())
-
+            .where(builder(ciAttributeSearchCondition, ciAttribute, attributeId))
+            .orderBy(ciAttribute.attributeName.asc())
         if (ciAttributeSearchCondition.isPaging) {
             query.limit(ciAttributeSearchCondition.contentNumPerPage)
             query.offset((ciAttributeSearchCondition.pageNum - 1) * ciAttributeSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        val countQuery = from(ciAttribute)
+            .select(ciAttribute.count())
+            .where(builder(ciAttributeSearchCondition, ciAttribute, attributeId))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     /**
      * Attribute 목록 조회 (Group List 에 포함된 속성).
      */
-    override fun findAttributeListInGroupList(attributeIdList: MutableList<String>): QueryResults<CIAttributeValueDto> {
+    override fun findAttributeListInGroupList(attributeIdList: MutableList<String>): List<CIAttributeValueDto> {
         val ciAttribute = QCIAttributeEntity.cIAttributeEntity
         val query = from(ciAttribute)
             .select(
@@ -252,13 +255,13 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
             .where(
                 ciAttribute.attributeId.`in`(attributeIdList)
             )
-        return query.fetchResults()
+        return query.fetch()
     }
 
     /**
      * Group List 속성의 데이터 조회
      */
-    override fun findGroupListData(attributeId: String, ciId: String): QueryResults<CIGroupListDto> {
+    override fun findGroupListData(attributeId: String, ciId: String): List<CIGroupListDto> {
         val cIGroupListDataEntity = QCIGroupListDataEntity.cIGroupListDataEntity
         val query = from(cIGroupListDataEntity)
             .select(
@@ -274,6 +277,24 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                 cIGroupListDataEntity.ciAttribute.attributeId.eq(attributeId)
                     .and(cIGroupListDataEntity.ci.ciId.eq(ciId))
             )
-        return query.fetchResults()
+        return query.fetch()
+    }
+
+    private fun builder(ciAttributeSearchCondition: CIAttributeSearchCondition, ciAttribute: QCIAttributeEntity, attributeId: String?): BooleanBuilder {
+        val builder = BooleanBuilder()
+
+        if ( attributeId != null) {
+            builder.and(
+                ciAttribute.attributeId.notIn(attributeId)
+                .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
+            )
+        }
+        builder.and(
+            super.likeIgnoreCase(ciAttribute.attributeName, ciAttributeSearchCondition.searchValue)
+                ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
+                ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
+                ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
+            )
+        return builder
     }
 }

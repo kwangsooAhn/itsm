@@ -7,12 +7,11 @@
 package co.brainz.itsm.statistic.customReport.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
-import co.brainz.itsm.statistic.customReport.dto.CustomReportListDto
 import co.brainz.itsm.statistic.customReport.dto.ReportSearchCondition
-import com.querydsl.core.QueryResults
 
 interface CusmtomReportRepositoryCustom : AliceRepositoryCustom {
-    fun getReportList(reportSearchCondition: ReportSearchCondition): QueryResults<CustomReportListDto>
+    fun getReportList(reportSearchCondition: ReportSearchCondition): PagingReturnDto
     fun getDistinctReportCategoryList(): List<ReportCategoryDto>
 }

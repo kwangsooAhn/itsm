@@ -20,6 +20,10 @@ import co.brainz.itsm.board.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.board.repository.BoardRepository
 import co.brainz.itsm.board.repository.BoardAdminRepository
 import co.brainz.itsm.board.repository.BoardCategoryRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.stereotype.Service
@@ -31,19 +35,21 @@ class BoardService(
     private val boardCategoryRepository: BoardCategoryRepository
 ) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * [boardSearchCondition]로 받아서 게시판 관리 목록 조회를 [BoardListReturnDto]으로 반환.
      *
      */
     fun getBoardList(boardSearchCondition: BoardSearchCondition): BoardListReturnDto {
-        val queryResult = boardAdminRepository.findByBoardAdminList(boardSearchCondition)
+        val pagingResult = boardAdminRepository.findByBoardAdminList(boardSearchCondition)
         return BoardListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = boardAdminRepository.count(),
                 currentPageNum = boardSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / boardSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / boardSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

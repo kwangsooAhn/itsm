@@ -16,6 +16,10 @@ import co.brainz.itsm.numberingPattern.dto.NumberingPatternListReturnDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlin.math.ceil
@@ -27,20 +31,21 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class NumberingPatternService(private val numberingPatternRepository: NumberingPatternRepository) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
      * 패턴 리스트 조회
      */
     fun getNumberingPatternList(numberingPatternSearchCondition: NumberingPatternSearchCondition): NumberingPatternListReturnDto {
-        val queryResult = numberingPatternRepository.findPatternSearch(numberingPatternSearchCondition)
+        val pagingResult = numberingPatternRepository.findPatternSearch(numberingPatternSearchCondition)
         return NumberingPatternListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = numberingPatternRepository.count(),
                 currentPageNum = numberingPatternSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

@@ -9,7 +9,6 @@ package co.brainz.itsm.numberingRule.repository
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.itsm.numberingRule.entity.NumberingRulePatternMapEntity
 import co.brainz.itsm.numberingRule.entity.QNumberingRulePatternMapEntity
-import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Repository
 class NumberingRulePatternMapRepositoryImpl : QuerydslRepositorySupport(NumberingRuleEntity::class.java),
     NumberingRulePatternMapRepositoryCustom {
 
-    override fun findAllByNumberingPatternIn(patternList: MutableList<String>, numberingId: String): QueryResults<NumberingRulePatternMapEntity> {
+    override fun findAllByNumberingPatternIn(patternList: MutableList<String>, numberingId: String): List<NumberingRulePatternMapEntity> {
         val numberingRulePatternMap = QNumberingRulePatternMapEntity.numberingRulePatternMapEntity
         val numberingRulePatternMapSub = QNumberingRulePatternMapEntity.numberingRulePatternMapEntity
         return from(numberingRulePatternMap)
@@ -27,7 +26,7 @@ class NumberingRulePatternMapRepositoryImpl : QuerydslRepositorySupport(Numberin
                     .where(numberingRulePatternMap.numberingPattern.patternId.`in`(patternList)
                         .and(numberingRulePatternMap.numberingRule.numberingId.ne(numberingId)))
             ))
-            .fetchResults()
+            .fetch()
     }
 
 }

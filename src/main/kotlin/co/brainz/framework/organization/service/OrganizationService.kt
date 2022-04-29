@@ -22,7 +22,6 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.repository.UserRepository
-import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.springframework.stereotype.Service
@@ -44,13 +43,13 @@ class OrganizationService(
     fun getOrganizationList(organizationSearchCondition: OrganizationSearchCondition): OrganizationListReturnDto {
         val treeOrganizationList = mutableListOf<OrganizationListDto>()
         val pOrganizationList = mutableListOf<OrganizationEntity>()
-        val queryResults: QueryResults<OrganizationEntity>
+        val pagingResult: List<OrganizationEntity>
         if (organizationSearchCondition.searchValue != null) {
-            queryResults = organizationRepository.findByOrganizationSearchList(organizationSearchCondition)
+            pagingResult = organizationRepository.findByOrganizationSearchList(organizationSearchCondition)
         } else {
-            queryResults = organizationRepository.findOrganizationsByUseYn()
+            pagingResult = organizationRepository.findOrganizationsByUseYn()
         }
-        var organizationSearchList = queryResults.results
+        var organizationSearchList = pagingResult
         val count: Long = organizationSearchList.size.toLong()
         for (organization in organizationSearchList) {
             var tempOrganization = organization.pOrganization
@@ -62,7 +61,7 @@ class OrganizationService(
             } while (tempOrganization !== null)
         }
         if (pOrganizationList.isNotEmpty()) {
-            organizationSearchList.addAll(pOrganizationList)
+            organizationSearchList += pOrganizationList
             organizationSearchList = organizationSearchList.distinct()
         }
         for (organization in organizationSearchList) {

@@ -12,7 +12,6 @@ import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.code.entity.QCodeLangEntity
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -20,14 +19,14 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
     CodeRepositoryCustom {
 
-    override fun findByCodeAll(): QueryResults<CodeEntity> {
+    override fun findByCodeAll(): List<CodeEntity> {
         val code = QCodeEntity.codeEntity
         return from(code)
             .orderBy(code.level.asc(), code.seqNum.asc())
-            .fetchResults()
+            .fetch()
     }
 
-    override fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity> {
+    override fun findByCodeList(search: String, pCode: String): List<CodeEntity> {
         val code = QCodeEntity.codeEntity
 
         val builder = BooleanBuilder()
@@ -43,7 +42,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                 )
             )
             .orderBy(code.level.asc(), code.code.asc())
-            .fetchResults()
+            .fetch()
     }
 
     override fun findCodeByPCodeIn(pCodes: Set<String>, lang: String?): List<CodeDto> {
