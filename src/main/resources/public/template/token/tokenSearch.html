@@ -65,7 +65,7 @@
         document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
             element.addEventListener('change', getList, false);
         });
-        document.getElementById('searchValue').addEventListener('keyup', searchLoading, false);
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
 
         new zTag(document.getElementById('searchTag'), {
             suggestion: true,

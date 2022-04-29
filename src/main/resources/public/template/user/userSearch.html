@@ -35,15 +35,10 @@
     let offsetCount = 0;
     window.onload = function () {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function () {
-            getList();
-        });
         getList();
     }
 
-    document.getElementById('searchValue').onkeyup = function () {
-        getList();
-    };
+    document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
 
     function getList(pageNum = 1) {
         const urlParam = encodeURIComponent(document.getElementById('searchValue').value) + '&pageNum=' + pageNum;

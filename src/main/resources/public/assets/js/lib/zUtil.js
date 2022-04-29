@@ -356,12 +356,11 @@ function hiddenProgressBar() {
  */
 aliceJs.debounce = function(func, timeout = 500) {
     let timer;
-    return (...args) => { // 화살표 함수에서 가변인자 값을 받아오기 위해 rest파라미터를 활용
+    return (...args) => {
         clearTimeout(timer);
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
 }
-const searchLoading = aliceJs.debounce (() => getList());
 
 /**
  * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.

@@ -945,9 +945,9 @@
             }],
             close: { closable: false },
             onCreate: function() {
-                document.getElementById('search').addEventListener('keyup', function (e) {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getTargetUserList(e.target.value, false);
-                });
+                }), false);
                 getTargetUserList(document.getElementById('search').value, true);
 
                 // 기존 사용자 목록
@@ -1949,9 +1949,9 @@
                         `${target.value}|${target.getAttribute('data-user-id')}`;
                     target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
                 }
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getUserList(target, e.target.value, false);
-                });
+                }), false);
                 getUserList(target, document.getElementById('search').value, true);
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }
