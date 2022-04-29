@@ -62,17 +62,21 @@ class WfProcessService(
      * 프로세스 목록 조회
      */
     fun getProcesses(processSearchCondition: ProcessSearchCondition): ProcessListReturnDto {
+        val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
         val pagingResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
-        val processList: List<RestTemplateProcessViewDto> = objMapper.convertValue(pagingResult.dataList, object : TypeReference<List<RestTemplateProcessViewDto>>() {})
+        val processList = pagingResult.dataList as List<WfProcessEntity>
         for (process in processList) {
-            when (process.status) {
+            val enabled = when (process.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
             }
+            val processViewDto = processMapper.toProcessViewDto(process)
+            processViewDto.enabled = enabled
+            processViewDtoList.add(processViewDto)
         }
 
         return ProcessListReturnDto(
-            data = processList,
+            data = processViewDtoList,
             paging = AlicePagingData(
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = wfProcessRepository.count(),

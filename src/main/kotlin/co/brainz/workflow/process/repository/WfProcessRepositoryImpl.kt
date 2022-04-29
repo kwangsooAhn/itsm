@@ -29,22 +29,6 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
         val process = QWfProcessEntity.wfProcessEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(process)
-            .select(
-                Projections.constructor(
-                    RestTemplateProcessViewDto::class.java,
-                    process.processId,
-                    process.processName,
-                    process.processDesc,
-                    process.processStatus,
-                    process.createDt,
-                    process.createUser.userKey,
-                    process.createUser.userName,
-                    process.updateDt,
-                    process.updateUser.userKey,
-                    process.updateUser.userName,
-                    Expressions.asBoolean(true)
-                )
-            )
             .innerJoin(process.createUser,user)
             .leftJoin(process.updateUser, user)
             .where(builder(processSearchCondition,process))
