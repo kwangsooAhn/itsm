@@ -340,7 +340,7 @@ function showProgressBar() {
 }
 
 /*
- * ProgressBar 숨길
+ * ProgressBar 숨김
  */
 function hiddenProgressBar() {
     //divProgressBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
@@ -349,6 +349,17 @@ function hiddenProgressBar() {
         return false;
     }
     divCheck.parentNode.removeChild(divCheck);
+}
+
+/*
+ * 사용자 액션 처리 시간 지연
+ */
+aliceJs.debounce = function(func, timeout = 500) {
+    let timer;
+    return (...args) => { //함수의 파라미터 값들을 배열로 전달 받음
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
 }
 
 /**

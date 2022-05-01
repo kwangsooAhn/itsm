@@ -35,7 +35,7 @@
     let offsetCount = 0;
     window.onload = function () {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         document.getElementById('category').addEventListener('change', function () { getList(); });
         getList();
     }

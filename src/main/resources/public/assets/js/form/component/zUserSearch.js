@@ -185,9 +185,9 @@ export const userSearchMixin = {
             },
             onCreate: () => {
                 this.realTimeSelectedUser = '';
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     this.getUserList(e.target.value, false);
-                });
+                }), false);
                 this.getUserList(document.getElementById('search').value, true);
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }

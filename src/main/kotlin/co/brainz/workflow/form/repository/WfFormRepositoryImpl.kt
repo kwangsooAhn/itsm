@@ -6,13 +6,14 @@
 
 package co.brainz.workflow.form.repository
 
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.form.entity.QWfFormEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.provider.constants.WorkflowConstants
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -21,19 +22,14 @@ import org.springframework.stereotype.Repository
 class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java),
     WfFormRepositoryCustom {
 
-    override fun findFormEntityList(formSearchCondition: FormSearchCondition): QueryResults<WfFormEntity> {
+    override fun findFormEntityList(formSearchCondition: FormSearchCondition): PagingReturnDto {
         val form = QWfFormEntity.wfFormEntity
         val query = from(form)
             .innerJoin(form.createUser).fetchJoin()
             .leftJoin(form.updateUser).fetchJoin()
-        if (formSearchCondition.searchValue?.isNotEmpty() == true) {
-            query.where(
-                form.formName.containsIgnoreCase(formSearchCondition.searchValue.trim())
-                    .or(form.formDesc.containsIgnoreCase(formSearchCondition.searchValue.trim()))
-            )
-        }
+            .where(builder(formSearchCondition, form))
         if (formSearchCondition.statusArray?.isNotEmpty() == true) {
-            query.where(form.formStatus.`in`(formSearchCondition.statusArray)).orderBy(form.formName.asc())
+            query.orderBy(form.formName.asc())
         } else {
             val statusNumber = CaseBuilder()
                 .`when`(form.formStatus.eq(WorkflowConstants.FormStatus.EDIT.value)).then(1)
@@ -49,13 +45,20 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             query.offset((formSearchCondition.pageNum - 1) * formSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        val countQuery = from(form)
+            .select(form.count())
+            .where(builder(formSearchCondition, form))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findFormDocumentExist(formId: String): Boolean {
         val form = QWfFormEntity.wfFormEntity
         val document = QWfDocumentEntity.wfDocumentEntity
-        val query = from(form)
+        return from(form)
             .innerJoin(document).on(document.form.formId.eq(form.formId)).fetchJoin()
             .where(
                 form.formId.eq(formId)
@@ -65,8 +68,19 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
                             WfDocumentConstants.Status.TEMPORARY.code
                         )
                     )
+            ).fetch().size > 0
+    }
+    private fun builder(formSearchCondition: FormSearchCondition, form: QWfFormEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        if (formSearchCondition.searchValue?.isNotEmpty() == true) {
+            builder.and(
+                form.formName.containsIgnoreCase(formSearchCondition.searchValue.trim())
+                    .or(form.formDesc.containsIgnoreCase(formSearchCondition.searchValue.trim()))
             )
-        val result = query.fetchResults()
-        return result.total > 0
+        }
+        if (formSearchCondition.statusArray?.isNotEmpty() == true) {
+            builder.and(form.formStatus.`in`(formSearchCondition.statusArray))
+        }
+        return builder
     }
 }

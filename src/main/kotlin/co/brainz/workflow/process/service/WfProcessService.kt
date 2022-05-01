@@ -61,8 +61,9 @@ class WfProcessService(
      */
     fun getProcesses(processSearchCondition: ProcessSearchCondition): ProcessListReturnDto {
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
-        val queryResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
-        for (process in queryResult.results) {
+        val pagingResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
+        val processList = pagingResult.dataList as List<WfProcessEntity>
+        for (process in processList) {
             val enabled = when (process.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
@@ -75,10 +76,10 @@ class WfProcessService(
         return ProcessListReturnDto(
             data = processViewDtoList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = wfProcessRepository.count(),
                 currentPageNum = processSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / processSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / processSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

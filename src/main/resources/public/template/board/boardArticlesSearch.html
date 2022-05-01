@@ -53,7 +53,7 @@
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
 
         document.getElementById('boardAdminId').addEventListener('change', function() { getList(); });
-        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
     };
 

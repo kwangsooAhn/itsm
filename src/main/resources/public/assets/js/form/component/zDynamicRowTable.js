@@ -819,9 +819,9 @@ export const dynamicRowTableMixin = {
                     target.setAttribute('data-realtime-selected-user', '');
                 }
                 // 검색 이벤트 추가
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     this.getUserSearchList(target, e.target.value, false);
-                });
+                }), false);
                 this.getUserSearchList(target, document.getElementById('search').value, true);
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }

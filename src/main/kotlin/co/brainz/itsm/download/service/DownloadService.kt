@@ -15,6 +15,10 @@ import co.brainz.itsm.download.dto.DownloadListReturnDto
 import co.brainz.itsm.download.dto.DownloadSearchCondition
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
@@ -28,21 +32,22 @@ class DownloadService(
 ) {
 
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * [downloadSearchCondition]를 받아서 자료실 목록를 [List<DownloadListDto>] 반환한다.
      *
      */
     fun getDownloadList(downloadSearchCondition: DownloadSearchCondition): DownloadListReturnDto {
-        val queryResult = downloadRepository.findDownloadEntityList(downloadSearchCondition)
+        val pagingResult = downloadRepository.findDownloadEntityList(downloadSearchCondition)
         return DownloadListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = downloadRepository.count(),
                 currentPageNum = downloadSearchCondition.pageNum,
                 totalPageNum =
-                    ceil(queryResult.total.toDouble() / downloadSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                    ceil(pagingResult.totalCount.toDouble() / downloadSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

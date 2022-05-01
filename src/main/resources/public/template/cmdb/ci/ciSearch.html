@@ -30,7 +30,7 @@
             <div class="z-page-search">
                 <form id="searchFrm">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
-                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}" onKeyup="getList()"/>
+                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}"/>
                     <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch" name="btnDetailSearch"
                             onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
                     <input type="hidden" id="flag" name="flag" value="itsm"/>
@@ -72,6 +72,8 @@
         let tempSearchData = null;
         let importFile;
         window.onload = function () {
+            document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
+
             getTree();
 
             OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
@@ -574,9 +576,9 @@
                             `${target.value}|${target.getAttribute('data-user-id')}`;
                         target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
                     }
-                    document.getElementById('search').addEventListener('keyup', (e) => {
+                    document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                         getUserList(target, e.target.value, false);
-                    });
+                    }), false);
                     getUserList(target, document.getElementById('search').value, true);
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                 }
