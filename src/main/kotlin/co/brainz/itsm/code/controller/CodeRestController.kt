@@ -3,7 +3,6 @@ package co.brainz.itsm.code.controller
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.code.dto.CodeDetailDto
-import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.service.CodeService
 import javax.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -28,8 +27,8 @@ class CodeRestController(private val codeService: CodeService) {
     fun getCodeList(
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "pCode", defaultValue = "") pCode: String
-    ): CodeReturnDto {
-        return codeService.getCodeList(search, pCode)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(codeService.getCodeList(search, pCode))
     }
 
     /**
@@ -44,32 +43,36 @@ class CodeRestController(private val codeService: CodeService) {
      * 연관 코드 상세 조회
      */
     @GetMapping("/related/{code}")
-    fun getRelatedCodes(@PathVariable code: String): Any {
-        return codeService.selectCodeByParent(code)
+    fun getRelatedCodes(@PathVariable code: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(codeService.selectCodeByParent(code))
     }
 
     /**
      * 코드 데이터 등록
      */
     @PostMapping("/", "")
-    fun createCode(@RequestBody @Valid codeDetailDto: CodeDetailDto): String {
-        return codeService.createCode(codeDetailDto)
+    fun createCode(
+        @RequestBody @Valid codeDetailDto: CodeDetailDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(codeService.createCode(codeDetailDto))
     }
 
     /**
      * 코드 데이터 수정
      */
     @PutMapping("/{code}")
-    fun updateCode(@RequestBody @Valid codeDetailDto: CodeDetailDto): String {
-        return codeService.updateCode(codeDetailDto)
+    fun updateCode(
+        @RequestBody @Valid codeDetailDto: CodeDetailDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(codeService.updateCode(codeDetailDto))
     }
 
     /**
      * 코드 데이터 삭제
      */
     @DeleteMapping("/{code}")
-    fun deleteCode(@PathVariable code: String): String {
-        return codeService.deleteCode(code)
+    fun deleteCode(@PathVariable code: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(codeService.deleteCode(code))
     }
 
     /**
