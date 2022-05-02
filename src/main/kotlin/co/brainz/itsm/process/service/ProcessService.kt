@@ -14,6 +14,7 @@ import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -32,6 +33,8 @@ class ProcessService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+
 
     /**
      * 프로세스 데이터 조회.
@@ -43,10 +46,7 @@ class ProcessService(
     /**
      * 프로세스 신규 등록
      */
-    fun createProcess(
-        jsonData: Any
-        //restTemplateProcessDto: RestTemplateProcessDto
-    ): ZResponse {
+    fun createProcess(jsonData: Any): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val restTemplateProcessDto = mapper.convertValue(jsonData, RestTemplateProcessDto::class.java)
         restTemplateProcessDto.createUserKey = currentSessionUser.getUserKey()
@@ -56,17 +56,13 @@ class ProcessService(
         val resultMap = mutableMapOf("processId" to "")
         if (duplicateCount > 0) {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
-            //resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
-            //return mapper.writeValueAsString(resultMap)
         } else {
             resultMap["processId"] = wfProcessService.insertProcess(restTemplateProcessDto).processId
-            //resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
         }
         return ZResponse(
             status = status.code,
             data = resultMap
         )
-        //return mapper.writeValueAsString(resultMap)
     }
 
     /**
@@ -97,13 +93,9 @@ class ProcessService(
     /**
      * 프로세스 다른 이름 저장.
      */
-    fun saveAsProcess(
-        jsonData: Any
-    ): ZResponse {
+    fun saveAsProcess(jsonData: Any): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val restTemplateProcessElementDto = mapper.convertValue(jsonData, RestTemplateProcessElementDto::class.java)
-        // TODO: processId를 data 안에 포함한다. 아래 구조와 같아야 함
-        // { status: '', message: '', data: { processId: ''} }
         restTemplateProcessElementDto.process?.createDt = LocalDateTime.now()
         restTemplateProcessElementDto.process?.createUserKey = currentSessionUser.getUserKey()
         restTemplateProcessElementDto.process?.updateDt = null
@@ -112,15 +104,10 @@ class ProcessService(
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
         val resultMap = mutableMapOf("processId" to "")
         if (duplicateCount > 0) {
-            //resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
-            //return mapper.writeValueAsString(resultMap)
         } else {
             resultMap["processId"] = wfProcessService.saveAsProcess(restTemplateProcessElementDto).processId
         }
-        //resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
-        //return mapper.writeValueAsString(resultMap)
-
         return ZResponse(
             status = status.code,
             data = resultMap
