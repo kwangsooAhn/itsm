@@ -93,7 +93,6 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.typeName, search
                 )
             )
-            .innerJoin(ciType.ciClass).fetchJoin()
             .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
             .fetch()
     }
