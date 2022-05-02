@@ -177,8 +177,8 @@ class ZFormTokenTab {
         aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
             method: 'GET'
         }).then((response) => {
-            if (response.status === aliceJs.response.success && response.data.length > 0) {
-                response.data.forEach((viewer) => {
+            if (response.status === aliceJs.response.success && response.data.data.length > 0) {
+                response.data.data.forEach((viewer) => {
                     this.viewerList.push({
                         documentId: this.documentId,
                         instanceId: this.instanceId,
@@ -586,7 +586,7 @@ class ZFormTokenTab {
         return aliceJs.fetchJson('/rest/folders/' + this.folderId, {
             method: 'GET'
         }).then((response) => {
-            if (response.status === aliceJs.response.success) {
+            if (response.status === aliceJs.response.success && response.data.length > 0) {
                 response.data.forEach((instance) => {
                     document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
                 });
@@ -714,7 +714,7 @@ class ZFormTokenTab {
         return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
             method: 'GET'
         }).then((response) => {
-            if (response.status === aliceJs.response.success) {
+            if (response.status === aliceJs.response.success && response.data.length > 0) {
                 response.data.forEach((comment) => {
                     document.querySelector('#tokenComments').lastElementChild.insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
                 });

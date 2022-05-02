@@ -205,12 +205,10 @@
                 }).then((response) => {
                     switch (response.status) {
                         case aliceJs.response.success:
-                            if (response.data) {
-                                zAlert.success(i18n.msg('common.msg.delete'), () => {
-                                    document.getElementById('boardComments').value = '';
-                                    getBoardCommentList();
-                                });
-                            }
+                            zAlert.success(i18n.msg('common.msg.delete'), () => {
+                                document.getElementById('boardComments').value = '';
+                                getBoardCommentList();
+                            });
                             break;
                         case aliceJs.response.error:
                             zAlert.danger(i18n.msg('common.msg.fail'));
