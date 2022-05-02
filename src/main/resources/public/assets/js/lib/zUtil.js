@@ -525,7 +525,7 @@ aliceJs.thumbnail = function(options) {
      *
      * @param targetId 대상 input
      */
-    const saveThumbnail = function(targetId) {
+    const saveThumbnail = function (targetId) {
         // image 미선택 시 알림창 출력
         let selectedFile = document.querySelector('.z-thumbnail.selected');
         if (!selectedFile) {
@@ -596,13 +596,12 @@ aliceJs.thumbnail = function(options) {
      * @param files 파일목록
      * @return content html
      */
-    const createContent = function(files) {
+    const createContent = function (response) {
         const container = document.createElement('div');
         container.className = 'z-thumbnail-main flex-row flex-wrap';
-
-        if (files.data.length > 0) {
-            for (let i = 0, len = files.data.length; i < len; i++) {
-                let file = files.data[i];
+        if (response.status === aliceJs.response.success && response.data.data.length > 0) {
+            for (let i = 0, len = response.data.data.length; i < len; i++) {
+                let file = response.data.data[i];
                 const fileExtension = (file.extension).trim().toLowerCase();
                 const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
                 const thumbnail = document.createElement('div');
@@ -662,10 +661,10 @@ aliceJs.thumbnail = function(options) {
     // 이미지 파일 로드
     aliceJs.fetchJson('/rest/files?type=' + options.type, {
         method: 'GET'
-    }).then((files) => {
+    }).then((response) => {
         const modalOptions = {
             title: options.title,
-            body: createContent(files),
+            body: createContent(response),
             classes: 'z-thumbnail-' + options.type,
             buttons: [{
                 content: i18n.msg('common.btn.select'),
