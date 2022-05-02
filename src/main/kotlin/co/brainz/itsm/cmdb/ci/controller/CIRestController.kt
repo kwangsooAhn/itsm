@@ -8,7 +8,6 @@ package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.api.dto.RequestCIComponentVO
 import co.brainz.cmdb.dto.CIDetailDto
-import co.brainz.cmdb.dto.CIListDto
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
@@ -39,11 +38,6 @@ class CIRestController(
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-
-    @GetMapping("")
-    fun getCIs(): List<CIListDto> {
-        return ciService.getCIList()
-    }
 
     @GetMapping("/{ciId}")
     fun getCI(request: HttpServletRequest, model: Model, @PathVariable ciId: String): CIDetailDto {

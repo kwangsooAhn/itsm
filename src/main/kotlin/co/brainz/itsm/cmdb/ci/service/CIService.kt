@@ -19,7 +19,6 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDynamicListDto
 import co.brainz.cmdb.dto.CIDynamicReturnDto
 import co.brainz.cmdb.dto.CIHistoryDto
-import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CISearchItem
@@ -48,7 +47,6 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.convertValue
 import java.io.File
 import java.time.LocalDateTime
 import kotlin.math.ceil
@@ -156,13 +154,6 @@ class CIService(
                 orderDir = ciSearchCondition.orderDir
             )
         )
-    }
-
-    /**
-     * CMDB CI 전체 목록 조회
-     */
-    fun getCIList(): List<CIListDto> {
-        return ciService.getCIList()
     }
 
     /**
