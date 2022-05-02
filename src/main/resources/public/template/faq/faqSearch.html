@@ -13,6 +13,10 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm" onsubmit = "return false">
+        <select id="category" name="category" class="col-3">
+            <option value="" th:text="#{faq.label.all}" selected></option>
+            <option th:each="category: ${faqGroupList}" th:value="${category.code}" th:text="${category.codeName}"></option>
+        </select>
         <input class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" type="text" maxlength="100"
                                            th:placeholder="#{faq.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
@@ -32,6 +36,7 @@
     window.onload = function () {
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
+        document.getElementById('category').addEventListener('change', function () { getList(); });
         getList();
     }
 
