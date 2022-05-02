@@ -68,7 +68,8 @@ class ApiCIClassService(
             status =  ZResponseConstants.STATUS.ERROR_FAIL
         }
         return ZResponse(
-            status = status.code
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
         )
     }
 
@@ -84,7 +85,8 @@ class ApiCIClassService(
             status = ZResponseConstants.STATUS.ERROR_FAIL
         }
         return ZResponse(
-            status = status.code
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
         )
     }
 
