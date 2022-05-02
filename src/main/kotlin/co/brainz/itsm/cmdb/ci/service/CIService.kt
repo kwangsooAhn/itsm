@@ -30,7 +30,6 @@ import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
-import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
@@ -319,16 +318,11 @@ class CIService(
      * CI 컴포넌트 - CI 세부 데이터 삭제.
      */
     fun deleteCIComponentData(ciId: String, componentId: String): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
         val ciComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(ciId, componentId)
         if (ciComponentEntity != null) {
             ciComponentDataRepository.deleteByCiIdAndComponentId(ciId, componentId)
-        } else {
-            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return ZResponse(
-            status = status.code
-        )
+        return ZResponse()
     }
 
     /**
