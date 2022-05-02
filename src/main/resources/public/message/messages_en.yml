@@ -819,6 +819,7 @@ form:
     order-table: "Choose specific fields from the table to set them as sorting criteria.<br/>Sort order defaults to ascending."
     is-topic: "Please check if you want to display the component in the document list."
     mapping-id: "It is not an attribute for external output, but is a key value that is set to use the value of the component in the workflow engine or other modules."
+    search-default: "You can set the default value displayed on the component.<br/>'None' prints the default value is not output.<br/>'Session' prints the user's session information.<br/>'Custom' prints the user-specified data is output."
     text-default: "You can directly enter the default values displayed on the component, or choose between automatic input. In case of automatic input, one of user's session information can be selected."
     time-default: "You can set the default value displayed on the component.<br/>'Now' prints the current time.<br/>'hours later' means +, -hour from current time.<br/>The last item is used to show a specific time as fixed."
   properties:
@@ -853,6 +854,7 @@ form:
     default:
       session: "Session"
       code: "Code"
+      custom: "Custom"
     desc: "Description"
     direct: "Direct"
     display:
