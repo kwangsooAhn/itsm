@@ -28,6 +28,8 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
@@ -162,11 +164,11 @@ class CITemplateService(
 
     /**
      * CI 일괄 등록 템플릿 업로드.
-     *mappingDataMap
+     * mappingDataMap
      * @param files
      * @return MutableList<CIClassToAttributeDto>
      */
-    fun uploadCIsTemplate(files: MultipartFile): Boolean {
+    fun uploadCIsTemplate(files: MultipartFile): ZResponse {
         var isSuccess = true
         try {
             val workBook = XSSFWorkbook(OPCPackage.open(files.inputStream))
@@ -287,7 +289,9 @@ class CITemplateService(
             isSuccess = false
         }
 
-        return isSuccess
+        return ZResponse(
+            status = if (isSuccess) ZResponseConstants.STATUS.SUCCESS.code else ZResponseConstants.STATUS.ERROR_FAIL.code
+        )
     }
 
     /**

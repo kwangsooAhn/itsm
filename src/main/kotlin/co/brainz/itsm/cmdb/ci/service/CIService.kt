@@ -30,6 +30,8 @@ import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
@@ -48,7 +50,6 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.convertValue
 import java.io.File
 import java.time.LocalDateTime
 import kotlin.math.ceil
@@ -292,7 +293,7 @@ class CIService(
     /**
      * CI 컴포넌트 -  CI 세부 데이터 저장.
      */
-    fun saveCIComponentData(ciId: String, ciComponentVO: RequestCIComponentVO): Boolean {
+    fun saveCIComponentData(ciId: String, ciComponentVO: RequestCIComponentVO): ZResponse {
         // 기존 CI 삭제
         val deleteCIComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(
             ciId, ciComponentVO.componentId
@@ -310,19 +311,24 @@ class CIService(
             instanceId = ciComponentVO.instanceId
         )
         ciComponentDataRepository.save(ciComponentEntity)
-        return true
+
+        return ZResponse()
     }
 
     /**
      * CI 컴포넌트 - CI 세부 데이터 삭제.
      */
-    fun deleteCIComponentData(ciId: String, componentId: String): Boolean {
+    fun deleteCIComponentData(ciId: String, componentId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val ciComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(ciId, componentId)
         if (ciComponentEntity != null) {
             ciComponentDataRepository.deleteByCiIdAndComponentId(ciId, componentId)
-            return true
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return false
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

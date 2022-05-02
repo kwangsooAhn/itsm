@@ -12,6 +12,8 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.service.UserService
@@ -30,11 +32,19 @@ class ApiCIService(
      * CI 목록 조회
      */
     fun getCIs(params: LinkedHashMap<String, Any>): CIListReturnDto {
-        return ciService.getCIs(CISearchCondition(
-            searchValue = params["search"].toString(),
-            tagSearch = params["tags"].toString(),
-            flag = params["flag"].toString()
-        ))
+        var search: String? = null
+        var tags: String? = null
+        var flag: String? = null
+        if (params["search"] != null) search = params["search"].toString()
+        if (params["tags"] != null) tags = params["tags"].toString()
+        if (params["flag"] != null) flag = params["flag"].toString()
+        return ciService.getCIs(
+            CISearchCondition(
+                searchValue = search,
+                tagSearch = tags,
+                flag = flag
+            )
+        )
     }
 
     /**
@@ -54,21 +64,28 @@ class ApiCIService(
     /**
      * CI 등록
      */
-    fun createCI(ciDto: CIDto): Boolean {
+    fun createCI(ciDto: CIDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         ciDto.createUserKey?.let {
             if (userRepository.findByIdOrNull(it) == null) {
                 userService.selectUser(ApiConstants.CREATE_USER)
             }
         }
         ciDto.createDt = LocalDateTime.now()
-        val returnDto = ciService.createCI(ciDto)
-        return returnDto.status
+        if (!ciService.createCI(ciDto).status) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI 수정
      */
-    fun updateCI(ciId: String, ciDto: CIDto): Boolean {
+    fun updateCI(ciId: String, ciDto: CIDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         ciDto.interlink = true
         ciDto.updateUserKey?.let {
             if (userRepository.findByIdOrNull(it) == null) {
@@ -76,14 +93,20 @@ class ApiCIService(
             }
         }
         ciDto.updateDt = LocalDateTime.now()
-        val returnDto = ciService.updateCI(ciDto)
-        return returnDto.status
+        if (!ciService.updateCI(ciDto).status) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI 삭제
      */
-    fun deleteCI(ciId: String, ciDto: CIDto): Boolean {
+    fun deleteCI(ciId: String, ciDto: CIDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         ciDto.interlink = true
         ciDto.updateUserKey?.let {
             if (userRepository.findByIdOrNull(it) == null) {
@@ -94,7 +117,11 @@ class ApiCIService(
         if (ciDto.ciId.isEmpty()) {
             ciDto.ciId = ciId
         }
-        val returnDto = ciService.deleteCI(ciDto)
-        return returnDto.status
+        if (!ciService.deleteCI(ciDto).status) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 }
