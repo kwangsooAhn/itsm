@@ -26,13 +26,13 @@ import co.brainz.itsm.document.dto.FieldReturnDto
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.dto.ProcessSearchCondition
-import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.form.constants.WfFormConstants
+import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
@@ -52,14 +52,14 @@ import org.springframework.stereotype.Service
 @Service
 class DocumentService(
     private val formService: FormService,
-    private val processAdminService: ProcessAdminService,
     private val processService: ProcessService,
     private val wfDocumentService: WfDocumentService,
     private val aliceFileProvider: AliceFileProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentRepository: WfDocumentRepository,
-    private val wfComponentPropertyRepository: WfComponentPropertyRepository
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository,
+    private val wfProcessService: WfProcessService
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -262,7 +262,7 @@ class DocumentService(
         val processStatus = ArrayList<String>()
         processStatus.add(WorkflowConstants.ProcessStatus.PUBLISH.value)
         processStatus.add(WorkflowConstants.ProcessStatus.USE.value)
-        return processAdminService.getProcesses(
+        return wfProcessService.getProcesses(
             ProcessSearchCondition(
                 searchValue = "",
                 status = processStatus.joinToString(","),

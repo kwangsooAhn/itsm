@@ -8,7 +8,6 @@ package co.brainz.itsm.process.service
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.dto.SimulationReportDto
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.WfProcessService
@@ -44,19 +43,30 @@ class ProcessService(
     /**
      * 프로세스 신규 등록
      */
-    fun createProcess(restTemplateProcessDto: RestTemplateProcessDto): String {
+    fun createProcess(
+        jsonData: Any
+        //restTemplateProcessDto: RestTemplateProcessDto
+    ): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val restTemplateProcessDto = mapper.convertValue(jsonData, RestTemplateProcessDto::class.java)
         restTemplateProcessDto.createUserKey = currentSessionUser.getUserKey()
         restTemplateProcessDto.createDt = LocalDateTime.now()
         restTemplateProcessDto.processStatus = WorkflowConstants.ProcessStatus.EDIT.value
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessDto.processName)
-        val resultMap = mutableMapOf("processId" to "", "result" to WfProcessConstants.ResultCode.FAIL.code)
+        val resultMap = mutableMapOf("processId" to "")
         if (duplicateCount > 0) {
-            resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
-            return mapper.writeValueAsString(resultMap)
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            //resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
+            //return mapper.writeValueAsString(resultMap)
+        } else {
+            resultMap["processId"] = wfProcessService.insertProcess(restTemplateProcessDto).processId
+            //resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
         }
-        resultMap["processId"] = wfProcessService.insertProcess(restTemplateProcessDto).processId
-        resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
-        return mapper.writeValueAsString(resultMap)
+        return ZResponse(
+            status = status.code,
+            data = resultMap
+        )
+        //return mapper.writeValueAsString(resultMap)
     }
 
     /**
@@ -87,7 +97,11 @@ class ProcessService(
     /**
      * 프로세스 다른 이름 저장.
      */
-    fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): String {
+    fun saveAsProcess(
+        jsonData: Any
+    ): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val restTemplateProcessElementDto = mapper.convertValue(jsonData, RestTemplateProcessElementDto::class.java)
         // TODO: processId를 data 안에 포함한다. 아래 구조와 같아야 함
         // { status: '', message: '', data: { processId: ''} }
         restTemplateProcessElementDto.process?.createDt = LocalDateTime.now()
@@ -96,14 +110,21 @@ class ProcessService(
         restTemplateProcessElementDto.process?.updateUserKey = null
         restTemplateProcessElementDto.process?.status = WorkflowConstants.ProcessStatus.EDIT.value
         val duplicateCount = wfProcessRepository.countByProcessName(restTemplateProcessElementDto.process!!.name!!)
-        val resultMap = mutableMapOf("processId" to "", "result" to WfProcessConstants.ResultCode.FAIL.code)
+        val resultMap = mutableMapOf("processId" to "")
         if (duplicateCount > 0) {
-            resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
-            return mapper.writeValueAsString(resultMap)
+            //resultMap["result"] = WfProcessConstants.ResultCode.DUPLICATE.code
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            //return mapper.writeValueAsString(resultMap)
+        } else {
+            resultMap["processId"] = wfProcessService.saveAsProcess(restTemplateProcessElementDto).processId
         }
-        resultMap["processId"] = wfProcessService.saveAsProcess(restTemplateProcessElementDto).processId
-        resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
-        return mapper.writeValueAsString(resultMap)
+        //resultMap["result"] = WfProcessConstants.ResultCode.SUCCESS.code
+        //return mapper.writeValueAsString(resultMap)
+
+        return ZResponse(
+            status = status.code,
+            data = resultMap
+        )
     }
 
     /**

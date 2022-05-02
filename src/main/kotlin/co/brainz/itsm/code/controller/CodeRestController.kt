@@ -1,5 +1,7 @@
 package co.brainz.itsm.code.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeReturnDto
 import co.brainz.itsm.code.service.CodeService
@@ -34,8 +36,8 @@ class CodeRestController(private val codeService: CodeService) {
      * 코드 데이터 상세 정보 조회
      */
     @GetMapping("/{code}")
-    fun getCodes(@PathVariable code: String): CodeDetailDto? {
-        return codeService.getDetailCodes(code)
+    fun getCodes(@PathVariable code: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(codeService.getDetailCodes(code))
     }
 
     /**
