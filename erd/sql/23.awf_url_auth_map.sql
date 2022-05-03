@@ -150,8 +150,6 @@ insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'po
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
-insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.manage');
-insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.manage');

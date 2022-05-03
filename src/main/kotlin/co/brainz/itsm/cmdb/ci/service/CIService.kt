@@ -19,7 +19,6 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDynamicListDto
 import co.brainz.cmdb.dto.CIDynamicReturnDto
 import co.brainz.cmdb.dto.CIHistoryDto
-import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CISearchItem
@@ -156,13 +155,6 @@ class CIService(
                 orderDir = ciSearchCondition.orderDir
             )
         )
-    }
-
-    /**
-     * CMDB CI 전체 목록 조회
-     */
-    fun getCIList(): List<CIListDto> {
-        return ciService.getCIList()
     }
 
     /**

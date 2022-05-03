@@ -37,11 +37,6 @@ class CIRestController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @GetMapping("")
-    fun getCIs(): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(ciService.getCIList())
-    }
-
     @GetMapping("/{ciId}")
     fun getCI(
         request: HttpServletRequest,
