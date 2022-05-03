@@ -14,7 +14,6 @@ plugins {
     id("org.jetbrains.kotlin.kapt") version "1.3.50"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.3.50"
     jacoco
-    id("com.github.scobal.eslint") version "1.0.4"
 }
 
 group = "co.brainz"
@@ -208,21 +207,3 @@ tasks.test {
 allOpen {
     annotation("javax.persistence.Entity")
 }
-
-eslint {
-    inputs = listOf("src/main/resources/public/assets/js/")
-    outputFile = "$buildDir/reports/eslint.xml"
-    format = "checkstyle"
-}
-
-// eslint
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("gradle.plugin.com.github.scobal.eslint:gradle-eslint-plugin:1.0.4")
-    }
-}
-
-apply(plugin = "com.github.scobal.eslint")

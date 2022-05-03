@@ -19,7 +19,7 @@ module.exports = {
     'ignorePatterns': ['node_modules/', 'src/main/resources/public/assets/vendors/'],
     'rules': {
         'indent': ['error', 4, { 'SwitchCase': 1 }],
-        'linebreak-style': ['error', 'windows'],
+        'linebreak-style': 0,
         // 문자열은 홀따옴표(') / 백틱 허용
         'quotes': ['error', 'single', { 'allowTemplateLiterals': true }],
         // 코드 마지막에 세미콜른이 있게 formatting
