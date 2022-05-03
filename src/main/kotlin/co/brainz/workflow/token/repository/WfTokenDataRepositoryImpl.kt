@@ -7,6 +7,7 @@
 package co.brainz.workflow.token.repository
 
 import co.brainz.itsm.statistic.customChart.dto.average.ChartTokenData
+import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
@@ -52,7 +53,11 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
             .innerJoin(token.instance, instance)
             .innerJoin(instance.document, document)
             .innerJoin(document.form, form).on(form.formId.eq(component.form.formId))
-            .where(tokenData.token.tokenId.`in`(tokenIds))
+            .where(
+                tokenData.token.tokenId.`in`(tokenIds),
+                tokenData.component.isTopic.isTrue,
+                tokenData.component.componentType.`in`(WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay())
+            )
             .fetch()
     }
 
