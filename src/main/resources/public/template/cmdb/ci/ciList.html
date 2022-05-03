@@ -31,7 +31,7 @@
                         <span class="text-ellipsis" th:classappend="${ciData.columnType[status.index]}" th:text="${text}" th:title="${text}"></span>
                     </th:block>
                     <th:block th:if="${ciData.columnType[status.index] == 'userSearch' || ciData.columnType[status.index] == 'organizationSearch'}">
-                        <span class="text-ellipsis" th:if="${not #strings.isEmpty(text)}" th:text="${#strings.arraySplit(text,'|')[1]}" th:title="${#strings.arraySplit(text,'|')[1]}"></span>
+                        <span class="text-ellipsis" th:if="${not #strings.isEmpty(text)}" th:text="${text}" th:title="${text}"></span>
                     </th:block>
                 </div>
             </th:block>
