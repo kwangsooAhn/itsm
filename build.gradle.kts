@@ -210,7 +210,7 @@ allOpen {
 }
 
 eslint {
-    inputs = listOf("**/*.js", "**/*.html")
+    inputs = listOf("src/main/resources/public/assets/js/")
     outputFile = "$buildDir/reports/eslint.xml"
     format = "checkstyle"
 }
