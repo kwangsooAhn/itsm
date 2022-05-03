@@ -6,12 +6,15 @@
 
 package co.brainz.itsm.board.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
 import co.brainz.itsm.board.dto.BoardDetailDto
 import co.brainz.itsm.board.dto.BoardDto
 import co.brainz.itsm.board.service.BoardArticleService
 import co.brainz.itsm.board.service.BoardService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,23 +36,27 @@ class BoardRestController(
      *
      */
     @GetMapping("/{boardAdminId}/view")
-    fun getBoardView(@PathVariable boardAdminId: String): BoardDetailDto {
+    fun getBoardView(@PathVariable boardAdminId: String): ResponseEntity<ZResponse> {
         val boardAdminDetail = boardService.getBoardDetail(boardAdminId)
-        return BoardDetailDto(
-            boardAdminId = boardAdminDetail.boardAdminId,
-            boardAdminTitle = boardAdminDetail.boardAdminTitle,
-            boardAdminDesc = boardAdminDetail.boardAdminDesc,
-            boardAdminSort = boardAdminDetail.boardAdminSort,
-            boardUseYn = boardAdminDetail.boardUseYn,
-            replyYn = boardAdminDetail.replyYn,
-            commentYn = boardAdminDetail.commentYn,
-            categoryYn = boardAdminDetail.categoryYn,
-            attachYn = boardAdminDetail.attachYn,
-            attachFileSize = boardAdminDetail.attachFileSize,
-            boardBoardCount = boardAdminDetail.boardBoardCount,
-            categoryInfo = boardService.getBoardCategoryDetailList(boardAdminId),
-            createDt = boardAdminDetail.createDt,
-            createUserName = boardAdminDetail.createUser?.userName
+        return ZAliceResponse.response(
+            ZResponse(
+                data = BoardDetailDto(
+                    boardAdminId = boardAdminDetail.boardAdminId,
+                    boardAdminTitle = boardAdminDetail.boardAdminTitle,
+                    boardAdminDesc = boardAdminDetail.boardAdminDesc,
+                    boardAdminSort = boardAdminDetail.boardAdminSort,
+                    boardUseYn = boardAdminDetail.boardUseYn,
+                    replyYn = boardAdminDetail.replyYn,
+                    commentYn = boardAdminDetail.commentYn,
+                    categoryYn = boardAdminDetail.categoryYn,
+                    attachYn = boardAdminDetail.attachYn,
+                    attachFileSize = boardAdminDetail.attachFileSize,
+                    boardBoardCount = boardAdminDetail.boardBoardCount,
+                    categoryInfo = boardService.getBoardCategoryDetailList(boardAdminId),
+                    createDt = boardAdminDetail.createDt,
+                    createUserName = boardAdminDetail.createUser?.userName
+                )
+            )
         )
     }
 
@@ -59,8 +66,8 @@ class BoardRestController(
      * @param boardDto
      */
     @PostMapping("")
-    fun createBoard(@RequestBody boardDto: BoardDto): Boolean {
-        return boardService.saveBoard(boardDto)
+    fun createBoard(@RequestBody boardDto: BoardDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardService.saveBoard(boardDto))
     }
 
     /**
@@ -69,8 +76,8 @@ class BoardRestController(
      * @param boardDto
      */
     @PutMapping("")
-    fun updateBoard(@RequestBody boardDto: BoardDto): Boolean {
-        return boardService.saveBoard(boardDto)
+    fun updateBoard(@RequestBody boardDto: BoardDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardService.saveBoard(boardDto))
     }
 
     /**
@@ -79,8 +86,8 @@ class BoardRestController(
      * @param boardAdminId
      */
     @DeleteMapping("/{boardAdminId}")
-    fun deleteBoard(@PathVariable boardAdminId: String): String {
-        return boardService.deleteBoard(boardAdminId)
+    fun deleteBoard(@PathVariable boardAdminId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardService.deleteBoard(boardAdminId))
     }
 
     /**
@@ -89,8 +96,8 @@ class BoardRestController(
      * @param boardArticleSaveDto
      */
     @PostMapping("/articles")
-    fun createBoardArticle(@RequestBody boardArticleSaveDto: BoardArticleSaveDto) {
-        boardArticleService.saveBoardArticle(boardArticleSaveDto)
+    fun createBoardArticle(@RequestBody boardArticleSaveDto: BoardArticleSaveDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardArticleService.saveBoardArticle(boardArticleSaveDto))
     }
 
     /**
@@ -99,8 +106,8 @@ class BoardRestController(
      * @param boardArticleSaveDto
      */
     @PutMapping("/articles")
-    fun updateBoardArticle(@RequestBody boardArticleSaveDto: BoardArticleSaveDto) {
-        boardArticleService.saveBoardArticle(boardArticleSaveDto)
+    fun updateBoardArticle(@RequestBody boardArticleSaveDto: BoardArticleSaveDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardArticleService.saveBoardArticle(boardArticleSaveDto))
     }
 
     /**
@@ -109,8 +116,8 @@ class BoardRestController(
      * @param boardId
      */
     @DeleteMapping("/articles/{boardId}")
-    fun deleteBoardArticle(@PathVariable boardId: String) {
-        boardArticleService.deleteBoardArticle(boardId)
+    fun deleteBoardArticle(@PathVariable boardId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardArticleService.deleteBoardArticle(boardId))
     }
 
     /**
@@ -119,8 +126,8 @@ class BoardRestController(
      * @param boardArticleCommentDto
      */
     @PostMapping("/articles/comments")
-    fun createBoardArticleComment(@RequestBody boardArticleCommentDto: BoardArticleCommentDto) {
-        boardArticleService.saveBoardArticleComment(boardArticleCommentDto)
+    fun createBoardArticleComment(@RequestBody boardArticleCommentDto: BoardArticleCommentDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardArticleService.saveBoardArticleComment(boardArticleCommentDto))
     }
 
     /**
@@ -129,8 +136,8 @@ class BoardRestController(
      * @param boardArticleCommentDto
      */
     @PutMapping("/articles/comments")
-    fun updateBoardArticleComment(@RequestBody boardArticleCommentDto: BoardArticleCommentDto) {
-        boardArticleService.saveBoardArticleComment(boardArticleCommentDto)
+    fun updateBoardArticleComment(@RequestBody boardArticleCommentDto: BoardArticleCommentDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardArticleService.saveBoardArticleComment(boardArticleCommentDto))
     }
 
     /**
@@ -139,8 +146,8 @@ class BoardRestController(
      * @param commentId
      */
     @DeleteMapping("/articles/comments/{commentId}")
-    fun deleteBoardArticleComment(@PathVariable commentId: String) {
-        boardArticleService.deleteBoardArticleComment(commentId)
+    fun deleteBoardArticleComment(@PathVariable commentId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardArticleService.deleteBoardArticleComment(commentId))
     }
 
     /**
@@ -149,7 +156,7 @@ class BoardRestController(
      * @param boardArticleSaveDto
      */
     @PostMapping("/articles/reply")
-    fun createBoardArticleReply(@RequestBody boardArticleSaveDto: BoardArticleSaveDto) {
-        boardArticleService.saveBoardArticleReply(boardArticleSaveDto)
+    fun createBoardArticleReply(@RequestBody boardArticleSaveDto: BoardArticleSaveDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(boardArticleService.saveBoardArticleReply(boardArticleSaveDto))
     }
 }

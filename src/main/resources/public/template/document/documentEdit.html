@@ -62,7 +62,9 @@
             aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
                 method: 'GET'
             }).then((response) => {
-                ZSession.add('departmentName', response.data.organizationName);
+                if (response.status === aliceJs.response.success) {
+                    ZSession.add('departmentName', response.data.organizationName);
+                }
             });
         }
 
@@ -73,14 +75,24 @@
         aliceJs.fetchJson('/rest/documents/' + '[[${documentId}]]' + '/data', {
             method: 'GET',
             showProgressbar: true
-        }).then((documentData) => {
-            document.getElementById('instanceId').value = documentData.instanceId;
-            zDocument.init(documentData, true);
-            zFormButton.init(documentData, zDocument);
-            zFormTokenTab.init(documentData, true);
-            aliceJs.initDesignedSelectTag();
-            window.zDocument = zDocument;
-            window.zFormTokenTab = zFormTokenTab;
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    document.getElementById('instanceId').value = response.data.instanceId;
+                    zDocument.init(response.data, true);
+                    zFormButton.init(response.data, zDocument);
+                    zFormTokenTab.init(response.data, true);
+                    aliceJs.initDesignedSelectTag();
+                    window.zDocument = zDocument;
+                    window.zFormTokenTab = zFormTokenTab;
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+
+            }
         });
         /*]]>*/
     </script>

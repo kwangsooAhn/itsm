@@ -7,13 +7,9 @@ package co.brainz.itsm.instance.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.instance.dto.CommentDto
-import co.brainz.itsm.instance.dto.InstanceCommentDto
 import co.brainz.itsm.instance.dto.InstanceViewerListDto
-import co.brainz.itsm.instance.dto.ViewerListReturnDto
 import co.brainz.itsm.instance.service.InstanceService
-import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,33 +26,39 @@ class InstanceRestController(
 ) {
 
     @GetMapping("/{instanceId}/history")
-    fun getHistory(@PathVariable instanceId: String): List<RestTemplateInstanceHistoryDto>? {
-        return instanceService.getInstanceHistory(instanceId)
+    fun getHistory(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.getInstanceHistory(instanceId))
     }
 
     @GetMapping("/{instanceId}/comments")
-    fun getComment(@PathVariable instanceId: String): List<InstanceCommentDto> {
-        return instanceService.getComments(instanceId)
+    fun getComment(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.getComments(instanceId))
     }
 
     @PostMapping("/{instanceId}/comments")
-    fun setComment(@PathVariable instanceId: String, @RequestBody commentDto: CommentDto): Boolean {
-        return instanceService.setComment(instanceId, commentDto)
+    fun setComment(
+        @PathVariable instanceId: String,
+        @RequestBody commentDto: CommentDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.setComment(instanceId, commentDto))
     }
 
     @DeleteMapping("/{instanceId}/comments/{commentId}")
-    fun deleteComment(@PathVariable instanceId: String, @PathVariable commentId: String): Boolean {
-        return instanceService.deleteComment(instanceId, commentId)
+    fun deleteComment(
+        @PathVariable instanceId: String,
+        @PathVariable commentId: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.deleteComment(instanceId, commentId))
     }
 
     @GetMapping("/{instanceId}/tags")
-    fun getTag(@PathVariable instanceId: String): List<AliceTagDto> {
-        return instanceService.getInstanceTags(instanceId)
+    fun getTag(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.getInstanceTags(instanceId))
     }
 
     @GetMapping("/{instanceId}/viewer/")
-    fun getInstanceViewerList(@PathVariable instanceId: String): ViewerListReturnDto {
-        return instanceService.getInstanceViewerList(instanceId)
+    fun getInstanceViewerList(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.getInstanceViewerList(instanceId))
     }
 
     @PostMapping("/{instanceId}/viewer/")

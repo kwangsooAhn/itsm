@@ -17,6 +17,8 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import java.security.PrivateKey
@@ -61,20 +63,27 @@ class AliceCertificationService(
     }
 
     @Transactional
-    fun createUser(aliceSignUpDto: AliceSignUpDto, target: String?): String {
-        var code: String = signUpValid(aliceSignUpDto)
-        when (code) {
+    fun createUser(aliceSignUpDto: AliceSignUpDto, target: String?): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (signUpValid(aliceSignUpDto)) {
             AliceUserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val user = aliceCertificationRepository.save(this.setUserEntity(aliceSignUpDto, target))
                 if (user.uploaded) {
                     this.avatarFileNameMod(user)
                 }
                 this.setUserDetail(aliceSignUpDto, user, target)
-                code = AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code
                 logger.info("New user created : $1", user.userName)
             }
+            AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code -> {
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            }
+            AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code -> {
+                status = ZResponseConstants.STATUS.ERROR_ANY
+            }
         }
-        return code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     fun signUpValid(aliceSignUpDto: AliceSignUpDto): String {

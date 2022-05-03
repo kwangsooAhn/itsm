@@ -222,9 +222,9 @@ export default class ZUserSearchProperty extends ZProperty {
                 closable: false,
             },
             onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     this.getTargetUserList(e.target.value, false);
-                });
+                }), false);
                 this.getTargetUserList(document.getElementById('search').value, true);
                 // 기존 사용자 목록
                 targetUserArray.length = 0;

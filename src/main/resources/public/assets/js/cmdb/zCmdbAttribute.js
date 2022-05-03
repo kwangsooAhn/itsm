@@ -36,7 +36,7 @@
     ];
 
     let parent = null;
-    let customCodeList = null;
+    let customCodeList = [];
     let targetUserArray = [];
     let userInfo = null;
     let attributeDetailData = null; // 서버에 저장된 세부 속성 데이터
@@ -94,8 +94,10 @@
                 // load custom-code list
                 await aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
                     method: 'GET'
-                }).then((data) => {
-                    customCodeList = data;
+                }).then((response) => {
+                    if (response.status === aliceJs.response.success) {
+                        customCodeList = response.data;
+                    }
                 });
                 attributeObject = new CustomCode(attributesProperty);
                 break;
@@ -443,7 +445,7 @@
         // required
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
         // custom-code
-        const customCodeOptions = customCodeList.data.map(function (option) {
+        const customCodeOptions = customCodeList.map(function (option) {
             return `<option value='${option.customCodeId}' ` +
                 `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.customCodeName)}</option>`;
@@ -608,10 +610,10 @@
             // Attribute  목록 조회 - id 만 서버에 담고 있기 때문에 Attribute 명을 가져온다.
             aliceJs.fetchJson('/rest/cmdb/attributes', {
                 method: 'GET'
-            }).then((attributeData) => {
-                if (attributeData.data.length > 0) {
-                    for (let i = 0; i < attributeData.data.length; i++) {
-                        const attribute = attributeData.data[i];
+            }).then((response) => {
+                if (response.status === aliceJs.response.success && response.data.length > 0) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        const attribute = response.data[i];
                         for (let j = 0; j < property.option.length; j++) {
                             if (attribute.attributeId === property.option[j].id) {
                                 attributeMap.push({
@@ -945,9 +947,9 @@
             }],
             close: { closable: false },
             onCreate: function() {
-                document.getElementById('search').addEventListener('keyup', function (e) {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getTargetUserList(e.target.value, false);
-                });
+                }), false);
                 getTargetUserList(document.getElementById('search').value, true);
 
                 // 기존 사용자 목록
@@ -1080,7 +1082,7 @@
     /**
      * Attribute 목록 모달 오픈
      */
-    function openAttributeListModal() {
+    function openAttributeListModal(e) {
         // 저장된 데이터를 담는다.
         attributeMapTemp.length = 0;
         attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
@@ -1092,43 +1094,6 @@
             `<span id="spanTotalCount" class="z-search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
-        /**
-         * 세부 속성 검색
-         */
-        const getAttributeList = function (search, showProgressbar) {
-            const url = '/cmdb/attributes/list-modal?search=' + search.trim() + '&attributeId=' + attributeId;
-            aliceJs.fetchText(url, {
-                method: 'GET',
-                showProgressbar: showProgressbar
-            }).then((htmlData) => {
-                document.getElementById('ciClassAttributeList').innerHTML = htmlData;
-                aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-
-                document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
-                    checkbox.addEventListener('change', function (e) {
-                        if (e.target.checked) {
-                            attributeMapTemp.push({
-                                key: e.target.value,
-                                value: e.target.name,
-                                order: '',
-                                type: e.target.getAttribute('data-attribute-type')
-                            });
-                        } else {
-                            const removeIndex = attributeMapTemp.findIndex(function (attr) {
-                                return attr.key === e.target.value;
-                            });
-                            attributeMapTemp.splice(removeIndex, 1);
-                        }
-                    });
-                    attributeMapTemp.forEach(function (attr) {
-                        if (checkbox.value === attr.key) {
-                            checkbox.checked = true;
-                        }
-                    });
-                });
-            });
-        };
 
         const attributeListModal = new modal({
             title: i18n.msg('cmdb.class.label.attributeList'),
@@ -1163,14 +1128,52 @@
                 closable: false,
             },
             onCreate: function () {
-                document.getElementById('attributeSearch').addEventListener('keyup', function () {
-                    getAttributeList(this.value, false);
-                });
+                document.getElementById('attributeSearch').addEventListener('keyup', aliceJs.debounce ((e) => {
+                    getAttributeList(e.target.value, false);
+                }), false);
                 getAttributeList(document.getElementById('attributeSearch').value, false);
             }
         });
         attributeListModal.show();
     }
+
+    /**
+     * 세부 속성 검색
+     */
+    function getAttributeList (search, showProgressbar) {
+        const url = '/cmdb/attributes/list-modal?search=' + encodeURIComponent(search.trim()) + '&attributeId=' + attributeId;
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+            aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+
+            document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (e) {
+                    if (e.target.checked) {
+                        attributeMapTemp.push({
+                            key: e.target.value,
+                            value: e.target.name,
+                            order: '',
+                            type: e.target.getAttribute('data-attribute-type')
+                        });
+                    } else {
+                        const removeIndex = attributeMapTemp.findIndex(function (attr) {
+                            return attr.key === e.target.value;
+                        });
+                        attributeMapTemp.splice(removeIndex, 1);
+                    }
+                });
+                attributeMapTemp.forEach(function (attr) {
+                    if (checkbox.value === attr.key) {
+                        checkbox.checked = true;
+                    }
+                });
+            });
+        });
+    };
 
     /**
      * 중복 유효성 검사.
@@ -1949,9 +1952,9 @@
                         `${target.value}|${target.getAttribute('data-user-id')}`;
                     target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
                 }
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getUserList(target, e.target.value, false);
-                });
+                }), false);
                 getUserList(target, document.getElementById('search').value, true);
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }

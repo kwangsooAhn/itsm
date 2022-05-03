@@ -11,6 +11,8 @@ import co.brainz.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeListDto
 import co.brainz.cmdb.dto.CIAttributeReturnDto
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -34,7 +36,7 @@ class ApiCIAttributeService(
      */
     fun getCIAttributes(params: LinkedHashMap<String, Any>): CIAttributeReturnDto {
         return ciAttributeService.getCIAttributes(CIAttributeSearchCondition(
-            searchValue = params["search"].toString()
+            searchValue = params["search"]?.toString()
         ))
     }
 
@@ -55,32 +57,36 @@ class ApiCIAttributeService(
     /**
      * CI Attribute 등록
      */
-    fun createCIAttribute(attributeData: String): Boolean {
+    fun createCIAttribute(attributeData: String): ZResponse {
         val ciAttributeDto = this.makeCIAttributeDto(attributeData)
         val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
         ciAttributeDto.createDt = LocalDateTime.now()
         ciAttributeDto.createUserKey = userEntity.userKey
-        val returnDto = ciAttributeService.createCIAttribute(ciAttributeDto)
-        return returnDto.status
+        return ciAttributeService.createCIAttribute(ciAttributeDto)
     }
 
     /**
      * CI Attribute 수정
      */
-    fun updateCIAttribute(attributeId: String, attributeData: String): Boolean {
+    fun updateCIAttribute(attributeId: String, attributeData: String): ZResponse {
         val ciAttributeDto = this.makeCIAttributeDto(attributeData)
         val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
         ciAttributeDto.updateDt = LocalDateTime.now()
         ciAttributeDto.updateUserKey = userEntity.userKey
-        val returnDto = ciAttributeService.updateCIAttribute(ciAttributeDto)
-        return returnDto.status
+        return ciAttributeService.updateCIAttribute(ciAttributeDto)
     }
 
     /**
      * CI Attribute 삭제
      */
-    fun deleteCIAttribute(attributeId: String): Boolean {
-        return ciAttributeService.deleteCIAttribute(attributeId)
+    fun deleteCIAttribute(attributeId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (!ciAttributeService.deleteCIAttribute(attributeId)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

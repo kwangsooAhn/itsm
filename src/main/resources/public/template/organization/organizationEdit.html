@@ -93,9 +93,6 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_USER_EXIST = '1';
-    const STATUS_ERROR_SUB_DEPT_EXITS = '2';
     let observer = aliceJs.pageObserver;
 
     window.onload = function () {
@@ -106,8 +103,8 @@
         OverlayScrollbars(document.getElementById('organizationDesc'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), { className: 'inner-scrollbar' });
 
-        document.getElementById('searchValue').addEventListener('keyup', getOrganizationList, false);
         document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getOrganizationList()), false);
 
         getOrganizationList();
     };
@@ -138,6 +135,10 @@
         aliceJs.fetchJson('/rest/organizations/' + organizationId, {
             method: 'GET',
         }).then((response) => {
+            if (response.status !== aliceJs.response.success) {
+                zAlert.danger(i18n.msg('organization.msg.selectAvailableOrganization'));
+                return false;
+            }
             // 조직 ID
             const organizationIdElement = document.getElementById('organizationId');
             organizationIdElement.value = response.data.organizationId;
@@ -276,6 +277,7 @@
         if (method !== 'POST') {
             url += '/' + document.getElementById('organizationId').value;
         }
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson(url, {
             method: method,
             headers: {
@@ -283,10 +285,20 @@
             },
             body: JSON.stringify(saveData)
         }).then((response) => {
-            if (response.status === 200) {
-                zAlert.success(i18n.msg('common.msg.register'), function () {
-                    window.location.href = '/organizations/edit';
-                });
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function () {
+                        window.location.href = '/organizations/edit';
+                    });
+                    break;
+                case aliceJs.response.accessDeny:
+                    zAlert.warning(i18n.msg('organization.msg.systemUserNotExist'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
         });
     }
@@ -296,17 +308,22 @@
         aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
             method: 'DELETE'
         }).then((response) => {
-            switch (response.data) {
-                case STATUS_SUCCESS :
+            switch (response.status) {
+                case aliceJs.response.success:
                     zAlert.success(i18n.msg('common.msg.delete'), function () {
                         window.location.href = '/organizations/edit';
                     });
                     break;
-                case STATUS_ERROR_USER_EXIST :
+                case aliceJs.response.exist:
                     zAlert.warning(i18n.msg('organization.msg.failedDeleteUserExist'));
                     break;
-                case STATUS_ERROR_SUB_DEPT_EXITS :
+                case 'E-0007': // 부서에서만 사용하는 코드
                     zAlert.warning(i18n.msg('organization.msg.failedDeleteSubOrganization'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
                     break;
             }
         });

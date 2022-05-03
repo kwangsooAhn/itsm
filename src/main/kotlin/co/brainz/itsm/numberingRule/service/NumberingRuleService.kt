@@ -7,11 +7,12 @@
 package co.brainz.itsm.numberingRule.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
-import co.brainz.itsm.numberingRule.constants.NumberingRuleConstants
 import co.brainz.itsm.numberingRule.dto.NumberingPatternMapDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDetailDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDto
@@ -123,8 +124,8 @@ class NumberingRuleService(
      * 문서 번호 등록, 수정
      */
     @Transactional
-    fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): String {
-        var status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
+    fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         var count = 0
 
         // Duplicate check
@@ -152,27 +153,31 @@ class NumberingRuleService(
                 )
                 count++
             }
-
-            status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 문서 번호 삭제
      */
     @Transactional
-    fun deleteNumberingRule(numberingId: String): String {
-        var status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
+    fun deleteNumberingRule(numberingId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
 
         // 1. 업무흐름에 해당 문서번호가 사용중인지 체크
         val documentList = wfDocumentService.getDocumentListByNumberingId(numberingId)
         when (documentList.isNullOrEmpty()) {
             true -> numberingRuleRepository.deleteById(numberingId)
-            false -> status = NumberingRuleConstants.Status.STATUS_ERROR_RULE_USED.code
+            false -> status = ZResponseConstants.STATUS.ERROR_EXIST
         }
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

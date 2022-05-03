@@ -114,8 +114,7 @@ class CIAttributeServiceTest {
             createDt = LocalDateTime.now()
         )
         val returnDto = ciAttributeService.createCIAttribute(ciAttributeDto)
-        assertEquals(returnDto.code, "0")
-        assertTrue(returnDto.status)
+        assertEquals(returnDto.status, "Z-0000")
     }
 
     @Test
@@ -140,7 +139,7 @@ class CIAttributeServiceTest {
                     updateUserKey = this.userKey,
                     updateDt = LocalDateTime.now()
                 )
-                assertTrue(ciAttributeService.updateCIAttribute(updateAttributeDto).status)
+                assertTrue(ciAttributeService.updateCIAttribute(updateAttributeDto).status == "Z-0000")
             }
         }
     }

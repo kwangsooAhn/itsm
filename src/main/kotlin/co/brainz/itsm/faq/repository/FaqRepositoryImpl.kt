@@ -53,9 +53,12 @@ class FaqRepositoryImpl(
             )
             .leftJoin(code).on(code.code.eq(faq.faqGroup))
             .innerJoin(faq.createUser, user)
-            .where(builder(faqSearchCondition, faq, code))
+            .where(builder(faqSearchCondition, faq))
             .orderBy(code.codeName.asc())
 
+        if (faqSearchCondition.category?.isNotEmpty() == true) {
+            query.where(faq.faqGroup.eq(faqSearchCondition.category))
+        }
         if (faqSearchCondition.isPaging) {
             query.limit(faqSearchCondition.contentNumPerPage)
             query.offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
@@ -65,7 +68,7 @@ class FaqRepositoryImpl(
             .select(faq.count())
             .leftJoin(code).on(code.code.eq(faq.faqGroup))
             .innerJoin(faq.createUser, user)
-            .where(builder(faqSearchCondition, faq, code))
+            .where(builder(faqSearchCondition, faq))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -114,11 +117,10 @@ class FaqRepositoryImpl(
             .fetchOne()
     }
 
-    private fun builder(faqSearchCondition: FaqSearchCondition, faq: QFaqEntity, code: QCodeEntity): BooleanBuilder {
+    private fun builder(faqSearchCondition: FaqSearchCondition, faq: QFaqEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
-            ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
         )
         return builder
     }

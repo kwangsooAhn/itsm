@@ -11,9 +11,10 @@ import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.dto.CodeReturnDto
@@ -171,8 +172,8 @@ class CodeService(
      * 코드 데이터 저장
      */
     @Transactional
-    fun createCode(codeDetailDto: CodeDetailDto): String {
-        var status = CodeConstants.Status.STATUS_SUCCESS.code
+    fun createCode(codeDetailDto: CodeDetailDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val codeEntity = CodeEntity(
             code = codeDetailDto.code,
             pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
@@ -185,9 +186,9 @@ class CodeService(
         )
 
         if (codeRepository.existsByCode(codeDetailDto.code)) {
-            status = CodeConstants.Status.STATUS_ERROR_CODE_DUPLICATION.code
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         } else if (!codeRepository.existsByCode(codeDetailDto.pCode!!) && codeDetailDto.pCode != "") {
-            status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         } else {
             if (!codeDetailDto.pCode.isNullOrEmpty()) {
                 val pCodeEntity = codeRepository.findCodeDetail(codeDetailDto.pCode!!)
@@ -212,15 +213,17 @@ class CodeService(
             }
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 코드 데이터 수정
      */
     @Transactional
-    fun updateCode(codeDetailDto: CodeDetailDto): String {
-        var status = CodeConstants.Status.STATUS_SUCCESS_EDIT_CODE.code
+    fun updateCode(codeDetailDto: CodeDetailDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val codeEntity = CodeEntity(
             code = codeDetailDto.code,
             pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
@@ -244,7 +247,7 @@ class CodeService(
                 codeRepository.save(codeEntity)
             }
             false -> {
-                status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
+                status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
             }
         }
 
@@ -271,17 +274,18 @@ class CodeService(
             }
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 코드 데이터 삭제
      */
     @Transactional
-    fun deleteCode(code: String): String {
-        var status = CodeConstants.Status.STATUS_SUCCESS.code
+    fun deleteCode(code: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val codeLangList = codeLangRepository.findByCodeLangList(code)
-
         if (codeLangList.isNotEmpty()) {
             for (codeLangDto in codeLangList) {
                 codeLangRepository.deleteById(
@@ -289,18 +293,15 @@ class CodeService(
                 )
             }
         }
-
         when (codeRepository.existsByPCodeAndEditableTrue(
             codeRepository.findById(code).orElse(CodeEntity(code = code))
         )) {
-            true -> {
-                status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_USED.code
-            }
-            false -> {
-                codeRepository.deleteById(code)
-            }
+            true -> status = ZResponseConstants.STATUS.ERROR_EXIST
+            false -> codeRepository.deleteById(code)
         }
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

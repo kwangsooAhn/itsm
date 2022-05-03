@@ -28,6 +28,7 @@ import ZDefaultValueRadioProperty from './zDefaultValueRadioProperty.js';
 import ZDateTimePickerProperty from './zDateTimePickerProperty.js';
 import ZSwitchProperty from './zSwitchProperty.js';
 import ZUserSearchProperty from './zUserSearchProperty.js';
+import ZDefaultValueSearchProperty from './zDefaultValueSearchProperty.js';
 
 export const propertyExtends = {
     columnCommon: {
@@ -102,13 +103,25 @@ export const propertyExtends = {
     },
     userSearch: {
         columnElement: {
-            defaultValueUserSearch: ''
+            userSearchTarget: '',
+            defaultValue: {
+                target: FORM.SEARCH_COMPONENT.USER_SEARCH,
+                type: FORM.DEFAULT_VALUE_TYPE.NONE,
+                data: ''
+            }
         },
         columnValidation: {
             required: false // 필수값 여부
         }
     },
     organizationSearch: {
+        columnElement: {
+            defaultValue: {
+                target: FORM.SEARCH_COMPONENT.ORGANIZATION_SEARCH,
+                type: FORM.DEFAULT_VALUE_TYPE.NONE,
+                data: ''
+            }
+        },
         columnValidation: {
             required: false // 필수값 여부
         }
@@ -604,18 +617,25 @@ export default class ZColumnProperty extends ZProperty {
     }
     // 컬럼 세부 속성 - userSearch
     getPropertyForColumnTypeUserSearch(option, id) {
-        const userSearchProperty = new ZUserSearchProperty(id + '|columnElement.defaultValueUserSearch',
-            'element.searchTargetCriteria', option.columnElement.defaultValueUserSearch);
+        const defaultValueSearchProperty = new ZDefaultValueSearchProperty(id + '|columnElement.defaultValue', 'element.defaultValue', option.columnElement.defaultValue);
+        defaultValueSearchProperty.help = 'form.help.search-default'
+        const userSearchProperty = new ZUserSearchProperty(id + '|columnElement.userSearchTarget',
+            'element.searchTargetCriteria', option.columnElement.userSearchTarget);
         return [
             new ZGroupProperty('group.columnElement')
-                .addProperty(userSearchProperty),
+                .addProperty(userSearchProperty)
+                .addProperty(defaultValueSearchProperty),
             new ZGroupProperty('group.columnValidation')
                 .addProperty(new ZSwitchProperty(id + '|columnValidation.required', 'validation.requiredInput', option.columnValidation.required))
         ];
     }
     // 컬럼 세부 속성 - OrganizationSearch
     getPropertyForColumnTypeOrganizationSearch(option, id) {
+        const defaultValueSearchProperty = new ZDefaultValueSearchProperty(id + '|columnElement.defaultValue', 'element.defaultValue', option.columnElement.defaultValue)
+        defaultValueSearchProperty.help = 'form.help.search-default'
         return [
+            new ZGroupProperty('group.columnElement')
+                .addProperty(defaultValueSearchProperty),
             new ZGroupProperty('group.columnValidation')
                 .addProperty(new ZSwitchProperty(id + '|columnValidation.required', 'validation.requiredInput', option.columnValidation.required))
         ];

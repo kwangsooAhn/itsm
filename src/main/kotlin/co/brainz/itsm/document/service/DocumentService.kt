@@ -8,7 +8,7 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
-import co.brainz.framework.response.dto.ZReturnDto
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
@@ -26,13 +26,13 @@ import co.brainz.itsm.document.dto.FieldReturnDto
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.dto.ProcessSearchCondition
-import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.form.constants.WfFormConstants
+import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
@@ -52,14 +52,14 @@ import org.springframework.stereotype.Service
 @Service
 class DocumentService(
     private val formService: FormService,
-    private val processAdminService: ProcessAdminService,
     private val processService: ProcessService,
     private val wfDocumentService: WfDocumentService,
     private val aliceFileProvider: AliceFileProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentRepository: WfDocumentRepository,
-    private val wfComponentPropertyRepository: WfComponentPropertyRepository
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository,
+    private val wfProcessService: WfProcessService
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -169,9 +169,8 @@ class DocumentService(
      * 신청서 생성.
      *
      * @param documentDto
-     * @return String?
      */
-    fun createDocument(documentDto: DocumentDto): ZReturnDto {
+    fun createDocument(documentDto: DocumentDto): ZResponse {
         documentDto.createUserKey = currentSessionUser.getUserKey()
         documentDto.createDt = LocalDateTime.now()
         return wfDocumentService.createDocument(documentDto)
@@ -181,9 +180,8 @@ class DocumentService(
      * 신청서 링크 생성.
      *
      * @param documentDto
-     * @return String?
      */
-    fun createDocumentLink(documentDto: DocumentDto): ZReturnDto {
+    fun createDocumentLink(documentDto: DocumentDto): ZResponse {
         documentDto.createUserKey = currentSessionUser.getUserKey()
         documentDto.createDt = LocalDateTime.now()
         return wfDocumentService.createDocumentLink(documentDto)
@@ -198,8 +196,7 @@ class DocumentService(
     fun updateDocument(
         documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
-    ): ZReturnDto {
-        val documentId = documentDto.documentId
+    ): ZResponse {
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
         return wfDocumentService.updateDocument(documentDto, params)
@@ -213,8 +210,7 @@ class DocumentService(
      */
     fun updateDocumentLink(
         documentDto: DocumentDto
-    ): ZReturnDto {
-        val documentId = documentDto.documentId
+    ): ZResponse {
         documentDto.updateUserKey = currentSessionUser.getUserKey()
         documentDto.updateDt = LocalDateTime.now()
         return wfDocumentService.updateDocumentLink(documentDto)
@@ -224,9 +220,8 @@ class DocumentService(
      * 신청서 삭제.
      *
      * @param documentId
-     * @return Boolean
      */
-    fun deleteDocument(documentId: String): Boolean {
+    fun deleteDocument(documentId: String): ZResponse {
         return wfDocumentService.deleteDocument(documentId)
     }
 
@@ -234,9 +229,8 @@ class DocumentService(
      * 신청서링크 삭제.
      *
      * @param documentId
-     * @return Boolean
      */
-    fun deleteDocumentLink(documentId: String): Boolean {
+    fun deleteDocumentLink(documentId: String): ZResponse {
         return wfDocumentService.deleteDocumentLink(documentId)
     }
 
@@ -268,7 +262,7 @@ class DocumentService(
         val processStatus = ArrayList<String>()
         processStatus.add(WorkflowConstants.ProcessStatus.PUBLISH.value)
         processStatus.add(WorkflowConstants.ProcessStatus.USE.value)
-        return processAdminService.getProcesses(
+        return wfProcessService.getProcesses(
             ProcessSearchCondition(
                 searchValue = "",
                 status = processStatus.joinToString(","),
@@ -292,9 +286,8 @@ class DocumentService(
      * 신청서 양식 데이터 update
      *
      * @param documentDisplay
-     * @return Boolean
      */
-    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplaySaveDto): Boolean {
+    fun updateDocumentDisplay(documentDisplay: RestTemplateDocumentDisplaySaveDto): ZResponse {
         return wfDocumentService.updateDocumentDisplay(documentDisplay)
     }
 
@@ -328,14 +321,14 @@ class DocumentService(
     /**
      * 신청서 Import.
      */
-    fun importDocumentData(documentImportDto: DocumentImportDto): ZReturnDto {
+    fun importDocumentData(documentImportDto: DocumentImportDto): ZResponse {
         return wfDocumentService.importDocument(documentImportDto)
     }
 
     /**
      * 이력 조회 컴포넌트 데이터 조회
      */
-    fun getDocumentComponentValue(documentNo: String, componentId: String): FieldReturnDto {
+    fun getDocumentComponentValue(documentNo: String, componentId: String): ZResponse {
         // wf_component_property 테이블에서 데이터 조회
         val componentProperties = wfComponentPropertyRepository.findByComponentId(componentId)
         val fieldOption = FieldOptionDto(documentNo = documentNo)
@@ -375,9 +368,11 @@ class DocumentService(
             logger.error(AliceUtil().printStackTraceToString(e))
         }
 
-        return FieldReturnDto(
-            fields = fieldDataList,
-            data = data
+        return ZResponse(
+            data = FieldReturnDto(
+                fields = fieldDataList,
+                data = data
+            )
         )
     }
 }

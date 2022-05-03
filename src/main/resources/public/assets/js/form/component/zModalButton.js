@@ -213,7 +213,7 @@ export const modalButtonMixin = {
         }).then((data) => {
             const targetTableModal = new modal({
                 title: this.elementText,
-                body: this.drawGridTemplate(data),
+                body: this.drawGridTemplate(data.data),
                 classes: 'modal-button-search-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),

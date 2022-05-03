@@ -9,6 +9,8 @@ package co.brainz.itsm.download.service
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.dto.DownloadListReturnDto
@@ -59,16 +61,23 @@ class DownloadService(
      * @param downloadDto
      */
     @Transactional
-    fun saveDownload(downloadDto: DownloadDto): Boolean {
+    fun saveDownload(downloadDto: DownloadDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val downloadEntity = downloadRepository.save(downloadMapper.toDownloadEntity(downloadDto))
-        aliceFileService.upload(
-            AliceFileDto(
-                ownId = downloadEntity.downloadId,
-                fileSeq = downloadDto.fileSeqList,
-                delFileSeq = downloadDto.delFileSeqList
+        if (downloadEntity.downloadId.isNotEmpty()) {
+            aliceFileService.upload(
+                AliceFileDto(
+                    ownId = downloadEntity.downloadId,
+                    fileSeq = downloadDto.fileSeqList,
+                    delFileSeq = downloadDto.delFileSeqList
+                )
             )
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
         )
-        return true
     }
 
     /**
@@ -95,9 +104,17 @@ class DownloadService(
      * @param downloadId
      */
     @Transactional
-    fun deleteDownload(downloadId: String): Boolean {
-        downloadRepository.deleteById(downloadId)
-        aliceFileService.delete(downloadId)
-        return true
+    fun deleteDownload(downloadId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        try {
+            downloadRepository.deleteById(downloadId)
+            aliceFileService.delete(downloadId)
+        } catch (e: Exception) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+            e.printStackTrace()
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 }

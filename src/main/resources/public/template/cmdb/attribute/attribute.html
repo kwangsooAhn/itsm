@@ -109,8 +109,6 @@
 <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
 <script th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION = '1';
     const attributeData = /*[[${attribute?.attributeValue}]]*/ null;
     const SEARCH_YN_USED = ['inputbox', 'dropdown', 'radio', 'date', 'datetime', 'userSearch', 'organizationSearch'];
 
@@ -205,20 +203,19 @@
     // 속성 삭제
     function deleteAttribute() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }).then((rtn) => {
-                switch (rtn) {
-                    case STATUS_SUCCESS:
+            aliceJs.fetchJson('/rest/cmdb/attributes/' + /*[[${attribute?.attributeId}]]*/'', {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.delete'), function () {
                             location.href = '/cmdb/attributes/search';
                         });
                         break;
-                    default:
+                    case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
                         break;
                 }
             });
@@ -261,24 +258,26 @@
             if (!data.attributeValue) {
                 return false;
             }
-            aliceJs.fetchText(url, {
+            aliceJs.fetchJson(url, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then((rtn) => {
-                switch (rtn) {
-                    case STATUS_SUCCESS:
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.save'), function () {
                             location.href = '/cmdb/attributes/search';
                         });
                         break;
-                    case STATUS_ERROR_CMDB_ATTRIBUTE_NAME_DUPLICATION:
-                        zAlert.success(i18n.msg('cmdb.attribute.msg.attributeNameUsed'));
+                    case aliceJs.response.duplicate:
+                        zAlert.warning(i18n.msg('cmdb.attribute.msg.attributeNameUsed'));
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                     default :
-                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             });

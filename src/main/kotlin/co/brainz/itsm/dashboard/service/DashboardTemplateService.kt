@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.dashboard.service
 
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.dashboard.dto.TemplateComponentConfig
 import co.brainz.itsm.dashboard.dto.TemplateComponentData
@@ -44,14 +45,20 @@ class DashboardTemplateService(
     /**
      * 단일 컴포넌트 조회 (데이터 포함)
      */
-    fun getTemplateComponent(templateId: String, componentKey: String, options: Any?): TemplateComponentData {
+    fun getTemplateComponent(
+        templateId: String,
+        componentKey: String,
+        options: Any?
+    ): ZResponse {
         var option: Map<String, Any> = mutableMapOf()
         if (options != null) {
             option = mapper.convertValue(options, object : TypeReference<Map<String, Any>>() {})
         }
         val templateComponentConfigList = this.getTemplateComponentConfigList(templateId)
         val component = templateComponentConfigList.first { it.key == componentKey }
-        return this.getTemplateComponentData(component, option)
+        return ZResponse(
+            data = this.getTemplateComponentData(component, option)
+        )
     }
 
     /**

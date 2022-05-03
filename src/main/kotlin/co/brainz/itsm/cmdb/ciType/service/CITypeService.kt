@@ -9,6 +9,8 @@ package co.brainz.itsm.cmdb.ciType.service
 import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CITypeDto
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants
 import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
@@ -41,48 +43,66 @@ class CITypeService(
     /**
      * CI Type 생성
      */
-    fun createCIType(ciTypeDto: CITypeDto): String {
-        var returnCode = CITypeConstants.Status.STATUS_FAIL.code
-        val validationCode = ciTypeService.checkValidation(ciTypeDto)
-
-        if (validationCode == CITypeConstants.Status.STATUS_SUCCESS.code) {
-            ciTypeDto.createDt = LocalDateTime.now()
-            ciTypeDto.createUserKey = currentSessionUser.getUserKey()
-            if (ciTypeService.createCIType(ciTypeDto))
-                returnCode = CITypeConstants.Status.STATUS_SUCCESS.code
-        } else {
-            returnCode = validationCode
+    fun createCIType(ciTypeDto: CITypeDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (ciTypeService.checkValidation(ciTypeDto)) {
+            CITypeConstants.Status.STATUS_SUCCESS.code -> {
+                ciTypeDto.createDt = LocalDateTime.now()
+                ciTypeDto.createUserKey = currentSessionUser.getUserKey()
+                if (!ciTypeService.createCIType(ciTypeDto)) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+            }
+            CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code -> {
+                status = ZResponseConstants.STATUS.ERROR_EXIST
+            }
+            CITypeConstants.Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code -> {
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            }
         }
-        return returnCode
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI Type 수정
      */
-    fun updateCIType(ciTypeDto: CITypeDto, typeId: String): String {
-        var returnCode = CITypeConstants.Status.STATUS_FAIL.code
-        val validationCode = ciTypeService.checkValidation(ciTypeDto)
-
-        if (validationCode == CITypeConstants.Status.STATUS_SUCCESS.code) {
-            ciTypeDto.createDt = LocalDateTime.now()
-            ciTypeDto.createUserKey = currentSessionUser.getUserKey()
-            if (ciTypeService.updateCIType(typeId, ciTypeDto))
-                returnCode = CITypeConstants.Status.STATUS_SUCCESS_EDIT_TYPE.code
-        } else {
-            returnCode = validationCode
+    fun updateCIType(ciTypeDto: CITypeDto, typeId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (ciTypeService.checkValidation(ciTypeDto)) {
+            CITypeConstants.Status.STATUS_SUCCESS.code -> {
+                ciTypeDto.createDt = LocalDateTime.now()
+                ciTypeDto.createUserKey = currentSessionUser.getUserKey()
+                if (!ciTypeService.updateCIType(typeId, ciTypeDto)) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+            }
+            CITypeConstants.Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code -> {
+                status = ZResponseConstants.STATUS.ERROR_EXIST
+            }
+            CITypeConstants.Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code -> {
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            }
         }
-        return returnCode
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI Type 삭제
      */
-    fun deleteCIType(typeId: String): String {
-        var returnValue = ""
-        if (ciTypeService.deleteCIType(typeId)) {
-            returnValue = CITypeConstants.Status.STATUS_SUCCESS.code
+    fun deleteCIType(typeId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (!ciTypeService.deleteCIType(typeId)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return returnValue
+        return ZResponse(
+            status = status.code
+        )
     }
 
     fun getCITypesByClassId(classId: String): Boolean {

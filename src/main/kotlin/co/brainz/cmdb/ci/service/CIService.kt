@@ -48,9 +48,6 @@ import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import kotlin.math.ceil
@@ -77,7 +74,6 @@ class CIService(
     private val aliceTagManager: AliceTagManager
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CI 목록 조회.

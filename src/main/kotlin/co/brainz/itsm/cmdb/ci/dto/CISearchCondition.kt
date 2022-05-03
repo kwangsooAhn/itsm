@@ -22,10 +22,10 @@ import java.io.Serializable
  * @param contentNumPerPage : 페이지당 출력되는 건수
  */
 data class CISearchCondition(
-    val searchValue: String = "",
-    val tagSearch: String = "",
+    val searchValue: String? = "",
+    val tagSearch: String? = "",
     val relationSearch: String = "",
-    val flag: String = "",
+    val flag: String? = "",
     val pageNum: Long = 0L,
     val typeId: String? = null,
     val orderColName: String? = null,
@@ -49,7 +49,7 @@ data class CISearchCondition(
                 )
             )
         val tagArray = mutableListOf<String>()
-        if (tagSearch.isNotEmpty()) {
+        if (!tagSearch.isNullOrEmpty()) {
             val tags: List<Map<String, Any>> = mapper.readValue(tagSearch, listLinkedMapType)
             tags.forEach {
                 tagArray.add(it["value"] as String)

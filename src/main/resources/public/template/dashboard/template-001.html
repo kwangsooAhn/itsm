@@ -181,7 +181,7 @@
                 },
                 body: JSON.stringify(param)
             }).then((htmlData) => {
-                updateReqStatus(JSON.parse(htmlData)['result']);
+                updateReqStatus(JSON.parse(htmlData)['data']['result']);
             });
         }
 

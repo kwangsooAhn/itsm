@@ -46,8 +46,14 @@
             method: 'GET'
         }).then((htmlData) => {
             document.querySelector('.z-main-accordion').innerHTML = htmlData;
-            document.getElementsByClassName('z-faq-group')[0].open = true;
-            document.getElementsByClassName('z-faq-row')[0].open = true;
+            const faqGroup = document.getElementsByClassName('z-faq-group')[0];
+            if (typeof faqGroup !== 'undefined') {
+                faqGroup.open = true;
+            }
+            const faqRow = document.getElementsByClassName('z-faq-row')[0];
+            if (typeof faqRow !== 'undefined') {
+                faqRow.open = true;
+            }
             aliceJs.showTotalCount(document.getElementsByClassName('z-faq-row').length);
 
             let selectedGroup = document.getElementById('selected-group').value;
@@ -57,14 +63,14 @@
                 let row = document.getElementsByClassName('z-faq-row');
                 for (let i = 0; i < group.length; i++) {
                     if (group[i].id === selectedGroup) {
-                        document.getElementsByClassName('z-faq-group')[0].open = false;
+                        faqGroup.open = false;
                         group[i].open = true;
                         break;
                     }
                 }
                 for (let i = 0; i < row.length; i++) {
                     if (row[i].id === selectedId) {
-                        document.getElementsByClassName('z-faq-row')[0].open = false;
+                        faqRow.open = false;
                         row[i].open = true;
                         row[i].setAttribute('id', 'highlight')
                         break;

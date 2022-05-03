@@ -134,12 +134,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
-    //상태값
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_CUSTOM_CODE_USED = '1';
-    const STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION = '2';
-    const STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST = '3';
-
     window.onload = function () {
         document.getElementById('customCodeName').focus();
         const targetTable = document.getElementById('targetTable');
@@ -400,31 +394,33 @@
         if (method === 'PUT') {
             data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
         }
-
-        aliceJs.fetchText('/rest/custom-codes', {
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson('/rest/custom-codes', {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function () {
                         location.href = '/custom-codes/search';
                     });
                     break;
-                case STATUS_ERROR_CUSTOM_CODE_USED:
-                    zAlert.success(i18n.msg('customCode.msg.customCodeUsed'));
-                    break;
-                case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
+                case aliceJs.response.duplicate:
                     zAlert.warning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
                     break;
-                case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
+                case aliceJs.response.notExist:
                     zAlert.warning(i18n.msg('customCode.msg.pCodeNotExist'));
                     break;
-                default :
+                case aliceJs.response.exist:
+                    zAlert.warning(i18n.msg('customCode.msg.customCodeUsed'));
+                    break;
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
                     break;
             }
         });
@@ -432,23 +428,22 @@
 
     function deleteCustomCode() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }).then((rtn) => {
-                switch (rtn) {
-                    case STATUS_SUCCESS:
+            aliceJs.fetchJson('/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'', {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.delete'), function () {
                             location.href = '/custom-codes/search';
                         });
                         break;
-                    case STATUS_ERROR_CUSTOM_CODE_USED:
+                    case aliceJs.response.exist:
                         zAlert.warning(i18n.msg('customCode.msg.customCodeUsed'));
                         break;
-                    default:
+                    case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
                         break;
                 }
             });
