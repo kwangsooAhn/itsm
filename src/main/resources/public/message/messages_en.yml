@@ -47,6 +47,7 @@ common:
     delete: "Delete"
     edit: "Edit"
     endDate: "End date"
+    error: "Error"
     export: "Export"
     fail: "Fail"
     group: "Group"
@@ -78,6 +79,7 @@ common:
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
     fail: "Failed."
+    failedExport: "Failed to export {0}."
     minValue: "Minimum input is {0}"
     modify: "Modified."
     noData: "There is no data."
@@ -415,6 +417,7 @@ cmdb:
       deleteInformation: "All asset information being created will be deleted."
       duplicateRelatedCIData: "The same relation CI exist."
       enterCiName: "Please enter a CI Name."
+      failedDeleteCI: "Failed to delete asset information."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
       selectImportFile: "Please select an import file."
@@ -500,6 +503,7 @@ code:
     seqNum: "The order of the output"
     useYn: "Use enable"
   msg:
+    codeNotExist: "Code does not exist. ({0})"
     duplicateCode: "Duplicate code Exists."
     editDescription: "Add, view and manage code."
     enterCode: "Please enter a code."
@@ -507,6 +511,7 @@ code:
     enterCodeLangValue: "Please enter the multilingual code value."
     pCodeNotExist: "Parent code does not exist."
     referenceCodeExist: "Code exists that references the code."
+    selectAvailableCode: "Please select a available Code."
     selectNotDuplicateLang: "There are redundant multilingual options."
 
 # Comment
@@ -644,13 +649,13 @@ document:
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
     checkUrlLink: "Please enter it according to the URL format"
+    duplicateName: "the duplication name document. check document."
     enterWorkFlowColor: "Please enter WorkFlow Color."
     enterDocumentLink: "Please enter document's link."
     enterDocumentName: "Please enter document's name."
     launchedInstance: "There is an instance started and cannot be deleted."
     lengthMax: "Please enter less than {0} characters."
     lengthMin: "Please enter at least {0} characters."
-    nameDuplication: "the duplication name document. check document."
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
     searchDescription: "Inquire and apply for a document"
@@ -740,6 +745,7 @@ form:
     description: "Description"
     detail: "Detail Form"
     edit: "Edit Form"
+    exportTarget: "Form"
     form: "Form"
     import: "Form IMPORT"
     importFile: "IMPORT File"
@@ -762,9 +768,8 @@ form:
     enterFormName: "Please enter a form name."
     failedAllColumnDelete: "At least one column is required."
     failedDestroy: "Related documents exist for this form.<br/>This can't be destroyed."
-    failedExport: "Failed to export document form."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
-    fileSelect: "Please select a file."
+    failedImport: "Failed to import form."
     failedPlugInButton: "Processing failed because validation failed."
     information: "There are no common editable component detail attributes."
     label: "It must start and end with numbers and letters and can contain only numbers, letters, commas (.), underscores (_), and dashes (-)."
@@ -781,7 +786,7 @@ form:
     selectTargetUser: "Please select Target User for search."
     targetTableRequired: "Please enter the target Table."
     unique: "Duplicate data cannot be included."
-    duplicateFormName: "Duplicate form name! Please enter other form name."
+    duplicateName: "Duplicate form name! Please enter other form name."
     duplicateOptionsName: "Duplicate options name. Please enter other options name."
     duplicateOptionsValue: "Duplicate options value. Please enter other options value."
   form: "Form"
@@ -1129,6 +1134,7 @@ organization:
     failedDeleteSubOrganization: "Failed to delete a department because of a sub department."
     enterPOrganizationName: "Please enter a parent department name."
     pOrganizationNotExist: "Parent organization does not exist."
+    selectAvailableOrganization: "Please select a available department."
     selectRole: "Please select a member default role."
     systemUserNotExist: "You cannot modify because you need at least one user with the system administrator role."
 
@@ -1157,6 +1163,7 @@ process:
     description: "Description"
     detail: "Detail Process"
     edit: "Edit Process"
+    exportTarget: "Process"
     imageDownload: "Download as Image"
     import: "Process Import"
     importFile: "Import File"
@@ -1172,11 +1179,12 @@ process:
     undo: "Undo"
   msg:
     condition: "The applicable documentation specified in accordance with conditions to enter is registered as an attachment."
-    duplicateProcessName: "Duplicate process name! Please enter other process name."
+    duplicateName: "Duplicate process name! Please enter other process name."
     duplicateData: "The same data exists."
     enterRequired: "{0} Required field is empty.<br>Please enter Required field"
     enterProcessName: "Please enter a process name."
     failedDestroy: "Related documents exist for this process.<br/>This can't be destroyed."
+    failedImport: "Failed to import process."
     noticeImportFile: "Import only possible in XML file"
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
@@ -1441,6 +1449,7 @@ token:
 workflowAdmin:
   label:
     description: "Description"
+    exportTarget: "Workflow"
     group: "Group"
     import: "WorkFlow IMPORT"
     importFile: "IMPORT File"
@@ -1448,6 +1457,7 @@ workflowAdmin:
     status: "Status"
     type: "Type"
   msg:
+    failedImport: "Failed to import workflow."
     noticeImportFile: "Import only possible in XML file"
 
 # User

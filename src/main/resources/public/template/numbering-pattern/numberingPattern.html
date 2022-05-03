@@ -98,10 +98,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_PATTERN_USED = '1';
-    const STATUS_ERROR_DUPLICATE_PATTERN_NAME = '2';
-
     window.onload = function () {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
     };
@@ -128,27 +124,30 @@
         if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtPatternId').value;
         }
-        aliceJs.fetchText(strUrl, {
+        const resultMsg = (flag === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson(strUrl, {
             method: flag,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(obj)
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function () {
                         window.location.href = '/numberingPatterns/search';
                     });
                     break;
-                case STATUS_ERROR_PATTERN_USED:
-                    zAlert.warning(i18n.msg('pattern.msg.usedPattern'));
-                    break;
-                case STATUS_ERROR_DUPLICATE_PATTERN_NAME:
+                case aliceJs.response.duplicate:
                     zAlert.warning(i18n.msg('pattern.msg.duplicatePatternName'));
                     break;
-                default:
+                case aliceJs.response.exist:
+                    zAlert.warning(i18n.msg('pattern.msg.usedPattern'));
+                    break;
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
                     break;
             }
         });
@@ -156,20 +155,22 @@
 
     /** 삭제 기능  **/
     function onDelete() {
-        aliceJs.fetchText('/rest/numberingPatterns/' + encodeURIComponent(document.getElementById('txtPatternId').value), {
+        aliceJs.fetchJson('/rest/numberingPatterns/' + encodeURIComponent(document.getElementById('txtPatternId').value), {
             method: 'DELETE'
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
                     zAlert.success(i18n.msg('common.msg.delete'), function () {
                         window.location.href = '/numberingPatterns/search';
                     });
                     break;
-                case STATUS_ERROR_PATTERN_USED:
+                case aliceJs.response.exist:
                     zAlert.warning(i18n.msg('pattern.msg.usedPattern'));
                     break;
-                default:
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
                     break;
             }
         });

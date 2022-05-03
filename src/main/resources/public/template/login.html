@@ -70,9 +70,6 @@
     let ipAccessControl = /*[[${ipAccessControlValue}]]*/;
 
     const rsa = new RSAKey();
-    const STATUS_SUCCESS = '0';
-    const STATUS_SAME_AS_CURRENT_PASSWORD = '1';
-    const STATUS_NOT_EQUAL_NOW_PASSWORD = '2';
 
     window.onload = function() {
         if (window.opener) {
@@ -155,21 +152,23 @@
     }
 
     function restSubmit(method, url, data) {
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         }).then((response) => {
-            switch (response) {
-                case STATUS_SUCCESS:
+            switch (response.status) {
+                case aliceJs.response.success:
                     location.href = '/login';
                     break;
-                case STATUS_SAME_AS_CURRENT_PASSWORD:
+                case aliceJs.response.duplicate:
+                    // 기존 비밀번호화 동일 = 중복
                     zAlert.warning(i18n.msg('user.msg.sameAsCurrentPassword'))
                     break;
-                case STATUS_NOT_EQUAL_NOW_PASSWORD:
+                case aliceJs.response.error:
+                    // 비밀번호가 일치하지 않음
                     zAlert.warning(i18n.msg('user.msg.notEqualNowPassword'))
                     break;
                 default :

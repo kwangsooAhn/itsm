@@ -6,8 +6,11 @@
 
 package co.brainz.itsm.statistic.customChart.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.service.CustomChartService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -25,39 +28,45 @@ class CustomChartRestController(private val customChartService: CustomChartServi
      * 사용자 정의 차트 등록
      */
     @PostMapping("/customChart")
-    fun createChart(@RequestBody chartDto: ChartDto): String {
-        return customChartService.saveChart(chartDto)
+    fun createChart(@RequestBody chartDto: ChartDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customChartService.saveChart(chartDto))
     }
 
     /**
      * 사용자 정의 차트 수정
      */
     @PutMapping("/customChart/{chartId}")
-    fun updateChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): String {
-        return customChartService.saveChart(chartDto)
+    fun updateChart(
+        @PathVariable chartId: String,
+        @RequestBody chartDto: ChartDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customChartService.saveChart(chartDto))
     }
 
     /**
      * 사용자 정의 차트 삭제
      */
     @DeleteMapping("/customChart/{chartId}")
-    fun deleteChart(@PathVariable chartId: String): String {
-        return customChartService.deleteChart(chartId)
+    fun deleteChart(@PathVariable chartId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customChartService.deleteChart(chartId))
     }
 
     /**
      * 사용자 정의 차트 미리보기 데이터
      */
     @PostMapping("/customChart/{chartId}/preview")
-    fun getPreviewChart(@PathVariable chartId: String, @RequestBody chartDto: ChartDto): ChartDto {
-        return customChartService.getChartPreviewDetail(chartId, chartDto)
+    fun getPreviewChart(
+        @PathVariable chartId: String,
+        @RequestBody chartDto: ChartDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customChartService.getChartPreviewDetail(chartId, chartDto))
     }
 
     /**
      * 사용자 정의 차트 미리보기
      */
     @GetMapping("/customChart/{chartId}")
-    fun getChart(@PathVariable chartId: String): ChartDto {
-        return customChartService.getChartDetail(chartId)
+    fun getChart(@PathVariable chartId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customChartService.getChartDetail(chartId))
     }
 }

@@ -11,6 +11,18 @@ aliceJs.imageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
 aliceJs.searchDataCount = 15;
 aliceJs.fileOffsetCount = 17;
 aliceJs.autoRefreshPeriod = 60000;
+
+// 응답 코드 - 서버에서 전달되는 코드값과 항상 일치하도록 관리한다.
+aliceJs.response = {
+    success: 'Z-0000',
+    error: 'E-0000',
+    duplicate: 'E-0001',
+    expired: 'E-0002',
+    notExist: 'E-0003',
+    exist: 'E-0004',
+    notFound: 'E-0005',
+    accessDeny: 'E-0006'
+};
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
@@ -513,7 +525,7 @@ aliceJs.thumbnail = function(options) {
      *
      * @param targetId 대상 input
      */
-    const saveThumbnail = function(targetId) {
+    const saveThumbnail = function (targetId) {
         // image 미선택 시 알림창 출력
         let selectedFile = document.querySelector('.z-thumbnail.selected');
         if (!selectedFile) {
@@ -584,13 +596,12 @@ aliceJs.thumbnail = function(options) {
      * @param files 파일목록
      * @return content html
      */
-    const createContent = function(files) {
+    const createContent = function (response) {
         const container = document.createElement('div');
         container.className = 'z-thumbnail-main flex-row flex-wrap';
-
-        if (files.data.length > 0) {
-            for (let i = 0, len = files.data.length; i < len; i++) {
-                let file = files.data[i];
+        if (response.status === aliceJs.response.success && response.data.data.length > 0) {
+            for (let i = 0, len = response.data.data.length; i < len; i++) {
+                let file = response.data.data[i];
                 const fileExtension = (file.extension).trim().toLowerCase();
                 const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
                 const thumbnail = document.createElement('div');
@@ -650,10 +661,10 @@ aliceJs.thumbnail = function(options) {
     // 이미지 파일 로드
     aliceJs.fetchJson('/rest/files?type=' + options.type, {
         method: 'GET'
-    }).then((files) => {
+    }).then((response) => {
         const modalOptions = {
             title: options.title,
-            body: createContent(files),
+            body: createContent(response),
             classes: 'z-thumbnail-' + options.type,
             buttons: [{
                 content: i18n.msg('common.btn.select'),
@@ -1058,9 +1069,10 @@ aliceJs.doFetch = async function(url, option) {
             if (response.status === 403) {
                 window.location.href = '/sessionInValid';
             } else {
-                // TODO: #11697 Response 규격 정리시 수정 예정
-                //window.location.href = '/error';
-                throw new Error('HTTP error, status = ' + response.status + ', url = ' + response.url);
+                // 에러 페이지 호출은 최대한 줄여야하며, 되도록 화면에서 경고창을 띄우도록 처리하자.
+                const storageName = 'alice_error-message';
+                sessionStorage.setItem(storageName, JSON.stringify({ status: response.status, url: response.url }));
+                window.location.href = '/error';
             }
         }
         return response;
@@ -1079,15 +1091,7 @@ aliceJs.doFetch = async function(url, option) {
 aliceJs.fetchJson = function(url, option) {
     return aliceJs.doFetch(url, option)
         .then(response => response.text())
-        .then((data) => {
-            const jsonData = data ? JSON.parse(data) : {};
-            // 상태 코드가 200이 아닐 경우 경고 표시
-            if (jsonData.hasOwnProperty('status') && jsonData.status !== 200 &&
-                jsonData.hasOwnProperty('message')) {
-                zAlert.danger(jsonData.message);
-            }
-            return jsonData;
-        });
+        .then((data) => data ? JSON.parse(data) : {});
 };
 
 /**

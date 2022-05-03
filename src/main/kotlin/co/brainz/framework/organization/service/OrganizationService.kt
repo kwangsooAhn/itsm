@@ -5,9 +5,6 @@
 
 package co.brainz.framework.organization.service
 
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
-import co.brainz.framework.organization.constants.OrganizationConstants
 import co.brainz.framework.organization.dto.OrganizationDetailDto
 import co.brainz.framework.organization.dto.OrganizationListDto
 import co.brainz.framework.organization.dto.OrganizationListReturnDto
@@ -17,6 +14,8 @@ import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.entity.OrganizationRoleMapEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.role.repository.RoleRepository
@@ -40,7 +39,7 @@ class OrganizationService(
     /**
      * 조직 전체 목록 조회
      */
-    fun getOrganizationList(organizationSearchCondition: OrganizationSearchCondition): OrganizationListReturnDto {
+    fun getOrganizationList(organizationSearchCondition: OrganizationSearchCondition): ZResponse {
         val treeOrganizationList = mutableListOf<OrganizationListDto>()
         val pOrganizationList = mutableListOf<OrganizationEntity>()
         val pagingResult: List<OrganizationEntity>
@@ -83,9 +82,11 @@ class OrganizationService(
             )
         }
 
-        return OrganizationListReturnDto (
-            data = treeOrganizationList,
-            totalCount = count
+        return ZResponse(
+            data = OrganizationListReturnDto (
+                data = treeOrganizationList,
+                totalCount = count
+            )
         )
     }
 
@@ -116,7 +117,7 @@ class OrganizationService(
      * 조직 등록
      */
     @Transactional
-    fun createOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
+    fun createOrganization(organizationRoleDto: OrganizationRoleDto): ZResponse {
         var organizationEntity = OrganizationEntity(
             organizationName = organizationRoleDto.organizationName,
             organizationDesc = organizationRoleDto.organizationDesc,
@@ -135,66 +136,72 @@ class OrganizationService(
 
         this.saveOrganizationRoleMap(organizationEntity, organizationRoleDto.roleIds)
 
-        return true
+        return ZResponse()
     }
 
     /**
      * 조직 정보 수정
      */
     @Transactional
-    fun updateOrganization(organizationRoleDto: OrganizationRoleDto) : Boolean {
+    fun updateOrganization(organizationRoleDto: OrganizationRoleDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         if (!roleService.isExistSystemRoleByOrganization(
                 organizationRoleDto.organizationId,
                 organizationRoleDto.roleIds.toSet())) {
-            throw AliceException(
-                AliceErrorConstants.ERR_00004,
-                aliceMessageSource.getMessage("organization.msg.systemUserNotExist")
-            )
+                    status = ZResponseConstants.STATUS.ERROR_ACCESS_DENY
+        }
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            val organizationEntity = organizationRepository.findByOrganizationId(organizationRoleDto.organizationId)
+            organizationEntity.pOrganization =
+                organizationRoleDto.pOrganizationId?.let { organizationRepository.findById(it).get() }
+            organizationEntity.organizationName = organizationRoleDto.organizationName
+            organizationEntity.organizationDesc = organizationRoleDto.organizationDesc
+            organizationEntity.useYn = organizationRoleDto.useYn
+            organizationEntity.seqNum = organizationRoleDto.seqNum
+            organizationEntity.updateUserKey = currentSessionUser.getUserKey()
+            organizationEntity.updateDt = LocalDateTime.now()
+
+            if (organizationEntity.pOrganization == null) {
+                organizationEntity.level = 0
+            } else {
+                organizationEntity.level = organizationEntity.pOrganization!!.level?.plus(1)
+            }
+            organizationRepository.save(organizationEntity)
+
+            organizationRoleMapRepository.deleteByOrganization(organizationEntity)
+            organizationRoleMapRepository.flush()
+
+            this.saveOrganizationRoleMap(organizationEntity, organizationRoleDto.roleIds)
         }
 
-        val organizationEntity = organizationRepository.findByOrganizationId(organizationRoleDto.organizationId)
-        organizationEntity.pOrganization =
-            organizationRoleDto.pOrganizationId?.let { organizationRepository.findById(it).get() }
-        organizationEntity.organizationName = organizationRoleDto.organizationName
-        organizationEntity.organizationDesc = organizationRoleDto.organizationDesc
-        organizationEntity.useYn = organizationRoleDto.useYn
-        organizationEntity.seqNum = organizationRoleDto.seqNum
-        organizationEntity.updateUserKey = currentSessionUser.getUserKey()
-        organizationEntity.updateDt = LocalDateTime.now()
-
-        if (organizationEntity.pOrganization == null) {
-            organizationEntity.level = 0
-        } else {
-            organizationEntity.level = organizationEntity.pOrganization!!.level?.plus(1)
-        }
-        organizationRepository.save(organizationEntity)
-
-        organizationRoleMapRepository.deleteByOrganization(organizationEntity)
-        organizationRoleMapRepository.flush()
-
-        this.saveOrganizationRoleMap(organizationEntity, organizationRoleDto.roleIds)
-
-        return true
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 조직 정보 삭제
      */
     @Transactional
-    fun deleteOrganization(organizationId: String): String {
+    fun deleteOrganization(organizationId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         // 조직에 구성원이 있는지 확인
         if (userRepository.existsByDepartment(organizationId)) {
-            return OrganizationConstants.Status.STATUS_ERROR_USER_EXIST.code
+            status = ZResponseConstants.STATUS.ERROR_EXIST
         }
         // 하위 부서가 있는지 확인
         if (organizationRepository.existsByPOrganizationId(organizationId)) {
-            return OrganizationConstants.Status.STATUS_ERROR_SUB_DEPT_EXIST.code
+            status = ZResponseConstants.STATUS.ERROR_ANY
         }
-        // 조직에 설정된 역할 삭제
-        organizationRoleMapRepository.deleteByOrganization(OrganizationEntity(organizationId))
-        // 조직 삭제
-        organizationRepository.deleteByOrganizationId(organizationId)
-        return OrganizationConstants.Status.STATUS_SUCCESS.code
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            // 조직에 설정된 역할 삭제
+            organizationRoleMapRepository.deleteByOrganization(OrganizationEntity(organizationId))
+            // 조직 삭제
+            organizationRepository.deleteByOrganizationId(organizationId)
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

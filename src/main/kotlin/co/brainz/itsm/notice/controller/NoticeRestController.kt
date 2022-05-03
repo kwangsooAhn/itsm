@@ -33,14 +33,14 @@ class NoticeRestController(private val noticeService: NoticeService) {
     }
 
     // Notice update
-    @PutMapping("/{noticeId}")
-    fun updateNotice(@PathVariable noticeId: String, @RequestBody noticeDto: NoticeDto): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(noticeService.updateNotice(noticeId, noticeDto))
+    @PutMapping("/{noticeNo}")
+    fun updateNotice(@PathVariable noticeNo: String, @RequestBody noticeDto: NoticeDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(noticeService.updateNotice(noticeNo, noticeDto))
     }
 
     // Notice delete
-    @DeleteMapping("/{noticeId}")
-    fun deleteNotice(@PathVariable noticeId: String): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(noticeService.delete(noticeId))
+    @DeleteMapping("/{noticeNo}")
+    fun deleteNotice(@PathVariable noticeNo: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(noticeService.delete(noticeNo))
     }
 }

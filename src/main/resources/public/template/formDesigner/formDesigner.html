@@ -30,15 +30,27 @@
             aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
                 method: 'GET'
             }).then((response) => {
-                ZSession.add('departmentName', response.data.organizationName);
+                if (response.status === aliceJs.response.success) {
+                    ZSession.add('departmentName', response.data.organizationName);
+                }
             });
         }
         // 데이터 조회
         aliceJs.fetchJson('/rest/forms/[[${formId}]]/data', {
             method: 'GET',
             showProgressbar: true
-        }).then((formData) => {
-            zFormDesigner.init(formData, '[[${isView}]]');
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zFormDesigner.init(response.data, '[[${isView}]]');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+
+            }
         });
         window.zFormDesigner = zFormDesigner;
 

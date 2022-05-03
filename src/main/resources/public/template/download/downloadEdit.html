@@ -84,18 +84,25 @@
             data.downloadId = /*[[${download?.downloadId}]]*/'';
             data.views = /*[[${download?.views}]]*/'';
         }
-        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.save') : i18n.msg('common.msg.update');
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
         aliceJs.fetchJson('/rest/downloads', {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((result) => {
-            if (result.status === 200) {
-                zAlert.success(resultMsg, function() {
-                    location.href = '/downloads/search';
-                });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function() {
+                        location.href = '/downloads/search';
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
         });
     }
@@ -104,10 +111,10 @@
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
             aliceJs.fetchJson('/rest/downloads/' + /*[[${download?.downloadId}]]*/'', {
                 method: 'DELETE'
-            }).then((result) => {
-                if (result.status === 200) {
-                    zAlert.success(i18n.msg('common.msg.delete'), () => {
-                        location.href = '/downloads/search';
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/downloads/search';
                     });
                 }
             });

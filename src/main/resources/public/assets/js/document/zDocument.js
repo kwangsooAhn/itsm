@@ -312,23 +312,27 @@ class ZDocument {
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
         const finishAction = function () {
             const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
-            aliceJs.fetchText(url, {
+            aliceJs.fetchJson(url, {
                 method: (saveData.tokenId === '') ? 'post' : 'put',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(saveData),
                 showProgressbar: true
-            }).then(rtn => {
-                if (rtn === 'true') {
-                    zAlert.success(i18n.msg(actionMsg), () => {
-                        opener.location.reload();
-                        window.close();
-                    });
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg(actionMsg), () => {
+                            opener.location.reload();
+                            window.close();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
-            }).catch((err) => {
-                console.error(err);
-                zAlert.danger(i18n.msg('common.msg.fail'));
             });
         };
 

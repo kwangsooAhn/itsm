@@ -75,9 +75,9 @@
                 aliceJs.fetchJson('/rest/statistics/customReportTemplate/charts?' + urlParam, {
                     method: 'GET',
                     showProgressbar: true
-                }).then((dataList) => {
-                    if (dataList.length === 0) { return false; }
-                    dataList.forEach((data) => {
+                }).then((response) => {
+                    if (response.status !== aliceJs.response.success && response.data.length === 0) { return false; }
+                    response.data.forEach((data) => {
                         addChartContent(data);
                     });
                 });

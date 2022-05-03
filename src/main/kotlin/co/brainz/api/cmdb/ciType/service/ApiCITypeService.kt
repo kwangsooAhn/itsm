@@ -11,6 +11,8 @@ import co.brainz.cmdb.ciType.service.CITypeService
 import co.brainz.cmdb.dto.CITypeDto
 import co.brainz.cmdb.dto.CITypeListDto
 import co.brainz.cmdb.dto.CITypeReturnDto
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
@@ -48,27 +50,47 @@ class ApiCITypeService(
     /**
      * CI Type 등록
      */
-    fun createCIType(ciTypeDto: CITypeDto): Boolean {
+    fun createCIType(ciTypeDto: CITypeDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
         ciTypeDto.createUserKey = userEntity.userKey
         ciTypeDto.createDt = LocalDateTime.now()
-        return ciTypeService.createCIType(ciTypeDto)
+        if (!ciTypeService.createCIType(ciTypeDto)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI Type 수정
      */
-    fun updateCIType(typeId: String, ciTypeDto: CITypeDto): Boolean {
+    fun updateCIType(typeId: String, ciTypeDto: CITypeDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
         ciTypeDto.updateUserKey = userEntity.userKey
         ciTypeDto.updateDt = LocalDateTime.now()
-        return ciTypeService.updateCIType(typeId, ciTypeDto)
+        if (!ciTypeService.updateCIType(typeId, ciTypeDto)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI Type 삭제
      */
-    fun deleteCIType(typeId: String): Boolean {
-        return ciTypeService.deleteCIType(typeId)
+    fun deleteCIType(typeId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (!ciTypeService.deleteCIType(typeId)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 }

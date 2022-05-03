@@ -5,12 +5,12 @@
 
 package co.brainz.itsm.document.controller
 
-import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.document.dto.DocumentSearchCondition
-import co.brainz.itsm.document.dto.FieldReturnDto
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -30,8 +30,10 @@ class DocumentRestController(
      * @param documentId
      * */
     @GetMapping("/{documentId}/data")
-    fun getDocumentData(@PathVariable documentId: String): RestTemplateRequestDocumentDto {
-        return documentActionService.makeDocumentAction(documentService.getDocumentData(documentId))
+    fun getDocumentData(@PathVariable documentId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            documentActionService.makeDocumentAction(documentService.getDocumentData(documentId))
+        )
     }
 
     /**
@@ -40,15 +42,21 @@ class DocumentRestController(
     @GetMapping("/", "")
     fun getDocuments(
         documentSearchCondition: DocumentSearchCondition
-    ): List<DocumentDto> {
-        return documentService.getDocumentList(documentSearchCondition).data
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            ZResponse(
+                data = documentService.getDocumentList(documentSearchCondition).data
+            )
+        )
     }
 
     @GetMapping("/components/{componentId}/value")
     fun getDocumentComponentValue(
         @PathVariable componentId: String,
         @RequestParam(value = "documentNo", defaultValue = "") documentNo: String
-    ): FieldReturnDto {
-        return documentService.getDocumentComponentValue(documentNo, componentId)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            documentService.getDocumentComponentValue(documentNo, componentId)
+        )
     }
 }

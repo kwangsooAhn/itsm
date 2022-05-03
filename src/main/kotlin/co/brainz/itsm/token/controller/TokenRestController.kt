@@ -5,6 +5,8 @@
 
 package co.brainz.itsm.token.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
@@ -25,16 +27,18 @@ class TokenRestController(private val tokenService: TokenService) {
      * 처리할 문서 데이터 조회.
      * */
     @GetMapping("/{tokenId}/data")
-    fun getToken(@PathVariable tokenId: String): String {
-        return tokenService.findToken(tokenId)
+    fun getToken(@PathVariable tokenId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(tokenService.findToken(tokenId))
     }
 
     /**
      * Post Token 처리.
      */
     @PostMapping("/data")
-    fun postToken(@RequestBody restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
-        return tokenService.postToken(restTemplateTokenDataUpdateDto)
+    fun postToken(
+        @RequestBody restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(tokenService.postToken(restTemplateTokenDataUpdateDto))
     }
 
     /**
@@ -44,12 +48,14 @@ class TokenRestController(private val tokenService: TokenService) {
     fun putToken(
         @RequestBody restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto,
         @PathVariable tokenId: String
-    ): Boolean {
-        return tokenService.putToken(tokenId, restTemplateTokenDataUpdateDto)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(tokenService.putToken(tokenId, restTemplateTokenDataUpdateDto))
     }
 
     @GetMapping("/todoCount")
-    fun getTodoCount(): Long = tokenService.getTodoTokenCount()
+    fun getTodoCount(): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(tokenService.getTodoTokenCount())
+    }
 
     /**
      * 문서함 Excel 다운로드

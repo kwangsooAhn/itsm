@@ -42,9 +42,6 @@
     // process status
     const STATUS_USE = 'process.status.use';
     const STATUS_DESTROY = 'process.status.destroy';
-    const RESPONSE_SUCESS = '1';
-    const RESPONSE_FAIL = '0';
-    const RESPONSE_DUPLICATION = '-1';
 
     let importFile;
     let offsetCount = 0;
@@ -105,63 +102,61 @@
             processInfo.processId = processId;
             processInfo.processStatus = isDestroy ? STATUS_DESTROY : document.getElementById('process_status').value;
         }
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(processInfo)
-        }).then((result) => {
-            if (method === 'POST') {
-                const _width = 1800,
-                    _height = 920;
-                // 중앙 배치
-                const _left = Math.ceil((window.screen.width - _width) / 2);
-                const _top = Math.ceil((window.screen.height - _height) / 4);
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    if (method === 'POST') {
+                        const _width = 1800,
+                            _height = 920;
+                        // 중앙 배치
+                        const _left = Math.ceil((window.screen.width - _width) / 2);
+                        const _top = Math.ceil((window.screen.height - _height) / 4);
 
-                let resultToJson = JSON.parse(result);
-                let processId = resultToJson.processId;
-                let resultCode = resultToJson.result;
-                switch (resultCode.toString()) {
-                    case RESPONSE_DUPLICATION:
-                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                        return;
-                    case RESPONSE_FAIL:
-                        zAlert.warning(i18n.msg('common.msg.fail'));
-                        return;
-                    default:
+                        let processId = response.data.processId;
                         sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
                         let specs = 'left=' + _left + ',top=' + _top;
                         specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                        window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
-                }
-            } else {
-                switch (result) {
-                    case RESPONSE_DUPLICATION:
-                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                        return;
-                    case RESPONSE_FAIL:
-                        zAlert.warning(i18n.msg('common.msg.fail'));
-                        return;
-                }
+                        window.open('/process/' + processId + '/edit', 'process_' + processId + '_edit',
+                            'width=' + _width + ',height=' + _height + ',' + specs);
+                    }
+                    location.reload();
+                    break;
+                case aliceJs.response.duplicate:
+                    zAlert.warning(i18n.msg('process.msg.duplicateName'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
-            location.reload();
         });
     }
 
     // 프로세스 삭제
     function deleteProcess(processId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/process/' + processId, {
+            aliceJs.fetchJson('/rest/process/' + processId, {
                 method: 'DELETE',
                 showProgressbar: true
-            }).then((rtn) => {
-                if (rtn === 'true') {
-                    zAlert.success(i18n.msg('common.msg.delete'), () => {
-                        location.reload();
-                    });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                            location.reload();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -268,19 +263,22 @@
                 processDesc: document.getElementById('process_description').value
             };
 
-            ZWorkflowUtil.import(importFile, processInfo, 'process', function (resultCode) {
-                switch (resultCode.toString()) {
-                    case RESPONSE_DUPLICATION:
-                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                        return false;
-                    case RESPONSE_FAIL:
-                        zAlert.warning(i18n.msg('common.msg.fail'));
-                        return false;
-                    default:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
+            ZWorkflowUtil.import(importFile, processInfo, 'process', function (response) {
+                switch (response.status) {
+                    case aliceJs.response.duplicate:
+                        zAlert.warning(i18n.msg('process.msg.duplicateName'));
+                        break;
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.success'), function () {
                             location.reload();
                             return true;
                         });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('process.msg.failedImport'));
+                        break;
+                    default:
+                        break;
                 }
             });
         }

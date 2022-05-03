@@ -89,12 +89,11 @@ function zColorPicker(targetElement, options) {
     this.modalEl = pickerModal;
 
     // 서버에 저장된 사용자 색상 조회
-    aliceJs.fetchText('/rest/users/colors', {
+    aliceJs.fetchJson('/rest/users/colors', {
         method: 'GET'
-    }).then((data) => {
-        if (data.length > 0) {
-            const userColors = JSON.parse(data);
-            this.savedCustomColors = userColors.customValue.split('|');
+    }).then((response) => {
+        if (response.status === aliceJs.response.success && response.data !== null) {
+            this.savedCustomColors = response.data.customValue.split('|');
             this.savedCustomColors.map(color => color.toUpperCase());
             this.customColors = [...this.savedCustomColors];
             this.isExistColor = this.savedCustomColors.includes(this.value);
@@ -576,13 +575,21 @@ Object.assign(zColorPicker.prototype, {
             },
             body: JSON.stringify({ customValue: this.customColors.join('|') }),
             showProgressbar: true
-        }).then((rtn) => {
-            if (rtn) {
-                this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
-                this.closeCustomColorControl();
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    if (response.data) {
+                        this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
+                        this.closeCustomColorControl();
+                    }
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
             }
         });
-
     },
     // 사용자 색상 초기화
     resetCustomColor() {

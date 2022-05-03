@@ -9,8 +9,8 @@ import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
-import co.brainz.framework.response.dto.ZReturnDto
-import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
@@ -76,7 +76,6 @@ class WfDocumentService(
     private val wfFormGroupRepository: WfFormGroupRepository,
     private val wfElementRepository: WfElementRepository,
     private val numberingRuleRepository: NumberingRuleRepository,
-    private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
     private val ciComponentDataRepository: CIComponentDataRepository,
     private val currentSessionUser: CurrentSessionUser,
@@ -192,12 +191,10 @@ class WfDocumentService(
      * Create Document.
      *
      * @param documentDto
-     * @return RestTemplateDocumentDto
      */
     @Transactional
-    fun createDocument(documentDto: DocumentDto): ZReturnDto {
-        var isSuccess = true
-        var message = ""
+    fun createDocument(documentDto: DocumentDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         var documentId = ""
 
         val formId = documentDto.formId
@@ -206,17 +203,15 @@ class WfDocumentService(
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
         if (selectedDocument != null) {
-            isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.checkDuplication")
+            status = ZResponseConstants.STATUS.ERROR_ANY
         }
-        if (isSuccess) {
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             val isDuplicateName = wfDocumentRepository.existsByDocumentName(documentDto.documentName, documentDto.documentId)
             if (isDuplicateName) {
-                isSuccess = false
-                message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
         }
-        if (isSuccess) {
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             val form = WfFormEntity(formId = formId)
             val process = WfProcessEntity(processId = processId)
 
@@ -245,9 +240,8 @@ class WfDocumentService(
             documentId = dataEntity.documentId
         }
 
-        return ZReturnDto(
-            result = isSuccess,
-            message = message,
+        return ZResponse(
+            status = status.code,
             data = documentId
         )
     }
@@ -256,19 +250,15 @@ class WfDocumentService(
      * Create DocumentLink.
      *
      * @param documentDto
-     * @return DocumentDto
      */
     @Transactional
-    fun createDocumentLink(documentDto: DocumentDto): ZReturnDto {
-        var isSuccess = true
-        var message = ""
-
+    fun createDocumentLink(documentDto: DocumentDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val isDuplicateName = wfDocumentLinkRepository.existsByDocumentLinkName(documentDto.documentName, documentDto.documentId)
         if (isDuplicateName) {
-            isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
-        if (isSuccess) {
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             val documentLinkEntity = WfDocumentLinkEntity(
                 documentLinkId = documentDto.documentId,
                 documentName = documentDto.documentName,
@@ -282,9 +272,8 @@ class WfDocumentService(
             )
             wfDocumentLinkRepository.save(documentLinkEntity)
         }
-        return ZReturnDto(
-            result = isSuccess,
-            message = message
+        return ZResponse(
+            status = status.code
         )
     }
 
@@ -292,23 +281,20 @@ class WfDocumentService(
      * Update Document.
      *
      * @param documentDto
-     * @return Boolean
      */
     @Transactional
     fun updateDocument(
         documentDto: DocumentDto,
         params: LinkedHashMap<String, Any>
-    ): ZReturnDto {
-        var isSuccess = true
-        var message = ""
+    ): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
 
         val isDuplicateName = wfDocumentRepository.existsByDocumentName(documentDto.documentName, documentDto.documentId)
         if (isDuplicateName) {
-            isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
 
-        if (isSuccess) {
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentDto.documentId)
             val form = WfFormEntity(formId = documentDto.formId)
             val process = WfProcessEntity(processId = documentDto.processId)
@@ -355,9 +341,8 @@ class WfDocumentService(
 
         }
 
-        return ZReturnDto(
-            result = isSuccess,
-            message = message
+        return ZResponse(
+            status = status.code
         )
     }
 
@@ -369,17 +354,14 @@ class WfDocumentService(
     @Transactional
     fun updateDocumentLink(
         documentDto: DocumentDto
-    ): ZReturnDto {
-
-        var isSuccess = true
-        var message = ""
+    ): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val isDuplicateName = wfDocumentLinkRepository.existsByDocumentLinkName(documentDto.documentName, documentDto.documentId)
         if (isDuplicateName) {
-            isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
 
-        if (isSuccess) {
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             val wfDocumentLinkEntity = wfDocumentLinkRepository.findByDocumentLinkId(documentDto.documentId)
             wfDocumentLinkEntity.documentName = documentDto.documentName
             wfDocumentLinkEntity.documentDesc = documentDto.documentDesc
@@ -391,9 +373,8 @@ class WfDocumentService(
             wfDocumentLinkEntity.updateDt = documentDto.updateDt
         }
 
-        return ZReturnDto(
-            result = isSuccess,
-            message = message
+        return ZResponse(
+            status = status.code
         )
     }
 
@@ -432,31 +413,36 @@ class WfDocumentService(
      * @return Boolean
      */
     @Transactional
-    fun deleteDocument(documentId: String): Boolean {
+    fun deleteDocument(documentId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
-
-        val isDel = if (instanceCnt == 0) {
+        if (instanceCnt == 0) {
             logger.debug("Try delete document...")
             wfDocumentDisplayRepository.deleteByDocumentId(documentId)
             wfDocumentRepository.deleteByDocumentId(documentId)
-            true
         } else {
-            false
+            status = ZResponseConstants.STATUS.ERROR_EXIST
         }
-        logger.info("Delete document result. {}", isDel)
-        return isDel
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * Delete DocumentLink.
      *
      * @param documentId
-     * @return Boolean
      */
     @Transactional
-    fun deleteDocumentLink(documentId: String): Boolean {
-        return wfDocumentLinkRepository.deleteByDocumentLinkId(documentId) === 1
+    fun deleteDocumentLink(documentId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (wfDocumentLinkRepository.deleteByDocumentLinkId(documentId) != 1) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -592,10 +578,9 @@ class WfDocumentService(
      * Update Document Display data.
      *
      * @param restTemplateDocumentDisplaySaveDto
-     * @return Boolean
      */
     @Transactional
-    fun updateDocumentDisplay(restTemplateDocumentDisplaySaveDto: RestTemplateDocumentDisplaySaveDto): Boolean {
+    fun updateDocumentDisplay(restTemplateDocumentDisplaySaveDto: RestTemplateDocumentDisplaySaveDto): ZResponse {
         val documentId = restTemplateDocumentDisplaySaveDto.documentId
         wfDocumentDisplayRepository.deleteByDocumentId(documentId)
         val displays = restTemplateDocumentDisplaySaveDto.displays
@@ -609,7 +594,7 @@ class WfDocumentService(
                 )
             )
         }
-        return true
+        return ZResponse()
     }
 
     /**
@@ -700,31 +685,32 @@ class WfDocumentService(
      * 신규로 Import된 프로세스, 폼은 '발행' 상태이다.
      */
     @Transactional
-    fun importDocument(documentImportDto: DocumentImportDto): ZReturnDto {
-        var isSuccess = true
+    fun importDocument(documentImportDto: DocumentImportDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         var message = ""
         var importDto: DocumentImportDto
-
         // 폼 중복 체크
         if (wfFormRepository.existsByFormName(documentImportDto.formData.name)) {
-            isSuccess = false
-            message = aliceMessageSource.getMessage("form.msg.duplicateFormName")
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            message = "form"
         }
 
         // 프로세스 중복 체크
-        if (isSuccess && wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)) {
-            isSuccess = false
-            message = aliceMessageSource.getMessage("process.msg.duplicateProcessName")
+        if (status == ZResponseConstants.STATUS.SUCCESS &&
+            wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)) {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            message = "process"
         }
 
         // 문서 중복 체크
-        if (isSuccess && wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")) {
-            isSuccess = false
-            message = aliceMessageSource.getMessage("document.msg.nameDuplication")
+        if (status == ZResponseConstants.STATUS.SUCCESS &&
+            wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")) {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            message = "document"
         }
 
         // 유효성 검증 후 처리
-        if (isSuccess) {
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             // 폼 저장
             importDto = this.importForm(documentImportDto)
             val newFormId = importDto.formData.id.toString()
@@ -765,9 +751,8 @@ class WfDocumentService(
                 wfDocumentDisplayRepository.saveAll(wfDocumentDisplayEntities)
             }
         }
-
-        return ZReturnDto(
-            result = isSuccess,
+        return ZResponse(
+            status = status.code,
             message = message
         )
     }

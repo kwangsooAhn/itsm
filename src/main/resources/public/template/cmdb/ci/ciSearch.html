@@ -418,10 +418,12 @@
                 showProgressBar: true
             }).then((response) => {
                 // 성공시 페이지 새로 고침
-                zAlert.success(i18n.msg('common.msg.save'), function () {
-                    location.reload();
-                    return true;
-                });
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        location.reload();
+                        return true;
+                    });
+                }
             });
         }
         /**

@@ -27,6 +27,8 @@ import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.organization.service.OrganizationService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -75,6 +77,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+
 /**
  * 사용자 관리 서비스
  */
@@ -248,7 +251,7 @@ class UserService(
      * @param userEditType
      */
     @Transactional
-    fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
+    fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): ZResponse {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
             AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
@@ -322,7 +325,29 @@ class UserService(
                 }
             }
         }
-        return code
+
+        if (userEditType == AliceUserConstants.UserEditType.SELF_USER_EDIT.code) {
+            when (code) {
+                AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
+                    aliceCertificationMailService.sendMail(
+                        userUpdateDto.userId,
+                        userUpdateDto.email!!,
+                        AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+                        null
+                    )
+                }
+                else -> aliceCertificationMailService.sendMail(
+                    userUpdateDto.userId,
+                    userUpdateDto.email!!,
+                    AliceUserConstants.SendMailStatus.UPDATE_USER.code,
+                    null
+                )
+            }
+        }
+
+        return ZResponse(
+            status = code
+        )
     }
 
     /**
@@ -417,7 +442,7 @@ class UserService(
      * 사용자의 비밀번호를 초기화한다.
      */
     @Transactional
-    fun resetPassword(userKey: String, password: String): String {
+    fun resetPassword(userKey: String, password: String): ZResponse {
         val publicKey = aliceCryptoRsa.getPublicKey()
         val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
@@ -436,7 +461,9 @@ class UserService(
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
             password
         )
-        return AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
+        return ZResponse(
+            status = AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
+        )
     }
 
     /**
@@ -481,7 +508,7 @@ class UserService(
     /**
      * 사용자 정의 색상 저장
      */
-    fun updateUserCustomColors(userCustomDto: UserCustomDto): Boolean {
+    fun updateUserCustomColors(userCustomDto: UserCustomDto): ZResponse {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userEntity = userDetailsService.selectUserKey(aliceUserDto.userKey)
         // 삭제
@@ -494,7 +521,7 @@ class UserService(
                 customValue = userCustomDto.customValue
             )
         )
-        return true
+        return ZResponse()
     }
 
     /**
@@ -526,7 +553,8 @@ class UserService(
      * 비밀번호 변경
      */
     @Transactional
-    fun updatePassword(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+    fun updatePassword(userUpdatePasswordDto: UserUpdatePasswordDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
@@ -535,28 +563,30 @@ class UserService(
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
 
         if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) { // 현재 비밀번호가 틀릴 경우
-            return UserConstants.UserUpdatePassword.NOT_EQUAL_NOW_PASSWORD.code
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
 
         if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) { // 새 비밀번호가 현재 비밀번호와 같을 경우
-            return UserConstants.UserUpdatePassword.SAME_AS_CURRENT_PASSWORD.code
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
 
         userEntity.password =
             BCryptPasswordEncoder().encode(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!))
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
-        return UserConstants.UserUpdatePassword.SUCCESS.code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 비밀번호 다음에 변경하기
      */
     @Transactional
-    fun extendExpiryDate(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+    fun extendExpiryDate(userUpdatePasswordDto: UserUpdatePasswordDto): ZResponse {
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
-        return UserConstants.UserUpdatePassword.SUCCESS.code
+        return ZResponse()
     }
 
     /**
@@ -589,7 +619,8 @@ class UserService(
      * 사용자 현재 문서 업무 대리인으로 변경
      */
     @Transactional
-    fun executeUserProcessingDocumentAbsence(absenceInfo: String): Boolean {
+    fun executeUserProcessingDocumentAbsence(absenceInfo: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         var isSuccess = false
         val absence = mapper.readValue(absenceInfo, Map::class.java)
         val fromUser = absence["userKey"].toString()
@@ -614,7 +645,12 @@ class UserService(
                 }
             }
         }
-        return isSuccess
+        if (!isSuccess) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
