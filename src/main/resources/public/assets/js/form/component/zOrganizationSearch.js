@@ -171,8 +171,8 @@ export const organizationSearchMixin = {
 
     // 세부 속성 조회
     getProperty() {
-        const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue)
-        defaultValueSearchProperty.help = 'form.help.search-default'
+        const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue);
+        defaultValueSearchProperty.help = 'form.help.search-default';
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),

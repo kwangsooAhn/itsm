@@ -64,7 +64,7 @@
             }
         }
 
-        window.onload = function() {
+        window.onload = function () {
             const customCodeData = sessionStorage.getItem(window.name);
             componentData = JSON.parse(customCodeData);
             let compDataMap = componentData.componentValue.split('|');
@@ -81,7 +81,7 @@
                         dataList[i].parentElement.parentElement.style.display = 'none';
                     }
                 }
-                if (document.querySelectorAll('li:not([style*="display: none"])').length === 0) {
+                if (!document.querySelectorAll('li:not([style*="display: none"])').length) {
                     document.getElementById('no-data').style.display = '';
                 } else {
                     document.getElementById('no-data').style.display = 'none';

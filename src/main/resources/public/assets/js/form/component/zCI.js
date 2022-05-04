@@ -353,7 +353,7 @@ export const ciMixin = {
                                 newValue.splice(rowIndex - 1, 1);
                                 this.value = newValue;
                                 // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
-                                if (Array.isArray(this.value) && this.value.length === 0) {
+                                if (Array.isArray(this.value) && !this.value.length) {
                                     this.setEmptyCITable(targetTable);
                                 }
                                 break;
@@ -371,7 +371,7 @@ export const ciMixin = {
                     this.value = newValue;
 
                     // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
-                    if (Array.isArray(this.value) && this.value.length === 0) {
+                    if (Array.isArray(this.value) && !this.value.length) {
                         this.setEmptyCITable(targetTable);
                     }
                 }

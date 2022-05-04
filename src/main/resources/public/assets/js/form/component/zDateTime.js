@@ -66,7 +66,8 @@ export const dataTimeMixin = {
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
         // 기본값이 '${default}' 이면 실제 값을 저장한다.
-        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+        if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+            !zValidation.isEmpty(this.parent.parent.parent) && this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
             this.displayType === FORM.DISPLAY_TYPE.EDITABLE && this.value === '${default}') {
             this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type,
                 this.UIElement.UIComponent.UIElement.UIDate.getUIValue());

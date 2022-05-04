@@ -18,9 +18,9 @@ aliceJs.pageObserver = {
         this.isChanged = false;
         document.querySelectorAll('.z-edit-form').forEach((element) => {
             element.addEventListener('change', () => {
-                this.isChanged = true
+                this.isChanged = true;
             });
-        })
+        });
     },
     canPageChange: function () {
         if (this.isChanged) {
@@ -30,4 +30,4 @@ aliceJs.pageObserver = {
         }
         return true;
     }
-}
+};

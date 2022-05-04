@@ -142,7 +142,7 @@
             textarea: {
                 dynHeight: false,
                 dynWidth: false,
-                inheritedAttrs: "class"
+                inheritedAttrs: 'class'
             }
         });
     };
@@ -246,7 +246,7 @@
                 document.getElementById('treeList').querySelector('.node').click();
             },
             selectedNode: function (response) {
-                onGetDetail(response.id)
+                onGetDetail(response.id);
             }
         });
     }
@@ -317,7 +317,7 @@
         const saveAlarmsList = [];
         const alarmNodeList = document.querySelectorAll('.alarm');
 
-        if (alarmNodeList.length === 0) { return saveAlarmsList; }
+        if (!alarmNodeList.length) { return saveAlarmsList; }
 
         let isValid = true;
         outer : for (let i = 0; i < alarmNodeList.length; i++) {
@@ -386,7 +386,7 @@
 
         // 속성 목록
         const attributeNodeList = document.getElementsByName('attribute');
-        if (attributeNodeList.length === 0) {
+        if (!attributeNodeList.length) {
             zAlert.warning(i18n.msg('cmdb.class.msg.enterAttributeList'));
             return false;
         }
@@ -583,7 +583,7 @@
                     }
                 });
             });
-        })
+        });
     }
 
     /**

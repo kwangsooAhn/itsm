@@ -68,7 +68,8 @@ export const radioMixin = {
                 this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
 
-        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+        if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+            !zValidation.isEmpty(this.parent.parent.parent) && this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
             this.displayType === FORM.DISPLAY_TYPE.EDITABLE  && this.value === '') {
             for (let i = 0; i < this.element.options.length; i++) {
                 let checkedYn = (this.element.options[i].checked || false);

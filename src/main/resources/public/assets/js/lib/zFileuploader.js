@@ -236,7 +236,7 @@
         // 파일이 하나도 없다면 아이콘을 보여준다.
         const previewList = delFilePreview.parentNode.querySelectorAll(
             '.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
-        if (previewList.length === 0) {
+        if (!previewList.length) {
             delFilePreview.parentNode.querySelector('.i-document-txt').style.display = 'block';
             this.isFileExist = false;
         }
@@ -409,7 +409,7 @@
                     _this.on('removedfile', function () {
                         const previewList = _this.element.querySelectorAll(
                             '.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
-                        if (_this.files.length === 0 && previewList.length === 0) {
+                        if (!_this.files.length && !previewList.length) {
                             _this.isFileExist = false;
                         }
                         if (typeof _this.options.params.userCallback === 'function') {
