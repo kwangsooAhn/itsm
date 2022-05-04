@@ -10,6 +10,7 @@ import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.file.dto.FileRenameDto
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -30,6 +31,9 @@ class FileRestController(
     private val fileService: AliceFileService,
     private val fileProvider: AliceFileProvider
 ) {
+
+    @Value("\${file.drag.enabled}")
+    private var enabledFileDrag: Boolean = false
 
     /**
      * 파일 업로드.
@@ -80,5 +84,13 @@ class FileRestController(
         @RequestParam(value = "fileName", defaultValue = "") fileName: String
     ): ResponseEntity<InputStreamResource> {
         return fileService.download(fileName)
+    }
+
+    /**
+     * application.yml 파일에 위치한 제품 정보 가져오기
+     */
+    @GetMapping("/enabledFileDrag")
+    fun getProductInfo(): Boolean {
+        return enabledFileDrag
     }
 }
