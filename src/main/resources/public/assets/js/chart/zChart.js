@@ -265,7 +265,7 @@ export  default class ZChart {
      * @returns 날짜 데이터
      */
     getStringToDateTime(userDateTime) {
-        /* eslint-disable no-useless-escape */
+        /* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
         let matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/); // 2021-12-01 00:00:00
         if (!zValidation.isDefined(matchDateTime)) {
             matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)$/); // 2021-12-01 00:00

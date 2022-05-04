@@ -1,7 +1,7 @@
 /**
  * Constants for validation check.
  * */
-/* eslint-disable no-useless-escape */
+/* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
 const blankReg = /\s/;
 const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 const upperCaseReg = /^[A-Z]*$/;
