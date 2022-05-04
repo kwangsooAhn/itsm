@@ -602,6 +602,15 @@
                         file.previewElement.querySelector('.dz-error-message').innerText = res.message;
                     }
                 });
+
+                _this.on('dragover', function (e) {
+                    if (!options.isEnabledDropAndDrag) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        e.dataTransfer.effectAllowed = 'none';
+                        e.dataTransfer.dropEffect = 'none';
+                    }
+                });
             },
             accept: function (file, done) {
                 // done 함수 호출시 인수없이 호출해야 정상 업로드 진행

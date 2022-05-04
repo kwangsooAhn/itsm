@@ -87,7 +87,7 @@ class FileRestController(
     }
 
     /**
-     * application.yml 파일에 위치한 제품 정보 가져오기
+     * File Drag 사용 여부
      */
     @GetMapping("/enabledFileDrag")
     fun getProductInfo(): Boolean {
