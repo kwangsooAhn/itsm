@@ -33,7 +33,7 @@ module.exports = {
         // 전역 객체 사용시 에러 표시 안함
         'no-undef': 'off',
         // 클래스는 대문자 시작
-        'new-cap': ['error', { 'newIsCap': false }],
+        'new-cap': ['error', { 'newIsCap': false, 'capIsNewExceptionPattern': 'OverlayScrollbars'  }],
         // array = [] 로 사용
         'no-array-constructor': 'error',
         // new Object() 사용 안함

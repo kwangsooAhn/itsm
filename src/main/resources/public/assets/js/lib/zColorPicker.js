@@ -13,7 +13,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* eslint-disable no-useless-escape */
+/* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
 const DEFAULT_OPTIONS = {
     type: 'fill', // fill or line (사용자 색상에 추가된 색상은 Fill, Line Color Picker 서로 공유된다.)
     colors: [
