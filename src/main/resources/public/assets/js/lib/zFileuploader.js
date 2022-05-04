@@ -14,7 +14,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.zFileUploader = global.zFileUploader || {})));
-}(this, (async function (exports) {
+}(this, (function (exports) {
     'use strict';
 
     const fileAttrName = 'fileSeq'; // 서버로 전달하여 업로드 할 fileSeq input hidden 의 속성 이름
@@ -23,7 +23,7 @@
     const addFileBtnWrapClassName = 'add-file-button-wrap'; // 업로드 버튼 클릭 구역 wrapper
     const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
     const logValueDigit = 1024;
-    let isEnabledFileDrag = await getEnabledFileDrag()
+    let isEnabledFileDrag = getEnabledFileDrag()
 
     function generateUUID() {
         function s4() {
