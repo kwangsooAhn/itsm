@@ -15,13 +15,20 @@ aliceJs.autoRefreshPeriod = 60000;
 // 응답 코드 - 서버에서 전달되는 코드값과 항상 일치하도록 관리한다.
 aliceJs.response = {
     success: 'Z-0000',
+    successEdit: 'Z-0001',
+    successEditEmail: 'Z-0002',
+    successEditPassword: 'Z-0003',
     error: 'E-0000',
     duplicate: 'E-0001',
     expired: 'E-0002',
     notExist: 'E-0003',
     exist: 'E-0004',
     notFound: 'E-0005',
-    accessDeny: 'E-0006'
+    accessDeny: 'E-0006',
+    duplicateEmail: 'E-0007',
+    duplicateOrganization: 'E-0008',
+    duplicateWorkflow: 'E-0009',
+    notExistClass: 'E-0010'
 };
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
@@ -193,7 +200,7 @@ aliceJs.serializeObject = function (form) {
 aliceJs.formDataToObject = function (form) {
     let formDataObject = {fileSeq:[], delFileSeq:[]};
     const formData = new FormData(form);
-    formData.forEach(function(value, key) {
+    formData.forEach(function (value, key) {
 
         if (key === 'fileSeq' || key === 'delFileSeq') {
             formDataObject[key].push(value);
@@ -356,7 +363,7 @@ function showProgressBar() {
  */
 function hiddenProgressBar() {
     //divProgressBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
-    var divCheck = document.getElementById('divProgressBar');
+    let divCheck = document.getElementById('divProgressBar');
     if (divCheck === null) {
         return false;
     }
@@ -366,13 +373,13 @@ function hiddenProgressBar() {
 /*
  * 사용자 액션 처리 시간 지연
  */
-aliceJs.debounce = function(func, timeout = 500) {
+aliceJs.debounce = function (func, timeout = 500) {
     let timer;
     return (...args) => { //함수의 파라미터 값들을 배열로 전달 받음
         clearTimeout(timer);
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
-}
+};
 
 /**
  * 파라미터로 받은 날짜 데이터 기준으로 4가지 date 포맷을 받아서 yyyy-mm-dd HH:MM로 반환한다.
@@ -380,11 +387,11 @@ aliceJs.debounce = function(func, timeout = 500) {
  *  @param p_format 입력받는 날짜 형식
  */
 function changeDateFormatYYYYMMDD(p_date, p_format) {
-    var v_date = '';
-    var arrayDate = [];
-    var arrayResultDate = '';
-    var arrayFormat = '';
-    var index = 0;
+    let v_date = '';
+    let arrayDate = [];
+    let arrayResultDate = '';
+    let arrayFormat = '';
+    let index = 0;
     if (p_date === '' || p_date === null) {
         return;
     } else {
@@ -441,14 +448,14 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
     }
     //console.log("v_date==="+v_date);
     //올바르게 변환한 yyyy-mm-dd와 시간을 객체로 변환한다.
-    var result_date = new Date(v_date);
-    var year = result_date.getFullYear();
-    var month = (1+result_date.getMonth());
+    let result_date = new Date(v_date);
+    let year = result_date.getFullYear();
+    let month = (1+result_date.getMonth());
     month = month >= 10 ? month : '0' + month;
-    var day = result_date.getDate();
+    let day = result_date.getDate();
     day = day >= 10 ? day : '0' + day;
-    var hour = '';
-    var min = '';
+    let hour = '';
+    let min = '';
     if (arrayDate.length === 2 || arrayDate.length === 3) {
         hour = result_date.getHours();
         if (arrayDate.length === 3) {
@@ -504,7 +511,7 @@ function dateFormatFromNow(date) {
  * @param extension 확장자
  * @returns icon path 파일명
  */
-aliceJs.getFileExtensionIcon = function(extension){
+aliceJs.getFileExtensionIcon = function (extension) {
     return '/assets/media/icons/fileUploader/icon_document_' + extension + '.svg';
 };
 
@@ -519,7 +526,7 @@ aliceJs.getFileExtensionIcon = function(extension){
  * isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
  * thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
  */
-aliceJs.thumbnail = function(options) {
+aliceJs.thumbnail = function (options) {
     /**
      * 썸네일 저장
      *
@@ -548,7 +555,7 @@ aliceJs.thumbnail = function(options) {
     /**
      * 썸네일 선택.
      */
-    const thumbnailSelect = function(e) {
+    const thumbnailSelect = function (e) {
         const elem = aliceJs.clickInsideElement(e, 'z-thumbnail');
         if (elem) {
             const parentElem = elem.parentNode;
@@ -614,7 +621,7 @@ aliceJs.thumbnail = function(options) {
                 // 이벤트 등록
                 thumbnail.addEventListener('click', thumbnailSelect, false);
                 if (options.thumbnailDoubleClickUse) {
-                    thumbnail.addEventListener('dblclick', function() {
+                    thumbnail.addEventListener('dblclick', function () {
                         document.querySelector('.thumbnail-save').click();
                     }, false);
                 }
@@ -670,7 +677,7 @@ aliceJs.thumbnail = function(options) {
                 content: i18n.msg('common.btn.select'),
                 classes: 'z-button primary thumbnail-save',
                 bindKey: false,
-                callback: function(modal) {
+                callback: function (modal) {
                     if (saveThumbnail(options.targetId)) {
                         modal.hide();
                     }
@@ -679,7 +686,7 @@ aliceJs.thumbnail = function(options) {
                 content: i18n.msg('common.btn.cancel'),
                 classes: 'z-button secondary',
                 bindKey: false,
-                callback: function(modal) {
+                callback: function (modal) {
                     modal.hide();
                 }
             }],
@@ -701,7 +708,7 @@ aliceJs.thumbnail = function(options) {
  * @param item 대상
  * @returns {Boolean} boolean
  */
-aliceJs.isObject = function(item) {
+aliceJs.isObject = function (item) {
     return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
 };
 
@@ -710,9 +717,9 @@ aliceJs.isObject = function(item) {
  * @param target target 객체
  * @param source source 객제
  */
-aliceJs.mergeObject = function(target, source) {
+aliceJs.mergeObject = function (target, source) {
     if (aliceJs.isObject(target) && aliceJs.isObject(source)) {
-        Object.keys(source).forEach(function(key) {
+        Object.keys(source).forEach(function (key) {
             if (aliceJs.isObject(source[key])) {
                 if (!target[key]) {
                     Object.assign(target, {[key]: {}});
@@ -739,7 +746,7 @@ aliceJs.mergeObject = function(target, source) {
  * @param {Object} value
  * @returns {boolean}
  */
-aliceJs.isEmpty = function(value) {
+aliceJs.isEmpty = function (value) {
     return value === '' || value == null || (typeof value === 'object' && !Object.keys(value).length);
 };
 
@@ -764,7 +771,7 @@ aliceJs.clickInsideElement = function (e, className) {
  * @param {string} value
  * @returns {string} rgba
  */
-aliceJs.rgbaToHex = function(value) {
+aliceJs.rgbaToHex = function (value) {
     let rgba = value.replace(/\s/g, '').match(rgbaReg);
     return rgba ?
         '#' +
@@ -779,7 +786,7 @@ aliceJs.rgbaToHex = function(value) {
  * @param {string} value
  * @returns {string} alpha
  */
-aliceJs.rgbaOpacity = function(value) {
+aliceJs.rgbaOpacity = function (value) {
     let rgba = value.replace(/\s/g, '').match(rgbaReg);
     let alpha = (rgba && rgba[4]);
     if (alpha === null || alpha === '') {
@@ -795,7 +802,7 @@ aliceJs.rgbaOpacity = function(value) {
  * @param {number} opacity
  * @returns {string} hexValue
  */
-aliceJs.hexToRgba = function(value, opacity) {
+aliceJs.hexToRgba = function (value, opacity) {
     let hexValue;
     if (value !== '' && typeof opacity !== 'undefined') {
         if (aliceJs.isHexCode(value)) {
@@ -818,7 +825,7 @@ aliceJs.hexToRgba = function(value, opacity) {
  * @param {string} value
  * @returns {boolean}
  */
-aliceJs.isHexCode = function(value) {
+aliceJs.isHexCode = function (value) {
     return hexReg.test(value);
 };
 
@@ -828,7 +835,7 @@ aliceJs.isHexCode = function(value) {
  * @param {string} value
  * @returns {boolean}
  */
-aliceJs.isRgba = function(value) {
+aliceJs.isRgba = function (value) {
     return rgbaReg.test(value);
 };
 
@@ -918,7 +925,7 @@ aliceJs.slideDown = (target, duration = 500) => {
  * Replace all SVG images with inline SVG
  *
  */
-aliceJs.loadSvg = function() {
+aliceJs.loadSvg = function () {
     const svgList = document.querySelectorAll('img.load-svg');
     for (let i = 0, len = svgList.length; i < len; i++) {
         const img = svgList[i];
@@ -957,7 +964,7 @@ aliceJs.loadSvg = function() {
  * @param objectId 전체수 저장 object-id (default: totalCount)
  * @return {boolean} 스크롤 처리 진행 여부
  */
-aliceJs.isEnableScrollEvent = function(offset, objectId = 'totalCount') {
+aliceJs.isEnableScrollEvent = function (offset, objectId = 'totalCount') {
     let totalObject = document.getElementById(objectId);
     return offset < totalObject.value;
 };
@@ -968,7 +975,7 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = 'totalCount') {
  * @param totalCount 목록에 보여주고 싶은 건수
  * @param objectId 전체수 저장 object-id (default: spanTotalCount)
  */
-aliceJs.showTotalCount = function(totalCount, objectId = 'spanTotalCount') {
+aliceJs.showTotalCount = function (totalCount, objectId = 'spanTotalCount') {
     document.getElementById(objectId).textContent = i18n.msg('common.label.count', totalCount);
 };
 
@@ -1049,7 +1056,7 @@ aliceJs.swapNode = function (node1, node2) {
  * @param option 옵션
  * @return 비동기 통신 객체 = Promise 객체
  */
-aliceJs.doFetch = async function(url, option) {
+aliceJs.doFetch = async function (url, option) {
     // Progressbar 추가
     const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? false : option.showProgressbar;
     if (showProgressbar) {
@@ -1088,7 +1095,7 @@ aliceJs.doFetch = async function(url, option) {
  * @param option 옵션
  * @returns Promise 객체 반환값
  */
-aliceJs.fetchJson = function(url, option) {
+aliceJs.fetchJson = function (url, option) {
     return aliceJs.doFetch(url, option)
         .then(response => response.text())
         .then((data) => data ? JSON.parse(data) : {});
@@ -1100,7 +1107,7 @@ aliceJs.fetchJson = function(url, option) {
  * @param option 옵션
  * @returns Promise 객체 반환값
  */
-aliceJs.fetchText = function(url, option) {
+aliceJs.fetchText = function (url, option) {
     return aliceJs.doFetch(url, option)
         .then(response => response.text());
 };
@@ -1211,7 +1218,7 @@ aliceJs.clearText = function (req) {
  * input+button 에 input value 초기화 x 버튼 출력
  * @param target
  */
-aliceJs.inputButtonRemove = function(target) {
+aliceJs.inputButtonRemove = function (target) {
     let xTarget = target || document.querySelector('.input-button-remove-btn');
     if (xTarget !== null) {
         let inputValue = xTarget.previousElementSibling.value;
@@ -1234,7 +1241,7 @@ aliceJs.inputButtonRemove = function(target) {
  * @param keyName
  * @param callBackFunc
  */
-aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
+aliceJs.pressKeyForAction = function (event, keyName, callBackFunc) {
     if (event.key === keyName) {
         callBackFunc();
     }
@@ -1244,7 +1251,7 @@ aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
  * z-slider > range value에 따라 range fill 영역을 계산한다.
  * @param target
  */
-aliceJs.drawSlider = function(target) {
+aliceJs.drawSlider = function (target) {
     let thumbLocation =  parseInt((target.value - 1) * 100 / (target.max - 1)) + '%';
     target.style.cssText = '--range-location:' + thumbLocation;
 };
@@ -1256,7 +1263,7 @@ aliceJs.drawSlider = function(target) {
  * @param type       : validation message의 타입 (alert / success)
  * @param isAbsolute : message box의 position: absolute 처리 여부
  */
-aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
+aliceJs.drawValidateMsg = function (target, message, type, isAbsolute) {
     // reset attributes
     document.querySelectorAll('.z-input').forEach(elem => {
         elem.addEventListener('input', () => el.removeAttribute('data-' + type));
@@ -1276,7 +1283,7 @@ aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     // set clear button
     let clearSpan = document.createElement('span');
     clearSpan.className = 'z-icon i-remove ml-auto';
-    clearSpan.onclick = function() {
+    clearSpan.onclick = function () {
         aliceJs.removeTarget(this);
     };
     validateMsg.appendChild(clearSpan);
@@ -1312,7 +1319,7 @@ aliceJs.openNoticePopup = function (noticePopupData) {
  * cookie 데이터가 존재하는지 검사한다.
  * @param name : 공지사항 게시글의 noticeNo 데이터
  */
-aliceJs.getCookie = function(name) {
+aliceJs.getCookie = function (name) {
     const nameOfCookie = name + '=';
     let x = 0;
     while (x <= document.cookie.length) {
@@ -1334,7 +1341,7 @@ aliceJs.getCookie = function(name) {
  * @param htmlString
  * @return {Element}
  */
-aliceJs.makeElementFromString = function(htmlString) {
+aliceJs.makeElementFromString = function (htmlString) {
     let div = document.createElement('div');
     div.innerHTML = htmlString;
     return div.firstElementChild;
@@ -1345,7 +1352,7 @@ aliceJs.makeElementFromString = function(htmlString) {
  *
  * @param option 옵션
  */
-aliceJs.fetchDownload = function(option) {
+aliceJs.fetchDownload = function (option) {
     let url = option.url;
     let fileName = (option.fileName === undefined || option.fileName === null) ? '' : option.fileName;
     aliceJs.doFetch(url, {

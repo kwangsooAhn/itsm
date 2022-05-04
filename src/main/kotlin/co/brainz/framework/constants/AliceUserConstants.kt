@@ -109,15 +109,7 @@ object AliceUserConstants {
      * 사용자 수정 상태
      */
     enum class UserEditStatus(val code: String) {
-        STATUS_VALID_SUCCESS("-1"),
-        STATUS_SUCCESS("Z-0000"),
-        STATUS_SUCCESS_EDIT_ADMIN("Z-0001"),
-        STATUS_SUCCESS_EDIT_EMAIL("Z-0002"),
-        STATUS_SUCCESS_EDIT_PASSWORD("Z-0003"),
-        STATUS_ERROR("E-0000"),
-        STATUS_ERROR_USER_ID_DUPLICATION("E-0001"),
-        STATUS_ERROR_SYSTEM_USER_NOT_EXIST("E-0003"),
-        STATUS_ERROR_EMAIL_DUPLICATION("E-0007")
+        STATUS_VALID_SUCCESS("-1")
     }
 
     /**
