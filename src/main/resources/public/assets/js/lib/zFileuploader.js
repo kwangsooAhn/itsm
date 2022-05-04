@@ -23,6 +23,7 @@
     const addFileBtnWrapClassName = 'add-file-button-wrap'; // 업로드 버튼 클릭 구역 wrapper
     const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
     const logValueDigit = 1024;
+    let isEnabledFileDrag = getEnabledFileDrag();
 
     function generateUUID() {
         function s4() {
@@ -87,11 +88,11 @@
         }
 
         if (typeof extraParam.dictDefaultMessage === 'undefined') {
-            extraParam.dictDefaultMessage = i18n.msg('file.msg.upload');
+            extraParam.dictDefaultMessage = isEnabledFileDrag ? i18n.msg('file.msg.upload') : '';
         }
 
         if (typeof extraParam.clickableLineMessage === 'undefined') {
-            extraParam.clickableLineMessage = ' ' + i18n.msg('file.label.or') + ' ';
+            extraParam.clickableLineMessage = isEnabledFileDrag ? ' ' + i18n.msg('file.label.or') + ' ' : '';
         }
 
         if (typeof extraParam.clickableMessage === 'undefined') {
@@ -117,6 +118,11 @@
         // dropzone 영역이 아래에 나오게 하고싶은 경우
         if (typeof extraParam.isDropzoneUnder === 'undefined') {
             extraParam.isDropzoneUnder = false;
+        }
+
+        // dropzone drop&drag 가능 여부
+        if (typeof extraParam.isEnabledDropAndDrag === 'undefined') {
+            extraParam.isEnabledDropAndDrag = isEnabledFileDrag;
         }
     }
 
@@ -244,6 +250,15 @@
         if (typeof this.options.params.userCallback === 'function') {
             this.options.params.userCallback();
         }
+    }
+
+    async function getEnabledFileDrag() {
+        aliceJs.fetchJson(
+            '/rest/files/enabledFileDrag', {
+                method: 'GET',
+            }).then((response) => {
+            isEnabledFileDrag = response;
+        });
     }
 
     async function getAcceptedFileExtentions(options) {
@@ -444,6 +459,14 @@
                             dropzoneMessage.style.display = 'block';
                         }
                     });
+                    _this.on('dragover', function (e) {
+                        if (!options.isEnabledDropAndDrag) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            e.dataTransfer.effectAllowed = 'none';
+                            e.dataTransfer.dropEffect = 'none';
+                        }
+                    });
                 } else {
                     dropZoneFiles.remove();
                     dropZoneUploadedFiles.querySelectorAll('.dz-remove').forEach(element => {
@@ -569,6 +592,15 @@
                     if (xhr !== undefined) {
                         const res = JSON.parse(xhr.response);
                         file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                    }
+                });
+
+                _this.on('dragover', function (e) {
+                    if (!options.isEnabledDropAndDrag) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        e.dataTransfer.effectAllowed = 'none';
+                        e.dataTransfer.dropEffect = 'none';
                     }
                 });
             },
