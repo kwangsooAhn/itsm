@@ -107,7 +107,7 @@ export default class ZComponent {
 
     // 라벨 위치 초기화
     initLabelPosition(type) {
-        switch(type) {
+        switch (type) {
             case 'textArea':
             case 'dynamicRowTable':
             case 'ci':
@@ -130,7 +130,7 @@ export default class ZComponent {
 
     // 타입에 따른 믹스인 호출
     getMixinByType(type) {
-        switch(type) {
+        switch (type) {
             case 'inputBox':
                 return inputBoxMixin;
             case 'textArea':
@@ -284,7 +284,7 @@ export default class ZComponent {
     }
 
     set labelFontSize(size) {
-        if(size > FORM.LABEL.SIZE.MAX || size < FORM.LABEL.SIZE.MIN) {
+        if (size > FORM.LABEL.SIZE.MAX || size < FORM.LABEL.SIZE.MIN) {
             return false;
         }
         this._label.fontSize = size;

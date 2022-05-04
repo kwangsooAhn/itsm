@@ -161,7 +161,7 @@
                 document.getElementById('treeList').querySelector('.node').click();
             },
             selectedNode: function (response) {
-                onGetDetail(response.id)
+                onGetDetail(response.id);
             }
         });
     }
@@ -173,7 +173,7 @@
             method: 'GET',
         }).then((response) => {
             if (response.status !== aliceJs.response.success) {
-                zAlert.warning(i18n.msg('code.msg.selectAvailableCode'));
+                zAlert.warning('[(#{code.msg.selectAvailableCode})]');
                 return false;
             }
             // 코드
@@ -291,17 +291,17 @@
         };
 
         if (jsonData.code === null || jsonData.code.trim() === '') {
-            zAlert.warning([[#{code.msg.enterCode}]]);
+            zAlert.warning('[(#{code.msg.enterCode})]');
             return false;
         }
 
         if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
-            zAlert.warning([[#{code.msg.enterPCode}]]);
+            zAlert.warning('[(#{code.msg.enterPCode})]');
             return false;
         }
 
         if (codeUnacceptableChar(jsonData.code) === false) {
-            zAlert.warning(i18n.msg('validation.msg.unacceptableCharacters'), function () {
+            zAlert.warning('[(#{validation.msg.unacceptableCharacters})]', function () {
                 document.getElementById('txtCode').focus();
             });
             return false;
@@ -309,8 +309,8 @@
 
         const codeLangList = document.querySelectorAll('input[name=codeLangValue]');
         for (let i = 0; i < codeLangList.length; i++) {
-            if (codeLangList[i].value.trim() === "") {
-                zAlert.warning([[#{code.msg.enterCodeLangValue}]]);
+            if (codeLangList[i].value.trim() === '') {
+                zAlert.warning('[(#{code.msg.enterCodeLangValue})]');
                 return false;
             }
         }
@@ -323,7 +323,7 @@
             if (typeof codeLangData[selectValue] === 'undefined') {
                 codeLangData[selectValue] = codeLangValue;
             } else {
-                zAlert.warning(i18n.msg('code.msg.selectNotDuplicateLang'));
+                zAlert.warning('[(#{code.msg.selectNotDuplicateLang})]');
                 return false;
             }
         }
@@ -335,7 +335,7 @@
         if (method !== 'POST') {
             url += '/' + document.getElementById('txtCode').value;
         }
-        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        const resultMsg = (method === 'POST') ? '[(#{common.msg.register})]' : '[(#{common.msg.update})]';
         aliceJs.fetchJson(url, {
             method: method,
             headers: {
@@ -351,13 +351,13 @@
                     });
                     break;
                 case aliceJs.response.duplicate:
-                    zAlert.warning(i18n.msg('code.msg.duplicateCode'));
+                    zAlert.warning('[(#{code.msg.duplicateCode})]');
                     break;
                 case aliceJs.response.notExist:
-                    zAlert.warning(i18n.msg('code.msg.pCodeNotExist'));
+                    zAlert.warning('[(#{code.msg.pCodeNotExist})]');
                     break;
                 case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    zAlert.danger('[(#{common.msg.fail})]');
                     break;
                 default :
                     break;
@@ -373,15 +373,15 @@
             switch (response.status) {
                 case aliceJs.response.success:
                     tree.setTreeExpandNode(sessionKey);
-                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                    zAlert.success('[(#{common.msg.delete})]', function () {
                         window.location.href = '/codes/edit';
                     });
                     break;
                 case aliceJs.response.exist:
-                    zAlert.warning(i18n.msg('code.msg.referenceCodeExist'));
+                    zAlert.warning('[(#{code.msg.referenceCodeExist})]');
                     break;
                 case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    zAlert.danger('[(#{common.msg.fail})]');
                     break;
                 default:
                     break;
@@ -390,7 +390,7 @@
     }
 
     function codeUnacceptableChar(code) {
-        let regex = new RegExp("[/\\\\%;]");
+        let regex = new RegExp('[/\\\\%;]');
         return !code.match(regex);
     }
 
@@ -398,7 +398,7 @@
         const langCodeRow = document.getElementById('langCodeRowTemplate').content.cloneNode(true);
 
         const langList = /*[[${langList}]]*/'';
-        const selectTag = langCodeRow.querySelector('select')
+        const selectTag = langCodeRow.querySelector('select');
         for (let i = 0; i < langList.length; i++) {
             const selectOption = document.createElement('option');
             selectOption.value = langList[i].codeValue;

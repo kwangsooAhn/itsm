@@ -225,11 +225,9 @@
         function saveBoardAdmin(method) {
             if (isEmpty('boardAdminTitle', 'board.msg.enterBoardTitle')) return;
 
-            if (document.getElementById('categoryYn').checked) {
-                if (categoryList.length === 0) {
-                    zAlert.warning(i18n.msg('board.msg.createCategory'));
-                    return;
-                }
+            if (document.getElementById('categoryYn').checked && !categoryList.length) {
+                zAlert.warning(i18n.msg('board.msg.createCategory'));
+                return;
             }
 
             if (document.getElementById('attachYn').checked) {
@@ -297,7 +295,7 @@
                 });
             }
             categoryObject.parentNode.parentNode.remove();
-            if (document.querySelectorAll('#boardCategoryList > tr').length === 0) {
+            if (!document.querySelectorAll('#boardCategoryList > tr').length) {
                 const noDataRow = document.createElement('tr');
                 const noDataColumn = document.createElement('td');
                 noDataRow.className = 'no-data-found-list align-center';

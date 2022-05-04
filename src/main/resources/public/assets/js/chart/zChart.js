@@ -150,7 +150,7 @@ export  default class ZChart {
      * @returns mixin
      */
     getMixinByType(type) {
-        switch(type) {
+        switch (type) {
             case CHART.TYPE.BASIC_LINE:
                 return zBasicLineChartMixin;
             case CHART.TYPE.BASIC_COLUMN:
@@ -265,6 +265,7 @@ export  default class ZChart {
      * @returns 날짜 데이터
      */
     getStringToDateTime(userDateTime) {
+        /* eslint-disable no-useless-escape */
         let matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)\:(\d+)$/); // 2021-12-01 00:00:00
         if (!zValidation.isDefined(matchDateTime)) {
             matchDateTime = userDateTime.match(/^(\d+)-(\d+)-(\d+) (\d+)\:(\d+)$/); // 2021-12-01 00:00

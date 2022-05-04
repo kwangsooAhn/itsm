@@ -24,7 +24,7 @@
         });
 
         getList();
-    }
+    };
 
     function openCIDetailModal(ciId) {
         aliceJs.fetchText('/cmdb/cis/' + ciId + '/view', {
@@ -57,7 +57,7 @@
                         textarea: {
                             dynHeight: false,
                             dynWidth: false,
-                            inheritedAttrs: "class"
+                            inheritedAttrs: 'class'
                         }
                     });
                     new zTag(document.querySelector('input[name=ciDetailTags]'), {
@@ -73,7 +73,7 @@
                 }
             });
             ciDetailModal.show();
-        })
+        });
     }
 
     function getList(pageNum = 1) {
@@ -88,7 +88,7 @@
                     realtime: false,
                     tagType: 'ci'
                 });
-            })
+            });
         });
     }
 

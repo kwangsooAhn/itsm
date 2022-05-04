@@ -280,7 +280,7 @@ export const userSearchMixin = {
             } else {
                 // 기본값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (userListElem.querySelectorAll('.z-table-row').length === 0) {
+                if (!userListElem.querySelectorAll('.z-table-row').length) {
                     this.UIElement.UIComponent.UIElement.UIInput.setUIValue('')
                         .setUIAttribute('data-user-id', '')
                         .setUIAttribute('data-user-search', '');
@@ -290,8 +290,8 @@ export const userSearchMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue)
-        defaultValueSearchProperty.help = 'form.help.search-default'
+        const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue);
+        defaultValueSearchProperty.help = 'form.help.search-default';
 
         return [
             ...new ZCommonProperty(this).getCommonProperty(),
