@@ -54,14 +54,14 @@
 
     // Document type.
     const DOCUMENT_TYPE_FORM = 'application-form';
-    const DOCUMENT_TYPE_WORKFLOW = 'workflow'
+    const DOCUMENT_TYPE_WORKFLOW = 'workflow';
     const DOCUMENT_TYPE_LINK = 'application-form-link';
 
     let importFile;
     let offsetCount = 0;
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById('searchDocuments').focus();
-        document.getElementById('searchGroupName').addEventListener('change', function() { getList(); });
+        document.getElementById('searchGroupName').addEventListener('change', function () { getList(); });
         document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
             search.addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         });
@@ -94,7 +94,7 @@
     function emptyValidationForDocumentOrWorkflow(prefix) { // 신청서/ 업무흐름일 경우 유효성 체크
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
         if (isEmpty(prefix + 'DocumentForm', 'document.msg.selectForm')) { return false; }
-        if (isEmpty(prefix + 'DocumentProcess','document.msg.selectProcess')) { return false; }
+        if (isEmpty(prefix + 'DocumentProcess', 'document.msg.selectProcess')) { return false; }
         if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
         if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
 
@@ -105,7 +105,7 @@
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
         if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
         if (isEmpty(prefix + 'Url', 'document.msg.enterDocumentLink')) { return false; }
-        if (!isUrl(prefix + 'Url','document.msg.checkUrlLink')) { return false; }
+        if (!isUrl(prefix + 'Url', 'document.msg.checkUrlLink')) { return false; }
 
         return true;
     }
@@ -192,7 +192,7 @@
                     case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
-                    case 'E-0007':
+                    case aliceJs.response.duplicateWorkflow:
                         zAlert.warning(i18n.msg('document.msg.checkDuplication'));
                         break;
                     default:
@@ -264,22 +264,22 @@
                     content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         let method = (documentId !== undefined) ? 'put' : 'post';
                         saveDocument(method, documentId);
                     }
-                },{
+                }, {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         modal.hide();
                     }
                 }],
                 close: {
                     closable: false,
                 },
-                onCreate: function(modal) {
+                onCreate: function (modal) {
                     const documentType = document.getElementById('documentType').value;
                     setDocumentType(documentType);
 
@@ -310,7 +310,7 @@
                         textarea: {
                             dynHeight: false,
                             dynWidth: false,
-                            inheritedAttrs: "class"
+                            inheritedAttrs: 'class'
                         }
                     });
                     aliceJs.initDesignedSelectTag();
@@ -318,7 +318,7 @@
                     // 수정일 경우 타입에 따라 모달 제목 변경
                     if (documentId !== undefined) document.querySelector('.modal-header').innerHTML = (documentType === 'workflow') ? i18n.msg('document.label.workFlowEdit') : i18n.msg('document.label.registerEdit');
                 }
-            }
+            };
 
             // 수정일 경우 신청서 양식 편집 버튼 추가
             if (documentId !== undefined && !isDocumentLink ) {
@@ -326,7 +326,7 @@
                     content: i18n.msg('document.label.registerDisplay'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         openDocumentDisplay(documentId);
                         modal.hide();
                     }
@@ -352,26 +352,26 @@
                     content: i18n.msg('common.btn.modify'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         saveDocumentDisplay(documentId);
                     }
-                },{
+                }, {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         modal.hide();
                     }
                 }],
                 close: {
                     closable: false,
                 },
-                onCreate: function(modal) {
+                onCreate: function (modal) {
                     aliceJs.initDesignedSelectTag();
 
                     OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
                 }
-            }
+            };
             const documentDisplayModal = new modal(modalOptions);
             documentDisplayModal.show();
         });
@@ -380,7 +380,7 @@
     /* Display data save */
     function saveDocumentDisplay(documentId) {
         const arrDisplay = [];
-        Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
+        Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function (item) {
             const objDisplay = {};
             const strArr = item.id.split('_');
             objDisplay.formGroupId = strArr[0];     // formGroupId
@@ -419,7 +419,7 @@
     function deleteDocument(documentId, isDocumentLink) {
         let url = '';
         if (isDocumentLink) url = '/rest/workflows/workflowLink/' + documentId;
-        else url = '/rest/workflows/' + documentId
+        else url = '/rest/workflows/' + documentId;
 
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchJson(url, {
@@ -551,7 +551,7 @@
                     callback: function (modal) {
                         importWorkFlow();
                     }
-                },{
+                }, {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
@@ -584,7 +584,7 @@
                             textarea: {
                                 dynHeight: false,
                                 dynWidth: false,
-                                inheritedAttrs: "class"
+                                inheritedAttrs: 'class'
                             }
                         });
                     });

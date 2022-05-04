@@ -15,13 +15,20 @@ aliceJs.autoRefreshPeriod = 60000;
 // 응답 코드 - 서버에서 전달되는 코드값과 항상 일치하도록 관리한다.
 aliceJs.response = {
     success: 'Z-0000',
+    successEdit: 'Z-0001',
+    successEditEmail: 'Z-0002',
+    successEditPassword: 'Z-0003',
     error: 'E-0000',
     duplicate: 'E-0001',
     expired: 'E-0002',
     notExist: 'E-0003',
     exist: 'E-0004',
     notFound: 'E-0005',
-    accessDeny: 'E-0006'
+    accessDeny: 'E-0006',
+    duplicateEmail: 'E-0007',
+    duplicateOrganization: 'E-0008',
+    duplicateWorkflow: 'E-0009',
+    notExistClass: 'E-0010'
 };
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출

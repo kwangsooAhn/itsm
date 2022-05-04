@@ -203,7 +203,7 @@ class WfDocumentService(
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
         if (selectedDocument != null) {
-            status = ZResponseConstants.STATUS.ERROR_ANY
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE_WORKFLOW
         }
         if (status == ZResponseConstants.STATUS.SUCCESS) {
             val isDuplicateName = wfDocumentRepository.existsByDocumentName(documentDto.documentName, documentDto.documentId)

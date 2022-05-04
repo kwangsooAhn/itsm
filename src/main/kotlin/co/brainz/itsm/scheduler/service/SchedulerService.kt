@@ -129,7 +129,7 @@ class SchedulerService(
                     this.validateClassFile(executeClass)
                 } ?: false
                 if (!fileExist) {
-                    status = ZResponseConstants.STATUS.ERROR_ANY
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                 }
             }
         }
@@ -190,7 +190,7 @@ class SchedulerService(
                         this.validateClassFile(executeClass)
                     } ?: false
                     if (!fileExist) {
-                        status = ZResponseConstants.STATUS.ERROR_ANY
+                        status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                     }
                 }
             }
@@ -291,7 +291,7 @@ class SchedulerService(
                         //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
-                    status = ZResponseConstants.STATUS.ERROR_ANY
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                     //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
                 }
             }
@@ -312,7 +312,7 @@ class SchedulerService(
                         //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
-                    status = ZResponseConstants.STATUS.ERROR_ANY
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                     //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                 }
             }
