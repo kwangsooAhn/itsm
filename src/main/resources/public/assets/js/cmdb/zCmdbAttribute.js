@@ -36,8 +36,9 @@
     ];
 
     let parent = null;
-    let customCodeList = null;
+    let customCodeList = [];
     let targetUserArray = [];
+    let defaultCustomUser = [];
     let userInfo = null;
     let attributeDetailData = null; // 서버에 저장된 세부 속성 데이터
     let displayMode = 'view'; // edit | view
@@ -94,8 +95,10 @@
                 // load custom-code list
                 await aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
                     method: 'GET'
-                }).then((data) => {
-                    customCodeList = data;
+                }).then((response) => {
+                    if (response.status === aliceJs.response.success) {
+                        customCodeList = response.data;
+                    }
                 });
                 attributeObject = new CustomCode(attributesProperty);
                 break;
@@ -154,8 +157,10 @@
                 `${property.validate === validation.value ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(validation.text)}</option>`;
         }).join('');
-        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : inputTypeAttributeDefaultMaxLength;
-        const minLengthValue = property.minLength !== undefined ? property.minLength : inputTypeAttributeDefaultMinLength;
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength :
+            inputTypeAttributeDefaultMaxLength;
+        const minLengthValue = property.minLength !== undefined ? property.minLength :
+            inputTypeAttributeDefaultMinLength;
         this.template = `${requiredTemplate}` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4">` +
@@ -179,7 +184,8 @@
             `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" value="${minLengthValue}">` +
+            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" ` +
+                `value="${minLengthValue}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -218,7 +224,8 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button>` +
+            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                `<span class="z-icon i-plus"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -259,7 +266,8 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label>` +
@@ -267,7 +275,8 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
@@ -288,7 +297,8 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)').forEach(function (object, index) {
+            const dropdownRowList = document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)');
+            dropdownRowList.forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
@@ -443,7 +453,7 @@
         // required
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
         // custom-code
-        const customCodeOptions = customCodeList.data.map(function (option) {
+        const customCodeOptions = customCodeList.map(function (option) {
             return `<option value='${option.customCodeId}' ` +
                 `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.customCodeName)}</option>`;
@@ -475,7 +485,8 @@
             `</div>` +
             `<div class="flex-column col-1">` +
             `<label class="z-radio">` +
-            `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
+            `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ` +
+                `${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
             `<span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span>` +
             `</label>` +
@@ -486,23 +497,32 @@
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1">` +
             `<label class="z-radio">` +
-            `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
+            `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ` +
+                `${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
             `<span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span>` +
             `</label>` +
             `</div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-session" ` +
+                `${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
+            `<div class="flex-column col-1"><label class="z-radio"><input type="radio" name="${objectId}-default" ` +
+                `id="${objectId}-code" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}>` +
+                `<span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span>` +
+                `</label></div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7">` +
             `<div class="flex-row z-input-button">` +
-            `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
-            `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}><span class="z-icon i-search"></span></button>` +
+            `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" ` +
+                `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
+                `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
+                `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
+            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" ` +
+                `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
+                `<span class="z-icon i-search"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -608,10 +628,10 @@
             // Attribute  목록 조회 - id 만 서버에 담고 있기 때문에 Attribute 명을 가져온다.
             aliceJs.fetchJson('/rest/cmdb/attributes', {
                 method: 'GET'
-            }).then((attributeData) => {
-                if (attributeData.data.length > 0) {
-                    for (let i = 0; i < attributeData.data.length; i++) {
-                        const attribute = attributeData.data[i];
+            }).then((response) => {
+                if (response.status === aliceJs.response.success && response.data.length > 0) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        const attribute = response.data[i];
                         for (let j = 0; j < property.option.length; j++) {
                             if (attribute.attributeId === property.option[j].id) {
                                 attributeMap.push({
@@ -784,7 +804,12 @@
     /**
      * User Search.
      *
-     * {"required":"true","targetCriteria":"organization|custom","searchKey":[{"id": "4028b2d57d37168e017d3716cgf00000", "value": "조직구성"}],"defaultValue":{"type":"none","data":""}}
+     * {
+     *     "required":"true",
+     *     "targetCriteria":"organization|custom",
+     *     "searchKey":[{"id": "4028b2d57d37168e017d3716cgf00000", "value": "조직구성"}],
+     *     "defaultValue":{"type":"none","data":""}
+     * }
      * @param {Object} property Attribute 데이터
      * @constructor
      */
@@ -801,7 +826,8 @@
         const targetOptions = [
             {'text': i18n.msg('form.properties.userSearch.organization'), 'value': 'organization'},
             {'text': i18n.msg('form.properties.userSearch.custom'), 'value': 'custom'}].map(function (option) {
-            return `<option value='${option.value}' ${property.targetCriteria === option.value ? 'selected=\'true\'' : ''}>` +
+            const isSelected = (property.targetCriteria === option.value);
+            return `<option value='${option.value}' selected=${isSelected}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         this.template = `${requiredTemplate}` +
@@ -847,7 +873,7 @@
      * 검색 조건 설정
      */
     function setTargetCriteria(target, data) {
-        if (data.searchKey.length === 0) { return false; }
+        if (!data.searchKey.length) { return false; }
 
         if (data.targetCriteria === 'organization') {
             const inputElem = target.querySelector('#searchTarget');
@@ -874,7 +900,8 @@
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row z-input-button">
                 <input type="text" class="z-input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="z-button-icon z-button-code" type="button" id="searchOrganization"><span class="z-icon i-search"></span></button>
+                <button class="z-button-icon z-button-code" type="button" id="searchOrganization">` +
+                `<span class="z-icon i-search"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
 
@@ -882,9 +909,10 @@
             searchOrganization.addEventListener('click', openOrganizationTreeModal, false);
         } else {
             const customTemplate = `<div class="align-right">
-                    <button type="button" class="z-button secondary" id="searchUserList">${i18n.msg('common.btn.add')}</button>
-                </div>`;
-            targetCriteria.insertAdjacentHTML('beforeend', customTemplate);
+                <button type="button" class="z-button secondary" id="searchUserList">`   +
+                    `${i18n.msg('common.btn.add')}</button>
+            </div>`;
+            targetCriterial.insertAdjacentHTML('beforeend', customTemplate);
 
             const searchUserList = targetCriteria.querySelector('#searchUserList');
             searchUserList.addEventListener('click', openUserListModal, false);
@@ -926,10 +954,11 @@
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +
             `</div>`;
-        const defaultCustom = document.getElementById('userSearch-default-custom-text');
 
         const isMulti = e.target.id === 'searchUserList';
         const type = isMulti ? 'searchCriteria' : 'defaultCustom';
+        const targetArray = isMulti ? targetUserArray : defaultCustomUser;
+        const defaultCustom = document.getElementById('userSearch-default-custom-text');
 
         const targetUserModal = new modal({
             title: i18n.msg('form.properties.userList'),
@@ -940,17 +969,17 @@
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    if (targetUserArray.length === 0) {
+                    if (!targetUserArray.length) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     }
                     switch (type) {
                         case 'searchCriteria':
-                            addUserInTargetUser(targetUserArray);
+                            addUserInTargetUser(targetArray);
                             break;
                         case 'defaultCustom':
-                            defaultCustom.value = targetUserArray[0].value;
-                            defaultCustom.setAttribute('data-search-value', targetUserArray[0].id);
+                            defaultCustom.value = targetArray[0].value;
+                            defaultCustom.setAttribute('data-search-value', targetArray[0].id);
                             break;
                     }
                     modal.hide();
@@ -964,31 +993,31 @@
                 }
             }],
             close: { closable: false },
-            onCreate: function() {
+            onCreate: function () {
                 document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
-                    getTargetUserList(e.target.value, isMulti,false);
+                    getTargetUserList(e.target.value, isMulti, targetArray, false);
                 }), false);
-                getTargetUserList(document.getElementById('search').value, isMulti,true);
+                getTargetUserList(document.getElementById('search').value, isMulti, targetArray,true);
 
                 // 기존 사용자 목록
-                targetUserArray.length = 0;
+                targetArray.length = 0;
                 switch (type) {
                     case 'searchCriteria':
                         const targetCriteria = document.getElementById('changeTargetCriteria');
                         targetCriteria.querySelectorAll('.user-search-item').forEach( (elem) => {
                             const inputElem = elem.querySelector('.z-input');
                             if (inputElem) {
-                                targetUserArray.push({id: inputElem.getAttribute('data-user-id'), value: inputElem.value});
+                                targetArray.push({id: inputElem.getAttribute('data-user-id'), value: inputElem.value});
                             }
                         });
                     break;
                     case 'defaultCustom':
+                        // todo: if문 검증
                         if (defaultCustom.value !== '') {
-                            targetUserArray.push({
+                            targetArray.push({
                                 id: defaultCustom.getAttribute('data-search-value'),
                                 value: defaultCustom.value
                             });
-
                         }
                     break;
                 }
@@ -1000,7 +1029,7 @@
     /**
      * 사용자 조회
      */
-    function getTargetUserList(search, isMulti, showProgressbar) {
+    function getTargetUserList(search, isMulti, targetArray, showProgressbar) {
         let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
             + '&from=&to=&userKey=&multiSelect=' + isMulti;
         aliceJs.fetchText(strUrl, {
@@ -1016,15 +1045,15 @@
             targetUserList.querySelectorAll('input[type=checkbox], input[type=radio]').forEach((element) => {
                 element.addEventListener('change', function(e) {
                     if (e.target.checked) {
-                        isMulti ? targetUserArray.push({id: e.target.id, value: e.target.value})
-                            : targetUserArray.splice(0, targetUserArray.length, {id: e.target.id, value: e.target.value});
+                        isMulti ? targetArray.push({id: e.target.id, value: e.target.value})
+                            : targetArray.splice(0, targetArray.length, {id: e.target.id, value: e.target.value});
                     } else {
-                        targetUserArray = targetUserArray.filter((item) => item.id !== e.target.id);
+                        targetArray = targetArray.filter((item) => item.id !== e.target.id);
                     }
                 });
             });
             // 기존 선택값 표시
-            targetUserArray.forEach( (target) => {
+            targetArray.forEach( (target) => {
                 const targetCheckBox = targetUserList.querySelector('input[id="' + target.id + '"]');
                 if (targetCheckBox) {
                     targetCheckBox.checked = true;
@@ -1047,21 +1076,21 @@
         let listTemplate = ``;
         dataList.forEach( (data) => {
             listTemplate += `<div class="flex-row mt-2 user-search-item">` +
-                    `<div class="flex-column col-10 mr-4">` +
-                        `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
-                    `</div>` +
-                    `<div class="flex-column">` +
-                        `<button type="button" data-user-id="${data.id}" class="z-button-icon extra user-search-delete-btn">` +
-                            `<span class="z-icon i-delete"></span>` +
-                        `</button>` +
-                    `</div>` +
-                `</div>`;
+                `<div class="flex-column col-10 mr-4">` +
+                    `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
+                `</div>` +
+                `<div class="flex-column">` +
+                    `<button type="button" class="z-button-icon extra user-search-delete-btn"` +
+                        ` data-user-id="${data.id}"><span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
+            `</div>`;
         });
         targetCriteria.insertAdjacentHTML('beforeend', listTemplate);
 
         // 삭제 이벤트
         targetCriteria.querySelectorAll('.user-search-delete-btn').forEach((btn) => {
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', function (e) {
                 e.target.parentNode.parentNode.remove();
 
                 const removeIndex = targetUserArray.findIndex(function (user) {
@@ -1167,7 +1196,7 @@
                 </div>
                 <div class="flex-column col-7">
                     <div class="flex-row z-input-button">
-                        <input class="z-input" readonly="true" id="${id}-default-custom-text" value="${defaultData[1]}" 
+                        <input class="z-input" type="text" readonly="true" id="${id}-default-custom-text" value="${defaultData[1]}" 
                             data-search-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
                         <button class="z-button-icon z-button-code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
@@ -1239,8 +1268,9 @@
     /**
      * 세부 속성 검색
      */
-    function getAttributeList (search, showProgressbar) {
-        const url = '/cmdb/attributes/list-modal?search=' + encodeURIComponent(search.trim()) + '&attributeId=' + attributeId;
+    function getAttributeList(search, showProgressbar) {
+        const url = '/cmdb/attributes/list-modal?search=' + encodeURIComponent(search.trim()) +
+            '&attributeId=' + attributeId;
         aliceJs.fetchText(url, {
             method: 'GET',
             showProgressbar: showProgressbar
@@ -1272,7 +1302,7 @@
                 });
             });
         });
-    };
+    }
 
     /**
      * 중복 유효성 검사.
@@ -1316,7 +1346,7 @@
             // 사용자 검색시 조회대상이 존재하지 않으면 체크
             const userList = document.querySelectorAll('#details .user-search-item');
             const targetCriteria = document.getElementById('userSearchCriteria');
-            if (targetCriteria.value === 'custom' && userList.length === 0) {
+            if (targetCriteria.value === 'custom' && !userList.length) {
                 zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
                 isValid = false;
             }
@@ -2098,7 +2128,7 @@
                 }
             }],
             close: { closable: false },
-            onCreate: function() {
+            onCreate: function () {
                 // 기존 선택된 값 할당
                 if (target.getAttribute('data-user-search') !== '') {
                     const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
@@ -2106,9 +2136,9 @@
                     target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
                 }
                 document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
-                    getUserList(target, e.target.value, false, false);
+                    getUserList(target, e.target.value, false);
                 }), false);
-                getUserList(target, document.getElementById('search').value, true, false);
+                getUserList(target, document.getElementById('search').value, true);
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }
         });
@@ -2194,15 +2224,18 @@
      */
     function openOrganizationSearchModal(e) {
         e.stopPropagation();
-        // todo 테스트
-        const target = e.target.getAttribute('data-organization-search')
-            ? e.target : e.target.parentElement.querySelector('input[type=text]');
-        const dataSearchInputBox = e.target.parentElement.querySelector('input[type=text]');
-        const organizationSearchData = e.target.getAttribute('data-organization-search')
-            || dataSearchInputBox.getAttribute('data-search-value');
+
+        // 부서 검색 component || 부서 검색 기본값 - 부서 지정
+       const target = e.target.getAttribute('data-organization-search')
+            ? e.target : e.target.parentNode.querySelector('input[type=text]');
+
+        const organizationSearchData = target.getAttribute('data-organization-search')
+            || target.getAttribute('data-search-value');
+
+
         tree.load({
             view: 'modal',
-            title: e.target.getAttribute('data-modalTitle')
+            title: target.getAttribute('data-modalTitle')
                 || i18n.msg('form.properties.department') + ' ' + i18n.msg('form.properties.default.custom'),
             dataUrl: '/rest/organizations',
             target: 'treeList',
@@ -2212,13 +2245,10 @@
             defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
             selectedValue: organizationSearchData,
             callbackFunc: (response) => {
-                if (e.target.id === 'organizationSearch-default-custom') {
-                    dataSearchInputBox.value = response.textContent;
-                    dataSearchInputBox.setAttribute('data-search-value', response.id);
-                } else {
-                    e.target.value = response.textContent;
-                    e.target.setAttribute('data-organization-search', response.id);
-                }
+                target.value = response.textContent;
+                target.id === 'organizationSearch-default-custom'
+                    ? target.setAttribute('data-search-value', response.id)
+                    : target.setAttribute('data-organization-search', response.id);
             }
         });
     }
