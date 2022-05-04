@@ -128,7 +128,6 @@ class WfInstanceService(
             }
         }
 
-        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
 
         // Topic
@@ -157,14 +156,10 @@ class WfInstanceService(
             val topicComponentIds = mutableListOf<String>()
             run loop@{
                 tokenDataList.forEach { tokenData ->
-                    if (tokenData.component.isTopic &&
-                        componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
-                    ) {
-                        if (instance.tokenEntity.tokenId == tokenData.component.tokenId) {
-                            topicComponentIds.add(tokenData.component.componentId)
-                            topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
-                            return@loop
-                        }
+                    if (instance.tokenEntity.tokenId == tokenData.component.tokenId) {
+                        topicComponentIds.add(tokenData.component.componentId)
+                        topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
+                        return@loop
                     }
                 }
             }
