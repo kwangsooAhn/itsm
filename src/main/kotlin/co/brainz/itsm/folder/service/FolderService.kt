@@ -7,6 +7,8 @@ package co.brainz.itsm.folder.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.dto.InstanceFolderListDto
@@ -113,7 +115,8 @@ class FolderService(
     }
 
     @Transactional
-    fun insertFolderDto(instanceFolderListDto: InstanceFolderListDto): String {
+    fun insertFolderDto(instanceFolderListDto: InstanceFolderListDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         var isSuccess = true
         var folderId = ""
         if (instanceFolderListDto.instanceId.isNotEmpty()) {
@@ -134,19 +137,28 @@ class FolderService(
             }
         }
 
-        return folderId
+        if (!isSuccess) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        val dataMap = mutableMapOf<String, String>()
+        dataMap["folderId"] = folderId
+
+        return ZResponse(
+            status = status.code,
+            data = dataMap
+        )
     }
 
     fun insertInstance(originInstance: WfInstanceEntity, relatedInstance: WfInstanceEntity) {
         return folderManager.insertInstance(originInstance, relatedInstance)
     }
 
-    fun deleteInstanceInFolder(folderId: String, instanceId: String): Boolean {
+    fun deleteInstanceInFolder(folderId: String, instanceId: String): ZResponse {
         val wfFolderEntity = WfFolderEntity(
             folderId = folderId,
             instance = wfInstanceRepository.findByInstanceId(instanceId)!!
         )
         folderRepository.delete(wfFolderEntity)
-        return true
+        return ZResponse()
     }
 }

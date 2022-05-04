@@ -5,18 +5,16 @@
 
 package co.brainz.itsm.statistic.customReportTemplate.service
 
-import co.brainz.cmdb.dto.RestTemplateReturnDto
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.CustomChartService
-import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateCondition
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateDetailDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateDto
@@ -147,11 +145,11 @@ class CustomTemplateService(
      * 템플릿 저장
      */
     @Transactional
-    fun saveReportTemplate(templateData: String): RestTemplateReturnDto {
+    fun saveReportTemplate(templateData: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val templateDto = this.makeReportTemplateDto(templateData)
         val existCount =
             customReportTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
-        val restTemplateReturnDto = RestTemplateReturnDto()
         when (existCount) {
             0L -> {
                 var templateEntity = CustomReportTemplateEntity(
@@ -176,54 +174,58 @@ class CustomTemplateService(
                 }
             }
             else -> {
-                restTemplateReturnDto.code = CustomReportConstants.Template.EditStatus.STATUS_ERROR_DUPLICATION.code
-                restTemplateReturnDto.status = false
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
         }
-        return restTemplateReturnDto
+
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 템플릿 수정
      */
     @Transactional
-    fun updateReportTemplate(templateData: String): RestTemplateReturnDto {
+    fun updateReportTemplate(templateData: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val templateDto = this.makeReportTemplateDto(templateData)
-        val templateEntity = customReportTemplateRepository.findByTemplateId(templateDto.templateId) ?: throw AliceException(
-            AliceErrorConstants.ERR_00005,
-            AliceErrorConstants.ERR_00005.message + "[Report Template Entity]"
-        )
-        val existCount =
-            customReportTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
-        val restTemplateReturnDto = RestTemplateReturnDto()
-        when (existCount) {
-            0L -> {
-                templateEntity.templateName = templateDto.templateName
-                templateEntity.templateDesc = templateDto.templateDesc
-                templateEntity.reportName = templateDto.reportName
-                templateEntity.automatic = templateDto.automatic
-                templateEntity.updateDt = LocalDateTime.now()
-                templateEntity.updateUser =
-                    aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
-                customReportTemplateRepository.save(templateEntity)
+        val templateEntity = customReportTemplateRepository.findByTemplateId(templateDto.templateId)
+        if (templateEntity != null) {
+            val existCount =
+                customReportTemplateRepository.findDuplicationTemplateName(templateDto.templateName, templateDto.templateId)
+            when (existCount) {
+                0L -> {
+                    templateEntity.templateName = templateDto.templateName
+                    templateEntity.templateDesc = templateDto.templateDesc
+                    templateEntity.reportName = templateDto.reportName
+                    templateEntity.automatic = templateDto.automatic
+                    templateEntity.updateDt = LocalDateTime.now()
+                    templateEntity.updateUser =
+                        aliceUserRepository.findAliceUserEntityByUserKey(currentSessionUser.getUserKey())
+                    customReportTemplateRepository.save(templateEntity)
 
-                // map
-                customReportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
-                templateDto.charts?.forEach { chart ->
-                    val templateMapEntity = CustomReportTemplateMapEntity(
-                        chartId = chart.chartId,
-                        template = templateEntity,
-                        displayOrder = chart.displayOrder
-                    )
-                    customReportTemplateMapRepository.save(templateMapEntity)
+                    // map
+                    customReportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
+                    templateDto.charts?.forEach { chart ->
+                        val templateMapEntity = CustomReportTemplateMapEntity(
+                            chartId = chart.chartId,
+                            template = templateEntity,
+                            displayOrder = chart.displayOrder
+                        )
+                        customReportTemplateMapRepository.save(templateMapEntity)
+                    }
+                }
+                else -> {
+                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE
                 }
             }
-            else -> {
-                restTemplateReturnDto.code = CustomReportConstants.Template.EditStatus.STATUS_ERROR_DUPLICATION.code
-                restTemplateReturnDto.status = false
-            }
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return restTemplateReturnDto
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -262,26 +264,26 @@ class CustomTemplateService(
      * Template 삭제
      */
     @Transactional
-    fun deleteReportTemplate(templateId: String): RestTemplateReturnDto {
-        val templateEntity = customReportTemplateRepository.findByTemplateId(templateId)
-        val restTemplateReturnDto = RestTemplateReturnDto()
-        when (templateEntity) {
+    fun deleteReportTemplate(templateId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (val templateEntity = customReportTemplateRepository.findByTemplateId(templateId)) {
             null -> {
-                restTemplateReturnDto.status = false
-                restTemplateReturnDto.code = CustomReportConstants.Template.EditStatus.STATUS_ERROR_NOT_EXIST.code
+                status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
             }
             else -> {
                 customReportTemplateMapRepository.deleteReportTemplateMapEntityByTemplate(templateEntity)
                 customReportTemplateRepository.delete(templateEntity)
             }
         }
-        return restTemplateReturnDto
+        return ZResponse(
+            status = status.code
+        )
     }
 
     fun getReportTemplateChart(chartIds: Array<String>?): List<ChartDto> {
         val chartDataList = mutableListOf<ChartDto>()
         chartIds?.forEach { chartId ->
-            chartDataList.add(customChartService.getChartDetail(chartId))
+            chartDataList.add(customChartService.getChartDetail(chartId).data as ChartDto)
         }
         return chartDataList
     }

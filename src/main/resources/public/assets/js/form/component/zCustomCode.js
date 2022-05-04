@@ -111,9 +111,9 @@ export const customCodeMixin = {
                     if (!zValidation.isEmpty(ZSession.get(defaultValues[2]))) {
                         aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
                             method: 'GET'
-                        }).then((customCodeData) => {
-                            if (!zValidation.isEmpty(customCodeData)) {
-                                const selectedCustomData = customCodeData.data.find((item) =>
+                        }).then((response) => {
+                            if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
+                                const selectedCustomData = response.data.data.find((item) =>
                                     item.codeName === ZSession.get(defaultValues[2])
                                 );
                                 this.value = selectedCustomData.code;
@@ -191,9 +191,9 @@ export const customCodeMixin = {
         } else if (!zValidation.isEmpty(this.value)) {
             aliceJs.fetchJson('/rest/custom-codes/' + defaultValues[0], {
                 method: 'GET'
-            }).then((customCodeData) => {
-                if (!zValidation.isEmpty(customCodeData)) {
-                    const selectedCustomData = customCodeData.data.find((item) => item.code === this.value);
+            }).then((response) => {
+                if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
+                    const selectedCustomData = response.data.data.find((item) => item.code === this.value);
                     target.setUIValue(selectedCustomData.codeName);
                 } else {
                     target.setUIValue('');

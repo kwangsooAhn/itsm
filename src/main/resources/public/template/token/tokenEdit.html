@@ -69,7 +69,9 @@
             aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
                 method: 'GET'
             }).then((response) => {
-                ZSession.add('departmentName', response.data.organizationName);
+                if (response.status === aliceJs.response.success) {
+                    ZSession.add('departmentName', response.data.organizationName);
+                }
             });
         }
 
@@ -81,17 +83,28 @@
         aliceJs.fetchJson('/rest/tokens/' + '[[${tokenId}]]' + '/data', {
             method: 'GET',
             showProgressbar: true
-        }).then((formDataJson) => {
-            document.getElementById('instanceId').value = formDataJson.instanceId;
-            formDataJson.tokenId = document.getElementById('tokenId').value;
-            formDataJson.folderId = document.getElementById('folderId').value;
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    let data = JSON.parse(response.data)
 
-            zDocument.init(formDataJson, true);
-            zFormButton.init(formDataJson, zDocument);
-            zFormTokenTab.init(formDataJson, true);
+                    document.getElementById('instanceId').value = data.instanceId;
+                    data.tokenId = document.getElementById('tokenId').value;
+                    data.folderId = document.getElementById('folderId').value;
 
-            window.zDocument = zDocument;
-            window.zFormTokenTab = zFormTokenTab;
+                    zDocument.init(data, true);
+                    zFormButton.init(data, zDocument);
+                    zFormTokenTab.init(data, true);
+
+                    window.zDocument = zDocument;
+                    window.zFormTokenTab = zFormTokenTab;
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+            }
         });
         /*]]>*/
     </script>

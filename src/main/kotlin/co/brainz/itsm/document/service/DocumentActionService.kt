@@ -8,8 +8,8 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.provider.dto.RestTemplateActionDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
@@ -31,7 +31,7 @@ class DocumentActionService(
     /**
      * [documentData]을 받아서 필요 버튼을 정리 한 후[String]으로 반환 한다.
      */
-    fun makeDocumentAction(documentData: RestTemplateRequestDocumentDto): RestTemplateRequestDocumentDto {
+    fun makeDocumentAction(documentData: RestTemplateRequestDocumentDto): ZResponse {
         val actionsResult = mutableListOf<RestTemplateActionDto>()
         documentData.actions?.forEach { action ->
             val actionValue = action.value
@@ -46,7 +46,9 @@ class DocumentActionService(
         if (actionsResult.isNotEmpty()) {
             documentData.actions = actionsResult
         }
-        return documentData
+        return ZResponse(
+            data = documentData
+        )
     }
 
     /**

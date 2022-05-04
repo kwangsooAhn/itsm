@@ -9,6 +9,8 @@ package co.brainz.itsm.cmdb.ciAttribute.service
 import co.brainz.cmdb.ciAttribute.service.CIAttributeService
 import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.cmdb.dto.CIAttributeReturnDto
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -46,34 +48,34 @@ class CIAttributeService(
     /**
      * Attribute 등록.
      */
-    fun saveCIAttribute(attributeData: String): String {
+    fun saveCIAttribute(attributeData: String): ZResponse {
         val ciAttributeDto = makeCIAttributeDto(attributeData)
         ciAttributeDto.createDt = LocalDateTime.now()
         ciAttributeDto.createUserKey = currentSessionUser.getUserKey()
-        val returnDto = ciAttributeService.createCIAttribute(ciAttributeDto)
-        return returnDto.code
+        return ciAttributeService.createCIAttribute(ciAttributeDto)
     }
 
     /**
      * Attribute 수정.
      */
-    fun updateCIAttribute(attributeId: String, attributeData: String): String {
+    fun updateCIAttribute(attributeId: String, attributeData: String): ZResponse {
         val ciAttributeDto = makeCIAttributeDto(attributeData)
         ciAttributeDto.updateDt = LocalDateTime.now()
         ciAttributeDto.updateUserKey = currentSessionUser.getUserKey()
-        val returnDto = ciAttributeService.updateCIAttribute(ciAttributeDto)
-        return returnDto.code
+        return ciAttributeService.updateCIAttribute(ciAttributeDto)
     }
 
     /**
      * Attribute 삭제.
      */
-    fun deleteCIAttribute(attributeId: String): String {
-        var returnValue = "-1"
-        if (ciAttributeService.deleteCIAttribute(attributeId)) {
-            returnValue = "0"
+    fun deleteCIAttribute(attributeId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (!ciAttributeService.deleteCIAttribute(attributeId)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return returnValue
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

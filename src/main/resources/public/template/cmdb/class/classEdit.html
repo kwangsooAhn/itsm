@@ -120,9 +120,6 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_SUCCESS_EDIT_CLASS = '1';
-    const STATUS_FAIL_CLASS_HAVE_TYPE = '2';
     let extendsAttributeList = document.getElementById('extendsAttributeList');
     let attributeList = document.getElementById('attributeList');
     let classAttributeMap = new Map();
@@ -157,21 +154,26 @@
         }
         aliceJs.fetchJson('/rest/cmdb/classes/' + encodeURIComponent(ciClassId), {
             method: 'GET'
-        }).then((responseJson) => {
-            document.getElementById('txtClassId').value = responseJson.classId;
-            document.getElementById('txtPClassId').value = responseJson.pclassId;
-            document.getElementById('txtPClassName').value = responseJson.pclassName;
+        }).then((response) => {
+            if (response.status !== aliceJs.response.success) {
+                zAlert.danger(i18n.msg('cmdb.type.msg.selectAvailableClass'));
+                return false;
+            }
+
+            document.getElementById('txtClassId').value = response.data.classId;
+            document.getElementById('txtPClassId').value = response.data.pclassId;
+            document.getElementById('txtPClassName').value = response.data.pclassName;
             // 속성그룹 이름
             const txtClassName = document.getElementById('txtClassName');
-            txtClassName.value = responseJson.className;
+            txtClassName.value = response.data.className;
             // 설명
             const txtClassDesc = document.getElementById('txtClassDesc');
-            txtClassDesc.value = responseJson.classDesc;
+            txtClassDesc.value = response.data.classDesc;
             // 정렬 순서
             const txtClassSeq = document.getElementById('txtClassSeq');
-            txtClassSeq.value = responseJson.classSeq;
+            txtClassSeq.value = response.data.classSeq;
 
-            if (responseJson.editable) {
+            if (response.data.editable) {
                 if (document.getElementById('btnUpdate') != null) {
                     document.getElementById('btnUpdate').removeAttribute('disabled');
                 }
@@ -200,8 +202,8 @@
             while (attributeList.hasChildNodes()) {
                 attributeList.removeChild(attributeList.firstChild);
             }
-            if (responseJson.extendsAttributes !== null) {
-                responseJson.extendsAttributes.forEach(function (data) {
+            if (response.data.extendsAttributes !== null) {
+                response.data.extendsAttributes.forEach(function (data) {
                     drawAttribute({
                         key: data.attributeId,
                         value: data.attributeName
@@ -209,8 +211,8 @@
                 });
             }
             classAttributeMap.clear();
-            if (responseJson.attributes !== null) {
-                responseJson.attributes.forEach(function (data) {
+            if (response.data.attributes !== null) {
+                response.data.attributes.forEach(function (data) {
                     classAttributeMap.set(data.attributeId, data.attributeName);
                     drawAttribute({
                         key: data.attributeId,
@@ -226,7 +228,7 @@
                 alarmList.children[1].remove();
             }
             // 알림 설정 추가
-            setAlarmCondition(responseJson);
+            setAlarmCondition(response.data);
 
             observer.isChanged = false;
         });
@@ -411,26 +413,26 @@
         if (flag !== 'POST') {
             strUrl += '/' + document.getElementById('txtClassId').value;
         }
-        aliceJs.fetchText(strUrl, {
+        const resultMsg = (flag === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson(strUrl, {
             method: flag,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(saveData)
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
-                    zAlert.success(i18n.msg('common.msg.register'), function () {
-                        window.location.href = '/cmdb/class/edit';
-                    });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    if (response.data) {
+                        zAlert.success(resultMsg, function () {
+                            window.location.href = '/cmdb/class/edit';
+                        });
+                    }
                     break;
-                case STATUS_SUCCESS_EDIT_CLASS:
-                    zAlert.success(i18n.msg('common.msg.update'), function () {
-                        window.location.href = '/cmdb/class/edit';
-                    });
-                    break;
-                default:
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
                     break;
             }
         });
@@ -438,20 +440,22 @@
 
     /** CMDB Class 삭제 **/
     function onDelete() {
-        aliceJs.fetchText('/rest/cmdb/classes/' + document.getElementById('txtClassId').value, {
+        aliceJs.fetchJson('/rest/cmdb/classes/' + document.getElementById('txtClassId').value, {
             method: 'DELETE'
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
                     zAlert.success(i18n.msg('common.msg.delete'), function () {
                         window.location.href = '/cmdb/class/edit';
                     });
                     break;
-                case STATUS_FAIL_CLASS_HAVE_TYPE:
-                    zAlert.danger(i18n.msg('cmdb.class.msg.relatedTypes'));
+                case aliceJs.response.exist:
+                    zAlert.warning(i18n.msg('cmdb.class.msg.relatedTypes'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
                     break;
                 default:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
                     break;
             }
         });

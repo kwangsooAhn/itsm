@@ -6,11 +6,12 @@
 
 package co.brainz.itsm.customCode.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.customCode.dto.CustomCodeDto
-import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
-import co.brainz.itsm.customCode.dto.CustomCodeTreeReturnDto
 import co.brainz.itsm.customCode.service.CustomCodeService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -22,23 +23,27 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/custom-codes")
-class CustomCodeRestController(private val customCodeService: CustomCodeService) {
+class CustomCodeRestController(
+    private val customCodeService: CustomCodeService
+) {
 
     /**
      * [CustomCodeSearchCondition]를 받아서 사용자 정의 코드 리스트를 [List<CustomCodeListDto>] 반환한다.
      *
      */
     @GetMapping("")
-    fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
-        return customCodeService.getCustomCodeList(customCodeSearchCondition)
+    fun getCustomCodeList(
+        customCodeSearchCondition: CustomCodeSearchCondition
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customCodeService.getCustomCodeList(customCodeSearchCondition))
     }
 
     /**
      * 커스텀 코드 목록 조회.
      */
     @GetMapping("/{customCodeId}")
-    fun getCustomCodes(@PathVariable customCodeId: String): CustomCodeTreeReturnDto {
-        return customCodeService.getCustomCodeData(customCodeId)
+    fun getCustomCodes(@PathVariable customCodeId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customCodeService.getCustomCodeData(customCodeId))
     }
 
     /**
@@ -48,8 +53,8 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      * @return String
      */
     @PostMapping("")
-    fun createCustomCode(@RequestBody customCodeDto: CustomCodeDto): String {
-        return customCodeService.saveCustomCode(customCodeDto)
+    fun createCustomCode(@RequestBody customCodeDto: CustomCodeDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customCodeService.saveCustomCode(customCodeDto))
     }
 
     /**
@@ -59,8 +64,8 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      * @return String
      */
     @PutMapping("")
-    fun updateCustomCode(@RequestBody customCodeDto: CustomCodeDto): String {
-        return customCodeService.saveCustomCode(customCodeDto)
+    fun updateCustomCode(@RequestBody customCodeDto: CustomCodeDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customCodeService.saveCustomCode(customCodeDto))
     }
 
     /**
@@ -70,7 +75,7 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      * @return String
      */
     @DeleteMapping("/{customCodeId}")
-    fun deleteCustomCode(@PathVariable customCodeId: String): String {
-        return customCodeService.deleteCustomCode(customCodeId)
+    fun deleteCustomCode(@PathVariable customCodeId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(customCodeService.deleteCustomCode(customCodeId))
     }
 }

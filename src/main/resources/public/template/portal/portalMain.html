@@ -94,37 +94,40 @@
         function initPortalTops(method, url) {
             aliceJs.fetchJson(url, {
                 method: method
-            }).then((dataList) => {
-                const tops = Object.entries(dataList);
-                tops.forEach(([topName, topData]) => {
-                    const topElement = document.getElementById(topName);
-                    for (let i = 0; i < topData.length; i++) {
-                        const data = topData[i];
-                        const row = document.createElement('tr');
-                        const cell = document.createElement('td');
-                        const contentAnchor = document.createElement('a');
-                        switch (topName) {
-                            case 'notice':
-                                contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
-                                break;
-                            case 'faq':
-                                contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
-                                break;
-                            case 'download':
-                                contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
-                                break;
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    // 성공시 화면 초기화
+                    const tops = Object.entries(response.data);
+                    tops.forEach(([topName, topData]) => {
+                        const topElement = document.getElementById(topName);
+                        for (let i = 0; i < topData.length; i++) {
+                            const data = topData[i];
+                            const row = document.createElement('tr');
+                            const cell = document.createElement('td');
+                            const contentAnchor = document.createElement('a');
+                            switch (topName) {
+                                case 'notice':
+                                    contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
+                                    break;
+                                case 'faq':
+                                    contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
+                                    break;
+                                case 'download':
+                                    contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
+                                    break;
+                            }
+                            let contentText = document.createElement('span');
+                            contentText.className = 'text-ellipsis';
+                            const contentAnchorText = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
+                            contentText.textContent = contentAnchorText;
+                            contentText.setAttribute('title', contentAnchorText);
+                            contentAnchor.appendChild(contentText);
+                            cell.appendChild(contentAnchor);
+                            row.appendChild(cell);
+                            topElement.appendChild(row);
                         }
-                        let contentText = document.createElement('span');
-                        contentText.className = 'text-ellipsis';
-                        const contentAnchorText = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
-                        contentText.textContent = contentAnchorText;
-                        contentText.setAttribute('title', contentAnchorText);
-                        contentAnchor.appendChild(contentText);
-                        cell.appendChild(contentAnchor);
-                        row.appendChild(cell);
-                        topElement.appendChild(row);
-                    }
-                });
+                    });
+                }
             });
         }
 
@@ -156,11 +159,11 @@
                 method: method
             }).then((response) => {
                 if (isScroll) {
-                    const dataList = JSON.parse(response);
-                    if (dataList.length > 0) {
+                    const responseJson = JSON.parse(response);
+                    if (responseJson.status === aliceJs.response.success && responseJson.data.length > 0) {
                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                             offsetCount = offsetCount + aliceJs.searchDataCount;
-                            dataList.forEach(function(data) {
+                            responseJson.data.forEach(function(data) {
                                 getDataTemplate(data);
                             });
                         }

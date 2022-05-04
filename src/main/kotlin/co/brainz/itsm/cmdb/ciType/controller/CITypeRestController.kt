@@ -7,9 +7,11 @@
 package co.brainz.itsm.cmdb.ciType.controller
 
 import co.brainz.cmdb.dto.CITypeDto
-import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import javax.servlet.http.HttpServletRequest
+import org.springframework.http.ResponseEntity
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,26 +35,26 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
         request: HttpServletRequest,
         @RequestParam(value = "search", required = false, defaultValue = "") search: String,
         model: Model
-    ): CITypeTreeReturnDto {
+    ): ResponseEntity<ZResponse> {
         val params = LinkedHashMap<String, Any>()
         params["search"] = search
-        return ciTypeService.getCITypesTree(params)
+        return ZAliceResponse.response(ciTypeService.getCITypesTree(params))
     }
 
     /**
      * CI Type 단일 조회
      */
     @GetMapping("/{typeId}")
-    fun getCIType(@PathVariable typeId: String): CITypeDto {
-        return ciTypeService.getCIType(typeId)
+    fun getCIType(@PathVariable typeId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciTypeService.getCIType(typeId))
     }
 
     /**
      * CI Type 등록
      */
     @PostMapping("")
-    fun createCITypes(@RequestBody ciTypeDto: CITypeDto): String {
-        return ciTypeService.createCIType(ciTypeDto)
+    fun createCITypes(@RequestBody ciTypeDto: CITypeDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciTypeService.createCIType(ciTypeDto))
     }
 
     /**
@@ -62,15 +64,15 @@ class CITypeRestController(private val ciTypeService: CITypeService) {
     fun updateCIType(
         @RequestBody ciTypeDto: CITypeDto,
         @PathVariable typeId: String
-    ): String {
-        return ciTypeService.updateCIType(ciTypeDto, typeId)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciTypeService.updateCIType(ciTypeDto, typeId))
     }
 
     /**
      * CI Type 삭제
      */
     @DeleteMapping("/{typeId}")
-    fun deleteCIType(@PathVariable typeId: String): String {
-        return ciTypeService.deleteCIType(typeId)
+    fun deleteCIType(@PathVariable typeId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciTypeService.deleteCIType(typeId))
     }
 }

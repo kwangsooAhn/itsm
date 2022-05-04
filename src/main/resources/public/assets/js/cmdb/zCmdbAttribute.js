@@ -36,7 +36,7 @@
     ];
 
     let parent = null;
-    let customCodeList = null;
+    let customCodeList = [];
     let targetUserArray = [];
     let userInfo = null;
     let attributeDetailData = null; // 서버에 저장된 세부 속성 데이터
@@ -94,8 +94,10 @@
                 // load custom-code list
                 await aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
                     method: 'GET'
-                }).then((data) => {
-                    customCodeList = data;
+                }).then((response) => {
+                    if (response.status === aliceJs.response.success) {
+                        customCodeList = response.data;
+                    }
                 });
                 attributeObject = new CustomCode(attributesProperty);
                 break;
@@ -443,7 +445,7 @@
         // required
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
         // custom-code
-        const customCodeOptions = customCodeList.data.map(function (option) {
+        const customCodeOptions = customCodeList.map(function (option) {
             return `<option value='${option.customCodeId}' ` +
                 `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.customCodeName)}</option>`;
@@ -608,10 +610,10 @@
             // Attribute  목록 조회 - id 만 서버에 담고 있기 때문에 Attribute 명을 가져온다.
             aliceJs.fetchJson('/rest/cmdb/attributes', {
                 method: 'GET'
-            }).then((attributeData) => {
-                if (attributeData.data.length > 0) {
-                    for (let i = 0; i < attributeData.data.length; i++) {
-                        const attribute = attributeData.data[i];
+            }).then((response) => {
+                if (response.status === aliceJs.response.success && response.data.length > 0) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        const attribute = response.data[i];
                         for (let j = 0; j < property.option.length; j++) {
                             if (attribute.attributeId === property.option[j].id) {
                                 attributeMap.push({

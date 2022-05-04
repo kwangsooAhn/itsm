@@ -6,12 +6,11 @@ object SchedulerConstants {
      * 스케줄러 처리 상태.
      */
     enum class Status(val code: String) {
-        STATUS_SUCCESS("0"),
-        STATUS_ERROR_SCHEDULE_USED("1"),
-        STATUS_ERROR_SCHEDULE_NAME_DUPLICATION("2"),
-        STATUS_ERROR_SCHEDULER_EXECUTE("3"),
-        STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST("4"),
-        STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST("5")
+        STATUS_SUCCESS("Z-0000"),
+        STATUS_ERROR_SCHEDULE_NAME_DUPLICATION("E-0001"),
+        STATUS_ERROR_SCHEDULER_EXECUTE("E-0004"),
+        STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST("E-0003"),
+        STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST("E-0007") // 스케쥴러에서만 사용하는 코드
     }
 
     /**

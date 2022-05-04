@@ -99,10 +99,10 @@ object AliceUserConstants {
      */
     enum class SignUpStatus(val code: String) {
         STATUS_VALID_SUCCESS("-1"),
-        STATUS_SUCCESS("0"),
-        STATUS_ERROR_USER_ID_DUPLICATION("1"),
-        STATUS_ERROR("2"),
-        STATUS_ERROR_EMAIL_DUPLICATION("3")
+        STATUS_SUCCESS("Z-0000"),
+        STATUS_ERROR("E-0000"),
+        STATUS_ERROR_USER_ID_DUPLICATION("E-0001"),
+        STATUS_ERROR_EMAIL_DUPLICATION("E-0007")
     }
 
     /**
@@ -110,14 +110,14 @@ object AliceUserConstants {
      */
     enum class UserEditStatus(val code: String) {
         STATUS_VALID_SUCCESS("-1"),
-        STATUS_SUCCESS("0"),
-        STATUS_ERROR_USER_ID_DUPLICATION("1"),
-        STATUS_ERROR("2"),
-        STATUS_ERROR_EMAIL_DUPLICATION("3"),
-        STATUS_SUCCESS_EDIT_EMAIL("4"),
-        STATUS_SUCCESS_EDIT_ADMIN("5"),
-        STATUS_SUCCESS_EDIT_PASSWORD("6"),
-        STATUS_ERROR_SYSTEM_USER_NOT_EXIST("7")
+        STATUS_SUCCESS("Z-0000"),
+        STATUS_SUCCESS_EDIT_ADMIN("Z-0001"),
+        STATUS_SUCCESS_EDIT_EMAIL("Z-0002"),
+        STATUS_SUCCESS_EDIT_PASSWORD("Z-0003"),
+        STATUS_ERROR("E-0000"),
+        STATUS_ERROR_USER_ID_DUPLICATION("E-0001"),
+        STATUS_ERROR_SYSTEM_USER_NOT_EXIST("E-0003"),
+        STATUS_ERROR_EMAIL_DUPLICATION("E-0007")
     }
 
     /**

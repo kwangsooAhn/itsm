@@ -391,14 +391,15 @@ class CIClassService(
      */
     @Transactional
     fun deleteCIClass(classId: String): Boolean {
-        val classEntity = ciClassRepository.findByIdOrNull(classId) ?: throw AliceException(
-            AliceErrorConstants.ERR_00005,
-            AliceErrorConstants.ERR_00005.message + "[CMDB CLASS Entity]"
-        )
-
-        ciClassNotificationRepository.deleteCIClassNotificationEntitiesByCiClass_ClassId(classId)
-        ciClassRepository.deleteById(classEntity.classId)
-        return true
+        var isSuccess = true
+        val classEntity = ciClassRepository.findByIdOrNull(classId)
+        if (classEntity != null) {
+            ciClassNotificationRepository.deleteCIClassNotificationEntitiesByCiClass_ClassId(classId)
+            ciClassRepository.deleteById(classEntity.classId)
+        } else {
+            isSuccess = false
+        }
+        return isSuccess
     }
 
     /**

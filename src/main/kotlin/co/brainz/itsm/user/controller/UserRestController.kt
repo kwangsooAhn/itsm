@@ -5,17 +5,18 @@
 
 package co.brainz.itsm.user.controller
 
-import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSearchCondition
-import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.dto.UserUpdatePasswordDto
 import co.brainz.itsm.user.service.UserService
@@ -23,7 +24,6 @@ import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
-import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -54,7 +54,6 @@ class UserRestController(
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     @Value("\${spring.mail.enabled}")
     private val mailEnabled: Boolean = false
@@ -63,7 +62,7 @@ class UserRestController(
      * 사용자를 등록한다.
      */
     @PostMapping("/", "")
-    fun createUser(@RequestBody @Valid aliceSignUpDto: AliceSignUpDto): String {
+    fun createUser(@RequestBody @Valid aliceSignUpDto: AliceSignUpDto): ResponseEntity<ZResponse> {
         val password = when {
             mailEnabled -> userService.makePassword()
             else -> aliceSignUpDto.password
@@ -72,7 +71,7 @@ class UserRestController(
         aliceSignUpDto.password = password?.let { aliceCryptoRsa.encrypt(publicKey, it) }
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
-        if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
             aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
@@ -80,7 +79,7 @@ class UserRestController(
                 password
             )
         }
-        return result
+        return ZAliceResponse.response(result)
     }
 
     /**
@@ -91,16 +90,21 @@ class UserRestController(
         @RequestBody @Valid user: UserUpdateDto,
         request: HttpServletRequest,
         response: HttpServletResponse
-    ): String {
+    ): ResponseEntity<ZResponse> {
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
-        if (SecurityContextHolder.getContext().authentication != null) {
-            if (user.userKey == currentSessionUser.getUserKey()) {
-                localeResolver.setLocale(request, response, Locale(user.lang))
-                SecurityContextHolder.getContext().authentication =
-                    userDetailsService.createNewAuthentication(user.userKey)
+        if (result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code ||
+            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code ||
+            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code ||
+            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code) {
+            if (SecurityContextHolder.getContext().authentication != null) {
+                if (user.userKey == currentSessionUser.getUserKey()) {
+                    localeResolver.setLocale(request, response, Locale(user.lang))
+                    SecurityContextHolder.getContext().authentication =
+                        userDetailsService.createNewAuthentication(user.userKey)
+                }
             }
         }
-        return result
+        return ZAliceResponse.response(result)
     }
 
     /**
@@ -111,90 +115,91 @@ class UserRestController(
         @RequestBody @Valid user: UserUpdateDto,
         request: HttpServletRequest,
         response: HttpServletResponse
-    ): String {
+    ): ResponseEntity<ZResponse> {
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
-        when (result) {
-            AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
-                aliceCertificationMailService.sendMail(
-                    user.userId,
-                    user.email!!,
-                    AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
-                    null
-                )
-            }
-            else -> aliceCertificationMailService.sendMail(
-                user.userId,
-                user.email!!,
-                AliceUserConstants.SendMailStatus.UPDATE_USER.code,
-                null
-            )
-        }
-        localeResolver.setLocale(request, response, Locale(user.lang))
-        if (SecurityContextHolder.getContext().authentication != null) {
-            if (user.userKey == currentSessionUser.getUserKey()) {
-                SecurityContextHolder.getContext().authentication =
-                    userDetailsService.createNewAuthentication(user.userKey)
+        if (result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code ||
+            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code ||
+            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code ||
+            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code) {
+            localeResolver.setLocale(request, response, Locale(user.lang))
+            if (SecurityContextHolder.getContext().authentication != null) {
+                if (user.userKey == currentSessionUser.getUserKey()) {
+                    SecurityContextHolder.getContext().authentication =
+                        userDetailsService.createNewAuthentication(user.userKey)
+                }
             }
         }
-        return result
+        return ZAliceResponse.response(result)
     }
 
     /**
      * 사용자의 처리할 문서를 위임자로 변경
      */
     @PostMapping("/absence")
-    fun executeUserProcessingDocumentAbsence(@RequestBody absenceInfo: String): Boolean {
-        return userService.executeUserProcessingDocumentAbsence(absenceInfo)
+    fun executeUserProcessingDocumentAbsence(
+        @RequestBody absenceInfo: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            userService.executeUserProcessingDocumentAbsence(absenceInfo)
+        )
     }
 
     /**
      * 전체 사용자 목록 조회.
      */
     @GetMapping("/all")
-    fun getUsers(): MutableList<UserSelectListDto> {
-        return userService.selectUserListOrderByName()
+    fun getUsers(): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.selectUserListOrderByName())
     }
 
     /**
      * 사용자의 비밀번호를 초기화한다.
      */
     @PutMapping("/{userKey}/resetpassword")
-    private fun resetPassword(@PathVariable userKey: String): String {
+    private fun resetPassword(@PathVariable userKey: String): ResponseEntity<ZResponse> {
         val password = userService.makePassword()
-        return userService.resetPassword(userKey, password)
+        return ZAliceResponse.response(userService.resetPassword(userKey, password))
     }
 
     /**
      * 사용자 정의 색상 조회.
      */
     @GetMapping("colors")
-    fun getUserCustomColors(): UserCustomDto? {
-        return userService.getUserCustomColors()
+    fun getUserCustomColors(): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.getUserCustomColors())
     }
 
     /**
      * 사용자 정의 색상 추가.
      */
     @PutMapping("colors")
-    private fun updateUserCustomColors(@RequestBody userCustomDto: UserCustomDto): Boolean {
-        return userService.updateUserCustomColors(userCustomDto)
+    private fun updateUserCustomColors(
+        @RequestBody userCustomDto: UserCustomDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.updateUserCustomColors(userCustomDto))
     }
 
     @PutMapping("/updatePassword")
-    private fun updatePassword(@RequestBody userUpdatePasswordDto: UserUpdatePasswordDto): Long {
-        return userService.updatePassword(userUpdatePasswordDto)
+    private fun updatePassword(
+        @RequestBody userUpdatePasswordDto: UserUpdatePasswordDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.updatePassword(userUpdatePasswordDto))
     }
 
     @PutMapping("/nextTime")
-    private fun extendExpiryDate(@RequestBody userUpdatePasswordDto: UserUpdatePasswordDto): Long {
-        return userService.extendExpiryDate(userUpdatePasswordDto)
+    private fun extendExpiryDate(
+        @RequestBody userUpdatePasswordDto: UserUpdatePasswordDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.extendExpiryDate(userUpdatePasswordDto))
     }
 
     /**
      * 사용자 목록 Excel 다운로드
      */
     @GetMapping("/excel")
-    fun getUsersExcelDownload(userSearchCondition: UserSearchCondition): ResponseEntity<ByteArray> {
+    fun getUsersExcelDownload(
+        userSearchCondition: UserSearchCondition
+    ): ResponseEntity<ByteArray> {
         return userService.getUsersExcelDownload(userSearchCondition)
     }
 }

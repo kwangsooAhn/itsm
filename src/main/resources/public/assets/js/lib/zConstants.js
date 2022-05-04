@@ -74,6 +74,15 @@ export const FORM = {
         SESSION: 'session',
         CODE: 'code'
     },
+    SEARCH_COMPONENT: {
+        USER_SEARCH: 'userSearch',
+        ORGANIZATION_SEARCH: 'organizationSearch',
+    },
+    DEFAULT_VALUE_TYPE: {
+        NONE: 'none',
+        SESSION: 'session',
+        CUSTOM: 'custom'
+    },
     DROPDOWN_CODE: {
         CODE: 'code',
         DEFAULT_CODE: 'defaultCode',

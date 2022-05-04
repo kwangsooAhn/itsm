@@ -7,9 +7,7 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.framework.response.dto.ZReturnDto
 import co.brainz.itsm.document.dto.DocumentDto
-import co.brainz.itsm.document.dto.DocumentExportDto
 import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
@@ -40,8 +38,8 @@ class WorkFlowRestController(
      * @param documentDto
      * */
     @PostMapping("")
-    fun workFlowDocument(@RequestBody documentDto: DocumentDto): ZReturnDto {
-        return documentService.createDocument(documentDto)
+    fun workFlowDocument(@RequestBody documentDto: DocumentDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.createDocument(documentDto))
     }
 
     /**
@@ -50,8 +48,8 @@ class WorkFlowRestController(
      * @param documentDto
      * */
     @PostMapping("/workflowLink")
-    fun workFlowLink(@RequestBody documentDto: DocumentDto): ZReturnDto {
-        return documentService.createDocumentLink(documentDto)
+    fun workFlowLink(@RequestBody documentDto: DocumentDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.createDocumentLink(documentDto))
     }
 
     /**
@@ -60,8 +58,8 @@ class WorkFlowRestController(
      * @param documentId
      * */
     @DeleteMapping("/{documentId}")
-    fun deleteWorkFlow(@PathVariable documentId: String): Boolean {
-        return documentService.deleteDocument(documentId)
+    fun deleteWorkFlow(@PathVariable documentId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.deleteDocument(documentId))
     }
 
     /**
@@ -70,8 +68,8 @@ class WorkFlowRestController(
      * @param documentId
      * */
     @DeleteMapping("/workflowLink/{documentId}")
-    fun deleteWorkFlowLink(@PathVariable documentId: String): Boolean {
-        return documentService.deleteDocumentLink(documentId)
+    fun deleteWorkFlowLink(@PathVariable documentId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.deleteDocumentLink(documentId))
     }
 
     /**
@@ -80,8 +78,8 @@ class WorkFlowRestController(
      * @param documentId
      */
     @GetMapping("/{documentId}")
-    fun getWorkFlow(@PathVariable documentId: String): DocumentDto {
-        return documentService.getDocument(documentId)
+    fun getWorkFlow(@PathVariable documentId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.getDocument(documentId))
     }
 
     /**
@@ -95,10 +93,10 @@ class WorkFlowRestController(
         @PathVariable documentId: String,
         @RequestBody documentDto: DocumentDto,
         @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
-    ): ZReturnDto {
+    ): ResponseEntity<ZResponse> {
         val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
-        return documentService.updateDocument(documentDto, params)
+        return ZAliceResponse.response(documentService.updateDocument(documentDto, params))
     }
 
     /**
@@ -111,8 +109,8 @@ class WorkFlowRestController(
     fun updateWorkFlowLink(
         @PathVariable documentId: String,
         @RequestBody documentDto: DocumentDto
-    ): ZReturnDto {
-        return documentService.updateDocumentLink(documentDto)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.updateDocumentLink(documentDto))
     }
 
     /**
@@ -125,8 +123,8 @@ class WorkFlowRestController(
     fun updateWorkFlowDisplay(
         @PathVariable documentId: String,
         @RequestBody documentDisplay: RestTemplateDocumentDisplaySaveDto
-    ): Boolean {
-        return documentService.updateDocumentDisplay(documentDisplay)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.updateDocumentDisplay(documentDisplay))
     }
 
     /**
@@ -135,17 +133,19 @@ class WorkFlowRestController(
      * @param documentId
      */
     @GetMapping("/{documentId}/export")
-    fun getExportWorkFlowData(@PathVariable documentId: String): DocumentExportDto {
-        return documentService.getDocumentExportData(documentId)
+    fun getExportWorkFlowData(@PathVariable documentId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.getDocumentExportData(documentId))
     }
 
     /**
      * 업무흐름 Import.
      */
     @PostMapping("/import")
-    fun importWorkFlowData(@RequestBody jsonData: Any): ZReturnDto {
+    fun importWorkFlowData(@RequestBody jsonData: Any): ResponseEntity<ZResponse> {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        return documentService.importDocumentData(mapper.convertValue(jsonData, DocumentImportDto::class.java))
+        return ZAliceResponse.response(
+            documentService.importDocumentData(mapper.convertValue(jsonData, DocumentImportDto::class.java))
+        )
     }
 }

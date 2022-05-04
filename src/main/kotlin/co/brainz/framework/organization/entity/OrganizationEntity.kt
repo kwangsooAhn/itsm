@@ -64,6 +64,6 @@ data class OrganizationEntity(
     var updateDt: LocalDateTime? = null
 
 ) : Serializable {
-    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "organization", fetch = FetchType.EAGER)
     val organizationRoleMapEntities = mutableListOf<OrganizationRoleMapEntity>()
 }

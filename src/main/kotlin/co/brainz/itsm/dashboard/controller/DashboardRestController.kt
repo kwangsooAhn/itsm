@@ -5,8 +5,10 @@
 
 package co.brainz.itsm.dashboard.controller
 
-import co.brainz.itsm.dashboard.dto.TemplateComponentData
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.dashboard.service.DashboardTemplateService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,7 +26,9 @@ class DashboardRestController(
         @PathVariable templateId: String,
         @PathVariable componentKey: String,
         @RequestBody options: Any?
-    ): TemplateComponentData {
-        return dashboardTemplateService.getTemplateComponent(templateId, componentKey, options)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            dashboardTemplateService.getTemplateComponent(templateId, componentKey, options)
+        )
     }
 }

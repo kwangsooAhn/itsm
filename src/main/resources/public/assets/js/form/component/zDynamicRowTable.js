@@ -65,6 +65,8 @@ export const dynamicRowTableMixin = {
         if (!zValidation.isEmpty(this._value)) {
             this._value = JSON.parse(this._value);
         }
+        // 기본값 목록 초기화
+        this._defaultValues = [];
     },
     // component 엘리먼트 생성
     makeElement() {
@@ -101,6 +103,9 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('tabindex', '-1')
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UITable);
+
+        // 기본값 목록 세팅
+        this.setDefaultValues(this.elementColumns);
 
         this.makeTable(element.UITable);
 
@@ -295,7 +300,7 @@ export const dynamicRowTableMixin = {
             if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
                 this.displayType !== FORM.DISPLAY_TYPE.HIDDEN) {
                 if (zValidation.isEmpty(data[index])) {
-                    let defaultValue = this.setDefaultValue(column);
+                    let defaultValue = this._defaultValues[index];
                     columnData.push(defaultValue);
                 } else {
                     columnData.push(data[index]);
@@ -464,7 +469,7 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('data-realtime-selected-user', cellValue)
             .setUIAttribute('data-user-id', (defaultValues.length > 1) ? defaultValues[2] : '')
             .setUIAttribute('data-user-search', (defaultValues.length > 1) ? defaultValues[0] : '')
-            .setUIAttribute('data-user-search-target', column.columnElement.defaultValueUserSearch)
+            .setUIAttribute('data-user-search-target', column.columnElement.userSearchTarget)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
             .setUIAttribute('onkeydown', 'return false;')
@@ -487,44 +492,55 @@ export const dynamicRowTableMixin = {
             .onUIClick(this.openOrganizationSearchModal.bind(this))
             .onUIChange(this.updateValue.bind(this));
     },
-    // 컴포넌트별 기본값 세팅
-    setDefaultValue(column) {
-        let defaultValue = '${default}';
-        switch (column.columnType) {
-            case 'input':
-                defaultValue = column.columnElement.defaultValueSelect.split('|');
-                if (defaultValue[0] === 'input') {
-                    defaultValue = defaultValue[1];
-                } else {
-                    defaultValue = ZSession.get(defaultValue[1]) || '';
-                }
-                break;
-            case 'dropdown':
-                for (let i = 0; i < column.columnElement.options.length; i++) {
-                    let checkedYn = column.columnElement.options[i].checked || false;
-                    if (checkedYn) {
-                        defaultValue = column.columnElement.options[i].value;
+    // 컴포넌트별 기본값 목록 세팅
+    setDefaultValues(columns) {
+        for (const column of columns) {
+            let defaultValue = '${default}';
+            switch (column.columnType) {
+                case 'input':
+                    defaultValue = column.columnElement.defaultValueSelect.split('|');
+                    if (defaultValue[0] === 'input') {
+                        defaultValue = defaultValue[1];
+                    } else {
+                        defaultValue = ZSession.get(defaultValue[1]) || '';
                     }
-                    defaultValue = defaultValue === '${default}' ? '' : defaultValue;
-                }
-                break;
-            case 'time':
-                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
-                break;
-            case 'date':
-                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
-                break;
-            case 'dateTime':
-                defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
-                break;
-            case 'label':
-            case 'userSearch':
-                defaultValue = '';
-                break;
-            default:
-                break;
+                    break;
+                case 'dropdown':
+                    for (let i = 0; i < column.columnElement.options.length; i++) {
+                        let checkedYn = column.columnElement.options[i].checked || false;
+                        if (checkedYn) {
+                            defaultValue = column.columnElement.options[i].value;
+                        }
+                        defaultValue = defaultValue === '${default}' ? '' : defaultValue;
+                    }
+                    break;
+                case 'time':
+                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
+                    break;
+                case 'date':
+                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
+                    break;
+                case 'dateTime':
+                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
+                    break;
+                case 'label':
+                    defaultValue = '';
+                    break;
+                case 'userSearch':
+                    // 설정된 검색조건에 대해 설정된 기본값이 유효한지 검증한다.
+                    this.getDefaultValueForUserSearch(column, column.columnElement.defaultValue.type).then((data) => {
+                        column.columnElement.defaultValue.data = data;
+                    });
+                    defaultValue = defaultValue === '${default}' ? column.columnElement.defaultValue.data : defaultValue;
+                    break;
+                case 'organizationSearch':
+                    defaultValue = defaultValue === '${default}' ? column.columnElement.defaultValue.data : defaultValue;
+                    break;
+                default:
+                    break;
+            }
+            this._defaultValues.push(defaultValue);
         }
-        return defaultValue;
     },
     // 기본값 조회
     getDefaultValueForDate(column, cellValue) {
@@ -609,6 +625,38 @@ export const dynamicRowTableMixin = {
         } else {
             return aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, cellValue);
         }
+    },
+    // 사용자 검색 컴포넌트 검색 조건과 기본값을 비교하여 유효한 값인지 체크, 아닐 경우 빈 값으로 처리
+    async getDefaultValueForUserSearch(column, defaultType) {
+        let defaultValue = column.columnElement.defaultValue.data;
+        switch (defaultType) {
+            case FORM.DEFAULT_VALUE_TYPE.NONE:
+                break;
+            default:
+                // 사용자 검색 조건이 모두 충족되었는지 확인
+                const searchValue = defaultValue.split('|')[2]
+                let targetData = column.columnElement.userSearchTarget;
+                let targetCriteria = '';
+                let searchKeys = '';
+                if (!zValidation.isEmpty(targetData)) {
+                    targetData = JSON.parse(targetData);
+                    targetCriteria = targetData.targetCriteria
+                    targetData.searchKey.forEach( (elem, index) => {
+                        searchKeys += (index > 0) ? '+' + elem.id : elem.id;
+                    });
+                }
+                await aliceJs.fetchText('/users/searchUsers?searchValue=' + searchValue
+                    + '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys ,{
+                    method: 'GET'
+                }).then((htmlData) => {
+                    const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
+                    if (userListElem.querySelectorAll('.z-table-row').length === 0) {
+                        defaultValue = '';
+                    }
+                });
+                break;
+        }
+        return defaultValue;
     },
     // 테이블 row 삭제
     removeTableRow(targetTable, row) {
@@ -755,6 +803,9 @@ export const dynamicRowTableMixin = {
             body: JSON.stringify(pluginData),
             showProgressbar: true
         }).then((response) => {
+            if (response.status !== aliceJs.response.success) {
+                return false;
+            }
             // primary > 검증 안됨
             if (response.data.result) {
                 // success--check > 성공
@@ -931,14 +982,14 @@ export const dynamicRowTableMixin = {
             }
             // 사용자 검색용 컴포넌트
             if (column.columnType === 'userSearch') {
-                // 사용자 목록이 없을 떄
-                const userSearchTarget = column.columnElement.defaultValueUserSearch;
+                // 사용자 목록이 없을 때
+                const userSearchTarget = column.columnElement.userSearchTarget;
                 const userSearchTargetData = !zValidation.isEmpty(userSearchTarget) ? JSON.parse(userSearchTarget) : '';
                 if (zValidation.isEmpty(userSearchTargetData) || zValidation.isEmpty(userSearchTargetData.searchKey[0])) {
                     zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.userList')));
                     return false;
                 }
-                // 조회 대상이 없을 떄
+                // 조회 대상이 없을 때
                 if (zValidation.isEmpty(userSearchTargetData.searchKey[0].value)) {
                     zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
                     return false;

@@ -70,7 +70,7 @@ class CustomChartController(
     fun getCustomChartEdit(@PathVariable chartId: String, model: Model): String {
         model.addAttribute("view", false)
         model.addAttribute("code", customChartService.getCodeListForChart())
-        model.addAttribute("chart", customChartService.getChartDetail(chartId))
+        model.addAttribute("chart", customChartService.getChartDetail(chartId).data)
         model.addAttribute("chartTimezone", timezone)
         return customChartPage
     }
@@ -82,7 +82,7 @@ class CustomChartController(
     fun getCustomChartView(@PathVariable chartId: String, model: Model): String {
         model.addAttribute("view", true)
         model.addAttribute("code", customChartService.getCodeListForChart())
-        model.addAttribute("chart", customChartService.getChartDetail(chartId))
+        model.addAttribute("chart", customChartService.getChartDetail(chartId).data)
         model.addAttribute("chartTimezone", timezone)
         return customChartPage
     }

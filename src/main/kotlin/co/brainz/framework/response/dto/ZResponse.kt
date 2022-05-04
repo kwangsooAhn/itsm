@@ -5,11 +5,11 @@
 
 package co.brainz.framework.response.dto
 
+import co.brainz.framework.response.ZResponseConstants
 import java.io.Serializable
-import org.springframework.http.HttpStatus
 
 data class ZResponse(
-    val status: Int = HttpStatus.OK.value(),
-    var message: String? = HttpStatus.OK.reasonPhrase,
+    val status: String = ZResponseConstants.STATUS.SUCCESS.code,
+    var message: String? = null,
     val data: Any? = null
 ) : Serializable
