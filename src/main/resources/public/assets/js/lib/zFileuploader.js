@@ -23,7 +23,7 @@
     const addFileBtnWrapClassName = 'add-file-button-wrap'; // 업로드 버튼 클릭 구역 wrapper
     const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
     const logValueDigit = 1024;
-    let isEnabledFileDrag = getEnabledFileDrag()
+    let isEnabledFileDrag = getEnabledFileDrag();
 
     function generateUUID() {
         function s4() {
@@ -88,19 +88,11 @@
         }
 
         if (typeof extraParam.dictDefaultMessage === 'undefined') {
-            if (isEnabledFileDrag) {
-                extraParam.dictDefaultMessage = i18n.msg('file.msg.upload');
-            } else {
-                extraParam.dictDefaultMessage = '';
-            }
+            extraParam.dictDefaultMessage = isEnabledFileDrag ? i18n.msg('file.msg.upload') : '';
         }
 
         if (typeof extraParam.clickableLineMessage === 'undefined') {
-            if (isEnabledFileDrag) {
-                extraParam.clickableLineMessage = ' ' + i18n.msg('file.label.or') + ' ';
-            } else {
-                extraParam.clickableLineMessage = '';
-            }
+            extraParam.clickableLineMessage = isEnabledFileDrag ? ' ' + i18n.msg('file.label.or') + ' ' : '';
         }
 
         if (typeof extraParam.clickableMessage === 'undefined') {

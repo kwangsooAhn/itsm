@@ -90,7 +90,7 @@ class FileRestController(
      * File Drag 사용 여부
      */
     @GetMapping("/enabledFileDrag")
-    fun getProductInfo(): Boolean {
+    fun getFileDragEnabled(): Boolean {
         return enabledFileDrag
     }
 }
