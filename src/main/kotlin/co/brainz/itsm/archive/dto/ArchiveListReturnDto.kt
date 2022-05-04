@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.download.dto
+package co.brainz.itsm.archive.dto
 
 import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
-data class DownloadListReturnDto(
-    val data: List<DownloadListDto> = emptyList(),
+data class ArchiveListReturnDto(
+    val data: List<ArchiveListDto> = emptyList(),
     val paging: AlicePagingData
 ) : Serializable

@@ -1,21 +1,21 @@
-package co.brainz.itsm.download.mapper
+package co.brainz.itsm.archive.mapper
 
-import co.brainz.itsm.download.dto.DownloadDto
-import co.brainz.itsm.download.entity.DownloadEntity
+import co.brainz.itsm.archive.dto.ArchiveDto
+import co.brainz.itsm.archive.entity.ArchiveEntity
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Mappings
 
 @Mapper
-interface DownloadMapper {
+interface ArchiveMapper {
     @Mappings(
         Mapping(source = "createUser.userName", target = "createUserName"),
         Mapping(source = "updateUser.userName", target = "updateUserName"),
         Mapping(target = "fileSeqList", ignore = true),
-        Mapping(target = "downloadCategoryName", ignore = true),
+        Mapping(target = "archiveCategoryName", ignore = true),
         Mapping(target = "delFileSeqList", ignore = true)
     )
-    fun toDownloadDto(downloadEntity: DownloadEntity): DownloadDto
+    fun toArchiveDto(archiveEntity: ArchiveEntity): ArchiveDto
 
     @Mappings(
         Mapping(target = "createDt", ignore = true),
@@ -23,5 +23,5 @@ interface DownloadMapper {
         Mapping(target = "updateDt", ignore = true),
         Mapping(target = "updateUser", ignore = true)
     )
-    fun toDownloadEntity(downloadDto: DownloadDto): DownloadEntity
+    fun toArchiveEntity(archiveDto: ArchiveDto): ArchiveEntity
 }

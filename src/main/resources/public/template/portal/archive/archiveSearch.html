@@ -3,14 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/portal/pageType/pagingListLayout}">
 <head>
-    <title th:text="#{download.label.download}"></title>
+    <title th:text="#{archive.label.archive}"></title>
 </head>
 <body>
 <th:block layout:fragment="pageSearching">
     <div class="z-main-header">
         <div class="z-page-title flex-row align-items-baseline">
-            <h1 th:text="#{download.label.download}"></h1>
-            <h6 class="description ml-2 pl-2" th:text="#{download.msg.portalDescription}"></h6>
+            <h1 th:text="#{archive.label.archive}"></h1>
+            <h6 class="description ml-2 pl-2" th:text="#{archive.msg.portalDescription}"></h6>
         </div>
         <div class="z-page-search pb-4">
             <form id="searchFrm">
@@ -18,7 +18,7 @@
                     <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="${category.codeName}"></option>
                 </select>
                 <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5" maxlength="100"
-                       th:placeholder="#{download.label.searchPlaceholder}"/>
+                       th:placeholder="#{archive.label.searchPlaceholder}"/>
                 <input type="text" id="fromDt" name="fromDt" class="z-input i-date-picker search-date col-3"/>
                 <span>~</span>
                 <input type="text" id="searchToDt" name="searchToDt" class="z-input i-date-picker search-date col-3 mr-2"/>
@@ -31,7 +31,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="downloadList"></div>
+    <div class="z-list-content flex-row" id="archiveList"></div>
 </th:block>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -84,10 +84,10 @@
             document.getElementById('toDt').value =
                 i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
             const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-            aliceJs.fetchText('/portals/downloads?' + urlParam, {
+            aliceJs.fetchText('/portals/archives?' + urlParam, {
                 method: 'GET'
             }).then((htmlData) => {
-                const listBody = document.getElementById('downloadList');
+                const listBody = document.getElementById('archiveList');
                 listBody.innerHTML = htmlData;
                 setDateTimeFormat(listBody);
             });

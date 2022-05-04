@@ -1,6 +1,6 @@
 /* Drop Sequences */
 
-DROP SEQUENCE IF EXISTS awf_download_seq cascade;
+DROP SEQUENCE IF EXISTS awf_archive_seq cascade;
 DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
@@ -8,7 +8,7 @@ DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
 
 
 /* Create Sequences */
-CREATE SEQUENCE awf_download_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE awf_archive_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
@@ -138,10 +138,10 @@ insert into awf_code values ('document.displayType', 'document', null, '신청�
 insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 ', '수정 ', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.readonly', 'document.displayType', '읽기', '읽기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download', 'root', null, '자료실', null, true, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download.category', 'download', null, '자료실 카테고리', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download.category.companyPolicy', 'download.category', null, '회사규정', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download.category.etc', 'download.category', null, '기타', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('archive', 'root', null, '자료실', null, true, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('archive.category', 'archive', null, '자료실 카테고리', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('archive.category.companyPolicy', 'archive.category', null, '회사규정', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('archive.category.etc', 'archive.category', null, '기타', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq', 'root', null, 'FAQ', null, false, true, 1, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq.category', 'faq', null, 'FAQ 카테고리', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq.category.etc', 'faq.category', null, '기타', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -421,33 +421,33 @@ insert into awf_custom_code_column values ('awf_organization', 'value', 'organiz
 /**
  * 자료실
  */
-DROP TABLE IF EXISTS awf_download cascade;
+DROP TABLE IF EXISTS awf_archive cascade;
 
-CREATE TABLE awf_download
+CREATE TABLE awf_archive
 (
-	download_id varchar(128) NOT NULL,
-	download_seq bigint DEFAULT nextval('awf_download_seq') NOT NULL,
-	download_category varchar(100) NOT NULL,
-	download_title varchar(128) NOT NULL,
+	archive_id varchar(128) NOT NULL,
+	archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
+	archive_category varchar(100) NOT NULL,
+	archive_title varchar(128) NOT NULL,
 	views bigint DEFAULT 0 NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
-	CONSTRAINT awf_download_pk PRIMARY KEY (download_id),
-	CONSTRAINT awf_download_uk UNIQUE (download_seq)
+	CONSTRAINT awf_archive_pk PRIMARY KEY (archive_id),
+	CONSTRAINT awf_archive_uk UNIQUE (archive_seq)
 );
 
-COMMENT ON TABLE awf_download IS '자료실';
-COMMENT ON COLUMN awf_download.download_id IS '자료아이디';
-COMMENT ON COLUMN awf_download.download_seq IS '자료번호';
-COMMENT ON COLUMN awf_download.download_category IS '자료카테고리';
-COMMENT ON COLUMN awf_download.download_title IS '자료제목';
-COMMENT ON COLUMN awf_download.views IS '조회수';
-COMMENT ON COLUMN awf_download.create_user_key IS '등록자';
-COMMENT ON COLUMN awf_download.create_dt IS '등록일';
-COMMENT ON COLUMN awf_download.update_user_key IS '수정자';
-COMMENT ON COLUMN awf_download.update_dt IS '수정일';
+COMMENT ON TABLE awf_archive IS '자료실';
+COMMENT ON COLUMN awf_archive.archive_id IS '자료아이디';
+COMMENT ON COLUMN awf_archive.archive_seq IS '자료번호';
+COMMENT ON COLUMN awf_archive.archive_category IS '자료카테고리';
+COMMENT ON COLUMN awf_archive.archive_title IS '자료제목';
+COMMENT ON COLUMN awf_archive.views IS '조회수';
+COMMENT ON COLUMN awf_archive.create_user_key IS '등록자';
+COMMENT ON COLUMN awf_archive.create_dt IS '등록일';
+COMMENT ON COLUMN awf_archive.update_user_key IS '수정자';
+COMMENT ON COLUMN awf_archive.update_dt IS '수정일';
 
 /**
  * 파일관리
@@ -592,7 +592,7 @@ insert into awf_menu values ('token', 'menu', '/tokens/search', 2, 'TRUE');
 insert into awf_menu values ('document', 'menu', '/documents/search', 3, 'TRUE');
 insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
-insert into awf_menu values ('download', 'menu', '/downloads/search', 6, 'TRUE');
+insert into awf_menu values ('archive', 'menu', '/archives/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
 insert into awf_menu values ('statistic', 'menu', '', 8, 'TRUE');
 insert into awf_menu values ('workflow', 'menu', '', 9, 'TRUE');
@@ -648,7 +648,7 @@ insert into awf_menu_auth_map values ('document', 'general');
 insert into awf_menu_auth_map values ('faq', 'general');
 insert into awf_menu_auth_map values ('notice', 'general');
 insert into awf_menu_auth_map values ('board', 'general');
-insert into awf_menu_auth_map values ('download', 'general');
+insert into awf_menu_auth_map values ('archive', 'general');
 insert into awf_menu_auth_map values ('token', 'general');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
@@ -1157,11 +1157,11 @@ insert into awf_url values ('/documents', 'get', '신청서 리스트 화면', '
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/edit', 'get', '신청서 조회', 'TRUE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
-insert into awf_url values ('/downloads', 'get', '자료실 리스트 화면', 'TRUE');
-insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 'TRUE');
-insert into awf_url values ('/downloads/search', 'get', '자료실 리스트 호출 화면', 'TRUE');
-insert into awf_url values ('/downloads/{id}/edit', 'get', '자료실 편집', 'TRUE');
-insert into awf_url values ('/downloads/{id}/view', 'get', '자료실 상세 조회 화면', 'TRUE');
+insert into awf_url values ('/archives', 'get', '자료실 리스트 화면', 'TRUE');
+insert into awf_url values ('/archives/new', 'get', '자료실 신규 등록', 'TRUE');
+insert into awf_url values ('/archives/search', 'get', '자료실 리스트 호출 화면', 'TRUE');
+insert into awf_url values ('/archives/{id}/edit', 'get', '자료실 편집', 'TRUE');
+insert into awf_url values ('/archives/{id}/view', 'get', '자료실 상세 조회 화면', 'TRUE');
 insert into awf_url values ('/faqs', 'get', 'FAQ 목록 조회', 'TRUE');
 insert into awf_url values ('/faqs/new', 'get', 'FAQ 등록', 'TRUE');
 insert into awf_url values ('/faqs/search', 'get', 'FAQ 검색 화면 호출', 'TRUE');
@@ -1195,9 +1195,9 @@ insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 �
 insert into awf_url values ('/organizations/edit', 'get', '조직 관리 편집 화면', 'TRUE');
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
 insert into awf_url values ('/portals/browserguide', 'get', '포탈 브라우저 안내', 'FALSE');
-insert into awf_url values ('/portals/downloads', 'get', '포달 자료실 리스트', 'FALSE');
-insert into awf_url values ('/portals/downloads/{downloadId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
-insert into awf_url values ('/portals/downloads/search', 'get', '포탈 자료실 조회', 'FALSE');
+insert into awf_url values ('/portals/archives', 'get', '포달 자료실 리스트', 'FALSE');
+insert into awf_url values ('/portals/archives/{archiveId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
+insert into awf_url values ('/portals/archives/search', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/portals/faqs', 'get', '포탈 FAQ 상세조회', 'FALSE');
 insert into awf_url values ('/portals/faqs/{faqId}/view', 'get', '포탈 FAQ 리스트', 'FALSE');
 insert into awf_url values ('/portals/main', 'get', '포탈', 'FALSE');
@@ -1271,15 +1271,15 @@ insert into awf_url values ('/rest/workflows/{id}/export', 'get', '신청서 exp
 insert into awf_url values ('/rest/workflows/import', 'post', '업무흐름 import', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents/components/{id}/value', 'get', '이력조회 컴포넌트 조회', 'TRUE');
-insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
-insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
-insert into awf_url values ('/rest/downloads/{id}', 'delete', '자료실 삭제', 'TRUE');
+insert into awf_url values ('/rest/archives', 'post', '자료실 등록', 'TRUE');
+insert into awf_url values ('/rest/archives', 'put', '자료실 변경', 'TRUE');
+insert into awf_url values ('/rest/archives/{id}', 'delete', '자료실 삭제', 'TRUE');
 insert into awf_url values ('/rest/faqs', 'post', 'FAQ 등록 처리', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'put', 'FAQ 수정 처리', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'TRUE');
 insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
-insert into awf_url values ('/rest/files/download', 'get', '파일관리 다운로드', 'FALSE');
+insert into awf_url values ('/rest/files/archive', 'get', '파일관리 다운로드', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
 insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', 'FALSE');
 insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', 'FALSE');
@@ -1327,7 +1327,7 @@ insert into awf_url values ('/rest/organizations', 'post', '조직 등록', 'TRU
 insert into awf_url values ('/rest/plugins', 'get', '플러그인 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/plugins/{id}', 'post', '플러그인 조회', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
-insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
+insert into awf_url values ('/rest/portals/filearchive', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filenameextensions', 'get', '포탈 첨부파일 확장자 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filelist', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/top', 'get', '포탈 첫화면 Top 조회', 'FALSE');
@@ -1510,14 +1510,14 @@ insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'system.m
 insert into awf_url_auth_map values ('/dashboard/view', 'get', 'general');
 insert into awf_url_auth_map values ('/documents/{id}/edit', 'get', 'general');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'general');
-insert into awf_url_auth_map values ('/downloads', 'get', 'general');
-insert into awf_url_auth_map values ('/downloads', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/downloads/new', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/downloads/search', 'get', 'general');
-insert into awf_url_auth_map values ('/downloads/search', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/downloads/{id}/edit', 'get', 'portal.manage');
-insert into awf_url_auth_map values ('/downloads/{id}/view', 'get', 'general');
-insert into awf_url_auth_map values ('/downloads/{id}/view', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/archives', 'get', 'general');
+insert into awf_url_auth_map values ('/archives', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/archives/new', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/archives/search', 'get', 'general');
+insert into awf_url_auth_map values ('/archives/search', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/archives/{id}/edit', 'get', 'portal.manage');
+insert into awf_url_auth_map values ('/archives/{id}/view', 'get', 'general');
+insert into awf_url_auth_map values ('/archives/{id}/view', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/faqs', 'get', 'general');
 insert into awf_url_auth_map values ('/faqs', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/faqs/new', 'get', 'portal.manage');
@@ -1619,9 +1619,9 @@ insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'syste
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/documents/components/{id}/value', 'get', 'general');
-insert into awf_url_auth_map values ('/rest/downloads', 'post', 'portal.manage');
-insert into awf_url_auth_map values ('/rest/downloads', 'put', 'portal.manage');
-insert into awf_url_auth_map values ('/rest/downloads/{id}', 'delete', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/archives', 'post', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/archives', 'put', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/archives/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/faqs', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'portal.manage');
@@ -8640,8 +8640,8 @@ insert into awf_code_lang values ('chart.type.gauge', 'Gauge Chart', 'en');
 insert into awf_code_lang values ('chart.documentStatus.even.running.document', 'Even Running Document', 'en');
 insert into awf_code_lang values ('chart.documentStatus.only.finish.document', 'Finished document only', 'en');
 /* 자료실 */
-insert into awf_code_lang values ('download.category.companyPolicy', 'Company Policy', 'en');
-insert into awf_code_lang values ('download.category.etc', 'Etc', 'en');
+insert into awf_code_lang values ('archive.category.companyPolicy', 'Company Policy', 'en');
+insert into awf_code_lang values ('archive.category.etc', 'Etc', 'en');
 /* FAQ */
 insert into awf_code_lang values ('faq.category.etc', 'Etc', 'en');
 insert into awf_code_lang values ('faq.category.setting', 'Setting', 'en');

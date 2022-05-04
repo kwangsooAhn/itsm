@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.download.service
+package co.brainz.itsm.archive.service
 
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -12,11 +12,11 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.download.dto.DownloadDto
-import co.brainz.itsm.download.dto.DownloadListReturnDto
-import co.brainz.itsm.download.dto.DownloadSearchCondition
-import co.brainz.itsm.download.mapper.DownloadMapper
-import co.brainz.itsm.download.repository.DownloadRepository
+import co.brainz.itsm.archive.dto.ArchiveDto
+import co.brainz.itsm.archive.dto.ArchiveListReturnDto
+import co.brainz.itsm.archive.dto.ArchiveSearchCondition
+import co.brainz.itsm.archive.mapper.ArchiveMapper
+import co.brainz.itsm.archive.repository.ArchiveRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -28,28 +28,28 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
-class DownloadService(
-    private val downloadRepository: DownloadRepository,
+class ArchiveService(
+    private val archiveRepository: ArchiveRepository,
     private val aliceFileService: AliceFileService
 ) {
 
-    private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
+    private val archiveMapper: ArchiveMapper = Mappers.getMapper(ArchiveMapper::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
-     * [downloadSearchCondition]를 받아서 자료실 목록를 [List<DownloadListDto>] 반환한다.
+     * [archiveSearchCondition]를 받아서 자료실 목록를 [List<ArchiveListDto>] 반환한다.
      *
      */
-    fun getDownloadList(downloadSearchCondition: DownloadSearchCondition): DownloadListReturnDto {
-        val pagingResult = downloadRepository.findDownloadEntityList(downloadSearchCondition)
-        return DownloadListReturnDto(
+    fun getArchiveList(archiveSearchCondition: ArchiveSearchCondition): ArchiveListReturnDto {
+        val pagingResult = archiveRepository.findArchiveEntityList(archiveSearchCondition)
+        return ArchiveListReturnDto(
             data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
                 totalCount = pagingResult.totalCount,
-                totalCountWithoutCondition = downloadRepository.count(),
-                currentPageNum = downloadSearchCondition.pageNum,
+                totalCountWithoutCondition = archiveRepository.count(),
+                currentPageNum = archiveSearchCondition.pageNum,
                 totalPageNum =
-                    ceil(pagingResult.totalCount.toDouble() / downloadSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                ceil(pagingResult.totalCount.toDouble() / archiveSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -58,18 +58,18 @@ class DownloadService(
     /**
      * 자료실 저장.
      *
-     * @param downloadDto
+     * @param archiveDto
      */
     @Transactional
-    fun saveDownload(downloadDto: DownloadDto): ZResponse {
+    fun saveArchive(archiveDto: ArchiveDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val downloadEntity = downloadRepository.save(downloadMapper.toDownloadEntity(downloadDto))
-        if (downloadEntity.downloadId.isNotEmpty()) {
+        val archiveEntity = archiveRepository.save(archiveMapper.toArchiveEntity(archiveDto))
+        if (archiveEntity.archiveId.isNotEmpty()) {
             aliceFileService.upload(
                 AliceFileDto(
-                    ownId = downloadEntity.downloadId,
-                    fileSeq = downloadDto.fileSeqList,
-                    delFileSeq = downloadDto.delFileSeqList
+                    ownId = archiveEntity.archiveId,
+                    fileSeq = archiveDto.fileSeqList,
+                    delFileSeq = archiveDto.delFileSeqList
                 )
             )
         } else {
@@ -83,32 +83,32 @@ class DownloadService(
     /**
      * 자료실 상세 조회.
      *
-     * @param downloadId
+     * @param archiveId
      * @param type
-     * @return DownloadDto
+     * @return ArchiveDto
      */
     @Transactional
-    fun getDownloadDetail(downloadId: String, type: String): DownloadDto {
-        var downloadEntity = downloadRepository.findDownload(downloadId)
+    fun getArchiveDetail(archiveId: String, type: String): ArchiveDto {
+        var archiveEntity = archiveRepository.findArchive(archiveId)
         val sessionUser = SecurityContextHolder.getContext().authentication.principal as String
-        if (type == "view" && downloadEntity.createUser?.userId != sessionUser) {
-            downloadEntity.views += 1
-            downloadEntity = downloadRepository.save(downloadEntity)
+        if (type == "view" && archiveEntity.createUser?.userId != sessionUser) {
+            archiveEntity.views += 1
+            archiveEntity = archiveRepository.save(archiveEntity)
         }
-        return downloadMapper.toDownloadDto(downloadEntity)
+        return archiveMapper.toArchiveDto(archiveEntity)
     }
 
     /**
      * 자료실 삭제.
      *
-     * @param downloadId
+     * @param archiveId
      */
     @Transactional
-    fun deleteDownload(downloadId: String): ZResponse {
+    fun deleteArchive(archiveId: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         try {
-            downloadRepository.deleteById(downloadId)
-            aliceFileService.delete(downloadId)
+            archiveRepository.deleteById(archiveId)
+            aliceFileService.delete(archiveId)
         } catch (e: Exception) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
             e.printStackTrace()

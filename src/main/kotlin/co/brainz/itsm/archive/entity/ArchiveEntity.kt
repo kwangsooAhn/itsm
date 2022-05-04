@@ -1,4 +1,4 @@
-package co.brainz.itsm.download.entity
+package co.brainz.itsm.archive.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
@@ -10,21 +10,21 @@ import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Table(name = "awf_download")
-class DownloadEntity(
+@Table(name = "awf_archive")
+class ArchiveEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "download_id")
-    var downloadId: String = "",
+    @Column(name = "archive_id")
+    var archiveId: String = "",
 
-    @Column(name = "download_seq", insertable = false, updatable = false)
-    var downloadSeq: Long = 0,
+    @Column(name = "archive_seq", insertable = false, updatable = false)
+    var archiveSeq: Long = 0,
 
-    @Column(name = "download_category")
-    var downloadCategory: String = "",
+    @Column(name = "archive_category")
+    var archiveCategory: String = "",
 
-    @Column(name = "download_title")
-    var downloadTitle: String = "",
+    @Column(name = "archive_title")
+    var archiveTitle: String = "",
 
     @Column(name = "views")
     var views: Int = 0

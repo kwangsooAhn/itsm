@@ -4,17 +4,17 @@
  *
  */
 
-package co.brainz.itsm.download.dto
+package co.brainz.itsm.archive.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class DownloadListDto(
-    var downloadId: String = "",
-    var downloadSeq: Long = 0,
-    var downloadCategory: String = "",
-    var downloadCategoryName: String = "",
-    var downloadTitle: String = "",
+data class ArchiveListDto(
+    var archiveId: String = "",
+    var archiveSeq: Long = 0,
+    var archiveCategory: String = "",
+    var archiveCategoryName: String = "",
+    var archiveTitle: String = "",
     var views: Int = 0,
     var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,

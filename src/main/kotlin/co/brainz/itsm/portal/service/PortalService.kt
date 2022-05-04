@@ -6,9 +6,9 @@
 
 package co.brainz.itsm.portal.service
 
+import co.brainz.itsm.archive.repository.ArchiveRepository
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.download.repository.DownloadRepository
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchCondition
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service
 class PortalService(
     private val noticeRepository: NoticeRepository,
     private val faqRepository: FaqRepository,
-    private val downloadRepository: DownloadRepository,
+    private val archiveRepository: ArchiveRepository,
     private val portalRepository: PortalRepository,
     private val codeRepository: CodeRepository,
     private val codeService: CodeService
@@ -45,7 +45,7 @@ class PortalService(
         val top = LinkedHashMap<String, List<PortalTopDto>>()
         top["notice"] = noticeRepository.findNoticeTopList(limit)
         top["faq"] = faqRepository.findFaqTopList(limit)
-        top["download"] = downloadRepository.findDownloadTopList(limit)
+        top["archive"] = archiveRepository.findArchiveTopList(limit)
         return top
     }
 
