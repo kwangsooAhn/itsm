@@ -33,7 +33,7 @@ module.exports = {
         // 전역 객체 사용시 에러 표시 안함
         'no-undef': 'off',
         // 클래스는 대문자 시작
-        'new-cap': ['error', { 'newIsCap': true }],
+        'new-cap': ['error', { 'newIsCap': false, 'capIsNewExceptionPattern': 'OverlayScrollbars'  }],
         // array = [] 로 사용
         'no-array-constructor': 'error',
         // new Object() 사용 안함
@@ -57,6 +57,9 @@ module.exports = {
         // 공백 뒤에 () 오지 않음
         'space-before-function-paren': ['error', {'anonymous': 'always', 'named': 'never', 'asyncArrow': 'always'}],
         // () 뒤에 공백
-        'space-before-blocks': 'error'
+        'space-before-blocks': 'error',
+        'no-unused-vars': ['error',
+            { 'vars': 'all', 'args': 'after-used', 'ignoreRestSiblings': false, 'caughtErrorsIgnorePattern': '^err'}
+        ]
     }
 };

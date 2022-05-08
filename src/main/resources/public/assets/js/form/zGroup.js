@@ -241,7 +241,7 @@ export default class ZGroup {
     }
 
     set labelFontSize(size) {
-        if(size > FORM.LABEL.SIZE.MAX || size < FORM.LABEL.SIZE.MIN) {
+        if (size > FORM.LABEL.SIZE.MAX || size < FORM.LABEL.SIZE.MIN) {
             return false;
         }
         this._label.fontSize = size;

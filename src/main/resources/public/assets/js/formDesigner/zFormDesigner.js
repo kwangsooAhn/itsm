@@ -32,7 +32,7 @@ class ZFormDesigner {
         this.isCreatedWorkFlow = false; //폼에 연결된 업무흐름이 있는지 여부
 
         // 커스텀 코드 정보 load - 커스텀 코드 컴포넌트에서 사용되기 때문에 우선 로드해야 함
-        if (FORM.CUSTOM_CODE.length === 0) {
+        if (!FORM.CUSTOM_CODE.length) {
             aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
                 method: 'GET'
             }).then((response) => {
@@ -41,7 +41,7 @@ class ZFormDesigner {
                 }
             });
         }
-        if (FORM.PLUGIN_LIST.length === 0) {
+        if (!FORM.PLUGIN_LIST.length) {
             aliceJs.fetchJson('/rest/plugins', {
                 method: 'GET'
             }).then((response) => {
@@ -292,7 +292,7 @@ class ZFormDesigner {
     addObjectByType(type, data, parent, index) {
         let addObject = null; // 추가된 객체
 
-        switch(type) {
+        switch (type) {
             case FORM.LAYOUT.FORM:
                 addObject = new ZForm(data);
                 addObject.UIElement.addUIClass('list-group');
@@ -405,7 +405,7 @@ class ZFormDesigner {
                                 sortObject.UIElement.domElement.dispatchEvent(new Event('click'));
                             }
                             // 그룹에 자식이 없을 경우 그룹 삭제
-                            if (fromObject.children !== undefined && fromObject.children.length === 0) {
+                            if (fromObject.children !== undefined && !fromObject.children.length) {
                                 histories.push({
                                     type: 'remove',
                                     from: { id: fromObject.parent.id, clone: fromObject.clone(true).toJson() },
@@ -444,7 +444,7 @@ class ZFormDesigner {
                             }
                         }
                     },
-                    direction: function(evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
+                    direction: function (evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
                         if (target !== null &&
                         target.className.includes('z-component-tooltip') &&
                         (dragEl.className.includes('z-component-tooltip') ||
@@ -631,7 +631,7 @@ class ZFormDesigner {
      * 첫번째 group 객체 선택
      */
     selectFirstGroup() {
-        if (this.form.children.length === 0) { return false; }
+        if (!this.form.children.length) { return false; }
 
         this.form.children[0].UIElement.domElement.dispatchEvent(new Event('click'));
     }
@@ -639,7 +639,7 @@ class ZFormDesigner {
      * 마지막 group 객체 선택
      */
     selectLastGroup() {
-        if (this.form.children.length === 0) { return false; }
+        if (!this.form.children.length) { return false; }
 
         const lastIndex = this.form.children.length - 1;
         this.form.children[lastIndex].UIElement.domElement.dispatchEvent(new Event('click'));
@@ -710,7 +710,7 @@ class ZFormDesigner {
      * row 삭제 후 group도 자식이 없으면 group도 삭제
      */
     deleteRowChildrenEmpty(object, histories) {
-        if (object.type === FORM.LAYOUT.ROW && object.children.length === 0) {
+        if (object.type === FORM.LAYOUT.ROW && !object.children.length) {
             // group 에 자식이 없으면
             if (object.parent.type === FORM.LAYOUT.GROUP && object.parent.children.length === 1) {
                 histories.push({ // group 삭제
@@ -734,7 +734,7 @@ class ZFormDesigner {
      * @param boolean 저장후  팝업 닫을지 여부
      */
     saveForm(boolean) {
-        if(!this.isValidation()) return false;
+        if (!this.isValidation()) return false;
 
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
@@ -811,7 +811,7 @@ class ZFormDesigner {
                 }
             ],
             close: { closable: false },
-            onCreate: function(modal) {
+            onCreate: function (modal) {
                 OverlayScrollbars(document.getElementById('newFormDesc'), {
                     className: 'scrollbar',
                     resize: 'none',
@@ -880,7 +880,7 @@ class ZFormDesigner {
         zDocument.documentModal.show(); // 모달 표시
     }
 
-    isValidation () {
+    isValidation() {
         // 세부 속성 유효성 검증 실패시 동작을 중지한다.
         if (!this.panel.validationStatus) { return false; }
 

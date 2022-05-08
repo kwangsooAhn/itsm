@@ -166,7 +166,7 @@
             arrAuthId.push(item.id);
         });
 
-        if (arrAuthId.length === 0) {
+        if (!arrAuthId.length) {
             zAlert.warning([[#{role.msg.selectAuth}]]);
             return;
         }

@@ -362,7 +362,7 @@
                         history.back();
                     });
                     break;
-                case 'Z-0002': // 이메일 업데이트 성공
+                case aliceJs.response.successEditEmail: // 이메일 업데이트 성공
                     zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
                         history.back();
                     });
@@ -370,7 +370,7 @@
                 case aliceJs.response.duplicate: // ID 중복
                     zAlert.warning([[#{user.msg.sameUserId}]]);
                     break;
-                case 'E-0007': // 이메일 중복
+                case aliceJs.response.duplicateEmail: // 이메일 중복
                     zAlert.warning([[#{user.msg.sameEmail}]]);
                     break;
                 default :

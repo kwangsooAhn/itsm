@@ -137,7 +137,7 @@ export const zBasicLineChartMixin = {
      * @param data 데이터
      */
     update(data) {
-        if (data.length === 0) { return false; }
+        if (!data.length) { return false; }
 
         for (let i = 0; i < this.chart.series.length; i++) {
             const tag = this.chart.series[i];

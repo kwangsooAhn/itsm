@@ -502,7 +502,10 @@ class WfProcessService(
                     this.getDocumentAttachFileData(element, elementData)
                 }
                 WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
-                    this.getCMDBData(element, elementData)
+                    this.getCMDBOrPluginData(element, elementData)
+                }
+                WfElementConstants.ScriptType.DOCUMENT_PLUGIN.value -> {
+                    this.getCMDBOrPluginData(element, elementData)
                 }
             }
         }
@@ -544,9 +547,9 @@ class WfProcessService(
     }
 
     /**
-     * ScriptType 이 CMDB인 경우 상세 데이터 조회.
+     * ScriptType 이 CMDB 이거나 Plugin동작 인 경우 상세 데이터 조회.
      */
-    private fun getCMDBData(element: WfElementEntity, elementData: MutableMap<String, Any>) {
+    private fun getCMDBOrPluginData(element: WfElementEntity, elementData: MutableMap<String, Any>) {
         element.elementScriptDataEntities.forEach { data ->
             val scriptValue = data.scriptValue ?: ""
             if (scriptValue.isNotEmpty()) {

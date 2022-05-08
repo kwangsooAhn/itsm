@@ -4580,6 +4580,10 @@ select {
 .z-itsm-container .z-main-content .z-page-list .z-list-tree {
   height: 37.88rem;
 }
+.z-itsm-container .z-main-content .z-page-list .no-data-text {
+  width: 100%;
+  text-align: center;
+}
 .z-itsm-container .z-main-content .z-page-list .grid {
   display: grid;
   flex: 1;

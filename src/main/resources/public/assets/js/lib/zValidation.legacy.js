@@ -1,6 +1,7 @@
 /**
  * Constants for validation check.
  * */
+/* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
 const blankReg = /\s/;
 const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 const upperCaseReg = /^[A-Z]*$/;
@@ -15,7 +16,7 @@ const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
 const regularCharacterReg = /^[a-zA-Z가-힣0-9ㄱ-ㅎㅏ-ㅣ]*$/;
 const errorClass = 'error'; // 에러 발생시 추가될 클래스명
 const spcialKeyAscilCodeList = [9, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 91, 93, 112, 113, 114, 115, 116, 117,
-    118, 119, 120, 121, 122, 123, 144, 145] //Backspace, Enter, shift, Insert, Delete를 제외한 특수키 아스키 코드값 ex> 화살표, F1~12, Tab 등등
+    118, 119, 120, 121, 122, 123, 144, 145]; //Backspace, Enter, shift, Insert, Delete를 제외한 특수키 아스키 코드값 ex> 화살표, F1~12, Tab 등등
 const phoneReg = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
 const extensionNumberReg = /^[0-9]{4}$/;
 const urlReg = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/;
@@ -621,7 +622,7 @@ function isValidRequiredAll(modal) {
         if (requiredElem.value.trim() === '') {
             requiredElem.classList.add(errorClass);
             let requiredMsg = (requiredElemName !== null) ? i18n.msg('common.msg.required', requiredElemName) : i18n.msg('common.msg.requiredEnter');
-            zAlert.warning(requiredMsg, function() {
+            zAlert.warning(requiredMsg, function () {
                 requiredElem.focus();
             });
             return false;
@@ -744,7 +745,7 @@ function isSpecialKey(event) {
  * @returns {boolean}
  */
 function isChecked(name, messageId) {
-    if (document.querySelectorAll('input[name=' + name + ']:checked').length === 0) {
+    if (!document.querySelectorAll('input[name=' + name + ']:checked').length) {
         zAlert.warning(i18n.msg(messageId));
         return false;
     }

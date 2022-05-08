@@ -16,7 +16,7 @@
     </div>
     <div class="grid__body" th:onclick="setSearchItems(this, [[${ciData?.searchItems}]]);">
         <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(ciData.contents)}">
-            <div class="grid__cell justify-content-start"><span th:text="#{common.msg.noData}"></span></div>
+            <div class="grid__cell justify-content-start ml-5"><span th:text="#{common.msg.noData}"></span></div>
         </div>
         <div class="grid__row" th:unless="${#arrays.isEmpty(ciData.contents)}" th:each="ci: ${ciData.contents}"
              th:onclick="openCIDetailModal(this);">

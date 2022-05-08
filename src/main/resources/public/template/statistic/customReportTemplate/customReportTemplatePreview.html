@@ -32,7 +32,7 @@
         import ZChart from '../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
-            load: function(id, data) {
+            load: function (id, data) {
                 // 차트 초기화
                 this.zChart = new ZChart(id, data);
 
@@ -46,15 +46,15 @@
                     delete this.zChart;
                 }
             }
-        }
+        };
         window.zChartManager = zChartManager;
-        window.onload = function() {
+        window.onload = function () {
             const userName = '[[${#authentication.details.userName}]]';
             const userEmail = '[[${#authentication.details.email}]]';
             const time = '[[${time}]]';
 
             let reportData = sessionStorage.getItem('alice_report');
-            let data = JSON.parse(reportData)
+            let data = JSON.parse(reportData);
 
             // 보고서 제목
             document.querySelector('#reportName').innerHTML = data.reportName;
@@ -76,7 +76,7 @@
                     method: 'GET',
                     showProgressbar: true
                 }).then((response) => {
-                    if (response.status !== aliceJs.response.success && response.data.length === 0) { return false; }
+                    if (response.status !== aliceJs.response.success && !response.data.length) { return false; }
                     response.data.forEach((data) => {
                         addChartContent(data);
                     });

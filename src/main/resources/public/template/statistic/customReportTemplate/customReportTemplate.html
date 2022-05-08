@@ -172,7 +172,7 @@
                 charts.push(item.value);
             }
         });
-        if (isValid && charts.length === 0) {
+        if (!isValid && charts.length) {
             zAlert.warning(i18n.msg('statistic.msg.emptyChart'));
             isValid = false;
         }
