@@ -1,36 +1,37 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
-    <title th:text="${download != null} ? #{download.label.edit} : #{download.label.register}"></title>
+    <title th:text="${archive != null} ? #{archive.label.edit} : #{archive.label.register}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{download.label.download}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{download.msg.editDescription}"></h6>
+    <h1 th:text="#{archive.label.archive}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{archive.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <div class="flex-column z-edit-row">
-            <label for="downloadCategory">
-                <span th:text="#{download.label.category}"></span>
+            <label for="archiveCategory">
+                <span th:text="#{archive.label.category}"></span>
                 <span class="required"></span>
             </label>
-            <select id="downloadCategory">
+            <select id="archiveCategory">
                 <option th:each="category: ${categoryList}"
                         th:value="${category.code}"
                         th:text="${category.codeName}"
-                        th:selected="${category.code} == ${download?.downloadCategory}"></option>
+                        th:selected="${category.code} == ${archive?.archiveCategory}"></option>
             </select>
         </div>
         <div class="flex-column z-edit-row">
-            <label for="downloadTitle">
+            <label for="archiveTitle">
                 <span th:text="#{common.label.title}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" id="downloadTitle" class="z-input" maxlength="100" th:value="${download?.downloadTitle}"></td>
+            <input type="text" id="archiveTitle" class="z-input" maxlength="100" th:value="${archive?.archiveTitle}"></td>
         </div>
         <div class="flex-column z-edit-row file-uploader-edit">
             <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
@@ -39,14 +40,14 @@
         </div>
         <div class="flex-row justify-content-between z-edit-row">
             <div class="z-button-list">
-                <a class="z-button secondary" href="/downloads/search" th:text="#{common.btn.list}"></a>
+                <a class="z-button secondary" href="/archives/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="z-button-list" sec:authorize="hasAuthority('portal.manage')">
-                <button th:if="${download?.downloadId}" onclick="saveDownload('PUT')"
+                <button th:if="${archive?.archiveId}" onclick="saveArchive('PUT')"
                         class="z-button primary" th:text="#{common.btn.modify}"></button>
-                <button th:unless="${download?.downloadId}" onclick="saveDownload('POST')"
+                <button th:unless="${archive?.archiveId}" onclick="saveArchive('POST')"
                         class="z-button primary" th:text="#{common.btn.register}"></button>
-                <button th:if="${download?.downloadId}" onclick="deleteDownload()"
+                <button th:if="${archive?.archiveId}" onclick="deleteArchive()"
                         class="z-button danger" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -56,18 +57,18 @@
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
     window.onload = function() {
-        document.getElementById('downloadTitle').focus();
-        zFileUploader.init({formId: 'downloadForm', ownId: [[${download?.downloadId}]]});
+        document.getElementById('archiveTitle').focus();
+        zFileUploader.init({formId: 'archiveForm', ownId: [[${archive?.archiveId}]]});
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
     };
 
     //Empty Check
     function emptyCheck() {
-        if (isEmpty('downloadCategory', 'download.msg.selectCategory')) { return false; }
-        return !isEmpty('downloadTitle', 'common.msg.enterTitle')
+        if (isEmpty('archiveCategory', 'archive.msg.selectCategory')) { return false; }
+        return !isEmpty('archiveTitle', 'common.msg.enterTitle')
     }
 
-    function saveDownload(method) {
+    function saveArchive(method) {
         if (!emptyCheck()) { return false; }
 
         let fileSeqList = [];
@@ -75,17 +76,17 @@
         document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
         document.getElementsByName('delFileSeq').forEach(elem => delFileSeqList.push(elem.value));
         const data = {
-            downloadCategory: document.getElementById('downloadCategory').value,
-            downloadTitle: document.getElementById('downloadTitle').value,
+            archiveCategory: document.getElementById('archiveCategory').value,
+            archiveTitle: document.getElementById('archiveTitle').value,
             fileSeqList: fileSeqList,
             delFileSeqList: delFileSeqList
         };
         if (method === 'PUT') {
-            data.downloadId = /*[[${download?.downloadId}]]*/'';
-            data.views = /*[[${download?.views}]]*/'';
+            data.archiveId = /*[[${archive?.archiveId}]]*/'';
+            data.views = /*[[${archive?.views}]]*/'';
         }
         const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
-        aliceJs.fetchJson('/rest/downloads', {
+        aliceJs.fetchJson('/rest/archives', {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
@@ -95,7 +96,7 @@
             switch (response.status) {
                 case aliceJs.response.success:
                     zAlert.success(resultMsg, function() {
-                        location.href = '/downloads/search';
+                        location.href = '/archives/search';
                     });
                     break;
                 case aliceJs.response.error:
@@ -107,14 +108,14 @@
         });
     }
 
-    function deleteDownload() {
+    function deleteArchive() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-            aliceJs.fetchJson('/rest/downloads/' + /*[[${download?.downloadId}]]*/'', {
+            aliceJs.fetchJson('/rest/archives/' + /*[[${archive?.archiveId}]]*/'', {
                 method: 'DELETE'
             }).then((response) => {
                 if (response.status === aliceJs.response.success) {
                     zAlert.success(i18n.msg('common.msg.delete'), function () {
-                        window.location.href = '/downloads/search';
+                        window.location.href = '/archives/search';
                     });
                 }
             });

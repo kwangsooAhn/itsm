@@ -19,12 +19,12 @@ CREATE TABLE awf_download
 );
 
 COMMENT ON TABLE awf_download IS '자료실';
-COMMENT ON COLUMN awf_download.download_id IS '자료아이디';
-COMMENT ON COLUMN awf_download.download_seq IS '자료번호';
-COMMENT ON COLUMN awf_download.download_category IS '자료카테고리';
-COMMENT ON COLUMN awf_download.download_title IS '자료제목';
-COMMENT ON COLUMN awf_download.views IS '조회수';
-COMMENT ON COLUMN awf_download.create_user_key IS '등록자';
-COMMENT ON COLUMN awf_download.create_dt IS '등록일';
-COMMENT ON COLUMN awf_download.update_user_key IS '수정자';
-COMMENT ON COLUMN awf_download.update_dt IS '수정일';
+COMMENT ON COLUMN awf_archive.download_id IS '자료아이디';
+COMMENT ON COLUMN awf_archive.download_seq IS '자료번호';
+COMMENT ON COLUMN awf_archive.download_category IS '자료카테고리';
+COMMENT ON COLUMN awf_archive.download_title IS '자료제목';
+COMMENT ON COLUMN awf_archive.views IS '조회수';
+COMMENT ON COLUMN awf_archive.create_user_key IS '등록자';
+COMMENT ON COLUMN awf_archive.create_dt IS '등록일';
+COMMENT ON COLUMN awf_archive.update_user_key IS '수정자';
+COMMENT ON COLUMN awf_archive.update_dt IS '수정일';

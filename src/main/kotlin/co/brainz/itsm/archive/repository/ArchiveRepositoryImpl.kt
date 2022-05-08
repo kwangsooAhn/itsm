@@ -107,7 +107,7 @@ class ArchiveRepositoryImpl : QuerydslRepositorySupport(ArchiveEntity::class.jav
 
     private fun builder(
         archiveSearchCondition: ArchiveSearchCondition,
-        archive: QDownloadEntity,
+        archive: QArchiveEntity,
         fileLoc: QAliceFileLocEntity
     ): BooleanBuilder {
         val builder = BooleanBuilder()
