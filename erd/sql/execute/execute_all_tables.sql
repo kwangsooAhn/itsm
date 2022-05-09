@@ -9273,6 +9273,6 @@ CREATE TABLE sla_metric_document_map
 );
 
 COMMENT ON TABLE sla_metric_document_map IS 'SLA 지표 문서 매핑';
-COMMENT ON COLUMN sla_metric_document_map.class_id IS '지표아이디';
-COMMENT ON COLUMN sla_metric_document_map.attribute_id IS '신청서아이디';
+COMMENT ON COLUMN sla_metric_document_map.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_document_map.document_id IS '신청서아이디';
 
