@@ -39,7 +39,7 @@ class MetricPoolService(
                 totalCountWithoutCondition = slaMetricPoolRepository.count(),
                 currentPageNum = metricPoolSearchCondition.pageNum,
                 totalPageNum = ceil(pagingResult.totalCount.toDouble() / metricPoolSearchCondition.contentNumPerPage.toDouble()).toLong(),
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+                orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
     }
