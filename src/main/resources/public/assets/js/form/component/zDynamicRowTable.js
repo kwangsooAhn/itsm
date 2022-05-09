@@ -650,7 +650,7 @@ export const dynamicRowTableMixin = {
                     method: 'GET'
                 }).then((htmlData) => {
                     const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                    if (userListElem.querySelectorAll('.z-table-row').length) {
+                    if (!userListElem.querySelectorAll('.z-table-row').length) {
                         defaultValue = '';
                     }
                 });
