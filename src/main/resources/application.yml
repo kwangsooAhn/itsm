@@ -179,7 +179,7 @@ spring:
 spring:
   profiles: jhpark
   datasource:
-    url: jdbc:log4jdbc:postgresql://10.0.10.175:32853/itsm
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32847/itsm
 ---
 spring:
   profiles: mo
