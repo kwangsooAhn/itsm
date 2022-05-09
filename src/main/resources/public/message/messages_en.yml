@@ -1049,6 +1049,14 @@ menu:
     parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
+  sla:
+      manualMetric: "Manual Metric management"
+      metricStatus: "SLA status by metric"
+      parent: "Service-Level Agreement"
+      pool: "SLA Metric management"
+      year: "SLA Metric management by year"
+      yearStatus: "SLA status by year"
+
   token:
     parent: "My Document"
   workflow:
@@ -1270,38 +1278,6 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# statistic
-statistic:
-  btn:
-    create: "Create"
-    pdf: "PDF"
-  label:
-    automatic: "Automatic generation"
-    chart: "Chart"
-    description: "Description"
-    publishDate: "Publish Date"
-    customReport: "Custom Report"
-    reportName: "Report Name"
-    search: "Report Search"
-    searchPlaceholder: "Template name"
-    customReportTemplate: "custom Report Template"
-    templateEdit: "Template Edit"
-    templateName: "Template Name"
-    templateRegister: "Template Register"
-  msg:
-    configDescription: "Set up templates using custom charts."
-    createFail: "Failed to generate report"
-    createSucess: "Report has been generated."
-    duplicateChart: "Duplicate chart exists."
-    editDescription: "Register, modify, or delete templates."
-    emptyChart: "Chart does not exist."
-    searchDescription: "Search report that you generated."
-    templateNameUsed: "Duplicate template name exists."
-  template:
-    all: "All"
-  tooltip:
-    reportName: "When creating a report, set the name of the report to be displayed.<br/>If the report name is not entered, the template name is used as the report name."
-
 # Role
 role:
   btn:
@@ -1385,6 +1361,50 @@ scheduler:
     • The Fourth field: Defines Day of month and has an allowable range of 1 to 31.<br/><br/>
     • The Fifth field: Defines the month and has an allowable range of 1 to 12 or JAN to DEC.<br/><br/>
     • The Sixth field: Defines the day of the week and has an allowable range of 0 to 6 or SUN to SAT."
+
+# SLA
+sla:
+  label:
+    calculationType: "Calculation Type"
+    description: "description"
+    group: "Group"
+    metricPool: "SLA Metric management"
+    name: "Name"
+    searchPlaceholder: "Name"
+    type: "Type"
+    unit: "Unit"
+
+# statistic
+statistic:
+  btn:
+    create: "Create"
+    pdf: "PDF"
+  label:
+    automatic: "Automatic generation"
+    chart: "Chart"
+    description: "Description"
+    publishDate: "Publish Date"
+    customReport: "Custom Report"
+    reportName: "Report Name"
+    search: "Report Search"
+    searchPlaceholder: "Template name"
+    customReportTemplate: "custom Report Template"
+    templateEdit: "Template Edit"
+    templateName: "Template Name"
+    templateRegister: "Template Register"
+  msg:
+    configDescription: "Set up templates using custom charts."
+    createFail: "Failed to generate report"
+    createSucess: "Report has been generated."
+    duplicateChart: "Duplicate chart exists."
+    editDescription: "Register, modify, or delete templates."
+    emptyChart: "Chart does not exist."
+    searchDescription: "Search report that you generated."
+    templateNameUsed: "Duplicate template name exists."
+  template:
+    all: "All"
+  tooltip:
+    reportName: "When creating a report, set the name of the report to be displayed.<br/>If the report name is not entered, the template name is used as the report name."
 
 # Token
 token:

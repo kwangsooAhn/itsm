@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+<head>
+    <title th:text="${notice != null} ? #{notice.label.edit} : #{notice.label.register}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{notice.label.notice}"></h1>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <form id="frm" method="post">
+            <input type="hidden" id="metricId" name="metricId" th:value="${metricId}"/>
+            <div class="z-edit-column col-6">
+                <div class="flex-column z-edit-row">
+                    <label th:text="#{sla.label.name}" for="metricName" class="required"></label>
+                    <input type="text" id="metricName" name="metricName" class="z-input" maxlength="128"
+                           th:value="${metric?.metricName}"/>
+                </div>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label th:text="#{sla.label.description}" for="metricDesc" class="required"></label>
+                <input type="text" id="metricDesc" name="metricDesc" class="z-input" maxlength="128"
+                       th:value="${metric?.metricDesc}"/>
+            </div>
+            <div class="flex-row">
+                <div class="flex-column col-4">
+                    <label for="metricGroup">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.label.group}"></span>
+                    </label>
+                    <select id="metricGroup" onchange="changeType(this)" th:classappend="${view} ? 'readonly' : ''"></select>
+                </div>
+                <div class="flex-column col-3">
+                    <label for="metricType">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.label.type}"></span>
+                    </label>
+                    <select id="metricType" onchange="changeType(this)" th:classappend="${view} ? 'readonly' : ''"></select>
+                </div>
+                <div class="flex-column col-3">
+                    <label for="metricUnit">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.label.unit}"></span>
+                    </label>
+                    <select id="metricUnit" onchange="changeType(this)" th:classappend="${view} ? 'readonly' : ''"></select>
+                </div>
+                <div class="flex-column col-3">
+                    <label for="calculationType">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.label.calculationType}"></span>
+                    </label>
+                    <select id="calculationType" onchange="changeType(this)" th:classappend="${view} ? 'readonly' : ''"></select>
+                </div>
+            </div>
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list" sec:authorize="hasAuthority('sla.manage')">
+                    <button  th:if="!${metric?.metricId}" type="button" id="insert"
+                             class="z-button primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
+                    </button>
+                    <button th:if="${metric?.metricId}" type="button" id="update"
+                            class="z-button primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
+                    </button>
+                    <button th:if="${metric?.metricId}" type="button" id="delete"
+                            class="z-button danger" onclick="deleteSLA()" th:text="#{common.btn.delete}">
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[ */
+    window.onload = function() {
+    }
+
+    function saveSLA(method) {
+        if (!isValidRequiredAll()) {
+            return false;
+
+            const metricId = [[${metric?.metricId}]];
+            const delFileSeq = [];
+            let url = '';
+            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
+            document.getElementsByName('delFileSeq').forEach(elm => delFileSeq.push(elm.value));
+            const data = {
+                noticeTitle: document.getElementById('noticeTitle').value,
+                noticeContents: document.getElementById('noticeContents').value
+            };
+
+            if (method === 'PUT') {
+                data.metricId = metricId;
+                data.delFileSeq = delFileSeq;
+                url = '/rest/sla/metric-pool/' + metricId;
+            } else {
+                url = '/rest/sla/metric-pool';
+            }
+
+            aliceJs.fetchJson(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((result) => {
+                if (result.status === 200) {
+                    if (method === 'POST') {
+                        zAlert.success(i18n.msg('common.msg.register'), function () {
+                            window.location.href = '/sla/metric-pool/search';
+                        });
+                    } else if (method === 'PUT') {
+                        zAlert.success(i18n.msg('common.msg.modify'), function () {
+                            window.location = '/sla/metric-pool/search';
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function deleteSLA() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchJson('/rest/sla/metric-pool/' + [[${metric?.metricId}]], {
+                method: 'DELETE'
+            }).then((result) => {
+                if (result.status === 200) {
+                    zAlert.success(i18n.msg('common.msg.delete'), () => {
+                        location.href = '/sla/metric-pool/search';
+                    });
+                }
+            });
+        });
+    }
+    /* ]]> */
+</script>
+</html>
