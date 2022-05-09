@@ -49,14 +49,14 @@
             <li class="z-card flex-column">
                 <div class="z-card-header align-center">
                     <div class="z-card-icon pb-4">
-                        <a href="/portals/downloads/search">
-                            <img class="z-img i-portal-download pointer" th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
+                        <a href="/portals/archives/search">
+                            <img class="z-img i-portal-archive pointer" th:src="@{/assets/media/images/portal/img_portal_archive.png}" width="120" height="120" alt="Download">
                         </a>
                     </div>
-                    <h3 th:text="#{menu.download.parent}"></h3>
+                    <h3 th:text="#{menu.archive.parent}"></h3>
                 </div>
                 <div class="z-card-list-summary">
-                    <table class="z-table z-card-table" id="download"></table>
+                    <table class="z-table z-card-table" id="archive"></table>
                 </div>
             </li>
         </ul>
@@ -112,8 +112,8 @@
                                 case 'faq':
                                     contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
                                     break;
-                                case 'download':
-                                    contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
+                                case 'archive':
+                                    contentAnchor.href = '/portals/archives/'+ data['id'] +'/view';
                                     break;
                             }
                             let contentText = document.createElement('span');
@@ -248,8 +248,8 @@
                 aTitle.href = '/portals/notices/' + data.portalId + '/view';
             } else if (data.tableName === 'faq') {
                 aTitle.href = '/portals/faqs/' + data.portalId+ '/view';
-            } else if (data.tableName === 'download') {
-                aTitle.href = '/portals/downloads/'+ data.portalId +'/view';
+            } else if (data.tableName === 'archive') {
+                aTitle.href = '/portals/archives/'+ data.portalId +'/view';
             }
             aTitle.innerText = data.portalTitle;
             divTitle.appendChild(aTitle);
@@ -259,7 +259,7 @@
             divContentWrapper.className = 'z-card-item-content';
             const divContent = document.createElement('div');
             divContent.className = 'text-ellipsis';
-            if (data.tableName === 'download') {
+            if (data.tableName === 'archive') {
                 divContent.innerText = i18n.msg(''+data.portalContent+'');
             } else {
                 divContent.innerText = data.portalContent;

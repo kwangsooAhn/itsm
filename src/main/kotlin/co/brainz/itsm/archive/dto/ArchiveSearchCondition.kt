@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.download.dto
+package co.brainz.itsm.archive.dto
 
 import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
  * @param pageNum : 검색결과중에서 요청받은 페이지
  * @param contentNumPerPage : 페이지당 출력되는 건수
  */
-data class DownloadSearchCondition(
+data class ArchiveSearchCondition(
     val category: String? = null,
     val searchValue: String? = null,
     val fromDt: String? = null,

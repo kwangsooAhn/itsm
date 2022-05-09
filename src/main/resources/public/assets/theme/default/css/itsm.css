@@ -1928,7 +1928,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.z-icon.i-gnb-download {
+.z-icon.i-gnb-archive {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../media/icons/gnb/icon_gnb_download.svg");

@@ -44,10 +44,10 @@ GET /rest/portals
   {
     "portalId": "4028b21e7cc9d192017cc9d64da60000",
     "portalTitle": "TEST",
-    "portalContent": "download.category.companyPolicy",
+    "portalContent": "archive.category.companyPolicy",
     "createDt": "2021-10-29T02:17:17.47786",
     "updateDt": null,
-    "tableName": "download"
+    "tableName": "archive"
   }
 ]
 ```
@@ -89,11 +89,11 @@ GET /rest/portals/top
       "createDt": "2021-10-29T00:11:37.521546"
     }
   ],
-  "download": [
+  "archive": [
     {
       "id": "2c9180867d0b3336017d0dea5bcb0002",
       "title": "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나",
-      "content": "download.category.companyPolicy",
+      "content": "archive.category.companyPolicy",
       "createDt": "2021-11-11T07:33:22.506995"
     }
   ]
