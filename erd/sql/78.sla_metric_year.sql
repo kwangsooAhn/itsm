@@ -17,7 +17,7 @@ CREATE TABLE sla_metric_year
     update_user_key varchar(128),
     update_dt timestamp,
     CONSTRAINT sla_metric_year_pk PRIMARY KEY (metric_id, metric_year),
-    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id),
+    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
 );
 
 COMMENT ON TABLE sla_metric_year IS 'SLA 연도별 지표';
