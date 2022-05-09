@@ -49,7 +49,6 @@
     }
 
     function onExcelDownload() {
-        console.log('Excel Download')
         const searchValue = encodeURIComponent(document.getElementById('searchValue').value);
         aliceJs.fetchDownload({
             url: '/rest/roles/excel?searchValue=' + searchValue,
