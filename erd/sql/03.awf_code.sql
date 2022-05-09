@@ -74,10 +74,10 @@ insert into awf_code values ('document.displayType', 'document', null, '신청�
 insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 ', '수정 ', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.readonly', 'document.displayType', '읽기', '읽기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download', 'root', null, '자료실', null, true, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('archive.category', 'download', null, '자료실 카테고리', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('archive', 'root', null, '자료실', null, true, true, 1, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('archive.category', 'archive', null, '자료실 카테고리', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('archive.category.companyPolicy', 'archive.category', null, '회사규정', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('archive.category.etc', 'archive.\category', null, '기타', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('archive.category.etc', 'archive.category', null, '기타', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq', 'root', null, 'FAQ', null, false, true, 1, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq.category', 'faq', null, 'FAQ 카테고리', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq.category.etc', 'faq.category', null, '기타', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
