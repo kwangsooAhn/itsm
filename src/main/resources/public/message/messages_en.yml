@@ -1033,7 +1033,7 @@ menu:
   document:
     parent: "Service Request"
   archive:
-    parent: "Download"
+    parent: "Archive"
   faq:
     parent: "FAQ"
   notice:
