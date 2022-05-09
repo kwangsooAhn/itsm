@@ -118,11 +118,9 @@
         let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
             + '&orderColName=' + orderColName
             + '&orderDir=' + orderDir;
-        console.log(urlParam);
         aliceJs.fetchText('/tokens?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
-            console.log(htmlData);
             document.getElementById('tokenList').innerHTML = htmlData;
             setDateTimeFormat(document.getElementById('tokenList'));
             document.querySelectorAll('input[name=tokenTagList]').forEach(function (tagInput) {
