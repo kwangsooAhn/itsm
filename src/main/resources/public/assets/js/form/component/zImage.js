@@ -72,8 +72,10 @@ export const imageMixin = {
         if (!zValidation.isEmpty(this.elementPath) && this.elementPath.startsWith('file:///')) {
             aliceJs.fetchJson('/rest/files/' + this.elementPath.split('file:///')[1], {
                 method: 'GET'
-            }).then((imageData) => {
-                this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + imageData.extension + ';base64,' + imageData.data);
+            }).then((response) => {
+                if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
+                    this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + response.data.extension + ';base64,' + response.data.data);
+                }
             });
         } else {
             this.UIElement.UIComponent.UIElement.UIImg.setUISrc(this.elementPath);
@@ -100,8 +102,10 @@ export const imageMixin = {
         if (path.startsWith('file:///')) {
             aliceJs.fetchJson('/rest/files/' + path.split('file:///')[1], {
                 method: 'GET'
-            }).then((imageData) => {
-                this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + imageData.extension + ';base64,' + imageData.data);
+            }).then((response) => {
+                if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
+                    this.UIElement.UIComponent.UIElement.UIImg.setUISrc('data:image/' + response.data.extension + ';base64,' + response.data.data);
+                }
             });
         } else {
             this.UIElement.UIComponent.UIElement.UIImg.setUISrc(path);

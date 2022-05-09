@@ -52,7 +52,7 @@ class WfCommentServiceTest {
             documentId = "",
             commentValue = this.commentContent
         )
-        assumeTrue(instanceService.setComment(this.instanceId, commentDto))
+        assumeTrue(instanceService.setComment(this.instanceId, commentDto).status == "Z-0000")
     }
 
     @Test
@@ -79,6 +79,6 @@ class WfCommentServiceTest {
         }
         assumingThat(
             commentId.isNotEmpty()
-        ) { assumeTrue(instanceService.deleteComment(this.instanceId, commentId)) }
+        ) { assumeTrue(instanceService.deleteComment(this.instanceId, commentId).status == "Z-0000") }
     }
 }

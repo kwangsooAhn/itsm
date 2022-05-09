@@ -8,10 +8,6 @@
     let savedData = {};
     let isEdited = false;
 
-    const RESPONSE_SUCCESS = '1';
-    const RESPONSE_FAIL = '0';
-    const RESPONSE_DUPLICATION = '-1';
-
     window.addEventListener('beforeunload', function (event) {
         if (isEdited) {
             event.returnValue = '';
@@ -27,7 +23,7 @@
             data = data.filter(function (d) { // data check
                 return !ZWorkflowUtil.compareJson(d[0], d[1]);
             });
-            if (data.length === 0) {
+            if (!data.length) {
                 return;
             }
             keep_redo = keep_redo || false;
@@ -259,18 +255,11 @@
      * save process.
      */
     function saveProcess() {
-        if(!validationCheck()) return false;
+        if (!validationCheck()) return false;
         zProcessDesigner.resetElementPosition();
         save(function (response) {
-            let resultCode = response.responseText;
-            switch (resultCode) {
-                case RESPONSE_DUPLICATION:
-                    zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                    return;
-                case RESPONSE_FAIL:
-                    zAlert.warning(i18n.msg('common.msg.fail'));
-                    return;
-                default:
+            switch (response.status) {
+                case aliceJs.response.success:
                     zAlert.success(i18n.msg('common.msg.save'));
                     isEdited = false;
                     savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
@@ -280,6 +269,15 @@
                     }
                     changeProcessName();
                     zProcessDesigner.initialStatus = savedData.process.status;
+                    break;
+                case aliceJs.response.duplicate:
+                    zAlert.warning(i18n.msg('process.msg.duplicateName'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
             }
         });
     }
@@ -288,8 +286,8 @@
      * 자동 저장 (현재는 최초 오픈 시 start event 추가 후 저장 기능을 위해서만 사용중)
      */
     function autoSaveProcess() {
-        save(function (status) {
-            if (status === RESPONSE_SUCCESS) {
+        save(function (response) {
+            if (response.status === aliceJs.response.success) {
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
                 changeProcessName();
@@ -303,7 +301,7 @@
      * @param callbackFunc 저장 처리 후 실행될 callback function
      */
     function save(callbackFunc) {
-        aliceJs.fetchText('/rest/process/' + zProcessDesigner.data.process.id + '/data', {
+        aliceJs.fetchJson('/rest/process/' + zProcessDesigner.data.process.id + '/data', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -330,7 +328,7 @@
             let nameTextObject = document.getElementById('newProcessName');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.classList.add('error');
-                zAlert.warning(i18n.msg('common.msg.requiredEnter'), function() {
+                zAlert.warning(i18n.msg('common.msg.requiredEnter'), function () {
                     nameTextObject.focus();
                 });
                 return false;
@@ -353,24 +351,25 @@
                 },
                 body: JSON.stringify(saveAsProcessData),
                 showProgressbar: true
-            }).then((resultToJson) => {
-                let processId = resultToJson.processId;
-                let resultCode = resultToJson.result;
-                switch (resultCode.toString()) {
-                    case RESPONSE_DUPLICATION:
-                        zAlert.warning(i18n.msg('process.msg.duplicateProcessName'));
-                        return;
-                    case RESPONSE_FAIL:
-                        zAlert.warning(i18n.msg('common.msg.fail'));
-                        return;
-                    default:
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        const processId = response.data.processId;
                         zAlert.success(i18n.msg('common.msg.save'), function () {
                             opener.location.reload();
 
                             window.name = 'process_' + processId + '_edit';
                             location.href = '/process/' + processId + '/edit';
                         });
-
+                        break;
+                    case aliceJs.response.duplicate:
+                        zAlert.warning(i18n.msg('process.msg.duplicateName'));
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         };
@@ -378,7 +377,7 @@
         /**
          * 다른 이름으로 저장하기 모달 저장 CallBack.
          */
-        const saveAsCallBack = function() {
+        const saveAsCallBack = function () {
             if (checkRequired()) {
                 saveAs();
                 return true;
@@ -399,7 +398,7 @@
                     content: i18n.msg('common.btn.save'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         if (saveAsCallBack()) {
                             modal.hide();
                         }
@@ -408,13 +407,13 @@
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         modal.hide();
                     }
                 }
             ],
             close: { closable: false },
-            onCreate: function(modal) {
+            onCreate: function (modal) {
                 OverlayScrollbars(document.getElementById('newProcessDescription'), {
                     className: 'scrollbar',
                     resize: 'none',
@@ -441,39 +440,48 @@
             },
             body: JSON.stringify(zProcessDesigner.data)
         }).then((response) => {
-            if (document.querySelectorAll('.z-simulation-report-contents-main .details div').length > 0) {
-                document.querySelectorAll('.z-simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));
-                document.querySelector('.z-simulation-report-contents-main .result').classList.remove('success', 'failed');
+            // 기존 데이터 삭제
+            const prevReportList = document.querySelectorAll('.z-simulation-report-contents-main .details div');
+            const prevReportResult = document.querySelector('.z-simulation-report-contents-main .result');
+            if (prevReportList.length > 0) {
+                prevReportList.forEach((element) => element.parentElement.removeChild(element));
+                if (prevReportResult) {
+                    prevReportResult.classList.remove('success', 'failed');
+                }
             }
+
             // 전체 결과
             let mainResult = '';
             let mainResultClassName = '';
-            if (response.success === true) {
-                mainResult = i18n.msg('common.label.success');
-                mainResultClassName = 'success';
-            } else {
-                mainResult = i18n.msg('common.label.fail');
-                mainResultClassName = 'failed';
+            switch (response.status) {
+                case aliceJs.response.success:
+                    mainResult = (response.data) ? i18n.msg('common.label.success') : i18n.msg('common.label.fail');
+                    mainResultClassName = (response.data) ? 'success' : 'failed';
+                    break;
+                case aliceJs.response.error:
+                    mainResult = i18n.msg('common.label.error');
+                    mainResultClassName = 'failed';
+                    break;
+                default:
+                    break;
             }
-            document.querySelector('.z-simulation-report-contents-main .result').classList.add(mainResultClassName);
-            document.querySelector('.z-simulation-report-contents-main .result').textContent = mainResult;
+            prevReportResult.classList.add(mainResultClassName);
+            prevReportResult.textContent = mainResult;
 
             // 세부 결과
-            for (let i = 0; i < response.simulationReport.length; i++) {
-                const report = response.simulationReport[i];
+            const curReportList = (response.status === aliceJs.response.success) ? response.data.simulationReport : [];
+            for (let i = 0; i < curReportList.length; i++) {
+                const report = curReportList[i];
 
-                let successOrFailure = '';
-                let order = '[' + [i + 1] + '/' + response.simulationReport.length + ']';
-                let elementDescription = '[' + report.elementType + (report.elementName !== '' ? ':' + report.elementName : '') + ']';
-                let message = '';
-                let reportDetailClassName = '';
-                if (report.success === true) {
-                    successOrFailure = '[' + i18n.msg('common.label.success') + ']';
+                const successOrFailure = '[' + (response.data.success ? i18n.msg('common.label.success') : i18n.msg('common.label.fail')) + ']';
+                const order = '[' + [i + 1] + '/' + curReportList.length + ']';
+                const elementDescription = '[' + report.elementType + (report.elementName !== '' ? ':' + report.elementName : '') + ']';
+                const message = response.data.success ? '' : '[' + report.failedMessage + ']';
+                const reportDetailClassName = response.data.success ? '' : 'failed';
+
+                if (response.data.success) {
                     document.getElementById(report.elementId).classList.remove('selected', 'error');
-                } else if (report.success === false) {
-                    successOrFailure = '[' + i18n.msg('common.label.fail') + ']';
-                    message = '[' + report.failedMessage + ']';
-                    reportDetailClassName = 'failed';
+                } else {
                     document.getElementById(report.elementId).classList.add('selected', 'error');
 
                 }
@@ -740,7 +748,7 @@
     function focusPropertiesPanel() {
         let panel = document.querySelector('.z-process-properties');
         let items = panel.querySelectorAll('input:not([readonly]), select');
-        if (items.length === 0) {
+        if (!items.length) {
             return false;
         }
         items[0].focus();
@@ -853,7 +861,7 @@
         setProcessMinimap();
 
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
-        const simulationToggleEvent = function() {
+        const simulationToggleEvent = function () {
             document.querySelector('.z-simulation-report').classList.toggle('closed');
             document.querySelector('.z-button-simulation-report').classList.toggle('active');
         };
@@ -1002,7 +1010,7 @@ function validationCheck() {
         }
 
         for (let i = 0; i < totalElements.length; i++) {
-            if(totalElements[i].type === 'commonStart') {
+            if (totalElements[i].type === 'commonStart') {
                 commonStartCount++;
                 commonStartId = totalElements[i].id;
             }

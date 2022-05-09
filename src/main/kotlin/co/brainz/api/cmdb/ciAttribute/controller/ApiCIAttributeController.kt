@@ -9,6 +9,8 @@ package co.brainz.api.cmdb.ciAttribute.controller
 import co.brainz.api.ApiUtil
 import co.brainz.api.cmdb.ciAttribute.service.ApiCIAttributeService
 import co.brainz.api.dto.SearchDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -36,8 +38,10 @@ class ApiCIAttributeController(
     fun getAttributes(
         request: HttpServletRequest,
         searchDto: SearchDto
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIAttributeService.getCIAttributes(super.setSearchParam(searchDto)))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            apiCIAttributeService.getCIAttributes(super.setSearchParam(searchDto))
+        )
     }
 
     /**
@@ -47,8 +51,8 @@ class ApiCIAttributeController(
     fun getAttribute(
         request: HttpServletRequest,
         @PathVariable attributeId: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIAttributeService.getCIAttribute(attributeId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIAttributeService.getCIAttribute(attributeId))
     }
 
     /**
@@ -58,8 +62,8 @@ class ApiCIAttributeController(
     fun getAttributeDetail(
         request: HttpServletRequest,
         @PathVariable attributeId: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIAttributeService.getCIAttributeDetail(attributeId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIAttributeService.getCIAttributeDetail(attributeId))
     }
 
     /**
@@ -69,8 +73,8 @@ class ApiCIAttributeController(
     fun createAttribute(
         request: HttpServletRequest,
         @RequestBody attributeData: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIAttributeService.createCIAttribute(attributeData))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIAttributeService.createCIAttribute(attributeData))
     }
 
     /**
@@ -81,8 +85,10 @@ class ApiCIAttributeController(
         request: HttpServletRequest,
         @PathVariable attributeId: String,
         @RequestBody attributeData: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIAttributeService.updateCIAttribute(attributeId, attributeData))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            apiCIAttributeService.updateCIAttribute(attributeId, attributeData)
+        )
     }
 
     /**
@@ -92,7 +98,7 @@ class ApiCIAttributeController(
     fun deleteAttribute(
         request: HttpServletRequest,
         @PathVariable attributeId: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIAttributeService.deleteCIAttribute(attributeId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIAttributeService.deleteCIAttribute(attributeId))
     }
 }

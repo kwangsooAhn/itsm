@@ -407,6 +407,12 @@
       height: 37.88rem; // 606px
     }
 
+
+    .no-data-text {
+      width: 100%;
+      text-align: center;
+    }
+
     @include gridTemplate();
   }
 }

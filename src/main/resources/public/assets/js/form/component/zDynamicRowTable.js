@@ -297,7 +297,9 @@ export const dynamicRowTableMixin = {
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+                !zValidation.isEmpty(this.parent.parent.parent) &&
+                this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
                 this.displayType !== FORM.DISPLAY_TYPE.HIDDEN) {
                 if (zValidation.isEmpty(data[index])) {
                     let defaultValue = this._defaultValues[index];
@@ -634,23 +636,23 @@ export const dynamicRowTableMixin = {
                 break;
             default:
                 // 사용자 검색 조건이 모두 충족되었는지 확인
-                const searchValue = defaultValue.split('|')[2]
+                const searchValue = defaultValue.split('|')[2];
                 let targetData = column.columnElement.userSearchTarget;
                 let targetCriteria = '';
                 let searchKeys = '';
                 if (!zValidation.isEmpty(targetData)) {
                     targetData = JSON.parse(targetData);
-                    targetCriteria = targetData.targetCriteria
+                    targetCriteria = targetData.targetCriteria;
                     targetData.searchKey.forEach( (elem, index) => {
                         searchKeys += (index > 0) ? '+' + elem.id : elem.id;
                     });
                 }
                 await aliceJs.fetchText('/users/searchUsers?searchValue=' + searchValue
-                    + '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys ,{
+                    + '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys, {
                     method: 'GET'
                 }).then((htmlData) => {
                     const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                    if (userListElem.querySelectorAll('.z-table-row').length === 0) {
+                    if (!userListElem.querySelectorAll('.z-table-row').length) {
                         defaultValue = '';
                     }
                 });
@@ -803,6 +805,9 @@ export const dynamicRowTableMixin = {
             body: JSON.stringify(pluginData),
             showProgressbar: true
         }).then((response) => {
+            if (response.status !== aliceJs.response.success) {
+                return false;
+            }
             // primary > 검증 안됨
             if (response.data.result) {
                 // success--check > 성공

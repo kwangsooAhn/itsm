@@ -256,6 +256,9 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
+    const alicePlatform = 'user.platform.alice';
+    let subUserInfo = {};
+
     window.onload = function () {
         document.getElementById('userId').focus();
         zFileUploader.avatar({
@@ -277,14 +280,6 @@
         setAbsenceDisplay();
     };
 
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_USER_ID_DUPLICATION = '1';
-    const STATUS_ERROR_EMAIL_DUPLICATION = '3';
-    const STATUS_SUCCESS_EDIT_EMAIL = '4';
-    const STATUS_ERROR_SYSTEM_USER_NOT_EXIST = '7';
-    const alicePlatform = 'user.platform.alice';
-    let subUserInfo = {};
-
     function runAbsenceDocument() {
         if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
         zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
@@ -298,9 +293,16 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(absenceInfo)
-            }).then((rtn) => {
-                if (rtn) {
-                    zAlert.success([[#{common.msg.modify}]]);
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.modify'));
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -315,7 +317,7 @@
 
     function restSubmit(url) {
         // 사용자 부재 설정
-        let absenceInfo = {
+        const absenceInfo = {
             startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
             endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
             substituteUserKey: document.getElementById('substituteUserKey').value
@@ -347,32 +349,32 @@
             data.password = rsa.encrypt(password);
         }
 
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         }).then((response) => {
-            switch (response) {
-                case STATUS_SUCCESS:
+            switch (response.status) {
+                case aliceJs.response.success: // 수정 성공
                     zAlert.success([[#{common.msg.modify}]], function () {
                         history.back();
                     });
                     break;
-                case STATUS_SUCCESS_EDIT_EMAIL:
+                case aliceJs.response.successEditEmail: // 이메일 업데이트 성공
                     zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
                         history.back();
                     });
                     break;
-                case STATUS_ERROR_USER_ID_DUPLICATION:
+                case aliceJs.response.duplicate: // ID 중복
                     zAlert.warning([[#{user.msg.sameUserId}]]);
                     break;
-                case STATUS_ERROR_EMAIL_DUPLICATION:
+                case aliceJs.response.duplicateEmail: // 이메일 중복
                     zAlert.warning([[#{user.msg.sameEmail}]]);
                     break;
                 default :
-                    zAlert.danger(i18n.msg('common.label.modify') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
+                    zAlert.danger([[#{common.msg.fail}]]);
                     break;
             }
         });

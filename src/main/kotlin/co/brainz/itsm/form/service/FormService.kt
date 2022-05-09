@@ -9,6 +9,8 @@
 
 package co.brainz.itsm.form.service
 
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.workflow.form.constants.WfFormConstants
@@ -54,12 +56,12 @@ class FormService(
      *
      * @param formId
      * @param restTemplateFormDto
-     * @return Boolean
      */
-    fun saveForm(formId: String, restTemplateFormDto: RestTemplateFormDto): String {
-        return when (wfFormService.checkFormData(formId = formId, formName = restTemplateFormDto.name)) {
+    fun saveForm(formId: String, restTemplateFormDto: RestTemplateFormDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (wfFormService.checkFormData(formId = formId, formName = restTemplateFormDto.name)) {
             WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
-                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
             else -> {
                 restTemplateFormDto.updateDt = LocalDateTime.now()
@@ -69,6 +71,9 @@ class FormService(
                 wfFormService.saveForm(restTemplateFormDto)
             }
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -87,12 +92,13 @@ class FormService(
      * 폼 생성
      *
      * @param formData
-     * @return String 생성된 form ID
      */
-    fun createForm(formData: RestTemplateFormDataDto): String {
-        return when (wfFormService.checkFormData(formId = null, formName = formData.name)) {
+    fun createForm(formData: RestTemplateFormDataDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        var formMap: Map<String, String>? = null
+        when (wfFormService.checkFormData(formId = null, formName = formData.name)) {
             WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
-                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
             else -> {
                 val newFormId = wfFormService.createForm(
@@ -107,20 +113,31 @@ class FormService(
                     )
                 ).id
                 logger.info("create form : success [{}]", newFormId)
-                newFormId
+                formMap = mutableMapOf()
+                formMap["formId"] = newFormId
             }
         }
+        return ZResponse(
+            status = status.code,
+            data = formMap
+        )
     }
 
     /**
      * 폼 삭제
      *
      * @param formId
-     * @return Boolean
      */
-    fun deleteForm(formId: String): Boolean {
+    fun deleteForm(formId: String): ZResponse {
         logger.info("delete form : [{}]", formId)
-        return wfFormService.deleteForm(formId)
+        val status = if (wfFormService.deleteForm(formId)) {
+            ZResponseConstants.STATUS.SUCCESS
+        } else {
+            ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -130,12 +147,12 @@ class FormService(
      *
      * @param formId
      * @param formDataDto
-     * @return Boolean
      */
-    fun saveFormData(formId: String, formDataDto: RestTemplateFormDataDto): String {
-        return when (wfFormService.checkFormData(formId = formId, formName = formDataDto.name)) {
+    fun saveFormData(formId: String, formDataDto: RestTemplateFormDataDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (wfFormService.checkFormData(formId = formId, formName = formDataDto.name)) {
             WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
-                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
             else -> {
                 formDataDto.updateDt = LocalDateTime.now()
@@ -144,6 +161,9 @@ class FormService(
                 wfFormService.saveFormData(formDataDto)
             }
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -152,10 +172,12 @@ class FormService(
      * @param formData
      * @return String 새로 생성된 form ID
      */
-    fun saveAsForm(formData: RestTemplateFormDataDto): String {
-        return when (wfFormService.checkFormData(formId = null, formName = formData.name)) {
+    fun saveAsForm(formData: RestTemplateFormDataDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        var formMap: Map<String, String>? = null
+        when (wfFormService.checkFormData(formId = null, formName = formData.name)) {
             WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code -> {
-                WfFormConstants.Status.STATUS_ERROR_DUPLICATE_FORM_NAME.code
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
             else -> {
                 formData.status = WorkflowConstants.FormStatus.EDIT.value
@@ -163,8 +185,13 @@ class FormService(
                 formData.createDt = LocalDateTime.now()
                 val newFormId = wfFormService.saveAsFormData(formData).id
                 logger.info("save as form : success [{}]", newFormId)
-                newFormId
+                formMap = mutableMapOf()
+                formMap["formId"] = newFormId
             }
         }
+        return ZResponse(
+            status = status.code,
+            data = formMap
+        )
     }
 }

@@ -49,7 +49,7 @@
         if (metaKeyCode[e.which]) {
             keyValue = metaKeyCode[e.which];
         }
-        Object.keys(keyMap).forEach(function(key) {
+        Object.keys(keyMap).forEach(function (key) {
             let splitKey = keyMap[key].splitKey;
             let maskKey = {
                 'shift'      : false,

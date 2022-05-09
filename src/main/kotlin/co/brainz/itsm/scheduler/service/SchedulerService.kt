@@ -7,8 +7,8 @@ package co.brainz.itsm.scheduler.service
 
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.scheduling.entity.AliceScheduleHistoryEntity
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.repository.AliceScheduleHistoryRepository
@@ -108,8 +108,8 @@ class SchedulerService(
     /**
      * 스케줄 등록.
      */
-    fun insertScheduler(schedulerDto: SchedulerDto): String {
-        var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
+    fun insertScheduler(schedulerDto: SchedulerDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val existCount = aliceScheduleTaskRepository.findDuplicationTaskName(
             schedulerDto.taskName,
             schedulerDto.taskId
@@ -121,8 +121,7 @@ class SchedulerService(
                     schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
                 } ?: false
                 if (!fileExist) {
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
-                    return returnValue
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
                 }
             }
             SchedulerConstants.Types.CLASS.type -> {
@@ -130,107 +129,119 @@ class SchedulerService(
                     this.validateClassFile(executeClass)
                 } ?: false
                 if (!fileExist) {
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
-                    return returnValue
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                 }
             }
         }
-
-        when (existCount) {
-            0L -> {
-                var scheduleTaskEntity = AliceScheduleTaskEntity(
-                    taskId = "",
-                    taskName = schedulerDto.taskName,
-                    taskDesc = schedulerDto.taskDesc,
-                    useYn = schedulerDto.useYn,
-                    taskType = schedulerDto.taskType,
-                    executeClass = schedulerDto.executeClass,
-                    executeQuery = schedulerDto.executeQuery,
-                    executeCommand = schedulerDto.executeCommand,
-                    executeCycleType = schedulerDto.executeCycleType,
-                    executeCyclePeriod = schedulerDto.executeCyclePeriod,
-                    cronExpression = schedulerDto.cronExpression,
-                    editable = true,
-                    args = schedulerDto.args,
-                    src = schedulerDto.src
-                )
-                scheduleTaskEntity = aliceScheduleTaskRepository.save(scheduleTaskEntity)
-                if (scheduleTaskEntity.useYn) {
-                    aliceScheduleTaskService.addTaskToScheduler(scheduleTaskEntity)
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            when (existCount) {
+                0L -> {
+                    var scheduleTaskEntity = AliceScheduleTaskEntity(
+                        taskId = "",
+                        taskName = schedulerDto.taskName,
+                        taskDesc = schedulerDto.taskDesc,
+                        useYn = schedulerDto.useYn,
+                        taskType = schedulerDto.taskType,
+                        executeClass = schedulerDto.executeClass,
+                        executeQuery = schedulerDto.executeQuery,
+                        executeCommand = schedulerDto.executeCommand,
+                        executeCycleType = schedulerDto.executeCycleType,
+                        executeCyclePeriod = schedulerDto.executeCyclePeriod,
+                        cronExpression = schedulerDto.cronExpression,
+                        editable = true,
+                        args = schedulerDto.args,
+                        src = schedulerDto.src
+                    )
+                    scheduleTaskEntity = aliceScheduleTaskRepository.save(scheduleTaskEntity)
+                    if (scheduleTaskEntity.useYn) {
+                        aliceScheduleTaskService.addTaskToScheduler(scheduleTaskEntity)
+                    }
                 }
+                else -> status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
-            else -> returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_NAME_DUPLICATION.code
         }
-        return returnValue
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 스케줄 수정.
      */
-    fun updateScheduler(schedulerDto: SchedulerDto): String {
-        var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
-        var scheduleTaskEntity =
-            aliceScheduleTaskRepository.findByIdOrNull(schedulerDto.taskId!!) ?: throw AliceException(
-                AliceErrorConstants.ERR_00005,
-                AliceErrorConstants.ERR_00005.message + "[Schedule Entity]"
+    fun updateScheduler(schedulerDto: SchedulerDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        var scheduleTaskEntity = aliceScheduleTaskRepository.findByIdOrNull(schedulerDto.taskId!!)
+        if (scheduleTaskEntity != null) {
+            val existCount = aliceScheduleTaskRepository.findDuplicationTaskName(
+                schedulerDto.taskName,
+                schedulerDto.taskId
             )
-        val existCount = aliceScheduleTaskRepository.findDuplicationTaskName(
-            schedulerDto.taskName,
-            schedulerDto.taskId
+            when (schedulerDto.taskType) {
+                SchedulerConstants.Types.JAR.type -> {
+                    val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
+                        schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
+                    } ?: false
+                    if (!fileExist) {
+                        status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+                    }
+                }
+                SchedulerConstants.Types.CLASS.type -> {
+                    val fileExist = schedulerDto.executeClass?.let { executeClass ->
+                        this.validateClassFile(executeClass)
+                    } ?: false
+                    if (!fileExist) {
+                        status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
+                    }
+                }
+            }
+            if (status == ZResponseConstants.STATUS.SUCCESS) {
+                when (existCount) {
+                    0L -> {
+                        scheduleTaskEntity.taskName = schedulerDto.taskName
+                        scheduleTaskEntity.taskType = schedulerDto.taskType
+                        scheduleTaskEntity.taskDesc = schedulerDto.taskDesc
+                        scheduleTaskEntity.useYn = schedulerDto.useYn
+                        scheduleTaskEntity.executeClass = schedulerDto.executeClass
+                        scheduleTaskEntity.executeQuery = schedulerDto.executeQuery
+                        scheduleTaskEntity.executeCommand = schedulerDto.executeCommand
+                        scheduleTaskEntity.executeCycleType = schedulerDto.executeCycleType
+                        scheduleTaskEntity.executeCyclePeriod = schedulerDto.executeCyclePeriod
+                        scheduleTaskEntity.cronExpression = schedulerDto.cronExpression
+                        scheduleTaskEntity.args = schedulerDto.args
+                        scheduleTaskEntity.src = schedulerDto.src
+                        scheduleTaskEntity = aliceScheduleTaskRepository.save(scheduleTaskEntity)
+                        aliceScheduleTaskService.removeTaskFromScheduler(scheduleTaskEntity.taskId)
+                        if (scheduleTaskEntity.useYn) {
+                            aliceScheduleTaskService.addTaskToScheduler(scheduleTaskEntity)
+                        }
+                    }
+                    else -> status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                }
+            }
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
         )
-        when (schedulerDto.taskType) {
-            SchedulerConstants.Types.JAR.type -> {
-                val fileExist = schedulerDto.executeCommand?.let { executeCommand ->
-                    schedulerDto.src?.let { src -> this.validateJarFile(src, executeCommand) }
-                } ?: false
-                if (!fileExist) {
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
-                    return returnValue
-                }
-            }
-            SchedulerConstants.Types.CLASS.type -> {
-                val fileExist = schedulerDto.executeClass?.let { executeClass ->
-                    this.validateClassFile(executeClass)
-                } ?: false
-                if (!fileExist) {
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
-                    return returnValue
-                }
-            }
-        }
-        when (existCount) {
-            0L -> {
-                scheduleTaskEntity.taskName = schedulerDto.taskName
-                scheduleTaskEntity.taskType = schedulerDto.taskType
-                scheduleTaskEntity.taskDesc = schedulerDto.taskDesc
-                scheduleTaskEntity.useYn = schedulerDto.useYn
-                scheduleTaskEntity.executeClass = schedulerDto.executeClass
-                scheduleTaskEntity.executeQuery = schedulerDto.executeQuery
-                scheduleTaskEntity.executeCommand = schedulerDto.executeCommand
-                scheduleTaskEntity.executeCycleType = schedulerDto.executeCycleType
-                scheduleTaskEntity.executeCyclePeriod = schedulerDto.executeCyclePeriod
-                scheduleTaskEntity.cronExpression = schedulerDto.cronExpression
-                scheduleTaskEntity.args = schedulerDto.args
-                scheduleTaskEntity.src = schedulerDto.src
-                scheduleTaskEntity = aliceScheduleTaskRepository.save(scheduleTaskEntity)
-                aliceScheduleTaskService.removeTaskFromScheduler(scheduleTaskEntity.taskId)
-                if (scheduleTaskEntity.useYn) {
-                    aliceScheduleTaskService.addTaskToScheduler(scheduleTaskEntity)
-                }
-            }
-            else -> returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_NAME_DUPLICATION.code
-        }
-        return returnValue
     }
 
     /**
      * 스케줄 삭제.
      */
     @Transactional
-    fun deleteScheduler(taskId: String): String {
-        aliceScheduleTaskService.removeTaskFromScheduler(taskId)
-        aliceScheduleTaskRepository.deleteById(taskId)
-        return SchedulerConstants.Status.STATUS_SUCCESS.code
+    fun deleteScheduler(taskId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
+        // TODO: 유효성 검증 추가 - 사용중인 스케쥴러는 삭제 할 수 없어야 한다.
+
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            aliceScheduleTaskService.removeTaskFromScheduler(taskId)
+            aliceScheduleTaskRepository.deleteById(taskId)
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     fun getSchedulerDtoToEntity(schedulerDto: SchedulerDto): AliceScheduleTaskEntity {
@@ -255,8 +266,9 @@ class SchedulerService(
     /**
      * 스케줄 즉시 실행.
      */
-    fun immediateExecuteScheduler(schedulerDto: SchedulerDto): String {
-        var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
+    fun immediateExecuteScheduler(schedulerDto: SchedulerDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        //var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
         val taskInfo = getSchedulerDtoToEntity(schedulerDto)
         when (schedulerDto.taskType) {
             AliceConstants.ScheduleTaskType.QUERY.code -> {
@@ -275,10 +287,12 @@ class SchedulerService(
                     } catch (e: Exception) {
                         logger.error("Failed to load class. [{}]", schedulerDto.executeClass)
                         e.printStackTrace()
-                        returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
+                        status = ZResponseConstants.STATUS.ERROR_FAIL
+                        //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
+                    //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
                 }
             }
             AliceConstants.ScheduleTaskType.JAR.code -> {
@@ -294,14 +308,18 @@ class SchedulerService(
                     } catch (e: Exception) {
                         logger.error("Failed to load jar. [{}]", schedulerDto.executeCommand)
                         e.printStackTrace()
-                        returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
+                        status = ZResponseConstants.STATUS.ERROR_FAIL
+                        //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
-                    returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
+                    //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                 }
             }
         }
-        return returnValue
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

@@ -95,7 +95,7 @@ export default class ZOptionListProperty extends ZProperty {
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
         // 옵션이 없을때
-        if (this.value.length === 0) {
+        if (!this.value.length) {
             this.setEmptyTable(this.UIElement.UIOptionTable);
         }
     }

@@ -43,7 +43,6 @@
     // form status
     const STATUS_USE = 'form.status.use';
     const STATUS_DESTROY = 'form.status.destroy';
-    const STATUS_ERROR_DUPLICATE_FORM_NAME = "1"
     const deletable = document.getElementById('deletable').value;
     const updatable = document.getElementById('updatable').value;
 
@@ -106,15 +105,21 @@
     // 폼 삭제
     function deleteForm(formId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/forms/' + formId, {
-                method: 'DELETE'
-            }).then((status) => {
-                if (status === 'true') {
-                    zAlert.success(i18n.msg('common.msg.delete'), function() {
-                        location.reload();
-                    });
-                } else {
-                    zAlert.danger(i18n.msg('common.msg.fail'));
+            aliceJs.fetchJson('/rest/forms/' + formId, {
+                method: 'DELETE',
+                showProgressbar: true
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                            location.reload();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -175,28 +180,37 @@
 
     // REST API
     function restSubmit(method, url, data) {
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((formId) => {
-            if (formId === STATUS_ERROR_DUPLICATE_FORM_NAME) {
-                zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
-                return false;
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    if (method === 'POST') {
+                        const _width = 1500,
+                            _height = 980;
+                        // 중앙 배치
+                        const _left = Math.ceil((window.screen.width - _width) / 2);
+                        const _top = Math.ceil((window.screen.height - _height) / 4);
+                        let specs = 'left=' + _left + ',top=' + _top;
+                        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                        window.open('/forms/' + response.data.formId + '/edit', 'form_' + response.data.formId
+                            + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                    }
+                    location.reload();
+                    break;
+                case aliceJs.response.duplicate:
+                    zAlert.warning(i18n.msg('form.msg.duplicateName'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
-            if (method === 'POST') {
-                const _width = 1500,
-                    _height = 980;
-                // 중앙 배치
-                const _left = Math.ceil((window.screen.width - _width) / 2);
-                const _top = Math.ceil((window.screen.height - _height) / 4);
-                let specs = 'left=' + _left + ',top=' + _top;
-                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
-            }
-            location.reload();
         });
     }
 
@@ -244,16 +258,22 @@
                 formName: document.getElementById('form_name').value,
                 formDesc: document.getElementById('form_description').value
             };
-            ZWorkflowUtil.import(importFile, formInfo, 'form', function (resultCode) {
-                switch (resultCode) {
-                    case STATUS_ERROR_DUPLICATE_FORM_NAME:
-                        zAlert.warning(i18n.msg('form.msg.duplicateFormName'));
-                        return false;
-                    default:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
+            ZWorkflowUtil.import(importFile, formInfo, 'form', function (response) {
+                switch (response.status) {
+                    case aliceJs.response.duplicate:
+                        zAlert.warning(i18n.msg('form.msg.duplicateName'));
+                        break;
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.success'), function () {
                             location.reload();
                             return true;
                         });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('form.msg.failedImport'));
+                        break;
+                    default:
+                        break;
                 }
             });
         }

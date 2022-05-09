@@ -13,8 +13,9 @@ import co.brainz.cmdb.dto.CIClassDetailDto
 import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIClassDto
 import co.brainz.cmdb.dto.CIClassToAttributeDto
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.cmdb.ciClass.constants.CIClassConstants
 import co.brainz.itsm.cmdb.ciClass.dto.CIClassTreeReturnDto
 import co.brainz.itsm.cmdb.ciType.service.CITypeService
 import java.time.LocalDateTime
@@ -48,42 +49,51 @@ class CIClassService(
     /**
      * CMDB CI Class 등록
      */
-    fun createCIClass(ciClassDto: CIClassDto): String {
-        var returnValue = ""
+    fun createCIClass(ciClassDto: CIClassDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         ciClassDto.createDt = LocalDateTime.now()
         ciClassDto.createUserKey = currentSessionUser.getUserKey()
-        if (ciClassService.createCIClass(ciClassDto)) {
-            returnValue = CIClassConstants.Status.STATUS_SUCCESS.code
+        if (!ciClassService.createCIClass(ciClassDto)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return returnValue
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CMDB CI Class 수정
      */
-    fun updateCIClass(ciClassDto: CIClassDto): String {
-        var returnValue = ""
+    fun updateCIClass(ciClassDto: CIClassDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         ciClassDto.updateDt = LocalDateTime.now()
         ciClassDto.updateUserKey = currentSessionUser.getUserKey()
-        if (ciClassService.updateCIClass(ciClassDto)) {
-            returnValue = CIClassConstants.Status.STATUS_SUCCESS_EDIT_CLASS.code
+        if (!ciClassService.updateCIClass(ciClassDto)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return returnValue
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CMDB CI Class 삭제
      */
-    fun deleteCIClass(classId: String): String {
+    fun deleteCIClass(classId: String): ZResponse {
         var returnValue = ""
+        var status = ZResponseConstants.STATUS.SUCCESS
         if (!ciTypeService.getCITypesByClassId(classId)) {
-            if (ciClassService.deleteCIClass(classId)) {
-                returnValue = CIClassConstants.Status.STATUS_SUCCESS.code
+            if (!ciClassService.deleteCIClass(classId)) {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
             }
         } else {
-            returnValue = CIClassConstants.Status.STATUS_FAIL_CLASS_HAVE_TYPE.code
+            status = ZResponseConstants.STATUS.ERROR_EXIST
         }
-        return returnValue
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

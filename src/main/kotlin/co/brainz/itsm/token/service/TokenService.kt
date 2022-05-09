@@ -14,6 +14,8 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
@@ -70,7 +72,7 @@ class TokenService(
      * @param restTemplateTokenDataUpdateDto
      * @return Boolean
      */
-    fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
+    fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): ZResponse {
         restTemplateTokenDataUpdateDto.assigneeId = currentSessionUser.getUserKey()
 
         val tokenDto = RestTemplateTokenDto(
@@ -94,7 +96,10 @@ class TokenService(
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
-        return wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
+        val isSuccess = wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
+        return ZResponse(
+            status = if (isSuccess) ZResponseConstants.STATUS.SUCCESS.code else ZResponseConstants.STATUS.ERROR_FAIL.code
+        )
     }
 
     /**
@@ -134,9 +139,8 @@ class TokenService(
      * Put Token 처리.
      *
      * @param restTemplateTokenDataUpdateDto
-     * @return Boolean
      */
-    fun putToken(tokenId: String, restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): Boolean {
+    fun putToken(tokenId: String, restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): ZResponse {
         restTemplateTokenDataUpdateDto.assigneeId = currentSessionUser.getUserKey()
 
         val tokenDto = RestTemplateTokenDto(
@@ -154,7 +158,10 @@ class TokenService(
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
-        return wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
+        val isSuccess = wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
+        return ZResponse(
+            status = if (isSuccess) ZResponseConstants.STATUS.SUCCESS.code else ZResponseConstants.STATUS.ERROR_FAIL.code
+        )
     }
 
     /**
@@ -173,8 +180,11 @@ class TokenService(
     /**
      * [tokenId]를 받아서 처리할 문서 상세 조회 하여 [String]반환 한다.
      */
-    fun findToken(tokenId: String): String =
-        documentActionService.makeTokenAction(mapper.writeValueAsString(wfTokenService.getTokenData(tokenId)))
+    fun findToken(tokenId: String): String {
+        return documentActionService.makeTokenAction(
+            mapper.writeValueAsString(wfTokenService.getTokenData(tokenId))
+        )
+    }
 
     fun getTodoTokenCount(): Long = getTokenList(
         TokenSearchCondition(

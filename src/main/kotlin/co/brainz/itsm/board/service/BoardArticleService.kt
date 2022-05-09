@@ -10,6 +10,8 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
 import co.brainz.itsm.board.dto.BoardArticleListReturnDto
@@ -76,32 +78,42 @@ class BoardArticleService(
      *
      */
     @Transactional
-    fun saveBoardArticle(boardArticleSaveDto: BoardArticleSaveDto) {
-        val boardAdminId = boardArticleSaveDto.boardAdminId
-        val boardCount = boardRepository.countByBoardAdminId(boardAdminId)
-        var boardSeq = 0L
-        if (boardCount > 0) boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
-
-        val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
-        val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
-        val portalBoardEntity = PortalBoardEntity(
-            boardId = boardArticleSaveDto.boardId,
-            boardAdmin = portalBoardAdminEntity,
-            boardCategoryId = boardArticleSaveDto.boardCategoryId,
-            boardSeq = boardSeq + 1,
-            boardGroupId = boardSeq + 1,
-            boardLevelId = updatePortalBoardEntity?.boardLevelId ?: 0,
-            boardOrderSeq = updatePortalBoardEntity?.boardOrderSeq ?: 0,
-            boardTitle = boardArticleSaveDto.boardTitle,
-            boardContents = boardArticleSaveDto.boardContents
-        )
-        val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
-        aliceFileService.upload(
-            AliceFileDto(
-                ownId = savedPortalBoardEntity.boardId,
-                fileSeq = boardArticleSaveDto.fileSeqList,
-                delFileSeq = boardArticleSaveDto.delFileSeqList
+    fun saveBoardArticle(boardArticleSaveDto: BoardArticleSaveDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        try {
+            val boardAdminId = boardArticleSaveDto.boardAdminId
+            val boardCount = boardRepository.countByBoardAdminId(boardAdminId)
+            var boardSeq = 0L
+            if (boardCount > 0) {
+                boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
+            }
+            val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
+            val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
+            val portalBoardEntity = PortalBoardEntity(
+                boardId = boardArticleSaveDto.boardId,
+                boardAdmin = portalBoardAdminEntity,
+                boardCategoryId = boardArticleSaveDto.boardCategoryId,
+                boardSeq = boardSeq + 1,
+                boardGroupId = boardSeq + 1,
+                boardLevelId = updatePortalBoardEntity?.boardLevelId ?: 0,
+                boardOrderSeq = updatePortalBoardEntity?.boardOrderSeq ?: 0,
+                boardTitle = boardArticleSaveDto.boardTitle,
+                boardContents = boardArticleSaveDto.boardContents
             )
+            val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
+            aliceFileService.upload(
+                AliceFileDto(
+                    ownId = savedPortalBoardEntity.boardId,
+                    fileSeq = boardArticleSaveDto.fileSeqList,
+                    delFileSeq = boardArticleSaveDto.delFileSeqList
+                )
+            )
+        } catch (e: Exception) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+            e.printStackTrace()
+        }
+        return ZResponse(
+            status = status.code
         )
     }
 
@@ -111,7 +123,7 @@ class BoardArticleService(
      * @param boardArticleCommentDto
      */
     @Transactional
-    fun saveBoardArticleComment(boardArticleCommentDto: BoardArticleCommentDto) {
+    fun saveBoardArticleComment(boardArticleCommentDto: BoardArticleCommentDto): ZResponse {
         val boardPortalBoardEntity = boardRepository.findById(boardArticleCommentDto.boardId).orElse(null)
         val portalBoardCommentEntity = PortalBoardCommentEntity(
             boardCommentId = boardArticleCommentDto.boardCommentId,
@@ -119,6 +131,7 @@ class BoardArticleService(
             boardCommentContents = boardArticleCommentDto.boardCommentContents
         )
         boardCommentRepository.save(portalBoardCommentEntity)
+        return ZResponse()
     }
 
     /**
@@ -180,18 +193,18 @@ class BoardArticleService(
      * @param boardId
      */
     @Transactional
-    fun deleteBoardArticle(boardId: String) {
+    fun deleteBoardArticle(boardId: String): ZResponse {
         val boardReadCount = boardReadRepository.findById(boardId)
         if (!boardReadCount.isEmpty) {
             boardReadRepository.deleteById(boardId)
         }
 
         val boardFile = aliceFileService.getList(boardId, "")
-        if (boardFile.isEmpty()) {
+        if (boardFile.isNotEmpty()) {
             aliceFileService.delete(boardId)
         }
-
         boardRepository.deleteById(boardId)
+        return ZResponse()
     }
 
     /**
@@ -200,8 +213,9 @@ class BoardArticleService(
      * @param boardCommentId
      */
     @Transactional
-    fun deleteBoardArticleComment(boardCommentId: String) {
+    fun deleteBoardArticleComment(boardCommentId: String): ZResponse {
         boardCommentRepository.deleteById(boardCommentId)
+        return ZResponse()
     }
 
     /**
@@ -235,7 +249,7 @@ class BoardArticleService(
      * 게시판 답글 저장
      */
     @Transactional
-    fun saveBoardArticleReply(boardArticleSaveDto: BoardArticleSaveDto) {
+    fun saveBoardArticleReply(boardArticleSaveDto: BoardArticleSaveDto): ZResponse {
         val oldBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
         val portalBoardEntity = PortalBoardEntity(
             boardId = "",
@@ -260,6 +274,7 @@ class BoardArticleService(
                 delFileSeq = boardArticleSaveDto.delFileSeqList
             )
         )
+        return ZResponse()
     }
 
     /**

@@ -363,7 +363,9 @@ class CISearchService(
                 CIAttributeConstants.Type.CHECKBOX.code,
                 CIAttributeConstants.Type.CUSTOM_CODE.code,
                 CIAttributeConstants.Type.GROUP_LIST.code,
-                CIAttributeConstants.Type.DROP_DOWN.code -> {
+                CIAttributeConstants.Type.DROP_DOWN.code,
+                CIAttributeConstants.Type.USER_SEARCH.code,
+                CIAttributeConstants.Type.ORGANIZATION_SEARCH.code -> {
                     attributeIds.add(basic.columnName[index])
                 }
             }
@@ -457,6 +459,18 @@ class CISearchService(
                             val attributeValue = it.value[index].toString()
                             if (attributeValue.isNotEmpty()) {
                                 it.value[index] = attributeValue.substring(attributeValue.lastIndexOf("|") + 1)
+                            }
+                        }
+                    }
+                }
+                CIAttributeConstants.Type.USER_SEARCH.code,
+                CIAttributeConstants.Type.ORGANIZATION_SEARCH.code-> {
+                    val attribute = this.getAttribute(attributeList, basic.columnName[index])
+                    if (attribute.attributeId.isNotEmpty()) {
+                        basic.contents.forEach {
+                            val attributeValue = it.value[index].toString()
+                            if (attributeValue.isNotEmpty()) {
+                                it.value[index] = attributeValue.trim().split("|")[1]
                             }
                         }
                     }

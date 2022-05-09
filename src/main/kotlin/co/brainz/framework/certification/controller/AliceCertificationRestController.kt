@@ -10,6 +10,9 @@ import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
@@ -36,9 +39,9 @@ class AliceCertificationRestController(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @PostMapping("")
-    fun setUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
+    fun setUser(@RequestBody aliceSignUpDto: AliceSignUpDto): ResponseEntity<ZResponse> {
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.USER_ID)
-        if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
             aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
@@ -46,7 +49,7 @@ class AliceCertificationRestController(
                 null
             )
         }
-        return result
+        return ZAliceResponse.response(result)
     }
 
     @GetMapping("/certifiedmail")

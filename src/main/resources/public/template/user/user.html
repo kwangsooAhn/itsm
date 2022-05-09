@@ -279,6 +279,7 @@
     /*[# th:each="userRole : ${userRoles}"]*/
     userRoles.push(/*[[${userRole.roleId}]]*/);
     /*[/]*/
+    let subUserInfo = {};
 
     window.onload = function () {
         document.getElementById('userId').focus();
@@ -307,15 +308,6 @@
         setAbsenceDisplay();
     };
 
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_USER_ID_DUPLICATION = '1';
-    const STATUS_ERROR_EMAIL_DUPLICATION = '3';
-    const STATUS_SUCCESS_EDIT_EMAIL = '4';
-    const STATUS_SUCCESS_EDIT_ADMIN = '5';
-    const STATUS_SUCCESS_EDIT_PASSWORD = '6';
-    const STATUS_ERROR_SYSTEM_USER_NOT_EXIST = '7';
-    let subUserInfo = {};
-
     function checkUserRole(roleObject) {
         if (roleObject.checked) {
             if (!userRoles.includes(roleObject.value)) {
@@ -339,9 +331,16 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(absenceInfo)
-            }).then((rtn) => {
-                if (rtn) {
-                    zAlert.success([[#{common.msg.modify}]]);
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.modify'));
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -425,7 +424,7 @@
             data.password = ([[${users?.userKey}]] !== null) ? rsa.encrypt(password) : password;
         }
 
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
@@ -433,32 +432,32 @@
             body: JSON.stringify(data),
             showProgressbar: true
         }).then((response) => {
-            switch (response) {
-                case STATUS_SUCCESS:
+            switch (response.status) {
+                case aliceJs.response.success: // 등록 성공
                     zAlert.success([[#{user.msg.createUser}]], function () {
                         window.location.href = '/users/search';
                     });
                     break;
-                case STATUS_SUCCESS_EDIT_ADMIN:
+                case aliceJs.response.successEdit: // 수정 성공
                     zAlert.success([[#{common.msg.modify}]], function () {
                         window.location.href = '/users/search';
                     });
                     break;
-                case STATUS_SUCCESS_EDIT_EMAIL:
+                case aliceJs.response.successEditEmail: // 이메일 업데이트 성공
                     zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
                         window.location.href = '/users/search';
                     });
                     break;
-                case STATUS_SUCCESS_EDIT_PASSWORD:
+                case aliceJs.response.successEditPassword: // 비밀번호 변경
                     zAlert.success([[#{user.msg.resetPassword}]]);
                     break;
-                case STATUS_ERROR_USER_ID_DUPLICATION:
+                case aliceJs.response.duplicate: // ID 중복
                     zAlert.warning([[#{user.msg.sameUserId}]]);
                     break;
-                case STATUS_ERROR_EMAIL_DUPLICATION:
+                case aliceJs.response.duplicateEmail: // 이메일 중복
                     zAlert.warning([[#{user.msg.sameEmail}]]);
                     break;
-                case STATUS_ERROR_SYSTEM_USER_NOT_EXIST:
+                case aliceJs.response.notExist:
                     // 시스템 관리자 역할을 가진 사용자는 최소 1명은 유지되어야 하기 때문에,
                     // 해당 사용자의 역할을 수정하거나 사용자를 삭제하려면 화면에서 경고창을 표시되도록 유효성 검증을 추가한다.
                     zAlert.warning([[#{user.msg.systemUserNotExist}]]);
@@ -539,16 +538,18 @@
         aliceJs.fetchJson('/rest/organizations/' + document.getElementById('organizationId').value, {
             method: 'GET',
         }).then((response) => {
-            const allRoles = document.querySelectorAll('input[name=roles]');
-            allRoles.forEach(function (allRole) {
-                const matching = response.data.roles.find(function (organizationRole) {
-                    return organizationRole.roleId === allRole.value
+            if (response.status === aliceJs.response.success) {
+                const allRoles = document.querySelectorAll('input[name=roles]');
+                allRoles.forEach(function (allRole) {
+                    const matching = response.data.roles.find(function (organizationRole) {
+                        return organizationRole.roleId === allRole.value
+                    });
+                    if (matching) {
+                        allRole.disabled = true;
+                        allRole.checked = true;
+                    }
                 });
-                if (matching) {
-                    allRole.disabled = true;
-                    allRole.checked = true;
-                }
-            });
+            }
         });
     }
 

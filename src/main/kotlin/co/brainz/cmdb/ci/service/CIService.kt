@@ -48,9 +48,6 @@ import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import javax.transaction.Transactional
 import kotlin.math.ceil
@@ -77,7 +74,6 @@ class CIService(
     private val aliceTagManager: AliceTagManager
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * CI 목록 조회.
@@ -99,39 +95,6 @@ class CIService(
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
-    }
-
-    /**
-     * CI 전체 목록 조회
-     */
-    fun getCIList(): List<CIListDto> {
-        val ciEntities = ciRepository.findAll()
-        val ciList = mutableListOf<CIListDto>()
-
-        ciEntities.forEach { ci ->
-            val ciListDto = CIListDto(
-                ciId = ci.ciId,
-                ciNo = ci.ciNo,
-                ciName = ci.ciName,
-                ciIcon = ci.ciTypeEntity.typeIcon,
-                ciIconData = ci.ciTypeEntity.typeIcon?.let { ciTypeService.getCITypeImageData(it) },
-                ciDesc = ci.ciDesc,
-                ciStatus = ci.ciStatus,
-                interlink = ci.interlink,
-                typeId = ci.ciTypeEntity.typeId,
-                typeName = ci.ciTypeEntity.typeName,
-                classId = ci.ciTypeEntity.ciClass.classId,
-                className = ci.ciTypeEntity.ciClass.className,
-                createUserKey = ci.createUser?.userKey,
-                createDt = ci.createDt,
-                updateUserKey = ci.updateUser?.userKey,
-                updateDt = ci.updateDt,
-                ciTags = aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CI.code, ci.ciId)
-            )
-            ciList.add(ciListDto)
-        }
-
-        return ciList
     }
 
     /**

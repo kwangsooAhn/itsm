@@ -4,7 +4,7 @@
  * @author woodajung
  * @version 1.0
  */
-(function(root, factory) {
+(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory);
     } else if (typeof exports === 'object') {
@@ -12,7 +12,7 @@
     } else {
         root.modal = factory();
     }
-}(this, function() {
+}(this, function () {
     'use strict';
 
     let defaults = {
@@ -38,16 +38,16 @@
             closable: false,
             location: 'in',
             bindKey: 27,
-            callback: function(modal) {
+            callback: function (modal) {
                 modal.hide();
             }
         },
-        onShow: function() {},
-        onHide: function(modal) {
+        onShow: function () {},
+        onHide: function (modal) {
             modal.destroy();
         },
-        onCreate: function() {},
-        onDestroy: function() {}
+        onCreate: function () {},
+        onDestroy: function () {}
     };
 
     /**
@@ -55,7 +55,7 @@
      * @param el 대상객체
      */
     function getClasses(el) {
-        return el.className.split(' ').filter(function(c) {
+        return el.className.split(' ').filter(function (c) {
             return c.length > 0;
         });
     }
@@ -99,30 +99,30 @@
      *
      * @param options 옵션
      */
-    return function(options) {
+    return function (options) {
         this.options = Object.assign({}, defaults, options);
         this.id = options.id || Math.random().toString(36).substr(2);
         this.display = false;
         this.bindings = {};
 
-        this.bind = function(key, callback) {
+        this.bind = function (key, callback) {
             if (typeof this.bindings[key] !== 'undefined') {
                 console.warn('modal: Tried to bind the key ' + key + ' twice. Overriding...');
             }
             this.bindings[key] = callback;
         };
 
-        this.addKeyListener = function() {
+        this.addKeyListener = function () {
             window.currentModal = this;
             window.addEventListener('keydown', this.onKeyPress, false);
         };
 
-        this.removeKeyListener = function() {
+        this.removeKeyListener = function () {
             window.currentModal = undefined;
             window.removeEventListener('keydown', this.onKeyPress, false);
         };
 
-        this.onKeyPress = function(e) {
+        this.onKeyPress = function (e) {
             if (typeof window.currentModal !== 'undefined') {
                 let _that = window.currentModal;
                 if (!_that.display) return;
@@ -139,13 +139,13 @@
             }
         };
 
-        this.show = function() {
+        this.show = function () {
             if (typeof this.wrapper !== 'undefined') {
                 addClass(this.wrapper, 'modal-active');
                 addClass(document.body, 'modal-active');
                 const modalDialog = document.querySelector('.modal-dialog');
                 modalDialog.classList.remove('modal-active');
-                this.animation = setTimeout(function() {
+                this.animation = setTimeout(function () {
                     clearTimeout(this.animation);
                     modalDialog.classList.add('modal-active');
                 }, 30);
@@ -154,12 +154,12 @@
             }
         };
 
-        this.hide = function() {
+        this.hide = function () {
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
                 const modalWrapper = this.wrapper;
                 modalWrapper.querySelector('.modal-dialog').classList.remove('modal-active');
-                setTimeout(function() {
+                setTimeout(function () {
                     removeClass(modalWrapper, 'modal-active');
                     removeClass(document.body, 'modal-active');
                     _this.options.onHide(_this);
@@ -168,7 +168,7 @@
             }
         };
 
-        this.create = function() {
+        this.create = function () {
             if (typeof this.wrapper !== 'undefined') { return; }
 
             let backdrop, dialog;
@@ -185,7 +185,7 @@
             if (typeof this.options.classes !== 'undefined' && this.options.classes !== '') {
                 dialog.className += ' ' + this.options.classes;
             }
-            setTimeout(function() {
+            setTimeout(function () {
                 dialog.classList.add('modal-active');
             }, 30);
 
@@ -195,13 +195,13 @@
                 close.setAttribute('href', 'javascript:void(0);');
 
                 if (typeof this.options.close.callback === 'undefined') {
-                    this.options.close.callback = function() {};
+                    this.options.close.callback = function () {};
                 }
 
                 // close button click
                 close.modal = this;
                 close.callback = this.options.close.callback;
-                close.onclick = function(e) {
+                close.onclick = function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     this.callback(this.modal);
@@ -269,7 +269,7 @@
                     }
 
                     if (typeof this.options.buttons[i].callback === 'undefined') {
-                        this.options.buttons[i].callback = function(modal) {
+                        this.options.buttons[i].callback = function (modal) {
                             modal.hide();
                         };
                     }
@@ -277,7 +277,7 @@
                     // button click
                     button.modal = this;
                     button.callback = this.options.buttons[i].callback;
-                    button.onclick = function(e) {
+                    button.onclick = function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                         this.callback(this.modal);
@@ -304,12 +304,12 @@
             this.options.onCreate(this);
         };
 
-        this.destroy = function() {
+        this.destroy = function () {
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
                 const modalWrapper = this.wrapper;
                 this.wrapper = undefined;
-                setTimeout(function() {
+                setTimeout(function () {
                     document.body.removeChild(modalWrapper);
                     _this.removeKeyListener();
                     _this.options.onDestroy(_this);

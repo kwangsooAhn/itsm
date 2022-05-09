@@ -31,11 +31,11 @@ object CustomCodeConstants {
      * 사용자 정의 코드 편집 상태.
      */
     enum class Status(val code: String) {
-        STATUS_VALID_SUCCESS("-1"),
-        STATUS_SUCCESS("0"),
-        STATUS_ERROR_CUSTOM_CODE_USED("1"),
-        STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION("2"),
-        STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST("3")
+        STATUS_VALID_SUCCESS("E-0000"),
+        STATUS_SUCCESS("Z-0000"),
+        STATUS_ERROR_CUSTOM_CODE_USED("E-0004"),
+        STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION("E-0001"),
+        STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST("E-0003")
     }
 
     /**

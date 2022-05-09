@@ -947,7 +947,7 @@
     /**
      * 사용자 선택 모달
      */
-    function openUserListModal(e) {
+    function openUserListModal() {
         const targetUserModalTemplate = `<div class="target-user-list">` +
                 `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +

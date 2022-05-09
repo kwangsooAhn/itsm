@@ -115,13 +115,20 @@
         //게시판 삭제
         function deleteBoard() {
             zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.fetchText('/rest/boards/articles/' + boardId, {
+                aliceJs.fetchJson('/rest/boards/articles/' + boardId, {
                     method: 'DELETE'
-                }).then((rtn) => {
-                    if (rtn === 'true' || rtn === '') {
-                        zAlert.success(i18n.msg('common.msg.delete'), () => {
-                            location.href = '/boards/articles/search/param?boardAdminId=' + boardAdminId;
-                        });
+                }).then((response) => {
+                    switch (response.status) {
+                        case aliceJs.response.success:
+                            zAlert.success(i18n.msg('common.msg.delete'), function () {
+                                window.location.href = '/boards/articles/search/param?boardAdminId=' + boardAdminId;
+                            });
+                            break;
+                        case aliceJs.response.error:
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                        default:
+                            break;
                     }
                 });
             });
@@ -141,18 +148,27 @@
             if (boardCommentId !== '') {
                 data.boardCommentId = boardCommentId;
             }
-
-            aliceJs.fetchText('/rest/boards/articles/comments', {
+            const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+            aliceJs.fetchJson('/rest/boards/articles/comments', {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then((rtn) => {
-                zAlert.success(i18n.msg('common.msg.save'), function () {
-                    document.getElementById('boardComments').value = '';
-                    getBoardCommentList();
-                });
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(resultMsg, function () {
+                            document.getElementById('boardComments').value = '';
+                            getBoardCommentList();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default :
+                        break;
+                }
             });
         }
 
@@ -184,15 +200,25 @@
         //게시판 댓글 삭제
         function deleteBoardComment(url) {
             zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-                aliceJs.fetchText(url, {
+                aliceJs.fetchJson(url, {
                     method: 'DELETE'
-                }).then((rtn) => {
-                    document.getElementById('boardComments').value = '';
-                    getBoardCommentList();
+                }).then((response) => {
+                    switch (response.status) {
+                        case aliceJs.response.success:
+                            zAlert.success(i18n.msg('common.msg.delete'), () => {
+                                document.getElementById('boardComments').value = '';
+                                getBoardCommentList();
+                            });
+                            break;
+                        case aliceJs.response.error:
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                        default:
+                            break;
+                    }
                 });
             });
         }
-
         /*]]>*/
     </script>
 </th:block>

@@ -165,7 +165,7 @@ export const toolTipMenuMixin = {
     /**
      * group, row, component 객체 복제
      */
-    copyObject(e) {
+    copyObject() {
         // 부모 타입이 row이고, 컴포넌트 최대 개수를 초과할 경우 추가되지 않는다.
         if (this.UIElement instanceof UIComponentTooltip &&
             this.parent.children.length >= FORM.MAX_COMPONENT_IN_ROW) {

@@ -22,6 +22,8 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.organization.entity.OrganizationRoleMapEntity
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.role.dto.RoleDto
@@ -81,25 +83,28 @@ class RoleService(
      * 역할 삭제 한다.
      */
     @Transactional
-    fun deleteRole(roleId: String): String {
+    fun deleteRole(roleId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val roleInfo = roleRepository.findByRoleId(roleId)
         val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
-        return if (userRoleMapCount == 0) {
+        if (userRoleMapCount == 0) {
             roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
                 roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(roleInfo.roleId, roleAuthMap.auth.authId))
             }
             roleRepository.deleteById(roleId)
-            "true"
         } else {
-            "false"
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 역할 정보 등록 한다.
      */
     @Transactional
-    fun insertRole(roleInfo: RoleDto): String {
+    fun insertRole(roleInfo: RoleDto): ZResponse {
         val role = AliceRoleEntity(
             roleId = roleInfo.roleId.toString(),
             roleName = roleInfo.roleName.toString(),
@@ -110,15 +115,14 @@ class RoleService(
         authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach { auth ->
             roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
-
-        return result.roleId
+        return ZResponse()
     }
 
     /**
      * 역할 정보 수정 한다.
      */
     @Transactional
-    fun updateRole(roleInfo: RoleDto): String {
+    fun updateRole(roleInfo: RoleDto): ZResponse {
         val role = AliceRoleEntity(
             roleId = roleInfo.roleId.toString(),
             roleName = roleInfo.roleName.toString(),
@@ -133,7 +137,7 @@ class RoleService(
             roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
-        return result.roleId
+        return ZResponse()
     }
 
     /**

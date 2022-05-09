@@ -6,6 +6,8 @@
 package co.brainz.itsm.statistic.customReport.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AlicePagingData
@@ -105,8 +107,9 @@ class CustomReportService(
     }
 
     @Transactional
-    fun saveReport(templateId: String): String {
-        var resultCode = CustomReportConstants.ReportCreateStatus.STATUS_SUCCESS.code
+    fun saveReport(templateId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
         // 스케줄러에 의해 실행되어 awf_report_data 에 저장하는 기능
         val templateEntity = customReportTemplateRepository.getOne(templateId)
 
@@ -150,10 +153,12 @@ class CustomReportService(
                 }
             }
         } catch (e: Exception) {
-            resultCode = CustomReportConstants.ReportCreateStatus.STAUTS_FAIL.code
+            status = ZResponseConstants.STATUS.ERROR_FAIL
             e.printStackTrace()
         }
 
-        return resultCode
+        return ZResponse(
+            status = status.code
+        )
     }
 }

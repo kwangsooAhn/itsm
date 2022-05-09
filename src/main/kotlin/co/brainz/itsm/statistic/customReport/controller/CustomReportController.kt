@@ -6,10 +6,8 @@
 
 package co.brainz.itsm.statistic.customReport.controller
 
-import co.brainz.itsm.statistic.customChart.service.CustomChartService
 import co.brainz.itsm.statistic.customReport.dto.ReportSearchCondition
 import co.brainz.itsm.statistic.customReport.service.CustomReportService
-import co.brainz.itsm.statistic.customReportTemplate.service.CustomTemplateService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -29,7 +27,6 @@ class CustomReportController(
     private val reportSearchPage: String = "statistic/customReport/customReportSearch"
     private val reportListPage: String = "statistic/customReport/customReportList"
     private val reportViewPage: String = "statistic/customReport/customReportView"
-    private val basicReportSearchPage: String = "statistic/basicReport/basicReportSearch"
 
     @GetMapping("/customReport/search")
     fun getCustomReportSearch(request: HttpServletRequest, model: Model): String {

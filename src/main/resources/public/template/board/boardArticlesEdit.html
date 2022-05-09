@@ -25,7 +25,7 @@
                             th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
                 </select>
             </div>
-            <div class="flex-column z-edit-row" id="divCategoryYn" name="divCategoryYn">
+            <div class="flex-column z-edit-row" id="divCategoryYn">
                 <label for="boardCategory">
                     <span th:text="#{board.label.category}"></span>
                     <span class="required"></span>
@@ -141,8 +141,10 @@
 
         aliceJs.fetchJson('/rest/boards/' + e.target.value + '/view', {
             method: 'GET',
-        }).then((data) => {
-            getBoardView(data)
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                getBoardView(response.data);
+            }
         });
     }
 
@@ -184,31 +186,51 @@
 
     // 게시글 수정
     function editBoard(method, data) {
-        aliceJs.fetchText('/rest/boards/articles', {
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson('/rest/boards/articles', {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((rtn) => {
-            zAlert.success(i18n.msg('common.msg.save'), function () {
-                searchBoard();
-            });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function () {
+                        searchBoard();
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+            }
         });
     }
 
     // 답글 저장
     function saveReply(method, data) {
-        aliceJs.fetchText('/rest/boards/articles/reply', {
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson('/rest/boards/articles/reply', {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((rtn) => {
-            zAlert.success(i18n.msg('common.msg.save'), function () {
-                searchBoard();
-            });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function () {
+                        searchBoard();
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+            }
         });
     }
 

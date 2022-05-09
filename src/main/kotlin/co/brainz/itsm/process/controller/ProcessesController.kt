@@ -5,7 +5,7 @@
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.dto.ProcessSearchCondition
-import co.brainz.itsm.process.service.ProcessAdminService
+import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/processes")
-class ProcessesController(private val processAdminService: ProcessAdminService) {
+class ProcessesController(
+    private val wfProcessService: WfProcessService
+) {
 
     private val processSearchPage: String = "process/processSearch"
     private val processListPage: String = "process/processList"
@@ -34,7 +36,7 @@ class ProcessesController(private val processAdminService: ProcessAdminService) 
      */
     @GetMapping("")
     fun getProcessList(processSearchCondition: ProcessSearchCondition, model: Model): String {
-        val result = processAdminService.getProcesses(processSearchCondition)
+        val result = wfProcessService.getProcesses(processSearchCondition)
         model.addAttribute("processList", result.data)
         model.addAttribute("paging", result.paging)
         return processListPage

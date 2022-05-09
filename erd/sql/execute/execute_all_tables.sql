@@ -1228,7 +1228,6 @@ insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 조�
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
-insert into awf_url values ('/rest/cmdb/cis', 'get', 'CI 전체 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 - CI 컴포넌트 세부 정보 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
@@ -1587,8 +1586,6 @@ insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'po
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
-insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.manage');
-insert into awf_url_auth_map values ('/rest/cmdb/cis', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/excel', 'post', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/cis/template', 'get', 'cmdb.manage');

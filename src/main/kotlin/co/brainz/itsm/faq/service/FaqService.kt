@@ -8,6 +8,8 @@ package co.brainz.itsm.faq.service
 
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.faq.constants.FaqConstants
@@ -92,44 +94,51 @@ class FaqService(
      * FAQ 등록
      */
     @Transactional
-    fun createFaq(faqDto: FaqDto): String {
-        val faqEntity = FaqEntity(
-            faqGroup = faqDto.faqGroup,
-            faqTitle = faqDto.faqTitle,
-            faqContent = faqDto.faqContent
-        )
-        // Duplicate check
-        if (faqRepository.getCountDuplicateFaqTitleAndCategory(faqEntity.faqTitle, faqEntity.faqGroup) > 0) {
-            return FaqConstants.Status.STATUS_ERROR_DUPLICATION.code
+    fun createFaq(faqDto: FaqDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (faqRepository.getCountDuplicateFaqTitleAndCategory(faqDto.faqTitle, faqDto.faqGroup) > 0) {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+        } else {
+            faqRepository.save(
+                FaqEntity(
+                    faqGroup = faqDto.faqGroup,
+                    faqTitle = faqDto.faqTitle,
+                    faqContent = faqDto.faqContent
+                )
+            )
         }
-        faqRepository.save(faqEntity)
-
-        return FaqConstants.Status.STATUS_SUCCESS.code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * FAQ 변경
      */
     @Transactional
-    fun updateFaq(faqId: String, faqDto: FaqDto): String {
+    fun updateFaq(faqId: String, faqDto: FaqDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val faqEntity = faqRepository.getOne(faqId)
         val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqDto.faqTitle, faqDto.faqGroup)
-        if (count == 0 || (faqDto.faqTitle.equals(faqEntity.faqTitle) && faqDto.faqGroup.equals(faqEntity.faqGroup))) {
+        if (count == 0 || (faqDto.faqTitle == faqEntity.faqTitle && faqDto.faqGroup == faqEntity.faqGroup)) {
             faqEntity.faqGroup = faqDto.faqGroup
             faqEntity.faqTitle = faqDto.faqTitle
             faqEntity.faqContent = faqDto.faqContent
             faqRepository.save(faqEntity)
-            return FaqConstants.Status.STATUS_SUCCESS.code
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
-        return FaqConstants.Status.STATUS_ERROR_DUPLICATION.code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * FAQ 삭제
      */
     @Transactional
-    fun deleteFaq(faqId: String): Boolean {
+    fun deleteFaq(faqId: String): ZResponse {
         faqRepository.deleteById(faqId)
-        return true
+        return ZResponse()
     }
 }

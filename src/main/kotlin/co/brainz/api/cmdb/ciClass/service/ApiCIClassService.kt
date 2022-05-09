@@ -13,6 +13,8 @@ import co.brainz.cmdb.dto.CIClassDetailValueDto
 import co.brainz.cmdb.dto.CIClassDto
 import co.brainz.cmdb.dto.CIClassListDto
 import co.brainz.cmdb.dto.CIClassReturnDto
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
@@ -57,27 +59,47 @@ class ApiCIClassService(
     /**
      * CI Class 등록
      */
-    fun createCIClass(ciClassDto: CIClassDto): Boolean {
+    fun createCIClass(ciClassDto: CIClassDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
         ciClassDto.createUserKey = userEntity.userKey
         ciClassDto.createDt = LocalDateTime.now()
-        return ciClassService.createCIClass(ciClassDto)
+        if (!ciClassService.createCIClass(ciClassDto)) {
+            status =  ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI Class 수정
      */
-    fun updateCIClass(classId: String, ciClassDto: CIClassDto): Boolean {
+    fun updateCIClass(classId: String, ciClassDto: CIClassDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val userEntity = userService.selectUser(ApiConstants.CREATE_USER)
         ciClassDto.updateUserKey = userEntity.userKey
         ciClassDto.updateDt = LocalDateTime.now()
-        return ciClassService.updateCIClass(ciClassDto)
+        if (!ciClassService.updateCIClass(ciClassDto)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code,
+            data = status == ZResponseConstants.STATUS.SUCCESS
+        )
     }
 
     /**
      * CI Class 삭제
      */
-    fun deleteCIClass(classId: String): Boolean {
-        return ciClassService.deleteCIClass(classId)
+    fun deleteCIClass(classId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        if (!ciClassService.deleteCIClass(classId)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 }

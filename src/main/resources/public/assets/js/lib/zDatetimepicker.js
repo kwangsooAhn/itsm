@@ -28,7 +28,7 @@
          *
          * @param options 옵션
          */
-        getDate: function(options) {
+        getDate: function (options) {
             let rtn = '';
             if (options.value === 'now') {
                 rtn = luxon.DateTime.local().setZone(i18n.timezone);
@@ -53,7 +53,7 @@
          * @param {String} className 클래스명
          * @return {Object} 존재하면 객제 반환
          */
-        clickInsideElement: function(e, className) {
+        clickInsideElement: function (e, className) {
             let el = e.srcElement || e.target;
             if (el.classList.contains(className)) {
                 return el;
@@ -141,7 +141,7 @@
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
         }
-        if(this.type === 'DATEHOUR' || this.type === 'HOUR') {
+        if (this.type === 'DATEHOUR' || this.type === 'HOUR') {
             // create button
             let pickerButton = document.createElement('div');
             pickerButton.className = 'z-button-list z-picker-modal-button';
@@ -167,7 +167,7 @@
 
     Object.assign(Picker.prototype, {
         // Picker open.
-        open: function() {
+        open: function () {
             if (!this.target.readOnly && !this.el.classList.contains('active')) {
                 this.el.classList.add('active');
                 this.setPosition();
@@ -201,7 +201,7 @@
             }
         },
         // Picker Position.
-        setPosition: function() {
+        setPosition: function () {
             let rect = this.el.parentNode.getBoundingClientRect(),
                 ow = this.el.offsetWidth,
                 oh = this.el.offsetHeight,
@@ -225,7 +225,7 @@
             }
         },
         // Date picker 생성 및 초기화 처리.
-        drawDate: function() {
+        drawDate: function () {
             let _this = this;
             const pickerDate = _this.el.querySelector('.z-picker-modal-content-date');
             pickerDate.innerHTML = '';
@@ -289,7 +289,7 @@
                 if (_this.displayLuxon.valueOf() === firstDayOfDate.valueOf()) {
                     calendarCell.classList.add('selected');
                 }
-                calendarCell.addEventListener('click', function(e) { 
+                calendarCell.addEventListener('click', function (e) { 
                     const elem = e.target;
                     const parentElem = elem.parentNode;
                     const isSelected = elem.classList.contains('selected');
@@ -313,7 +313,7 @@
             }
         },
         // Time picker 생성 및 초기화 처리.
-        drawTime: function() {
+        drawTime: function () {
             let _this = this;
             const pickerTime = _this.el.querySelector('.z-picker-modal-content-time');
             pickerTime.innerHTML = '';
@@ -398,7 +398,7 @@
                 buttonAM.type = 'button';
                 buttonAM.id = 'AM';
                 buttonAM.innerText = i18n.msg('datepicker.btn.am');
-                buttonAM.addEventListener('click', function(e) {
+                buttonAM.addEventListener('click', function (e) {
                     const elem = e.target; // 선택된 toggle 버튼
                     const parentElem = elem.parentNode;
                     const isActive = elem.classList.contains('selected');
@@ -426,7 +426,7 @@
                 buttonPM.type = 'button';
                 buttonPM.id = 'PM';
                 buttonPM.innerText = i18n.msg('datepicker.btn.pm');
-                buttonPM.addEventListener('click', function(e) {
+                buttonPM.addEventListener('click', function (e) {
                     const elem = e.target; // 선택된 toggle 버튼
                     const parentElem = elem.parentNode;
                     const isActive = elem.classList.contains('selected');
@@ -446,29 +446,29 @@
             }
         },
         // remove 버튼 클릭시 실제 대상 input box의 데이터 삭제.
-        removeTarget: function() {
+        removeTarget: function () {
             this.target.value = '';
             this.close();
 
             this.target.dispatchEvent(callbackEvent); // 정상적으로 값이 변경되었다면 > callback 이벤트 호출
         },
         // Date picker 에서 이전 달력 (<) 아이콘 클릭시 이전 달력으로 변경.
-        prevMonth: function() {
+        prevMonth: function () {
             this.selectLuxon = this.selectLuxon.plus({ months: -1 });
             this.drawDate();
         },
         // Date picker 에서 이후 달력 (>) 아이콘 클릭시 이후 달력으로 변경.
-        nextMonth: function() {
+        nextMonth: function () {
             this.selectLuxon = this.selectLuxon.plus({ months: 1 });
             this.drawDate();
         },
         // Date picker 에서 특정 날짜 선택시 표시되는 날짜 변경.
-        changeDay: function(offset) {
+        changeDay: function (offset) {
             this.selectLuxon = this.selectLuxon.set(offset);
             this.displayLuxon = this.selectLuxon.plus({ days: 0});
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
-        changeTarget: function() {
+        changeTarget: function () {
             switch (this.type) {
                 case 'DATE':
                     this.target.value = this.selectLuxon.toFormat(i18n.dateFormat);
@@ -485,7 +485,7 @@
             this.target.dispatchEvent(callbackEvent); // 정상적으로 값이 변경되었다면 > callback 이벤트 호출
         },
         // 12 시간제를 사용할 경우, AM PM 버튼 클릭시 처리.
-        changeMeridiem: function(meridiem) {
+        changeMeridiem: function (meridiem) {
             if (meridiem === 'AM') { // -12
                 this.selectLuxon = this.selectLuxon.plus({ hours: -12 });
             } else { // PM + 12
@@ -494,7 +494,7 @@
             this.meridiem = meridiem;
         },
         // Time picker 에서 위 아래 화살표 아이콘 클릭시 시간 변경.
-        changeTime: function(offset) {
+        changeTime: function (offset) {
             // 기존 시간 , 분
             const selectLuxonHour = this.selectLuxon.hour;
             const selectLuxonMinute = this.selectLuxon.minute;
@@ -529,7 +529,7 @@
 
         },
         // Time picker 에서 input box (Hour) 변경시 처리.
-        setHour: function() {
+        setHour: function () {
             let rtn = false;
             const hourInput = document.getElementById(this.id + '-time-hour');
             const inputValue = hourInput.value;
@@ -551,7 +551,7 @@
             }
         },
         // Time picker 에서 input box (Minute) 변경시 처리.
-        setMinute: function() {
+        setMinute: function () {
             let rtn = false;
             const minuteInput = document.getElementById(this.id + '-time-minute');
             const inputValue = minuteInput.value;
@@ -571,7 +571,7 @@
             }
         },
         // Picker 가 오픈된 상태로 Picker 외부를 선택할 경우 닫음.
-        clickWindow: function(e) {
+        clickWindow: function (e) {
             if (!util.clickInsideElement(e, 'z-picker-modal')) {
                 this.close();
             }
@@ -644,7 +644,7 @@
         let options = JSON.parse(JSON.stringify(defaultOptions));
 
         let picker = initPicker(targetElement, options);
-        picker.target.addEventListener('changed', function() {
+        picker.target.addEventListener('changed', function () {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
             }
@@ -665,7 +665,7 @@
         options.title = 'datepicker.label.datetime';
 
         let picker = initPicker(targetElement, options);
-        picker.target.addEventListener('changed', function() {
+        picker.target.addEventListener('changed', function () {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
             }
@@ -686,7 +686,7 @@
         options.title = 'datepicker.label.hour';
 
         let picker = initPicker(targetElement, options);
-        picker.target.addEventListener('changed', function() {
+        picker.target.addEventListener('changed', function () {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
             }
