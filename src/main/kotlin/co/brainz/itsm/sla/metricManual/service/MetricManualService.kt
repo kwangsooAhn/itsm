@@ -3,11 +3,11 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.sla.slaManual.service
+package co.brainz.itsm.sla.metricManual.service
 
 import org.springframework.stereotype.Service
 
 @Service
-class SlaManualService(
+class MetricManualService(
 ) {
 }
