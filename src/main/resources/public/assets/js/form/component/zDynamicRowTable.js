@@ -297,9 +297,7 @@ export const dynamicRowTableMixin = {
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
-                !zValidation.isEmpty(this.parent.parent.parent) &&
-                this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
+            if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
                 this.displayType !== FORM.DISPLAY_TYPE.HIDDEN) {
                 if (zValidation.isEmpty(data[index])) {
                     let defaultValue = this._defaultValues[index];
@@ -652,7 +650,7 @@ export const dynamicRowTableMixin = {
                     method: 'GET'
                 }).then((htmlData) => {
                     const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                    if (!userListElem.querySelectorAll('.z-table-row').length) {
+                    if (userListElem.querySelectorAll('.z-table-row').length) {
                         defaultValue = '';
                     }
                 });
