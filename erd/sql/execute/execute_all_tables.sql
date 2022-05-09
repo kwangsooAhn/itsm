@@ -9127,3 +9127,152 @@ COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
 COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
 
+/**
+  SLA 지표 그룹
+ */
+DROP TABLE IF EXISTS sla_metric_group cascade;
+
+CREATE TABLE sla_metric_group
+(
+    metric_group_id varchar(128) NOT NULL,
+    metric_group_name varchar(100) NOT NULL,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    CONSTRAINT sla_metric_group_pk PRIMARY KEY (metric_group_id),
+    CONSTRAINT sla_metric_group_uk UNIQUE (metric_group_name)
+);
+
+COMMENT ON TABLE sla_metric_group IS 'SLA 지표 그룹';
+COMMENT ON COLUMN sla_metric_group.metric_group_id IS '지표그룹아이디';
+COMMENT ON COLUMN sla_metric_group.metric_group_name IS '지표그룹이름';
+COMMENT ON COLUMN sla_metric_group.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_group.create_dt IS '등록일';
+
+/**
+  SLA 지표
+ */
+DROP TABLE IF EXISTS sla_metric cascade;
+
+CREATE TABLE sla_metric
+(
+    metric_id varchar(128) NOT NULL,
+    metric_name varchar(100),
+    metric_desc text,
+    metric_group_id varchar(128) NOT NULL,
+    metric_type varchar(128),
+    metric_unit varchar(128),
+    calculation_type varchar(128),
+    create_user_key varchar(128),
+    create_dt timestamp ,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT sla_metric_pk PRIMARY KEY (metric_id),
+    CONSTRAINT sla_metric_fk FOREIGN KEY (metric_group_id) REFERENCES sla_metric_group (metric_group_id)
+);
+
+COMMENT ON TABLE sla_metric IS 'SLA 지표';
+COMMENT ON COLUMN sla_metric.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric.metric_name IS '지표이름';
+COMMENT ON COLUMN sla_metric.metric_desc IS '지표설명';
+COMMENT ON COLUMN sla_metric.metric_group_id IS '지표그룹아이디';
+COMMENT ON COLUMN sla_metric.metric_type IS '지표관리타입';
+COMMENT ON COLUMN sla_metric.metric_unit IS '지표단위';
+COMMENT ON COLUMN sla_metric.calculation_type IS '계산방식';
+COMMENT ON COLUMN sla_metric.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric.create_dt IS '등록일';
+COMMENT ON COLUMN sla_metric.update_user_key IS '수정자';
+COMMENT ON COLUMN sla_metric.update_dt IS '수정일';
+
+/**
+  SLA 연도별 지표
+ */
+DROP TABLE IF EXISTS sla_metric_year cascade;
+
+CREATE TABLE sla_metric_year
+(
+    metric_id varchar(128) NOT NULL,
+    metric_year varchar(128) NOT NULL,
+    min_value decimal,
+    max_value decimal,
+    weight_value decimal,
+    owner varchar(100),
+    note text,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT sla_metric_year_pk PRIMARY KEY (metric_id, metric_year),
+    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id),
+);
+
+COMMENT ON TABLE sla_metric_year IS 'SLA 연도별 지표';
+COMMENT ON COLUMN sla_metric_year.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_year.metric_year IS '지표관리년도';
+COMMENT ON COLUMN sla_metric_year.min_value IS '최소치';
+COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
+COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
+COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
+COMMENT ON COLUMN sla_metric_year.note IS '비고';
+COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
+COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';
+COMMENT ON COLUMN sla_metric_year.update_dt IS '수정일';
+
+/**
+  SLA 수동 지표
+ */
+DROP TABLE IF EXISTS sla_metric_manual cascade;
+
+CREATE TABLE sla_metric_manual
+(
+    metric_id varchar(128) NOT NULL,
+    reference_dt timestamp NOT NULL,
+    metric_value integer NOT NULL,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    CONSTRAINT sla_metric_manual_pk PRIMARY KEY (metric_id, reference_dt, metric_value),
+    CONSTRAINT sla_metric_manual_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_metric_manual IS 'SLA 수동 지표';
+COMMENT ON COLUMN sla_metric_manual.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
+COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
+COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
+
+/**
+  SLA ZQL
+ */
+DROP TABLE IF EXISTS sla_zql cascade;
+
+CREATE TABLE sla_zql
+(
+    metric_id varchar(128) NOT NULL,
+    zql_string text,
+    CONSTRAINT sla_zql_pk PRIMARY KEY (metric_id),
+    CONSTRAINT sla_zql_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_zql IS 'SLA ZQL';
+COMMENT ON COLUMN sla_zql.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_zql.zql_string IS 'zql';
+
+/**
+  SLA 지표 - 문서 매핑
+ */
+DROP TABLE IF EXISTS sla_metric_document_map cascade;
+
+CREATE TABLE sla_metric_document_map
+(
+    metric_id varchar(128) NOT NULL,
+    document_id varchar(128) NOT NULL,
+    CONSTRAINT sla_metric_document_map_pk PRIMARY KEY (metric_id, document_id),
+    CONSTRAINT sla_metric_document_map_fk1 FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id),
+    CONSTRAINT sla_metric_document_map_fk2 FOREIGN KEY (document_id) REFERENCES wf_document (document_id)
+);
+
+COMMENT ON TABLE sla_metric_document_map IS 'SLA 지표 문서 매핑';
+COMMENT ON COLUMN sla_metric_document_map.class_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_document_map.attribute_id IS '신청서아이디';
+
