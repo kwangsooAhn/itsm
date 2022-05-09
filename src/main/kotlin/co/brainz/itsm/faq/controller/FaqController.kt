@@ -40,7 +40,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
      */
     @GetMapping("/search")
     fun getFaqSearch(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
+        model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE))
         return faqSearchPage
     }
 

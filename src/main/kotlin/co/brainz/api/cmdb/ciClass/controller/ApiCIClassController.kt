@@ -10,6 +10,8 @@ import co.brainz.api.ApiUtil
 import co.brainz.api.cmdb.ciClass.service.ApiCIClassService
 import co.brainz.api.dto.SearchDto
 import co.brainz.cmdb.dto.CIClassDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -37,8 +39,8 @@ class ApiCIClassController(
     fun getCIClasses(
         request: HttpServletRequest,
         searchDto: SearchDto
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.getCIClasses(super.setSearchParam(searchDto)))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIClassService.getCIClasses(super.setSearchParam(searchDto)))
     }
 
     /**
@@ -48,8 +50,8 @@ class ApiCIClassController(
     fun getCIClass(
         request: HttpServletRequest,
         @PathVariable classId: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.getCIClass(classId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIClassService.getCIClass(classId))
     }
 
     /**
@@ -59,8 +61,8 @@ class ApiCIClassController(
     fun getCIClassDetail(
         request: HttpServletRequest,
         @PathVariable classId: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.getCIClassDetail(classId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIClassService.getCIClassDetail(classId))
     }
 
     /**
@@ -70,8 +72,8 @@ class ApiCIClassController(
     fun getCIClassAttributes(
         request: HttpServletRequest,
         @PathVariable classId: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.getCIClassAttributes("", classId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIClassService.getCIClassAttributes("", classId))
     }
 
     /**
@@ -81,8 +83,8 @@ class ApiCIClassController(
     fun createCIClass(
         request: HttpServletRequest,
         @RequestBody ciClassDto: CIClassDto
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.createCIClass(ciClassDto))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIClassService.createCIClass(ciClassDto))
     }
 
     /**
@@ -93,8 +95,8 @@ class ApiCIClassController(
         request: HttpServletRequest,
         @PathVariable classId: String,
         @RequestBody ciClassDto: CIClassDto
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.updateCIClass(classId, ciClassDto))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIClassService.updateCIClass(classId, ciClassDto))
     }
 
     /**
@@ -104,7 +106,7 @@ class ApiCIClassController(
     fun deleteCIClass(
         request: HttpServletRequest,
         @PathVariable classId: String
-    ): ResponseEntity<*> {
-        return responseValue(request, apiCIClassService.deleteCIClass(classId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIClassService.deleteCIClass(classId))
     }
 }

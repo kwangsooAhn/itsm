@@ -13,6 +13,7 @@ import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
 import co.brainz.cmdb.dto.CIsDto
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
@@ -20,7 +21,6 @@ import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -65,7 +65,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     /**
      * CI 목록 조회.
      */
-    override fun findCIList(ciSearchCondition: CISearchCondition): QueryResults<CIsDto> {
+    override fun findCIList(ciSearchCondition: CISearchCondition): PagingReturnDto {
         val ci = QCIEntity.cIEntity
         val cmdbType = QCITypeEntity.cITypeEntity
         val cmdbClass = QCIClassEntity.cIClassEntity
@@ -96,53 +96,24 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
-        if (ciSearchCondition.typeId != null && ciSearchCondition.typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
-            query.where(ci.ciTypeEntity.typeId.eq(ciSearchCondition.typeId))
-        }
-        query.where(!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
-        val builder = BooleanBuilder()
-        builder.and(super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue))
-        builder.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
-        builder.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
-        builder.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
-        if (ciSearchCondition.isSearchType) {
-            builder.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
-        }
-        query.where(builder)
-        query.orderBy(ci.ciName.asc())
-        if (ciSearchCondition.tagArray.isNotEmpty()) {
-            query.where(
-                ci.ciId.`in`(
-                    JPAExpressions
-                        .select(cmdbTag.targetId)
-                        .from(cmdbTag)
-                        .where(
-                            cmdbTag.tagValue.`in`(ciSearchCondition.tagArray)
-                                .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
-                        )
-                )
-            )
-        }
-        if (ciSearchCondition.flag == "component") {
-            query.where(
-                ci.ciId.notIn(
-                    JPAExpressions
-                        .select(wfComponentCIData.ciId)
-                        .from(wfComponentCIData)
-                        .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
-                        .where(wfInstance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
-                )
-            )
-        } else if (ciSearchCondition.flag == "relation") {
-            query.where(!ci.ciId.eq(ciSearchCondition.relationSearch))
-        }
+        query.where(this.builder(ciSearchCondition, ci, cmdbClass, cmdbTag, wfComponentCIData, wfInstance))
 
         if (ciSearchCondition.isPaging) {
             query.limit(ciSearchCondition.contentNumPerPage)
             query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
         }
+        query.orderBy(ci.ciName.asc())
 
-        return query.fetchResults()
+        val countQuery = from(ci)
+            .select(ci.count())
+            .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
+            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
+        countQuery.where(this.builder(ciSearchCondition, ci, cmdbClass, cmdbTag, wfComponentCIData, wfInstance))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     /**
@@ -151,8 +122,9 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     override fun findDuplicateCiNo(ciNo: String): Long {
         val ciEntity = QCIEntity.cIEntity
         val query = from(ciEntity)
+            .select(ciEntity.count())
             .where(ciEntity.ciNo.eq(ciNo))
-        return query.fetchCount()
+        return query.fetchOne()
     }
 
     /**
@@ -174,9 +146,60 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     override fun countByTypeId(typeId: String): Long {
         val ciEntity = QCIEntity.cIEntity
         val query = from(ciEntity)
+            .select(ciEntity.count())
         if (typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
             query.where(ciEntity.ciTypeEntity.typeId.eq(typeId))
         }
-        return query.fetchCount()
+        return query.fetchOne()
+    }
+
+    private fun builder(ciSearchCondition: CISearchCondition,
+                        ci: QCIEntity,
+                        cmdbClass: QCIClassEntity,
+                        cmdbTag: QAliceTagEntity,
+                        wfComponentCIData: QCIComponentDataEntity,
+                        wfInstance: QWfInstanceEntity
+    ): BooleanBuilder {
+        val builder = BooleanBuilder()
+        if (ciSearchCondition.typeId != null && ciSearchCondition.typeId != CITypeConstants.CI_TYPE_ROOT_ID) {
+            builder.and(ci.ciTypeEntity.typeId.eq(ciSearchCondition.typeId))
+        }
+        builder.and(!ci.ciStatus.eq(RestTemplateConstants.CIStatus.STATUS_DELETE.code))
+        val subBuilder = BooleanBuilder()
+        subBuilder.and(super.likeIgnoreCase(ci.ciName, ciSearchCondition.searchValue))
+        subBuilder.or(super.likeIgnoreCase(ci.ciNo, ciSearchCondition.searchValue))
+        subBuilder.or(super.likeIgnoreCase(cmdbClass.className, ciSearchCondition.searchValue))
+        subBuilder.or(super.likeIgnoreCase(ci.ciDesc, ciSearchCondition.searchValue))
+        if (ciSearchCondition.isSearchType) {
+            subBuilder.or(super.likeIgnoreCase(ci.ciTypeEntity.typeName, ciSearchCondition.searchValue))
+        }
+        builder.and(subBuilder)
+        if (ciSearchCondition.tagArray.isNotEmpty()) {
+            builder.and(
+                ci.ciId.`in`(
+                    JPAExpressions
+                        .select(cmdbTag.targetId)
+                        .from(cmdbTag)
+                        .where(
+                            cmdbTag.tagValue.`in`(ciSearchCondition.tagArray)
+                                .and(cmdbTag.tagType.eq(AliceTagConstants.TagType.CI.code))
+                        )
+                )
+            )
+        }
+        if (ciSearchCondition.flag == "component") {
+            builder.and(
+                ci.ciId.notIn(
+                    JPAExpressions
+                        .select(wfComponentCIData.ciId)
+                        .from(wfComponentCIData)
+                        .innerJoin(wfInstance).on(wfComponentCIData.instanceId.eq(wfInstance.instanceId))
+                        .where(wfInstance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                )
+            )
+        } else if (ciSearchCondition.flag == "relation") {
+            builder.and(!ci.ciId.eq(ciSearchCondition.relationSearch))
+        }
+        return builder
     }
 }

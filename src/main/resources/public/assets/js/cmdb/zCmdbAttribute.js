@@ -36,7 +36,7 @@
     ];
 
     let parent = null;
-    let customCodeList = null;
+    let customCodeList = [];
     let targetUserArray = [];
     let userInfo = null;
     let attributeDetailData = null; // 서버에 저장된 세부 속성 데이터
@@ -94,8 +94,10 @@
                 // load custom-code list
                 await aliceJs.fetchJson('/rest/custom-codes?viewType=editor', {
                     method: 'GET'
-                }).then((data) => {
-                    customCodeList = data;
+                }).then((response) => {
+                    if (response.status === aliceJs.response.success) {
+                        customCodeList = response.data;
+                    }
                 });
                 attributeObject = new CustomCode(attributesProperty);
                 break;
@@ -154,8 +156,10 @@
                 `${property.validate === validation.value ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(validation.text)}</option>`;
         }).join('');
-        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : inputTypeAttributeDefaultMaxLength;
-        const minLengthValue = property.minLength !== undefined ? property.minLength : inputTypeAttributeDefaultMinLength;
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength :
+            inputTypeAttributeDefaultMaxLength;
+        const minLengthValue = property.minLength !== undefined ? property.minLength :
+            inputTypeAttributeDefaultMinLength;
         this.template = `${requiredTemplate}` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4">` +
@@ -179,7 +183,8 @@
             `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" value="${minLengthValue}">` +
+            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" ` +
+                `value="${minLengthValue}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -218,7 +223,8 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button>` +
+            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                `<span class="z-icon i-plus"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -259,7 +265,8 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label>` +
@@ -267,7 +274,8 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
@@ -288,7 +296,8 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)').forEach(function (object, index) {
+            const dropdownRowList = document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)');
+            dropdownRowList.forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
@@ -443,7 +452,7 @@
         // required
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
         // custom-code
-        const customCodeOptions = customCodeList.data.map(function (option) {
+        const customCodeOptions = customCodeList.map(function (option) {
             return `<option value='${option.customCodeId}' ` +
                 `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.customCodeName)}</option>`;
@@ -475,7 +484,8 @@
             `</div>` +
             `<div class="flex-column col-1">` +
             `<label class="z-radio">` +
-            `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
+            `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ` +
+                `${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
             `<span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span>` +
             `</label>` +
@@ -486,23 +496,32 @@
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1">` +
             `<label class="z-radio">` +
-            `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
+            `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ` +
+                `${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
             `<span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span>` +
             `</label>` +
             `</div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-session" ` +
+                `${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
+            `<div class="flex-column col-1"><label class="z-radio"><input type="radio" name="${objectId}-default" ` +
+                `id="${objectId}-code" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}>` +
+                `<span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span>` +
+                `</label></div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7">` +
             `<div class="flex-row z-input-button">` +
-            `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
-            `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}><span class="z-icon i-search"></span></button>` +
+            `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" ` +
+                `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
+                `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
+                `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
+            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" ` +
+                `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
+                `<span class="z-icon i-search"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -608,10 +627,10 @@
             // Attribute  목록 조회 - id 만 서버에 담고 있기 때문에 Attribute 명을 가져온다.
             aliceJs.fetchJson('/rest/cmdb/attributes', {
                 method: 'GET'
-            }).then((attributeData) => {
-                if (attributeData.data.length > 0) {
-                    for (let i = 0; i < attributeData.data.length; i++) {
-                        const attribute = attributeData.data[i];
+            }).then((response) => {
+                if (response.status === aliceJs.response.success && response.data.length > 0) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        const attribute = response.data[i];
                         for (let j = 0; j < property.option.length; j++) {
                             if (attribute.attributeId === property.option[j].id) {
                                 attributeMap.push({
@@ -784,7 +803,11 @@
     /**
      * User Search.
      *
-     * {"required":"true","targetCriteria":"organization|custom","searchKey":[{"id": "4028b2d57d37168e017d3716cgf00000", "value": "조직구성"}]}
+     * {
+     *     "required":"true",
+     *     "targetCriteria":"organization|custom",
+     *     "searchKey":[{"id": "4028b2d57d37168e017d3716cgf00000", "value": "조직구성"}]
+     * }
      * @param {Object} property Attribute 데이터
      * @constructor
      */
@@ -799,7 +822,8 @@
         const targetOptions = [
             {'text': i18n.msg('form.properties.userSearch.organization'), 'value': 'organization'},
             {'text': i18n.msg('form.properties.userSearch.custom'), 'value': 'custom'}].map(function (option) {
-            return `<option value='${option.value}' ${property.targetCriteria === option.value ? 'selected=\'true\'' : ''}>` +
+            const isSelected = (property.targetCriteria === option.value);
+            return `<option value='${option.value}' selected=${isSelected}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         this.template = `${requiredTemplate}` +
@@ -838,7 +862,7 @@
      * 기본 값 추가
      */
     function setTargetCriteria(target, data) {
-        if (data.searchKey.length === 0) { return false; }
+        if (!data.searchKey.length) { return false; }
 
         if (data.targetCriteria === 'organization') {
             const inputElem = target.querySelector('#searchTarget');
@@ -865,7 +889,8 @@
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row z-input-button">
                 <input type="text" class="z-input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="z-button-icon z-button-code" type="button" id="searchOrganization"><span class="z-icon i-search"></span></button>
+                <button class="z-button-icon z-button-code" type="button" id="searchOrganization">` +
+                `<span class="z-icon i-search"></span></button>
             </div>`;
             targetCriterial.insertAdjacentHTML('beforeend', organizationTemplate);
 
@@ -873,8 +898,9 @@
             searchOrganization.addEventListener('click', openOrganizationTreeModal, false);
         } else {
             const customTemplate = `<div class="align-right">
-                    <button type="button" class="z-button secondary" id="searchUserList">${i18n.msg('common.btn.add')}</button>
-                </div>`;
+                <button type="button" class="z-button secondary" id="searchUserList">`   +
+                    `${i18n.msg('common.btn.add')}</button>
+            </div>`;
             targetCriterial.insertAdjacentHTML('beforeend', customTemplate);
 
             const searchUserList = targetCriterial.querySelector('#searchUserList');
@@ -910,7 +936,7 @@
     /**
      * 사용자 선택 모달
      */
-    function openUserListModal(e) {
+    function openUserListModal() {
         const targetUserModalTemplate = `<div class="target-user-list">` +
                 `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
@@ -927,7 +953,7 @@
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    if (targetUserArray.length === 0) {
+                    if (!targetUserArray.length) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
@@ -944,10 +970,10 @@
                 }
             }],
             close: { closable: false },
-            onCreate: function() {
-                document.getElementById('search').addEventListener('keyup', function (e) {
+            onCreate: function () {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getTargetUserList(e.target.value, false);
-                });
+                }), false);
                 getTargetUserList(document.getElementById('search').value, true);
 
                 // 기존 사용자 목록
@@ -981,7 +1007,7 @@
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
             // 체크 이벤트
             targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
-                element.addEventListener('change', function(e) {
+                element.addEventListener('change', function (e) {
                     if (e.target.checked) {
                         targetUserArray.push({id: e.target.id, value: e.target.value});
                     } else {
@@ -1013,21 +1039,21 @@
         let listTemplate = ``;
         dataList.forEach( (data) => {
             listTemplate += `<div class="flex-row mt-2 user-search-item">` +
-                    `<div class="flex-column col-10 mr-4">` +
-                        `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
-                    `</div>` +
-                    `<div class="flex-column">` +
-                        `<button type="button" data-user-id="${data.id}" class="z-button-icon extra user-search-delete-btn">` +
-                            `<span class="z-icon i-delete"></span>` +
-                        `</button>` +
-                    `</div>` +
-                `</div>`;
+                `<div class="flex-column col-10 mr-4">` +
+                    `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
+                `</div>` +
+                `<div class="flex-column">` +
+                    `<button type="button" class="z-button-icon extra user-search-delete-btn"` +
+                        ` data-user-id="${data.id}"><span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
+            `</div>`;
         });
         targetCriterial.insertAdjacentHTML('beforeend', listTemplate);
 
         // 삭제 이벤트
         targetCriterial.querySelectorAll('.user-search-delete-btn').forEach((btn) => {
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', function (e) {
                 e.target.parentNode.parentNode.remove();
 
                 const removeIndex = targetUserArray.findIndex(function (user) {
@@ -1080,7 +1106,7 @@
     /**
      * Attribute 목록 모달 오픈
      */
-    function openAttributeListModal() {
+    function openAttributeListModal(e) {
         // 저장된 데이터를 담는다.
         attributeMapTemp.length = 0;
         attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
@@ -1092,43 +1118,6 @@
             `<span id="spanTotalCount" class="z-search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
-        /**
-         * 세부 속성 검색
-         */
-        const getAttributeList = function (search, showProgressbar) {
-            const url = '/cmdb/attributes/list-modal?search=' + search.trim() + '&attributeId=' + attributeId;
-            aliceJs.fetchText(url, {
-                method: 'GET',
-                showProgressbar: showProgressbar
-            }).then((htmlData) => {
-                document.getElementById('ciClassAttributeList').innerHTML = htmlData;
-                aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-                OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-
-                document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
-                    checkbox.addEventListener('change', function (e) {
-                        if (e.target.checked) {
-                            attributeMapTemp.push({
-                                key: e.target.value,
-                                value: e.target.name,
-                                order: '',
-                                type: e.target.getAttribute('data-attribute-type')
-                            });
-                        } else {
-                            const removeIndex = attributeMapTemp.findIndex(function (attr) {
-                                return attr.key === e.target.value;
-                            });
-                            attributeMapTemp.splice(removeIndex, 1);
-                        }
-                    });
-                    attributeMapTemp.forEach(function (attr) {
-                        if (checkbox.value === attr.key) {
-                            checkbox.checked = true;
-                        }
-                    });
-                });
-            });
-        };
 
         const attributeListModal = new modal({
             title: i18n.msg('cmdb.class.label.attributeList'),
@@ -1163,13 +1152,52 @@
                 closable: false,
             },
             onCreate: function () {
-                document.getElementById('attributeSearch').addEventListener('keyup', function () {
-                    getAttributeList(this.value, false);
-                });
+                document.getElementById('attributeSearch').addEventListener('keyup', aliceJs.debounce ((e) => {
+                    getAttributeList(e.target.value, false);
+                }), false);
                 getAttributeList(document.getElementById('attributeSearch').value, false);
             }
         });
         attributeListModal.show();
+    }
+
+    /**
+     * 세부 속성 검색
+     */
+    function getAttributeList(search, showProgressbar) {
+        const url = '/cmdb/attributes/list-modal?search=' + encodeURIComponent(search.trim()) +
+            '&attributeId=' + attributeId;
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: showProgressbar
+        }).then((htmlData) => {
+            document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+            aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
+            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+
+            document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (e) {
+                    if (e.target.checked) {
+                        attributeMapTemp.push({
+                            key: e.target.value,
+                            value: e.target.name,
+                            order: '',
+                            type: e.target.getAttribute('data-attribute-type')
+                        });
+                    } else {
+                        const removeIndex = attributeMapTemp.findIndex(function (attr) {
+                            return attr.key === e.target.value;
+                        });
+                        attributeMapTemp.splice(removeIndex, 1);
+                    }
+                });
+                attributeMapTemp.forEach(function (attr) {
+                    if (checkbox.value === attr.key) {
+                        checkbox.checked = true;
+                    }
+                });
+            });
+        });
     }
 
     /**
@@ -1214,7 +1242,7 @@
             // 사용자 검색시 조회대상이 존재하지 않으면 체크
             const userList = document.querySelectorAll('#details .user-search-item');
             const targetCriteria = document.getElementById('userSearchCriteria');
-            if (targetCriteria.value === 'custom' && userList.length === 0) {
+            if (targetCriteria.value === 'custom' && !userList.length) {
                 zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
                 isValid = false;
             }
@@ -1942,16 +1970,16 @@
                 }
             }],
             close: { closable: false },
-            onCreate: function() {
+            onCreate: function () {
                 // 기존 선택된 값 할당
                 if (target.getAttribute('data-user-search') !== '') {
                     const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
                         `${target.value}|${target.getAttribute('data-user-id')}`;
                     target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
                 }
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getUserList(target, e.target.value, false);
-                });
+                }), false);
                 getUserList(target, document.getElementById('search').value, true);
                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }

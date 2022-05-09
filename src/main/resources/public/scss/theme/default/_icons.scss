@@ -14,7 +14,7 @@
   &.i-gnb-document {
     @include maskImage($icon-gnb-document, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
   }
-  &.i-gnb-download {
+  &.i-gnb-archive {
     @include maskImage($icon-gnb-download, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
   }
   &.i-gnb-faq {

@@ -49,7 +49,7 @@
         if (metaKeyCode[e.which]) {
             keyValue = metaKeyCode[e.which];
         }
-        Object.keys(keyMap).forEach(function(key) {
+        Object.keys(keyMap).forEach(function (key) {
             let splitKey = keyMap[key].splitKey;
             let maskKey = {
                 'shift'      : false,
@@ -119,7 +119,7 @@
     function init(elem) {
         if (typeof elem !== 'undefined') { eventTarget = elem; }
 
-        eventTarget.addEventListener('keydown', onKeyDownShortcutHandler, false);
+        eventTarget.addEventListener('keydown', onKeyDownShortcutHandler, true);
         eventTarget.addEventListener('keyup', onKeyUpShortcutHandler, false);
     }
 

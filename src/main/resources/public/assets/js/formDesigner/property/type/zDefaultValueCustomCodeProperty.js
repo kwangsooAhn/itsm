@@ -198,11 +198,12 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
     // 커스텀 코드 데이터 select box 생성
     async makeCustomCodeData(UISelect, customCodeId, customCodeValue) {
         let customCodeDataOption = [];
-        let customCodeData = await aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
+        const response = await aliceJs.fetchJson('/rest/custom-codes/' + customCodeId, {
             method: 'GET'
         });
 
-        if (!zValidation.isEmpty(customCodeData)) {
+        if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
+            let customCodeData = response.data.data;
             for (let i = 0; i < customCodeData.length; i++) {
                 if (zValidation.isEmpty(customCodeData[i].name)) {
                     customCodeData[i].name = customCodeData[i].value;

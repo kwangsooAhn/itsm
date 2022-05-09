@@ -7,12 +7,13 @@
 package co.brainz.itsm.customCode.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Repository
 class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     CustomCodeRepositoryCustom {
 
-    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): QueryResults<CustomCodeListDto> {
+    override fun findByCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): PagingReturnDto {
         val customCode = QCustomCodeEntity.customCodeEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(customCode)
@@ -39,19 +40,20 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 )
             )
             .innerJoin(customCode.createUser, user)
-            .where(
-                super.eq(customCode.type, customCodeSearchCondition.searchType)
-            )
-            .where(
-                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchCondition.searchValue)
-            )
+            .where(builder(customCodeSearchCondition, customCode))
             .orderBy(customCode.customCodeName.asc())
         if (customCodeSearchCondition.isPaging) {
             query.limit(customCodeSearchCondition.contentNumPerPage)
             query.offset((customCodeSearchCondition.pageNum - 1) * customCodeSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        val countQuery = from(customCode)
+            .select(customCode.count())
+            .where(builder(customCodeSearchCondition, customCode))
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findByCustomCode(customCodeId: String): CustomCodeCoreDto {
@@ -75,17 +77,26 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 super.eq(customCode.customCodeId, customCodeId)
             )
 
-        val result = query.fetchResults()
+        val result = query.fetch()
         return CustomCodeCoreDto(
-            customCodeId = result.results[0].customCodeId,
-            customCodeName = result.results[0].customCodeName,
-            type = result.results[0].type,
-            targetTable = result.results[0].targetTable,
-            searchColumn = result.results[0].searchColumn,
-            valueColumn = result.results[0].valueColumn,
-            pCode = result.results[0].pCode,
-            condition = result.results[0].condition,
-            sessionKey = result.results[0].sessionKey
+            customCodeId = result[0].customCodeId,
+            customCodeName = result[0].customCodeName,
+            type = result[0].type,
+            targetTable = result[0].targetTable,
+            searchColumn = result[0].searchColumn,
+            valueColumn = result[0].valueColumn,
+            pCode = result[0].pCode,
+            condition = result[0].condition,
+            sessionKey = result[0].sessionKey
         )
+    }
+    private fun builder(customCodeSearchCondition: CustomCodeSearchCondition, customCode: QCustomCodeEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.eq(customCode.type, customCodeSearchCondition.searchType)
+        ).and(
+                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchCondition.searchValue)
+        )
+        return builder
     }
 }

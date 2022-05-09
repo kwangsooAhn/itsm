@@ -49,14 +49,14 @@
             <li class="z-card flex-column">
                 <div class="z-card-header align-center">
                     <div class="z-card-icon pb-4">
-                        <a href="/portals/downloads/search">
-                            <img class="z-img i-portal-download pointer" th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
+                        <a href="/portals/archives/search">
+                            <img class="z-img i-portal-archive pointer" th:src="@{/assets/media/images/portal/img_portal_archive.png}" width="120" height="120" alt="Download">
                         </a>
                     </div>
-                    <h3 th:text="#{menu.download.parent}"></h3>
+                    <h3 th:text="#{menu.archive.parent}"></h3>
                 </div>
                 <div class="z-card-list-summary">
-                    <table class="z-table z-card-table" id="download"></table>
+                    <table class="z-table z-card-table" id="archive"></table>
                 </div>
             </li>
         </ul>
@@ -94,37 +94,40 @@
         function initPortalTops(method, url) {
             aliceJs.fetchJson(url, {
                 method: method
-            }).then((dataList) => {
-                const tops = Object.entries(dataList);
-                tops.forEach(([topName, topData]) => {
-                    const topElement = document.getElementById(topName);
-                    for (let i = 0; i < topData.length; i++) {
-                        const data = topData[i];
-                        const row = document.createElement('tr');
-                        const cell = document.createElement('td');
-                        const contentAnchor = document.createElement('a');
-                        switch (topName) {
-                            case 'notice':
-                                contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
-                                break;
-                            case 'faq':
-                                contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
-                                break;
-                            case 'download':
-                                contentAnchor.href = '/portals/downloads/'+ data['id'] +'/view';
-                                break;
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    // 성공시 화면 초기화
+                    const tops = Object.entries(response.data);
+                    tops.forEach(([topName, topData]) => {
+                        const topElement = document.getElementById(topName);
+                        for (let i = 0; i < topData.length; i++) {
+                            const data = topData[i];
+                            const row = document.createElement('tr');
+                            const cell = document.createElement('td');
+                            const contentAnchor = document.createElement('a');
+                            switch (topName) {
+                                case 'notice':
+                                    contentAnchor.href = '/portals/notices/'+ data['id'] +'/view';
+                                    break;
+                                case 'faq':
+                                    contentAnchor.href = '/portals/faqs/' + data['id'] +'/view';
+                                    break;
+                                case 'archive':
+                                    contentAnchor.href = '/portals/archives/'+ data['id'] +'/view';
+                                    break;
+                            }
+                            let contentText = document.createElement('span');
+                            contentText.className = 'text-ellipsis';
+                            const contentAnchorText = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
+                            contentText.textContent = contentAnchorText;
+                            contentText.setAttribute('title', contentAnchorText);
+                            contentAnchor.appendChild(contentText);
+                            cell.appendChild(contentAnchor);
+                            row.appendChild(cell);
+                            topElement.appendChild(row);
                         }
-                        let contentText = document.createElement('span');
-                        contentText.className = 'text-ellipsis';
-                        const contentAnchorText = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
-                        contentText.textContent = contentAnchorText;
-                        contentText.setAttribute('title', contentAnchorText);
-                        contentAnchor.appendChild(contentText);
-                        cell.appendChild(contentAnchor);
-                        row.appendChild(cell);
-                        topElement.appendChild(row);
-                    }
-                });
+                    });
+                }
             });
         }
 
@@ -156,11 +159,11 @@
                 method: method
             }).then((response) => {
                 if (isScroll) {
-                    const dataList = JSON.parse(response);
-                    if (dataList.length > 0) {
+                    const responseJson = JSON.parse(response);
+                    if (responseJson.status === aliceJs.response.success && responseJson.data.length > 0) {
                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                             offsetCount = offsetCount + aliceJs.searchDataCount;
-                            dataList.forEach(function(data) {
+                            responseJson.data.forEach(function(data) {
                                 getDataTemplate(data);
                             });
                         }
@@ -245,8 +248,8 @@
                 aTitle.href = '/portals/notices/' + data.portalId + '/view';
             } else if (data.tableName === 'faq') {
                 aTitle.href = '/portals/faqs/' + data.portalId+ '/view';
-            } else if (data.tableName === 'download') {
-                aTitle.href = '/portals/downloads/'+ data.portalId +'/view';
+            } else if (data.tableName === 'archive') {
+                aTitle.href = '/portals/archives/'+ data.portalId +'/view';
             }
             aTitle.innerText = data.portalTitle;
             divTitle.appendChild(aTitle);
@@ -256,7 +259,7 @@
             divContentWrapper.className = 'z-card-item-content';
             const divContent = document.createElement('div');
             divContent.className = 'text-ellipsis';
-            if (data.tableName === 'download') {
+            if (data.tableName === 'archive') {
                 divContent.innerText = i18n.msg(''+data.portalContent+'');
             } else {
                 divContent.innerText = data.portalContent;

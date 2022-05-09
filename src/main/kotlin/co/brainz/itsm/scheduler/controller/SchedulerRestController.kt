@@ -12,7 +12,6 @@ import co.brainz.itsm.scheduler.service.SchedulerService
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -32,32 +31,38 @@ class SchedulerRestController(
      * Scheduler 등록.
      */
     @PostMapping("")
-    fun createScheduler(@RequestBody schedulerDto: SchedulerDto): String {
-        return schedulerService.insertScheduler(schedulerDto)
+    fun createScheduler(
+        @RequestBody schedulerDto: SchedulerDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(schedulerService.insertScheduler(schedulerDto))
     }
 
     /**
      * Scheduler 수정.
      */
     @PutMapping("/{taskId}")
-    fun updateScheduler(@RequestBody schedulerDto: SchedulerDto): String {
-        return schedulerService.updateScheduler(schedulerDto)
+    fun updateScheduler(
+        @RequestBody schedulerDto: SchedulerDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(schedulerService.updateScheduler(schedulerDto))
     }
 
     /**
      * Scheduler 삭제.
      */
     @DeleteMapping("/{taskId}")
-    fun deleteScheduler(@PathVariable taskId: String): String {
-        return schedulerService.deleteScheduler(taskId)
+    fun deleteScheduler(@PathVariable taskId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(schedulerService.deleteScheduler(taskId))
     }
 
     /**
      * Scheduler 즉시 실행.
      */
     @PostMapping("/{taskId}/execute")
-    fun immediateExecuteScheduler(@RequestBody schedulerDto: SchedulerDto): String {
-        return schedulerService.immediateExecuteScheduler(schedulerDto)
+    fun immediateExecuteScheduler(
+        @RequestBody schedulerDto: SchedulerDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(schedulerService.immediateExecuteScheduler(schedulerDto))
     }
 
 }

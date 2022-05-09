@@ -6,6 +6,8 @@
 package co.brainz.itsm.statistic.customReport.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.service.AliceTagService
 import co.brainz.framework.util.AlicePagingData
@@ -14,6 +16,7 @@ import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.ChartManagerFactory
 import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
+import co.brainz.itsm.statistic.customReport.dto.CustomReportListDto
 import co.brainz.itsm.statistic.customReport.dto.CustomReportListReturnDto
 import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
 import co.brainz.itsm.statistic.customReport.dto.ReportDto
@@ -23,6 +26,7 @@ import co.brainz.itsm.statistic.customReport.entity.ReportEntity
 import co.brainz.itsm.statistic.customReport.repository.CusmtomReportRepository
 import co.brainz.itsm.statistic.customReport.repository.CustomReportDataRepository
 import co.brainz.itsm.statistic.customReportTemplate.repository.CustomReportTemplateRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -46,14 +50,14 @@ class CustomReportService(
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getReportList(reportSearchCondition: ReportSearchCondition): CustomReportListReturnDto {
-        val queryResult = customReportRepository.getReportList(reportSearchCondition)
+        val pagingResult = customReportRepository.getReportList(reportSearchCondition)
         return CustomReportListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomReportListDto>>(){}),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customReportRepository.count(),
                 currentPageNum = reportSearchCondition.pageNum,
-                totalPageNum = Math.ceil(queryResult.total.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
+                totalPageNum = Math.ceil(pagingResult.totalCount.toDouble() / reportSearchCondition.contentNumPerPage.toDouble())
                     .toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
@@ -103,8 +107,9 @@ class CustomReportService(
     }
 
     @Transactional
-    fun saveReport(templateId: String): String {
-        var resultCode = CustomReportConstants.ReportCreateStatus.STATUS_SUCCESS.code
+    fun saveReport(templateId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
         // 스케줄러에 의해 실행되어 awf_report_data 에 저장하는 기능
         val templateEntity = customReportTemplateRepository.getOne(templateId)
 
@@ -148,10 +153,12 @@ class CustomReportService(
                 }
             }
         } catch (e: Exception) {
-            resultCode = CustomReportConstants.ReportCreateStatus.STAUTS_FAIL.code
+            status = ZResponseConstants.STATUS.ERROR_FAIL
             e.printStackTrace()
         }
 
-        return resultCode
+        return ZResponse(
+            status = status.code
+        )
     }
 }

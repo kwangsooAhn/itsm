@@ -130,13 +130,13 @@ class ZFormTokenTab {
 
         return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/history', {
             method: 'GET'
-        }).then((rtn) => {
-            if (rtn.length === 0) {
-                document.getElementById('history').insertAdjacentHTML('beforeend', this.makeNoDataFragment());
-            } else {
-                rtn.forEach((token) => {
+        }).then((response) => {
+            if (response.status === aliceJs.response.success && response.data.length > 0) {
+                response.data.forEach((token) => {
                     document.getElementById('history').insertAdjacentHTML('beforeend', this.makeHistoryFragment(token));
                 });
+            } else {
+                document.getElementById('history').insertAdjacentHTML('beforeend', this.makeNoDataFragment());
             }
         });
     }
@@ -177,20 +177,22 @@ class ZFormTokenTab {
         aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
             method: 'GET'
         }).then((response) => {
-            response.data.forEach((viewer) => {
-                this.viewerList.push({
-                    documentId: this.documentId,
-                    instanceId: this.instanceId,
-                    viewerKey: viewer.viewerKey,
-                    viewerName: viewer.viewerName,
-                    organizationName: viewer.organizationName,
-                    avatarPath: viewer.avatarPath,
-                    reviewYn: viewer.reviewYn,
-                    displayYn: viewer.displayYn,
-                    viewerType: DOCUMENT.VIEWER_TYPE.MODIFY
+            if (response.status === aliceJs.response.success && response.data.data.length > 0) {
+                response.data.data.forEach((viewer) => {
+                    this.viewerList.push({
+                        documentId: this.documentId,
+                        instanceId: this.instanceId,
+                        viewerKey: viewer.viewerKey,
+                        viewerName: viewer.viewerName,
+                        organizationName: viewer.organizationName,
+                        avatarPath: viewer.avatarPath,
+                        reviewYn: viewer.reviewYn,
+                        displayYn: viewer.displayYn,
+                        viewerType: DOCUMENT.VIEWER_TYPE.MODIFY
+                    });
+                    document.getElementById('viewer').insertAdjacentHTML('beforeend', this.makeViewerFragment(viewer));
                 });
-                document.getElementById('viewer').insertAdjacentHTML('beforeend', this.makeViewerFragment(viewer));
-            });
+            }
         });
     }
 
@@ -206,7 +208,7 @@ class ZFormTokenTab {
             `<td style="width: 52%;" class="align-left" title="${viewer.organizationName}">${viewer.organizationName}</td>` +
             `<td style="width: 15%;" class="align-center">` +
                 (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
-                `<button type="button" class="z-button-icon-sm" tabindex="-1" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
+                    `<button type="button" class="z-button-icon-sm" tabindex="-1" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
                     `<span class="z-icon i-remove"></span>` +
                 `</button>`) +
             `</td>` +
@@ -227,7 +229,7 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    if (this.viewerList.length === 0) {
+                    if (!this.viewerList.length) {
                         zAlert.warning(i18n.msg('token.msg.selectViewer'));
                         return false;
                     }
@@ -278,7 +280,7 @@ class ZFormTokenTab {
                         instanceId: this.instanceId,
                         documentId: this.documentId,
                         viewers: saveViewerData
-                    }
+                    };
                     this.saveViewer(data);
 
                     modal.hide();
@@ -293,9 +295,9 @@ class ZFormTokenTab {
             }],
             close: { closable: false },
             onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     this.getViewerList(e.target.value, false);
-                });
+                }), false);
                 this.getViewerList(document.getElementById('search').value, true);
             }
         });
@@ -330,10 +332,10 @@ class ZFormTokenTab {
                     }
                 }
             });
-            const checkboxList = viewerList.querySelectorAll('input[name=userName]')
+            const checkboxList = viewerList.querySelectorAll('input[name=userName]');
             checkboxList.forEach((checkbox) => {
                 checkbox.addEventListener('click', (e) => {
-                    if(e.target.checked) {
+                    if (e.target.checked) {
                         this.viewerList.push({
                             viewerKey: e.target.id,
                             reviewYn: false,
@@ -341,12 +343,12 @@ class ZFormTokenTab {
                             viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
                         });
                     } else {
-                       let removeIndex= this.viewerList.findIndex(function(key) {return key.viewerKey === e.target.id});
-                       if (removeIndex > -1) {
-                           this.viewerList.splice(removeIndex, 1);
-                       }
-                   }
-                })
+                        let removeIndex= this.viewerList.findIndex(function (key) {return key.viewerKey === e.target.id;});
+                        if (removeIndex > -1) {
+                            this.viewerList.splice(removeIndex, 1);
+                        }
+                    }
+                });
             });
         });
     }
@@ -362,8 +364,17 @@ class ZFormTokenTab {
             },
             body: JSON.stringify(data)
         }).then((response) => {
-            if (response.status === 200) {
-                this.reloadViewer();
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
+                        this.reloadViewer();
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
             }
         });
     }
@@ -377,16 +388,28 @@ class ZFormTokenTab {
             aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/' + viewerKey, {
                 method: 'DELETE'
             }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), () => {
+                            // 테이블 삭제
+                            const removeRow = document.getElementById('viewer' + viewerKey);
+                            const parent = document.getElementById('viewer');
+                            parent.removeChild(removeRow);
+                            // 데이터 삭제
+                            const findIndex = this.viewerList.findIndex(function (item) {
+                                return item.viewerKey === viewerKey;
+                            });
+                            this.viewerList.splice(findIndex, 1);
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
+                }
                 if (response.status === 200) {
-                    // 테이블 삭제
-                    const removeRow = document.getElementById('viewer' + viewerKey);
-                    const parent = document.getElementById('viewer');
-                    parent.removeChild(removeRow);
-                    // 데이터 삭제
-                    const findIndex = this.viewerList.findIndex(function (item) {
-                        return item.viewerKey === viewerKey;
-                    });
-                    this.viewerList.splice(findIndex, 1);
+
                 }
             });
         });
@@ -406,7 +429,7 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    if (this.relatedDocList.length === 0) {
+                    if (!this.relatedDocList.length) {
                         zAlert.warning(i18n.msg('token.msg.selectToken'));
                         return false;
                     }
@@ -425,9 +448,9 @@ class ZFormTokenTab {
                 closable: false,
             },
             onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', (e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     this.getRelatedDoc(e.target.value, false);
-                });
+                }), false);
                 this.getRelatedDoc(document.getElementById('search').value, true);
             }
         });
@@ -475,7 +498,7 @@ class ZFormTokenTab {
                             this.relatedDocList.splice(removeIndex, 1);
                         }
                     }
-                })
+                });
             });
         });
     }
@@ -486,24 +509,33 @@ class ZFormTokenTab {
         let data = {
             instanceId: this.instanceId,
             documentId: this.documentId
-        }
+        };
 
         data.folders = this.relatedDocList;
-        aliceJs.fetchText('/rest/folders', {
+        aliceJs.fetchJson('/rest/folders', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((result) => {
-            if (result !== '') {
-                this.folderId = result;
-                this.reloadRelatedInstance().then(() => {
-                    // 날짜 표기 변경
-                    this.setDateTimeFormat();
-                });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.save'),  () => {
+                        this.folderId = response.data.folderId;
+                        this.reloadRelatedInstance().then(() => {
+                            // 날짜 표기 변경
+                            this.setDateTimeFormat();
+                        });
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
-            this.relatedDocList = [] // 저장후 검색리스트 초기화
+            this.relatedDocList = [];// 저장후 검색리스트 초기화
         });
     }
     /**
@@ -513,15 +545,22 @@ class ZFormTokenTab {
      */
     removeRelatedDoc(folderId, instanceId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/folders/' + folderId + '/instances/' + instanceId, {
+            aliceJs.fetchJson('/rest/folders/' + folderId + '/instances/' + instanceId, {
                 method: 'DELETE'
-            }).then((rtn) => {
-                if (rtn === 'true') {
-                    zAlert.success(i18n.msg('common.msg.delete'), () => {
-                        if (document.getElementById('relatedDoc' + instanceId)) {
-                            document.getElementById('relatedDoc' + instanceId).remove();
-                        }
-                    });
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), () => {
+                            if (document.getElementById('relatedDoc' + instanceId)) {
+                                document.getElementById('relatedDoc' + instanceId).remove();
+                            }
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -546,9 +585,9 @@ class ZFormTokenTab {
 
         return aliceJs.fetchJson('/rest/folders/' + this.folderId, {
             method: 'GET'
-        }).then((rtn) => {
-            if (rtn) {
-                rtn.forEach((instance) => {
+        }).then((response) => {
+            if (response.status === aliceJs.response.success && response.data.length > 0) {
+                response.data.forEach((instance) => {
                     document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
                 });
                 // 날짜 표기 변경
@@ -581,7 +620,7 @@ class ZFormTokenTab {
             `</div>` +
             `<div class="z-document-row-topic">`;
         if (!zValidation.isEmpty(instance.topics)) {
-                htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
+            htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
         }
         htmlString +=
             `</div>` +
@@ -619,16 +658,25 @@ class ZFormTokenTab {
             documentId: this.documentId,
             commentValue: commentElem.value
         };
-        aliceJs.fetchText('/rest/instances/' + this.instanceId + '/comments', {
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(saveData)
-        }).then((rtn) => {
-            if (rtn === 'true') {
-                document.getElementById('commentValue').value = '';
-                this.reloadTokenComment();
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.save'),  () => {
+                        document.getElementById('commentValue').value = '';
+                        this.reloadTokenComment();
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
         });
     }
@@ -637,13 +685,20 @@ class ZFormTokenTab {
      */
     removeComment(commentId) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
-            aliceJs.fetchText('/rest/instances/' + this.instanceId + '/comments/' + commentId, {
+            aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments/' + commentId, {
                 method: 'DELETE'
-            }).then((rtn) => {
-                if (rtn === 'true') {
-                    zAlert.success(i18n.msg('common.msg.delete'), () => {
-                        document.getElementById('comment' + commentId).remove();
-                    });
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), () => {
+                            document.getElementById('comment' + commentId).remove();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -658,9 +713,9 @@ class ZFormTokenTab {
 
         return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments', {
             method: 'GET'
-        }).then((rtn) => {
-            if (rtn) {
-                rtn.forEach((comment) => {
+        }).then((response) => {
+            if (response.status === aliceJs.response.success && response.data.length > 0) {
+                response.data.forEach((comment) => {
                     document.querySelector('#tokenComments').lastElementChild.insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
                 });
             }
@@ -705,21 +760,20 @@ class ZFormTokenTab {
      ***************************************************************************************************************/
     reloadTokenTag() {
         return aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/tags', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+            method: 'GET'
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                document.getElementById('tokenTags').value = JSON.stringify(response.data);
+                new zTag(document.getElementById('tokenTags'), {
+                    suggestion: true,
+                    realtime: true,
+                    tagType: 'instance',
+                    targetId: this.instanceId,
+                    options: {
+                        documentId: this.documentId
+                    }
+                });
             }
-        }).then((rtn) => {
-            document.getElementById('tokenTags').value = JSON.stringify(rtn);
-            new zTag(document.getElementById('tokenTags'), {
-                suggestion: true,
-                realtime: true,
-                tagType: 'instance',
-                targetId: this.instanceId,
-                options: {
-                    documentId: this.documentId
-                }
-            });
         });
     }
 }

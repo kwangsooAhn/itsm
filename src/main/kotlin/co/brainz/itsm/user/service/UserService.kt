@@ -27,6 +27,8 @@ import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
 import co.brainz.framework.organization.service.OrganizationService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.framework.util.AliceMessageSource
@@ -51,6 +53,7 @@ import co.brainz.itsm.user.entity.UserCustomEntity
 import co.brainz.itsm.user.repository.UserCustomRepository
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -74,6 +77,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+
 /**
  * 사용자 관리 서비스
  */
@@ -156,7 +160,7 @@ class UserService(
         when (userSearchCompCondition.targetCriteria) {
             AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
                 val organization = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
-                val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition()).results
+                val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
                 val organizationNameList = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
                 organizationNameList.forEach { targetKeys.add(it) }
             }
@@ -177,21 +181,21 @@ class UserService(
      * 사용자 목록을 조회한다.
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
-        val queryResult = userRepository.findAliceUserEntityList(userSearchCondition)
-        val userList: MutableList<UserListDataDto> = mutableListOf()
-        for (user in queryResult.results) {
+        val pagingResult = userRepository.findAliceUserEntityList(userSearchCondition)
+        val totalCount = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID)
+        val userList: List<UserListDataDto> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<UserListDataDto>>() {})
+        userList.forEach { user ->
             val avatarPath = userDetailsService.makeAvatarPath(user)
             user.avatarPath = avatarPath
-            userList.add(user)
         }
 
         val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
-        queryResult.results.forEach { user ->
-            val organization = organizationList.results.firstOrNull { it.organizationId == user.groupId }
+        userList.forEach { user ->
+            val organization = organizationList.firstOrNull { it.organizationId == user.groupId }
             var organizationName = mutableListOf<String>()
             if (organization != null) {
                 if (organization.pOrganization != null) {
-                    organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
+                    organizationName = organizationService.getOrganizationParent(organization, organizationList, organizationName)
                 } else {
                     organizationName.add(organization.organizationName.toString())
                 }
@@ -202,10 +206,10 @@ class UserService(
         return UserListReturnDto(
             data = userList,
             paging = AlicePagingData(
-                totalCount = queryResult.total,
-                totalCountWithoutCondition = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID),
+                totalCount = pagingResult.totalCount,
+                totalCountWithoutCondition = totalCount,
                 currentPageNum = userSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / userSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / userSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -247,7 +251,7 @@ class UserService(
      * @param userEditType
      */
     @Transactional
-    fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
+    fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): ZResponse {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
             AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
@@ -304,13 +308,13 @@ class UserService(
                     true -> {
                         when (userEditType) {
                             AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code ->
-                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
+                                ZResponseConstants.STATUS.SUCCESS_EDIT.code
                             AliceUserConstants.UserEditType.SELF_USER_EDIT.code ->
-                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
-                            else -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                                ZResponseConstants.STATUS.SUCCESS.code
+                            else -> ZResponseConstants.STATUS.SUCCESS.code
                         }
                     }
-                    false -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
+                    false -> ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code
                 }
 
                 // 사용자 부재 설정
@@ -321,7 +325,29 @@ class UserService(
                 }
             }
         }
-        return code
+
+        if (userEditType == AliceUserConstants.UserEditType.SELF_USER_EDIT.code) {
+            when (code) {
+                ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code -> {
+                    aliceCertificationMailService.sendMail(
+                        userUpdateDto.userId,
+                        userUpdateDto.email!!,
+                        AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+                        null
+                    )
+                }
+                else -> aliceCertificationMailService.sendMail(
+                    userUpdateDto.userId,
+                    userUpdateDto.email!!,
+                    AliceUserConstants.SendMailStatus.UPDATE_USER.code,
+                    null
+                )
+            }
+        }
+
+        return ZResponse(
+            status = code
+        )
     }
 
     /**
@@ -343,7 +369,7 @@ class UserService(
                 }
             }
             !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
-                code = AliceUserConstants.UserEditStatus.STATUS_ERROR_SYSTEM_USER_NOT_EXIST.code
+                code = ZResponseConstants.STATUS.ERROR_NOT_EXIST.code
             }
         }
         return code
@@ -416,7 +442,7 @@ class UserService(
      * 사용자의 비밀번호를 초기화한다.
      */
     @Transactional
-    fun resetPassword(userKey: String, password: String): String {
+    fun resetPassword(userKey: String, password: String): ZResponse {
         val publicKey = aliceCryptoRsa.getPublicKey()
         val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
@@ -435,7 +461,9 @@ class UserService(
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
             password
         )
-        return AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
+        return ZResponse(
+            status = ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code
+        )
     }
 
     /**
@@ -480,7 +508,7 @@ class UserService(
     /**
      * 사용자 정의 색상 저장
      */
-    fun updateUserCustomColors(userCustomDto: UserCustomDto): Boolean {
+    fun updateUserCustomColors(userCustomDto: UserCustomDto): ZResponse {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userEntity = userDetailsService.selectUserKey(aliceUserDto.userKey)
         // 삭제
@@ -493,7 +521,7 @@ class UserService(
                 customValue = userCustomDto.customValue
             )
         )
-        return true
+        return ZResponse()
     }
 
     /**
@@ -525,7 +553,8 @@ class UserService(
      * 비밀번호 변경
      */
     @Transactional
-    fun updatePassword(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+    fun updatePassword(userUpdatePasswordDto: UserUpdatePasswordDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
@@ -534,28 +563,30 @@ class UserService(
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
 
         if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) { // 현재 비밀번호가 틀릴 경우
-            return UserConstants.UserUpdatePassword.NOT_EQUAL_NOW_PASSWORD.code
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
 
         if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) { // 새 비밀번호가 현재 비밀번호와 같을 경우
-            return UserConstants.UserUpdatePassword.SAME_AS_CURRENT_PASSWORD.code
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
 
         userEntity.password =
             BCryptPasswordEncoder().encode(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!))
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
-        return UserConstants.UserUpdatePassword.SUCCESS.code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 비밀번호 다음에 변경하기
      */
     @Transactional
-    fun extendExpiryDate(userUpdatePasswordDto: UserUpdatePasswordDto): Long {
+    fun extendExpiryDate(userUpdatePasswordDto: UserUpdatePasswordDto): ZResponse {
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
-        return UserConstants.UserUpdatePassword.SUCCESS.code
+        return ZResponse()
     }
 
     /**
@@ -588,7 +619,8 @@ class UserService(
      * 사용자 현재 문서 업무 대리인으로 변경
      */
     @Transactional
-    fun executeUserProcessingDocumentAbsence(absenceInfo: String): Boolean {
+    fun executeUserProcessingDocumentAbsence(absenceInfo: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         var isSuccess = false
         val absence = mapper.readValue(absenceInfo, Map::class.java)
         val fromUser = absence["userKey"].toString()
@@ -613,7 +645,12 @@ class UserService(
                 }
             }
         }
-        return isSuccess
+        if (!isSuccess) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -682,7 +719,7 @@ class UserService(
                 )
             )
         )
-        returnDto.results.forEach { result ->
+        returnDto.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
@@ -714,6 +751,6 @@ class UserService(
      * 조직에 속하 사용자 목록 조회
      */
     fun getUserListInOrganization(organizationIds: Set<String>): List<AliceUserEntity> {
-        return userRepository.getUserListInOrganization(organizationIds).results
+        return userRepository.getUserListInOrganization(organizationIds)
     }
 }

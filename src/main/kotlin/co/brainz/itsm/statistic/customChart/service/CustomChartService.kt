@@ -7,8 +7,8 @@
 package co.brainz.itsm.statistic.customChart.service
 
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.repository.AliceTagRepository
@@ -20,9 +20,11 @@ import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
+import co.brainz.itsm.statistic.customChart.dto.CustomChartListDto
 import co.brainz.itsm.statistic.customChart.dto.CustomChartListReturnDto
 import co.brainz.itsm.statistic.customChart.entity.ChartEntity
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -49,14 +51,14 @@ class CustomChartService(
      * 전체 사용자 정의 차트 조회
      */
     fun getCharts(chartSearchCondition: ChartSearchCondition): CustomChartListReturnDto {
-        val queryResult = customChartRepository.findChartList(chartSearchCondition)
+        val pagingResult = customChartRepository.findChartList(chartSearchCondition)
         return CustomChartListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomChartListDto>>() {}),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customChartRepository.count(),
                 currentPageNum = chartSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / chartSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / chartSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code,
                 orderColName = chartSearchCondition.orderColName,
                 orderDir = chartSearchCondition.orderDir
@@ -86,68 +88,77 @@ class CustomChartService(
     /**
      * 단일 사용자 정의 차트 조회
      */
-    fun getChartDetail(chartId: String): ChartDto {
-        val chart = customChartRepository.findChartEntityByChartId(chartId) ?: throw AliceException(
-            AliceErrorConstants.ERR_00005,
-            AliceErrorConstants.ERR_00005.message + "[Chart Entity]"
+    fun getChartDetail(chartId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val chart = customChartRepository.findChartEntityByChartId(chartId)
+        var chartDto: ChartDto? = null
+        if (chart != null) {
+            chartDto = ChartDto(
+                chartId = chart.chartId,
+                chartType = chart.chartType,
+                chartName = chart.chartName,
+                chartDesc = chart.chartDesc,
+                chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java)
+            )
+            chartDto.tags = aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, chart.chartId)
+            chartDto = chartManagerFactory.getChartManager(chart.chartType).getChart(chartDto)
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return ZResponse(
+            status = status.code,
+            data = chartDto
         )
-        val chartDto = ChartDto(
-            chartId = chart.chartId,
-            chartType = chart.chartType,
-            chartName = chart.chartName,
-            chartDesc = chart.chartDesc,
-            chartConfig = mapper.readValue(chart.chartConfig, ChartConfig::class.java)
-        )
-        chartDto.tags = aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CHART.code, chart.chartId)
-
-        return chartManagerFactory.getChartManager(chart.chartType).getChart(chartDto)
     }
 
     /**
      * 사용자 정의 차트 등록 / 수정
      */
     @Transactional
-    fun saveChart(chartDto: ChartDto): String {
+    fun saveChart(chartDto: ChartDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         if (customChartRepository.existsDuplicationData(chartDto)) {
-            return ChartConstants.Status.STATUS_ERROR_DUPLICATION.code
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            var chartEntity = ChartEntity(
+                chartId = chartDto.chartId,
+                chartType = chartDto.chartType,
+                chartName = chartDto.chartName,
+                chartDesc = chartDto.chartDesc,
+                chartConfig = mapper.writeValueAsString(chartDto.chartConfig)
+            )
+            chartEntity = customChartRepository.save(chartEntity)
 
-        var chartEntity = ChartEntity(
-            chartId = chartDto.chartId,
-            chartType = chartDto.chartType,
-            chartName = chartDto.chartName,
-            chartDesc = chartDto.chartDesc,
-            chartConfig = mapper.writeValueAsString(chartDto.chartConfig)
-        )
-        chartEntity = customChartRepository.save(chartEntity)
+            // tag save
+            aliceTagRepository.deleteByTargetId(AliceTagConstants.TagType.CHART.code, chartEntity.chartId)
+            aliceTagRepository.flush()
 
-        // tag save
-        aliceTagRepository.deleteByTargetId(AliceTagConstants.TagType.CHART.code, chartEntity.chartId)
-        aliceTagRepository.flush()
-
-        if (chartDto.tags.isNotEmpty()) {
-            chartDto.tags.forEach { tag ->
-                aliceTagManager.insertTag(
-                    AliceTagDto(
-                        tagType = AliceTagConstants.TagType.CHART.code,
-                        tagValue = tag.tagValue,
-                        targetId = chartEntity.chartId
+            if (chartDto.tags.isNotEmpty()) {
+                chartDto.tags.forEach { tag ->
+                    aliceTagManager.insertTag(
+                        AliceTagDto(
+                            tagType = AliceTagConstants.TagType.CHART.code,
+                            tagValue = tag.tagValue,
+                            targetId = chartEntity.chartId
+                        )
                     )
-                )
+                }
             }
         }
-        return ChartConstants.Status.STATUS_SUCCESS.code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 사용자 정의 차트 삭제
      */
     @Transactional
-    fun deleteChart(chartId: String): String {
-        val status = ChartConstants.Status.STATUS_SUCCESS.code
+    fun deleteChart(chartId: String): ZResponse {
         aliceTagRepository.deleteByTargetId(AliceTagConstants.TagType.CHART.code, chartId)
         customChartRepository.deleteById(chartId)
-        return status
+        return ZResponse()
     }
 
     /**

@@ -10,7 +10,7 @@ import co.brainz.cmdb.ciType.entity.CITypeEntity
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.dto.CITypeListDto
 import co.brainz.cmdb.dto.SearchDto
-import com.querydsl.core.QueryResults
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
@@ -41,7 +41,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
             .fetchOne()
     }
 
-    override fun findTypeList(searchDto: SearchDto): QueryResults<CITypeListDto> {
+    override fun findTypeList(searchDto: SearchDto): PagingReturnDto {
         val ciType = QCITypeEntity.cITypeEntity
         val query = from(ciType)
             .select(
@@ -60,8 +60,7 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.ciClass.className
                 )
             )
-            .rightJoin(ciType.pType, ciType).on(ciType.pType.typeId.eq(ciType.typeId))
-            .innerJoin(ciType.ciClass).fetchJoin()
+            .innerJoin(ciType.ciClass)
             .where(
                 super.likeIgnoreCase(
                     ciType.typeName, searchDto.search
@@ -74,10 +73,17 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
         if (searchDto.offset != null) {
             query.offset(searchDto.offset)
         }
-        return query.fetchResults()
+
+        val countQuery = from(ciType)
+            .select(ciType.count())
+            .where(super.likeIgnoreCase(ciType.typeName, searchDto.search))
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
-    override fun findByTypeList(search: String): QueryResults<CITypeEntity> {
+    override fun findByTypeList(search: String): List<CITypeEntity> {
         val ciType = QCITypeEntity.cITypeEntity
         return from(ciType)
             .select(ciType)
@@ -86,9 +92,8 @@ class CITypeRepositoryImpl : QuerydslRepositorySupport(CITypeEntity::class.java)
                     ciType.typeName, search
                 )
             )
-            .innerJoin(ciType.ciClass).fetchJoin()
             .orderBy(ciType.typeLevel.asc(), ciType.typeSeq.asc(), ciType.typeName.asc())
-            .fetchResults()
+            .fetch()
     }
 
     override fun findByCITypeAll(): List<CITypeEntity>? {

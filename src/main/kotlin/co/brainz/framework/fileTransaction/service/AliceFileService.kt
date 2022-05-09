@@ -18,6 +18,8 @@ import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceFileUtil
 import co.brainz.framework.util.CurrentSessionUser
 import java.io.File
@@ -172,7 +174,7 @@ class AliceFileService(
     /**
      * 파일관리 파일 업로드.
      */
-    fun uploadFiles(multipartFiles: List<MultipartFile>): Boolean {
+    fun uploadFiles(multipartFiles: List<MultipartFile>): ZResponse {
         val dir = super.getPath(FileConstants.Path.FILE.path)
         val extSet = mutableSetOf<String>()
         aliceFileProvider.getFileNameExtension().forEach {
@@ -191,7 +193,7 @@ class AliceFileService(
                 it.transferTo(file)
             }
         }
-        return true
+        return ZResponse()
     }
 
     /**
@@ -229,34 +231,42 @@ class AliceFileService(
     /**
      * 파일 삭제.
      */
-    fun deleteFile(name: String): Boolean {
+    fun deleteFile(name: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val dir = super.getPath(FileConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
-        return try {
+        try {
             Files.delete(filePath)
-            true
         } catch (e: IOException) {
-            false
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+            e.printStackTrace()
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 파일명 수정.
      */
-    fun renameFile(originName: String, modifyName: String): Boolean {
+    fun renameFile(originName: String, modifyName: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val dir = super.getPath(FileConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dir.toFile(), modifyName)
-        return if (file.exists() && !modifyFile.exists()) {
+        if (file.exists() && !modifyFile.exists()) {
             try {
                 file.renameTo(modifyFile)
             } catch (e: IOException) {
-                false
+                status = ZResponseConstants.STATUS.ERROR_FAIL
             }
         } else {
-            false
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

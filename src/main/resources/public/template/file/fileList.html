@@ -101,35 +101,37 @@
         aliceJs.fetchJson('/rest/files?' + urlParam, {
             method: 'GET',
             showProgressbar: true
-        }).then((fileList) => {
+        }).then((response) => {
+            if (response.status !== aliceJs.response.success) { return false; }
+
             if (creatable === 'true') {
                 addThumbnailUpload();
             }
             if (isScroll) {
                 if (aliceJs.isEnableScrollEvent(offsetCount)) {
                     offsetCount = offsetCount + aliceJs.fileOffsetCount;
-                    fileList.data.forEach(function (file) {
+                    response.data.data.forEach(function (file) {
                         addThumbnail(file);
                     });
                 }
             } else {
-                let count = JSON.stringify(fileList.totalCount)
+                let count = JSON.stringify(response.data.totalCount);
                 aliceJs.showTotalCount(count, 'totalCount');
                 document.getElementById('totalCount').value = count;
-                fileList.data.forEach(function (file) {
+                response.data.data.forEach(function (file) {
                     addThumbnail(file);
                 });
                 document.getElementById('spanTotalCountWithoutCondition').innerText =
                     i18n.msg(
                         'common.label.totalCountWithoutCondition',
-                        fileList.totalCountWithoutCondition
+                        response.data.totalCountWithoutCondition
                     );
             }
             if (updatable === 'false') {
                 document.querySelectorAll('label[name="updateLabel"]').forEach(function (updateLabel) {
                     updateLabel.ondblclick = function () {
                         return;
-                    }
+                    };
                 });
             }
             if (deletable === 'false') {
@@ -185,19 +187,24 @@
     // 파일 삭제
     function removeFile(imgObj) {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), function() {
-            aliceJs.fetchText('/rest/files/' + imgObj.dataset.name, {
-                method: 'delete',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then((rtn) => {
-                if (rtn === 'true') {
-                    zAlert.success(i18n.msg('common.msg.delete'));
-                    document.getElementById('thumbnailMain').removeChild(imgObj.parentNode.parentNode);
-                    let deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
-                    document.getElementById('totalCount').value = deleteAfterCount;
-                    aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
-                    aliceJs.showTotalCount(deleteAfterCount, 'spanTotalCountWithoutCondition');
+            aliceJs.fetchJson('/rest/files/' + imgObj.dataset.name, {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), () => {
+                            document.getElementById('thumbnailMain').removeChild(imgObj.parentNode.parentNode);
+                            let deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
+                            document.getElementById('totalCount').value = deleteAfterCount;
+                            aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
+                            aliceJs.showTotalCount(deleteAfterCount, 'spanTotalCountWithoutCondition');
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
                 }
             });
         });
@@ -222,18 +229,23 @@
             modifyName = e.target.value.trim() + '.' + extension;
         }
         if (name === modifyName) { return false; }
-        aliceJs.fetchText('/rest/files', {
+        aliceJs.fetchJson('/rest/files', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ originName: name, modifyName: modifyName })
-        }).then((rtn) => {
-            if (rtn === 'true') {
-                labelElem.textContent = modifyName;
-                labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
-            } else {
-                zAlert.warning(i18n.msg('file.msg.failedRename'));
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    labelElem.textContent = modifyName;
+                    labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
+                    break;
+                case aliceJs.response.error:
+                    zAlert.warning(i18n.msg('file.msg.failedRename'));
+                    break;
+                default :
+                    break;
             }
         });
     }

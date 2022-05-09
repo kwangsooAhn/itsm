@@ -44,9 +44,7 @@
         searchToDtElement.value = searchToDt;
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
-        document.getElementById('searchValue').addEventListener('keyup', function () {
-            getList();
-        });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
     };
 

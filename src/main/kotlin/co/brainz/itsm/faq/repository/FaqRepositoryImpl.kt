@@ -7,6 +7,7 @@
 package co.brainz.itsm.faq.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.faq.constants.FaqConstants
@@ -15,7 +16,7 @@ import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import com.querydsl.core.QueryResults
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -28,7 +29,7 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(faqSearchCondition: FaqSearchCondition): QueryResults<FaqListDto> {
+    override fun findFaqs(faqSearchCondition: FaqSearchCondition): PagingReturnDto {
         val faq = QFaqEntity.faqEntity
         val user = QAliceUserEntity.aliceUserEntity
         val code = QCodeEntity.codeEntity
@@ -52,17 +53,27 @@ class FaqRepositoryImpl(
             )
             .leftJoin(code).on(code.code.eq(faq.faqGroup))
             .innerJoin(faq.createUser, user)
-            .where(
-                super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
-                    ?.or(super.likeIgnoreCase(code.codeName, faqSearchCondition.searchValue))
-            ).orderBy(code.codeName.asc())
+            .where(builder(faqSearchCondition, faq))
+            .orderBy(code.codeName.asc())
 
+        if (faqSearchCondition.category?.isNotEmpty() == true) {
+            query.where(faq.faqGroup.eq(faqSearchCondition.category))
+        }
         if (faqSearchCondition.isPaging) {
             query.limit(faqSearchCondition.contentNumPerPage)
             query.offset((faqSearchCondition.pageNum - 1) * faqSearchCondition.contentNumPerPage)
         }
 
-        return query.fetchResults()
+        val countQuery = from(faq)
+            .select(faq.count())
+            .leftJoin(code).on(code.code.eq(faq.faqGroup))
+            .innerJoin(faq.createUser, user)
+            .where(builder(faqSearchCondition, faq))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findFaqTopList(limit: Long): List<PortalTopDto> {
@@ -104,5 +115,13 @@ class FaqRepositoryImpl(
             .innerJoin(faq.createUser, user)
             .where(faq.faqId.eq(faqId))
             .fetchOne()
+    }
+
+    private fun builder(faqSearchCondition: FaqSearchCondition, faq: QFaqEntity): BooleanBuilder {
+        val builder = BooleanBuilder()
+        builder.and(
+            super.likeIgnoreCase(faq.faqTitle, faqSearchCondition.searchValue)
+        )
+        return builder
     }
 }

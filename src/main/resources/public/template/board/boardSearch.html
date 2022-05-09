@@ -28,9 +28,9 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function() { getList(); });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
     };
 

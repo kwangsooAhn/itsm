@@ -10,6 +10,7 @@ import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.framework.querydsl.QuerydslConstants
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.framework.util.CurrentSessionUser
@@ -45,7 +46,6 @@ import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
@@ -82,7 +82,7 @@ class WfInstanceRepositoryImpl(
         status: List<String>?,
         tokenStatus: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto> {
+    ): PagingReturnDto {
 
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
@@ -183,7 +183,14 @@ class WfInstanceRepositoryImpl(
             query.limit(tokenSearchCondition.contentNumPerPage)
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+
+        val countQuery = countQuery(tokenSearchCondition.tagArray)
+            .where(builder)
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     /**
@@ -224,7 +231,7 @@ class WfInstanceRepositoryImpl(
         return query
     }
 
-    override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): QueryResults<WfInstanceListViewDto> {
+    override fun findRequestedInstances(tokenSearchCondition: TokenSearchCondition): PagingReturnDto {
         val tokenSub = QWfTokenEntity("tokenSub")
         val startDtSubToken = QWfTokenEntity.wfTokenEntity
         val builder = getInstancesWhereCondition(
@@ -261,13 +268,20 @@ class WfInstanceRepositoryImpl(
             query.limit(tokenSearchCondition.contentNumPerPage)
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+
+        val countQuery = countQuery(tokenSearchCondition.tagArray)
+            .where(builder)
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findRelationInstances(
         status: List<String>?,
         tokenSearchCondition: TokenSearchCondition
-    ): QueryResults<WfInstanceListViewDto> {
+    ): PagingReturnDto {
 
         val tokenSub = QWfTokenEntity("tokenSub")
         val startDtSubToken = QWfTokenEntity.wfTokenEntity
@@ -320,7 +334,14 @@ class WfInstanceRepositoryImpl(
             query.limit(tokenSearchCondition.contentNumPerPage)
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
-        return query.fetchResults()
+
+        val countQuery = countQuery(tokenSearchCondition.tagArray)
+            .where(builder)
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
     }
 
     override fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto> {
@@ -644,5 +665,37 @@ class WfInstanceRepositoryImpl(
      */
     private fun hasDocumentViewAuth(): Boolean {
         return currentSessionUser.getAuth().contains(AuthConstants.AuthType.DOCUMENT_VIEW.value)
+    }
+
+    /**
+     *  검색 문서 카운트 함수 생성
+     */
+    private fun countQuery(tags: List<String>): JPQLQuery<Long> {
+        val countQuery = from(token)
+            .select(token.count())
+            .innerJoin(instance).on(token.instance.eq(instance))
+            .fetchJoin()
+            .innerJoin(document).on(instance.document.eq(document))
+            .fetchJoin()
+            .leftJoin(user).on(token.assigneeId.eq(user.userKey))
+            .fetchJoin()
+            .leftJoin(code).on(document.documentGroup.eq(code.code))
+            .fetchJoin()
+        if (tags.isNotEmpty()) {
+            countQuery.where(
+                instance.instanceId.`in`(
+                    JPAExpressions
+                        .select(tag.targetId)
+                        .from(tag)
+                        .where(
+                            (tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code))
+                                .and(tag.tagValue.toLowerCase().`in`(tags))
+                        )
+                )
+            )
+                .fetchJoin()
+        }
+
+        return countQuery
     }
 }

@@ -12,6 +12,8 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.specification.OrganizationCustomCodeSpecification
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.entity.CodeEntity
@@ -22,6 +24,7 @@ import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeConditionDto
 import co.brainz.itsm.customCode.dto.CustomCodeCoreDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
+import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeListReturnDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchCondition
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
@@ -41,6 +44,7 @@ import co.brainz.itsm.role.specification.RoleCustomCodeSpecification
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.specification.UserCustomCodeSpecification
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -69,6 +73,7 @@ class CustomCodeService(
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
     private val customCodeTableMapper: CustomCodeTableMapper = Mappers.getMapper(CustomCodeTableMapper::class.java)
     private val customCodeColumnMapper: CustomCodeColumnMapper = Mappers.getMapper(CustomCodeColumnMapper::class.java)
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * 사용자 정의 코드 리스트 조회.
@@ -76,14 +81,14 @@ class CustomCodeService(
      * @return MutableList<CustomCodeDto>
      */
     fun getCustomCodeList(customCodeSearchCondition: CustomCodeSearchCondition): CustomCodeListReturnDto {
-        val queryResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
+        val pagingResult = customCodeRepository.findByCustomCodeList(customCodeSearchCondition)
         return CustomCodeListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<MutableList<CustomCodeListDto>> () {}),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customCodeRepository.count(),
                 currentPageNum = customCodeSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / customCodeSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -122,34 +127,39 @@ class CustomCodeService(
      * 사용자 정의 코드 저장(등록/수정).
      *
      * @param customCodeDto
-     * @return String
      */
     @Transactional
-    fun saveCustomCode(customCodeDto: CustomCodeDto): String {
-        var code = customCodeEditValid(customCodeDto)
-        when (code) {
+    fun saveCustomCode(customCodeDto: CustomCodeDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        when (customCodeEditValid(customCodeDto)) {
             CustomCodeConstants.Status.STATUS_VALID_SUCCESS.code -> {
                 customCodeRepository.save(customCodeMapper.toCustomCodeEntity(customCodeDto))
-                code = CustomCodeConstants.Status.STATUS_SUCCESS.code
+            }
+            else -> {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
             }
         }
-        return code
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 사용자 정의 코드 삭제.
      *
      * @param customCodeId
-     * @return String
      */
     @Transactional
-    fun deleteCustomCode(customCodeId: String): String {
-        return if (getUsedCustomCodeIdList().contains(customCodeId)) {
-            CustomCodeConstants.Status.STATUS_ERROR_CUSTOM_CODE_USED.code
+    fun deleteCustomCode(customCodeId: String): ZResponse {
+        val status = if (getUsedCustomCodeIdList().contains(customCodeId)) {
+            ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             customCodeRepository.deleteById(customCodeId)
-            CustomCodeConstants.Status.STATUS_SUCCESS.code
+            ZResponseConstants.STATUS.SUCCESS
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -193,9 +203,9 @@ class CustomCodeService(
     fun getCustomCodeData(customCodeId: String): CustomCodeTreeReturnDto {
         val customCode = customCodeRepository.findByCustomCode(customCodeId)
         return if (customCode.type == CustomCodeConstants.Type.TABLE.code) {
-            getTableTypeData(customCode)
+            this.getTableTypeData(customCode)
         } else {
-            getCodeTypeData(customCode)
+            this.getCodeTypeData(customCode)
         }
     }
 
@@ -279,9 +289,8 @@ class CustomCodeService(
      */
     fun getTableTypeData(customCode: CustomCodeCoreDto): CustomCodeTreeReturnDto {
         var customDataList = mutableListOf<CustomCodeTreeDto>()
-        var dataList = mutableListOf<Any>()
         val condition = jsonToArrayByCondition(customCode.condition)
-        val sort = Sort(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
+        val sort = Sort.by(Sort.Direction.ASC, toCamelCase(customCode.searchColumn!!))
         when (customCode.targetTable) {
             CustomCodeConstants.TableName.ROLE.code -> {
                 val roleList = roleRepository.findAll(RoleCustomCodeSpecification(condition), sort).toMutableList()

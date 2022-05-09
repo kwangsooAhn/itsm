@@ -11,9 +11,10 @@ import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.dto.CodeReturnDto
@@ -26,7 +27,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.querydsl.core.QueryResults
 import javax.transaction.Transactional
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.ResponseEntity
@@ -86,13 +86,13 @@ class CodeService(
      */
     fun getCodeList(search: String, pCode: String): CodeReturnDto {
         val treeCodeList = mutableListOf<CodeDto>()
-        val queryResults: QueryResults<CodeEntity>
+        val pagingResult: List<CodeEntity>
         var returnList = emptyList<CodeEntity>()
         var count = 0L
         when (search.isEmpty()) {
             true -> {
-                queryResults = codeRepository.findByCodeAll()
-                val allList = queryResults.results
+                pagingResult = codeRepository.findByCodeAll()
+                val allList = pagingResult
                 val codeSearchList = mutableListOf<CodeEntity>()
                 if (pCode.isNotEmpty()) {
                     val codeList = mutableListOf<CodeEntity>()
@@ -109,10 +109,10 @@ class CodeService(
                 returnList = codeSearchList
             }
             false -> {
-                queryResults = codeRepository.findByCodeList(search, pCode)
-                var codeSearchList = queryResults.results
+                pagingResult = codeRepository.findByCodeList(search, pCode)
+                var codeSearchList = pagingResult
                 val pCodeList = mutableListOf<CodeEntity>()
-                for (code in queryResults.results) {
+                for (code in pagingResult) {
                     var tempCode = code.pCode
                     do {
                         if (tempCode != null) {
@@ -122,10 +122,10 @@ class CodeService(
                     } while (tempCode != null)
                 }
                 if (pCodeList.isNotEmpty()) {
-                    codeSearchList.addAll(pCodeList)
+                    codeSearchList += pCodeList
                     codeSearchList = codeSearchList.distinct()
                 }
-                count = queryResults.total
+                count = pagingResult.size.toLong()
                 returnList = codeSearchList
             }
         }
@@ -172,8 +172,8 @@ class CodeService(
      * 코드 데이터 저장
      */
     @Transactional
-    fun createCode(codeDetailDto: CodeDetailDto): String {
-        var status = CodeConstants.Status.STATUS_SUCCESS.code
+    fun createCode(codeDetailDto: CodeDetailDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val codeEntity = CodeEntity(
             code = codeDetailDto.code,
             pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
@@ -186,9 +186,9 @@ class CodeService(
         )
 
         if (codeRepository.existsByCode(codeDetailDto.code)) {
-            status = CodeConstants.Status.STATUS_ERROR_CODE_DUPLICATION.code
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         } else if (!codeRepository.existsByCode(codeDetailDto.pCode!!) && codeDetailDto.pCode != "") {
-            status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         } else {
             if (!codeDetailDto.pCode.isNullOrEmpty()) {
                 val pCodeEntity = codeRepository.findCodeDetail(codeDetailDto.pCode!!)
@@ -213,15 +213,17 @@ class CodeService(
             }
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 코드 데이터 수정
      */
     @Transactional
-    fun updateCode(codeDetailDto: CodeDetailDto): String {
-        var status = CodeConstants.Status.STATUS_SUCCESS_EDIT_CODE.code
+    fun updateCode(codeDetailDto: CodeDetailDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val codeEntity = CodeEntity(
             code = codeDetailDto.code,
             pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
@@ -245,7 +247,7 @@ class CodeService(
                 codeRepository.save(codeEntity)
             }
             false -> {
-                status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
+                status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
             }
         }
 
@@ -272,17 +274,18 @@ class CodeService(
             }
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 코드 데이터 삭제
      */
     @Transactional
-    fun deleteCode(code: String): String {
-        var status = CodeConstants.Status.STATUS_SUCCESS.code
+    fun deleteCode(code: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val codeLangList = codeLangRepository.findByCodeLangList(code)
-
         if (codeLangList.isNotEmpty()) {
             for (codeLangDto in codeLangList) {
                 codeLangRepository.deleteById(
@@ -290,25 +293,22 @@ class CodeService(
                 )
             }
         }
-
         when (codeRepository.existsByPCodeAndEditableTrue(
             codeRepository.findById(code).orElse(CodeEntity(code = code))
         )) {
-            true -> {
-                status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_USED.code
-            }
-            false -> {
-                codeRepository.deleteById(code)
-            }
+            true -> status = ZResponseConstants.STATUS.ERROR_EXIST
+            false -> codeRepository.deleteById(code)
         }
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 부모코드로 자식코드를 찾는다.
      */
     private fun getChildCode(
-        allList: MutableList<CodeEntity>,
+        allList: List<CodeEntity>,
         pCodeEntity: CodeEntity,
         codeList: MutableList<CodeEntity>
     ) {

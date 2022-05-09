@@ -31,7 +31,9 @@
             aliceJs.fetchJson('/rest/organizations/' + ZSession.get('department'), {
                 method: 'GET'
             }).then((response) => {
-                ZSession.add('departmentName', response.data.organizationName);
+                if (response.status === aliceJs.response.success) {
+                    ZSession.add('departmentName', response.data.organizationName);
+                }
             });
         }
 
@@ -43,9 +45,7 @@
         window.addEventListener('load', (e) => {
             document.getElementById('searchDocuments').focus();
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
-                search.addEventListener('keyup', () => {
-                    documentSearches(false);
-                });
+                search.addEventListener('keyup', aliceJs.debounce (() => documentSearches()), false);
             });
             documentSearches(false);
 

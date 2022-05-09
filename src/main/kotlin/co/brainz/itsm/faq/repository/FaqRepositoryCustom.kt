@@ -7,17 +7,17 @@
 package co.brainz.itsm.faq.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.portal.dto.PortalTopDto
-import com.querydsl.core.QueryResults
 
 interface FaqRepositoryCustom : AliceRepositoryCustom {
 
     /**
      * FAQ 목록을 조회한다.
      */
-    fun findFaqs(faqSearchCondition: FaqSearchCondition): QueryResults<FaqListDto>
+    fun findFaqs(faqSearchCondition: FaqSearchCondition): PagingReturnDto
 
     /**
      * Portal FAQ 목록 조회 (갯수).

@@ -10,9 +10,9 @@ object NumberingPatternConstants {
      * 패턴 편집 상태.
      */
     enum class Status(val code: String) {
-        STATUS_SUCCESS("0"),
-        STATUS_ERROR_PATTERN_USED("1"),
-        STATUS_ERROR_DUPLICATE_PATTERN_NAME("2")
+        STATUS_SUCCESS("Z-0000"),
+        STATUS_ERROR_PATTERN_USED("E-0004"),
+        STATUS_ERROR_DUPLICATE_PATTERN_NAME("E-0001")
     }
 
     /**

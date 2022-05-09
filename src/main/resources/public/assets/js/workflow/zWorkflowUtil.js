@@ -11,13 +11,13 @@ const ZWorkflowUtil = {};
  *
  * @returns {string} UUID
  */
-ZWorkflowUtil.generateUUID = function() {
+ZWorkflowUtil.generateUUID = function () {
     let d = new Date().getTime(); //Timestamp
     //Time in microseconds since page-load or 0 if unsupported
     let d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
-    return 'axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function(c) {
+    return 'axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function (c) {
         let r = Math.random() * 16;//random number between 0 and 16
-        if(d > 0){ //Use timestamp until depleted
+        if (d > 0) { //Use timestamp until depleted
             r = (d + r) % 16 | 0;
             d = Math.floor(d / 16);
         } else { //Use microseconds since page-load if supported
@@ -35,7 +35,7 @@ ZWorkflowUtil.generateUUID = function() {
  * @param obj2 비교 대상 JSON 데이터 2
  * @return {boolean} 데이터 일치 여부 (true: 일치, false: 불일치)
  */
-ZWorkflowUtil.compareJson = function(obj1, obj2) {
+ZWorkflowUtil.compareJson = function (obj1, obj2) {
     if (obj1 === null && obj2 === null) {
         return true;
     } else if (obj1 === null || obj2 === null) {
@@ -43,11 +43,11 @@ ZWorkflowUtil.compareJson = function(obj1, obj2) {
     } else if (typeof obj1 === 'boolean' && typeof obj2 === 'boolean') {
         return (obj1 === obj2);
     }
-    if (!Object.keys(obj2).every(function(key) { return Object.prototype.hasOwnProperty.call(obj1, key); })) {
+    if (!Object.keys(obj2).every(function (key) { return Object.prototype.hasOwnProperty.call(obj1, key); })) {
         return false;
     }
 
-    return Object.keys(obj1).every(function(key) {
+    return Object.keys(obj1).every(function (key) {
         if ((typeof obj1[key] === 'object') && (typeof obj2[key] === 'object')) {
             return ZWorkflowUtil.compareJson(obj1[key], obj2[key]);
         } else {
@@ -59,7 +59,7 @@ ZWorkflowUtil.compareJson = function(obj1, obj2) {
 /**
  * polyfill.
  */
-ZWorkflowUtil.polyfill = function() {
+ZWorkflowUtil.polyfill = function () {
     if (!Math.hypot) {
         Math.hypot = function (x, y) {
             // https://bugzilla.mozilla.org/show_bug.cgi?id=896264#c28
@@ -85,9 +85,9 @@ ZWorkflowUtil.polyfill = function() {
  * @return {string} XML 문자열
  */
 ZWorkflowUtil.NULL_CHECK_TYPE = ['group', 'tags'];
-ZWorkflowUtil.objectToXML = function(data) {
+ZWorkflowUtil.objectToXML = function (data) {
     let xml = '';
-    Object.keys(data).forEach(function(key) {
+    Object.keys(data).forEach(function (key) {
         // id는 속성으로 처리하고 나머지는 엘리먼트로 처리한다.
         if (key === 'id') { return; }
         xml += Array.isArray(data[key]) ? '' : '<' + key + '>';
@@ -104,7 +104,7 @@ ZWorkflowUtil.objectToXML = function(data) {
                 xml += '</' + key + '>';
             });
             // 빈 배열일 경우에도 태그 추가
-            if (data[key].length === 0) {
+            if (!data[key].length) {
                 if (ZWorkflowUtil.NULL_CHECK_TYPE.includes(key)) {
                     xml += '<' + key + '></' + key + '>';
                 } else {
@@ -131,7 +131,7 @@ ZWorkflowUtil.objectToXML = function(data) {
  * @param version workflow version
  * @return {string} XML 문자열
  */
-ZWorkflowUtil.createFormXMLString = function(formData, version) {
+ZWorkflowUtil.createFormXMLString = function (formData, version) {
     const serializer = new XMLSerializer();
     const xmlDoc = document.implementation.createDocument('', '', null);
     // 세부 정보
@@ -153,7 +153,7 @@ ZWorkflowUtil.createFormXMLString = function(formData, version) {
  * @param version workflow version
  * @return {string} XML 문자열
  */
-ZWorkflowUtil.createProcessXMLString = function(processData, version) {
+ZWorkflowUtil.createProcessXMLString = function (processData, version) {
     const xmlDoc = document.implementation.createDocument('', '', null);
     let definitions = xmlDoc.createElement('definitions');
     let process = xmlDoc.createElement('process');
@@ -163,14 +163,14 @@ ZWorkflowUtil.createProcessXMLString = function(processData, version) {
     process.setAttribute('description', processData.process.description);
 
     const elements = processData.elements;
-    elements.forEach(function(element) {
+    elements.forEach(function (element) {
         let elementNode = xmlDoc.createElement(element.type);
         elementNode.setAttribute('id', element.id);
         elementNode.setAttribute('name', element.name);
         elementNode.setAttribute('notification', element.notification);
         elementNode.setAttribute('description', element.description);
         let keys = Object.keys(element.data);
-        keys.forEach(function(key) {
+        keys.forEach(function (key) {
             let attributeNode = xmlDoc.createElement(key);
             if (element.data[key]) {
                 if (Array.isArray(element.data[key])) {
@@ -188,7 +188,7 @@ ZWorkflowUtil.createProcessXMLString = function(processData, version) {
     definitions.appendChild(process);
 
     let diagram = xmlDoc.createElement('diagram');
-    elements.forEach(function(element) {
+    elements.forEach(function (element) {
         let elementTagName = 'shape';
         if (element.type === 'arrowConnector') {
             elementTagName = 'connector';
@@ -196,7 +196,7 @@ ZWorkflowUtil.createProcessXMLString = function(processData, version) {
         let elementNode = xmlDoc.createElement(elementTagName);
         elementNode.setAttribute('id', element.id);
         let keys = Object.keys(element.display);
-        keys.forEach(function(key) {
+        keys.forEach(function (key) {
             elementNode.setAttribute(key, element.display[key]);
         });
         diagram.appendChild(elementNode);
@@ -237,7 +237,7 @@ ZWorkflowUtil.createDocumentXMLString = function (workflowData, version) {
     process.setAttribute('name', workflowData.process.name);
     process.setAttribute('description', workflowData.process.description);
     const diagram = xmlDoc.createElement('diagram');
-    workflowData.elements.forEach(function(element) {
+    workflowData.elements.forEach(function (element) {
         // 프로세스 엘리먼트
         const elementNode = xmlDoc.createElement(element.type);
         elementNode.setAttribute('id', element.id);
@@ -245,7 +245,7 @@ ZWorkflowUtil.createDocumentXMLString = function (workflowData, version) {
         elementNode.setAttribute('notification', element.notification);
         elementNode.setAttribute('description', element.description);
         const keys = Object.keys(element.data);
-        keys.forEach(function(key) {
+        keys.forEach(function (key) {
             const attributeNode = xmlDoc.createElement(key);
             if (element.data[key]) {
                 if (Array.isArray(element.data[key])) {
@@ -264,7 +264,7 @@ ZWorkflowUtil.createDocumentXMLString = function (workflowData, version) {
         const diagramNode = xmlDoc.createElement(diagramTagName);
         diagramNode.setAttribute('id', element.id);
         const diagramKeys = Object.keys(element.display);
-        diagramKeys.forEach(function(key) {
+        diagramKeys.forEach(function (key) {
             diagramNode.setAttribute(key, element.display[key]);
         });
         diagram.appendChild(diagramNode);
@@ -293,7 +293,7 @@ ZWorkflowUtil.createDocumentXMLString = function (workflowData, version) {
  * @param suffix 구분자
  * @param xmlString XML string
  */
-ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
+ZWorkflowUtil.downloadXML = function (id, suffix, xmlString) {
     const fileName = suffix + '_' + id + '.xml';
     let pom = document.createElement('a');
     let bb = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], {type: 'text/plain'});
@@ -311,31 +311,41 @@ ZWorkflowUtil.downloadXML = function(id, suffix, xmlString) {
  * @param url 경로
  * @param type form/process/workflow
  */
-ZWorkflowUtil.export = async function(id, url, type) {
+ZWorkflowUtil.export = async function (id, url, type) {
     // 버전 정보
     const version = await aliceJs.fetchJson('/rest/codes/version.workflow', { method: 'GET' });
-    
+    if (version.status === aliceJs.response.error) {
+        zAlert.danger(i18n.msg('code.msg.codeNotExist'), 'version.workflow');
+        return false;
+    }
+
     // XML 추출
     aliceJs.fetchJson(url, {
         method: 'GET'
-    }).then((data) => {
-        if (Object.prototype.hasOwnProperty.call(data, 'error')) {
-            zAlert.danger(i18n.msg('form.msg.failedExport'));
-            return false;
+    }).then((response) => {
+        switch (response.status) {
+            case aliceJs.response.success:
+                let xmlString = '';
+                switch (type) {
+                    case 'form':
+                        xmlString = ZWorkflowUtil.createFormXMLString(response.data, version.data.codeValue);
+                        break;
+                    case 'process':
+                        xmlString = ZWorkflowUtil.createProcessXMLString(response.data, version.data.codeValue);
+                        break;
+                    case 'workflow':
+                        xmlString = ZWorkflowUtil.createDocumentXMLString(response.data, version.data.codeValue);
+                        break;
+                }
+                ZWorkflowUtil.downloadXML(id, type, xmlString);
+                break;
+            case aliceJs.response.error:
+                const exportTarget = (type === 'workflow') ? 'workflowAdmin' : type;
+                zAlert.danger(i18n.msg('common.msg.failedExport'), i18n.msg(exportTarget + '.label.exportTarget'));
+                break;
+            default:
+                break;
         }
-        let xmlString = '';
-        switch (type) {
-            case 'form':
-                xmlString = ZWorkflowUtil.createFormXMLString(data, version.codeValue);
-                break;
-            case 'process':
-                xmlString = ZWorkflowUtil.createProcessXMLString(data, version.codeValue);
-                break;
-            case 'workflow':
-                xmlString = ZWorkflowUtil.createDocumentXMLString(data, version.codeValue);
-                break;
-        }
-        ZWorkflowUtil.downloadXML(id, type, xmlString);
     });
 };
 
@@ -345,7 +355,7 @@ ZWorkflowUtil.export = async function(id, url, type) {
  * @param parsedDocument
  * @return {boolean} 파싱오류 여부
  */
-ZWorkflowUtil.isParseError = function(parsedDocument) {
+ZWorkflowUtil.isParseError = function (parsedDocument) {
     let parser = new DOMParser(),
         errorneousParse = parser.parseFromString('<', 'text/xml'),
         parsererrorNS = errorneousParse.getElementsByTagName('parsererror')[0].namespaceURI;
@@ -360,23 +370,23 @@ ZWorkflowUtil.isParseError = function(parsedDocument) {
  *
  * @param processData 프로세스 데이터
  */
-ZWorkflowUtil.addRequiredProcessAttribute = function(processData) {
+ZWorkflowUtil.addRequiredProcessAttribute = function (processData) {
     aliceJs.fetchJson('/assets/js/process/elementAttribute.json', {
         method: 'GET'
     }).then((elementAttributes) => {
         const elementsKeys = Object.getOwnPropertyNames(elementAttributes),
             elements = processData.elements;
-        elements.forEach(function(element) {
+        elements.forEach(function (element) {
             let requiredDataArr = [];
             for (let j = 0, keyLen = elementsKeys.length; j < keyLen; j++) {
-                let elementTypeData = elementAttributes[elementsKeys[j]].filter(function(e) {
+                let elementTypeData = elementAttributes[elementsKeys[j]].filter(function (e) {
                     return e.type === element.type;
                 });
                 if (elementTypeData.length) {
                     let attributeList = elementTypeData[0].attribute;
-                    attributeList.forEach(function(attr) {
+                    attributeList.forEach(function (attr) {
                         let items = attr.items;
-                        items.forEach(function(item) {
+                        items.forEach(function (item) {
                             if (item.required === 'Y') { requiredDataArr.push(item.id); }
                         });
                     });
@@ -397,7 +407,7 @@ ZWorkflowUtil.addRequiredProcessAttribute = function(processData) {
  * @return string 데이터
  */
 ZWorkflowUtil.FORM_ARRARY_TYPE = ['group', 'row', 'component', 'tags', 'options', 'columns'];
-ZWorkflowUtil.XMLToObject = function(data) {
+ZWorkflowUtil.XMLToObject = function (data) {
     if (data.nodeType === Node.ELEMENT_NODE) { // element
         let obj = {};
         if (data.attributes.length > 0) { // 속성 정보도 object 데이터로 추가한다.
@@ -473,7 +483,7 @@ ZWorkflowUtil.loadFormFromXML = function (xmlDoc, xPath) {
  * @param xPath xPath
  * @return {{elements: []}}
  */
-ZWorkflowUtil.loadProcessFromXML = function(xmlDoc, xPath) {
+ZWorkflowUtil.loadProcessFromXML = function (xmlDoc, xPath) {
     let processData = {elements: []};
     //프로세스의 XML 구조는 데이터를 담당하는 process와 element 위치 정보를 담는 diagram으로 나뉜다.
     let processNode = xmlDoc.evaluate(xPath + 'process', xmlDoc, null, XPathResult.ANY_UNORDERED_NODE_TYPE, null);
@@ -527,7 +537,7 @@ ZWorkflowUtil.loadProcessFromXML = function(xmlDoc, xPath) {
                                 let valueArr = attr.nodeValue.split(',');
                                 if (valueArr.length > 1) {
                                     let valueNumberArr = [];
-                                    valueArr.forEach(function(val, index) {
+                                    valueArr.forEach(function (val, index) {
                                         valueNumberArr[index] = Number(val);
                                     });
                                     elementData.display[attr.nodeName] = valueNumberArr;
@@ -601,13 +611,13 @@ ZWorkflowUtil.loadWorkFlowFromXML = function (xmlDoc, userData) {
  * @param type form/process
  * @param callbackFunc IMPORT 처리 후 호출될 function
  */
-ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
+ZWorkflowUtil.import = function (xmlFile, data, type, callbackFunc) {
     try {
         const reader = new FileReader();
-        reader.addEventListener('load', function(e) {
+        reader.addEventListener('load', function (e) {
             let saveData = {};
             let saveUrl = '';
-            let result = false;
+            let result = { status: '', message: '', data: null };
             if (type === xmlFile.name.split('_')[0]) {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(e.target.result, 'text/xml');
@@ -633,7 +643,7 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                         break;
                     default: //none
                 }
-                aliceJs.fetchText(saveUrl, {
+                aliceJs.fetchJson(saveUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -641,14 +651,9 @@ ZWorkflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     showProgressbar: true,
                     body: JSON.stringify(saveData)
                 }).then((response) => {
-                    // TODO: 추후 response 구조 통일 후 if else 없앨 예정
+                    result = response;
                     if (type === 'process') {
-                        let resultToJson = JSON.parse(response);
-                        result = resultToJson.result;
-                    } else if (type === 'workflow') {
-                        result =  JSON.parse(response);
-                    } else {
-                        result = response;
+                        result.data = response.data.result;
                     }
 
                     if (typeof callbackFunc === 'function') {

@@ -5,14 +5,13 @@
 
 package co.brainz.itsm.role.repository
 
-import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.dto.RoleSearchCondition
-import com.querydsl.core.QueryResults
 
 interface RoleRepositoryCustom : AliceRepositoryCustom {
-    fun findRoleSearch(roleSearchCondition: RoleSearchCondition): QueryResults<RoleListDto>
+    fun findRoleSearch(roleSearchCondition: RoleSearchCondition): PagingReturnDto
 
     fun findByRoleAll() : MutableList<RoleListDto>
 }

@@ -28,9 +28,9 @@
         <!-- 목록 화면 -->
         <div class="z-page-column-item flex-column flex-col-9">
             <div class="z-page-search">
-                <form id="searchFrm">
+                <form id="searchFrm" onsubmit="return false">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
-                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}" onKeyup="getList()"/>
+                           maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}"/>
                     <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch" name="btnDetailSearch"
                             onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
                     <input type="hidden" id="flag" name="flag" value="itsm"/>
@@ -51,7 +51,9 @@
                 </div>
             </div>
             <div class="z-page-list p-0">
-                <div class="z-list-content flex-row" id="ciList"></div>
+                <div class="z-list-content flex-row" id="ciList">
+                    <div class="no-data-text"><span th:text="#{common.msg.noData}"></span></div>
+                </div>
             </div>
             <div class="z-page-paging" style="visibility: hidden">
                 <a href="" id="pagingStartArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-start-arrow"></span></a>
@@ -72,6 +74,8 @@
         let tempSearchData = null;
         let importFile;
         window.onload = function () {
+            document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
+
             getTree();
 
             OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
@@ -99,7 +103,7 @@
                     // 전체 선택
                     document.getElementById('treeList').querySelector('.node').click();
                 },
-                selectedNode: function(response) {
+                selectedNode: function (response) {
                     document.getElementById('treeTypeId').value = response.id;
                     document.getElementById('treeTypeName').value = response.textContent;
                     // 버튼 색상 초기화
@@ -121,7 +125,7 @@
             let detailSearchData = { searchItems: [] };
             if (searchData) {
                 detailSearchData.searchItems = searchData.map((item) => {
-                    return { attributeId: item.attributeId, searchValue: item.searchValue }
+                    return { attributeId: item.attributeId, searchValue: item.searchValue };
                 });
             }
             const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum
@@ -152,7 +156,7 @@
             // 상세 검색 데이터가 없을 경우에는 버튼을 비활성화.
             const btnDetailSearch = document.getElementById('btnDetailSearch');
             if (btnDetailSearch) {
-                btnDetailSearch.disabled = (data === null || data.length === 0);
+                btnDetailSearch.disabled = (data === null || !data.length);
             }
         }
         /**
@@ -345,7 +349,7 @@
             let detailSearchData = { searchItems: [] };
             if (searchData) {
                 detailSearchData.searchItems = searchData.map((item) => {
-                    return { attributeId: item.attributeId, searchValue: item.searchValue }
+                    return { attributeId: item.attributeId, searchValue: item.searchValue };
                 });
             }
             const urlParam = aliceJs.serialize(document.getElementById('searchFrm'))
@@ -378,7 +382,7 @@
          * 템플릿 다운로드
          */
         function onTemplateDownload() {
-            const urlParam = 'typeId=' + document.getElementById('treeTypeId').value
+            const urlParam = 'typeId=' + document.getElementById('treeTypeId').value;
             // 다운로드 되는 파일은 “IT자산 템플릿-[CI유형명]-20220214”와 같은 형식의 이름을 가진다.
             const typeName = document.getElementById('treeTypeName').value;
             let excelFileName = i18n.msg('cmdb.ci.label.ciTemplate') + '-' + typeName + '-' + new Date().toISOString().substring(0, 10).replace(/-/g, '');
@@ -416,17 +420,19 @@
                 showProgressBar: true
             }).then((response) => {
                 // 성공시 페이지 새로 고침
-                zAlert.success(i18n.msg('common.msg.save'), function () {
-                    location.reload();
-                    return true;
-                });
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                        location.reload();
+                        return true;
+                    });
+                }
             });
         }
         /**
          * 템플릿 업로드 모달 오픈
          */
         function openTemplateUploadModal() {
-            const createTemplateUploadContent = function() {
+            const createTemplateUploadContent = function () {
                 return `<div class="import-main flex-column">` +
                     `<div class="file-uploader-edit">` +
                     `<label class="file-uploader-title field-label">${i18n.msg('cmdb.ci.label.importFile')}<span class="required"></span></label>` +
@@ -445,18 +451,18 @@
                         content: i18n.msg('cmdb.ci.btn.import'),
                         classes: 'z-button primary',
                         bindKey: false,
-                        callback: function(modal) {
+                        callback: function (modal) {
                             if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
                                 zAlert.warning(i18n.msg('cmdb.ci.msg.selectImportFile'));
                                 return false;
                             }
                             importTemplate();
                         }
-                    },{
+                    }, {
                         content: i18n.msg('common.btn.cancel'),
                         classes: 'z-button secondary',
                         bindKey: false,
-                        callback: function(modal) {
+                        callback: function (modal) {
                             modal.hide();
                         }
                     }
@@ -464,7 +470,7 @@
                 close: {
                     closable: false,
                 },
-                onCreate: function(modal) {
+                onCreate: function (modal) {
                     // 파일 업로드 추가
                     zFileUploader.init({
                         formId: 'importForm',
@@ -523,7 +529,7 @@
                     }
                 });
                 ciDetailModal.show();
-            })
+            });
         }
 
         /**
@@ -567,16 +573,16 @@
                     }
                 }],
                 close: { closable: false },
-                onCreate: function() {
+                onCreate: function () {
                     // 기존 선택된 값 할당
                     if (target.getAttribute('data-user-search') !== '') {
                         const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
                             `${target.value}|${target.getAttribute('data-user-id')}`;
                         target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
                     }
-                    document.getElementById('search').addEventListener('keyup', (e) => {
+                    document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                         getUserList(target, e.target.value, false);
-                    });
+                    }), false);
                     getUserList(target, document.getElementById('search').value, true);
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                 }
@@ -653,7 +659,7 @@
     <script type="module">
         import ZPaging from '../../../assets/js/lib/zPaging.js';
         const zPagingManager = {
-            load: function() {
+            load: function () {
                 if (typeof this.zPaging === 'undefined') {
                     this.zPaging = new ZPaging();
                 }

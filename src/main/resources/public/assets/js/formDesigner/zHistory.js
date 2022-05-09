@@ -32,7 +32,7 @@ export default class ZHistory {
      * @param flag redo 목록 유지할지 여부 : false이면 redo 목록을 비운다.
      */
     save(data, list, flag) {
-        if (data.length === 0) { return false; }
+        if (!data.length) { return false; }
         if (data.length === 1 && ZWorkflowUtil.compareJson(data[0].from, data[0].to)) {
             return false;
         }
@@ -77,7 +77,7 @@ export default class ZHistory {
             historiesData.reverse();
         }
         historiesData.forEach((data) => {
-            switch(data.type) {
+            switch (data.type) {
                 case 'add':
                     const toParent = this.editor.form.getById(data.to.id);
                     if (type === 'redo') { // 복제한 객체를 다시 추가

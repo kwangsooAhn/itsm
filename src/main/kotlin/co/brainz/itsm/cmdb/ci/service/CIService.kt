@@ -19,16 +19,17 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDynamicListDto
 import co.brainz.cmdb.dto.CIDynamicReturnDto
 import co.brainz.cmdb.dto.CIHistoryDto
-import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIListReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CISearchItem
+import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.tag.service.AliceTagManager
@@ -122,9 +123,10 @@ class CIService(
      */
     fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): CIDynamicReturnDto {
         ciSearchCondition.isPaging = false
-        val ciList = ciRepository.findCIList(ciSearchCondition)
+        val dataList = ciRepository.findCIList(ciSearchCondition)
+        val ciList: List<CIsDto> = mapper.convertValue(dataList.dataList, object : TypeReference<List<CIsDto>> () {})
         // 공통 출력 데이터 조회
-        var basic = ciSearchService.getBasic(ciList.results)
+        var basic = ciSearchService.getBasic(ciList)
         // 옵션 출력 데이터 조회
         val dynamic = ciSearchCondition.typeId?.let {
             ciSearchService.getDynamic(it, basic, searchItemsData, ciSearchCondition.isExcel)
@@ -137,8 +139,6 @@ class CIService(
         basic.contents = ciSearchService.getConvertValue(basic)
         // 정렬
         basic.contents = ciSearchService.getOrderContents(basic, ciSearchCondition)
-        // 페이징
-        val totalCount = basic.contents.size
         if (!ciSearchCondition.isExcel) {
             basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
         }
@@ -146,22 +146,15 @@ class CIService(
         return CIDynamicReturnDto(
             data = basic,
             paging = AlicePagingData(
-                totalCount = totalCount.toLong(),
-                totalCountWithoutCondition = ciSearchCondition.typeId?.let { ciRepository.countByTypeId(it) } ?: 0,
+                totalCount =  dataList.totalCount,
+                totalCountWithoutCondition = ciRepository.count(),
                 currentPageNum = ciSearchCondition.pageNum,
-                totalPageNum = ceil(totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(dataList.totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code,
                 orderColName = ciSearchCondition.orderColName,
                 orderDir = ciSearchCondition.orderDir
             )
         )
-    }
-
-    /**
-     * CMDB CI 전체 목록 조회
-     */
-    fun getCIList(): List<CIListDto> {
-        return ciService.getCIList()
     }
 
     /**
@@ -291,7 +284,7 @@ class CIService(
     /**
      * CI 컴포넌트 -  CI 세부 데이터 저장.
      */
-    fun saveCIComponentData(ciId: String, ciComponentVO: RequestCIComponentVO): Boolean {
+    fun saveCIComponentData(ciId: String, ciComponentVO: RequestCIComponentVO): ZResponse {
         // 기존 CI 삭제
         val deleteCIComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(
             ciId, ciComponentVO.componentId
@@ -309,19 +302,19 @@ class CIService(
             instanceId = ciComponentVO.instanceId
         )
         ciComponentDataRepository.save(ciComponentEntity)
-        return true
+
+        return ZResponse()
     }
 
     /**
      * CI 컴포넌트 - CI 세부 데이터 삭제.
      */
-    fun deleteCIComponentData(ciId: String, componentId: String): Boolean {
+    fun deleteCIComponentData(ciId: String, componentId: String): ZResponse {
         val ciComponentEntity = ciComponentDataRepository.findByCiIdAndComponentId(ciId, componentId)
         if (ciComponentEntity != null) {
             ciComponentDataRepository.deleteByCiIdAndComponentId(ciId, componentId)
-            return true
         }
-        return false
+        return ZResponse()
     }
 
     /**

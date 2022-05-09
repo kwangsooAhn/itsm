@@ -7,6 +7,8 @@
 package co.brainz.itsm.numberingPattern.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternDetailDto
@@ -16,6 +18,10 @@ import co.brainz.itsm.numberingPattern.dto.NumberingPatternListReturnDto
 import co.brainz.itsm.numberingPattern.dto.NumberingPatternSearchCondition
 import co.brainz.itsm.numberingPattern.entity.NumberingPatternEntity
 import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlin.math.ceil
@@ -27,20 +33,21 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class NumberingPatternService(private val numberingPatternRepository: NumberingPatternRepository) {
 
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
      * 패턴 리스트 조회
      */
     fun getNumberingPatternList(numberingPatternSearchCondition: NumberingPatternSearchCondition): NumberingPatternListReturnDto {
-        val queryResult = numberingPatternRepository.findPatternSearch(numberingPatternSearchCondition)
+        val pagingResult = numberingPatternRepository.findPatternSearch(numberingPatternSearchCondition)
         return NumberingPatternListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = numberingPatternRepository.count(),
                 currentPageNum = numberingPatternSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -70,8 +77,8 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
      * 패턴 정보 등록
      */
     @Transactional
-    fun insertNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
-        var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
+    fun insertNumberingPattern(numberingPatternDto: NumberingPatternDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val patternEntity = NumberingPatternEntity(
             patternId = numberingPatternDto.patternId,
             patternName = numberingPatternDto.patternName,
@@ -81,22 +88,24 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
 
         when (numberingPatternRepository.existsByPatternName(patternEntity.patternName)) {
             true -> {
-                status = NumberingPatternConstants.Status.STATUS_ERROR_DUPLICATE_PATTERN_NAME.code
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
             false -> {
                 numberingPatternRepository.save(patternEntity)
             }
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 패턴 정보 수정
      */
     @Transactional
-    fun updateNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
-        var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
+    fun updateNumberingPattern(numberingPatternDto: NumberingPatternDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val numberingPatternEntity = NumberingPatternEntity(
             patternId = numberingPatternDto.patternId,
             patternName = numberingPatternDto.patternName,
@@ -105,7 +114,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
         )
         when (numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
             true -> {
-                status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
+                status = ZResponseConstants.STATUS.ERROR_EXIST
             }
             false -> {
                 val existsPattern = numberingPatternRepository.getOne(numberingPatternEntity.patternId)
@@ -114,7 +123,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
                     numberingPatternRepository.save(numberingPatternEntity)
                 } else {
                     if (numberingPatternRepository.existsByPatternName(numberingPatternEntity.patternName)) {
-                        status = NumberingPatternConstants.Status.STATUS_ERROR_DUPLICATE_PATTERN_NAME.code
+                        status = ZResponseConstants.STATUS.ERROR_DUPLICATE
                     } else {
                         numberingPatternRepository.save(numberingPatternEntity)
                     }
@@ -122,26 +131,30 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             }
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 패턴 정보 삭제
      */
     @Transactional
-    fun deleteNumberingPattern(patternId: String): String {
-        var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
+    fun deleteNumberingPattern(patternId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
 
         // 패턴 삭제 가능 여부 확인
         when (numberingPatternRepository.getOne(patternId).numberingRulePatternMapEntities.size > 0) {
             true -> {
-                status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
+                status = ZResponseConstants.STATUS.ERROR_EXIST
             }
             false -> {
                 numberingPatternRepository.deleteById(patternId)
             }
         }
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**

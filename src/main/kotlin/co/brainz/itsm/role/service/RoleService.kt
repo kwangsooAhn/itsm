@@ -22,6 +22,8 @@ import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.organization.entity.OrganizationRoleMapEntity
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.role.dto.RoleDto
@@ -30,6 +32,10 @@ import co.brainz.itsm.role.dto.RoleListReturnDto
 import co.brainz.itsm.role.dto.RoleSearchCondition
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.repository.UserRepository
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.http.ResponseEntity
@@ -46,15 +52,18 @@ class RoleService(
     private val userRepository: UserRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository
 ) {
+
+    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     /**
      * 상단 전체 역할정보를 가져온다.
      */
     fun selectRoleList(): RoleListReturnDto {
         val roleList = roleRepository.findRoleSearch(RoleSearchCondition(""))
         return RoleListReturnDto(
-            data = roleList.results,
+            data = mapper.convertValue(roleList.dataList, object : TypeReference<List<RoleListDto>>() {}),
             paging = AlicePagingData(
-                totalCount = roleList.total,
+                totalCount = roleList.totalCount,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = 0L,
                 totalPageNum = 0L,
@@ -74,25 +83,28 @@ class RoleService(
      * 역할 삭제 한다.
      */
     @Transactional
-    fun deleteRole(roleId: String): String {
+    fun deleteRole(roleId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         val roleInfo = roleRepository.findByRoleId(roleId)
         val userRoleMapCount = userRoleMapRepository.findByRole(roleInfo).count()
-        return if (userRoleMapCount == 0) {
+        if (userRoleMapCount == 0) {
             roleInfo.roleAuthMapEntities.forEach { roleAuthMap ->
                 roleAuthMapRepository.deleteById(AliceRoleAuthMapPk(roleInfo.roleId, roleAuthMap.auth.authId))
             }
             roleRepository.deleteById(roleId)
-            "true"
         } else {
-            "false"
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 역할 정보 등록 한다.
      */
     @Transactional
-    fun insertRole(roleInfo: RoleDto): String {
+    fun insertRole(roleInfo: RoleDto): ZResponse {
         val role = AliceRoleEntity(
             roleId = roleInfo.roleId.toString(),
             roleName = roleInfo.roleName.toString(),
@@ -103,15 +115,14 @@ class RoleService(
         authRepository.findByAuthIdIn(roleInfo.arrAuthId!!).forEach { auth ->
             roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
-
-        return result.roleId
+        return ZResponse()
     }
 
     /**
      * 역할 정보 수정 한다.
      */
     @Transactional
-    fun updateRole(roleInfo: RoleDto): String {
+    fun updateRole(roleInfo: RoleDto): ZResponse {
         val role = AliceRoleEntity(
             roleId = roleInfo.roleId.toString(),
             roleName = roleInfo.roleName.toString(),
@@ -126,7 +137,7 @@ class RoleService(
             roleAuthMapRepository.save(AliceRoleAuthMapEntity(role, auth))
         }
 
-        return result.roleId
+        return ZResponse()
     }
 
     /**
@@ -157,15 +168,15 @@ class RoleService(
      * 역할 목록을 조회 (검색어 포함).
      */
     fun getRoleSearchList(roleSearchCondition: RoleSearchCondition): RoleListReturnDto {
-        val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
+        val pagingResult = roleRepository.findRoleSearch(roleSearchCondition)
 
         return RoleListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<RoleListDto>>() {}),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = roleRepository.count(),
                 currentPageNum = roleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / roleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
@@ -200,7 +211,7 @@ class RoleService(
      * 역할 목록 Excel 다운로드
      */
     fun getRoleListExcelDownload(roleSearchCondition: RoleSearchCondition): ResponseEntity<ByteArray> {
-        val queryResult = roleRepository.findRoleSearch(roleSearchCondition)
+        val roleList: List<RoleListDto> = mapper.convertValue(roleRepository.findRoleSearch(roleSearchCondition).dataList, object : TypeReference<List<RoleListDto>>() {})
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
@@ -216,7 +227,7 @@ class RoleService(
                 )
             )
         )
-        queryResult.results.forEach { result ->
+        roleList.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
                     cells = mutableListOf(
@@ -267,7 +278,7 @@ class RoleService(
         var isExist = roleIds?.contains(AliceConstants.SYSTEM_ROLE) ?: false
         // 현재 데이터에 시스템 관리자가 역할이 존재할 경우 조직에 사용자가 존재하는지 체크
         if (isExist) {
-            if (userRepository.getUserListInOrganization(setOf(organizationId)).results.isNullOrEmpty()) {
+            if (userRepository.getUserListInOrganization(setOf(organizationId)).isNullOrEmpty()) {
                 isExist = false
             }
         }
@@ -314,7 +325,7 @@ class RoleService(
             }
         }
         if (organizationIds.isNotEmpty()) {
-            val organizationUserList = userRepository.getUserListInOrganization(organizationIds).results
+            val organizationUserList = userRepository.getUserListInOrganization(organizationIds)
             if (organizationUserList.isNotEmpty()) {
                 isExist = true
             }

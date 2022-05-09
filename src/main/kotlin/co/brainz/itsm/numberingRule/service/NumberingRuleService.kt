@@ -7,11 +7,12 @@
 package co.brainz.itsm.numberingRule.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.numberingPattern.constants.NumberingPatternConstants
 import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
-import co.brainz.itsm.numberingRule.constants.NumberingRuleConstants
 import co.brainz.itsm.numberingRule.dto.NumberingPatternMapDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDetailDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDto
@@ -26,6 +27,7 @@ import co.brainz.workflow.document.service.WfDocumentService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
@@ -70,14 +72,14 @@ class NumberingRuleService(
      * 문서번호 리스트 조회
      */
     fun getNumberingRuleList(numberingRuleSearchCondition: NumberingRuleSearchCondition): NumberingRuleListReturnDto {
-        val queryResult = numberingRuleRepository.findRuleSearch(numberingRuleSearchCondition)
+        val pagingResult = numberingRuleRepository.findRuleSearch(numberingRuleSearchCondition)
         return NumberingRuleListReturnDto(
-            data = queryResult.results,
+            data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
-                totalCount = queryResult.total,
+                totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = numberingRuleRepository.count(),
                 currentPageNum = numberingRuleSearchCondition.pageNum,
-                totalPageNum = ceil(queryResult.total.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
@@ -122,8 +124,8 @@ class NumberingRuleService(
      * 문서 번호 등록, 수정
      */
     @Transactional
-    fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): String {
-        var status = NumberingRuleConstants.Status.STATUS_ERROR_DUPLICATION.code
+    fun saveNumberingRule(numberingRuleDto: NumberingRuleDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
         var count = 0
 
         // Duplicate check
@@ -151,27 +153,31 @@ class NumberingRuleService(
                 )
                 count++
             }
-
-            status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
 
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
      * 문서 번호 삭제
      */
     @Transactional
-    fun deleteNumberingRule(numberingId: String): String {
-        var status = NumberingRuleConstants.Status.STATUS_SUCCESS.code
+    fun deleteNumberingRule(numberingId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
 
         // 1. 업무흐름에 해당 문서번호가 사용중인지 체크
         val documentList = wfDocumentService.getDocumentListByNumberingId(numberingId)
         when (documentList.isNullOrEmpty()) {
             true -> numberingRuleRepository.deleteById(numberingId)
-            false -> status = NumberingRuleConstants.Status.STATUS_ERROR_RULE_USED.code
+            false -> status = ZResponseConstants.STATUS.ERROR_EXIST
         }
-        return status
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -338,8 +344,8 @@ class NumberingRuleService(
             numberingRuleDto.patternList,
             numberingRuleDto.numberingId
         )
-        if (numberingRulePatternMapResult.results.isNotEmpty()) {
-            val numberingGrouping = numberingRulePatternMapResult.results.groupBy { it.numberingRule }
+        if (numberingRulePatternMapResult.isNotEmpty()) {
+            val numberingGrouping = numberingRulePatternMapResult.groupBy { it.numberingRule }
             for (numbering in numberingGrouping) {
                 var order = 0
                 val numberingGroupingList = numbering.value

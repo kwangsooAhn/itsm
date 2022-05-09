@@ -6,11 +6,13 @@
 
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
-import co.brainz.cmdb.dto.CIAttributeReturnDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
 import co.brainz.itsm.cmdb.ciAttribute.service.CIAttributeService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -30,16 +32,18 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
      * CI Attribute 목록 조회.
      */
     @GetMapping("")
-    fun getCIAttributes(ciAttributeSearchCondition: CIAttributeSearchCondition): CIAttributeReturnDto {
-        return ciAttributeService.getCIAttributes(ciAttributeSearchCondition)
+    fun getCIAttributes(
+        ciAttributeSearchCondition: CIAttributeSearchCondition
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciAttributeService.getCIAttributes(ciAttributeSearchCondition))
     }
 
     /**
      * CI Attribute 등록.
      */
     @PostMapping("")
-    fun createCIAttribute(@RequestBody attributeData: String): String {
-        return ciAttributeService.saveCIAttribute(attributeData)
+    fun createCIAttribute(@RequestBody attributeData: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciAttributeService.saveCIAttribute(attributeData))
     }
 
     /**
@@ -49,15 +53,17 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
     fun updateCIAttribute(
         @PathVariable attributeId: String,
         @RequestBody attributeData: String
-    ): String {
-        return ciAttributeService.updateCIAttribute(attributeId, attributeData)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            ciAttributeService.updateCIAttribute(attributeId, attributeData)
+        )
     }
 
     /**
      * CI Attribute 삭제.
      */
     @DeleteMapping("/{attributeId}")
-    fun deleteAttribute(@PathVariable attributeId: String): String {
-        return ciAttributeService.deleteCIAttribute(attributeId)
+    fun deleteAttribute(@PathVariable attributeId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciAttributeService.deleteCIAttribute(attributeId))
     }
 }

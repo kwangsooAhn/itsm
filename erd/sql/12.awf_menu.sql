@@ -25,7 +25,7 @@ insert into awf_menu values ('token', 'menu', '/tokens/search', 2, 'TRUE');
 insert into awf_menu values ('document', 'menu', '/documents/search', 3, 'TRUE');
 insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
-insert into awf_menu values ('download', 'menu', '/downloads/search', 6, 'TRUE');
+insert into awf_menu values ('archive', 'menu', '/archives/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
 insert into awf_menu values ('statistic', 'menu', '', 8, 'TRUE');
 insert into awf_menu values ('workflow', 'menu', '', 9, 'TRUE');

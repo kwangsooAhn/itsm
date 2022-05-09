@@ -9,6 +9,8 @@ package co.brainz.api.cmdb.ci.controller
 import co.brainz.api.ApiUtil
 import co.brainz.api.cmdb.ci.service.ApiCIService
 import co.brainz.cmdb.dto.CIDto
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -35,8 +37,8 @@ class ApiCIController(
     @GetMapping("")
     fun getCIs(
         request: HttpServletRequest
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiCIService.getCIs(super.setRequestToParam(request)))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIService.getCIs(super.setRequestToParam(request)))
     }
 
     /**
@@ -46,8 +48,8 @@ class ApiCIController(
     fun getCI(
         request: HttpServletRequest,
         @PathVariable ciId: String
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiCIService.getCI(ciId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIService.getCI(ciId))
     }
 
     /**
@@ -57,8 +59,8 @@ class ApiCIController(
     fun getCIDetail(
         request: HttpServletRequest,
         @PathVariable ciId: String
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiCIService.getCIDetail(ciId))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIService.getCIDetail(ciId))
     }
 
     /**
@@ -68,8 +70,8 @@ class ApiCIController(
     fun createCI(
         request: HttpServletRequest,
         @RequestBody ciDto: CIDto
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiCIService.createCI(ciDto))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIService.createCI(ciDto))
     }
 
     /**
@@ -80,8 +82,8 @@ class ApiCIController(
         request: HttpServletRequest,
         @PathVariable ciId: String,
         @RequestBody ciDto: CIDto
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiCIService.updateCI(ciId, ciDto))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiCIService.updateCI(ciId, ciDto))
     }
 
     /**
@@ -92,7 +94,9 @@ class ApiCIController(
         request: HttpServletRequest,
         @PathVariable ciId: String,
         @RequestBody ciDto: CIDto
-    ): ResponseEntity<*> {
-        return super.responseValue(request, apiCIService.deleteCI(ciId, ciDto))
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            apiCIService.deleteCI(ciId, ciDto)
+        )
     }
 }

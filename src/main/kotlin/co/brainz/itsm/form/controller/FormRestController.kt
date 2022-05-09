@@ -4,8 +4,11 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+
 package co.brainz.itsm.form.controller
 
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.form.service.FormService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
@@ -14,6 +17,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -32,22 +36,20 @@ class FormRestController(private val formService: FormService) {
      * 문서양식 일반정보 조회
      *
      * @param formId
-     * @return RestTemplateFormDto
      */
     @GetMapping("/{formId}")
-    fun getForm(@PathVariable formId: String): RestTemplateFormDto {
-        return formService.getForm(formId)
+    fun getForm(@PathVariable formId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.getForm(formId))
     }
 
     /**
      * 문서양식 전체 데이터 조회.
      *
      * @param formId
-     * @return RestTemplateFormDataDto
      */
     @GetMapping("/{formId}/data")
-    fun getFormData(@PathVariable formId: String): RestTemplateFormDataDto {
-        return formService.getFormData(formId)
+    fun getFormData(@PathVariable formId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.getFormData(formId))
     }
 
     /**
@@ -55,19 +57,18 @@ class FormRestController(private val formService: FormService) {
      *
      * @param saveType
      * @param formData
-     * @return String
      */
     @PostMapping("")
     fun createForm(
         @RequestParam(value = "saveType", defaultValue = "") saveType: String,
         @RequestBody formData: RestTemplateFormDataDto
-    ): String {
+    ): ResponseEntity<ZResponse> {
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
             WorkflowConstants.FormSaveType.SAVE_AS.code ->
-                formService.saveAsForm(formData)
-            else -> formService.createForm(formData)
+                ZAliceResponse.response(formService.saveAsForm(formData))
+            else -> ZAliceResponse.response(formService.createForm(formData))
         }
     }
 
@@ -76,14 +77,13 @@ class FormRestController(private val formService: FormService) {
      *
      * @param restTemplateFormDto
      * @param formId
-     * @return Boolean
      */
     @PutMapping("/{formId}")
     fun saveForm(
         @RequestBody restTemplateFormDto: RestTemplateFormDto,
         @PathVariable formId: String
-    ): String {
-        return formService.saveForm(formId, restTemplateFormDto)
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.saveForm(formId, restTemplateFormDto))
     }
 
     /**
@@ -91,21 +91,22 @@ class FormRestController(private val formService: FormService) {
      *
      * @param formData
      * @param formId
-     * @return Boolean
      */
     @PutMapping("/{formId}/data")
-    fun saveFormData(@RequestBody formData: RestTemplateFormDataDto, @PathVariable formId: String): String {
-        return formService.saveFormData(formId, formData)
+    fun saveFormData(
+        @RequestBody formData: RestTemplateFormDataDto,
+        @PathVariable formId: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.saveFormData(formId, formData))
     }
 
     /**
      * 문서 삭제.
      *
      * @param formId
-     * @return Boolean
      */
     @DeleteMapping("/{formId}")
-    fun deleteForm(@PathVariable formId: String): Boolean {
-        return formService.deleteForm(formId)
+    fun deleteForm(@PathVariable formId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.deleteForm(formId))
     }
 }

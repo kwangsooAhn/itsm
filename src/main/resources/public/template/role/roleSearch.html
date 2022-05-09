@@ -32,9 +32,7 @@
 <script layout:fragment="pageScript" th:inline="javascript">
     window.onload = function() {
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function() {
-            getList();
-        });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
     }
 
@@ -51,7 +49,6 @@
     }
 
     function onExcelDownload() {
-        console.log('Excel Download')
         const searchValue = encodeURIComponent(document.getElementById('searchValue').value);
         aliceJs.fetchDownload({
             url: '/rest/roles/excel?searchValue=' + searchValue,

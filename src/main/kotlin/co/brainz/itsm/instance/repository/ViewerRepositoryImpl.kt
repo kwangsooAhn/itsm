@@ -9,7 +9,6 @@ package co.brainz.itsm.instance.repository
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
 import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
-import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Repository
 class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::class.java),
     ViewerRepositoryCustom {
 
-    override fun findByInstanceViewerList(instanceId: String): QueryResults<WfInstanceViewerEntity>? {
+    override fun findByInstanceViewerList(instanceId: String): List<WfInstanceViewerEntity>? {
         val viewer = QWfInstanceViewerEntity.wfInstanceViewerEntity
 
         return from(viewer)
@@ -25,7 +24,7 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
                 viewer.instance.instanceId.eq(instanceId)
             )
             .orderBy(viewer.createDt.asc())
-            .fetchResults()
+            .fetch()
 
     }
 

@@ -93,11 +93,6 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_SUCCESS_EDIT_TYPE = '1';
-    const STATUS_FAIL_TYPE_ALIAS_DUPLICATION = '2';
-    const STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION = '3';
-
     let observer = aliceJs.pageObserver;
 
     window.addEventListener('load', function() {
@@ -106,7 +101,7 @@
         onCreate();
 
         getTypeList();
-        document.getElementById('search').addEventListener('keyup', getTypeList, false);
+        document.getElementById('search').addEventListener('keyup', aliceJs.debounce (() => getTypeList()), false);
 
         OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
@@ -145,36 +140,40 @@
         if (!observer.canPageChange()) {
             return;
         }
-        document.querySelectorAll('input[type=text]').forEach(function(object){
+        document.querySelectorAll('input[type=text]').forEach(function (object) {
             object.value = '';
         });
         document.querySelector('textarea').value = '';
 
         aliceJs.fetchJson('/rest/cmdb/types/' + typeId, {
             method: 'GET'
-        }).then((responseJson) => {
+        }).then((response) => {
+            if (response.status !== aliceJs.response.success) {
+                zAlert.warning(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                return false;
+            }
             document.getElementById('parentTypeName').setAttribute('readonly','');
-            document.getElementById('parentTypeName').value = responseJson.ptypeName;
-            document.getElementById('parentTypeId').value = responseJson.ptypeId;
-            document.getElementById('typeId').value = responseJson.typeId;
-            document.getElementById('typeAlias').value = responseJson.typeAlias;
-            document.getElementById('typeIcon').value = responseJson.typeIcon;
-            document.getElementById('typeClassId').value = responseJson.classId;
-            document.getElementById('typeClass').value = responseJson.className;
+            document.getElementById('parentTypeName').value = response.data.ptypeName;
+            document.getElementById('parentTypeId').value = response.data.ptypeId;
+            document.getElementById('typeId').value = response.data.typeId;
+            document.getElementById('typeAlias').value = response.data.typeAlias;
+            document.getElementById('typeIcon').value = response.data.typeIcon;
+            document.getElementById('typeClassId').value = response.data.classId;
+            document.getElementById('typeClass').value = response.data.className;
             // 유형 이름
             const typeName = document.getElementById('typeName');
-            typeName.value = responseJson.typeName;
+            typeName.value = response.data.typeName;
             // 설명
             const typeDesc = document.getElementById('typeDesc');
-            typeDesc.value = responseJson.typeDesc;
+            typeDesc.value = response.data.typeDesc;
             // 식별자
             const typeAlias = document.getElementById('typeAlias');
-            typeDesc.value = responseJson.typeDesc;
+            typeDesc.value = response.data.typeDesc;
             // 정렬 순서
             const typeSeq = document.getElementById('typeSeq');
-            typeSeq.value = responseJson.typeSeq;
+            typeSeq.value = response.data.typeSeq;
 
-            if (responseJson.editable) {
+            if (response.data.editable) {
                 if (document.querySelector('#btnUpdate') != null) {
                     document.querySelector('#btnUpdate').removeAttribute('disabled');
                 }
@@ -314,32 +313,32 @@
         if (method !== 'POST') {
             url += '/' + document.getElementById('typeId').value;
         }
-        aliceJs.fetchText(url, {
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(jsonData)
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
-                    zAlert.success(i18n.msg('common.msg.register'), function () {
-                        window.location.href = '/cmdb/types/edit';
-                    });
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    if (response.data) {
+                        zAlert.success(resultMsg, function () {
+                            window.location.href = '/cmdb/types/edit';
+                        });
+                    }
                     break;
-                case STATUS_SUCCESS_EDIT_TYPE:
-                    zAlert.success(i18n.msg('common.msg.update'), function () {
-                        window.location.href = '/cmdb/types/edit';
-                    });
-                    break;
-                case STATUS_FAIL_TYPE_ALIAS_DUPLICATION:
+                case aliceJs.response.duplicate:
                     zAlert.warning(i18n.msg('cmdb.type.msg.typeAliasDuplication'));
                     break;
-                case STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION:
+                case aliceJs.response.exist:
                     zAlert.warning(i18n.msg('cmdb.type.msg.pTypeAndTypeNameDuplication'));
                     break;
-                default:
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
                     break;
             }
         });
@@ -347,17 +346,19 @@
 
     /** delete **/
     function onDelete() {
-        aliceJs.fetchText('/rest/cmdb/types/' + document.getElementById('typeId').value, {
+        aliceJs.fetchJson('/rest/cmdb/types/' + document.getElementById('typeId').value, {
             method: 'DELETE'
-        }).then((status) => {
-            switch (status) {
-                case STATUS_SUCCESS:
-                    zAlert.success(i18n.msg('common.msg.delete'), function() {
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
                         window.location.href ='/cmdb/types/edit';
                     });
                     break;
-                default:
+                case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
                     break;
             }
         });

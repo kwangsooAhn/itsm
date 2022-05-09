@@ -10,6 +10,8 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.service.OrganizationService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.instance.dto.CommentDto
@@ -32,7 +34,6 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.token.service.WfTokenService
-import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
@@ -131,7 +132,7 @@ class InstanceService(
      * Set Comment.
      */
     @Transactional
-    fun setComment(instanceId: String, commentDto: CommentDto): Boolean {
+    fun setComment(instanceId: String, commentDto: CommentDto): ZResponse {
         val createUserKey = currentSessionUser.getUserKey()
         val commentEntity = WfCommentEntity(
             commentId = "",
@@ -144,15 +145,15 @@ class InstanceService(
             commentEntity.instance = wfInstanceRepository.findByInstanceId(instanceId)
             commentRepository.save(commentEntity)
         }
-        return true
+        return ZResponse()
     }
 
     /**
      * Delete Comment.
      */
-    fun deleteComment(instanceId: String, commentId: String): Boolean {
+    fun deleteComment(instanceId: String, commentId: String): ZResponse {
         commentRepository.deleteById(commentId)
-        return true
+        return ZResponse()
     }
 
     /**
@@ -161,17 +162,16 @@ class InstanceService(
     fun getInstanceViewerList(instanceId: String): ViewerListReturnDto {
         val viewerReturnList: MutableList<ViewerListDto> = mutableListOf()
         var count = 0L
-        val viewerResults: QueryResults<WfInstanceViewerEntity>? = viewerRepository.findByInstanceViewerList(instanceId)
+        val viewerResults = viewerRepository.findByInstanceViewerList(instanceId)
         if (viewerResults != null) {
-            val viewerList = viewerResults.results
-            count = viewerList.size.toLong()
-            for (viewer in viewerList) {
+            count = viewerResults.size.toLong()
+            for (viewer in viewerResults) {
                 val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
-                val organization = organizationList.results.firstOrNull { it.organizationId == viewer.viewer.department }
+                val organization = organizationList.firstOrNull { it.organizationId == viewer.viewer.department }
                 var organizationName = mutableListOf<String>()
                 if (organization != null) {
                     if (organization.pOrganization != null) {
-                        organizationName = organizationService.getOrganizationParent(organization, organizationList.results, organizationName)
+                        organizationName = organizationService.getOrganizationParent(organization, organizationList, organizationName)
                     } else {
                         organizationName.add(organization.organizationName.toString())
                     }
@@ -207,7 +207,7 @@ class InstanceService(
      * Add Viewers.
      */
     @Transactional
-    fun createInstanceViewer(instanceId: String, instanceViewerListDto: InstanceViewerListDto): Boolean {
+    fun createInstanceViewer(instanceId: String, instanceViewerListDto: InstanceViewerListDto): ZResponse {
         val isSuccess = this.setInitInstance(instanceId, instanceViewerListDto.documentId)
         if (isSuccess) {
             val instance = wfInstanceRepository.findByInstanceId(instanceId)
@@ -216,7 +216,7 @@ class InstanceService(
                 val viewer = aliceUserRepository.findAliceUserEntityByUserKey(it.viewerKey)
                 val instanceViewerEntity =
                     WfInstanceViewerEntity(
-                        instance = instance!!,
+                        instance = instance,
                         viewer = viewer,
                         reviewYn = it.reviewYn,
                         displayYn = it.displayYn,
@@ -226,18 +226,20 @@ class InstanceService(
                 viewerRepository.save(instanceViewerEntity)
             }
         }
-        return isSuccess
+        return ZResponse(
+            status = if (isSuccess) ZResponseConstants.STATUS.SUCCESS.code else ZResponseConstants.STATUS.ERROR_FAIL.code
+        )
     }
 
     /**
      * Delete Viewer.
      */
     @Transactional
-    fun deleteInstanceViewer(instanceId: String, viewerKey: String): Boolean {
+    fun deleteInstanceViewer(instanceId: String, viewerKey: String): ZResponse {
         val viewer = viewerRepository.findByInstanceIdAndViewerKey(instanceId, viewerKey)
         if (viewer != null) {
             viewerRepository.delete(viewer)
         }
-        return true
+        return ZResponse()
     }
 }

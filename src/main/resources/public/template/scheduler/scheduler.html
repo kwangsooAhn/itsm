@@ -170,12 +170,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
-    const STATUS_SUCCESS = '0';
-    const STATUS_ERROR_SCHEDULE_USED = '1';
-    const STATUS_ERROR_SCHEDULE_NAME_DUPLICATION = '2';
-    const STATUS_ERROR_SCHEDULER_EXECUTE = '3';
-    const STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST = '4';
-    const STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST = '5';
     const taskId = /*[[${schedule?.taskId}]]*/;
     let offsetCount = 0;
     let maxExecuteTime = i18n.getDateTime();
@@ -404,23 +398,22 @@
      */
     function deleteScheduler() {
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchText('/rest/schedulers/' + /*[[${schedule?.taskId}]]*/'', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            }).then((rtn) => {
-                switch (rtn) {
-                    case STATUS_SUCCESS:
+            aliceJs.fetchJson('/rest/schedulers/' + /*[[${schedule?.taskId}]]*/'', {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.delete'), function () {
-                            location.href = '/schedulers/search';
+                            window.location.href = '/schedulers/search';
                         });
                         break;
-                    case STATUS_ERROR_SCHEDULE_USED:
+                    case aliceJs.response.exist:
                         zAlert.warning(i18n.msg('scheduler.msg.useSchedule'));
                         break;
-                    default:
+                    case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
                         break;
                 }
             });
@@ -555,7 +548,7 @@
 
     /** Rest API 호출 **/
     function restSubmit(method, url, data) {
-        aliceJs.fetchText(url, {
+        aliceJs.fetchJson(url, {
             method: method === 'execute' ? 'post' : method,
             headers: {
                 'Content-Type': 'application/json'
@@ -563,44 +556,43 @@
             body: JSON.stringify(data)
         }).then((response) => {
             if (method === 'post' || method === 'put') {
-                switch (response) {
-                    case STATUS_SUCCESS:
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                const resultMsg = (method === 'post') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(resultMsg, function () {
                             location.href = '/schedulers/search';
                         });
                         break;
-                    case STATUS_ERROR_SCHEDULE_USED:
-                        zAlert.warning(i18n.msg('scheduler.msg.useSchedule'));
-                        break;
-                    case STATUS_ERROR_SCHEDULE_NAME_DUPLICATION:
+                    case aliceJs.response.duplicate:
                         zAlert.warning(i18n.msg('scheduler.msg.duplicateTaskName'));
                         break;
-                    case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
+                    case aliceJs.response.notExist:
                         zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
                         break;
-                    case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
+                    case aliceJs.response.notExistClass:
                         zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
                         break;
-                    default :
+                    case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default :
                         break;
                 }
             } else if (method === 'execute') {
-                switch (response) {
-                    case STATUS_SUCCESS:
+                switch (response.status) {
+                    case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.done'));
                         break;
-                    case STATUS_ERROR_SCHEDULER_EXECUTE:
-                        zAlert.warning(i18n.msg('common.msg.fail'));
-                        break;
-                    case STATUS_ERROR_SCHEDULER_JAR_NOT_EXIST:
+                    case aliceJs.response.notExist:
                         zAlert.warning(i18n.msg('scheduler.msg.jarNotExist'));
                         break;
-                    case STATUS_ERROR_SCHEDULER_CLASS_NOT_EXIST:
+                    case aliceJs.response.notExistClass:
                         zAlert.warning(i18n.msg('scheduler.msg.classNotExist'));
                         break;
-                    default:
+                    case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default :
                         break;
                 }
             }

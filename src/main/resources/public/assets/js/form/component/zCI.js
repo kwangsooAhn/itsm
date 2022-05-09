@@ -343,16 +343,25 @@ export const ciMixin = {
             zAlert.confirm(i18n.msg(alertMsg), () => {
                 if (ciData.actionType === CI.ACTION_TYPE.REGISTER || ciData.actionType === CI.ACTION_TYPE.MODIFY) {
                     // action 타입이 Register, Modify 일 경우, wf_component_ci_data 테이블에 데이터 삭제
-                    aliceJs.fetchText('/rest/cmdb/cis/data?ciId=' + ciData.ciId + '&componentId=' + this.id, {
+                    aliceJs.fetchJson('/rest/cmdb/cis/data?ciId=' + ciData.ciId + '&componentId=' + this.id, {
                         method: 'DELETE'
-                    }).then(() => {
-                        targetTable.removeUIRow(targetTable.rows[rowIndex]);
-                        const newValue = JSON.parse(JSON.stringify(this.value));
-                        newValue.splice(rowIndex - 1, 1);
-                        this.value = newValue;
-                        // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
-                        if (Array.isArray(this.value) && this.value.length === 0) {
-                            this.setEmptyCITable(targetTable);
+                    }).then((response) => {
+                        switch (response.status) {
+                            case aliceJs.response.success:
+                                targetTable.removeUIRow(targetTable.rows[rowIndex]);
+                                const newValue = JSON.parse(JSON.stringify(this.value));
+                                newValue.splice(rowIndex - 1, 1);
+                                this.value = newValue;
+                                // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
+                                if (Array.isArray(this.value) && !this.value.length) {
+                                    this.setEmptyCITable(targetTable);
+                                }
+                                break;
+                            case aliceJs.response.error:
+                                zAlert.danger(i18n.msg('cmdb.ci.msg.failedDeleteCI'));
+                                break;
+                            default :
+                                break;
                         }
                     });
                 } else {
@@ -362,7 +371,7 @@ export const ciMixin = {
                     this.value = newValue;
 
                     // 데이터가 존재하지 않으면 '데이터가 존재하지 않습니다 ' 문구 표시
-                    if (Array.isArray(this.value) && this.value.length === 0) {
+                    if (Array.isArray(this.value) && !this.value.length) {
                         this.setEmptyCITable(targetTable);
                     }
                 }
@@ -435,15 +444,26 @@ export const ciMixin = {
                 saveData.values.ciTags.push({'id': data.ciId, 'value': tag.value});
             });
         }
-        aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/data', {
+        aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(saveData)
-        }).then(() => {
-            if (typeof callbackFunc === 'function') {
-                callbackFunc();
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
+                        if (typeof callbackFunc === 'function') {
+                            callbackFunc();
+                        }
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
             }
         });
     },
@@ -699,12 +719,12 @@ export const ciMixin = {
                         document.getElementById('typeSelectBtn').disabled = true;
                     }
 
-                    aliceJs.fetchText('/rest/cmdb/cis/' + data.ciId + '/relation?componentId=' + this.id +
+                    aliceJs.fetchJson('/rest/cmdb/cis/' + data.ciId + '/relation?componentId=' + this.id +
                         '&instanceId=' + instanceIdElem.value, {
                         method: 'GET'
-                    }).then((ciRelations) => {
-                        const ciRelation = JSON.parse(ciRelations);
-                        if (zValidation.isDefined(ciRelation)) {
+                    }).then((response) => {
+                        if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
+                            const ciRelation = response.data;
                             for (let i = 0; i < ciRelation.length; i++) {
                                 if (data.ciId !== ciRelation[i].ciId) {
                                     ciRelation[i].targetCIId = ciRelation[i].ciId;
@@ -823,10 +843,10 @@ export const ciMixin = {
                     }
                 });
 
-                document.getElementById('searchValue').addEventListener('keyup', (e) => {
+                document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce ((e) => {
                     e.preventDefault();
                     this.selectModalSearchCI();
-                });
+                }), false);
             }
         });
         selectModal.show();
@@ -928,11 +948,10 @@ export const ciMixin = {
                         this_.relationSelectModalSearchCI();
                     }
                 });
-
-                document.getElementById('searchValue').addEventListener('keyup', (e) => {
+                document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce ((e) => {
                     e.preventDefault();
                     this.relationSelectModalSearchCI();
-                });
+                }), false);
             }
         });
         selectModal.show();
@@ -1036,19 +1055,30 @@ export const ciMixin = {
                     // 아이콘과 클래스가 없을 경우, 타입 변경시 기본 값을 추가해준다.
                     aliceJs.fetchJson('/rest/cmdb/types/' + response.id, {
                         method: 'GET'
-                    }).then((typeData) => {
-                        document.getElementById('classId').value = typeData.classId;
-                        document.getElementById('className').value = typeData.className;
-                        document.getElementById('ciIcon').value = typeData.typeIcon;
-                        document.getElementById('ciIconData').value = typeData.typeIconData;
-                        // Class 상세 속성 표시
-                        aliceJs.fetchJson('/rest/cmdb/classes/' + typeData.classId + '/attributes', {
-                            method: 'GET'
-                        }).then((attributeData) => {
-                            const ciAttributeDOMElement = document.getElementById('ciAttributes');
-                            zCmdbAttribute.drawDetails(ciAttributeDOMElement, attributeData, ZSession.getAll(), 'edit');
-                        });
-
+                    }).then((response) => {
+                        switch (response.status) {
+                            case aliceJs.response.success:
+                                const typeData = response.data;
+                                document.getElementById('classId').value = typeData.classId;
+                                document.getElementById('className').value = typeData.className;
+                                document.getElementById('ciIcon').value = typeData.typeIcon;
+                                document.getElementById('ciIconData').value = typeData.typeIconData;
+                                // Class 상세 속성 표시
+                                aliceJs.fetchJson('/rest/cmdb/classes/' + typeData.classId + '/attributes', {
+                                    method: 'GET'
+                                }).then((response) => {
+                                    if (response.status === aliceJs.response.success) {
+                                        const ciAttributeDOMElement = document.getElementById('ciAttributes');
+                                        zCmdbAttribute.drawDetails(ciAttributeDOMElement, response.data, ZSession.getAll(), 'edit');
+                                    }
+                                });
+                                break;
+                            case aliceJs.response.error:
+                                zAlert.warning(i18n.msg('cmdb.type.msg.selectAvailableType'));
+                                break;
+                            default :
+                                break;
+                        }
                     });
                     document.getElementById('typeName').value = response.dataset.name;
                     document.getElementById('typeId').value = response.id;

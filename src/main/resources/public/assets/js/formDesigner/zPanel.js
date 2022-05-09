@@ -91,7 +91,7 @@ export default class ZPanel {
      */
     selectFirstProperty() {
         const selectElements = this.domElement.querySelectorAll('input[type=text]:not([readonly])');
-        if (selectElements.length === 0) {
+        if (!selectElements.length) {
             return false;
         }
 

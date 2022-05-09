@@ -13,6 +13,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+/* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
 const DEFAULT_OPTIONS = {
     type: 'fill', // fill or line (사용자 색상에 추가된 색상은 Fill, Line Color Picker 서로 공유된다.)
     colors: [
@@ -89,12 +90,11 @@ function zColorPicker(targetElement, options) {
     this.modalEl = pickerModal;
 
     // 서버에 저장된 사용자 색상 조회
-    aliceJs.fetchText('/rest/users/colors', {
+    aliceJs.fetchJson('/rest/users/colors', {
         method: 'GET'
-    }).then((data) => {
-        if (data.length > 0) {
-            const userColors = JSON.parse(data);
-            this.savedCustomColors = userColors.customValue.split('|');
+    }).then((response) => {
+        if (response.status === aliceJs.response.success && response.data !== null) {
+            this.savedCustomColors = response.data.customValue.split('|');
             this.savedCustomColors.map(color => color.toUpperCase());
             this.customColors = [...this.savedCustomColors];
             this.isExistColor = this.savedCustomColors.includes(this.value);
@@ -172,7 +172,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
-    autoClose: function(e) {
+    autoClose: function (e) {
         if (!aliceJs.clickInsideElement(e, 'z-color-picker-modal') &&
             !aliceJs.clickInsideElement(e, 'z-color-picker') &&
             !aliceJs.clickInsideElement(e, 'modal-active')) {
@@ -190,7 +190,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette set Position.
-    setPosition: function() {
+    setPosition: function () {
         let rect = this.modalEl.parentNode.getBoundingClientRect(),
             ow = this.modalEl.offsetWidth,
             oh = this.modalEl.offsetHeight,
@@ -576,13 +576,21 @@ Object.assign(zColorPicker.prototype, {
             },
             body: JSON.stringify({ customValue: this.customColors.join('|') }),
             showProgressbar: true
-        }).then((rtn) => {
-            if (rtn) {
-                this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
-                this.closeCustomColorControl();
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    if (response.data) {
+                        this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
+                        this.closeCustomColorControl();
+                    }
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
             }
         });
-
     },
     // 사용자 색상 초기화
     resetCustomColor() {
