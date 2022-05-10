@@ -1433,6 +1433,8 @@ insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무�
 insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
 insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
 insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
+insert into awf_url values ('/rest/documentStorage/{instanceId}', 'post', '보관 문서 데이터 추가', 'FALSE');
+insert into awf_url values ('/rest/documentStorage/{instanceId}', 'delete', '보관 문서 데이터 삭제', 'FALSE');
 
 /**
  * URL별권한매핑
@@ -9123,4 +9125,20 @@ COMMENT ON COLUMN cmdb_class_notification.attribute_id IS '속성아이디';
 COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
 COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
+
+/**
+ * 보관 문서 데이터
+ */
+DROP TABLE IF EXISTS awf_document_storage cascade;
+
+CREATE TABLE awf_document_storage
+(
+    instance_id varchar(128) NOT NULL,
+    user_key varchar(128) NOT NULL,
+    CONSTRAINT awf_document_storage_pk PRIMARY KEY (instance_id, user_key)
+);
+
+COMMENT ON TABLE awf_document_storage IS '보관 문서 데이터';
+COMMENT ON COLUMN awf_document_storage.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN awf_document_storage.user_key IS '사용자 키';
 
