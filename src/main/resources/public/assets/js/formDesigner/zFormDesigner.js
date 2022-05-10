@@ -13,7 +13,7 @@ import ZComponent, { UIComponentTooltip } from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup, { UIGroupTooltip } from '../form/zGroup.js';
 import ZRow, { UIRowTooltip } from '../form/zRow.js';
-import { FORM, RESPONSE_CODE } from '../lib/zConstants.js';
+import { FORM } from '../lib/zConstants.js';
 import { zValidation } from '../lib/zValidation.js';
 import ZHistory from './zHistory.js';
 import ZPanel from './zPanel.js';
@@ -37,7 +37,7 @@ class ZFormDesigner {
                 method: 'GET'
             }).then((response) => {
                 if (response.status === aliceJs.response.success) {
-                    FORM.CUSTOM_CODE = zValidation.isDefined(response.data) ? response.data : [];
+                    FORM.CUSTOM_CODE = zValidation.isDefined(response.data.data) ? response.data.data : [];
                 }
             });
         }
@@ -95,18 +95,30 @@ class ZFormDesigner {
      */
     initShortcut() {
         const shortcuts = [
-            { 'keys': 'ctrl+s', 'command': 'zFormDesigner.saveForm(false);', 'force': true },                        //폼 양식 저장
-            { 'keys': 'ctrl+shift+s', 'command': 'zFormDesigner.openSaveAsModal();', 'force': true },                //폼 양식 다른이름으로 저장
-            { 'keys': 'ctrl+z', 'command': 'zFormDesigner.history.undo();', 'force': false },                        //폼 편집 화면 작업 취소
-            { 'keys': 'ctrl+shift+z', 'command': 'zFormDesigner.history.redo();', 'force': false },                  //폼 편집 화면 작업 재실행
-            { 'keys': 'ctrl+e', 'command': 'zFormDesigner.preview();', 'force': false },                             //폼 양식 미리보기
-            { 'keys': 'insert', 'command': 'zFormDesigner.copyObject();', 'force': false },                          //복사하여 바로 아래 추가
-            { 'keys': 'ctrl+x,delete', 'command': 'zFormDesigner.removeObject();', 'force': false },                 //객체 삭제
-            { 'keys': 'ctrl+home', 'command': 'zFormDesigner.selectFirstGroup();', 'force': false },                 //첫번째 그룹 선택
-            { 'keys': 'ctrl+end', 'command': 'zFormDesigner.selectLastGroup();', 'force': false },                   //마지막 그룹 선택
-            { 'keys': 'up', 'command': 'zFormDesigner.selectUpObject();', 'force': false },                          //바로 위 동일 타입 객체 선택
-            { 'keys': 'down', 'command': 'zFormDesigner.selectDownObject();', 'force': false },                      //바로 아래 동일 타입 객체 선택
-            { 'keys': 'alt+e', 'command': 'zFormDesigner.panel.selectFirstProperty();', 'force': false }             //세부 속성 편집: 제일 처음으로 이동
+            //폼 양식 저장
+            { 'keys': 'ctrl+s', 'command': 'zFormDesigner.saveForm(false);', 'force': true},
+            //폼 양식 다른이름으로 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'zFormDesigner.openSaveAsModal();', 'force': true },
+            //폼 편집 화면 작업 취소
+            { 'keys': 'ctrl+z', 'command': 'zFormDesigner.history.undo();', 'force': false },
+            //폼 편집 화면 작업 재실행
+            { 'keys': 'ctrl+shift+z', 'command': 'zFormDesigner.history.redo();', 'force': false },
+            //폼 양식 미리보기
+            { 'keys': 'ctrl+e', 'command': 'zFormDesigner.preview();', 'force': false },
+            //복사하여 바로 아래 추가
+            { 'keys': 'insert', 'command': 'zFormDesigner.copyObject();', 'force': false },
+            //객체 삭제
+            { 'keys': 'ctrl+x,delete', 'command': 'zFormDesigner.removeObject();', 'force': false },
+            //첫번째 그룹 선택
+            { 'keys': 'ctrl+home', 'command': 'zFormDesigner.selectFirstGroup();', 'force': false },
+            //마지막 그룹 선택
+            { 'keys': 'ctrl+end', 'command': 'zFormDesigner.selectLastGroup();', 'force': false },
+            //바로 위 동일 타입 객체 선택
+            { 'keys': 'up', 'command': 'zFormDesigner.selectUpObject();', 'force': false },
+            //바로 아래 동일 타입 객체 선택
+            { 'keys': 'down', 'command': 'zFormDesigner.selectDownObject();', 'force': false },
+            //세부 속성 편집: 제일 처음으로 이동
+            { 'keys': 'alt+e', 'command': 'zFormDesigner.panel.selectFirstProperty();', 'force': false }
         ];
 
         zShortcut.init();
@@ -170,7 +182,8 @@ class ZFormDesigner {
 
                     if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
                         // 신규 group / row / component 추가
-                        const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, parentObject, evt.newDraggableIndex);
+                        const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, parentObject,
+                            evt.newDraggableIndex);
                         const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, group, 0);
                         editor.addObjectByType(FORM.LAYOUT.COMPONENT, { type: evt.item.id }, row, 0);
                         // 이력 추가
@@ -195,7 +208,8 @@ class ZFormDesigner {
                         row.UIElement.domElement.dispatchEvent(new Event('click'));
                     } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.ROW)) {
                         // 신규 component 추가
-                        const component = editor.addObjectByType(FORM.LAYOUT.COMPONENT, { type : evt.item.id }, parentObject, evt.newDraggableIndex);
+                        const component = editor.addObjectByType(FORM.LAYOUT.COMPONENT, { type : evt.item.id },
+                            parentObject, evt.newDraggableIndex);
                         // 이력 추가
                         histories.push({
                             type: 'add',
@@ -226,21 +240,24 @@ class ZFormDesigner {
     sortJson(data) {
         if (Object.prototype.hasOwnProperty.call(data, 'group')) { // form
             data.group.sort((a, b) =>
-                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 :
+                    Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.group.forEach( (g) => {
                 this.sortJson(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
-                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 :
+                    Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
             data.row.forEach( (r) => {
                 this.sortJson(r);
             });
         } else { // row
             data.component.sort((a, b) =>
-                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 : Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
+                Number(a.display.displayOrder) < Number(b.display.displayOrder) ? -1 :
+                    Number(a.display.displayOrder) > Number(b.display.displayOrder) ? 1 : 0
             );
         }
     }
@@ -365,7 +382,8 @@ class ZFormDesigner {
                         const fromObject = editor.form.getById(evt.from.id);
 
                         if (evt.from.id === evt.to.id) {
-                            const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex, evt.newDraggableIndex);
+                            const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex,
+                                evt.newDraggableIndex);
                             if (swapObject) {
                                 swapObject.UIElement.domElement.dispatchEvent(new Event('click'));
                             }
@@ -382,7 +400,8 @@ class ZFormDesigner {
 
                             if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
                             // form 내에 신규 group 추가
-                                const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
+                                const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject,
+                                    evt.newDraggableIndex);
                                 group.add(sortObject, 0);
                                 // 이력 추가
                                 histories.push({
@@ -476,7 +495,8 @@ class ZFormDesigner {
 
                         const fromObject = editor.form.getById(evt.from.id);
                         if (evt.from.id === evt.to.id) {
-                            const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex, evt.newDraggableIndex);
+                            const swapObject = editor.swapObject(fromObject, evt.oldDraggableIndex,
+                                evt.newDraggableIndex);
                             if (swapObject) {
                                 swapObject.UIElement.domElement.dispatchEvent(new Event('click'));
                             }
@@ -487,12 +507,14 @@ class ZFormDesigner {
                             // 이력 추가
                             histories.push({
                                 type: 'remove',
-                                from: { id: sortObject.parent.id, clone: sortObject.clone(true, { type: sortObject.type }).toJson() },
+                                from: { id: sortObject.parent.id, clone: sortObject.clone(
+                                    true, { type: sortObject.type }).toJson() },
                                 to: { id: '', clone: null }
                             });
                             if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
                             // 신규 group, row 추가 후 component 이동
-                                const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject, evt.newDraggableIndex);
+                                const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject,
+                                    evt.newDraggableIndex);
                                 const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, group, 0);
                                 row.add(sortObject, 0);
                                 // 이력 추가
@@ -505,7 +527,8 @@ class ZFormDesigner {
                                 group.UIElement.domElement.dispatchEvent(new Event('click'));
                             } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.GROUP)) {
                             // 신규 row 추가 후 component 이동
-                                const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, toObject, evt.newDraggableIndex);
+                                const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, toObject,
+                                    evt.newDraggableIndex);
                                 row.add(sortObject, 0);
                                 // 이력 추가
                                 histories.push({
@@ -521,7 +544,8 @@ class ZFormDesigner {
                                 histories.push({
                                     type: 'add',
                                     from: { id: '', clone: null },
-                                    to: { id: toObject.id, clone: sortObject.clone(true, { type: sortObject.type }).toJson() }
+                                    to: { id: toObject.id, clone: sortObject.clone(
+                                        true, { type: sortObject.type }).toJson() }
                                 });
                                 // component 선택
                                 sortObject.UIElement.domElement.dispatchEvent(new Event('click'));
@@ -567,8 +591,10 @@ class ZFormDesigner {
 
         this.history.save([{
             type: 'sort',
-            from: { id: object.id, clone: object.children[oldIndex].clone(true, { type: object.children[oldIndex].type }).toJson() },
-            to: { id: object.id, clone: object.children[newIndex].clone(true, { type: object.children[newIndex].type }).toJson() }
+            from: { id: object.id, clone: object.children[oldIndex].clone(
+                true, { type: object.children[oldIndex].type }).toJson() },
+            to: { id: object.id, clone: object.children[newIndex].clone(
+                true, { type: object.children[newIndex].type }).toJson() }
         }]);
 
         aliceJs.moveObject(object.children, oldIndex, newIndex);
@@ -738,7 +764,6 @@ class ZFormDesigner {
 
         // 저장할 데이터 가져오기
         const saveData  =  this.form.toJson();
-        console.debug(saveData);
         // 저장
         aliceJs.fetchJson('/rest/forms/' + this.formId + '/data', {
             method: 'PUT',
@@ -811,7 +836,7 @@ class ZFormDesigner {
                 }
             ],
             close: { closable: false },
-            onCreate: function (modal) {
+            onCreate: function () {
                 OverlayScrollbars(document.getElementById('newFormDesc'), {
                     className: 'scrollbar',
                     resize: 'none',
@@ -834,7 +859,6 @@ class ZFormDesigner {
         const saveData  =  this.form.toJson();
         saveData.name = document.getElementById('newFormName').value;
         saveData.desc = document.getElementById('newFormDesc').value;
-        console.debug(saveData);
         // 저장
         aliceJs.fetchJson('/rest/forms?saveType=saveas', {
             method: 'POST',
@@ -907,7 +931,8 @@ class ZFormDesigner {
             }
 
             for (let i = 0; i < mappingIdList.length; i++) {
-                if ((mappingIdList[i].trim() !== '') && (mappingIdList.indexOf(mappingIdList[i]) !== mappingIdList.lastIndexOf(mappingIdList[i]))) {
+                if ((mappingIdList[i].trim() !== '') &&
+                    (mappingIdList.indexOf(mappingIdList[i]) !== mappingIdList.lastIndexOf(mappingIdList[i]))) {
                     zAlert.warning(i18n.msg('form.msg.duplicateMappingId', mappingIdList[i]));
                     return false;
                 }
