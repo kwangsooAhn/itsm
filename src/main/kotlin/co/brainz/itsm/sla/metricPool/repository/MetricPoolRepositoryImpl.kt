@@ -8,9 +8,9 @@ package co.brainz.itsm.sla.metricPool.repository
 
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
-import co.brainz.itsm.faq.entity.FaqEntity
-import co.brainz.itsm.sla.metricPool.dto.MetricPoolListDto
+import co.brainz.itsm.sla.metricPool.dto.MetricPoolDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
+import co.brainz.itsm.sla.metricPool.entity.MetricEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricGroupEntity
 import com.querydsl.core.BooleanBuilder
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class MetricPoolRepositoryImpl(
-) : QuerydslRepositorySupport(FaqEntity::class.java), MetricPoolRepositoryCustom {
+) : QuerydslRepositorySupport(MetricEntity::class.java), MetricPoolRepositoryCustom {
 
     override fun findMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): PagingReturnDto {
         val metricPool = QMetricEntity.metricEntity
@@ -32,13 +32,13 @@ class MetricPoolRepositoryImpl(
         val query = from(metricPool)
             .select(
                 Projections.constructor(
-                    MetricPoolListDto::class.java,
+                    MetricPoolDto::class.java,
                     metricPool.metricId,
                     metricGroup.metricGroupName,
                     metricPool.metricName,
-                    typeCode.codeName.`as`("metricType"),
-                    unitCode.codeName.`as`("metricUnit"),
-                    calcTypeCode.codeName.`as`("calculationType"),
+                    typeCode.codeName.`as`("metricTypeName"),
+                    unitCode.codeName.`as`("metricUnitName"),
+                    calcTypeCode.codeName.`as`("calculationTypeName"),
                     metricPool.metricDesc
                 )
             )

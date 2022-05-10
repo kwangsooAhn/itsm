@@ -7,14 +7,13 @@
 package co.brainz.itsm.sla.metricPool.dto
 
 import java.io.Serializable
-import java.time.LocalDateTime
 
-data class MetricPoolListDto(
+data class MetricPoolDto(
     var metricId: String = "",
     var metricGroupName: String = "",
     var metricName: String = "",
-    var metricType: String = "",
-    var metricUnit: String = "",
-    var calculationType: String = "",
-    var metricDesc: String? = ""
+    var metricDesc: String? = "",
+    var metricTypeName: String = "",
+    var metricUnitName: String = "",
+    var calculationTypeName: String = ""
 ) : Serializable
