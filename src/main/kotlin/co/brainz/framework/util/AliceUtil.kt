@@ -175,7 +175,7 @@ class AliceUtil {
     /**
      *  타임존 기준으로 시간 변경
      */
-    fun changeTimeBasedTimezone(dateTime:LocalDateTime ,timezone:String): LocalDateTime {
+    fun changeTimeBasedTimezone(dateTime: LocalDateTime, timezone: String): LocalDateTime {
         val dateTimeBasedUTC = ZonedDateTime.of(dateTime, ZoneOffset.UTC).toEpochSecond()
         val timeZone = ZoneId.of(timezone)
         val timeOffset = timeZone.rules.getOffset(dateTime)

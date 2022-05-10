@@ -39,7 +39,7 @@
         {
             type: 'edit', parent: 'action',
             url: iconDirectory + '/tooltip/icon_tooltip_edit.svg',
-            focus_url: iconDirectory + '/tooltip/icon_tooltip_edit_focus.svg',
+            focusUrl: iconDirectory + '/tooltip/icon_tooltip_edit_focus.svg',
             action: function (el) {
                 setElementCategoryItems(el);
             }
@@ -47,7 +47,7 @@
         {
             type: 'suggest', parent: 'action',
             url: iconDirectory + '/tooltip/icon_tooltip_suggest.svg',
-            focus_url: iconDirectory + '/tooltip/icon_tooltip_suggest_focus.svg',
+            focusUrl: iconDirectory + '/tooltip/icon_tooltip_suggest_focus.svg',
             action: function (el) {
                 setSuggestElementItems(el);
             }
@@ -85,16 +85,16 @@
         }, {
             type: 'timerStart', parent: 'event',
             url: iconDirectory + '/tooltip/icon_tooltip_event_start_timer.svg',
-            element_url: iconDirectory + '/element-type/icon_element_event_start_timer.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_event_start_timer_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_event_start_timer.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_event_start_timer_selected.svg',
             action: function (el) {
                 editElementType(el, 'timerStart');
             }
         }, {
             type: 'signalSend', parent: 'event',
             url: iconDirectory + '/tooltip/icon_tooltip_event_signal.svg',
-            element_url: iconDirectory + '/element-type/icon_element_event_signal.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_event_signal_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_event_signal.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_event_signal_selected.svg',
             action: function (el) {
                 editElementType(el, 'signalSend');
             }
@@ -107,54 +107,54 @@
         }, {
             type: 'userTask', parent: 'task',
             url: iconDirectory + '/tooltip/icon_tooltip_user_task.svg',
-            element_url: iconDirectory + '/element-type/icon_element_user_task.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_user_task_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_user_task.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_user_task_selected.svg',
             action: function (el) {
                 editElementType(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'task',
             url: iconDirectory + '/tooltip/icon_tooltip_manual_task.svg',
-            element_url: iconDirectory + '/element-type/icon_element_manual_task.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_manual_task_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_manual_task.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_manual_task_selected.svg',
             action: function (el) {
                 editElementType(el, 'manualTask');
             }
         }, {
             type: 'scriptTask', parent: 'task',
             url: iconDirectory + '/tooltip/icon_tooltip_script_task.svg',
-            element_url: iconDirectory + '/element-type/icon_element_script_task.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_script_task_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_script_task.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_script_task_selected.svg',
             action: function (el) {
                 editElementType(el, 'scriptTask');
             }
         }, {
             type: 'subprocess', parent: 'subprocess',
             url: '',
-            element_url: iconDirectory + '/element-type/icon_element_subprocess.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_subprocess_selected.svg',
-            action: function (el) {}
+            elementUrl: iconDirectory + '/element-type/icon_element_subprocess.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_subprocess_selected.svg',
+            action: function () {}
         }, {
             type: 'exclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
-            element_url: iconDirectory + '/element-type/icon_element_exclusive_gateway.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_exclusive_gateway_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_exclusive_gateway.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_exclusive_gateway_selected.svg',
             action: function (el) {
                 editElementType(el, 'exclusiveGateway');
             }
         }/*, {
             type: 'parallelGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/icon_tooltip_parallel_gateway.svg',
-            element_url: iconDirectory + '/element-type/icon_element_parallel_gateway.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_parallel_gateway_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_parallel_gateway.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_parallel_gateway_selected.svg',
             action: function(el) {
                 editElementType(el, 'parallelGateway');
             }
         }, {
             type: 'inclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/icon_tooltip_inclusive_gateway.svg',
-            element_url: iconDirectory + '/element-type/icon_element_inclusive_gateway.svg',
-            element_selected_url: iconDirectory + '/element-type/icon_element_inclusive_gateway_selected.svg',
+            elementUrl: iconDirectory + '/element-type/icon_element_inclusive_gateway.svg',
+            elementSelectedUrl: iconDirectory + '/element-type/icon_element_inclusive_gateway_selected.svg',
             action: function(el) {
                 editElementType(el, 'inclusiveGateway');
             }
@@ -193,7 +193,9 @@
      */
     function getElementDefaultType(category) {
         let type = elementsProperties[category][0].type;
-        let defaultTypeProperties = elementsProperties[category].filter(function (prop) { return prop.default === 'true'; });
+        let defaultTypeProperties = elementsProperties[category].filter(function (prop) {
+            return prop.default === 'true';
+        });
         if (defaultTypeProperties.length > 0) {
             type = defaultTypeProperties[0].type;
         }
@@ -235,7 +237,9 @@
 
             d3.select('g.alice-tooltip').remove();
             changeElementType(element, type, true);
-            zProcessDesigner.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
+            zProcessDesigner.utils.history.saveHistory(
+                [{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]
+            );
         }
     }
 
@@ -314,7 +318,9 @@
                     let attributeData = getAttributeData(elementsKeys[i], elemType);
                     setElementData(elemData, attributeData);
                     elemData.type = elemType;
-                    elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
+                    elemData.display = {
+                        'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy
+                    };
                     elemData.data = attributeData;
                     elemData.required = getAttributeRequired(elementsKeys[i], elemType);
                     break;
@@ -414,18 +420,23 @@
         if (elem.classed('subprocess')) {
             actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type !== 'edit'; });
         } else if (elem.classed('artifact')) {
-            actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type === 'delete' || tooltip.type === 'copy'; });
+            actionTooltip = actionTooltip.filter(function (tooltip) {
+                return tooltip.type === 'delete' || tooltip.type === 'copy';
+            });
         } else if (elem.classed('connector')) {
             actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type === 'delete'; });
         } else if (elem.classed('gateway')) {
-            actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type !== 'edit'; });  // TODO: 병렬, 포괄적 게이트웨이 숨김
+            // 병렬, 포괄적 게이트웨이 숨김
+            actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type !== 'edit'; });
         }
 
         if (!elem.classed('gateway')) {
             let isSuggest = true,
                 isEdit = true;
             let elementId = elem.node().id;
-            let connectors = zProcessDesigner.data.elements.filter(function (attr) { return attr.type === 'arrowConnector'; });
+            let connectors = zProcessDesigner.data.elements.filter(function (attr) {
+                return attr.type === 'arrowConnector';
+            });
             connectors.forEach(function (c) {
                 let connectorNode = document.getElementById(c.id);
                 if (connectorNode) {
@@ -480,12 +491,12 @@
                 d3.event.stopPropagation();
                 d3.event.preventDefault();
                 actionTooltip.forEach(function (t) {
-                    if (t.focus_url) {
+                    if (t.focusUrl) {
                         let item = document.getElementById('action-tooltip-item-' + t.type);
                         d3.select(item).style('fill', 'url(#' + t.parent + '-' + t.type + ')');
                     }
                 });
-                if (d.focus_url) {
+                if (d.focusUrl) {
                     d3.select(this).style('fill', 'url(#' + d.parent + '-' + d.type + '-focus)');
                 }
                 d.action(elem);
@@ -558,7 +569,9 @@
             const elementId = elem.node().id;
             let isSourceConnected = false,
                 isTargetConnected = false;
-            let connectors = zProcessDesigner.data.elements.filter(function (e) { return e.type === 'arrowConnector'; });
+            let connectors = zProcessDesigner.data.elements.filter(function (e) {
+                return e.type === 'arrowConnector';
+            });
             connectors.forEach(function (c) {
                 if (c.data['start-id'] === elementId) {
                     isSourceConnected = true;
@@ -573,7 +586,9 @@
                 } else {
                     elementTypeItems = elementTypeItems.filter(function (item) { return item.type !== 'commonEnd'; });
                     if (isTargetConnected) {
-                        elementTypeItems = elementTypeItems.filter(function (item) { return item.type !== 'commonStart'; });
+                        elementTypeItems = elementTypeItems.filter(function (item) {
+                            return item.type !== 'commonStart';
+                        });
                     }
                 }
             }
@@ -598,7 +613,7 @@
      */
     function resetElementPosition() {
         const containerTransform = d3.zoomTransform(d3.select('g.element-container').node());
-        console.debug('container transform : x(%s), y(%s)', containerTransform.x, containerTransform.y);
+        //console.debug('container transform : x(%s), y(%s)', containerTransform.x, containerTransform.y);
         if (containerTransform.x !== 0 || containerTransform.y !== 0) {
             zProcessDesigner.data.elements.forEach(function (elem) {
                 const nodeElement = d3.select(document.getElementById(elem.id));
@@ -613,12 +628,16 @@
                             [linkData.midPoint[0] + containerTransform.x, linkData.midPoint[1] + containerTransform.y];
                     }
                     if (typeof linkData.sourcePoint !== 'undefined') {
-                        elem.display['source-point'] =
-                            [linkData.sourcePoint[0] + containerTransform.x, linkData.sourcePoint[1] + containerTransform.y];
+                        elem.display['source-point'] = [
+                            linkData.sourcePoint[0] + containerTransform.x,
+                            linkData.sourcePoint[1] + containerTransform.y
+                        ];
                     }
                     if (typeof linkData.targetPoint !== 'undefined') {
-                        elem.display['target-point'] =
-                            [linkData.targetPoint[0] + containerTransform.x, linkData.targetPoint[1] + containerTransform.y];
+                        elem.display['target-point'] = [
+                            linkData.targetPoint[0] + containerTransform.x,
+                            linkData.targetPoint[1] + containerTransform.y
+                        ];
                     }
                 }
             });
@@ -735,21 +754,25 @@
             addElemHeight = 0;
         switch (type) {
             case 'userTask':
-            case 'manualTask':
+            case 'manualTask': {
                 addElemWidth = 160;
                 addElemHeight = 40;
                 break;
-            case 'exclusiveGateway':
+            }
+            case 'exclusiveGateway': {
                 let gatewaySize = Math.sqrt(
-                    Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2) + Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2)
+                    Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2) +
+                    Math.pow(zProcessDesigner.displayOptions.gatewaySize, 2)
                 );
                 addElemWidth = gatewaySize;
                 addElemHeight = gatewaySize;
                 break;
-            case 'commonEnd':
+            }
+            case 'commonEnd': {
                 addElemWidth = 40;
                 addElemHeight = 40;
                 break;
+            }
         }
 
         elemData.display = {
@@ -762,7 +785,8 @@
             let bottom = targetBbox.cy - distance - (addElemHeight / 2);
             zProcessDesigner.elements.links.forEach(function (e) {
                 if (e.sourceId === elem.node().id) {
-                    const bbox = zProcessDesigner.utils.getBoundingBoxCenter(d3.select(document.getElementById(e.targetId)));
+                    const bbox = zProcessDesigner.utils.getBoundingBoxCenter(
+                        d3.select(document.getElementById(e.targetId)));
                     bottom = Math.max(bottom, (bbox.y + bbox.height));
                 }
             });
@@ -782,10 +806,14 @@
             zProcessDesigner.removeElementSelected();
 
             const connectorElementId = ZWorkflowUtil.generateUUID();
-            zProcessDesigner.elements.links.push({id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'});
+            zProcessDesigner.elements.links.push(
+                {id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'}
+            );
             zProcessDesigner.setConnectors();
 
-            const connectorElementData = zProcessDesigner.data.elements.filter(function (elem) { return elem.id === connectorElementId; })[0];
+            const connectorElementData = zProcessDesigner.data.elements.filter(function (elem) {
+                return elem.id === connectorElementId;
+            })[0];
             zProcessDesigner.utils.history.undo_list.pop(); // remove add connector history.
             zProcessDesigner.utils.history.saveHistory([
                 {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
@@ -851,7 +879,9 @@
             const elements = zProcessDesigner.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = JSON.parse(JSON.stringify(elements.filter(function (attr) { return attr.id === elementId; })[0]));
+                    let property = JSON.parse(JSON.stringify(elements.filter(function (attr) {
+                        return attr.id === elementId;
+                    })[0]));
                     let properties = elementsProperties[elementsKeys[i]];
                     let attributes = properties.filter(function (p) { return p.type === property.type; });
                     if (attributes.length > 0) {
@@ -916,7 +946,10 @@
                 }
             } else {
                 const bbox = zProcessDesigner.utils.getBoundingBoxCenter(nodeElement);
-                elementData[0].display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
+                elementData[0].display = {
+                    'width': bbox.width, 'height': bbox.height,
+                    'position-x': bbox.cx, 'position-y': bbox.cy
+                };
             }
 
             let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
@@ -941,50 +974,54 @@
                 let propertyObject = propertyObjects[i];
                 zProcessDesigner.data.process[propertyObject.name] = propertyObject.value;
             }
-            zProcessDesigner.utils.history.saveHistory([{0: originProcessData, 1: JSON.parse(JSON.stringify(zProcessDesigner.data.process))}]);
+            zProcessDesigner.utils.history.saveHistory([
+                {0: originProcessData, 1: JSON.parse(JSON.stringify(zProcessDesigner.data.process))}
+            ]);
         } else {
             let elementData = zProcessDesigner.data.elements.filter(function (attr) { return attr.id === id; });
-            if (elementData.length) {
-                const originElementData = JSON.parse(JSON.stringify(elementData[0]));
-                elementData[0].data = {};
-                for (let i = 0, len = propertyObjects.length; i < len; i++) {
-                    let propertyObject = propertyObjects[i];
-                    if (!propertyObject.name) { continue; }
-                    let propertyValue = propertyObject.value;
-                    if (propertyObject.classList.contains('multiple')) {
-                        propertyValue = propertyObject.value.split(',');
-                    }
-                    if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
-                        propertyValue = propertyObject.checked ? 'Y' : 'N';
-                        if (propertyObject.id === 'is-default') {
-                            let conditionAttrObject = container.querySelector('input[name=condition-value]');
-                            if (conditionAttrObject && propertyObject.checked) {
-                                conditionAttrObject.value = '';
-                            }
+            if (!elementData.length) { return false; }
+            const originElementData = JSON.parse(JSON.stringify(elementData[0]));
+            elementData[0].data = {};
+            for (let i = 0, len = propertyObjects.length; i < len; i++) {
+                let propertyObject = propertyObjects[i];
+                if (!propertyObject.name) { continue; }
+                let propertyValue = propertyObject.value;
+                if (propertyObject.classList.contains('multiple')) {
+                    propertyValue = propertyObject.value.split(',');
+                }
+                if (propertyObject.tagName.toUpperCase() === 'INPUT' &&
+                    propertyObject.type.toUpperCase() === 'CHECKBOX') {
+                    propertyValue = propertyObject.checked ? 'Y' : 'N';
+                    if (propertyObject.id === 'is-default') {
+                        let conditionAttrObject = container.querySelector('input[name=condition-value]');
+                        if (conditionAttrObject && propertyObject.checked) {
+                            conditionAttrObject.value = '';
                         }
-                    }
-                    let filerKeys = ['id', 'name', 'notification', 'description'].filter(function (key) {
-                        return key === propertyObject.name;
-                    });
-                    if (filerKeys.length) {
-                        elementData[0][propertyObject.name] = propertyValue;
-                    } else {
-                        elementData[0].data[propertyObject.name] = propertyValue;
                     }
                 }
+                let filerKeys = ['id', 'name', 'notification', 'description'].filter(function (key) {
+                    return key === propertyObject.name;
+                });
+                if (filerKeys.length) {
+                    elementData[0][propertyObject.name] = propertyValue;
+                } else {
+                    elementData[0].data[propertyObject.name] = propertyValue;
+                }
+            }
 
-                const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
-                zProcessDesigner.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+            const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
+            zProcessDesigner.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
 
-                if (originElementData.name !== changeElementData.name) {
-                    let connectors = zProcessDesigner.data.elements.filter(function (attr) { return attr.type === 'arrowConnector'; });
-                    for (let i = 0, len = connectors.length; i < len; i++) {
-                        if (connectors[i].data['start-id'] === id) {
-                            connectors[i].data['start-name'] = elementData[0].name;
-                        }
-                        if (connectors[i].data['end-id'] === id) {
-                            connectors[i].data['end-name'] = elementData[0].name;
-                        }
+            if (originElementData.name !== changeElementData.name) {
+                const connectors = zProcessDesigner.data.elements.filter(function (attr) {
+                    return attr.type === 'arrowConnector';
+                });
+                for (let i = 0, len = connectors.length; i < len; i++) {
+                    if (connectors[i].data['start-id'] === id) {
+                        connectors[i].data['start-name'] = elementData[0].name;
+                    }
+                    if (connectors[i].data['end-id'] === id) {
+                        connectors[i].data['end-name'] = elementData[0].name;
                     }
                 }
             }
@@ -1136,6 +1173,7 @@
 
             if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
                 if (valueAttr[0] !== '') {
+                    /* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
                     let data = valueAttr[0].split('\|');
                     targetMappingInput.value = data[0];
                     sourceMappingInput.value = data[1];
@@ -1339,7 +1377,8 @@
                 let targetMappingValue = document.querySelector('#target-mapping-id').value.trim();
 
                 if (targetMappingValue === '') {
-                    zAlert.warning(i18n.msg('validation.msg.required', i18n.msg('process.designer.attribute.targetMappingId')));
+                    zAlert.warning(i18n.msg('validation.msg.required',
+                        i18n.msg('process.designer.attribute.targetMappingId')));
                     return false;
                 }
 
@@ -1620,7 +1659,9 @@
                 propertyContainer.className = 'properties';
                 if (typeof property.fieldset !== 'undefined') {
                     // property fieldset
-                    let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
+                    let fieldsetContainer = elementContainer.querySelector(
+                        'fieldset[name="' + property.fieldset + '"]'
+                    );
                     if (fieldsetContainer === null) {
                         fieldsetContainer = addFieldset(property, elementContainer);
                     }
@@ -1659,7 +1700,8 @@
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
                         if (property.type === 'rgb') {
-                            elementObject.value = aliceJs.isHexCode(elemData[property.id]) ? elemData[property.id] : aliceJs.rgbaToHex(elemData[property.id]);
+                            elementObject.value = aliceJs.isHexCode(elemData[property.id]) ?
+                                elemData[property.id] : aliceJs.rgbaToHex(elemData[property.id]);
                         } else {
                             elementObject.value = elemData[property.id];
                         }
@@ -1671,7 +1713,8 @@
                     if (elemData.createdWorkFlow) {
                         elementObject.readOnly = true;
                         elementObject.classList.add('readonly');
-                        elementObject.parentElement.parentElement.parentElement.parentElement.classList.add('z-textarea-readonly');
+                        elementObject.parentElement.parentElement.parentElement.parentElement.classList
+                            .add('z-textarea-readonly');
                     }
 
                     // change 이벤트 설정
@@ -1692,7 +1735,7 @@
 
                     // 그 외 이벤트 설정
                     switch (property.id) {
-                        case 'name':
+                        case 'name': {
                             let keyupHandler = function () {
                                 zProcessDesigner.changeTextToElement(id, this.value);
                             };
@@ -1701,12 +1744,16 @@
                             }
                             elementObject.addEventListener('keyup', keyupHandler);
                             break;
-                        case 'reject-id':
+                        }
+                        case 'reject-id': {
                             const addRejectClass = function (e) {
                                 e.stopPropagation();
-                                const elementData = zProcessDesigner.data.elements.filter(function (elem) { return elem.id === e.target.value; });
+                                const elementData = zProcessDesigner.data.elements.filter(function (elem) {
+                                    return elem.id === e.target.value;
+                                });
                                 if (elementData.length) {
-                                    d3.select(document.getElementById(elementData[0].id)).classed('reject-element', true);
+                                    d3.select(document.getElementById(elementData[0].id))
+                                        .classed('reject-element', true);
                                 } else {
                                     d3.selectAll('.node').classed('reject-element', false);
                                 }
@@ -1717,15 +1764,20 @@
                                 d3.selectAll('.node').classed('reject-element', false);
                             });
                             break;
-                        case 'target-document-list':
-                            setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
+                        }
+                        case 'target-document-list': {
+                            setMultipleDatatable(elementObject, documents,
+                                {value: 'documentId', text: 'documentName'}, elemData[property.id]);
                             break;
-                        case 'script-detail' :
+                        }
+                        case 'script-detail' : {
                             setMultipleScriptDetail(elementObject, elemData['script-type'], elemData[property.id]);
                             break;
-                        case 'script-action' :
+                        }
+                        case 'script-action' : {
                             setMultipleScriptAction(elementObject, elemData['script-type'], elemData[property.id]);
                             break;
+                        }
                     }
                 }
             }
@@ -1762,11 +1814,14 @@
             let conditionFieldset = elementContainer.querySelector('fieldset[name=condition]');
             if (actionFieldset && conditionFieldset) {
                 let element = zProcessDesigner.data.elements.filter(function (e) { return e.id === id; })[0];
-                let sourceElement = zProcessDesigner.data.elements.filter(function (e) { return e.id === element.data['start-id']; })[0];
+                let sourceElement = zProcessDesigner.data.elements.filter(function (e) {
+                    return e.id === element.data['start-id'];
+                })[0];
 
                 let enableFieldset = actionFieldset;
                 let disabledFieldset = conditionFieldset;
-                if (sourceElement.type.indexOf('Gateway') > -1 && sourceElement.data['condition-item'].startsWith('$')) {
+                if (sourceElement.type.indexOf('Gateway') > -1 &&
+                    sourceElement.data['condition-item'].startsWith('$')) {
                     enableFieldset = conditionFieldset;
                     disabledFieldset = actionFieldset;
                 }
@@ -1774,7 +1829,8 @@
                 disabledFieldset.querySelector('input[type=radio]').disabled = true;
                 disabledFieldset.disabled = true;
                 disabledFieldset.querySelectorAll('input:not([type=radio])').forEach(function (inputObject) {
-                    if (inputObject.tagName.toUpperCase() === 'INPUT' && inputObject.type.toUpperCase() === 'CHECKBOX') {
+                    if (inputObject.tagName.toUpperCase() === 'INPUT' &&
+                        inputObject.type.toUpperCase() === 'CHECKBOX') {
                         inputObject.checked = false;
                         inputObject.value = 'N';
                     } else {
@@ -1852,20 +1908,22 @@
     function addPropertyObject(id, property, properties, elemData, propertyContainer) {
         let elementObject;
         switch (property.type) {
-            case 'inputbox':
+            case 'inputbox': {
                 elementObject = document.createElement('input');
                 elementObject.className = 'z-input';
                 elementObject.maxLength = 70;
                 propertyContainer.appendChild(elementObject);
                 break;
-            case 'inputbox-readonly':
+            }
+            case 'inputbox-readonly': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
                 elementObject.className = 'z-input';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
                 break;
-            case 'inputbox-copy':
+            }
+            case 'inputbox-copy': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
                 elementObject.className = 'z-input copy';
@@ -1899,7 +1957,8 @@
 
                 propertyContainer.appendChild(copyBtnContainer);
                 break;
-            case 'textarea':
+            }
+            case 'textarea': {
                 elementObject = document.createElement('textarea');
                 elementObject.className = 'z-textarea';
                 elementObject.style.resize = 'none';
@@ -1909,10 +1968,11 @@
                 // textarea 에 스크롤 적용
                 propertyContainer.querySelectorAll('textarea').forEach(element => {
                     element.classList.add('textarea-scroll-wrapper');
-                    OverlayScrollbars(element, { className: 'inner-scrollbar' });
+                    OverlayScrollbars(element, {className: 'inner-scrollbar'});
                 });
                 break;
-            case 'checkbox':
+            }
+            case 'checkbox': {
                 const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
                 const labelText = labelElem.textContent;
                 labelElem.textContent = '';
@@ -1930,7 +1990,8 @@
                 spanElem.textContent = labelText;
                 labelElem.appendChild(spanElem);
                 break;
-            case 'select':
+            }
+            case 'select': {
                 elementObject = document.createElement('select');
                 let optionList = JSON.parse(JSON.stringify(property['sub-list']));
                 if (property.id === 'sub-document-id') {
@@ -1956,7 +2017,8 @@
                 }
                 propertyContainer.appendChild(elementObject);
                 break;
-            case 'rgb':
+            }
+            case 'rgb': {
                 elementObject = document.createElement('input');
                 elementObject.id = property.id;
                 elementObject.value = elemData[property.id];
@@ -1969,8 +2031,9 @@
                 propertyContainer.appendChild(elementObject);
 
                 // color picker 초기화
-                new zColorPicker(elementObject, { type: (property.id === 'line-color') ? 'line' : 'fill' });
+                new zColorPicker(elementObject, {type: (property.id === 'line-color') ? 'line' : 'fill'});
                 break;
+            }
             default:
                 break;
         }
@@ -2102,7 +2165,7 @@
             method: 'GET'
         }).then((response) => {
             switch (response.status) {
-                case aliceJs.response.success:
+                case aliceJs.response.success: {
                     zProcessDesigner.data = response.data;
                     const elements = zProcessDesigner.data.elements;
                     initialStatus = zProcessDesigner.data.process.status;
@@ -2114,9 +2177,11 @@
                     zProcessDesigner.drawProcess(processId, elements);
                     exports.initialStatus = initialStatus;
                     break;
-                case aliceJs.response.error:
+                }
+                case aliceJs.response.error: {
                     zAlert.danger(i18n.msg('common.msg.fail'));
                     break;
+                }
                 default:
                     break;
             }
@@ -2136,12 +2201,13 @@
             method: 'GET'
         }).then((response) => {
             if (response.status === aliceJs.response.success) {
-                assigneeTypeData.groups = response.data;
+                assigneeTypeData.groups = response.data.data;
             }
         });
 
         // documents
-        const loadDocuments = async () => await aliceJs.fetchJson('/rest/documents?searchDocumentStatus=document.status.use', {
+        const documentUrl = '/rest/documents?searchDocumentStatus=document.status.use';
+        const loadDocuments = async () => await aliceJs.fetchJson(documentUrl, {
             method: 'GET'
         }).then((response) => {
             if (response.status === aliceJs.response.success) {
@@ -2165,21 +2231,21 @@
                 data.url = item.url;
                 imageLoadingList.push(data);
             }
-            if (item.element_url) {
+            if (item.elementUrl) {
                 let elemData = {};
                 elemData.id = item.parent + '-' + item.type + '-element';
-                elemData.url = item.element_url;
+                elemData.url = item.elementUrl;
                 imageLoadingList.push(elemData);
 
                 elemData = {};
                 elemData.id = item.parent + '-' + item.type + '-element-selected';
-                elemData.url = item.element_selected_url;
+                elemData.url = item.elementSelectedUrl;
                 imageLoadingList.push(elemData);
             }
-            if (item.focus_url) {
+            if (item.focusUrl) {
                 let focusData = {};
                 focusData.id = item.parent + '-' + item.type + '-focus';
-                focusData.url = item.focus_url;
+                focusData.url = item.focusUrl;
                 imageLoadingList.push(focusData);
             }
         });

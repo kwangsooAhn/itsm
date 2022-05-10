@@ -8,8 +8,8 @@ package co.brainz.itsm.statistic.customReportTemplate.repository
 
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customReportTemplate.dto.CustomReportTemplateCondition
-import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateEntity
 import co.brainz.itsm.statistic.customReportTemplate.entity.CustomReportTemplateEntity
+import co.brainz.itsm.statistic.customReportTemplate.entity.QCustomReportTemplateEntity
 import com.querydsl.core.BooleanBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -24,8 +24,8 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
     override fun getReportTemplateList(customReportTemplateCondition: CustomReportTemplateCondition): PagingReturnDto {
         val template = QCustomReportTemplateEntity.customReportTemplateEntity
         val query = from(template)
-            .where(builder(template,customReportTemplateCondition))
-            query.orderBy(template.templateName.asc())
+            .where(builder(template, customReportTemplateCondition))
+        query.orderBy(template.templateName.asc())
         if (customReportTemplateCondition.isPaging) {
             query.limit(customReportTemplateCondition.contentNumPerPage)
             query.offset((customReportTemplateCondition.pageNum - 1) * customReportTemplateCondition.contentNumPerPage)
@@ -33,7 +33,7 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
 
         val countQuery = from(template)
             .select(template.count())
-            .where(builder(template,customReportTemplateCondition))
+            .where(builder(template, customReportTemplateCondition))
 
         return PagingReturnDto(
             dataList = query.fetch(),
@@ -41,7 +41,10 @@ class CustomReportTemplateRepositoryImpl : QuerydslRepositorySupport(CustomRepor
         )
     }
 
-    private fun builder(template: QCustomReportTemplateEntity, customReportTemplateCondition: CustomReportTemplateCondition): BooleanBuilder{
+    private fun builder(
+        template: QCustomReportTemplateEntity,
+        customReportTemplateCondition: CustomReportTemplateCondition
+    ): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(super.likeIgnoreCase(template.templateName, customReportTemplateCondition.searchValue))
         return builder

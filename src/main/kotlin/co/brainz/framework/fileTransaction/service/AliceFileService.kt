@@ -223,7 +223,6 @@ class AliceFileService(
                 updateDt = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault())
             )
             fileDetailDto.width = width
-
         }
         return fileDetailDto
     }

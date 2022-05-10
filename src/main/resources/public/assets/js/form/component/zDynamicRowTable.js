@@ -128,7 +128,7 @@ export const dynamicRowTableMixin = {
             // 테이블의 모든 cell을 readonly 처리하고 버튼은 disabled 처리한다.
             for (const row of drTable.domElement.rows) {
                 for (const cell of row.cells) {
-                    const elem = cell.querySelector('indynamicRowTable put, select, button');
+                    const elem = cell.querySelector('input, select, button');
                     if (zValidation.isDefined(elem)) {
                         // 버튼일 경우 readonly 대신 disabled 처리 필요
                         if (elem.tagName === 'BUTTON') {
@@ -297,10 +297,7 @@ export const dynamicRowTableMixin = {
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
-            if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
-                !zValidation.isEmpty(this.parent.parent.parent) &&
-                this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
-                this.displayType !== FORM.DISPLAY_TYPE.HIDDEN) {
+            if (this.displayType !== FORM.DISPLAY_TYPE.HIDDEN) {
                 if (zValidation.isEmpty(data[index])) {
                     let defaultValue = this._defaultValues[index];
                     columnData.push(defaultValue);
@@ -499,7 +496,7 @@ export const dynamicRowTableMixin = {
         for (const column of columns) {
             let defaultValue = '${default}';
             switch (column.columnType) {
-                case 'input':
+                case 'input': {
                     defaultValue = column.columnElement.defaultValueSelect.split('|');
                     if (defaultValue[0] === 'input') {
                         defaultValue = defaultValue[1];
@@ -507,7 +504,8 @@ export const dynamicRowTableMixin = {
                         defaultValue = ZSession.get(defaultValue[1]) || '';
                     }
                     break;
-                case 'dropdown':
+                }
+                case 'dropdown': {
                     for (let i = 0; i < column.columnElement.options.length; i++) {
                         let checkedYn = column.columnElement.options[i].checked || false;
                         if (checkedYn) {
@@ -516,28 +514,40 @@ export const dynamicRowTableMixin = {
                         defaultValue = defaultValue === '${default}' ? '' : defaultValue;
                     }
                     break;
-                case 'time':
-                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForTime(column, defaultValue));
+                }
+                case 'time': {
+                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType,
+                        this.getDefaultValueForTime(column, defaultValue));
                     break;
-                case 'date':
-                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDate(column, defaultValue));
+                }
+                case 'date': {
+                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType,
+                        this.getDefaultValueForDate(column, defaultValue));
                     break;
-                case 'dateTime':
-                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType, this.getDefaultValueForDateTime(column, defaultValue));
+                }
+                case 'dateTime': {
+                    defaultValue = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, column.columnType,
+                        this.getDefaultValueForDateTime(column, defaultValue));
                     break;
-                case 'label':
+                }
+                case 'label': {
                     defaultValue = '';
                     break;
-                case 'userSearch':
+                }
+                case 'userSearch': {
                     // 설정된 검색조건에 대해 설정된 기본값이 유효한지 검증한다.
                     this.getDefaultValueForUserSearch(column, column.columnElement.defaultValue.type).then((data) => {
                         column.columnElement.defaultValue.data = data;
                     });
-                    defaultValue = defaultValue === '${default}' ? column.columnElement.defaultValue.data : defaultValue;
+                    defaultValue = defaultValue === '${default}' ?
+                        column.columnElement.defaultValue.data : defaultValue;
                     break;
-                case 'organizationSearch':
-                    defaultValue = defaultValue === '${default}' ? column.columnElement.defaultValue.data : defaultValue;
+                }
+                case 'organizationSearch': {
+                    defaultValue = defaultValue === '${default}' ?
+                        column.columnElement.defaultValue.data : defaultValue;
                     break;
+                }
                 default:
                     break;
             }
@@ -551,20 +561,24 @@ export const dynamicRowTableMixin = {
             const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
             let date = '';
             switch (defaultValueArray[0]) {
-                case FORM.DATE_TYPE.NONE:
-                    break;
-                case FORM.DATE_TYPE.NOW:
+                case FORM.DATE_TYPE.NOW: {
                     date = i18n.getDate();
                     break;
-                case FORM.DATE_TYPE.DAYS:
+                }
+                case FORM.DATE_TYPE.DAYS: {
                     const offset = {
                         days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
                             0 : Number(defaultValueArray[1])
                     };
                     date = i18n.getDate(offset);
                     break;
-                case FORM.DATE_TYPE.DATE_PICKER:
-                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                }
+                case FORM.DATE_TYPE.DATE_PICKER: {
+                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType,
+                        zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+                }
+                default:
                     break;
             }
             return date;
@@ -578,20 +592,24 @@ export const dynamicRowTableMixin = {
             const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
             let time = '';
             switch (defaultValueArray[0]) {
-                case FORM.DATE_TYPE.NONE:
-                    break;
-                case FORM.DATE_TYPE.NOW:
+                case FORM.DATE_TYPE.NOW: {
                     time = i18n.getTime();
                     break;
-                case FORM.DATE_TYPE.HOURS:
+                }
+                case FORM.DATE_TYPE.HOURS: {
                     const offset = {
                         hours: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
                             0 : Number(defaultValueArray[1])
                     };
                     time = i18n.getTime(offset);
                     break;
-                case FORM.DATE_TYPE.TIME_PICKER:
-                    time = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                }
+                case FORM.DATE_TYPE.TIME_PICKER: {
+                    time = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType,
+                        zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+                }
+                default:
                     break;
             }
             return time;
@@ -605,12 +623,11 @@ export const dynamicRowTableMixin = {
             const defaultValueArray = column.columnElement.defaultValueRadio.split('|');
             let dateTime = '';
             switch (defaultValueArray[0]) {
-                case FORM.DATE_TYPE.NONE:
-                    break;
-                case FORM.DATE_TYPE.NOW:
+                case FORM.DATE_TYPE.NOW: {
                     dateTime = i18n.getDateTime();
                     break;
-                case FORM.DATE_TYPE.DATETIME:
+                }
+                case FORM.DATE_TYPE.DATETIME: {
                     const offset = {
                         days: zValidation.isEmpty(defaultValueArray[1]) || isNaN(Number(defaultValueArray[1])) ?
                             0 : Number(defaultValueArray[1]),
@@ -619,8 +636,13 @@ export const dynamicRowTableMixin = {
                     };
                     dateTime = i18n.getDateTime(offset);
                     break;
-                case FORM.DATE_TYPE.DATETIME_PICKER:
-                    dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                }
+                case FORM.DATE_TYPE.DATETIME_PICKER: {
+                    dateTime = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, column.columnType,
+                        zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    break;
+                }
+                default:
                     break;
             }
             return dateTime;
@@ -631,32 +653,28 @@ export const dynamicRowTableMixin = {
     // 사용자 검색 컴포넌트 검색 조건과 기본값을 비교하여 유효한 값인지 체크, 아닐 경우 빈 값으로 처리
     async getDefaultValueForUserSearch(column, defaultType) {
         let defaultValue = column.columnElement.defaultValue.data;
-        switch (defaultType) {
-            case FORM.DEFAULT_VALUE_TYPE.NONE:
-                break;
-            default:
-                // 사용자 검색 조건이 모두 충족되었는지 확인
-                const searchValue = defaultValue.split('|')[2];
-                let targetData = column.columnElement.userSearchTarget;
-                let targetCriteria = '';
-                let searchKeys = '';
-                if (!zValidation.isEmpty(targetData)) {
-                    targetData = JSON.parse(targetData);
-                    targetCriteria = targetData.targetCriteria;
-                    targetData.searchKey.forEach( (elem, index) => {
-                        searchKeys += (index > 0) ? '+' + elem.id : elem.id;
-                    });
-                }
-                await aliceJs.fetchText('/users/searchUsers?searchValue=' + searchValue
-                    + '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys, {
-                    method: 'GET'
-                }).then((htmlData) => {
-                    const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                    if (!userListElem.querySelectorAll('.z-table-row').length) {
-                        defaultValue = '';
-                    }
+        if (defaultType !== FORM.DEFAULT_VALUE_TYPE.NONE) {
+            // 사용자 검색 조건이 모두 충족되었는지 확인
+            const searchValue = defaultValue.split('|')[2];
+            let targetData = column.columnElement.userSearchTarget;
+            let targetCriteria = '';
+            let searchKeys = '';
+            if (!zValidation.isEmpty(targetData)) {
+                targetData = JSON.parse(targetData);
+                targetCriteria = targetData.targetCriteria;
+                targetData.searchKey.forEach( (elem, index) => {
+                    searchKeys += (index > 0) ? '+' + elem.id : elem.id;
                 });
-                break;
+            }
+            await aliceJs.fetchText('/users/searchUsers?searchValue=' + searchValue
+                + '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys, {
+                method: 'GET'
+            }).then((htmlData) => {
+                const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
+                if (!userListElem.querySelectorAll('.z-table-row').length) {
+                    defaultValue = '';
+                }
+            });
         }
         return defaultValue;
     },
@@ -677,18 +695,27 @@ export const dynamicRowTableMixin = {
     changeDateTimeFormat(columns, format) {
         for (let i = 0; i < columns.length; i++) {
             switch (columns[i].columnType) {
-                case FORM.DATE_TYPE.DAYS:
-                    columns[i].columnValidation.minDate = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.minDate);
-                    columns[i].columnValidation.maxDate = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxDate);
+                case FORM.DATE_TYPE.DAYS: {
+                    columns[i].columnValidation.minDate = aliceJs.convertDateFormat(format, columns[i].columnType,
+                        columns[i].columnValidation.minDate);
+                    columns[i].columnValidation.maxDate = aliceJs.convertDateFormat(format, columns[i].columnType,
+                        columns[i].columnValidation.maxDate);
                     break;
-                case FORM.DATE_TYPE.HOURS:
-                    columns[i].columnValidation.minTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.minTime);
-                    columns[i].columnValidation.maxTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxTime);
+                }
+                case FORM.DATE_TYPE.HOURS: {
+                    columns[i].columnValidation.minTime = aliceJs.convertDateFormat(format, columns[i].columnType,
+                        columns[i].columnValidation.minTime);
+                    columns[i].columnValidation.maxTime = aliceJs.convertDateFormat(format, columns[i].columnType,
+                        columns[i].columnValidation.maxTime);
                     break;
-                case FORM.DATE_TYPE.DATETIME:
-                    columns[i].columnValidation.minTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.minDateTime);
-                    columns[i].columnValidation.maxTime = aliceJs.convertDateFormat(format, columns[i].columnType, columns[i].columnValidation.maxDateTime);
+                }
+                case FORM.DATE_TYPE.DATETIME: {
+                    columns[i].columnValidation.minTime = aliceJs.convertDateFormat(format, columns[i].columnType,
+                        columns[i].columnValidation.minDateTime);
+                    columns[i].columnValidation.maxTime = aliceJs.convertDateFormat(format, columns[i].columnType,
+                        columns[i].columnValidation.maxDateTime);
                     break;
+                }
                 default:
                     break;
             }
@@ -699,36 +726,51 @@ export const dynamicRowTableMixin = {
         let isValidationPass = true;
 
         switch (target.getAttribute('type').replace('Picker', '')) {
-            case FORM.DATE_TYPE.DAYS:
+            case FORM.DATE_TYPE.DAYS: {
                 if (!zValidation.isEmpty(target.getAttribute('data-validation-min-date'))) {
-                    isValidationPass = i18n.compareSystemDate(target.getAttribute('data-validation-min-date'), target.value);
-                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')));
+                    isValidationPass = i18n.compareSystemDate(
+                        target.getAttribute('data-validation-min-date'), target.value);
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDate',
+                        target.getAttribute('data-validation-min-date')));
                 }
                 if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-date'))) {
-                    isValidationPass = i18n.compareSystemDate(target.value, target.getAttribute('data-validation-max-date'));
-                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeDate', target.getAttribute('data-validation-max-date')));
+                    isValidationPass = i18n.compareSystemDate(
+                        target.value, target.getAttribute('data-validation-max-date'));
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeDate',
+                        target.getAttribute('data-validation-max-date')));
                 }
                 break;
-            case FORM.DATE_TYPE.HOURS:
+            }
+            case FORM.DATE_TYPE.HOURS: {
                 if (!zValidation.isEmpty(target.getAttribute('data-validation-min-time'))) {
-                    isValidationPass = i18n.compareSystemTime(target.getAttribute('data-validation-min-time'), target.value);
-                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterTime', target.getAttribute('data-validation-min-time')));
+                    isValidationPass = i18n.compareSystemTime(
+                        target.getAttribute('data-validation-min-time'), target.value);
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterTime',
+                        target.getAttribute('data-validation-min-time')));
                 }
                 if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-time'))) {
-                    isValidationPass = i18n.compareSystemTime(target.value, target.getAttribute('data-validation-max-time'));
-                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeTime', target.getAttribute('data-validation-max-time')));
+                    isValidationPass = i18n.compareSystemTime(
+                        target.value, target.getAttribute('data-validation-max-time'));
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeTime',
+                        target.getAttribute('data-validation-max-time')));
                 }
                 break;
-            case FORM.DATE_TYPE.DATETIME:
+            }
+            case FORM.DATE_TYPE.DATETIME: {
                 if (!zValidation.isEmpty(target.getAttribute('data-validation-min-datetime'))) {
-                    isValidationPass = i18n.compareSystemDateTime(target.getAttribute('data-validation-min-datetime'), target.value);
-                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDateTime', target.getAttribute('data-validation-min-datetime')));
+                    isValidationPass = i18n.compareSystemDateTime(
+                        target.getAttribute('data-validation-min-datetime'), target.value);
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectAfterDateTime',
+                        target.getAttribute('data-validation-min-datetime')));
                 }
                 if (isValidationPass && !zValidation.isEmpty(target.getAttribute('data-validation-max-datetime'))) {
-                    isValidationPass = i18n.compareSystemDateTime(target.value, target.getAttribute('data-validation-max-datetime'));
-                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeDateTime', target.getAttribute('data-validation-max-datetime')));
+                    isValidationPass = i18n.compareSystemDateTime(
+                        target.value, target.getAttribute('data-validation-max-datetime'));
+                    zValidation.setDOMElementError(isValidationPass, target, i18n.msg('common.msg.selectBeforeDateTime',
+                        target.getAttribute('data-validation-max-datetime')));
                 }
                 break;
+            }
             default:
                 break;
         }
@@ -867,7 +909,8 @@ export const dynamicRowTableMixin = {
                 const targetUserKey = target.getAttribute('data-user-search');
                 const targetUserId = target.getAttribute('data-user-id');
                 if (!zValidation.isEmpty(targetUserKey)) {
-                    target.setAttribute('data-realtime-selected-user', `${targetUserKey}|${target.value}|${targetUserId}`);
+                    target.setAttribute('data-realtime-selected-user',
+                        `${targetUserKey}|${target.value}|${targetUserId}`);
                 } else {
                     target.setAttribute('data-realtime-selected-user', '');
                 }
@@ -949,12 +992,14 @@ export const dynamicRowTableMixin = {
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('element.columns')
                 .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
-                .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.COLUMN, this.elementColumns)),
+                .addProperty(new ZColumnProperty('elementColumns', '', FORM.COLUMN_PROPERTY.COLUMN,
+                    this.elementColumns)),
             new ZGroupProperty('plugin.button')
                 .addProperty(new ZSwitchProperty('pluginUseYn', 'plugin.button', this.pluginUseYn))
                 .addProperty(new ZSwitchProperty('pluginRequired', 'validation.required', this.pluginRequired))
                 .addProperty(new ZInputBoxProperty('pluginButtonText', 'element.buttonText', this.pluginButtonText))
-                .addProperty(new ZDropdownProperty('pluginScriptType', 'plugin.scriptType', this.pluginScriptType, plugInOption)),
+                .addProperty(new ZDropdownProperty('pluginScriptType', 'plugin.scriptType', this.pluginScriptType,
+                    plugInOption)),
             new ZGroupProperty('group.validation')
                 .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
@@ -979,7 +1024,8 @@ export const dynamicRowTableMixin = {
     validationCheckOnPublish() {
         const optionListType = ['radio', 'checkBox', 'dropdown'];
         for (let column of this.element.columns) {
-            if (optionListType.includes(column.columnType) && zValidation.isEmptyOptions(column.columnElement.options)) {
+            if (optionListType.includes(column.columnType) &&
+                zValidation.isEmptyOptions(column.columnElement.options)) {
                 return false;
             }
             // 사용자 검색용 컴포넌트
@@ -987,7 +1033,8 @@ export const dynamicRowTableMixin = {
                 // 사용자 목록이 없을 때
                 const userSearchTarget = column.columnElement.userSearchTarget;
                 const userSearchTargetData = !zValidation.isEmpty(userSearchTarget) ? JSON.parse(userSearchTarget) : '';
-                if (zValidation.isEmpty(userSearchTargetData) || zValidation.isEmpty(userSearchTargetData.searchKey[0])) {
+                if (zValidation.isEmpty(userSearchTargetData) ||
+                    zValidation.isEmpty(userSearchTargetData.searchKey[0])) {
                     zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.userList')));
                     return false;
                 }

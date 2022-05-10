@@ -283,7 +283,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
     private fun builder(ciAttributeSearchCondition: CIAttributeSearchCondition, ciAttribute: QCIAttributeEntity, attributeId: String?): BooleanBuilder {
         val builder = BooleanBuilder()
 
-        if ( attributeId != null) {
+        if (attributeId != null) {
             builder.and(
                 ciAttribute.attributeId.notIn(attributeId)
                 .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))

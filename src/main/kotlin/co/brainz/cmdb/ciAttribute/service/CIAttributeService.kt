@@ -34,7 +34,6 @@ class CIAttributeService(
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-
     /**
      * CI Attribute 목록 조회.
      */

@@ -50,7 +50,7 @@ class TemplateComponentFactory(
                 wfTokenRepository, wfComponentRepository, wfTokenDataRepository,
                 wfComponentPropertyRepository, customCodeService
             )
-            else -> throw  AliceException(
+            else -> throw AliceException(
                 AliceErrorConstants.ERR_00005, "Dashboard Template Component not found."
             )
         }
