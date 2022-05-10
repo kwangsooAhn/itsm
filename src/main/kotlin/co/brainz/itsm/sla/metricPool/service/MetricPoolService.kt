@@ -9,6 +9,8 @@ import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
+import co.brainz.itsm.sla.metricPool.entity.MetricGroupEntity
+import co.brainz.itsm.sla.metricPool.repository.MetricGroupRepository
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -21,7 +23,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class MetricPoolService(
-    private val metricPoolRepository: MetricPoolRepository
+    private val metricPoolRepository: MetricPoolRepository,
+    private val metricGroupRepository: MetricGroupRepository
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -43,4 +46,12 @@ class MetricPoolService(
             )
         )
     }
+
+    /**
+     * SLA 지표 그룹 목록 조회
+     */
+    fun getMetricGroups(): MutableList<MetricGroupEntity> {
+        return metricGroupRepository.findAll()
+    }
+
 }
