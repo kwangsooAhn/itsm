@@ -3,14 +3,14 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.sla.slaStatus.controller
+package co.brainz.itsm.sla.metricManual.controller
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/sla")
-class SlaStatusRestController(
+class MetricManualRestController(
 ) {
 
 
