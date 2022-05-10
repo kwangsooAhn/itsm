@@ -6,7 +6,7 @@
 package co.brainz.itsm.sla.metricManual.controller
 
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
-import co.brainz.itsm.sla.metricManual.service.SlaManualService
+import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/sla/metric/manual")
-class SlaManualController(
-    private val slaManualService: SlaManualService
+class MetricManualController(
+    private val metricManualService: MetricManualService
 ) {
     private val manualSearchPage: String = "sla/metric/manual/manualSearch"
     private val metricManualList: String = "sla/metric/manual/manualList"
@@ -34,7 +34,7 @@ class SlaManualController(
      */
     @GetMapping("")
     fun getMetricManualList(metricManualSearchCondition: MetricManualSearchCondition, model: Model): String {
-        val result = slaManualService.findMetricManualSearch(metricManualSearchCondition)
+        val result = metricManualService.findMetricManualSearch(metricManualSearchCondition)
         model.addAttribute("metricManualList", result.data)
         model.addAttribute("paging", result.paging)
         return metricManualList

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/sla")
-class SlaManualRestController(
+class MetricManualRestController(
 ) {
 
 

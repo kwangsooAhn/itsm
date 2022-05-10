@@ -18,7 +18,7 @@ import kotlin.math.ceil
 import org.springframework.stereotype.Service
 
 @Service
-class SlaManualService(
+class MetricManualService(
     private val metricManualRepository: MetricManualRepository
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
