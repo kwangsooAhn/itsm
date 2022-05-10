@@ -6,9 +6,9 @@
 
 package co.brainz.itsm.portal.repository
 
+import co.brainz.itsm.archive.entity.QArchiveEntity
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.constants.ItsmConstants
-import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
@@ -25,7 +25,7 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
     override fun findPortalSearchList(searchValue: String, offset: Long): PortalListReturnDto {
         val notice = QNoticeEntity.noticeEntity
         val faq = QFaqEntity.faqEntity
-        val download = QDownloadEntity.downloadEntity
+        val archive = QArchiveEntity.archiveEntity
         val code = QCodeEntity.codeEntity
 
         val noticeList =
@@ -66,27 +66,27 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
                 .fetch()
 
-        val downloadList =
-            from(download)
+        val archiveList =
+            from(archive)
                 .select(
                     Projections.constructor(
                         PortalDto::class.java,
-                        download.downloadId,
-                        download.downloadTitle,
+                        archive.archiveId,
+                        archive.archiveTitle,
                         code.codeName,
-                        download.createDt,
-                        download.updateDt,
-                        Expressions.asString("download")
+                        archive.createDt,
+                        archive.updateDt,
+                        Expressions.asString("archive")
                     )
                 )
-                .innerJoin(code).on(code.code.eq(download.downloadCategory)).fetchJoin()
-                .where(super.likeIgnoreCase(download.downloadTitle, searchValue))
+                .innerJoin(code).on(code.code.eq(archive.archiveCategory)).fetchJoin()
+                .where(super.likeIgnoreCase(archive.archiveTitle, searchValue))
                 .fetch()
 
         var list = mutableListOf<PortalDto>()
         list.addAll(noticeList)
         list.addAll(faqList)
-        list.addAll(downloadList)
+        list.addAll(archiveList)
 
         val totalSize = list.size
         if (list.isNotEmpty()) {

@@ -4,20 +4,20 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
-    <title th:text="#{download.label.download}"></title>
+    <title th:text="#{archive.label.archive}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{download.label.download}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{download.msg.searchDescription}"></h6>
+    <h1 th:text="#{archive.label.archive}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{archive.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
         <select id="category" name="category" class="col-3">
-            <option value="" th:text="#{download.label.all}" selected></option>
+            <option value="" th:text="#{archive.label.all}" selected></option>
             <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="${category.codeName}"></option>
         </select>
-        <input type="text" class="z-input text-ellipsis i-search col-3" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+        <input type="text" class="z-input text-ellipsis i-search col-3" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{archive.label.searchPlaceholder}"/>
         <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt" />
         <span>~</span>
         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
@@ -25,13 +25,13 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" onclick="location.href='/downloads/new'"
+        <button type="button" class="z-button primary" onclick="location.href='/archives/new'"
                 sec:authorize="hasAuthority('portal.manage')" th:text="#{common.btn.add}">
         </button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="downloadList"></div>
+    <div class="z-list-content flex-row" id="archiveList"></div>
 </div>
 </body>
 
@@ -88,11 +88,11 @@
             i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
 
         const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        aliceJs.fetchText('/downloads?' + urlParam, {
+        aliceJs.fetchText('/archives?' + urlParam, {
             method: 'GET',
         }).then((htmlData) => {
-            document.getElementById('downloadList').innerHTML = htmlData;
-            setDateTimeFormat(document.getElementById('downloadList'));
+            document.getElementById('archiveList').innerHTML = htmlData;
+            setDateTimeFormat(document.getElementById('archiveList'));
         });
     }
 
