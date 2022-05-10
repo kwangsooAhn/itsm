@@ -37,8 +37,8 @@
 
     let parent = null;
     let customCodeList = [];
-    let targetUserArray = [];
-    let defaultCustomUser = [];
+    let targetUserArray = [];  // 사용자 검색 대상 목록 데이터
+    let defaultCustomUser = []; // 기본 값 설정 지정 사용자 데이터
     let userInfo = null;
     let attributeDetailData = null; // 서버에 저장된 세부 속성 데이터
     let displayMode = 'view'; // edit | view
@@ -848,9 +848,9 @@
                 </div>
                 <div class="flex-column col-pct-9" id="changeTargetCriteria">
                 </div>
-            </div>`.trim() + `${defaultValueTemplate}`;
+            </div>`.trim();
 
-        parent.insertAdjacentHTML('beforeend', this.template);
+        parent.insertAdjacentHTML('beforeend', this.template + defaultValueTemplate);
         aliceJs.initDesignedSelectTag();
 
         // 조회 대상 기준 변경시
@@ -912,7 +912,7 @@
                 <button type="button" class="z-button secondary" id="searchUserList">`   +
                     `${i18n.msg('common.btn.add')}</button>
             </div>`;
-            targetCriterial.insertAdjacentHTML('beforeend', customTemplate);
+            targetCriteria.insertAdjacentHTML('beforeend', customTemplate);
 
             const searchUserList = targetCriteria.querySelector('#searchUserList');
             searchUserList.addEventListener('click', openUserListModal, false);
@@ -997,29 +997,31 @@
                 document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getTargetUserList(e.target.value, isMulti, targetArray, false);
                 }), false);
-                getTargetUserList(document.getElementById('search').value, isMulti, targetArray,true);
+                getTargetUserList(document.getElementById('search').value, isMulti, targetArray, true);
 
                 // 기존 사용자 목록
                 targetArray.length = 0;
                 switch (type) {
                     case 'searchCriteria':
-                        const targetCriteria = document.getElementById('changeTargetCriteria');
-                        targetCriteria.querySelectorAll('.user-search-item').forEach( (elem) => {
-                            const inputElem = elem.querySelector('.z-input');
-                            if (inputElem) {
-                                targetArray.push({id: inputElem.getAttribute('data-user-id'), value: inputElem.value});
-                            }
-                        });
-                    break;
+                        document.getElementById('changeTargetCriteria')
+                            .querySelectorAll('.user-search-item').forEach( (elem) => {
+                                const inputElem = elem.querySelector('.z-input');
+                                if (inputElem) {
+                                    targetArray.push({
+                                        id: inputElem.getAttribute('data-user-id'),
+                                        value: inputElem.value
+                                    });
+                                }
+                            });
+                        break;
                     case 'defaultCustom':
-                        // todo: if문 검증
                         if (defaultCustom.value !== '') {
                             targetArray.push({
                                 id: defaultCustom.getAttribute('data-search-value'),
                                 value: defaultCustom.value
                             });
                         }
-                    break;
+                        break;
                 }
             }
         });
@@ -1037,13 +1039,13 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
-            targetUserList.innerHTML = htmlData;
+            targetUserList.innerHTML = htmlData.toString();
             OverlayScrollbars(targetUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
             // 갯수 가운트
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
             // 체크 이벤트
             targetUserList.querySelectorAll('input[type=checkbox], input[type=radio]').forEach((element) => {
-                element.addEventListener('change', function(e) {
+                element.addEventListener('change', function (e) {
                     if (e.target.checked) {
                         isMulti ? targetArray.push({id: e.target.id, value: e.target.value})
                             : targetArray.splice(0, targetArray.length, {id: e.target.id, value: e.target.value});
@@ -1120,7 +1122,7 @@
         // 기본값 radio 관련 disabled event 설정
         disableUncheckedRadio(objectId);
 
-        // 지정 부서 선택 모달 오픈 todo
+        // 지정 부서 선택 모달
         document.getElementById(objectId + '-default-custom')
             .addEventListener('click', openOrganizationSearchModal, false);
     }
@@ -1169,7 +1171,8 @@
                 </div>
                 <div class="flex-column col-9">
                     <label class="z-radio">
-                        <input name="${id}-default" id="${id}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}>
+                        <input name="${id}-default" id="${id}-none" type="radio" value="none" 
+                            ${defaultType === 'none' ? 'checked=\'true\'' : ''}>
                         <span></span>
                         <span class="label">${i18n.msg('form.properties.option.none')}</span>
                     </label>
@@ -1179,7 +1182,8 @@
                 <div class="flex-column col-2 mr-4"><label><span></span></label></div>
                 <div class="flex-column col-9">
                     <label class="z-radio">
-                        <input name="${id}-default" id="${id}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}>
+                        <input name="${id}-default" id="${id}-session" type="radio" value="session" 
+                            ${defaultType === 'session' ? 'checked=\'true\'' : ''}>
                         <span></span>
                         <span class="label">${i18n.msg('form.properties.default.session')}</span>
                     </label>
@@ -1189,15 +1193,17 @@
                 <div class="flex-column col-2 mr-4"><label><span></span></label></div>
                 <div class="flex-column col-2">
                     <label class="z-radio">
-                        <input name="${id}-default" id="${id}-custom" type="radio" value="custom" ${defaultType === 'custom' ? 'checked=\'true\'' : ''}>
+                        <input name="${id}-default" id="${id}-custom" type="radio" value="custom" 
+                            ${defaultType === 'custom' ? 'checked=\'true\'' : ''}>
                         <span></span>
                         <span class="label">${i18n.msg('form.properties.default.custom')}</span>
                     </label>
                 </div>
                 <div class="flex-column col-7">
                     <div class="flex-row z-input-button">
-                        <input class="z-input" type="text" readonly="true" id="${id}-default-custom-text" value="${defaultData[1]}" 
-                            data-search-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
+                        <input class="z-input" type="text" readonly="true" id="${id}-default-custom-text" 
+                            value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
+                            ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
                         <button class="z-button-icon z-button-code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
                             <span class="z-icon i-search"></span>
@@ -1210,7 +1216,7 @@
     /**
      * Attribute 목록 모달 오픈
      */
-    function openAttributeListModal(e) {
+    function openAttributeListModal() {
         // 저장된 데이터를 담는다.
         attributeMapTemp.length = 0;
         attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
@@ -1275,7 +1281,7 @@
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
-            document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+            document.getElementById('ciClassAttributeList').innerHTML = htmlData.toString();
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
             OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
 
@@ -1363,7 +1369,7 @@
     function setDetails(attributeType) {
         let details = {};
         switch (attributeType) {
-            case 'inputbox':
+            case 'inputbox': {
                 details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
                 details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
                 details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
@@ -1378,7 +1384,8 @@
                     return false;
                 }
                 break;
-            case 'dropdown':
+            }
+            case 'dropdown': {
                 details.required = parent.querySelector('#' + attributeTypeList[1].type + '-required').value;
 
                 let dropdownOption = [];
@@ -1390,7 +1397,8 @@
                 });
                 details.option = dropdownOption;
                 break;
-            case 'radio':
+            }
+            case 'radio': {
                 let radioOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     radioOption.push({
@@ -1400,7 +1408,8 @@
                 });
                 details.option = radioOption;
                 break;
-            case 'checkbox':
+            }
+            case 'checkbox': {
                 let checkOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     checkOption.push({
@@ -1411,18 +1420,21 @@
                 });
                 details.option = checkOption;
                 break;
-            case 'custom-code':
+            }
+            case 'custom-code': {
                 details.required = parent.querySelector('#' + attributeTypeList[4].type + '-required').value;
                 const defaultType = document.querySelector('input[name="custom-code-default"]:checked').value;
                 let defaultValue = '';
                 switch (defaultType) {
-                    case 'session':
+                    case 'session': {
                         defaultValue = parent.querySelector('#' + attributeTypeList[4].type + '-default-session').value;
                         break;
-                    case 'code':
+                    }
+                    case 'code': {
                         const codeText = parent.querySelector('#' + attributeTypeList[4].type + '-default-code-text');
                         defaultValue = codeText.getAttribute('data-value') + '|' + codeText.value;
                         break;
+                    }
                     default:
                         break;
                 }
@@ -1433,7 +1445,8 @@
                 };
                 details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
                 break;
-            case 'group-list':
+            }
+            case 'group-list': {
                 let groupListOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     groupListOption.push({
@@ -1443,7 +1456,8 @@
                 });
                 details.option = groupListOption;
                 break;
-            case 'date':
+            }
+            case 'date': {
                 details.required = parent.querySelector('#' + attributeTypeList[6].type + '-required').value;
                 details.minDate = parent.querySelector('#' + attributeTypeList[6].type + '-minDate').value;
                 details.maxDate = parent.querySelector('#' + attributeTypeList[6].type + '-maxDate').value;
@@ -1452,52 +1466,63 @@
                     return false;
                 }
                 break;
-            case 'datetime':
+            }
+            case 'datetime': {
                 details.required = parent.querySelector('#' + attributeTypeList[7].type + '-required').value;
                 details.minDateTime = parent.querySelector('#' + attributeTypeList[7].type + '-minDateTime').value;
                 details.maxDateTime = parent.querySelector('#' + attributeTypeList[7].type + '-maxDateTime').value;
-                if ((details.minDateTime !== '' && details.maxDateTime !== '') && details.maxDateTime < details.minDateTime) {
+                if ((details.minDateTime !== '' && details.maxDateTime !== '')
+                    && details.maxDateTime < details.minDateTime) {
                     zAlert.warning(i18n.msg('cmdb.attribute.msg.maxDateTime'));
                     return false;
                 }
                 break;
-            case 'userSearch':
-                const userDefaultType = parent.querySelector(`input[name="${attributeTypeList[8].type}-default"]:checked`).value;
-                const userDefaultData = parent.querySelector('#' + attributeTypeList[8].type + '-default-custom-text');
-                const targetCriteria = parent.querySelector('#' + attributeTypeList[8].type + 'Criteria').value;
+            }
+            case 'userSearch': {
+                const userDefaultType
+                    = parent.querySelector(`input[name="${attributeTypeList[8].type}-default"]:checked`).value;
+                const userDefaultData
+                    = parent.querySelector('#' + attributeTypeList[8].type + '-default-custom-text');
+                const targetCriteria
+                    = parent.querySelector('#' + attributeTypeList[8].type + 'Criteria').value;
                 const targetCriteriaElem = parent.querySelector('#changeTargetCriteria');
-                let searchkeys = [];
+                let searchKeys = [];
                 if (targetCriteria === 'organization') { // 부서별 조회
                     const searchTargetElem = targetCriteriaElem.querySelector('#searchTarget');
                     if (searchTargetElem) {
-                        searchkeys.push({
+                        searchKeys.push({
                             id: searchTargetElem.getAttribute('data-value'),
                             value: searchTargetElem.value
                         });
                     }
                 } else { // 대상 목록 지정
-                    searchkeys = targetUserArray;
+                    searchKeys = targetUserArray;
                 }
                 details.required = parent.querySelector('#' + attributeTypeList[8].type + '-required').value;
                 details.targetCriteria = targetCriteria;
-                details.searchKey = searchkeys;
+                details.searchKey = searchKeys;
                 details.defaultValue = {
                     type: userDefaultType,
                     data: userDefaultType === 'custom'
                         ? userDefaultData.getAttribute('data-search-value') + '|' + userDefaultData.value : ''
                 };
                 break;
-            case 'organizationSearch':
-                const organizationDefaultType = parent.querySelector(`input[name="${attributeTypeList[9].type}-default"]:checked`).value;
-                const organizationDefaultData = parent.querySelector('#' + attributeTypeList[9].type + '-default-custom-text');
+            }
+            case 'organizationSearch': {
+                const organizationDefaultType
+                    = parent.querySelector(`input[name="${attributeTypeList[9].type}-default"]:checked`).value;
+                const organizationDefaultData
+                    = parent.querySelector('#' + attributeTypeList[9].type + '-default-custom-text');
 
                 details.required = parent.querySelector('#' + attributeTypeList[9].type + '-required').value;
                 details.defaultValue = {
                     type: organizationDefaultType,
                     data: organizationDefaultType === 'custom'
-                        ? organizationDefaultData.getAttribute('data-search-value') + '|' + organizationDefaultData.value : ''
+                        ? organizationDefaultData
+                            .getAttribute('data-search-value') + '|' + organizationDefaultData.value : ''
                 };
                 break;
+            }
             default:
                 break;
         }
@@ -1576,7 +1601,7 @@
             JSON.parse(data.attributeValue);
         let elem = null;
         switch (type) {
-            case 'group':
+            case 'group': {
                 // class 제목
                 const classTitleElem = document.createElement('h3');
                 classTitleElem.className = 'sub-title under-bar bold mt-4';
@@ -1587,19 +1612,22 @@
                 elem.className = 'attribute-group mb-2';
                 parent.appendChild(elem);
                 return elem;
-            case 'row':
+            }
+            case 'row': {
                 elem = document.createElement('div');
                 elem.className = 'flex-column ' + displayMode + '-row attribute';
                 elem.setAttribute('data-attributeType', data.attributeType);
                 parent.appendChild(elem);
                 return elem;
-            case 'child-row':
+            }
+            case 'child-row': {
                 elem = document.createElement('div');
                 elem.className = 'flex-column ' + displayMode + '-row child-attribute';
                 elem.setAttribute('data-attributeType', data.attributeType);
                 parent.appendChild(elem);
                 return elem;
-            case 'label':
+            }
+            case 'label': {
                 elem = document.createElement('label');
                 elem.className = 'field-label';
                 // 문구
@@ -1608,11 +1636,13 @@
                 elem.appendChild(labelTextElem);
                 parent.appendChild(elem);
                 // 필수여부
-                if (typeof attributeValue.required !== 'undefined' && attributeValue.required === 'true' && displayMode === 'edit') {
+                if (typeof attributeValue.required !== 'undefined'
+                    && attributeValue.required === 'true' && displayMode === 'edit') {
                     elem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                 }
                 return elem;
-            case 'inputbox':
+            }
+            case 'inputbox': {
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input';
@@ -1651,7 +1681,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'dropdown':
+            }
+            case 'dropdown': {
                 elem = document.createElement('select');
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
@@ -1660,7 +1691,8 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const selectOption = document.createElement('option');
-                        selectOption.textContent = (elem.className == 'readonly' && attributeOption.value == '') ? '' : attributeOption.text;
+                        selectOption.textContent = (elem.className === 'readonly' && attributeOption.value === '')
+                            ? '' : attributeOption.text;
                         selectOption.value = attributeOption.value;
                         if (selectOption.value === data.value) {
                             selectOption.selected = true;
@@ -1670,7 +1702,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'radio':
+            }
+            case 'radio': {
                 if (typeof attributeValue.option !== 'undefined') {
                     const radioId = ZWorkflowUtil.generateUUID();
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
@@ -1708,7 +1741,8 @@
                     }
                 }
                 return elem;
-            case 'checkbox':
+            }
+            case 'checkbox': {
                 if (typeof attributeValue.option !== 'undefined') {
                     const checkboxId = ZWorkflowUtil.generateUUID();
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
@@ -1749,7 +1783,8 @@
                     }
                 }
                 return elem;
-            case 'custom-code':
+            }
+            case 'custom-code': {
                 const customCodeId = ZWorkflowUtil.generateUUID();
                 let customValueArr = '';
                 if (data.value !== null) {
@@ -1814,7 +1849,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'group-list':
+            }
+            case 'group-list': {
                 elem = document.createElement('div');
                 elem.className = 'child-attribute-group pt-2';
                 elem.setAttribute('data-attributeId', data.attributeId);
@@ -1841,7 +1877,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'group-list-row':
+            }
+            case 'group-list-row': {
                 elem = document.createElement('div');
                 elem.className = 'child-attribute-row mt-2';
                 // 삭제 버튼
@@ -1855,7 +1892,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'date':
+            }
+            case 'date': {
                 elem = document.createElement('div');
                 const dateElem = document.createElement('input');
                 dateElem.className = 'z-input i-date-picker search-date col-3';
@@ -1869,8 +1907,10 @@
                         dateElem.required = true;
                         dateElem.setAttribute('data-validation-required', 'true');
                         dateElem.setAttribute('data-validation-required-name', data.attributeText);
-                        dateElem.setAttribute('data-validation-min-date', attributeValue.minDate !== undefined ? attributeValue.minDate : '');
-                        dateElem.setAttribute('data-validation-max-date', attributeValue.maxDate !== undefined ? attributeValue.maxDate : '');
+                        dateElem.setAttribute('data-validation-min-date',
+                            attributeValue.minDate !== undefined ? attributeValue.minDate : '');
+                        dateElem.setAttribute('data-validation-max-date',
+                            attributeValue.maxDate !== undefined ? attributeValue.maxDate : '');
                     }
                 }
 
@@ -1878,7 +1918,8 @@
                 zDateTimePicker.initDatePicker(dateElem, validateDateTimeValue);
                 parent.appendChild(elem);
                 return elem;
-            case 'datetime':
+            }
+            case 'datetime': {
                 elem = document.createElement('div');
                 const dateTimeElem = document.createElement('input');
                 dateTimeElem.className = 'z-input i-datetime-picker search-datetime col-3';
@@ -1893,15 +1934,18 @@
                         dateTimeElem.required = true;
                         dateTimeElem.setAttribute('data-validation-required', 'true');
                         dateTimeElem.setAttribute('data-validation-required-name', data.attributeText);
-                        dateTimeElem.setAttribute('data-validation-min-date', attributeValue.minDateTime !== undefined ? attributeValue.minDateTime : '');
-                        dateTimeElem.setAttribute('data-validation-max-date', attributeValue.maxDateTime !== undefined ? attributeValue.maxDateTime : '');
+                        dateTimeElem.setAttribute('data-validation-min-date',
+                            attributeValue.minDateTime !== undefined ? attributeValue.minDateTime : '');
+                        dateTimeElem.setAttribute('data-validation-max-date',
+                            attributeValue.maxDateTime !== undefined ? attributeValue.maxDateTime : '');
                     }
                 }
                 elem.append(dateTimeElem);
                 zDateTimePicker.initDateTimePicker(dateTimeElem, validateDateTimeValue);
                 parent.appendChild(elem);
                 return elem;
-            case 'userSearch':
+            }
+            case 'userSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-user-search text-ellipsis';
@@ -1912,7 +1956,8 @@
                 elem.setAttribute('oncontextmenu', 'return false;');
                 elem.setAttribute('onkeypress', 'return false;');
                 elem.setAttribute('onkeydown', 'return false;');
-                elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null && data.value !== '') ? data.value : ''));
+                elem.setAttribute('data-realTimeSelectedUser',
+                    ((data.value !== null && data.value !== '') ? data.value : ''));
                 elem.readOnly = (displayMode === 'view');
                 if (attributeValue.required === 'true') {
                     elem.required = true;
@@ -1922,11 +1967,13 @@
                 elem.addEventListener('click', openUserSearchModal, false);
 
                 // 기본 값 설정
-                const userDefaultType = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
-                    ? attributeValue.defaultValue.type : 'none';
-                let userDefaultData = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
-                    ? attributeValue.defaultValue.data : '';
-                switch(userDefaultType) {
+                const userDefaultType
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.type : 'none';
+                let userDefaultData
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.data : '';
+                switch (userDefaultType) {
                     case 'session':
                         userDefaultData = [userInfo.userKey, userInfo.userName];
                         break;
@@ -1937,7 +1984,8 @@
                         userDefaultData = ['', ''];
                         break;
                 }
-                const userDefaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : userDefaultData;
+                const userDefaultValues
+                    = (data.value !== null && data.value !== '') ? data.value.split('|') : userDefaultData;
                 elem.setAttribute('data-user-search', userDefaultValues[0]);
                 elem.value = userDefaultValues[1];
 
@@ -1946,7 +1994,8 @@
 
                 parent.appendChild(elem);
                 return elem;
-            case 'organizationSearch':
+            }
+            case 'organizationSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-organization-search text-ellipsis';
@@ -1965,11 +2014,13 @@
                 elem.addEventListener('click', openOrganizationSearchModal, false);
 
                 // 기본 값 설정
-                const organizationDefaultType = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
-                    ? attributeValue.defaultValue.type : 'none';
-                let organizationDefaultData = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
-                    ? attributeValue.defaultValue.data : '';
-                switch(organizationDefaultType) {
+                const organizationDefaultType
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.type : 'none';
+                let organizationDefaultData
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.data : '';
+                switch (organizationDefaultType) {
                     case 'session':
                         organizationDefaultData = [userInfo.department, userInfo.departmentName];
                         break;
@@ -1981,12 +2032,14 @@
                         organizationDefaultData = ['', ''];
                         break;
                 }
-                const defaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : organizationDefaultData;
+                const defaultValues = (data.value !== null && data.value !== '')
+                    ? data.value.split('|') : organizationDefaultData;
                 elem.setAttribute('data-organization-search', defaultValues[0]);
                 elem.value = defaultValues[1];
 
                 parent.appendChild(elem);
                 return elem;
+            }
             default:
                 break;
         }
@@ -1998,13 +2051,17 @@
      */
     function validateDateTimeValue(target) {
         // 최소 날짜 ,최대 날짜 유효성 검증
-        if (target.getAttribute('data-validation-min-date') && target.value < target.getAttribute('data-validation-min-date')) {
-            zAlert.warning(i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')), () => {
+        if (target.getAttribute('data-validation-min-date')
+            && target.value < target.getAttribute('data-validation-min-date')) {
+            zAlert.warning(i18n.msg('common.msg.selectAfterDate',
+                target.getAttribute('data-validation-min-date')), () => {
                 target.classList.add('error');
                 target.focus();
             });
-        } else if (target.getAttribute('data-validation-max-date') && target.value > target.getAttribute('data-validation-max-date')) {
-            zAlert.warning(i18n.msg('common.msg.selectBeforeDate', target.getAttribute('data-validation-max-date')), () => {
+        } else if (target.getAttribute('data-validation-max-date')
+            && target.value > target.getAttribute('data-validation-max-date')) {
+            zAlert.warning(i18n.msg('common.msg.selectBeforeDate',
+                target.getAttribute('data-validation-max-date')), () => {
                 target.classList.add('error');
                 target.focus();
             });
@@ -2112,7 +2169,8 @@
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
-                        const realTimeSelectedUserArr = target.getAttribute('data-realTimeSelectedUser').split('|');
+                        const realTimeSelectedUserArr
+                            = target.getAttribute('data-realTimeSelectedUser').split('|');
                         target.setAttribute('data-user-search', realTimeSelectedUserArr[0]);
                         target.setAttribute('data-user-id', realTimeSelectedUserArr[2]);
                         target.value = realTimeSelectedUserArr[1];
@@ -2164,7 +2222,7 @@
         }).then((htmlData) => {
             if (!isValidate) {
                 const searchUserList = document.getElementById('searchUserList');
-                searchUserList.innerHTML = htmlData;
+                searchUserList.innerHTML = htmlData.toString();
                 OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
@@ -2221,17 +2279,17 @@
 
     /**
      * 부서 선택 모달
+     * 모달 호출 target 은 '부서 검색 component' 또는 '부서 검색 기본값 - 부서 지정' 입니다.
+     * 각 target 에 따라 모달 제목, response 를 받는 대상이 달라질 수 있습니다.
      */
     function openOrganizationSearchModal(e) {
         e.stopPropagation();
 
-        // 부서 검색 component || 부서 검색 기본값 - 부서 지정
-       const target = e.target.getAttribute('data-organization-search')
+        const target = e.target.getAttribute('data-organization-search')
             ? e.target : e.target.parentNode.querySelector('input[type=text]');
 
         const organizationSearchData = target.getAttribute('data-organization-search')
             || target.getAttribute('data-search-value');
-
 
         tree.load({
             view: 'modal',
@@ -2257,6 +2315,7 @@
      * Attribute 세부 정보 데이터를 토대로 화면에 출력 (Edit / Register)
      * @param target 표시할 대상 element
      * @param data 세부 데이터
+     * @param sessionInfo 세션 정보
      * @param mode edit|view
      */
     function drawDetails(target, data, sessionInfo, mode) {
