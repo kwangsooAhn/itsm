@@ -3,11 +3,11 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.sla.slaPool.service
+package co.brainz.itsm.sla.metricStatus.service
 
 import org.springframework.stereotype.Service
 
 @Service
-class SlaPoolService(
+class MetricStatusService(
 ) {
 }
