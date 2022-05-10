@@ -34,6 +34,7 @@ common:
     blank: " "
     bracketOpen: "["
     bracketClose: "]"
+    calculationType: "Calculation Type"
     categoryAsc: "Order by category"
     comment: "Comment"
     contents: "Contents"
@@ -1038,6 +1039,13 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
+  metric:
+    manualMetric: "Manual Metric management"
+    metricStatus: "SLA status by metric"
+    parent: "Service-Level Agreement"
+    pool: "SLA Metric management"
+    year: "SLA Metric management by year"
+    yearStatus: "SLA status by year"
   statistic:
     basicChart: "Basic Chart"
     basicReport: "Basic Report Inquiry"
@@ -1049,14 +1057,6 @@ menu:
     parent: "Statistics/Report"
   setting:
     editMyInfo: "Edit My Info"
-  sla:
-      manualMetric: "Manual Metric management"
-      metricStatus: "SLA status by metric"
-      parent: "Service-Level Agreement"
-      pool: "SLA Metric management"
-      year: "SLA Metric management by year"
-      yearStatus: "SLA status by year"
-
   token:
     parent: "My Document"
   workflow:
@@ -1074,6 +1074,17 @@ menu:
     ci: "CI"
     class: "Class"
     type: "Type"
+
+# metric
+metric:
+  label:
+    description: "description"
+    group: "Group"
+    metricPool: "SLA Metric management"
+    name: "Name"
+    searchPlaceholder: "Name"
+    type: "Type"
+    unit: "Unit"
 
 # Notice
 notice:
@@ -1361,18 +1372,6 @@ scheduler:
     • The Fourth field: Defines Day of month and has an allowable range of 1 to 31.<br/><br/>
     • The Fifth field: Defines the month and has an allowable range of 1 to 12 or JAN to DEC.<br/><br/>
     • The Sixth field: Defines the day of the week and has an allowable range of 0 to 6 or SUN to SAT."
-
-# SLA
-sla:
-  label:
-    calculationType: "Calculation Type"
-    description: "description"
-    group: "Group"
-    metricPool: "SLA Metric management"
-    name: "Name"
-    searchPlaceholder: "Name"
-    type: "Type"
-    unit: "Unit"
 
 # statistic
 statistic:

@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<div class="grid" style="--data-columns-width: 10% 10% 10% 10% 105% 50%;">
+<div class="grid" style="--data-columns-width: 15% 15% 8% 8% 8% 12% 42%;">
     <div class="grid__head">
         <div class="grid__row">
-            <div class="grid__cell" data-grid-sortable="false"></div>
             <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="documentNo">
                 <span class="text-ellipsis" th:text="#{metric.label.name}"></span>
             </div>
@@ -30,25 +29,25 @@
         <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(metricPoolList)}">
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
-        <div class="grid__row" th:unless="${#arrays.isEmpty(metricPoolList)}" th:each="token: ${metricPoolList}">
+        <div class="grid__row" th:unless="${#arrays.isEmpty(metricPoolList)}" th:each="metric: ${metricPoolList}">
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${metric.metricGroupName}" th:title="${metric.metricGroupName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <a sec:authorize="hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/notices/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
+                   th:href="@{/sla/metric-pool/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
                 <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/notices/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
+                   th:href="@{/sla/metric-pool/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
                 </a>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis font-bold" th:text="${metric.metricType}" th:title="${metric.metricType}"></span>
+                <span class="text-ellipsis font-bold" th:text="${metric.metricTypeName}" th:title="${metric.metricTypeName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis font-bold" th:text="${metric.metricUnit}" th:title="${metric.metricUnit}"></span>
+                <span class="text-ellipsis font-bold" th:text="${metric.metricUnitName}" th:title="${metric.metricUnitName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis font-bold" th:text="${metric.calculationType}" th:title="${metric.calculationType}"></span>
+                <span class="text-ellipsis font-bold" th:text="${metric.calculationTypeName}" th:title="${metric.calculationTypeName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis font-bold" th:text="${metric.metricDesc}" th:title="${metric.metricDesc}"></span>
