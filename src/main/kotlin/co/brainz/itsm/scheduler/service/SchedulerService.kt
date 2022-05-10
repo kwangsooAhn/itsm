@@ -62,7 +62,8 @@ class SchedulerService(
     fun getSchedulers(schedulerSearchCondition: SchedulerSearchCondition): SchedulerListReturnDto {
         val latelyHistory = aliceScheduleHistoryRepository.findScheduleLatelyHistory()
         val pagingResult = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchCondition)
-        val pagingList: List<AliceScheduleTaskEntity> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<AliceScheduleTaskEntity>>() {})
+        val pagingList: List<AliceScheduleTaskEntity> =
+            mapper.convertValue(pagingResult.dataList, object : TypeReference<List<AliceScheduleTaskEntity>>() {})
         val schedulerList = mutableListOf<SchedulerListDto>()
 
         for (scheduler in pagingList) {
