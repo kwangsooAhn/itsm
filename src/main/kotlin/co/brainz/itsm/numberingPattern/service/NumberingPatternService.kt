@@ -47,7 +47,9 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = numberingPatternRepository.count(),
                 currentPageNum = numberingPatternSearchCondition.pageNum,
-                totalPageNum = ceil(pagingResult.totalCount.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(
+                    pagingResult.totalCount.toDouble() / numberingPatternSearchCondition.contentNumPerPage.toDouble()
+                ).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
