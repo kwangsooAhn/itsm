@@ -16,5 +16,3 @@ data class OrganizationRoleDto(
     var seqNum: Int? = null,
     var roleIds: List<String> = emptyList()
 ) : Serializable
-
-

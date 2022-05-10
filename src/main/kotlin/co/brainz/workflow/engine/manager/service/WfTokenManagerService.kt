@@ -210,7 +210,6 @@ class WfTokenManagerService(
         pluginService.executePlugin(pluginId, tokenDto, null, param)
     }
 
-
     /**
      * Create CI.
      */

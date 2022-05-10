@@ -83,7 +83,7 @@ class OrganizationService(
         }
 
         return ZResponse(
-            data = OrganizationListReturnDto (
+            data = OrganizationListReturnDto(
                 data = treeOrganizationList,
                 totalCount = count
             )

@@ -161,7 +161,6 @@ class CITemplateService(
         return allAttributeList
     }
 
-
     /**
      * CI 일괄 등록 템플릿 업로드.
      * mappingDataMap
@@ -283,7 +282,6 @@ class CITemplateService(
                 )
                 ciHistoryRepository.save(ciHistoryEntity)
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
             isSuccess = false
@@ -537,7 +535,6 @@ class CITemplateService(
                     mapList.add(map)
                 }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
         }

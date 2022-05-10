@@ -51,7 +51,7 @@ class OrganizationRestController(
     /**
      * 조직 등록
      */
-    @PostMapping("/","")
+    @PostMapping("/", "")
     fun createOrganization(
         @RequestBody organizationRoleDto: OrganizationRoleDto
     ): ResponseEntity<ZResponse> {

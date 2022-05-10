@@ -10,4 +10,4 @@ import java.io.Serializable
 data class PagingReturnDto(
     val dataList: List<Any>,
     val totalCount: Long = 0L
-): Serializable
+) : Serializable
