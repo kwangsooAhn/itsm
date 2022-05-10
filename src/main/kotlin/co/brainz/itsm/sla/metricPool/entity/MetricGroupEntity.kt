@@ -1,6 +1,5 @@
 package co.brainz.itsm.sla.metricPool.entity
 
-import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -12,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "sla_metric_group")
-data class SlaMetricGroupEntity(
+data class MetricGroupEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "metric_group_id")

@@ -6,33 +6,25 @@
 
 package co.brainz.itsm.sla.metricPool.repository
 
-import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.querydsl.dto.PagingReturnDto
-import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.code.entity.QCodeEntity
-import co.brainz.itsm.faq.constants.FaqConstants
-import co.brainz.itsm.faq.dto.FaqListDto
-import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
-import co.brainz.itsm.faq.entity.QFaqEntity
-import co.brainz.itsm.portal.dto.PortalTopDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
-import co.brainz.itsm.sla.metricPool.entity.QSlaMetricEntity
-import co.brainz.itsm.sla.metricPool.entity.QSlaMetricGroupEntity
-import com.querydsl.core.QueryResults
-import com.querydsl.core.types.Projections
+import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
+import co.brainz.itsm.sla.metricPool.entity.QMetricGroupEntity
 import com.querydsl.core.BooleanBuilder
+import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class SlaMetricPoolRepositoryImpl(
-) : QuerydslRepositorySupport(FaqEntity::class.java), SlaMetricPoolRepositoryCustom {
+class MetricPoolRepositoryImpl(
+) : QuerydslRepositorySupport(FaqEntity::class.java), MetricPoolRepositoryCustom {
 
     override fun findMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): PagingReturnDto {
-        val metricPool = QSlaMetricEntity.slaMetricEntity
-        val metricGroup = QSlaMetricGroupEntity.slaMetricGroupEntity
+        val metricPool = QMetricEntity.metricEntity
+        val metricGroup = QMetricGroupEntity.metricGroupEntity
         val typeCode = QCodeEntity.codeEntity
         val unitCode = QCodeEntity("unitCode")
         val calcTypeCode = QCodeEntity("calcTypeCode")
@@ -72,7 +64,7 @@ class SlaMetricPoolRepositoryImpl(
         )
     }
 
-    private fun builder(metricPoolSearchCondition: MetricPoolSearchCondition, metricPool: QSlaMetricEntity): BooleanBuilder {
+    private fun builder(metricPoolSearchCondition: MetricPoolSearchCondition, metricPool: QMetricEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(metricPool.metricName, metricPoolSearchCondition.searchValue)
