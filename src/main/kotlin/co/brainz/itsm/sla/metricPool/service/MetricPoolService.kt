@@ -70,12 +70,12 @@ class MetricPoolService(
         var status = ZResponseConstants.STATUS.SUCCESS
 
         // 지표 이름 충복 체크
-        if (metricPoolRepository.existsByMetricName(metricDto.metricName)) {
+        if (metricPoolRepository.existsByMetricName(metricDto.metricName.trim())) {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         } else {
             metricPoolRepository.save(
                 MetricEntity(
-                    metricName = metricDto.metricName,
+                    metricName = metricDto.metricName.trim(),
                     metricDesc = metricDto.metricDesc,
                     metricGroupId = metricDto.metricGroupId,
                     metricType = metricDto.metricType,
