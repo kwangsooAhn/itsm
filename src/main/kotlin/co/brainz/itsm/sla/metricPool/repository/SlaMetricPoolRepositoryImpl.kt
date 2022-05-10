@@ -51,11 +51,11 @@ class SlaMetricPoolRepositoryImpl(
                 )
             )
             .join(metricGroup).on(metricPool.metricGroupId.eq(metricGroup.metricGroupId))
-            .join(typeCode).on(metricPool.metricType.eq(typeCode.code))
-            .join(unitCode).on(metricPool.metricUnit.eq(unitCode.code))
-            .join(calcTypeCode).on(metricPool.calculationType.eq(calcTypeCode.code))
+            .leftJoin(typeCode).on(metricPool.metricType.eq(typeCode.code))
+            .leftJoin(unitCode).on(metricPool.metricUnit.eq(unitCode.code))
+            .leftJoin(calcTypeCode).on(metricPool.calculationType.eq(calcTypeCode.code))
             .where(builder(metricPoolSearchCondition, metricPool))
-            .orderBy(metricPool.metricName.asc())
+            .orderBy(metricPool.createDt.desc())
 
         if (metricPoolSearchCondition.isPaging) {
             query.limit(metricPoolSearchCondition.contentNumPerPage)
