@@ -3,14 +3,14 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.sla.slaPool.controller
+package co.brainz.itsm.sla.metricYear.controller
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/sla")
-class SlaPoolRestController(
+class SlaYearRestController(
 ) {
 
 

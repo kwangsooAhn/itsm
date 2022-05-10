@@ -3,7 +3,7 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.sla.slaStatus.service
+package co.brainz.itsm.sla.metricStatus.service
 
 import org.springframework.stereotype.Service
 
