@@ -755,6 +755,8 @@ insert into awf_numbering_rule values ('4028b8817880d833017880f34ae10003', 'REL_
 insert into awf_numbering_rule values ('4028b25d7886e2d801788704dd8e0002', 'RFC-yyyyMMdd-000', '인프라, 어플리케이션 변경관리에서 사용되는 문서번호');
 insert into awf_numbering_rule values ('4028b88178c0fcc60178c10dbb5b0003', 'INC-yyyyMMdd-000', '장애관리 문서번호');
 insert into awf_numbering_rule values ('4028b88178c01b660178c0cc91310004', 'PBM-yyyyMMdd-000', '문제관리 문서번호');
+insert into awf_numbering_rule values ('40288ab2808768300180881537d5001d', 'SMS', 'SMS 번호');
+insert into awf_numbering_rule values ('40288ab2808768300180881cb9f6001e', 'NMS', 'NMS 번호');
 
 /**
  * 넘버링패턴정보
@@ -788,6 +790,9 @@ insert into awf_numbering_pattern values ('4028b8817880d833017880f26a920002', '�
 insert into awf_numbering_pattern values ('4028b25d7886e2d801788703c8a00001', '변경관리 PreFix', 'numbering.pattern.text', '{"value":"RFC"}');
 insert into awf_numbering_pattern values ('4028b88178c01b660178c0cbe02d0003', '문제관리 Prefix', 'numbering.pattern.text', '{"value":"PBM"}');
 insert into awf_numbering_pattern values ('4028b88178c0fcc60178c10d270c0002', '장애관리 PreFix', 'numbering.pattern.text', '{"value":"INC"}');
+insert into awf_numbering_pattern values ('40288ab280876830018088101fab001b', 'SMS', 'numbering.pattern.text', '{"value":"SMS"}');
+insert into awf_numbering_pattern values ('40288ab280876830018088105a0b001c', 'NMS', 'numbering.pattern.text', '{"value":"NMS"}');
+
 /**
  * 역할
  */
@@ -922,6 +927,13 @@ insert into awf_rule_pattern_map values ('4028b88178c01b660178c0cc91310004', '8a
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '4028b88178c0fcc60178c10d270c0002', 0);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '7a112d61751fs6f325714q053c421412', 1);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '40288ab280876830018088101fab001b', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '40288ab280876830018088105a0b001c', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421413', 2);
+
 /**
  * 스케줄작업정보
  */
