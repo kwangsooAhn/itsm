@@ -15,7 +15,6 @@ import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.respository.CustomChartRepository
 import co.brainz.itsm.statistic.customChart.service.ChartManagerFactory
-import co.brainz.itsm.statistic.customReport.constants.CustomReportConstants
 import co.brainz.itsm.statistic.customReport.dto.CustomReportListDto
 import co.brainz.itsm.statistic.customReport.dto.CustomReportListReturnDto
 import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
@@ -52,7 +51,7 @@ class CustomReportService(
     fun getReportList(reportSearchCondition: ReportSearchCondition): CustomReportListReturnDto {
         val pagingResult = customReportRepository.getReportList(reportSearchCondition)
         return CustomReportListReturnDto(
-            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomReportListDto>>(){}),
+            data = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<CustomReportListDto>>() {}),
             paging = AlicePagingData(
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customReportRepository.count(),

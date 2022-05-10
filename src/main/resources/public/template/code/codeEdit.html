@@ -394,7 +394,7 @@
         return !code.match(regex);
     }
 
-    function drawCodeLang(param) {
+    function drawCodeLang(param, editable = true) {
         const langCodeRow = document.getElementById('langCodeRowTemplate').content.cloneNode(true);
 
         const langList = /*[[${langList}]]*/'';
@@ -417,6 +417,9 @@
             });
         }
 
+        // 편집 불가 시 readonly 처리
+        if (!editable) selectTag.classList.add('readonly');
+
         document.getElementById('codeLang').appendChild(langCodeRow);
         aliceJs.initDesignedSelectTag(document.querySelector('#codeLang'));
         observer.set();
@@ -430,7 +433,7 @@
         if (param !== '') {
             const codeLang = JSON.parse(param);
             for (let index in codeLang) {
-                drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue});
+                drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue}, editable);
             }
         }
         divCodeLang.querySelectorAll('button').forEach((elem) => {
