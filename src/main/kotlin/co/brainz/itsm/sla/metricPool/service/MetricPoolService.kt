@@ -6,9 +6,14 @@
 package co.brainz.itsm.sla.metricPool.service
 
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricPool.dto.MetricDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
+import co.brainz.itsm.sla.metricPool.entity.MetricEntity
 import co.brainz.itsm.sla.metricPool.entity.MetricGroupEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricGroupRepository
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
@@ -16,15 +21,18 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.convertValue
+import java.time.LocalDateTime
 import kotlin.math.ceil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MetricPoolService(
     private val metricPoolRepository: MetricPoolRepository,
-    private val metricGroupRepository: MetricGroupRepository
+    private val metricGroupRepository: MetricGroupRepository,
+    private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -54,4 +62,32 @@ class MetricPoolService(
         return metricGroupRepository.findAll()
     }
 
+    /**
+     * SLA 지표 신규 등록
+     */
+    @Transactional
+    fun createMetric(metricDto: MetricDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
+        // 지표 이름 충복 체크
+        if (metricPoolRepository.existsByMetricName(metricDto.metricName)) {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+        } else {
+            metricPoolRepository.save(
+                MetricEntity(
+                    metricName = metricDto.metricName,
+                    metricDesc = metricDto.metricDesc,
+                    metricGroupId = metricDto.metricGroupId,
+                    metricType = metricDto.metricType,
+                    metricUnit = metricDto.metricUnit,
+                    calculationType = metricDto.calculationType,
+                    createUserKey = currentSessionUser.getUserKey(),
+                    createDt = LocalDateTime.now()
+                )
+            )
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
 }
