@@ -32,7 +32,5 @@ class OrganizationRoleMapRepositoryImpl : QuerydslRepositorySupport(Organization
             .innerJoin(role).on(organizationRoleMap.role.eq(role))
             .where(organizationRoleMap.organization.eq(OrganizationEntity(organizationId)))
             .fetch()
-
     }
 }
-

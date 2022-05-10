@@ -20,5 +20,3 @@ data class OrganizationDetailDto(
     var editable: Boolean? = true,
     var roles: List<RoleListDto> = emptyList()
 ) : Serializable
-
-

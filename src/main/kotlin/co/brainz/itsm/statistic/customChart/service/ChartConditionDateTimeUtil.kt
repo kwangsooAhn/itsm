@@ -64,7 +64,6 @@ class ChartConditionDateTimeUtil {
         return target.plusSeconds(seconds).format(DateTimeFormatter.ISO_DATE_TIME)
     }
 
-
     /**
      * LocalDateTime 산술 가감 연산 (년)
      */

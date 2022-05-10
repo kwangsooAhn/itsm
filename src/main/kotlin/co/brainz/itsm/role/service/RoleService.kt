@@ -189,7 +189,7 @@ class RoleService(
         val allRoles = roleRepository.findAll()
         val roleList: MutableList<RoleListDto> = mutableListOf()
 
-        allRoles.forEach {role ->
+        allRoles.forEach { role ->
             val roleDto = RoleListDto(
                 roleId = role.roleId,
                 roleName = role.roleName,

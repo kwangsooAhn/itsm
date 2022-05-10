@@ -153,12 +153,13 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         return query.fetchOne()
     }
 
-    private fun builder(ciSearchCondition: CISearchCondition,
-                        ci: QCIEntity,
-                        cmdbClass: QCIClassEntity,
-                        cmdbTag: QAliceTagEntity,
-                        wfComponentCIData: QCIComponentDataEntity,
-                        wfInstance: QWfInstanceEntity
+    private fun builder(
+        ciSearchCondition: CISearchCondition,
+        ci: QCIEntity,
+        cmdbClass: QCIClassEntity,
+        cmdbTag: QAliceTagEntity,
+        wfComponentCIData: QCIComponentDataEntity,
+        wfInstance: QWfInstanceEntity
     ): BooleanBuilder {
         val builder = BooleanBuilder()
         if (ciSearchCondition.typeId != null && ciSearchCondition.typeId != CITypeConstants.CI_TYPE_ROOT_ID) {

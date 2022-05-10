@@ -20,5 +20,4 @@ data class ViewerListDto(
     var createDt: LocalDateTime?,
     var updateUserKey: String?,
     var updateDt: LocalDateTime?
-):Serializable
-
+) : Serializable

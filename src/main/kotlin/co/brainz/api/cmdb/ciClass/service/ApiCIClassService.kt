@@ -65,7 +65,7 @@ class ApiCIClassService(
         ciClassDto.createUserKey = userEntity.userKey
         ciClassDto.createDt = LocalDateTime.now()
         if (!ciClassService.createCIClass(ciClassDto)) {
-            status =  ZResponseConstants.STATUS.ERROR_FAIL
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
         return ZResponse(
             status = status.code,

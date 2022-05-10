@@ -22,18 +22,18 @@ import org.springframework.boot.test.context.SpringBootTest
 @Transactional
 class ChartConditionServiceTest {
     @Autowired
-    private lateinit var chartConditionService :ChartConditionService
+    private lateinit var chartConditionService: ChartConditionService
 
     @Test
     @DisplayName("tag parsing")
     @Order(1)
     fun getTagsInCondition() {
-        val tagString1 = "[tag]"              // 태그 1개
-        val tagString2 = "[tag"               // 태그 없음
-        val tagString3 = "[tag1][tag2]"       // 태그 복수개
-        val tagString4 = "tag"                // 태그 없음
+        val tagString1 = "[tag]" // 태그 1개
+        val tagString2 = "[tag" // 태그 없음
+        val tagString3 = "[tag1][tag2]" // 태그 복수개
+        val tagString4 = "tag" // 태그 없음
         val tagString5 = "[tag1][tag2][tag1]" // 중복 태그 포함
-        val tagString6 = ""                   // 빈값
+        val tagString6 = "" // 빈값
 
         val method = chartConditionService::class.java.getDeclaredMethod("getTagsInCondition", String::class.java)
         method.trySetAccessible()
@@ -48,9 +48,9 @@ class ChartConditionServiceTest {
         Assertions.assertAll(
             Executable { Assertions.assertEquals(hashSetOf("tag"), result1) },
             Executable { Assertions.assertEquals(hashSetOf<String>(), result2) },
-            Executable { Assertions.assertEquals(hashSetOf("tag1","tag2"), result3) },
+            Executable { Assertions.assertEquals(hashSetOf("tag1", "tag2"), result3) },
             Executable { Assertions.assertEquals(hashSetOf<String>(), result4) },
-            Executable { Assertions.assertEquals(hashSetOf("tag1","tag2"), result5) },
+            Executable { Assertions.assertEquals(hashSetOf("tag1", "tag2"), result5) },
             Executable { Assertions.assertEquals(hashSetOf<String>(), result6) }
         )
     }

@@ -172,7 +172,7 @@ class OrganizationList(
             val customCodeDataList = customCodeService.getCustomCodeData(customCodeId)
             customCodeDataList.data.forEach {
                 if (it.code == tokenValue) {
-                    value = it.codeName?: ""
+                    value = it.codeName ?: ""
                 }
             }
         }
