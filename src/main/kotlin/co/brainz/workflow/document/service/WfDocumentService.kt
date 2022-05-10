@@ -338,7 +338,6 @@ class WfDocumentService(
                     wfInstanceRepository.deleteInstances(instances)
                 }
             }
-
         }
 
         return ZResponse(

@@ -25,7 +25,6 @@ class ViewerRepositoryImpl : QuerydslRepositorySupport(WfInstanceViewerEntity::c
             )
             .orderBy(viewer.createDt.asc())
             .fetch()
-
     }
 
     override fun getReviewYnByViewKey(instanceId: String, userKey: String): WfInstanceViewerEntity? {

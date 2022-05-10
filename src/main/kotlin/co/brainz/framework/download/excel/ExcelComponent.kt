@@ -64,7 +64,7 @@ class ExcelComponent(
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + excelVO.fileName)
-            .header(HttpHeaders.CONTENT_TYPE,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            .header(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             .body(outputStream.toByteArray())
     }
 

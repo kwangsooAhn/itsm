@@ -64,5 +64,4 @@ class SchedulerRestController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(schedulerService.immediateExecuteScheduler(schedulerDto))
     }
-
 }

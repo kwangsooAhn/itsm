@@ -13,5 +13,5 @@ import co.brainz.itsm.role.dto.RoleSearchCondition
 interface RoleRepositoryCustom : AliceRepositoryCustom {
     fun findRoleSearch(roleSearchCondition: RoleSearchCondition): PagingReturnDto
 
-    fun findByRoleAll() : MutableList<RoleListDto>
+    fun findByRoleAll(): MutableList<RoleListDto>
 }

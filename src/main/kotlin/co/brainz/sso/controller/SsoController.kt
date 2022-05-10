@@ -38,7 +38,7 @@ class SsoController(
     /**
      * SSO 설정 여부 확인.
      */
-    @GetMapping("/","")
+    @GetMapping("/", "")
     fun ssoCheck(response: HttpServletResponse) {
         return if (ssoEnabled) {
             response.sendRedirect(ssoTokenCheckPage)
