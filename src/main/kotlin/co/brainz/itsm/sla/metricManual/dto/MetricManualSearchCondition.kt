@@ -3,7 +3,7 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.itsm.sla.slaManual.dto
+package co.brainz.itsm.sla.metricManual.dto
 
 import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
@@ -18,12 +18,15 @@ import java.time.format.DateTimeFormatter
  * @param contentNumPerPage : 페이지당 출력되는 건수
  */
 data class MetricManualSearchCondition(
-    val searchValue: String? = null,
-    val fromDt: String? = null,
-    val toDt: String? = null,
+    val searchValue: String? = "",
+    val fromDt: LocalDateTime? = LocalDateTime.parse(
+        LocalDateTime.of(LocalDateTime.now().year, 1, 1, 0, 0, 0).toString(),
+        DateTimeFormatter.ISO_DATE_TIME
+    ),
+    val toDt: LocalDateTime? = LocalDateTime.parse(
+        LocalDateTime.of(LocalDateTime.now().year, 12, 1, 0, 0, 0).toString(),
+        DateTimeFormatter.ISO_DATE_TIME
+    ),
     val pageNum: Long = 1L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
-) : Serializable {
-    val formattedFromDt: LocalDateTime = LocalDateTime.parse(fromDt, DateTimeFormatter.ISO_DATE_TIME)
-    val formattedToDt: LocalDateTime = LocalDateTime.parse(toDt, DateTimeFormatter.ISO_DATE_TIME)
-}
+) : Serializable

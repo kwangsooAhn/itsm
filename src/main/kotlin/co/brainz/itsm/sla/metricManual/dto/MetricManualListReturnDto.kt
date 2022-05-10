@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.sla.slaManual.dto
+package co.brainz.itsm.sla.metricManual.dto
 
 import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class MetricManualListReturnDto(
-    val data: List<MetricManualListDto> = emptyList(),
+    val data: List<MetricManualDto> = emptyList(),
     val paging: AlicePagingData
 ) : Serializable
