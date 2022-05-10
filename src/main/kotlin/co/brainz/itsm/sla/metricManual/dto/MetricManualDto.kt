@@ -10,11 +10,11 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class MetricManualDto(
-    val metric: String = "",
+    val metricId: String = "",
     val metricName: String? = null,
     val referenceDt: LocalDateTime? = null,
     val metricValue: Long? = null,
     val metricUnitName: String? = null,
-    val userName: String,
-    val createDt: LocalDateTime? = null
+    val createDt: LocalDateTime? = null,
+    val createUserName: String
 ) : Serializable

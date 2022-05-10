@@ -31,8 +31,8 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
                     manual.referenceDt,
                     manual.metricValue,
                     code.codeName,
-                    user.userName,
-                    manual.createDt
+                    manual.createDt,
+                    user.userName
                 )
             )
             .leftJoin(metric).on(metric.metricId.eq(manual.metric.metricId))
