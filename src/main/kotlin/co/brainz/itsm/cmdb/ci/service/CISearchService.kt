@@ -412,7 +412,7 @@ class CISearchService(
                         options.forEach { cAttributeIds.add(it["id"].toString()) }
                         basic.contents.forEach { ciIds.add(it.key) }
                         // 전체 그룹 리스트 데이터 조회
-                        val ciGroupListDataList = ciGroupListDataRepository.getCIGroupListDataList(ciIds,attribute.attributeId, cAttributeIds)
+                        val ciGroupListDataList = ciGroupListDataRepository.getCIGroupListDataList(ciIds, attribute.attributeId, cAttributeIds)
                         basic.contents.forEach { content ->
                             // ci_id 에 일치하는 목록만 추출
                             val groupListDataList = mutableListOf<CIGroupListDataDto>()
@@ -421,7 +421,7 @@ class CISearchService(
                                     groupListDataList.add(groupData)
                                 }
                             }
-                            groupListDataList.sortWith(compareBy<CIGroupListDataDto> { it.cAttributeSeq}.thenBy { it.cAttributeId })
+                            groupListDataList.sortWith(compareBy<CIGroupListDataDto> { it.cAttributeSeq }.thenBy { it.cAttributeId })
                             val valueArray = arrayListOf<String>()
                             var value = ""
                             var seq = 0
@@ -444,7 +444,7 @@ class CISearchService(
                             var strValue = ""
                             valueArray.forEachIndexed { index, it ->
                                 strValue += "[$it]"
-                                if (index != valueArray.size -1) {
+                                if (index != valueArray.size - 1) {
                                     strValue += ", "
                                 }
                             }
@@ -464,7 +464,7 @@ class CISearchService(
                     }
                 }
                 CIAttributeConstants.Type.USER_SEARCH.code,
-                CIAttributeConstants.Type.ORGANIZATION_SEARCH.code-> {
+                CIAttributeConstants.Type.ORGANIZATION_SEARCH.code -> {
                     val attribute = this.getAttribute(attributeList, basic.columnName[index])
                     if (attribute.attributeId.isNotEmpty()) {
                         basic.contents.forEach {
