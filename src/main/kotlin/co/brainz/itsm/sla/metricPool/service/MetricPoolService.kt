@@ -11,6 +11,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.dto.MetricDto
+import co.brainz.itsm.sla.metricPool.dto.MetricGroupDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
@@ -81,6 +82,30 @@ class MetricPoolService(
                     metricType = metricDto.metricType,
                     metricUnit = metricDto.metricUnit,
                     calculationType = metricDto.calculationType,
+                    createUserKey = currentSessionUser.getUserKey(),
+                    createDt = LocalDateTime.now()
+                )
+            )
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * SLA 지표 그룹 신규 등록
+     */
+    @Transactional
+    fun createMetricGroup(metricGroupDto: MetricGroupDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
+        // 지표 그룹 이름 충복 체크
+        if (metricGroupRepository.existsByMetricGroupName(metricGroupDto.metricGroupName.trim())) {
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+        } else {
+            metricGroupRepository.save(
+                MetricGroupEntity(
+                    metricGroupName = metricGroupDto.metricGroupName.trim(),
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )

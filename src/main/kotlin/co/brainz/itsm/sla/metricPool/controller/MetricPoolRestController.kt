@@ -8,6 +8,7 @@ package co.brainz.itsm.sla.metricPool.controller
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.sla.metricPool.dto.MetricDto
+import co.brainz.itsm.sla.metricPool.dto.MetricGroupDto
 import co.brainz.itsm.sla.metricPool.service.MetricPoolService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -32,4 +33,11 @@ class MetricPoolRestController(
         return ZAliceResponse.response(metricPoolService.createMetric(metricDto))
     }
 
+    /**
+     * 신규 지표 등록 처리
+     */
+    @PostMapping("/metric-group")
+    fun insertMetricGroup(@RequestBody metricGroupDto: MetricGroupDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricPoolService.createMetricGroup(metricGroupDto))
+    }
 }
