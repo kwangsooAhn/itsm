@@ -1426,6 +1426,7 @@ token:
     progress: "Document in progress"
     requested: "Application document"
     todo: "Document to process"
+    stored: "archived documents"
   action:
     withdraw: "withdraw"
     reject: "reject"

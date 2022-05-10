@@ -16,6 +16,7 @@ import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.code.entity.QCodeEntity
+import co.brainz.itsm.documentStorage.entity.QDocumentStorageEntity
 import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -77,6 +78,7 @@ class WfInstanceRepositoryImpl(
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
     val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
     val code: QCodeEntity = QCodeEntity.codeEntity
+    val documentStorage: QDocumentStorageEntity = QDocumentStorageEntity.documentStorageEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -327,6 +329,27 @@ class WfInstanceRepositoryImpl(
                 )
             }
         }
+        val query = getInstancesQuery(tokenSearchCondition.tagArray)
+            .where(builder)
+        this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
+        }
+
+        val countQuery = countQuery(tokenSearchCondition.tagArray)
+            .where(builder)
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
+    }
+
+    override fun findStoredInstances(tokenSearchCondition: TokenSearchCondition): PagingReturnDto {
+        val builder = BooleanBuilder()
+
+
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)
