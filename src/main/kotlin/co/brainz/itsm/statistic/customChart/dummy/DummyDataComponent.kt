@@ -21,7 +21,6 @@ import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 import org.springframework.stereotype.Component
 
-
 @Component
 class DummyDataComponent(
     private val wfDocumentRepository: WfDocumentRepository,

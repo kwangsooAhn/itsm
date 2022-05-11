@@ -52,5 +52,4 @@ class ProcessController(
     fun getProcessImport(request: HttpServletRequest, model: Model): String {
         return processImportPage
     }
-
 }

@@ -23,7 +23,7 @@
             data = data.filter(function (d) { // data check
                 return !ZWorkflowUtil.compareJson(d[0], d[1]);
             });
-            if (data.length === 0) {
+            if (!data.length) {
                 return;
             }
             keep_redo = keep_redo || false;
@@ -255,7 +255,7 @@
      * save process.
      */
     function saveProcess() {
-        if(!validationCheck()) return false;
+        if (!validationCheck()) return false;
         zProcessDesigner.resetElementPosition();
         save(function (response) {
             switch (response.status) {
@@ -328,7 +328,7 @@
             let nameTextObject = document.getElementById('newProcessName');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.classList.add('error');
-                zAlert.warning(i18n.msg('common.msg.requiredEnter'), function() {
+                zAlert.warning(i18n.msg('common.msg.requiredEnter'), function () {
                     nameTextObject.focus();
                 });
                 return false;
@@ -377,7 +377,7 @@
         /**
          * 다른 이름으로 저장하기 모달 저장 CallBack.
          */
-        const saveAsCallBack = function() {
+        const saveAsCallBack = function () {
             if (checkRequired()) {
                 saveAs();
                 return true;
@@ -398,7 +398,7 @@
                     content: i18n.msg('common.btn.save'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         if (saveAsCallBack()) {
                             modal.hide();
                         }
@@ -407,13 +407,13 @@
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function (modal) {
                         modal.hide();
                     }
                 }
             ],
             close: { closable: false },
-            onCreate: function(modal) {
+            onCreate: function (modal) {
                 OverlayScrollbars(document.getElementById('newProcessDescription'), {
                     className: 'scrollbar',
                     resize: 'none',
@@ -748,7 +748,7 @@
     function focusPropertiesPanel() {
         let panel = document.querySelector('.z-process-properties');
         let items = panel.querySelectorAll('input:not([readonly]), select');
-        if (items.length === 0) {
+        if (!items.length) {
             return false;
         }
         items[0].focus();
@@ -861,7 +861,7 @@
         setProcessMinimap();
 
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
-        const simulationToggleEvent = function() {
+        const simulationToggleEvent = function () {
             document.querySelector('.z-simulation-report').classList.toggle('closed');
             document.querySelector('.z-button-simulation-report').classList.toggle('active');
         };
@@ -1010,7 +1010,7 @@ function validationCheck() {
         }
 
         for (let i = 0; i < totalElements.length; i++) {
-            if(totalElements[i].type === 'commonStart') {
+            if (totalElements[i].type === 'commonStart') {
                 commonStartCount++;
                 commonStartId = totalElements[i].id;
             }

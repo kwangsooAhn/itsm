@@ -13,6 +13,7 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
+/* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
 const DEFAULT_OPTIONS = {
     type: 'fill', // fill or line (사용자 색상에 추가된 색상은 Fill, Line Color Picker 서로 공유된다.)
     colors: [
@@ -171,7 +172,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
-    autoClose: function(e) {
+    autoClose: function (e) {
         if (!aliceJs.clickInsideElement(e, 'z-color-picker-modal') &&
             !aliceJs.clickInsideElement(e, 'z-color-picker') &&
             !aliceJs.clickInsideElement(e, 'modal-active')) {
@@ -189,7 +190,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette set Position.
-    setPosition: function() {
+    setPosition: function () {
         let rect = this.modalEl.parentNode.getBoundingClientRect(),
             ow = this.modalEl.offsetWidth,
             oh = this.modalEl.offsetHeight,

@@ -259,19 +259,21 @@ class CITypeService(
      * @param ciTypeDto
      * @return String CI TYPE 중복에 따른 코드값
      */
-    fun checkValidation (ciTypeDto: CITypeDto): String {
+    fun checkValidation(ciTypeDto: CITypeDto): String {
         val preCITypeEntity = ciTypeRepository.findByTypeId(ciTypeDto.typeId) // 수정전 CI Type 정보
 
-        return if (ciTypeRepository.existsByTypeAlias(ciTypeDto.typeAlias!!)
-                && ciTypeDto.typeAlias != preCITypeEntity.typeAlias
-            ) { // 식별자 중복체크 && 수정 전후 식별자(TypeAlias) 동일건은 예외
-                Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code
-            } else if (ciTypeRepository.existsByPTypeAndTypeName(ciTypeRepository.findByTypeId(ciTypeDto.pTypeId!!), ciTypeDto.typeName!!)
-                && ciTypeDto.typeName != preCITypeEntity.typeName
-            ) { //부모유형 + 유형이름 중복체크 && 수정 전후 유형이름(TypeName) 동일한건은 예외
-                Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
-            } else {
-                Status.STATUS_SUCCESS.code
-            }
+        return if (ciTypeRepository.existsByTypeAlias(ciTypeDto.typeAlias!!) &&
+            ciTypeDto.typeAlias != preCITypeEntity.typeAlias
+        ) { // 식별자 중복체크 && 수정 전후 식별자(TypeAlias) 동일건은 예외
+            Status.STATUS_FAIL_TYPE_ALIAS_DUPLICATION.code
+        } else if (ciTypeRepository.existsByPTypeAndTypeName(
+                ciTypeRepository.findByTypeId(ciTypeDto.pTypeId!!), ciTypeDto.typeName!!
+            ) &&
+            ciTypeDto.typeName != preCITypeEntity.typeName
+        ) { //부모유형 + 유형이름 중복체크 && 수정 전후 유형이름(TypeName) 동일한건은 예외
+            Status.STATUS_FAIL_PTYPE_AND_TYPENAME_DUPLICATION.code
+        } else {
+            Status.STATUS_SUCCESS.code
+        }
     }
 }

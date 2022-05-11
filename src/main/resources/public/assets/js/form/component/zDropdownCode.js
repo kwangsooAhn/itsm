@@ -71,7 +71,9 @@ export const dropdownCodeMixin = {
                     this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
             }
 
-            if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+            if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+                !zValidation.isEmpty(this.parent.parent.parent) &&
+                this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
                 this.displayType === FORM.DISPLAY_TYPE.EDITABLE  && this.value === '') {
                 const dropDown = this.UIElement.UIComponent.UIElement.UIDropdown.domElement;
                 this.value = dropDown.options[dropDown.selectedIndex].value;
@@ -174,7 +176,7 @@ export const dropdownCodeMixin = {
     // 기본값 조회
     async setDefaultOption(target) {
         const defaultDropdownCode = JSON.parse(this.elementDefaultValueDropdownCode);
-        const isDropdownTypeCode = defaultDropdownCode.hasOwnProperty(FORM.DROPDOWN_CODE.CODE); // 코드인지?
+        const isDropdownTypeCode = Object.prototype.hasOwnProperty.call(defaultDropdownCode, FORM.DROPDOWN_CODE.CODE);
         const defaultOptions = [{ name: i18n.msg('common.msg.select'), value: '', checked: true }];
         const defaultCodeValue = zValidation.isEmpty(this.value) && isDropdownTypeCode ?
             defaultDropdownCode[FORM.DROPDOWN_CODE.DEFAULT_CODE] : this.value;
@@ -263,7 +265,7 @@ export const dropdownCodeMixin = {
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
         const defaultDropdownCode = JSON.parse(this.elementDefaultValueDropdownCode);
-        const isDropdownTypeCode = defaultDropdownCode.hasOwnProperty(FORM.DROPDOWN_CODE.CODE); // 코드인지?
+        const isDropdownTypeCode = Object.prototype.hasOwnProperty.call(defaultDropdownCode, FORM.DROPDOWN_CODE.CODE);
         // 코드 or 매핑 아이디 미입력 확인
         if ((isDropdownTypeCode && zValidation.isEmpty(defaultDropdownCode[FORM.DROPDOWN_CODE.CODE]))||
             (!isDropdownTypeCode && zValidation.isEmpty(defaultDropdownCode[FORM.DROPDOWN_CODE.MAPPING_ID]))) {

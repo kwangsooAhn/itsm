@@ -139,7 +139,7 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[ */
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById('ciAttributes').click();
         // 스크롤바 추가
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
@@ -148,10 +148,10 @@
             textarea: {
                 dynHeight: false,
                 dynWidth: false,
-                inheritedAttrs: "class"
+                inheritedAttrs: 'class'
             }
         });
-        new zTag(document.querySelector('input[name=ciDetailTags]'),{
+        new zTag(document.querySelector('input[name=ciDetailTags]'), {
             suggestion: true,
             realtime: true,
             tagType: 'ci',
@@ -161,7 +161,7 @@
         document.querySelectorAll('.date-time').forEach(dt => {
             dt.textContent = i18n.userDateTime(dt.textContent.trim());
         });
-    }
+    };
     /* ]]> */
 </script>
 </html>

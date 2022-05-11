@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.portal.controller
 
+import co.brainz.itsm.archive.constants.ArchiveConstants
+import co.brainz.itsm.archive.dto.ArchiveSearchCondition
+import co.brainz.itsm.archive.service.ArchiveService
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.download.constants.DownloadConstants
-import co.brainz.itsm.download.dto.DownloadSearchCondition
-import co.brainz.itsm.download.service.DownloadService
 import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.portal.dto.PortalSearchDto
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @RequestMapping("/portals")
 class PortalController(
     private val codeService: CodeService,
-    private val downloadService: DownloadService,
+    private val archiveService: ArchiveService,
     private val noticeService: NoticeService,
     private val portalService: PortalService
 ) {
@@ -42,9 +42,9 @@ class PortalController(
     private val portalNoticeViewPage: String = "portal/notice/noticeView"
     private val portalFaqPage: String = "portal/faq/portalFaq"
     private val portalFaqListPage: String = "portal/faq/portalFaqList"
-    private val portalDownloadSearchPage: String = "portal/download/downloadSearch"
-    private val portalDownloadListPage: String = "portal/download/downloadList"
-    private val portalDownloadViewPage: String = "portal/download/downloadView"
+    private val portalArchiveSearchPage: String = "portal/archive/archiveSearch"
+    private val portalArchiveListPage: String = "portal/archive/archiveList"
+    private val portalArchiveViewPage: String = "portal/archive/archiveView"
 
     /**
      * 포탈 검색 화면 호출 처리
@@ -124,32 +124,32 @@ class PortalController(
     /**
      * [model]를 받아서 포탈 자료실 호출 화면.
      */
-    @GetMapping("/downloads/search")
-    fun getDownloadSearch(model: Model): String {
+    @GetMapping("/archives/search")
+    fun getArchiveSearch(model: Model): String {
         model.addAttribute(
             "categoryList",
-            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
+            codeService.selectCodeByParent(ArchiveConstants.ARCHIVE_CATEGORY_P_CODE)
         )
-        return portalDownloadSearchPage
+        return portalArchiveSearchPage
     }
 
     /**
-     * [downloadSearchCondition], [model]를 받아서 포탈 자료실 리스트 화면 호출.
+     * [archiveSearchCondition], [model]를 받아서 포탈 자료실 리스트 화면 호출.
      */
-    @GetMapping("/downloads")
-    fun getDownloadList(downloadSearchCondition: DownloadSearchCondition, model: Model): String {
-        val result = downloadService.getDownloadList(downloadSearchCondition)
-        model.addAttribute("downloadList", result.data)
+    @GetMapping("/archives")
+    fun getArchiveList(archiveSearchCondition: ArchiveSearchCondition, model: Model): String {
+        val result = archiveService.getArchiveList(archiveSearchCondition)
+        model.addAttribute("archiveList", result.data)
         model.addAttribute("paging", result.paging)
-        return portalDownloadListPage
+        return portalArchiveListPage
     }
 
     /**
-     * [downloadId], [model]를 받아서 포탈 자료실 상세 조회 화면으로 이동
+     * [archiveId], [model]를 받아서 포탈 자료실 상세 조회 화면으로 이동
      */
-    @GetMapping("/downloads/{downloadId}/view")
-    fun getDownloadView(@PathVariable downloadId: String, model: Model): String {
-        model.addAttribute("download", downloadService.getDownloadDetail(downloadId, "view"))
-        return portalDownloadViewPage
+    @GetMapping("/archives/{archiveId}/view")
+    fun getArchiveView(@PathVariable archiveId: String, model: Model): String {
+        model.addAttribute("archive", archiveService.getArchiveDetail(archiveId, "view"))
+        return portalArchiveViewPage
     }
 }

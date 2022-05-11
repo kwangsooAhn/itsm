@@ -126,6 +126,9 @@ find.id.enabled: false
 # 비밀번호 찾기 사용여부
 find.password.enabled: false
 
+# 파일업로드 드래그 가능 여부
+file.drag.enabled: true
+
 jasypt.encryptor.bean: jasyptStringEncryptor
 
 # SSO 사용여부

@@ -209,7 +209,7 @@ export const zGaugeChartMixin = {
      * @param data 데이터
      */
     update(data) {
-        if (data.length === 0) { return false; }
+        if (!data.length) { return false; }
 
         for (let i = 0; i < this.tags.length; i++) {
             const tag = this.tags[i];

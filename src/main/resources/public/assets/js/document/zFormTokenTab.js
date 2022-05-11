@@ -208,7 +208,7 @@ class ZFormTokenTab {
             `<td style="width: 52%;" class="align-left" title="${viewer.organizationName}">${viewer.organizationName}</td>` +
             `<td style="width: 15%;" class="align-center">` +
                 (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
-                `<button type="button" class="z-button-icon-sm" tabindex="-1" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
+                    `<button type="button" class="z-button-icon-sm" tabindex="-1" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
                     `<span class="z-icon i-remove"></span>` +
                 `</button>`) +
             `</td>` +
@@ -229,7 +229,7 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    if (this.viewerList.length === 0) {
+                    if (!this.viewerList.length) {
                         zAlert.warning(i18n.msg('token.msg.selectViewer'));
                         return false;
                     }
@@ -280,7 +280,7 @@ class ZFormTokenTab {
                         instanceId: this.instanceId,
                         documentId: this.documentId,
                         viewers: saveViewerData
-                    }
+                    };
                     this.saveViewer(data);
 
                     modal.hide();
@@ -332,10 +332,10 @@ class ZFormTokenTab {
                     }
                 }
             });
-            const checkboxList = viewerList.querySelectorAll('input[name=userName]')
+            const checkboxList = viewerList.querySelectorAll('input[name=userName]');
             checkboxList.forEach((checkbox) => {
                 checkbox.addEventListener('click', (e) => {
-                    if(e.target.checked) {
+                    if (e.target.checked) {
                         this.viewerList.push({
                             viewerKey: e.target.id,
                             reviewYn: false,
@@ -343,12 +343,12 @@ class ZFormTokenTab {
                             viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
                         });
                     } else {
-                       let removeIndex= this.viewerList.findIndex(function(key) {return key.viewerKey === e.target.id});
-                       if (removeIndex > -1) {
-                           this.viewerList.splice(removeIndex, 1);
-                       }
-                   }
-                })
+                        let removeIndex= this.viewerList.findIndex(function (key) {return key.viewerKey === e.target.id;});
+                        if (removeIndex > -1) {
+                            this.viewerList.splice(removeIndex, 1);
+                        }
+                    }
+                });
             });
         });
     }
@@ -429,7 +429,7 @@ class ZFormTokenTab {
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    if (this.relatedDocList.length === 0) {
+                    if (!this.relatedDocList.length) {
                         zAlert.warning(i18n.msg('token.msg.selectToken'));
                         return false;
                     }
@@ -498,7 +498,7 @@ class ZFormTokenTab {
                             this.relatedDocList.splice(removeIndex, 1);
                         }
                     }
-                })
+                });
             });
         });
     }
@@ -620,7 +620,7 @@ class ZFormTokenTab {
             `</div>` +
             `<div class="z-document-row-topic">`;
         if (!zValidation.isEmpty(instance.topics)) {
-                htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
+            htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
         }
         htmlString +=
             `</div>` +

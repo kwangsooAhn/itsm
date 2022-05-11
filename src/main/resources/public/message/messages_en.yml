@@ -150,11 +150,11 @@ auth:
   document:
     read: "document.read"
     create: "document create"
-  download:
-    read: "download read"
-    create: "download create"
-    update: "download update"
-    delete: "download delete"
+  archive:
+    read: "archive read"
+    create: "archive create"
+    update: "archive update"
+    delete: "archive delete"
   faq:
     read: "FAQ inquiry"
     create: "FAQ registration"
@@ -679,17 +679,17 @@ document:
   btn:
     draftSave: "Draft save"
 
-# Download
-download:
+# Archive
+archive:
   label:
     all: "All"
     category: "Category"
-    download: "Download"
-    edit: "Download Edit"
-    register: "Download Register"
+    archive: "Archive"
+    edit: "Archive Edit"
+    register: "Archive Register"
     searchPlaceholder: "Title / Writer / Attach File Name"
     seq: "Number"
-    view: "Download View"
+    view: "Archive View"
     views: "Views"
   msg:
     editDescription: "Register, modify, or delete data."
@@ -1032,8 +1032,8 @@ menu:
     parent: "Dashboard"
   document:
     parent: "Service Request"
-  download:
-    parent: "Download"
+  archive:
+    parent: "Archive"
   faq:
     parent: "FAQ"
   notice:

@@ -34,7 +34,7 @@ class ZDocument {
                 this.domElement = document.getElementById('documentDrawingBoard');
                 // history.back 시 신청서 목록으로 이동
                 window.history.pushState(null, '', location.href);
-                window.onpopstate = function(e) {
+                window.onpopstate = function (e) {
                     location.reload();
                 };
             },
@@ -69,7 +69,7 @@ class ZDocument {
         // 문서 너비에 맞게 문서번호 위치하도록
         const formWidth = this.formDataJson.display.width;
         const documentNumber = document.getElementById('documentNumber');
-        if(documentNumber !== null) {
+        if (documentNumber !== null) {
             documentNumber.style.width = formWidth + UNIT.PX;
         }
         // 문서 너비가 1400px이 넘으면 우측 탭을 접는다.
@@ -151,7 +151,7 @@ class ZDocument {
     addObjectByType(type, data, parent, index) {
         let addObject = null; // 추가된 객체
 
-        switch(type) {
+        switch (type) {
             case FORM.LAYOUT.FORM:
                 addObject = new ZForm(data);
                 break;
@@ -228,7 +228,7 @@ class ZDocument {
                 parentElements[i].querySelectorAll('.z-text-editor[data-validation-required="true"]');
             for (let k = 0; k < requiredTextEditorElements.length; k++) {
                 // 해당 text editor 내부에 입력된 텍스트가 있는지 확인 (공백 포함)
-                if (requiredTextEditorElements[k].querySelector('p').textContent.length === 0) {
+                if (!requiredTextEditorElements[k].querySelector('p').textContent.length) {
                     isValid = false;
                     zAlert.warning(i18n.msg('common.msg.requiredEnter'), function () {
                         requiredTextEditorElements[k].focus();

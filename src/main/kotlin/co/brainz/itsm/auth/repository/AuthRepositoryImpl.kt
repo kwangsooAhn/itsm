@@ -31,7 +31,7 @@ class AuthRepositoryImpl : QuerydslRepositorySupport(
             )
             .where(this.builder(authSearchCondition, auth))
             .orderBy(auth.authName.asc())
-            if(authSearchCondition != null) {
+            if (authSearchCondition != null) {
                 query.limit(authSearchCondition.contentNumPerPage)
                     .offset((authSearchCondition.pageNum - 1) * authSearchCondition.contentNumPerPage)
             }
@@ -46,7 +46,7 @@ class AuthRepositoryImpl : QuerydslRepositorySupport(
         )
     }
 
-    private fun builder(authSearchCondition: AuthSearchCondition, auth: QAliceAuthEntity):BooleanBuilder {
+    private fun builder(authSearchCondition: AuthSearchCondition, auth: QAliceAuthEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(auth.authName, authSearchCondition.searchValue)

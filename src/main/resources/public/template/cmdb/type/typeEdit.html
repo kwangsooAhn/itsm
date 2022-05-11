@@ -70,7 +70,6 @@
             <div class="flex-row z-input-button">
                 <input class="z-input" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
-<!--                <span class="z-icon i-remove" name="clearClass" onclick="aliceJs.clearText(this);" tabindex="-1"></span>-->
                 <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="z-icon i-remove"></span>
                 </button>
@@ -118,7 +117,7 @@
     });
 
     function getTypeList() {
-        const search = encodeURIComponent(document.querySelector('#search').value);
+        const search = encodeURIComponent(document.getElementById('search').value);
         tree.load({
             source: 'ciType',
             dataUrl: '/rest/cmdb/types?search=' + search,
@@ -128,7 +127,7 @@
             onCreate: function () {
                 document.getElementById('treeList').querySelector('.node').click();
             },
-            selectedNode: function(response) {
+            selectedNode: function (response) {
                 onGetDetail(response.id);
                 document.getElementById('typeLevel').value = response.getAttribute('data-depth');
                 response.classList = 'node_selected';
@@ -140,11 +139,6 @@
         if (!observer.canPageChange()) {
             return;
         }
-        document.querySelectorAll('input[type=text]').forEach(function(object){
-            object.value = '';
-        });
-        document.querySelector('textarea').value = '';
-
         aliceJs.fetchJson('/rest/cmdb/types/' + typeId, {
             method: 'GET'
         }).then((response) => {

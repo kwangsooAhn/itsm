@@ -69,7 +69,7 @@ export const modalButtonMixin = {
             .setUIId('elementText')
             .addUIClass('z-modal-button-text')
             .addUIClass('text-ellipsis')
-            .setUITextContent(this.elementText)
+            .setUITextContent(this.elementText);
         element.UIButton.addUI(element.UIButton.UIText);
         element.addUI(element.UIButton);
         return element;
@@ -204,7 +204,8 @@ export const modalButtonMixin = {
     },
     // 설정된 데이터에 따라 모달 생성
     openModal() {
-        const documentNo = document.getElementById('documentNumber')?.getAttribute('document-no') || '';
+        const documentNo = !zValidation.isEmpty(document.getElementById('documentNumber')) ?
+            document.getElementById('documentNumber').getAttribute('document-no') : '';
         const componentId = this.id;
         const strUrl = `/rest/documents/components/${componentId}/value?documentNo=${documentNo}`;
 

@@ -92,10 +92,10 @@ class UserRestController(
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
-        if (result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code ||
-            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code ||
-            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code ||
-            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code) {
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code) {
             if (SecurityContextHolder.getContext().authentication != null) {
                 if (user.userKey == currentSessionUser.getUserKey()) {
                     localeResolver.setLocale(request, response, Locale(user.lang))
@@ -117,10 +117,10 @@ class UserRestController(
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
-        if (result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code ||
-            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code ||
-            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code ||
-            result.status == AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code) {
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code) {
             localeResolver.setLocale(request, response, Locale(user.lang))
             if (SecurityContextHolder.getContext().authentication != null) {
                 if (user.userKey == currentSessionUser.getUserKey()) {

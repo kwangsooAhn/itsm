@@ -150,7 +150,7 @@ auth:
   document:
     read: "신청서 조회"
     create: "신청서 작성"
-  download:
+  archive:
     read: "자료실 조회"
     create: "자료실 등록"
     update: "자료실 수정"
@@ -678,12 +678,12 @@ document:
   btn:
     draftSave: "임시저장"
 
-# Download
-download:
+# Archive
+archive:
   label:
     all: "전체"
     category: "분류"
-    download: "자료실"
+    archive: "자료실"
     edit: "자료실 수정"
     register: "자료실 등록"
     searchPlaceholder: "제목 / 등록자 / 첨부파일 이름"
@@ -1033,7 +1033,7 @@ menu:
     parent: "개인 현황판"
   document:
     parent: "신청서"
-  download:
+  archive:
     parent: "자료실"
   faq:
     parent: "FAQ"

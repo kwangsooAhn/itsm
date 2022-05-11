@@ -67,7 +67,8 @@ export const dateMixin = {
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
         // 기본값이 '${default}' 이면 실제 값을 저장한다.
-        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+        if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+            !zValidation.isEmpty(this.parent.parent.parent) && this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
             this.displayType === FORM.DISPLAY_TYPE.EDITABLE && this.value === '${default}') {
             this.value = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.SYSTEMFORMAT, this.type,
                 this.UIElement.UIComponent.UIElement.UIDate.getUIValue());
@@ -170,7 +171,8 @@ export const dateMixin = {
                     date = i18n.getDate(offset);
                     break;
                 case FORM.DATE_TYPE.DATE_PICKER:
-                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type, zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
+                    date = aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, this.type,
+                        zValidation.isEmpty(defaultValueArray[1]) ? '' : defaultValueArray[1]);
                     break;
             }
             return date;
@@ -195,8 +197,8 @@ export const dateMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio', 'element.defaultValueRadio',
-            this.elementDefaultValueRadio,
+        const defaultValueRadioProperty = new ZDefaultValueRadioProperty('elementDefaultValueRadio',
+            'element.defaultValueRadio', this.elementDefaultValueRadio,
             [
                 { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
                 { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },

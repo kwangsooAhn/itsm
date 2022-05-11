@@ -308,13 +308,13 @@ class UserService(
                     true -> {
                         when (userEditType) {
                             AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code ->
-                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
+                                ZResponseConstants.STATUS.SUCCESS_EDIT.code
                             AliceUserConstants.UserEditType.SELF_USER_EDIT.code ->
-                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
-                            else -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                                ZResponseConstants.STATUS.SUCCESS.code
+                            else -> ZResponseConstants.STATUS.SUCCESS.code
                         }
                     }
-                    false -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
+                    false -> ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code
                 }
 
                 // 사용자 부재 설정
@@ -328,7 +328,7 @@ class UserService(
 
         if (userEditType == AliceUserConstants.UserEditType.SELF_USER_EDIT.code) {
             when (code) {
-                AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
+                ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code -> {
                     aliceCertificationMailService.sendMail(
                         userUpdateDto.userId,
                         userUpdateDto.email!!,
@@ -369,7 +369,7 @@ class UserService(
                 }
             }
             !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
-                code = AliceUserConstants.UserEditStatus.STATUS_ERROR_SYSTEM_USER_NOT_EXIST.code
+                code = ZResponseConstants.STATUS.ERROR_NOT_EXIST.code
             }
         }
         return code
@@ -462,7 +462,7 @@ class UserService(
             password
         )
         return ZResponse(
-            status = AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
+            status = ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code
         )
     }
 

@@ -78,5 +78,4 @@ class InstanceRestController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(instanceService.deleteInstanceViewer(instanceId, viewerKey))
     }
-
 }

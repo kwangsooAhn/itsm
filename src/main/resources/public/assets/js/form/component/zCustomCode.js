@@ -61,7 +61,8 @@ export const customCodeMixin = {
         element.UIInput = new UIInput()
             .setUIClass('z-input')
             .setUIReadOnly(true)
-            .setUIAttribute('data-custom-data', (this.value === '${default}') ? this.elementDefaultValueCustomCode : this.value)
+            .setUIAttribute('data-custom-data', (this.value === '${default}') ?
+                this.elementDefaultValueCustomCode : this.value)
             .onUIChange(this.updateValue.bind(this))
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIButton = new UIButton()
@@ -80,7 +81,8 @@ export const customCodeMixin = {
                 .addUIClass('z-button-icon-sm')
                 .onUIClick(this.removeValue.bind(this))
                 .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
-            element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
+            element.addUI(
+                element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
         }
 
         this.setDefaultValue(element.UIInput);
@@ -100,7 +102,8 @@ export const customCodeMixin = {
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
         // 기본값이 '${default}' 이면 실제 값을 저장한다.
-        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+        if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+            !zValidation.isEmpty(this.parent.parent.parent) && this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
             this.displayType === FORM.DISPLAY_TYPE.EDITABLE && this.value === '${default}') {
             const defaultValues = this.elementDefaultValueCustomCode.split('|');
             switch (defaultValues[1]) {
@@ -213,7 +216,8 @@ export const customCodeMixin = {
         if (customData[2].trim() !== '') {
             element.UIElement.UIRemoveButton = new UIRemoveButton().addUIClass('z-button-icon-sm')
                 .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove')).onUIClick(this.removeValue.bind(this));
-            element.UIElement.addUI(element.UIElement.UIInputButton.addUI(element.UIElement.UIInput).addUI(element.UIElement.UIRemoveButton).addUI(element.UIElement.UIButton))
+            element.UIElement.addUI(element.UIElement.UIInputButton.addUI(element.UIElement.UIInput)
+                .addUI(element.UIElement.UIRemoveButton).addUI(element.UIElement.UIButton));
         }
 
         // 값이 입력되었을 경우 error 없애기
@@ -225,9 +229,10 @@ export const customCodeMixin = {
     // remove 버튼 클릭시 custom data 제거
     removeValue() {
         let customData = this.elementDefaultValueCustomCode.split('|');
-        customData[1] = 'none'
+        customData[1] = 'none';
         customData[2] = '';
-        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', customData[0]+ '|' + customData[1] + '|' + customData[2]);
+        const dataCustomData = `${customData[0]}|${customData[1]}|${customData[2]}`;
+        this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', dataCustomData);
         this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
         this.value = customData[2];
     },
@@ -273,8 +278,8 @@ export const customCodeMixin = {
     },
     // 세부 속성 조회
     getProperty() {
-        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode', 'element.defaultValueCustomCode',
-            this.elementDefaultValueCustomCode);
+        const customCodeProperty = new ZDefaultValueCustomCodeProperty('elementDefaultValueCustomCode',
+            'element.defaultValueCustomCode', this.elementDefaultValueCustomCode);
         customCodeProperty.help = 'form.help.custom-code';
         return [
             ...new ZCommonProperty(this).getCommonProperty(),

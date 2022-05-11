@@ -83,7 +83,7 @@ class OrganizationService(
         }
 
         return ZResponse(
-            data = OrganizationListReturnDto (
+            data = OrganizationListReturnDto(
                 data = treeOrganizationList,
                 totalCount = count
             )
@@ -191,7 +191,7 @@ class OrganizationService(
         }
         // 하위 부서가 있는지 확인
         if (organizationRepository.existsByPOrganizationId(organizationId)) {
-            status = ZResponseConstants.STATUS.ERROR_ANY
+            status = ZResponseConstants.STATUS.ERROR_DUPLICATE_ORGANIZATION
         }
         if (status == ZResponseConstants.STATUS.SUCCESS) {
             // 조직에 설정된 역할 삭제

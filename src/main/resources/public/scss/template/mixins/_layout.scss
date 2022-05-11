@@ -407,6 +407,12 @@
       height: 37.88rem; // 606px
     }
 
+
+    .no-data-text {
+      width: 100%;
+      text-align: center;
+    }
+
     @include gridTemplate();
   }
 }
@@ -449,6 +455,7 @@
           label { margin: 0.625rem 0; } // 10px 0
 
           .z-input {
+            &:read-only { width: auto; }
             &.attribute { width: 100%; }
           }
         }

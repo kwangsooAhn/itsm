@@ -62,7 +62,8 @@ class SchedulerService(
     fun getSchedulers(schedulerSearchCondition: SchedulerSearchCondition): SchedulerListReturnDto {
         val latelyHistory = aliceScheduleHistoryRepository.findScheduleLatelyHistory()
         val pagingResult = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchCondition)
-        val pagingList: List<AliceScheduleTaskEntity> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<AliceScheduleTaskEntity>>() {})
+        val pagingList: List<AliceScheduleTaskEntity> =
+            mapper.convertValue(pagingResult.dataList, object : TypeReference<List<AliceScheduleTaskEntity>>() {})
         val schedulerList = mutableListOf<SchedulerListDto>()
 
         for (scheduler in pagingList) {
@@ -129,7 +130,7 @@ class SchedulerService(
                     this.validateClassFile(executeClass)
                 } ?: false
                 if (!fileExist) {
-                    status = ZResponseConstants.STATUS.ERROR_ANY
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                 }
             }
         }
@@ -190,7 +191,7 @@ class SchedulerService(
                         this.validateClassFile(executeClass)
                     } ?: false
                     if (!fileExist) {
-                        status = ZResponseConstants.STATUS.ERROR_ANY
+                        status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                     }
                 }
             }
@@ -291,7 +292,7 @@ class SchedulerService(
                         //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
-                    status = ZResponseConstants.STATUS.ERROR_ANY
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                     //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
                 }
             }
@@ -312,7 +313,7 @@ class SchedulerService(
                         //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
-                    status = ZResponseConstants.STATUS.ERROR_ANY
+                    status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
                     //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                 }
             }

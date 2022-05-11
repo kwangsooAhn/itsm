@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+<head>
+    <title th:text="${archive != null} ? #{archive.label.edit} : #{archive.label.register}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{archive.label.archive}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{archive.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <div class="flex-column z-edit-row">
+            <label for="archiveCategory">
+                <span th:text="#{archive.label.category}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="archiveCategory">
+                <option th:each="category: ${categoryList}"
+                        th:value="${category.code}"
+                        th:text="${category.codeName}"
+                        th:selected="${category.code} == ${archive?.archiveCategory}"></option>
+            </select>
+        </div>
+        <div class="flex-column z-edit-row">
+            <label for="archiveTitle">
+                <span th:text="#{common.label.title}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="archiveTitle" class="z-input" maxlength="100" th:value="${archive?.archiveTitle}"></td>
+        </div>
+        <div class="flex-column z-edit-row file-uploader-edit">
+            <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
+            <div id="dropZoneFiles"></div>
+            <div id="dropZoneUploadedFiles"></div>
+        </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/archives/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list" sec:authorize="hasAuthority('portal.manage')">
+                <button th:if="${archive?.archiveId}" onclick="saveArchive('PUT')"
+                        class="z-button primary" th:text="#{common.btn.modify}"></button>
+                <button th:unless="${archive?.archiveId}" onclick="saveArchive('POST')"
+                        class="z-button primary" th:text="#{common.btn.register}"></button>
+                <button th:if="${archive?.archiveId}" onclick="deleteArchive()"
+                        class="z-button danger" th:text="#{common.btn.delete}"></button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        document.getElementById('archiveTitle').focus();
+        zFileUploader.init({formId: 'archiveForm', ownId: [[${archive?.archiveId}]]});
+        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+    };
+
+    //Empty Check
+    function emptyCheck() {
+        if (isEmpty('archiveCategory', 'archive.msg.selectCategory')) { return false; }
+        return !isEmpty('archiveTitle', 'common.msg.enterTitle')
+    }
+
+    function saveArchive(method) {
+        if (!emptyCheck()) { return false; }
+
+        let fileSeqList = [];
+        let delFileSeqList = [];
+        document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
+        document.getElementsByName('delFileSeq').forEach(elem => delFileSeqList.push(elem.value));
+        const data = {
+            archiveCategory: document.getElementById('archiveCategory').value,
+            archiveTitle: document.getElementById('archiveTitle').value,
+            fileSeqList: fileSeqList,
+            delFileSeqList: delFileSeqList
+        };
+        if (method === 'PUT') {
+            data.archiveId = /*[[${archive?.archiveId}]]*/'';
+            data.views = /*[[${archive?.views}]]*/'';
+        }
+        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        aliceJs.fetchJson('/rest/archives', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function() {
+                        location.href = '/archives/search';
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    function deleteArchive() {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+            aliceJs.fetchJson('/rest/archives/' + /*[[${archive?.archiveId}]]*/'', {
+                method: 'DELETE'
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        window.location.href = '/archives/search';
+                    });
+                }
+            });
+        });
+    }
+    /*]]>*/
+</script>
+</html>

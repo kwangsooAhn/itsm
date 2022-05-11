@@ -67,7 +67,8 @@ export const checkBoxMixin = {
                 this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
         }
 
-        if (this.parent?.parent?.parent?.status !== FORM.STATUS.EDIT &&
+        if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+            !zValidation.isEmpty(this.parent.parent.parent) && this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
             this.displayType === FORM.DISPLAY_TYPE.EDITABLE && this.value === '') {
             let defaultList = [];
             for (let i = 0; i < this.element.options.length; i++) {

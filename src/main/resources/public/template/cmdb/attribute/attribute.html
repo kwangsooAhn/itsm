@@ -111,6 +111,7 @@
     /*<![CDATA[*/
     const attributeData = /*[[${attribute?.attributeValue}]]*/ null;
     const SEARCH_YN_USED = ['inputbox', 'dropdown', 'radio', 'date', 'datetime', 'userSearch', 'organizationSearch'];
+    const isView = /*[[${view}]]*/false;
 
     window.onload = function () {
         const attributeType = /*[[${attribute?.attributeType}]]*/ null;
@@ -173,7 +174,7 @@
             document.getElementById('searchWidth').value = '200';
         }
 
-        if ([[${view}]]) {
+        if (isView) {
             const detailObject = document.getElementById('details');
             detailObject.querySelectorAll('select').forEach(function (object) {
                 object.classList.add('readonly');
@@ -188,11 +189,11 @@
                 document.getElementById('button_add').remove();
             }
             detailObject.querySelectorAll('span.required').forEach(function (object) {
-                object.remove()
+                object.remove();
             });
             detailObject.querySelectorAll('input').forEach(function (object) {
                 object.readOnly = true;
-                if(object.type === 'radio') {
+                if (object.type === 'radio') {
                     object.classList.add('readonly');
                     object.disabled = true;
                 }
@@ -225,7 +226,7 @@
     function saveAttribute(method) {
         if (isValidRequiredAll() && zCmdbAttribute.checkDuplicate(document.getElementById('attributeType').value)) {
             const detailsElems = document.getElementById('details').childNodes;
-            if (detailsElems.length === 0) {
+            if (!detailsElems.length) {
                 zAlert.warning(i18n.msg('cmdb.attribute.msg.details'));
                 return;
             }
@@ -245,8 +246,10 @@
                 attributeText: document.getElementById('attributeText').value,
                 mappingId: document.getElementById('mappingId').value,
                 attributeDesc: document.getElementById('attributeDesc').value,
-                searchYn: (document.getElementById('searchYn') === null) ? false : document.getElementById('searchYn').checked,
-                searchWidth: (document.getElementById('searchWidth') === null) ? '200' : document.getElementById('searchWidth').value
+                searchYn: (document.getElementById('searchYn') === null) ?
+                    false : document.getElementById('searchYn').checked,
+                searchWidth: (document.getElementById('searchWidth') === null) ?
+                    '200' : document.getElementById('searchWidth').value
             };
             let url = '/rest/cmdb/attributes';
             if (method === 'PUT') {

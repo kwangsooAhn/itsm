@@ -38,9 +38,9 @@ class CurrentSessionUser {
         val roles = mutableSetOf<String>()
         val prefix = "ROLE_"
         authorises.iterator().forEach {
-           if (it.authority.startsWith(prefix)) {
-               roles.add(it.authority.replace(prefix, ""))
-           }
+            if (it.authority.startsWith(prefix)) {
+                roles.add(it.authority.replace(prefix, ""))
+            }
         }
         return roles.toSet()
     }

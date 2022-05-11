@@ -78,7 +78,7 @@ class AliceCertificationService(
                 status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
             AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code -> {
-                status = ZResponseConstants.STATUS.ERROR_ANY
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE_EMAIL
             }
         }
         return ZResponse(

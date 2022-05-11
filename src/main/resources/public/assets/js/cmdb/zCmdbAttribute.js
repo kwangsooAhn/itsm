@@ -37,7 +37,8 @@
 
     let parent = null;
     let customCodeList = [];
-    let targetUserArray = [];
+    let targetUserArray = [];  // 사용자 검색 대상 목록 데이터
+    let defaultCustomUser = []; // 기본 값 설정 지정 사용자 데이터
     let userInfo = null;
     let attributeDetailData = null; // 서버에 저장된 세부 속성 데이터
     let displayMode = 'view'; // edit | view
@@ -156,8 +157,10 @@
                 `${property.validate === validation.value ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(validation.text)}</option>`;
         }).join('');
-        const maxLengthValue = property.maxLength !== undefined ? property.maxLength : inputTypeAttributeDefaultMaxLength;
-        const minLengthValue = property.minLength !== undefined ? property.minLength : inputTypeAttributeDefaultMinLength;
+        const maxLengthValue = property.maxLength !== undefined ? property.maxLength :
+            inputTypeAttributeDefaultMaxLength;
+        const minLengthValue = property.minLength !== undefined ? property.minLength :
+            inputTypeAttributeDefaultMinLength;
         this.template = `${requiredTemplate}` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4">` +
@@ -181,7 +184,8 @@
             `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" value="${minLengthValue}">` +
+            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" ` +
+                `value="${minLengthValue}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -220,7 +224,8 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra"><span class="z-icon i-plus"></span></button>` +
+            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+                `<span class="z-icon i-plus"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -261,7 +266,8 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label>` +
@@ -269,7 +275,8 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
+                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                    `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
@@ -290,7 +297,8 @@
             property.option.forEach(function () {
                 addBtn.click();
             });
-            document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)').forEach(function (object, index) {
+            const dropdownRowList = document.querySelectorAll('#dropdownListData .flex-row:not(:first-child)');
+            dropdownRowList.forEach(function (object, index) {
                 object.querySelectorAll('input')[0].value = property.option[index].text;
                 object.querySelectorAll('input')[1].value = property.option[index].value;
             });
@@ -477,7 +485,8 @@
             `</div>` +
             `<div class="flex-column col-1">` +
             `<label class="z-radio">` +
-            `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
+            `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ` +
+                `${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
             `<span class="label">${i18n.msg('cmdb.attribute.label.option.none')}</span>` +
             `</label>` +
@@ -488,23 +497,32 @@
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1">` +
             `<label class="z-radio">` +
-            `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
+            `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ` +
+                `${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
             `<span class="label">${i18n.msg('cmdb.attribute.label.option.session')}</span>` +
             `</label>` +
             `</div>` +
             `<div class="flex-column col-1"></div>` +
-            `<div class="flex-column col-7"><select id="${objectId}-default-session" ${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
+            `<div class="flex-column col-7"><select id="${objectId}-default-session" ` +
+                `${defaultType === 'session' ? '' : 'disabled=\'true\''}>${sessionOptions}</select></div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input name="${objectId}-default" id="${objectId}-code" type="radio" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}><span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span></label></div>` +
+            `<div class="flex-column col-1"><label class="z-radio"><input type="radio" name="${objectId}-default" ` +
+                `id="${objectId}-code" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}>` +
+                `<span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span>` +
+                `</label></div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7">` +
             `<div class="flex-row z-input-button">` +
-            `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
-            `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}><span class="z-icon i-search"></span></button>` +
+            `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" ` +
+                `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
+                `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
+                `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
+            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" ` +
+                `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
+                `<span class="z-icon i-search"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -786,7 +804,12 @@
     /**
      * User Search.
      *
-     * {"required":"true","targetCriteria":"organization|custom","searchKey":[{"id": "4028b2d57d37168e017d3716cgf00000", "value": "조직구성"}]}
+     * {
+     *     "required":"true",
+     *     "targetCriteria":"organization|custom",
+     *     "searchKey":[{"id": "4028b2d57d37168e017d3716cgf00000", "value": "조직구성"}],
+     *     "defaultValue":{"type":"none","data":""}
+     * }
      * @param {Object} property Attribute 데이터
      * @constructor
      */
@@ -794,6 +817,8 @@
         const objectId = attributeTypeList[8].type; // userSearch
         // 필수값
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
+        // 기본 값
+        const defaultValueTemplate = getDefaultValueTemplate(objectId, property.defaultValue);
 
         // 조회 대상 기준
         const targetCriteria = property.targetCriteria !== undefined ? property.targetCriteria : 'organization';
@@ -801,7 +826,8 @@
         const targetOptions = [
             {'text': i18n.msg('form.properties.userSearch.organization'), 'value': 'organization'},
             {'text': i18n.msg('form.properties.userSearch.custom'), 'value': 'custom'}].map(function (option) {
-            return `<option value='${option.value}' ${property.targetCriteria === option.value ? 'selected=\'true\'' : ''}>` +
+            const isSelected = (property.targetCriteria === option.value);
+            return `<option value='${option.value}' selected=${isSelected}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
         this.template = `${requiredTemplate}` +
@@ -824,7 +850,7 @@
                 </div>
             </div>`.trim();
 
-        parent.insertAdjacentHTML('beforeend', this.template);
+        parent.insertAdjacentHTML('beforeend', this.template + defaultValueTemplate);
         aliceJs.initDesignedSelectTag();
 
         // 조회 대상 기준 변경시
@@ -832,15 +858,22 @@
         targetSelect.addEventListener('change', changeTargetCriteriaHandler, false);
         targetSelect.dispatchEvent(new Event('change'));
 
-        // 기본 값 추가
+        // 검색 조건 설정
         setTargetCriteria(parent, { 'targetCriteria': targetCriteria, 'searchKey': searchKey });
+
+        // 기본값 radio 관련 disabled event 설정
+        disableUncheckedRadio(objectId);
+
+        // 지정 사용자 선택 모달 오픈
+        document.getElementById(objectId + '-default-custom')
+            .addEventListener('click', openUserListModal, false);
     }
 
     /**
-     * 기본 값 추가
+     * 검색 조건 설정
      */
     function setTargetCriteria(target, data) {
-        if (data.searchKey.length === 0) { return false; }
+        if (!data.searchKey.length) { return false; }
 
         if (data.targetCriteria === 'organization') {
             const inputElem = target.querySelector('#searchTarget');
@@ -859,27 +892,29 @@
      */
     function changeTargetCriteriaHandler(e) {
         // 삭제
-        const targetCriterial = document.getElementById('changeTargetCriteria');
-        targetCriterial.innerHTML = '';
+        const targetCriteria = document.getElementById('changeTargetCriteria');
+        targetCriteria.innerHTML = '';
         targetUserArray.length = 0;
 
         // 신규 생성
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row z-input-button">
                 <input type="text" class="z-input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="z-button-icon z-button-code" type="button" id="searchOrganization"><span class="z-icon i-search"></span></button>
+                <button class="z-button-icon z-button-code" type="button" id="searchOrganization">` +
+                `<span class="z-icon i-search"></span></button>
             </div>`;
-            targetCriterial.insertAdjacentHTML('beforeend', organizationTemplate);
+            targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
 
-            const searchOrganization = targetCriterial.querySelector('#searchOrganization');
+            const searchOrganization = targetCriteria.querySelector('#searchOrganization');
             searchOrganization.addEventListener('click', openOrganizationTreeModal, false);
         } else {
             const customTemplate = `<div class="align-right">
-                    <button type="button" class="z-button secondary" id="searchUserList">${i18n.msg('common.btn.add')}</button>
-                </div>`;
-            targetCriterial.insertAdjacentHTML('beforeend', customTemplate);
+                <button type="button" class="z-button secondary" id="searchUserList">`   +
+                    `${i18n.msg('common.btn.add')}</button>
+            </div>`;
+            targetCriteria.insertAdjacentHTML('beforeend', customTemplate);
 
-            const searchUserList = targetCriterial.querySelector('#searchUserList');
+            const searchUserList = targetCriteria.querySelector('#searchUserList');
             searchUserList.addEventListener('click', openUserListModal, false);
         }
     }
@@ -912,13 +947,18 @@
     /**
      * 사용자 선택 모달
      */
-    function openUserListModal(e) {
+    function openUserListModal() {
         const targetUserModalTemplate = `<div class="target-user-list">` +
                 `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +
             `</div>`;
+
+        const isMulti = e.target.id === 'searchUserList';
+        const type = isMulti ? 'searchCriteria' : 'defaultCustom';
+        const targetArray = isMulti ? targetUserArray : defaultCustomUser;
+        const defaultCustom = document.getElementById('userSearch-default-custom-text');
 
         const targetUserModal = new modal({
             title: i18n.msg('form.properties.userList'),
@@ -929,11 +969,18 @@
                 classes: 'z-button primary',
                 bindKey: false,
                 callback: (modal) => {
-                    if (targetUserArray.length === 0) {
+                    if (!targetUserArray.length) {
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
-                    } else {
-                        addUserInTargetUser(targetUserArray);
+                    }
+                    switch (type) {
+                        case 'searchCriteria':
+                            addUserInTargetUser(targetArray);
+                            break;
+                        case 'defaultCustom':
+                            defaultCustom.value = targetArray[0].value;
+                            defaultCustom.setAttribute('data-search-value', targetArray[0].id);
+                            break;
                     }
                     modal.hide();
                 }
@@ -946,21 +993,36 @@
                 }
             }],
             close: { closable: false },
-            onCreate: function() {
+            onCreate: function () {
                 document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
-                    getTargetUserList(e.target.value, false);
+                    getTargetUserList(e.target.value, isMulti, targetArray, false);
                 }), false);
-                getTargetUserList(document.getElementById('search').value, true);
+                getTargetUserList(document.getElementById('search').value, isMulti, targetArray, true);
 
                 // 기존 사용자 목록
-                targetUserArray.length = 0;
-                const targetCriterial = document.getElementById('changeTargetCriteria');
-                targetCriterial.querySelectorAll('.user-search-item').forEach( (elem) => {
-                    const inputElem = elem.querySelector('.z-input');
-                    if (inputElem) {
-                        targetUserArray.push({id: inputElem.getAttribute('data-user-id'), value: inputElem.value});
-                    }
-                });
+                targetArray.length = 0;
+                switch (type) {
+                    case 'searchCriteria':
+                        document.getElementById('changeTargetCriteria')
+                            .querySelectorAll('.user-search-item').forEach( (elem) => {
+                                const inputElem = elem.querySelector('.z-input');
+                                if (inputElem) {
+                                    targetArray.push({
+                                        id: inputElem.getAttribute('data-user-id'),
+                                        value: inputElem.value
+                                    });
+                                }
+                            });
+                        break;
+                    case 'defaultCustom':
+                        if (defaultCustom.value !== '') {
+                            targetArray.push({
+                                id: defaultCustom.getAttribute('data-search-value'),
+                                value: defaultCustom.value
+                            });
+                        }
+                        break;
+                }
             }
         });
         targetUserModal.show();
@@ -969,30 +1031,31 @@
     /**
      * 사용자 조회
      */
-    function getTargetUserList(search, showProgressbar) {
+    function getTargetUserList(search, isMulti, targetArray, showProgressbar) {
         let strUrl = '/users/substituteUsers?search=' + encodeURIComponent(search.trim())
-            + '&from=&to=&userKey=&multiSelect=true';
+            + '&from=&to=&userKey=&multiSelect=' + isMulti;
         aliceJs.fetchText(strUrl, {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
-            targetUserList.innerHTML = htmlData;
+            targetUserList.innerHTML = htmlData.toString();
             OverlayScrollbars(targetUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
             // 갯수 가운트
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
             // 체크 이벤트
-            targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
-                element.addEventListener('change', function(e) {
+            targetUserList.querySelectorAll('input[type=checkbox], input[type=radio]').forEach((element) => {
+                element.addEventListener('change', function (e) {
                     if (e.target.checked) {
-                        targetUserArray.push({id: e.target.id, value: e.target.value});
+                        isMulti ? targetArray.push({id: e.target.id, value: e.target.value})
+                            : targetArray.splice(0, targetArray.length, {id: e.target.id, value: e.target.value});
                     } else {
-                        targetUserArray = targetUserArray.filter((item) => item.id !== e.target.id);
+                        targetArray = targetArray.filter((item) => item.id !== e.target.id);
                     }
                 });
             });
             // 기존 선택값 표시
-            targetUserArray.forEach( (target) => {
+            targetArray.forEach( (target) => {
                 const targetCheckBox = targetUserList.querySelector('input[id="' + target.id + '"]');
                 if (targetCheckBox) {
                     targetCheckBox.checked = true;
@@ -1005,9 +1068,9 @@
      * 사용자 추가
      */
     function addUserInTargetUser(dataList) {
-        const targetCriterial = document.getElementById('changeTargetCriteria');
+        const targetCriteria = document.getElementById('changeTargetCriteria');
         // 전체 목록 삭제 후
-        targetCriterial.querySelectorAll('.user-search-item').forEach( (elem) => {
+        targetCriteria.querySelectorAll('.user-search-item').forEach( (elem) => {
             elem.remove();
         });
 
@@ -1015,21 +1078,21 @@
         let listTemplate = ``;
         dataList.forEach( (data) => {
             listTemplate += `<div class="flex-row mt-2 user-search-item">` +
-                    `<div class="flex-column col-10 mr-4">` +
-                        `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
-                    `</div>` +
-                    `<div class="flex-column">` +
-                        `<button type="button" data-user-id="${data.id}" class="z-button-icon extra user-search-delete-btn">` +
-                            `<span class="z-icon i-delete"></span>` +
-                        `</button>` +
-                    `</div>` +
-                `</div>`;
+                `<div class="flex-column col-10 mr-4">` +
+                    `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
+                `</div>` +
+                `<div class="flex-column">` +
+                    `<button type="button" class="z-button-icon extra user-search-delete-btn"` +
+                        ` data-user-id="${data.id}"><span class="z-icon i-delete"></span>` +
+                    `</button>` +
+                `</div>` +
+            `</div>`;
         });
-        targetCriterial.insertAdjacentHTML('beforeend', listTemplate);
+        targetCriteria.insertAdjacentHTML('beforeend', listTemplate);
 
         // 삭제 이벤트
-        targetCriterial.querySelectorAll('.user-search-delete-btn').forEach((btn) => {
-            btn.addEventListener('click', function(e) {
+        targetCriteria.querySelectorAll('.user-search-delete-btn').forEach((btn) => {
+            btn.addEventListener('click', function (e) {
                 e.target.parentNode.parentNode.remove();
 
                 const removeIndex = targetUserArray.findIndex(function (user) {
@@ -1050,8 +1113,18 @@
 
         // 필수값
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
-        this.template = `${requiredTemplate}`;
+        // 기본 값
+        const defaultValueTemplate = getDefaultValueTemplate(objectId, property.defaultValue);
+
+        this.template = `${requiredTemplate}` + `${defaultValueTemplate}`;
         parent.insertAdjacentHTML('beforeend', this.template);
+
+        // 기본값 radio 관련 disabled event 설정
+        disableUncheckedRadio(objectId);
+
+        // 지정 부서 선택 모달
+        document.getElementById(objectId + '-default-custom')
+            .addEventListener('click', openOrganizationSearchModal, false);
     }
 
     /**
@@ -1080,9 +1153,70 @@
     }
 
     /**
+     * userSearch, organizationSearch 기본값 설정 템플릿 반환
+     * @param id 속성타입
+     * @param selectedValue 선택된 값
+     * @returns {string} 템플릿리터럴
+     */
+    function getDefaultValueTemplate(id, selectedValue) {
+        const defaultType = selectedValue !== undefined ? selectedValue.type : 'none';
+        let defaultData = selectedValue !== undefined ? selectedValue.data : '';
+        defaultData = defaultData.includes('|') ? defaultData.split('|') : ['', ''];
+
+        return `<div class="flex-row mt-2">
+                <div class="flex-column col-2 mr-4">
+                    <label>
+                        <span>${i18n.msg('form.properties.element.defaultValue')}</span>
+                    </label>
+                </div>
+                <div class="flex-column col-9">
+                    <label class="z-radio">
+                        <input name="${id}-default" id="${id}-none" type="radio" value="none" 
+                            ${defaultType === 'none' ? 'checked=\'true\'' : ''}>
+                        <span></span>
+                        <span class="label">${i18n.msg('form.properties.option.none')}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="flex-row mt-2">
+                <div class="flex-column col-2 mr-4"><label><span></span></label></div>
+                <div class="flex-column col-9">
+                    <label class="z-radio">
+                        <input name="${id}-default" id="${id}-session" type="radio" value="session" 
+                            ${defaultType === 'session' ? 'checked=\'true\'' : ''}>
+                        <span></span>
+                        <span class="label">${i18n.msg('form.properties.default.session')}</span>
+                    </label>
+                </div>
+            </div>
+            <div class="flex-row mt-2">
+                <div class="flex-column col-2 mr-4"><label><span></span></label></div>
+                <div class="flex-column col-2">
+                    <label class="z-radio">
+                        <input name="${id}-default" id="${id}-custom" type="radio" value="custom" 
+                            ${defaultType === 'custom' ? 'checked=\'true\'' : ''}>
+                        <span></span>
+                        <span class="label">${i18n.msg('form.properties.default.custom')}</span>
+                    </label>
+                </div>
+                <div class="flex-column col-7">
+                    <div class="flex-row z-input-button">
+                        <input class="z-input" type="text" readonly="true" id="${id}-default-custom-text" 
+                            value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
+                            ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
+                        <button class="z-button-icon z-button-code" type="button" id="${id}-default-custom" 
+                            data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
+                            <span class="z-icon i-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>`.trim();
+    }
+
+    /**
      * Attribute 목록 모달 오픈
      */
-    function openAttributeListModal(e) {
+    function openAttributeListModal() {
         // 저장된 데이터를 담는다.
         attributeMapTemp.length = 0;
         attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
@@ -1140,13 +1274,14 @@
     /**
      * 세부 속성 검색
      */
-    function getAttributeList (search, showProgressbar) {
-        const url = '/cmdb/attributes/list-modal?search=' + encodeURIComponent(search.trim()) + '&attributeId=' + attributeId;
+    function getAttributeList(search, showProgressbar) {
+        const url = '/cmdb/attributes/list-modal?search=' + encodeURIComponent(search.trim()) +
+            '&attributeId=' + attributeId;
         aliceJs.fetchText(url, {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
-            document.getElementById('ciClassAttributeList').innerHTML = htmlData;
+            document.getElementById('ciClassAttributeList').innerHTML = htmlData.toString();
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
             OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
 
@@ -1173,7 +1308,7 @@
                 });
             });
         });
-    };
+    }
 
     /**
      * 중복 유효성 검사.
@@ -1217,7 +1352,7 @@
             // 사용자 검색시 조회대상이 존재하지 않으면 체크
             const userList = document.querySelectorAll('#details .user-search-item');
             const targetCriteria = document.getElementById('userSearchCriteria');
-            if (targetCriteria.value === 'custom' && userList.length === 0) {
+            if (targetCriteria.value === 'custom' && !userList.length) {
                 zAlert.warning(i18n.msg('common.msg.required', i18n.msg('form.properties.element.searchTarget')));
                 isValid = false;
             }
@@ -1234,7 +1369,7 @@
     function setDetails(attributeType) {
         let details = {};
         switch (attributeType) {
-            case 'inputbox':
+            case 'inputbox': {
                 details.validate = parent.querySelector('#' + attributeTypeList[0].type + '-validation').value;
                 details.required = parent.querySelector('#' + attributeTypeList[0].type + '-required').value;
                 details.maxLength = parent.querySelector('#' + attributeTypeList[0].type + '-maxLength').value;
@@ -1249,7 +1384,8 @@
                     return false;
                 }
                 break;
-            case 'dropdown':
+            }
+            case 'dropdown': {
                 details.required = parent.querySelector('#' + attributeTypeList[1].type + '-required').value;
 
                 let dropdownOption = [];
@@ -1261,7 +1397,8 @@
                 });
                 details.option = dropdownOption;
                 break;
-            case 'radio':
+            }
+            case 'radio': {
                 let radioOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     radioOption.push({
@@ -1271,7 +1408,8 @@
                 });
                 details.option = radioOption;
                 break;
-            case 'checkbox':
+            }
+            case 'checkbox': {
                 let checkOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     checkOption.push({
@@ -1282,18 +1420,21 @@
                 });
                 details.option = checkOption;
                 break;
-            case 'custom-code':
+            }
+            case 'custom-code': {
                 details.required = parent.querySelector('#' + attributeTypeList[4].type + '-required').value;
                 const defaultType = document.querySelector('input[name="custom-code-default"]:checked').value;
                 let defaultValue = '';
                 switch (defaultType) {
-                    case 'session':
+                    case 'session': {
                         defaultValue = parent.querySelector('#' + attributeTypeList[4].type + '-default-session').value;
                         break;
-                    case 'code':
+                    }
+                    case 'code': {
                         const codeText = parent.querySelector('#' + attributeTypeList[4].type + '-default-code-text');
                         defaultValue = codeText.getAttribute('data-value') + '|' + codeText.value;
                         break;
+                    }
                     default:
                         break;
                 }
@@ -1304,7 +1445,8 @@
                 };
                 details.button = parent.querySelector('#' + attributeTypeList[4].type + '-button').value;
                 break;
-            case 'group-list':
+            }
+            case 'group-list': {
                 let groupListOption = [];
                 document.querySelectorAll('#details > .flex-row').forEach(function (object) {
                     groupListOption.push({
@@ -1314,7 +1456,8 @@
                 });
                 details.option = groupListOption;
                 break;
-            case 'date':
+            }
+            case 'date': {
                 details.required = parent.querySelector('#' + attributeTypeList[6].type + '-required').value;
                 details.minDate = parent.querySelector('#' + attributeTypeList[6].type + '-minDate').value;
                 details.maxDate = parent.querySelector('#' + attributeTypeList[6].type + '-maxDate').value;
@@ -1323,37 +1466,63 @@
                     return false;
                 }
                 break;
-            case 'datetime':
+            }
+            case 'datetime': {
                 details.required = parent.querySelector('#' + attributeTypeList[7].type + '-required').value;
                 details.minDateTime = parent.querySelector('#' + attributeTypeList[7].type + '-minDateTime').value;
                 details.maxDateTime = parent.querySelector('#' + attributeTypeList[7].type + '-maxDateTime').value;
-                if ((details.minDateTime !== '' && details.maxDateTime !== '') && details.maxDateTime < details.minDateTime) {
+                if ((details.minDateTime !== '' && details.maxDateTime !== '')
+                    && details.maxDateTime < details.minDateTime) {
                     zAlert.warning(i18n.msg('cmdb.attribute.msg.maxDateTime'));
                     return false;
                 }
                 break;
-            case 'userSearch':
-                const targetCriteria = parent.querySelector('#' + attributeTypeList[8].type + 'Criteria').value;
+            }
+            case 'userSearch': {
+                const userDefaultType
+                    = parent.querySelector(`input[name="${attributeTypeList[8].type}-default"]:checked`).value;
+                const userDefaultData
+                    = parent.querySelector('#' + attributeTypeList[8].type + '-default-custom-text');
+                const targetCriteria
+                    = parent.querySelector('#' + attributeTypeList[8].type + 'Criteria').value;
                 const targetCriteriaElem = parent.querySelector('#changeTargetCriteria');
-                let searchkeys = [];
+                let searchKeys = [];
                 if (targetCriteria === 'organization') { // 부서별 조회
                     const searchTargetElem = targetCriteriaElem.querySelector('#searchTarget');
                     if (searchTargetElem) {
-                        searchkeys.push({
+                        searchKeys.push({
                             id: searchTargetElem.getAttribute('data-value'),
                             value: searchTargetElem.value
                         });
                     }
                 } else { // 대상 목록 지정
-                    searchkeys = targetUserArray;
+                    searchKeys = targetUserArray;
                 }
                 details.required = parent.querySelector('#' + attributeTypeList[8].type + '-required').value;
                 details.targetCriteria = targetCriteria;
-                details.searchKey = searchkeys;
+                details.searchKey = searchKeys;
+                details.defaultValue = {
+                    type: userDefaultType,
+                    data: userDefaultType === 'custom'
+                        ? userDefaultData.getAttribute('data-search-value') + '|' + userDefaultData.value : ''
+                };
                 break;
-            case 'organizationSearch':
+            }
+            case 'organizationSearch': {
+                const organizationDefaultType
+                    = parent.querySelector(`input[name="${attributeTypeList[9].type}-default"]:checked`).value;
+                const organizationDefaultData
+                    = parent.querySelector('#' + attributeTypeList[9].type + '-default-custom-text');
+
                 details.required = parent.querySelector('#' + attributeTypeList[9].type + '-required').value;
+                details.defaultValue = {
+                    type: organizationDefaultType,
+                    data: organizationDefaultType === 'custom'
+                        ? organizationDefaultData
+                            .getAttribute('data-search-value') + '|' + organizationDefaultData.value : ''
+                };
                 break;
+            }
             default:
                 break;
         }
@@ -1432,7 +1601,7 @@
             JSON.parse(data.attributeValue);
         let elem = null;
         switch (type) {
-            case 'group':
+            case 'group': {
                 // class 제목
                 const classTitleElem = document.createElement('h3');
                 classTitleElem.className = 'sub-title under-bar bold mt-4';
@@ -1443,19 +1612,22 @@
                 elem.className = 'attribute-group mb-2';
                 parent.appendChild(elem);
                 return elem;
-            case 'row':
+            }
+            case 'row': {
                 elem = document.createElement('div');
                 elem.className = 'flex-column ' + displayMode + '-row attribute';
                 elem.setAttribute('data-attributeType', data.attributeType);
                 parent.appendChild(elem);
                 return elem;
-            case 'child-row':
+            }
+            case 'child-row': {
                 elem = document.createElement('div');
                 elem.className = 'flex-column ' + displayMode + '-row child-attribute';
                 elem.setAttribute('data-attributeType', data.attributeType);
                 parent.appendChild(elem);
                 return elem;
-            case 'label':
+            }
+            case 'label': {
                 elem = document.createElement('label');
                 elem.className = 'field-label';
                 // 문구
@@ -1464,11 +1636,13 @@
                 elem.appendChild(labelTextElem);
                 parent.appendChild(elem);
                 // 필수여부
-                if (typeof attributeValue.required !== 'undefined' && attributeValue.required === 'true' && displayMode === 'edit') {
+                if (typeof attributeValue.required !== 'undefined'
+                    && attributeValue.required === 'true' && displayMode === 'edit') {
                     elem.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                 }
                 return elem;
-            case 'inputbox':
+            }
+            case 'inputbox': {
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input';
@@ -1507,7 +1681,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'dropdown':
+            }
+            case 'dropdown': {
                 elem = document.createElement('select');
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
@@ -1516,7 +1691,8 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const selectOption = document.createElement('option');
-                        selectOption.textContent = (elem.className == 'readonly' && attributeOption.value == '') ? '' : attributeOption.text;
+                        selectOption.textContent = (elem.className === 'readonly' && attributeOption.value === '')
+                            ? '' : attributeOption.text;
                         selectOption.value = attributeOption.value;
                         if (selectOption.value === data.value) {
                             selectOption.selected = true;
@@ -1526,7 +1702,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'radio':
+            }
+            case 'radio': {
                 if (typeof attributeValue.option !== 'undefined') {
                     const radioId = ZWorkflowUtil.generateUUID();
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
@@ -1564,7 +1741,8 @@
                     }
                 }
                 return elem;
-            case 'checkbox':
+            }
+            case 'checkbox': {
                 if (typeof attributeValue.option !== 'undefined') {
                     const checkboxId = ZWorkflowUtil.generateUUID();
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
@@ -1605,7 +1783,8 @@
                     }
                 }
                 return elem;
-            case 'custom-code':
+            }
+            case 'custom-code': {
                 const customCodeId = ZWorkflowUtil.generateUUID();
                 let customValueArr = '';
                 if (data.value !== null) {
@@ -1670,7 +1849,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'group-list':
+            }
+            case 'group-list': {
                 elem = document.createElement('div');
                 elem.className = 'child-attribute-group pt-2';
                 elem.setAttribute('data-attributeId', data.attributeId);
@@ -1697,7 +1877,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'group-list-row':
+            }
+            case 'group-list-row': {
                 elem = document.createElement('div');
                 elem.className = 'child-attribute-row mt-2';
                 // 삭제 버튼
@@ -1711,7 +1892,8 @@
                 }
                 parent.appendChild(elem);
                 return elem;
-            case 'date':
+            }
+            case 'date': {
                 elem = document.createElement('div');
                 const dateElem = document.createElement('input');
                 dateElem.className = 'z-input i-date-picker search-date col-3';
@@ -1725,8 +1907,10 @@
                         dateElem.required = true;
                         dateElem.setAttribute('data-validation-required', 'true');
                         dateElem.setAttribute('data-validation-required-name', data.attributeText);
-                        dateElem.setAttribute('data-validation-min-date', attributeValue.minDate !== undefined ? attributeValue.minDate : '');
-                        dateElem.setAttribute('data-validation-max-date', attributeValue.maxDate !== undefined ? attributeValue.maxDate : '');
+                        dateElem.setAttribute('data-validation-min-date',
+                            attributeValue.minDate !== undefined ? attributeValue.minDate : '');
+                        dateElem.setAttribute('data-validation-max-date',
+                            attributeValue.maxDate !== undefined ? attributeValue.maxDate : '');
                     }
                 }
 
@@ -1734,7 +1918,8 @@
                 zDateTimePicker.initDatePicker(dateElem, validateDateTimeValue);
                 parent.appendChild(elem);
                 return elem;
-            case 'datetime':
+            }
+            case 'datetime': {
                 elem = document.createElement('div');
                 const dateTimeElem = document.createElement('input');
                 dateTimeElem.className = 'z-input i-datetime-picker search-datetime col-3';
@@ -1749,16 +1934,18 @@
                         dateTimeElem.required = true;
                         dateTimeElem.setAttribute('data-validation-required', 'true');
                         dateTimeElem.setAttribute('data-validation-required-name', data.attributeText);
-                        dateTimeElem.setAttribute('data-validation-min-date', attributeValue.minDateTime !== undefined ? attributeValue.minDateTime : '');
-                        dateTimeElem.setAttribute('data-validation-max-date', attributeValue.maxDateTime !== undefined ? attributeValue.maxDateTime : '');
+                        dateTimeElem.setAttribute('data-validation-min-date',
+                            attributeValue.minDateTime !== undefined ? attributeValue.minDateTime : '');
+                        dateTimeElem.setAttribute('data-validation-max-date',
+                            attributeValue.maxDateTime !== undefined ? attributeValue.maxDateTime : '');
                     }
                 }
                 elem.append(dateTimeElem);
                 zDateTimePicker.initDateTimePicker(dateTimeElem, validateDateTimeValue);
                 parent.appendChild(elem);
                 return elem;
-            case 'userSearch':
-                const userDefaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : ['', '', ''];
+            }
+            case 'userSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-user-search text-ellipsis';
@@ -1769,41 +1956,90 @@
                 elem.setAttribute('oncontextmenu', 'return false;');
                 elem.setAttribute('onkeypress', 'return false;');
                 elem.setAttribute('onkeydown', 'return false;');
-                elem.setAttribute('data-user-id', userDefaultValues[2]);
-                elem.setAttribute('data-user-search', userDefaultValues[0]);
-                elem.setAttribute('data-realTimeSelectedUser', ((data.value !== null && data.value !== '') ? data.value : ''));
+                elem.setAttribute('data-realTimeSelectedUser',
+                    ((data.value !== null && data.value !== '') ? data.value : ''));
                 elem.readOnly = (displayMode === 'view');
-                elem.value = userDefaultValues[1];
                 if (attributeValue.required === 'true') {
                     elem.required = true;
                     elem.setAttribute('data-validation-required', 'true');
                     elem.setAttribute('data-validation-required-name', data.attributeText);
                 }
                 elem.addEventListener('click', openUserSearchModal, false);
+
+                // 기본 값 설정
+                const userDefaultType
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.type : 'none';
+                let userDefaultData
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.data : '';
+                switch (userDefaultType) {
+                    case 'session':
+                        userDefaultData = [userInfo.userKey, userInfo.userName];
+                        break;
+                    case 'custom':
+                        userDefaultData = userDefaultData.includes('|') ? userDefaultData.split('|') : ['', ''];
+                        break;
+                    default:
+                        userDefaultData = ['', ''];
+                        break;
+                }
+                const userDefaultValues
+                    = (data.value !== null && data.value !== '') ? data.value.split('|') : userDefaultData;
+                elem.setAttribute('data-user-search', userDefaultValues[0]);
+                elem.value = userDefaultValues[1];
+
+                // 기본 값 유효성 검증 - 설정된 기본값이 설정한 검색조건 내에 없을 경우 공란으로 표시
+                getUserList(elem, userDefaultData[1], false, true);
+
                 parent.appendChild(elem);
                 return elem;
-            case 'organizationSearch':
-                const defaultValues = (data.value !== null && data.value !== '') ? data.value.split('|') : ['', ''];
+            }
+            case 'organizationSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
                 elem.className = 'z-input i-organization-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-modalTitle', data.attributeText);
-                elem.setAttribute('data-organization-search', defaultValues[0]);
                 elem.setAttribute('oncontextmenu', 'return false;');
                 elem.setAttribute('onkeypress', 'return false;');
                 elem.setAttribute('onkeydown', 'return false;');
                 elem.readOnly = (displayMode === 'view');
-                elem.value = defaultValues[1];
                 if (attributeValue.required === 'true') {
                     elem.required = true;
                     elem.setAttribute('data-validation-required', 'true');
                     elem.setAttribute('data-validation-required-name', data.attributeText);
                 }
                 elem.addEventListener('click', openOrganizationSearchModal, false);
+
+                // 기본 값 설정
+                const organizationDefaultType
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.type : 'none';
+                let organizationDefaultData
+                    = (attributeValue.defaultValue !== undefined && attributeValue.defaultValue !== null)
+                        ? attributeValue.defaultValue.data : '';
+                switch (organizationDefaultType) {
+                    case 'session':
+                        organizationDefaultData = [userInfo.department, userInfo.departmentName];
+                        break;
+                    case 'custom':
+                        organizationDefaultData = organizationDefaultData.includes('|')
+                            ? organizationDefaultData.split('|') : ['', ''];
+                        break;
+                    default:
+                        organizationDefaultData = ['', ''];
+                        break;
+                }
+                const defaultValues = (data.value !== null && data.value !== '')
+                    ? data.value.split('|') : organizationDefaultData;
+                elem.setAttribute('data-organization-search', defaultValues[0]);
+                elem.value = defaultValues[1];
+
                 parent.appendChild(elem);
                 return elem;
+            }
             default:
                 break;
         }
@@ -1815,13 +2051,17 @@
      */
     function validateDateTimeValue(target) {
         // 최소 날짜 ,최대 날짜 유효성 검증
-        if (target.getAttribute('data-validation-min-date') && target.value < target.getAttribute('data-validation-min-date')) {
-            zAlert.warning(i18n.msg('common.msg.selectAfterDate', target.getAttribute('data-validation-min-date')), () => {
+        if (target.getAttribute('data-validation-min-date')
+            && target.value < target.getAttribute('data-validation-min-date')) {
+            zAlert.warning(i18n.msg('common.msg.selectAfterDate',
+                target.getAttribute('data-validation-min-date')), () => {
                 target.classList.add('error');
                 target.focus();
             });
-        } else if (target.getAttribute('data-validation-max-date') && target.value > target.getAttribute('data-validation-max-date')) {
-            zAlert.warning(i18n.msg('common.msg.selectBeforeDate', target.getAttribute('data-validation-max-date')), () => {
+        } else if (target.getAttribute('data-validation-max-date')
+            && target.value > target.getAttribute('data-validation-max-date')) {
+            zAlert.warning(i18n.msg('common.msg.selectBeforeDate',
+                target.getAttribute('data-validation-max-date')), () => {
                 target.classList.add('error');
                 target.focus();
             });
@@ -1929,7 +2169,8 @@
                         zAlert.warning(i18n.msg('form.msg.selectTargetUser'));
                         return false;
                     } else {
-                        const realTimeSelectedUserArr = target.getAttribute('data-realTimeSelectedUser').split('|');
+                        const realTimeSelectedUserArr
+                            = target.getAttribute('data-realTimeSelectedUser').split('|');
                         target.setAttribute('data-user-search', realTimeSelectedUserArr[0]);
                         target.setAttribute('data-user-id', realTimeSelectedUserArr[2]);
                         target.value = realTimeSelectedUserArr[1];
@@ -1945,7 +2186,7 @@
                 }
             }],
             close: { closable: false },
-            onCreate: function() {
+            onCreate: function () {
                 // 기존 선택된 값 할당
                 if (target.getAttribute('data-user-search') !== '') {
                     const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
@@ -1965,7 +2206,7 @@
     /**
      * 사용자 검색 모달 - 사용자 조회
      */
-    function getUserList(target, search, showProgressbar) {
+    function getUserList(target, search, showProgressbar, isValidate) {
         const attributeValue = JSON.parse(target.getAttribute('data-attributeValue'));
         const targetCriteria = attributeValue.targetCriteria;
         let searchKeys = '';
@@ -1979,39 +2220,81 @@
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
-            const searchUserList = document.getElementById('searchUserList');
-            searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
-            // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
-            // 체크 이벤트
-            searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
-                element.addEventListener('change', () => {
-                    const userId = element.getAttribute('data-user-id');
-                    const realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
-                    target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
+            if (!isValidate) {
+                const searchUserList = document.getElementById('searchUserList');
+                searchUserList.innerHTML = htmlData.toString();
+                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+                // 갯수 가운트
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+                // 체크 이벤트
+                searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
+                    element.addEventListener('change', () => {
+                        const userId = element.getAttribute('data-user-id');
+                        const realTimeSelectedUser = element.checked ? `${element.id}|${element.value}|${userId}` : '';
+                        target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
+                    });
                 });
-            });
-            // 기존 선택값 표시
-            const realTimeSelectedUser = target.getAttribute('data-realTimeSelectedUser');
-            const checkedTargetId = realTimeSelectedUser.split('|')[0];
-            const checkedTargetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
-            if (checkedTargetId !== '' && checkedTargetRadio !== null) {
-                checkedTargetRadio.checked = true;
+                // 기존 선택값 표시
+                const realTimeSelectedUser = target.getAttribute('data-realTimeSelectedUser');
+                const checkedTargetId = realTimeSelectedUser.split('|')[0];
+                const checkedTargetRadio = searchUserList.querySelector('input[id="' + checkedTargetId + '"]');
+                if (checkedTargetId !== '' && checkedTargetRadio !== null) {
+                    checkedTargetRadio.checked = true;
+                }
+            } else {
+                // 기본 값 사용자 조회
+                const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
+                if (userListElem.querySelectorAll('.z-table-row').length === 0) {
+                    target.value = '';
+                    target.setAttribute('data-user-search', '');
+                }
             }
         });
     }
 
     /**
+     * 기본값 radio 관련 disabled 처리
+     */
+    function disableUncheckedRadio(objectId) {
+        const defaultNoneObject = document.getElementById(objectId + '-none');
+        const defaultSessionObject = document.getElementById(objectId + '-session');
+        const defaultCodeObject = document.getElementById(objectId + '-custom');
+
+        defaultNoneObject.addEventListener('click', function (e) {
+            e.stopPropagation();
+            document.getElementById(objectId + '-default-custom-text').disabled = true;
+            document.getElementById(objectId + '-default-custom').disabled = true;
+        });
+        defaultSessionObject.addEventListener('click', function (e) {
+            e.stopPropagation();
+            document.getElementById(objectId + '-default-custom-text').disabled = true;
+            document.getElementById(objectId + '-default-custom').disabled = true;
+        });
+        defaultCodeObject.addEventListener('click', function (e) {
+            e.stopPropagation();
+            document.getElementById(objectId + '-default-custom-text').disabled = false;
+            document.getElementById(objectId + '-default-custom').disabled = false;
+        });
+    }
+
+    /**
      * 부서 선택 모달
+     * 모달 호출 target 은 '부서 검색 component' 또는 '부서 검색 기본값 - 부서 지정' 입니다.
+     * 각 target 에 따라 모달 제목, response 를 받는 대상이 달라질 수 있습니다.
      */
     function openOrganizationSearchModal(e) {
         e.stopPropagation();
 
-        const organizationSearchData = e.target.getAttribute('data-organization-search');
+        const target = e.target.getAttribute('data-organization-search')
+            ? e.target : e.target.parentNode.querySelector('input[type=text]');
+
+        const organizationSearchData = target.getAttribute('data-organization-search')
+            || target.getAttribute('data-search-value');
+
         tree.load({
             view: 'modal',
-            title: e.target.getAttribute('data-modalTitle'),
+            title: target.getAttribute('data-modalTitle')
+                || i18n.msg('form.properties.department') + ' ' + i18n.msg('form.properties.default.custom'),
             dataUrl: '/rest/organizations',
             target: 'treeList',
             source: 'organization',
@@ -2020,8 +2303,10 @@
             defaultIcon: '/assets/media/icons/tree/icon_tree_organization.svg',
             selectedValue: organizationSearchData,
             callbackFunc: (response) => {
-                e.target.value = response.textContent;
-                e.target.setAttribute('data-organization-search', response.id);
+                target.value = response.textContent;
+                target.id === 'organizationSearch-default-custom'
+                    ? target.setAttribute('data-search-value', response.id)
+                    : target.setAttribute('data-organization-search', response.id);
             }
         });
     }
@@ -2030,6 +2315,7 @@
      * Attribute 세부 정보 데이터를 토대로 화면에 출력 (Edit / Register)
      * @param target 표시할 대상 element
      * @param data 세부 데이터
+     * @param sessionInfo 세션 정보
      * @param mode edit|view
      */
     function drawDetails(target, data, sessionInfo, mode) {

@@ -19,5 +19,4 @@ class CIClassNotificationRepositoryImpl : QuerydslRepositorySupport(
             .orderBy(ciClassNotification.attributeOrder.asc())
             .fetch()
     }
-
 }
