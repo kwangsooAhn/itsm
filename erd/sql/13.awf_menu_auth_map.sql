@@ -2,7 +2,7 @@
  * 권한별메뉴매핑
  */
 
-\DROP TABLE IF EXISTS awf_menu_auth_map cascade;
+DROP TABLE IF EXISTS awf_menu_auth_map cascade;
 
 CREATE TABLE awf_menu_auth_map
 (
