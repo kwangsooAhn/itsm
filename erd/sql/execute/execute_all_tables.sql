@@ -1,6 +1,6 @@
 /* Drop Sequences */
 
-DROP SEQUENCE IF EXISTS awf_download_seq cascade;
+DROP SEQUENCE IF EXISTS awf_archive_seq cascade;
 DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
@@ -8,7 +8,7 @@ DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
 
 
 /* Create Sequences */
-CREATE SEQUENCE awf_download_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE awf_archive_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
@@ -645,13 +645,29 @@ COMMENT ON COLUMN awf_menu_auth_map.menu_id IS '메뉴아이디';
 COMMENT ON COLUMN awf_menu_auth_map.auth_id IS '권한아이디';
 
 insert into awf_menu_auth_map values ('dashboard', 'general');
-insert into awf_menu_auth_map values ('token', 'general');
 insert into awf_menu_auth_map values ('document', 'general');
-insert into awf_menu_auth_map values ('notice', 'general');
 insert into awf_menu_auth_map values ('faq', 'general');
-insert into awf_menu_auth_map values ('download', 'general');
+insert into awf_menu_auth_map values ('notice', 'general');
 insert into awf_menu_auth_map values ('board', 'general');
-insert into awf_menu_auth_map values ('calendar', 'general');
+insert into awf_menu_auth_map values ('archive', 'general');
+insert into awf_menu_auth_map values ('token', 'general');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
+insert into awf_menu_auth_map values ('config', 'system.manage');
+insert into awf_menu_auth_map values ('config', 'portal.manage');
+insert into awf_menu_auth_map values ('config.organization', 'system.manage');
+insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
+insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
+insert into awf_menu_auth_map values ('config.code', 'system.manage');
+insert into awf_menu_auth_map values ('config.product', 'system.manage');
+insert into awf_menu_auth_map values ('config.role', 'system.manage');
+insert into awf_menu_auth_map values ('config.scheduler', 'system.manage');
+insert into awf_menu_auth_map values ('config.user', 'system.manage');
 insert into awf_menu_auth_map values ('statistic', 'report.manage');
 insert into awf_menu_auth_map values ('statistic', 'report.view');
 insert into awf_menu_auth_map values ('statistic.basicReport', 'report.view');
@@ -671,24 +687,7 @@ insert into awf_menu_auth_map values ('workflow.numberingPattern', 'workflow.man
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
-insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
-insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
-insert into awf_menu_auth_map values ('config', 'system.manage');
-insert into awf_menu_auth_map values ('config', 'portal.manage');
-insert into awf_menu_auth_map values ('config.organization', 'system.manage');
-insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
-insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
-insert into awf_menu_auth_map values ('config.code', 'system.manage');
-insert into awf_menu_auth_map values ('config.product', 'system.manage');
-insert into awf_menu_auth_map values ('config.role', 'system.manage');
-insert into awf_menu_auth_map values ('config.scheduler', 'system.manage');
-insert into awf_menu_auth_map values ('config.user', 'system.manage');
-
+insert into awf_menu_auth_map values ('calendar', 'general');
 /**
  * 알림
  */
