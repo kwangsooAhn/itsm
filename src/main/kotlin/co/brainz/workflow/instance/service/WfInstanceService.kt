@@ -115,11 +115,11 @@ class WfInstanceService(
                 )
             }
             else -> {
-                totalCountWithoutCondition = todoInstances(
+                totalCountWithoutCondition = wfInstanceRepository.findTodoInstanceCount(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
                     countSearchCondition
-                ).totalCount
+                )
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
@@ -450,5 +450,16 @@ class WfInstanceService(
 
     fun getInstanceListInDocumentNo(documentNo: String): List<WfInstanceEntity> {
         return wfInstanceRepository.findWfInstanceEntitiesByDocumentNo(documentNo)
+    }
+
+    /**
+     * 처리할 문서 카운트 (메뉴 - 문서함)
+     */
+    fun getInstanceTodoCount(): Long {
+        return wfInstanceRepository.findTodoInstanceCount(
+            WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+            WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+            TokenSearchCondition(userKey = currentSessionUser.getUserKey())
+        )
     }
 }
