@@ -41,7 +41,7 @@ class MetricPoolService(
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
-     * SLA 지표 목록 조회
+     * 지표 전체 목록 조회
      */
     fun getMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): MetricPoolListReturnDto {
         val pagingResult = metricPoolRepository.findMetricPools(metricPoolSearchCondition)
@@ -59,7 +59,7 @@ class MetricPoolService(
     }
 
     /**
-     * SLA 지표 그룹 목록 조회
+     * 지표 그룹 목록 조회
      */
     fun getMetricGroups(): MutableList<HashMap<String, String>> {
         val mapList: MutableList<HashMap<String, String>> = mutableListOf()
@@ -75,7 +75,7 @@ class MetricPoolService(
     }
 
     /**
-     * SLA 지표 신규 등록
+     * 지표 신규 등록
      */
     @Transactional
     fun createMetric(metricDto: MetricDto): ZResponse {
@@ -104,7 +104,7 @@ class MetricPoolService(
     }
 
     /**
-     * SLA 지표 그룹 신규 등록
+     * 지표 그룹 신규 등록
      */
     @Transactional
     fun createMetricGroup(metricGroupDto: MetricGroupDto): ZResponse {
@@ -128,14 +128,14 @@ class MetricPoolService(
     }
 
     /**
-     * SLA 지표 세부 정보 조회
+     * 지표 세부 정보 조회
      */
     fun getMetricDetail(metricId: String): MetricDto {
         return metricPoolRepository.findMetric(metricId)
     }
 
     /**
-     * SLA 지표가 연도별 지표에서 사용 중인지 체크
+     * 지표가 연도별 지표에서 사용 중인지 체크
      */
     fun isExistMetricYearByMetric(metricId: String): Boolean {
         return metricYearRepository.existsByMetric(metricId)
