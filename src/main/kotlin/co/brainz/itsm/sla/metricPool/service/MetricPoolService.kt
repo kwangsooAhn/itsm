@@ -18,6 +18,7 @@ import co.brainz.itsm.sla.metricPool.entity.MetricEntity
 import co.brainz.itsm.sla.metricPool.entity.MetricGroupEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricGroupRepository
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -33,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional
 class MetricPoolService(
     private val metricPoolRepository: MetricPoolRepository,
     private val metricGroupRepository: MetricGroupRepository,
+    private val metricYearRepository: MetricYearRepository,
     private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -123,5 +125,19 @@ class MetricPoolService(
         return ZResponse(
             status = status.code
         )
+    }
+
+    /**
+     * SLA 지표 세부 정보 조회
+     */
+    fun getMetricDetail(metricId: String): MetricDto {
+        return metricPoolRepository.findMetric(metricId)
+    }
+
+    /**
+     * SLA 지표가 연도별 지표에서 사용 중인지 체크
+     */
+    fun isExistMetricYearByMetric(metricId: String): Boolean {
+        return metricYearRepository.existsByMetric(metricId)
     }
 }
