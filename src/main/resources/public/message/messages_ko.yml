@@ -1040,15 +1040,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "공지사항"
-  metric:
+  setting:
+    editMyInfo: "자기정보 수정"
+  sla:
     manualMetric: "수동 지표관리"
     metricStatus: "지표별 SLA 현황"
     parent: "서비스 수준관리"
     pool: "SLA 지표관리"
     year: "연도별 SLA 지표관리"
     yearStatus: "연도별 SLA 현황"
-  setting:
-    editMyInfo: "자기정보 수정"
   statistic:
     basicChart: "기본 차트"
     basicReport: "기본 보고서 조회"
@@ -1075,22 +1075,6 @@ menu:
     ci: "CI 조회"
     class: "CI 속성그룹"
     type: "CI 유형"
-
-# metric
-metric:
-  label:
-    description: "설명"
-    group: "그룹"
-    groupRegister: "지표 그룹 추가"
-    metricPool: "SLA 지표관리"
-    metricPoolEdit: "SLA 지표관리 수정"
-    metricPoolRegister: "SLA 지표관리 등록"
-    name: "이름"
-    searchPlaceholder: "이름"
-    type: "타입"
-    unit: "단위"
-  msg:
-    editDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
 
 # Notice
 notice:
@@ -1381,6 +1365,24 @@ scheduler:
    • 네 번째 필드 : 일 (Day of month)을 정의하며 1 ~ 31의 허용범위를 가진다.<br/><br/>
    • 다섯 번째 필드 : 월 (Month)을 정의하며 1 ~ 12 또는 JAN ~ DEC의 허용범위를 가진다.<br/><br/>
    • 여섯 번째 필드 : 요일 (Week)을 정의하며 0 ~ 6 또는 SUN ~ SAT의 허용범위를 가진다."
+
+# sla
+sla:
+  metric:
+    label:
+      description: "설명"
+      group: "그룹"
+      groupName: "그룹 이름"
+      groupRegister: "지표 그룹 추가"
+      metricPool: "SLA 지표관리"
+      metricPoolEdit: "SLA 지표관리 수정"
+      metricPoolRegister: "SLA 지표관리 등록"
+      name: "이름"
+      searchPlaceholder: "이름"
+      type: "타입"
+      unit: "단위"
+    msg:
+      editDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
 
 # statistic
 statistic:

@@ -4,16 +4,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/itsm/pageType/pagingListLayout">
 <head>
-    <title th:text="#{metric.label.metricPool}"></title>
+    <title th:text="#{sla.metric.label.metricPool}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{metric.label.metricPool}"></h1>
+    <h1 th:text="#{sla.metric.label.metricPool}"></h1>
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
         <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
-               th:placeholder="#{metric.label.searchPlaceholder}"/>
+               th:placeholder="#{sla.metric.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">

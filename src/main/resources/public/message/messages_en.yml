@@ -1039,7 +1039,9 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
-  metric:
+  setting:
+    editMyInfo: "Edit My Info"
+  sla:
     manualMetric: "Manual Metric management"
     metricStatus: "SLA status by metric"
     parent: "Service-Level Agreement"
@@ -1055,8 +1057,6 @@ menu:
     customReportTemplate: "Report Template"
     dashboardTemplate: "Dashboard Template"
     parent: "Statistics/Report"
-  setting:
-    editMyInfo: "Edit My Info"
   token:
     parent: "My Document"
   workflow:
@@ -1074,22 +1074,6 @@ menu:
     ci: "CI"
     class: "Class"
     type: "Type"
-
-# metric
-metric:
-  label:
-    description: "description"
-    group: "Group"
-    groupRegister: "Metric Group Register"
-    metricPool: "SLA Metric management"
-    metricPoolEdit: "SLA Metric management Edit"
-    metricPoolRegister: "SLA Metric management Register"
-    name: "Name"
-    searchPlaceholder: "Name"
-    type: "Type"
-    unit: "Unit"
-  msg:
-    editDescription: "부서를 관리합니다."
 
 # Notice
 notice:
@@ -1377,6 +1361,24 @@ scheduler:
     • The Fourth field: Defines Day of month and has an allowable range of 1 to 31.<br/><br/>
     • The Fifth field: Defines the month and has an allowable range of 1 to 12 or JAN to DEC.<br/><br/>
     • The Sixth field: Defines the day of the week and has an allowable range of 0 to 6 or SUN to SAT."
+
+# sla
+sla:
+  metric:
+    label:
+      description: "description"
+      group: "Group"
+      groupName: "Group Name"
+      groupRegister: "Metric Group Register"
+      metricPool: "SLA Metric management"
+      metricPoolEdit: "SLA Metric management Edit"
+      metricPoolRegister: "SLA Metric management Register"
+      name: "Name"
+      searchPlaceholder: "Name"
+      type: "Type"
+      unit: "Unit"
+    msg:
+      editDescription: "부서를 관리합니다."
 
 # statistic
 statistic:

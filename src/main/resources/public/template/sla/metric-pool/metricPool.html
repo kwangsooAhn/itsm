@@ -4,12 +4,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
-    <title th:text="${metric != null} ? #{metric.label.edit} : #{metric.label.register}"></title>
+    <title th:text="${metric != null} ? #{sla.metric.label.edit} : #{sla.metric.label.register}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{metric.label.metricPool}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{metric.msg.editDescription}"></h6>
+    <h1 th:text="#{sla.metric.label.metricPool}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{sla.metric.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -17,20 +17,20 @@
             <input type="hidden" id="metricId" name="metricId" th:value="${metricId}"/>
             <div class="flex-column">
                 <div class="flex-column z-edit-row">
-                    <label th:text="#{metric.label.name}" for="metricName" class="required"></label>
+                    <label th:text="#{sla.metric.label.name}" for="metricName" class="required"></label>
                     <input type="text" id="metricName" name="metricName" class="z-input" maxlength="128"
                            th:value="${metric?.metricName}"/>
                 </div>
             </div>
             <div class="flex-column">
-                <label th:text="#{metric.label.description}" for="metricDesc" class="required"></label>
+                <label th:text="#{sla.metric.label.description}" for="metricDesc" class="required"></label>
                 <input type="text" id="metricDesc" name="metricDesc" class="z-input" maxlength="128"
                        th:value="${metric?.metricDesc}"/>
             </div>
             <div class="z-edit-row flex-row">
                 <div class="flex-column col-4">
                     <label for="metricGroup">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{metric.label.group}"></span>
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.group}"></span>
                     </label>
                     <div class="flex-row">
                         <div class="flex-column col-9">
@@ -47,28 +47,28 @@
                     </div>
                 </div>
                 <div class="flex-column col-2 pl-2">
-                    <label for="metricTypeList">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{metric.label.type}"></span>
+                    <label for="metricType">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.type}"></span>
                     </label>
-                    <select id="metricTypeList" th:classappend="${view} ? 'readonly' : ''">
+                    <select id="metricType" th:classappend="${view} ? 'readonly' : ''">
                         <option th:each="metric: ${metricTypeList}" th:selected="${metric.codeValue} == ${metricType}"
                                 th:text="${metric.codeName}" th:value="${metric.codeValue}"></option>
                     </select>
                 </div>
                 <div class="flex-column col-2 pl-2">
-                    <label for="metricUnitList">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{metric.label.unit}"></span>
+                    <label for="metricUnit">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.unit}"></span>
                     </label>
-                    <select id="metricUnitList" th:classappend="${view} ? 'readonly' : ''">
+                    <select id="metricUnit" th:classappend="${view} ? 'readonly' : ''">
                         <option th:each="metric: ${metricUnitList}" th:selected="${metric.codeValue} == ${metricUnit}"
                                 th:text="${metric.codeName}" th:value="${metric.codeValue}"></option>
                     </select>
                 </div>
                 <div class="flex-column col-2 pl-2">
-                    <label for="metricCalcTypeList">
+                    <label for="calculationType">
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.calculationType}"></span>
                     </label>
-                    <select id="metricCalcTypeList" th:classappend="${view} ? 'readonly' : ''">
+                    <select id="calculationType" th:classappend="${view} ? 'readonly' : ''">
                         <option th:each="metric: ${metricCalcTypeList}" th:selected="${metric.codeValue} == ${calculationType}"
                                 th:text="${metric.codeName}" th:value="${metric.codeValue}"></option>
                     </select>
@@ -104,10 +104,10 @@
             metricId: '',
             metricName: document.getElementById('metricName').value,
             metricDesc: document.getElementById('metricDesc').value,
-            metricGroupName: document.getElementById('metricGroupName').value,
-            metricTypeList: document.getElementById('metricTypeList').value,
-            metricUnitList: document.getElementById('metricUnitList').value,
-            metricCalcTypeList: document.getElementById('metricCalcTypeList').value
+            metricGroupId: '',
+            metricType: document.getElementById('metricType').value,
+            metricUnit: document.getElementById('metricUnit').value,
+            calculationType: document.getElementById('calculationType').value
         }
         let url = '/rest/sla/metric-pool';
         if (method === 'PUT') {
@@ -153,15 +153,49 @@
     }
 
     function saveGroup() {
+        // 빈 값 체크
 
+        const groupInfo = {
+            groupId: document.getElementById('metricGroupId').value,
+            groupName: document.getElementById('metricGroupName').value
+        };
+        let method = 'POST';
+        let url = '/rest/sla/metric-group';
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(groupInfo)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    if (method === 'POST') {
+                        const message = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.modify');
+                        zAlert.success(message, function () {
+                            window.location.href = '/sla/metric-pool/search';
+                        });
+                    }
+                    location.reload();
+                    break;
+                case aliceJs.response.duplicate:
+                    zAlert.warning(i18n.msg('process.msg.duplicateName'));
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
+            }
+        });
     }
 
     // 그룹추가 모달 Template
     function createModalContent(data) {
         return `<div class="flex-column">` +
-            `<input type="hidden" id="process_status" value="${data !== undefined ? data.status : ''}" />` +
-            `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
-            `<input type="text" class="z-input" id="process_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
+            `<input type="hidden" id="metricGroupId" value="${data !== undefined ? data.status : ''}" />` +
+            `<label class="field-label" for="metricGroupName">${i18n.msg('metric.label.groupName')}<span class="required"></span></label>` +
+            `<input type="text" class="z-input" id="metricGroupName" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
             `</div>`;
     }
 
