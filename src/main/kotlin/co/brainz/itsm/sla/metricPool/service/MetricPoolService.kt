@@ -140,10 +140,10 @@ class MetricPoolService(
      * 지표 편집
      */
     @Transactional
-    fun updateMetric(metricDto: MetricDto): ZResponse {
+    fun updateMetric(metricId: String, metricDto: MetricDto): ZResponse {
         val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
         if (status == ZResponseConstants.STATUS.SUCCESS) {
-            val metricEntity = metricPoolRepository.findByMetricId(metricDto.metricId)
+            val metricEntity = metricPoolRepository.findByMetricId(metricId)
             metricEntity.metricName = metricDto.metricName
             metricEntity.metricDesc = metricDto.metricDesc
             metricEntity.metricGroupId = metricDto.metricGroupId
