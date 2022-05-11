@@ -7,7 +7,6 @@
 package co.brainz.workflow.token.repository
 
 import co.brainz.itsm.statistic.customChart.dto.average.ChartTokenData
-import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
@@ -25,7 +24,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::class.java),
     WfTokenDataRepositoryCustom {
-    override fun findTokenDataByTokenIds(tokenIds: Set<String>): List<WfInstanceListTokenDataDto> {
+    override fun findTokenDataByTokenIds(tokenIds: Set<String>, componentTypes: ArrayList<String>): List<WfInstanceListTokenDataDto> {
         val tokenData = QWfTokenDataEntity.wfTokenDataEntity
         val component = QWfComponentEntity.wfComponentEntity
         val instance = QWfInstanceEntity.wfInstanceEntity
@@ -56,7 +55,7 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
             .where(
                 tokenData.token.tokenId.`in`(tokenIds),
                 tokenData.component.isTopic.isTrue,
-                tokenData.component.componentType.`in`(WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay())
+                tokenData.component.componentType.`in`(componentTypes)
             )
             .fetch()
     }

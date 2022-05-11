@@ -138,7 +138,7 @@ class WfInstanceService(
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
-            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
+            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds, WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()))
         }
 
         // tags
@@ -153,11 +153,9 @@ class WfInstanceService(
 
         for (instance in tokenList) {
             val topics = mutableListOf<String>()
-            val topicComponentIds = mutableListOf<String>()
             run loop@{
                 tokenDataList.forEach { tokenData ->
                     if (instance.tokenEntity.tokenId == tokenData.component.tokenId) {
-                        topicComponentIds.add(tokenData.component.componentId)
                         topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
                         return@loop
                     }
@@ -406,7 +404,7 @@ class WfInstanceService(
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
-            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
+            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds, WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()))
         }
         val topics = mutableListOf<String>()
         for (instance in instanceList) {
