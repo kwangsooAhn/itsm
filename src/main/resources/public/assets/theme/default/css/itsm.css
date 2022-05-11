@@ -2008,6 +2008,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-gnb-calendar {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_calendar.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_calendar.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 
 /* _elements.scss
  *
@@ -9544,4 +9554,30 @@ body.modal-active {
   color: #757575;
   position: absolute;
   right: 3.75rem;
+}
+
+/* _calendar.scss
+ *
+ * 파일 경로 : template/_calendar.scss
+ * @description tui-calendar 라이브러리 재디자인
+ * @author wdj
+ * @version 1.0
+ */
+.calendar__menu .calendar__move {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.calendar__menu .calendar__move .i-arrow-right {
+  background: #8B9094;
+}
+.calendar__menu .calendar__move .i-arrow-right:hover {
+  background: #64BBF6;
+}
+.calendar__menu .calendar__move .move--prev {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }

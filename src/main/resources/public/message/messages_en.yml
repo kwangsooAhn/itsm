@@ -251,6 +251,18 @@ board:
     viewDescription: "Inquire detailed information about the post."
     createCategory: "Please register the category."
 
+# Calendar
+calendar:
+  label:
+    calendar: "Calendar"
+    day: "Daily"
+    list: "List"
+    month: "Monthly"
+    today: "Today"
+    week: "Weekly"
+  msg:
+    description: "View and manage user schedules."
+
 # Chart
 chart:
   label:
@@ -1018,6 +1030,8 @@ login:
 menu:
   board:
     parent: "Board"
+  calendar:
+    parent: "Calendar"
   config:
     auth: "Auth"
     boardAdmin: "Board config"
