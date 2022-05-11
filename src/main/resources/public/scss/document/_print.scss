@@ -76,6 +76,10 @@
           }
           .z-row-tooltip {
             break-inside: avoid;
+            .z-textarea {
+              width: inherit;
+              max-width: calc(#{$print-a4-width} - 10mm);
+            }
           }
         }
       }
