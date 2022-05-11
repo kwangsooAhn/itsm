@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.sla.metricManual.entity
 
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
@@ -14,20 +20,20 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "sla_metric_manual")
-@IdClass(MetricManualEntityPk::class)
+@IdClass(MetricManualPk::class)
 data class MetricManualEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "metric_id")
-    var metric: MetricEntity,
+    val metric: MetricEntity,
 
     @Id
     @Column(name = "reference_dt")
-    var referenceDt: LocalDateTime,
+    val referenceDt: LocalDateTime? = null,
 
     @Id
     @Column(name = "metric_value")
-    var metricValue: Long = 0L,
+    val metricValue: Int = 0,
 
     @Column(name = "create_user_key")
     var userKey: String? = "",
@@ -36,8 +42,8 @@ data class MetricManualEntity(
     var createDt: LocalDateTime? = null
 ) : Serializable
 
-data class MetricManualEntityPk(
+data class MetricManualPk(
     val metric: String = "",
-    val referenceDt: LocalDateTime,
-    val metricValue: Long = 0L
+    val referenceDt: LocalDateTime? = null,
+    val metricValue: Int = 0
 ) : Serializable

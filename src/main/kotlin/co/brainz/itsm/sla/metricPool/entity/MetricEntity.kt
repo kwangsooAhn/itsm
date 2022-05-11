@@ -50,6 +50,7 @@ data class MetricEntity(
     @Column(name = "update_dt", insertable = false)
     var updateDt: LocalDateTime? = null
 ) : Serializable {
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "metric")
-    var manual: MutableList<MetricManualEntity>? = mutableListOf()
+    val metricManualEntities: MutableList<MetricManualEntity>? = mutableListOf()
 }
