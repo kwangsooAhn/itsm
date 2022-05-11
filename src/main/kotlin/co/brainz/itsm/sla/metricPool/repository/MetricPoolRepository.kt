@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MetricPoolRepository : JpaRepository<MetricEntity, String>, MetricPoolRepositoryCustom {
 
+    fun existsByMetricName(metricName: String): Boolean
+
 }

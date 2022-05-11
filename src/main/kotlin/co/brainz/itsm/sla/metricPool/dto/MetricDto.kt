@@ -8,12 +8,12 @@ package co.brainz.itsm.sla.metricPool.dto
 
 import java.io.Serializable
 
-data class MetricPoolDto(
+data class MetricDto(
     var metricId: String = "",
-    var metricGroupName: String = "",
     var metricName: String = "",
-    var metricTypeName: String = "",
-    var metricUnitName: String = "",
-    var calculationTypeName: String = "",
-    var metricDesc: String? = ""
+    var metricDesc: String? = null,
+    var metricGroupId: String = "",
+    var metricType: String? = null,
+    var metricUnit: String? = null,
+    var calculationType: String? = null
 ) : Serializable
