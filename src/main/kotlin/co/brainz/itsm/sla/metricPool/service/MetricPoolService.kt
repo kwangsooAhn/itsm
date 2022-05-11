@@ -79,12 +79,8 @@ class MetricPoolService(
      */
     @Transactional
     fun createMetric(metricDto: MetricDto): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
-
-        // 지표 이름 충복 체크
-        if (metricPoolRepository.existsByMetricName(metricDto.metricName.trim())) {
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
-        } else {
+        val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             metricPoolRepository.save(
                 MetricEntity(
                     metricName = metricDto.metricName.trim(),
@@ -109,7 +105,6 @@ class MetricPoolService(
     @Transactional
     fun createMetricGroup(metricGroupDto: MetricGroupDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-
         // 지표 그룹 이름 충복 체크
         if (metricGroupRepository.existsByMetricGroupName(metricGroupDto.metricGroupName.trim())) {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
@@ -139,5 +134,49 @@ class MetricPoolService(
      */
     fun isExistMetricYearByMetric(metricId: String): Boolean {
         return metricYearRepository.existsByMetric(metricId)
+    }
+
+    /**
+     * 지표 편집
+     */
+    @Transactional
+    fun updateMetric(metricDto: MetricDto): ZResponse {
+        val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            val metricEntity = metricPoolRepository.findByMetricId(metricDto.metricId)
+            metricEntity.metricName = metricDto.metricName
+            metricEntity.metricDesc = metricDto.metricDesc
+            metricEntity.metricGroupId = metricDto.metricGroupId
+            metricEntity.updateUserKey = currentSessionUser.getUserKey()
+            metricEntity.updateDt = LocalDateTime.now()
+
+            metricPoolRepository.save(metricEntity)
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * 지표 등록/편집 시 지표 이름 중복 체크
+     */
+    @Transactional
+    fun checkMetricName(metricId: String, metricName: String): ZResponseConstants.STATUS {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
+        if (metricId.isEmpty()) {
+            if (metricPoolRepository.existsByMetricName(metricName)) {
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            }
+        } else {
+            val metricEntity = metricPoolRepository.getOne(metricId)
+            val isExistsMetricName = metricEntity.metricName == metricName
+            if (!isExistsMetricName) {
+                if (metricPoolRepository.existsByMetricName(metricName)) {
+                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                }
+            }
+        }
+        return status
     }
 }
