@@ -22,7 +22,7 @@ insert into awf_menu_auth_map values ('document', 'general');
 insert into awf_menu_auth_map values ('faq', 'general');
 insert into awf_menu_auth_map values ('notice', 'general');
 insert into awf_menu_auth_map values ('board', 'general');
-insert into awf_menu_auth_map values ('download', 'general');
+insert into awf_menu_auth_map values ('archive', 'general');
 insert into awf_menu_auth_map values ('token', 'general');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
