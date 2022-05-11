@@ -251,6 +251,18 @@ board:
     viewDescription: "게시글에 대한 상세 정보를 조회합니다."
     createCategory: "분류 항목을 추가해 주세요."
 
+# Calendar
+calendar:
+  label:
+    calendar: "일정 관리"
+    day: "일"
+    list: "리스트"
+    month: "월"
+    today: "오늘"
+    week: "주"
+  msg:
+    description: "일정을 추가하거나 조회 및 관리합니다."
+
 # Chart
 chart:
   label:
@@ -1019,6 +1031,8 @@ login:
 menu:
   board:
     parent: "게시판"
+  calendar:
+    parent: "일정 관리"
   config:
     auth: "권한"
     boardAdmin: "게시판"

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
+<head>
+    <title th:text="#{calendar.label.calendar}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <link th:href="@{/assets/vendors/tuiCalendar/tui-date-picker.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/tuiCalendar/tui-time-picker.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/tuiCalendar/tui-calendar.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-code-snippet.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-date-picker.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-time-picker.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.min.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{calendar.label.calendar}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{calendar.msg.description}"></h6>
+</div>
+<div layout:fragment="pageSearchResult">
+    <div class="calendar">
+        <div class="calendar__menu flex-row mb-3" id="calendarMenu">
+            <select class="col-2" id="calendarType">
+                <option value="month" th:text="#{calendar.label.month}" selected></option>
+                <option value="week" th:text="#{calendar.label.week}"></option>
+                <option value="day" th:text="#{calendar.label.day}"></option>
+                <option value="list" th:text="#{calendar.label.list}"></option>
+            </select>
+            <button type="button" class="z-button primary ml-1" th:text="#{calendar.label.today}"></button>
+            <button type="button" class="z-button-icon calendar__move ml-1">
+                <span class="z-icon i-arrow-right move--prev"></span>
+            </button>
+            <button type="button" class="z-button-icon calendar__move ml-1">
+                <span class="z-icon i-arrow-right move--next"></span>
+            </button>
+            <span class="calendar__render-range-text ml-1" id="renderRangeText"></span>
+        </div>
+        <div class="calendar__view" id="calendar"></div>
+    </div>
+</div>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    let calendar = null;
+    window.onload = function () {
+        calendar = new tui.Calendar(document.getElementById('calendar'), {
+            defaultView: 'month',
+            taskView: ['task'],
+            template: {
+                monthDayname: function (dayname) {
+                    return '<span class="calendar-week-dayname-name">' + dayname.label + '</span>';
+                }
+            }
+        });
+        setRenderRangeText();
+
+        // 이벤트 등록
+        document.getElementById('calendarType').addEventListener('change', changeCalendarType);
+        console.log(calendar);
+    };
+
+    // 사용자 포멧에 따른 달력 포멧 조회
+    function getMonthFormat() {
+        switch (i18n.dateFormat) {
+            case 'yyyy-MM-dd':
+            case 'yyyy-dd-MM':
+                return 'yyyy-MM';
+            case 'dd-MM-yyyy':
+            case 'MM-dd-yyyy':
+                return 'MM-yyyy';
+            default:
+                return 'yyyy-MM';
+        }
+    }
+
+    // 상단 메뉴 현재 날짜 표시
+    function setRenderRangeText() {
+        const renderRange = document.getElementById('renderRangeText');
+        const options = calendar.getOptions();
+        const viewName = calendar.getViewName();
+        let html = [];
+        if (viewName === 'day') {
+            html.push(luxon.DateTime.local().setZone(i18n.timezone).toFormat(i18n.dateFormat));
+        } else if (viewName === 'month' &&
+            (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)) {
+            html.push(luxon.DateTime.local().setZone(i18n.timezone).toFormat(getMonthFormat()));
+        } else {
+            html.push(luxon.DateTime.fromMillis(
+                calendar.getDateRangeStart().getTime()).setZone(i18n.timezone).toFormat(i18n.dateFormat));
+            html.push(' ~ ');
+            html.push(luxon.DateTime.fromMillis(
+                calendar.getDateRangeEnd().getTime()).setZone(i18n.timezone).toFormat(i18n.dateFormat));
+        }
+        renderRange.innerHTML = html.join('');
+    }
+
+    // 월, 주, 년, 리스트 변경에 따른 이벤트 핸들러
+    function changeCalendarType(e) {
+        const action = e.target.value;
+        if (action === 'list') {
+            // TODO: 커스텀 목록 만들기 - 구글 캘린더 처럼 목록 나오게
+        } else {
+            calendar.changeView(action, true);
+        }
+    }
+
+</script>
+</body>
+</html>

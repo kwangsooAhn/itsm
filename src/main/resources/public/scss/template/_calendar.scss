@@ -1,0 +1,27 @@
+/* _calendar.scss
+ *
+ * 파일 경로 : template/_calendar.scss
+ * @description tui-calendar 라이브러리 재디자인
+ * @author wdj
+ * @version 1.0
+ */
+.calendar {
+  // 메뉴
+  &__menu {
+    // <> 버튼
+    .calendar__move {
+      @include borderRadius(50%);
+
+      .i-arrow-right {
+        background: $gray500;
+
+        &:hover {
+          background: $blue400;
+        }
+      }
+      .move--prev {
+        @include rotate(180);
+      }
+    }
+  }
+}

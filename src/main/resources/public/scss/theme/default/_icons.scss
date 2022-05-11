@@ -38,4 +38,7 @@
   &.i-gnb_sub_dot {
     @include maskImage($icon-gnb-sub-dot, 0.25rem, 0.25rem, no-repeat, center); // 4xp 4px
   }
+  &.i-gnb-calendar {
+    @include maskImage($icon-gnb-calendar, 1.5rem, 1.5rem, no-repeat, center); // 20xp 20px
+  }
 }

@@ -1,6 +1,6 @@
 /* Drop Sequences */
 
-DROP SEQUENCE IF EXISTS awf_archive_seq cascade;
+DROP SEQUENCE IF EXISTS awf_download_seq cascade;
 DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
@@ -8,7 +8,7 @@ DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
 
 
 /* Create Sequences */
-CREATE SEQUENCE awf_archive_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE awf_download_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
@@ -426,9 +426,9 @@ DROP TABLE IF EXISTS awf_archive cascade;
 CREATE TABLE awf_archive
 (
 	archive_id varchar(128) NOT NULL,
-	archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
-	archive_category varchar(100) NOT NULL,
-	archive_title varchar(128) NOT NULL,
+    archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
+    archive_category varchar(100) NOT NULL,
+    archive_title varchar(128) NOT NULL,
 	views bigint DEFAULT 0 NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
@@ -594,28 +594,8 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
 insert into awf_menu values ('archive', 'menu', '/archives/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
-insert into awf_menu values ('statistic', 'menu', '', 8, 'TRUE');
-insert into awf_menu values ('workflow', 'menu', '', 9, 'TRUE');
-insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
-insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
-insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
-insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
-insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
-insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
-insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
-insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
-insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
-insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
-insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
-insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
-insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
-insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
-insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
-insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('calendar', 'menu', '/calendar', 8, 'TRUE');
+insert into awf_menu values ('statistic', 'menu', '', 9, 'TRUE');
 insert into awf_menu values ('statistic.customReportTemplate', 'statistic', '/statistics/customReportTemplate/search', 1, 'TRUE');
 insert into awf_menu values ('statistic.customReport', 'statistic', '/statistics/customReport/search', 2, 'TRUE');
 insert into awf_menu values ('statistic.basicReport', 'statistic', '/statistics/basicReport/search', 3, 'FALSE');
@@ -623,6 +603,27 @@ insert into awf_menu values ('statistic.customChart', 'statistic', '/statistics/
 insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistics/basicChart/search', 5, 'FALSE');
 insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistics/dashboardTemplate/search', 6, 'FALSE');
 insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
+insert into awf_menu values ('workflow', 'menu', '', 10, 'TRUE');
+insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
+insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
+insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
+insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
+insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
+insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
+insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
+insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
+insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
+insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
+insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('config', 'menu', '', 12, 'TRUE');
+insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
+insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
+insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -644,29 +645,13 @@ COMMENT ON COLUMN awf_menu_auth_map.menu_id IS '메뉴아이디';
 COMMENT ON COLUMN awf_menu_auth_map.auth_id IS '권한아이디';
 
 insert into awf_menu_auth_map values ('dashboard', 'general');
-insert into awf_menu_auth_map values ('document', 'general');
-insert into awf_menu_auth_map values ('faq', 'general');
-insert into awf_menu_auth_map values ('notice', 'general');
-insert into awf_menu_auth_map values ('board', 'general');
-insert into awf_menu_auth_map values ('archive', 'general');
 insert into awf_menu_auth_map values ('token', 'general');
-insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
-insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
-insert into awf_menu_auth_map values ('config', 'system.manage');
-insert into awf_menu_auth_map values ('config', 'portal.manage');
-insert into awf_menu_auth_map values ('config.organization', 'system.manage');
-insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
-insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
-insert into awf_menu_auth_map values ('config.code', 'system.manage');
-insert into awf_menu_auth_map values ('config.product', 'system.manage');
-insert into awf_menu_auth_map values ('config.role', 'system.manage');
-insert into awf_menu_auth_map values ('config.scheduler', 'system.manage');
-insert into awf_menu_auth_map values ('config.user', 'system.manage');
+insert into awf_menu_auth_map values ('document', 'general');
+insert into awf_menu_auth_map values ('notice', 'general');
+insert into awf_menu_auth_map values ('faq', 'general');
+insert into awf_menu_auth_map values ('download', 'general');
+insert into awf_menu_auth_map values ('board', 'general');
+insert into awf_menu_auth_map values ('calendar', 'general');
 insert into awf_menu_auth_map values ('statistic', 'report.manage');
 insert into awf_menu_auth_map values ('statistic', 'report.view');
 insert into awf_menu_auth_map values ('statistic.basicReport', 'report.view');
@@ -686,6 +671,23 @@ insert into awf_menu_auth_map values ('workflow.numberingPattern', 'workflow.man
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
+insert into awf_menu_auth_map values ('config', 'system.manage');
+insert into awf_menu_auth_map values ('config', 'portal.manage');
+insert into awf_menu_auth_map values ('config.organization', 'system.manage');
+insert into awf_menu_auth_map values ('config.boardAdmin', 'system.manage');
+insert into awf_menu_auth_map values ('config.boardAdmin', 'portal.manage');
+insert into awf_menu_auth_map values ('config.code', 'system.manage');
+insert into awf_menu_auth_map values ('config.product', 'system.manage');
+insert into awf_menu_auth_map values ('config.role', 'system.manage');
+insert into awf_menu_auth_map values ('config.scheduler', 'system.manage');
+insert into awf_menu_auth_map values ('config.user', 'system.manage');
 
 /**
  * 알림
@@ -1196,7 +1198,7 @@ insert into awf_url values ('/organizations/edit', 'get', '조직 관리 편집 
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
 insert into awf_url values ('/portals/browserguide', 'get', '포탈 브라우저 안내', 'FALSE');
 insert into awf_url values ('/portals/archives', 'get', '포달 자료실 리스트', 'FALSE');
-insert into awf_url values ('/portals/archives/{archiveId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
+insert into awf_url values ('/portals/archives/{downloadId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
 insert into awf_url values ('/portals/archives/search', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/portals/faqs', 'get', '포탈 FAQ 상세조회', 'FALSE');
 insert into awf_url values ('/portals/faqs/{faqId}/view', 'get', '포탈 FAQ 리스트', 'FALSE');
@@ -1433,6 +1435,7 @@ insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무�
 insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
 insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
 insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
+insert into awf_url values ('/calendar', 'get', '일정 관리', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1770,6 +1773,7 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','work
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/calendar', 'get', 'general');
 
 /**
  * 사용자정보
