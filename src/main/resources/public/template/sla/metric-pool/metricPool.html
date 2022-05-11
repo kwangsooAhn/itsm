@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
-    <title th:text="${metric != null} ? #{sla.metric.label.edit} : #{sla.metric.label.register}"></title>
+    <title th:text="${metric != null} ? #{sla.metric.label.metricPoolEdit} : #{sla.metric.label.metricPoolRegister}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
@@ -105,6 +105,7 @@
             metricName: document.getElementById('metricName').value,
             metricDesc: document.getElementById('metricDesc').value,
             metricGroupId: '',
+            metricGroupName: document.getElementById('metricGroupName').value,
             metricType: document.getElementById('metricType').value,
             metricUnit: document.getElementById('metricUnit').value,
             calculationType: document.getElementById('calculationType').value
@@ -154,10 +155,11 @@
 
     function saveGroup() {
         // 빈 값 체크
+        if (isEmpty('newMetricGroupName', 'common.msg.emptyValue')) return;
 
-        const groupInfo = {
-            groupId: document.getElementById('metricGroupId').value,
-            groupName: document.getElementById('metricGroupName').value
+        const data = {
+            metricGroupId: document.getElementById('newMetricGroupId').value,
+            metricGroupName: document.getElementById('newMetricGroupName').value
         };
         let method = 'POST';
         let url = '/rest/sla/metric-group';
@@ -166,20 +168,17 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(groupInfo)
+            body: JSON.stringify(data)
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
                     if (method === 'POST') {
-                        const message = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.modify');
-                        zAlert.success(message, function () {
-                            window.location.href = '/sla/metric-pool/search';
-                        });
+                        zAlert.success(i18n.msg('common.msg.save'));
                     }
                     location.reload();
                     break;
                 case aliceJs.response.duplicate:
-                    zAlert.warning(i18n.msg('process.msg.duplicateName'));
+                    zAlert.warning(i18n.msg('sla.metric.msg.duplicateName'));
                     break;
                 case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
@@ -193,16 +192,16 @@
     // 그룹추가 모달 Template
     function createModalContent(data) {
         return `<div class="flex-column">` +
-            `<input type="hidden" id="metricGroupId" value="${data !== undefined ? data.status : ''}" />` +
-            `<label class="field-label" for="metricGroupName">${i18n.msg('metric.label.groupName')}<span class="required"></span></label>` +
-            `<input type="text" class="z-input" id="metricGroupName" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
+            `<input type="hidden" id="newMetricGroupId"  th:value="${data?.metricGroupId}" />` +
+            `<label class="field-label" for="newMetricGroupName">${i18n.msg('sla.metric.label.groupName')}<span class="required"></span></label>` +
+            `<input type="text" class="z-input" id="newMetricGroupName" maxlength="50" th:value="${data?.metricGroupName}" />` +
             `</div>`;
     }
 
     // 그룹추가 모달 오픈
     function openMetricGroup() {
-        const processModal = new modal({
-            title: i18n.msg('metric.label.groupRegister'),
+        const metricGroupModal = new modal({
+            title: i18n.msg('sla.metric.label.groupRegister'),
             body: createModalContent(),
             classes: 'process-edit',
             buttons: [{
@@ -222,13 +221,9 @@
             }],
             close: {
                 closable: false,
-            },
-            onCreate: function(modal) {
-                // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }
         });
-        processModal.show();
+        metricGroupModal.show();
     }
     /* ]]> */
 </script>

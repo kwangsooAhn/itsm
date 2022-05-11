@@ -1378,7 +1378,8 @@ sla:
       type: "Type"
       unit: "Unit"
     msg:
-      editDescription: "부서를 관리합니다."
+      duplicateName: "There are duplicate group names."
+      editDescription: " Register, modify, or delete the contents of SLA metric management."
 
 # statistic
 statistic:

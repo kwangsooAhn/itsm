@@ -1382,6 +1382,7 @@ sla:
       type: "타입"
       unit: "단위"
     msg:
+      duplicateName: "중복되는 그룹 이름이 있습니다."
       editDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
 
 # statistic
