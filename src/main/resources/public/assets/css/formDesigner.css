@@ -7666,7 +7666,7 @@ body.modal-active {
   width: 100%;
 }
 .z-component .z-component-label {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
           + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   font-weight: 500;
