@@ -69,5 +69,4 @@ class CustomReportTemplateController(
         model.addAttribute("time", LocalDateTime.now())
         return templatePreviewPage
     }
-
 }

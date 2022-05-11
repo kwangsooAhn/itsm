@@ -4727,6 +4727,9 @@ select {
 .z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row label {
   margin: 0.625rem 0;
 }
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row .z-input:read-only {
+  width: auto;
+}
 .z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row .z-input.attribute {
   width: 100%;
 }

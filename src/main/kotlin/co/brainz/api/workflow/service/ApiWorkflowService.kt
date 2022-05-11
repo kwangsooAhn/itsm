@@ -15,6 +15,7 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.document.service.DocumentService
+import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.service.TokenService
 import co.brainz.workflow.component.dto.WfCIComponentValueDto
 import co.brainz.workflow.component.service.WfComponentService
@@ -45,7 +46,8 @@ class ApiWorkflowService(
     private val aliceMessageSource: AliceMessageSource,
     private val ciService: CIService,
     private val tokenService: TokenService,
-    private val wfTokenDataRepository: WfTokenDataRepository
+    private val wfTokenDataRepository: WfTokenDataRepository,
+    private val numberingRuleService: NumberingRuleService
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -121,7 +123,8 @@ class ApiWorkflowService(
                         ciDesc = ci.ciDesc,
                         ciStatus = ci.ciStatus,
                         interlink = ci.interlink,
-                        actionType = ci.actionType
+                        actionType = ci.actionType,
+                        mappingId = ci.mappingId
                     )
                 )
             }
@@ -182,5 +185,11 @@ class ApiWorkflowService(
                 )
             }
         }
+    }
+
+    fun getNumberingTicketing(numberingId: String): Map<String, String> {
+        val numberingMap = mutableMapOf<String, String>()
+        numberingMap["value"] = numberingRuleService.getNewNumbering(numberingId)
+        return numberingMap
     }
 }

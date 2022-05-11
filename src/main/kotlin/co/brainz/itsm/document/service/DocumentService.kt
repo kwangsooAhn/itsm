@@ -87,7 +87,8 @@ class DocumentService(
         val totalResult = mutableListOf<DocumentDto>() // document + documentLink 합치기
 
         totalResult.addAll(documentQueryResult)
-        if (documentSearchCondition.searchProcessName.isNullOrEmpty() && documentSearchCondition.searchFormName.isNullOrEmpty()) { // 폼, 프로세스 검색시 documnetLink 결과는 제외
+        // 폼, 프로세스 검색시 documnetLink 결과는 제외
+        if (documentSearchCondition.searchProcessName.isNullOrEmpty() && documentSearchCondition.searchFormName.isNullOrEmpty()) {
             totalResult.addAll(documentLinkQueryResult)
         }
         totalResult.sortByDescending { it.createDt }
@@ -131,7 +132,7 @@ class DocumentService(
      * @return List<DocumentDto>
      */
     fun getDocumentAll(documentSearchCondition: DocumentSearchCondition):
-            List<DocumentDto> {
+        List<DocumentDto> {
         return wfDocumentService.allDocuments(documentSearchCondition)
     }
 

@@ -166,7 +166,8 @@ class WfInstanceService(
                 }
             }
 
-            val createUserAvatarPath = instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
+            val createUserAvatarPath =
+                instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
             val assigneeUserAvatarPath = instance.tokenEntity.assigneeId?.let { userDetailsService.selectUserKey(it) }
                 ?.let { userDetailsService.makeAvatarPath(it) }
 
@@ -417,17 +418,18 @@ class WfInstanceService(
                 if (tokenData.component.isTopic &&
                     componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
                 ) {
-                    if ((instance.tokenEntity.tokenId == tokenData.component.tokenId) && topicComponentIds.size == 0) { // 신청서의  첫번째 isTopic(제목)만 담음
+                    // 첫번째 isTopic(제목)만 담음
+                    if ((instance.tokenEntity.tokenId == tokenData.component.tokenId) && topicComponentIds.size == 0) {
                         topicComponentIds.add(tokenData.component.componentId)
                         topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
                     }
                 }
             }
-            if(topicComponentIds.size == 0) { // 신청서에 isTopic이 1개도 없다면 강제로 빈값 추가 (Excel 다운로드시 제목란에 빈값입력을 위해)
+            if (topicComponentIds.size == 0) { // 신청서에 isTopic 이 1개도 없다면 강제로 빈값 추가 (Excel 다운로드시 제목란에 빈값입력을 위해)
                 topics.add(" ")
             }
         }
-         val tokensForExcel = mutableListOf<RestTemplateInstanceExcelDto>()
+        val tokensForExcel = mutableListOf<RestTemplateInstanceExcelDto>()
 
         for (instance in instanceList) {
             val restTemplateInstanceExcelDto = RestTemplateInstanceExcelDto(
@@ -440,7 +442,7 @@ class WfInstanceService(
                 documentNo = instance.instanceEntity.documentNo,
                 documentType = instance.documentEntity.documentType,
                 documentGroupName = instance.documentEntity.documentGroupName,
-                assigneeUserName= instance.userEntity.assigneeUserName,
+                assigneeUserName = instance.userEntity.assigneeUserName,
                 elementName = instance.tokenEntity.element.elementName,
                 topics = topics
             )

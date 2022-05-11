@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/files")
-class FileController (
+class FileController(
     private val aliceFileProvider: AliceFileProvider
-){
+) {
     private val fileMapper: AliceFileMapper = Mappers.getMapper(AliceFileMapper::class.java)
 
     private val fileListPage: String = "file/fileList"

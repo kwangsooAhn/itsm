@@ -27,7 +27,8 @@ data class CIDto(
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
-    var updateDt: LocalDateTime? = null
+    var updateDt: LocalDateTime? = null,
+    var mappingId: String? = null
 ) : Serializable
 
 data class CIDataDto(
