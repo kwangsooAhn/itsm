@@ -86,7 +86,7 @@ input, button, select, optgroup, textarea {
   --data-color: "";
 }
 
-/* _alignments.scss
+/* _alignments.scss 
  *
  * 파일 경로 : template/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -274,7 +274,7 @@ input, button, select, optgroup, textarea {
   flex-basis: 100% !important;
 }
 
-/* _columns.scss
+/* _columns.scss 
  *
  * 파일 경로 : template/utilities/_columns.scss
  * @description HTML element column 너비 관련 디자인
@@ -633,7 +633,7 @@ input, button, select, optgroup, textarea {
   font-style: normal;
   font-weight: 900;
 }
-/* _common.scss
+/* _common.scss 
  *
  * 파일 경로 : template/utilities/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -5275,7 +5275,7 @@ select {
   background: #8B9094;
 }
 
-/* _scrollbars.scss
+/* _scrollbars.scss 
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -5602,7 +5602,7 @@ select {
   stroke: transparent;
 }
 
-/* _file-uploader.scss
+/* _file-uploader.scss 
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -6158,7 +6158,7 @@ select {
   display: none;
 }
 
-/* _date-picker.scss
+/* _date-picker.scss 
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -6429,7 +6429,7 @@ select {
   width: 100%;
 }
 
-/* _text-editor.scss
+/* _text-editor.scss 
  *
  * 파일 경로 : template/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -6718,7 +6718,7 @@ select {
   color: #ABB0B5 !important;
 }
 
-/* _color-picker.scss
+/* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -7227,7 +7227,7 @@ body.modal-active {
   width: 14.375rem;
 }
 
-/* _tooltip.scss
+/* _tooltip.scss 
  *
  * 파일 경로 : template/_tooltip.scss
  * @description 툴팁 디자인
@@ -7666,7 +7666,8 @@ body.modal-active {
   width: 100%;
 }
 .z-component .z-component-label {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 
+            + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   font-weight: 500;
   padding: 0;
@@ -7688,7 +7689,7 @@ body.modal-active {
 }
 .z-component .z-element {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-        + (var(--data-column) - 1) * 0px);
+          + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
@@ -8115,7 +8116,7 @@ span.modal_node_selected label {
   flex-direction: column;
   flex-wrap: wrap;
   flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12
-            + (var(--data-column) - 1) * 4px);
+          + (var(--data-column) - 1) * 4px);
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
