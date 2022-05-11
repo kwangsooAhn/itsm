@@ -71,4 +71,15 @@ class MetricPoolController(
         model.addAttribute("view", false)
         return metricPoolEditPage
     }
+
+    /**
+     * SLA 지표 관리 - 조회 화면 호출
+     */
+    @GetMapping("/{metricId}/view")
+    fun getMetricView(@PathVariable metricId: String, model: Model): String {
+        model.addAttribute("metricGroupList", metricPoolService.getMetricGroups())
+        model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
+        model.addAttribute("view", true)
+        return metricPoolEditPage
+    }
 }
