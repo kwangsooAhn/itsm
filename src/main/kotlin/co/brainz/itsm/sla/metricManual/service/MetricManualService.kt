@@ -10,6 +10,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricManual.constants.MetricManualConstants
 import co.brainz.itsm.sla.metricManual.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricManual.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualKeyDto
@@ -50,9 +51,8 @@ class MetricManualService(
     }
 
     fun getMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
-        metricLoadCondition.metricType = "sla.metricType.manual"
-        val metricReuslt = metricManualRepository.findMetricYearList(metricLoadCondition)
-        return metricReuslt
+        metricLoadCondition.metricType = MetricManualConstants.MetricTypeCode.MANUAL.code
+        return metricManualRepository.findMetricYearList(metricLoadCondition)
     }
 
     fun insertMetricManual(metricManualKeyDto: MetricManualKeyDto): ZResponse {

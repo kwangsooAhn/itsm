@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/sla/metric/manual")
+@RequestMapping("/rest/sla/metric")
 class MetricManualRestController(
     private val metricManualService: MetricManualService
 ) {
@@ -31,7 +31,10 @@ class MetricManualRestController(
         return ZAliceResponse.response(metricManualService.getMetricYearList(metricLoadCondition))
     }
 
-    @PostMapping("/", "")
+    /**
+     * 수동지표 insert
+     */
+    @PostMapping("/manual", "")
     fun insertMetricManual(@RequestBody metricManualKeyDto: MetricManualKeyDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricManualService.insertMetricManual(metricManualKeyDto))
     }
