@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MetricGroupRepository : JpaRepository<MetricGroupEntity, String> {
 
-    override fun findAll(): MutableList<MetricGroupEntity>
-
     fun existsByMetricGroupName(metricGroupName: String): Boolean
 }

@@ -59,8 +59,17 @@ class MetricPoolService(
     /**
      * SLA 지표 그룹 목록 조회
      */
-    fun getMetricGroups(): MutableList<MetricGroupEntity> {
-        return metricGroupRepository.findAll()
+    fun getMetricGroups(): MutableList<HashMap<String, String>> {
+        val mapList: MutableList<HashMap<String, String>> = mutableListOf()
+        val metricGroupList = metricGroupRepository.findAll()
+
+        metricGroupList.forEach { metricGroup ->
+            val map = HashMap<String, String>()
+            map["metricGroupId"] = metricGroup.metricGroupId
+            map["metricGroupName"] = metricGroup.metricGroupName
+            mapList.add(map)
+        }
+        return mapList
     }
 
     /**
