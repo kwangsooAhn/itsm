@@ -34,10 +34,9 @@
                     </label>
                     <div class="flex-row">
                         <div class="flex-column col-9">
-                            <input type="hidden" id="metricGroupId"  th:value="${metric?.metricGroupId}" />
                             <select id="metricGroupName" th:classappend="${view} ? 'readonly' : ''">
                                 <option th:each="metric: ${metricGroupList}" th:selected="${metric.metricGroupName} == ${metricGroupName}"
-                                        th:text="${metric.metricGroupName}" th:value="${metric.metricGroupName}"></option>
+                                        th:text="${metric.metricGroupName}" th:value="${metric.metricGroupId}"></option>
                             </select>
                         </div>
                         <div class="flex-column col-1">
@@ -53,7 +52,7 @@
                     </label>
                     <select id="metricType" th:classappend="${view} ? 'readonly' : ''">
                         <option th:each="metric: ${metricTypeList}" th:selected="${metric.codeValue} == ${metricType}"
-                                th:text="${metric.codeName}" th:value="${metric.codeValue}"></option>
+                                th:text="${metric.codeName}" th:value="${metric.code}"></option>
                     </select>
                 </div>
                 <div class="flex-column col-2 pl-2">
@@ -62,7 +61,7 @@
                     </label>
                     <select id="metricUnit" th:classappend="${view} ? 'readonly' : ''">
                         <option th:each="metric: ${metricUnitList}" th:selected="${metric.codeValue} == ${metricUnit}"
-                                th:text="${metric.codeName}" th:value="${metric.codeValue}"></option>
+                                th:text="${metric.codeName}" th:value="${metric.code}"></option>
                     </select>
                 </div>
                 <div class="flex-column col-2 pl-2">
@@ -71,7 +70,7 @@
                     </label>
                     <select id="calculationType" th:classappend="${view} ? 'readonly' : ''">
                         <option th:each="metric: ${metricCalcTypeList}" th:selected="${metric.codeValue} == ${calculationType}"
-                                th:text="${metric.codeName}" th:value="${metric.codeValue}"></option>
+                                th:text="${metric.codeName}" th:value="${metric.code}"></option>
                     </select>
                 </div>
             </div>
@@ -105,7 +104,7 @@
             metricId: '',
             metricName: document.getElementById('metricName').value,
             metricDesc: document.getElementById('metricDesc').value,
-            metricGroupId: document.getElementById('metricGroupId').value,
+            metricGroupId: document.getElementById('metricGroupName').value,
             metricType: document.getElementById('metricType').value,
             metricUnit: document.getElementById('metricUnit').value,
             calculationType: document.getElementById('calculationType').value
@@ -127,7 +126,7 @@
                 case aliceJs.response.success:
                     const message = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.modify');
                     zAlert.success(message, function () {
-                        window.location.href = '/rest/sla/metric-pool';
+                        window.location.href = '/sla/metric-pool/search';
                     });
                     break;
                 case aliceJs.response.error:
