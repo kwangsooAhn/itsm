@@ -347,8 +347,40 @@ class WfInstanceRepositoryImpl(
     }
 
     override fun findStoredInstances(tokenSearchCondition: TokenSearchCondition): PagingReturnDto {
-        val builder = BooleanBuilder()
+        val tokenSub = QWfTokenEntity("tokenSub")
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
+        val builder = getInstancesWhereCondition(
+            tokenSearchCondition.searchDocumentId,
+            tokenSearchCondition.searchValue,
+            tokenSearchCondition.searchFromDt,
+            tokenSearchCondition.searchToDt
+        )
 
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
+        builder.and(
+            token.tokenId.eq(
+                JPAExpressions
+                    .select(tokenSub.tokenId.max())
+                    .from(tokenSub)
+                    .where(tokenSub.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
+            )
+        )
+
+        // 보관 문서 데이터 조건 추가
+        builder.and(
+            instance.instanceId.`in`(
+                JPAExpressions
+                    .select(documentStorage.instance.instanceId)
+                    .from(documentStorage)
+                    .where(instance.instanceId.eq(documentStorage.instance.instanceId)
+                        .and(documentStorage.user.userKey.eq(tokenSearchCondition.userKey))
+                    )
+            )
+        )
 
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
