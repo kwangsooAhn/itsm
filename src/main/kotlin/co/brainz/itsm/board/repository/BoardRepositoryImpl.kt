@@ -100,7 +100,11 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             .where(board.boardId.eq(boardId))
             .fetchOne()
     }
-    private fun builder(boardArticleSearchCondition: BoardArticleSearchCondition, board: QPortalBoardEntity, category: QPortalBoardCategoryEntity): BooleanBuilder {
+    private fun builder(
+        boardArticleSearchCondition: BoardArticleSearchCondition,
+        board: QPortalBoardEntity,
+        category: QPortalBoardCategoryEntity
+    ): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(board.boardTitle, boardArticleSearchCondition.searchValue)?.or(

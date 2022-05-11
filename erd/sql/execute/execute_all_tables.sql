@@ -755,6 +755,8 @@ insert into awf_numbering_rule values ('4028b8817880d833017880f34ae10003', 'REL_
 insert into awf_numbering_rule values ('4028b25d7886e2d801788704dd8e0002', 'RFC-yyyyMMdd-000', '인프라, 어플리케이션 변경관리에서 사용되는 문서번호');
 insert into awf_numbering_rule values ('4028b88178c0fcc60178c10dbb5b0003', 'INC-yyyyMMdd-000', '장애관리 문서번호');
 insert into awf_numbering_rule values ('4028b88178c01b660178c0cc91310004', 'PBM-yyyyMMdd-000', '문제관리 문서번호');
+insert into awf_numbering_rule values ('40288ab2808768300180881537d5001d', 'SMS', 'SMS 번호');
+insert into awf_numbering_rule values ('40288ab2808768300180881cb9f6001e', 'NMS', 'NMS 번호');
 
 /**
  * 넘버링패턴정보
@@ -788,6 +790,9 @@ insert into awf_numbering_pattern values ('4028b8817880d833017880f26a920002', '�
 insert into awf_numbering_pattern values ('4028b25d7886e2d801788703c8a00001', '변경관리 PreFix', 'numbering.pattern.text', '{"value":"RFC"}');
 insert into awf_numbering_pattern values ('4028b88178c01b660178c0cbe02d0003', '문제관리 Prefix', 'numbering.pattern.text', '{"value":"PBM"}');
 insert into awf_numbering_pattern values ('4028b88178c0fcc60178c10d270c0002', '장애관리 PreFix', 'numbering.pattern.text', '{"value":"INC"}');
+insert into awf_numbering_pattern values ('40288ab280876830018088101fab001b', 'SMS', 'numbering.pattern.text', '{"value":"SMS"}');
+insert into awf_numbering_pattern values ('40288ab280876830018088105a0b001c', 'NMS', 'numbering.pattern.text', '{"value":"NMS"}');
+
 /**
  * 역할
  */
@@ -922,6 +927,13 @@ insert into awf_rule_pattern_map values ('4028b88178c01b660178c0cc91310004', '8a
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '4028b88178c0fcc60178c10d270c0002', 0);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '7a112d61751fs6f325714q053c421412', 1);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '40288ab280876830018088101fab001b', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '40288ab280876830018088105a0b001c', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421413', 2);
+
 /**
  * 스케줄작업정보
  */
@@ -9125,6 +9137,103 @@ COMMENT ON COLUMN cmdb_class_notification.attribute_id IS '속성아이디';
 COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
 COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
+
+/**
+  IF CMDB 테이블
+ */
+DROP TABLE IF EXISTS if_cmdb_ci cascade;
+
+CREATE TABLE if_cmdb_ci
+(
+    ci_id character varying(128) NOT NULL,
+    ci_no character varying(128),
+    ci_name character varying(128) NOT NULL,
+    ci_status character varying(100) NOT NULL,
+    type_id character varying(128) NOT NULL,
+    ci_desc character varying(512),
+    interlink boolean DEFAULT 'true',
+    instance_id character varying(128),
+    create_user_key character varying(128),
+    create_dt timestamp,
+    update_user_key character varying(128),
+    update_dt timestamp,
+    mapping_id character varying(128),
+    CONSTRAINT if_cmdb_ci_pk PRIMARY KEY (ci_id),
+    CONSTRAINT if_cmdb_ci_uk UNIQUE (ci_id),
+    CONSTRAINT if_cmdb_ci_fk1 FOREIGN KEY (type_id)
+        REFERENCES cmdb_type (type_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT if_cmdb_ci_fk2 FOREIGN KEY (instance_id)
+        REFERENCES wf_instance (instance_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE if_cmdb_ci IS 'CMDB CI IF 테이블';
+COMMENT ON COLUMN if_cmdb_ci.ci_id IS 'CI아이디';
+COMMENT ON COLUMN if_cmdb_ci.ci_no IS '시퀀스';
+COMMENT ON COLUMN if_cmdb_ci.ci_name IS 'CI이름';
+COMMENT ON COLUMN if_cmdb_ci.ci_status IS 'CI상태';
+COMMENT ON COLUMN if_cmdb_ci.type_id IS '타입아이디';
+COMMENT ON COLUMN if_cmdb_ci.ci_desc IS 'CI설명';
+COMMENT ON COLUMN if_cmdb_ci.interlink IS '연동 여부';
+COMMENT ON COLUMN if_cmdb_ci.instance_id IS '인스턴스ID';
+COMMENT ON COLUMN if_cmdb_ci.create_user_key IS '등록자';
+COMMENT ON COLUMN if_cmdb_ci.create_dt IS '등록일시';
+COMMENT ON COLUMN if_cmdb_ci.update_user_key IS '수정자';
+COMMENT ON COLUMN if_cmdb_ci.update_dt IS '수정일시';
+COMMENT ON COLUMN if_cmdb_ci.mapping_id IS '매핑아이디';
+
+/**
+  IF CMDB 데이터 테이블
+ */
+DROP TABLE IF EXISTS if_cmdb_ci_data cascade;
+
+CREATE TABLE if_cmdb_ci_data
+(
+    ci_id character varying(128) NOT NULL,
+    attribute_id character varying(128) NOT NULL,
+    value text,
+    CONSTRAINT if_cmdb_ci_data_pk PRIMARY KEY (ci_id, attribute_id),
+    CONSTRAINT if_cmdb_ci_data_fk1 FOREIGN KEY (ci_id)
+        REFERENCES if_cmdb_ci (ci_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT if_cmdb_ci_data_fk2 FOREIGN KEY (attribute_id)
+        REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE if_cmdb_ci_data IS 'CMDB CI IF 데이터';
+COMMENT ON COLUMN if_cmdb_ci_data.ci_id IS 'CI아이디';
+COMMENT ON COLUMN if_cmdb_ci_data.attribute_id IS '속성아이디';
+COMMENT ON COLUMN if_cmdb_ci_data.value IS '속성값';
+
+/**
+  IF CMDB 그룹 데이터 테이블
+ */
+DROP TABLE IF EXISTS if_cmdb_ci_group_list_data cascade;
+
+CREATE TABLE if_cmdb_ci_group_list_data
+(
+    ci_id character varying(128) NOT NULL,
+    attribute_id character varying(128) NOT NULL,
+    c_attribute_id character varying(128) NOT NULL,
+    c_attribute_seq int NOT NULL,
+    c_value text,
+    CONSTRAINT if_cmdb_ci_group_list_data_pk PRIMARY KEY (ci_id, attribute_id, c_attribute_id, c_attribute_seq),
+    CONSTRAINT if_cmdb_ci_group_list_data_fk1 FOREIGN KEY (ci_id)
+        REFERENCES if_cmdb_ci (ci_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT if_cmdb_ci_group_list_data_fk2 FOREIGN KEY (attribute_id)
+        REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE if_cmdb_ci_group_list_data IS 'CMDB CI IF 그룹 리스트 데이터';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.ci_id IS 'CI아이디';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.attribute_id IS '속성아이디';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_id IS '자식속성아이디';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순서';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
 
 /**
  * 보관 문서 데이터

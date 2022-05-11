@@ -280,13 +280,17 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
         return query.fetch()
     }
 
-    private fun builder(ciAttributeSearchCondition: CIAttributeSearchCondition, ciAttribute: QCIAttributeEntity, attributeId: String?): BooleanBuilder {
+    private fun builder(
+        ciAttributeSearchCondition: CIAttributeSearchCondition,
+        ciAttribute: QCIAttributeEntity,
+        attributeId: String?
+    ): BooleanBuilder {
         val builder = BooleanBuilder()
 
-        if ( attributeId != null) {
+        if (attributeId != null) {
             builder.and(
                 ciAttribute.attributeId.notIn(attributeId)
-                .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
+                    .and(ciAttribute.attributeType.notIn(RestTemplateConstants.AttributeType.GROUP_LIST.code))
             )
         }
         builder.and(
@@ -294,7 +298,7 @@ class CIAttributeRepositoryImpl : QuerydslRepositorySupport(CIAttributeEntity::c
                 ?.or(super.likeIgnoreCase(ciAttribute.attributeType, ciAttributeSearchCondition.searchValue))
                 ?.or(super.likeIgnoreCase(ciAttribute.attributeText, ciAttributeSearchCondition.searchValue))
                 ?.or(super.likeIgnoreCase(ciAttribute.attributeDesc, ciAttributeSearchCondition.searchValue))
-            )
+        )
         return builder
     }
 }

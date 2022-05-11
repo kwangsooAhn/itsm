@@ -16,7 +16,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
-
 @Component
 class BasicLine(
     chartManagerService: ChartManagerService,
@@ -27,15 +26,27 @@ class BasicLine(
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun average(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
+    override fun average(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstance: List<ChartTagInstanceDto>
+    ): List<ChartData> {
         return super.valueOfAverage(chartConfig, category, tagInstance)
     }
 
-    override fun percent(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstance: List<ChartTagInstanceDto>): List<ChartData> {
+    override fun percent(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstance: List<ChartTagInstanceDto>
+    ): List<ChartData> {
         return super.valueOfPercent(chartConfig, category, tagInstance)
     }
 
-    override fun count(chartConfig: ChartConfig, category: LinkedHashSet<String>, tagInstances: List<ChartTagInstanceDto>): List<ChartData> {
+    override fun count(
+        chartConfig: ChartConfig,
+        category: LinkedHashSet<String>,
+        tagInstances: List<ChartTagInstanceDto>
+    ): List<ChartData> {
         return super.valueOfCount(chartConfig, category, tagInstances)
     }
 }

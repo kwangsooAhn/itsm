@@ -146,7 +146,7 @@ class CIService(
         return CIDynamicReturnDto(
             data = basic,
             paging = AlicePagingData(
-                totalCount =  dataList.totalCount,
+                totalCount = dataList.totalCount,
                 totalCountWithoutCondition = ciRepository.count(),
                 currentPageNum = ciSearchCondition.pageNum,
                 totalPageNum = ceil(dataList.totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),

@@ -37,7 +37,7 @@ class NumberingPatternRepositoryImpl(
                     pattern.patternValue
                 )
             )
-            .where(builder(numberingPatternSearchCondition,pattern))
+            .where(builder(numberingPatternSearchCondition, pattern))
             .orderBy(pattern.patternName.asc(), pattern.patternType.asc(), pattern.patternValue.asc())
             .limit(numberingPatternSearchCondition.contentNumPerPage)
             .offset((numberingPatternSearchCondition.pageNum - 1) * numberingPatternSearchCondition.contentNumPerPage)
@@ -60,7 +60,7 @@ class NumberingPatternRepositoryImpl(
 
         val countQuery = from(pattern)
             .select(pattern.count())
-            .where(builder(numberingPatternSearchCondition,pattern))
+            .where(builder(numberingPatternSearchCondition, pattern))
             .fetchOne()
 
         return PagingReturnDto(
@@ -68,7 +68,11 @@ class NumberingPatternRepositoryImpl(
             totalCount = countQuery
         )
     }
-    private fun builder(numberingPatternSearchCondition: NumberingPatternSearchCondition, pattern: QNumberingPatternEntity): BooleanBuilder{
+
+    private fun builder(
+        numberingPatternSearchCondition: NumberingPatternSearchCondition,
+        pattern: QNumberingPatternEntity
+    ): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue))
         return builder

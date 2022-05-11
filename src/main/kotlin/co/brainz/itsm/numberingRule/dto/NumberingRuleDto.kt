@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.numberingRule.dto
 
-import co.brainz.framework.validator.CheckUnacceptableCharInUrl
 import java.io.Serializable
 import java.time.LocalDateTime
 

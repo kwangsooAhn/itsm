@@ -13,11 +13,8 @@ import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.process.entity.QWfProcessEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.provider.constants.WorkflowConstants
-import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import com.querydsl.core.BooleanBuilder
-import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.CaseBuilder
-import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -29,9 +26,9 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
         val process = QWfProcessEntity.wfProcessEntity
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(process)
-            .innerJoin(process.createUser,user)
+            .innerJoin(process.createUser, user)
             .leftJoin(process.updateUser, user)
-            .where(builder(processSearchCondition,process))
+            .where(builder(processSearchCondition, process))
         if (processSearchCondition.isPaging) {
             query.limit(processSearchCondition.contentNumPerPage)
             query.offset((processSearchCondition.pageNum - 1) * processSearchCondition.contentNumPerPage)
@@ -39,7 +36,7 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
 
         val countQuery = from(process)
             .select(process.count())
-            .where(builder(processSearchCondition,process))
+            .where(builder(processSearchCondition, process))
 
         return PagingReturnDto(
             dataList = query.fetch(),

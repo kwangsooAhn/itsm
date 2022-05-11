@@ -75,4 +75,9 @@ class ApiWorkflowController(
     fun callWorkflow(@PathVariable documentNo: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(apiWorkflowService.callWorkflow(documentNo))
     }
+
+    @GetMapping("/numbering/{numberingId}/ticket")
+    fun getNumberingTicketing(@PathVariable numberingId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.getNumberingTicketing(numberingId))
+    }
 }

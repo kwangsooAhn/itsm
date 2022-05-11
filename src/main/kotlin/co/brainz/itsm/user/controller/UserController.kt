@@ -155,7 +155,6 @@ class UserController(
         return userListModalPage
     }
 
-
     /**
      * 사용자 검색 컴포넌트 리스트 모달
      */

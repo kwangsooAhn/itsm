@@ -35,7 +35,6 @@ class ProcessService(
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
-
     /**
      * 프로세스 데이터 조회.
      */

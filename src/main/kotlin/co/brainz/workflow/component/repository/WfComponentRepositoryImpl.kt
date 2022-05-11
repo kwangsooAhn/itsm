@@ -19,7 +19,14 @@ class WfComponentRepositoryImpl : QuerydslRepositorySupport(WfComponentEntity::c
         val formGroup = QWfFormGroupEntity.wfFormGroupEntity
         return from(component)
             .innerJoin(component.formRow).fetchJoin()
-            .where(component.formRow.formGroup.`in`(JPAExpressions.select(formGroup).from(formGroup).where(formGroup.eq(component.formRow.formGroup))))
+            .where(
+                component.formRow.formGroup.`in`(
+                    JPAExpressions
+                        .select(formGroup)
+                        .from(formGroup)
+                        .where(formGroup.eq(component.formRow.formGroup))
+                )
+            )
             .where(component.form.formId.`in`(formIds))
             .fetch()
     }

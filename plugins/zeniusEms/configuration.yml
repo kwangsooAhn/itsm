@@ -1,14 +1,12 @@
 connections:
-  -
-    id: itsm
+  - id: itsm
     type: storage
     database: itsm
     host: "10.0.10.175"
     password: 64TAJlkjjxtS6FXzG0tTNA==
     port: 32784
     username: 97iU8ckIQyNKR+jJF7xz/w==
-  -
-    id: ems
+  - id: ems
     type: collection
     database: zenius
     host: "10.0.10.98"
@@ -18,6 +16,7 @@ connections:
 options:
   query-timeout-sec: 10
   document-api-url: https://10.0.10.175:32792/api/wf/cmdb
+  numbering-ticketing-url: https://10.0.10.175:32792/api/wf/numbering/{numberingId}/ticket
   access-token:
     url: https://10.0.10.175:32792/api/tokens
     user-id: zyefJQIs1bxzK8txOlJKvnx6RGT0GbBO #cmdb.admin

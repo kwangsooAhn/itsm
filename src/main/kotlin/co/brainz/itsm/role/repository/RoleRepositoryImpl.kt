@@ -60,7 +60,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
             .fetch()
     }
 
-    private fun builder(roleSearchCondition: RoleSearchCondition, role: QAliceRoleEntity):BooleanBuilder {
+    private fun builder(roleSearchCondition: RoleSearchCondition, role: QAliceRoleEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(role.roleName, roleSearchCondition.searchValue)
