@@ -34,7 +34,7 @@ class MetricPoolRestController(
     }
 
     /**
-     * 신규 지표 등록 처리
+     * 신규 지표 그룹 등록 처리
      */
     @PostMapping("/metric-group")
     fun insertMetricGroup(@RequestBody metricGroupDto: MetricGroupDto): ResponseEntity<ZResponse> {

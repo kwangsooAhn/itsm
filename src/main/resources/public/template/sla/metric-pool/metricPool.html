@@ -34,6 +34,7 @@
                     </label>
                     <div class="flex-row">
                         <div class="flex-column col-9">
+                            <input type="hidden" id="metricGroupId"  th:value="${metric?.metricGroupId}" />
                             <select id="metricGroupName" th:classappend="${view} ? 'readonly' : ''">
                                 <option th:each="metric: ${metricGroupList}" th:selected="${metric.metricGroupName} == ${metricGroupName}"
                                         th:text="${metric.metricGroupName}" th:value="${metric.metricGroupName}"></option>
@@ -104,8 +105,7 @@
             metricId: '',
             metricName: document.getElementById('metricName').value,
             metricDesc: document.getElementById('metricDesc').value,
-            metricGroupId: '',
-            metricGroupName: document.getElementById('metricGroupName').value,
+            metricGroupId: document.getElementById('metricGroupId').value,
             metricType: document.getElementById('metricType').value,
             metricUnit: document.getElementById('metricUnit').value,
             calculationType: document.getElementById('calculationType').value
@@ -127,7 +127,7 @@
                 case aliceJs.response.success:
                     const message = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.modify');
                     zAlert.success(message, function () {
-                        window.location.href = '/sla/metric-pool/search';
+                        window.location.href = '/rest/sla/metric-pool';
                     });
                     break;
                 case aliceJs.response.error:
