@@ -8,7 +8,6 @@ package co.brainz.itsm.documentStorage.service
 
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.documentStorage.entity.DocumentStorageEntity
 import co.brainz.itsm.documentStorage.entity.DocumentStoragePk
@@ -31,47 +30,38 @@ class DocumentStorageService(
 
     @Transactional
     fun insertDocumentStorage(instanceId: String): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
+        val status = ZResponseConstants.STATUS.SUCCESS
+        val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
+        val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
 
-        try {
-            val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
-            val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
-
-            documentStorageRepository.save(
-                DocumentStorageEntity(
-                    user = userEntity,
-                    instance = instanceEntity
-                )
+        documentStorageRepository.save(
+            DocumentStorageEntity(
+                user = userEntity,
+                instance = instanceEntity
             )
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logger.error(AliceUtil().printStackTraceToString(e))
+        )
+        return ZResponse(
+            status = status.code
+        )
 
-            status = ZResponseConstants.STATUS.ERROR_FAIL
-        } finally {
-            return ZResponse(
-                status = status.code
-            )
-        }
     }
 
     @Transactional
     fun deleteDocumentStorage(instanceId: String): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
+        val status = ZResponseConstants.STATUS.SUCCESS
+        val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
 
-        try {
-            val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
+        documentStorageRepository.deleteById(DocumentStoragePk(user = userEntity.userKey, instance = instanceId))
 
-            documentStorageRepository.deleteById(DocumentStoragePk(user = userEntity.userKey, instance = instanceId))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logger.error(AliceUtil().printStackTraceToString(e))
+        return ZResponse(
+            status = status.code
+        )
+    }
 
-            status = ZResponseConstants.STATUS.ERROR_FAIL
-        } finally {
-            return ZResponse(
-                status = status.code
-            )
-        }
+    fun getDocumentStorageDataExist(instanceId: String): Boolean {
+        val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
+        val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
+
+        return documentStorageRepository.existsByInstanceAndUser(instanceEntity, userEntity)
     }
 }

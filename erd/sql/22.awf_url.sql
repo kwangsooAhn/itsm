@@ -348,3 +348,4 @@ insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE
 insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}', 'post', '보관 문서 데이터 추가', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}', 'delete', '보관 문서 데이터 삭제', 'FALSE');
+insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '보관 문서 데이터 존재 여부 확인', 'FALSE');
