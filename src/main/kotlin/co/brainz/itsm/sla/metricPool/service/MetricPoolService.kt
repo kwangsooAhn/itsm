@@ -130,13 +130,6 @@ class MetricPoolService(
     }
 
     /**
-     * 지표가 연도별 지표에서 사용 중인지 체크
-     */
-    fun isExistMetricYearByMetric(metricId: String): Boolean {
-        return metricYearRepository.existsByMetric(metricId)
-    }
-
-    /**
      * 지표 편집
      */
     @Transactional
@@ -151,6 +144,23 @@ class MetricPoolService(
             metricEntity.updateDt = LocalDateTime.now()
 
             metricPoolRepository.save(metricEntity)
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * 지표 삭제
+     */
+    @Transactional
+    fun deleteMetric(metricId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        // 연도별 지표에 존재하는지 체크
+        if (metricYearRepository.existsByMetric(metricId)) {
+            status = ZResponseConstants.STATUS.ERROR_EXIST
+        } else {
+            metricPoolRepository.deleteById(metricId)
         }
         return ZResponse(
             status = status.code

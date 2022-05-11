@@ -13,6 +13,7 @@ import co.brainz.itsm.sla.metricPool.service.MetricPoolService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -49,5 +50,13 @@ class MetricPoolRestController(
     @PutMapping("/metric-pool/{metricId}")
     fun updateMetric(@PathVariable metricId: String, @RequestBody metricDto: MetricDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricPoolService.updateMetric(metricId, metricDto))
+    }
+
+    /**
+     * 지표 삭제
+     */
+    @DeleteMapping("/metric-pool/{metricId}")
+    fun deleteMetric(@PathVariable metricId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricPoolService.deleteMetric(metricId))
     }
 }

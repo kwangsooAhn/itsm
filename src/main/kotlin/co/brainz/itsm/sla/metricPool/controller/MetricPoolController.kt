@@ -67,7 +67,6 @@ class MetricPoolController(
     fun getMetricEdit(@PathVariable metricId: String, model: Model): String {
         model.addAttribute("metricGroupList", metricPoolService.getMetricGroups())
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
-        model.addAttribute("useYn", metricPoolService.isExistMetricYearByMetric(metricId))
         model.addAttribute("view", false)
         return metricPoolEditPage
     }
