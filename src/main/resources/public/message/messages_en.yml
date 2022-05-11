@@ -1080,11 +1080,16 @@ metric:
   label:
     description: "description"
     group: "Group"
+    groupRegister: "Metric Group Register"
     metricPool: "SLA Metric management"
+    metricPoolEdit: "SLA Metric management Edit"
+    metricPoolRegister: "SLA Metric management Register"
     name: "Name"
     searchPlaceholder: "Name"
     type: "Type"
     unit: "Unit"
+  msg:
+    editDescription: "부서를 관리합니다."
 
 # Notice
 notice:

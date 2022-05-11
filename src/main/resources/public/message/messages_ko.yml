@@ -1081,11 +1081,16 @@ metric:
   label:
     description: "설명"
     group: "그룹"
+    groupRegister: "지표 그룹 추가"
     metricPool: "SLA 지표관리"
+    metricPoolEdit: "SLA 지표관리 수정"
+    metricPoolRegister: "SLA 지표관리 등록"
     name: "이름"
     searchPlaceholder: "이름"
     type: "타입"
     unit: "단위"
+  msg:
+    editDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
 
 # Notice
 notice:
