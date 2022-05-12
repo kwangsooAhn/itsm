@@ -11,12 +11,9 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.dto.MetricDto
-import co.brainz.itsm.sla.metricPool.dto.MetricGroupDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
-import co.brainz.itsm.sla.metricPool.entity.MetricGroupEntity
-import co.brainz.itsm.sla.metricPool.repository.MetricGroupRepository
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -33,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MetricPoolService(
     private val metricPoolRepository: MetricPoolRepository,
-    private val metricGroupRepository: MetricGroupRepository,
     private val metricYearRepository: MetricYearRepository,
     private val currentSessionUser: CurrentSessionUser
 ) {
@@ -59,22 +55,6 @@ class MetricPoolService(
     }
 
     /**
-     * 지표 그룹 목록 조회
-     */
-    fun getMetricGroups(): MutableList<HashMap<String, String>> {
-        val mapList: MutableList<HashMap<String, String>> = mutableListOf()
-        val metricGroupList = metricGroupRepository.findAll()
-
-        metricGroupList.forEach { metricGroup ->
-            val map = HashMap<String, String>()
-            map["metricGroupId"] = metricGroup.metricGroupId
-            map["metricGroupName"] = metricGroup.metricGroupName
-            mapList.add(map)
-        }
-        return mapList
-    }
-
-    /**
      * 지표 신규 등록
      */
     @Transactional
@@ -85,33 +65,10 @@ class MetricPoolService(
                 MetricEntity(
                     metricName = metricDto.metricName.trim(),
                     metricDesc = metricDto.metricDesc,
-                    metricGroupId = metricDto.metricGroupId,
+                    metricGroup = metricDto.metricGroup,
                     metricType = metricDto.metricType,
                     metricUnit = metricDto.metricUnit,
                     calculationType = metricDto.calculationType,
-                    createUserKey = currentSessionUser.getUserKey(),
-                    createDt = LocalDateTime.now()
-                )
-            )
-        }
-        return ZResponse(
-            status = status.code
-        )
-    }
-
-    /**
-     * 지표 그룹 신규 등록
-     */
-    @Transactional
-    fun createMetricGroup(metricGroupDto: MetricGroupDto): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
-        // 지표 그룹 이름 충복 체크
-        if (metricGroupRepository.existsByMetricGroupName(metricGroupDto.metricGroupName.trim())) {
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
-        } else {
-            metricGroupRepository.save(
-                MetricGroupEntity(
-                    metricGroupName = metricGroupDto.metricGroupName.trim(),
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )
@@ -139,7 +96,7 @@ class MetricPoolService(
             val metricEntity = metricPoolRepository.findByMetricId(metricId)
             metricEntity.metricName = metricDto.metricName
             metricEntity.metricDesc = metricDto.metricDesc
-            metricEntity.metricGroupId = metricDto.metricGroupId
+            metricEntity.metricGroup = metricDto.metricGroup
             metricEntity.updateUserKey = currentSessionUser.getUserKey()
             metricEntity.updateDt = LocalDateTime.now()
 

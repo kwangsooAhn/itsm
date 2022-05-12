@@ -53,7 +53,7 @@ class MetricPoolController(
      */
     @GetMapping("/new")
     fun getMetricNew(model: Model): String {
-        model.addAttribute("metricGroupList", metricPoolService.getMetricGroups())
+        model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_GROUP_P_CODE))
         model.addAttribute("metricTypeList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_TYPE_P_CODE))
         model.addAttribute("metricUnitList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_UNIT_P_CODE))
         model.addAttribute(
@@ -68,7 +68,7 @@ class MetricPoolController(
      */
     @GetMapping("/{metricId}/edit")
     fun getMetricEdit(@PathVariable metricId: String, model: Model): String {
-        model.addAttribute("metricGroupList", metricPoolService.getMetricGroups())
+        model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_GROUP_P_CODE))
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
         model.addAttribute("view", false)
         return metricPoolEditPage
@@ -79,7 +79,6 @@ class MetricPoolController(
      */
     @GetMapping("/{metricId}/view")
     fun getMetricView(@PathVariable metricId: String, model: Model): String {
-        model.addAttribute("metricGroupList", metricPoolService.getMetricGroups())
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
         model.addAttribute("view", true)
         return metricPoolEditPage

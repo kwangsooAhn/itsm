@@ -31,8 +31,8 @@ data class MetricEntity(
     @Column(name = "metric_desc")
     var metricDesc: String? = null,
 
-    @Column(name = "metric_group_id", length = 128)
-    var metricGroupId: String = "",
+    @Column(name = "metric_group", length = 128)
+    var metricGroup: String? = null,
 
     @Column(name = "metric_type", length = 128)
     var metricType: String? = null,

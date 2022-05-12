@@ -22,4 +22,9 @@ object MetricPoolConstants {
      */
     const val METRIC_CALCULATION_TYPE_P_CODE = "sla.calculationType"
 
+    /**
+     * metric group p_code
+     */
+    const val METRIC_GROUP_P_CODE = "sla.metricGroup"
+
 }

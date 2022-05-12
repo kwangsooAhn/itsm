@@ -13,7 +13,6 @@ import co.brainz.itsm.sla.metricPool.dto.MetricPoolDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
-import co.brainz.itsm.sla.metricPool.entity.QMetricGroupEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPQLQuery
@@ -35,28 +34,28 @@ class MetricPoolRepositoryImpl(
 
     private fun getMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): JPQLQuery<MetricPoolDto> {
         val metricPool = QMetricEntity.metricEntity
-        val metricGroup = QMetricGroupEntity.metricGroupEntity
         val typeCode = QCodeEntity.codeEntity
         val unitCode = QCodeEntity("unitCode")
         val calcTypeCode = QCodeEntity("calcTypeCode")
+        val groupCode = QCodeEntity("groupCode")
 
         val query = from(metricPool)
             .select(
                 Projections.constructor(
                     MetricPoolDto::class.java,
                     metricPool.metricId,
-                    metricGroup.metricGroupName,
                     metricPool.metricName,
+                    metricPool.metricDesc,
+                    groupCode.codeName.`as`("metricGroupName"),
                     typeCode.codeName.`as`("metricTypeName"),
                     unitCode.codeName.`as`("metricUnitName"),
-                    calcTypeCode.codeName.`as`("calculationTypeName"),
-                    metricPool.metricDesc
+                    calcTypeCode.codeName.`as`("calculationTypeName")
                 )
             )
-            .join(metricGroup).on(metricPool.metricGroupId.eq(metricGroup.metricGroupId))
             .leftJoin(typeCode).on(metricPool.metricType.eq(typeCode.code))
             .leftJoin(unitCode).on(metricPool.metricUnit.eq(unitCode.code))
             .leftJoin(calcTypeCode).on(metricPool.calculationType.eq(calcTypeCode.code))
+            .leftJoin(groupCode).on(metricPool.metricGroup.eq(groupCode.code))
             .where(builder(metricPoolSearchCondition, metricPool))
             .orderBy(metricPool.createDt.desc())
 
@@ -84,7 +83,7 @@ class MetricPoolRepositoryImpl(
                     metricPool.metricId,
                     metricPool.metricName,
                     metricPool.metricDesc,
-                    metricPool.metricGroupId,
+                    metricPool.metricGroup,
                     metricPool.metricType,
                     metricPool.metricUnit,
                     metricPool.calculationType
