@@ -5,10 +5,10 @@ DROP TABLE IF EXISTS sla_metric_manual cascade;
 
 CREATE TABLE sla_metric_manual
 (
-    metric_manual_id varchar(128) NOT NULL,
+    metric_manual_id varchar(128) NOT NUll,
     metric_id varchar(128) NOT NULL,
-    reference_dt timestamp NOT NULL,
-    metric_value integer NOT NULL,
+    reference_dt timestamp,
+    metric_value decimal,
     create_user_key varchar(128),
     create_dt timestamp,
     CONSTRAINT sla_metric_manual_pk PRIMARY KEY (metric_manual_id),

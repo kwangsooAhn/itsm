@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS sla_metric cascade;
 CREATE TABLE sla_metric
 (
     metric_id varchar(128) NOT NULL,
-    metric_name varchar(100),
+    metric_name varchar(100) NOT NUll,
     metric_desc text,
     metric_group varchar(128),
     metric_type varchar(128),
