@@ -7,15 +7,18 @@ import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "sla_metric_manual")
 data class MetricManualEntity(
-    @Id
+    @Id @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "metric_manual_id")
     var metricManualId: String = "",
 
@@ -27,7 +30,7 @@ data class MetricManualEntity(
     var referenceDt: LocalDate? = null,
 
     @Column(name = "metric_value")
-    var metricValue: Double = 0.0,
+    var metricValue: Double? = null,
 
     @Column(name = "create_user_key")
     var userKey: String? = "",

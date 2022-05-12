@@ -4,7 +4,7 @@ import java.io.Serializable
 import java.time.LocalDate
 
 data class MetricManualKeyDto(
-    var metricId: String ="",
+    var metricId: String = "",
     var referenceDt: LocalDate? = null,
-    var metricValue: Double = 0.0
-): Serializable
+    var metricValue: Double? = null
+) : Serializable
