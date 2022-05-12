@@ -25,6 +25,7 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -44,6 +45,7 @@ class WfScriptTask(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
     private val listLinkedMapType: CollectionType =
         TypeFactory.defaultInstance().constructCollectionType(
@@ -200,25 +202,27 @@ class WfScriptTask(
                             val ciRelations = this.getCiRelations(ciComponentDataValue)
 
                             // Dto 생성후 List에 담기
-                            ciDtoList.add(
-                                CIDto(
-                                    ciId = ciId,
-                                    ciNo = ci["ciNo"] as String,
-                                    ciName = ci["ciName"] as String,
-                                    ciDesc = ci["ciDesc"] as String,
-                                    ciIcon = ci["ciIcon"] as String,
-                                    classId = ci["classId"] as String,
-                                    typeId = ci["typeId"] as String,
-                                    ciStatus = ci["ciStatus"] as String,
-                                    instanceId = instanceId,
-                                    ciDataList = ciDataList,
-                                    ciTags = ciTags,
-                                    ciRelations = ciRelations,
-                                    createUserKey = super.assigneeId,
-                                    updateUserKey = super.assigneeId,
-                                    interlink = ci["interlink"].toString().toBoolean()
-                                )
+                            val ciDto = CIDto(
+                                ciId = ciId,
+                                ciNo = ci["ciNo"] as String,
+                                ciName = ci["ciName"] as String,
+                                ciDesc = ci["ciDesc"] as String,
+                                ciIcon = ci["ciIcon"] as String,
+                                classId = ci["classId"] as String,
+                                typeId = ci["typeId"] as String,
+                                ciStatus = ci["ciStatus"] as String,
+                                instanceId = instanceId,
+                                ciDataList = ciDataList,
+                                ciTags = ciTags,
+                                ciRelations = ciRelations,
+                                createUserKey = super.assigneeId,
+                                updateUserKey = super.assigneeId,
+                                interlink = ci["interlink"].toString().toBoolean()
                             )
+                            if (ci["mappingId"] != null) {
+                                ciDto.mappingId = ci["mappingId"].toString()
+                            }
+                            ciDtoList.add(ciDto)
                         }
                     }
                     CIConstants.ActionType.DELETE.code -> {

@@ -211,7 +211,8 @@ class RoleService(
      * 역할 목록 Excel 다운로드
      */
     fun getRoleListExcelDownload(roleSearchCondition: RoleSearchCondition): ResponseEntity<ByteArray> {
-        val roleList: List<RoleListDto> = mapper.convertValue(roleRepository.findRoleSearch(roleSearchCondition).dataList, object : TypeReference<List<RoleListDto>>() {})
+        val roleList: List<RoleListDto> =
+            mapper.convertValue(roleRepository.findRoleSearch(roleSearchCondition).dataList, object : TypeReference<List<RoleListDto>>() {})
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(

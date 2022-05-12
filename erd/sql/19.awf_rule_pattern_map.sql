@@ -42,3 +42,9 @@ insert into awf_rule_pattern_map values ('4028b88178c01b660178c0cc91310004', '8a
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '4028b88178c0fcc60178c10d270c0002', 0);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '7a112d61751fs6f325714q053c421412', 1);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '40288ab280876830018088101fab001b', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '40288ab280876830018088105a0b001c', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421413', 2);

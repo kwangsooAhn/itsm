@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/sla/metric-pool")
+@RequestMapping("/sla/metric-pools")
 class MetricPoolController(
     private val metricPoolService: MetricPoolService,
     private val codeService: CodeService
@@ -56,7 +56,10 @@ class MetricPoolController(
         model.addAttribute("metricGroupList", metricPoolService.getMetricGroups())
         model.addAttribute("metricTypeList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_TYPE_P_CODE))
         model.addAttribute("metricUnitList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_UNIT_P_CODE))
-        model.addAttribute("metricCalcTypeList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_CALCULATION_TYPE_P_CODE))
+        model.addAttribute(
+            "metricCalcTypeList",
+            codeService.selectCodeByParent(MetricPoolConstants.METRIC_CALCULATION_TYPE_P_CODE)
+        )
         return metricPoolPage
     }
 
