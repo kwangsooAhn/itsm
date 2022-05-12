@@ -1429,7 +1429,7 @@ token:
     progress: "Document in progress"
     requested: "Application document"
     todo: "Document to process"
-    stored: "archived documents"
+    stored: "Stored Documents"
   action:
     withdraw: "withdraw"
     reject: "reject"
