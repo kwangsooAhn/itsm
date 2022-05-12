@@ -45,13 +45,11 @@ class MetricManualRestController(
     /**
      * 수동 지표 delete
      */
-    @DeleteMapping("/manual/{metricId}/{referenceDt}/{metricValue}")
+    @DeleteMapping("/manual/{metricManualId}")
     fun deleteMetricManual(
-        @PathVariable metricId: String,
-        @PathVariable referenceDt: String,
-        @PathVariable metricValue: Int
+        @PathVariable metricManualId: String
     ) : ResponseEntity<ZResponse>{
-        return ZAliceResponse.response(metricManualService.deleteMetricManual(metricId,referenceDt,metricValue))
+        return ZAliceResponse.response(metricManualService.deleteMetricManual(metricManualId))
     }
 
 }

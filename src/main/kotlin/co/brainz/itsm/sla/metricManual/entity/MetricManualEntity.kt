@@ -2,6 +2,7 @@ package co.brainz.itsm.sla.metricManual.entity
 
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -16,14 +17,14 @@ import javax.persistence.Table
 data class MetricManualEntity(
     @Id
     @Column(name = "metric_manual_id")
-    var metricManualId: String,
+    var metricManualId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "metric_id")
-    var metric: MetricEntity,
+    var metric: MetricEntity? = null,
 
     @Column(name = "reference_dt")
-    var referenceDt: LocalDateTime,
+    var referenceDt: LocalDate? = null,
 
     @Column(name = "metric_value")
     var metricValue: Double = 0.0,

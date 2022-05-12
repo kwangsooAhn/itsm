@@ -6,5 +6,5 @@ import java.time.LocalDate
 data class MetricManualKeyDto(
     var metricId: String ="",
     var referenceDt: LocalDate? = null,
-    var metricValue: Int = 0
+    var metricValue: Double = 0.0
 ): Serializable
