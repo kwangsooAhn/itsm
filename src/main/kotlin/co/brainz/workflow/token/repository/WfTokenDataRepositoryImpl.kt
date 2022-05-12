@@ -24,7 +24,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::class.java),
     WfTokenDataRepositoryCustom {
-    override fun findTokenDataByTokenIds(tokenIds: Set<String>): List<WfInstanceListTokenDataDto> {
+    override fun findTokenDataByTokenIds(tokenIds: Set<String>, componentTypes: ArrayList<String>): List<WfInstanceListTokenDataDto> {
         val tokenData = QWfTokenDataEntity.wfTokenDataEntity
         val component = QWfComponentEntity.wfComponentEntity
         val instance = QWfInstanceEntity.wfInstanceEntity
@@ -52,7 +52,11 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
             .innerJoin(token.instance, instance)
             .innerJoin(instance.document, document)
             .innerJoin(document.form, form).on(form.formId.eq(component.form.formId))
-            .where(tokenData.token.tokenId.`in`(tokenIds))
+            .where(
+                tokenData.token.tokenId.`in`(tokenIds),
+                tokenData.component.isTopic.isTrue,
+                tokenData.component.componentType.`in`(componentTypes)
+            )
             .fetch()
     }
 
