@@ -15,18 +15,26 @@ import co.brainz.itsm.sla.metricPool.entity.QMetricGroupEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
+import com.querydsl.jpa.JPQLQuery
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
 class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity::class.java),
     MetricManualRepositoryCustom {
+    val manual: QMetricManualEntity = QMetricManualEntity.metricManualEntity
+    val metric: QMetricEntity = QMetricEntity.metricEntity
+    val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
+    val code: QCodeEntity = QCodeEntity.codeEntity
 
     override fun findMetricManualSearch(manualSearchCondition: MetricManualSearchCondition): PagingReturnDto {
-        val manual = QMetricManualEntity.metricManualEntity
-        val metric = QMetricEntity.metricEntity
-        val user = QAliceUserEntity.aliceUserEntity
-        val code = QCodeEntity.codeEntity
+        return PagingReturnDto(
+            dataList = this.getMetricManualList(manualSearchCondition).fetch(),
+            totalCount = this.getMetricManualCount(manualSearchCondition).fetchOne()
+        )
+    }
+
+    private fun getMetricManualList(manualSearchCondition: MetricManualSearchCondition): JPQLQuery<MetricManualDto> {
         val query = from(manual)
             .select(
                 Projections.constructor(
@@ -43,27 +51,20 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
             .leftJoin(metric).on(metric.metricId.eq(manual.metric.metricId))
             .leftJoin(user).on(manual.userKey.eq(user.userKey))
             .leftJoin(code).on(metric.metricUnit.eq(code.code))
-            .where(this.searchByBuilder(manualSearchCondition, manual, metric))
+            .where(this.searchByBuilder(manualSearchCondition))
 
         query.limit(manualSearchCondition.contentNumPerPage)
         query.offset((manualSearchCondition.pageNum - 1) * manualSearchCondition.contentNumPerPage)
-
-        val count = from(manual)
-            .select(manual.count())
-            .where(this.searchByBuilder(manualSearchCondition, manual, metric))
-
-        return PagingReturnDto(
-            dataList = query.fetch(),
-            totalCount = count.fetchCount()
-        )
-
+        return query
     }
 
-    private fun searchByBuilder(
-        manualSearchCondition: MetricManualSearchCondition,
-        manual: QMetricManualEntity,
-        metric: QMetricEntity
-    ): BooleanBuilder {
+    private fun getMetricManualCount(manualSearchCondition: MetricManualSearchCondition): JPQLQuery<Long> {
+        return from(manual)
+            .select(manual.count())
+            .where(this.searchByBuilder(manualSearchCondition))
+    }
+
+    private fun searchByBuilder(manualSearchCondition: MetricManualSearchCondition): BooleanBuilder {
         val builder = BooleanBuilder()
         if (manualSearchCondition.searchValue!!.isNotEmpty()) {
             builder.and(metric.metricName.`in`(manualSearchCondition.searchValue))

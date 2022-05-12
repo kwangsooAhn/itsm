@@ -17,5 +17,5 @@ data class MetricManualDto(
     val metricValue: Long? = null,
     val metricUnitName: String? = null,
     val createDt: LocalDateTime? = null,
-    val createUserName: String
+    val createUserName: String? = null
 ) : Serializable

@@ -17,34 +17,34 @@ import org.hibernate.annotations.GenericGenerator
 data class MetricEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "metric_id")
+    @Column(name = "metric_id", length = 128)
     var metricId: String = "",
 
-    @Column(name = "metric_name")
+    @Column(name = "metric_name", length = 100)
     var metricName: String = "",
 
     @Column(name = "metric_desc")
     var metricDesc: String? = null,
 
-    @Column(name = "metric_group_id")
+    @Column(name = "metric_group_id", length = 128)
     var metricGroupId: String = "",
 
-    @Column(name = "metric_type")
+    @Column(name = "metric_type", length = 128)
     var metricType: String? = null,
 
-    @Column(name = "metric_unit")
+    @Column(name = "metric_unit", length = 128)
     var metricUnit: String? = null,
 
-    @Column(name = "calculation_type")
+    @Column(name = "calculation_type", length = 128)
     var calculationType: String? = null,
 
-    @Column(name = "create_user_key")
+    @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
-    @Column(name = "update_user_key")
+    @Column(name = "update_user_key", length = 128)
     var updateUserKey: String? = null,
 
     @Column(name = "update_dt", insertable = false)
