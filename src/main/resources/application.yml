@@ -253,6 +253,12 @@ spring:
   datasource:
     url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:5432/itsm
 ---
+# SLA DB (TEST용)
+spring:
+  profiles: sla
+  datasource:
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32853/itsm
+---
 # Notification Toast Option
 notification:
   toast.enabled: true
