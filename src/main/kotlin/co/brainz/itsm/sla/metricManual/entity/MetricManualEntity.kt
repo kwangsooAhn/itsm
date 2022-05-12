@@ -34,7 +34,7 @@ data class MetricManualEntity(
     @Column(name = "metric_value")
     var metricValue: Long = 0L,
 
-    @Column(name = "create_user_key")
+    @Column(name = "create_user_key", length = 128)
     var userKey: String? = "",
 
     @Column(name = "create_dt")
