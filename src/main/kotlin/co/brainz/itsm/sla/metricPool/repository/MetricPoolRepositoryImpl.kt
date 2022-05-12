@@ -24,8 +24,8 @@ class MetricPoolRepositoryImpl(
 ) : QuerydslRepositorySupport(MetricEntity::class.java), MetricPoolRepositoryCustom {
 
     override fun findMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): PagingReturnDto {
-        val content = this.getMetricPools((metricPoolSearchCondition))
-        val count = this.getMetricPoolsCount((metricPoolSearchCondition))
+        val content = this.getMetricPools(metricPoolSearchCondition)
+        val count = this.getMetricPoolsCount(metricPoolSearchCondition)
         return PagingReturnDto(
             dataList = content.fetch(),
             totalCount = count.fetchOne()

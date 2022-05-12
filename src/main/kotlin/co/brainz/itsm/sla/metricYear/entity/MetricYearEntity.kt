@@ -27,7 +27,7 @@ data class MetricYearEntity(
     var metric: MetricEntity,
 
     @Id
-    @Column(name = "metric_year")
+    @Column(name = "metric_year", length = 128)
     var metricYear: String = "",
 
     @Column(name = "min_value")
@@ -39,19 +39,19 @@ data class MetricYearEntity(
     @Column(name = "weight_value")
     var weightValue: Double? = null,
 
-    @Column(name = "owner")
+    @Column(name = "owner", length = 100)
     var owner: String? = null,
 
     @Column(name = "comment")
     var note: String? = null,
 
-    @Column(name = "create_user_key")
+    @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
-    @Column(name = "update_user_key")
+    @Column(name = "update_user_key", length = 128)
     var updateUserKey: String? = null,
 
     @Column(name = "update_dt", insertable = false)
