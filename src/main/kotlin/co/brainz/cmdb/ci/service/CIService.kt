@@ -170,7 +170,8 @@ class CIService(
                     createDt = LocalDateTime.now(),
                     createUser = ciDto.createUserKey?.let {
                         aliceUserRepository.findAliceUserEntityByUserKey(it)
-                    }
+                    },
+                    mappingId = ciDto.mappingId
                 )
 
                 ciEntity = ciRepository.save(ciEntity)

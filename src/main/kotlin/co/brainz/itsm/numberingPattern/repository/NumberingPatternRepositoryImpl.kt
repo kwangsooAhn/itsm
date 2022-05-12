@@ -68,7 +68,11 @@ class NumberingPatternRepositoryImpl(
             totalCount = countQuery
         )
     }
-    private fun builder(numberingPatternSearchCondition: NumberingPatternSearchCondition, pattern: QNumberingPatternEntity): BooleanBuilder {
+
+    private fun builder(
+        numberingPatternSearchCondition: NumberingPatternSearchCondition,
+        pattern: QNumberingPatternEntity
+    ): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(super.likeIgnoreCase(pattern.patternName, numberingPatternSearchCondition.searchValue))
         return builder

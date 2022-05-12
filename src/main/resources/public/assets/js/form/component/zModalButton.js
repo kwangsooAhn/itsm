@@ -251,8 +251,9 @@ export const modalButtonMixin = {
         modalHeightProperty.unit = UNIT.PX;
 
         // 조회 대상 테이블
-        const targetTableProperty = new ZInputBoxProperty('elementTable', 'element.searchTargetTable', this.elementTable)
-            .setValidation(true, '', '', '', '', '');
+        const targetTableProperty
+            = new ZInputBoxProperty('elementTable', 'element.searchTargetTable', this.elementTable)
+                .setValidation(true, '', '', '', '', '');
         targetTableProperty.help = 'form.help.target-table';
 
         /**
@@ -261,11 +262,13 @@ export const modalButtonMixin = {
          * @summary 이력 조회 외에도 특정 테이블 내역 조회를 위해 keyField 속성이 추가되었습니다. (레드마인 #12830 참고)
          */
         // 조회 대상 기준 필드
-        const keyFieldProperty = new ZInputBoxProperty('elementKeyField', 'element.searchTargetField', this.elementKeyField)
-            .setValidation(true, '', '', '', '', '');
+        const keyFieldProperty
+            = new ZInputBoxProperty('elementKeyField', 'element.searchTargetField', this.elementKeyField)
+                .setValidation(true, '', '', '', '', '');
 
         // orderBy 정렬 조건
-        const orderTableProperty = new ZInputBoxProperty('elementSortField', 'element.orderByCondition', this.elementSortField);
+        const orderTableProperty
+            = new ZInputBoxProperty('elementSortField', 'element.orderByCondition', this.elementSortField);
         orderTableProperty.help = 'form.help.order-table';
 
         return [
@@ -302,10 +305,22 @@ export const modalButtonMixin = {
     },
     // 발행을 위한 validation 체크
     validationCheckOnPublish() {
+        // 조회 대상 테이블명
+        if (zValidation.isEmpty(this.elementKeyField)) {
+            zAlert.warning(i18n.msg('form.msg.modalKeyFieldRequired'));
+            return false;
+        }
+        // 조회 대상 기준 필드
+        if (zValidation.isEmpty(this.elementSortField)) {
+            zAlert.warning(i18n.msg('form.msg.modalSortFieldRequired'));
+            return false;
+        }
         // 모달 테이블 속성 중 필드가 누락되었을 때
         const modalTableOption = this.elementFields;
         for (let i = 0; i < modalTableOption.length; i++) {
-            if (zValidation.isEmpty(modalTableOption[i].name)) {
+            if (zValidation.isEmpty(modalTableOption[i].name)
+                || zValidation.isEmpty(modalTableOption[i].alias)
+                || zValidation.isEmpty(modalTableOption[i].width)) {
                 zAlert.warning(i18n.msg('form.msg.modalTableRequired', i + 1));
                 return false;
             }

@@ -21,5 +21,6 @@ data class WfCIComponentValueDto(
     val ciDesc: String? = null,
     var classId: String? = null,
     val interlink: Boolean = false,
-    val actionType: String
+    val actionType: String,
+    var mappingId: String? = null
 ) : Serializable

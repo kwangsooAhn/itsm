@@ -63,7 +63,10 @@ data class CIEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
-    var updateUser: AliceUserEntity? = null
+    var updateUser: AliceUserEntity? = null,
+
+    @Column(name = "mapping_id")
+    var mappingId: String? = null
 
 ) : Serializable {
 
