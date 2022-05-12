@@ -33,11 +33,11 @@
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${metric.metricGroupName}" th:title="${metric.metricGroupName}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2">
+            <div class="grid__cell pr-2 pl-2 underline">
                 <a sec:authorize="hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/sla/metric-pool/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
+                   th:href="@{/sla/metric-pools/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
                 <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/sla/metric-pool/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
+                   th:href="@{/sla/metric-pools/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
                 </a>
             </div>
             <div class="grid__cell pr-2 pl-2">

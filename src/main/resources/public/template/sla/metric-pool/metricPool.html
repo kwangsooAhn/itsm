@@ -32,19 +32,10 @@
                     <label for="metricGroup">
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.group}"></span>
                     </label>
-                    <div class="flex-row">
-                        <div class="flex-column col-9">
-                            <select id="metricGroupName" th:classappend="${view} ? 'readonly' : ''">
-                                <option value="" th:text="#{sla.metric.label.selectMetricGroup}" selected></option>
-                                <option th:each="metric: ${metricGroupList}" th:text="${metric.metricGroupName}" th:value="${metric.metricGroupId}"></option>
-                            </select>
-                        </div>
-                        <div class="flex-column col-1">
-                            <button type="button" class="z-button-icon extra"  onclick="openMetricGroup();">
-                                <span class="z-icon i-plus"></span>
-                            </button>
-                        </div>
-                    </div>
+                    <select id="metricGroupName" th:classappend="${view} ? 'readonly' : ''">
+                        <option value="" th:text="#{sla.metric.label.selectMetricGroup}" selected></option>
+                        <option th:each="metric: ${metricGroupList}" th:text="${metric.codeName}" th:value="${metric.code}"></option>
+                    </select>
                 </div>
                 <div class="flex-column col-2 pl-2">
                     <label for="metricType">
@@ -145,79 +136,6 @@
                     break;
             }
         });
-    }
-
-    function saveGroup() {
-        // 빈 값 체크
-        if (isEmpty('newMetricGroupName', 'common.msg.emptyValue')) return;
-
-        const data = {
-            metricGroupId: document.getElementById('newMetricGroupId').value,
-            metricGroupName: document.getElementById('newMetricGroupName').value
-        };
-        let method = 'POST';
-        let url = '/rest/sla/metric-group';
-        aliceJs.fetchJson(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then((response) => {
-            switch (response.status) {
-                case aliceJs.response.success:
-                    if (method === 'POST') {
-                        zAlert.success(i18n.msg('common.msg.save'));
-                    }
-                    location.reload();
-                    break;
-                case aliceJs.response.duplicate:
-                    zAlert.warning(i18n.msg('sla.metric.msg.duplicateName'));
-                    break;
-                case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
-                    break;
-                default :
-                    break;
-            }
-        });
-    }
-
-    // 그룹추가 모달 Template
-    function createModalContent(data) {
-        return `<div class="flex-column">` +
-            `<input type="hidden" id="newMetricGroupId"  th:value="${data?.metricGroupId}" />` +
-            `<label class="field-label" for="newMetricGroupName">${i18n.msg('sla.metric.label.groupName')}<span class="required"></span></label>` +
-            `<input type="text" class="z-input" id="newMetricGroupName" maxlength="50" th:value="${data?.metricGroupName}" />` +
-            `</div>`;
-    }
-
-    // 그룹추가 모달 오픈
-    function openMetricGroup() {
-        const metricGroupModal = new modal({
-            title: i18n.msg('sla.metric.label.groupRegister'),
-            body: createModalContent(),
-            classes: 'process-edit',
-            buttons: [{
-                content: i18n.msg('common.btn.save'),
-                classes: 'z-button primary',
-                bindKey: false,
-                callback: function(modal) {
-                    saveGroup();
-                }
-            },{
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function(modal) {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            }
-        });
-        metricGroupModal.show();
     }
     /* ]]> */
 </script>
