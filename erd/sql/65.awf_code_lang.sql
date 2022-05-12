@@ -106,3 +106,6 @@ insert into awf_code_lang values ('sla.calculationType', 'Calculation Type', 'en
 insert into awf_code_lang values ('sla.calculationType.total', 'total', 'en');
 insert into awf_code_lang values ('sla.calculationType.rate', 'rate', 'en');
 insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
+insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
+insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
+

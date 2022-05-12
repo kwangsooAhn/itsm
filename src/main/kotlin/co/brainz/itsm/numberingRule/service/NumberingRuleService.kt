@@ -79,7 +79,9 @@ class NumberingRuleService(
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = numberingRuleRepository.count(),
                 currentPageNum = numberingRuleSearchCondition.pageNum,
-                totalPageNum = ceil(pagingResult.totalCount.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(
+                    pagingResult.totalCount.toDouble() / numberingRuleSearchCondition.contentNumPerPage.toDouble()
+                ).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )

@@ -3358,6 +3358,10 @@ select {
   .z-print-main .z-drawing-board .z-form .z-row-tooltip {
     break-inside: avoid;
   }
+  .z-print-main .z-drawing-board .z-form .z-row-tooltip .z-textarea {
+    width: inherit;
+    max-width: calc(210mm - 10mm);
+  }
   .z-print-main-footer {
     position: fixed;
     bottom: 0;

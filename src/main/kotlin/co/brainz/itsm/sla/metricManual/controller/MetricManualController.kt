@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/sla/metric/manual")
+@RequestMapping("/sla/metrics/manual")
 class MetricManualController(
     private val metricManualService: MetricManualService
 ) {

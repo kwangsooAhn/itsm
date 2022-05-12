@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface NumberingRulePatternMapRepository : JpaRepository<NumberingRulePatternMapEntity, NumberingRulePatternMapPk>, NumberingRulePatternMapRepositoryCustom {
+interface NumberingRulePatternMapRepository :
+    JpaRepository<NumberingRulePatternMapEntity, NumberingRulePatternMapPk>, NumberingRulePatternMapRepositoryCustom {
     fun deleteByNumberingRule(numberingRule: NumberingRuleEntity)
 }

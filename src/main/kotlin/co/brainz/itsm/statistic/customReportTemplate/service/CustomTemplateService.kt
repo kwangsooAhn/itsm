@@ -32,6 +32,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
 import javax.transaction.Transactional
+import kotlin.math.ceil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -101,7 +102,9 @@ class CustomTemplateService(
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = customReportTemplateRepository.count(),
                 currentPageNum = customReportTemplateCondition.pageNum,
-                totalPageNum = kotlin.math.ceil(pagingResult.totalCount.toDouble() / customReportTemplateCondition.contentNumPerPage.toDouble()).toLong(),
+                totalPageNum = ceil(
+                    pagingResult.totalCount.toDouble() / customReportTemplateCondition.contentNumPerPage.toDouble()
+                ).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.NAME_ASC.code
             )
         )
