@@ -1,10 +1,10 @@
 package co.brainz.itsm.sla.metricManual.dto
 
 import java.io.Serializable
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 data class MetricManualKeyDto(
     var metricId: String ="",
-    var referenceDt: LocalDateTime,
+    var referenceDt: LocalDate? = null,
     var metricValue: Int = 0
 ): Serializable

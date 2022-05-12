@@ -8,6 +8,7 @@ package co.brainz.itsm.sla.metricManual.entity
 
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -29,7 +30,7 @@ data class MetricManualEntity(
 
     @Id
     @Column(name = "reference_dt")
-    val referenceDt: LocalDateTime? = null,
+    val referenceDt: LocalDate? = null,
 
     @Id
     @Column(name = "metric_value")
@@ -44,6 +45,6 @@ data class MetricManualEntity(
 
 data class MetricManualPk(
     val metric: String = "",
-    val referenceDt: LocalDateTime? = null,
+    val referenceDt: LocalDate? = null,
     val metricValue: Int = 0
 ) : Serializable

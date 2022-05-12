@@ -17,14 +17,18 @@ import co.brainz.itsm.sla.metricManual.dto.MetricManualKeyDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualListReturnDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
+import co.brainz.itsm.sla.metricManual.entity.MetricManualPk
 import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.convertValue
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
+import org.springframework.format.datetime.DateFormatter
 import org.springframework.stereotype.Service
 
 @Service
@@ -65,13 +69,27 @@ class MetricManualService(
                     metric = metricEntity,
                     referenceDt = metricManualKeyDto.referenceDt,
                     metricValue = metricManualKeyDto.metricValue,
-                    userKey = currentSessionUser.getUserKey(),
+                    userKey = "currentSessionUser.getUserKey()",
                     createDt = LocalDateTime.now()
                 )
             )
         } else {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
         }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    fun deleteMetricManual(metricId: String, referenceDt: String, metricValue: Int): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val referenceDate = LocalDate.parse(referenceDt, DateTimeFormatter.ISO_DATE)
+        val metricManualPk = MetricManualPk(
+            metric = metricId,
+            referenceDt = referenceDate,
+            metricValue = metricValue
+        )
+        metricManualRepository.deleteById(metricManualPk)
         return ZResponse(
             status = status.code
         )

@@ -10,8 +10,11 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.sla.metricManual.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricManual.dto.MetricManualKeyDto
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
+import java.time.LocalDate
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -37,6 +40,18 @@ class MetricManualRestController(
     @PostMapping("/manual", "")
     fun insertMetricManual(@RequestBody metricManualKeyDto: MetricManualKeyDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricManualService.insertMetricManual(metricManualKeyDto))
+    }
+
+    /**
+     * 수동 지표 delete
+     */
+    @DeleteMapping("/manual/{metricId}/{referenceDt}/{metricValue}")
+    fun deleteMetricManual(
+        @PathVariable metricId: String,
+        @PathVariable referenceDt: String,
+        @PathVariable metricValue: Int
+    ) : ResponseEntity<ZResponse>{
+        return ZAliceResponse.response(metricManualService.deleteMetricManual(metricId,referenceDt,metricValue))
     }
 
 }
