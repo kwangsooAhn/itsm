@@ -331,6 +331,9 @@ insert into awf_code values ('sla.calculationType', 'sla', 'calculationType', '�
 insert into awf_code values ('sla.calculationType.total', 'sla.calculationType', 'total', '합산', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.calculationType.rate', 'sla.calculationType', 'rate', '비율', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.calculationType.average', 'sla.calculationType', 'average', '평균', NULL, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricGroup', 'sla', 'metricGroup', '그룹', NULL, true, true, 2, 4, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricGroup.default', 'sla.metricGroup', 'default', '기본 그룹', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+
 
 /**
  * 사용자정의코드
@@ -8774,6 +8777,9 @@ insert into awf_code_lang values ('sla.calculationType', 'Calculation Type', 'en
 insert into awf_code_lang values ('sla.calculationType.total', 'total', 'en');
 insert into awf_code_lang values ('sla.calculationType.rate', 'rate', 'en');
 insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
+insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
+insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
+
 
 /**
  * 사용자 지정 테이블
@@ -9242,27 +9248,6 @@ COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
 
 /**
-  SLA 지표 그룹
- */
-DROP TABLE IF EXISTS sla_metric_group cascade;
-
-CREATE TABLE sla_metric_group
-(
-    metric_group_id varchar(128) NOT NULL,
-    metric_group_name varchar(100) NOT NULL,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    CONSTRAINT sla_metric_group_pk PRIMARY KEY (metric_group_id),
-    CONSTRAINT sla_metric_group_uk UNIQUE (metric_group_name)
-);
-
-COMMENT ON TABLE sla_metric_group IS 'SLA 지표 그룹';
-COMMENT ON COLUMN sla_metric_group.metric_group_id IS '지표그룹아이디';
-COMMENT ON COLUMN sla_metric_group.metric_group_name IS '지표그룹이름';
-COMMENT ON COLUMN sla_metric_group.create_user_key IS '등록자';
-COMMENT ON COLUMN sla_metric_group.create_dt IS '등록일';
-
-/**
   SLA 지표
  */
 DROP TABLE IF EXISTS sla_metric cascade;
@@ -9272,7 +9257,7 @@ CREATE TABLE sla_metric
     metric_id varchar(128) NOT NULL,
     metric_name varchar(100),
     metric_desc text,
-    metric_group_id varchar(128) NOT NULL,
+    metric_group varchar(128),
     metric_type varchar(128),
     metric_unit varchar(128),
     calculation_type varchar(128),
@@ -9281,14 +9266,14 @@ CREATE TABLE sla_metric
     update_user_key varchar(128),
     update_dt timestamp,
     CONSTRAINT sla_metric_pk PRIMARY KEY (metric_id),
-    CONSTRAINT sla_metric_fk FOREIGN KEY (metric_group_id) REFERENCES sla_metric_group (metric_group_id)
+    CONSTRAINT sla_metric_uk UNIQUE (metric_name)
 );
 
 COMMENT ON TABLE sla_metric IS 'SLA 지표';
 COMMENT ON COLUMN sla_metric.metric_id IS '지표아이디';
 COMMENT ON COLUMN sla_metric.metric_name IS '지표이름';
 COMMENT ON COLUMN sla_metric.metric_desc IS '지표설명';
-COMMENT ON COLUMN sla_metric.metric_group_id IS '지표그룹아이디';
+COMMENT ON COLUMN sla_metric.metric_group IS '지표그룹';
 COMMENT ON COLUMN sla_metric.metric_type IS '지표관리타입';
 COMMENT ON COLUMN sla_metric.metric_unit IS '지표단위';
 COMMENT ON COLUMN sla_metric.calculation_type IS '계산방식';
