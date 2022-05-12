@@ -1,6 +1,6 @@
 /* Drop Sequences */
 
-DROP SEQUENCE IF EXISTS awf_download_seq cascade;
+DROP SEQUENCE IF EXISTS awf_archive_seq cascade;
 DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
@@ -8,7 +8,7 @@ DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
 
 
 /* Create Sequences */
-CREATE SEQUENCE awf_download_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE awf_archive_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
@@ -444,9 +444,9 @@ DROP TABLE IF EXISTS awf_archive cascade;
 CREATE TABLE awf_archive
 (
 	archive_id varchar(128) NOT NULL,
-    archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
-    archive_category varchar(100) NOT NULL,
-    archive_title varchar(128) NOT NULL,
+	archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
+	archive_category varchar(100) NOT NULL,
+	archive_title varchar(128) NOT NULL,
 	views bigint DEFAULT 0 NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
@@ -622,7 +622,7 @@ insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
 insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
 insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
-insert into awf_menu values ('config', 'menu', '', 12, 'TRUE');
+insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
@@ -672,7 +672,7 @@ insert into awf_menu_auth_map values ('document', 'general');
 insert into awf_menu_auth_map values ('faq', 'general');
 insert into awf_menu_auth_map values ('notice', 'general');
 insert into awf_menu_auth_map values ('board', 'general');
-insert into awf_menu_auth_map values ('download', 'general');
+insert into awf_menu_auth_map values ('archive', 'general');
 insert into awf_menu_auth_map values ('token', 'general');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
@@ -791,6 +791,8 @@ insert into awf_numbering_rule values ('4028b8817880d833017880f34ae10003', 'REL_
 insert into awf_numbering_rule values ('4028b25d7886e2d801788704dd8e0002', 'RFC-yyyyMMdd-000', '인프라, 어플리케이션 변경관리에서 사용되는 문서번호');
 insert into awf_numbering_rule values ('4028b88178c0fcc60178c10dbb5b0003', 'INC-yyyyMMdd-000', '장애관리 문서번호');
 insert into awf_numbering_rule values ('4028b88178c01b660178c0cc91310004', 'PBM-yyyyMMdd-000', '문제관리 문서번호');
+insert into awf_numbering_rule values ('40288ab2808768300180881537d5001d', 'SMS', 'SMS 번호');
+insert into awf_numbering_rule values ('40288ab2808768300180881cb9f6001e', 'NMS', 'NMS 번호');
 
 /**
  * 넘버링패턴정보
@@ -824,6 +826,9 @@ insert into awf_numbering_pattern values ('4028b8817880d833017880f26a920002', '�
 insert into awf_numbering_pattern values ('4028b25d7886e2d801788703c8a00001', '변경관리 PreFix', 'numbering.pattern.text', '{"value":"RFC"}');
 insert into awf_numbering_pattern values ('4028b88178c01b660178c0cbe02d0003', '문제관리 Prefix', 'numbering.pattern.text', '{"value":"PBM"}');
 insert into awf_numbering_pattern values ('4028b88178c0fcc60178c10d270c0002', '장애관리 PreFix', 'numbering.pattern.text', '{"value":"INC"}');
+insert into awf_numbering_pattern values ('40288ab280876830018088101fab001b', 'SMS', 'numbering.pattern.text', '{"value":"SMS"}');
+insert into awf_numbering_pattern values ('40288ab280876830018088105a0b001c', 'NMS', 'numbering.pattern.text', '{"value":"NMS"}');
+
 /**
  * 역할
  */
@@ -858,7 +863,6 @@ INSERT INTO awf_role VALUES ('general.user', '일반 사용자', '', '0509e09412
 INSERT INTO awf_role VALUES ('workflow.admin', '업무흐름 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('cmdb.admin', 'CMDB 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('portal.admin', '포털 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-INSERT INTO awf_role VALUES ('sla.admin', 'SLA 관리자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 
 /**
  * 역할권한매핑
@@ -961,6 +965,13 @@ insert into awf_rule_pattern_map values ('4028b88178c01b660178c0cc91310004', '8a
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '4028b88178c0fcc60178c10d270c0002', 0);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '7a112d61751fs6f325714q053c421412', 1);
 insert into awf_rule_pattern_map values ('4028b88178c0fcc60178c10dbb5b0003', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '40288ab280876830018088101fab001b', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a112d61751fs6f325714q053c421413', 2);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '40288ab280876830018088105a0b001c', 0);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421413', 2);
+
 /**
  * 스케줄작업정보
  */
@@ -1235,7 +1246,7 @@ insert into awf_url values ('/organizations/edit', 'get', '조직 관리 편집 
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
 insert into awf_url values ('/portals/browserguide', 'get', '포탈 브라우저 안내', 'FALSE');
 insert into awf_url values ('/portals/archives', 'get', '포달 자료실 리스트', 'FALSE');
-insert into awf_url values ('/portals/archives/{downloadId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
+insert into awf_url values ('/portals/archives/{archiveId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
 insert into awf_url values ('/portals/archives/search', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/portals/faqs', 'get', '포탈 FAQ 상세조회', 'FALSE');
 insert into awf_url values ('/portals/faqs/{faqId}/view', 'get', '포탈 FAQ 리스트', 'FALSE');
@@ -1747,20 +1758,6 @@ insert into awf_url_auth_map values ('/rest/schedulers', 'post', 'system.manage'
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 'system.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics', 'post', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/{year}', 'put', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/{year}', 'delete', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/copy', 'post', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/manual', 'post', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/manual/{id}/{reference_dt}/{metricValue}', 'delete', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/yearlies/excel', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/yearlies/excel', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/rest/sla/metrics/yearlies/{id}/preview', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/yearlies/{id}/preview', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/rest/sla/metric-pools', 'post', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'put', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'delete', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart', 'post', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.view');
@@ -1801,34 +1798,6 @@ insert into awf_url_auth_map values ('/schedulers/search', 'get', 'system.manage
 insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/schedulers/{id}/history', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/schedulers/{id}/view', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/sla/metrics/search', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/search', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/new', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/edit', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/view', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/view', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/status', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/status', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/yearlies/search', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/yearlies/search', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/yearlies', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/yearlies', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metric-pools/search', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metric-pools/search', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metric-pools', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metric-pools', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metric-pools/new', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metric-pools/{id}/edit', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metric-pools/{id}/view', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metric-pools/{id}/view', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/statistics/basicChart/search', 'get', 'report.view');
 insert into awf_url_auth_map values ('/statistics/basicReport/search', 'get', 'report.view');
 insert into awf_url_auth_map values ('/statistics/customChart', 'get', 'report.manage');
@@ -8766,20 +8735,6 @@ insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office 
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
 insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
 insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
-/* SLA */
-insert into awf_code_lang values ('sla.metricType', 'Metric Type', 'en');
-insert into awf_code_lang values ('sla.metricType.auto', 'auto', 'en');
-insert into awf_code_lang values ('sla.metricType.manual', 'manual', 'en');
-insert into awf_code_lang values ('sla.metricUnit', 'Metric Unit', 'en');
-insert into awf_code_lang values ('sla.metricUnit.score', 'score', 'en');
-insert into awf_code_lang values ('sla.metricUnit.time', 'time', 'en');
-insert into awf_code_lang values ('sla.calculationType', 'Calculation Type', 'en');
-insert into awf_code_lang values ('sla.calculationType.total', 'total', 'en');
-insert into awf_code_lang values ('sla.calculationType.rate', 'rate', 'en');
-insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
-insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
-insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
-
 
 /**
  * 사용자 지정 테이블
@@ -9246,6 +9201,103 @@ COMMENT ON COLUMN cmdb_class_notification.attribute_id IS '속성아이디';
 COMMENT ON COLUMN cmdb_class_notification.attribute_order IS '순서';
 COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
+
+/**
+  IF CMDB 테이블
+ */
+DROP TABLE IF EXISTS if_cmdb_ci cascade;
+
+CREATE TABLE if_cmdb_ci
+(
+    ci_id character varying(128) NOT NULL,
+    ci_no character varying(128),
+    ci_name character varying(128) NOT NULL,
+    ci_status character varying(100) NOT NULL,
+    type_id character varying(128) NOT NULL,
+    ci_desc character varying(512),
+    interlink boolean DEFAULT 'true',
+    instance_id character varying(128),
+    create_user_key character varying(128),
+    create_dt timestamp,
+    update_user_key character varying(128),
+    update_dt timestamp,
+    mapping_id character varying(128),
+    CONSTRAINT if_cmdb_ci_pk PRIMARY KEY (ci_id),
+    CONSTRAINT if_cmdb_ci_uk UNIQUE (ci_id),
+    CONSTRAINT if_cmdb_ci_fk1 FOREIGN KEY (type_id)
+        REFERENCES cmdb_type (type_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT if_cmdb_ci_fk2 FOREIGN KEY (instance_id)
+        REFERENCES wf_instance (instance_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE if_cmdb_ci IS 'CMDB CI IF 테이블';
+COMMENT ON COLUMN if_cmdb_ci.ci_id IS 'CI아이디';
+COMMENT ON COLUMN if_cmdb_ci.ci_no IS '시퀀스';
+COMMENT ON COLUMN if_cmdb_ci.ci_name IS 'CI이름';
+COMMENT ON COLUMN if_cmdb_ci.ci_status IS 'CI상태';
+COMMENT ON COLUMN if_cmdb_ci.type_id IS '타입아이디';
+COMMENT ON COLUMN if_cmdb_ci.ci_desc IS 'CI설명';
+COMMENT ON COLUMN if_cmdb_ci.interlink IS '연동 여부';
+COMMENT ON COLUMN if_cmdb_ci.instance_id IS '인스턴스ID';
+COMMENT ON COLUMN if_cmdb_ci.create_user_key IS '등록자';
+COMMENT ON COLUMN if_cmdb_ci.create_dt IS '등록일시';
+COMMENT ON COLUMN if_cmdb_ci.update_user_key IS '수정자';
+COMMENT ON COLUMN if_cmdb_ci.update_dt IS '수정일시';
+COMMENT ON COLUMN if_cmdb_ci.mapping_id IS '매핑아이디';
+
+/**
+  IF CMDB 데이터 테이블
+ */
+DROP TABLE IF EXISTS if_cmdb_ci_data cascade;
+
+CREATE TABLE if_cmdb_ci_data
+(
+    ci_id character varying(128) NOT NULL,
+    attribute_id character varying(128) NOT NULL,
+    value text,
+    CONSTRAINT if_cmdb_ci_data_pk PRIMARY KEY (ci_id, attribute_id),
+    CONSTRAINT if_cmdb_ci_data_fk1 FOREIGN KEY (ci_id)
+        REFERENCES if_cmdb_ci (ci_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT if_cmdb_ci_data_fk2 FOREIGN KEY (attribute_id)
+        REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE if_cmdb_ci_data IS 'CMDB CI IF 데이터';
+COMMENT ON COLUMN if_cmdb_ci_data.ci_id IS 'CI아이디';
+COMMENT ON COLUMN if_cmdb_ci_data.attribute_id IS '속성아이디';
+COMMENT ON COLUMN if_cmdb_ci_data.value IS '속성값';
+
+/**
+  IF CMDB 그룹 데이터 테이블
+ */
+DROP TABLE IF EXISTS if_cmdb_ci_group_list_data cascade;
+
+CREATE TABLE if_cmdb_ci_group_list_data
+(
+    ci_id character varying(128) NOT NULL,
+    attribute_id character varying(128) NOT NULL,
+    c_attribute_id character varying(128) NOT NULL,
+    c_attribute_seq int NOT NULL,
+    c_value text,
+    CONSTRAINT if_cmdb_ci_group_list_data_pk PRIMARY KEY (ci_id, attribute_id, c_attribute_id, c_attribute_seq),
+    CONSTRAINT if_cmdb_ci_group_list_data_fk1 FOREIGN KEY (ci_id)
+        REFERENCES if_cmdb_ci (ci_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT if_cmdb_ci_group_list_data_fk2 FOREIGN KEY (attribute_id)
+        REFERENCES cmdb_attribute (attribute_id) MATCH SIMPLE
+        ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE if_cmdb_ci_group_list_data IS 'CMDB CI IF 그룹 리스트 데이터';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.ci_id IS 'CI아이디';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.attribute_id IS '속성아이디';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_id IS '자식속성아이디';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순서';
+COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
 
 /**
   SLA 지표

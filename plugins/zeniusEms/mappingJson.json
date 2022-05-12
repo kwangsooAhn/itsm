@@ -1,25 +1,27 @@
 {
-  "target": "cmdb",
+  "target": "document",
   "document": {
     "unit": "service",
-    "document-id": "2c9180867cc31a25017cc7a779d70523",
-    "target-component-id": "5f1204baf4a14cd9b91d3d00753913c5",
+    "document-id": "4028b2268012281a0180124595d20192",
+    "target-component-id": "9a9327f5ee8247148dd5bbd00ac5972f",
     "title": {
-      "component-id": "20caa47f0eb84829b2ef020ebcef4f6e",
+      "component-id": "b62f7feeff7047739dbac3d819d0f7be",
       "content": "Zenius EMS 연동"
     },
     "assignee-id": "2c91808e7c75dad2017c781635e20000",
     "default": {
-      "366d2e5ed4c74a6290844a26e60be94f": "0509e09412534a6e98f04ca79abb6424",
-      "2d0da6608383405c9b51d8eda7d2733c": "now()",
-      "745098c3787f4a3893c499216e00ae49": "02-2205-6057"
+      "a88ed345bc054d59eb5f57d57a8b33ec": "0509e09412534a6e98f04ca79abb6424",
+      "f7af9dc8c8cb436b87420628f83ecd30": "now()",
+      "a037988d5d2a287f0892026ab9891015": "02-2205-6057",
+      "d1d44cedd40d45cb8d41f4610722e01f": "4028b2d57d37168e017d371a5f7f0004"
     }
   },
   "services": [
     {
       "service-id": "SMS",
-      "query-id": "getSmsList",
-      "ci-type": "SERVER",
+      "query-id": "get.sms.list",
+      "ci-type-alias": "SERVER",
+      "numbering-id": "40288ab2808768300180881537d5001d",
       "ci-no-prefix": "Zenius_SMS_",
       "ci-mapping-id-prefix": "sms_",
       "ci-mapping-id": "z_myid",
@@ -93,9 +95,10 @@
     },
     {
       "service-id": "NMS",
-      "query-id": "getNmsList",
-      "ci-type": "NETWORK",
+      "query-id": "get.nms.list",
+      "ci-type-alias": "NETWORK",
       "ci-no-prefix": "Zenius_NMS_",
+      "numbering-id": "40288ab2808768300180881cb9f6001e",
       "ci-mapping-id-prefix": "nms_",
       "ci-mapping-id": "z_myid",
       "ci": [

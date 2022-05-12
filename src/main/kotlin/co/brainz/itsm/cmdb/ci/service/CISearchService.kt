@@ -412,7 +412,8 @@ class CISearchService(
                         options.forEach { cAttributeIds.add(it["id"].toString()) }
                         basic.contents.forEach { ciIds.add(it.key) }
                         // 전체 그룹 리스트 데이터 조회
-                        val ciGroupListDataList = ciGroupListDataRepository.getCIGroupListDataList(ciIds, attribute.attributeId, cAttributeIds)
+                        val ciGroupListDataList =
+                            ciGroupListDataRepository.getCIGroupListDataList(ciIds, attribute.attributeId, cAttributeIds)
                         basic.contents.forEach { content ->
                             // ci_id 에 일치하는 목록만 추출
                             val groupListDataList = mutableListOf<CIGroupListDataDto>()
