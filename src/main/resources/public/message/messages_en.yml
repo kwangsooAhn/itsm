@@ -1375,11 +1375,16 @@ sla:
       metricPoolRegister: "SLA Metric management Register"
       name: "Name"
       searchPlaceholder: "Name"
+      selectMetricCalcType: "Select CalculationType"
+      selectMetricGroup: "Select Metric group"
+      selectMetricType: "Select Metric type"
+      selectMetricUnit: "Select Metric unit"
       type: "Type"
       unit: "Unit"
     msg:
       duplicateName: "There are duplicate group names."
-      editDescription: " Register, modify, or delete the contents of SLA metric management."
+      editDescription: "Register, modify, or delete the contents of SLA metric management."
+      enterMetricName: "Enter a metric name."
 
 # statistic
 statistic:

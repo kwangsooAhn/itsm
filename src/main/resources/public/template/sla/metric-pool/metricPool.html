@@ -35,8 +35,8 @@
                     <div class="flex-row">
                         <div class="flex-column col-9">
                             <select id="metricGroupName" th:classappend="${view} ? 'readonly' : ''">
-                                <option th:each="metric: ${metricGroupList}" th:selected="${metric.metricGroupName} == ${metricGroupName}"
-                                        th:text="${metric.metricGroupName}" th:value="${metric.metricGroupId}"></option>
+                                <option value="" th:text="#{sla.metric.label.selectMetricGroup}" selected></option>
+                                <option th:each="metric: ${metricGroupList}" th:text="${metric.metricGroupName}" th:value="${metric.metricGroupId}"></option>
                             </select>
                         </div>
                         <div class="flex-column col-1">
@@ -51,8 +51,8 @@
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.type}"></span>
                     </label>
                     <select id="metricType" th:classappend="${view} ? 'readonly' : ''">
-                        <option th:each="metric: ${metricTypeList}" th:selected="${metric.codeValue} == ${metricType}"
-                                th:text="${metric.codeName}" th:value="${metric.code}"></option>
+                        <option value="" th:text="#{sla.metric.label.selectMetricType}" selected></option>
+                        <option th:each="metric: ${metricTypeList}" th:text="${metric.codeName}" th:value="${metric.code}"></option>
                     </select>
                 </div>
                 <div class="flex-column col-2 pl-2">
@@ -60,8 +60,8 @@
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.unit}"></span>
                     </label>
                     <select id="metricUnit" th:classappend="${view} ? 'readonly' : ''">
-                        <option th:each="metric: ${metricUnitList}" th:selected="${metric.codeValue} == ${metricUnit}"
-                                th:text="${metric.codeName}" th:value="${metric.code}"></option>
+                        <option value="" th:text="#{sla.metric.label.selectMetricUnit}" selected></option>
+                        <option th:each="metric: ${metricUnitList}" th:text="${metric.codeName}" th:value="${metric.code}"></option>
                     </select>
                 </div>
                 <div class="flex-column col-2 pl-2">
@@ -69,8 +69,8 @@
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.calculationType}"></span>
                     </label>
                     <select id="calculationType" th:classappend="${view} ? 'readonly' : ''">
-                        <option th:each="metric: ${metricCalcTypeList}" th:selected="${metric.codeValue} == ${calculationType}"
-                                th:text="${metric.codeName}" th:value="${metric.code}"></option>
+                        <option value="" th:text="#{sla.metric.label.selectMetricCalcType}" selected></option>
+                        <option th:each="metric: ${metricCalcTypeList}" th:text="${metric.codeName}" th:value="${metric.code}"></option>
                     </select>
                 </div>
             </div>
@@ -97,9 +97,18 @@
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     window.onload = function() {
+        document.getElementById('metricName').focus();
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
     }
 
     function saveSLA(method) {
+        if (isEmpty('metricName', 'sla.metric.msg.enterMetricName')) return false;
+        if (isEmpty('metricDesc', 'common.msg.enterContents')) return false;
+        if (isEmpty('metricGroupName', 'common.msg.requiredSelect')) return false;
+        if (isEmpty('metricType', 'common.msg.requiredSelect')) return false;
+        if (isEmpty('metricUnit', 'common.msg.requiredSelect')) return false;
+        if (isEmpty('calculationType', 'common.msg.requiredSelect')) return false;
+
         let data = {
             metricId: '',
             metricName: document.getElementById('metricName').value,
