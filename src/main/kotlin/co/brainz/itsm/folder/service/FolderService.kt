@@ -75,7 +75,7 @@ class FolderService(
             relatedInstance.tokenId?.let { tokenIds.add(it) }
             val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
             if (tokenIds.isNotEmpty()) {
-                tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
+                tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds, componentTypeForTopicDisplay))
             }
             val topics = mutableListOf<String>()
             tokenDataList.forEach { tokenData ->

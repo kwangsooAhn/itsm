@@ -83,7 +83,28 @@ class WfInstanceRepositoryImpl(
         tokenStatus: List<String>?,
         tokenSearchCondition: TokenSearchCondition
     ): PagingReturnDto {
+        val query = getInstancesQuery(tokenSearchCondition.tagArray)
+            .where(todoInstanceSearchByBuilder(status, tokenStatus, tokenSearchCondition))
+        this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
+        }
 
+        val count = findInstanceCount(tokenSearchCondition.tagArray)
+            .where(todoInstanceSearchByBuilder(status, tokenStatus, tokenSearchCondition))
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = count.fetchOne()
+        )
+    }
+
+    private fun todoInstanceSearchByBuilder(
+        status: List<String>?,
+        tokenStatus: List<String>?,
+        tokenSearchCondition: TokenSearchCondition
+    ): BooleanBuilder {
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
         val startDtSubToken = QWfTokenEntity.wfTokenEntity
@@ -176,21 +197,7 @@ class WfInstanceRepositoryImpl(
             token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
                 .or(token.tokenAction.isNull)
         )
-        val query = getInstancesQuery(tokenSearchCondition.tagArray)
-            .where(builder)
-        this.orderSpecifier(tokenSearchCondition, query)
-        if (tokenSearchCondition.isPaging) {
-            query.limit(tokenSearchCondition.contentNumPerPage)
-            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
-        }
-
-        val countQuery = countQuery(tokenSearchCondition.tagArray)
-            .where(builder)
-
-        return PagingReturnDto(
-            dataList = query.fetch(),
-            totalCount = countQuery.fetchOne()
-        )
+        return builder
     }
 
     /**
@@ -269,12 +276,12 @@ class WfInstanceRepositoryImpl(
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
 
-        val countQuery = countQuery(tokenSearchCondition.tagArray)
+        val count = findInstanceCount(tokenSearchCondition.tagArray)
             .where(builder)
 
         return PagingReturnDto(
             dataList = query.fetch(),
-            totalCount = countQuery.fetchOne()
+            totalCount = count.fetchOne()
         )
     }
 
@@ -335,12 +342,12 @@ class WfInstanceRepositoryImpl(
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
 
-        val countQuery = countQuery(tokenSearchCondition.tagArray)
+        val count = findInstanceCount(tokenSearchCondition.tagArray)
             .where(builder)
 
         return PagingReturnDto(
             dataList = query.fetch(),
-            totalCount = countQuery.fetchOne()
+            totalCount = count.fetchOne()
         )
     }
 
@@ -670,8 +677,8 @@ class WfInstanceRepositoryImpl(
     /**
      *  검색 문서 카운트 함수 생성
      */
-    private fun countQuery(tags: List<String>): JPQLQuery<Long> {
-        val countQuery = from(token)
+    private fun findInstanceCount(tags: List<String>): JPQLQuery<Long> {
+        val count = from(token)
             .select(token.count())
             .innerJoin(instance).on(token.instance.eq(instance))
             .fetchJoin()
@@ -682,7 +689,7 @@ class WfInstanceRepositoryImpl(
             .leftJoin(code).on(document.documentGroup.eq(code.code))
             .fetchJoin()
         if (tags.isNotEmpty()) {
-            countQuery.where(
+            count.where(
                 instance.instanceId.`in`(
                     JPAExpressions
                         .select(tag.targetId)
@@ -696,6 +703,16 @@ class WfInstanceRepositoryImpl(
                 .fetchJoin()
         }
 
-        return countQuery
+        return count
+    }
+
+
+    override fun findTodoInstanceCount(
+        status: List<String>?,
+        tokenStatus: List<String>?,
+        tokenSearchCondition: TokenSearchCondition
+    ): Long {
+        return findInstanceCount(tokenSearchCondition.tagArray)
+            .where(todoInstanceSearchByBuilder(status, tokenStatus, tokenSearchCondition)).fetchOne()
     }
 }
