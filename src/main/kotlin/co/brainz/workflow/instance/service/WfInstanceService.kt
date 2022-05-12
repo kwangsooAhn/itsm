@@ -138,7 +138,12 @@ class WfInstanceService(
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
-            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds, WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()))
+            tokenDataList.addAll(
+                wfTokenDataRepository.findTokenDataByTokenIds(
+                    tokenIds,
+                    WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+                )
+            )
         }
 
         // tags
@@ -404,7 +409,12 @@ class WfInstanceService(
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
-            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds, WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()))
+            tokenDataList.addAll(
+                wfTokenDataRepository.findTokenDataByTokenIds(
+                    tokenIds,
+                    WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+                )
+            )
         }
         val topics = mutableListOf<String>()
         for (instance in instanceList) {
