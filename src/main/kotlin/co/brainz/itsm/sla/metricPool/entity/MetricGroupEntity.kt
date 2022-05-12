@@ -19,13 +19,13 @@ import org.hibernate.annotations.GenericGenerator
 data class MetricGroupEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "metric_group_id")
+    @Column(name = "metric_group_id", length = 128)
     var metricGroupId: String = "",
 
     @Column(name = "metric_group_name")
     var metricGroupName: String = "",
 
-    @Column(name = "create_user_key")
+    @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
