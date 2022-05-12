@@ -7,6 +7,7 @@ package co.brainz.itsm.sla.metricManual.dto
 
 import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -19,13 +20,13 @@ import java.time.format.DateTimeFormatter
  */
 data class MetricManualSearchCondition(
     val searchValue: String? = "",
-    val fromDt: LocalDateTime? = LocalDateTime.parse(
-        LocalDateTime.of(LocalDateTime.now().year, 1, 1, 0, 0, 0).toString(),
-        DateTimeFormatter.ISO_DATE_TIME
+    val fromDt: LocalDate? = LocalDate.parse(
+        LocalDate.of(LocalDate.now().year, 1, 1).toString(),
+        DateTimeFormatter.ISO_DATE
     ),
-    val toDt: LocalDateTime? = LocalDateTime.parse(
-        LocalDateTime.of(LocalDateTime.now().year, 12, 1, 0, 0, 0).toString(),
-        DateTimeFormatter.ISO_DATE_TIME
+    val toDt: LocalDate? = LocalDate.parse(
+        LocalDate.of(LocalDate.now().year, 12, 1).toString(),
+        DateTimeFormatter.ISO_DATE
     ),
     val pageNum: Long = 1L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
