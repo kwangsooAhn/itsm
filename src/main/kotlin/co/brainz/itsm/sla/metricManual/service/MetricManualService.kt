@@ -11,8 +11,6 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricManual.constants.MetricManualConstants
-import co.brainz.itsm.sla.metricManual.dto.MetricLoadCondition
-import co.brainz.itsm.sla.metricManual.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualKeyDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualListReturnDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
@@ -50,28 +48,22 @@ class MetricManualService(
         )
     }
 
-    fun getMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
-        metricLoadCondition.metricType = MetricManualConstants.MetricTypeCode.MANUAL.code
-        return metricManualRepository.findMetricYearList(metricLoadCondition)
-    }
-
     fun insertMetricManual(metricManualKeyDto: MetricManualKeyDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val metricEntity = metricPoolRepository.findById(metricManualKeyDto.metricId).get()
 
-        if (!metricManualRepository.existsByMetricIdAndReferenceDt(metricManualKeyDto)) {
+        if (metricEntity.metricType == MetricManualConstants.MetricTypeCode.MANUAL.code) {
             metricManualRepository.save(
                 MetricManualEntity(
-                    metricManualId = "",
                     metric = metricEntity,
                     referenceDt = metricManualKeyDto.referenceDt,
                     metricValue = metricManualKeyDto.metricValue,
-                    userKey = "currentSessionUser.getUserKey()",
+                    userKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )
             )
         } else {
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
         return ZResponse(
             status = status.code
