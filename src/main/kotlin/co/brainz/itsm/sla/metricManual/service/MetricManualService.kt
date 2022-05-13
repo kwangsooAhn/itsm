@@ -11,7 +11,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricManual.constants.MetricManualConstants
-import co.brainz.itsm.sla.metricManual.dto.MetricManualKeyDto
+import co.brainz.itsm.sla.metricManual.dto.MetricManualDataDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualListReturnDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
@@ -48,16 +48,16 @@ class MetricManualService(
         )
     }
 
-    fun insertMetricManual(metricManualKeyDto: MetricManualKeyDto): ZResponse {
+    fun insertMetricManual(metricManualDataDto: MetricManualDataDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricEntity = metricPoolRepository.findById(metricManualKeyDto.metricId).get()
+        val metricEntity = metricPoolRepository.findById(metricManualDataDto.metricId).get()
 
         if (metricEntity.metricType == MetricManualConstants.MetricTypeCode.MANUAL.code) {
             metricManualRepository.save(
                 MetricManualEntity(
                     metric = metricEntity,
-                    referenceDt = metricManualKeyDto.referenceDt,
-                    metricValue = metricManualKeyDto.metricValue,
+                    referenceDate = metricManualDataDto.referenceDate,
+                    metricValue = metricManualDataDto.metricValue,
                     userKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )

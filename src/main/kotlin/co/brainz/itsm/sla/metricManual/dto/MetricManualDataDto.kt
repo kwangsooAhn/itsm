@@ -8,8 +8,8 @@ package co.brainz.itsm.sla.metricManual.dto
 import java.io.Serializable
 import java.time.LocalDate
 
-data class MetricManualKeyDto(
-    var metricId: String = "",
-    var referenceDt: LocalDate? = null,
-    var metricValue: Double? = null
+data class MetricManualDataDto(
+    val metricId: String = "",
+    val referenceDate: LocalDate? = null,
+    val metricValue: Double? = null
 ) : Serializable

@@ -24,20 +24,20 @@ import org.hibernate.annotations.GenericGenerator
 data class MetricManualEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "metric_manual_id")
-    var metricManualId: String = "",
+    @Column(name = "metric_manual_id", length = 128)
+    val metricManualId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "metric_id")
-    var metric: MetricEntity? = null,
+    val metric: MetricEntity,
 
     @Column(name = "reference_dt")
-    var referenceDt: LocalDate? = null,
+    var referenceDate: LocalDate? = null,
 
     @Column(name = "metric_value")
     var metricValue: Double? = null,
 
-    @Column(name = "create_user_key")
+    @Column(name = "create_user_key", length = 128)
     var userKey: String? = "",
 
     @Column(name = "create_dt")

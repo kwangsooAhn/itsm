@@ -5,15 +5,12 @@
 
 package co.brainz.itsm.sla.metricPool.entity
 
-import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.OneToMany
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
@@ -54,8 +51,4 @@ data class MetricEntity(
 
     @Column(name = "update_dt", insertable = false)
     var updateDt: LocalDateTime? = null
-) : Serializable {
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "metric")
-    val metricManualEntities: MutableList<MetricManualEntity>? = mutableListOf()
-}
+) : Serializable

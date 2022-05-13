@@ -41,7 +41,7 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
                     MetricManualDto::class.java,
                     metric.metricId,
                     metric.metricName,
-                    manual.referenceDt,
+                    manual.referenceDate,
                     manual.metricValue,
                     code.code,
                     manual.createDt,
@@ -69,8 +69,8 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
         if (manualSearchCondition.searchValue!!.isNotEmpty()) {
             builder.and(metric.metricName.`in`(manualSearchCondition.searchValue))
         }
-        builder.and(manual.referenceDt.goe(manualSearchCondition.fromDt))
-        builder.and(manual.referenceDt.lt(manualSearchCondition.toDt))
+        builder.and(manual.referenceDate.goe(manualSearchCondition.fromDt))
+        builder.and(manual.referenceDate.lt(manualSearchCondition.toDt))
         return builder
     }
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 data class MetricManualDto(
     val metricId: String = "",
     val metricName: String? = "",
-    val referenceDt: LocalDate? = null,
+    val referenceDate: LocalDate? = null,
     val metricValue: Double? = null,
     val metricUnit: String? = null,
     val createDt: LocalDateTime? = null,
