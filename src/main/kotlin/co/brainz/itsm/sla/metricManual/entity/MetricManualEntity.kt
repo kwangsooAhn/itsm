@@ -25,7 +25,7 @@ data class MetricManualEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "metric_manual_id", length = 128)
-    val metricManualId: String = "",
+    var metricManualId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "metric_id")
