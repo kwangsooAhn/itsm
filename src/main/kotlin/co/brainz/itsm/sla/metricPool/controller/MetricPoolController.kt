@@ -24,10 +24,10 @@ class MetricPoolController(
     private val codeService: CodeService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val metricPoolSearchPage: String = "sla/metric-pool/metricPoolSearch"
-    private val metricPoolListPage: String = "sla/metric-pool/metricPoolList"
-    private val metricPoolPage: String = "sla/metric-pool/metricPool"
-    private val metricPoolEditPage: String = "sla/metric-pool/metricPoolEdit"
+    private val metricPoolSearchPage: String = "sla/metricPool/metricPoolSearch"
+    private val metricPoolListPage: String = "sla/metricPool-pool/metricPoolList"
+    private val metricPoolPage: String = "sla/metricPool/metricPool"
+    private val metricPoolEditPage: String = "sla/metricPool/metricPoolEdit"
 
     /**
      * SLA 지표 관리 - 검색 화면 호출
