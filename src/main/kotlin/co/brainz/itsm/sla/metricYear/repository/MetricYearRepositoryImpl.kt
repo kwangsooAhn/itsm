@@ -9,7 +9,7 @@ package co.brainz.itsm.sla.metricYear.repository
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
@@ -39,7 +39,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         )
     }
 
-    private fun getMetrics(metricYearSearchCondition: MetricYearSearchCondition): JPQLQuery<MetricYearDto> {
+    private fun getMetrics(metricYearSearchCondition: MetricYearSearchCondition): JPQLQuery<MetricYearDataDto> {
         val metricPool = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val code = QCodeEntity.codeEntity
@@ -47,7 +47,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         val query = from(metricPool)
             .select(
                 Projections.constructor(
-                    MetricYearDto::class.java,
+                    MetricYearDataDto::class.java,
                     metricPool.metricId,
                     code.codeName.`as`("metricGroupName"),
                     metricPool.metricName,

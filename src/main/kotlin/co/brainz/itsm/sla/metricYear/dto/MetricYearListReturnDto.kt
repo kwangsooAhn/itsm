@@ -10,6 +10,6 @@ import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
 data class MetricYearListReturnDto(
-    val data: List<MetricYearDto> = emptyList(),
+    val data: List<MetricYearDataDto> = emptyList(),
     val paging: AlicePagingData
 ) : Serializable

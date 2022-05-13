@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricYear.dto
 
 import java.io.Serializable
 
-data class MetricYearDto(
+data class MetricYearDataDto(
     var metricId: String = "",
     var metricGroupName: String = "",
     var metricName: String = "",
