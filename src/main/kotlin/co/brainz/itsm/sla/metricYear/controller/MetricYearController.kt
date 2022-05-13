@@ -22,6 +22,7 @@ class MetricYearController(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val metricYearSearchPage: String = "sla/metricYearly/yearSearch"
     private val metricYearListPage: String = "sla/metricYearly/yearList"
+    private val metricYearPage: String = "sla/metricYearly/year"
 
     /**
      * 연도별 SLA 지표 관리 - 검색 화면 호출
@@ -40,5 +41,13 @@ class MetricYearController(
         model.addAttribute("metricYearsList", result.data)
         model.addAttribute("paging", result.paging)
         return metricYearListPage
+    }
+
+    /**
+     * 연도별 SLA 지표 관리 - 신규 등록 화면 호출
+     */
+    @GetMapping("/new")
+    fun getMetricPools(): String {
+        return metricYearPage
     }
 }

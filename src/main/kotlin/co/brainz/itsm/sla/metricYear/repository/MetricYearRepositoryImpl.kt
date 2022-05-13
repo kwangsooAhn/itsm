@@ -86,4 +86,14 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         )
         return builder
     }
+
+    override fun existsByMetricAndMetricYear(metricId: String, metricYear: String): Boolean {
+        val metricYears = QMetricYearEntity.metricYearEntity
+        return from(metricYears)
+            .where(
+                metricYears.metric.metricId.eq(metricId)
+                    .and(metricYears.metricYear.eq(metricYear))
+            )
+            .fetchFirst() != null
+    }
 }

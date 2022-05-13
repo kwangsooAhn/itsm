@@ -15,4 +15,6 @@ interface MetricYearRepositoryCustom : AliceRepositoryCustom {
     fun existsByMetric(metricId: String): Boolean
 
     fun findMetrics(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto
+
+    fun existsByMetricAndMetricYear(metricId: String, metricYear: String): Boolean
 }
