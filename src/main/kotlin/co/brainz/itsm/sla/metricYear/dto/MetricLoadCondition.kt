@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricYear.dto
 import java.io.Serializable
 
 data class MetricLoadCondition(
-    var sourceYear: String = "",
-    var targetYear: String? = "",
-    var metricType: String? = ""
+    var source: String = "",
+    var target: String? = "",
+    var type: String? = ""
 ) : Serializable

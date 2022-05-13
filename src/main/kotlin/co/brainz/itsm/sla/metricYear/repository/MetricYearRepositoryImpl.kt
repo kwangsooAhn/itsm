@@ -53,13 +53,13 @@ class MetricYearRepositoryImpl(
             .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
             .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
             .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
-            .where(metricYear.metricYear.`in`(metricLoadCondition.sourceYear))
+            .where(metricYear.metricYear.`in`(metricLoadCondition.source))
 
-        if (metricLoadCondition.targetYear!!.isNotEmpty()) {
-            query.where(metricYear.metricYear.notIn(metricLoadCondition.targetYear))
+        if (metricLoadCondition.target!!.isNotEmpty()) {
+            query.where(metricYear.metricYear.notIn(metricLoadCondition.target))
         }
-        if (metricLoadCondition.metricType!!.isNotEmpty()) {
-            query.where(metric.metricType.`in`(metricLoadCondition.metricType))
+        if (metricLoadCondition.type!!.isNotEmpty()) {
+            query.where(metric.metricType.`in`(metricLoadCondition.type))
         }
 
         return query.fetch()
