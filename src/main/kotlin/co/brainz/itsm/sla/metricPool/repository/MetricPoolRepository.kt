@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.sla.metricPool.repository
 
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
@@ -9,4 +14,5 @@ interface MetricPoolRepository : JpaRepository<MetricEntity, String>, MetricPool
 
     fun existsByMetricName(metricName: String): Boolean
 
+    fun findByMetricId(metricName: String): MetricEntity
 }
