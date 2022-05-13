@@ -43,7 +43,7 @@ data class MetricYearEntity(
     var owner: String? = null,
 
     @Column(name = "comment")
-    var note: String? = null,
+    var comment: String? = null,
 
     @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,

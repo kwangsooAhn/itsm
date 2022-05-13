@@ -9,8 +9,8 @@ package co.brainz.itsm.sla.metricYear.repository
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
-import co.brainz.itsm.sla.metricYear.dto.MetricSearchCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
 import com.querydsl.core.BooleanBuilder
@@ -30,9 +30,9 @@ class MetricYearRepositoryImpl(
             .fetchFirst() != null
     }
 
-    override fun findMetrics(metricSearchCondition: MetricSearchCondition): PagingReturnDto {
-        val content = this.getMetrics(metricSearchCondition)
-        val count = this.getMetricsCount(metricSearchCondition)
+    override fun findMetrics(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto {
+        val content = this.getMetrics(metricYearSearchCondition)
+        val count = this.getMetricsCount(metricYearSearchCondition)
 
         return PagingReturnDto(
             dataList = content.fetch(),
@@ -40,7 +40,7 @@ class MetricYearRepositoryImpl(
         )
     }
 
-    private fun getMetrics(metricSearchCondition: MetricSearchCondition): JPQLQuery<MetricYearDto> {
+    private fun getMetrics(metricYearSearchCondition: MetricYearSearchCondition): JPQLQuery<MetricYearDto> {
         val metricPool = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val code = QCodeEntity.codeEntity
@@ -49,34 +49,41 @@ class MetricYearRepositoryImpl(
             .select(
                 Projections.constructor(
                     MetricYearDto::class.java,
-                    metricPool.metricId
-
+                    metricPool.metricId,
+                    code.codeName.`as`("metricGroupName"),
+                    metricPool.metricName,
+                    metricYear.minValue,
+                    metricYear.maxValue,
+                    metricYear.weightValue,
+                    metricYear.owner,
+                    metricYear.comment
                 )
             )
             .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
             .leftJoin(code).on(metricPool.metricGroup.eq(code.code))
-            .where(builder(metricSearchCondition, metricYear))
+            .where(builder(metricYearSearchCondition, metricYear))
             .orderBy(metricYear.createDt.desc())
 
-        if (metricSearchCondition.isPaging) {
-            query.limit(metricSearchCondition.contentNumPerPage)
-            query.offset((metricSearchCondition.pageNum - 1) * metricSearchCondition.contentNumPerPage)
+        if (metricYearSearchCondition.isPaging) {
+            query.limit(metricYearSearchCondition.contentNumPerPage)
+            query.offset((metricYearSearchCondition.pageNum - 1) * metricYearSearchCondition.contentNumPerPage)
         }
         return query
     }
 
-    private fun getMetricsCount(metricSearchCondition: MetricSearchCondition): JPQLQuery<Long> {
+    private fun getMetricsCount(metricYearSearchCondition: MetricYearSearchCondition): JPQLQuery<Long> {
         val metricPool = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         return from(metricPool)
             .select(metricPool.count())
-            .where(builder(metricSearchCondition, metricYear))
+            .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
+            .where(builder(metricYearSearchCondition, metricYear))
     }
 
-    private fun builder(metricSearchCondition: MetricSearchCondition, metricYear: QMetricYearEntity): BooleanBuilder {
+    private fun builder(metricYearSearchCondition: MetricYearSearchCondition, metricYear: QMetricYearEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
-            super.likeIgnoreCase(metricYear.metricYear, metricSearchCondition.year)
+            super.likeIgnoreCase(metricYear.metricYear, metricYearSearchCondition.year)
         )
         return builder
     }

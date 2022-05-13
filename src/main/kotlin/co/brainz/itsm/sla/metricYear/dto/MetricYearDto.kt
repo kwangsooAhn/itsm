@@ -12,9 +12,9 @@ data class MetricYearDto(
     var metricId: String = "",
     var metricGroupName: String = "",
     var metricName: String = "",
-    var minValue: String? = null,
-    var maxValue: String? = null,
-    var weightValue: String? = null,
+    var minValue: Double? = null,
+    var maxValue: Double? = null,
+    var weightValue: Double? = null,
     var owner: String? = null,
     var comment: String? = null
 ) : Serializable

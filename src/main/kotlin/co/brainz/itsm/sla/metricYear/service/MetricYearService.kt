@@ -7,9 +7,9 @@ package co.brainz.itsm.sla.metricYear.service
 
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
-import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
-import co.brainz.itsm.sla.metricYear.dto.MetricSearchCondition
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -29,16 +29,16 @@ class MetricYearService(
     /**
      * 연도별 SLA 지표 목록 조회
      */
-    fun getMetrics(metricSearchCondition: MetricSearchCondition): MetricPoolListReturnDto {
-        val pagingResult = metricYearRepository.findMetrics(metricSearchCondition)
+    fun getMetrics(metricYearSearchCondition: MetricYearSearchCondition): MetricYearListReturnDto {
+        val pagingResult = metricYearRepository.findMetrics(metricYearSearchCondition)
 
-        return MetricPoolListReturnDto(
+        return MetricYearListReturnDto(
             data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = metricYearRepository.count(),
-                currentPageNum = metricSearchCondition.pageNum,
-                totalPageNum = ceil(pagingResult.totalCount.toDouble() / metricSearchCondition.contentNumPerPage.toDouble()).toLong(),
+                currentPageNum = metricYearSearchCondition.pageNum,
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / metricYearSearchCondition.contentNumPerPage.toDouble()).toLong(),
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )

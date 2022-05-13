@@ -14,7 +14,7 @@ import java.io.Serializable
  * @param pageNum : 검색 결과 중에서 요청받은 페이지
  * @param contentNumPerPage : 페이지당 출력되는 건수
  */
-data class MetricSearchCondition(
+data class MetricYearSearchCondition(
     val year: String? = null,
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
