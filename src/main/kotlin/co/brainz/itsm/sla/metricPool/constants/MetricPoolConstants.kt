@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.sla.metricPool.constants
 
 object MetricPoolConstants {
@@ -16,5 +21,10 @@ object MetricPoolConstants {
      * metric calculation type p_code
      */
     const val METRIC_CALCULATION_TYPE_P_CODE = "sla.calculationType"
+
+    /**
+     * metric group p_code
+     */
+    const val METRIC_GROUP_P_CODE = "sla.metricGroup"
 
 }

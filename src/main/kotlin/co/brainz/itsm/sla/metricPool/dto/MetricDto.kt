@@ -12,7 +12,7 @@ data class MetricDto(
     var metricId: String = "",
     var metricName: String = "",
     var metricDesc: String? = null,
-    var metricGroupId: String = "",
+    var metricGroup: String? = null,
     var metricType: String? = null,
     var metricUnit: String? = null,
     var calculationType: String? = null
