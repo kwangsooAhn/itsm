@@ -18,6 +18,7 @@
             <option value="token.type.requested" th:text="#{token.type.requested}"></option>
             <option value="token.type.progress" th:text="#{token.type.progress}"></option>
             <option value="token.type.completed" th:text="#{token.type.completed}"></option>
+            <option value="token.type.stored" th:text="#{token.type.stored}"></option>
         </select>
         <select class="col-3" name="searchDocumentId" id="searchDocumentId">
             <option value="" th:text="#{token.label.all}" selected="selected"></option>
@@ -156,7 +157,7 @@
         const tokenType = tokenTypeSelectBox.options[tokenTypeSelectBox.selectedIndex].value;
         let popUpUrl = '/tokens/' + tokenId + '/edit';
         if (tokenType === 'token.type.completed') { // 완료된 문서
-            popUpUrl = '/tokens/' + tokenId + '/view'
+            popUpUrl = '/tokens/' + tokenId + '/view';
         }
         window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
     }

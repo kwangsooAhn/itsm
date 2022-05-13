@@ -16,6 +16,7 @@ import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.itsm.code.entity.QCodeEntity
+import co.brainz.itsm.documentStorage.entity.QDocumentStorageEntity
 import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
@@ -77,6 +78,7 @@ class WfInstanceRepositoryImpl(
     val ciComponent: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
     val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
     val code: QCodeEntity = QCodeEntity.codeEntity
+    val documentStorage: QDocumentStorageEntity = QDocumentStorageEntity.documentStorageEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -327,6 +329,59 @@ class WfInstanceRepositoryImpl(
                 )
             }
         }
+        val query = getInstancesQuery(tokenSearchCondition.tagArray)
+            .where(builder)
+        this.orderSpecifier(tokenSearchCondition, query)
+        if (tokenSearchCondition.isPaging) {
+            query.limit(tokenSearchCondition.contentNumPerPage)
+            query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
+        }
+
+        val countQuery = countQuery(tokenSearchCondition.tagArray)
+            .where(builder)
+
+        return PagingReturnDto(
+            dataList = query.fetch(),
+            totalCount = countQuery.fetchOne()
+        )
+    }
+
+    override fun findStoredInstances(tokenSearchCondition: TokenSearchCondition): PagingReturnDto {
+        val tokenSub = QWfTokenEntity("tokenSub")
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
+        val builder = getInstancesWhereCondition(
+            tokenSearchCondition.searchDocumentId,
+            tokenSearchCondition.searchValue,
+            tokenSearchCondition.searchFromDt,
+            tokenSearchCondition.searchToDt
+        )
+
+        // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
+        builder.and(
+            token.tokenId.eq(
+                JPAExpressions
+                    .select(tokenSub.tokenId.max())
+                    .from(tokenSub)
+                    .where(tokenSub.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
+            )
+        )
+
+        // 보관 문서 데이터 조건 추가
+        builder.and(
+            instance.instanceId.`in`(
+                JPAExpressions
+                    .select(documentStorage.instance.instanceId)
+                    .from(documentStorage)
+                    .where(instance.instanceId.eq(documentStorage.instance.instanceId)
+                        .and(documentStorage.user.userKey.eq(tokenSearchCondition.userKey))
+                    )
+            )
+        )
+
         val query = getInstancesQuery(tokenSearchCondition.tagArray)
             .where(builder)
         this.orderSpecifier(tokenSearchCondition, query)

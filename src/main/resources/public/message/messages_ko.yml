@@ -1432,6 +1432,7 @@ token:
     progress: "진행 중 문서"
     requested: "신청한 문서"
     todo: "처리할 문서"
+    stored: "보관한 문서"
   action:
     withdraw: "회수"
     reject: "반려"

@@ -114,6 +114,14 @@ class WfInstanceService(
                     tokenSearchCondition
                 )
             }
+            WfTokenConstants.SearchType.STORED.code -> {
+                totalCountWithoutCondition = storedInstances(
+                    countSearchCondition
+                ).totalCount
+                storedInstances(
+                    tokenSearchCondition
+                )
+            }
             else -> {
                 totalCountWithoutCondition = todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
@@ -244,6 +252,15 @@ class WfInstanceService(
         tokenSearchCondition: TokenSearchCondition
     ): PagingReturnDto =
         wfInstanceRepository.findTodoInstances(status, tokenStatus, tokenSearchCondition)
+
+    /**
+     * 보관한 문서 조회.
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun storedInstances(
+        tokenSearchCondition: TokenSearchCondition
+    ): PagingReturnDto =
+        wfInstanceRepository.findStoredInstances(tokenSearchCondition)
 
     /**
      * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
