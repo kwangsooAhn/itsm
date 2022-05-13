@@ -5,7 +5,7 @@
 
 package co.brainz.itsm.sla.metricYear.entity
 
-import co.brainz.itsm.sla.metricPool.entity.MetricEntity
+import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -24,7 +24,7 @@ data class MetricYearEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "metric_id")
-    var metric: MetricEntity,
+    var metric: MetricPoolEntity,
 
     @Id
     @Column(name = "metric_year", length = 128)

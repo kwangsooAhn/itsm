@@ -11,8 +11,8 @@ import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.dto.MetricDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
-import co.brainz.itsm.sla.metricPool.entity.MetricEntity
-import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
+import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
+import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPQLQuery
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class MetricPoolRepositoryImpl(
-) : QuerydslRepositorySupport(MetricEntity::class.java), MetricPoolRepositoryCustom {
+) : QuerydslRepositorySupport(MetricPoolEntity::class.java), MetricPoolRepositoryCustom {
 
     override fun findMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): PagingReturnDto {
         val content = this.getMetricPools(metricPoolSearchCondition)
@@ -33,7 +33,7 @@ class MetricPoolRepositoryImpl(
     }
 
     private fun getMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): JPQLQuery<MetricPoolDto> {
-        val metricPool = QMetricEntity.metricEntity
+        val metricPool = QMetricPoolEntity.metricPoolEntity
         val typeCode = QCodeEntity.codeEntity
         val unitCode = QCodeEntity("unitCode")
         val calcTypeCode = QCodeEntity("calcTypeCode")
@@ -67,14 +67,14 @@ class MetricPoolRepositoryImpl(
     }
 
     private fun getMetricPoolsCount(metricPoolSearchCondition: MetricPoolSearchCondition): JPQLQuery<Long> {
-        val metricPool = QMetricEntity.metricEntity
+        val metricPool = QMetricPoolEntity.metricPoolEntity
         return from(metricPool)
             .select(metricPool.count())
             .where(builder(metricPoolSearchCondition, metricPool))
     }
 
     override fun findMetric(metricId: String): MetricDto {
-        val metricPool = QMetricEntity.metricEntity
+        val metricPool = QMetricPoolEntity.metricPoolEntity
 
         return from(metricPool)
             .select(
@@ -93,7 +93,7 @@ class MetricPoolRepositoryImpl(
             .fetchOne()
     }
 
-    private fun builder(metricPoolSearchCondition: MetricPoolSearchCondition, metricPool: QMetricEntity): BooleanBuilder {
+    private fun builder(metricPoolSearchCondition: MetricPoolSearchCondition, metricPool: QMetricPoolEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(metricPool.metricName, metricPoolSearchCondition.searchValue)

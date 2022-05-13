@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricYear.repository
 
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
-import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
+import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricSearchCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
@@ -41,7 +41,7 @@ class MetricYearRepositoryImpl(
     }
 
     private fun getMetrics(metricSearchCondition: MetricSearchCondition): JPQLQuery<MetricYearDto> {
-        val metricPool = QMetricEntity.metricEntity
+        val metricPool = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val code = QCodeEntity.codeEntity
 
@@ -66,7 +66,7 @@ class MetricYearRepositoryImpl(
     }
 
     private fun getMetricsCount(metricSearchCondition: MetricSearchCondition): JPQLQuery<Long> {
-        val metricPool = QMetricEntity.metricEntity
+        val metricPool = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         return from(metricPool)
             .select(metricPool.count())

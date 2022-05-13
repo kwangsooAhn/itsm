@@ -13,7 +13,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.dto.MetricDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
-import co.brainz.itsm.sla.metricPool.entity.MetricEntity
+import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricPool.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -62,7 +62,7 @@ class MetricPoolService(
         val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
         if (status == ZResponseConstants.STATUS.SUCCESS) {
             metricPoolRepository.save(
-                MetricEntity(
+                MetricPoolEntity(
                     metricName = metricDto.metricName.trim(),
                     metricDesc = metricDto.metricDesc,
                     metricGroup = metricDto.metricGroup,
