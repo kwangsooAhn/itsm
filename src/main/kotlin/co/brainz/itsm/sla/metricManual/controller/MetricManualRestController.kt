@@ -39,5 +39,4 @@ class MetricManualRestController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricManualService.deleteMetricManual(metricManualId))
     }
-
 }

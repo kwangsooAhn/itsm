@@ -31,5 +31,4 @@ class MetricYearRestController(
     fun insertMetric(@RequestBody metricYearDto: MetricYearDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.createMetricYear(metricYearDto))
     }
-
 }
