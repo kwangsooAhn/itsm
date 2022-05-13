@@ -1,0 +1,20 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
+package co.brainz.itsm.sla.metricYear.dto
+
+import java.io.Serializable
+
+data class MetricYearDto(
+    var metricId: String = "",
+    var metricGroupName: String = "",
+    var metricName: String = "",
+    var minValue: String? = null,
+    var maxValue: String? = null,
+    var weightValue: String? = null,
+    var owner: String? = null,
+    var comment: String? = null
+) : Serializable

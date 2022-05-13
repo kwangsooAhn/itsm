@@ -4,11 +4,15 @@
  *
  */
 
-package co.brainz.itsm.sla.metricYear.repository
+package co.brainz.itsm.sla.metricPool.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.querydsl.dto.PagingReturnDto
+import co.brainz.itsm.sla.metricYear.dto.MetricSearchCondition
 
 interface MetricYearRepositoryCustom : AliceRepositoryCustom {
 
     fun existsByMetric(metricId: String): Boolean
+
+    fun findMetrics(metricSearchCondition: MetricSearchCondition): PagingReturnDto
 }
