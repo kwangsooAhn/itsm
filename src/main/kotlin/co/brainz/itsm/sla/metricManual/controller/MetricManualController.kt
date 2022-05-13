@@ -39,5 +39,4 @@ class MetricManualController(
         model.addAttribute("paging", result.paging)
         return metricManualList
     }
-
 }

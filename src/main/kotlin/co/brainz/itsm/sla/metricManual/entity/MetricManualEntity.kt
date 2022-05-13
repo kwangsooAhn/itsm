@@ -39,4 +39,3 @@ data class MetricManualEntity(
     @Column(name = "create_dt")
     var createDt: LocalDateTime? = null
 ) : Serializable
-

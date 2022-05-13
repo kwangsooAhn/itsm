@@ -20,8 +20,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class MetricPoolRepositoryImpl(
-) : QuerydslRepositorySupport(MetricPoolEntity::class.java), MetricPoolRepositoryCustom {
+class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::class.java), MetricPoolRepositoryCustom {
 
     override fun findMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): PagingReturnDto {
         val content = this.getMetricPools(metricPoolSearchCondition)

@@ -20,8 +20,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class MetricYearRepositoryImpl(
-) : QuerydslRepositorySupport(MetricYearEntity::class.java), MetricYearRepositoryCustom {
+class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::class.java), MetricYearRepositoryCustom {
 
     override fun existsByMetric(metricId: String): Boolean {
         val metricYear = QMetricYearEntity.metricYearEntity
