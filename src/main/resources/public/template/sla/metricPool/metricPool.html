@@ -106,7 +106,7 @@
                             class="z-button primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="delete"
-                            class="z-button danger" th:text="#{common.btn.delete}">
+                            class="z-button danger" onclick="deleteSLA()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>
@@ -171,6 +171,20 @@
                 default :
                     break;
             }
+        });
+    }
+
+    function deleteSLA() {
+        zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
+            aliceJs.fetchJson('/rest/sla/metric-pools/' + [[${metric?.metricId}]], {
+                method: 'DELETE'
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success([[#{common.msg.delete}]], function () {
+                        window.location.href = '/sla/metric-pools/search';
+                    });
+                }
+            });
         });
     }
     /* ]]> */
