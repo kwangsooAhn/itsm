@@ -1,7 +1,6 @@
 /*
- * Copyright 2022 Brainzcompany Co., Ltd.
+ * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
- *
  */
 
 package co.brainz.itsm.sla.metricPool.dto

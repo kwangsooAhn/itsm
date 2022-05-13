@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.sla.metricPool.entity
 
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
@@ -27,7 +32,7 @@ data class MetricEntity(
     var metricDesc: String? = null,
 
     @Column(name = "metric_group", length = 128)
-    var metricGroupId: String = "",
+    var metricGroup: String? = null,
 
     @Column(name = "metric_type", length = 128)
     var metricType: String? = null,

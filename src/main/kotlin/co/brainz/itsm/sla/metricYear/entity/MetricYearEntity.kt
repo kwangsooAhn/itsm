@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.sla.metricYear.entity
 
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
@@ -22,31 +27,31 @@ data class MetricYearEntity(
     var metric: MetricEntity,
 
     @Id
-    @Column(name = "metric_year")
+    @Column(name = "metric_year", length = 128)
     var metricYear: String = "",
 
     @Column(name = "min_value")
-    var minValue: String? = null,
+    var minValue: Double? = null,
 
     @Column(name = "max_value")
-    var maxValue: String? = null,
+    var maxValue: Double? = null,
 
     @Column(name = "weight_value")
-    var weightValue: String? = null,
+    var weightValue: Double? = null,
 
-    @Column(name = "owner")
+    @Column(name = "owner", length = 100)
     var owner: String? = null,
 
-    @Column(name = "note")
+    @Column(name = "comment")
     var note: String? = null,
 
-    @Column(name = "create_user_key")
+    @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,
 
-    @Column(name = "update_user_key")
+    @Column(name = "update_user_key", length = 128)
     var updateUserKey: String? = null,
 
     @Column(name = "update_dt", insertable = false)
