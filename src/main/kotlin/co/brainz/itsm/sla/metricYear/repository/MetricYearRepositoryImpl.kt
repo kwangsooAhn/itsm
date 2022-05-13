@@ -9,7 +9,6 @@ package co.brainz.itsm.sla.metricYear.repository
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
-import co.brainz.itsm.sla.metricPool.repository.MetricYearRepositoryCustom
 import co.brainz.itsm.sla.metricYear.dto.MetricSearchCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity

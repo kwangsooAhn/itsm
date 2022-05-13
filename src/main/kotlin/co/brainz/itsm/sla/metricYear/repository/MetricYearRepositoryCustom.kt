@@ -4,7 +4,7 @@
  *
  */
 
-package co.brainz.itsm.sla.metricPool.repository
+package co.brainz.itsm.sla.metricYear.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.framework.querydsl.dto.PagingReturnDto
