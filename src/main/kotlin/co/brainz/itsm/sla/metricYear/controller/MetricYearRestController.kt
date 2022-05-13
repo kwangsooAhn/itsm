@@ -25,7 +25,7 @@ class MetricYearRestController(
      */
     @GetMapping("/", "")
     fun getMetricYearList(metricLoadCondition: MetricLoadCondition): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricYearService.getMetricYearList(metricLoadCondition))
+        return ZAliceResponse.response(metricYearService.getYearSaveMetricList(metricLoadCondition))
     }
 
 }

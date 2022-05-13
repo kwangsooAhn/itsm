@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 class MetricYearService(
     private val metricYearRepository: MetricYearRepository
 ) {
-    fun getMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
+    fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
