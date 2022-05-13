@@ -32,7 +32,7 @@
                     <label for="metricGroup">
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.group}"></span>
                     </label>
-                    <select id="metricGroupName" th:classappend="${view} ? 'readonly' : ''">
+                    <select id="metricGroup" th:classappend="${view} ? 'readonly' : ''">
                         <option value="" th:text="#{sla.metric.label.selectMetricGroup}" selected></option>
                         <option th:each="metric: ${metricGroupList}" th:text="${metric.codeName}" th:value="${metric.code}"></option>
                     </select>
@@ -95,7 +95,7 @@
     function saveSLA(method) {
         if (isEmpty('metricName', 'sla.metric.msg.enterMetricName')) return false;
         if (isEmpty('metricDesc', 'common.msg.enterContents')) return false;
-        if (isEmpty('metricGroupName', 'common.msg.requiredSelect')) return false;
+        if (isEmpty('metricGroup', 'common.msg.requiredSelect')) return false;
         if (isEmpty('metricType', 'common.msg.requiredSelect')) return false;
         if (isEmpty('metricUnit', 'common.msg.requiredSelect')) return false;
         if (isEmpty('calculationType', 'common.msg.requiredSelect')) return false;
@@ -104,12 +104,12 @@
             metricId: '',
             metricName: document.getElementById('metricName').value,
             metricDesc: document.getElementById('metricDesc').value,
-            metricGroupId: document.getElementById('metricGroupName').value,
+            metricGroup: document.getElementById('metricGroup').value,
             metricType: document.getElementById('metricType').value,
             metricUnit: document.getElementById('metricUnit').value,
             calculationType: document.getElementById('calculationType').value
         }
-        let url = '/rest/sla/metric-pool';
+        let url = '/rest/sla/metric-pools';
         if (method === 'PUT') {
             url += '/' + /*[[${metric?.metricId}]]*/'';
             data.metricId = /*[[${metric?.metricId}]]*/'';
@@ -123,14 +123,21 @@
             body: JSON.stringify(data)
         }).then((response) => {
             switch (response.status) {
-                case aliceJs.response.success:
-                    const message = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.modify');
-                    zAlert.success(message, function () {
-                        window.location.href = '/sla/metric-pool/search';
+                case aliceJs.response.success: // 등록 성공
+                    zAlert.success([[#{common.msg.register}]], function () {
+                        window.location.href = '/sla/metric-pools/search';
                     });
                     break;
+                case aliceJs.response.successEdit: // 수정 성공
+                    zAlert.success([[#{common.msg.modify}]], function () {
+                        window.location.href = '/sla/metric-pools/search';
+                    });
+                    break;
+                case aliceJs.response.duplicate: // 이름 중복
+                    zAlert.warning([[#{sla.metric.msg.duplicateMetricName}]]);
+                    break;
                 case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    zAlert.danger([[#{common.msg.fail}]]);
                     break;
                 default :
                     break;

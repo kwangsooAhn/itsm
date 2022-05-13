@@ -1372,7 +1372,6 @@ sla:
       description: "description"
       group: "Group"
       groupName: "Group Name"
-      groupRegister: "Metric Group Register"
       metricPool: "SLA Metric management"
       metricPoolEdit: "SLA Metric management Edit"
       metricPoolRegister: "SLA Metric management Register"
@@ -1385,7 +1384,7 @@ sla:
       type: "Type"
       unit: "Unit"
     msg:
-      duplicateName: "There are duplicate group names."
+      duplicateMetricName: "The same metric name exists. Please check the metric name."
       editDescription: "Register, modify, or delete the contents of SLA metric management."
       enterMetricName: "Enter a metric name."
 
