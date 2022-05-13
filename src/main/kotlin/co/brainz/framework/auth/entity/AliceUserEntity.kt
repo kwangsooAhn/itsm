@@ -6,6 +6,7 @@
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.calendar.entity.CalendarEntity
 import co.brainz.itsm.user.entity.UserCustomEntity
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -15,6 +16,8 @@ import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
@@ -104,6 +107,10 @@ data class AliceUserEntity(
 
     @Column(name = "user_absence")
     var absenceYn: Boolean = false,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "calendar_id")
+    val calendar: CalendarEntity,
 
     @CreatedBy
     @Column(name = "create_user_key", nullable = false, updatable = false)
