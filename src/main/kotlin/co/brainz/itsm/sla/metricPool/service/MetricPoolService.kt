@@ -11,13 +11,11 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.dto.MetricDto
-import co.brainz.itsm.sla.metricPool.dto.MetricGroupDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.entity.MetricEntity
-import co.brainz.itsm.sla.metricPool.entity.MetricGroupEntity
-import co.brainz.itsm.sla.metricPool.repository.MetricGroupRepository
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -32,14 +30,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MetricPoolService(
     private val metricPoolRepository: MetricPoolRepository,
-    private val metricGroupRepository: MetricGroupRepository,
+    private val metricYearRepository: MetricYearRepository,
     private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
-     * SLA 지표 목록 조회
+     * 지표 전체 목록 조회
      */
     fun getMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): MetricPoolListReturnDto {
         val pagingResult = metricPoolRepository.findMetricPools(metricPoolSearchCondition)
@@ -57,37 +55,17 @@ class MetricPoolService(
     }
 
     /**
-     * SLA 지표 그룹 목록 조회
-     */
-    fun getMetricGroups(): MutableList<HashMap<String, String>> {
-        val mapList: MutableList<HashMap<String, String>> = mutableListOf()
-        val metricGroupList = metricGroupRepository.findAll()
-
-        metricGroupList.forEach { metricGroup ->
-            val map = HashMap<String, String>()
-            map["metricGroupId"] = metricGroup.metricGroupId
-            map["metricGroupName"] = metricGroup.metricGroupName
-            mapList.add(map)
-        }
-        return mapList
-    }
-
-    /**
-     * SLA 지표 신규 등록
+     * 지표 신규 등록
      */
     @Transactional
     fun createMetric(metricDto: MetricDto): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
-
-        // 지표 이름 충복 체크
-        if (metricPoolRepository.existsByMetricName(metricDto.metricName.trim())) {
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
-        } else {
+        val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             metricPoolRepository.save(
                 MetricEntity(
                     metricName = metricDto.metricName.trim(),
                     metricDesc = metricDto.metricDesc,
-                    metricGroupId = metricDto.metricGroupId,
+                    metricGroup = metricDto.metricGroup,
                     metricType = metricDto.metricType,
                     metricUnit = metricDto.metricUnit,
                     calculationType = metricDto.calculationType,
@@ -102,26 +80,70 @@ class MetricPoolService(
     }
 
     /**
-     * SLA 지표 그룹 신규 등록
+     * 지표 세부 정보 조회
+     */
+    fun getMetricDetail(metricId: String): MetricDto {
+        return metricPoolRepository.findMetric(metricId)
+    }
+
+    /**
+     * 지표 편집
      */
     @Transactional
-    fun createMetricGroup(metricGroupDto: MetricGroupDto): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
+    fun updateMetric(metricId: String, metricDto: MetricDto): ZResponse {
+        val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            val metricEntity = metricPoolRepository.findByMetricId(metricId)
+            metricEntity.metricName = metricDto.metricName
+            metricEntity.metricDesc = metricDto.metricDesc
+            metricEntity.metricGroup = metricDto.metricGroup
+            metricEntity.updateUserKey = currentSessionUser.getUserKey()
+            metricEntity.updateDt = LocalDateTime.now()
 
-        // 지표 그룹 이름 충복 체크
-        if (metricGroupRepository.existsByMetricGroupName(metricGroupDto.metricGroupName.trim())) {
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
-        } else {
-            metricGroupRepository.save(
-                MetricGroupEntity(
-                    metricGroupName = metricGroupDto.metricGroupName.trim(),
-                    createUserKey = currentSessionUser.getUserKey(),
-                    createDt = LocalDateTime.now()
-                )
-            )
+            metricPoolRepository.save(metricEntity)
         }
         return ZResponse(
             status = status.code
         )
+    }
+
+    /**
+     * 지표 삭제
+     */
+    @Transactional
+    fun deleteMetric(metricId: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        // 연도별 지표에 존재하는지 체크
+        if (metricYearRepository.existsByMetric(metricId)) {
+            status = ZResponseConstants.STATUS.ERROR_EXIST
+        } else {
+            metricPoolRepository.deleteById(metricId)
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * 지표 등록/편집 시 지표 이름 중복 체크
+     */
+    @Transactional
+    fun checkMetricName(metricId: String, metricName: String): ZResponseConstants.STATUS {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
+        if (metricId.isEmpty()) {
+            if (metricPoolRepository.existsByMetricName(metricName)) {
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            }
+        } else {
+            val metricEntity = metricPoolRepository.getOne(metricId)
+            val isExistsMetricName = metricEntity.metricName == metricName
+            if (!isExistsMetricName) {
+                if (metricPoolRepository.existsByMetricName(metricName)) {
+                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                }
+            }
+        }
+        return status
     }
 }

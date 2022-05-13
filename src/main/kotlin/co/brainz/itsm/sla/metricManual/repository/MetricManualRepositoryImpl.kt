@@ -38,7 +38,7 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
                     metric.metricName,
                     manual.referenceDt,
                     manual.metricValue,
-                    code.codeName,
+                    code.code,
                     manual.createDt,
                     user.userName
                 )

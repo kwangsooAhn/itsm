@@ -7,14 +7,15 @@
 package co.brainz.itsm.sla.metricManual.dto
 
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class MetricManualDto(
     val metricId: String = "",
     val metricName: String? = null,
-    val referenceDt: LocalDateTime? = null,
+    val referenceDt: LocalDate? = null,
     val metricValue: Double? = null,
-    val metricUnitName: String? = null,
+    val metricUnit: String? = null,
     val createDt: LocalDateTime? = null,
     val createUserName: String? = null
 ) : Serializable
