@@ -27,7 +27,7 @@ class MetricYearRepositoryImpl(
             .fetchFirst() != null
     }
 
-    override fun findMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
+    override fun findMetricListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         val metric = QMetricEntity.metricEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val typeCode = QCodeEntity.codeEntity
@@ -54,6 +54,7 @@ class MetricYearRepositoryImpl(
             .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
             .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
             .where(metricYear.metricYear.`in`(metricLoadCondition.sourceYear))
+
         if (metricLoadCondition.targetYear!!.isNotEmpty()) {
             query.where(metricYear.metricYear.notIn(metricLoadCondition.targetYear))
         }

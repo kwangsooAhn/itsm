@@ -14,5 +14,5 @@ interface MetricYearRepositoryCustom : AliceRepositoryCustom {
 
     fun existsByMetric(metricId: String): Boolean
 
-    fun findMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto>
+    fun findMetricListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto>
 }

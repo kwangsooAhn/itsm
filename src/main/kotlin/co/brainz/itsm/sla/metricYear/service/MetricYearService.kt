@@ -15,7 +15,7 @@ class MetricYearService(
     private val metricYearRepository: MetricYearRepository
 ) {
     fun getMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
-        return metricYearRepository.findMetricYearList(metricLoadCondition)
+        return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
 }
