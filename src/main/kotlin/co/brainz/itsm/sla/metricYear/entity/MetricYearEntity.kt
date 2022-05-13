@@ -24,7 +24,7 @@ data class MetricYearEntity(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "metric_id")
-    var metric: MetricPoolEntity,
+    val metric: MetricEntity,
 
     @Id
     @Column(name = "metric_year", length = 128)
