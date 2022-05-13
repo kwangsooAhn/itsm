@@ -1370,6 +1370,10 @@ scheduler:
 
 # sla
 sla:
+  calculationType:
+    average: "평균"
+    rate: "비율"
+    total: "합산"
   metric:
     label:
       description: "설명"
@@ -1390,6 +1394,13 @@ sla:
       duplicateMetricName: "동일한 지표 이름이 존재합니다.<br>지표 이름을 확인해주세요."
       editDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
       enterMetricName: "지표 이름을 입력하세요."
+  metricType:
+    auto: "자동"
+    manual: "수동"
+  metricUnit:
+    percent: "%"
+    score: "점"
+    time: "시간"
 
 # statistic
 statistic:

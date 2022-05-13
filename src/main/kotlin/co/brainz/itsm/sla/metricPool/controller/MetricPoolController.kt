@@ -25,9 +25,8 @@ class MetricPoolController(
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val metricPoolSearchPage: String = "sla/metricPool/metricPoolSearch"
-    private val metricPoolListPage: String = "sla/metricPool-pool/metricPoolList"
+    private val metricPoolListPage: String = "sla/metricPool/metricPoolList"
     private val metricPoolPage: String = "sla/metricPool/metricPool"
-    private val metricPoolEditPage: String = "sla/metricPool/metricPoolEdit"
 
     /**
      * SLA 지표 관리 - 검색 화면 호출
@@ -60,6 +59,8 @@ class MetricPoolController(
             "metricCalcTypeList",
             codeService.selectCodeByParent(MetricPoolConstants.METRIC_CALCULATION_TYPE_P_CODE)
         )
+        model.addAttribute("edit", false)
+        model.addAttribute("view", false)
         return metricPoolPage
     }
 
@@ -70,8 +71,9 @@ class MetricPoolController(
     fun getMetricEdit(@PathVariable metricId: String, model: Model): String {
         model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_GROUP_P_CODE))
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
+        model.addAttribute("edit", true)
         model.addAttribute("view", false)
-        return metricPoolEditPage
+        return metricPoolPage
     }
 
     /**
@@ -80,7 +82,8 @@ class MetricPoolController(
     @GetMapping("/{metricId}/view")
     fun getMetricView(@PathVariable metricId: String, model: Model): String {
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
+        model.addAttribute("edit", false)
         model.addAttribute("view", true)
-        return metricPoolEditPage
+        return metricPoolPage
     }
 }

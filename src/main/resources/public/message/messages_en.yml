@@ -1367,6 +1367,10 @@ scheduler:
 
 # sla
 sla:
+  calculationType:
+    average: "average"
+    rate: "rate"
+    total: "total"
   metric:
     label:
       description: "description"
@@ -1387,6 +1391,13 @@ sla:
       duplicateMetricName: "The same metric name exists. Please check the metric name."
       editDescription: "Register, modify, or delete the contents of SLA metric management."
       enterMetricName: "Enter a metric name."
+  metricType:
+    auto: "auto"
+    manual: "manual"
+  metricUnit:
+    percent: "%"
+    score: "score"
+    time: "time"
 
 # statistic
 statistic:
