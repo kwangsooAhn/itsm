@@ -7,10 +7,9 @@
 package co.brainz.itsm.sla.metricYear.repository
 
 import co.brainz.itsm.code.entity.QCodeEntity
+import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
-import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
-import co.brainz.itsm.sla.metricPool.entity.QMetricGroupEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
 import com.querydsl.core.types.Projections
@@ -26,12 +25,16 @@ class MetricYearRepositoryImpl(
         return from(metricYear)
             .where(metricYear.metric.metricId.eq(metricId))
             .fetchFirst() != null
+    }
 
     override fun findMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         val metric = QMetricEntity.metricEntity
         val metricYear = QMetricYearEntity.metricYearEntity
-        val metricGroup = QMetricGroupEntity.metricGroupEntity
-        val code = QCodeEntity.codeEntity
+        val typeCode = QCodeEntity.codeEntity
+        val unitCode = QCodeEntity("unitCode")
+        val calcTypeCode = QCodeEntity("calcTypeCode")
+        val groupCode = QCodeEntity("groupCode")
+
         val query = from(metric)
             .select(
                 Projections.constructor(
@@ -39,20 +42,20 @@ class MetricYearRepositoryImpl(
                     metric.metricId,
                     metricYear.metricYear,
                     metric.metricName,
-                    metricGroup.metricGroupName,
-                    code.codeName,
-                    code.codeName,
-                    code.codeName
+                    groupCode.codeName,
+                    typeCode.code,
+                    unitCode.code,
+                    calcTypeCode.code
                 )
             )
             .leftJoin(metricYear).on(metric.metricId.eq(metricYear.metric.metricId))
-            .leftJoin(metricGroup).on(metric.metricGroupId.eq(metricGroup.metricGroupId))
-            .leftJoin(code).on(metric.metricUnit.eq(code.code))
-            .leftJoin(code).on(metric.metricType.eq(code.code))
-            .leftJoin(code).on(metric.calculationType.eq(code.code))
-            .where(metricYear.metricYear.`in`(metricLoadCondition.targetYear))
-        if (metricLoadCondition.sourceYear != null) {
-            query.where(metricYear.metricYear.notIn(metricLoadCondition.sourceYear))
+            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
+            .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
+            .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
+            .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
+            .where(metricYear.metricYear.`in`(metricLoadCondition.sourceYear))
+        if (metricLoadCondition.targetYear!!.isNotEmpty()) {
+            query.where(metricYear.metricYear.notIn(metricLoadCondition.targetYear))
         }
         if (metricLoadCondition.metricType!!.isNotEmpty()) {
             query.where(metric.metricType.`in`(metricLoadCondition.metricType))

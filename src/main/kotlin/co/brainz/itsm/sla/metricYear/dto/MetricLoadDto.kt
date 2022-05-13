@@ -7,7 +7,7 @@ data class MetricLoadDto(
     var metricYear: String = "",
     var metricName: String? = "",
     var metricGroupName: String? = "",
-    var metricTypeName: String? = "",
-    var metricUnitName: String? = "",
-    var metricCalculationTypeName: String? = ""
+    var metricType: String? = "",
+    var metricUnit: String? = "",
+    var metricCalculationType: String? = ""
 ) : Serializable
