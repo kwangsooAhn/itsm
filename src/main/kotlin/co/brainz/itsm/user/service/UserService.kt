@@ -761,7 +761,7 @@ class UserService(
         var code = ZResponseConstants.STATUS.SUCCESS.code
         if (userKey != currentSessionUser.getUserKey()) {
             val adminRole =
-                roleService.getUserRoleList(currentSessionUser.getUserKey()).filter { it.roleId == AliceUserConstants.ADMIN_ROLE }
+                roleService.getUserRoleList(currentSessionUser.getUserKey()).filter { it.roleId == AliceConstants.SYSTEM_ROLE }
             if (adminRole.isEmpty()) {
                 code = ZResponseConstants.STATUS.ERROR_FAIL.code
             }
