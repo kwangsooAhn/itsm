@@ -30,7 +30,7 @@ class MetricPoolRestController(
     /**
      * 신규 지표 등록 처리
      */
-    @PostMapping("/","")
+    @PostMapping("/", "")
     fun insertMetric(@RequestBody metricDto: MetricDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricPoolService.createMetric(metricDto))
     }
