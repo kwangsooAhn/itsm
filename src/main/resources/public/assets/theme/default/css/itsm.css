@@ -9581,3 +9581,27 @@ body.modal-active {
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
+
+.modal-dialog.calendar__modal--register {
+  width: 620px;
+  height: 320px;
+  right: auto;
+}
+.modal-dialog.calendar__modal--register .modal-content {
+  height: calc(320px - 80px);
+  padding: 20px 20px 0px 20px;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.calendar__modal--register .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main {
+  gap: 8px;
+}
+.modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .flex-row {
+  gap: 8px;
+}

@@ -254,12 +254,17 @@ board:
 # Calendar
 calendar:
   label:
+    allDay: "종일"
     calendar: "일정 관리"
     day: "일"
-    list: "리스트"
     month: "월"
+    monthly: "매월"
+    myCalendar: "내 캘린더"
+    repeatYn: "반복 여부"
+    task: "리스트"
     today: "오늘"
     week: "주"
+    weekly: "매주"
   msg:
     description: "일정을 추가하거나 조회 및 관리합니다."
 
