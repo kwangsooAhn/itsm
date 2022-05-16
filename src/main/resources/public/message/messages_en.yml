@@ -1387,7 +1387,7 @@ sla:
       unit: "Unit"
     msg:
       duplicateMetricName: "The same metric name exists. Please check the metric name."
-      editDescription: "Register, modify, or delete the contents of SLA metric management."
+      metricPoolDescription: "Register, modify, or delete the contents of SLA metric management."
       enterMetricName: "Enter a metric name."
   metricType:
     auto: "auto"
