@@ -13,6 +13,8 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.AliceUtil
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.board.dto.BoardArticleCommentDto
 import co.brainz.itsm.board.dto.BoardArticleListReturnDto
 import co.brainz.itsm.board.dto.BoardArticleSaveDto
@@ -44,7 +46,8 @@ class BoardArticleService(
     private val boardAdminRepository: BoardAdminRepository,
     private val boardCategoryRepository: BoardCategoryRepository,
     private val aliceFileService: AliceFileService,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -89,6 +92,9 @@ class BoardArticleService(
             }
             val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
             val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
+            if (boardArticleSaveDto.boardId.isNotEmpty()) {
+                updatePortalBoardEntity.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
+            }
             val portalBoardEntity = PortalBoardEntity(
                 boardId = boardArticleSaveDto.boardId,
                 boardAdmin = portalBoardAdminEntity,
@@ -130,6 +136,10 @@ class BoardArticleService(
             commentBoard = boardPortalBoardEntity,
             boardCommentContents = boardArticleCommentDto.boardCommentContents
         )
+        if (boardArticleCommentDto.boardCommentId.isNotEmpty()) {
+            val commentDto = boardCommentRepository.findById(boardArticleCommentDto.boardCommentId).get()
+            commentDto.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
+        }
         boardCommentRepository.save(portalBoardCommentEntity)
         return ZResponse()
     }
@@ -195,7 +205,9 @@ class BoardArticleService(
     @Transactional
     fun deleteBoardArticle(boardId: String): ZResponse {
         val boardReadCount = boardReadRepository.findById(boardId)
+        val boardDto = boardRepository.findById(boardId).get()
         if (!boardReadCount.isEmpty) {
+            boardDto.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
             boardReadRepository.deleteById(boardId)
         }
 
@@ -214,6 +226,8 @@ class BoardArticleService(
      */
     @Transactional
     fun deleteBoardArticleComment(boardCommentId: String): ZResponse {
+        val boardEntity = boardCommentRepository.findById(boardCommentId).get()
+        boardEntity.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
         boardCommentRepository.deleteById(boardCommentId)
         return ZResponse()
     }
