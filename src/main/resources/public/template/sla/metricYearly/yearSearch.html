@@ -14,8 +14,11 @@
     <form id="searchFrm">
         <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{sla.metric.label.searchPlaceholder}"/>
+        <p></p>
     </form>
     <div class="ml-auto">
+        <button type="button" class="z-button-icon secondary" id="btnCopy" name="btnCopy"
+                th:onclick="onCopy()" th:title="#{sla.metricYear.btn.copy}"></button>
         <button type="button" class="z-button primary" onclick="location.href='/sla/metrics/new'"
                 sec:authorize="hasAuthority('sla.manage')" th:text="#{common.btn.add}"></button>
     </div>
@@ -40,6 +43,13 @@
             method: 'GET'
         }).then((htmlData) => {
             document.getElementById('metricYearList').innerHTML = htmlData;
+        });
+    }
+
+    function onCopy() {
+        aliceJs.fetchDownload({
+            url: '/rest/sla/metrics/copy' + encodeURIComponent(document.getElementById('searchValue').value),
+            fileName: i18n.msg('user.label.user') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
         });
     }
 </script>

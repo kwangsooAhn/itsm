@@ -88,16 +88,21 @@
             </div>
             <div class="z-edit-row flex-column flex-fill">
                 <div class="flex-row justify-content-between">
-                    <label class="required" th:text="#{sla.metricYear.label.zql}"></label>
-                    <button type="button" sec:authorize="hasAuthority('sla.manage')"
-                            class="z-button-icon extra float-right" id="zql-add"
-                            onclick="openClassAttributeListModal()">
-                        <span class="z-icon i-plus"></span>
-                    </button>
+                    <label class="required" th:text="#{sla.metricYear.label.zql}" for="zqlString"></label>
+                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.average'}">
+                        <p th:text="#{sla.metricYear.label.zqlAverageDescription}"></p>
+                    </th:block>
+                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.rate'}">
+                        <p th:text="#{sla.metricYear.label.zqlRateDescription}"></p>
+                    </th:block>
+                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.total'}">
+                        <p th:text="#{sla.metricYear.label.zqlTotalDescription}"></p>
+                    </th:block>
                 </div>
                 <div class="horizontal-bar"></div>
                 <p th:text="#{sla.metricYear.msg.zqlDescription}"></p>
-                <div id="ZQLList"></div>
+                <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"
+                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.searchPlaceholder}" th:readonly="${view}"/>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
                 <div class="z-button-list">
@@ -126,22 +131,48 @@
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
     }
 
+    function openZqlManualModal() {
+        const openZqlManualModal = new modal({
+            title: i18n.msg('sla.metricYear.label.zqlManual'),
+            body: createModalContent(),
+            classes: 'zql-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function (modal) {
+                    document.querySelectorAll('td> label> input[type= checkbox]').forEach((checkbox) => {
+                        if (checkbox.checked && !checkbox.disabled) {
+                            classAttributeMap.delete(checkbox.value);
+                        }
+                    });
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            }
+        });
+        openZqlManualModal.show();
+    }
+
+    function createModalContent() {
+        return `<div class="cmdb-class-attribute-list">` +
+            `<input class="z-input i-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
+            `<div class="table-set" id="ciClassAttributeList"></div>` +
+            `</div>`;
+    }
+
     function onSave(method) {
         if (isEmpty('metricName', 'sla.metric.msg.enterMetricName')) return false;
         if (isEmpty('metricDesc', 'common.msg.enterContents')) return false;
         if (isEmpty('metricGroup', 'common.msg.requiredSelect')) return false;
-        if (method === 'POST' && isEmpty('metricType', 'common.msg.requiredSelect')) return false;
-        if (method === 'POST' && isEmpty('metricUnit', 'common.msg.requiredSelect')) return false;
-        if (method === 'POST' && isEmpty('calculationType', 'common.msg.requiredSelect')) return false;
 
         let data = {
             metricId: '',
             metricName: document.getElementById('metricName').value,
             metricDesc: document.getElementById('metricDesc').value,
-            metricGroup: document.getElementById('metricGroup').value,
-            metricType: (method === 'POST' ? document.getElementById('metricType').value : document.getElementById('metricTypeInput').value),
-            metricUnit: (method === 'POST' ? document.getElementById('metricUnit').value : document.getElementById('metricUnitInput').value),
-            calculationType: (method === 'POST' ? document.getElementById('calculationType').value : document.getElementById('calculationTypeInput').value)
+            metricGroup: document.getElementById('metricGroup').value
         }
         let url = '/rest/sla/metrics';
         if (method === 'PUT') {
@@ -181,7 +212,7 @@
 
     function onDelete() {
         zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
-            aliceJs.fetchJson('/rest/sla/metric-s/' + [[${metric?.metricId}]], {
+            aliceJs.fetchJson('/rest/sla/metrics/' + [[${metric?.metricId}]], {
                 method: 'DELETE'
             }).then((response) => {
                 if (response.status === aliceJs.response.success) {
