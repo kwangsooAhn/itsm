@@ -9,11 +9,11 @@ package co.brainz.itsm.sla.metricPool.dto
 import java.io.Serializable
 
 data class MetricDto(
-    var metricId: String = "",
-    var metricName: String = "",
+    val metricId: String,
+    var metricName: String,
     var metricDesc: String? = null,
-    var metricGroup: String? = null,
-    var metricType: String? = null,
-    var metricUnit: String? = null,
-    var calculationType: String? = null
+    var metricGroup: String,
+    var metricType: String,
+    var metricUnit: String,
+    var calculationType: String
 ) : Serializable
