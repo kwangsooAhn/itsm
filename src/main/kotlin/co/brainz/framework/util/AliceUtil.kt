@@ -183,7 +183,7 @@ class AliceUtil {
     }
 
     /**
-     * 수정 시 작성한 사용자와 비교
+     * 수정 및 삭제 시 작성한 사용자와 비교 및 admin 권한 체크
      */
     fun urlAccessUserKeyCheck(sessionUser: CurrentSessionUser, createUserKey: String): Boolean {
         val roles = sessionUser.getRoles().contains(AliceConstants.SYSTEM_ROLE)
