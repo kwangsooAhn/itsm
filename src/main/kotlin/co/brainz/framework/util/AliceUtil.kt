@@ -9,8 +9,6 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.configuration.AliceApplicationRunner
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
 import co.brainz.itsm.code.dto.CodeDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -187,13 +185,11 @@ class AliceUtil {
     /**
      * 수정 시 작성한 사용자와 비교
      */
-    fun urlAccessUserKeyCheck(sessionUser: CurrentSessionUser, createUserKey: String) {
+    fun urlAccessUserKeyCheck(sessionUser: CurrentSessionUser, createUserKey: String): Boolean {
         val roles = sessionUser.getRoles().contains(AliceConstants.SYSTEM_ROLE)
         if (sessionUser.getUserKey() != createUserKey && !roles) {
-            throw AliceException(
-                AliceErrorConstants.ERR_00002,
-                AliceErrorConstants.ERR_00002.message + "[Parameter Error]"
-            )
+            return false
         }
+        return true
     }
 }

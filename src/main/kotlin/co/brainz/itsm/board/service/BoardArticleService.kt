@@ -8,10 +8,13 @@ package co.brainz.itsm.board.service
 
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.PagingConstants
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
@@ -47,7 +50,8 @@ class BoardArticleService(
     private val boardCategoryRepository: BoardCategoryRepository,
     private val aliceFileService: AliceFileService,
     private val userDetailsService: AliceUserDetailsService,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val aliceMessageSource: AliceMessageSource
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -93,7 +97,7 @@ class BoardArticleService(
             val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
             val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
             if (boardArticleSaveDto.boardId.isNotEmpty()) {
-                updatePortalBoardEntity.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
+                updatePortalBoardEntity.createUser?.let { userAccessAuthCheck(it.userKey) }
             }
             val portalBoardEntity = PortalBoardEntity(
                 boardId = boardArticleSaveDto.boardId,
@@ -138,7 +142,7 @@ class BoardArticleService(
         )
         if (boardArticleCommentDto.boardCommentId.isNotEmpty()) {
             val commentDto = boardCommentRepository.findById(boardArticleCommentDto.boardCommentId).get()
-            commentDto.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
+            commentDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
         }
         boardCommentRepository.save(portalBoardCommentEntity)
         return ZResponse()
@@ -154,13 +158,16 @@ class BoardArticleService(
     @Transactional
     fun getBoardArticleDetail(boardId: String, type: String): BoardArticleViewDto {
         val boardReadEntity = boardReadRepository.findById(boardId).orElse(PortalBoardReadEntity())
+        val boardDto = boardRepository.findByBoardId(boardId)
+        if (type == "edit") {
+            boardDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
+        }
         if (type == "view") {
             boardReadEntity.boardId = boardId
             boardReadEntity.boardReadCount = boardReadEntity.boardReadCount?.plus(1)
             boardReadRepository.save(boardReadEntity)
         }
 
-        val boardDto = boardRepository.findByBoardId(boardId)
         if (!boardDto.boardCategoryId.isNullOrEmpty()) {
             boardDto.boardCategoryName =
                 boardDto.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }
@@ -207,7 +214,7 @@ class BoardArticleService(
         val boardReadCount = boardReadRepository.findById(boardId)
         val boardDto = boardRepository.findById(boardId).get()
         if (!boardReadCount.isEmpty) {
-            boardDto.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
+            boardDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
             boardReadRepository.deleteById(boardId)
         }
 
@@ -227,7 +234,7 @@ class BoardArticleService(
     @Transactional
     fun deleteBoardArticleComment(boardCommentId: String): ZResponse {
         val boardEntity = boardCommentRepository.findById(boardCommentId).get()
-        boardEntity.createUser?.let { AliceUtil().urlAccessUserKeyCheck(currentSessionUser, it.userKey) }
+        boardEntity.createUser?.let { this.userAccessAuthCheck(it.userKey) }
         boardCommentRepository.deleteById(boardCommentId)
         return ZResponse()
     }
@@ -311,5 +318,16 @@ class BoardArticleService(
                 )
             }
         return boardCategoryDtoList
+    }
+
+    private fun userAccessAuthCheck(createUserKey: String) {
+        val currentSessionUser = currentSessionUser
+        val result = AliceUtil().urlAccessUserKeyCheck(currentSessionUser, createUserKey)
+        if (!result) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00002,
+                aliceMessageSource.getMessage("auth.msg.accessDenied")
+            )
+        }
     }
 }
