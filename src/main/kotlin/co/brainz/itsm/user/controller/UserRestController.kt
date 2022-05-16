@@ -15,6 +15,7 @@ import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -50,7 +51,8 @@ class UserRestController(
     private val userDetailsService: AliceUserDetailsService,
     private val localeResolver: LocaleResolver,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val roleService: RoleService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -95,7 +97,8 @@ class UserRestController(
         if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
             result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
             result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code) {
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code
+        ) {
             if (SecurityContextHolder.getContext().authentication != null) {
                 if (user.userKey == currentSessionUser.getUserKey()) {
                     localeResolver.setLocale(request, response, Locale(user.lang))
@@ -116,20 +119,26 @@ class UserRestController(
         request: HttpServletRequest,
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
-        val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
-        if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code) {
-            localeResolver.setLocale(request, response, Locale(user.lang))
-            if (SecurityContextHolder.getContext().authentication != null) {
-                if (user.userKey == currentSessionUser.getUserKey()) {
-                    SecurityContextHolder.getContext().authentication =
-                        userDetailsService.createNewAuthentication(user.userKey)
+        val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey)
+        return if (userSessionRoleCheck.status == ZResponseConstants.STATUS.ERROR_FAIL.code) {
+            ZAliceResponse.response(userSessionRoleCheck)
+        } else {
+            val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
+            if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
+                result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
+                result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
+                result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code
+            ) {
+                localeResolver.setLocale(request, response, Locale(user.lang))
+                if (SecurityContextHolder.getContext().authentication != null) {
+                    if (user.userKey == currentSessionUser.getUserKey()) {
+                        SecurityContextHolder.getContext().authentication =
+                            userDetailsService.createNewAuthentication(user.userKey)
+                    }
                 }
             }
+            ZAliceResponse.response(result)
         }
-        return ZAliceResponse.response(result)
     }
 
     /**

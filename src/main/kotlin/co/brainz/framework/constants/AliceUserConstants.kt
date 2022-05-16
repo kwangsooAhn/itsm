@@ -76,6 +76,11 @@ object AliceUserConstants {
     const val AVATAR_IMAGE_DIR: String = "avatar"
 
     /**
+     * 시스템 관리자 권한
+     */
+    const val ADMIN_ROLE: String = "system.admin"
+
+    /**
      * 사용자 아바타 저장 유형
      */
     enum class AvatarType(val code: String) {
@@ -160,6 +165,7 @@ object AliceUserConstants {
         CREATE_USER_ADMIN("3"),
         UPDATE_USER_PASSWORD("4")
     }
+
     /**
      * 사용자 컴포넌트 > 검색 조건
      */

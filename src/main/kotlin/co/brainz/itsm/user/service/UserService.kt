@@ -748,9 +748,26 @@ class UserService(
     }
 
     /**
-     * 조직에 속하 사용자 목록 조회
+     * 조직에 속한 사용자 목록 조회
      */
     fun getUserListInOrganization(organizationIds: Set<String>): List<AliceUserEntity> {
         return userRepository.getUserListInOrganization(organizationIds)
+    }
+
+    /**
+     * 자기 정보 수정 시 유저의 권한 확인
+     */
+    fun userSessionRoleCheck(userKey: String): ZResponse {
+        var code = ZResponseConstants.STATUS.SUCCESS.code
+        if (userKey != currentSessionUser.getUserKey()) {
+            val adminRole =
+                roleService.getUserRoleList(currentSessionUser.getUserKey()).filter { it.roleId == AliceUserConstants.ADMIN_ROLE }
+            if (adminRole.isEmpty()) {
+                code = ZResponseConstants.STATUS.ERROR_FAIL.code
+            }
+        }
+        return ZResponse(
+            status = code
+        )
     }
 }
