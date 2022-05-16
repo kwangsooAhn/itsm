@@ -9,12 +9,12 @@ package co.brainz.itsm.sla.metricYear.dto
 import java.io.Serializable
 
 data class MetricYearDataDto(
-    var metricId: String = "",
-    var metricGroupName: String = "",
-    var metricName: String = "",
-    var minValue: Double? = null,
-    var maxValue: Double? = null,
-    var weightValue: Double? = null,
-    var owner: String? = null,
-    var comment: String? = null
+    val metricId: String,
+    val metricGroupName: String,
+    val metricName: String,
+    val minValue: Double,
+    val maxValue: Double,
+    val weightValue: Double,
+    val owner: String? = null,
+    val comment: String? = null
 ) : Serializable
