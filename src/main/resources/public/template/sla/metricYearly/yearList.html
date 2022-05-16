@@ -29,10 +29,10 @@
         </div>
     </div>
     <div class="grid__body">
-        <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(metricPoolList)}">
+        <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(metricYearsList)}">
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
-        <div class="grid__row" th:unless="${#arrays.isEmpty(metricPoolList)}" th:each="metric: ${metricPoolList}">
+        <div class="grid__row" th:unless="${#arrays.isEmpty(metricYearsList)}" th:each="metric: ${metricYearsList}">
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${metric.metricGroupName}" th:title="${metric.metricGroupName}"></span>
             </div>
@@ -44,16 +44,19 @@
                 </a>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis" th:text="${metric.metricTypeName}" th:title="${metric.metricTypeName}"></span>
+                <span class="text-ellipsis" th:text="${metric.minValue}" th:title="${metric.minValue}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis" th:text="${metric.metricUnitName}" th:title="${metric.metricUnitName}"></span>
+                <span class="text-ellipsis" th:text="${metric.maxValue}" th:title="${metric.maxValue}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis" th:text="${metric.calculationTypeName}" th:title="${metric.calculationTypeName}"></span>
+                <span class="text-ellipsis" th:text="${metric.weightValue}" th:title="${metric.weightValue}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${metric.owner}" th:title="${metric.owner}"></span>
             </div>
             <div class="grid__cell pl-2">
-                <span class="text-ellipsis" th:text="${metric.metricDesc}" th:title="${metric.metricDesc}"></span>
+                <span class="text-ellipsis" th:text="${metric.comment}" th:title="${metric.comment}"></span>
             </div>
         </div>
     </div>
