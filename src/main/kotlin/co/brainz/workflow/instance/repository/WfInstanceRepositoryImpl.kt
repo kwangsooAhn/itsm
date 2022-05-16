@@ -218,6 +218,9 @@ class WfInstanceRepositoryImpl(
                 else -> Order.ASC
             }
             when (tokenSearchCondition.orderColName) {
+                QuerydslConstants.OrderColumn.DOCUMENT_NO.code -> {
+                    query.orderBy(OrderSpecifier(direction, instance.documentNo))
+                }
                 QuerydslConstants.OrderColumn.CREATE_USER_NAME.code -> {
                     query.orderBy(OrderSpecifier(direction, instance.instanceCreateUser.userName))
                 }
