@@ -1380,8 +1380,6 @@ sla:
       group: "그룹"
       groupName: "그룹 이름"
       metricPool: "SLA 지표관리"
-      metricPoolEdit: "SLA 지표관리 수정"
-      metricPoolRegister: "SLA 지표관리 등록"
       name: "이름"
       searchPlaceholder: "이름"
       selectMetricCalcType: "계산방식 선택"

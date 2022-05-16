@@ -1377,8 +1377,6 @@ sla:
       group: "Group"
       groupName: "Group Name"
       metricPool: "SLA Metric management"
-      metricPoolEdit: "SLA Metric management Edit"
-      metricPoolRegister: "SLA Metric management Register"
       name: "Name"
       searchPlaceholder: "Name"
       selectMetricCalcType: "Select CalculationType"
