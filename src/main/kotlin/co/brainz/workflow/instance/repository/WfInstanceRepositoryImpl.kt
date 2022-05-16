@@ -186,11 +186,13 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(token.tokenId.max())
                     .from(token)
-                    .where(token.tokenStartDt.eq(
-                        from(startDtSubToken)
-                            .select(startDtSubToken.tokenStartDt.max())
-                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                    ))
+                    .where(
+                        token.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        )
+                    )
             )
         )
         builder.and(
@@ -207,34 +209,24 @@ class WfInstanceRepositoryImpl(
         tokenSearchCondition: TokenSearchCondition,
         query: JPQLQuery<WfInstanceListViewDto>
     ): JPQLQuery<WfInstanceListViewDto> {
-        if (tokenSearchCondition.orderColName.isNullOrEmpty()) {
-            query.orderBy(instance.instanceStartDt.desc())
-        } else {
-            val direction = when (tokenSearchCondition.orderDir) {
+        var direction = Order.DESC
+        var column = Expressions.stringPath(instance, WfInstanceConstants.OrderColumn.INSTANCE_START_DT.code)
+        if (!tokenSearchCondition.orderColName.isNullOrEmpty()) {
+            direction = when (tokenSearchCondition.orderDir) {
                 QuerydslConstants.OrderSpecifier.DESC.code -> Order.DESC
                 else -> Order.ASC
             }
-            when (tokenSearchCondition.orderColName) {
-                QuerydslConstants.OrderColumn.CREATE_USER_NAME.code -> {
-                    query.orderBy(OrderSpecifier(direction, instance.instanceCreateUser.userName))
-                }
-                QuerydslConstants.OrderColumn.CREATE_DT.code -> {
-                    query.orderBy(OrderSpecifier(direction, instance.instanceStartDt))
-                }
-                QuerydslConstants.OrderColumn.DOCUMENT_GROUP.code -> {
-                    query.orderBy(OrderSpecifier(direction, code.codeName))
-                }
-                QuerydslConstants.OrderColumn.ASSIGNEE_USER_NAME.code -> {
-                    query.orderBy(OrderSpecifier(direction, user.userName))
-                }
-                QuerydslConstants.OrderColumn.ELEMENT_NAME.code -> {
-                    query.orderBy(OrderSpecifier(direction, token.element.elementName))
-                }
-                else -> {
-                    query.orderBy(OrderSpecifier(direction, Expressions.stringPath(instance, tokenSearchCondition.orderColName)))
-                }
+            column = when (tokenSearchCondition.orderColName) {
+                WfInstanceConstants.OrderColumn.CREATE_USER_NAME.code -> instance.instanceCreateUser.userName
+                WfInstanceConstants.OrderColumn.DOCUMENT_GROUP.code -> instance.document.documentName
+                WfInstanceConstants.OrderColumn.ASSIGNEE_USER_NAME.code -> user.userName
+                WfInstanceConstants.OrderColumn.ELEMENT_NAME.code -> token.element.elementName
+                WfInstanceConstants.OrderColumn.DOCUMENT_NO.code -> instance.documentNo
+                else -> column
             }
+
         }
+        query.orderBy(OrderSpecifier(direction, column))
         return query
     }
 
@@ -256,11 +248,13 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.tokenStartDt.eq(
-                        from(startDtSubToken)
-                            .select(startDtSubToken.tokenStartDt.max())
-                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                    ))
+                    .where(
+                        tokenSub.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        )
+                    )
             )
         )
         builder.and(
@@ -305,11 +299,13 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.tokenStartDt.eq(
-                        from(startDtSubToken)
-                            .select(startDtSubToken.tokenStartDt.max())
-                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                    ))
+                    .where(
+                        tokenSub.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        )
+                    )
             )
         )
         if (!hasDocumentViewAuth()) {
@@ -319,10 +315,11 @@ class WfInstanceRepositoryImpl(
                         .select(tokenSub.instance.instanceId)
                         .from(tokenSub)
                         .leftJoin(instanceViewer).on(tokenSub.instance.instanceId.eq(instanceViewer.instance.instanceId))
-                        .where(tokenSub.assigneeId.eq(tokenSearchCondition.userKey)
-                            .or(
-                                instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey)
-                            )
+                        .where(
+                            tokenSub.assigneeId.eq(tokenSearchCondition.userKey)
+                                .or(
+                                    instanceViewer.viewer.userKey.eq(tokenSearchCondition.userKey)
+                                )
                         )
                 )
             )
@@ -504,11 +501,13 @@ class WfInstanceRepositoryImpl(
                                         JPAExpressions
                                             .select(tokenSub.tokenId.max())
                                             .from(tokenSub)
-                                            .where(tokenSub.tokenStartDt.eq(
-                                                from(startDtSubToken)
-                                                    .select(startDtSubToken.tokenStartDt.max())
-                                                    .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                                            ))
+                                            .where(
+                                                tokenSub.tokenStartDt.eq(
+                                                    from(startDtSubToken)
+                                                        .select(startDtSubToken.tokenStartDt.max())
+                                                        .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                                                )
+                                            )
                                     ),
                                     tokenDataSub.component.componentId.`in`(
                                         JPAExpressions
@@ -566,17 +565,24 @@ class WfInstanceRepositoryImpl(
                     ExpressionUtils.`as`(
                         JPAExpressions.select(
                             CaseBuilder()
-                                .`when`(folder.count().gt(0)).then(true).otherwise(false))
+                                .`when`(folder.count().gt(0)).then(true).otherwise(false)
+                        )
                             .from(folder)
-                            .where(folder.relatedType.`in`(
-                                FolderConstants.RelatedType.REFERENCE.code, FolderConstants.RelatedType.RELATED.code)
-                                .and(folder.instance.eq(instance))
-                                .and(folder.folderId.eq(
-                                    from(folder)
-                                        .select(folder.folderId)
-                                        .where(folder.instance.instanceId.eq(instanceId)
-                                            .and(folder.relatedType.eq(FolderConstants.RelatedType.ORIGIN.code)))
-                                ))
+                            .where(
+                                folder.relatedType.`in`(
+                                    FolderConstants.RelatedType.REFERENCE.code, FolderConstants.RelatedType.RELATED.code
+                                )
+                                    .and(folder.instance.eq(instance))
+                                    .and(
+                                        folder.folderId.eq(
+                                            from(folder)
+                                                .select(folder.folderId)
+                                                .where(
+                                                    folder.instance.instanceId.eq(instanceId)
+                                                        .and(folder.relatedType.eq(FolderConstants.RelatedType.ORIGIN.code))
+                                                )
+                                        )
+                                    )
                             ), "related"
                     )
                 )
