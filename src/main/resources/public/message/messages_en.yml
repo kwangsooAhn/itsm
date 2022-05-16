@@ -254,12 +254,17 @@ board:
 # Calendar
 calendar:
   label:
+    allDay: "All day"
     calendar: "Calendar"
     day: "Daily"
-    list: "List"
     month: "Monthly"
+    monthly: "Monthly"
+    myCalendar: "My Calendar"
+    repeatYn: "Repeat"
+    task: "List"
     today: "Today"
     week: "Weekly"
+    weekkly: "Weekly"
   msg:
     description: "View and manage user schedules."
 
