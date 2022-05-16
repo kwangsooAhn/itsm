@@ -26,5 +26,4 @@ object MetricPoolConstants {
      * metric group p_code
      */
     const val METRIC_GROUP_P_CODE = "sla.metricGroup"
-
 }

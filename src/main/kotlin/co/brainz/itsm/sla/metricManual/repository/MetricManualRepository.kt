@@ -10,5 +10,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MetricManualRepository : JpaRepository<MetricManualEntity, String>, MetricManualRepositoryCustom {
-}
+interface MetricManualRepository : JpaRepository<MetricManualEntity, String>, MetricManualRepositoryCustom

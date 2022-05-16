@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "sla_metric")
-data class MetricEntity(
+data class MetricPoolEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "metric_id", length = 128)
