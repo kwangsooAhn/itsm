@@ -5,7 +5,7 @@
 
 package co.brainz.itsm.sla.metricManual.entity
 
-import co.brainz.itsm.sla.metricPool.entity.MetricEntity
+import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import java.io.Serializable
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -29,7 +29,7 @@ data class MetricManualEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "metric_id")
-    val metric: MetricEntity,
+    var metric: MetricPoolEntity,
 
     @Column(name = "reference_dt")
     var referenceDate: LocalDate? = null,
@@ -43,4 +43,3 @@ data class MetricManualEntity(
     @Column(name = "create_dt")
     var createDt: LocalDateTime? = null
 ) : Serializable
-

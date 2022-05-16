@@ -12,7 +12,7 @@ import co.brainz.itsm.sla.metricManual.dto.MetricManualDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.entity.QMetricManualEntity
-import co.brainz.itsm.sla.metricPool.entity.QMetricEntity
+import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPQLQuery
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository
 class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity::class.java),
     MetricManualRepositoryCustom {
     val manual: QMetricManualEntity = QMetricManualEntity.metricManualEntity
-    val metric: QMetricEntity = QMetricEntity.metricEntity
+    val metric: QMetricPoolEntity = QMetricPoolEntity.metricPoolEntity
     val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
     val code: QCodeEntity = QCodeEntity.codeEntity
 
