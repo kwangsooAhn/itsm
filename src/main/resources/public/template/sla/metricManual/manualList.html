@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div class="grid" style="--data-columns-width: 20% 25% 10% 26% 15% 4%;">
+    <div class="grid__head">
+        <div class="grid__row">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricReferenceDate">
+                <span class="text-ellipsis" th:text="#{sla.metricManual.label.referenceDate}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricName">
+                <span class="text-ellipsis" th:text="#{sla.metricManual.label.metricName}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricValue">
+                <span class="text-ellipsis" th:text="#{sla.metricManual.label.metricValue}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="createDt">
+                <span class="text-ellipsis" th:text="#{sla.metricManual.label.createDt}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="createUser">
+                <span class="text-ellipsis" th:text="#{sla.metricManual.label.createUser}"></span>
+            </div>
+            <div class="grid__cell pl-2"></div>
+        </div>
+    </div>
+    <div class="grid__body">
+        <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(metricManualList)}">
+            <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
+        </div>
+        <div class="grid__row" th:unless="${#arrays.isEmpty(metricManualList)}" th:each="metric: ${metricManualList}">
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${metric.referenceDate}" th:title="${metric.referenceDate}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2 underline">
+                <span class="text-ellipsis" th:text="${metric.metricName}" th:title="${metric.metricName}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis metric-value" th:text="${metric.metricValue}" th:title="${metric.metricValue}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis date-time" th:text="${metric.createDt}" th:title="${metric.createDt}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${metric.createUserName}" th:title="${metric.createUserName}"></span>
+            </div>
+            <div class="grid__cell pl-2">
+                <th:block sec:authorize="hasAuthority('sla.manage')">
+                    <button type="button" class="z-button-icon form" th:onclick="deleteDocument([[${metric.metricId}]], true)">
+                        <span class="z-icon i-list-delete"></span>
+                    </button>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:insert="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
+</body>
+</html>

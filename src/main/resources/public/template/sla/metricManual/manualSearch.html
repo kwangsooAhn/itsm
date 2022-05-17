@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/pagingListLayout">
+<head>
+    <title th:text="#{sla.metricManual.label.metricManual}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{sla.metricManual.label.metricManual}"></h1>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{sla.metric.label.searchPlaceholder}"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button primary" onclick="openManualNewModal()"
+                sec:authorize="hasAuthority('sla.manage')" th:text="#{sla.metricManual.btn.addData}"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="metricManualList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
+        getList();
+    };
+
+    /**
+     * 수동지표관리 검색
+     */
+    function getList(pageNum = 1) {
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/sla/metrics/manual?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('metricManualList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+            // setMetricValueFormat(listBody);
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 지표값 포맷을 변경한다.
+     */
+    function setMetricValueFormat(elem) {
+        elem.querySelectorAll('.metric-value').forEach(dt => {
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
+        });
+    }
+
+    function openManualNewModal(htmlData) {
+        const classAttributeListModal = new modal({
+            title: i18n.msg('sla.metricManual.label.newMetricManual'),
+            body: htmlData,
+            classes: 'sla-metric-menual-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.select'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function (modal) {
+            }
+        });
+        classAttributeListModal.show();
+    }
+</script>
+</html>

@@ -1389,6 +1389,17 @@ sla:
       duplicateMetricName: "The same metric name exists. Please check the metric name."
       metricPoolDescription: "Register, modify, or delete the contents of SLA metric management."
       enterMetricName: "Enter a metric name."
+  metricManual:
+    btn:
+      addData: "Add Data"
+    label:
+      createDate: "Create Date"
+      createUser: "Create User"
+      metricManual: "Manual metric management"
+      metricName: "Metric Name"
+      metricValue: "Metric Value"
+      newMetricManual: "Add manual metric data"
+      referenceDate: "Reference Date"
   metricType:
     auto: "auto"
     manual: "manual"

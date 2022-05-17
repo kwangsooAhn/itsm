@@ -1392,6 +1392,17 @@ sla:
       duplicateMetricName: "동일한 지표 이름이 존재합니다.<br>지표 이름을 확인해주세요."
       metricPoolDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
       enterMetricName: "지표 이름을 입력하세요."
+  metricManual:
+    btn:
+      addData: "데이터 추가"
+    label:
+      createDt: "등록일시"
+      createUser: "등록자"
+      metricManual: "수동 지표관리"
+      metricName: "지표 이름"
+      metricValue: "지표값"
+      newMetricManual: "수동지표 데이터 추가"
+      referenceDate: "기준일자"
   metricType:
     auto: "자동"
     manual: "수동"
