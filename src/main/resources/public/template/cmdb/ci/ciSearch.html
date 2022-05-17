@@ -31,7 +31,8 @@
                 <form id="searchFrm" onsubmit="return false">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
                            maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}"/>
-                    <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch" name="btnDetailSearch"
+                    <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch"
+                            name="btnDetailSearch"
                             onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
                     <input type="hidden" id="flag" name="flag" value="itsm"/>
                     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
@@ -46,7 +47,7 @@
                     <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                             th:onclick="|javascript:onExcelDownload();|" th:title="#{common.btn.export}"
                             sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')">
-                        <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
+                        <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}"/>
                     </button>
                 </div>
             </div>
@@ -56,11 +57,15 @@
                 </div>
             </div>
             <div class="z-page-paging" style="visibility: hidden">
-                <a href="" id="pagingStartArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-start-arrow"></span></a>
-                <a href="" id="pagingPrevArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-prev-arrow"></span></a>
+                <a href="" id="pagingStartArrow" class="z-paging-arrow flex-row"><span
+                        class="z-icon i-paging-start-arrow"></span></a>
+                <a href="" id="pagingPrevArrow" class="z-paging-arrow flex-row"><span
+                        class="z-icon i-paging-prev-arrow"></span></a>
                 <div class="z-paging-numbers"></div>
-                <a href="" id="pagingNextArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-next-arrow"></span></a>
-                <a href="" id="pagingEndArrow" class="z-paging-arrow flex-row"><span class="z-icon i-paging-end-arrow"></span></a>
+                <a href="" id="pagingNextArrow" class="z-paging-arrow flex-row"><span
+                        class="z-icon i-paging-next-arrow"></span></a>
+                <a href="" id="pagingEndArrow" class="z-paging-arrow flex-row"><span
+                        class="z-icon i-paging-end-arrow"></span></a>
                 <span id="spanCurrentPageNum"></span>
             </div>
         </div>
@@ -74,11 +79,11 @@
         let tempSearchData = null;
         let importFile;
         window.onload = function () {
-            document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
+            document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce(() => getList()), false);
 
             getTree();
 
-            OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelector('.z-page-list'), {
                 className: 'scrollbar',
                 overflowBehavior: {
@@ -86,6 +91,7 @@
                 }
             });
         };
+
         /**
          * CI 유형 트리 조회
          * “전체”가 선택되면 속성항목이 없기 때문에 현재 나오는 기본항목만 출력된다.
@@ -112,10 +118,15 @@
                         btnDetailSearch.classList.remove('primary');
                         btnDetailSearch.classList.add('secondary');
                     }
+                    // 상세 검색 초기화
+                    document.getElementById('search').value = '';
+                    searchData = null;
+                    tempSearchData = null;
                     getList();
                 }
             });
         }
+
         /**
          * CI 목록 조회
          */
@@ -145,6 +156,7 @@
                 document.querySelector('.grid__body').click();
             });
         }
+
         /**
          *  상세 검색 데이터 세팅
          *  (검색시 상세 데이터 구조 형태로 전달하기 위함)
@@ -159,6 +171,7 @@
                 btnDetailSearch.disabled = (data === null || !data.length);
             }
         }
+
         /**
          *  날짜시간 변환
          */
@@ -300,11 +313,12 @@
                     document.querySelectorAll('.search-datetime').forEach(function (elem) {
                         zDateTimePicker.initDateTimePicker(elem, changeSearchDetail);
                     });
-                    OverlayScrollbars(document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), { className: 'scrollbar' });
                 }
             });
             ciDetailSearchModal.show();
         }
+
         /**
          * 상세 검색 날짜 데이터 업데이트시 호출되는 이벤트
          */
@@ -402,12 +416,14 @@
                 }
             });
         }
+
         // 파일업로드 라이브러리로 파일 drag & drop시 callback으로 전달받는 파일을 저장한다.
         function getImportFile(file) {
             if (typeof file !== 'undefined') {
                 importFile = file;
             }
         }
+
         /**
          * 템플릿 업로드 모달 오픈
          */
@@ -428,6 +444,7 @@
                 }
             });
         }
+
         /**
          * 템플릿 업로드 모달 오픈
          */
@@ -481,7 +498,7 @@
                         userCallback: getImportFile
                     });
                     // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.template-import .modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.template-import .modal-content'), { className: 'scrollbar' });
                 }
             });
             importModal.show();
@@ -515,7 +532,7 @@
                         document.getElementById('ciAttributes').click();
                         const ciDetailModalContent = document.querySelector('.cmdb-ci-view-modal');
                         // 스크롤바 추가
-                        OverlayScrollbars(ciDetailModalContent.querySelector('.modal-content'), {className: 'scrollbar'});
+                        OverlayScrollbars(ciDetailModalContent.querySelector('.modal-content'), { className: 'scrollbar' });
                         new zTag(document.querySelector('input[name=ciDetailTags]'), {
                             suggestion: false,
                             realtime: false,
@@ -580,11 +597,11 @@
                             `${target.value}|${target.getAttribute('data-user-id')}`;
                         target.setAttribute('data-realTimeSelectedUser', realTimeSelectedUser);
                     }
-                    document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
+                    document.getElementById('search').addEventListener('keyup', aliceJs.debounce((e) => {
                         getUserList(target, e.target.value, false);
                     }), false);
                     getUserList(target, document.getElementById('search').value, true);
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
                 }
             });
             targetUserModal.show();
@@ -598,7 +615,7 @@
             const attributeValue = JSON.parse(data.attributeValue);
             const targetCriteria = attributeValue.targetCriteria;
             let searchKeys = '';
-            attributeValue.searchKey.forEach( (elem, index) => {
+            attributeValue.searchKey.forEach((elem, index) => {
                 searchKeys += (index > 0) ? '+' + elem.id : elem.id;
             });
             // 검색
@@ -610,7 +627,7 @@
             }).then((htmlData) => {
                 const searchUserList = document.getElementById('searchUserList');
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
                 // 체크 이벤트
@@ -658,6 +675,7 @@
     </script>
     <script type="module">
         import ZPaging from '../../../assets/js/lib/zPaging.js';
+
         const zPagingManager = {
             load: function () {
                 if (typeof this.zPaging === 'undefined') {
