@@ -762,9 +762,12 @@ class UserService(
         if (userKey != currentSessionUser.getUserKey()) {
             val sessionUserRole = roleService.getUserRoleList(currentSessionUser.getUserKey())
             if (sessionUserRole.isNotEmpty()) {
-                sessionUserRole.forEach { sessionRole ->
-                    if (roleIds.contains(sessionRole.roleId)) {
-                        code = ZResponseConstants.STATUS.SUCCESS.code
+                run loop@{
+                    sessionUserRole.forEach { sessionRole ->
+                        if (roleIds.contains(sessionRole.roleId)) {
+                            code = ZResponseConstants.STATUS.SUCCESS.code
+                            return@loop
+                        }
                     }
                 }
             }
