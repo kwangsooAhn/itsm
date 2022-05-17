@@ -75,7 +75,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     @include scrollbarHidden;
-    &:not(:empty){
+    &:not(:empty) {
       @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top);
     }
     & > .property {
@@ -100,7 +100,7 @@
       color: $layout-component-palette-accordion-font-color;
       @include border($layout-component-palette-border-width, solid, $layout-component-palette-border-color, bottom); // 1px
       padding: 0 12px; // 0 12px
-      cursor:pointer;
+      cursor: pointer;
 
       .z-icon {
         &.i-arrow-right {
@@ -121,7 +121,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        width:100%;
+        width: 100%;
         padding: 0;
         margin: 0;
 
@@ -240,8 +240,132 @@
             }
           }
         }
+
+        .z-component-template-icon {
+          display: inline-block;
+          width: 12.5rem; // 200px
+          height: 2.5rem; // 40px
+          padding: 0.75rem; // 12px
+          background-color: map-get($component-icon, 'default', 'background');
+          @include border($layout-component-palette-border-width, solid, map-get($component-icon, 'default', 'border'), all); // 1px
+          border-top-color: transparent;
+          border-right-color: transparent;
+          border-left-color: transparent;
+          @if map-get($component-icon, 'default', 'shadow') != null {
+            box-shadow: map-get($component-icon, 'default', 'shadow');
+          }
+          cursor: move;
+          outline: none;
+
+          .z-icon {
+            background: map-get($component-icon, 'default', 'icon');
+          }
+
+          .z-component-name {
+            width: 8.125rem; // 130px
+            height: 1rem; // 16px
+            margin: 0 0.3125rem; // 5px
+            font-family: $component-icon-font-family;
+            font-size: $component-icon-font-size;
+            font-weight: $component-icon-font-weight;
+            color: map-get($component-icon, 'default', 'font');
+          }
+
+          &:hover {
+            background-color: map-get($component-icon, 'hover', 'background');
+            @if map-get($component-icon, 'hover', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'hover', 'shadow');
+            }
+
+            .z-icon {
+              background: map-get($component-icon, 'hover', 'icon');
+            }
+
+            .z-component-name {
+              color: map-get($component-icon, 'hover', 'font');
+            }
+          }
+
+          &:focus {
+            background-color: map-get($component-icon, 'focus', 'background');;
+            border-color: map-get($component-icon, 'focus', 'border');
+            z-index: $z-index-event;
+            @if map-get($component-icon, 'focus', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'focus', 'shadow');
+            }
+
+            .z-icon {
+              background: map-get($component-icon, 'focus', 'icon');
+            }
+
+            .z-component-name {
+              color: map-get($component-icon, 'focus', 'font');
+            }
+          }
+
+          // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          &.active {
+            border-color: map-get($component-icon, 'active', 'border');
+            background-color: map-get($component-icon, 'active', 'background');
+            z-index: $z-index-event;
+            @if map-get($component-icon, 'active', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'active', 'shadow');
+            }
+
+            .z-icon {
+              background: map-get($component-icon, 'active', 'icon');
+            }
+
+            .z-component-name {
+              font-weight: $font-weight-bold;
+              color: map-get($component-icon, 'active', 'font');
+            }
+          }
+
+          // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          // 마우스 클릭시 drag 되는 item (마우스에 따라다니는 item)
+          &.drag {
+            border-color: map-get($component-icon, 'drag', 'border');
+            background-color: map-get($component-icon, 'drag', 'background');
+            @if map-get($component-icon, 'drag', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'drag', 'shadow');
+            }
+
+            .z-icon {
+              background: map-get($component-icon, 'drag', 'icon');
+            }
+
+            .z-component-name {
+              font-weight: $font-weight-bold;
+              color: map-get($component-icon, 'drag', 'font');
+            }
+
+            .z-component-tooltip {
+              display: none;
+            }
+          }
+
+          // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
+          &.placeholder {
+            border-color: map-get($component-icon, 'placeholder', 'border');
+            background-color: map-get($component-icon, 'placeholder', 'background');
+            @if map-get($component-icon, 'placeholder', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'placeholder', 'shadow');
+            }
+
+            .z-icon {
+              background: map-get($component-icon, 'placeholder', 'icon');
+            }
+
+            .z-component-name {
+              font-weight: $component-icon-font-weight;
+              color: map-get($component-icon, 'placeholder', 'font');
+            }
+          }
+        }
       }
     }
+
     input[type=radio]:checked {
       + .z-accordion-label {
         .z-icon {
