@@ -86,18 +86,18 @@ class BoardArticleService(
      */
     @Transactional
     fun saveBoardArticle(boardArticleSaveDto: BoardArticleSaveDto): ZResponse {
+        val boardAdminId = boardArticleSaveDto.boardAdminId
+        val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
+        val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
+        if (boardArticleSaveDto.boardId.isNotEmpty()) {
+            updatePortalBoardEntity.createUser?.let { this.userAccessAuthCheck(it.userKey) }
+        }
         var status = ZResponseConstants.STATUS.SUCCESS
         try {
-            val boardAdminId = boardArticleSaveDto.boardAdminId
             val boardCount = boardRepository.countByBoardAdminId(boardAdminId)
             var boardSeq = 0L
             if (boardCount > 0) {
                 boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
-            }
-            val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
-            val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
-            if (boardArticleSaveDto.boardId.isNotEmpty()) {
-                updatePortalBoardEntity.createUser?.let { userAccessAuthCheck(it.userKey) }
             }
             val portalBoardEntity = PortalBoardEntity(
                 boardId = boardArticleSaveDto.boardId,
@@ -134,16 +134,16 @@ class BoardArticleService(
      */
     @Transactional
     fun saveBoardArticleComment(boardArticleCommentDto: BoardArticleCommentDto): ZResponse {
+        if (boardArticleCommentDto.boardCommentId.isNotEmpty()) {
+            val commentDto = boardCommentRepository.findById(boardArticleCommentDto.boardCommentId).get()
+            commentDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
+        }
         val boardPortalBoardEntity = boardRepository.findById(boardArticleCommentDto.boardId).orElse(null)
         val portalBoardCommentEntity = PortalBoardCommentEntity(
             boardCommentId = boardArticleCommentDto.boardCommentId,
             commentBoard = boardPortalBoardEntity,
             boardCommentContents = boardArticleCommentDto.boardCommentContents
         )
-        if (boardArticleCommentDto.boardCommentId.isNotEmpty()) {
-            val commentDto = boardCommentRepository.findById(boardArticleCommentDto.boardCommentId).get()
-            commentDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
-        }
         boardCommentRepository.save(portalBoardCommentEntity)
         return ZResponse()
     }
@@ -157,11 +157,11 @@ class BoardArticleService(
      */
     @Transactional
     fun getBoardArticleDetail(boardId: String, type: String): BoardArticleViewDto {
-        val boardReadEntity = boardReadRepository.findById(boardId).orElse(PortalBoardReadEntity())
         val boardDto = boardRepository.findByBoardId(boardId)
         if (type == "edit") {
             boardDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
         }
+        val boardReadEntity = boardReadRepository.findById(boardId).orElse(PortalBoardReadEntity())
         if (type == "view") {
             boardReadEntity.boardId = boardId
             boardReadEntity.boardReadCount = boardReadEntity.boardReadCount?.plus(1)
@@ -211,10 +211,10 @@ class BoardArticleService(
      */
     @Transactional
     fun deleteBoardArticle(boardId: String): ZResponse {
-        val boardReadCount = boardReadRepository.findById(boardId)
         val boardDto = boardRepository.findById(boardId).get()
+        boardDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
+        val boardReadCount = boardReadRepository.findById(boardId)
         if (!boardReadCount.isEmpty) {
-            boardDto.createUser?.let { this.userAccessAuthCheck(it.userKey) }
             boardReadRepository.deleteById(boardId)
         }
 
