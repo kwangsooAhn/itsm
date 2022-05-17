@@ -58,10 +58,16 @@ class DocumentStorageService(
         )
     }
 
-    fun getDocumentStorageDataExist(instanceId: String): Boolean {
+    fun getDocumentStorageDataExist(instanceId: String): ZResponse {
         val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
         val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
 
-        return documentStorageRepository.existsByInstanceAndUser(instanceEntity, userEntity)
+        return ZResponse(
+            status = "",
+            message = "",
+            data = documentStorageRepository.existsByInstanceAndUser(
+                instanceEntity, userEntity
+            )
+        )
     }
 }
