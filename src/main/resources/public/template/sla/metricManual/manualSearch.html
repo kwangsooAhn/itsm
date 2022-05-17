@@ -43,7 +43,7 @@
             const listBody = document.getElementById('metricManualList');
             listBody.innerHTML = htmlData;
             setDateTimeFormat(listBody);
-            // setMetricValueFormat(listBody);
+            setMetricValueFormat(listBody);
         });
     }
 
@@ -62,10 +62,10 @@
      * 서버에서 전달받은 지표값 포맷을 변경한다.
      */
     function setMetricValueFormat(elem) {
-        elem.querySelectorAll('.metric-value').forEach(dt => {
-            const userDateTime = i18n.userDateTime(dt.textContent.trim());
-            dt.textContent = userDateTime;
-            dt.setAttribute('title', userDateTime);
+        elem.querySelectorAll('.metric-value').forEach(value => {
+            const aaa = value.textContent.replace(/.?0+$/, '');
+            value.textContent = aaa;
+            value.setAttribute('title', aaa);
         });
     }
 
