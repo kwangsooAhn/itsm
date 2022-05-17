@@ -63,7 +63,7 @@ class DocumentStorageService(
         val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
 
         return ZResponse(
-            status = "",
+            status = ZResponseConstants.STATUS.SUCCESS.code,
             message = "",
             data = documentStorageRepository.existsByInstanceAndUser(
                 instanceEntity, userEntity
