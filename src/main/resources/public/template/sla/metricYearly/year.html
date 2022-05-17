@@ -4,12 +4,13 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
 <head>
-    <title th:text="#{sla.metric.label.metricYear}"></title>
+    <title th:text="#{sla.metricYear.label.metricYear}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{sla.metric.label.metricYear}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{sla.metric.msg.metricYearDescription}"></h6>
+    <h1 th:text="#{sla.metricYear.label.metricYear}"></h1>
+    <h6 class="description ml-2 pl-2"
+        th:text="${view} ? #{sla.metricYear.msg.viewDescription} : #{sla.metricYear.msg.description}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <form id="frm" method="post">

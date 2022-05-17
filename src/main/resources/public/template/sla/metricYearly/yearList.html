@@ -5,25 +5,25 @@
 <div class="grid" style="--data-columns-width: 15% 15% 8% 8% 8% 15% 31%;">
     <div class="grid__head">
         <div class="grid__row">
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="metricGroup">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricGroup">
                 <span class="text-ellipsis" th:text="#{sla.metric.label.group}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="metricName">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricName">
                 <span class="text-ellipsis" th:text="#{sla.metric.label.name}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="metricYearMin">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricYearMin">
                 <span class="text-ellipsis" th:text="#{sla.metricYear.label.minValue}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="metricYearMax">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricYearMax">
                 <span class="text-ellipsis" th:text="#{sla.metricYear.label.maxValue}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="metricYearWeight">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricYearWeight">
                 <span class="text-ellipsis" th:text="#{sla.metricYear.label.weightValue}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="metricYearOwner">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricYearOwner">
                 <span class="text-ellipsis" th:text="#{sla.metricYear.label.owner}"></span>
             </div>
-            <div class="grid__cell pr-2 pl-2" data-grid-sortable="true" data-grid-column="metricYearComment">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricYearComment">
                 <span class="text-ellipsis" th:text="#{sla.metricYear.label.comment}"></span>
             </div>
         </div>
@@ -38,9 +38,9 @@
             </div>
             <div class="grid__cell pr-2 pl-2 underline">
                 <a sec:authorize="hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/sla/metric-pools/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
+                   th:href="@{/sla/metrics/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
                 <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/sla/metric-pools/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
+                   th:href="@{/sla/metrics/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
                 </a>
             </div>
             <div class="grid__cell pr-2 pl-2">

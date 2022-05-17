@@ -9,7 +9,8 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{sla.metric.label.metricPool}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{sla.metric.msg.metricPoolDescription}"></h6>
+    <h6 class="description ml-2 pl-2"
+        th:text="${view} ? #{sla.metric.msg.viewDescription} : #{sla.metric.msg.description}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">

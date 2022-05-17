@@ -1386,9 +1386,10 @@ sla:
       type: "Type"
       unit: "Unit"
     msg:
+      description: "Register, modify, or delete the contents of SLA metric management."
       duplicateMetricName: "The same metric name exists. Please check the metric name."
-      metricPoolDescription: "Register, modify, or delete the contents of SLA metric management."
       enterMetricName: "Enter a metric name."
+      viewDescription: "Inquire detailed information about SLA metric management."
   metricType:
     auto: "auto"
     manual: "manual"
@@ -1396,6 +1397,33 @@ sla:
     percent: "%"
     score: "score"
     time: "time"
+  metricYear:
+    btn:
+      copy: "copy"
+    label:
+      comment: "comment"
+      copy: "Copy Metric"
+      maxValue: "maxValue"
+      metricYear: "SLA metric management by year"
+      minValue: "minValue"
+      option:
+        score: "score"
+        percent: "%"
+      owner: "owner"
+        searchPlaceholder: "No ZQL applied."
+      weightValue: "weightValue"
+      year: "year"
+      zql: "ZQL"
+      zqlManual: "ZQL Manual"
+    msg:
+      copy: "Copy the metric to the {0} year metric."
+      description: "Register, modify, or delete the contents of SLA metric management by year."
+      totalScore: "A normal score is calculated when the weights add up to 100%."
+      viewDescription: "Inquire detailed information about SLA metric management by year."
+      zqlAverageDescription: "The average calculation method takes the average of the results. The result of ZQl must be in numeric form."
+      zqlDescription: "You can use ZQL to set SLA subject documents and calculation methods. Check out <b><u>how to use ZQL</u></b>."
+      zqlRateDescription: "The ratio calculation method finds the ratio of documents that satisfy the conditions of ZQL. ZQL must be in a format that represents a condition."
+      zqlTotalDescription: "The total calculation method sums the results. The result of ZQL must be in numeric form."
 
 # statistic
 statistic:
