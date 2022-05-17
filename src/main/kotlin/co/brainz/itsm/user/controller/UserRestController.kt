@@ -121,10 +121,7 @@ class UserRestController(
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
         var result: ZResponse? = null
-        val adminRole = mutableSetOf<String>()
-        adminRole.add(AliceConstants.SYSTEM_ROLE)
-
-        val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey, adminRole)
+        val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey, setOf(AliceConstants.SYSTEM_ROLE))
         if (userSessionRoleCheck == ZResponseConstants.STATUS.SUCCESS.code) {
             result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
             if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
