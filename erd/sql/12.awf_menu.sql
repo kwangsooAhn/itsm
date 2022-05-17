@@ -27,7 +27,7 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
 insert into awf_menu values ('archive', 'menu', '/archives/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
-insert into awf_menu values ('calendar', 'menu', '/calendar', 8, 'TRUE');
+insert into awf_menu values ('calendar', 'menu', '/calendars', 8, 'TRUE');
 insert into awf_menu values ('statistic', 'menu', '', 9, 'TRUE');
 insert into awf_menu values ('statistic.customReportTemplate', 'statistic', '/statistics/customReportTemplate/search', 1, 'TRUE');
 insert into awf_menu values ('statistic.customReport', 'statistic', '/statistics/customReport/search', 2, 'TRUE');

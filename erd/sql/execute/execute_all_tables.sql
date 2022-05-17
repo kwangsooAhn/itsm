@@ -594,7 +594,7 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
 insert into awf_menu values ('archive', 'menu', '/archives/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
-insert into awf_menu values ('calendar', 'menu', '/calendar', 8, 'TRUE');
+insert into awf_menu values ('calendar', 'menu', '/calendars', 8, 'TRUE');
 insert into awf_menu values ('statistic', 'menu', '', 9, 'TRUE');
 insert into awf_menu values ('statistic.customReportTemplate', 'statistic', '/statistics/customReportTemplate/search', 1, 'TRUE');
 insert into awf_menu values ('statistic.customReport', 'statistic', '/statistics/customReport/search', 2, 'TRUE');
@@ -1446,7 +1446,7 @@ insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무�
 insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
 insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
 insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
-insert into awf_url values ('/calendar', 'get', '일정 관리', 'TRUE');
+insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1784,7 +1784,7 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','work
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/calendar', 'get', 'general');
+insert into awf_url_auth_map values ('/calendars', 'get', 'general');
 
 /**
  * 사용자정보
