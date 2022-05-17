@@ -62,7 +62,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             )
             .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
             .leftJoin(code).on(metricPool.metricGroup.eq(code.code))
-            .where(builder(metricYearSearchCondition, metricYear))
+            .where(this.searchByBuilder(metricYearSearchCondition, metricYear))
             .orderBy(metricYear.createDt.desc())
 
         if (metricYearSearchCondition.isPaging) {
@@ -78,10 +78,10 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         return from(metricPool)
             .select(metricPool.count())
             .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
-            .where(builder(metricYearSearchCondition, metricYear))
+            .where(this.searchByBuilder(metricYearSearchCondition, metricYear))
     }
 
-    private fun builder(metricYearSearchCondition: MetricYearSearchCondition, metricYear: QMetricYearEntity): BooleanBuilder {
+    private fun searchByBuilder(metricYearSearchCondition: MetricYearSearchCondition, metricYear: QMetricYearEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(metricYear.metricYear, metricYearSearchCondition.year)
