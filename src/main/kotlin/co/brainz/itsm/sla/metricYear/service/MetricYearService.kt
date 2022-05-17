@@ -5,15 +5,14 @@
 
 package co.brainz.itsm.sla.metricYear.service
 
-import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
-import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
-import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
@@ -34,8 +33,7 @@ import org.springframework.transaction.annotation.Transactional
 class MetricYearService(
     private val metricYearRepository: MetricYearRepository,
     private val metricPoolRepository: MetricPoolRepository,
-    private val currentSessionUser: CurrentSessionUser,
-    private val metricYearRepository: MetricYearRepository
+    private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -87,6 +85,7 @@ class MetricYearService(
             status = status.code
         )
     }
+
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
