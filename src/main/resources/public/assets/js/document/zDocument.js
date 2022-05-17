@@ -17,7 +17,8 @@ import { ZSession } from '../lib/zSession.js';
 import { zValidation } from '../lib/zValidation.js';
 
 class ZDocument {
-    constructor() {}
+    constructor() {
+    }
 
     /**
      * 신청서를 표시하는 모달 생성
@@ -28,7 +29,7 @@ class ZDocument {
             title: '',
             body: documentModalTemplate.content.cloneNode(true),
             classes: 'document-modal-dialog z-document-container',
-            buttons:[],
+            buttons: [],
             close: { closable: false },
             onCreate: () => {
                 this.domElement = document.getElementById('documentDrawingBoard');
@@ -43,6 +44,7 @@ class ZDocument {
             }
         });
     }
+
     /**
      * 신청서 데이터 조회 후 모달 오픈
      * @param documentId 신청서 아이디
@@ -51,6 +53,7 @@ class ZDocument {
         let popUpUrl = '/documents/' + documentId + '/edit';
         window.open(popUpUrl, 'document_' + documentId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
     }
+
     /**
      * 진행 중 문서 초기화
      * @param formDataJson 그리고자 하는 폼에 대한 JSON 데이터
@@ -80,6 +83,7 @@ class ZDocument {
             }
         }
     }
+
     /**
      * JSON 데이터를 폼의 구성요소 3가지(Group, Row, Component)의 출력 순서로 정렬한다. (Recursive)
      * @param data JSON 데이터
@@ -89,14 +93,14 @@ class ZDocument {
             data.group.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
-            data.group.forEach( (g) => {
+            data.group.forEach((g) => {
                 this.sortJsonToForm(g);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             data.row.sort((a, b) =>
                 a.displayDisplayOrder < b.displayDisplayOrder ? -1 : a.displayDisplayOrder > b.displayDisplayOrder ? 1 : 0
             );
-            data.row.forEach( (r) => {
+            data.row.forEach((r) => {
                 this.sortJsonToForm(r);
             });
         } else { // row
@@ -105,6 +109,7 @@ class ZDocument {
             );
         }
     }
+
     /**
      * 폼의 형태로 Document 생성 (Recursive)
      * @param data JSON 데이터
@@ -118,7 +123,7 @@ class ZDocument {
             this.domElement.appendChild(this.form.UIElement.domElement);
             this.form.afterEvent();
 
-            data.group.forEach( (g, gIndex) => {
+            data.group.forEach((g, gIndex) => {
                 // #12443 진행 중 문서 - 그룹 숨김 처리
                 if (!this.isAssignee && g.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
                     g.displayType = FORM.DISPLAY_TYPE.READONLY;
@@ -127,13 +132,13 @@ class ZDocument {
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'row')) { // group
             const group = this.addObjectByType(FORM.LAYOUT.GROUP, data, parent, index);
-            data.row.forEach( (r, rIndex) => {
+            data.row.forEach((r, rIndex) => {
                 r.displayType = group.displayType;
                 this.makeDocument(r, group, rIndex);
             });
         } else if (Object.prototype.hasOwnProperty.call(data, 'component')) { // row
             const row = this.addObjectByType(FORM.LAYOUT.ROW, data, parent, index);
-            data.component.forEach( (c, cIndex) => {
+            data.component.forEach((c, cIndex) => {
                 c.displayType = row.displayType;
                 this.makeDocument(c, row, cIndex);
             });
@@ -141,6 +146,7 @@ class ZDocument {
             this.addObjectByType(FORM.LAYOUT.COMPONENT, data, parent, index);
         }
     }
+
     /**
      * form, group, row, component 타입에 따른 객체 추가
      * @param type form, group, row, component 타입
@@ -174,13 +180,17 @@ class ZDocument {
 
         return addObject;
     }
+
     /**
      * 컴포넌트 value 데이터 조회
      */
     getComponentData(object, array) {
         object.children.forEach((child) => {
             if (child instanceof ZComponent) {
-                array.push({ componentId: child.id, value: (typeof child.value === 'object' ? JSON.stringify(child.value) : child.value) });
+                array.push({
+                    componentId: child.id,
+                    value: (typeof child.value === 'object' ? JSON.stringify(child.value) : child.value)
+                });
             } else {
                 this.getComponentData(child, array);
             }
@@ -192,7 +202,9 @@ class ZDocument {
      *  저장시 유효성 체크
      */
     saveValidationCheck() {
-        if (zValidation.hasDOMElementError(this.domElement)) { return false; }
+        if (zValidation.hasDOMElementError(this.domElement)) {
+            return false;
+        }
 
         let isValid = true;
         // 1. displayType 이 편집 가능일 경우
@@ -268,7 +280,7 @@ class ZDocument {
                 }
             }
 
-            // dropdown 유효성 검증 체크
+            // 7. dropdown 유효성 검증 체크
             const requiredDropdowns = parentElements[i].querySelectorAll('select[data-validation-required="true"]');
             for (let q = 0; q < requiredDropdowns.length; q++) {
                 const requiredElement = requiredDropdowns[q];
@@ -276,6 +288,19 @@ class ZDocument {
                     isValid = false;
                     break outer;
                 }
+            }
+            // 8. 파일업로드 유효성 검증
+            const requiredFileUploads = parentElements[i].querySelectorAll(
+                '.z-fileupload[data-validation-required="true"]');
+            for (let r = 0; r < requiredFileUploads.length; r++) {
+                if (!requiredFileUploads[r].querySelectorAll('.dz-preview').length) {
+                    isValid = false;
+                    zAlert.warning(i18n.msg('document.msg.requiredFileupload'), function () {
+                        requiredFileUploads[r].focus();
+                    });
+                    break outer;
+                }
+
             }
         }
         return isValid;
@@ -292,9 +317,13 @@ class ZDocument {
         const validationUncheckActionType = ['save', 'cancel', 'terminate', 'reject', 'withdraw', 'review'];
         const isActionTypeCheck = validationUncheckActionType.includes(actionType);
 
-        if (!isActionTypeCheck && isMaxLengthCheck && zValidation.hasDOMElementError(this.domElement)) { return false; }
+        if (!isActionTypeCheck && isMaxLengthCheck && zValidation.hasDOMElementError(this.domElement)) {
+            return false;
+        }
 
-        if (!isActionTypeCheck && !this.saveValidationCheck()) { return false; }
+        if (!isActionTypeCheck && !this.saveValidationCheck()) {
+            return false;
+        }
 
         const saveData = {
             'documentId': this.data.documentId,
@@ -344,6 +373,7 @@ class ZDocument {
             finishAction();
         }
     }
+
     /**
      * 프로세스 맵 팝업 호출
      */
@@ -351,6 +381,7 @@ class ZDocument {
         window.open('/tokens/' + this.data.instanceId + '/status', 'token_status_' + this.data.instanceId,
             'width=1300, height=500');
     }
+
     /**
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
@@ -363,6 +394,7 @@ class ZDocument {
             element.textContent = i18n.userDateTime(element.textContent);
         });
     }
+
     /**
      * 문서 인쇄
      */
@@ -370,12 +402,14 @@ class ZDocument {
         sessionStorage.setItem('alice_print', JSON.stringify(this.data.form));
         window.open('/tokens/' + this.data.tokenId + '/print', '_blank');
     }
+
     /**
      * 문서 닫기
      */
     close() {
         window.close();
     }
+
     /**
      * 미리보기 뒤로가기
      */
