@@ -13,6 +13,7 @@
     <script th:src="@{/assets/vendors/tuiCalendar/tui-date-picker.min.js}"></script>
     <script th:src="@{/assets/vendors/tuiCalendar/tui-time-picker.min.js}"></script>
     <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.custom.js}"></script>
 </th:block>
 <body>
 <div layout:fragment="pageTitle">
@@ -26,13 +27,17 @@
                 <option value="month" th:text="#{calendar.label.month}" selected></option>
                 <option value="week" th:text="#{calendar.label.week}"></option>
                 <option value="day" th:text="#{calendar.label.day}"></option>
-                <option value="list" th:text="#{calendar.label.list}"></option>
+                <option value="task" th:text="#{calendar.label.task}"></option>
             </select>
-            <button type="button" class="z-button primary ml-1" th:text="#{calendar.label.today}"></button>
-            <button type="button" class="z-button-icon calendar__move ml-1">
+            <button type="button" class="z-button calendar__action primary ml-1" th:text="#{calendar.label.today}"
+                    data-action="today"
+                    onclick="clickCalendarMenu(this);"></button>
+            <button type="button" class="z-button-icon calendar__action calendar__move ml-1" data-action="prev"
+                    onclick="clickCalendarMenu(this);">
                 <span class="z-icon i-arrow-right move--prev"></span>
             </button>
-            <button type="button" class="z-button-icon calendar__move ml-1">
+            <button type="button" class="z-button-icon calendar__action calendar__move ml-1" data-action="next"
+                    onclick="clickCalendarMenu(this);">
                 <span class="z-icon i-arrow-right move--next"></span>
             </button>
             <span class="calendar__render-range-text ml-1" id="renderRangeText"></span>
@@ -41,67 +46,52 @@
     </div>
 </div>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
-    let calendar = null;
+    const calendarId = /*[[${calendarId}]]*/ '';
+    let calendar = null; // tui calendar 객체
     window.onload = function () {
-        calendar = new tui.Calendar(document.getElementById('calendar'), {
-            defaultView: 'month',
-            taskView: ['task'],
-            template: {
-                monthDayname: function (dayname) {
-                    return '<span class="calendar-week-dayname-name">' + dayname.label + '</span>';
-                }
-            }
+
+        // 달력 초기화
+        calendar = new zCalendar(document.getElementById('calendar'), {
+            calendarId: calendarId,
+            renderRange: document.getElementById('renderRangeText')
         });
-        setRenderRangeText();
+        calendar.setRenderRangeText();
 
         // 이벤트 등록
-        document.getElementById('calendarType').addEventListener('change', changeCalendarType);
-        console.log(calendar);
+        document.getElementById('calendarType').addEventListener('change', function (e) {
+            calendar.setCalendarType(e.target.value);
+        });
+
+        // TODO: 일정 조회
+        // setSchedules();
     };
 
-    // 사용자 포멧에 따른 달력 포멧 조회
-    function getMonthFormat() {
-        switch (i18n.dateFormat) {
-            case 'yyyy-MM-dd':
-            case 'yyyy-dd-MM':
-                return 'yyyy-MM';
-            case 'dd-MM-yyyy':
-            case 'MM-dd-yyyy':
-                return 'MM-yyyy';
-            default:
-                return 'yyyy-MM';
-        }
+    /**
+     * 일정 목록 조회
+     */
+    function setSchedules() {
+        // 기존 목록 삭제
+        calendar.clear();
+
+        // 데이터 재조회
+        const calendarType = document.getElementById('calendarType').value;
+        const standardDate = luxon.DateTime.fromMillis(calendar.getDate().getTime()).setZone('utc+0').toISO();
+        const urlParam = 'calendarId=' + calendarId + '&calendarType=' + calendarType + '&standardDate=' + standardDate;
+        aliceJs.fetchJson('/rest/calendar/list?' + encodeURIComponent(urlParam), {
+            method: 'GET'
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                //calendar.createSchedules([]);
+            }
+        });
     }
 
-    // 상단 메뉴 현재 날짜 표시
-    function setRenderRangeText() {
-        const renderRange = document.getElementById('renderRangeText');
-        const options = calendar.getOptions();
-        const viewName = calendar.getViewName();
-        let html = [];
-        if (viewName === 'day') {
-            html.push(luxon.DateTime.local().setZone(i18n.timezone).toFormat(i18n.dateFormat));
-        } else if (viewName === 'month' &&
-            (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)) {
-            html.push(luxon.DateTime.local().setZone(i18n.timezone).toFormat(getMonthFormat()));
-        } else {
-            html.push(luxon.DateTime.fromMillis(
-                calendar.getDateRangeStart().getTime()).setZone(i18n.timezone).toFormat(i18n.dateFormat));
-            html.push(' ~ ');
-            html.push(luxon.DateTime.fromMillis(
-                calendar.getDateRangeEnd().getTime()).setZone(i18n.timezone).toFormat(i18n.dateFormat));
-        }
-        renderRange.innerHTML = html.join('');
-    }
-
-    // 월, 주, 년, 리스트 변경에 따른 이벤트 핸들러
-    function changeCalendarType(e) {
-        const action = e.target.value;
-        if (action === 'list') {
-            // TODO: 커스텀 목록 만들기 - 구글 캘린더 처럼 목록 나오게
-        } else {
-            calendar.changeView(action, true);
-        }
+    /**
+     * 상단 메뉴 이벤트 처리
+     * @param {e} 이벤트 객체
+     */
+    function clickCalendarMenu(e) {
+        calendar.clickCalendarMenu(e.getAttribute('data-action'));
     }
 
 </script>

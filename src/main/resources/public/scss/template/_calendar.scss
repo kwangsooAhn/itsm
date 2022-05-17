@@ -19,8 +19,36 @@
           background: $blue400;
         }
       }
+
       .move--prev {
         @include rotate(180);
+      }
+    }
+  }
+
+
+}
+
+// 모달
+.modal-dialog {
+  &.calendar {
+    &__modal--register {
+      width: 620px;
+      height: 320px;
+      right: auto;
+
+      .modal-content {
+        height: calc(320px - 80px);
+        padding: 20px 20px 0px 20px;
+        @include scrollbarHidden;
+
+        .calendar__modal--register__main {
+          gap: 8px;
+
+          .flex-row {
+            gap: 8px;
+          }
+        }
       }
     }
   }
