@@ -123,11 +123,11 @@ class WfInstanceService(
                 )
             }
             else -> {
-                totalCountWithoutCondition = todoInstances(
+                totalCountWithoutCondition = wfInstanceRepository.findTodoInstanceCount(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
                     countSearchCondition
-                ).totalCount
+                )
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
                     WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
@@ -136,7 +136,6 @@ class WfInstanceService(
             }
         }
 
-        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
 
         // Topic
@@ -147,7 +146,12 @@ class WfInstanceService(
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
-            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
+            tokenDataList.addAll(
+                wfTokenDataRepository.findTokenDataByTokenIds(
+                    tokenIds,
+                    WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+                )
+            )
         }
 
         // tags
@@ -162,20 +166,16 @@ class WfInstanceService(
 
         for (instance in tokenList) {
             val topics = mutableListOf<String>()
-            val topicComponentIds = mutableListOf<String>()
-            tokenDataList.forEach { tokenData ->
-                if (tokenData.component.isTopic &&
-                    componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
-                ) {
+            run loop@{
+                tokenDataList.forEach { tokenData ->
                     if (instance.tokenEntity.tokenId == tokenData.component.tokenId) {
-                        topicComponentIds.add(tokenData.component.componentId)
                         topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
+                        return@loop
                     }
                 }
             }
 
-            val createUserAvatarPath =
-                instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
+            val createUserAvatarPath = instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
             val assigneeUserAvatarPath = instance.tokenEntity.assigneeId?.let { userDetailsService.selectUserKey(it) }
                 ?.let { userDetailsService.makeAvatarPath(it) }
 
@@ -426,7 +426,12 @@ class WfInstanceService(
             tokenIds.add(instance.tokenEntity.tokenId)
         }
         if (tokenIds.isNotEmpty()) {
-            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
+            tokenDataList.addAll(
+                wfTokenDataRepository.findTokenDataByTokenIds(
+                    tokenIds,
+                    WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+                )
+            )
         }
         val topics = mutableListOf<String>()
         for (instance in instanceList) {
@@ -435,14 +440,13 @@ class WfInstanceService(
                 if (tokenData.component.isTopic &&
                     componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
                 ) {
-                    // 첫번째 isTopic(제목)만 담음
-                    if ((instance.tokenEntity.tokenId == tokenData.component.tokenId) && topicComponentIds.size == 0) {
+                    if ((instance.tokenEntity.tokenId == tokenData.component.tokenId) && topicComponentIds.size == 0) { // 신청서의  첫번째 isTopic(제목)만 담음
                         topicComponentIds.add(tokenData.component.componentId)
                         topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
                     }
                 }
             }
-            if (topicComponentIds.size == 0) { // 신청서에 isTopic 이 1개도 없다면 강제로 빈값 추가 (Excel 다운로드시 제목란에 빈값입력을 위해)
+            if (topicComponentIds.size == 0) { // 신청서에 isTopic이 1개도 없다면 강제로 빈값 추가 (Excel 다운로드시 제목란에 빈값입력을 위해)
                 topics.add(" ")
             }
         }
@@ -471,5 +475,16 @@ class WfInstanceService(
 
     fun getInstanceListInDocumentNo(documentNo: String): List<WfInstanceEntity> {
         return wfInstanceRepository.findWfInstanceEntitiesByDocumentNo(documentNo)
+    }
+
+    /**
+     * 처리할 문서 카운트 (메뉴 - 문서함)
+     */
+    fun getInstanceTodoCount(): Long {
+        return wfInstanceRepository.findTodoInstanceCount(
+            WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
+            WfTokenConstants.getTargetTokenStatusGroup(WfTokenConstants.SearchType.TODO),
+            TokenSearchCondition(userKey = currentSessionUser.getUserKey())
+        )
     }
 }

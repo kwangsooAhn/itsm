@@ -41,4 +41,10 @@ interface WfInstanceRepositoryCustom {
     ): MutableList<RestTemplateInstanceListDto>
 
     fun getInstanceListInTag(tagValue: String, range: ChartRange, documentStatus: String?): List<WfInstanceEntity>
+
+    fun findTodoInstanceCount(
+        status: List<String>?,
+        tokenStatus: List<String>?,
+        tokenSearchCondition: TokenSearchCondition
+    ): Long
 }

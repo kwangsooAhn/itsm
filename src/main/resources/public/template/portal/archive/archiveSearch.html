@@ -15,13 +15,16 @@
         <div class="z-page-search pb-4">
             <form id="searchFrm">
                 <select id="category" name="category" class="col-3">
-                    <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="${category.codeName}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}"
+                            th:text="${category.codeName}"></option>
                 </select>
-                <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5" maxlength="100"
+                <input type="text" id="searchValue" name="searchValue" class="z-input i-search text-ellipsis col-5"
+                       maxlength="100"
                        th:placeholder="#{archive.label.searchPlaceholder}"/>
                 <input type="text" id="fromDt" name="fromDt" class="z-input i-date-picker search-date col-3"/>
                 <span>~</span>
-                <input type="text" id="searchToDt" name="searchToDt" class="z-input i-date-picker search-date col-3 mr-2"/>
+                <input type="text" id="searchToDt" name="searchToDt"
+                       class="z-input i-date-picker search-date col-3 mr-2"/>
                 <input type="hidden" id="toDt" name="toDt" readonly="readonly" class="search-date"/>
                 <!-- 리스트 검색 갯수 : 포탈 화면 고려해서 13개로 처리함 -->
                 <input type="hidden" id="contentNumPerPage" name="contentNumPerPage" readonly="readonly" value="13"/>
@@ -35,30 +38,33 @@
 </th:block>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
-        /*<![CDATA[*/
-        let searchFromDt = i18n.getDate({'months': -1});
-        let searchToDt = i18n.getDate();
+    /*<![CDATA[*/
+    let searchFromDt = i18n.getDate({'months': -1});
+    let searchToDt = i18n.getDate();
 
-        window.onload = function () {
-            document.getElementById('searchValue').focus();
-            const fromDtElement = document.getElementById('fromDt');
-            const searchToDtElement = document.getElementById('searchToDt');
-            fromDtElement.value = searchFromDt;
-            searchToDtElement.value = searchToDt;
-            zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
-            zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
-            document.getElementById('category').addEventListener('change', function () { getList(); });
-            document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
-
+    window.onload = function () {
+        document.getElementById('searchValue').focus();
+        const fromDtElement = document.getElementById('fromDt');
+        const searchToDtElement = document.getElementById('searchToDt');
+        fromDtElement.value = searchFromDt;
+        searchToDtElement.value = searchToDt;
+        zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+        zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
+        document.getElementById('category').addEventListener('change', function () {
             getList();
-        };
+        });
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce(() => getList()), false);
 
-        function setDatePicker(element, picker) {
-            if (typeof picker === 'undefined') {
-                return false;
-            }
-            if (element.id === 'fromDt') {
-                const toDtValue = document.getElementById('searchToDt').value;
+        getList();
+    };
+
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') {
+            return false;
+        }
+        if (element.id === 'fromDt') {
+            const toDtValue = document.getElementById('searchToDt').value;
+            if (toDtValue !== '' && element.value !== '') {
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
                         document.getElementById('fromDt').value = searchFromDt;
@@ -67,8 +73,10 @@
                 } else {
                     getList();
                 }
-            } else {
-                const fromDtValue = document.getElementById('fromDt').value;
+            }
+        } else {
+            const fromDtValue = document.getElementById('fromDt').value;
+            if (fromDtValue !== '' && element.value !== '') {
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
                         document.getElementById('searchToDt').value = searchToDt;
@@ -103,6 +111,7 @@
                 dt.setAttribute('title', userDateTime);
             });
         }
-        /*]]>*/
+
+    /*]]>*/
 </script>
 </html>
