@@ -40,6 +40,7 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -781,18 +782,26 @@ class UserService(
         return code
     }
 
-    fun userAccessAuthCheck(createUserKey: String, auths: String) {
+    /**
+     * 페이지별 권한으로 역할 확인
+     */
+    fun userAccessAuthCheck(createUserKey: String, auths: String?) {
         val roleIds: MutableSet<String> = mutableSetOf()
-        val roleDtoList = aliceRoleAuthMapRepository.findRoleByAuths(auths)
-        for (role in roleDtoList) {
-            roleIds.add(role.roleId)
+        val roleDtoList = mutableListOf<RoleListDto>()
+        if (!auths.isNullOrEmpty()) {
+            roleDtoList.addAll(aliceRoleAuthMapRepository.findRoleByAuths(auths))
+            for (role in roleDtoList) {
+                roleIds.add(role.roleId)
+            }
+        } else {
+            roleIds.add(AliceConstants.SYSTEM_ROLE)
         }
-            val result = this.userSessionRoleCheck(createUserKey, roleIds)
-            if (result != ZResponseConstants.STATUS.SUCCESS.code) {
-                throw AliceException(
-                    AliceErrorConstants.ERR_00002,
-                    aliceMessageSource.getMessage("auth.msg.accessDenied")
-                )
+        val result = this.userSessionRoleCheck(createUserKey, roleIds)
+        if (result != ZResponseConstants.STATUS.SUCCESS.code) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00002,
+                aliceMessageSource.getMessage("auth.msg.accessDenied")
+            )
         }
     }
 }
