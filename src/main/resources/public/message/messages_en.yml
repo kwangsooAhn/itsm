@@ -1489,6 +1489,7 @@ user:
     nowUserPassword: "Current Password"
     officeNumber: "officeNumber"
     password: "Password"
+    passwordCheck: "Password Check"
     position: "Position"
     profile: "Profile"
     rePassword: "rePassword"

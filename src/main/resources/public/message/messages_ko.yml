@@ -1492,6 +1492,7 @@ user:
     nowUserPassword: "현재 비밀번호"
     officeNumber: "사무실 번호"
     password: "비밀번호"
+    passwordCheck: "비밀번호 확인"
     position: "직책"
     profile: "프로필"
     rePassword: "재확인 비밀번호"
