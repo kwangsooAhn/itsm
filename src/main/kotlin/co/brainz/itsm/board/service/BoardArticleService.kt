@@ -88,9 +88,9 @@ class BoardArticleService(
             updatePortalBoardEntity.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
         }
 
+        var status = ZResponseConstants.STATUS.SUCCESS
         val boardAdminId = boardArticleSaveDto.boardAdminId
         val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
-        var status = ZResponseConstants.STATUS.SUCCESS
         try {
             val boardCount = boardRepository.countByBoardAdminId(boardAdminId)
             var boardSeq = 0L
