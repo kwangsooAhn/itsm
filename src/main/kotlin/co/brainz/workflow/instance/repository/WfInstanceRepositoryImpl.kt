@@ -380,11 +380,13 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(tokenSub.tokenId.max())
                     .from(tokenSub)
-                    .where(tokenSub.tokenStartDt.eq(
-                        from(startDtSubToken)
-                            .select(startDtSubToken.tokenStartDt.max())
-                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                    ))
+                    .where(
+                        tokenSub.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        )
+                    )
             )
         )
 
@@ -394,8 +396,9 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(documentStorage.instance.instanceId)
                     .from(documentStorage)
-                    .where(instance.instanceId.eq(documentStorage.instance.instanceId)
-                        .and(documentStorage.user.userKey.eq(tokenSearchCondition.userKey))
+                    .where(
+                        instance.instanceId.eq(documentStorage.instance.instanceId)
+                            .and(documentStorage.user.userKey.eq(tokenSearchCondition.userKey))
                     )
             )
         )
@@ -408,7 +411,7 @@ class WfInstanceRepositoryImpl(
             query.offset((tokenSearchCondition.pageNum - 1) * tokenSearchCondition.contentNumPerPage)
         }
 
-        val countQuery = countQuery(tokenSearchCondition.tagArray)
+        val countQuery = findInstanceCount(tokenSearchCondition.tagArray)
             .where(builder)
 
         return PagingReturnDto(
