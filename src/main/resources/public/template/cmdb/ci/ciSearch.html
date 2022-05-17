@@ -118,6 +118,8 @@
                         btnDetailSearch.classList.remove('primary');
                         btnDetailSearch.classList.add('secondary');
                     }
+                    // 상세 검색 초기화
+                    document.getElementById('search').value = '';
                     searchData = null;
                     tempSearchData = null;
                     getList();
