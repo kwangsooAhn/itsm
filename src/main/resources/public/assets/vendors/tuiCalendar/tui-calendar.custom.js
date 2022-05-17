@@ -197,54 +197,20 @@ zCalendar.prototype.setRenderRangeText = function () {
 };
 
 /**
- * 사용자 포멧에 따른 달력 포멧 조회
- */
-zCalendar.prototype.getMonthFormat = function () {
-    switch (i18n.dateFormat) {
-        case 'yyyy-MM-dd':
-        case 'yyyy-dd-MM':
-            return 'yyyy-MM';
-        case 'dd-MM-yyyy':
-        case 'MM-dd-yyyy':
-            return 'MM-yyyy';
-        default:
-            return 'yyyy-MM';
-    }
-};
-
-/**
  * 월, 주, 년, 리스트 변경에 따른 이벤트 처리
  * @param {type} 타입 - month|day|week|task
  */
-zCalendar.prototype.setCalendarType = function (type) {
+zCalendar.prototype.setCalendarType = function (type, callback) {
     if (type === 'task') {
         // TODO: 커스텀 목록 만들기 - 구글 캘린더 처럼 목록 나오게
     } else {
         this.calendar.changeView(type, true);
     }
     this.setRenderRangeText();
-};
 
-/**
- * 메뉴 선택에 따른 처리
- * @param {action} 타입 - prev|next|today
- */
-zCalendar.prototype.clickCalendarMenu = function (action) {
-    switch (action) {
-        case 'prev':
-            this.calendar.prev();
-            break;
-        case 'next':
-            this.calendar.next();
-            break;
-        case 'today':
-            this.calendar.today();
-            break;
-        default:
-            break;
+    if (typeof callback === 'function') {
+        callback(this.calendar);
     }
-
-    this.setRenderRangeText();
 };
 
 /**
@@ -305,6 +271,57 @@ zCalendar.prototype.setModal = function (schedule) {
     }
 
     console.log(this.modal.customOptions);
+};
+
+
+/**
+ * 사용자 포멧에 따른 달력 포멧 조회
+ */
+zCalendar.prototype.getMonthFormat = function () {
+    switch (i18n.dateFormat) {
+        case 'yyyy-MM-dd':
+        case 'yyyy-dd-MM':
+            return 'yyyy-MM';
+        case 'dd-MM-yyyy':
+        case 'MM-dd-yyyy':
+            return 'MM-yyyy';
+        default:
+            return 'yyyy-MM';
+    }
+};
+
+/**
+ * 현재 시간 조회
+ */
+zCalendar.prototype.getStandardDate = function () {
+    return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).setZone('utc+0').toISO()
+};
+
+/**
+ * 메뉴 선택에 따른 처리
+ * @param {action} 타입 - prev|next|today
+ * @param {callback} 콜백함수
+ */
+zCalendar.prototype.clickCalendarMenu = function (action, callback) {
+    switch (action) {
+        case 'prev':
+            this.calendar.prev();
+            break;
+        case 'next':
+            this.calendar.next();
+            break;
+        case 'today':
+            this.calendar.today();
+            break;
+        default:
+            break;
+    }
+
+    this.setRenderRangeText();
+
+    if (typeof callback === 'function') {
+        callback(this.calendar);
+    }
 };
 
 /**
@@ -439,7 +456,7 @@ zCalendar.prototype.saveSchedule = function (schedule) {
                 break;
         }
     });*/
-    this.calendar.createSchedules([
+    this.addSchedule([
         {
             id: '1',
             calendarId: saveData.calendarId,
@@ -454,3 +471,18 @@ zCalendar.prototype.saveSchedule = function (schedule) {
     ]);
     this.modal.hide();
 };
+
+/**
+ * 캘린더 등록
+ *  @param {schedule} schedule - schedule
+ */
+zCalendar.prototype.addSchedule = function (schedules) {
+    this.calendar.createSchedules(schedules);
+};
+
+/**
+ * 캘린더 초기화
+ */
+zCalendar.prototype.destroy = function () {
+    this.calendar.clear();
+}
