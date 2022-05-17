@@ -3,7 +3,7 @@
     "templateId": "a71d2d6094b2920f87ba8eaf025af258",
     "templateName": "INPUT BOX-IT부서대상-ITSM팀",
     "type": "componentTemplate",
-    "orgData": {
+    "data": {
       "id": "a67b9a551e38d8552ce26ab30868da6a",
       "type": "inputBox",
       "display": {
@@ -43,10 +43,10 @@
     }
   },
   {
-    "templateId": "a71d2d6094b2920f87ba8eaf025af258",
+    "templateId": "a71d2d6094b2920f87ba8eaf025af259",
     "templateName": "사용자 검색-IT부서대상-ITSM팀",
     "type": "userSearch",
-    "orgData": {
+    "data": {
       "id": "ad04ef29e4daf447997743c15a8359d9",
       "type": "userSearch",
       "display": {
@@ -91,10 +91,10 @@
     }
   },
   {
-    "templateId": "a71d2d6094b2920f87ba8eaf025af258",
+    "templateId": "a71d2d6094b2920f87ba8eaf025af200",
     "templateName": "부서 검색",
     "type": "organizationSearch",
-    "orgData": {
+    "data": {
       "id": "a339d7add597335ae0fab4c9eafeb4b8",
       "type": "organizationSearch",
       "display": {

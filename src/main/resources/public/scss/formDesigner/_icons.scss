@@ -32,7 +32,7 @@
   &.i-organizationSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_organization.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-historyInquiry { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_historyinquiry.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
   &.i-modalButton { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_modalButton.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-componentTemplate { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_component_template.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-componentTemplate { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_component_template.svg', 1rem, 1rem, no-repeat, center); } // 16px 16px
 
   // copy
   &.i-copy { @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center); } // 20px 20px

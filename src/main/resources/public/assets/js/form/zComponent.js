@@ -426,7 +426,6 @@ export default class ZComponent {
      */
     openCreateTemplateModal() {
         let _this = this;
-        console.log(JSON.stringify(_this.toJson()));
         const templateModal = new modal({
             title: i18n.msg('form.label.registerTemplate'),
             body: `<div class="flex-column">` +
@@ -451,7 +450,7 @@ export default class ZComponent {
                         'type': _this.type,
                         'data': JSON.stringify(_this.toJson()) // 선택된 컴포넌트의 실시간 설정 데이터
                     };
-                    // todo: 템플릿 등록 rest 처리 후 response 에 따라 성공시 modal.hide() 처리 / URL 수정
+                    // todo: #13134 템플릿 등록 rest 처리 후 response 에 따라 성공시 modal.hide() 처리 / URL 수정
                     // aliceJs.fetchJson('/rest/forms', {
                     //     method: 'POST',
                     //     headers: {

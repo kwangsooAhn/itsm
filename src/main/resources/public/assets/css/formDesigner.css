@@ -2176,8 +2176,8 @@ input, button, select, optgroup, textarea {
   mask-position: center;
 }
 .z-icon.i-componentTemplate {
-  width: 2rem;
-  height: 2rem;
+  width: 1rem;
+  height: 1rem;
   -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_component_template.svg");
   mask-image: url("../media/icons/formDesigner/palette/icon_component_template.svg");
   -webkit-mask-repeat: no-repeat;

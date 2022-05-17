@@ -70,7 +70,7 @@
             OverlayScrollbars(document.getElementById('formMain'), {className: 'scrollbar'});
         });
 
-        // todo: dummy json / 추후 백엔드 구현 시 제거
+        // todo: #13134 dummy json / 추후 백엔드 구현 시 제거
         aliceJs.fetchJson('../../assets/js/temp/componentTemplate.json', {
             method: 'GET',
             showProgressbar: true
@@ -79,14 +79,13 @@
             let templateList = document.getElementById('customComponentList').querySelector('.list-group');
             templateList.innerHTML = '';
             dummy.forEach( (dummyData) => {
-                const orgData = JSON.stringify(dummyData.orgData);
-                const templateItem = `<div class="z-component-template-icon list-group-item z-component-template-tooltip" id="templateComponent" tabindex="0" style="--data-row:0;">` +
-                    `<input type="hidden" id="templateData_${dummyData.templateId}" data-value="${orgData}"/>` +
+                const templateItem = `<div class="z-component-template-icon list-group-item" id="templateComponent" data-value="${dummyData.templateId}">` +
                     `<span class="z-icon i-componentTemplate"></span>` +
-                    `<span class="z-component-name text-ellipsis" title="${dummyData.templateName}">` +
-                        `${dummyData.templateName}` +
+                    `<span class="z-component-name text-ellipsis" title="${aliceJs.filterXSS(dummyData.templateName)}">` +
+                        `${aliceJs.filterXSS(dummyData.templateName)}` +
                     `</span>` +
-                    `<button type="button" class="z-button-icon-sm" tabindex="-1" id="${dummyData.templateId}" onclick="zFormDesigner.deleteTemplate(this);">` +
+                    `<button type="button" class="z-button-icon-sm" tabindex="-1" id="${dummyData.templateId}" ` +
+                        `onclick="zFormDesigner.deleteTemplate(this);">` +
                         `<span class="z-icon i-remove"></span>` +
                     `</button>` +
                 `</div>`;
@@ -207,7 +206,7 @@
                         </label>
                         <div class="z-accordion-content">
                             <!-- sortablejs 라이브러리에서 사용하니 list-group, list-group-item 은 삭제하지 마세요. -->
-                            <div class="z-component-icon-box list-group">
+                            <div class="z-component-icon-box list-group" data-type="component">
                                 <div class="z-component-icon inputBox flex-column align-items-center list-group-item"
                                      id="inputBox" tabindex="0" style="--data-row:0;">
                                     <span class="z-icon i-inputBox"></span>
@@ -310,7 +309,7 @@
                             <span class="z-icon i-arrow-right"></span>
                         </label>
                         <div class="z-accordion-content">
-                            <div class="z-component-icon-box list-group">
+                            <div class="z-component-icon-box list-group" data-type="component">
                                 <div class="z-component-icon label flex-column align-items-center list-group-item"
                                      id="label" tabindex="0" style="--data-row:0;">
                                     <span class="z-icon i-label"></span>
@@ -337,7 +336,7 @@
                             <span class="z-icon i-arrow-right"></span>
                         </label>
                         <div class="z-accordion-content">
-                            <div class="z-component-icon-box list-group">
+                            <div class="z-component-icon-box list-group" data-type="component">
                             </div>
                         </div>
                     </div>
@@ -349,11 +348,11 @@
                             <span class="z-icon i-arrow-right"></span>
                         </label>
                         <div class="z-accordion-content" id="customComponentList">
-                            <div class="z-component-icon-box list-group">
-                                <!-- todo : sample 추후 템플릿 목록에서 데이터를 가져와서 그려준다. -->
+                            <div class="z-component-icon-box list-group" data-type="template">
+                                <!-- todo : #13134 sample 추후 템플릿 목록에서 데이터를 가져와서 그려준다. -->
                                 <!-- 반복 구간 start -->
-                                <div class="z-component-icon component-template list-group-item z-component-template-tooltip"
-                                     id="templateComponent" tabindex="0" style="--data-row:0;">
+                                <div class="z-component-icon component-template list-group-item"
+                                     id="templateComponent" tabindex="0">
                                     <!-- data-value = jsonData() -->
                                     <input th:type="hidden" data-value=""/>
                                     <!-- z-component-name은 데이터에서 가져오기. th:text, th:tile 모두 설정 -->
