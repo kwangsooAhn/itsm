@@ -9,6 +9,7 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.response.ZAliceResponse
@@ -119,9 +120,11 @@ class UserRestController(
         request: HttpServletRequest,
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
-        val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey)
         var result: ZResponse? = null
+        val adminRole = mutableSetOf<String>()
+        adminRole.add(AliceConstants.SYSTEM_ROLE)
 
+        val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey, adminRole)
         if (userSessionRoleCheck == ZResponseConstants.STATUS.SUCCESS.code) {
             result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
             if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||

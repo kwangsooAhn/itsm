@@ -755,16 +755,21 @@ class UserService(
     }
 
     /**
-     * 자기 정보 수정 시 유저의 권한 확인
+     * 세션 유저 권한 체크
      */
-    fun userSessionRoleCheck(userKey: String): String {
-        var code = ZResponseConstants.STATUS.SUCCESS.code
+    fun userSessionRoleCheck(userKey: String, roleIds: Set<String>): String {
+        var code = ZResponseConstants.STATUS.ERROR_FAIL.code
         if (userKey != currentSessionUser.getUserKey()) {
-            val adminRole =
-                roleService.getUserRoleList(currentSessionUser.getUserKey()).filter { it.roleId == AliceConstants.SYSTEM_ROLE }
-            if (adminRole.isEmpty()) {
-                code = ZResponseConstants.STATUS.ERROR_FAIL.code
+            val sessionUserRole = roleService.getUserRoleList(currentSessionUser.getUserKey())
+            if (sessionUserRole.isNotEmpty()) {
+                sessionUserRole.forEach { sessionRole ->
+                    if (roleIds.contains(sessionRole.roleId)) {
+                        code = ZResponseConstants.STATUS.SUCCESS.code
+                    }
+                }
             }
+        } else {
+            code = ZResponseConstants.STATUS.SUCCESS.code
         }
         return code
     }
