@@ -8104,7 +8104,7 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal-dialog.metric-copy {
+.modal-dialog.sla-metric-yearly-copy-modal {
   width: 62.5rem;
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
@@ -8112,7 +8112,7 @@ body.modal-active {
   scrollbar-width: none;
   /* Firefox */
 }
-.modal-dialog.metric-copy::-webkit-scrollbar {
+.modal-dialog.sla-metric-yearly-copy-modal::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
