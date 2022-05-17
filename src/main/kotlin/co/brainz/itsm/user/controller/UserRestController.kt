@@ -120,10 +120,10 @@ class UserRestController(
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
         val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey)
-        return if (userSessionRoleCheck.status == ZResponseConstants.STATUS.ERROR_FAIL.code) {
-            ZAliceResponse.response(userSessionRoleCheck)
-        } else {
-            val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
+        var result: ZResponse? = null
+
+        if (userSessionRoleCheck == ZResponseConstants.STATUS.SUCCESS.code) {
+            result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
             if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
                 result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
                 result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
@@ -137,7 +137,10 @@ class UserRestController(
                     }
                 }
             }
-            ZAliceResponse.response(result)
+        }
+        return when (userSessionRoleCheck) {
+            ZResponseConstants.STATUS.SUCCESS.code -> ZAliceResponse.response(result)
+            else -> ZAliceResponse.response(ZResponse(status = userSessionRoleCheck))
         }
     }
 

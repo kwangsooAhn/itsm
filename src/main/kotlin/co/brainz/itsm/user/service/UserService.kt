@@ -757,7 +757,7 @@ class UserService(
     /**
      * 자기 정보 수정 시 유저의 권한 확인
      */
-    fun userSessionRoleCheck(userKey: String): ZResponse {
+    fun userSessionRoleCheck(userKey: String): String {
         var code = ZResponseConstants.STATUS.SUCCESS.code
         if (userKey != currentSessionUser.getUserKey()) {
             val adminRole =
@@ -766,8 +766,6 @@ class UserService(
                 code = ZResponseConstants.STATUS.ERROR_FAIL.code
             }
         }
-        return ZResponse(
-            status = code
-        )
+        return code
     }
 }
