@@ -9,6 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
+import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.repository.AliceCertificationRepository
@@ -22,6 +23,8 @@ import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
@@ -101,7 +104,8 @@ class UserService(
     private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
-    private val roleService: RoleService
+    private val roleService: RoleService,
+    private val aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -752,5 +756,47 @@ class UserService(
      */
     fun getUserListInOrganization(organizationIds: Set<String>): List<AliceUserEntity> {
         return userRepository.getUserListInOrganization(organizationIds)
+    }
+
+    /**
+     * 자기 정보 수정 시 유저의 권한 확인
+     */
+    fun userSessionRoleCheck(userKey: String, roleIds: Set<String>?): String {
+        var code = ZResponseConstants.STATUS.ERROR_FAIL.code
+        if (userKey != currentSessionUser.getUserKey()) {
+            val sessionUserRole = roleService.getUserRoleList(currentSessionUser.getUserKey())
+            if (sessionUserRole.isNotEmpty()) {
+                run loop@{
+                    roleIds?.forEach { role ->
+                        sessionUserRole.forEach { sessionRole ->
+                            if (role == sessionRole.roleId) {
+                                code = ZResponseConstants.STATUS.SUCCESS.code
+                                return@loop
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            code = ZResponseConstants.STATUS.SUCCESS.code
+        }
+        return code
+    }
+
+    fun userAccessAuthCheck(createUserKey: String, auths: String) {
+        val roleIds: MutableSet<String> = mutableSetOf()
+        val roleDtoList = aliceRoleAuthMapRepository.findRoleByAuths(auths)
+        for (role in roleDtoList) {
+            roleIds.add(role.roleId)
+        }
+        if (roleIds.isNotEmpty()) {
+            val result = this.userSessionRoleCheck(createUserKey, roleIds)
+            if (result != ZResponseConstants.STATUS.SUCCESS.code) {
+                throw AliceException(
+                    AliceErrorConstants.ERR_00002,
+                    aliceMessageSource.getMessage("auth.msg.accessDenied")
+                )
+            }
+        }
     }
 }
