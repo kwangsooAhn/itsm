@@ -31,7 +31,8 @@
         <div class="z-edit-row flex-column">
             <label th:text="#{role.label.desc}"></label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="txtRoleDesc" maxlength="200" name="txtRoleDesc"
-                      rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${role?.roleDesc}"></textarea>
+                      rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'"
+                      th:text="${role?.roleDesc}"></textarea>
         </div>
         <div class="z-edit-row flex-column">
             <label th:text="#{role.label.referenceCount}"></label>
@@ -40,48 +41,53 @@
         </div>
         <div class="z-edit-row flex-column">
             <div class="flex-column z-edit-row">
-                <h3 th:classappend="${view} ? '' : 'required'" class="sub-title under-bar bold" th:text="#{role.menu.auth}"></h3>
-            <div class="z-switch-list">
-                <ul>
-                    <li class="text-ellipsis" th:each="auth : ${authList}">
-                        <label class="z-switch" tabindex="0" th:for="${auth?.authId}">
-                            <input type="checkbox" th:id="${auth?.authId}" name="roleAuth" th:value="${auth?.authName}"  th:disabled="${view}"
-                                   th:checked="${auth?.authDesc == 'checked'}">
-                            <span></span>
-                            <span class="z-label z-label-name" th:text="${auth?.authName}"></span>
-                            <span class="z-label" th:text="${auth?.authDesc}"></span>
-                        </label>
-                    </li>
-                </ul>
+                <h3 th:classappend="${view} ? '' : 'required'" class="sub-title under-bar bold"
+                    th:text="#{role.menu.auth}"></h3>
+                <div class="z-switch-list">
+                    <ul>
+                        <li class="text-ellipsis" th:each="auth : ${authList}">
+                            <label class="z-switch" tabindex="0" th:for="${auth?.authId}">
+                                <input type="checkbox" th:id="${auth?.authId}" name="roleAuth"
+                                       th:value="${auth?.authName}" th:disabled="${view}"
+                                       th:checked="${auth?.authDesc == 'checked'}">
+                                <span></span>
+                                <span class="z-label z-label-name" th:text="${auth?.authName}"></span>
+                                <span class="z-label" th:text="${auth?.authDesc}"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="flex-row justify-content-between z-edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/roles/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+                <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
+                        th:if="!${role?.roleId}" th:text="#{common.btn.register}"
+                        th:onclick="|javascript:onSave('POST')|"></button>
+                <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
+                        th:if="${role?.roleId}" th:text="#{common.btn.modify}"
+                        th:onclick="|javascript:onSave('PUT')|"
+                ></button>
+                <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
+                        th:if="${role?.roleId}" th:text="#{common.btn.delete}"
+                        th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"></button>
             </div>
         </div>
     </div>
-    <div class="flex-row justify-content-between z-edit-row">
-        <div class="z-button-list">
-            <a class="z-button secondary" href="/roles/search" th:text="#{common.btn.list}"></a>
-        </div>
-        <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
-            <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
-                    th:if="!${role?.roleId}" th:text="#{common.btn.register}"
-                    th:onclick="|javascript:onSave('POST')|"></button>
-            <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
-                    th:if="${role?.roleId}" th:text="#{common.btn.modify}"
-                    th:onclick="|javascript:onSave('PUT')|"
-                    ></button>
-            <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
-                    th:if="${role?.roleId}" th:text="#{common.btn.delete}"
-                    th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"></button>
-        </div>
-    </div>
-</div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
+    /* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
+    const specialCharInRoleId = /[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자 포함 (. 제외)
+
     window.onload = function () {
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.role-content-edit'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.role-content-edit'), { className: 'scrollbar' });
         Array.prototype.forEach.call(document.querySelectorAll('.z-switch-list'), function (target) {
-            OverlayScrollbars(target, {className: 'inner-scrollbar'});
+            OverlayScrollbars(target, { className: 'inner-scrollbar' });
         });
         const roleId = document.getElementById('txtRoleId');
         if (roleId && roleId.value) {
@@ -107,8 +113,8 @@
                         className: 'inner-scrollbar',
                         callbacks: {
                             onInitialized: function () {
-                                const verticalScrollTrack = document.querySelector('.z-switch-list> .os-scrollbar-vertical');
-                                verticalScrollTrack.classList.add('right', 'padding');
+                                const scrollTrack = document.querySelector('.z-switch-list> .os-scrollbar-vertical');
+                                scrollTrack.classList.add('right', 'padding');
                             }
                         }
                     });
@@ -120,18 +126,24 @@
                     textarea: {
                         dynHeight: false,
                         dynWidth: false,
-                        inheritedAttrs: "class"
+                        inheritedAttrs: 'class'
                     }
                 });
             });
         }
-    }
+    };
 
     /*등록, 수정 버튼*/
     function onSave(flag) {
         if (isEmpty('txtRoleId', 'role.msg.enterRoleId')) return;
         if (isEmpty('txtRoleName', 'role.msg.enterRoleName')) return;
-        if(!isSpecialChar('txtRoleId', 'validation.msg.checkPositionFormat')) return;
+
+        // 역할ID 특수문자 체크
+        const txtRoleId = document.getElementById('txtRoleId');
+        if (txtRoleId && specialCharInRoleId.test(txtRoleId.value)) {
+            zAlert.warning('[(#{validation.msg.checkPositionFormat})]');
+            return false;
+        }
 
         let roleIds = [];
         let roleNames = [];
@@ -143,14 +155,14 @@
 
         if (flag === 'POST') {
             for (let i = 0; i < roleIds.length; i++) {
-                if (document.getElementById('txtRoleId').value === roleIds[i]) {
-                    zAlert.warning([[#{role.msg.duplicateRoleId}]]);
+                if (txtRoleId.value === roleIds[i]) {
+                    zAlert.warning('[(#{role.msg.duplicateRoleId})]');
                     return;
                 }
             }
             for (let i = 0; i < roleNames.length; i++) {
                 if (document.getElementById('txtRoleName').value === roleNames[i]) {
-                    zAlert.warning([[#{role.msg.duplicateRoleName}]]);
+                    zAlert.warning('[(#{role.msg.duplicateRoleName})]');
                     return;
                 }
             }
@@ -158,7 +170,7 @@
 
         //저장 데이터 수집
         let obj = {};
-        obj.roleId = document.getElementById('txtRoleId').value;    //역할 아이디
+        obj.roleId = txtRoleId.value;    //역할 아이디
         obj.roleName = document.getElementById('txtRoleName').value;//역할 명
         obj.roleDesc = document.getElementById('txtRoleDesc').value; //역할 설명
         let arrAuthId = [];                                         //역할 권한
@@ -167,16 +179,16 @@
         });
 
         if (!arrAuthId.length) {
-            zAlert.warning([[#{role.msg.selectAuth}]]);
+            zAlert.warning('[(#{role.msg.selectAuth})]');
             return;
         }
 
         obj.arrAuthId = arrAuthId;
         let strUrl = '/rest/roles';
         if (flag !== 'POST') {
-            strUrl += '/' + document.getElementById('txtRoleId').value;
+            strUrl += '/' + txtRoleId.value;
         }
-        const resultMsg = (flag === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        const resultMsg = (flag === 'POST') ? '[(#{common.msg.register})]' : '[(#{common.msg.update})]';
         aliceJs.fetchJson(strUrl, {
             method: flag,
             headers: {
@@ -191,7 +203,7 @@
                     });
                     break;
                 case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    zAlert.danger('[(#{common.msg.fail})]');
                     break;
                 default :
                     break;
@@ -206,12 +218,12 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                    zAlert.success('[(#{common.msg.delete})]', function () {
                         window.location.href = '/roles/search';
                     });
                     break;
                 case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    zAlert.danger('[(#{common.msg.fail})]');
                     break;
                 default:
                     break;
@@ -222,12 +234,10 @@
     /** 삭제 버튼 활성, 비활성화 */
     function disabledButton(count) {
         let btn = document.getElementById('btnDelete');
-        if (!btn) { return false; }
-        if (count !== 0) {
-            btn.disabled = true;
-        } else {
-            btn.disabled = false;
+        if (!btn) {
+            return false;
         }
+        btn.disabled = (count !== 0);
     }
 
     /*]]>*/
