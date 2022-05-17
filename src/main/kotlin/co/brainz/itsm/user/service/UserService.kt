@@ -789,14 +789,12 @@ class UserService(
         for (role in roleDtoList) {
             roleIds.add(role.roleId)
         }
-        if (roleIds.isNotEmpty()) {
             val result = this.userSessionRoleCheck(createUserKey, roleIds)
             if (result != ZResponseConstants.STATUS.SUCCESS.code) {
                 throw AliceException(
                     AliceErrorConstants.ERR_00002,
                     aliceMessageSource.getMessage("auth.msg.accessDenied")
                 )
-            }
         }
     }
 }
