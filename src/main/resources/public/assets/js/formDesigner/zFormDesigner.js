@@ -7,14 +7,14 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import { zDocument } from '../document/zDocument.js';
-import { zFormButton } from '../document/zFormButton.js';
-import ZComponent, { UIComponentTooltip } from '../form/zComponent.js';
+import {zDocument} from '../document/zDocument.js';
+import {zFormButton} from '../document/zFormButton.js';
+import ZComponent, {UIComponentTooltip} from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
-import ZGroup, { UIGroupTooltip } from '../form/zGroup.js';
-import ZRow, { UIRowTooltip } from '../form/zRow.js';
-import { FORM } from '../lib/zConstants.js';
-import { zValidation } from '../lib/zValidation.js';
+import ZGroup, {UIGroupTooltip} from '../form/zGroup.js';
+import ZRow, {UIRowTooltip} from '../form/zRow.js';
+import {FORM} from '../lib/zConstants.js';
+import {zValidation} from '../lib/zValidation.js';
 import ZHistory from './zHistory.js';
 import ZPanel from './zPanel.js';
 
@@ -132,6 +132,7 @@ class ZFormDesigner {
      */
     initComponentPalette() {
         if (!this.isEditable) { return false; }
+        // todo 초기화 단계에서 component템플릿 관련 선처리 여부 확인
         // drag & drop 이벤트 추가
         const componentIconBoxes = document.querySelectorAll('.z-component-icon-box');
         componentIconBoxes.forEach(icon => {
@@ -232,6 +233,7 @@ class ZFormDesigner {
                 }
             });
         });
+        // todo : component Template drag & drop 이벤트 추가
     }
     /**
      * JSON 데이터 정렬 (Recursive)
@@ -561,6 +563,8 @@ class ZFormDesigner {
                 });
                 break;
             case FORM.LAYOUT.COMPONENT:
+                // todo : 여기서 type이 component이고, teamplate이면 데이터를 바꿔치기한다.
+                console.log(data);
                 addObject = new ZComponent(data);
                 addObject.UIElement.addUIClass('list-group-item');
                 if (!this.isEditable && !this.isCreatedWorkFlow) {
@@ -944,6 +948,33 @@ class ZFormDesigner {
         }
         return true;
     }
+
+    /**
+     * 컴포넌트 템플릿 삭제 이벤트 핸들러
+     */
+    deleteTemplate(e) {
+        const target = e.target || e;
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            // aliceJs.fetchJson('/rest/forms/componentTemplates' + target.id, {
+            //     method: 'DELETE'
+            // }).then((response) => {
+            //     switch (response.status) {
+            //         case aliceJs.response.success:
+            zAlert.success(i18n.msg('common.msg.delete'), () => {
+                // template 탭에서 제거
+                target.parentElement.remove();
+            });
+            //             break;
+            //         case aliceJs.response.error:
+            //             zAlert.danger(i18n.msg('common.msg.fail'));
+            //             break;
+            //         default:
+            //             break;
+            //     }
+            // });
+        });
+    }
+
     /**
      * 마우스 좌클릭 이벤트 핸들러
      * @param e 이벤트객체

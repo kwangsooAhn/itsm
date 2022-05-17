@@ -1,0 +1,140 @@
+[
+  {
+    "templateId": "a71d2d6094b2920f87ba8eaf025af258",
+    "templateName": "INPUT BOX-IT부서대상-ITSM팀",
+    "type": "componentTemplate",
+    "orgData": {
+      "id": "a67b9a551e38d8552ce26ab30868da6a",
+      "type": "inputBox",
+      "display": {
+        "displayOrder": 0,
+        "columnWidth": "12"
+      },
+      "isTopic": false,
+      "mapId": "z-sd-requester",
+      "tags": [
+        {
+          "tagId": "4028b21c80ca623f0180ca710b950001",
+          "value": "test"
+        }
+      ],
+      "value": "${default}",
+      "label": {
+        "position": "top",
+        "fontSize": "20",
+        "fontColor": "#451D88",
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "align": "left",
+        "text": "컴포넌트 템플릿"
+      },
+      "element": {
+        "placeholder": "컴포넌트 템플릿 테스트",
+        "columnWidth": "12",
+        "defaultValueSelect": "select|userId"
+      },
+      "validation": {
+        "validationType": "char",
+        "required": true,
+        "minLength": "0",
+        "maxLength": "100"
+      }
+    }
+  },
+  {
+    "templateId": "a71d2d6094b2920f87ba8eaf025af258",
+    "templateName": "사용자 검색-IT부서대상-ITSM팀",
+    "type": "userSearch",
+    "orgData": {
+      "id": "ad04ef29e4daf447997743c15a8359d9",
+      "type": "userSearch",
+      "display": {
+        "displayOrder": 0,
+        "columnWidth": "6"
+      },
+      "isTopic": true,
+      "mapId": "z-sd-requester",
+      "tags": [
+        {
+          "value": "사용자 검색",
+          "__isValid": true
+        },
+        {
+          "value": "컴포넌트템플릿테스트",
+          "__isValid": true
+        }
+      ],
+      "value": "${default}",
+      "label": {
+        "position": "left",
+        "fontSize": "14",
+        "fontColor": "#8d9299",
+        "bold": true,
+        "italic": false,
+        "underline": false,
+        "align": "left",
+        "text": "사용자 검색"
+      },
+      "element": {
+        "columnWidth": "8",
+        "defaultValue": {
+          "target": "userSearch",
+          "type": "custom",
+          "data": "0509e09412534a6e98f04ca79abb6424|ADMIN|admin"
+        },
+        "userSearchTarget": "{\"targetCriteria\":\"organization\",\"searchKey\":[{\"value\":\"본부 1\",\"id\":\"4028b2d57d37168e017d3715fae00002\"}]}"
+      },
+      "validation": {
+        "required": false
+      }
+    }
+  },
+  {
+    "templateId": "a71d2d6094b2920f87ba8eaf025af258",
+    "templateName": "부서 검색",
+    "type": "organizationSearch",
+    "orgData": {
+      "id": "a339d7add597335ae0fab4c9eafeb4b8",
+      "type": "organizationSearch",
+      "display": {
+        "displayOrder": 1,
+        "columnWidth": "6"
+      },
+      "isTopic": false,
+      "mapId": "z-sd-request-organization",
+      "tags": [
+        {
+          "value": "부서 검색",
+          "__isValid": true
+        },
+        {
+          "value": "컴포넌트템플릿테스트",
+          "__isValid": true
+        }
+      ],
+      "value": "${default}",
+      "label": {
+        "position": "left",
+        "fontSize": "14",
+        "fontColor": "#8d9299",
+        "bold": true,
+        "italic": false,
+        "underline": false,
+        "align": "left",
+        "text": "부서 검색"
+      },
+      "element": {
+        "columnWidth": "8",
+        "defaultValue": {
+          "target": "organizationSearch",
+          "type": "session",
+          "data": "4028b2d57d37168e017d3715fae00002|본부 1"
+        }
+      },
+      "validation": {
+        "required": false
+      }
+    }
+  }
+]
