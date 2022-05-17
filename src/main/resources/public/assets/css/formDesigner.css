@@ -1948,8 +1948,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-inputBox {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_inputbox.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_inputbox.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_inputbox.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_inputbox.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1958,8 +1958,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-textArea {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_textarea.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_textarea.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_textarea.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_textarea.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1968,8 +1968,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-textEditor {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_text_editor.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_text_editor.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_text_editor.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_text_editor.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1978,8 +1978,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dropdown {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdown.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_dropdown.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdown.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_dropdown.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1988,8 +1988,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-radio {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_radio.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_radio.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_radio.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_radio.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1998,8 +1998,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-checkBox {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_checkbox.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_checkbox.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_checkbox.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_checkbox.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2008,8 +2008,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-date {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_date.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_date.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_date.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_date.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2018,8 +2018,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-time {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_time.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_time.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_time.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_time.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2028,8 +2028,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dateTime {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_datetime.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_datetime.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_datetime.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_datetime.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2038,8 +2038,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-fileUpload {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_fileupload.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_fileupload.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_fileupload.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_fileupload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2048,8 +2048,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-customCode {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_custom_code.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_custom_code.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_custom_code.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_custom_code.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2058,8 +2058,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dynamicRowTable {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dynamic_row_table.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_dynamic_row_table.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2068,8 +2068,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-ci {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_ci.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_ci.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_ci.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_ci.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2078,8 +2078,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-label {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_label.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_label.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_label.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_label.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2088,8 +2088,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-image {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_image.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_image.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_image.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_image.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2098,8 +2098,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-divider {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_divider.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_divider.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_divider.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_divider.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2108,8 +2108,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-fileDownload {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2118,8 +2118,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-userSearch {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_user.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_user.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2128,8 +2128,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dropdownCode {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2138,8 +2138,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-userSearch {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_user.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_user.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2148,8 +2148,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-organizationSearch {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_organization.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_organization.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_organization.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_organization.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2158,8 +2158,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-historyInquiry {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2168,8 +2168,18 @@ input, button, select, optgroup, textarea {
 .z-icon.i-modalButton {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg ");
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-componentTemplate {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_component_template.svg");
+  mask-image: url("../media/icons/formDesigner/palette/icon_component_template.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
