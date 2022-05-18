@@ -81,7 +81,7 @@ server:
     trust-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
   servlet:
     session:
-      timeout: 60m
+      timeout: 600
   tomcat:
     additional-tld-skip-patterns: "*.jar"
 

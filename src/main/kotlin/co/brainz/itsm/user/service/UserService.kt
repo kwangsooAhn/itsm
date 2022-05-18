@@ -9,6 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
+import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.repository.AliceCertificationRepository
@@ -22,6 +23,8 @@ import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
@@ -37,6 +40,7 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -101,7 +105,8 @@ class UserService(
     private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
-    private val roleService: RoleService
+    private val roleService: RoleService,
+    private val aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -779,6 +784,29 @@ class UserService(
             }
         }
         return code
+    }
+
+    /**
+     * 페이지별 권한으로 역할 확인
+     */
+    fun userAccessAuthCheck(createUserKey: String, auths: String?) {
+        val roleIds: MutableSet<String> = mutableSetOf()
+        val roleDtoList = mutableListOf<RoleListDto>()
+        if (!auths.isNullOrEmpty()) {
+            roleDtoList.addAll(aliceRoleAuthMapRepository.findRoleByAuths(auths))
+            for (role in roleDtoList) {
+                roleIds.add(role.roleId)
+            }
+        } else {
+            roleIds.add(AliceConstants.SYSTEM_ROLE)
+        }
+        val result = this.userSessionRoleCheck(createUserKey, roleIds)
+        if (result != ZResponseConstants.STATUS.SUCCESS.code) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00002,
+                aliceMessageSource.getMessage("auth.msg.accessDenied")
+            )
+        }
     }
 
     /**
