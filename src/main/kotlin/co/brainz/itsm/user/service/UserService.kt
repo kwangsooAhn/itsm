@@ -812,14 +812,12 @@ class UserService(
     /**
      * 사용자 비밀번호 확인 시 rsa key 전달
      */
-    fun rsaKeySend(): ZResponse {
+    fun rsaKeySend(): MutableMap<String, Any> {
         val map: MutableMap<String, Any> = mutableMapOf()
-        map["_publicKeyModulus"] = aliceCryptoRsa.getPublicKeyModulus()
-        map["_publicKeyExponent"] = aliceCryptoRsa.getPublicKeyExponent()
+        map[AliceConstants.RsaKey.PUBLIC_MODULE.value] = aliceCryptoRsa.getPublicKeyModulus()
+        map[AliceConstants.RsaKey.PUBLIC_EXPONENT.value] = aliceCryptoRsa.getPublicKeyExponent()
 
-        return ZResponse(
-            data = map
-        )
+        return map
     }
 
     /**
