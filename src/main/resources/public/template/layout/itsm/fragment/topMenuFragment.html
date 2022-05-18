@@ -251,8 +251,11 @@
                     case aliceJs.response.success:
                         getUserEdit();
                         break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('user.msg.passwordNotEquals'));
+                        break;
                     default :
-                        zAlert.danger([[#{user.msg.passwordNotEquals}]]);
+                        zAlert.danger(i18n.msg('common.msg.fail'));
                         break;
                 }
             });
