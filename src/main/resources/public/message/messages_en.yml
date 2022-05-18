@@ -1400,6 +1400,7 @@ sla:
       metricValue: "Metric Value"
       newMetricManual: "Add manual metric data"
       referenceDate: "Reference Date"
+      targetMetric: "Target Metric"
   metricType:
     auto: "auto"
     manual: "manual"
