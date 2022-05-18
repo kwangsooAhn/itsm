@@ -448,7 +448,7 @@ export default class ZComponent {
                     // 원본 컴포넌트 정보 (component id 제거)
                     const orgData = _this.toJson();
                     delete orgData.id;
-                    
+                    // component template data
                     const templateData = {
                         'template_name': document.getElementById('templateName').value,
                         'type': _this.type,
