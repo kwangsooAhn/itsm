@@ -7,15 +7,15 @@
  * Copyright 2021 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-import {zDocument} from '../document/zDocument.js';
-import {zFormButton} from '../document/zFormButton.js';
+import { zDocument } from '../document/zDocument.js';
+import { zFormButton } from '../document/zFormButton.js';
 import ZComponent from '../form/zComponent.js';
-import zComponent, {UIComponentTooltip} from '../form/zComponent.js';
+import zComponent, { UIComponentTooltip } from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
-import ZGroup, {UIGroupTooltip} from '../form/zGroup.js';
-import ZRow, {UIRowTooltip} from '../form/zRow.js';
-import {FORM} from '../lib/zConstants.js';
-import {zValidation} from '../lib/zValidation.js';
+import ZGroup, { UIGroupTooltip } from '../form/zGroup.js';
+import ZRow, { UIRowTooltip } from '../form/zRow.js';
+import { FORM } from '../lib/zConstants.js';
+import { zValidation } from '../lib/zValidation.js';
 import ZHistory from './zHistory.js';
 import ZPanel from './zPanel.js';
 
