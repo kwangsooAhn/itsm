@@ -16,36 +16,42 @@
     <form id="frm" method="post">
         <div class="z-edit-form flex-fill">
             <div class="flex-column z-edit-row">
-                <label for="metricYear">대상 년도</label>
-                <input class="z-input" id="metricYear" maxlength="100" value="${metric?.metricYear}" type="text" data-validation-required-name="대상 년도" readonly>
+                <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
+                <input type="text" class="z-input" id="metricYear" maxlength="100"  th:classappend="${view || edit} ? 'readonly' : ''"
+                       value="${metric?.metricYear}" data-validation-required-name="대상 년도">
             </div>
             <div class="flex-column z-edit-row">
-                <label for="metricYearName">지표 이름</label>
-                <select id="metricYearName"  th:classappend="${view || edit} ? 'readonly' : ''">
+                <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
+                <select id="metricYearName" th:classappend="${view || edit} ? 'readonly' : ''">
                     <option th:each="metricName: ${metricNameList}" th:text="${metricName.codeName}" th:value="${metricName.code}"></option>
                 </select>
             </div>
             <div class="flex-column z-edit-row">
-                <label for="metricYearGroup">그룹</label>
-                <input class="z-input" id="metricYearGroup" maxlength="128" th:value="#{|${metric.metricGroup}|}" type="text" data-validation-required-name="그룹" readonly>
+                <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
+                <input type="text" class="z-input" id="metricYearGroup" maxlength="128"
+                       th:value="#{|${metric.metricGroup}|}" data-validation-required-name="그룹" readonly>
             </div>
             <div class="flex-column z-edit-row">
-                <label for="metricYearType">타입</label>
-                <input class="z-input" id="metricYearType" maxlength="128" th:value="#{|${metric.metricType}|}" type="text" data-validation-required-name="타입" readonly>
+                <label for="metricYearType" th:text="#{sla.metricYear.label.type}"></label>
+                <input type="text" class="z-input" id="metricYearType" maxlength="128"
+                       th:value="#{|${metric.metricType}|}" data-validation-required-name="타입" readonly>
             </div>
             <div class="flex-column z-edit-row">
-                <label for="metricYearUnit">단위</label>
-                <input class="z-input" id="metricYearUnit" maxlength="128" th:value="#{|${metric.metricUnit}|}" type="text" data-validation-required-name="단위" readonly>
+                <label for="metricYearUnit" th:text="#{sla.metricYear.label.unit}"></label>
+                <input type="text" class="z-input" id="metricYearUnit" maxlength="128"
+                       th:value="#{|${metric.metricUnit}|}" data-validation-required-name="단위" readonly>
             </div>
             <div class="flex-column z-edit-row">
-                <label for="metricYearCalcType">계산방식</label>
-                <input class="z-input" id="metricYearCalcType" maxlength="128" th:value="#{|${metric.calculationType}|}" type="text" data-validation-required-name="계산방식" readonly>
+                <label for="metricYearCalcType" th:text="#{common.label.calculationType}"></label>
+                <input type="text" class="z-input" id="metricYearCalcType" maxlength="128"
+                       th:value="#{|${metric.calculationType}|}" data-validation-required-name="계산방식" readonly>
             </div>
         </div>
         <div class="z-edit-form flex-fill">
             <div class="flex-column z-edit-row">
-                <label for="metricYearDesc">설명</label>
-                <input class="z-input" id="metricYearDesc" value="${metric?.metricDesc}" type="text" data-validation-required-name="설명" readonly>
+                <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
+                <input type="text" class="z-input" id="metricYearDesc"
+                       value="${metric?.metricDesc}" data-validation-required-name="설명" readonly>
             </div>
         </div>
         <div class="z-edit-form flex-fill">
@@ -103,7 +109,7 @@
                 <div class="horizontal-bar"></div>
                 <p th:text="#{sla.metricYear.msg.zqlDescription}"></p>
                 <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"
-                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.searchPlaceholder}" th:readonly="${view}"/>
+                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}" th:readonly="${view}"/>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
                 <div class="z-button-list">
@@ -128,40 +134,8 @@
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     window.onload = function() {
-        document.getElementById('metricName').focus();
+        document.getElementById('minValue').focus();
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
-    }
-
-    function openZqlManualModal() {
-        const openZqlManualModal = new modal({
-            title: i18n.msg('sla.metricYear.label.zqlManual'),
-            body: createModalContent(),
-            classes: 'zql-modal',
-            buttons: [{
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function (modal) {
-                    document.querySelectorAll('td> label> input[type= checkbox]').forEach((checkbox) => {
-                        if (checkbox.checked && !checkbox.disabled) {
-                            classAttributeMap.delete(checkbox.value);
-                        }
-                    });
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            }
-        });
-        openZqlManualModal.show();
-    }
-
-    function createModalContent() {
-        return `<div class="cmdb-class-attribute-list">` +
-            `<input class="z-input i-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
-            `<div class="table-set" id="ciClassAttributeList"></div>` +
-            `</div>`;
     }
 
     function onSave(method) {

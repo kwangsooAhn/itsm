@@ -1368,12 +1368,12 @@ scheduler:
 # sla
 sla:
   calculationType:
-    average: "average"
-    rate: "rate"
-    total: "total"
+    average: "Average"
+    rate: "Rate"
+    total: "Total"
   metric:
     label:
-      description: "description"
+      description: "Description"
       group: "Group"
       groupName: "Group Name"
       metricPool: "SLA Metric management"
@@ -1391,30 +1391,36 @@ sla:
       enterMetricName: "Enter a metric name."
       viewDescription: "Inquire detailed information about SLA metric management."
   metricType:
-    auto: "auto"
-    manual: "manual"
+    auto: "Auto"
+    manual: "Manual"
   metricUnit:
     percent: "%"
-    score: "score"
-    time: "time"
+    score: "Score"
+    time: "Time"
   metricYear:
     btn:
-      copy: "copy"
+      copy: "Copy"
     label:
-      comment: "comment"
+      comment: "Comment"
       copy: "Copy Metric"
-      maxValue: "maxValue"
+      description: "Description"
+      group: "Group"
+      maxValue: "Max Value"
+      metricName: "Metric Name"
       metricYear: "SLA metric management by year"
-      minValue: "minValue"
+      minValue: "Min Value"
       option:
-        score: "score"
+        score: "Score"
         percent: "%"
-      owner: "owner"
-        searchPlaceholder: "No ZQL applied."
-      weightValue: "weightValue"
-      year: "year"
+      owner: "Owner"
+      targetYear: "Target Year"
+      type: "Type"
+      unit: "Unit"
+      weightValue: "Weight Value"
+      year: "Year"
       zql: "ZQL"
       zqlManual: "ZQL Manual"
+      zqlPlaceholder: "No ZQL applied."
     msg:
       copy: "Copy the metric to the {0} year metric."
       description: "Register, modify, or delete the contents of SLA metric management by year."
