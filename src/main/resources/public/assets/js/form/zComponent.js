@@ -445,10 +445,14 @@ export default class ZComponent {
                         return false;
                     }
 
+                    // 원본 컴포넌트 정보 (component id 제거)
+                    const orgData = _this.toJson();
+                    delete orgData.id;
+                    
                     const templateData = {
                         'template_name': document.getElementById('templateName').value,
                         'type': _this.type,
-                        'data': JSON.stringify(_this.toJson()) // 선택된 컴포넌트의 실시간 설정 데이터
+                        'data': JSON.stringify(orgData) // 선택된 컴포넌트의 실시간 설정 데이터
                     };
                     // todo: #13134 템플릿 등록 rest 처리 후 response 에 따라 성공시 modal.hide() 처리 / URL 수정
                     // aliceJs.fetchJson('/rest/forms', {

@@ -278,11 +278,13 @@ class ZFormDesigner {
                     if (evt.from !== evt.to && evt.dragged.classList.contains('z-component-template-icon')) {
                         // drag시 컴포넌트 표시
                         evt.dragged.classList.add('z-component-icon-drag-in');
-                        const component = new zComponent(
-                            templateData.find((item) =>
-                                (item.templateId === evt.dragged.getAttribute('data-value'))).data);
-                        evt.dragged.appendChild(component.UIElement.domElement);
-                        component.afterEvent();
+                        if (evt.dragged.children.length < 4) {
+                            const component = new zComponent(
+                                templateData.find((item) =>
+                                    (item.templateId === evt.dragged.getAttribute('data-value'))).data);
+                            evt.dragged.appendChild(component.UIElement.domElement);
+                            component.afterEvent();
+                        }
                     }
                 },
                 onEnd: function (evt) {
