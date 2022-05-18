@@ -43,6 +43,9 @@
                     case 'HOUR':
                         rtn = luxon.DateTime.fromFormat(options.value, i18n.timeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
                         break;
+                    case 'YEAR':
+                        rtn = luxon.DateTime.fromFormat(options.value, i18n.yearFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                        break;
                 }
             }
             return rtn;
@@ -163,6 +166,17 @@
             buttonCancel.addEventListener('click', this.close, false);
             pickerButton.appendChild(buttonCancel);
         }
+
+        // create content > year
+        if (this.type === 'YEAR') {
+            let pickerContentYear = document.createElement('div');
+            pickerContentYear.className = 'z-picker-modal-content-year';
+            pickerContentYear.classList.add('active');
+            pickerContent.appendChild(pickerContentYear);
+            spanClose.remove();
+            buttonRemove.remove();
+            this.drawYear();
+        }
     }
 
     Object.assign(Picker.prototype, {
@@ -192,6 +206,9 @@
                     }
                     if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
                         this.drawTime();
+                    }
+                    if (this.type === 'YEAR') {
+                        this.drawYear();
                     }
                 }
                 // remove event
@@ -289,7 +306,7 @@
                 if (_this.displayLuxon.valueOf() === firstDayOfDate.valueOf()) {
                     calendarCell.classList.add('selected');
                 }
-                calendarCell.addEventListener('click', function (e) { 
+                calendarCell.addEventListener('click', function (e) {
                     const elem = e.target;
                     const parentElem = elem.parentNode;
                     const isSelected = elem.classList.contains('selected');
@@ -445,6 +462,83 @@
                 hourType.appendChild(buttonPM);
             }
         },
+        // Year picker 생성 및 초기화 처리.
+        drawYear: function () {
+            let _this = this;
+            const pickerYear = _this.el.querySelector('.z-picker-modal-content-year');
+            pickerYear.innerHTML = '';
+            // [create year panel]
+            const periodPanel = document.createElement('div');
+            periodPanel.className = 'z-picker-modal-content-year-period';
+            pickerYear.appendChild(periodPanel);
+
+            // prev year
+            const prevArrow = document.createElement('span');
+            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
+            prevArrow.addEventListener('click', _this.prevYear, false);
+            periodPanel.appendChild(prevArrow);
+
+            // text
+            const currentText = document.createElement('span');
+            currentText.className = 'date-text';
+            currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
+            currentText.textContent = _this.selectLuxon.toFormat('yyyy'); // <- 작업 필요
+            periodPanel.appendChild(currentText);
+
+            // next year
+            const nextArrow = document.createElement('span');
+            nextArrow.className = 'z-icon i-arrow-right z-date-next';
+            nextArrow.addEventListener('click', _this.nextYear, false);
+            periodPanel.appendChild(nextArrow);
+
+            // [create calendar]
+            const yearPanel = document.createElement('div');
+            yearPanel.className = 'z-picker-modal-content-year-years';
+            pickerYear.appendChild(yearPanel);
+
+            let firstYearOfDate = _this.selectLuxon.set();
+            let current_year = firstYearOfDate.year;
+
+            firstYearOfDate = firstYearOfDate.minus({ days: (firstYearOfDate.year || 5) });
+
+            console.log(firstYearOfDate)
+            console.log(firstYearOfDate.year)
+
+            for (let i = 0; i < 9; i++) {
+                let yy = firstYearOfDate.year;
+
+                const calendarCell =  document.createElement('div');
+                calendarCell.className = 'calendar-cell';
+                calendarCell.setAttribute('data-value', firstYearOfDate.toFormat('yyyy'));
+                calendarCell.textContent = yy;
+
+
+
+                if (yy === current_year) { // 현재 월
+                    calendarCell.classList.add('active');
+                }
+                if (_this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) {
+                    calendarCell.classList.add('selected');
+                }
+                calendarCell.addEventListener('click', function (e) {
+                    const elem = e.target;
+                    const parentElem = elem.parentNode;
+                    const isSelected = elem.classList.contains('selected');
+                    if (!isSelected) {
+                        const prevSelectDay = parentElem.querySelector('.selected');
+                        if (prevSelectDay !== null) {
+                            prevSelectDay.classList.remove('selected');
+                        }
+                        elem.classList.add('selected');
+                        let selectedDate = elem.getAttribute('data-value');
+                        _this.changeYear({ year: selectedDate.substr(0, 4)});
+                    }
+                    _this.changeTarget();
+                }, false);
+                yearPanel.appendChild(calendarCell);
+                firstYearOfDate = firstYearOfDate.plus({ years: 1 });
+            }
+        },
         // remove 버튼 클릭시 실제 대상 input box의 데이터 삭제.
         removeTarget: function () {
             this.target.value = '';
@@ -462,10 +556,25 @@
             this.selectLuxon = this.selectLuxon.plus({ months: 1 });
             this.drawDate();
         },
+        // Year picker 에서 이전 달력 (<) 아이콘 클릭시 이전 달력으로 변경.
+        prevYear: function () {
+            this.selectLuxon = this.selectLuxon.plus({ years: -10 });
+            this.drawYear();
+        },
+        // Year picker 에서 이후 달력 (>) 아이콘 클릭시 이후 달력으로 변경.
+        nextYear: function () {
+            this.selectLuxon = this.selectLuxon.plus({ years: 10 });
+            this.drawYear();
+        },
         // Date picker 에서 특정 날짜 선택시 표시되는 날짜 변경.
         changeDay: function (offset) {
             this.selectLuxon = this.selectLuxon.set(offset);
             this.displayLuxon = this.selectLuxon.plus({ days: 0});
+        },
+        // Date picker 에서 특정 날짜 선택시 표시되는 날짜 변경.
+        changeYear: function (offset) {
+            this.selectLuxon = this.selectLuxon.set(offset);
+            this.displayLuxon = this.selectLuxon.plus({ years: 0});
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function () {
@@ -478,6 +587,9 @@
                     break;
                 case 'HOUR':
                     this.target.value = this.selectLuxon.toFormat(i18n.timeFormat);
+                    break;
+                case 'YEAR':
+                    this.target.value = this.selectLuxon.toFormat(i18n.yearFormat);
                     break;
             }
             this.close();
@@ -693,9 +805,32 @@
         });
     }
 
+    /**
+     * YearPicker 초기화 시 호출(Year Only).
+     *
+     * @param targetElement Target element
+     * @param callback 콜백 함수
+     */
+    function initYearPicker(targetElement, callback) {
+        if (targetElement === null) { return false; }
+
+        let options = JSON.parse(JSON.stringify(defaultOptions));
+        options.type = 'YEAR';
+        options.title = 'datepicker.label.year';
+
+        let picker = initPicker(targetElement, options);
+        picker.target.addEventListener('changed', function () {
+            if (typeof callback === 'function') {
+                callback(picker.target, picker);
+            }
+        });
+    }
+
+
     exports.initDatePicker = initDatePicker;
     exports.initDateTimePicker = initDateTimePicker;
     exports.initTimePicker = initTimePicker;
+    exports.initYearPicker = initYearPicker;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

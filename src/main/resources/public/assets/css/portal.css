@@ -6074,6 +6074,31 @@ summary:focus {
   justify-content: center;
   border-bottom: 0.0625rem solid #CFD5D9;
 }
+.z-picker-modal-content .date-text {
+  display: table-cell;
+  width: 7.5rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #424242;
+  vertical-align: middle;
+}
+.z-picker-modal-content .z-icon.i-arrow-right {
+  display: table-cell;
+  cursor: pointer;
+  background: #ABB0B5;
+}
+.z-picker-modal-content .z-icon.i-arrow-right:hover {
+  background: #619CDB;
+}
+.z-picker-modal-content .z-icon.z-date-prev {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
 .z-picker-modal-content-date {
   display: none;
   width: 19rem;
@@ -6094,30 +6119,8 @@ summary:focus {
 .z-picker-modal-content-date-months img {
   vertical-align: middle;
 }
-.z-picker-modal-content-date-months .z-icon.i-arrow-right {
-  display: table-cell;
-  cursor: pointer;
-  background: #8B9094;
-}
-.z-picker-modal-content-date-months .z-icon.i-arrow-right:hover {
-  background: #619CDB;
-}
-.z-picker-modal-content-date-months .z-icon.z-date-prev {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
 .z-picker-modal-content-date-months .date-text {
-  display: table-cell;
   width: 16.5rem;
-  margin: 0;
-  padding: 0;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #222529;
-  vertical-align: middle;
 }
 .z-picker-modal-content-date-calendar {
   display: flex;
@@ -6261,6 +6264,68 @@ summary:focus {
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
+}
+.z-picker-modal-content-year {
+  display: none;
+  width: 14rem;
+  padding: 1rem 0 1rem 0;
+}
+.z-picker-modal-content-year.active {
+  display: block;
+}
+.z-picker-modal-content-year-period {
+  display: table;
+  height: 1.563rem;
+  margin: 0 auto;
+}
+.z-picker-modal-content-year-period img {
+  vertical-align: middle;
+}
+.z-picker-modal-content-year-period .date-text {
+  width: 7.5rem;
+}
+.z-picker-modal-content-year-years {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.9375rem 0.9375rem 0 0.9375rem;
+  color: #424242;
+}
+.z-picker-modal-content-year-years .calendar-cell {
+  display: inline-block;
+  width: 2.75rem;
+  height: 1.5rem;
+  padding: 0;
+  margin: 0.25rem 0.4375rem;
+  text-align: center;
+  line-height: 1.7;
+  cursor: pointer;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+}
+.z-picker-modal-content-year-years .calendar-cell:hover, .z-picker-modal-content-year-years .calendar-cell:active {
+  background-color: #E1E6EA;
+}
+.z-picker-modal-content-year-years .calendar-cell.selected {
+  position: relative;
+  color: #3373C4;
+}
+.z-picker-modal-content-year-years .calendar-cell.selected:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.125rem;
+  background-color: #3373C4;
+  position: absolute;
+  bottom: 0.125rem;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+}
+.z-picker-modal-content-year-years .calendar-cell:nth-child(n+4) {
+  margin-top: 0.875rem;
 }
 .z-picker-modal-button {
   float: right;
