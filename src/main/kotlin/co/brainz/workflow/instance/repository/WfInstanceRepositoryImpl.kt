@@ -186,13 +186,11 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(token.tokenId.max())
                     .from(token)
-                    .where(
-                        token.tokenStartDt.eq(
-                            from(startDtSubToken)
-                                .select(startDtSubToken.tokenStartDt.max())
-                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                        )
-                    )
+                    .where(token.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
             )
         )
         builder.and(
