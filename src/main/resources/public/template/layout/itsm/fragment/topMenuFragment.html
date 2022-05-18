@@ -186,7 +186,7 @@
         }
 
         // 패스워드 인증 모달 오픈
-        function openPasswordConfirmModal() {
+        function openPasswordConfirmModal(userKey, manageAuth) {
             const passwordAuthModalTemplate = `<div class="flex-column">` +
                 `<label class="field-label" for="password">${i18n.msg('user.label.password')}<span class="required"></span></label>` +
                 `<input type="password" id="password" name="password" class="z-input" maxlength="50" value="">` +
@@ -201,7 +201,7 @@
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function (modal) {
-                        passwordEncryptAndConfirm();
+                        passwordEncryptAndConfirm(userKey, manageAuth);
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
@@ -219,7 +219,7 @@
         }
 
         // 입력받은 패스워드 암호화
-        function passwordEncryptAndConfirm() {
+        function passwordEncryptAndConfirm(userKey, manageAuth) {
             let keyModule = '';
             let keyExponent = '';
             aliceJs.fetchJson('/rest/users/rsa', {
@@ -234,12 +234,12 @@
                 rsa.setPublic(keyModule, keyExponent);
                 data.password = rsa.encrypt(password);
 
-                passwordConfirm(data);
+                passwordConfirm(data, userKey, manageAuth);
             })
         }
 
         // 입력받은 패스워드 확인 처리
-        function passwordConfirm(data) {
+        function passwordConfirm(data, userKey, manageAuth) {
             aliceJs.fetchJson('/rest/users/passwordConfirm', {
                 method: 'POST',
                 headers: {
@@ -249,7 +249,15 @@
             }).then((response) => {
                 switch (response.status) {
                     case aliceJs.response.success:
-                        getUserEdit();
+                        if (userKey === '' || userKey === undefined) {
+                            getUserEdit();
+                        } else {
+                            if (manageAuth) {
+                                document.location.href = '/users/' + userKey + '/edit';
+                            } else {
+                                document.location.href = '/users/' + userKey + '/view';
+                            }
+                        }
                         break;
                     case aliceJs.response.error:
                         zAlert.danger(i18n.msg('user.msg.passwordNotEquals'));
