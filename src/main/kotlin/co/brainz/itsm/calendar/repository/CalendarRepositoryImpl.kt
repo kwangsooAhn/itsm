@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class CalendarRepositoryImpl : QuerydslRepositorySupport(CalendarEntity::class.java), CalendarRepositoryCustom {
-    override fun getCalendars(userKey: String): List<CalendarDto> {
+    override fun getCalendarList(userKey: String): List<CalendarDto> {
         val calendar = QCalendarEntity.calendarEntity
         return from(calendar)
             .select(

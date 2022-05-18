@@ -21,9 +21,37 @@ class CalendarService(
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun getCalendars(): List<CalendarDto> {
-        return calendarRepository.getCalendars(currentSessionUser.getUserKey())
+    /**
+     * 캘린더 목록 조회
+     */
+    fun getCalendarList(): List<CalendarDto> {
+        return calendarRepository.getCalendarList(currentSessionUser.getUserKey())
     }
 
+    /**
+     * 캘린더별 전체 데이터 조회
+     */
+    fun getCalendars() {
+
+    }
+
+    /**
+     * 스케줄 상세 조회
+     */
+    fun getCalendarSchedule(calendarId: String, scheduleId: String): Any {
+        return ""
+    }
+
+    fun postCalendarSchedule(calendarId: String): Any {
+        return ""
+    }
+
+    fun putCalendarSchedule(calendarId: String, scheduleId: String): Any {
+        return ""
+    }
+
+    fun deleteCalendarSchedule(calendarId: String, scheduleId: String): Any {
+        return ""
+    }
 
 }

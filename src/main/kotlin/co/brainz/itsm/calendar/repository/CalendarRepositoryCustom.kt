@@ -11,5 +11,5 @@ import co.brainz.itsm.calendar.dto.CalendarDto
 
 interface CalendarRepositoryCustom : AliceRepositoryCustom {
 
-    fun getCalendars(userKey: String): List<CalendarDto>
+    fun getCalendarList(userKey: String): List<CalendarDto>
 }
