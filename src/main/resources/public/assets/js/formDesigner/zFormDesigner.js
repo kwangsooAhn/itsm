@@ -9,7 +9,8 @@
  */
 import { zDocument } from '../document/zDocument.js';
 import { zFormButton } from '../document/zFormButton.js';
-import ZComponent, { UIComponentTooltip } from '../form/zComponent.js';
+import ZComponent from '../form/zComponent.js';
+import zComponent, { UIComponentTooltip } from '../form/zComponent.js';
 import ZForm from '../form/zForm.js';
 import ZGroup, { UIGroupTooltip } from '../form/zGroup.js';
 import ZRow, { UIRowTooltip } from '../form/zRow.js';
@@ -67,6 +68,7 @@ class ZFormDesigner {
         this.initMenuBar();
         this.initShortcut();
         this.initComponentPalette();
+        this.initComponentTemplatePalette();
         // 미리보기 초기화
         zDocument.initDocumentModal();
         // 폼 초기화
@@ -133,8 +135,8 @@ class ZFormDesigner {
     initComponentPalette() {
         if (!this.isEditable) { return false; }
         // drag & drop 이벤트 추가
-        const componentIconBoxes = document.querySelectorAll('.z-component-icon-box');
-        componentIconBoxes.forEach(icon => {
+        const componentIconBoxes = document.querySelectorAll('.z-component-icon-box[data-type="component"]');
+        componentIconBoxes.forEach((icon) => {
             new Sortable(icon, {
                 group: {
                     name: 'palette',
@@ -150,11 +152,11 @@ class ZFormDesigner {
                 fallbackOnBody: true,
                 swapThreshold: 0.65,
                 onChoose: function () {
-                    // drag 시작시, 기존 선택된 객체 선택 해제
+                    // drag 시작 시, 기존 선택된 객체 선택 해제
                     this.options.editor.deSelectObject();
                 },
                 onClone: function (evt) {
-                    // drag & drop시 디자인 추가
+                    // drag & drop 시 디자인 추가
                     evt.clone.classList.add('placeholder');
                 },
                 onMove: function (evt) {
@@ -210,11 +212,149 @@ class ZFormDesigner {
                         // 신규 component 추가
                         const component = editor.addObjectByType(FORM.LAYOUT.COMPONENT, { type : evt.item.id },
                             parentObject, evt.newDraggableIndex);
-                        // 이력 추가
+                            // 이력 추가
                         histories.push({
                             type: 'add',
                             from: { id: '', clone: null },
                             to: { id: parentObject.id, clone: component.clone(true, { type: component.type }).toJson() }
+                        });
+                        // component 선택
+                        component.UIElement.domElement.dispatchEvent(new Event('click'));
+                    }
+
+                    // drag & drop시 추가된 디자인 제거
+                    if (zValidation.isDefined(evt.clone) && evt.clone.classList.contains('placeholder')) {
+                        evt.clone.classList.remove('placeholder');
+                    }
+                    // 기존 fake element 삭제
+                    evt.to.removeChild(evt.item);
+
+                    // 이력 저장
+                    this.options.editor.history.save(histories);
+                }
+            });
+        });
+    }
+    /**
+     * 컴포넌트 템플릿 팔레트 초기화 및 이벤트 추가
+     */
+    initComponentTemplatePalette() {
+        if (!this.isEditable) { return false; }
+        // drag & drop 이벤트 추가
+        const componentIconBoxes = document.querySelectorAll('.z-component-icon-box[data-type="template"]');
+        componentIconBoxes.forEach((icon) => {
+            let templateData = [];
+            // todo: #13134 dummy json / 추후 백엔드 구현 시 URL 수정
+            aliceJs.fetchJson('../../../assets/js/temp/componentTemplate.json', {
+                method: 'GET'
+            }).then((data) => {
+                templateData.length = 0;
+                templateData = JSON.parse(JSON.stringify(data));
+            });
+
+            new Sortable(icon, {
+                group: {
+                    name: 'palette',
+                    pull: 'clone',
+                    put: false
+                },
+                animation: 150,
+                sort: false,
+                ghostClass: 'placeholder', // Class name for the drop placeholder
+                chosenClass: 'drag', // Class name for the chosen item
+                editor: this,
+                draggable: '.list-group-item',
+                fallbackOnBody: true,
+                swapThreshold: 0.65,
+                onChoose: function () {
+                    // drag 시작 시, 기존 선택된 객체 선택 해제
+                    this.options.editor.deSelectObject();
+                },
+                onClone: function (evt) {
+                    // drag & drop 시 디자인 추가
+                    evt.clone.classList.add('placeholder');
+                },
+                onMove: function (evt) {
+                    if (evt.from !== evt.to && evt.dragged.classList.contains('z-component-template-icon')) {
+                        // drag시 컴포넌트 표시
+                        evt.dragged.classList.add('z-component-icon-drag-in');
+                        if (evt.dragged.children.length < 4) {
+                            const component = new zComponent(
+                                templateData.find((item) =>
+                                    (item.templateId === evt.dragged.getAttribute('data-value'))).data);
+                            evt.dragged.appendChild(component.UIElement.domElement);
+                            component.afterEvent();
+                        }
+                    }
+                },
+                onEnd: function (evt) {
+                    if (evt.from === evt.to) {
+                        evt.item.classList.remove('z-component-icon-drag-in');
+                        return false;
+                    }
+                    const histories = [];  // 이력 저장용
+                    const editor = this.options.editor;
+                    const parentObject = editor.form.getById(evt.to.id); // 부모 객체
+
+                    if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
+                        // 신규 group / row / component 추가
+                        const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, parentObject,
+                            evt.newDraggableIndex);
+                        const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, group, 0);
+                        editor.addObjectByType(
+                            FORM.LAYOUT.COMPONENT,
+                            (templateData.find((item) =>
+                                (item.templateId === evt.item.getAttribute('data-value'))).data),
+                            row,
+                            0
+                        );                            // 이력 추가
+                        histories.push({
+                            type: 'add',
+                            from: { id: '', clone: null },
+                            to: { id: parentObject.id, clone: group.clone(true).toJson() }
+                        });
+                        // group 선택
+                        group.UIElement.domElement.dispatchEvent(new Event('click'));
+                    } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.GROUP)) {
+                        // 신규 row / component 추가
+                        const row
+                            = editor.addObjectByType(FORM.LAYOUT.ROW, {}, parentObject, evt.newDraggableIndex);
+                        editor.addObjectByType(
+                            FORM.LAYOUT.COMPONENT,
+                            (templateData.find((item) =>
+                                (item.templateId === evt.item.getAttribute('data-value'))).data),
+                            row,
+                            0
+                        );
+                        // 이력 추가
+                        histories.push({
+                            type: 'add',
+                            from: { id: '', clone: null },
+                            to: { id: parentObject.id, clone: row.clone(true).toJson() }
+                        });
+                        // row 선택
+                        row.UIElement.domElement.dispatchEvent(new Event('click'));
+                    } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.ROW)) {
+                        // 신규 component 추가
+                        const component = editor.addObjectByType(
+                            FORM.LAYOUT.COMPONENT,
+                            (templateData.find((item) =>
+                                (item.templateId === evt.item.getAttribute('data-value'))).data),
+                            parentObject,
+                            evt.newDraggableIndex
+                        );
+                        // 이력 추가
+                        histories.push({
+                            type: 'add',
+                            from: { id: '', clone: null },
+                            to: {
+                                id: parentObject.id,
+                                clone: component.clone(
+                                    false,
+                                    (templateData.find((item) =>
+                                        (item.templateId === evt.item.getAttribute('data-value'))).data),
+                                ).toJson()
+                            }
                         });
                         // component 선택
                         component.UIElement.domElement.dispatchEvent(new Event('click'));
@@ -944,6 +1084,33 @@ class ZFormDesigner {
         }
         return true;
     }
+
+    /**
+     * 컴포넌트 템플릿 삭제 이벤트 핸들러
+     */
+    deleteTemplate(e) {
+        const target = e.target || e;
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            // aliceJs.fetchJson('/rest/forms/componentTemplates' + target.id, {
+            //     method: 'DELETE'
+            // }).then((response) => {
+            //     switch (response.status) {
+            //         case aliceJs.response.success:
+            zAlert.success(i18n.msg('common.msg.delete'), () => {
+                // template 탭에서 제거
+                target.parentElement.remove();
+            });
+            //             break;
+            //         case aliceJs.response.error:
+            //             zAlert.danger(i18n.msg('common.msg.fail'));
+            //             break;
+            //         default:
+            //             break;
+            //     }
+            // });
+        });
+    }
+
     /**
      * 마우스 좌클릭 이벤트 핸들러
      * @param e 이벤트객체

@@ -921,11 +921,24 @@ $header-tooltip-font-color:                  $gray800;
 $header-tooltip-font-weight:                 $font-weight-medium;
 $header-tooltip-bg-color:                    $white;
 $header-tooltip-border-width:                0.0625rem; // 1px
-$header-tooltip-border-radius:               0.0625rem; // 1p
+$header-tooltip-border-radius:               0.0625rem; // 1px
 $header-tooltip-border-color:                $gray300;
 $header-tooltip-box-shadow-color:            $gray300;
 $header-tooltip-padding:                     7px; // 7px
 $header-tooltip-margin:                      16px 0 0 0; // 16px
+
+// component tooltip
+$component-tooltip-font-family:                 $font-family;
+$component-tooltip-font-size:                   $font-size-xs;
+$component-tooltip-font-color:                  $gray800;
+$component-tooltip-font-weight:                 $font-weight-medium;
+$component-tooltip-bg-color:                    $white;
+$component-tooltip-border-width:                0.0625rem; // 1px
+$component-tooltip-border-radius:               0.0625rem; // 1p
+$component-tooltip-border-color:                $gray300;
+$component-tooltip-box-shadow-color:            $gray300;
+$component-tooltip-padding:                     7px; // 7px
+$component-tooltip-margin:                      16px 0 0 0; // 16px
 
 // clipboard tooltip
 // ID 복사하는 용도 > _tooltip.scss에 정의되어 있음

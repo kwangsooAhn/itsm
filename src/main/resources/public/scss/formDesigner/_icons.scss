@@ -9,35 +9,39 @@
   &.i-preview { @include maskImage('#{$icon-folder-path}formDesigner/topmenu/icon_preview.svg', 1.5rem, 1.5rem, no-repeat, center); } // 24px 24px
 
   // 컴포넌트 팔레트
-  &.i-inputBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_inputbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-textArea { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_textarea.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-textEditor { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_text_editor.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-dropdown { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdown.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-radio { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_radio.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-checkBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_checkbox.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-date { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_date.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-time { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_time.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-dateTime { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_datetime.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-fileUpload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_fileupload.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-customCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_custom_code.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-dynamicRowTable { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dynamic_row_table.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-ci { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_ci.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-label { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_label.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-image { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_image.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-divider { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_divider.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-fileDownload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_filedownload.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-userSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_user.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-dropdownCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdownCode.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-userSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_user.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-organizationSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_organization.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-historyInquiry { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_historyinquiry.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
-  &.i-modalButton { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_modalButton.svg ', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-inputBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_inputbox.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-textArea { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_textarea.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-textEditor { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_text_editor.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-dropdown { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdown.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-radio { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_radio.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-checkBox { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_checkbox.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-date { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_date.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-time { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_time.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-dateTime { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_datetime.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-fileUpload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_fileupload.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-customCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_custom_code.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-dynamicRowTable { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dynamic_row_table.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-ci { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_ci.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-label { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_label.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-image { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_image.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-divider { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_divider.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-fileDownload { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_filedownload.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-userSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_user.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-dropdownCode { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_dropdownCode.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-userSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_user.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-organizationSearch { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_organization.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-historyInquiry { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_historyinquiry.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-modalButton { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_modalButton.svg', 2rem, 2rem, no-repeat, center); } // 32px 32px
+  &.i-componentTemplate { @include maskImage('#{$icon-folder-path}formDesigner/palette/icon_component_template.svg', 1rem, 1rem, no-repeat, center); } // 16px 16px
 
   // copy
   &.i-copy { @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center); } // 20px 20px
   // delete
   &.i-delete { @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center); } // 20px 20px
 
+  // todo: 임시 아이콘입니다. 정식 컴포넌트 템플릿 등록 아이콘 적용 후 해당 주석은 삭제해주세요.
+  // create component template
+  &.i-create-template { @include maskImage('#{$icon-folder-path}formDesigner/tooltip/icon_component_template.svg', 1.25rem, 1.25rem, no-repeat, center); } // 20px 20px
   // 컴포넌트
   &.i-no-image { @include maskImage('#{$icon-folder-path}formDesigner/form/icon_image_component.svg', 100%, 2.813rem, no-repeat, center, 2.813rem, $component-imagebox-font-color); }
 
