@@ -605,6 +605,7 @@ datepicker:
     date: "Select Date"
     datetime: "Select Date and Time"
     hour: "Select Time"
+    year: "Select Year"
 
 # Department:
 department:

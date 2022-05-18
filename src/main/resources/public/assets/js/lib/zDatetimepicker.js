@@ -479,10 +479,16 @@
             periodPanel.appendChild(prevArrow);
 
             // text
-            const currentText = document.createElement('span');
+            const currentText = document.createElement('div');
             currentText.className = 'date-text';
-            currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
-            currentText.textContent = _this.selectLuxon.toFormat('yyyy'); // <- 작업 필요
+            const aaa = document.createElement('span');
+            aaa.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
+            aaa.textContent = _this.selectLuxon.toFormat('yyyy');
+            currentText.appendChild(aaa);
+            const bbb = document.createElement('span');
+            bbb.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
+            bbb.textContent = _this.selectLuxon.toFormat('yyyy');
+            currentText.appendChild(bbb);
             periodPanel.appendChild(currentText);
 
             // next year
@@ -501,9 +507,6 @@
 
             firstYearOfDate = firstYearOfDate.minus({ days: (firstYearOfDate.year || 5) });
 
-            console.log(firstYearOfDate)
-            console.log(firstYearOfDate.year)
-
             for (let i = 0; i < 9; i++) {
                 let yy = firstYearOfDate.year;
 
@@ -512,12 +515,7 @@
                 calendarCell.setAttribute('data-value', firstYearOfDate.toFormat('yyyy'));
                 calendarCell.textContent = yy;
 
-
-
-                if (yy === current_year) { // 현재 월
-                    calendarCell.classList.add('active');
-                }
-                if (_this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) {
+                if (yy === current_year || _this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) { // 현재 년도
                     calendarCell.classList.add('selected');
                 }
                 calendarCell.addEventListener('click', function (e) {
@@ -532,6 +530,9 @@
                         elem.classList.add('selected');
                         let selectedDate = elem.getAttribute('data-value');
                         _this.changeYear({ year: selectedDate.substr(0, 4)});
+                        if (elem.classList.contains('prev') || elem.classList.contains('next')) {
+                            _this.drawYear();
+                        }
                     }
                     _this.changeTarget();
                 }, false);
@@ -575,6 +576,8 @@
         changeYear: function (offset) {
             this.selectLuxon = this.selectLuxon.set(offset);
             this.displayLuxon = this.selectLuxon.plus({ years: 0});
+            console.log(this.selectLuxon)
+            console.log(this.displayLuxon)
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function () {
