@@ -1413,6 +1413,7 @@ token:
     searchPlaceholder: "문서번호 / 제목 / 등록자"
     status: "상태"
     startDt: "시작 일시"
+    storage: "보관하기"
     tagPlaceHolder: "#태그"
     view: "문서 조회"
     viewer: "참조인"
@@ -1421,6 +1422,7 @@ token:
     process: "처리"
     processMap: "프로세스맵"
   msg:
+    confirmDeleteStorageDocument: "보관 중인 문서를 삭제하시겠습니까?"
     selectToken: "추가할 관련 문서를 선택해주세요."
     selectViewer: "추가할 참조인을 선택해주세요."
     searchDescription: "나와 관련된 문서를 조회 및 처리합니다."
