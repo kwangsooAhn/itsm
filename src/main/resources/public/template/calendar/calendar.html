@@ -59,11 +59,10 @@
 
         // 이벤트 등록
         document.getElementById('calendarType').addEventListener('change', function (e) {
-            calendar.setCalendarType(e.target.value);
+            calendar.setCalendarType(e.target.value, setSchedules);
         });
-
-        // TODO: 일정 조회
-        // setSchedules();
+        // 일정 조회
+        setSchedules();
     };
 
     /**
@@ -71,19 +70,20 @@
      */
     function setSchedules() {
         // 기존 목록 삭제
-        calendar.clear();
+        calendar.destroy();
 
         // 데이터 재조회
         const calendarType = document.getElementById('calendarType').value;
-        const standardDate = luxon.DateTime.fromMillis(calendar.getDate().getTime()).setZone('utc+0').toISO();
-        const urlParam = 'calendarId=' + calendarId + '&calendarType=' + calendarType + '&standardDate=' + standardDate;
-        aliceJs.fetchJson('/rest/calendar/list?' + encodeURIComponent(urlParam), {
+        const standardDate = calendar.getStandardDate();
+        const urlParam = 'calendarId=' + calendarId + '&viewType=' + calendarType + '&standardDate=' + standardDate;
+        //TODO: 주석 해제
+        /*aliceJs.fetchJson('/rest/calendars?' + encodeURIComponent(urlParam), {
             method: 'GET'
         }).then((response) => {
             if (response.status === aliceJs.response.success) {
-                //calendar.createSchedules([]);
+                //calendar.addSchedule([]);
             }
-        });
+        });*/
     }
 
     /**
@@ -91,7 +91,7 @@
      * @param {e} 이벤트 객체
      */
     function clickCalendarMenu(e) {
-        calendar.clickCalendarMenu(e.getAttribute('data-action'));
+        calendar.clickCalendarMenu(e.getAttribute('data-action'), setSchedules);
     }
 
 </script>

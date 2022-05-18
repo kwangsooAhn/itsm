@@ -334,4 +334,4 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','work
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/calendar', 'get', 'general');
+insert into awf_url_auth_map values ('/calendars', 'get', 'general');
