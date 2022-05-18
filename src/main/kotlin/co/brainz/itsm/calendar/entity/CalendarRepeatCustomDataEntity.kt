@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator
 class CalendarRepeatCustomDataEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "data_id", length = 128)
+    @Column(name = "custom_id", length = 128)
     val customId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)

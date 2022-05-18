@@ -33,13 +33,13 @@ class CalendarRepeatDataEntity(
     val repeatStartDt: LocalDateTime,
 
     @Column(name = "repeat_end_dt")
-    val repeatEndDt: LocalDateTime,
+    val repeatEndDt: LocalDateTime? = null,
 
-    @Column(name = "repeat_type")
+    @Column(name = "repeat_type", length = 64)
     val repeatType: String,
 
-    @Column(name = "repeat_option")
-    val repeatOption: String,
+    @Column(name = "repeat_value", length = 64)
+    val repeatValue: String,
 
     @Column(name = "schedule_title", length = 200)
     val scheduleTitle: String,
