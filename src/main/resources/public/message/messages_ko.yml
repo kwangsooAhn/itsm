@@ -1403,6 +1403,7 @@ sla:
       metricValue: "지표값"
       newMetricManual: "수동지표 데이터 추가"
       referenceDate: "기준일자"
+      targetMetric: "대상 지표"
   metricType:
     auto: "자동"
     manual: "수동"
