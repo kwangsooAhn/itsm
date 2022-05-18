@@ -9,8 +9,6 @@ package co.brainz.workflow.instance.repository
 import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
-import co.brainz.framework.exception.AliceErrorConstants
-import co.brainz.framework.exception.AliceException
 import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.tag.constants.AliceTagConstants
@@ -53,6 +51,7 @@ import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.CaseBuilder
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
@@ -187,13 +186,11 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(token.tokenId.max())
                     .from(token)
-                    .where(
-                        token.tokenStartDt.eq(
-                            from(startDtSubToken)
-                                .select(startDtSubToken.tokenStartDt.max())
-                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                        )
-                    )
+                    .where(token.tokenStartDt.eq(
+                        from(startDtSubToken)
+                            .select(startDtSubToken.tokenStartDt.max())
+                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                    ))
             )
         )
         builder.and(
@@ -210,37 +207,24 @@ class WfInstanceRepositoryImpl(
         tokenSearchCondition: TokenSearchCondition,
         query: JPQLQuery<WfInstanceListViewDto>
     ): JPQLQuery<WfInstanceListViewDto> {
-        if (tokenSearchCondition.orderColName.isNullOrEmpty()) {
-            query.orderBy(instance.instanceStartDt.desc())
-        } else {
-            val direction = when (tokenSearchCondition.orderDir) {
+        var direction = Order.DESC
+        var column = Expressions.stringPath(instance, WfInstanceConstants.OrderColumn.INSTANCE_START_DT.code)
+        if (!tokenSearchCondition.orderColName.isNullOrEmpty()) {
+            direction = when (tokenSearchCondition.orderDir) {
                 QuerydslConstants.OrderSpecifier.DESC.code -> Order.DESC
                 else -> Order.ASC
             }
-            when (tokenSearchCondition.orderColName) {
-                QuerydslConstants.OrderColumn.DOCUMENT_NO.code -> {
-                    query.orderBy(OrderSpecifier(direction, instance.documentNo))
-                }
-                QuerydslConstants.OrderColumn.CREATE_USER_NAME.code -> {
-                    query.orderBy(OrderSpecifier(direction, instance.instanceCreateUser.userName))
-                }
-                QuerydslConstants.OrderColumn.CREATE_DT.code -> {
-                    query.orderBy(OrderSpecifier(direction, instance.instanceStartDt))
-                }
-                QuerydslConstants.OrderColumn.DOCUMENT_GROUP.code -> {
-                    query.orderBy(OrderSpecifier(direction, code.codeName))
-                }
-                QuerydslConstants.OrderColumn.ASSIGNEE_USER_NAME.code -> {
-                    query.orderBy(OrderSpecifier(direction, user.userName))
-                }
-                QuerydslConstants.OrderColumn.ELEMENT_NAME.code -> {
-                    query.orderBy(OrderSpecifier(direction, token.element.elementName))
-                }
-                else -> {
-                    throw AliceException(AliceErrorConstants.ERR, "OrderColName Parameter not found.")
-                }
+            column = when (tokenSearchCondition.orderColName) {
+                WfInstanceConstants.OrderColumn.CREATE_USER_NAME.code -> instance.instanceCreateUser.userName
+                WfInstanceConstants.OrderColumn.DOCUMENT_GROUP.code -> instance.document.documentName
+                WfInstanceConstants.OrderColumn.ASSIGNEE_USER_NAME.code -> user.userName
+                WfInstanceConstants.OrderColumn.ELEMENT_NAME.code -> token.element.elementName
+                WfInstanceConstants.OrderColumn.DOCUMENT_NO.code -> instance.documentNo
+                else -> column
             }
+
         }
+        query.orderBy(OrderSpecifier(direction, column))
         return query
     }
 
