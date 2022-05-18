@@ -406,6 +406,9 @@ class AliceFileService(
         aliceFileOwnMapRepository.deleteByFileLocEntity(aliceFileLocEntity)
     }
 
+    /**
+     * 파일명 검사
+     */
     private fun fileNameSpecialCheck(fileName: String) {
         val regexChar = "[/\\\\%]".toRegex()
         if (regexChar.containsMatchIn(fileName)) {
@@ -414,6 +417,5 @@ class AliceFileService(
                 AliceErrorConstants.ERR_00005.message + "Invalid file name :  $fileName"
             )
         }
-
     }
 }
