@@ -758,21 +758,25 @@ class UserService(
      * 세션 유저 권한 체크
      */
     fun userSessionRoleCheck(userKey: String, roleIds: Set<String>): String {
-        var code = ZResponseConstants.STATUS.ERROR_FAIL.code
+        var code = ZResponseConstants.STATUS.SUCCESS.code
         if (userKey != currentSessionUser.getUserKey()) {
-            val sessionUserRole = roleService.getUserRoleList(currentSessionUser.getUserKey())
-            if (sessionUserRole.isNotEmpty()) {
-                run loop@{
-                    sessionUserRole.forEach { sessionRole ->
-                        if (roleIds.contains(sessionRole.roleId)) {
-                            code = ZResponseConstants.STATUS.SUCCESS.code
-                            return@loop
+            when (roleIds.isEmpty()) {
+                true -> code = ZResponseConstants.STATUS.ERROR_FAIL.code
+                false -> {
+                    var hasRole = false
+                    run loop@{
+                        roleService.getUserRoleList(currentSessionUser.getUserKey()).forEach {
+                            if (roleIds.contains(it.roleId)) {
+                                hasRole = true
+                                return@loop
+                            }
                         }
+                    }
+                    if (!hasRole) {
+                        code = ZResponseConstants.STATUS.ERROR_FAIL.code
                     }
                 }
             }
-        } else {
-            code = ZResponseConstants.STATUS.SUCCESS.code
         }
         return code
     }
