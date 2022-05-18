@@ -79,7 +79,9 @@
             let templateList = document.getElementById('customComponentList').querySelector('.list-group');
             templateList.innerHTML = '';
             dummy.forEach( (dummyData) => {
-                const templateItem = `<div class="z-component-template-icon list-group-item" id="templateComponent" data-value="${dummyData.templateId}">` +
+                const templateItem =
+                    `<div class="z-component-template-icon list-group-item" id="templateComponent" ` +
+                        `data-value="${dummyData.templateId}">` +
                     `<span class="z-icon i-componentTemplate"></span>` +
                     `<span class="z-component-name text-ellipsis" title="${aliceJs.filterXSS(dummyData.templateName)}">` +
                         `${aliceJs.filterXSS(dummyData.templateName)}` +
@@ -349,7 +351,7 @@
                         </label>
                         <div class="z-accordion-content" id="customComponentList">
                             <div class="z-component-icon-box list-group" data-type="template">
-                                <!-- todo : #13134 sample 추후 템플릿 목록에서 데이터를 가져와서 그려준다. -->
+                                <!-- todo: #13134 sample 추후 템플릿 목록에서 데이터를 가져와서 그려준다. -->
                                 <!-- 반복 구간 start -->
                                 <div class="z-component-icon component-template list-group-item"
                                      id="templateComponent" tabindex="0">

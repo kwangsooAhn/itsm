@@ -244,7 +244,7 @@ class ZFormDesigner {
         const componentIconBoxes = document.querySelectorAll('.z-component-icon-box[data-type="template"]');
         componentIconBoxes.forEach((icon) => {
             let templateData = [];
-            // todo: #13134 dummy json / 추후 백엔드 구현 시 제거 / URL 수정
+            // todo: #13134 dummy json / 추후 백엔드 구현 시 URL 수정
             aliceJs.fetchJson('../../../assets/js/temp/componentTemplate.json', {
                 method: 'GET'
             }).then((data) => {
@@ -275,23 +275,18 @@ class ZFormDesigner {
                     evt.clone.classList.add('placeholder');
                 },
                 onMove: function (evt) {
-                    if (evt.from !== evt.to && evt.dragged.classList.contains('z-component-icon')) {
+                    if (evt.from !== evt.to && evt.dragged.classList.contains('z-component-template-icon')) {
                         // drag시 컴포넌트 표시
                         evt.dragged.classList.add('z-component-icon-drag-in');
-                        if (evt.dragged.children.length < 3) {
-                            const component = new zComponent(
-                                templateData.find((item) =>
-                                    (item.templateId === evt.dragged.getAttribute('data-value'))).data);
-                            evt.dragged.appendChild(component.UIElement.domElement);
-                            component.afterEvent();
-                        }
+                        const component = new zComponent(
+                            templateData.find((item) =>
+                                (item.templateId === evt.dragged.getAttribute('data-value'))).data);
+                        evt.dragged.appendChild(component.UIElement.domElement);
+                        component.afterEvent();
                     }
                 },
                 onEnd: function (evt) {
                     if (evt.from === evt.to) {
-                        if (evt.item.children.length === 3) {
-                            evt.item.removeChild(evt.item.children[2]);
-                        }
                         evt.item.classList.remove('z-component-icon-drag-in');
                         return false;
                     }

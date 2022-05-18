@@ -461,9 +461,9 @@ export default class ZComponent {
                     // }).then((response) => {
                     //     switch (response.status) {
                     //         case aliceJs.response.success:
-                    //             zAlert.success(i18n.msg('common.msg.register'), () => {
-                    modal.hide();
-                    //             });
+                    zAlert.success(i18n.msg('common.msg.register'), () => {
+                        modal.hide();
+                    });
                     //             break;
                     //         case aliceJs.response.error:
                     //             zAlert.danger(i18n.msg('common.msg.fail'));
