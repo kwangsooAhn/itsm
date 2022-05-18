@@ -214,4 +214,22 @@ class UserRestController(
     ): ResponseEntity<ByteArray> {
         return userService.getUsersExcelDownload(userSearchCondition)
     }
+
+    /**
+     * 사용자 비밀번호 확인 시 rsa key 전달
+     */
+    @GetMapping("/rsa")
+    fun userPasswordConfirm(): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.rsaKeySend())
+    }
+
+    /**
+     * 사용자 비밀번호 확인
+     */
+    @PostMapping("/passwordConfirm")
+    fun userPasswordConfirm(
+        @RequestBody data: HashMap<String, Any>
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.userPasswordConfirm(data))
+    }
 }

@@ -780,4 +780,36 @@ class UserService(
         }
         return code
     }
+
+    /**
+     * 사용자 비밀번호 확인 시 rsa key 전달
+     */
+    fun rsaKeySend(): ZResponse {
+        val map: MutableMap<String, Any> = mutableMapOf()
+        map["_publicKeyModulus"] = aliceCryptoRsa.getPublicKeyModulus()
+        map["_publicKeyExponent"] = aliceCryptoRsa.getPublicKeyExponent()
+
+        return ZResponse(
+            data = map
+        )
+    }
+
+    /**
+     * 사용자 비밀번호 확인
+     */
+    fun userPasswordConfirm(data: HashMap<String, Any>): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val password = aliceCryptoRsa.decrypt(privateKey, data.getValue("password") as String)
+        val userEntity = this.selectUserKey(currentSessionUser.getUserKey())
+
+        if (!BCryptPasswordEncoder().matches(password, userEntity.password)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+
+        return ZResponse(
+            status = status.code
+        )
+    }
 }
