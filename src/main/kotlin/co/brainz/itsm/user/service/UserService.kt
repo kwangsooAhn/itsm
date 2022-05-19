@@ -753,14 +753,14 @@ class UserService(
     }
 
     /**
-     * 조직에 속하 사용자 목록 조회
+     * 조직에 속한 사용자 목록 조회
      */
     fun getUserListInOrganization(organizationIds: Set<String>): List<AliceUserEntity> {
         return userRepository.getUserListInOrganization(organizationIds)
     }
 
     /**
-     * 자기 정보 수정 시 유저의 권한 확인
+     * 세션 유저 권한 체크
      */
     fun userSessionRoleCheck(userKey: String, roleIds: Set<String>): String {
         var code = ZResponseConstants.STATUS.SUCCESS.code
@@ -807,5 +807,35 @@ class UserService(
                 aliceMessageSource.getMessage("auth.msg.accessDenied")
             )
         }
+    }
+
+    /**
+     * 사용자 비밀번호 확인 시 rsa key 전달
+     */
+    fun rsaKeySend(): MutableMap<String, Any> {
+        val map: MutableMap<String, Any> = mutableMapOf()
+        map[AliceConstants.RsaKey.PUBLIC_MODULE.value] = aliceCryptoRsa.getPublicKeyModulus()
+        map[AliceConstants.RsaKey.PUBLIC_EXPONENT.value] = aliceCryptoRsa.getPublicKeyExponent()
+
+        return map
+    }
+
+    /**
+     * 사용자 비밀번호 확인
+     */
+    fun userPasswordConfirm(data: HashMap<String, Any>): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val password = aliceCryptoRsa.decrypt(privateKey, data.getValue("password") as String)
+        val userEntity = this.selectUserKey(currentSessionUser.getUserKey())
+
+        if (!BCryptPasswordEncoder().matches(password, userEntity.password)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+
+        return ZResponse(
+            status = status.code
+        )
     }
 }

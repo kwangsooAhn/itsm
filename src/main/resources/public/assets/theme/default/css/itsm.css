@@ -8104,6 +8104,18 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
+.modal-dialog.password-check {
+  width: 34.38rem;
+  height: 20.625rem;
+}
+.modal-dialog.password-check .modal-content {
+  height: calc(20.625rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.password-check .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
 
 /* _thumbnail.scss
  *
