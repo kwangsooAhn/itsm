@@ -269,6 +269,12 @@ class UserService(
                 when (userUpdateDto.password?.isNotEmpty()) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
+                        if (!this.passwordValidationCheck(password, userUpdateDto.userId, userUpdateDto.email)) {
+                            throw AliceException(
+                                AliceErrorConstants.ERR_00001,
+                                aliceMessageSource.getMessage("auth.msg.accessDenied")
+                            )
+                        }
                         userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
                         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
                     }
@@ -837,5 +843,63 @@ class UserService(
         return ZResponse(
             status = status.code
         )
+    }
+
+    /**
+     * 비밀번호 유효성 검사
+     */
+    fun passwordValidationCheck(password: String, userId: String, email: String?): Boolean {
+        val upperCaseIncludeReg = """[A-Z]""".toRegex()
+        val lowerCaseIncludeReg = """[a-z]""".toRegex()
+        val integerIncludeReg = """[0-9]""".toRegex()
+        val specialCharIncludeReg = """[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]""".toRegex()
+        val blankReg = """[\s]""".toRegex()
+
+        val upperCaseReg = "^[A-Z]*$".toRegex()
+        val lowerCaseReg = "^[a-z]*$".toRegex()
+        val integerReg = "^[0-9]*$".toRegex()
+        val specialCharReg = "^[\\{\\}\\[\\]\\/?.,;:|\\)*~`!^\\-_+<>@\\#$%&\\\\=\\(\\'\"]*$".toRegex()
+
+        val containsUpperCase = upperCaseIncludeReg.containsMatchIn(password)
+        val containsLowerCase = lowerCaseIncludeReg.containsMatchIn(password)
+        val containsInteger = integerIncludeReg.containsMatchIn(password)
+        val containsSpecialChar = specialCharIncludeReg.containsMatchIn(password)
+
+        // 1가지의 문자 구성인 경우 10자 이상, 20자 미만의 비밀번호를 설정한다.
+        // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
+        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(specialCharIncludeReg)) {
+            if (password.length < 10 || password.length > 20) {
+                return false
+            }
+        }
+
+        // 2가지의 문자 구성인 경우 8자 이상, 20자 미만의 비밀번호를 설정한다.
+        // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
+        if (!containsUpperCase && !containsLowerCase || !containsLowerCase && !containsSpecialChar ||
+            !containsSpecialChar && !containsInteger || !containsInteger && !containsUpperCase ||
+            !containsUpperCase && !containsSpecialChar || !containsLowerCase && !containsInteger
+        ) {
+            if (password.length < 8 || password.length > 20) {
+                return false
+            }
+        }
+
+        // 비밀번호에 공백을 포함하지 않는다.
+        if (blankReg.containsMatchIn(password)) {
+            return false
+        }
+
+        // 비밀번호에 사용자의 ID를 포함하지 않는다.
+        if (password.contains(userId)) {
+            return false
+        }
+
+        // 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
+        if (email.isNullOrEmpty()) {
+            if (password.contains(email!!.split("@")[0])) {
+                return false
+            }
+        }
+        return true
     }
 }
