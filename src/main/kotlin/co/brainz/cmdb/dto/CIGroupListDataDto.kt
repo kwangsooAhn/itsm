@@ -12,6 +12,6 @@ data class CIGroupListDataDto(
     val attributeId: String,
     val cAttributeId: String,
     val cAttributeSeq: Int,
-    val cValue: String,
+    val cValue: String?,
     val cAttributeText: String
 ) : Serializable
