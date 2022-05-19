@@ -202,6 +202,7 @@
                     bindKey: false,
                     callback: function (modal) {
                         passwordEncryptAndConfirm(userKey, manageAuth);
+                        modal.hide();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
