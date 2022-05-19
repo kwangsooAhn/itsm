@@ -297,7 +297,7 @@
           @include borderRadius(0.125rem); // 2px
 
           &:hover, &:active { background-color: $gray200; }
-          &.selected {
+          &.active {
             position: relative;
             color: $blue500;
             &:before {

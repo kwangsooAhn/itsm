@@ -99,6 +99,8 @@
         this.changeTarget = this.changeTarget.bind(this);
         this.prevMonth = this.prevMonth.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
+        this.prevYear = this.prevYear.bind(this);
+        this.nextYear = this.nextYear.bind(this);
         this.setHour = this.setHour.bind(this);
         this.setMinute = this.setMinute.bind(this);
 
@@ -481,14 +483,8 @@
             // text
             const currentText = document.createElement('div');
             currentText.className = 'date-text';
-            const aaa = document.createElement('span');
-            aaa.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
-            aaa.textContent = _this.selectLuxon.toFormat('yyyy' - 4);
-            currentText.appendChild(aaa);
-            const bbb = document.createElement('span');
-            bbb.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
-            bbb.textContent = _this.selectLuxon.toFormat('yyyy' + 4);
-            currentText.appendChild(bbb);
+            currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
+            currentText.textContent = _this.selectLuxon.toFormat('yyyy');
             periodPanel.appendChild(currentText);
 
             // next year
@@ -505,8 +501,6 @@
             let firstYearOfDate = _this.selectLuxon.set();
             let current_year = firstYearOfDate.year;
 
-            firstYearOfDate = firstYearOfDate.minus({ days: (firstYearOfDate.year || 5) });
-
             for (let i = 0; i < 9; i++) {
                 let yy = firstYearOfDate.year;
 
@@ -515,19 +509,17 @@
                 calendarCell.setAttribute('data-value', firstYearOfDate.toFormat('yyyy'));
                 calendarCell.textContent = yy;
 
-                if (yy === current_year || _this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) { // 현재 년도 || 선택한 년도
-                    calendarCell.classList.add('selected');
+                if (yy === current_year) { // 현재 년도
+                    calendarCell.classList.add('active');
+                } else if (yy < current_year) {
+                    calendarCell.classList.add('prev');
+                } else {
+                    calendarCell.classList.add('next');
                 }
                 calendarCell.addEventListener('click', function (e) {
                     const elem = e.target;
-                    const parentElem = elem.parentNode;
-                    const isSelected = elem.classList.contains('selected');
-                    if (!isSelected) {
-                        const prevSelectDay = parentElem.querySelector('.selected');
-                        if (prevSelectDay !== null) {
-                            prevSelectDay.classList.remove('selected');
-                        }
-                        elem.classList.add('selected');
+                    const isActived = elem.classList.contains('active');
+                    if (!isActived) {
                         let selectedDate = elem.getAttribute('data-value');
                         _this.changeYear({ year: selectedDate.substr(0, 4)});
                         if (elem.classList.contains('prev') || elem.classList.contains('next')) {

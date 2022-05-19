@@ -6308,11 +6308,11 @@ summary:focus {
 .z-picker-modal-content-year-years .calendar-cell:hover, .z-picker-modal-content-year-years .calendar-cell:active {
   background-color: #E1E6EA;
 }
-.z-picker-modal-content-year-years .calendar-cell.selected {
+.z-picker-modal-content-year-years .calendar-cell.active {
   position: relative;
   color: #3373C4;
 }
-.z-picker-modal-content-year-years .calendar-cell.selected:before {
+.z-picker-modal-content-year-years .calendar-cell.active:before {
   content: "";
   display: block;
   width: 100%;
