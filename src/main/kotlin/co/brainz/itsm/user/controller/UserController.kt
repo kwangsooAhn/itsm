@@ -10,7 +10,11 @@ import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.organization.service.OrganizationService
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -38,7 +42,8 @@ class UserController(
     private val userService: UserService,
     private val roleService: RoleService,
     private val userDetailsService: AliceUserDetailsService,
-    private val organizationService: OrganizationService
+    private val organizationService: OrganizationService,
+    private val aliceMessageSource: AliceMessageSource
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -119,7 +124,15 @@ class UserController(
 
         when (target) {
             UserConstants.UserEdit.EDIT_SELF.code -> {
-                returnUrl = userEditSelfPage
+                val userSessionRoleCheck = userService.userSessionRoleCheck(userKey, setOf(AliceConstants.SYSTEM_ROLE))
+                if (userSessionRoleCheck == ZResponseConstants.STATUS.SUCCESS.code) {
+                    returnUrl = userEditSelfPage
+                } else {
+                    throw AliceException(
+                        AliceErrorConstants.ERR_00003,
+                        aliceMessageSource.getMessage("auth.msg.accessDenied")
+                    )
+                }
             }
             UserConstants.UserEdit.EDIT.code -> {
                 model.addAttribute("allRoles", roleService.getAllRoleList())
