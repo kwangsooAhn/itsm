@@ -1622,6 +1622,7 @@ file:
     failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
     fileSelect: "Please select a file."
     noAttachFile: "There are no attachments."
+    unacceptableCharacters: "contains special characters(. / \ %) that are not allowed File Name."
     registrationSuccess: "File Registration Success."
     searchDescription: "Add, view and manage Files to be used in forms."
     upload: "Drop files here to upload."
