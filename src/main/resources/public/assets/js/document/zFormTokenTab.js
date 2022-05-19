@@ -840,7 +840,7 @@ class ZFormTokenTab {
      * 문서 저장
      */
     saveDocumentStorage(starIcon) {
-        aliceJs.fetchJson('/rest/documentStorage/' + this.instanceId, {
+        aliceJs.fetchJson('/rest/documentStorage/' + this.instanceId + '/' + this.documentId, {
             method: 'POST'
         }).then((response) => {
             switch (response.status) {

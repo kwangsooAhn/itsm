@@ -25,9 +25,9 @@ class DocumentStorageRestController(private val documentStorageService: Document
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     // Document Storage insert
-    @PostMapping("/{instanceId}")
-    fun insertDocumentStorage(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(documentStorageService.insertDocumentStorage(instanceId))
+    @PostMapping("/{instanceId}/{documentId}")
+    fun insertDocumentStorage(@PathVariable instanceId: String, @PathVariable documentId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentStorageService.insertDocumentStorage(instanceId, documentId))
     }
 
     // Document Storage delete

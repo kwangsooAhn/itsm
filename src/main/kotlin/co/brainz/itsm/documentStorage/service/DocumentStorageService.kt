@@ -12,6 +12,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.documentStorage.entity.DocumentStorageEntity
 import co.brainz.itsm.documentStorage.entity.DocumentStoragePk
 import co.brainz.itsm.documentStorage.repository.DocumentStorageRepository
+import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import org.slf4j.LoggerFactory
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional
 class DocumentStorageService(
     private val documentStorageRepository: DocumentStorageRepository,
     private val currentSessionUser: CurrentSessionUser,
+    private val instanceService: InstanceService,
     private val wfInstanceRepository: WfInstanceRepository,
     private val userService: UserService
 ) {
@@ -29,17 +31,20 @@ class DocumentStorageService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Transactional
-    fun insertDocumentStorage(instanceId: String): ZResponse {
+    fun insertDocumentStorage(instanceId: String, documentId: String): ZResponse {
         val status = ZResponseConstants.STATUS.SUCCESS
         val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
-        val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
 
-        documentStorageRepository.save(
-            DocumentStorageEntity(
-                user = userEntity,
-                instance = instanceEntity
+        if (instanceService.setInitInstance(instanceId, documentId)) {
+            val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
+            documentStorageRepository.save(
+                DocumentStorageEntity(
+                    user = userEntity,
+                    instance = instanceEntity
+                )
             )
-        )
+        }
+
         return ZResponse(
             status = status.code
         )
@@ -61,8 +66,7 @@ class DocumentStorageService(
     fun getDocumentStorageDataExist(instanceId: String): ZResponse {
         val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
         val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)
-
-        val isExistData: Boolean = if (instanceEntity == null) {
+        val isExistInstance: Boolean = if (instanceEntity == null) {
             false
         } else {
             documentStorageRepository.existsByInstanceAndUser(
@@ -73,7 +77,7 @@ class DocumentStorageService(
         return ZResponse(
             status = ZResponseConstants.STATUS.SUCCESS.code,
             message = "",
-            data = isExistData
+            data = isExistInstance
         )
     }
 }
