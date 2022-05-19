@@ -11,7 +11,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class MetricManualDto(
-    val metricId: String = "",
+    val metricManualId: String = "",
     val metricName: String? = "",
     val referenceDate: LocalDate? = null,
     val metricValue: Double? = null,
