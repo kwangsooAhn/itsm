@@ -8,15 +8,17 @@ package co.brainz.itsm.calendar.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.itsm.calendar.dto.CalendarRequest
+import co.brainz.itsm.calendar.dto.ScheduleData
 import co.brainz.itsm.calendar.service.CalendarService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -31,43 +33,75 @@ class CalendarRestController(
     /**
      * 캘린더별 전체 데이터 조회
      */
-    @GetMapping("/", "")
-    fun getCalendars(): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.getCalendars())
+    @PostMapping("/", "")
+    fun getCalendars(@RequestBody calendarRequest: CalendarRequest): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(calendarService.getCalendars(calendarRequest))
     }
 
     /**
-     * 스케줄 상세 조회
+     * 일반 일정 등록
      */
-    @GetMapping("/{calendarId}/schedule/{scheduleId}")
-    fun getCalendarSchedule(
-        @PathVariable calendarId: String,
-        @PathVariable scheduleId: String
-    ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.getCalendarSchedule(calendarId, scheduleId))
-    }
-
     @PostMapping("/{calendarId}/schedule")
     fun postCalendarSchedule(
-        @PathVariable calendarId: String
+        @PathVariable calendarId: String,
+        @RequestBody data: ScheduleData
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.postCalendarSchedule(calendarId))
+        return ZAliceResponse.response(calendarService.postCalendarSchedule(calendarId, data))
     }
 
-    @PutMapping("/{calendarId}/schedule/{scheduleId}")
+    /**
+     * 일반 일정 수정
+     */
+    @PutMapping("/{calendarId}/schedule")
     fun putCalendarSchedule(
         @PathVariable calendarId: String,
-        @PathVariable scheduleId: String
+        @RequestBody data: ScheduleData
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.putCalendarSchedule(calendarId, scheduleId))
+        return ZAliceResponse.response(calendarService.putCalendarSchedule(calendarId, data))
     }
 
-    @DeleteMapping("/{calendarId}/schdule/{scheduleId}")
+    /**
+     * 일반 일정 삭제
+     */
+    @DeleteMapping("/{calendarId}/schedule")
     fun deleteCalendarSchedule(
         @PathVariable calendarId: String,
-        @PathVariable scheduleId: String
+        @RequestBody data: String
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.deleteCalendarSchedule(calendarId, scheduleId))
+        return ZAliceResponse.response(calendarService.deleteCalendarSchedule(calendarId, data))
+    }
+
+    /**
+     * 반복 일정 등록
+     */
+    @PostMapping("/{calendarId}/repeat")
+    fun postCalendarRepeat(
+        @PathVariable calendarId: String,
+        @RequestBody data: ScheduleData
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(calendarService.postCalendarRepeat(calendarId, data))
+    }
+
+    /**
+     * 반복 일정 수정
+     */
+    @PutMapping("/{calendarId}/repeat")
+    fun putCalendarRepeat(
+        @PathVariable calendarId: String,
+        @RequestBody data: ScheduleData
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(calendarService.putCalendarRepeat(calendarId, data))
+    }
+
+    /**
+     * 반복 일정 삭제
+     */
+    @DeleteMapping("/{calendarId}/repeat")
+    fun deleteCalendarRepeat(
+        @PathVariable calendarId: String,
+        @RequestBody data: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(calendarService.deleteCalendarRepeat(calendarId, data))
     }
 
 }
