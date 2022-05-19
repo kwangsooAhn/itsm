@@ -402,9 +402,7 @@ class CIService(
         result?.columnTitle?.forEachIndexed { index, title ->
             when (result.columnType[index]) {
                 CIAttributeConstants.Type.ICON.code,
-                CIAttributeConstants.Type.HIDDEN.code
-                -> {
-                }
+                CIAttributeConstants.Type.HIDDEN.code -> { }
                 else -> {
                     titleRowVOList.add(
                         ExcelCellVO(
@@ -434,9 +432,7 @@ class CIService(
             content.value.forEachIndexed { index, value ->
                 when (result.columnType[index]) {
                     CIAttributeConstants.Type.ICON.code,
-                    CIAttributeConstants.Type.HIDDEN.code
-                    -> {
-                    }
+                    CIAttributeConstants.Type.HIDDEN.code -> { }
                     else -> {
                         excelCellVOList.add(ExcelCellVO(value = value))
                     }
