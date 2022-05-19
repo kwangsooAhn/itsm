@@ -269,6 +269,11 @@ calendar:
     month: "월"
     myCalendar: "내 캘린더"
     none: "반복 안함"
+    repeatModify: "반복 일정 설정"
+    repeatPeriod:
+      after: "이 일정 및 향후 일정"
+      all: "모든 일정"
+      today: "이 일정"
     repeatYn: "반복 여부"
     saturday: "토요일"
     sunday: "일요일"

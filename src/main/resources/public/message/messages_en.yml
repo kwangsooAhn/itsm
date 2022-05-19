@@ -269,6 +269,11 @@ calendar:
     month: "Monthly"
     myCalendar: "My Calendar"
     none: "No Repeat"
+    repeatModify: "Set up a repeat schedule"
+    repeatPeriod:
+      after: "This and following schedules"
+      all: "All schedules"
+      today: "This schedule"
     repeatYn: "Repeat"
     saturday: "Saturday"
     sunday: "Sunday"
