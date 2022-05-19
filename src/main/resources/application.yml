@@ -104,6 +104,7 @@ schedule.plugins.dir: C:\\plugins
 timezone:
   scheduler: Asia/Seoul
   customChart: Asia/Seoul
+  excel: Asia/Seoul
 
 # IP 접근 제한 기능 설정
 ip.access.control: true
