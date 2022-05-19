@@ -71,7 +71,7 @@ class DocumentStorageService(
         }
 
         return ZResponse(
-            status = "",
+            status = ZResponseConstants.STATUS.SUCCESS.code,
             message = "",
             data = isExistData
         )
