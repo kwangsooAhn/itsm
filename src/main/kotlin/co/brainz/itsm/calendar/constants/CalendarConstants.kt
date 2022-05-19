@@ -13,4 +13,10 @@ object CalendarConstants {
         WEEK("week"),
         MONTH("month")
     }
+
+    enum class RepeatPeriod(val code: String) {
+        ALL("all"),
+        THIS("this"),
+        AFTER("after")
+    }
 }

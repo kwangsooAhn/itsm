@@ -11,6 +11,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.calendar.constants.CalendarConstants
 import co.brainz.itsm.calendar.dto.CalendarData
+import co.brainz.itsm.calendar.dto.CalendarDeleteRequest
 import co.brainz.itsm.calendar.dto.CalendarDto
 import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.CalendarResponse
@@ -23,7 +24,6 @@ import co.brainz.itsm.calendar.repository.CalendarRepeatDataRepository
 import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
 import co.brainz.itsm.calendar.repository.CalendarRepository
 import co.brainz.itsm.calendar.repository.CalendarScheduleRepository
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -139,7 +139,8 @@ class CalendarService(
     @Transactional
     fun putCalendarSchedule(calendarId: String, scheduleData: ScheduleData): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        //val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        val calendar = calendarRepository.findCalendarInOwner(calendarId, "0509e09412534a6e98f04ca79abb6424")
         if (calendar.isPresent) {
             if (scheduleData.repeatYn) { // 반복 일정으로 변경된 경우
                 // 일반 삭제
@@ -190,13 +191,12 @@ class CalendarService(
      * 스케줄 삭제
      */
     @Transactional
-    fun deleteCalendarSchedule(calendarId: String, data: String): ZResponse {
+    fun deleteCalendarSchedule(calendarId: String, calendarDeleteRequest: CalendarDeleteRequest): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val schedule: Map<String, Any> =
-            mapper.convertValue(data, object : TypeReference<Map<String, Any>>() {})
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        //val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        val calendar = calendarRepository.findCalendarInOwner(calendarId, "0509e09412534a6e98f04ca79abb6424")
         if (calendar.isPresent) {
-            calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar.get(), schedule["id"].toString())
+            calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar.get(), calendarDeleteRequest.id)
         } else {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         }
@@ -226,15 +226,23 @@ class CalendarService(
      * 반복 일정 삭제
      */
     @Transactional
-    fun deleteCalendarRepeat(calendarId: String, data: String): ZResponse {
+    fun deleteCalendarRepeat(calendarId: String, calendarDeleteRequest: CalendarDeleteRequest): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val repeat: Map<String, Any> =
-            mapper.convertValue(data, object : TypeReference<Map<String, Any>>() {})
-
         // 반복 일정 삭제는 period 에 따라 삭제 대상이 달라진다.
         // all 이면.. repeat, data, custom 모두 삭제
         // today 면... custom 에 존재하면 삭제.. custom 에 없으면 삭제로 추가
         // 오늘이후 면... data에 신규 추가 .. 신규 시작 날짜는 해당 일로 지정
+        when (calendarDeleteRequest.repeatPeriod) {
+            CalendarConstants.RepeatPeriod.ALL.code -> {
+
+            }
+            CalendarConstants.RepeatPeriod.THIS.code -> {
+
+            }
+            CalendarConstants.RepeatPeriod.AFTER.code -> {
+
+            }
+        }
 
         return ZResponse(
             status = status.code

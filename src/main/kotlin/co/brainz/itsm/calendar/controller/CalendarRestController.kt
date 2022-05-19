@@ -8,6 +8,7 @@ package co.brainz.itsm.calendar.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.itsm.calendar.dto.CalendarDeleteRequest
 import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.ScheduleData
 import co.brainz.itsm.calendar.service.CalendarService
@@ -66,9 +67,9 @@ class CalendarRestController(
     @DeleteMapping("/{calendarId}/schedule")
     fun deleteCalendarSchedule(
         @PathVariable calendarId: String,
-        @RequestBody data: String
+        @RequestBody calendarDeleteRequest: CalendarDeleteRequest
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.deleteCalendarSchedule(calendarId, data))
+        return ZAliceResponse.response(calendarService.deleteCalendarSchedule(calendarId, calendarDeleteRequest))
     }
 
     /**
@@ -99,9 +100,9 @@ class CalendarRestController(
     @DeleteMapping("/{calendarId}/repeat")
     fun deleteCalendarRepeat(
         @PathVariable calendarId: String,
-        @RequestBody data: String
+        @RequestBody calendarDeleteRequest: CalendarDeleteRequest
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.deleteCalendarRepeat(calendarId, data))
+        return ZAliceResponse.response(calendarService.deleteCalendarRepeat(calendarId, calendarDeleteRequest))
     }
 
 }
