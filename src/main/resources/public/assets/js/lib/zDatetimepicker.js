@@ -169,6 +169,7 @@
         // Picker open.
         open: function () {
             if (!this.target.readOnly && !this.el.classList.contains('active')) {
+                this.reset();
                 this.el.classList.add('active');
                 this.setPosition();
                 // Detects the target if it's the picker element, if not, closes the picker
@@ -182,22 +183,26 @@
             if (this.el.classList.contains('active')) {
                 this.el.classList.remove('active');
                 // reset
-                let resetValue = (this.target.value !== '' ? this.target.value : 'now');
-                let resetLuxon = util.getDate({type: this.type, value: resetValue});
-                if (resetLuxon.valueOf() !== this.selectLuxon.valueOf()) {
-                    this.selectLuxon = resetLuxon;
-                    this.displayLuxon = this.selectLuxon.plus({ days: 0});
-                    if (this.type === 'DATE' || this.type === 'DATEHOUR') {
-                        this.drawDate();
-                    }
-                    if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
-                        this.drawTime();
-                    }
-                }
+                this.reset();
                 // remove event
                 document.removeEventListener('mousedown', this.clickWindow, false);
                 window.removeEventListener('scroll', this.setPosition, false);
                 window.removeEventListener('resize', this.setPosition, false);
+            }
+        },
+        // Picker reset
+        reset: function () {
+            let resetValue = (this.target.value !== '' ? this.target.value : 'now');
+            let resetLuxon = util.getDate({type: this.type, value: resetValue});
+            if (resetLuxon.valueOf() !== this.selectLuxon.valueOf()) {
+                this.selectLuxon = resetLuxon;
+                this.displayLuxon = this.selectLuxon.plus({ days: 0});
+                if (this.type === 'DATE' || this.type === 'DATEHOUR') {
+                    this.drawDate();
+                }
+                if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
+                    this.drawTime();
+                }
             }
         },
         // Picker Position.
