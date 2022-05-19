@@ -483,11 +483,11 @@
             currentText.className = 'date-text';
             const aaa = document.createElement('span');
             aaa.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
-            aaa.textContent = _this.selectLuxon.toFormat('yyyy');
+            aaa.textContent = _this.selectLuxon.toFormat('yyyy' - 4);
             currentText.appendChild(aaa);
             const bbb = document.createElement('span');
             bbb.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
-            bbb.textContent = _this.selectLuxon.toFormat('yyyy');
+            bbb.textContent = _this.selectLuxon.toFormat('yyyy' + 4);
             currentText.appendChild(bbb);
             periodPanel.appendChild(currentText);
 
@@ -515,7 +515,7 @@
                 calendarCell.setAttribute('data-value', firstYearOfDate.toFormat('yyyy'));
                 calendarCell.textContent = yy;
 
-                if (yy === current_year || _this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) { // 현재 년도
+                if (yy === current_year || _this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) { // 현재 년도 || 선택한 년도
                     calendarCell.classList.add('selected');
                 }
                 calendarCell.addEventListener('click', function (e) {
@@ -576,8 +576,6 @@
         changeYear: function (offset) {
             this.selectLuxon = this.selectLuxon.set(offset);
             this.displayLuxon = this.selectLuxon.plus({ years: 0});
-            console.log(this.selectLuxon)
-            console.log(this.displayLuxon)
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function () {
