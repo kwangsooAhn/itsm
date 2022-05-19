@@ -601,6 +601,7 @@ datepicker:
   btn:
     am: "AM"
     pm: "PM"
+    reset: "Reset"
   label:
     date: "Select Date"
     datetime: "Select Date and Time"

@@ -600,6 +600,7 @@ datepicker:
   btn:
     am: "오전"
     pm: "오후"
+    reset: "초기화"
   label:
     date: "날짜 선택"
     datetime: "날짜 및 시간 선택"
