@@ -124,7 +124,7 @@ class CIService(
     fun getCIs(ciSearchCondition: CISearchCondition, searchItemsData: CISearch): CIDynamicReturnDto {
         ciSearchCondition.isPaging = false
         val dataList = ciRepository.findCIList(ciSearchCondition)
-        val ciList: List<CIsDto> = mapper.convertValue(dataList.dataList, object : TypeReference<List<CIsDto>> () {})
+        val ciList: List<CIsDto> = mapper.convertValue(dataList.dataList, object : TypeReference<List<CIsDto>>() {})
         // 공통 출력 데이터 조회
         var basic = ciSearchService.getBasic(ciList)
         // 옵션 출력 데이터 조회
@@ -139,6 +139,8 @@ class CIService(
         basic.contents = ciSearchService.getConvertValue(basic)
         // 정렬
         basic.contents = ciSearchService.getOrderContents(basic, ciSearchCondition)
+        val count = basic.contents.size.toLong()
+
         if (!ciSearchCondition.isExcel) {
             basic.contents = ciSearchService.getPaging(basic, ciSearchCondition)
         }
@@ -146,7 +148,7 @@ class CIService(
         return CIDynamicReturnDto(
             data = basic,
             paging = AlicePagingData(
-                totalCount = dataList.totalCount,
+                totalCount =  count,
                 totalCountWithoutCondition = ciRepository.count(),
                 currentPageNum = ciSearchCondition.pageNum,
                 totalPageNum = ceil(dataList.totalCount.toDouble() / ciSearchCondition.contentNumPerPage.toDouble()).toLong(),
@@ -400,7 +402,9 @@ class CIService(
         result?.columnTitle?.forEachIndexed { index, title ->
             when (result.columnType[index]) {
                 CIAttributeConstants.Type.ICON.code,
-                CIAttributeConstants.Type.HIDDEN.code -> { }
+                CIAttributeConstants.Type.HIDDEN.code
+                -> {
+                }
                 else -> {
                     titleRowVOList.add(
                         ExcelCellVO(
@@ -430,7 +434,9 @@ class CIService(
             content.value.forEachIndexed { index, value ->
                 when (result.columnType[index]) {
                     CIAttributeConstants.Type.ICON.code,
-                    CIAttributeConstants.Type.HIDDEN.code -> { }
+                    CIAttributeConstants.Type.HIDDEN.code
+                    -> {
+                    }
                     else -> {
                         excelCellVOList.add(ExcelCellVO(value = value))
                     }
