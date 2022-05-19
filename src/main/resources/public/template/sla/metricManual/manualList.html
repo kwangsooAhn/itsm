@@ -45,7 +45,7 @@
             </div>
             <div class="grid__cell pl-2">
                 <th:block sec:authorize="hasAuthority('sla.manage')">
-                    <button type="button" class="z-button-icon form" th:onclick="deleteDocument([[${metric.metricId}]], true)">
+                    <button type="button" class="z-button-icon form" th:onclick="onDelete([[${metric.metricManualId}]])">
                         <span class="z-icon i-list-delete"></span>
                     </button>
                 </th:block>

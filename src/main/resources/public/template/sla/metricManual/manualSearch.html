@@ -63,9 +63,9 @@
      */
     function setMetricValueFormat(elem) {
         elem.querySelectorAll('.metric-value').forEach(value => {
-            const aaa = value.textContent.replace(/.?0+$/, '');
-            value.textContent = aaa;
-            value.setAttribute('title', aaa);
+            const userMetricValue = value.textContent.replace(/.?0+$/, '');
+            value.textContent = userMetricValue;
+            value.setAttribute('title', userMetricValue);
         });
     }
 
@@ -99,6 +99,23 @@
             }
         });
         classAttributeListModal.show();
+    }
+
+    function onDelete(metricManualId) {
+        let url = '';
+        url = '/rest/sla/metrics/manual/' + metricManualId;
+
+        zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
+            aliceJs.fetchJson(url, {
+                method: 'DELETE'
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success([[#{common.msg.delete}]], function () {
+                        window.location.href = '/sla/metrics/search';
+                    });
+                }
+            });
+        });
     }
 </script>
 </html>
