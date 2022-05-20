@@ -8,6 +8,7 @@ package co.brainz.itsm.documentStorage.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.itsm.documentStorage.dto.DocumentStorageRequestDto
 import co.brainz.itsm.documentStorage.service.DocumentStorageService
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -25,9 +27,9 @@ class DocumentStorageRestController(private val documentStorageService: Document
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     // Document Storage insert
-    @PostMapping("/{instanceId}")
-    fun insertDocumentStorage(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(documentStorageService.insertDocumentStorage(instanceId))
+    @PostMapping("")
+    fun insertDocumentStorage(@RequestBody documentStorageRequestDto: DocumentStorageRequestDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentStorageService.insertDocumentStorage(documentStorageRequestDto))
     }
 
     // Document Storage delete
@@ -36,7 +38,7 @@ class DocumentStorageRestController(private val documentStorageService: Document
         return ZAliceResponse.response(documentStorageService.deleteDocumentStorage(instanceId))
     }
 
-    // Document Storagte 데이터 존재 여부 확인
+    // Document Storage 데이터 존재 여부 확인
     @GetMapping("/{instanceId}/exist")
     fun getDocumentStorageDataExist(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(documentStorageService.getDocumentStorageDataExist(instanceId))

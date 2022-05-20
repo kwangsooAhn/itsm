@@ -9,6 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
+import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.repository.AliceCertificationRepository
@@ -22,6 +23,8 @@ import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
@@ -37,6 +40,7 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -101,7 +105,8 @@ class UserService(
     private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
-    private val roleService: RoleService
+    private val roleService: RoleService,
+    private val aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -748,9 +753,89 @@ class UserService(
     }
 
     /**
-     * 조직에 속하 사용자 목록 조회
+     * 조직에 속한 사용자 목록 조회
      */
     fun getUserListInOrganization(organizationIds: Set<String>): List<AliceUserEntity> {
         return userRepository.getUserListInOrganization(organizationIds)
+    }
+
+    /**
+     * 세션 유저 권한 체크
+     */
+    fun userSessionRoleCheck(userKey: String, roleIds: Set<String>): String {
+        var code = ZResponseConstants.STATUS.SUCCESS.code
+        if (userKey != currentSessionUser.getUserKey()) {
+            when (roleIds.isEmpty()) {
+                true -> code = ZResponseConstants.STATUS.ERROR_FAIL.code
+                false -> {
+                    var hasRole = false
+                    run loop@{
+                        roleService.getUserRoleList(currentSessionUser.getUserKey()).forEach {
+                            if (roleIds.contains(it.roleId)) {
+                                hasRole = true
+                                return@loop
+                            }
+                        }
+                    }
+                    if (!hasRole) {
+                        code = ZResponseConstants.STATUS.ERROR_FAIL.code
+                    }
+                }
+            }
+        }
+        return code
+    }
+
+    /**
+     * 페이지별 권한으로 역할 확인
+     */
+    fun userAccessAuthCheck(createUserKey: String, auths: String?) {
+        val roleIds: MutableSet<String> = mutableSetOf()
+        val roleDtoList = mutableListOf<RoleListDto>()
+        if (!auths.isNullOrEmpty()) {
+            roleDtoList.addAll(aliceRoleAuthMapRepository.findRoleByAuths(auths))
+            for (role in roleDtoList) {
+                roleIds.add(role.roleId)
+            }
+        } else {
+            roleIds.add(AliceConstants.SYSTEM_ROLE)
+        }
+        val result = this.userSessionRoleCheck(createUserKey, roleIds)
+        if (result != ZResponseConstants.STATUS.SUCCESS.code) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00002,
+                aliceMessageSource.getMessage("auth.msg.accessDenied")
+            )
+        }
+    }
+
+    /**
+     * 사용자 비밀번호 확인 시 rsa key 전달
+     */
+    fun rsaKeySend(): MutableMap<String, Any> {
+        val map: MutableMap<String, Any> = mutableMapOf()
+        map[AliceConstants.RsaKey.PUBLIC_MODULE.value] = aliceCryptoRsa.getPublicKeyModulus()
+        map[AliceConstants.RsaKey.PUBLIC_EXPONENT.value] = aliceCryptoRsa.getPublicKeyExponent()
+
+        return map
+    }
+
+    /**
+     * 사용자 비밀번호 확인
+     */
+    fun userPasswordConfirm(data: HashMap<String, Any>): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val password = aliceCryptoRsa.decrypt(privateKey, data.getValue("password") as String)
+        val userEntity = this.selectUserKey(currentSessionUser.getUserKey())
+
+        if (!BCryptPasswordEncoder().matches(password, userEntity.password)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+
+        return ZResponse(
+            status = status.code
+        )
     }
 }

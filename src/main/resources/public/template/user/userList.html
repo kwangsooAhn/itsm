@@ -29,9 +29,9 @@
             </td>
             <td style="width:9.9%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('system.manage')" th:text="${user.userName}"
-                   th:href="@{/users/{id}/view(id=${user.userKey})}" th:title="${user.userName}"></a>
+                   th:onclick="openPasswordConfirmModal([[${user.userKey}]], false)" th:title="${user.userName}"></a>
                 <a sec:authorize="hasAuthority('system.manage')" th:text="${user.userName}"
-                   th:href="@{/users/{id}/edit(id=${user.userKey})}" th:title="${user.userName}"></a>
+                   th:onclick="openPasswordConfirmModal([[${user.userKey}]], true)" th:title="${user.userName}"></a>
             </td>
             <td style="width:10%;" class="align-left" th:text="${user.userId}" th:title="${user.userId}"></td>
             <td style="width:16%;" class="align-left" th:text="${user.email}" th:title="${user.email}"></td>

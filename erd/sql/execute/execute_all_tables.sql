@@ -425,17 +425,17 @@ DROP TABLE IF EXISTS awf_archive cascade;
 
 CREATE TABLE awf_archive
 (
-	archive_id varchar(128) NOT NULL,
-	archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
-	archive_category varchar(100) NOT NULL,
-	archive_title varchar(128) NOT NULL,
-	views bigint DEFAULT 0 NOT NULL,
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT awf_archive_pk PRIMARY KEY (archive_id),
-	CONSTRAINT awf_archive_uk UNIQUE (archive_seq)
+    archive_id varchar(128) NOT NULL,
+    archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
+    archive_category varchar(100) NOT NULL,
+    archive_title varchar(128) NOT NULL,
+    views bigint DEFAULT 0 NOT NULL,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT awf_archive_pk PRIMARY KEY (archive_id),
+    CONSTRAINT awf_archive_uk UNIQUE (archive_seq)
 );
 
 COMMENT ON TABLE awf_archive IS '자료실';
@@ -1435,6 +1435,8 @@ insert into awf_url values ('/users/substituteUsers', 'get', '업무 대리인 �
 insert into awf_url values ('/users/searchUsers', 'get', '사용자 검색 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
+insert into awf_url values ('/rest/users/rsa','get', 'RSA Key 받기', 'FALSE');
+insert into awf_url values ('/rest/users/passwordConfirm','post', '사용자 비밀번호 확인', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
@@ -1445,7 +1447,7 @@ insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무�
 insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
 insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
 insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
-insert into awf_url values ('/rest/documentStorage/{instanceId}', 'post', '보관 문서 데이터 추가', 'FALSE');
+insert into awf_url values ('/rest/documentStorage', 'post', '보관 문서 데이터 추가', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}', 'delete', '보관 문서 데이터 삭제', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '보관 문서 데이터 존재 여부 확인', 'FALSE');
 
@@ -9140,6 +9142,21 @@ COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
 
 /**
+ * 보관 문서 데이터
+ */
+DROP TABLE IF EXISTS awf_document_storage cascade;
+
+CREATE TABLE awf_document_storage
+(
+    instance_id varchar(128) NOT NULL,
+    user_key varchar(128) NOT NULL,
+    CONSTRAINT awf_document_storage_pk PRIMARY KEY (instance_id, user_key)
+);
+
+COMMENT ON TABLE awf_document_storage IS '보관 문서 데이터';
+COMMENT ON COLUMN awf_document_storage.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN awf_document_storage.user_key IS '사용자 키';
+/**
   IF CMDB 테이블
  */
 DROP TABLE IF EXISTS if_cmdb_ci cascade;
@@ -9235,20 +9252,4 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_id IS '자식속성아이디';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순서';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
-
-/**
- * 보관 문서 데이터
- */
-DROP TABLE IF EXISTS awf_document_storage cascade;
-
-CREATE TABLE awf_document_storage
-(
-    instance_id varchar(128) NOT NULL,
-    user_key varchar(128) NOT NULL,
-    CONSTRAINT awf_document_storage_pk PRIMARY KEY (instance_id, user_key)
-);
-
-COMMENT ON TABLE awf_document_storage IS '보관 문서 데이터';
-COMMENT ON COLUMN awf_document_storage.instance_id IS '인스턴스아이디';
-COMMENT ON COLUMN awf_document_storage.user_key IS '사용자 키';
 
