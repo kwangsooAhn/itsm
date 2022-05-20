@@ -38,7 +38,7 @@ class DocumentStorageRestController(private val documentStorageService: Document
         return ZAliceResponse.response(documentStorageService.deleteDocumentStorage(instanceId))
     }
 
-    // Document Storagte 데이터 존재 여부 확인
+    // Document Storage 데이터 존재 여부 확인
     @GetMapping("/{instanceId}/exist")
     fun getDocumentStorageDataExist(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(documentStorageService.getDocumentStorageDataExist(instanceId))
