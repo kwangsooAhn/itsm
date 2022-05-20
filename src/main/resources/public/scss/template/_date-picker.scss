@@ -8,9 +8,7 @@
 // input box
 .z-picker-wrapper-date {
   display: inline-block;
-  .picker-main {
-    padding-right: 2.25rem;
-  }
+  .picker-main { padding-right: 2.25rem; }
 }
 // modal
 .z-picker-modal {
@@ -36,14 +34,12 @@
   // modal title
   &-title {
     font-size: $datepicker-title-font-size;
-    font-weight: $datepicker-title-font-weight;
-    color: $datepicker-title-font-color;
+    font-weight: $font-weight-medium;
+    color: $neutral800;
     @include border($datepicker-border-width, solid, $datepicker-border-color, bottom);
     padding: 0.75rem 0; // 12px 0
 
-    .z-button-icon {
-      @include absolute($top: 0.25rem, $left: 0.5rem); // 4px 8px
-    }
+    .z-button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
 
     .z-icon {
       &.i-remove {
@@ -90,24 +86,17 @@
         display: table-cell;
         cursor: pointer;
         background: $gray400;
-
-        &:hover {
-          background: $datepicker-hover-color;
-        }
+        &:hover { background: $datepicker-hover-color; }
       }
-      &.z-date-prev {
-        @include rotate(180);
-      }
+      &.z-date-prev { @include rotate(180); }
     }
 
     &-date {
       display: none;
       width: 19rem; // 304px
       padding: 1rem 0 1rem 0; // 16px 0 16px 0
-
       &.active {
         display: inline-block;
-
         + div.active {
           height: 18.5rem; // 296px
           @include border($datepicker-border-width, solid, $datepicker-border-color, left);
@@ -118,9 +107,7 @@
         display: table;
         height: 1.563rem; // 25px
         margin: 0 2.813rem; // 0 45px
-
         img { vertical-align: middle; }
-
         .date-text { width: 16.5rem; } // 264px
       }
       // calendar
@@ -130,7 +117,6 @@
         flex-wrap: wrap;
         padding: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
         color: $datepicker-cell-font-color; // 전월, 이월
-
         .calendar-cell {
           display: inline-block;
           width: 1.5rem; // 24px
@@ -139,7 +125,6 @@
           padding: 0;
           margin: 0.25rem 0.4375rem; // 4px 7px
           text-align: center;
-
           &.calendar-title {
             color: $datepicker-calendar-title-font-color;
             pointer-events: none;
@@ -158,11 +143,7 @@
               @include boxShadow(0, 0, 0.125rem, 0, $datepicker-active-cell-color);
             }
           }
-
-          &.active { // 현재 월
-            color: $datepicker-current-cell-font-color;
-          }
-
+          &.active { color: $datepicker-current-cell-font-color; }// 현재 월
           &.selected {
             @include border(0.0625rem, solid, $datepicker-selected-cell-color);
             @include borderRadius(50%);
@@ -179,7 +160,6 @@
       min-height: 7.375rem; // 118px
       padding: 1rem 0 1rem 0; // 16px 0 16px 0
       justify-content: center;
-
       &.active { display: flex; }
 
       .hour-group,
@@ -188,26 +168,15 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
         .z-icon {
           &.i-arrow-right {
             margin: 0;
             cursor: pointer;
             background: $datepicker-icon-color;
-            &:hover {
-              background: $datepicker-hover-color;
-            }
+            &:hover { background: $datepicker-hover-color; }
           }
-
-          &.z-hour-up,
-          &.z-minute-up {
-            @include rotate(-90);
-          }
-
-          &.z-hour-down,
-          &.z-minute-down {
-            @include rotate(90);
-          }
+          &.z-hour-up, &.z-minute-up { @include rotate(-90); }
+          &.z-hour-down,&.z-minute-down { @include rotate(90); }
         }
 
         .digit {
@@ -221,25 +190,22 @@
           font-weight: $datepicker-time-font-weight;
           color: $datepicker-time-font-color;
           text-align: center;
-          &:hover,
-          &:focus,
-          &:active {
-            outline: 0;
-          }
+          &:hover, &:focus, &:active { outline: 0; }
         }
       }
+
       .hour-group > .digit {
         @include border($element-border-width, solid, transparent, right);
         @include borderRadius($datepicker-border-radius 0 0 $datepicker-border-radius);
       }
+
       .minute-group > .digit {
         @include border($element-border-width, solid, transparent, left);
         @include borderRadius(0 $datepicker-border-radius $datepicker-border-radius 0);
       }
+
       // AM, PM
-      .z-button-toggle-group {
-        padding-left: 0.5rem; // 8px
-      }
+      .z-button-toggle-group { padding-left: 0.5rem; } // 8px
 
       // 구분자 :
       .separator {
@@ -262,18 +228,28 @@
       display: none;
       width: 14rem;
       padding: 1rem 0 1rem 0; // 16px 0 16px 0
-
-      &.active { display: block; }
+      &.active { display: block;}
 
       // period
       &-period {
         display: table;
         height: 1.563rem; // 25px
         margin: 0 auto;
-
-        img { vertical-align: middle; }
-
-        .date-text { width: 7.5rem; } // 120px
+        img { vertical-align: middle;}
+        .date-text {
+          width: 7.5rem; // 120px
+          span:first-child {
+            position: relative;
+            padding-right: 0.625rem; // 10px
+            &::before {
+              content: '';
+              width: 0.3125rem; // 5px
+              height: 0.125rem; // 2px
+              background-color: $neutral800;
+              @include position(absolute, 0.438rem, 0.125rem, null, null); // 7px 2px
+            }
+          }
+        }
       }
 
       // years
@@ -291,13 +267,14 @@
           height: 1.5rem; // 24px
           padding: 0;
           margin: 0.25rem 0.4375rem; // 4px 7px
+          font-weight: $font-weight-medium;
           text-align: center;
           line-height: 1.7;
           cursor: pointer;
           @include borderRadius(0.125rem); // 2px
 
           &:hover, &:active { background-color: $gray200; }
-          &.active {
+          &.selected {
             position: relative;
             color: $blue500;
             &:before {
@@ -306,16 +283,16 @@
               width: 100%;
               height: 0.125rem; // 2px
               background-color: $blue500;
-              @include position(absolute, null, null, 0.125rem, null); // 2px
+              @include position(absolute, null, null, 0, null);
               @include borderRadius(0.125rem); // 2px
             }
           }
-
-          &:nth-child(n+4) { margin-top: 0.875rem; }  // 14px
+          &:nth-child(n+4) { margin-top: 0.875rem; } // 14px
         }
       }
     }
   }
+
   // 버튼 : .z-itsm-container 하위 요소와 충돌하지 않도록 !important 설정
   &-button {
     float: right;

@@ -3891,7 +3891,7 @@ select {
   display: inline-block;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   background-color: transparent;
   line-height: 1;
   opacity: 1;
@@ -3907,6 +3907,12 @@ select {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   padding: 0.625rem 1.25rem;
+  /*
+   * size
+   */
+  /*
+   * 테마
+   */
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
@@ -3921,6 +3927,12 @@ select {
 .z-button-text:disabled,
 .z-button-text.disabled {
   cursor: default;
+}
+.z-button.small,
+.z-button-icon.small,
+.z-button-text.small {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.4375rem;
 }
 .z-button.primary,
 .z-button-icon.primary,
@@ -6198,8 +6210,8 @@ select {
 }
 .z-picker-modal-title {
   font-size: 0.875rem;
-  font-weight: 700;
-  color: #8B9094;
+  font-weight: 500;
+  color: #424242;
   border-bottom: 0.0625rem solid #CFD5D9;
   padding: 0.75rem 0;
 }
@@ -6442,6 +6454,19 @@ select {
 .z-picker-modal-content-year-period .date-text {
   width: 7.5rem;
 }
+.z-picker-modal-content-year-period .date-text span:first-child {
+  position: relative;
+  padding-right: 0.625rem;
+}
+.z-picker-modal-content-year-period .date-text span:first-child::before {
+  content: "";
+  width: 0.3125rem;
+  height: 0.125rem;
+  background-color: #424242;
+  position: absolute;
+  top: 0.438rem;
+  right: 0.125rem;
+}
 .z-picker-modal-content-year-years {
   display: flex;
   flex-direction: row;
@@ -6456,6 +6481,7 @@ select {
   height: 1.5rem;
   padding: 0;
   margin: 0.25rem 0.4375rem;
+  font-weight: 500;
   text-align: center;
   line-height: 1.7;
   cursor: pointer;
@@ -6466,18 +6492,18 @@ select {
 .z-picker-modal-content-year-years .calendar-cell:hover, .z-picker-modal-content-year-years .calendar-cell:active {
   background-color: #E1E6EA;
 }
-.z-picker-modal-content-year-years .calendar-cell.active {
+.z-picker-modal-content-year-years .calendar-cell.selected {
   position: relative;
   color: #3373C4;
 }
-.z-picker-modal-content-year-years .calendar-cell.active:before {
+.z-picker-modal-content-year-years .calendar-cell.selected:before {
   content: "";
   display: block;
   width: 100%;
   height: 0.125rem;
   background-color: #3373C4;
   position: absolute;
-  bottom: 0.125rem;
+  bottom: 0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;

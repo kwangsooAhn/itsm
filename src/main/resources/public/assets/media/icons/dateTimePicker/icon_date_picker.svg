@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g transform="translate(-4062 -892)">
-    <path fill="#8B9094" d="M176,578h-2v-1a1,1,0,0,0-2,0v1h-8v-1a1,1,0,0,0-2,0v1h-2a1,1,0,0,0-1,1v16a1,1,0,0,0,1,1h16a1,1,0,0,0,1-1V579A1,1,0,0,0,176,578Zm-1,16H161V584h14Zm-14-12v-2h14v2Z" transform="translate(3906 318)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="그룹_59" data-name="그룹 59" transform="translate(-317 -173)">
+    <rect id="사각형_5618" data-name="사각형 5618" width="20" height="20" transform="translate(317 173)" fill="none"/>
+    <g id="그룹_5" data-name="그룹 5" transform="translate(217 173)">
+      <path id="패스_1" data-name="패스 1" d="M116,4h-1V3a1,1,0,0,0-2,0V4h-6V3a1,1,0,0,0-2,0V4h-1a1,1,0,0,0-1,1V17a1,1,0,0,0,1,1h12a1,1,0,0,0,1-1V5A1,1,0,0,0,116,4Zm-1,12H105V10h10ZM105,8V6h10V8Z" fill="#abb0b5"/>
+    </g>
   </g>
 </svg>

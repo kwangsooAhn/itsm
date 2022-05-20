@@ -189,7 +189,7 @@
             // create button > reset
             let buttonReset = document.createElement('button');
             buttonReset.type = 'button';
-            buttonReset.className = 'z-button extra';
+            buttonReset.className = 'z-button extra small';
             buttonReset.innerText = i18n.msg('datepicker.btn.reset');
             buttonReset.addEventListener('click', this.removeTarget, false);
             pickerButton.appendChild(buttonReset);
@@ -502,9 +502,17 @@
             // text
             const currentText = document.createElement('div');
             currentText.className = 'date-text';
-            currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyy'));
-            currentText.textContent = _this.selectLuxon.toFormat('yyyy');
             periodPanel.appendChild(currentText);
+            const textFormet = _this.selectLuxon.toFormat('yyyy');
+            const changeTextType = Number(textFormet) // string -> number 변환
+            // prev text
+            const prevText = document.createElement('span');
+            prevText.textContent = changeTextType - 4;
+            currentText.appendChild(prevText);
+            // next text
+            const nextText = document.createElement('span');
+            nextText.textContent = changeTextType + 4;
+            currentText.appendChild(nextText);
 
             // next year
             const nextArrow = document.createElement('span');
@@ -519,6 +527,8 @@
 
             let firstYearOfDate = _this.selectLuxon.set();
             let current_year = firstYearOfDate.year;
+
+            firstYearOfDate = firstYearOfDate.minus({years: 4}); // 선택된 년도 중간에 위치
 
             for (let i = 0; i < 9; i++) {
                 let yy = firstYearOfDate.year;
@@ -535,10 +545,18 @@
                 } else {
                     calendarCell.classList.add('next');
                 }
+                if (_this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) {
+                    calendarCell.classList.add('selected');
+                }
                 calendarCell.addEventListener('click', function (e) {
                     const elem = e.target;
-                    const isActived = elem.classList.contains('active');
-                    if (!isActived) {
+                    const parentElem = elem.parentNode;
+                    const isSelected = elem.classList.contains('selected');
+                    if (!isSelected) {
+                        const prevSelectDay = parentElem.querySelector('.selected');
+                        if (prevSelectDay !== null) {
+                            prevSelectDay.classList.remove('selected');
+                        }
                         let selectedDate = elem.getAttribute('data-value');
                         _this.changeYear({year: selectedDate.substr(0, 4)});
                         if (elem.classList.contains('prev') || elem.classList.contains('next')) {
@@ -551,7 +569,7 @@
                 firstYearOfDate = firstYearOfDate.plus({years: 1});
             }
         },
-        // remove 버튼 클릭시 실제 대상 input box의 데이터 삭제.
+        // remove 버튼 클릭시 대상 input box의 데이터 삭제.
         removeTarget: function () {
             this.target.value = '';
             this.close();
