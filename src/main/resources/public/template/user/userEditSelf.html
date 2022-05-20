@@ -373,6 +373,9 @@
                 case aliceJs.response.duplicateEmail: // 이메일 중복
                     zAlert.warning([[#{user.msg.sameEmail}]]);
                     break;
+                case aliceJs.response.error:
+                    zAlert.warning([[#{common.msg.fail}]]);
+                    break;
                 default :
                     zAlert.danger([[#{common.msg.fail}]]);
                     break;

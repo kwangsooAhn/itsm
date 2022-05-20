@@ -269,12 +269,6 @@ class UserService(
                 when (userUpdateDto.password?.isNotEmpty()) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                        if (!this.passwordValidationCheck(password, userUpdateDto.userId, userUpdateDto.email)) {
-                            throw AliceException(
-                                AliceErrorConstants.ERR_00001,
-                                aliceMessageSource.getMessage("auth.msg.invalidRequest")
-                            )
-                        }
                         userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
                         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
                     }
@@ -335,6 +329,9 @@ class UserService(
                     this.resetUserAbsence(userUpdateDto.userKey, UserConstants.UserCustom.USER_ABSENCE.code)
                 }
             }
+            ZResponseConstants.STATUS.ERROR_FAIL.code -> {
+                code = ZResponseConstants.STATUS.ERROR_FAIL.code
+            }
         }
 
         if (userEditType == AliceUserConstants.UserEditType.SELF_USER_EDIT.code) {
@@ -362,10 +359,13 @@ class UserService(
     }
 
     /**
-     * 자기정보 수정 시, 이메일 및 ID의 중복을 검사한다.
+     * 자기정보 수정 시, 이메일, ID 중복검사 및 비밀번호 유효성을 검증한다.
      */
     fun userEditValid(userUpdateDto: UserUpdateDto): String {
         val targetEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
         when (true) {
@@ -381,6 +381,12 @@ class UserService(
             }
             !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
                 code = ZResponseConstants.STATUS.ERROR_NOT_EXIST.code
+            }
+            targetEntity.password != userUpdateDto.password -> {
+                val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
+                if (!this.passwordValidationCheck(password, userUpdateDto.userId, userUpdateDto.email)) {
+                    code = ZResponseConstants.STATUS.ERROR_FAIL.code
+                }
             }
         }
         return code
