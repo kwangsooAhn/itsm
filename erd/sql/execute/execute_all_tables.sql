@@ -425,17 +425,17 @@ DROP TABLE IF EXISTS awf_archive cascade;
 
 CREATE TABLE awf_archive
 (
-	archive_id varchar(128) NOT NULL,
-	archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
-	archive_category varchar(100) NOT NULL,
-	archive_title varchar(128) NOT NULL,
-	views bigint DEFAULT 0 NOT NULL,
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT awf_archive_pk PRIMARY KEY (archive_id),
-	CONSTRAINT awf_archive_uk UNIQUE (archive_seq)
+    archive_id varchar(128) NOT NULL,
+    archive_seq bigint DEFAULT nextval('awf_archive_seq') NOT NULL,
+    archive_category varchar(100) NOT NULL,
+    archive_title varchar(128) NOT NULL,
+    views bigint DEFAULT 0 NOT NULL,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT awf_archive_pk PRIMARY KEY (archive_id),
+    CONSTRAINT awf_archive_uk UNIQUE (archive_seq)
 );
 
 COMMENT ON TABLE awf_archive IS '자료실';
@@ -9142,6 +9142,21 @@ COMMENT ON COLUMN cmdb_class_notification.condition IS '조건';
 COMMENT ON COLUMN cmdb_class_notification.target_attribute_id IS '담당자';
 
 /**
+ * 보관 문서 데이터
+ */
+DROP TABLE IF EXISTS awf_document_storage cascade;
+
+CREATE TABLE awf_document_storage
+(
+    instance_id varchar(128) NOT NULL,
+    user_key varchar(128) NOT NULL,
+    CONSTRAINT awf_document_storage_pk PRIMARY KEY (instance_id, user_key)
+);
+
+COMMENT ON TABLE awf_document_storage IS '보관 문서 데이터';
+COMMENT ON COLUMN awf_document_storage.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN awf_document_storage.user_key IS '사용자 키';
+/**
   IF CMDB 테이블
  */
 DROP TABLE IF EXISTS if_cmdb_ci cascade;
@@ -9237,20 +9252,4 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_id IS '자식속성아이디';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순서';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
-
-/**
- * 보관 문서 데이터
- */
-DROP TABLE IF EXISTS awf_document_storage cascade;
-
-CREATE TABLE awf_document_storage
-(
-    instance_id varchar(128) NOT NULL,
-    user_key varchar(128) NOT NULL,
-    CONSTRAINT awf_document_storage_pk PRIMARY KEY (instance_id, user_key)
-);
-
-COMMENT ON TABLE awf_document_storage IS '보관 문서 데이터';
-COMMENT ON COLUMN awf_document_storage.instance_id IS '인스턴스아이디';
-COMMENT ON COLUMN awf_document_storage.user_key IS '사용자 키';
 
