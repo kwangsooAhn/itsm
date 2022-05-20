@@ -109,7 +109,7 @@ insert into awf_url values ('/organizations/edit', 'get', '조직 관리 편집 
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
 insert into awf_url values ('/portals/browserguide', 'get', '포탈 브라우저 안내', 'FALSE');
 insert into awf_url values ('/portals/archives', 'get', '포달 자료실 리스트', 'FALSE');
-insert into awf_url values ('/portals/archives/{downloadId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
+insert into awf_url values ('/portals/archives/{archiveId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
 insert into awf_url values ('/portals/archives/search', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/portals/faqs', 'get', '포탈 FAQ 상세조회', 'FALSE');
 insert into awf_url values ('/portals/faqs/{faqId}/view', 'get', '포탈 FAQ 리스트', 'FALSE');
