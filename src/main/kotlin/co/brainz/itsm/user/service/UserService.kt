@@ -272,7 +272,7 @@ class UserService(
                         if (!this.passwordValidationCheck(password, userUpdateDto.userId, userUpdateDto.email)) {
                             throw AliceException(
                                 AliceErrorConstants.ERR_00001,
-                                aliceMessageSource.getMessage("auth.msg.accessDenied")
+                                aliceMessageSource.getMessage("auth.msg.invalidRequest")
                             )
                         }
                         userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
