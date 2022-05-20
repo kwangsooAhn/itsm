@@ -32,6 +32,7 @@ import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.QWfElementDataEntity
 import co.brainz.workflow.element.entity.QWfElementEntity
 import co.brainz.workflow.form.constants.WfFormConstants
+import co.brainz.workflow.instance.constants.InstanceStatus
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
@@ -325,7 +326,7 @@ class WfInstanceRepositoryImpl(
             )
         }
         status?.forEach { statusValue ->
-            if (statusValue == WfInstanceConstants.Status.FINISH.code) {
+            if (statusValue == InstanceStatus.FINISH.code) {
                 builder.and(
                     token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
                 )
@@ -646,24 +647,24 @@ class WfInstanceRepositoryImpl(
                         .innerJoin(token).on(instance.instanceId.eq(token.instance.instanceId))
                         .where(
                             token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code)
-                                .and(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
+                                .and(instance.instanceStatus.eq(InstanceStatus.FINISH.code))
                         )
                 )
             )
         if (documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
             query.where(
-                (instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
+                (instance.instanceStatus.eq(InstanceStatus.FINISH.code)
                     .and(instance.instanceStartDt.goe(range.fromDateTimeUTC))
                     .and(instance.instanceEndDt.loe(range.toDateTimeUTC)))
                     .or(
-                        (instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code)
+                        (instance.instanceStatus.eq(InstanceStatus.RUNNING.code)
                             .and(instance.instanceStartDt.goe(range.fromDateTimeUTC)))
                             .and(instance.instanceStartDt.loe(range.toDateTimeUTC))
                     )
             )
         } else {
             query.where(
-                instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
+                instance.instanceStatus.eq(InstanceStatus.FINISH.code)
                     .and(
                         instance.instanceStartDt.goe(range.fromDateTimeUTC)
                             .and(instance.instanceEndDt.loe(range.toDateTimeUTC))

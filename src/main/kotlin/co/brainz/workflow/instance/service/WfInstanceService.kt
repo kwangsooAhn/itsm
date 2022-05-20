@@ -21,6 +21,7 @@ import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
+import co.brainz.workflow.instance.constants.InstanceStatus
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
@@ -272,7 +273,7 @@ class WfInstanceService(
         val instanceEntity = WfInstanceEntity(
             instanceId = wfTokenDto.instanceId,
             documentNo = documentNo,
-            instanceStatus = WfInstanceConstants.Status.RUNNING.code,
+            instanceStatus = InstanceStatus.RUNNING.code,
             instanceStartDt = LocalDateTime.now(),
             instanceCreateUser = user,
             pTokenId = wfTokenDto.parentTokenId,
@@ -298,7 +299,7 @@ class WfInstanceService(
      */
     fun completeInstance(instanceId: String) {
         wfInstanceRepository.findByInstanceId(instanceId)?.let {
-            it.instanceStatus = WfInstanceConstants.Status.FINISH.code
+            it.instanceStatus = InstanceStatus.FINISH.code
             it.instanceEndDt = LocalDateTime.now()
             wfInstanceRepository.save(it)
         }

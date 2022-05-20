@@ -9,7 +9,7 @@ import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.organization.entity.OrganizationEntity
 import co.brainz.itsm.dashboard.entity.DashboardTemplateEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
-import co.brainz.workflow.instance.constants.WfInstanceConstants
+import co.brainz.workflow.instance.constants.InstanceStatus
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import com.querydsl.jpa.JPAExpressions
@@ -32,7 +32,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
             .fetchJoin()
             .where(
                 instance.document.eq(document)
-                    .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                    .and(instance.instanceStatus.eq(InstanceStatus.RUNNING.code))
                     .and(user.department.eq(organization.organizationId))
             )
             .fetchOne()
@@ -44,7 +44,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
             .select(instance.count())
             .where(
                 instance.document.eq(document)
-                    .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                    .and(instance.instanceStatus.eq(InstanceStatus.RUNNING.code))
                     .and(instance.instanceCreateUser.userKey.eq(userKey))
             )
             .fetchOne()
@@ -60,7 +60,7 @@ class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTempl
             .innerJoin(instance.document).fetchJoin()
             .where(
                 instance.document.documentId.`in`(documentIds)
-                    .and(instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code))
+                    .and(instance.instanceStatus.eq(InstanceStatus.RUNNING.code))
             )
         if (organizationId.isNotEmpty()) {
             query.where(
