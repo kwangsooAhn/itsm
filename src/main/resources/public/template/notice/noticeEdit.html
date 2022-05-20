@@ -149,8 +149,8 @@
                 const topNoticeEndDtVal = /*[[${notice?.topNoticeEndDt}]]*/'';
                 const topNoticeStrtDtElement = document.getElementById('topNoticeStrtDt');
                 const topNoticeEndDtElement = document.getElementById('topNoticeEndDt');
-                topNoticeStrtDtElement.value = topNoticeStrtDtVal ? i18n.userYear(topNoticeStrtDtVal) : i18n.getYear();
-                topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userYear(topNoticeEndDtVal) : i18n.getYear();
+                topNoticeStrtDtElement.value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
+                topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime();
                 zDateTimePicker.initYearPicker(topNoticeStrtDtElement);
                 zDateTimePicker.initYearPicker(topNoticeEndDtElement);
             }
