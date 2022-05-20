@@ -840,8 +840,17 @@ class ZFormTokenTab {
      * 문서 저장
      */
     saveDocumentStorage(starIcon) {
-        aliceJs.fetchJson('/rest/documentStorage/' + this.instanceId + '/' + this.documentId, {
-            method: 'POST'
+        const saveData = {
+            instanceId: this.instanceId,
+            documentId: this.documentId,
+        };
+
+        aliceJs.fetchJson('/rest/documentStorage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData),
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:

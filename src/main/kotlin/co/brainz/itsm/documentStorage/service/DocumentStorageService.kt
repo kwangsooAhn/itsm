@@ -9,6 +9,7 @@ package co.brainz.itsm.documentStorage.service
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.documentStorage.dto.DocumentStorageRequestDto
 import co.brainz.itsm.documentStorage.entity.DocumentStorageEntity
 import co.brainz.itsm.documentStorage.entity.DocumentStoragePk
 import co.brainz.itsm.documentStorage.repository.DocumentStorageRepository
@@ -31,9 +32,11 @@ class DocumentStorageService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Transactional
-    fun insertDocumentStorage(instanceId: String, documentId: String): ZResponse {
+    fun insertDocumentStorage(documentStorageRequestDto: DocumentStorageRequestDto): ZResponse {
         val status = ZResponseConstants.STATUS.SUCCESS
         val userEntity = userService.selectUserKey(currentSessionUser.getUserKey())
+        val instanceId = documentStorageRequestDto.instanceId
+        val documentId = documentStorageRequestDto.documentId
 
         if (instanceService.setInitInstance(instanceId, documentId)) {
             val instanceEntity = wfInstanceRepository.findByInstanceId(instanceId)!!
