@@ -20,7 +20,10 @@ import org.springframework.stereotype.Repository
 class DashboardTemplateRepositoryImpl : QuerydslRepositorySupport(DashboardTemplateEntity::class.java),
     DashboardTemplateRepositoryCustom {
 
-    override fun countByOrganizationRunningDocument(document: WfDocumentEntity, organization: OrganizationEntity): Long {
+    override fun countByOrganizationRunningDocument(
+        document: WfDocumentEntity,
+        organization: OrganizationEntity
+    ): Long {
         val instance = QWfInstanceEntity.wfInstanceEntity
         val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
         return from(instance)

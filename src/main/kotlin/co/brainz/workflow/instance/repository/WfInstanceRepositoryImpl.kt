@@ -186,11 +186,13 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(token.tokenId.max())
                     .from(token)
-                    .where(token.tokenStartDt.eq(
-                        from(startDtSubToken)
-                            .select(startDtSubToken.tokenStartDt.max())
-                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                    ))
+                    .where(
+                        token.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        )
+                    )
             )
         )
         builder.and(
@@ -222,7 +224,6 @@ class WfInstanceRepositoryImpl(
                 WfInstanceConstants.OrderColumn.DOCUMENT_NO.code -> instance.documentNo
                 else -> column
             }
-
         }
         query.orderBy(OrderSpecifier(direction, column))
         return query
@@ -312,7 +313,8 @@ class WfInstanceRepositoryImpl(
                     JPAExpressions
                         .select(tokenSub.instance.instanceId)
                         .from(tokenSub)
-                        .leftJoin(instanceViewer).on(tokenSub.instance.instanceId.eq(instanceViewer.instance.instanceId))
+                        .leftJoin(instanceViewer)
+                        .on(tokenSub.instance.instanceId.eq(instanceViewer.instance.instanceId))
                         .where(
                             tokenSub.assigneeId.eq(tokenSearchCondition.userKey)
                                 .or(
@@ -709,7 +711,6 @@ class WfInstanceRepositoryImpl(
 
         return count
     }
-
 
     override fun findTodoInstanceCount(
         status: List<String>?,

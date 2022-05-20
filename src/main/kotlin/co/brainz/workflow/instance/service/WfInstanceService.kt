@@ -167,7 +167,8 @@ class WfInstanceService(
                 }
             }
 
-            val createUserAvatarPath = instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
+            val createUserAvatarPath =
+                instance.instanceEntity.instanceCreateUser?.let { userDetailsService.makeAvatarPath(it) }
             val assigneeUserAvatarPath = instance.tokenEntity.assigneeId?.let { userDetailsService.selectUserKey(it) }
                 ?.let { userDetailsService.makeAvatarPath(it) }
 
