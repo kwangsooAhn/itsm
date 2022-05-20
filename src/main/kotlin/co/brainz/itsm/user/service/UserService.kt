@@ -853,21 +853,21 @@ class UserService(
         val lowerCaseIncludeReg = """[a-z]""".toRegex()
         val integerIncludeReg = """[0-9]""".toRegex()
         val specialCharIncludeReg = """[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]""".toRegex()
-        val blankReg = """[\s]""".toRegex()
 
         val upperCaseReg = "^[A-Z]*$".toRegex()
         val lowerCaseReg = "^[a-z]*$".toRegex()
         val integerReg = "^[0-9]*$".toRegex()
         val specialCharReg = "^[\\{\\}\\[\\]\\/?.,;:|\\)*~`!^\\-_+<>@\\#$%&\\\\=\\(\\'\"]*$".toRegex()
+        val blankReg = """[\s]""".toRegex()
 
         val containsUpperCase = upperCaseIncludeReg.containsMatchIn(password)
         val containsLowerCase = lowerCaseIncludeReg.containsMatchIn(password)
-        val containsInteger = integerIncludeReg.containsMatchIn(password)
-        val containsSpecialChar = specialCharIncludeReg.containsMatchIn(password)
+        val containsIntegerCase = integerIncludeReg.containsMatchIn(password)
+        val containsSpecialCharCase = specialCharIncludeReg.containsMatchIn(password)
 
         // 1가지의 문자 구성인 경우 10자 이상, 20자 미만의 비밀번호를 설정한다.
         // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
-        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(specialCharIncludeReg)) {
+        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(specialCharReg)) {
             if (password.length < 10 || password.length > 20) {
                 return false
             }
@@ -875,9 +875,9 @@ class UserService(
 
         // 2가지의 문자 구성인 경우 8자 이상, 20자 미만의 비밀번호를 설정한다.
         // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
-        if (!containsUpperCase && !containsLowerCase || !containsLowerCase && !containsSpecialChar ||
-            !containsSpecialChar && !containsInteger || !containsInteger && !containsUpperCase ||
-            !containsUpperCase && !containsSpecialChar || !containsLowerCase && !containsInteger
+        if ((!containsUpperCase && !containsLowerCase) || (!containsLowerCase && !containsSpecialCharCase) ||
+            (!containsSpecialCharCase && !containsIntegerCase) || (!containsIntegerCase && !containsUpperCase) ||
+            (!containsUpperCase && !containsSpecialCharCase) || (!containsLowerCase && !containsIntegerCase)
         ) {
             if (password.length < 8 || password.length > 20) {
                 return false
@@ -895,11 +895,13 @@ class UserService(
         }
 
         // 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
-        if (email.isNullOrEmpty()) {
-            if (password.contains(email!!.split("@")[0])) {
-                return false
+        if (email?.isNotEmpty() == true) {
+            val emailId = email.split("@")[0]
+            when (password.contains(emailId)) {
+                true -> return false
             }
         }
+
         return true
     }
 }
