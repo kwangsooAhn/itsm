@@ -30,6 +30,9 @@
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
+
+        const aaa = document.getElementById('referenceDate');
+        zDateTimePicker.initDatePicker(aaa);
     };
 
     /**
@@ -72,10 +75,10 @@
     /**
      * 수동 지표 데이터 추가 모달
      */
-    function openManualNewModal(htmlData) {
-        const classAttributeListModal = new modal({
+    function openManualNewModal() {
+        const metricManualModal = new modal({
             title: i18n.msg('sla.metricManual.label.newMetricManual'),
-            body: htmlData,
+            body: createModalContent(),
             classes: 'sla-metric-menual-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
@@ -98,7 +101,33 @@
             onCreate: function (modal) {
             }
         });
-        classAttributeListModal.show();
+        metricManualModal.show();
+    }
+
+    function createModalContent() {
+        return `<div class="flex-row">` +
+            `<div class="flex-column col-2">` +
+            `<label for="referenceDate" class="mt-2 mb-2">${i18n.msg('sla.metricManual.label.referenceDate')}</label>` +
+            `<input type="text" class="z-input i-date-picker search-date col-pct-12" id="referenceDate" name="referenceDate"/>` +
+            `</div>` +
+            `</div>` +
+            `<div class="flex-row mt-5">` +
+            `<div class="flex-column col-2 mr-3">` +
+            `<label for="targetMetric" class="mt-2 mb-2">${i18n.msg('sla.metricManual.label.targetMetric')}</label>` +
+            `<select id="targetMetric" name="targetMetric">` +
+            `<option></option>` +
+            `</select>` +
+            `</div>` +
+            `<div class="flex-column col-1">` +
+            `<label for="metricValue" class="mt-2 mb-2">${i18n.msg('sla.metricManual.label.metricValue')}</label>` +
+            `<input type="text" id="metricValue" class="z-input col-pct-12" name="metricValue"/>` +
+            `<span></span>` +
+            `</div>` +
+            `</div>`;
+    }
+
+    function  getMetricYearList() {
+
     }
 
     function onDelete(metricManualId) {

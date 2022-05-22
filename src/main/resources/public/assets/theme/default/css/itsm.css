@@ -8104,6 +8104,9 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
+.modal-dialog.sla-metric-menual-modal .modal-content {
+  padding: 0.625rem 1.25rem;
+}
 
 /* _thumbnail.scss
  *
