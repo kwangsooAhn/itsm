@@ -23,9 +23,12 @@ class CalendarController(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val calendarPage: String = "calendar/calendar"
 
+    /**
+     * 일정 관리 화면
+     */
     @GetMapping("")
     fun getCalendar(model: Model): String {
-        model.addAttribute("calendars", calendarService.getCalendars())
+        model.addAttribute("calendarList", calendarService.getCalendarList())
         return calendarPage
     }
 }
