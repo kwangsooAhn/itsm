@@ -13,7 +13,9 @@ import co.brainz.itsm.sla.metricYear.service.MetricYearService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -42,4 +44,11 @@ class MetricYearRestController(
         return ZAliceResponse.response(metricYearService.getYearSaveMetricList(metricLoadCondition))
     }
 
+    /**
+     * 연도별 지표 삭제 처리
+     */
+    @DeleteMapping("/{metricId}/{year}")
+    fun deleteMetricYear(@PathVariable metricId: String, @PathVariable year: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricYearService.deleteMetricYear(metricId, year))
+    }
 }

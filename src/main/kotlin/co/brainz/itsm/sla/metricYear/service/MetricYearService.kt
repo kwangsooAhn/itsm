@@ -17,6 +17,7 @@ import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
+import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -93,4 +94,14 @@ class MetricYearService(
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
+    /**
+     * 연도별 지표 삭제
+     */
+    fun deleteMetricYear(metricId: String, year: String): ZResponse {
+        val status = ZResponseConstants.STATUS.SUCCESS
+        metricYearRepository.deleteById(MetricYearEntityPk(metricId, year))
+        return ZResponse(
+            status = status.code
+        )
+    }
 }
