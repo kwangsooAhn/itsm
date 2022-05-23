@@ -2,8 +2,7 @@ package co.brainz.itsm.sla.metricStatus.dto
 
 import java.io.Serializable
 
-data class MetricYearlyDto(
-    var metricYear: String = "",
+data class MetricAnnualDto(
     val metricId: String = "",
     val metricGroupName: String? = "",
     val metricName: String? = "",
