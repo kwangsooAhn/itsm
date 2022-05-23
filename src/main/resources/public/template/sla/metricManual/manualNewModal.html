@@ -11,9 +11,7 @@
     <div class="flex-row mt-5">
         <div class="flex-column col-2 mr-3">
             <label for="targetMetric" class="mt-2 mb-2" th:text="#{sla.metricManual.label.targetMetric}"></label>
-                <select id="targetMetric" name="targetMetric">
-                    <option th:each="metric: ${metricCalcTypeList}" th:text="${metric.codeName}" th:value="${metric.code}"></option>
-            </select>
+            <select id="targetMetric" name="targetMetric"></select>
         </div>
         <div class="flex-column col-1">
             <label for="metricValue" class="mt-2 mb-2" th:text="#{sla.metricManual.label.metricValue}"></label>
