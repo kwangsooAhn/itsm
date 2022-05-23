@@ -175,7 +175,6 @@ function zCalendar(target, options) {
     this.calendar.on({
         // 등록
         beforeCreateSchedule: (e) => {
-            console.log('beforeCreateSchedule', e);
             // 초기화
             e.mode = 'register';
             this.createModal.customOptions = e;
@@ -193,9 +192,19 @@ function zCalendar(target, options) {
         },
         // 편집 - drag & drop 시
         beforeUpdateSchedule: (e) => {
-            console.log('beforeUpdateSchedule', e);
-            // 초기화
-            e.mode = 'edit';
+            const schedule = e.schedule;
+            const changes = e.changes;
+            
+            // drap & drop 시 동일하면 변경 안함
+            if (schedule.start.getTime() === changes.start.getTime() && schedule.end.getTime() === changes.end.getTime()) {
+                return false;
+            }
+
+            if (changes && !changes.isAllDay && schedule.category === 'allday') {
+                changes.category = 'time';
+            }
+
+            this.updateScheduleOnDrop(schedule, changes);
         },
         // 스케쥴 클릭
         clickSchedule: (e) => {
@@ -252,7 +261,8 @@ Object.assign(zCalendar.prototype, {
      */
     setCalendarType: function (type, callback) {
         if (type === 'task') {
-            // TODO: 커스텀 목록 만들기 - 구글 캘린더 처럼 목록 표시
+            // TODO: 커스텀 목록 만들기 - 월 단위로 일정 목록 표시
+
         } else {
             this.calendar.changeView(type, true);
         }
@@ -586,7 +596,6 @@ Object.assign(zCalendar.prototype, {
     getStandardSystemDateTime: function () {
         return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).setZone('utc+0').toISO()
     },
-
     /**
      * 몇 주차인지 가져오기
      * @param {standardDate} Javascript Date 기준 날짜
@@ -774,9 +783,56 @@ Object.assign(zCalendar.prototype, {
         if (method === 'PUT' && repeatId !== '') {
             this.repeatModal.customOptions = { url: url, method: method };
             this.repeatModal.saveData = saveData;
+            this.repeatModal.parentModal = this.createModal;
             this.repeatModal.show();
         } else {
             this.restSubmit(method, url, saveData, this.createModal);
+        }
+    },
+    /**
+     * drag & drop 시 스케쥴 수정
+     * @param {schedule} schedule - schedule
+     * @param {changes} changes - 변경된 시작일시, 종료일시
+     */
+    updateScheduleOnDrop: function (schedule, changes) {
+        const method = 'PUT';
+        const raw = schedule.raw !== null ? schedule.raw : {};
+        const repeatId = Object.prototype.hasOwnProperty.call(raw, 'repeatId') ? raw.repeatId : '';
+        const repeatYn = Object.prototype.hasOwnProperty.call(raw, 'repeatYn') ? raw.repeatYn : '';
+        const start = luxon.DateTime.fromMillis(changes.start.getTime(), {zone: i18n.timezone})
+            .setZone('utc+0').toISO();
+        const end = luxon.DateTime.fromMillis(changes.end.getTime(), {zone: i18n.timezone})
+            .setZone('utc+0').toISO();
+        const saveData = {
+            index: Object.prototype.hasOwnProperty.call(raw, 'repeatSeq') ? raw.repeatSeq : 1,
+            title: schedule.title,
+            contents: schedule.body,
+            startDt: start,
+            endDt: end,
+            allDayYn: schedule.isAllDay,
+            repeatYn: repeatYn,
+            repeatType: Object.prototype.hasOwnProperty.call(raw, 'repeatType') ? raw.repeatType : '',
+            repeatValue: Object.prototype.hasOwnProperty.call(raw, 'repeatValue') ? raw.repeatValue : '',
+            repeatPeriod: '' // all, today, after
+        };
+        let url = '/rest/calendars/' + schedule.calendarId;
+        // 반복 일정일 경우
+        if (repeatId !== '') {
+            url += '/repeat';
+            saveData.id = repeatId;
+        } else { // 스케쥴 등록일 경우
+            url += '/schedule';
+            saveData.id = schedule.id;
+        }
+
+        // 반복일정 수정여부 확인
+        if (repeatId !== '') {
+            this.repeatModal.customOptions = { url: url, method: method };
+            this.repeatModal.saveData = saveData;
+            this.repeatModal.parentModal = null;
+            this.repeatModal.show();
+        } else {
+            this.restSubmit(method, url, saveData, null);
         }
     },
     /**
@@ -784,8 +840,7 @@ Object.assign(zCalendar.prototype, {
      * @param {schedule} schedule - schedule
      */
     deleteSchedule: function (schedule) {
-        const method = 'DELETE'
-        const calendarId = this.createModal.wrapper.querySelector('#calendarId').value;
+        const method = 'DELETE';
         const raw = schedule.raw !== null ? schedule.raw : {};
         const repeatId = Object.prototype.hasOwnProperty.call(raw, 'repeatId') ? raw.repeatId : '';
         const repeatYn = Object.prototype.hasOwnProperty.call(raw, 'repeatYn') ? raw.repeatYn : '';
@@ -795,20 +850,21 @@ Object.assign(zCalendar.prototype, {
             repeatPeriod: '' // all, today, after
         };
 
-        let url = '/rest/calendars/' + calendarId;
+        let url = '/rest/calendars/' + schedule.calendarId;
         // 반복 일정일 경우
         if (repeatId !== '') {
             url += '/repeat';
             saveData.id = repeatId;
         } else { // 스케쥴 등록일 경우
             url += '/schedule';
-            saveData.id = Object.prototype.hasOwnProperty.call(schedule, 'id') ? schedule.id : '';
+            saveData.id = schedule.id;
         }
 
         // 반복일정 수정여부 확인
         if (repeatId !== '') {
             this.repeatModal.customOptions = { url: url, method: method };
             this.repeatModal.saveData = saveData;
+            this.repeatModal.parentModal = this.detailModal;
             this.repeatModal.show();
         } else {
             this.restSubmit(method, url, saveData, this.detailModal);
@@ -844,7 +900,14 @@ Object.assign(zCalendar.prototype, {
             switch (response.status) {
                 case aliceJs.response.success:
                     zAlert.success(resultMsg,  () => {
-                        modal.hide();
+                        if (modal) {
+                            modal.hide();
+                            // 부모 모달 닫기
+                            if (Object.prototype.hasOwnProperty.call(modal, 'parentModal') &&
+                                modal.parentModal) {
+                                modal.parentModal.hide();
+                            }
+                        }
                         document.getElementById('calendarType').dispatchEvent(new Event('change'));
                     });
                     break;
