@@ -29,7 +29,7 @@ class MetricYearRestController(
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * 신규 연도별 지표 등록 처리
+     * 신규 연도별 지표 등록
      */
     @PostMapping("/", "")
     fun insertMetric(@RequestBody metricYearDto: MetricYearDto): ResponseEntity<ZResponse> {
@@ -45,7 +45,7 @@ class MetricYearRestController(
     }
 
     /**
-     * 연도별 지표 삭제 처리
+     * 연도별 지표 삭제
      */
     @DeleteMapping("/{metricId}/{year}")
     fun deleteMetricYear(@PathVariable metricId: String, @PathVariable year: String): ResponseEntity<ZResponse> {
