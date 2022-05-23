@@ -12,12 +12,14 @@ import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPQLQuery
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -136,6 +138,32 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         }
 
         return query.fetch()
+    }
+
+    override fun findMetricYearListForExcel(metricYearSearchCondition: MetricYearSearchCondition): List<MetricYearExcelDto> {
+        val metric = QMetricPoolEntity.metricPoolEntity
+        val metricYear = QMetricYearEntity.metricYearEntity
+        val groupCode = QCodeEntity.codeEntity
+
+        //TODO 결과값 출력 변경 해야함
+        return from(metricYear)
+            .select(
+                Projections.constructor(
+                    MetricYearExcelDto::class.java,
+                    groupCode.codeName,
+                    metric.metricName,
+                    metricYear.minValue,
+                    metricYear.maxValue,
+                    metricYear.weightValue,
+                    Expressions.asNumber(0L),
+                    metricYear.owner,
+                    metricYear.comment
+                )
+            )
+            .leftJoin(metric).on(metric.eq(metricYear.metric))
+            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
+            .where(metricYear.metricYear.`in`(metricYearSearchCondition.year))
+            .fetch()
     }
 
     override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto {
