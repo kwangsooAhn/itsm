@@ -11,6 +11,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.calendar.constants.CalendarConstants
 import co.brainz.itsm.calendar.dto.CalendarData
+import co.brainz.itsm.calendar.dto.CalendarDeleteRequest
 import co.brainz.itsm.calendar.dto.CalendarDto
 import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.CalendarResponse
@@ -23,7 +24,6 @@ import co.brainz.itsm.calendar.repository.CalendarRepeatDataRepository
 import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
 import co.brainz.itsm.calendar.repository.CalendarRepository
 import co.brainz.itsm.calendar.repository.CalendarScheduleRepository
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -61,8 +61,8 @@ class CalendarService(
      * 캘린더별 전체 데이터 조회
      */
     fun getCalendars(calendarRequest: CalendarRequest): CalendarResponse {
-        val calendars = calendarRepository.findCalendarsInOwner(calendarRequest.calendarIds.toSet(), "0509e09412534a6e98f04ca79abb6424")
-        //val calendars = calendarRepository.findCalendarsInOwner(calendarRequest.calendarIds.toSet(), currentSessionUser.getUserKey())
+        val calendars =
+            calendarRepository.findCalendarsInOwner(calendarRequest.calendarIds.toSet(), currentSessionUser.getUserKey())
 
         // from, to 구하기
         val range = this.getRange(calendarRequest)
@@ -110,8 +110,7 @@ class CalendarService(
     @Transactional
     fun postCalendarSchedule(calendarId: String, scheduleData: ScheduleData): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, "0509e09412534a6e98f04ca79abb6424")
-        //val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
         if (calendar.isPresent) {
             calendarScheduleRepository.save(
                 CalendarScheduleEntity(
@@ -190,13 +189,11 @@ class CalendarService(
      * 스케줄 삭제
      */
     @Transactional
-    fun deleteCalendarSchedule(calendarId: String, data: String): ZResponse {
+    fun deleteCalendarSchedule(calendarId: String, calendarDeleteRequest: CalendarDeleteRequest): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val schedule: Map<String, Any> =
-            mapper.convertValue(data, object : TypeReference<Map<String, Any>>() {})
         val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
         if (calendar.isPresent) {
-            calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar.get(), schedule["id"].toString())
+            calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar.get(), calendarDeleteRequest.id)
         } else {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         }
@@ -226,15 +223,23 @@ class CalendarService(
      * 반복 일정 삭제
      */
     @Transactional
-    fun deleteCalendarRepeat(calendarId: String, data: String): ZResponse {
+    fun deleteCalendarRepeat(calendarId: String, calendarDeleteRequest: CalendarDeleteRequest): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val repeat: Map<String, Any> =
-            mapper.convertValue(data, object : TypeReference<Map<String, Any>>() {})
-
         // 반복 일정 삭제는 period 에 따라 삭제 대상이 달라진다.
         // all 이면.. repeat, data, custom 모두 삭제
         // today 면... custom 에 존재하면 삭제.. custom 에 없으면 삭제로 추가
         // 오늘이후 면... data에 신규 추가 .. 신규 시작 날짜는 해당 일로 지정
+        when (calendarDeleteRequest.repeatPeriod) {
+            CalendarConstants.RepeatPeriod.ALL.code -> {
+
+            }
+            CalendarConstants.RepeatPeriod.THIS.code -> {
+
+            }
+            CalendarConstants.RepeatPeriod.AFTER.code -> {
+
+            }
+        }
 
         return ZResponse(
             status = status.code
@@ -250,43 +255,38 @@ class CalendarService(
         cal.set(
             calendarRequest.standardDate.year,
             calendarRequest.standardDate.monthValue - 1,
-            calendarRequest.standardDate.dayOfMonth
+            calendarRequest.standardDate.dayOfMonth,
+            calendarRequest.standardDate.hour,
+            calendarRequest.standardDate.minute,
+            0
         )
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         when (calendarRequest.viewType) {
             CalendarConstants.ViewType.MONTH.code -> {
                 cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH))
-                cal.set(Calendar.HOUR_OF_DAY, 0)
-                cal.set(Calendar.MINUTE, 0)
-                cal.set(Calendar.SECOND, 0)
+                //cal.set(Calendar.HOUR_OF_DAY, 0)
+                //cal.set(Calendar.MINUTE, 0)
                 range.from = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
+                cal.add(Calendar.MONTH, 1)
+                cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) - 1)
+                /*cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
                 cal.set(Calendar.HOUR_OF_DAY, 23)
                 cal.set(Calendar.MINUTE, 59)
-                cal.set(Calendar.SECOND, 59)
+                cal.set(Calendar.SECOND, 59)*/
                 range.to = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
             }
             CalendarConstants.ViewType.WEEK.code -> {
                 val weekValue = cal.get(Calendar.DAY_OF_WEEK)
-                cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) - (weekValue - 1))
-                cal.set(Calendar.HOUR_OF_DAY, 0)
-                cal.set(Calendar.MINUTE, 0)
-                cal.set(Calendar.SECOND, 0)
+                cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) - weekValue)
                 range.from = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-                cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 6)
-                cal.set(Calendar.HOUR_OF_DAY, 23)
-                cal.set(Calendar.MINUTE, 59)
-                cal.set(Calendar.SECOND, 59)
+                cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 7)
+                cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) - 1)
                 range.to = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
             }
             CalendarConstants.ViewType.DAY.code -> {
-                cal.set(Calendar.HOUR_OF_DAY, 0)
-                cal.set(Calendar.MINUTE, 0)
-                cal.set(Calendar.SECOND, 0)
                 range.from = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-                cal.set(Calendar.HOUR_OF_DAY, 23)
-                cal.set(Calendar.MINUTE, 59)
-                cal.set(Calendar.SECOND, 59)
+                cal.add(Calendar.DAY_OF_MONTH, 1)
+                cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) - 1)
                 range.to = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
             }
         }

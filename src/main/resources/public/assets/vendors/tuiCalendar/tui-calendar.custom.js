@@ -194,7 +194,7 @@ function zCalendar(target, options) {
         beforeUpdateSchedule: (e) => {
             const schedule = e.schedule;
             const changes = e.changes;
-            
+
             // drap & drop 시 동일하면 변경 안함
             if (schedule.start.getTime() === changes.start.getTime() && schedule.end.getTime() === changes.end.getTime()) {
                 return false;
@@ -877,10 +877,10 @@ Object.assign(zCalendar.prototype, {
         console.log('method', method);
         console.log('url', url);
         console.log('data', data);
-        return false;
+        //return false;
 
-        const resultMsg = function (method) {
-            switch (type) {
+        const resultMsg = function () {
+            switch (method) {
                 case 'POST':
                     return i18n.msg('common.msg.register');
                 case 'PUT':
@@ -899,7 +899,7 @@ Object.assign(zCalendar.prototype, {
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(resultMsg,  () => {
+                    zAlert.success(resultMsg(),  () => {
                         if (modal) {
                             modal.hide();
                             // 부모 모달 닫기

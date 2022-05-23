@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 
 data class ScheduleData(
     val id: String,
+    val dataId: String? = null,
     val index: Int? = 1,
     val title: String,
     val contents: String? = null,
