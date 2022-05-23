@@ -94,8 +94,8 @@
          */
         calcDist: function (a, b) {
             let dist = Math.sqrt(
-                Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
-            );
+            Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
+                );
             if (dist === 0) {
                 dist = 1;
             }
@@ -451,20 +451,9 @@
             }
 
             // 전체 결과
-            let mainResult = '';
-            let mainResultClassName = '';
-            switch (response.status) {
-                case aliceJs.response.success:
-                    mainResult = (response.data) ? i18n.msg('common.label.success') : i18n.msg('common.label.fail');
-                    mainResultClassName = (response.data) ? 'success' : 'failed';
-                    break;
-                case aliceJs.response.error:
-                    mainResult = i18n.msg('common.label.error');
-                    mainResultClassName = 'failed';
-                    break;
-                default:
-                    break;
-            }
+            let mainResult = response.data.success ? i18n.msg('common.label.success') : i18n.msg('common.label.fail');
+            let mainResultClassName = response.data.success ? 'success' : 'failed';
+
             prevReportResult.classList.add(mainResultClassName);
             prevReportResult.textContent = mainResult;
 
@@ -473,18 +462,18 @@
             for (let i = 0; i < curReportList.length; i++) {
                 const report = curReportList[i];
 
-                const successOrFailure = '[' + (response.data.success ? i18n.msg('common.label.success') : i18n.msg('common.label.fail')) + ']';
+                const successOrFailure = '[' + (report.success ? i18n.msg('common.label.success') : i18n.msg('common.label.fail')) + ']';
                 const order = '[' + [i + 1] + '/' + curReportList.length + ']';
                 const elementDescription = '[' + report.elementType + (report.elementName !== '' ? ':' + report.elementName : '') + ']';
                 const message = response.data.success ? '' : '[' + report.failedMessage + ']';
-                const reportDetailClassName = response.data.success ? '' : 'failed';
+                const reportDetailClassName = report.success ? '' : 'failed';
 
                 if (response.data.success) {
                     document.getElementById(report.elementId).classList.remove('selected', 'error');
                 } else {
                     document.getElementById(report.elementId).classList.add('selected', 'error');
-
                 }
+
                 const count = document.createElement('span');
                 count.className = 'details-number-of';
                 count.textContent = order;
@@ -570,7 +559,7 @@
             let svgString = getSVGString(svgNode);
             let xmlString = createProcessXMLString(viewBox, svgString);
             let formData = new FormData();
-            let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], {type: 'text/plain'});
+            let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], { type: 'text/plain' });
             formData.append('file', blob, zProcessDesigner.data.process.id + '.xml');
 
             let xhr = new XMLHttpRequest();
@@ -727,14 +716,14 @@
         zShortcut.init();
 
         const shortcuts = [
-            {'keys': 'ctrl+s', 'command': 'zProcessDesigner.utils.save();', 'force': true},             // 저장
-            {'keys': 'ctrl+shift+s', 'command': 'zProcessDesigner.utils.saveAs();', 'force': true},     // 다른 이름으로 저장
-            {'keys': 'ctrl+z', 'command': 'zProcessDesigner.utils.undo();', 'force': false},            // 작업 취소
-            {'keys': 'ctrl+shift+z', 'command': 'zProcessDesigner.utils.redo();', 'force': false},      // 작업 재실행
-            {'keys': 'ctrl+e', 'command': 'zProcessDesigner.utils.simulation();', 'force': false},      // 미리보기(시뮬레이션)
-            {'keys': 'ctrl+d', 'command': 'zProcessDesigner.utils.download();', 'force': false},        // 이미지 다운로드
-            {'keys': 'ctrl+x,delete', 'command': 'zProcessDesigner.deleteElements();', 'force': false}, // 엘리먼트 삭제
-            {'keys': 'alt+e', 'command': 'zProcessDesigner.utils.focus();', 'force': false}             // 세부 속성 편집: 제일 처음으로 이동
+            { 'keys': 'ctrl+s', 'command': 'zProcessDesigner.utils.save();', 'force': true },             // 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'zProcessDesigner.utils.saveAs();', 'force': true },     // 다른 이름으로 저장
+            { 'keys': 'ctrl+z', 'command': 'zProcessDesigner.utils.undo();', 'force': false },            // 작업 취소
+            { 'keys': 'ctrl+shift+z', 'command': 'zProcessDesigner.utils.redo();', 'force': false },      // 작업 재실행
+            { 'keys': 'ctrl+e', 'command': 'zProcessDesigner.utils.simulation();', 'force': false },      // 미리보기(시뮬레이션)
+            { 'keys': 'ctrl+d', 'command': 'zProcessDesigner.utils.download();', 'force': false },        // 이미지 다운로드
+            { 'keys': 'ctrl+x,delete', 'command': 'zProcessDesigner.deleteElements();', 'force': false }, // 엘리먼트 삭제
+            { 'keys': 'alt+e', 'command': 'zProcessDesigner.utils.focus();', 'force': false }             // 세부 속성 편집: 제일 처음으로 이동
         ];
 
         for (let i = 0; i < shortcuts.length; i++) {
@@ -927,7 +916,7 @@
                     simulationReportX = (d3.event.x - simulationReportX);
                     simulationReportY = (d3.event.y - simulationReportY);
                 })
-        );
+            );
     }
 
     /**
@@ -988,7 +977,7 @@
     exports.simulationProcess = simulationProcess;
     exports.downloadProcessImage = downloadProcessImage;
     exports.onDropdownClickHandler = onDropdownClickHandler;
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
 
 function validationCheck() {
