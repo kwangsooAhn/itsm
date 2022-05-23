@@ -39,7 +39,7 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
             .select(
                 Projections.constructor(
                     MetricManualDto::class.java,
-                    metric.metricId,
+                    manual.metricManualId,
                     metric.metricName,
                     manual.referenceDate,
                     manual.metricValue,

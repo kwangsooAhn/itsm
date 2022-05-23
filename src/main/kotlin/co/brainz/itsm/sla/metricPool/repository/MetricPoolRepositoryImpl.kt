@@ -55,7 +55,7 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
             .leftJoin(unitCode).on(metricPool.metricUnit.eq(unitCode.code))
             .leftJoin(calcTypeCode).on(metricPool.calculationType.eq(calcTypeCode.code))
             .leftJoin(groupCode).on(metricPool.metricGroup.eq(groupCode.code))
-            .where(builder(metricPoolSearchCondition, metricPool))
+            .where(this.searchByBuilder(metricPoolSearchCondition, metricPool))
             .orderBy(metricPool.createDt.desc())
 
         if (metricPoolSearchCondition.isPaging) {
@@ -69,7 +69,7 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
         val metricPool = QMetricPoolEntity.metricPoolEntity
         return from(metricPool)
             .select(metricPool.count())
-            .where(builder(metricPoolSearchCondition, metricPool))
+            .where(this.searchByBuilder(metricPoolSearchCondition, metricPool))
     }
 
     override fun findMetric(metricId: String): MetricDto {
@@ -92,7 +92,7 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
             .fetchOne()
     }
 
-    private fun builder(metricPoolSearchCondition: MetricPoolSearchCondition, metricPool: QMetricPoolEntity): BooleanBuilder {
+    private fun searchByBuilder(metricPoolSearchCondition: MetricPoolSearchCondition, metricPool: QMetricPoolEntity): BooleanBuilder {
         val builder = BooleanBuilder()
         builder.and(
             super.likeIgnoreCase(metricPool.metricName, metricPoolSearchCondition.searchValue)

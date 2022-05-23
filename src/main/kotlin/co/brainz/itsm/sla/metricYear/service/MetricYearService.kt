@@ -11,6 +11,8 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
@@ -83,4 +85,9 @@ class MetricYearService(
             status = status.code
         )
     }
+
+    fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
+        return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+    }
+
 }
