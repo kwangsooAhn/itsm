@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -48,6 +49,26 @@ class MetricYearController(
      */
     @GetMapping("/new")
     fun getMetricYearNew(): String {
+        return metricYearPage
+    }
+
+    /**
+     * 연도별 SLA 지표 관리 - 편집 화면 호출
+     */
+    @GetMapping("/{metricId}/{year}/edit")
+    fun getMetricYearEdit(@PathVariable metricId: String, @PathVariable year: String, model: Model): String {
+        model.addAttribute("metric", metricYearService.getMetricYearDetail(metricId, year))
+        model.addAttribute("edit", true)
+        return metricYearPage
+    }
+
+    /**
+     * 연도별 SLA 지표 관리 - 조회 화면 호출
+     */
+    @GetMapping("/{metricId}/{year}/view")
+    fun getMetricYearView(@PathVariable metricId: String, @PathVariable year: String, model: Model): String {
+        model.addAttribute("metric", metricYearService.getMetricYearDetail(metricId, year))
+        model.addAttribute("view", true)
         return metricYearPage
     }
 }

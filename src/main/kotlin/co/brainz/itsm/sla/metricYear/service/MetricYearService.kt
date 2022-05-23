@@ -13,6 +13,7 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
@@ -93,6 +94,13 @@ class MetricYearService(
      */
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+    }
+
+    /**
+     * 연도별 지표 세부 정보 조회
+     */
+    fun getMetricYearDetail(metricId: String, year: String): MetricYearDetailDto {
+        return metricYearRepository.findMetricYear(metricId, year)
     }
 
     /**
