@@ -28,7 +28,7 @@ class MetricYearController(
      * 연도별 SLA 지표 관리 - 검색 화면 호출
      */
     @GetMapping("/search")
-    fun getMetricPoolSearch(): String {
+    fun getMetricYearSearch(): String {
         return metricYearSearchPage
     }
 
@@ -36,7 +36,7 @@ class MetricYearController(
      * 연도별 SLA 지표 관리 - 리스트 화면 호출
      */
     @GetMapping("")
-    fun getMetricPools(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
+    fun getMetricYears(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
         val result = metricYearService.getMetrics(metricYearSearchCondition)
         model.addAttribute("metricYearsList", result.data)
         model.addAttribute("paging", result.paging)
@@ -47,7 +47,7 @@ class MetricYearController(
      * 연도별 SLA 지표 관리 - 신규 등록 화면 호출
      */
     @GetMapping("/new")
-    fun getMetricPools(): String {
+    fun getMetricYearNew(): String {
         return metricYearPage
     }
 }
