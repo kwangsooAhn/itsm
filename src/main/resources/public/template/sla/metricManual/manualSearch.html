@@ -30,9 +30,6 @@
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
-
-        const aaa = document.getElementById('referenceDate');
-        zDateTimePicker.initDatePicker(aaa);
     };
 
     /**
@@ -99,12 +96,14 @@
                 closable: false,
             },
             onCreate: function (modal) {
+                const aaa = document.getElementById('referenceDate');
+                zDateTimePicker.initDatePicker(aaa);
             }
         });
         metricManualModal.show();
     }
 
-    function createModalContent() {
+    function createModalContent(data) {
         return `<div class="flex-row">` +
             `<div class="flex-column col-2">` +
             `<label for="referenceDate" class="mt-2 mb-2">${i18n.msg('sla.metricManual.label.referenceDate')}</label>` +
@@ -115,7 +114,7 @@
             `<div class="flex-column col-2 mr-3">` +
             `<label for="targetMetric" class="mt-2 mb-2">${i18n.msg('sla.metricManual.label.targetMetric')}</label>` +
             `<select id="targetMetric" name="targetMetric">` +
-            `<option></option>` +
+            `<option value='${data.metricId}></option>` +
             `</select>` +
             `</div>` +
             `<div class="flex-column col-1">` +
@@ -124,10 +123,6 @@
             `<span></span>` +
             `</div>` +
             `</div>`;
-    }
-
-    function  getMetricYearList() {
-
     }
 
     function onDelete(metricManualId) {
