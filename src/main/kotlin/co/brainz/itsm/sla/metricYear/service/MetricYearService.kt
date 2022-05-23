@@ -10,6 +10,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
@@ -101,6 +102,31 @@ class MetricYearService(
      */
     fun getMetricYearDetail(metricId: String, year: String): MetricYearDetailDto {
         return metricYearRepository.findMetricYear(metricId, year)
+    }
+
+    /**
+     * 연도별 지표 편집
+     */
+    @Transactional
+    fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
+        val status = ZResponseConstants.STATUS.SUCCESS
+        val metricYearEntity = MetricYearEntity(
+            metric = MetricPoolEntity(metricYearDto.metricId),
+            metricYear = metricYearDto.metricYear,
+            minValue = metricYearDto.minValue,
+            maxValue = metricYearDto.maxValue,
+            weightValue = metricYearDto.weightValue,
+            owner = metricYearDto.owner,
+            comment = metricYearDto.comment,
+            zqlString = metricYearDto.zqlString,
+            updateUserKey = currentSessionUser.getUserKey(),
+            updateDt = LocalDateTime.now()
+        )
+        metricYearRepository.save(metricYearEntity)
+
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
