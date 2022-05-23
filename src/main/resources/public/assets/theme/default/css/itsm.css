@@ -9605,3 +9605,49 @@ body.modal-active {
 .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .flex-row {
   gap: 8px;
 }
+.modal-dialog.calendar__modal--repeat {
+  width: 430px;
+}
+.modal-dialog.calendar__modal--repeat .modal-content {
+  padding: 20px 20px 0px 20px;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.calendar__modal--repeat .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.calendar__modal--repeat .modal-content .calendar__modal--repeat__main {
+  gap: 8px;
+}
+.modal-dialog.calendar__modal--detail {
+  width: 300px;
+  height: 280px;
+}
+.modal-dialog.calendar__modal--detail .modal-content {
+  height: calc(280px - 80px);
+  padding: 20px 20px 0px 20px;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.calendar__modal--detail .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main {
+  gap: 8px;
+}
+.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .calendar__modal--detail__title {
+  gap: 8px;
+}
+.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .calendar__modal--detail__title .calendar-color-round {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  width: 0.9375rem;
+  height: 0.9375rem;
+}

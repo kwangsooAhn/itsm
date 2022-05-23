@@ -51,5 +51,39 @@
         }
       }
     }
+    &__modal--repeat {
+      width: 430px;
+      .modal-content {
+        padding: 20px 20px 0px 20px;
+        @include scrollbarHidden;
+
+        .calendar__modal--repeat__main {
+          gap: 8px;
+        }
+      }
+    }
+    &__modal--detail {
+      width: 300px;
+      height: 280px;
+      .modal-content {
+        height: calc(280px - 80px);
+        padding: 20px 20px 0px 20px;
+        @include scrollbarHidden;
+
+        .calendar__modal--detail__main {
+          gap: 8px;
+          // 제목
+          .calendar__modal--detail__title {
+            gap: 8px;
+            // 동그라미 아이콘
+            .calendar-color-round {
+              @include borderRadius(50%);
+              width: 0.9375rem; // 15px
+              height: 0.9375rem; // 15px
+            }
+          }
+        }
+      }
+    }
   }
 }
