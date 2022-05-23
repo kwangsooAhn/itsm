@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 수동지표관리 추가 모달 -->
+    <div class="flex-row">
+        <div class="flex-column col-2">
+            <label for="referenceDate" class="mt-2 mb-2" th:text="#{sla.metricManual.label.referenceDate}"></label>
+            <input type="text" class="z-input i-date-picker search-date col-pct-12" id="referenceDate" name="referenceDate"/>
+        </div>
+    </div>
+    <div class="flex-row mt-5">
+        <div class="flex-column col-2 mr-3">
+            <label for="targetMetric" class="mt-2 mb-2" th:text="#{sla.metricManual.label.targetMetric}"></label>
+                <select id="targetMetric" name="targetMetric">
+                    <option th:each="metric: ${metricCalcTypeList}" th:text="${metric.codeName}" th:value="${metric.code}"></option>
+            </select>
+        </div>
+        <div class="flex-column col-1">
+            <label for="metricValue" class="mt-2 mb-2" th:text="#{sla.metricManual.label.metricValue}"></label>
+            <input type="text" id="metricValue" class="z-input col-pct-12" name="metricValue"/>
+            <span th:text="${metric.metricUnit}"></span>
+        </div>
+    </div>
+</body>
+</html>
