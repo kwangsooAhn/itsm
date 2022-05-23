@@ -1373,11 +1373,16 @@ sla:
     total: "Total"
   metric:
     label:
+      comment: "Comment"
       description: "Description"
       group: "Group"
       groupName: "Group Name"
       metricPool: "SLA Metric management"
+      maxValue: "Target value"
+      minValue: "Minimum value"
       name: "Name"
+      owner: "Owner"
+      score: "Score"
       searchPlaceholder: "Name"
       selectMetricCalcType: "Select CalculationType"
       selectMetricGroup: "Select Metric group"
@@ -1385,6 +1390,7 @@ sla:
       selectMetricUnit: "Select Metric unit"
       type: "Type"
       unit: "Unit"
+      weightValue: "Weighted Value"
     msg:
       description: "Register, modify, or delete the contents of SLA metric management."
       duplicateMetricName: "The same metric name exists. Please check the metric name."
