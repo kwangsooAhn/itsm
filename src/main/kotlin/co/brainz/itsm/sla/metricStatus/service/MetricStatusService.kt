@@ -13,9 +13,6 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -29,12 +26,10 @@ class MetricStatusService(
 ) {
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
     /**
      *  년도별 SLA 현황 엑셀 다운로드
      */
-    fun getMetricYearlyExcelDownload(metricYearSearchCondition: MetricYearSearchCondition): ResponseEntity<ByteArray> {
+    fun getMetricExcelDownload(metricYearSearchCondition: MetricYearSearchCondition): ResponseEntity<ByteArray> {
         val returnDto = metricYearRepository.findMetricYearListForExcel(metricYearSearchCondition)
         val excelVO = ExcelVO(
             sheets = mutableListOf(
