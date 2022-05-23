@@ -9638,7 +9638,13 @@ body.modal-active {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .calendar-color-round {
+.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main {
+  gap: 8px;
+}
+.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .calendar__modal--detail__title {
+  gap: 8px;
+}
+.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .calendar__modal--detail__title .calendar-color-round {
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;

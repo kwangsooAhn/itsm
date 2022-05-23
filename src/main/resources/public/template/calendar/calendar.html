@@ -42,11 +42,11 @@
             </button>
             <span class="calendar__render-range-text ml-1" id="renderRangeText"></span>
         </div>
-        <div class="calendar__view" id="calendar"></div>
+        <div class="calendar__view" id="calendar" style="height: 670px;"></div>
     </div>
 </div>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
-    const calendarId = /*[[${calendarId}]]*/ '';
+    const calendarList = /*[[${calendarList}]]*/ '';
     let myCalendar = null; // tui calendar 객체
     window.onload = function () {
 
@@ -55,6 +55,8 @@
             renderRange: document.getElementById('renderRangeText')
         });
         myCalendar.setRenderRangeText();
+        // 목록 초기화
+        myCalendar.setCalendars(calendarList);
 
         // 이벤트 등록
         document.getElementById('calendarType').addEventListener('change', function (e) {
@@ -72,15 +74,24 @@
         myCalendar.clear();
 
         // 데이터 재조회
-        const calendarType = document.getElementById('calendarType').value;
-        const standardDate = myCalendar.getStandardSystemDateTime();
-        const urlParam = 'calendarId=' + calendarId + '&viewType=' + calendarType + '&standardDate=' + standardDate;
+        const calendarIds = calendarList.reduce((acc, cur) => {
+            acc.push(cur.calendarId);
+            return acc;
+        }, []);
+        const searchData = {
+            viewType: document.getElementById('calendarType').value,
+            standardDate: myCalendar.getStandardSystemDateTime(),
+            calendarIds: calendarIds
+        };
         //TODO: 주석 해제
-        /*aliceJs.fetchJson('/rest/calendars?' + encodeURIComponent(urlParam), {
-            method: 'GET'
+        /*aliceJs.fetchJson('/rest/calendars', {
+            method: 'POST'
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchData)
         }).then((response) => {
             if (response.status === aliceJs.response.success) {
-                myCalendar.setCalendars(response.data.calendars);
                 const schedules = [];
                 response.data.calendars.forEach((calendar) => {
                     calendar.schedules.forEach((schedule) => {
@@ -180,7 +191,6 @@
                 });
             });
         });
-        console.log(schedules);
         myCalendar.addSchedule(schedules);
     }
 

@@ -71,11 +71,16 @@
         @include scrollbarHidden;
 
         .calendar__modal--detail__main {
-          // 동그라미 아이콘
-          .calendar-color-round {
-            @include borderRadius(50%);
-            width: 0.9375rem; // 15px
-            height: 0.9375rem; // 15px
+          gap: 8px;
+          // 제목
+          .calendar__modal--detail__title {
+            gap: 8px;
+            // 동그라미 아이콘
+            .calendar-color-round {
+              @include borderRadius(50%);
+              width: 0.9375rem; // 15px
+              height: 0.9375rem; // 15px
+            }
           }
         }
       }

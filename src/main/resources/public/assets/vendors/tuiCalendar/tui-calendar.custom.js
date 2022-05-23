@@ -106,7 +106,14 @@ function zCalendar(target, options) {
             classes: 'z-button secondary',
             bindKey: false,
             callback: (modal) => {
-                // TODO: 삭제
+                this.deleteSchedule(modal.customOptions.schedule);
+            }
+        },{
+            content: i18n.msg('common.btn.close'),
+            classes: 'z-button secondary',
+            bindKey: false,
+            callback: (modal) => {
+                modal.hide();
             }
         }],
         close: { closable: false },
@@ -125,8 +132,8 @@ function zCalendar(target, options) {
             classes: 'z-button primary',
             bindKey: false,
             callback: (modal) => {
-                modal.saveData.allDayYn = document.querySelector('input[name="repeatPeriod"]:checked').value;
-                this.restSubmit(modal.customOptions.method, modal.customOptions.url, modal.saveData);
+                modal.saveData.repeatPeriod = document.querySelector('input[name="repeatPeriod"]:checked').value;
+                this.restSubmit(modal.customOptions.method, modal.customOptions.url, modal.saveData, modal);
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
@@ -139,7 +146,7 @@ function zCalendar(target, options) {
         onCreate: () => {},
         onShow: (modal) => {
             // 초기화
-            modal.saveData.allDayYn = '';
+            modal.saveData.repeatPeriod = '';
             modal.wrapper.querySelector('#repeatPeriodToday').checked = true;
         },
         onHide: () => {}
@@ -192,7 +199,6 @@ function zCalendar(target, options) {
         },
         // 스케쥴 클릭
         clickSchedule: (e) => {
-            console.log('clickSchedule', e);
             this.detailModal.customOptions = e;
             this.setDetailModal(e.schedule);
             // 모달 위치 조정
@@ -542,14 +548,14 @@ Object.assign(zCalendar.prototype, {
      */
     getDetailModalTemplate: function () {
         return `<div class="calendar__modal--detail__main flex-column">
-            <div class="flex-row">
+            <div class="calendar__modal--detail__title flex-row">
                 <span class="calendar-color-round" id="detailScheduleIcon" style="background-color: transparent">
                 </span>
-                <span class="" id="detailScheduleTitle"></span>
+                <span id="detailScheduleTitle"></span>
             </div>
-            <span class="" id="detailRangeDate"></span>
-            <span class="" id="detailScheduleContents"></span>
-            <span class="" id="detailOwnerName"></span>
+            <span id="detailRangeDate"></span>
+            <span id="detailScheduleContents"></span>
+            <span id="detailOwnerName"></span>
         </div>`.trim();
     },
     /**
@@ -642,7 +648,6 @@ Object.assign(zCalendar.prototype, {
      * 종일 여부 선택에 따른 처리
      */
     onToggleAllDay: function () {
-        console.log(this.createModal.customOptions);
         const format = this.createModal.customOptions.isAllDay ? i18n.dateTimeFormat : i18n.dateFormat; // 날짜 포맷
         const rangeDate = this.createModal.wrapper.querySelector('#rangeDate');
 
@@ -771,19 +776,64 @@ Object.assign(zCalendar.prototype, {
             this.repeatModal.saveData = saveData;
             this.repeatModal.show();
         } else {
-            this.restSubmit(method, url, saveData);
+            this.restSubmit(method, url, saveData, this.createModal);
+        }
+    },
+    /**
+     * 스케쥴 삭제
+     * @param {schedule} schedule - schedule
+     */
+    deleteSchedule: function (schedule) {
+        const method = 'DELETE'
+        const calendarId = this.createModal.wrapper.querySelector('#calendarId').value;
+        const raw = schedule.raw !== null ? schedule.raw : {};
+        const repeatId = Object.prototype.hasOwnProperty.call(raw, 'repeatId') ? raw.repeatId : '';
+        const repeatYn = Object.prototype.hasOwnProperty.call(raw, 'repeatYn') ? raw.repeatYn : '';
+        const saveData = {
+            index: Object.prototype.hasOwnProperty.call(raw, 'repeatSeq') ? raw.repeatSeq : 1,
+            repeatYn: repeatYn,
+            repeatPeriod: '' // all, today, after
+        };
+
+        let url = '/rest/calendars/' + calendarId;
+        // 반복 일정일 경우
+        if (repeatId !== '') {
+            url += '/repeat';
+            saveData.id = repeatId;
+        } else { // 스케쥴 등록일 경우
+            url += '/schedule';
+            saveData.id = Object.prototype.hasOwnProperty.call(schedule, 'id') ? schedule.id : '';
+        }
+
+        // 반복일정 수정여부 확인
+        if (repeatId !== '') {
+            this.repeatModal.customOptions = { url: url, method: method };
+            this.repeatModal.saveData = saveData;
+            this.repeatModal.show();
+        } else {
+            this.restSubmit(method, url, saveData, this.detailModal);
         }
     },
     /**
      * 데이터 전송
      */
-    restSubmit: function (method, url, data) {
+    restSubmit: function (method, url, data, modal) {
         console.log('method', method);
         console.log('url', url);
         console.log('data', data);
         return false;
 
-        const resultMsg = (method === 'POST') ? i18n.msg('common.msg.register') : i18n.msg('common.msg.update');
+        const resultMsg = function (method) {
+            switch (type) {
+                case 'POST':
+                    return i18n.msg('common.msg.register');
+                case 'PUT':
+                    return i18n.msg('common.msg.update');
+                case 'DELETE':
+                    return i18n.msg('common.msg.delete');
+            }
+        }
+        // 전송
         aliceJs.fetchJson(url, {
             method: method,
             headers: {
@@ -794,7 +844,7 @@ Object.assign(zCalendar.prototype, {
             switch (response.status) {
                 case aliceJs.response.success:
                     zAlert.success(resultMsg,  () => {
-                        this.createModal.hide();
+                        modal.hide();
                         document.getElementById('calendarType').dispatchEvent(new Event('change'));
                     });
                     break;
