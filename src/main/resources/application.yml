@@ -139,6 +139,9 @@ sso.vendor: KSign
 # Plugin directory
 plugins.dir: C:\\plugins
 
+# 사용자 추가 기능 사용여부 : false 이면 추가 버튼 비활성화
+user.register.enable: true
+
 ---
 spring:
   profiles: deploy
