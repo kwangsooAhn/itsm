@@ -821,10 +821,10 @@ Object.assign(zCalendar.prototype, {
         console.log('method', method);
         console.log('url', url);
         console.log('data', data);
-        return false;
+        //return false;
 
-        const resultMsg = function (method) {
-            switch (type) {
+        const resultMsg = function () {
+            switch (method) {
                 case 'POST':
                     return i18n.msg('common.msg.register');
                 case 'PUT':
@@ -843,7 +843,7 @@ Object.assign(zCalendar.prototype, {
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(resultMsg,  () => {
+                    zAlert.success(resultMsg(),  () => {
                         modal.hide();
                         document.getElementById('calendarType').dispatchEvent(new Event('change'));
                     });

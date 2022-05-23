@@ -84,8 +84,8 @@
             calendarIds: calendarIds
         };
         //TODO: 주석 해제
-        /*aliceJs.fetchJson('/rest/calendars', {
-            method: 'POST'
+        aliceJs.fetchJson('/rest/calendars', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -141,10 +141,10 @@
                 });
                 myCalendar.addSchedule(schedules);
             }
-        });*/
+        });
 
         // TODO: 아래 삭제
-        const dummy = getDummy();
+        /*const dummy = getDummy();
         myCalendar.setCalendars(dummy.calendars);
         const schedules = [];
         dummy.calendars.forEach((calendar) => {
@@ -191,7 +191,7 @@
                 });
             });
         });
-        myCalendar.addSchedule(schedules);
+        myCalendar.addSchedule(schedules);*/
     }
 
     /**
@@ -217,7 +217,7 @@
             'to': '2022-05-31 23:59',
             'calendars': [
                 {
-                    'calendarId': '40288ab2804f694401804f6fe99e0000',
+                    'calendarId': '2b2380667b0c3133026d0de8df480001',
                     'calendarName': '내 일정',
                     'owner': '0509e09412534a6e98f04ca79abb6424',
                     'schedules': [
