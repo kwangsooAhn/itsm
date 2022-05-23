@@ -12,8 +12,7 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
-               th:placeholder="#{sla.metric.label.searchPlaceholder}"/>
+        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchYear" name="searchYear"/>
         <span class="font-bold text-red500" th:text="#{sla.metricYear.msg.totalScore}"></span>
     </form>
     <div class="ml-auto">
@@ -29,9 +28,9 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     window.onload = function() {
-        document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
         getList();
+
+        zDateTimePicker.initDatePicker(document.getElementById('searchYear'), getList);
     };
 
     /**
@@ -53,9 +52,9 @@
      */
     function setMetricValueFormat(elem) {
         elem.querySelectorAll('.metric-value').forEach(value => {
-            const aaa = value.textContent.replace(/.?0+$/, '');
-            value.textContent = aaa;
-            value.setAttribute('title', aaa);
+            const userMetricValue = value.textContent.replace(/.?0+$/, '');
+            value.textContent = userMetricValue;
+            value.setAttribute('title', userMetricValue);
         });
     }
 
