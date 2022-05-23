@@ -17,6 +17,8 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricStatus.dto.MetricAnnualDto
+import co.brainz.itsm.sla.metricStatus.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
@@ -97,6 +99,43 @@ class MetricYearService(
 
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+    }
+
+    /**
+     * 년도별 SLA 현황 목록 조회
+     */
+    fun findMetricAnnualSearch(metricYearSearchCondition: MetricYearSearchCondition): MetricAnnualListReturnDto {
+        val pagingResult = metricYearRepository.findMetrics(metricYearSearchCondition)
+        val dataList: List<MetricAnnualDto> = mapper.convertValue(pagingResult.dataList)
+        val scoreCalculation = this.scoreCalculation(dataList)
+
+        return MetricAnnualListReturnDto(
+            data = scoreCalculation,
+            paging = AlicePagingData(
+                totalCount = pagingResult.totalCount,
+                totalCountWithoutCondition = metricYearRepository.count(),
+                currentPageNum = metricYearSearchCondition.pageNum,
+                totalPageNum = ceil(pagingResult.totalCount.toDouble() / metricYearSearchCondition.contentNumPerPage).toLong(),
+                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
+
+            )
+        )
+    }
+
+    //zql 구현이 되면 instance의 건수를 계산하여 결과값이 나온다.
+    /**
+     * zql.setZqlExpression(zqlString)
+    .setFromDateTime(from)
+    .setToDateTime(to)
+    .instanceStatus(InstanceStatus.RUNNING) // FINISH가 기본값. (SLA는 FINISH 사용)
+    .criteria(ZqlInstanceDateCriteria.FROM) // TO가 기본값. (SLA는 TO 사용)
+    .count() //.sum(), .average(), .percentage()
+     */
+    private fun scoreCalculation(metricYearList: List<MetricAnnualDto>): List<MetricAnnualDto> {
+        metricYearList.forEach {
+            it.score = 11.0
+        }
+        return metricYearList
     }
 
     /**

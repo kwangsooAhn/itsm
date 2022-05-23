@@ -7,6 +7,7 @@ package co.brainz.itsm.sla.metricYear.controller
 
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.service.MetricYearService
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -23,6 +24,8 @@ class MetricYearController(
     private val metricYearSearchPage: String = "sla/metricYearly/yearSearch"
     private val metricYearListPage: String = "sla/metricYearly/yearList"
     private val metricYearPage: String = "sla/metricYearly/year"
+    private val metricAnnualPage: String = "sla/metricStatus/annual/statusAnnualSearch"
+    private val metricAnnualList: String = "sla/metricStatus/annual/statusAnnualList"
 
     /**
      * 연도별 SLA 지표 관리 - 검색 화면 호출
@@ -49,5 +52,24 @@ class MetricYearController(
     @GetMapping("/new")
     fun getMetricPools(): String {
         return metricYearPage
+    }
+
+    /**
+     * 년도별 SLA 현황 화면 호출
+     */
+    @GetMapping("/annual/search")
+    fun getMetricAnnualSearch(request: HttpServletRequest, model: Model): String {
+        return metricAnnualPage
+    }
+
+    /**
+     * 년도별 SLA 현황 리스트 호출
+     */
+    @GetMapping("/annual","")
+    fun getMetricAnnualList(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
+        val result = metricYearService.findMetricAnnualSearch(metricYearSearchCondition)
+        model.addAttribute("metricYearsList", result.data)
+        model.addAttribute("paging", result.paging)
+        return metricAnnualList
     }
 }
