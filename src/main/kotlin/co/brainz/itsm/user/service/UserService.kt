@@ -901,7 +901,7 @@ class UserService(
         }
 
         // 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
-        if (email?.isNotEmpty() == true) {
+        if (!email.isNullOrBlank()) {
             val emailId = email.split("@")[0]
             when (password.contains(emailId)) {
                 true -> return false

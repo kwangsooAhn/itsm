@@ -1589,6 +1589,7 @@ validation:
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
+    pwValidationFail: "Password validation failed."
     required: "Please enter {0}."
     specialChar: "Please enter only special characters."
     unacceptableCharacters: "Contains special characters (/ \ % ;) that are not allowed."
