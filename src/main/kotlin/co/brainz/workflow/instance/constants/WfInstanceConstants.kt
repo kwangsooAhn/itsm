@@ -20,6 +20,7 @@ class WfInstanceConstants {
                 WfTokenConstants.SearchType.REQUESTED -> null
                 WfTokenConstants.SearchType.PROGRESS -> listOf(Status.RUNNING.code, Status.WAITING.code)
                 WfTokenConstants.SearchType.COMPLETED -> listOf(Status.FINISH.code)
+                WfTokenConstants.SearchType.STORED -> null
             }
         }
 

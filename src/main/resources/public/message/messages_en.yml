@@ -1410,6 +1410,7 @@ token:
     searchPlaceholder: "Document No / Title / Create User"
     startDt: "Start Date"
     status: "Status"
+    storage: "Favorites"
     tagPlaceHolder: "#Tags"
     view: "Document View"
     viewer: "CC"
@@ -1418,6 +1419,7 @@ token:
     process: "Process"
     processMap: "Process Map"
   msg:
+    confirmDeleteStorageDocument: "Are you sure you want to delete favorite document?"
     selectToken: "Check the related documents to be added."
     selectViewer: "Check the viewers to be added."
     searchDescription: "View and search documents relating to me."
@@ -1429,6 +1431,7 @@ token:
     progress: "Document in progress"
     requested: "Application document"
     todo: "Document to process"
+    stored: "Stored Documents"
   action:
     withdraw: "withdraw"
     reject: "reject"
