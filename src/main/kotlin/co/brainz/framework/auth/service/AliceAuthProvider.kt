@@ -94,9 +94,10 @@ class AliceAuthProvider(
     private fun validatePassword(targetPassword: String, userPassword: String) {
         var encryptPassword: String
         val param: LinkedHashMap<String, String> = linkedMapOf()
-        param["salt"] = this.salt.toUpperCase()
+        val algorithm = this.algorithm.toUpperCase()
+        param["salt"] = this.salt
 
-        when (this.algorithm) {
+        when (algorithm) {
             AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
                 val bcryptPasswordEncoder = BCryptPasswordEncoder()
                 if (!bcryptPasswordEncoder.matches(targetPassword, userPassword)) {
