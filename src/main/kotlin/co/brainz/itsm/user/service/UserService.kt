@@ -329,6 +329,9 @@ class UserService(
                     this.resetUserAbsence(userUpdateDto.userKey, UserConstants.UserCustom.USER_ABSENCE.code)
                 }
             }
+            ZResponseConstants.STATUS.ERROR_FAIL.code -> {
+                code = ZResponseConstants.STATUS.ERROR_FAIL.code
+            }
         }
 
         if (userEditType == AliceUserConstants.UserEditType.SELF_USER_EDIT.code) {
@@ -356,10 +359,13 @@ class UserService(
     }
 
     /**
-     * 자기정보 수정 시, 이메일 및 ID의 중복을 검사한다.
+     * 자기정보 수정 시, 이메일, ID 중복검사 및 비밀번호 유효성을 검증한다.
      */
     fun userEditValid(userUpdateDto: UserUpdateDto): String {
         val targetEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
         when (true) {
@@ -375,6 +381,12 @@ class UserService(
             }
             !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
                 code = ZResponseConstants.STATUS.ERROR_NOT_EXIST.code
+            }
+            targetEntity.password != userUpdateDto.password -> {
+                val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
+                if (!this.passwordValidationCheck(password, userUpdateDto.userId, userUpdateDto.email)) {
+                    code = ZResponseConstants.STATUS.ERROR_FAIL.code
+                }
             }
         }
         return code
@@ -837,5 +849,65 @@ class UserService(
         return ZResponse(
             status = status.code
         )
+    }
+
+    /**
+     * 비밀번호 유효성 검사
+     */
+    fun passwordValidationCheck(password: String, userId: String, email: String?): Boolean {
+        val upperCaseIncludeReg = """[A-Z]""".toRegex()
+        val lowerCaseIncludeReg = """[a-z]""".toRegex()
+        val integerIncludeReg = """[0-9]""".toRegex()
+        val specialCharIncludeReg = """[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]""".toRegex()
+
+        val upperCaseReg = "^[A-Z]*$".toRegex()
+        val lowerCaseReg = "^[a-z]*$".toRegex()
+        val integerReg = "^[0-9]*$".toRegex()
+        val specialCharReg = "^[\\{\\}\\[\\]\\/?.,;:|\\)*~`!^\\-_+<>@\\#$%&\\\\=\\(\\'\"]*$".toRegex()
+        val blankReg = """[\s]""".toRegex()
+
+        val containsUpperCase = upperCaseIncludeReg.containsMatchIn(password)
+        val containsLowerCase = lowerCaseIncludeReg.containsMatchIn(password)
+        val containsIntegerCase = integerIncludeReg.containsMatchIn(password)
+        val containsSpecialCharCase = specialCharIncludeReg.containsMatchIn(password)
+
+        // 1가지의 문자 구성인 경우 10자 이상, 20자 미만의 비밀번호를 설정한다.
+        // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
+        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(specialCharReg)) {
+            if (password.length < 10 || password.length > 20) {
+                return false
+            }
+        }
+
+        // 2가지의 문자 구성인 경우 8자 이상, 20자 미만의 비밀번호를 설정한다.
+        // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
+        if ((!containsUpperCase && !containsLowerCase) || (!containsLowerCase && !containsSpecialCharCase) ||
+            (!containsSpecialCharCase && !containsIntegerCase) || (!containsIntegerCase && !containsUpperCase) ||
+            (!containsUpperCase && !containsSpecialCharCase) || (!containsLowerCase && !containsIntegerCase)
+        ) {
+            if (password.length < 8 || password.length > 20) {
+                return false
+            }
+        }
+
+        // 비밀번호에 공백을 포함하지 않는다.
+        if (blankReg.containsMatchIn(password)) {
+            return false
+        }
+
+        // 비밀번호에 사용자의 ID를 포함하지 않는다.
+        if (password.contains(userId)) {
+            return false
+        }
+
+        // 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
+        if (!email.isNullOrBlank()) {
+            val emailId = email.split("@")[0]
+            when (password.contains(emailId)) {
+                true -> return false
+            }
+        }
+
+        return true
     }
 }
