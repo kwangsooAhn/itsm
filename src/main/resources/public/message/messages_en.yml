@@ -1393,6 +1393,7 @@ sla:
     btn:
       addData: "Add Data"
     label:
+      all: "ALL"
       createDate: "Create Date"
       createUser: "Create User"
       metricManual: "Manual metric management"

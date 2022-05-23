@@ -1396,6 +1396,7 @@ sla:
     btn:
       addData: "데이터 추가"
     label:
+      all: "전체"
       createDt: "등록일시"
       createUser: "등록자"
       metricManual: "수동 지표관리"
