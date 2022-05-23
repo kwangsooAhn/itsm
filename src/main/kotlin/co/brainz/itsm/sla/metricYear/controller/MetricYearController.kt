@@ -65,7 +65,7 @@ class MetricYearController(
     /**
      * 년도별 SLA 현황 리스트 호출
      */
-    @GetMapping("/annual","")
+    @GetMapping("/annual", "")
     fun getMetricAnnualList(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
         val result = metricYearService.findMetricAnnualSearch(metricYearSearchCondition)
         model.addAttribute("metricYearsList", result.data)

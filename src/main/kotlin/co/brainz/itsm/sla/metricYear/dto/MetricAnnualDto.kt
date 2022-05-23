@@ -1,4 +1,4 @@
-package co.brainz.itsm.sla.metricStatus.dto
+package co.brainz.itsm.sla.metricYear.dto
 
 import java.io.Serializable
 

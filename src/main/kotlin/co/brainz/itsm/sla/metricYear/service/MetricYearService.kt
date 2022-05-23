@@ -17,8 +17,8 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
-import co.brainz.itsm.sla.metricStatus.dto.MetricAnnualDto
-import co.brainz.itsm.sla.metricStatus.dto.MetricAnnualListReturnDto
+import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
+import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
