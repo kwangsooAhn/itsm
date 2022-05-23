@@ -125,6 +125,7 @@ auth:
     editDescription: "Add or view and manage auth."
     enterAuthId: "Please enter a auth id."
     enterAuthName: "Please enter a auth name."
+    invalidRequest: "Invalid request"
     invalidToken: "Invalid token"
     searchPlaceholder: "Auth Name / Auth Desc"
   auth:
@@ -1013,6 +1014,7 @@ login:
     enterPassword: "Please enter your password."
     invalidUserOrPassword: "This is an unregistered ID or an incorrect password."
     ipAccessDenied: "This IP is not accessible."
+    maximumSession: "Maximum sessions for this principal exceeded"
     redirectedLoginPage: "seconds after, you will be redirected to the login page."
     sessionExpired: "Your session has expired."
     unKnownError: "An unknown error has occurred. Please contact the administrator."
@@ -1410,6 +1412,7 @@ token:
     searchPlaceholder: "Document No / Title / Create User"
     startDt: "Start Date"
     status: "Status"
+    storage: "Favorites"
     tagPlaceHolder: "#Tags"
     view: "Document View"
     viewer: "CC"
@@ -1418,6 +1421,7 @@ token:
     process: "Process"
     processMap: "Process Map"
   msg:
+    confirmDeleteStorageDocument: "Are you sure you want to delete favorite document?"
     selectToken: "Check the related documents to be added."
     selectViewer: "Check the viewers to be added."
     searchDescription: "View and search documents relating to me."
@@ -1429,6 +1433,7 @@ token:
     progress: "Document in progress"
     requested: "Application document"
     todo: "Document to process"
+    stored: "Stored Documents"
   action:
     withdraw: "withdraw"
     reject: "reject"
@@ -1588,6 +1593,7 @@ validation:
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
+    pwValidationFail: "Password validation failed."
     required: "Please enter {0}."
     specialChar: "Please enter only special characters."
     unacceptableCharacters: "Contains special characters (/ \ % ;) that are not allowed."

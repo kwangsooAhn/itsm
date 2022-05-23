@@ -18,7 +18,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
-        <button type="button" class="z-button primary" onclick="location.href='/users/new'"
+        <button th:if="${userRegisterEnabled}" type="button" class="z-button primary" onclick="location.href='/users/new'"
                 th:text="#{common.btn.add}"></button>
         <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
@@ -36,7 +36,7 @@
     window.onload = function () {
         document.getElementById('searchValue').focus();
         getList();
-    }
+    };
 
     document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
 
