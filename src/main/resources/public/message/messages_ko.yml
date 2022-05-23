@@ -1376,11 +1376,16 @@ sla:
     total: "합산"
   metric:
     label:
+      comment: "비고"
       description: "설명"
       group: "그룹"
       groupName: "그룹 이름"
       metricPool: "SLA 지표관리"
+      maxValue: "목표치"
+      minValue: "최소치"
       name: "이름"
+      owner: "담당자"
+      score: "결과"
       searchPlaceholder: "이름"
       selectMetricCalcType: "계산방식 선택"
       selectMetricGroup: "지표그룹 선택"
@@ -1388,6 +1393,7 @@ sla:
       selectMetricUnit: "단위 선택"
       type: "타입"
       unit: "단위"
+      weightValue: "가중치"
     msg:
       duplicateMetricName: "동일한 지표 이름이 존재합니다.<br>지표 이름을 확인해주세요."
       metricPoolDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
