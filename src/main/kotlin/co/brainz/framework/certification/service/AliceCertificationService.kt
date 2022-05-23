@@ -130,7 +130,7 @@ class AliceCertificationService(
 
     @Transactional
     fun valid(uid: String): Int {
-        val decryptUid: String = AliceEncryptionUtil().twoWayDeCode(uid)
+        val decryptUid: String = AliceEncryptionUtil().encryptDecoder(uid, AliceConstants.EncryptionAlgorithm.AES256.value)
         val values: List<String> = decryptUid.split(":".toRegex())
         val userDto: AliceUserEntity = findByUserId(values[1])
         var validCode: Int = AliceUserConstants.Status.SIGNUP.value

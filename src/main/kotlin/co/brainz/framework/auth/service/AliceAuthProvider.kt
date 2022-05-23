@@ -9,12 +9,14 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.util.AliceUtil
 import java.security.PrivateKey
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
@@ -38,11 +40,18 @@ import org.springframework.web.context.request.ServletRequestAttributes
 @Component
 class AliceAuthProvider(
     private val userDetailsService: AliceUserDetailsService,
-    private val aliceCryptoRsa: AliceCryptoRsa
+    private val aliceCryptoRsa: AliceCryptoRsa,
+    private val aliceEncryptionUtil: AliceEncryptionUtil
 ) : AuthenticationProvider {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
+
+    @Value("\${encryption.algorithm}")
+    private val algorithm: String = ""
+
+    @Value("\${encryption.option.salt}")
+    private val salt: String = ""
 
     @Transactional
     override fun authenticate(authentication: Authentication): Authentication {
@@ -52,7 +61,6 @@ class AliceAuthProvider(
 
         val userId = aliceCryptoRsa.decrypt(privateKey, authentication.principal.toString())
         val password = aliceCryptoRsa.decrypt(privateKey, authentication.credentials.toString())
-        val passwordEncoder = BCryptPasswordEncoder()
 
         var aliceUser: AliceUserAuthDto
         try {
@@ -65,9 +73,7 @@ class AliceAuthProvider(
             throw AliceException(AliceErrorConstants.ERR, "Unknown error.")
         }
 
-        if (!passwordEncoder.matches(password, aliceUser.password)) {
-            throw BadCredentialsException("Invalid password.")
-        }
+        this.validatePassword(password, aliceUser.password)
 
         if (!aliceUser.useYn) {
             throw DisabledException("Disabled account.")
@@ -83,5 +89,29 @@ class AliceAuthProvider(
 
     override fun supports(authentication: Class<*>): Boolean {
         return authentication == UsernamePasswordAuthenticationToken::class.java
+    }
+
+    private fun validatePassword(targetPassword: String, userPassword: String) {
+        var encryptPassword: String
+        val param: LinkedHashMap<String, String> = linkedMapOf()
+        param["salt"] = this.salt.toUpperCase()
+
+        when (this.algorithm) {
+            AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                val bcryptPasswordEncoder = BCryptPasswordEncoder()
+                if (!bcryptPasswordEncoder.matches(targetPassword, userPassword)) {
+                    throw BadCredentialsException(null)
+                }
+            }
+            AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                encryptPassword = aliceEncryptionUtil.encryptEncoder(targetPassword, algorithm, param)
+                if (encryptPassword != userPassword) {
+                    throw BadCredentialsException(null)
+                }
+            }
+            else -> {
+                throw BadCredentialsException(null)
+            }
+        }
     }
 }

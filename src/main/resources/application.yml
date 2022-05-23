@@ -139,6 +139,13 @@ sso.vendor: KSign
 # Plugin directory
 plugins.dir: C:\\plugins
 
+# Encryption Algorithm
+# bcrypt, aes256, sha256
+encryption:
+  algorithm: bcrypt
+  option:
+    salt:
+
 ---
 spring:
   profiles: deploy
