@@ -1013,6 +1013,7 @@ login:
     enterPassword: "Please enter your password."
     invalidUserOrPassword: "This is an unregistered ID or an incorrect password."
     ipAccessDenied: "This IP is not accessible."
+    maximumSession: "Maximum sessions for this principal exceeded"
     redirectedLoginPage: "seconds after, you will be redirected to the login page."
     sessionExpired: "Your session has expired."
     unKnownError: "An unknown error has occurred. Please contact the administrator."

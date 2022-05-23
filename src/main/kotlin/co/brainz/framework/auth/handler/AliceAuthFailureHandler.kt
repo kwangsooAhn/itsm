@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.web.DefaultRedirectStrategy
 import org.springframework.security.web.RedirectStrategy
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
+import org.springframework.security.web.authentication.session.SessionAuthenticationException
 import org.springframework.stereotype.Component
 
 /**
@@ -24,6 +25,7 @@ class AliceAuthFailureHandler : AuthenticationFailureHandler {
     private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
     private val invalidUserOrPasswordMsgKey = "login.msg.invalidUserOrPassword"
     private val disableUserMsgKey = "login.msg.disabledUser"
+    private val maximumSessionMsgKey = "login.msg.maximumSession"
     private val unKnownErrorMsgKey = "login.msg.unKnownError"
 
     override fun onAuthenticationFailure(
@@ -37,6 +39,8 @@ class AliceAuthFailureHandler : AuthenticationFailureHandler {
             is UsernameNotFoundException, is BadCredentialsException -> invalidUserOrPasswordMsgKey
             // "계정이 비활성화되었습니다. 관리자에게 문의해주세요"
             is DisabledException -> disableUserMsgKey
+            // "최대 접속 세션을 초과했습니다."
+            is SessionAuthenticationException -> maximumSessionMsgKey
             // "알 수 없는 에러가 발생하였습니다. 관리자에게 문의해주세요."
             else -> unKnownErrorMsgKey
         }
