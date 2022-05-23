@@ -8,4 +8,5 @@ package co.brainz.itsm.sla.metricStatus.service
 import org.springframework.stereotype.Service
 
 @Service
-class MetricStatusService
+class MetricStatusService{
+}

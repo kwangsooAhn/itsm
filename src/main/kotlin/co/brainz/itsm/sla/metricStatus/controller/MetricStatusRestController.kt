@@ -9,5 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/sla")
-class MetricStatusRestController
+@RequestMapping("/rest/sla/status")
+class MetricStatusRestController {
+}
