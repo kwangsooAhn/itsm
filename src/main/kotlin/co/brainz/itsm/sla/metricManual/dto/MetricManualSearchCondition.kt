@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter
  * @param contentNumPerPage : 페이지당 출력되는 건수
  */
 data class MetricManualSearchCondition(
-    val searchValue: String? = "",
+    val metricId: String? = "",
     val fromDt: LocalDate? = LocalDate.parse(
         LocalDate.of(LocalDate.now().year, 1, 1).toString(),
         DateTimeFormatter.ISO_DATE
