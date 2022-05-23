@@ -58,7 +58,7 @@ insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/stati
 insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
 insert into awf_menu values ('sla', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('sla.metricStatus', 'sla', '/sla/metrics/status/search', 1, 'TRUE');
-insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/yearlies/search', 2, 'TRUE');
+insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/annual/search', 2, 'TRUE');
 insert into awf_menu values ('sla.manualMetric', 'sla', '/sla/metrics/manual/search', 3, 'TRUE');
 insert into awf_menu values ('sla.year', 'sla', '/sla/metrics/search', 4, 'TRUE');
 insert into awf_menu values ('sla.pool', 'sla', '/sla/metric-pools/search', 5, 'TRUE');

@@ -46,7 +46,7 @@ class MetricYearRestController(
     /**
      *  년도별 SLA 현황 엑셀 다운로드
      */
-    @GetMapping("/yearlies/excel")
+    @GetMapping("/annual/excel")
     fun getMetricExcel(metricYearSearchCondition: MetricYearSearchCondition): ResponseEntity<ByteArray> {
         return metricYearService.getMetricExcelDownload(metricYearSearchCondition)
     }

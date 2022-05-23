@@ -643,7 +643,7 @@ insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/stati
 insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
 insert into awf_menu values ('sla', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('sla.metricStatus', 'sla', '/sla/metrics/status/search', 1, 'TRUE');
-insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/yearlies/search', 2, 'TRUE');
+insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/annual/search', 2, 'TRUE');
 insert into awf_menu values ('sla.manualMetric', 'sla', '/sla/metrics/manual/search', 3, 'TRUE');
 insert into awf_menu values ('sla.year', 'sla', '/sla/metrics/search', 4, 'TRUE');
 insert into awf_menu values ('sla.pool', 'sla', '/sla/metric-pools/search', 5, 'TRUE');
@@ -1407,8 +1407,8 @@ insert into awf_url values ('/rest/sla/metrics/{id}/{year}', 'delete', '년도�
 insert into awf_url values ('/rest/sla/metrics/copy', 'post', '지표 데이터 복사', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/manual', 'post', '수동 지표 등록', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/manual/{id}/{reference_dt}/{metricValue}', 'delete', '수동 지표 삭제', 'TRUE');
-insert into awf_url values ('/rest/sla/metrics/yearlies/excel', 'get', '년도별 현황 엑셀 다운로드', 'TRUE');
-insert into awf_url values ('/rest/sla/metrics/yearlies/{id}/preview', 'get', '년도별 현황 미리보기', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/annual/excel', 'get', '년도별 현황 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/annual/{id}/preview', 'get', '년도별 현황 미리보기', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools', 'post', 'SLA 지표 등록', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools/{id}', 'put', 'SLA 지표 변경', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools/{id}', 'delete', 'SLA 지표 삭제', 'TRUE');
@@ -1457,8 +1457,8 @@ insert into awf_url values ('/sla/metrics/manual/search', 'get', '수동 지표�
 insert into awf_url values ('/sla/metrics/manual', 'get', '수동 지표관리 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/status/search', 'get', '지표별 현황 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/status', 'get', '지표별 현황 목록 화면', 'TRUE');
-insert into awf_url values ('/sla/metrics/yearlies/search', 'get', '년도별 현황 검색 화면', 'TRUE');
-insert into awf_url values ('/sla/metrics/yearlies', 'get', '년도별 현황 목록 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/annual/search', 'get', '년도별 현황 검색 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/annual', 'get', '년도별 현황 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-pools/search', 'get', 'SLA 지표관리 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-pools', 'get', 'SLA 지표관리 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-pools/new', 'get', 'SLA 지표관리 등록 화면', 'TRUE');
