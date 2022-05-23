@@ -86,6 +86,9 @@ class MetricYearService(
         )
     }
 
+    /**
+     * 년도 선택 시 해당년도에 저장된 지표목록 불러오기
+     */
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
