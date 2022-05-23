@@ -66,8 +66,8 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
 
     private fun searchByBuilder(manualSearchCondition: MetricManualSearchCondition): BooleanBuilder {
         val builder = BooleanBuilder()
-        if (manualSearchCondition.searchValue!!.isNotEmpty()) {
-            builder.and(metric.metricName.`in`(manualSearchCondition.searchValue))
+        if (!manualSearchCondition.metricId.isNullOrEmpty()) {
+            builder.and(manual.metric.metricId.eq(manualSearchCondition.metricId))
         }
         builder.and(manual.referenceDate.goe(manualSearchCondition.fromDt))
         builder.and(manual.referenceDate.lt(manualSearchCondition.toDt))
