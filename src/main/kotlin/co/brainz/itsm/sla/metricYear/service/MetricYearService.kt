@@ -77,6 +77,7 @@ class MetricYearService(
                     weightValue = metricYearDto.weightValue,
                     owner = metricYearDto.owner,
                     comment = metricYearDto.comment,
+                    zqlString = metricYearDto.zqlString,
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )

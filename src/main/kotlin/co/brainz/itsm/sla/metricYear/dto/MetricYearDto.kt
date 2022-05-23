@@ -15,5 +15,6 @@ data class MetricYearDto(
     var maxValue: Double,
     var weightValue: Double,
     var owner: String? = null,
-    var comment: String? = null
+    var comment: String? = null,
+    var zqlString: String
 ) : Serializable
