@@ -84,7 +84,6 @@
             standardDate: myCalendar.getStandardSystemDateTime(),
             calendarIds: calendarIds
         };
-        //TODO: 주석 해제
         aliceJs.fetchJson('/rest/calendars', {
             method: 'POST',
             headers: {
@@ -98,7 +97,7 @@
                     calendar.schedules.forEach((schedule) => {
                         schedules.push({
                             id: schedule.id,
-                            calendarId: calendar.calendarId,
+                            calendarId: calendar.id,
                             title: schedule.title,
                             body: schedule.contents,
                             isAllDay: schedule.allDayYn,
@@ -120,7 +119,7 @@
                     calendar.repeats.forEach((repeat) => {
                         schedules.push({
                             id: repeat.id + repeat.index,
-                            calendarId: calendar.calendarId,
+                            calendarId: calendar.id,
                             title: repeat.title,
                             body: repeat.contents,
                             isAllDay: repeat.allDayYn,
@@ -143,65 +142,7 @@
                 myCalendar.addSchedule(schedules);
             }
         });
-
-        // TODO: 아래 삭제
-        /*const dummy = getDummy();
-        myCalendar.setCalendars(dummy.calendars);
-        const schedules = [];
-        dummy.calendars.forEach((calendar) => {
-            calendar.schedules.forEach((schedule) => {
-                schedules.push({
-                    id: schedule.id,
-                    calendarId: calendar.calendarId,
-                    title: schedule.title,
-                    body: schedule.contents,
-                    isAllDay: schedule.allDayYn,
-                    start: luxon.DateTime.fromISO(schedule.startDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
-                    end: luxon.DateTime.fromISO(schedule.endDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
-                    category: schedule.allDayYn ? 'allday' : 'time',
-                    raw: {
-                        repeatId: '',
-                        repeatSeq: 1,
-                        repeatYn: schedule.repeatYn,
-                        repeatType: schedule.repeatType,
-                        repeatValue: schedule.repeatValue,
-                        repeatPeriod: schedule.repeatPeriod,
-                        ownerName: schedule.ownerName
-                    }
-                });
-            });
-            calendar.repeats.forEach((repeat) => {
-                schedules.push({
-                    id: repeat.id + repeat.index,
-                    calendarId: calendar.calendarId,
-                    title: repeat.title,
-                    body: repeat.contents,
-                    isAllDay: repeat.allDayYn,
-                    start: luxon.DateTime.fromISO(repeat.startDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
-                    end: luxon.DateTime.fromISO(repeat.endDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
-                    category: repeat.allDayYn ? 'allday' : 'time',
-                    raw: {
-                        repeatId: repeat.id,
-                        repeatSeq: repeat.index,
-                        repeatYn: repeat.repeatYn,
-                        repeatType: repeat.repeatType,
-                        repeatValue: repeat.repeatValue,
-                        repeatPeriod: repeat.repeatPeriod,
-                        ownerName: repeat.ownerName
-                    }
-                });
-            });
-        });
-        myCalendar.addSchedule(schedules);*/
     }
-
-    /**
-     * 일정 등록
-     */
-
-    /**
-     * 일정 삭제
-     */
 
     /**
      * 상단 메뉴 이벤트 처리
@@ -210,88 +151,6 @@
     function onClickCalendarMenu(e) {
         myCalendar.onClickCalendarMenu(e.getAttribute('data-action'), setSchedules);
     }
-
-    // TODO: 삭제 필요
-    function getDummy() {
-        return {
-            'from': '2022-05-01 00:00',
-            'to': '2022-05-31 23:59',
-            'calendars': [
-                {
-                    'calendarId': '2b2380667b0c3133026d0de8df480001',
-                    'calendarName': '내 일정',
-                    'owner': '0509e09412534a6e98f04ca79abb6424',
-                    'schedules': [
-                        {
-                            'id': '40288ab2804f7f5e01804f858f1d0001',
-                            'title': '개인 연차',
-                            'index': 1,
-                            'contents': '개인 사유',
-                            'allDayYn': true,
-                            'startDt': '2022-05-05T15:00:00.000Z',
-                            'endDt': '2022-05-05T15:00:00.000Z',
-                            'repeatYn': false,
-                            'repeatType': '',
-                            'repeatValue': '',
-                            'repeatPeriod': '',
-                            'ownerName': '고양이'
-                        },
-                        {
-                            'id': '40288ab2804f7f5e01804f858f1d0004',
-                            'title': '외근',
-                            'index': 1,
-                            'contents': '새마을금고',
-                            'allDayYn': false,
-                            'startDt': '2022-05-13T09:00:00.000Z',
-                            'endDt': '2022-05-13T10:00:00.000Z',
-                            'repeatYn': false,
-                            'repeatType': '',
-                            'repeatValue': '',
-                            'repeatPeriod': '',
-                            'ownerName': '우다정'
-                        }
-                    ],
-                    'repeats': [{
-                        'id': '40288ab2804f7f5e01804f858f1d0002',
-                        'title': '스터디',
-                        'index': 1,
-                        'contents': '서울 성동구 성수이로 87',
-                        'allDayYn': false,
-                        'startDt': '2022-05-20T09:00:00.000Z',
-                        'endDt': '2022-05-20T10:00:00.000Z',
-                        'repeatYn': true,
-                        'repeatType': 'dayOfMonth',
-                        'repeatValue': '3_5', // 매월 3번째 금요일
-                        'repeatPeriod': '',
-                        'ownerName': '우다정'
-                    }]
-                },
-                {
-                    'calendarId': '40288ab2804f694401804f6fe99e0001',
-                    'calendarName': '회사',
-                    'owner': '0509e09412534a6e98f04ca79abb6424',
-                    'schedules': [
-                        {
-                            'id': '40288ab2804f7f5e01804f858f1d0003',
-                            'index': 1,
-                            'title': 'ITSM팀 회의',
-                            'contents': '장소: 8F 대회의실',
-                            'allDayYn': false,
-                            'startDt': '2022-05-16T01:00:00.000Z',
-                            'endDt': '2022-05-16T02:00:00.000Z',
-                            'repeatYn': false,
-                            'repeatType': '',
-                            'repeatValue': '',
-                            'repeatPeriod': '',
-                            'ownerName': '정희찬'
-                        }
-                    ],
-                    'repeats': []
-                }
-            ]
-        };
-    }
-
 </script>
 </body>
 </html>

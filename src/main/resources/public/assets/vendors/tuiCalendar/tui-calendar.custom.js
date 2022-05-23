@@ -594,7 +594,13 @@ Object.assign(zCalendar.prototype, {
      * 현재 시간을 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      */
     getStandardSystemDateTime: function () {
-        return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).setZone('utc+0').toISO()
+        const viewName = this.calendar.getViewName();
+        if (viewName === 'month') {
+            return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).startOf('month')
+                .setZone('utc+0').toISO();
+        } else {
+            return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).setZone('utc+0').toISO();
+        }
     },
     /**
      * 몇 주차인지 가져오기
