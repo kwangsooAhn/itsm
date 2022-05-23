@@ -30,10 +30,13 @@ const CALENDAR_DEFAULT_OPTIONS = {
     ],
     // 반복 안함, 매월 X번째 X요일, 매주 X요일
     repeatTypes: ['dayOfMonth', 'weekOfMonth'],
-    dayOfMonthType: ['', 'first', 'seconde', 'third', 'fourth', 'last']
+    dayOfMonthType: ['', 'first', 'seconde', 'third', 'fourth', 'last'],
+    scheduleList: [] // 일정 목록
 };
 
 function zCalendar(target, options) {
+    this.calendarView = target.querySelector('#calendarView'); // 월, 주, 일 보기
+    this.taskView = target.querySelector('#taskView'); // 일정 보기
     this.options = Object.assign({}, CALENDAR_DEFAULT_OPTIONS, options);
     
     // 스케쥴 등록|수정 모달
@@ -153,7 +156,7 @@ function zCalendar(target, options) {
     });
 
     // TUI 캘린더 초기화
-    this.calendar = new tui.Calendar(target, {
+    this.calendar = new tui.Calendar(this.calendarView, {
         defaultView: 'month',
         taskView: false,
         template: {
@@ -261,8 +264,7 @@ Object.assign(zCalendar.prototype, {
      */
     setCalendarType: function (type, callback) {
         if (type === 'task') {
-            // TODO: 커스텀 목록 만들기 - 월 단위로 일정 목록 표시
-
+            this.calendar.changeView('month', true);
         } else {
             this.calendar.changeView(type, true);
         }
@@ -591,16 +593,17 @@ Object.assign(zCalendar.prototype, {
         </div>`.trim();
     },
     /**
-     * 현재 시간을 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
+     * 시작 시간을 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      */
-    getStandardSystemDateTime: function () {
-        const viewName = this.calendar.getViewName();
-        if (viewName === 'month') {
-            return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).startOf('month')
-                .setZone('utc+0').toISO();
-        } else {
-            return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).setZone('utc+0').toISO();
-        }
+    getFromSystemDateTime: function () {
+        return luxon.DateTime.fromMillis(this.calendar.getDateRangeStart().getTime()).setZone('utc+0').toISO();
+    },
+    /**
+     * 시작 시간을 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
+     */
+    getToSystemDateTime: function () {
+        return luxon.DateTime.fromMillis(this.calendar.getDateRangeEnd().getTime()).endOf('day')
+            .setZone('utc+0').toISO();
     },
     /**
      * 몇 주차인지 가져오기
@@ -621,16 +624,20 @@ Object.assign(zCalendar.prototype, {
     },
     /**
      * 스케쥴 등록
-     *  @param {schedule} schedule - schedule
+     * @param {type} 타입 - month|day|week|task
+     * @param {schedule} schedule - schedule
      */
-    addSchedule: function (schedules) {
+    addSchedule: function (type, schedules) {
+        this.options.scheduleList = JSON.parse(JSON.stringify(schedules));
         this.calendar.createSchedules(schedules);
+        // TODO: 커스텀 목록 만들기 - 월 단위로 일정 목록 표시
     },
     /**
      * 캘린더에 등록된 모든 일정을 지운다.
      */
     clear:  function () {
-        this.options.calendars = [];
+        this.options.scheduleList.length = 0;
+        this.options.calendars.length = 0;
         this.calendar.clear();
     },
     /**
