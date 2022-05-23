@@ -21,7 +21,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{calendar.msg.description}"></h6>
 </div>
 <div layout:fragment="pageSearchResult">
-    <div class="calendar">
+    <div class="calendar" id="calendar">
         <div class="calendar__menu flex-row mb-3" id="calendarMenu">
             <select class="col-2" id="calendarType">
                 <option value="month" th:text="#{calendar.label.month}" selected></option>
@@ -42,8 +42,8 @@
             </button>
             <span class="calendar__render-range-text ml-1" id="renderRangeText"></span>
         </div>
-        <div class="calendar__view" id="calendar" style="height: 670px;"></div>
-        <div class="calendar__view" id="calendarTask"></div>
+        <div class="calendar__view" id="calendarView" style="height: 670px;"></div>
+        <div class="calendar__view" id="taskView" style="display: none;"></div>
     </div>
 </div>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
@@ -79,9 +79,11 @@
             acc.push(cur.calendarId);
             return acc;
         }, []);
+        const viewType = document.getElementById('calendarType').value;
         const searchData = {
-            viewType: document.getElementById('calendarType').value,
-            standardDate: myCalendar.getStandardSystemDateTime(),
+            viewType: viewType,
+            from: myCalendar.getFromSystemDateTime(),
+            to: myCalendar.getToSystemDateTime(),
             calendarIds: calendarIds
         };
         aliceJs.fetchJson('/rest/calendars', {
@@ -139,7 +141,7 @@
                         });
                     });
                 });
-                myCalendar.addSchedule(schedules);
+                myCalendar.addSchedule(viewType, schedules);
             }
         });
     }
