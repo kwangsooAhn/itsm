@@ -21,11 +21,11 @@ class MetricYearController(
     private val metricYearService: MetricYearService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val metricYearSearchPage: String = "sla/metricYearly/yearSearch"
-    private val metricYearListPage: String = "sla/metricYearly/yearList"
-    private val metricYearPage: String = "sla/metricYearly/year"
-    private val metricAnnualPage: String = "sla/metricStatus/annual/statusAnnualSearch"
-    private val metricAnnualList: String = "sla/metricStatus/annual/statusAnnualList"
+    private val metricYearSearchPage: String = "sla/metricAnnual/management/yearSearch"
+    private val metricYearListPage: String = "sla/metricAnnual/management/yearList"
+    private val metricYearPage: String = "sla/metricAnnual/management/year"
+    private val metricAnnualPage: String = "sla/metricAnnual/annual/statusAnnualSearch"
+    private val metricAnnualList: String = "sla/metricAnnual/annual/statusAnnualList"
 
     /**
      * 연도별 SLA 지표 관리 - 검색 화면 호출
