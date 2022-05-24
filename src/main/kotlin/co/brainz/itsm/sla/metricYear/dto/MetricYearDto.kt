@@ -10,7 +10,7 @@ import java.io.Serializable
 
 data class MetricYearDto(
     val metricId: String,
-    var metricYear: String,
+    var year: String,
     var minValue: Double,
     var maxValue: Double,
     var weightValue: Double,

@@ -76,13 +76,13 @@ class MetricYearService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val metricEntity = metricPoolRepository.findByMetricId(metricYearDto.metricId)
 
-        if (metricYearRepository.existsByMetricAndMetricYear(metricYearDto.metricId, metricYearDto.metricYear)) {
+        if (metricYearRepository.existsByMetricAndMetricYear(metricYearDto.metricId, metricYearDto.year)) {
             status = ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             metricYearRepository.save(
                 MetricYearEntity(
                     metric = metricEntity,
-                    metricYear = metricYearDto.metricYear,
+                    metricYear = metricYearDto.year,
                     minValue = metricYearDto.minValue,
                     maxValue = metricYearDto.maxValue,
                     weightValue = metricYearDto.weightValue,
@@ -185,21 +185,25 @@ class MetricYearService(
      */
     @Transactional
     fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
-        val status = ZResponseConstants.STATUS.SUCCESS
-        val metricYearEntity = MetricYearEntity(
-            metric = MetricPoolEntity(metricYearDto.metricId),
-            metricYear = metricYearDto.metricYear,
-            minValue = metricYearDto.minValue,
-            maxValue = metricYearDto.maxValue,
-            weightValue = metricYearDto.weightValue,
-            owner = metricYearDto.owner,
-            comment = metricYearDto.comment,
-            zqlString = metricYearDto.zqlString,
-            updateUserKey = currentSessionUser.getUserKey(),
-            updateDt = LocalDateTime.now()
-        )
-        metricYearRepository.save(metricYearEntity)
-
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val metricPoolEntity = MetricPoolEntity(metricYearDto.metricId)
+        if (metricPoolEntity != null) {
+            val metricYearEntity = MetricYearEntity(
+                metric = metricPoolEntity,
+                metricYear = metricYearDto.year,
+                minValue = metricYearDto.minValue,
+                maxValue = metricYearDto.maxValue,
+                weightValue = metricYearDto.weightValue,
+                owner = metricYearDto.owner,
+                comment = metricYearDto.comment,
+                zqlString = metricYearDto.zqlString,
+                updateUserKey = currentSessionUser.getUserKey(),
+                updateDt = LocalDateTime.now()
+            )
+            metricYearRepository.save(metricYearEntity)
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        }
         return ZResponse(
             status = status.code
         )

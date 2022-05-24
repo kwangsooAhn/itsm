@@ -57,8 +57,7 @@ class MetricYearRestController(
      * 연도별 지표 편집
      */
     @PutMapping("/{metricId}/{year}")
-    fun updateMetricYear(@RequestBody metricYearDto: MetricYearDto, @PathVariable year: String
-    ): ResponseEntity<ZResponse> {
+    fun updateMetricYear(@RequestBody metricYearDto: MetricYearDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.updateMetricYear(metricYearDto))
     }
 
