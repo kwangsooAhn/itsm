@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 class MetricManualController(
     private val metricManualService: MetricManualService
 ) {
-    private val metricManualSearchPage: String = "sla/metricManual/manualSearch"
-    private val metricManualListPage: String = "sla/metricManual/manualList"
-    private val metricManualNewModalPage: String = "sla/metricManual/manualNewModal"
+    private val metricManualSearchPage: String = "sla/metricManual/metricManualSearch"
+    private val metricManualListPage: String = "sla/metricManual/metricManualList"
+    private val metricManualNewModalPage: String = "sla/metricManual/metricManualNewModal"
 
     /**
      * 수동 지표 검색 화면
