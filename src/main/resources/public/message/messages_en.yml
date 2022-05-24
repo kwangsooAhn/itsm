@@ -1394,7 +1394,6 @@ sla:
     msg:
       description: "Register, modify, or delete the contents of SLA metric management."
       duplicateMetricName: "The same metric name exists. Please check the metric name."
-      metricPoolDescription: "Register, modify, or delete the contents of SLA metric management."
       enterMetricName: "Enter a metric name."
       viewDescription: "Inquire detailed information about SLA metric management."
   metricManual:
