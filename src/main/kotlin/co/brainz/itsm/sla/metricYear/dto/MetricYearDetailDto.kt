@@ -8,9 +8,14 @@ package co.brainz.itsm.sla.metricYear.dto
 
 import java.io.Serializable
 
-data class MetricYearDto(
+data class MetricYearDetailDto(
     val metricId: String,
-    var year: String,
+    var metricYear: String,
+    var metricGroup: String,
+    var metricName: String,
+    var metricType: String,
+    var metricUnit: String,
+    var calculationType: String,
     var minValue: Double,
     var maxValue: Double,
     var weightValue: Double,

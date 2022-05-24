@@ -16,13 +16,16 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
+import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -73,18 +76,19 @@ class MetricYearService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val metricEntity = metricPoolRepository.findByMetricId(metricYearDto.metricId)
 
-        if (metricYearRepository.existsByMetricAndMetricYear(metricYearDto.metricId, metricYearDto.metricYear)) {
+        if (metricYearRepository.existsByMetricAndMetricYear(metricYearDto.metricId, metricYearDto.year)) {
             status = ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             metricYearRepository.save(
                 MetricYearEntity(
                     metric = metricEntity,
-                    metricYear = metricYearDto.metricYear,
+                    metricYear = metricYearDto.year,
                     minValue = metricYearDto.minValue,
                     maxValue = metricYearDto.maxValue,
                     weightValue = metricYearDto.weightValue,
                     owner = metricYearDto.owner,
                     comment = metricYearDto.comment,
+                    zqlString = metricYearDto.zqlString,
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )
@@ -95,6 +99,9 @@ class MetricYearService(
         )
     }
 
+    /**
+     * 년도 선택 시 해당년도에 저장된 지표목록 불러오기
+     */
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
@@ -165,5 +172,51 @@ class MetricYearService(
             )
         }
         return excelComponent.download(excelVO)
+    }
+    /**
+     * 연도별 지표 세부 정보 조회
+     */
+    fun getMetricYearDetail(metricId: String, year: String): MetricYearDetailDto {
+        return metricYearRepository.findMetricYear(metricId, year)
+    }
+
+    /**
+     * 연도별 지표 편집
+     */
+    @Transactional
+    fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val metricPoolEntity = MetricPoolEntity(metricYearDto.metricId)
+        if (metricPoolEntity != null) {
+            val metricYearEntity = MetricYearEntity(
+                metric = metricPoolEntity,
+                metricYear = metricYearDto.year,
+                minValue = metricYearDto.minValue,
+                maxValue = metricYearDto.maxValue,
+                weightValue = metricYearDto.weightValue,
+                owner = metricYearDto.owner,
+                comment = metricYearDto.comment,
+                zqlString = metricYearDto.zqlString,
+                updateUserKey = currentSessionUser.getUserKey(),
+                updateDt = LocalDateTime.now()
+            )
+            metricYearRepository.save(metricYearEntity)
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * 연도별 지표 삭제
+     */
+    fun deleteMetricYear(metricId: String, year: String): ZResponse {
+        val status = ZResponseConstants.STATUS.SUCCESS
+        metricYearRepository.deleteById(MetricYearEntityPk(metricId, year))
+        return ZResponse(
+            status = status.code
+        )
     }
 }

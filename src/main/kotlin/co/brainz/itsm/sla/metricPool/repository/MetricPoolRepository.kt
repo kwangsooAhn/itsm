@@ -14,5 +14,5 @@ interface MetricPoolRepository : JpaRepository<MetricPoolEntity, String>, Metric
 
     fun existsByMetricName(metricName: String): Boolean
 
-    fun findByMetricId(metricName: String): MetricPoolEntity
+    fun findByMetricId(metricId: String): MetricPoolEntity
 }
