@@ -1281,6 +1281,8 @@ statistic:
   label:
     automatic: "Automatic generation"
     chart: "Chart"
+    columnName: "Column Name"
+    currentSituation: "Current Situation"
     description: "Description"
     publishDate: "Publish Date"
     customReport: "Custom Report"

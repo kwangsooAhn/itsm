@@ -1281,6 +1281,8 @@ statistic:
   label:
     automatic: "자동 생성"
     chart: "사용자 정의 차트"
+    columnName: "컬럼 명"
+    currentSituation: "current Situation"
     description: "설명"
     publishDate: "발행 일시"
     customReport: "사용자 정의 보고서"
