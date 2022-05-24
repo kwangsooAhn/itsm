@@ -50,9 +50,6 @@ class AliceAuthProvider(
     @Value("\${encryption.algorithm}")
     private val algorithm: String = ""
 
-    @Value("\${encryption.option.salt}")
-    private val salt: String = ""
-
     @Transactional
     override fun authenticate(authentication: Authentication): Authentication {
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
@@ -93,11 +90,8 @@ class AliceAuthProvider(
 
     private fun validatePassword(targetPassword: String, userPassword: String) {
         val encryptPassword: String
-        val param: LinkedHashMap<String, String> = linkedMapOf()
-        val algorithm = this.algorithm.toUpperCase()
-        param["salt"] = this.salt
 
-        when (algorithm) {
+        when (this.algorithm.toUpperCase()) {
             AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
                 val bcryptPasswordEncoder = BCryptPasswordEncoder()
                 if (!bcryptPasswordEncoder.matches(targetPassword, userPassword)) {
@@ -105,7 +99,7 @@ class AliceAuthProvider(
                 }
             }
             AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
-                encryptPassword = aliceEncryptionUtil.encryptEncoder(targetPassword, algorithm, param)
+                encryptPassword = aliceEncryptionUtil.encryptEncoder(targetPassword, algorithm)
                 if (encryptPassword != userPassword) {
                     throw BadCredentialsException(null)
                 }

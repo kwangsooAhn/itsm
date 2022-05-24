@@ -23,6 +23,7 @@ import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
@@ -106,7 +107,8 @@ class UserService(
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
     private val roleService: RoleService,
-    private val aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
+    private val aliceRoleAuthMapRepository: AliceRoleAuthMapRepository,
+    private val aliceEncryptionUtil: AliceEncryptionUtil
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -118,6 +120,9 @@ class UserService(
 
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
+
+    @Value("\${encryption.algorithm}")
+    private val algorithm: String = ""
 
     init {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -269,7 +274,7 @@ class UserService(
                 when (userUpdateDto.password?.isNotEmpty()) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                        userUpdateDto.password.let { targetEntity.password = aliceEncryptionUtil.encryptEncoder(password, this.algorithm) }
                         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
                     }
                 }
@@ -461,7 +466,7 @@ class UserService(
     @Transactional
     fun resetPassword(userKey: String, password: String): ZResponse {
         val targetEntity = userDetailsService.selectUserKey(userKey)
-        targetEntity.password = BCryptPasswordEncoder().encode(password)
+        targetEntity.password = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
         targetEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
         userRepository.save(targetEntity)
@@ -582,7 +587,7 @@ class UserService(
         }
 
         userEntity.password =
-            BCryptPasswordEncoder().encode(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!))
+            aliceEncryptionUtil.encryptEncoder(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!), this.algorithm)
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
         return ZResponse(
@@ -867,7 +872,10 @@ class UserService(
 
         // 1가지의 문자 구성인 경우 10자 이상, 20자 미만의 비밀번호를 설정한다.
         // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
-        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(specialCharReg)) {
+        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(
+                specialCharReg
+            )
+        ) {
             if (password.length < 10 || password.length > 20) {
                 return false
             }

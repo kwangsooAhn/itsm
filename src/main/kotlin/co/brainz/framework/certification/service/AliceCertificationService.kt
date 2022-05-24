@@ -48,9 +48,6 @@ class AliceCertificationService(
     @Value("\${encryption.algorithm}")
     private val algorithm: String = ""
 
-    @Value("\${encryption.option.salt}")
-    private val salt: String = ""
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun getDefaultUserRoleList(pRole: String): List<AliceRoleEntity> {
@@ -173,13 +170,10 @@ class AliceCertificationService(
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val password = aliceSignUpDto.password?.let { aliceCryptoRsa.decrypt(privateKey, it) }
-        val param: LinkedHashMap<String, String> = linkedMapOf()
-        param["salt"] = this.salt
-
         val user = AliceUserEntity(
             userKey = "",
             userId = aliceSignUpDto.userId,
-            password = aliceEncryptionUtil.encryptEncoder(password.toString(), this.algorithm, param),
+            password = aliceEncryptionUtil.encryptEncoder(password.toString(), this.algorithm),
             userName = aliceSignUpDto.userName,
             email = aliceSignUpDto.email,
             position = aliceSignUpDto.position,

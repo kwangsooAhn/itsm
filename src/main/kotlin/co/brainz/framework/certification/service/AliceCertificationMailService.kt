@@ -77,7 +77,7 @@ class AliceCertificationMailService(
     private fun makeLinkUrl(aliceCertificationDto: AliceCertificationDto): String {
         val uid =
             "${aliceCertificationDto.certificationCode}:${aliceCertificationDto.userId}:${aliceCertificationDto.email}"
-        val encryptUid: String = AliceEncryptionUtil().encryptEncoder(uid, AliceConstants.EncryptionAlgorithm.AES256.value, null)
+        val encryptUid: String = AliceEncryptionUtil().encryptEncoder(uid, AliceConstants.EncryptionAlgorithm.AES256.value)
         val urlEncryptUid: String = URLEncoder.encode(encryptUid, StandardCharsets.UTF_8)
         return "$senderProtocol://$host:$senderPort/certification/valid?uid=$urlEncryptUid"
     }
@@ -106,7 +106,7 @@ class AliceCertificationMailService(
             AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
                 params["intro"] = "사용자 계정이 생성되었습니다."
                 params["message"] = "로그인 아이디 : " + aliceCertificationDto.userId + "\n" +
-                    "임시 비밀번호 : " + aliceCertificationDto.password
+                        "임시 비밀번호 : " + aliceCertificationDto.password
                 params["link"] = "$senderProtocol://$host:$senderPort/portals/main"
                 params["text"] = "ITSM으로 바로가기"
             }
@@ -116,10 +116,10 @@ class AliceCertificationMailService(
             }
             else -> {
                 params["intro"] = "안녕하세요.\n" +
-                    "Zenius ITSM에 가입해주셔서 감사합니다."
+                        "Zenius ITSM에 가입해주셔서 감사합니다."
                 params["message"] = "본 메일은 Zenius ITSM 가입을 완료하기 위한 인증메일입니다.\n" +
-                    "만약 인증 메일을 요청하신 적이 없다면 본 메일을 삭제해주시기 바랍니다.\n" +
-                    "이메일 인증을 위해 아래 버튼을 클릭해주세요."
+                        "만약 인증 메일을 요청하신 적이 없다면 본 메일을 삭제해주시기 바랍니다.\n" +
+                        "이메일 인증을 위해 아래 버튼을 클릭해주세요."
                 params["link"] = this.makeLinkUrl(aliceCertificationDto)
                 params["text"] = "이메일 인증"
             }

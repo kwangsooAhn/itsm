@@ -14,13 +14,18 @@ import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import org.apache.commons.codec.binary.Base64
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
 class AliceEncryptionUtil {
 
     private lateinit var iv: String
     private lateinit var keySpec: Key
+
+    @Value("\${encryption.option.salt}")
+    private val salt: String = ""
 
     init {
         val key = AliceSecurityConstant.keyValue
@@ -35,24 +40,27 @@ class AliceEncryptionUtil {
         this.keySpec = keySpec
     }
 
-    fun encryptEncoder(text: String, algorithm: String, options: LinkedHashMap<String, String>?): String {
-        var targetText = text
+    fun encryptEncoder(text: String, algorithm: String): String {
+        var encryptText = text
         if (text.isNotBlank() && algorithm.isNotBlank()) {
             when (algorithm) {
+                AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                    encryptText = BCryptPasswordEncoder().encode(text)
+                }
                 AliceConstants.EncryptionAlgorithm.AES256.value -> {
-                    targetText = enCodeAES256(text)
+                    encryptText = enCodeAES256(text)
                 }
                 AliceConstants.EncryptionAlgorithm.SHA256.value -> {
                     var salt = ""
-                    if (!options.isNullOrEmpty()) {
-                        salt = options["salt"].toString()
+                    if (this.salt.isNotBlank()) {
+                        salt = this.salt
                     }
-                    targetText = enCodeSHA256(text, salt)
+                    encryptText = enCodeSHA256(text, salt)
                 }
             }
         }
 
-        return targetText
+        return encryptText
     }
 
     fun encryptDecoder(text: String, algorithm: String): String {
