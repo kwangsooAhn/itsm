@@ -310,6 +310,7 @@ insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.m
 insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/manual/modal', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/status', 'get', 'sla.manage');
