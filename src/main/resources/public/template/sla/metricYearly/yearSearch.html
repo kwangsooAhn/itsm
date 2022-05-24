@@ -12,12 +12,15 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchYear" name="searchYear"/>
-        <span class="font-bold text-red500" th:text="#{sla.metricYear.msg.totalScore}"></span>
+        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+        <th:block th:each="metric: ${metricYearsList}" th:if="${metric.weightValue}">
+            <span class="font-bold text-red500 pl-1" th:text="#{sla.metricYear.msg.totalScore}"></span>
+        </th:block>
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCopy" name="btnCopy"
-                th:onclick="openCopyModal()" th:text="#{sla.metricYear.btn.copy}"></button>
+                th:onclick="" th:text="#{sla.metricYear.btn.copy}"></button>
         <button type="button" class="z-button primary" onclick="location.href='/sla/metrics/new'"
                 sec:authorize="hasAuthority('sla.manage')" th:text="#{common.btn.add}"></button>
     </div>
@@ -27,23 +30,40 @@
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
-    window.onload = function() {
-        getList();
+    /*<![CDATA[*/
+    const totalWeight = 0;
 
-        zDateTimePicker.initDatePicker(document.getElementById('searchYear'), getList);
+    let yearDt = i18n.getDate();
+
+    window.onload = function() {
+        const yearDtElement = document.getElementById('year');
+        yearDtElement.value = yearDt;
+        zDateTimePicker.initDatePicker(yearDtElement, setDatePicker);
+
+        getList();
     };
 
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') return false;
+        if (document.getElementById('year').value !== '' && element.value !== '') getList();
+    }
+
     /**
-     * SLA 지표관리 검색
+     * 연도별 SLA 지표관리 검색
      */
     function getList(pageNum = 1) {
-        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        aliceJs.fetchText('/sla/metrics?' + urlParam, {
+        let urlParam = '/sla/metrics?year=' + document.getElementById('year').value.toString().substring(0, 4) + '&pageNum=' + pageNum;
+        aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((htmlData) => {
             const listBody = document.getElementById('metricYearList')
             listBody.innerHTML = htmlData;
             setMetricValueFormat(listBody);
+
+            document.querySelectorAll('.weight-value').forEach(elem => {
+                totalWeight += elem.textContent;
+            });
+            alert(totalWeight)
         });
     }
 
@@ -57,78 +77,6 @@
             value.setAttribute('title', userMetricValue);
         });
     }
-
-    /**
-     * 복사해오기 모달 오픈
-     */
-    function openCopyModal(htmldata) {
-        const openCopyModal = new modal({
-            title: i18n.msg('sla.metricYear.label.copy'),
-            body: htmldata,
-            classes: 'sla-metric-yearly-copy-modal',
-            buttons: [
-                {
-                    content: i18n.msg('common.btn.save'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: (modal) => {
-                        this.copyMeric();
-                        modal.hide();
-                    }
-                }, {
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: (modal) => {
-                        modal.hide();
-                    }
-                }
-            ],
-            close: { closable: false },
-            onCreate: function (modal) {
-                aliceJs.initDesignedSelectTag();
-            }
-        });
-        openCopyModal.show();
-    }
-
-    /**
-     * 복사해오기
-     */
-    function copyMeric() {
-        // 저장할 데이터 가져오기
-        const saveData  =  this.form.toJson();
-        saveData.name = document.getElementById('newFormName').value;
-        saveData.desc = document.getElementById('newFormDesc').value;
-        // 저장
-        aliceJs.fetchJson('/rest/forms?saveType=saveas', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(saveData),
-            showProgressbar: true
-        }).then((response) => {
-            switch (response.status) {
-                case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'), () => {
-                        if (window.opener && !window.opener.closed) {
-                            opener.location.reload();
-                        }
-                        window.name = 'form_' + response.data.formId + '_edit';
-                        location.href = '/forms/' + response.data.formId + '/edit';
-                    });
-                    break;
-                case aliceJs.response.duplicate:
-                    zAlert.warning(i18n.msg('form.msg.duplicateName'));
-                    break;
-                case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
-                    break;
-                default :
-                    break;
-            }
-        });
-    }
+    /*]]>*/
 </script>
 </html>
