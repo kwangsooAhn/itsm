@@ -19,6 +19,7 @@ import ZDefaultValueSearchProperty from '../../formDesigner/property/type/zDefau
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
+import { ZSession } from '../../lib/zSession.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -75,6 +76,13 @@ export const organizationSearchMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        const defaultValue = this.elementDefaultValue;
+        // #13189 기본값일 경우 세션 사용되도록 수정
+        if (this.value === '${default}' && defaultValue.type === 'session') {
+            const newElementDefaultValue = JSON.parse(JSON.stringify(defaultValue));
+            newElementDefaultValue.data = `${ZSession.get('department')}|${ZSession.get('departmentName')}`;
+            this.elementDefaultValue = newElementDefaultValue;
+        }
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIInput.setUIReadOnly(true);

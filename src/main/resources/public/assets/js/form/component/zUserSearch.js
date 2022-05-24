@@ -20,6 +20,7 @@ import ZDefaultValueSearchProperty from '../../formDesigner/property/type/zDefau
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
+import { ZSession } from '../../lib/zSession.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -85,9 +86,18 @@ export const userSearchMixin = {
             || zValidation.isEmpty(JSON.parse(this.elementUserSearchTarget).searchKey[0].value);
         // 아래 조건에 모두 해당하는 경우 컴포넌트에 설정된 기본값을 적용합니다.
         // 1. 사용자 검색 조건이 설정되어 있고 | 2. 폼 디자이너가 아닐 경우
-        if (!emptySearchTarget && !zValidation.isEmpty(this.elementDefaultValue.data)
-                && zValidation.isEmpty(document.querySelector('.z-form-main'))) {
-            this.getUserList(this.elementDefaultValue.data.split('|')[2], false);
+        if (!emptySearchTarget && !zValidation.isEmpty(this.elementDefaultValue.data)) {
+            const defaultValue = this.elementDefaultValue;
+            // #13189 기본값일 경우 세션 사용되도록 수정
+            if (this.value === '${default}' && defaultValue.type === 'session') {
+                const newElementDefaultValue = JSON.parse(JSON.stringify(defaultValue));
+                newElementDefaultValue.data = `${ZSession.get('userKey')}|` +
+            `${ZSession.get('userName')}|${ZSession.get('userId')}`;
+                this.elementDefaultValue = newElementDefaultValue;
+            }
+            if (zValidation.isEmpty(document.querySelector('.z-form-main'))) {
+                this.getUserList(this.elementDefaultValue.data.split('|')[2], false);
+            }
         }
 
         // 신청서 양식 편집 화면에 따른 처리
@@ -226,7 +236,7 @@ export const userSearchMixin = {
                     this.getUserList(e.target.value, false);
                 }), false);
                 this.getUserList(document.getElementById('search').value, true);
-                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
             }
         });
 
@@ -256,7 +266,7 @@ export const userSearchMixin = {
             // 사용자 선택 모달 생성
             if (!zValidation.isEmpty(searchUserList)) {
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
                 // 체크 이벤트
