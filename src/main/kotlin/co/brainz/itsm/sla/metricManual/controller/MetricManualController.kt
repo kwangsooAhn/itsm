@@ -18,14 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping
 class MetricManualController(
     private val metricManualService: MetricManualService
 ) {
-    private val manualSearchPage: String = "sla/metric/manual/manualSearch"
-    private val metricManualList: String = "sla/metric/manual/manualList"
+    private val manualSearchPage: String = "sla/metricManual/manualSearch"
+    private val metricManualList: String = "sla/metricManual/manualList"
 
     /**
      * 수동 지표 검색 화면
      */
     @GetMapping("/search")
     fun getMetricManualSearch(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("metricList", metricManualService.getMetricPoolsByManual())
         return manualSearchPage
     }
 
