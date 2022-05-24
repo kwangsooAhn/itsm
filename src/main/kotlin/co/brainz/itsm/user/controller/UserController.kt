@@ -58,12 +58,16 @@ class UserController(
     @Value("\${spring.mail.enabled}")
     private val mailEnabled: Boolean = false
 
+    @Value("\${user.register.enable}")
+    private val userRegisterEnabled: Boolean = true
+
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
      */
     @GetMapping("/search")
     fun getUserSearch(model: Model): String {
         model.addAttribute("categoryList", codeService.selectCodeByParent(AliceUserConstants.PLATFORM_CATEGORY_P_CODE))
+        model.addAttribute("userRegisterEnabled", userRegisterEnabled)
         return userSearchPage
     }
 

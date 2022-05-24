@@ -139,7 +139,7 @@ class UserRestController(
             }
         }
         return when (userSessionRoleCheck) {
-            ZResponseConstants.STATUS.SUCCESS.code -> ZAliceResponse.response(result)
+            ZResponseConstants.STATUS.SUCCESS.code -> ZAliceResponse.response(ZResponse(status = result!!.status))
             else -> ZAliceResponse.response(ZResponse(status = userSessionRoleCheck))
         }
     }
