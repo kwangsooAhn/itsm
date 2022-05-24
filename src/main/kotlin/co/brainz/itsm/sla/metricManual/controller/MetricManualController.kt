@@ -26,6 +26,7 @@ class MetricManualController(
      */
     @GetMapping("/search")
     fun getMetricManualSearch(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("metricList", metricManualService.getMetricPoolsByManual())
         return manualSearchPage
     }
 

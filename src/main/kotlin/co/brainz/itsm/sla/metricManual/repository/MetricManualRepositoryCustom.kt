@@ -8,7 +8,9 @@ package co.brainz.itsm.sla.metricManual.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
+import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 
 interface MetricManualRepositoryCustom : AliceRepositoryCustom {
     fun findMetricManualSearch(manualSearchCondition: MetricManualSearchCondition): PagingReturnDto
+    fun findMetricByMetricType(metricType: String): List<MetricPoolEntity>
 }
