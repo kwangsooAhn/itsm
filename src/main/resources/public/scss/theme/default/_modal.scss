@@ -308,9 +308,10 @@
     }
   }
 
-  // sla > 수동지표관리
-  &.sla-metric-menual-modal {
-    .modal-content { padding: 0.625rem 1.25rem; } // 10px 20px
-
+  // SLA 복사해오기 모달
+  &.sla-metric-yearly-copy-modal {
+    width: 62.5rem; // 1000px
+    padding: 0.625rem 1.25rem; // 10px 20px
+    @include scrollbarHidden;
   }
 }

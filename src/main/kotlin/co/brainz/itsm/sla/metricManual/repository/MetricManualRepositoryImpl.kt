@@ -70,8 +70,8 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
         if (!manualSearchCondition.metricId.isNullOrEmpty()) {
             builder.and(manual.metric.metricId.eq(manualSearchCondition.metricId))
         }
-        builder.and(manual.referenceDate.goe(manualSearchCondition.fromDt))
-        builder.and(manual.referenceDate.lt(manualSearchCondition.toDt))
+        builder.and(manual.referenceDate.goe(manualSearchCondition.formattedFromDt))
+        builder.and(manual.referenceDate.lt(manualSearchCondition.formattedToDt))
         return builder
     }
 

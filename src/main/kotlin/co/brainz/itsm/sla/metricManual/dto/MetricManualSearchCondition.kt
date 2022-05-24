@@ -19,14 +19,13 @@ import java.time.format.DateTimeFormatter
  */
 data class MetricManualSearchCondition(
     val metricId: String? = "",
-    val fromDt: LocalDate? = LocalDate.parse(
-        LocalDate.of(LocalDate.now().year, 1, 1).toString(),
-        DateTimeFormatter.ISO_DATE
-    ),
-    val toDt: LocalDate? = LocalDate.parse(
-        LocalDate.of(LocalDate.now().year, 12, 1).toString(),
-        DateTimeFormatter.ISO_DATE
-    ),
+    val fromDt: String? = null,
+    val toDt: String? = null,
     val pageNum: Long = 1L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
-) : Serializable
+) : Serializable {
+    val formattedFromDt: LocalDate? = LocalDate.parse(
+        fromDt, DateTimeFormatter.ISO_DATE)
+    val formattedToDt: LocalDate? = LocalDate.parse(
+        toDt, DateTimeFormatter.ISO_DATE)
+}
