@@ -1455,7 +1455,7 @@ insert into awf_url values ('/sla/metrics/{id}/{year}/edit', 'get', '년도별 �
 insert into awf_url values ('/sla/metrics/{id}/{year}/view', 'get', '년도별 지표관리 조회 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/manual/search', 'get', '수동 지표관리 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/manual', 'get', '수동 지표관리 목록 화면', 'TRUE');
-insert into awf_url values ('/sla/metrics/manual/modal', 'get', '수동 지표 등록 모달 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/manual/new', 'get', '수동 지표 등록 모달 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/status/search', 'get', '지표별 현황 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/status', 'get', '지표별 현황 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/annual/search', 'get', '년도별 현황 검색 화면', 'TRUE');
@@ -1826,7 +1826,7 @@ insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.m
 insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/manual/modal', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/manual/new', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/status', 'get', 'sla.manage');
