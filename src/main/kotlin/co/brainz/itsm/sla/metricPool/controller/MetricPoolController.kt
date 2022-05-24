@@ -59,8 +59,6 @@ class MetricPoolController(
             "metricCalcTypeList",
             codeService.selectCodeByParent(MetricPoolConstants.METRIC_CALCULATION_TYPE_P_CODE)
         )
-        model.addAttribute("edit", false)
-        model.addAttribute("view", false)
         return metricPoolPage
     }
 
@@ -72,7 +70,6 @@ class MetricPoolController(
         model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_GROUP_P_CODE))
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
         model.addAttribute("edit", true)
-        model.addAttribute("view", false)
         return metricPoolPage
     }
 
@@ -82,7 +79,6 @@ class MetricPoolController(
     @GetMapping("/{metricId}/view")
     fun getMetricView(@PathVariable metricId: String, model: Model): String {
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
-        model.addAttribute("edit", false)
         model.addAttribute("view", true)
         return metricPoolPage
     }
