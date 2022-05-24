@@ -9,43 +9,41 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{sla.metricYear.label.metricYear}"></h1>
-    <h6 class="description ml-2 pl-2"
-        th:text="${view} ? #{sla.metricYear.msg.viewDescription} : #{sla.metricYear.msg.description}"></h6>
+    <h6 class="description ml-2 pl-2" th:text="#{sla.metricYear.msg.description}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <form id="frm" method="post">
         <div class="z-edit-form flex-fill">
             <div class="flex-column z-edit-row">
                 <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
-                <input type="text" class="z-input" id="metricYear" maxlength="100"
-                       th:classappend="${view || edit} ? 'readonly' : ''" value="${metric?.metricYear}"
+                <input type="text" class="z-input" id="metricYear" maxlength="100" value="${metric?.metricYear}"
                        data-validation-required-name="#{sla.metricYear.label.targetYear}">
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
-                <select id="metricYearName" th:classappend="${view || edit} ? 'readonly' : ''">
+                <select id="metricYearName">
                     <option th:each="metricName: ${metricNameList}"
                             th:text="${metricName.codeName}" th:value="${metricName.code}"></option>
                 </select>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
-                <input type="text" class="z-input" id="metricYearGroup" th:value="#{|${metric.metricGroup}|}"
+                <input type="text" class="z-input" id="metricYearGroup"
                        data-validation-required-name="#{sla.metricYear.label.group}" maxlength="128" readonly>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearType" th:text="#{sla.metricYear.label.type}"></label>
-                <input type="text" class="z-input" id="metricYearType" th:value="#{|${metric.metricType}|}"
+                <input type="text" class="z-input" id="metricYearType"
                        data-validation-required-name="#{sla.metricYear.label.type}" maxlength="128" readonly>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearUnit" th:text="#{sla.metricYear.label.unit}"></label>
-                <input type="text" class="z-input" id="metricYearUnit" th:value="#{|${metric.metricUnit}|}"
-                        data-validation-required-name="#{sla.metricYear.label.unit}" maxlength="128" readonly>
+                <input type="text" class="z-input" id="metricYearUnit"
+                       data-validation-required-name="#{sla.metricYear.label.unit}" maxlength="128" readonly>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearCalcType" th:text="#{common.label.calculationType}"></label>
-                <input type="text" class="z-input" id="metricYearCalcType" th:value="#{|${metric.calculationType}|}"
+                <input type="text" class="z-input" id="metricYearCalcType"
                        data-validation-required-name="#{common.label.calculationType}" maxlength="128" readonly>
             </div>
         </div>
@@ -133,73 +131,4 @@
     </form>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
-    /*<![CDATA[ */
-    window.onload = function () {
-        document.getElementById('minValue').focus();
-        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
-    }
-
-    function onSave(method) {
-        if (isEmpty('metricName', 'sla.metric.msg.enterMetricName')) return false;
-        if (isEmpty('metricDesc', 'common.msg.enterContents')) return false;
-        if (isEmpty('metricGroup', 'common.msg.requiredSelect')) return false;
-
-        let data = {
-            metricId: '',
-            metricName: document.getElementById('metricName').value,
-            metricDesc: document.getElementById('metricDesc').value,
-            metricGroup: document.getElementById('metricGroup').value
-        }
-        let url = '/rest/sla/metrics';
-        if (method === 'PUT') {
-            url += '/' + /*[[${metric?.metricId}]]*/'';
-            data.metricId = /*[[${metric?.metricId}]]*/'';
-        }
-
-        aliceJs.fetchJson(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then((response) => {
-            switch (response.status) {
-                case aliceJs.response.success: // 등록 성공
-                    zAlert.success([[#{common.msg.register}]], function () {
-                        window.location.href = '/sla/metrics/search';
-                    });
-                    break;
-                case aliceJs.response.successEdit: // 수정 성공
-                    zAlert.success([[#{common.msg.modify}]], function () {
-                        window.location.href = '/sla/metrics/search';
-                    });
-                    break;
-                case aliceJs.response.duplicate: // 이름 중복
-                    zAlert.warning([[#{sla.metric.msg.duplicateMetricName}]]);
-                    break;
-                case aliceJs.response.error:
-                    zAlert.danger([[#{common.msg.fail}]]);
-                    break;
-                default :
-                    break;
-            }
-        });
-    }
-
-    function onDelete() {
-        zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
-            aliceJs.fetchJson('/rest/sla/metrics/' + [[${metric?.metricId}]], {
-                method: 'DELETE'
-            }).then((response) => {
-                if (response.status === aliceJs.response.success) {
-                    zAlert.success([[#{common.msg.delete}]], function () {
-                        window.location.href = '/sla/metrics/search';
-                    });
-                }
-            });
-        });
-    }
-    /* ]]> */
-</script>
 </html>
