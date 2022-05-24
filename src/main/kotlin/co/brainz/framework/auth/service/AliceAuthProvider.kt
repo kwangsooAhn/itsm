@@ -99,7 +99,7 @@ class AliceAuthProvider(
                 }
             }
             AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
-                encryptPassword = aliceEncryptionUtil.encryptEncoder(targetPassword, algorithm)
+                encryptPassword = aliceEncryptionUtil.encryptEncoder(targetPassword, this.algorithm)
                 if (encryptPassword != userPassword) {
                     throw BadCredentialsException(null)
                 }

@@ -43,7 +43,7 @@ class AliceEncryptionUtil {
     fun encryptEncoder(text: String, algorithm: String): String {
         var encryptText = text
         if (text.isNotBlank() && algorithm.isNotBlank()) {
-            when (algorithm) {
+            when (algorithm.toUpperCase()) {
                 AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
                     encryptText = BCryptPasswordEncoder().encode(text)
                 }
@@ -66,7 +66,7 @@ class AliceEncryptionUtil {
     fun encryptDecoder(text: String, algorithm: String): String {
         var targetText = text
         if (text.isNotBlank() && algorithm.isNotBlank()) {
-            when (algorithm) {
+            when (algorithm.toUpperCase()) {
                 AliceConstants.EncryptionAlgorithm.AES256.value -> {
                     targetText = deCodeAES256(text)
                 }
