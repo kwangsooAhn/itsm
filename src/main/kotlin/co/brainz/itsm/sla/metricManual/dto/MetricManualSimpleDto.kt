@@ -1,8 +1,8 @@
-package co.brainz.itsm.sla.metricPool.dto
+package co.brainz.itsm.sla.metricManual.dto
 
 import java.io.Serializable
 
-data class MetricSelectBoxDto(
+data class MetricManualSimpleDto(
     val metricId: String,
     val metricName: String? = ""
 ) : Serializable

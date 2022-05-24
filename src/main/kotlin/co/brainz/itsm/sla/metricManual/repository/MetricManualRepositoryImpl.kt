@@ -10,9 +10,9 @@ import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricManual.dto.MetricManualDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
+import co.brainz.itsm.sla.metricManual.dto.MetricManualSimpleDto
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.entity.QMetricManualEntity
-import co.brainz.itsm.sla.metricPool.dto.MetricSelectBoxDto
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
@@ -75,10 +75,10 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
         return builder
     }
 
-    override fun findMetricByMetricType(metricType: String): List<MetricSelectBoxDto> {
+    override fun findMetricByMetricType(metricType: String): List<MetricManualSimpleDto> {
         return from(metric)
             .select(Projections.constructor(
-                MetricSelectBoxDto::class.java,
+                MetricManualSimpleDto::class.java,
                 metric.metricId,
                 metric.metricName
             ))

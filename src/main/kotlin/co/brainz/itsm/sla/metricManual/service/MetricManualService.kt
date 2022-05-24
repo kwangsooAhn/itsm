@@ -10,13 +10,13 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.sla.metricManual.constants.MetricManualConstants
 import co.brainz.itsm.sla.metricManual.dto.MetricManualDataDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualListReturnDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
+import co.brainz.itsm.sla.metricManual.dto.MetricManualSimpleDto
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
-import co.brainz.itsm.sla.metricPool.dto.MetricSelectBoxDto
+import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -56,8 +56,8 @@ class MetricManualService(
     /**
      * 수동지표 검색
      */
-    fun getMetricPoolsByManual(): List<MetricSelectBoxDto> {
-        return metricManualRepository.findMetricByMetricType(MetricManualConstants.MetricTypeCode.MANUAL.code)
+    fun getMetricPoolsByManual(): List<MetricManualSimpleDto> {
+        return metricManualRepository.findMetricByMetricType(MetricPoolConstants.MetricTypeCode.MANUAL.code)
     }
 
     /**
@@ -67,7 +67,7 @@ class MetricManualService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val metricEntity = metricPoolRepository.findById(metricManualDataDto.metricId).get()
 
-        if (metricEntity.metricType == MetricManualConstants.MetricTypeCode.MANUAL.code) {
+        if (metricEntity.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
             metricManualRepository.save(
                 MetricManualEntity(
                     metric = metricEntity,
