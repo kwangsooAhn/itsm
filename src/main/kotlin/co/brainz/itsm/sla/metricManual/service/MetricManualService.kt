@@ -18,11 +18,15 @@ import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
+import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.convertValue
 import java.time.LocalDateTime
+import java.time.Year
 import kotlin.math.ceil
 import org.springframework.stereotype.Service
 
@@ -30,7 +34,8 @@ import org.springframework.stereotype.Service
 class MetricManualService(
     private val metricManualRepository: MetricManualRepository,
     private val metricPoolRepository: MetricPoolRepository,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val metricYearRepository: MetricYearRepository
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -94,5 +99,13 @@ class MetricManualService(
         return ZResponse(
             status = status.code
         )
+    }
+
+    fun getMetricManualData(): List<MetricLoadDto> {
+        val metricLoadCondition = MetricLoadCondition(
+            source = Year.now().toString(),
+            type = MetricPoolConstants.MetricTypeCode.MANUAL.code
+        )
+        return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 }
