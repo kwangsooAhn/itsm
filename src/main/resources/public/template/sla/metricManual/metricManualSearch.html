@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/pagingListLayout">
+<head>
+    <title th:text="#{sla.metricManual.label.metricManual}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{sla.metricManual.label.metricManual}"></h1>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <select id="metricId" name="metricId" class="col-3">
+            <option value="" th:text="#{sla.metricManual.label.all}" selected></option>
+            <option th:each="metric: ${metricList}" th:value="${metric.metricId}" th:text="${metric.metricName}"></option>
+        </select>
+        <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
+        <span>~</span>
+        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+        <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button primary" onclick="openManualNewModal()"
+                sec:authorize="hasAuthority('sla.manage')" th:text="#{sla.metricManual.btn.addData}"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="metricManualList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let searchFromDt = i18n.getStartOfDate({ months: -1 }, 'year');
+    let searchToDt = i18n.getEndOfDate({ months: -1 }, 'year');
+
+    window.onload = function() {
+        // initialization date picker
+        const fromDtElement = document.getElementById('fromDt');
+        const searchToDtElement = document.getElementById('searchToDt');
+        fromDtElement.value = searchFromDt;
+        searchToDtElement.value = searchToDt;
+        zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+        zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
+        getList();
+    };
+
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') {
+            return false;
+        }
+        if (element.id === 'fromDt') {
+            const toDtValue = document.getElementById('searchToDt').value;
+            if (toDtValue !== '' && element.value !== '') {
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
+                        document.getElementById('fromDt').value = searchFromDt;
+                        picker.open();
+                    });
+                } else {
+                    getList();
+                }
+            }
+        } else {
+            const fromDtValue = document.getElementById('fromDt').value;
+            if (fromDtValue !== '' && element.value !== '') {
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
+                        document.getElementById('searchToDt').value = searchToDt;
+                        picker.open();
+                    });
+                } else {
+                    getList();
+                }
+            }
+        }
+    }
+
+    /**
+     * 수동지표관리 검색
+     */
+    function getList(pageNum = 1) {
+        let urlParam = '/sla/metrics/manual?metricId=' + ''
+            + '&fromDt=' + document.getElementById('fromDt').value.toString().substring(0, 10)
+            + '&toDt=' + document.getElementById('searchToDt').value.toString().substring(0, 10)
+            + '&pageNum=' + pageNum;
+        aliceJs.fetchText(urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('metricManualList');
+            listBody.innerHTML = htmlData;
+            setDateTimeFormat(listBody);
+            setMetricValueFormat(listBody);
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
+     */
+    function setDateTimeFormat(elem) {
+        elem.querySelectorAll('.date-time').forEach(dt => {
+            const userDateTime = i18n.userDateTime(dt.textContent.trim());
+            dt.textContent = userDateTime;
+            dt.setAttribute('title', userDateTime);
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 지표값 포맷을 변경한다.
+     */
+    function setMetricValueFormat(elem) {
+        elem.querySelectorAll('.metric-value').forEach(value => {
+            const userMetricValue = value.textContent.replace(/.?0+$/, '');
+            value.textContent = userMetricValue;
+            value.setAttribute('title', userMetricValue);
+        });
+    }
+
+    /**
+     * 수동 지표 데이터 추가 모달
+     */
+    function openManualNewModal() {
+        aliceJs.fetchText('/sla/metrics/manual/new', {
+            method: 'GET'
+        }).then((htmlData) => {
+            const metricManualModal = new modal({
+                title: i18n.msg('sla.metricManual.label.newMetricManual'),
+                body: htmlData,
+                classes: 'sla-metric-manual-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.save'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        // onSaveModal();
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function () {
+                    // let referenceDt = i18n.getDate();
+                    // document.getElementById('referenceDate').value = referenceDt;
+                    // zDateTimePicker.initDatePicker(document.getElementById('referenceDate'));
+                    // getMetricYearList();
+                }
+            });
+            metricManualModal.show();
+        });
+    }
+
+    function getMetricYearList() {
+        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('referenceDate').value.toString().substring(0, 10)
+            + '&target=' + ''
+            + '&type=' + 'manual';
+        aliceJs.fetchText(urlParam, {
+            method: 'GET'
+        }).then((option) => {
+            const targetMetric = document.getElementById('targetMetric');
+            const metricNameOption = document.createElement('option');
+            selectOption.value = option.metricId;
+            selectOption.text = option.metricName;
+            targetMetric.appendChild(metricNameOption);
+        });
+    }
+
+    function onSaveModal() {
+        const data = {
+            metricId: /*[[${metric?.metricId}]]*/'',
+            referenceDate: document.getElementById('referenceDate').value,
+            metricValue: document.getElementById('metricValue').value
+        };
+
+        aliceJs.fetchJson('/sla/metrics/manual/new', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success: // 등록 성공
+                    zAlert.success([[#{common.msg.register}]], function () {
+                        window.location.href = '/sla/metrics/manual/search';
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger([[#{common.msg.fail}]]);
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    function onDelete(metricManualId) {
+        let url = '';
+        url = '/rest/sla/metrics/manual/' + metricManualId;
+
+        zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
+            aliceJs.fetchJson(url, {
+                method: 'DELETE'
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success([[#{common.msg.delete}]], function () {
+                        window.location.href = '/sla/metrics/manual/search';
+                    });
+                }
+            });
+        });
+    }
+    /*]]>*/
+</script>
+</html>
