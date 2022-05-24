@@ -17,41 +17,43 @@
         <div class="z-edit-form flex-fill">
             <div class="flex-column z-edit-row">
                 <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
-                <input type="text" class="z-input" id="metricYear" maxlength="100"  th:classappend="${view || edit} ? 'readonly' : ''"
-                       value="${metric?.metricYear}" data-validation-required-name="대상 년도">
+                <input type="text" class="z-input" id="metricYear" maxlength="100"
+                       th:classappend="${view || edit} ? 'readonly' : ''" value="${metric?.metricYear}"
+                       data-validation-required-name="#{sla.metricYear.label.targetYear}">
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
                 <select id="metricYearName" th:classappend="${view || edit} ? 'readonly' : ''">
-                    <option th:each="metricName: ${metricNameList}" th:text="${metricName.codeName}" th:value="${metricName.code}"></option>
+                    <option th:each="metricName: ${metricNameList}"
+                            th:text="${metricName.codeName}" th:value="${metricName.code}"></option>
                 </select>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
-                <input type="text" class="z-input" id="metricYearGroup" maxlength="128"
-                       th:value="#{|${metric.metricGroup}|}" data-validation-required-name="그룹" readonly>
+                <input type="text" class="z-input" id="metricYearGroup" th:value="#{|${metric.metricGroup}|}"
+                       data-validation-required-name="#{sla.metricYear.label.group}" maxlength="128" readonly>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearType" th:text="#{sla.metricYear.label.type}"></label>
-                <input type="text" class="z-input" id="metricYearType" maxlength="128"
-                       th:value="#{|${metric.metricType}|}" data-validation-required-name="타입" readonly>
+                <input type="text" class="z-input" id="metricYearType" th:value="#{|${metric.metricType}|}"
+                       data-validation-required-name="#{sla.metricYear.label.type}" maxlength="128" readonly>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearUnit" th:text="#{sla.metricYear.label.unit}"></label>
-                <input type="text" class="z-input" id="metricYearUnit" maxlength="128"
-                       th:value="#{|${metric.metricUnit}|}" data-validation-required-name="단위" readonly>
+                <input type="text" class="z-input" id="metricYearUnit" th:value="#{|${metric.metricUnit}|}"
+                        data-validation-required-name="#{sla.metricYear.label.unit}" maxlength="128" readonly>
             </div>
             <div class="flex-column z-edit-row">
                 <label for="metricYearCalcType" th:text="#{common.label.calculationType}"></label>
-                <input type="text" class="z-input" id="metricYearCalcType" maxlength="128"
-                       th:value="#{|${metric.calculationType}|}" data-validation-required-name="계산방식" readonly>
+                <input type="text" class="z-input" id="metricYearCalcType" th:value="#{|${metric.calculationType}|}"
+                       data-validation-required-name="#{common.label.calculationType}" maxlength="128" readonly>
             </div>
         </div>
         <div class="z-edit-form flex-fill">
             <div class="flex-column z-edit-row">
                 <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
-                <input type="text" class="z-input" id="metricYearDesc"
-                       value="${metric?.metricDesc}" data-validation-required-name="설명" readonly>
+                <input type="text" class="z-input" id="metricYearDesc" value="${metric?.metricDesc}"
+                       data-validation-required-name="#{sla.metricYear.label.description}" readonly>
             </div>
         </div>
         <div class="z-edit-form flex-fill">
@@ -108,8 +110,8 @@
                 </div>
                 <div class="horizontal-bar"></div>
                 <p th:text="#{sla.metricYear.msg.zqlDescription}"></p>
-                <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"
-                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}" th:readonly="${view}"/>
+                <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"  th:readonly="${view}"
+                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
                 <div class="z-button-list">
@@ -133,7 +135,7 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById('minValue').focus();
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
     }
