@@ -260,7 +260,7 @@ calendar:
     dayOfMonth: "Monthly on the {0}"
     dayOfMonthType:
       first: "first"
-      seconde: "second"
+      second: "second"
       third: "third"
       fourth: "fourth"
       last: "last"

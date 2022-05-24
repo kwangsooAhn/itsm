@@ -260,7 +260,7 @@ calendar:
     dayOfMonth: "매월 {0}"
     dayOfMonthType:
       first: "첫 번째"
-      seconde: "두 번째"
+      second: "두 번째"
       third: "세 번째"
       fourth: "네 번째"
       last: "마지막"

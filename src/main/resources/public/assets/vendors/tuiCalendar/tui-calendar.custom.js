@@ -13,30 +13,33 @@
  */
 const CALENDAR_DEFAULT_OPTIONS = {
     isReadOnly: false, // 사용자 일정 편집 불가능하게 할 경우 true 로 설정한다.
-    renderRange: null,
+    viewType: 'month', // 달력 타입 (월, 주, 일, 일정 리스트)
     fontColor: '#ffffff', // 스케쥴 폰트 색상 (우선 하얀색으로 통일)
     // 캘린더 종류가 여러개일때 색상을 다르게 표현 가능
     colors: ['#339AF0', '#76BD26', '#a95eeb', '#6885F7', '#FF850A', '#316D0C', '#F763C1', '#BDBDBD'],
-    calendars: [], // 캘린더 목록
-    // 일, 월, 화, 수, 목, 금, 토
+    // 월, 화, 수, 목, 금, 토, 일
     weekDays: [
-        i18n.msg('calendar.label.sunday'),
         i18n.msg('calendar.label.monday'),
         i18n.msg('calendar.label.tuesday'),
         i18n.msg('calendar.label.wednesday'),
         i18n.msg('calendar.label.thursday'),
         i18n.msg('calendar.label.friday'),
-        i18n.msg('calendar.label.saturday')
+        i18n.msg('calendar.label.saturday'),
+        i18n.msg('calendar.label.sunday')
     ],
     // 반복 안함, 매월 X번째 X요일, 매주 X요일
     repeatTypes: ['dayOfMonth', 'weekOfMonth'],
-    dayOfMonthType: ['', 'first', 'seconde', 'third', 'fourth', 'last'],
-    scheduleList: [] // 일정 목록
+    dayOfMonthType: ['', 'first', 'second', 'third', 'fourth', 'last']
 };
 
 function zCalendar(target, options) {
     this.calendarView = target.querySelector('#calendarView'); // 월, 주, 일 보기
     this.taskView = target.querySelector('#taskView'); // 일정 보기
+    this.renderRange = target.querySelector('#renderRangeText'); // 달력 문구
+
+    this.calendarList = []; // 캘린더 목록
+    this.scheduleList = []; // 일정 목록
+
     this.options = Object.assign({}, CALENDAR_DEFAULT_OPTIONS, options);
     
     // 스케쥴 등록|수정 모달
@@ -98,7 +101,8 @@ function zCalendar(target, options) {
                 this.setCreateModal(schedule);
 
                 // 모달 위치 조정
-                this.setModalPosition(this.createModal.wrapper, modal.customOptions.event.target);
+                this.setModalPosition(this.createModal.wrapper, modal.customOptions.event.target,
+                    this.calendar._layout.container);
 
                 // 기존 모달 닫고 편집 모달 띄우기
                 modal.hide();
@@ -187,7 +191,7 @@ function zCalendar(target, options) {
             const boxElement = Object.keys(e.guide.guideElements).length ?
                 e.guide.guideElements[Object.keys(e.guide.guideElements)[0]] : null;
             if (boxElement) {
-                this.setModalPosition(this.createModal.wrapper, boxElement);
+                this.setModalPosition(this.createModal.wrapper, boxElement, this.calendar._layout.container);
             }
 
             // 모달 표시
@@ -214,7 +218,7 @@ function zCalendar(target, options) {
             this.detailModal.customOptions = e;
             this.setDetailModal(e.schedule);
             // 모달 위치 조정
-            this.setModalPosition(this.detailModal.wrapper, e.event.target);
+            this.setModalPosition(this.detailModal.wrapper, e.event.target, this.calendar._layout.container);
             // 모달 표시
             this.detailModal.show();
         }
@@ -234,7 +238,8 @@ Object.assign(zCalendar.prototype, {
      *  ]
      */
     setCalendars: function (dataList) {
-        const calendars = dataList.reduce((result, data, idx) => {
+        this.calendarList.length = 0;
+        this.calendarList = dataList.reduce((result, data, idx) => {
             const mainColor = this.options.colors[idx];
             result.push({
                 id: data.calendarId,
@@ -246,12 +251,11 @@ Object.assign(zCalendar.prototype, {
             });
             return result;
         }, []);
-        this.calendar.setCalendars(calendars);
+
+        this.calendar.setCalendars(this.calendarList);
         // TODO: 사용자별 일정 등록 기능 추가시 보이도록 처리하여 사용한다.
-        // 캘린더 등록|수정 모달 변경
-        this.options.calendars = calendars;
         const calendarList = this.createModal.wrapper.querySelector('#calendarList');
-        const calendarOptionTemplate = this.options.calendars.map((opt, idx) => {
+        const calendarOptionTemplate = this.calendarList.map((opt, idx) => {
             return `<option value="${opt.id}" ${idx === 0 ? 'selected=\'true\'' : ''}>${opt.name}</option>`;
         });
         calendarList.innerHTML = '';
@@ -263,9 +267,15 @@ Object.assign(zCalendar.prototype, {
      * @param {type} 타입 - month|day|week|task
      */
     setCalendarType: function (type, callback) {
+        this.options.viewType = type;
         if (type === 'task') {
+            this.calendarView.classList.remove('on');
+            this.taskView.classList.add('on');
             this.calendar.changeView('month', true);
+            this.setTaskView();
         } else {
+            this.calendarView.classList.add('on');
+            this.taskView.classList.remove('on');
             this.calendar.changeView(type, true);
         }
         this.setRenderRangeText();
@@ -275,10 +285,34 @@ Object.assign(zCalendar.prototype, {
         }
     },
     /**
+     * 일정 목록 만들기 - 달력만 grid로 생성
+     */
+    setTaskView: function () {
+        this.taskView.innerHTML = '';
+        const start = luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).setZone(i18n.timezone);
+        // 현재 월의 날짜
+        const daysInMonth = start.daysInMonth;
+        const startOfMonth = new Date(start.toJSDate().setDate(1));
+        const firstWeekDay = startOfMonth.getDay(); // 0: Sun ~ 6: Sat
+
+        let taskViewTemplate = ``;
+        for (let i = 0; i < daysInMonth; i++) {
+            const weekDay = ( Number(firstWeekDay) + i ) % 7;
+            const rowContentTemplate = `<div class="calendar__rowHead">
+                <span class="calendar__day">${i + 1}</span>
+                <span class="calendar__weekDay">${this.options.weekDays[weekDay]}</span>
+            </div>
+            <div class="calendar__row" data-day="${i + 1}"></div>`.trim();
+
+            taskViewTemplate += `<div class="calendar__rowGroup">${rowContentTemplate}</div>`;
+        }
+        this.taskView.insertAdjacentHTML('beforeend', taskViewTemplate);
+    },
+    /**
      * 상단 메뉴 현재 날짜 표시
      */
     setRenderRangeText: function () {
-        if (!this.options.renderRange) {
+        if (!this.renderRange) {
             return false;
         }
         const options = this.calendar.getOptions();
@@ -298,7 +332,7 @@ Object.assign(zCalendar.prototype, {
             html.push(luxon.DateTime.fromMillis(
                 this.calendar.getDateRangeEnd().getTime()).toFormat(i18n.dateFormat));
         }
-        this.options.renderRange.innerHTML = html.join('');
+        this.renderRange.innerHTML = html.join('');
     },
     /**
      * 날짜 선택시 반복 일정 옵션 변경 - Designed Selectbox에 맞춰져 있음
@@ -309,11 +343,11 @@ Object.assign(zCalendar.prototype, {
         if (!target) { return false; }
 
         const parent = target.parentNode.parentNode;
-        const start = luxon.DateTime.fromMillis(schedule.tempStart).setZone(i18n.timezone).toJSDate();
-        const selectedWeekNumber = start.getDay();
-        const selectedDayOfMonthNumber = this.getWeekNumberOfMonth(start); // 매월 X번째
+        const start = luxon.DateTime.fromMillis(schedule.tempStart).setZone(i18n.timezone);
+        const selectedWeekNumber = start.weekday;
+        const selectedDayOfMonthNumber = this.getWeekNumberOfMonth(start.toJSDate()); // 매월 X번째
 
-        // 일요일 0, 월요일 1, 화요일 2... / 3번쨰주 일요일 = 3_0
+        // 월요일 1, 화요일 2... 일요일 7  =  3번쨰주 일요일 = 3_7
         const getRepeatTypeOptionValue = function (type) {
             switch (type) {
                 case 'none':
@@ -407,13 +441,13 @@ Object.assign(zCalendar.prototype, {
         }
     },
     /**
-     * 스케쥴 등록|수정|상세보기 모달 위치 조정
+     * TODO: 스케쥴 등록|수정|상세보기 모달 위치 조정
      * @param {modal} 모달
      * @param {guide} 선택된 캘린더의 날짜 rect
      */
-    setModalPosition: function (modal, guide) {
+    setModalPosition: function (modal, guide, layout) {
         const guideBound = guide.getBoundingClientRect(),
-            containerBound = this.calendar._layout.container.getBoundingClientRect(),
+            containerBound = layout.getBoundingClientRect(),
             modalSize = { width: modal.offsetWidth, height: modal.offsetHeight },
             guideHorizontalCenter = (guideBound.left + guideBound.right) / 2,
             margin = 3;
@@ -457,9 +491,10 @@ Object.assign(zCalendar.prototype, {
         // 날짜
         const rangeDate = this.detailModal.wrapper.querySelector('#detailRangeDate');
         const format = schedule.isAllDay ? i18n.dateFormat : i18n.dateTimeFormat; // 날짜 포맷
+        const start = luxon.DateTime.fromMillis(schedule.start.getTime()).setZone(i18n.timezone);
         // 종일 : 2022-05-20
         let rangeDateHtml = [];
-        rangeDateHtml.push(luxon.DateTime.fromMillis(schedule.start.getTime()).setZone(i18n.timezone).toFormat(format));
+        rangeDateHtml.push(start.toFormat(format));
         // 종일X : 2022-05-20 13:00 ~ 14:00
         if (!schedule.isAllDay) {
             rangeDateHtml.push(' ~ ');
@@ -472,10 +507,9 @@ Object.assign(zCalendar.prototype, {
             rangeDateHtml.push('<br/>');
             rangeDateHtml.push('( ');
 
-            const weekNumber = schedule.start.toDate().getDay();
-            const start = luxon.DateTime.fromMillis(schedule.start.getTime()).setZone(i18n.timezone).toJSDate();
-            const dayOfMonthNumber = this.getWeekNumberOfMonth(start);
-            rangeDateHtml.push(this.getRepeatTypeOptionText(schedule.raw.repeatType, weekNumber, dayOfMonthNumber));
+            console.log(start.weekday);
+            const dayOfMonthNumber = this.getWeekNumberOfMonth(start.toJSDate());
+            rangeDateHtml.push(this.getRepeatTypeOptionText(schedule.raw.repeatType, start.weekday, dayOfMonthNumber));
             rangeDateHtml.push(' )');
         }
         rangeDate.innerHTML = rangeDateHtml.join('');
@@ -505,11 +539,11 @@ Object.assign(zCalendar.prototype, {
     /**
      * 매월 X번째 X요일, 매주 X요일 문구 반환
      * @param {type} dayOfMonth | weekOfMonth
-     * @param {weekNumber} 0 - 일 , 1 - 월 ...
+     * @param {weekNumber} 1 - 월 ... 7 - 일
      * @param {dayOfMonthNumber} 매월 몇번째인지를 가리키는 숫자
      */
     getRepeatTypeOptionText: function (type, weekNumber, dayOfMonthNumber) {
-        const selectedWeek = this.options.weekDays[weekNumber]; // X요일
+        const selectedWeek = this.options.weekDays[weekNumber - 1]; // X요일
         const selectedDayOfMonth = this.options.dayOfMonthType[dayOfMonthNumber];
 
         switch (type) {
@@ -561,7 +595,7 @@ Object.assign(zCalendar.prototype, {
     getDetailModalTemplate: function () {
         return `<div class="calendar__modal--detail__main flex-column">
             <div class="calendar__modal--detail__title flex-row">
-                <span class="calendar-color-round" id="detailScheduleIcon" style="background-color: transparent">
+                <span class="calendar__color--round" id="detailScheduleIcon" style="background-color: transparent">
                 </span>
                 <span id="detailScheduleTitle"></span>
             </div>
@@ -593,17 +627,53 @@ Object.assign(zCalendar.prototype, {
         </div>`.trim();
     },
     /**
+     * 일정보기 템플릿
+     * @param {schedule} schedule - schedule
+     */
+    getTaskViewCellTemplate: function (schedule) {
+        const calendar = this.calendarList.find((item) => item.id ===schedule.calendarId);
+        let rangeDateHtml = [];
+        if (schedule.isAllDay) {
+            rangeDateHtml.push(i18n.msg('calendar.label.allDay'));
+        } else {
+            // 시간 추출
+            rangeDateHtml.push(
+                luxon.DateTime.fromMillis(schedule.start.getTime()).setZone(i18n.timezone).toFormat(i18n.timeFormat)
+            );
+            rangeDateHtml.push(' ~ ');
+            rangeDateHtml.push(
+                luxon.DateTime.fromMillis(schedule.end.getTime()).setZone(i18n.timezone).toFormat(i18n.timeFormat)
+            );
+        }
+        // 템플릿 반환
+        return `<div class="calendar__cell" data-calendarId="${schedule.calendarId}" data-scheduleId="${schedule.id}">
+            <span class="calendar__color--round" style="background-color: ${calendar.bgColor}"></span>
+            <span>${rangeDateHtml.join('')}</span>
+            <span>${schedule.title}</span>
+        </div>`.trim();
+    },
+    /**
      * 시작 시간을 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      */
     getFromSystemDateTime: function () {
-        return luxon.DateTime.fromMillis(this.calendar.getDateRangeStart().getTime()).setZone('utc+0').toISO();
+        if (this.options.viewType === 'task') {
+            return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).startOf('month')
+                .setZone('utc+0').toISO();
+        } else {
+            return luxon.DateTime.fromMillis(this.calendar.getDateRangeStart().getTime()).setZone('utc+0').toISO();
+        }
     },
     /**
      * 시작 시간을 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      */
     getToSystemDateTime: function () {
-        return luxon.DateTime.fromMillis(this.calendar.getDateRangeEnd().getTime()).endOf('day')
-            .setZone('utc+0').toISO();
+        if (this.options.viewType === 'task') {
+            return luxon.DateTime.fromMillis(this.calendar.getDate().getTime()).endOf('month')
+                .setZone('utc+0').toISO();
+        } else {
+            return luxon.DateTime.fromMillis(this.calendar.getDateRangeEnd().getTime()).endOf('day')
+                .setZone('utc+0').toISO();
+        }
     },
     /**
      * 몇 주차인지 가져오기
@@ -628,17 +698,53 @@ Object.assign(zCalendar.prototype, {
      * @param {schedule} schedule - schedule
      */
     addSchedule: function (type, schedules) {
-        this.options.scheduleList = JSON.parse(JSON.stringify(schedules));
+        // 캘린더 표시
         this.calendar.createSchedules(schedules);
-        // TODO: 커스텀 목록 만들기 - 월 단위로 일정 목록 표시
+        this.scheduleList = schedules;
+        //월 단위로 일정 목록 표시
+        if (this.options.viewType === 'task') {
+            // 정렬
+            this.scheduleList.sort((a, b) => {
+                return (a.start.getTime() > b.start.getTime()) ? 1 : (a.start.getTime() === b.start.getTime()) ?
+                    ((a.isAllDay > a.isAllDay) ? 1 : -1) : -1;
+            });
+            this.taskView.querySelectorAll('.calendar__row').forEach((row) => {
+                const dayNumber = Number(row.getAttribute('data-day'));
+                this.scheduleList.forEach((schedule) => {
+                    if (dayNumber === schedule.start.getDate()) {
+                        row.insertAdjacentHTML('beforeend', this.getTaskViewCellTemplate(schedule));
+                    }
+                });
+            });
+            // 셀 클릭이벤트 추가 - 상세 모달 호출
+            this.taskView.querySelectorAll('.calendar__cell').forEach((cell) => {
+                cell.addEventListener('click', (e) => {
+                    const elem = aliceJs.clickInsideElement(e, 'calendar__cell');
+                    const scheduleId = elem.getAttribute('data-scheduleId');
+                    const calendarId = elem.getAttribute('data-calendarId');
+                    const schedule = this.calendar.getSchedule(scheduleId, calendarId);
+                    if (schedule) {
+                        this.setDetailModal(schedule);
+                        // 모달 위치 조정
+                        this.setModalPosition(this.detailModal.wrapper, elem.querySelector('.calendar__color--round'),
+                            this.taskView);
+                        // 모달 표시
+                        this.detailModal.show();
+                    }
+                }, false);
+            });
+
+        }
     },
     /**
      * 캘린더에 등록된 모든 일정을 지운다.
      */
     clear:  function () {
-        this.options.scheduleList.length = 0;
-        this.options.calendars.length = 0;
+        this.scheduleList.length = 0;
         this.calendar.clear();
+        if (this.options.viewType === 'task') {
+            this.setTaskView();
+        }
     },
     /**
      * 메뉴 선택에 따른 처리
@@ -658,6 +764,10 @@ Object.assign(zCalendar.prototype, {
                 break;
             default:
                 break;
+        }
+        // 일정 보기일 경우 목록 변경
+        if (this.options.viewType === 'task') {
+            this.setTaskView();
         }
 
         this.setRenderRangeText();
@@ -765,16 +875,16 @@ Object.assign(zCalendar.prototype, {
         const raw = ( schedule.mode === 'edit' && schedule.raw !== null) ? schedule.raw : {};
         const repeatId = Object.prototype.hasOwnProperty.call(raw, 'repeatId') ? raw.repeatId : '';
         const repeatType = this.createModal.wrapper.querySelector('#repeatType');
-        const start = luxon.DateTime.fromMillis(schedule.tempStart, {zone: i18n.timezone})
-            .setZone('utc+0').toISO();
-        const end = luxon.DateTime.fromMillis(schedule.tempEnd, {zone: i18n.timezone})
-            .setZone('utc+0').toISO();
+        const start = luxon.DateTime.fromMillis(schedule.tempStart, {zone: i18n.timezone});
+        const end = luxon.DateTime.fromMillis(schedule.tempEnd, {zone: i18n.timezone});
         const saveData = {
             index: Object.prototype.hasOwnProperty.call(raw, 'repeatSeq') ? raw.repeatSeq : 1,
             title: this.createModal.wrapper.querySelector('#scheduleTitle').value,
             contents: this.createModal.wrapper.querySelector('#scheduleContents').value,
-            startDt: start,
-            endDt: end,
+            startDt: (schedule.isAllDay) ? start.startOf('day').setZone('utc+0').toISO() :
+                start.setZone('utc+0').toISO(),
+            endDt: (schedule.isAllDay) ? end.endOf('day').setZone('utc+0').toISO() :
+                end.setZone('utc+0').toISO(),
             allDayYn: schedule.isAllDay,
             repeatYn: repeatYn,
             repeatType: repeatYn ?  repeatType.options[repeatType.selectedIndex].value : '',
@@ -890,7 +1000,6 @@ Object.assign(zCalendar.prototype, {
         console.log('method', method);
         console.log('url', url);
         console.log('data', data);
-        //return false;
 
         const resultMsg = function () {
             switch (method) {
