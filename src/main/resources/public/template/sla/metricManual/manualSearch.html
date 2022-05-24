@@ -12,9 +12,9 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <select id="metricName" name="metricName" class="col-3">
+        <select id="metricId" name="metricId" class="col-3">
             <option value="" th:text="#{sla.metricManual.label.all}" selected></option>
-            <option th:each="metric: ${metricManualList}" th:value="${metric.metricId}" th:text="${metric.metricName}"></option>
+            <option th:each="metric: ${metricList}" th:value="${metric.metricId}" th:text="${metric.metricName}"></option>
         </select>
         <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
         <span>~</span>
@@ -35,7 +35,6 @@
     /*<![CDATA[*/
     let searchFromDt = i18n.getStartOfDate({ months: -1 }, 'year');
     let searchToDt = i18n.getEndOfDate({ months: -1 }, 'year');
-    const metricId = [[${metric?.metricId}]];
 
     window.onload = function() {
         // initialization date picker
@@ -83,9 +82,7 @@
      * 수동지표관리 검색
      */
     function getList(pageNum = 1) {
-        document.getElementById('toDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
-
-        let urlParam = '/sla/metrics/manual?metricId=' + metricId
+        let urlParam = '/sla/metrics/manual?metricId=' + ''
             + '&fromDt=' + document.getElementById('fromDt').value.toString().substring(0, 10)
             + '&toDt=' + document.getElementById('searchToDt').value.toString().substring(0, 10)
             + '&pageNum=' + pageNum;
