@@ -89,8 +89,6 @@ class AliceAuthProvider(
     }
 
     private fun validatePassword(targetPassword: String, userPassword: String) {
-        val encryptPassword: String
-
         when (this.algorithm.toUpperCase()) {
             AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
                 val bcryptPasswordEncoder = BCryptPasswordEncoder()
@@ -99,7 +97,7 @@ class AliceAuthProvider(
                 }
             }
             AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
-                encryptPassword = aliceEncryptionUtil.encryptEncoder(targetPassword, this.algorithm)
+                val encryptPassword = aliceEncryptionUtil.encryptEncoder(targetPassword, this.algorithm)
                 if (encryptPassword != userPassword) {
                     throw BadCredentialsException(null)
                 }

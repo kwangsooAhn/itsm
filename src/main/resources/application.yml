@@ -145,7 +145,7 @@ user.register.enable: true
 # Encryption Algorithm
 # bcrypt, aes256, sha256
 encryption:
-  algorithm: aes256
+  algorithm: bcrypt
   option:
     salt:
 

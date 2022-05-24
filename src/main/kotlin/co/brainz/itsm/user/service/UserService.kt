@@ -578,12 +578,29 @@ class UserService(
         val rawNowPassword = aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.nowPassword!!)
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
 
-        if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) { // 현재 비밀번호가 틀릴 경우
-            status = ZResponseConstants.STATUS.ERROR_FAIL
-        }
+        when (this.algorithm.toUpperCase()) {
+            AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+                if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) {
+                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                }
+            }
+            AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                val encryptNowPassword = aliceEncryptionUtil.encryptEncoder(rawNowPassword, this.algorithm)
+                val encryptNewPassword = aliceEncryptionUtil.encryptEncoder(rawNewPassword, this.algorithm)
 
-        if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) { // 새 비밀번호가 현재 비밀번호와 같을 경우
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                if (encryptNowPassword != userEntity.password) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+                if (encryptNewPassword == userEntity.password) {
+                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                }
+            }
+            else -> {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
+            }
         }
 
         userEntity.password =
@@ -841,8 +858,21 @@ class UserService(
         val password = aliceCryptoRsa.decrypt(privateKey, data.getValue("password") as String)
         val userEntity = this.selectUserKey(currentSessionUser.getUserKey())
 
-        if (!BCryptPasswordEncoder().matches(password, userEntity.password)) {
-            status = ZResponseConstants.STATUS.ERROR_FAIL
+        when (this.algorithm.toUpperCase()) {
+            AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                if (!BCryptPasswordEncoder().matches(password, userEntity.password)) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+            }
+            AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                val encryptPassword = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
+                if (encryptPassword != userEntity.password) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+            }
+            else -> {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
+            }
         }
 
         return ZResponse(
