@@ -20,24 +20,24 @@
                     <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
                     <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="metricYear" name="metricYear"/>
                 </div>
-                <div class="flex-column col-2">
+                <div class="flex-column col-3 pl-3">
                     <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
                     <select id="metricYearName"></select>
                 </div>
-                <div class="flex-column col-2">
+                <div class="flex-column col-2 pl-3">
                     <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
                     <input type="text" class="z-input" id="metricYearGroup" value="" maxlength="128" readonly>
                 </div>
-                <div class="flex-column col-1">
+                <div class="flex-column col-1 pl-3">
                     <label for="metricYearType" th:text="#{sla.metricYear.label.type}"></label>
                     <input type="text" class="z-input" id="metricYearType"
                            data-validation-required-name="#{sla.metricYear.label.type}" maxlength="128" readonly>
                 </div>
-                <div class="flex-column col-1">
+                <div class="flex-column col-1 pl-3">
                     <label for="metricYearUnit" th:text="#{sla.metricYear.label.unit}"></label>
                     <input type="text" class="z-input" id="metricYearUnit" name="metricYearUnit" maxlength="128" readonly/>
                 </div>
-                <div class="flex-column col-2">
+                <div class="flex-column col-2 pl-3">
                     <label for="metricYearCalcType" th:text="#{common.label.calculationType}"></label>
                     <input type="text" class="z-input" id="metricYearCalcType"
                            data-validation-required-name="#{common.label.calculationType}" maxlength="128" readonly>
@@ -155,11 +155,17 @@
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((response) => {
-            //document.getElementById('metricYearGroup').value = response.metricGroupName;
-            document.getElementById('metricYearType').value = response.metricType;
-            document.getElementById('metricYearUnit').value = response.metricUnit;
-
-            console.log(response)
+            let responseJson = JSON.parse(response);
+            //document.getElementById('metricYearGroup').value = responseJson.data[0].metricGroupName
+            const metricList = responseJson.data;
+            const selectTag = document.getElementById('metricYearName');
+            for (let i = 0; i < metricList.length; i++) {
+                const selectOption = document.createElement('option');
+                selectOption.value = metricList[i].metricId;
+                selectOption.text = metricList[i].metricName;
+                selectTag.appendChild(selectOption);
+            }
+            aliceJs.initDesignedSelectTag();
         });
     }
 
