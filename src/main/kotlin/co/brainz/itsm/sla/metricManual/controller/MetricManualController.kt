@@ -20,6 +20,7 @@ class MetricManualController(
 ) {
     private val manualSearchPage: String = "sla/metricManual/manualSearch"
     private val metricManualList: String = "sla/metricManual/manualList"
+    private val metricManualModal: String = "sla/metricManual/manualNewModal"
 
     /**
      * 수동 지표 검색 화면
@@ -38,5 +39,14 @@ class MetricManualController(
         model.addAttribute("metricManualList", result.data)
         model.addAttribute("paging", result.paging)
         return metricManualList
+    }
+
+    /**
+     * 수동 지표 등록 모달 화면
+     */
+    @GetMapping("/modal")
+    fun getMetricManualModalPage(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("metricList", metricManualService.getMetricManualData())
+        return metricManualModal
     }
 }
