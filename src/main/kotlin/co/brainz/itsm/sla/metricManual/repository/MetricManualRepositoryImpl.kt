@@ -12,7 +12,7 @@ import co.brainz.itsm.sla.metricManual.dto.MetricManualDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.entity.QMetricManualEntity
-import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
+import co.brainz.itsm.sla.metricPool.dto.MetricSelectBoxDto
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
@@ -75,9 +75,13 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
         return builder
     }
 
-    override fun findMetricByMetricType(metricType: String): List<MetricPoolEntity> {
+    override fun findMetricByMetricType(metricType: String): List<MetricSelectBoxDto> {
         return from(metric)
-            .select(metric)
+            .select(Projections.constructor(
+                MetricSelectBoxDto::class.java,
+                metric.metricId,
+                metric.metricName
+            ))
             .where(metric.metricType.eq(metricType))
             .fetch()
     }

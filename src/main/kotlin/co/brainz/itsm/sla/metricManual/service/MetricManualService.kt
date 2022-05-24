@@ -16,7 +16,7 @@ import co.brainz.itsm.sla.metricManual.dto.MetricManualListReturnDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
-import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
+import co.brainz.itsm.sla.metricPool.dto.MetricSelectBoxDto
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -52,7 +52,7 @@ class MetricManualService(
     /**
      * 수동지표 검색
      */
-    fun getMetricPoolsByManual(): List<MetricPoolEntity> {
+    fun getMetricPoolsByManual(): List<MetricSelectBoxDto> {
         return metricManualRepository.findMetricByMetricType(MetricManualConstants.MetricTypeCode.MANUAL.code)
     }
 

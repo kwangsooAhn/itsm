@@ -4,6 +4,5 @@ import java.io.Serializable
 
 data class MetricSelectBoxDto(
     val metricId: String,
-    val metricName: String? = "",
-    val metricType: String? = ""
-):Serializable
+    val metricName: String? = ""
+) : Serializable
