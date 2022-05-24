@@ -999,7 +999,7 @@ Object.assign(zCalendar.prototype, {
         console.log('method', method);
         console.log('url', url);
         console.log('data', data);
-        return false;
+
         const resultMsg = function () {
             switch (method) {
                 case 'POST':
