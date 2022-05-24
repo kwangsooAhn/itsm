@@ -28,10 +28,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
 import javax.transaction.Transactional
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -63,9 +59,10 @@ class CalendarService(
     fun getCalendars(calendarRequest: CalendarRequest): CalendarResponse {
         val calendars =
             calendarRepository.findCalendarsInOwner(calendarRequest.calendarIds.toSet(), currentSessionUser.getUserKey())
-
-        // from, to 구하기
-        val range = this.getRange(calendarRequest)
+        val range = Range(
+            from = calendarRequest.from,
+            to = calendarRequest.to
+        )
         val calendarList = mutableListOf<CalendarData>()
         calendars.forEach { calendar ->
             // 일반 스케줄
@@ -244,52 +241,5 @@ class CalendarService(
         return ZResponse(
             status = status.code
         )
-    }
-
-    /**
-     * 일정 범위 설정
-     */
-    private fun getRange(calendarRequest: CalendarRequest): Range {
-        val range = Range()
-        val cal = Calendar.getInstance()
-        cal.set(
-            calendarRequest.standardDate.year,
-            calendarRequest.standardDate.monthValue - 1,
-            calendarRequest.standardDate.dayOfMonth,
-            calendarRequest.standardDate.hour,
-            calendarRequest.standardDate.minute,
-            0
-        )
-        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        when (calendarRequest.viewType) {
-            CalendarConstants.ViewType.MONTH.code -> {
-                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH))
-                //cal.set(Calendar.HOUR_OF_DAY, 0)
-                //cal.set(Calendar.MINUTE, 0)
-                range.from = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-                cal.add(Calendar.MONTH, 1)
-                cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) - 1)
-                /*cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
-                cal.set(Calendar.HOUR_OF_DAY, 23)
-                cal.set(Calendar.MINUTE, 59)
-                cal.set(Calendar.SECOND, 59)*/
-                range.to = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-            }
-            CalendarConstants.ViewType.WEEK.code -> {
-                val weekValue = cal.get(Calendar.DAY_OF_WEEK)
-                cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) - weekValue)
-                range.from = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-                cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 7)
-                cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) - 1)
-                range.to = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-            }
-            CalendarConstants.ViewType.DAY.code -> {
-                range.from = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-                cal.add(Calendar.DAY_OF_MONTH, 1)
-                cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) - 1)
-                range.to = LocalDateTime.parse(format.format(cal.time), DateTimeFormatter.ISO_DATE_TIME)
-            }
-        }
-        return range
     }
 }

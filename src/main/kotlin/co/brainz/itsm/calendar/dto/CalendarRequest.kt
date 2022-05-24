@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 
 data class CalendarRequest(
     val viewType: String,
-    val standardDate: LocalDateTime,
+    val from: LocalDateTime,
+    val to: LocalDateTime,
     val calendarIds: List<String>
 ) : Serializable
