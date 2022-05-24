@@ -80,7 +80,7 @@ export const zPieChartMixin = {
      */
     getSubtitleLocation() {
         let subtitleLocation = {
-            x: 165,
+            x: 175,
             y: 180
         };
         // subtitle 의 x 좌표는 모달 여부로 계산
