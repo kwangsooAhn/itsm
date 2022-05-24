@@ -107,10 +107,9 @@ class MetricYearService(
     fun findMetricAnnualSearch(metricYearSearchCondition: MetricYearSearchCondition): MetricAnnualListReturnDto {
         val pagingResult = metricYearRepository.findMetrics(metricYearSearchCondition)
         val dataList: List<MetricAnnualDto> = mapper.convertValue(pagingResult.dataList)
-        val scoreCalculation = this.scoreCalculation(dataList)
 
         return MetricAnnualListReturnDto(
-            data = scoreCalculation,
+            data = this.scoreCalculation(dataList),
             paging = AlicePagingData(
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = metricYearRepository.count(),

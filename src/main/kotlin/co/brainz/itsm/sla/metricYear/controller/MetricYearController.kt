@@ -25,7 +25,7 @@ class MetricYearController(
     private val metricYearListPage: String = "sla/metricAnnual/management/yearList"
     private val metricYearPage: String = "sla/metricAnnual/management/year"
     private val metricAnnualPage: String = "sla/metricAnnual/status/statusAnnualSearch"
-    private val metricAnnualList: String = "sla/metricAnnual/status/statusAnnualList"
+    private val metricAnnualListPage: String = "sla/metricAnnual/status/statusAnnualList"
 
     /**
      * 연도별 SLA 지표 관리 - 검색 화면 호출
@@ -70,6 +70,6 @@ class MetricYearController(
         val result = metricYearService.findMetricAnnualSearch(metricYearSearchCondition)
         model.addAttribute("metricYearsList", result.data)
         model.addAttribute("paging", result.paging)
-        return metricAnnualList
+        return metricAnnualListPage
     }
 }
