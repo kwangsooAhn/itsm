@@ -14,9 +14,7 @@
     <form id="searchFrm">
         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
-        <th:block th:each="metric: ${metricYearsList}" th:if="${metric.weightValue}">
-            <span class="font-bold text-red500 pl-1" th:text="#{sla.metricYear.msg.totalScore}"></span>
-        </th:block>
+        <span class="font-bold text-red500 pl-1" id="weightValueScore" th:text="#{sla.metricYear.msg.totalScore}"></span>
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCopy" name="btnCopy"
@@ -31,7 +29,7 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    const totalWeight = 0;
+    let totalWeight = 0;
 
     let yearDt = i18n.getDate();
 
@@ -60,10 +58,16 @@
             listBody.innerHTML = htmlData;
             setMetricValueFormat(listBody);
 
+            // 가중치 합이 100%가 아닐 경우 문구 생성
             document.querySelectorAll('.weight-value').forEach(elem => {
-                totalWeight += elem.textContent;
+                const numWeightValue =  Number(elem.textContent);
+                totalWeight += numWeightValue;
             });
-            alert(totalWeight)
+            if (totalWeight !== 100) {
+                document.getElementById('weightValueScore').style.display = 'block';
+            } else {
+                document.getElementById('weightValueScore').style.display = 'none';
+            }
         });
     }
 
