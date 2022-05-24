@@ -32,8 +32,12 @@ class MetricManualService(
     private val metricPoolRepository: MetricPoolRepository,
     private val currentSessionUser: CurrentSessionUser
 ) {
+
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
+    /**
+     * 수동 지표 리스트 조회
+     */
     fun findMetricManualSearch(manualSearchCondition: MetricManualSearchCondition): MetricManualListReturnDto {
         val pagingResult = metricManualRepository.findMetricManualSearch(manualSearchCondition)
 
@@ -56,6 +60,9 @@ class MetricManualService(
         return metricManualRepository.findMetricByMetricType(MetricManualConstants.MetricTypeCode.MANUAL.code)
     }
 
+    /**
+     * 수동 지표 등록
+     */
     fun insertMetricManual(metricManualDataDto: MetricManualDataDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val metricEntity = metricPoolRepository.findById(metricManualDataDto.metricId).get()
@@ -78,6 +85,9 @@ class MetricManualService(
         )
     }
 
+    /**
+     * 수동지표 삭제
+     */
     fun deleteMetricManual(metricManualId: String): ZResponse {
         val status = ZResponseConstants.STATUS.SUCCESS
         metricManualRepository.deleteById(metricManualId)
