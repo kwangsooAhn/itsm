@@ -1368,13 +1368,13 @@ scheduler:
 # sla
 sla:
   calculationType:
-    average: "average"
-    rate: "rate"
-    total: "total"
+    average: "Average"
+    rate: "Rate"
+    total: "Total"
   metric:
     label:
       comment: "Comment"
-      description: "description"
+      description: "Description"
       group: "Group"
       groupName: "Group Name"
       metricPool: "SLA Metric management"
@@ -1392,16 +1392,50 @@ sla:
       unit: "Unit"
       weightValue: "Weighted Value"
     msg:
+      description: "Register, modify, or delete the contents of SLA metric management."
       duplicateMetricName: "The same metric name exists. Please check the metric name."
-      metricPoolDescription: "Register, modify, or delete the contents of SLA metric management."
       enterMetricName: "Enter a metric name."
+      viewDescription: "Inquire detailed information about SLA metric management."
   metricType:
-    auto: "auto"
-    manual: "manual"
+    auto: "Auto"
+    manual: "Manual"
   metricUnit:
     percent: "%"
-    score: "score"
-    time: "time"
+    score: "Score"
+    time: "Time"
+  metricYear:
+    btn:
+      copy: "Copy"
+    label:
+      comment: "Comment"
+      copy: "Copy Metric"
+      description: "Description"
+      group: "Group"
+      maxValue: "Max Value"
+      metricName: "Metric Name"
+      metricYear: "SLA metric management by year"
+      minValue: "Min Value"
+      option:
+        score: "Score"
+        percent: "%"
+      owner: "Owner"
+      targetYear: "Target Year"
+      type: "Type"
+      unit: "Unit"
+      weightValue: "Weight Value"
+      year: "Year"
+      zql: "ZQL"
+      zqlManual: "ZQL Manual"
+      zqlPlaceholder: "No ZQL applied."
+    msg:
+      copy: "Copy the metric to the {0} year metric."
+      description: "Register, modify, or delete the contents of SLA metric management by year."
+      totalScore: "A normal score is calculated when the weights add up to 100%."
+      viewDescription: "Inquire detailed information about SLA metric management by year."
+      zqlAverageDescription: "The average calculation method takes the average of the results. The result of ZQl must be in numeric form."
+      zqlDescription: "You can use ZQL to set SLA subject documents and calculation methods. Check out <b><u>how to use ZQL</u></b>."
+      zqlRateDescription: "The ratio calculation method finds the ratio of documents that satisfy the conditions of ZQL. ZQL must be in a format that represents a condition."
+      zqlTotalDescription: "The total calculation method sums the results. The result of ZQL must be in numeric form."
 
 # statistic
 statistic:

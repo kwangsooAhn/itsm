@@ -1395,9 +1395,10 @@ sla:
       unit: "단위"
       weightValue: "가중치"
     msg:
+      description: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
       duplicateMetricName: "동일한 지표 이름이 존재합니다.<br>지표 이름을 확인해주세요."
-      metricPoolDescription: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
       enterMetricName: "지표 이름을 입력하세요."
+      viewDescription: "SLA 지표관리에 대한 상세 정보를 조회합니다."
   metricType:
     auto: "자동"
     manual: "수동"
@@ -1405,6 +1406,39 @@ sla:
     percent: "%"
     score: "점"
     time: "시간"
+  metricYear:
+    btn:
+      copy: "복사해오기"
+    label:
+      comment: "비고"
+      copy: "지표 복사해오기"
+      description: "설명"
+      group: "그룹"
+      maxValue: "목표치"
+      metricName: "지표 이름"
+      metricYear: "연도별 SLA 지표관리"
+      minValue: "최소치"
+      option:
+        score: "점"
+        percent: "%"
+      owner: "담당자"
+      targetYear: "대상 년도"
+      type: "타입"
+      unit: "단위"
+      weightValue: "가중치"
+      year: "년"
+      zql: "ZQL"
+      zqlManual: "ZQL 사용법"
+      zqlPlaceholder: "적용된 ZQL이 없습니다."
+    msg:
+      copy: "지표를 {0}년 지표로 복사합니다."
+      description: "연도별 SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
+      totalScore: "가중치 합산이 100%가 되어야 정상적인 점수가 계산됩니다."
+      viewDescription: "연도별 SLA 지표관리에 대한 상세 정보를 조회합니다."
+      zqlAverageDescription: "평균 계산방식은 결과의 평균을 구합니다. ZQl의 결과는 숫자형태여야 합니다."
+      zqlDescription: "ZQL을 사용하여 SLA 대상 문서 및 계산방법을 설정할 수 있습니다. <b><u>ZQL 사용법</u></b>을 확인하세요."
+      zqlRateDescription: "비율 계산방식은 ZQL의 조건을 만족하는 문서의 비율을 구합니다. ZQL은 조건을 나타내는 형식이어야 합니다."
+      zqlTotalDescription: "합산 계산 방식은 결과를 합산합니다. ZQL의 결과는 숫자형태여야 합니다."
 
 # statistic
 statistic:
