@@ -28,7 +28,7 @@ data class ZqlCalculatedData(
  */
 data class ZqlCategorizedData(
     val categorizedDT: LocalDateTime,
-    val tokenDataList: MutableList<ZqlReturnToken>
+    val zqlTokenList: MutableList<ZqlToken>
 )
 
 /**
@@ -51,8 +51,8 @@ data class ZqlComponentValue(
  * ZQL 처리 시 가장 먼저 필요한 것은 ZQL 표현식에서 사용된 태그를 포함하는 토큰들을 찾는 것이다.
  * 이때 기준일시, 실제 태그와 그 값들을 같이 찾아서 이후 표현식에서 태그 대신 치환해서 사용할 수 있도록 한다.
  */
-data class ZqlReturnToken(
-    val criteriaDT: LocalDateTime,
+data class ZqlToken(
     val tokenId: String,
+    val criteriaDT: LocalDateTime,
     val tagValues: Map<String, String>
 )
