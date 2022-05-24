@@ -104,7 +104,7 @@ class MetricManualService(
     fun getMetricManualData(): List<MetricLoadDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString(),
-            type = MetricManualConstants.MetricTypeCode.MANUAL.code
+            type = MetricPoolConstants.MetricTypeCode.MANUAL.code
         )
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
