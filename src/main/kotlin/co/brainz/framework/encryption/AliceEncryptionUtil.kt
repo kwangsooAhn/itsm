@@ -114,16 +114,10 @@ class AliceEncryptionUtil {
 
     // SHA 256 암호화
     private fun enCodeSHA256(text: String, salt: String): String {
-        lateinit var toReturn: String
-        try {
-            val digest: MessageDigest = MessageDigest.getInstance("SHA-256")
-            digest.reset()
-            digest.update((text.plus(salt)).toByteArray(charset("utf8")))
-            toReturn = String.format("%064x", BigInteger(1, digest.digest()))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        val digest: MessageDigest = MessageDigest.getInstance("SHA-256")
+        digest.reset()
+        digest.update((text.plus(salt)).toByteArray(charset("utf8")))
 
-        return toReturn
+        return String.format("%064x", BigInteger(1, digest.digest()))
     }
 }
