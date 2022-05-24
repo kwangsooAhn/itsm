@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 class MetricManualController(
     private val metricManualService: MetricManualService
 ) {
-    private val manualSearchPage: String = "sla/metricManual/manualSearch"
-    private val metricManualList: String = "sla/metricManual/manualList"
+    private val metricManualSearchPage: String = "sla/metricManual/metricManualSearch"
+    private val metricManualListPage: String = "sla/metricManual/metricManualList"
+    private val metricManualNewModalPage: String = "sla/metricManual/metricManualNewModal"
 
     /**
      * 수동 지표 검색 화면
@@ -27,7 +28,7 @@ class MetricManualController(
     @GetMapping("/search")
     fun getMetricManualSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("metricList", metricManualService.getMetricPoolsByManual())
-        return manualSearchPage
+        return metricManualSearchPage
     }
 
     /**
@@ -38,6 +39,15 @@ class MetricManualController(
         val result = metricManualService.findMetricManualSearch(metricManualSearchCondition)
         model.addAttribute("metricManualList", result.data)
         model.addAttribute("paging", result.paging)
-        return metricManualList
+        return metricManualListPage
+    }
+
+    /**
+     * 수동 지표 등록 모달 화면
+     */
+    @GetMapping("/new")
+    fun getMetricManualNew(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("metricList", metricManualService.getMetricManualData())
+        return metricManualNewModalPage
     }
 }
