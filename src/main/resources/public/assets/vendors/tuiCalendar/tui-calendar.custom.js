@@ -186,10 +186,9 @@ function zCalendar(target, options) {
             e.mode = 'register';
             this.createModal.customOptions = e;
             this.setCreateModal(e);
-
             // 모달 위치 조정
-            const boxElement = Object.keys(e.guide.guideElements).length ?
-                e.guide.guideElements[Object.keys(e.guide.guideElements)[0]] : null;
+            const boxElement = e.guide.guideElement ? e.guide.guideElement :
+                e.guide.guideElements[Object.keys(e.guide.guideElements)[0]];
             if (boxElement) {
                 this.setModalPosition(this.createModal.wrapper, boxElement, this.calendar._layout.container);
             }
