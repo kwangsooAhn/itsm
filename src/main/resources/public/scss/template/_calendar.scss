@@ -25,8 +25,51 @@
       }
     }
   }
+  // 캘린더
+  &__view {
+    display: none;
+    &.on {
+      display: block;
+    }
+    // 일정보기
+    .calendar__rowGroup {
+      display: grid;
+      grid-template-rows: minmax(49px, auto);
+      grid-template-columns: 15% 85%;
+      @include border(0.0625rem, solid, $gray300, bottom);
 
+      .calendar__rowHead {
+        .calendar__day {
 
+        }
+        .calendar__weekDay {
+
+        }
+      }
+      .calendar__row {
+        display: grid;
+        row-gap: 8px;
+        padding: 8px 0;
+
+        .calendar__cell {
+          display: grid;
+          grid-template-columns: 15px 160px auto;
+          grid-template-rows: 49px;
+          column-gap: 8px;
+          padding: 0 8px;
+          @include borderRadius(45px);
+          cursor: pointer;
+          &:hover { background-color: $neutral200; }
+        }
+      }
+    }
+  }
+  // 동그라미 아이콘
+  &__color--round {
+    @include borderRadius(50%);
+    width: 0.9375rem; // 15px
+    height: 0.9375rem; // 15px
+  }
 }
 
 // 모달
@@ -75,12 +118,6 @@
           // 제목
           .calendar__modal--detail__title {
             gap: 8px;
-            // 동그라미 아이콘
-            .calendar-color-round {
-              @include borderRadius(50%);
-              width: 0.9375rem; // 15px
-              height: 0.9375rem; // 15px
-            }
           }
         }
       }

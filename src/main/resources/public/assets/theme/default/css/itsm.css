@@ -9581,6 +9581,44 @@ body.modal-active {
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
+.calendar__view {
+  display: none;
+}
+.calendar__view.on {
+  display: block;
+}
+.calendar__view .calendar__rowGroup {
+  display: grid;
+  grid-template-rows: minmax(49px, auto);
+  grid-template-columns: 15% 85%;
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.calendar__view .calendar__rowGroup .calendar__row {
+  display: grid;
+  row-gap: 8px;
+  padding: 8px 0;
+}
+.calendar__view .calendar__rowGroup .calendar__row .calendar__cell {
+  display: grid;
+  grid-template-columns: 15px 160px auto;
+  grid-template-rows: 49px;
+  column-gap: 8px;
+  padding: 0 8px;
+  border-radius: 45px;
+  -webkit-border-radius: 45px;
+  -moz-border-radius: 45px;
+  cursor: pointer;
+}
+.calendar__view .calendar__rowGroup .calendar__row .calendar__cell:hover {
+  background-color: #EEEEEE;
+}
+.calendar__color--round {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  width: 0.9375rem;
+  height: 0.9375rem;
+}
 
 .modal-dialog.calendar__modal--register {
   width: 620px;
@@ -9643,11 +9681,4 @@ body.modal-active {
 }
 .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .calendar__modal--detail__title {
   gap: 8px;
-}
-.modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .calendar__modal--detail__title .calendar-color-round {
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  width: 0.9375rem;
-  height: 0.9375rem;
 }

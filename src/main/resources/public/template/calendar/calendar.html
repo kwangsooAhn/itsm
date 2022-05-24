@@ -42,8 +42,8 @@
             </button>
             <span class="calendar__render-range-text ml-1" id="renderRangeText"></span>
         </div>
-        <div class="calendar__view" id="calendarView" style="height: 670px;"></div>
-        <div class="calendar__view" id="taskView" style="display: none;"></div>
+        <div class="calendar__view on" id="calendarView" style="height: 670px;"></div>
+        <div class="calendar__view" id="taskView"></div>
     </div>
 </div>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
@@ -53,7 +53,7 @@
 
         // 달력 초기화
         myCalendar = new zCalendar(document.getElementById('calendar'), {
-            renderRange: document.getElementById('renderRangeText')
+            viewType: 'month'
         });
         myCalendar.setRenderRangeText();
         // 목록 초기화
