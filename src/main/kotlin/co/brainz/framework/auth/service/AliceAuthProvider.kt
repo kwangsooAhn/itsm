@@ -92,7 +92,7 @@ class AliceAuthProvider(
     }
 
     private fun validatePassword(targetPassword: String, userPassword: String) {
-        var encryptPassword: String
+        val encryptPassword: String
         val param: LinkedHashMap<String, String> = linkedMapOf()
         val algorithm = this.algorithm.toUpperCase()
         param["salt"] = this.salt

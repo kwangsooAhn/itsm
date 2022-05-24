@@ -27,7 +27,6 @@ import java.util.TimeZone
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
@@ -40,10 +39,17 @@ class AliceCertificationService(
     private val codeService: CodeService,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceFileAvatarService: AliceFileAvatarService
+    private val aliceFileAvatarService: AliceFileAvatarService,
+    private val aliceEncryptionUtil: AliceEncryptionUtil
 ) {
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
+
+    @Value("\${encryption.algorithm}")
+    private val algorithm: String = ""
+
+    @Value("\${encryption.option.salt}")
+    private val salt: String = ""
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -167,10 +173,13 @@ class AliceCertificationService(
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val password = aliceSignUpDto.password?.let { aliceCryptoRsa.decrypt(privateKey, it) }
+        val param: LinkedHashMap<String, String> = linkedMapOf()
+        param["salt"] = this.salt
+
         val user = AliceUserEntity(
             userKey = "",
             userId = aliceSignUpDto.userId,
-            password = BCryptPasswordEncoder().encode(password),
+            password = aliceEncryptionUtil.encryptEncoder(password.toString(), this.algorithm, param),
             userName = aliceSignUpDto.userName,
             email = aliceSignUpDto.email,
             position = aliceSignUpDto.position,
