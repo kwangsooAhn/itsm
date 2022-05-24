@@ -97,7 +97,7 @@
                 </div>
                 <div class="z-button-list" sec:authorize="hasAuthority('portal.manage')">
                     <button  th:if="!${notice?.noticeNo}" type="button" id="insert"
-                             class="z-button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
+                            class="z-button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${notice?.noticeNo}" type="button" id="update"
                             class="z-button primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
@@ -150,9 +150,9 @@
                 const topNoticeStrtDtElement = document.getElementById('topNoticeStrtDt');
                 const topNoticeEndDtElement = document.getElementById('topNoticeEndDt');
                 topNoticeStrtDtElement.value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
-                topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime();
-                zDateTimePicker.initYearPicker(topNoticeStrtDtElement);
-                zDateTimePicker.initYearPicker(topNoticeEndDtElement);
+                topNoticeEndDtElement.value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
+                zDateTimePicker.initDateTimePicker(topNoticeStrtDtElement);
+                zDateTimePicker.initDateTimePicker(topNoticeEndDtElement);
             }
             document.getElementById(viewId).style.display = 'block';
         } else {
