@@ -6,7 +6,9 @@
 
 package co.brainz.workflow.token.repository
 
+import co.brainz.framework.tag.entity.QAliceTagEntity
 import co.brainz.itsm.statistic.customChart.dto.average.ChartTokenData
+import co.brainz.itsm.zql.dto.ZqlComponentValue
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDataDto
@@ -91,6 +93,24 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
                     tokenData.value
                 )
             )
+            .where(tokenData.token.tokenId.eq(tokenId))
+            .fetch()
+    }
+
+
+    override fun getTokenDataByTag(tokenId: String, tags: List<String>): List<ZqlComponentValue> {
+        val tokenData = QWfTokenDataEntity.wfTokenDataEntity
+        val tag = QAliceTagEntity.aliceTagEntity
+        return from(tokenData)
+            .select(
+                Projections.constructor(
+                    ZqlComponentValue::class.java,
+                    tag.tagValue,
+                    tokenData.value
+                )
+            )
+            .innerJoin(tag).on(tag.tagValue.`in`(tags))
+            .where(tag.targetId.eq(tokenData.component.componentId))
             .where(tokenData.token.tokenId.eq(tokenId))
             .fetch()
     }

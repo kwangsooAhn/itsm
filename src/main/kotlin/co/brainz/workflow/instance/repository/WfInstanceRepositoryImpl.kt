@@ -25,6 +25,7 @@ import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.token.dto.TokenSearchCondition
+import co.brainz.itsm.zql.const.ZqlInstanceDateCriteria
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -52,6 +53,7 @@ import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.CaseBuilder
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
@@ -80,6 +82,7 @@ class WfInstanceRepositoryImpl(
     val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
     val code: QCodeEntity = QCodeEntity.codeEntity
     val documentStorage: QDocumentStorageEntity = QDocumentStorageEntity.documentStorageEntity
+    val component: QWfComponentEntity = QWfComponentEntity.wfComponentEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -778,5 +781,81 @@ class WfInstanceRepositoryImpl(
     ): Long {
         return findInstanceCount(tokenSearchCondition.tagArray)
             .where(todoInstanceSearchByBuilder(status, tokenStatus, tokenSearchCondition)).fetchOne()
+    }
+
+    override fun getDocumentIdsByTag(
+        tagValue: String
+    ): Set<String> {
+        return from(document)
+            .select(document.documentId)
+            .where(builderDocumentsByTag(tagValue))
+            .fetch().toSet()
+    }
+
+    private fun builderDocumentsByTag(tagValue: String): BooleanExpression {
+        return document.documentId.`in`(
+            JPAExpressions.select(document.documentId)
+                .from(document)
+                .where(
+                    document.form.formId.`in`(
+                        JPAExpressions.select(component.form.formId)
+                            .from(component)
+                            .where(
+                                component.componentId.`in`(
+                                    JPAExpressions.select(tag.targetId)
+                                        .from(tag)
+                                        .where(tag.tagValue.eq(tagValue))
+                                        .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
+                                )
+                            )
+                            .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
+                    )
+                )
+                .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
+        )
+    }
+
+    override fun getInstanceByZQL(
+        docIds: Set<String>,
+        from: LocalDateTime,
+        to: LocalDateTime,
+        status: InstanceStatus,
+        criteria: ZqlInstanceDateCriteria
+    ): Set<WfInstanceEntity> {
+        val query = from(instance)
+            .where(
+                instance.document.documentId.`in`(docIds)
+            )
+            .where(
+                instance.instanceId.notIn(
+                    JPAExpressions.select(instance.instanceId)
+                        .from(instance)
+                        .innerJoin(token).on(instance.instanceId.eq(token.instance.instanceId))
+                        .where(
+                            token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code)
+                                .and(instance.instanceStatus.eq(InstanceStatus.FINISH.code))
+                        )
+                )
+            )
+
+        val defaultWhere = instance.instanceStatus.eq(InstanceStatus.FINISH.code)
+        if (criteria == ZqlInstanceDateCriteria.START) {
+            defaultWhere.and(instance.instanceStartDt.goe(from))
+                .and(instance.instanceStartDt.loe(to))
+        } else {
+            defaultWhere.and(instance.instanceEndDt.goe(from))
+                .and(instance.instanceEndDt.loe(to))
+        }
+
+        if (status == InstanceStatus.RUNNING) {
+            query.where(
+                defaultWhere.or(
+                    (instance.instanceStatus.eq(InstanceStatus.RUNNING.code)
+                        .and(instance.instanceStartDt.goe(from)))
+                        .and(instance.instanceStartDt.loe(to))
+                )
+            )
+        }
+        return query.fetch().toSet()
     }
 }
