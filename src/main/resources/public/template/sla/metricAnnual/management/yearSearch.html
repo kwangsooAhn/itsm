@@ -29,12 +29,12 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    let yearDt = i18n.getDate();
+    let yearDt = i18n.getYear();
 
     window.onload = function () {
         const yearDtElement = document.getElementById('year');
         yearDtElement.value = yearDt;
-        zDateTimePicker.initDatePicker(yearDtElement, setDatePicker);
+        zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
 
         getList();
     };
@@ -48,7 +48,7 @@
      * 연도별 SLA 지표관리 검색
      */
     function getList(pageNum = 1) {
-        let urlParam = '/sla/metrics?year=' + document.getElementById('year').value.toString().substring(0, 4) + '&pageNum=' + pageNum;
+        const urlParam = '/sla/metrics?year=' + document.getElementById('year').value.toString().substring(0, 4) + '&pageNum=' + pageNum;
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((htmlData) => {
@@ -75,7 +75,7 @@
      */
     function setMetricValueFormat(elem) {
         elem.querySelectorAll('.metric-value').forEach(value => {
-            const userMetricValue = value.textContent.replace(/.?0+$/, '');
+            const userMetricValue = value.textContent.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
             value.textContent = userMetricValue;
             value.setAttribute('title', userMetricValue);
         });
