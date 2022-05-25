@@ -12,6 +12,7 @@ CREATE TABLE sla_metric_year
     weight_value decimal,
     owner varchar(100),
     comment text,
+    zql_string text,
     create_user_key varchar(128),
     create_dt timestamp,
     update_user_key varchar(128),
@@ -28,6 +29,7 @@ COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
 COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
 COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
 COMMENT ON COLUMN sla_metric_year.comment IS '비고';
+COMMENT ON COLUMN sla_metric_year.zql_string IS 'zql';
 COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
 COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';

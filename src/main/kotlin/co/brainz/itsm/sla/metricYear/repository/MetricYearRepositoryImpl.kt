@@ -13,6 +13,7 @@ import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
@@ -163,5 +164,36 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
             .where(metricYear.metricYear.`in`(metricYearSearchCondition.year))
             .fetch()
+    }
+
+    override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto {
+        val metric = QMetricPoolEntity.metricPoolEntity
+        val metricYear = QMetricYearEntity.metricYearEntity
+
+        return from(metric)
+            .select(
+                Projections.constructor(
+                    MetricYearDetailDto::class.java,
+                    metricYear.metric.metricId,
+                    metricYear.metricYear,
+                    metric.metricGroup,
+                    metric.metricName,
+                    metric.metricType,
+                    metric.metricUnit,
+                    metric.calculationType,
+                    metricYear.minValue,
+                    metricYear.maxValue,
+                    metricYear.weightValue,
+                    metricYear.owner,
+                    metricYear.comment,
+                    metricYear.zqlString
+                )
+            )
+            .join(metricYear).on(metric.metricId.eq(metricYear.metric.metricId))
+            .where(
+                metricYear.metric.metricId.eq(metricId)
+                    .and(metricYear.metricYear.eq(year))
+            )
+            .fetchOne()
     }
 }
