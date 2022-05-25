@@ -1683,7 +1683,7 @@ input, button, select, optgroup, textarea {
   margin: 0.875rem 0.625rem;
 }
 
-.highcharts-subtitle {
+.highcharts-total {
   width: 10rem;
   text-align: center;
   font-size: 0.875rem;
@@ -1691,7 +1691,7 @@ input, button, select, optgroup, textarea {
   line-height: 1.1;
   color: #8B9094;
 }
-.highcharts-subtitle-count {
+.highcharts-total-count {
   font-size: 3.25rem;
   color: #222529;
 }

@@ -50,15 +50,15 @@ const COUNT_LOCATION_OPTION = {
                 let value = 0;
 
                 // 기존 텍스트 엘리먼트가 있다면 제거
-                const preTitleElements = document.querySelectorAll('div.highcharts-subtitle');
+                const preTitleElements = chart.container.querySelectorAll('div.highcharts-total');
                 preTitleElements.length ? preTitleElements[0].parentElement.remove() : '';
 
                 // count number
                 chart.series[0].yData.forEach(function (point) {
                     value += point;
                 });
-                chart.renderer.text(`<div class="highcharts-subtitle">` +
-                    `<span class="highcharts-subtitle-count text-ellipsis" title="${value}">${value}</span>` +
+                chart.renderer.text(`<div class="highcharts-total">` +
+                    `<span class="highcharts-total-count text-ellipsis" title="${value}">${value}</span>` +
                     `<br><span>Total</span></div>`, x, y, true).add().toFront();
             }
         }
