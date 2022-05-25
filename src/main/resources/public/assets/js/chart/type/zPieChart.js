@@ -14,34 +14,72 @@ const DEFAULT_CHART_PROPERTY = {
     chart: { type: 'pie' },
     plotOptions: {
         pie: {
-            allowPointSelect: true,
+            size: 300,
+            dataLabels: { enabled: false },
             cursor: 'pointer',
             slicedOffset: 10,
             startAngle: 0,
-            showInLegend: true
+            showInLegend: true,
+            states: {
+                inactive: { enabled: true }
+            },
         },
     },
     legend: {
         floating: false,
         layout: 'vertical',
-        verticalAlign: 'middle',
-        itemMarginTop: 10,
-        itemMarginBottom: 10
+        verticalAlign: 'middle'
     },
     tooltip: {},
-    series: [{ data: [] }]
+    series: [{
+        colorByPoint: true,
+        innerSize: '60%',
+        data: [],
+    }]
+};
+// Total 카운트 위치 옵션
+const COUNT_LOCATION_OPTION = {
+    chart: {
+        events: {
+            redraw: function () {
+                const chart = this,
+                    offsetLeft = -80,
+                    offsetTop = -24,
+                    x = chart.plotLeft + chart.plotWidth / 2 + offsetLeft,
+                    y = chart.plotTop + chart.plotHeight / 2 + offsetTop;
+                let value = 0;
+
+                // 기존 텍스트 엘리먼트가 있다면 제거
+                const preTitleElements = chart.container.querySelectorAll('div.highcharts-total');
+                preTitleElements.length ? preTitleElements[0].parentElement.remove() : '';
+
+                // count number
+                chart.series[0].yData.forEach(function (point) {
+                    value += point;
+                });
+                chart.renderer.text(`<div class="highcharts-total">` +
+                    `<span class="highcharts-total-count text-ellipsis" title="${value}">${value}</span>` +
+                    `<br><span>Total</span></div>`, x, y, true).add().toFront();
+            }
+        }
+    }
 };
 Object.freeze(DEFAULT_CHART_PROPERTY);
+Object.freeze(COUNT_LOCATION_OPTION);
 
 export const zPieChartMixin = {
     initProperty() {
         const defaultOptions = JSON.parse(JSON.stringify(DEFAULT_CHART_PROPERTY));
-        // 데이터 라벨 설정
-        this.setDataLabelOption(defaultOptions);
+        // 차트 높이 설정
+        this.setSize(defaultOptions);
+        // 범례 설정
+        this.setLegendOption(defaultOptions);
         // 툴팁 설정
         this.setTooltipOption(defaultOptions);
         // 옵션 프로퍼티 초기화
         this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
+        // Total 카운트 위치 옵션 설정
+        this._options = aliceJs.mergeObject(this._options, COUNT_LOCATION_OPTION);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화
@@ -54,16 +92,54 @@ export const zPieChartMixin = {
         this._options = value;
     },
     /**
-     * 데이터 라벨 설정
-     * 파이차트 각 항목에 표시되는 라벨의 포맷을 변환해서 표시한다.
+     * 데이터 갯수에 따른 차트 높이 조회
+     * @returns 차트 너비
+     */
+    getChartHeight() {
+        let chartHeight = 400;
+        if (this.tags.length > 7) {
+            chartHeight += 20 * (this.tags.length - 7);
+        }
+        return chartHeight;
+    },
+    /**
+     * 차트 크기 설정
      * @param option 하이차트 옵션
      */
-    setDataLabelOption(option) {
-        Object.assign(option.plotOptions.pie, {
-            dataLabels: {
-                enabled: true,
-                formatter: function () {
-                    return `${this.key} : ${Highcharts.numberFormat(this.percentage, 2, '.', '')} %`;
+    setSize(option) {
+        const chart = this;
+        // 차트 높이
+        Object.assign(option.chart, {
+            height: chart.getChartHeight()
+        });
+    },
+    /**
+     * 범례 설정
+     * 파이차트에 표시되는 범례의 포맷을 변환해서 표시한다.
+     * @param option 하이차트 옵션
+     */
+    setLegendOption(option) {
+        Object.assign(option.legend, {
+            layout: 'vertical',
+            verticalAlign: 'middle',
+            x: -50,
+            useHTML: true,
+            labelFormatter: function () {
+                if (this.name === 'title') {
+                    return `<div class="highcharts-legend-row">`+
+                        `<span style="float:left; color: ${this.color}"">` +
+                            i18n.msg('statistic.label.columnName') +
+                        `</span>` +
+                        `<span style="float:right; color: ${this.color}"">` +
+                            i18n.msg('statistic.label.currentSituation') +
+                        `</span>` +
+                        `</div>`;
+                } else {
+                    return `<div class="highcharts-legend-row">`+
+                        `<span style="float:left; padding-right: 10px; color: ${this.color}">\u25A0</span>` +
+                        `<span style="float:left;">${this.name}</span>`+
+                        `<span style="float:right">${Highcharts.numberFormat(this.percentage, 2, '.', '')} %</span>`+
+                        `</div>`;
                 }
             }
         });
@@ -75,11 +151,10 @@ export const zPieChartMixin = {
      */
     setTooltipOption(option) {
         Object.assign(option.tooltip, {
+            useHTML:false,
             formatter: function () {
-                return `${this.series.name}<br/>` +
-                    `<span style="color:${this.color}">\u25CF</span> ${this.key} : ` +
-                    `${Highcharts.numberFormat(this.percentage, 2, '.', '')} % ` +
-                    `(${this.y} / ${this.total === undefined ? 0 : this.total})`;
+                return `<span style="color: ${this.color}">\u25A0</span>
+                <b> ${this.key}</b>&emsp;&emsp;<b>${Highcharts.numberFormat(this.percentage, 2, '.', '')} %</b>`;
             }
         });
     },
@@ -91,13 +166,16 @@ export const zPieChartMixin = {
         if (!data.length) { return false; }
 
         let series = [];
+        // 범례 헤더 구성
+        series.push({ name: 'title', y: null, color: '#757575' });
+        // 범례 데이터 구성
         for (let i = 0; i < data.length; i++) {
             const temp = data[i];
             series.push({
                 name: temp.category,
                 y: Number(temp.value),
-                sliced: (i === 0),
-                selected: (i === 0)
+                color: this.chart.options.colors[i],
+                colorIndex: i
             });
         }
 
@@ -108,7 +186,7 @@ export const zPieChartMixin = {
                 this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.fromDateTime));
             const toDt = Highcharts.dateFormat(
                 this.getDateTimeFormat(), this.getStringToDateTime(this.config.range.toDateTime));
-            this.chart.series[0].update({name: (fromDt + ' ~ ' + toDt), id: data[0].id}, false);
+            this.chart.series[0].update({ name: (fromDt + ' ~ ' + toDt), id: data[0].id }, false);
         }
         this.chart.series[0].setData(series, true);
     },

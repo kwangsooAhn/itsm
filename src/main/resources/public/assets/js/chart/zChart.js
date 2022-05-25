@@ -26,31 +26,40 @@ const HIGHCHARTS_THEME = {
             fontSize: '14px',
             color: '#222529'
         },
-        spacingTop: 20,
-        marginTop: 120,
+        spacingTop: 30,
+        marginTop: 90,
         scrollablePlotArea: {
             scrollPositionX: 1
         }
     },
     title: {
-        text:'',
+        text: '',
+        floating: true,
+        align: 'left',
+        x: 0,
+        y: 20,
         style : {
             fontFamily: 'Pretendard, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
-            fontSize: '18px',
-            color: '#222529',
-            fontWeight: 'bold',
+            fontSize: '16px',
+            color: '#424242',
+            fontWeight: '600',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
         }
     },
-    colors: [ '#64BBF6', '#103F8B', '#FFAC47', '#A0D756', '#FBE961', '#C585F3'],
+    colors: [
+        // 디자인팀에서 제공받은 컬러
+        '#84D1FA', '#A0D756', '#FBE961', '#D89FF9', '#FEC1D5',
+        // highChart default color
+        '#7CB5EC', '#434348', '#90ED7D', '#F7A35C', '#8085E9', '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1'
+    ],
     xAxis: {
-        gridLineWidth: 0,
+        gridLineWidth: 1,
         lineWidth: 1,
         lineColor: '#CFD5D9',
         tickColor: '#CFD5D9',
-        maxPadding:0,
-        minPadding:0,
+        maxPadding: 0,
+        minPadding: 0,
         scrollbar: { // 스크롤바 표시를 위해서는 min / max 가 필요함
             enabled: true,
             showFull: false
@@ -59,11 +68,9 @@ const HIGHCHARTS_THEME = {
     yAxis: {
         min: 0,
         minRange : 0.1,
-        gridLineWidth: 0,
+        gridLineWidth: 1,
         lineWidth: 1,
         lineColor: '#CFD5D9',
-        tickColor: '#CFD5D9',
-        tickWidth: 1,
         title: { text: '' },
         maxPadding:0,
         minPadding:0
@@ -71,26 +78,57 @@ const HIGHCHARTS_THEME = {
     tooltip: {
         backgroundColor: 'rgba(250, 250, 250, 0.85)',
         borderColor: '#CFD5D9',
-        shadow: false
+        padding: 10,
+        shadow: {
+            enable: true,
+            color: '#3F4B56',
+            offsetX: 0,
+            offsetY: 0,
+            opacity: 0.02,
+            width: 10
+        }
+
     },
     plotOptions: {
         series: {
             turboThreshold : 0, // 속도 높임
             stickyTracking : false, // 시리즈에서 마우스를 떼면 툴팁이 사라진다: false, 남아있다: true
-            getExtremesFromAll: true
+            getExtremesFromAll: true,
+            marker: {
+                symbol: 'circle',
+                radius: 4,
+                states: {
+                    hover: {
+                        enabled: true,
+                        radius: 5,
+                        lineColor: '#ffffff',
+                        lineWidth: 2.5,
+                    }
+                }
+            }
+        },
+        pie: {
+            states: {
+                hover: { brightness: -0.05 }
+            }
+        },
+        column: {
+            states: {
+                hover: { brightness: -0.05 }
+            }
         }
     },
     legend: {
         floating: true,
         align: 'right',
         verticalAlign: 'top',
-        x: -30,
-        y: 30,
+        x: 10,
+        y: 0,
         itemStyle: {
             fontFamily: 'Pretendard, 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif',
-            fontSize: '14px',
+            fontSize: '16px',
             color: '#222529',
-            fontWeight: 'normal'
+            fontWeight: '600'
         },
         itemHoverStyle: { color: '#1959AC' },
         itemDistance : 10,

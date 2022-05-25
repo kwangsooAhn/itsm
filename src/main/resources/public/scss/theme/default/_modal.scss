@@ -208,10 +208,18 @@
   }
   // 사용자 정의 차트 미리보기
   &.chart-view-modal {
-    width: $token-list-modal-width;
+    min-width: $token-list-modal-width;
+    .modal-header {
+      @include border(0.0625rem, solid, transparent, bottom); // 1px
+    }
     .modal-content {
-      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+      width: auto;
       height: auto;
+      .chart-edit-content {
+        @include border(0.0625rem, solid, $gray300, all); // 1px
+        @include borderRadius(0.0625rem); // 1px
+        margin: 0 1.5rem; // 0 24px
+      }
     }
   }
   // 제품 정보 모달
