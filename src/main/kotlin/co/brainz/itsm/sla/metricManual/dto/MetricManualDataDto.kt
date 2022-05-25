@@ -7,9 +7,13 @@ package co.brainz.itsm.sla.metricManual.dto
 
 import java.io.Serializable
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 data class MetricManualDataDto(
     val metricId: String = "",
-    val referenceDate: LocalDate? = null,
+    val referenceDate: String? = null,
     val metricValue: Double? = null
-) : Serializable
+) : Serializable {
+    val formattedReferenceDate: LocalDate? = LocalDate.parse(
+        referenceDate, DateTimeFormatter.ISO_DATE)
+}

@@ -76,7 +76,7 @@ class MetricManualService(
             metricManualRepository.save(
                 MetricManualEntity(
                     metric = metricEntity,
-                    referenceDate = metricManualDataDto.referenceDate,
+                    referenceDate = metricManualDataDto.formattedReferenceDate,
                     metricValue = metricManualDataDto.metricValue,
                     userKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
