@@ -74,7 +74,7 @@ class MetricYearRestController(
      * 연도별 지표 복사하기
      */
     @PostMapping("/copy")
-    fun metricYearCopy(metricYearCopyDto: MetricYearCopyDto): ResponseEntity<ZResponse> {
+    fun metricYearCopy(@RequestBody metricYearCopyDto: MetricYearCopyDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.metricYearCopy(metricYearCopyDto))
     }
 }
