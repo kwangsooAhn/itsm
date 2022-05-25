@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+<head>
+    <title th:text="#{sla.metricYear.label.metricYear}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{sla.metricYear.label.metricYear}"></h1>
+    <h6 class="description ml-2 pl-2"
+        th:text="${view} ? #{sla.metricYear.msg.viewDescription} : #{sla.metricYear.msg.description}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <form id="frm" method="post">
+        <div class="z-edit-form flex-fill">
+            <div class="flex-column z-edit-row">
+                <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
+                <input type="text" class="z-input" id="metricYear" maxlength="100"
+                       th:classappend="${view || edit} ? 'readonly' : ''" value="${metric?.metricYear}"
+                       data-validation-required-name="#{sla.metricYear.label.targetYear}">
+            </div>
+            <div class="flex-column z-edit-row">
+                <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
+                <select id="metricYearName" th:classappend="${view || edit} ? 'readonly' : ''">
+                    <option th:each="metricName: ${metricNameList}"
+                            th:text="${metricName.codeName}" th:value="${metricName.code}"></option>
+                </select>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
+                <input type="text" class="z-input" id="metricYearGroup" th:value="#{|${metric.metricGroup}|}"
+                       data-validation-required-name="#{sla.metricYear.label.group}" maxlength="128" readonly>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label for="metricYearType" th:text="#{sla.metricYear.label.type}"></label>
+                <input type="text" class="z-input" id="metricYearType" th:value="#{|${metric.metricType}|}"
+                       data-validation-required-name="#{sla.metricYear.label.type}" maxlength="128" readonly>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label for="metricYearUnit" th:text="#{sla.metricYear.label.unit}"></label>
+                <input type="text" class="z-input" id="metricYearUnit" th:value="#{|${metric.metricUnit}|}"
+                        data-validation-required-name="#{sla.metricYear.label.unit}" maxlength="128" readonly>
+            </div>
+            <div class="flex-column z-edit-row">
+                <label for="metricYearCalcType" th:text="#{common.label.calculationType}"></label>
+                <input type="text" class="z-input" id="metricYearCalcType" th:value="#{|${metric.calculationType}|}"
+                       data-validation-required-name="#{common.label.calculationType}" maxlength="128" readonly>
+            </div>
+        </div>
+        <div class="z-edit-form flex-fill">
+            <div class="flex-column z-edit-row">
+                <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
+                <input type="text" class="z-input" id="metricYearDesc" value="${metric?.metricDesc}"
+                       data-validation-required-name="#{sla.metricYear.label.description}" readonly>
+            </div>
+        </div>
+        <div class="z-edit-form flex-fill">
+            <div class="z-edit-row flex-row">
+                <div class="flex-column">
+                    <div class="flex-column z-edit-row">
+                        <label th:text="#{sla.metricYear.label.minValue}" for="minValue" class="required"></label>
+                        <div>
+                            <input type="text" id="minValue" name="minValue" class="z-input" maxlength="128"
+                                   th:value="${metric?.minValue}" th:readonly="${view}"/>
+                            <span th:text="#{sla.metricYear.label.option.score}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-column">
+                    <label th:text="#{sla.metricYear.label.maxValue}" for="maxValue" class="required"></label>
+                    <div>
+                        <input type="text" id="maxValue" name="maxValue" class="z-input" maxlength="128"
+                               th:value="${metric?.maxValue}" th:readonly="${view}"/>
+                        <span th:text="#{sla.metricYear.label.option.score}"></span>
+                    </div>
+                </div>
+                <div class="flex-column">
+                    <label th:text="#{sla.metricYear.label.weightValue}" for="weightValue" class="required"></label>
+                    <div>
+                        <input type="text" id="weightValue" name="weightValue" class="z-input" maxlength="128"
+                               th:value="${metric?.weightValue}" th:readonly="${view}"/>
+                        <span th:text="#{sla.metricYear.label.option.percent}"></span>
+                    </div>
+                </div>
+                <div class="flex-column">
+                    <label th:text="#{sla.metricYear.label.owner}" for="owner" class="required"></label>
+                    <input type="text" id="owner" name="owner" class="z-input" maxlength="128"
+                           th:value="${metric?.owner}" th:readonly="${view}"/>
+                </div>
+                <div class="flex-column">
+                    <label th:text="#{sla.metricYear.label.comment}" for="comment" class="required"></label>
+                    <input type="text" id="comment" name="comment" class="z-input" maxlength="128"
+                           th:value="${metric?.comment}" th:readonly="${view}"/>
+                </div>
+            </div>
+            <div class="z-edit-row flex-column flex-fill">
+                <div class="flex-row justify-content-between">
+                    <label class="required" th:text="#{sla.metricYear.label.zql}" for="zqlString"></label>
+                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.average'}">
+                        <p th:text="#{sla.metricYear.label.zqlAverageDescription}"></p>
+                    </th:block>
+                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.rate'}">
+                        <p th:text="#{sla.metricYear.label.zqlRateDescription}"></p>
+                    </th:block>
+                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.total'}">
+                        <p th:text="#{sla.metricYear.label.zqlTotalDescription}"></p>
+                    </th:block>
+                </div>
+                <div class="horizontal-bar"></div>
+                <p th:text="#{sla.metricYear.msg.zqlDescription}"></p>
+                <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"  th:readonly="${view}"
+                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
+            </div>
+            <div class="flex-row justify-content-between z-edit-row">
+                <div class="z-button-list">
+                    <a class="z-button secondary" href="/sla/metrics/search" th:text="#{common.btn.list}"></a>
+                </div>
+                <div class="z-button-list" sec:authorize="hasAuthority('sla.manage')">
+                    <button th:if="!${metric?.metricId}" type="button" id="insert"
+                            class="z-button primary" onclick="onSave('POST')" th:text="#{common.btn.register}">
+                    </button>
+                    <button th:if="${metric?.metricId}" type="button" id="update"
+                            class="z-button primary" onclick="onSave('PUT')" th:text="#{common.btn.modify}">
+                    </button>
+                    <button th:if="${metric?.metricId}" type="button" id="delete"
+                            class="z-button danger" onclick="onDelete()" th:text="#{common.btn.delete}">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[ */
+    window.onload = function () {
+        document.getElementById('minValue').focus();
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+    }
+
+    function onSave(method) {
+        if (isEmpty('metricName', 'sla.metric.msg.enterMetricName')) return false;
+        if (isEmpty('metricDesc', 'common.msg.enterContents')) return false;
+        if (isEmpty('metricGroup', 'common.msg.requiredSelect')) return false;
+
+        let data = {
+            metricId: '',
+            metricName: document.getElementById('metricName').value,
+            metricDesc: document.getElementById('metricDesc').value,
+            metricGroup: document.getElementById('metricGroup').value
+        }
+        let url = '/rest/sla/metrics';
+        if (method === 'PUT') {
+            url += '/' + /*[[${metric?.metricId}]]*/'';
+            data.metricId = /*[[${metric?.metricId}]]*/'';
+        }
+
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success: // 등록 성공
+                    zAlert.success([[#{common.msg.register}]], function () {
+                        window.location.href = '/sla/metrics/search';
+                    });
+                    break;
+                case aliceJs.response.successEdit: // 수정 성공
+                    zAlert.success([[#{common.msg.modify}]], function () {
+                        window.location.href = '/sla/metrics/search';
+                    });
+                    break;
+                case aliceJs.response.duplicate: // 이름 중복
+                    zAlert.warning([[#{sla.metric.msg.duplicateMetricName}]]);
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger([[#{common.msg.fail}]]);
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    function onDelete() {
+        zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
+            aliceJs.fetchJson('/rest/sla/metrics/' + [[${metric?.metricId}]], {
+                method: 'DELETE'
+            }).then((response) => {
+                if (response.status === aliceJs.response.success) {
+                    zAlert.success([[#{common.msg.delete}]], function () {
+                        window.location.href = '/sla/metrics/search';
+                    });
+                }
+            });
+        });
+    }
+    /* ]]> */
+</script>
+</html>

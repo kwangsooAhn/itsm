@@ -14,62 +14,28 @@ $flex-align-type: (row, column);
   }
 }
 
-.inline-flex {
-  display: inline-flex !important;
-}
+.inline-flex { display: inline-flex !important; }
 
-.flex-nowrap {
-  flex-wrap: nowrap !important;
-}
-.flex-wrap {
-  flex-wrap: wrap;
-}
-.flex-wrap-reverse {
-  flex-wrap: wrap-reverse;
-}
+.flex-nowrap { flex-wrap: nowrap !important; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-wrap-reverse { flex-wrap: wrap-reverse; }
 
-.justify-content-start {
-  justify-content: flex-start !important;
-}
-.justify-content-end {
-  justify-content: flex-end !important;
-}
-.justify-content-center {
-  justify-content: center !important;
-}
-.justify-content-between {
-  justify-content: space-between !important;
-}
+.justify-content-start { justify-content: flex-start !important; }
+.justify-content-end { justify-content: flex-end !important; }
+.justify-content-center { justify-content: center !important; }
+.justify-content-between { justify-content: space-between !important; }
 
-.align-items-start {
-  align-items: flex-start !important;
-}
-.align-items-end {
-  align-items: flex-end !important;
-}
-.align-items-center {
-  align-items: center !important;
-}
-.align-items-baseline {
-  align-items: baseline !important;
-}
+.align-items-start { align-items: flex-start !important; }
+.align-items-end { align-items: flex-end !important; }
+.align-items-center { align-items: center !important; }
+.align-items-baseline { align-items: baseline !important; }
 
-.align-self-start {
-  align-self: flex-start !important;
-}
-.align-self-end {
-  align-self: flex-end !important;
-}
-.align-self-center {
-  align-self: center !important;
-}
-.align-self-baseline {
-  align-self: baseline !important;
-}
+.align-self-start { align-self: flex-start !important; }
+.align-self-end { align-self: flex-end !important; }
+.align-self-center { align-self: center !important; }
+.align-self-baseline { align-self: baseline !important; }
 
-.flex-fill {
-  flex: 1 1 auto;
-}
+.flex-fill { flex: 1 1 auto; }
 
 // flex에서 고정 값이 아닌 %(퍼센트) 비율을 사용하는 경우, 아래 클래스를 사용한다.
 $i: 1;

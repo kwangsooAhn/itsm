@@ -10,6 +10,7 @@ import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricManual.dto.MetricManualDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
+import co.brainz.itsm.sla.metricManual.dto.MetricManualSimpleDto
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.entity.QMetricManualEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
@@ -69,8 +70,19 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
         if (!manualSearchCondition.metricId.isNullOrEmpty()) {
             builder.and(manual.metric.metricId.eq(manualSearchCondition.metricId))
         }
-        builder.and(manual.referenceDate.goe(manualSearchCondition.fromDt))
-        builder.and(manual.referenceDate.lt(manualSearchCondition.toDt))
+        builder.and(manual.referenceDate.goe(manualSearchCondition.formattedFromDt))
+        builder.and(manual.referenceDate.lt(manualSearchCondition.formattedToDt))
         return builder
+    }
+
+    override fun findMetricByMetricType(metricType: String): List<MetricManualSimpleDto> {
+        return from(metric)
+            .select(Projections.constructor(
+                MetricManualSimpleDto::class.java,
+                metric.metricId,
+                metric.metricName
+            ))
+            .where(metric.metricType.eq(metricType))
+            .fetch()
     }
 }

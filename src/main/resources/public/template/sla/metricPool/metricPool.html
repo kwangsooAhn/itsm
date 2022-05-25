@@ -9,7 +9,8 @@
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{sla.metric.label.metricPool}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{sla.metric.msg.metricPoolDescription}"></h6>
+    <h6 class="description ml-2 pl-2"
+        th:text="${view} ? #{sla.metric.msg.viewDescription} : #{sla.metric.msg.description}"></h6>
 </div>
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
@@ -34,43 +35,46 @@
                     </label>
                     <select id="metricGroup" th:classappend="${view} ? 'readonly' : ''">
                         <option th:text="#{sla.metric.label.selectMetricGroup}" value="" selected></option>
-                        <option th:each="metricGroup: ${metricGroupList}" th:text="${metricGroup.codeName}" th:value="${metricGroup.code}"
-                                th:selected="${metric?.metricGroup} == ${metricGroup.code}"></option>
+                        <option th:each="metricGroup: ${metricGroupList}" th:selected="${metric?.metricGroup} == ${metricGroup.code}"
+                                th:text="${metricGroup.codeName}" th:value="${metricGroup.code}" ></option>
                     </select>
                 </div>
                 <!-- 등록 페이지 -->
-                <th:block th:if="!${view || edit}">
+                <th:block th:if="${#strings.isEmpty(edit) && #strings.isEmpty(view)}">
                     <div class="flex-column col-2 pl-2">
                         <label for="metricType">
-                            <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.type}"></span>
+                            <span th:text="#{sla.metric.label.type}"></span>
                         </label>
                         <select id="metricType">
                             <option th:text="#{sla.metric.label.selectMetricType}" value="" selected></option>
-                            <option th:each="metricType: ${metricTypeList}" th:text="${metricType.codeName}" th:value="${metricType.code}"></option>
+                            <option th:each="metricType: ${metricTypeList}"
+                                    th:text="${metricType.codeName}" th:value="${metricType.code}"></option>
                         </select>
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="metricUnit">
-                            <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.unit}"></span>
+                            <span th:text="#{sla.metric.label.unit}"></span>
                         </label>
                         <select id="metricUnit">
                             <option th:text="#{sla.metric.label.selectMetricUnit}" value="" selected></option>
-                            <option th:each="metricUnit: ${metricUnitList}" th:text="${metricUnit.codeName}" th:value="${metricUnit.code}"></option>
+                            <option th:each="metricUnit: ${metricUnitList}"
+                                    th:text="${metricUnit.codeName}" th:value="${metricUnit.code}"></option>
                         </select>
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="calculationType">
-                            <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.calculationType}"></span>
+                            <span th:text="#{common.label.calculationType}"></span>
                         </label>
                         <select id="calculationType">
                             <option th:text="#{sla.metric.label.selectMetricCalcType}" value="" selected></option>
-                            <option th:each="calculationType: ${metricCalcTypeList}" th:text="${calculationType.codeName}" th:value="${calculationType.code}"></option>
+                            <option th:each="calculationType: ${metricCalcTypeList}"
+                                    th:text="${calculationType.codeName}" th:value="${calculationType.code}"></option>
                         </select>
                     </div>
                 </th:block>
 
                 <!-- 편집, 조회 페이지 -->
-                <th:block th:if="${view || edit}">
+                <th:block th:if="!${#strings.isEmpty(edit) && #strings.isEmpty(view)}">
                     <div class="flex-column col-2 pl-2">
                         <label for="metricTypeInput">
                             <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.type}"></span>
@@ -116,7 +120,7 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
-    window.onload = function() {
+    window.onload = function () {
         document.getElementById('metricName').focus();
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
     }
