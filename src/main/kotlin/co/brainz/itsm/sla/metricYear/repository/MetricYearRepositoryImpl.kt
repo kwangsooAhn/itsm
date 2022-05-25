@@ -134,7 +134,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             query.where(metricYear.metricYear.notIn(metricLoadCondition.target))
         }
         if (!metricLoadCondition.type.isNullOrEmpty()) {
-            query.where(metric.metricType.`in`(metricLoadCondition.type))
+            query.where(typeCode.codeValue.`in`(metricLoadCondition.type))
         }
 
         return query.fetch()
