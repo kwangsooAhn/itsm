@@ -26,7 +26,7 @@ class WfTokenRepositoryImpl : QuerydslRepositorySupport(WfTokenEntity::class.jav
             .fetch()
     }
 
-    override fun getLastTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
+    override fun getEndTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
         val token = QWfTokenEntity.wfTokenEntity
         return from(token)
             .innerJoin(token.element).fetchJoin()

@@ -199,7 +199,7 @@ class Zql(
      */
     fun fetch(): List<ZqlToken> {
         val instances = this.getInstanceByZQL()
-        val tokens = tokenRepo.getLastTokenList(instances.map { it.instanceId }.toSet())
+        val tokens = tokenRepo.getEndTokenList(instances.map { it.instanceId }.toSet())
 
         return instances.map { instance ->
             val tokenId = tokens.filter { it.instance.instanceId == instance.instanceId }[0].tokenId

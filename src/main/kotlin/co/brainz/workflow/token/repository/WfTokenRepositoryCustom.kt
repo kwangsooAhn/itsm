@@ -7,7 +7,7 @@ interface WfTokenRepositoryCustom {
 
     fun findProcessTokenByAssignee(assignee: String): List<WfTokenEntity>
 
-    fun getLastTokenList(instanceIds: Set<String>): List<WfTokenEntity>
+    fun getEndTokenList(instanceIds: Set<String>): List<WfTokenEntity>
 
     fun getListRunningTokenList(instanceIds: Set<String>): List<WfTokenEntity>
 }
