@@ -16,23 +16,23 @@
 
     // Attribute 타입 목록
     const attributeTypeList = [
-        {'type': 'inputbox', 'name': 'Input Box'},
-        {'type': 'dropdown', 'name': 'Dropdown'},
-        {'type': 'radio', 'name': 'Radio Button'},
-        {'type': 'checkbox', 'name': 'Checkbox'},
-        {'type': 'custom-code', 'name': 'Custom Code'},
-        {'type': 'group-list', 'name': 'Group List'},
-        {'type': 'date', 'name': 'Date'},
-        {'type': 'datetime', 'name': 'Date Time'},
-        {'type': 'userSearch', 'name': 'User Search'},
-        {'type': 'organizationSearch', 'name': 'Organization Search'}
+        { 'type': 'inputbox', 'name': 'Input Box' },
+        { 'type': 'dropdown', 'name': 'Dropdown' },
+        { 'type': 'radio', 'name': 'Radio Button' },
+        { 'type': 'checkbox', 'name': 'Checkbox' },
+        { 'type': 'custom-code', 'name': 'Custom Code' },
+        { 'type': 'group-list', 'name': 'Group List' },
+        { 'type': 'date', 'name': 'Date' },
+        { 'type': 'datetime', 'name': 'Date Time' },
+        { 'type': 'userSearch', 'name': 'User Search' },
+        { 'type': 'organizationSearch', 'name': 'Organization Search' }
     ];
 
     // Validation 목록
     let validationList = [
-        {'text': 'None', 'value': ''},
-        {'text': 'Char', 'value': 'char'},
-        {'text': 'Number', 'value': 'number'}
+        { 'text': 'None', 'value': '' },
+        { 'text': 'Char', 'value': 'char' },
+        { 'text': 'Number', 'value': 'number' }
     ];
 
     let parent = null;
@@ -200,11 +200,12 @@
      */
     function Dropdown(property) {
         const objectId = attributeTypeList[1].type; // dropdown
-        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function (option) {
-            return `<option value='${option.value}' ` +
-                `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
-                `${aliceJs.filterXSS(option.text)}</option>`;
-        }).join('');
+        const booleanOptions = [{ 'text': 'Y', 'value': 'true' }, { 'text': 'N', 'value': 'false' }]
+            .map(function (option) {
+                return `<option value='${option.value}' ` +
+                    `${property.required === option.value ? 'selected=\'true\'' : ''}>` +
+                    `${aliceJs.filterXSS(option.text)}</option>`;
+            }).join('');
         this.template =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-3">` +
@@ -467,7 +468,7 @@
         const sessionOptions = [{
             'text': i18n.msg('user.label.name'),
             'value': 'userName'
-        }, {'text': i18n.msg('user.label.department'), 'value': 'department'}].map(function (option) {
+        }, { 'text': i18n.msg('user.label.department'), 'value': 'department' }].map(function (option) {
             return `<option value='${option.value}' ` +
                 `${(defaultType === 'session' && defaultValue === option.value) ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
@@ -649,7 +650,7 @@
                     );
                     attributeMapTemp = JSON.parse(JSON.stringify(attributeMap));
                     attributeMap.forEach(function (attr) {
-                        addGroupList({key: attr.key, value: attr.value, order: attr.order, type: attr.type});
+                        addGroupList({ key: attr.key, value: attr.value, order: attr.order, type: attr.type });
                     });
                 }
             });
@@ -824,8 +825,8 @@
         const targetCriteria = property.targetCriteria !== undefined ? property.targetCriteria : 'organization';
         const searchKey = property.searchKey !== undefined ? property.searchKey : [];
         const targetOptions = [
-            {'text': i18n.msg('form.properties.userSearch.organization'), 'value': 'organization'},
-            {'text': i18n.msg('form.properties.userSearch.custom'), 'value': 'custom'}].map(function (option) {
+            { 'text': i18n.msg('form.properties.userSearch.organization'), 'value': 'organization' },
+            { 'text': i18n.msg('form.properties.userSearch.custom'), 'value': 'custom' }].map(function (option) {
             const isSelected = (property.targetCriteria === option.value);
             return `<option value='${option.value}' selected=${isSelected}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
@@ -1040,15 +1041,15 @@
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
             targetUserList.innerHTML = htmlData.toString();
-            OverlayScrollbars(targetUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(targetUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
             // 갯수 가운트
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
             // 체크 이벤트
             targetUserList.querySelectorAll('input[type=checkbox], input[type=radio]').forEach((element) => {
                 element.addEventListener('change', function (e) {
                     if (e.target.checked) {
-                        isMulti ? targetArray.push({id: e.target.id, value: e.target.value})
-                            : targetArray.splice(0, targetArray.length, {id: e.target.id, value: e.target.value});
+                        isMulti ? targetArray.push({ id: e.target.id, value: e.target.value })
+                            : targetArray.splice(0, targetArray.length, { id: e.target.id, value: e.target.value });
                     } else {
                         targetArray = targetArray.filter((item) => item.id !== e.target.id);
                     }
@@ -1134,7 +1135,7 @@
      * @returns {string} 템플릿리터럴
      */
     function getRequiredAttributeTemplate(id, selectedValue) {
-        const booleanOptions = [{'text': 'Y', 'value': 'true'}, {'text': 'N', 'value': 'false'}].map(function (option) {
+        const booleanOptions = [{ 'text': 'Y', 'value': 'true' }, { 'text': 'N', 'value': 'false' }].map(function (option) {
             return `<option value='${option.value}' ${selectedValue === option.value ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.text)}</option>`;
         }).join('');
@@ -1246,7 +1247,7 @@
                     // 추가
                     attributeMap = JSON.parse(JSON.stringify(attributeMapTemp));
                     attributeMapTemp.forEach(function (attr) {
-                        addGroupList({key: attr.key, value: attr.value, order: attr.order, type: attr.type});
+                        addGroupList({ key: attr.key, value: attr.value, order: attr.order, type: attr.type });
                     });
                     modal.hide();
                 }
@@ -1283,7 +1284,7 @@
         }).then((htmlData) => {
             document.getElementById('ciClassAttributeList').innerHTML = htmlData.toString();
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
 
             document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
                 checkbox.addEventListener('change', function (e) {
@@ -1959,12 +1960,14 @@
                 elem.setAttribute('data-realTimeSelectedUser',
                     ((data.value !== null && data.value !== '') ? data.value : ''));
                 elem.readOnly = (displayMode === 'view');
+                if (!elem.readOnly) {
+                    elem.addEventListener('click', openOrganizationSearchModal, false);
+                }
                 if (attributeValue.required === 'true') {
                     elem.required = true;
                     elem.setAttribute('data-validation-required', 'true');
                     elem.setAttribute('data-validation-required-name', data.attributeText);
                 }
-                elem.addEventListener('click', openUserSearchModal, false);
 
                 // 기본 값 설정
                 const userDefaultType
@@ -2006,12 +2009,14 @@
                 elem.setAttribute('onkeypress', 'return false;');
                 elem.setAttribute('onkeydown', 'return false;');
                 elem.readOnly = (displayMode === 'view');
+                if (!elem.readOnly) {
+                    elem.addEventListener('click', openOrganizationSearchModal, false);
+                }
                 if (attributeValue.required === 'true') {
                     elem.required = true;
                     elem.setAttribute('data-validation-required', 'true');
                     elem.setAttribute('data-validation-required-name', data.attributeText);
                 }
-                elem.addEventListener('click', openOrganizationSearchModal, false);
 
                 // 기본 값 설정
                 const organizationDefaultType
@@ -2197,7 +2202,7 @@
                     getUserList(target, e.target.value, false);
                 }), false);
                 getUserList(target, document.getElementById('search').value, true);
-                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
             }
         });
         targetUserModal.show();
@@ -2223,7 +2228,7 @@
             if (!isValidate) {
                 const searchUserList = document.getElementById('searchUserList');
                 searchUserList.innerHTML = htmlData.toString();
-                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
                 // 체크 이벤트
@@ -2336,5 +2341,5 @@
     exports.setDetails = setDetails;
     exports.drawDetails = drawDetails;
 
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
