@@ -82,8 +82,7 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
                 metric.metricId,
                 metric.metricName
             ))
-            .leftJoin(code).on(code.code.eq(metric.metricType))
-            .where(code.codeValue.eq(metricType))
+            .where(metric.metricType.eq(metricType))
             .fetch()
     }
 }
