@@ -1889,6 +1889,53 @@ input, button, select, optgroup, textarea {
   background-color: #F1F5FE !important;
 }
 
+/* _charts.scss
+ *
+ * 파일 경로 : template/_charts.scss
+ * @description Highcharts custom design 을 위해 추가됨
+ * @author jy.lim
+ * @version 1.0
+ */
+.highcharts-pie-series.highcharts-legend-item > span {
+  width: 20.75rem;
+  height: 2.625rem;
+  padding: 0 10px;
+  border-bottom: 0.0625rem solid #E1E6EA;
+  color: #424242;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+.highcharts-pie-series.highcharts-legend-item > span:hover {
+  color: inherit !important;
+  background: #EEEEEE no-repeat 0 0;
+}
+.highcharts-pie-series.highcharts-legend-item:first-child > span {
+  border-bottom: 0.125rem solid #CFD5D9;
+  pointer-events: none;
+}
+.highcharts-pie-series.highcharts-legend-item:last-child > span {
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.highcharts-pie-series.highcharts-legend-item rect {
+  display: none;
+}
+.highcharts-pie-series.highcharts-legend-item .highcharts-legend-row {
+  margin: 0.875rem 0.625rem;
+}
+
+.highcharts-subtitle {
+  width: 10rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: #8B9094;
+}
+.highcharts-subtitle-count {
+  font-size: 3.25rem;
+  color: #222529;
+}
+
 /* _layout.scss
  *
  * 파일 경로 : template/_layout.scss

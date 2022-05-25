@@ -80,7 +80,7 @@ export const zPieChartMixin = {
      */
     getSubtitleLocation() {
         let subtitleLocation = {
-            x: 175,
+            x: 180,
             y: 180
         };
         // subtitle 의 x 좌표는 모달 여부로 계산
@@ -119,7 +119,7 @@ export const zPieChartMixin = {
         Object.assign(option.legend, {
             layout: 'vertical',
             verticalAlign: 'middle',
-            x: -60,
+            x: -50,
             useHTML: true,
             labelFormatter: function () {
                 if (this.name === 'title') {

@@ -1,8 +1,9 @@
-/**
- * 차트 디자인
- * /default/_chart.scss
- * highCharts 내부 구성 요소에 대한 디자인입니다.
- * 사용자 정의 차트 및 개인 현황판
+/* _charts.scss
+ *
+ * 파일 경로 : template/_charts.scss
+ * @description Highcharts custom design 을 위해 추가됨
+ * @author jy.lim
+ * @version 1.0
  */
 
 // Pie chart
@@ -39,7 +40,7 @@
   }
 }
 .highcharts-subtitle {
-  width: 9.375rem; // 150px
+  width: 10rem; // 160px
   text-align: center;
   font-size: $font-size-xs;
   font-weight: $font-weight-regular;
