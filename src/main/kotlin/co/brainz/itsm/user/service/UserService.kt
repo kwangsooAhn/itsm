@@ -68,6 +68,7 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Optional
+import javax.servlet.http.HttpServletRequest
 import kotlin.math.ceil
 import kotlin.random.Random
 import org.slf4j.Logger
@@ -824,8 +825,12 @@ class UserService(
     /**
      * 사용자 비밀번호 확인 시 rsa key 전달
      */
-    fun rsaKeySend(): MutableMap<String, Any> {
+    fun rsaKeySend(request: HttpServletRequest): MutableMap<String, Any> {
         val map: MutableMap<String, Any> = mutableMapOf()
+        val session = request.getSession(true)
+        session.removeAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value)
+        session.setAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value, aliceCryptoRsa.getPrivateKey())
+
         map[AliceConstants.RsaKey.PUBLIC_MODULE.value] = aliceCryptoRsa.getPublicKeyModulus()
         map[AliceConstants.RsaKey.PUBLIC_EXPONENT.value] = aliceCryptoRsa.getPublicKeyExponent()
 
