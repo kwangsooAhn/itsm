@@ -27,7 +27,7 @@
             userInfo = JSON.stringify({});
         }
         const sessionInfo = JSON.parse(userInfo);
-        i18n.yearFormat = (typeof sessionInfo.yearFormat !== 'undefined') ? sessionInfo.yearFormat : defaultYearFormat;
+        i18n.yearFormat = defaultYearFormat;
         i18n.dateTimeFormat = (typeof sessionInfo.dateTimeFormat !== 'undefined') ? sessionInfo.dateTimeFormat :
             defaultDateTimeFormat;
         i18n.dateFormat = (typeof sessionInfo.dateFormat !== 'undefined') ? sessionInfo.dateFormat : defaultDateFormat;
@@ -109,20 +109,6 @@
      *
      * @author Jung Hee chan
      * @since 2020-06-08
-     * @param {String}  beforeUserYear 변환 대상 날짜.
-     * @return {String} 변환된 데이터.
-     */
-    function convertToSystemYear(beforeUserYear, format = i18n.yearFormat) {
-        if (beforeUserYear === null || beforeUserYear === '') { return ''; }
-
-        return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserYear), format).toFormat('yyyy');
-    }
-
-    /**
-     * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
-     *
-     * @author Jung Hee chan
-     * @since 2020-06-08
      * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
      * @return {String} 변환된 데이터.
      */
@@ -185,8 +171,8 @@
     /**
      * 서버에서 받은 ISO 8601 포맷의 데이터를 사용자 포맷과 타임존으로 변경
      *
-     * @author Jung Hee chan
-     * @since 2020-06-08
+     * @author Mo Hyung Nan
+     * @since 2022-05-25
      * @param {String}  beforeSystemYear 변환 대상 날짜시간 데이터.
      * @return {String} 변환된 데이터.
      */
@@ -277,7 +263,7 @@
     /**
      * 최소 날짜시간이 최대 날짜시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
      *
-     * @author Woo Da Jung
+     * @author Mo Hyung Nan
      * @param minUserYear
      * @param minUserYear
      * @returns {boolean}
@@ -386,7 +372,6 @@
     exports.getEndOfDate = getEndOfDate;
     exports.getEndOfDateTime = getEndOfDateTime;
     exports.getCustomDate = getCustomDate;
-    exports.systemYear = convertToSystemYear;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;

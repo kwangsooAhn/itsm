@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/pagingListLayout">
+<head>
+    <title th:text="#{sla.metricYear.label.metricYear}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{sla.metricYear.label.metricYear}"></h1>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+        <span class="font-bold text-red500 pl-1" id="weightValueScore" th:text="#{sla.metricYear.msg.totalScore}"></span>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" id="btnCopy" name="btnCopy"
+                th:onclick="" th:text="#{sla.metricYear.btn.copy}"></button>
+        <button type="button" class="z-button primary" onclick="location.href='/sla/metrics/new'"
+                sec:authorize="hasAuthority('sla.manage')" th:text="#{common.btn.add}"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="metricYearList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let yearDt = i18n.getYear();
+
+    window.onload = function () {
+        const yearDtElement = document.getElementById('year');
+        yearDtElement.value = yearDt;
+        zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
+
+        getList();
+    };
+
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') return false;
+        if (document.getElementById('year').value !== '' && element.value !== '') getList();
+    }
+
+    /**
+     * 연도별 SLA 지표관리 검색
+     */
+    function getList(pageNum = 1) {
+        let urlParam = '/sla/metrics?year=' + document.getElementById('year').value + '&pageNum=' + pageNum;
+        aliceJs.fetchText(urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('metricYearList')
+            listBody.innerHTML = htmlData;
+            setMetricValueFormat(listBody);
+
+            // 가중치 합이 100%가 아닐 경우 문구 생성
+            let totalWeight = 0;
+            document.querySelectorAll('.weight-value').forEach(elem => {
+                const numWeightValue =  Number(elem.textContent);
+                totalWeight += numWeightValue;
+            });
+            if (totalWeight !== 100) {
+                document.getElementById('weightValueScore').style.display = 'inline-block';
+            } else {
+                document.getElementById('weightValueScore').style.display = 'none';
+            }
+        });
+    }
+
+    /**
+     * 서버에서 전달받은 지표값 포맷을 변경한다.
+     */
+    function setMetricValueFormat(elem) {
+        elem.querySelectorAll('.metric-value').forEach(value => {
+            const userMetricValue = value.textContent.replace(/.?0+$/, '');
+            value.textContent = userMetricValue;
+            value.setAttribute('title', userMetricValue);
+        });
+    }
+    /*]]>*/
+</script>
+</html>
