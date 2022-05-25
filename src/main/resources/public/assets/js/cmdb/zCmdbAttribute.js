@@ -1135,10 +1135,11 @@
      * @returns {string} 템플릿리터럴
      */
     function getRequiredAttributeTemplate(id, selectedValue) {
-        const booleanOptions = [{ 'text': 'Y', 'value': 'true' }, { 'text': 'N', 'value': 'false' }].map(function (option) {
-            return `<option value='${option.value}' ${selectedValue === option.value ? 'selected=\'true\'' : ''}>` +
-                `${aliceJs.filterXSS(option.text)}</option>`;
-        }).join('');
+        const booleanOptions = [{ 'text': 'Y', 'value': 'true' }, { 'text': 'N', 'value': 'false' }].map(
+            function (option) {
+                return `<option value='${option.value}' ${selectedValue === option.value ? 'selected=\'true\'' : ''}>` +
+                    `${aliceJs.filterXSS(option.text)}</option>`;
+            }).join('');
 
         return `<div class="flex-row mt-2">` +
                 `<div class="flex-column col-2 mr-4">` +
