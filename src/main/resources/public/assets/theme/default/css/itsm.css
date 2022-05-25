@@ -8104,6 +8104,19 @@ body.modal-active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
+.modal-dialog.sla-metric-manual-modal {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.sla-metric-manual-modal .modal-content {
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
 .modal-dialog.sla-metric-yearly-copy-modal {
   width: 62.5rem;
   padding: 0.625rem 1.25rem;

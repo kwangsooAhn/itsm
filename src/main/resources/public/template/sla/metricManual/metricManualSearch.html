@@ -149,10 +149,11 @@
                     closable: false,
                 },
                 onCreate: function () {
-                    // let referenceDt = i18n.getDate();
-                    // document.getElementById('referenceDate').value = referenceDt;
-                    // zDateTimePicker.initDatePicker(document.getElementById('referenceDate'));
-                    // getMetricYearList();
+                    let referenceDt = i18n.getDate();
+                    document.getElementById('referenceDate').value = referenceDt;
+                    zDateTimePicker.initDatePicker(document.getElementById('referenceDate'));
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    getMetricYearList();
                 }
             });
             metricManualModal.show();
@@ -160,17 +161,23 @@
     }
 
     function getMetricYearList() {
-        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('referenceDate').value.toString().substring(0, 10)
-            + '&target=' + ''
-            + '&type=' + 'manual';
+        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('referenceDate').value.toString().substring(0, 4)
+            + '&target='
+            + '&type=';
         aliceJs.fetchText(urlParam, {
             method: 'GET'
-        }).then((option) => {
-            const targetMetric = document.getElementById('targetMetric');
-            const metricNameOption = document.createElement('option');
-            selectOption.value = option.metricId;
-            selectOption.text = option.metricName;
-            targetMetric.appendChild(metricNameOption);
+        }).then((response) => {
+            console.log(response)
+            let responseJson = JSON.parse(response);
+            const metricList = responseJson.data;
+            const selectTag = document.getElementById('targetMetric');
+            for (let i = 0; i < metricList.length; i++) {
+                const selectOption = document.createElement('option');
+                selectOption.value = metricList[i].metricId;
+                selectOption.text = metricList[i].metricName;
+                selectTag.appendChild(selectOption);
+            }
+            aliceJs.initDesignedSelectTag();
         });
     }
 

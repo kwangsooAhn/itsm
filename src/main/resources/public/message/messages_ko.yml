@@ -1408,7 +1408,7 @@ sla:
       createUser: "등록자"
       metricManual: "수동 지표관리"
       metricName: "지표 이름"
-      metricValue: "지표값"
+      metricValue: "지표 값"
       newMetricManual: "수동지표 데이터 추가"
       referenceDate: "기준일자"
       targetMetric: "대상 지표"
