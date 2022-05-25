@@ -22,6 +22,7 @@ import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
@@ -253,6 +254,38 @@ class MetricYearService(
     fun deleteMetricYear(metricId: String, year: String): ZResponse {
         val status = ZResponseConstants.STATUS.SUCCESS
         metricYearRepository.deleteById(MetricYearEntityPk(metricId, year))
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * 연도별 지표 복사하기
+     */
+    @Transactional
+    fun metricYearCopy(metricYearCopyDto: MetricYearCopyDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val metricYearEntity =
+            metricYearRepository.findById(MetricYearEntityPk(metric = metricYearCopyDto.metricId, metricYear = metricYearCopyDto.source))
+
+        if (metricYearEntity.isEmpty) {
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        } else {
+            metricYearRepository.save(
+                MetricYearEntity(
+                    metric = MetricPoolEntity(metricId = metricYearCopyDto.metricId),
+                    metricYear = metricYearCopyDto.target,
+                    minValue = metricYearEntity.get().minValue,
+                    maxValue = metricYearEntity.get().maxValue,
+                    weightValue = metricYearEntity.get().weightValue,
+                    owner = metricYearEntity.get().owner,
+                    comment = metricYearEntity.get().comment,
+                    zqlString = metricYearEntity.get().zqlString,
+                    createUserKey = currentSessionUser.getUserKey(),
+                    createDt = LocalDateTime.now()
+                )
+            )
+        }
         return ZResponse(
             status = status.code
         )
