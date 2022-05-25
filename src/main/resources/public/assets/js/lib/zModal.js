@@ -150,9 +150,9 @@
                 _this.animation = setTimeout(function () {
                     clearTimeout(_this.animation);
                     modalDialog.classList.add('modal-active');
+                    _this.options.onShow(_this);
+                    _this.display = true;
                 }, 30);
-                _this.display = true;
-                _this.options.onShow(_this);
             }
         };
 
@@ -165,8 +165,8 @@
                     removeClass(modalWrapper, 'modal-active');
                     removeClass(document.body, 'modal-active');
                     _this.options.onHide(_this);
+                    _this.display = false;
                 }, 150);
-                _this.display = false;
             }
         };
 

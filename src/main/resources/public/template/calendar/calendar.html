@@ -82,8 +82,9 @@
         const viewType = document.getElementById('calendarType').value;
         const searchData = {
             viewType: viewType,
-            from: myCalendar.getFromSystemDateTime(),
-            to: myCalendar.getToSystemDateTime(),
+            standard: myCalendar.getStandardDateTime(),
+            //from: myCalendar.getFromSystemDateTime(),
+            //to: myCalendar.getToSystemDateTime(),
             calendarIds: calendarIds
         };
         aliceJs.fetchJson('/rest/calendars', {
