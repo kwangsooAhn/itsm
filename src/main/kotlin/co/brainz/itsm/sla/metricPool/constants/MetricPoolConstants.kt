@@ -35,6 +35,5 @@ object MetricPoolConstants {
         MANUAL("sla.metricType.manual"),
         SIMPLE_AUTO("auto"),
         SIMPLE_MANUAL("manual")
-
     }
 }
