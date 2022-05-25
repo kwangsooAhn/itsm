@@ -45,6 +45,9 @@ data class MetricYearEntity(
     @Column(name = "comment")
     var comment: String? = null,
 
+    @Column(name = "zql_string")
+    var zqlString: String,
+
     @Column(name = "create_user_key", length = 128)
     var createUserKey: String? = null,
 

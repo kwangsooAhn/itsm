@@ -1455,6 +1455,7 @@ insert into awf_url values ('/sla/metrics/{id}/{year}/edit', 'get', '년도별 �
 insert into awf_url values ('/sla/metrics/{id}/{year}/view', 'get', '년도별 지표관리 조회 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/manual/search', 'get', '수동 지표관리 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/manual', 'get', '수동 지표관리 목록 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/manual/new', 'get', '수동 지표 등록 모달 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/status/search', 'get', '지표별 현황 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/status', 'get', '지표별 현황 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/annual/search', 'get', '년도별 현황 검색 화면', 'TRUE');
@@ -1825,6 +1826,7 @@ insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.m
 insert into awf_url_auth_map values ('/sla/metrics/manual/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/manual/new', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/status', 'get', 'sla.manage');
@@ -9405,6 +9407,7 @@ CREATE TABLE sla_metric_year
     weight_value decimal,
     owner varchar(100),
     comment text,
+    zql_string text,
     create_user_key varchar(128),
     create_dt timestamp,
     update_user_key varchar(128),
@@ -9421,6 +9424,7 @@ COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
 COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
 COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
 COMMENT ON COLUMN sla_metric_year.comment IS '비고';
+COMMENT ON COLUMN sla_metric_year.zql_string IS 'zql';
 COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
 COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';
@@ -9450,21 +9454,4 @@ COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
 COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
 COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
-
-/**
-  SLA ZQL
- */
-DROP TABLE IF EXISTS sla_zql cascade;
-
-CREATE TABLE sla_zql
-(
-    metric_id varchar(128) NOT NULL,
-    zql_string text,
-    CONSTRAINT sla_zql_pk PRIMARY KEY (metric_id),
-    CONSTRAINT sla_zql_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
-);
-
-COMMENT ON TABLE sla_zql IS 'SLA ZQL';
-COMMENT ON COLUMN sla_zql.metric_id IS '지표아이디';
-COMMENT ON COLUMN sla_zql.zql_string IS 'zql';
 
