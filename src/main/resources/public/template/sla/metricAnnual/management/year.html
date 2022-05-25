@@ -15,7 +15,7 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form">
         <form id="frm" method="post">
-            <div class="flex-row">
+            <div class="flex-row z-edit-row">
                 <div class="flex-column col-2">
                     <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
                     <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="metricYear" name="metricYear"/>
@@ -43,51 +43,50 @@
                            data-validation-required-name="#{common.label.calculationType}" maxlength="128" readonly>
                 </div>
             </div>
-            <div class="z-edit-form flex-fill">
-                <div class="flex-column z-edit-row">
+            <div class="z-edit-form z-edit-row">
+                <div class="z-edit-row">
                     <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
                     <input type="text" class="z-input" id="metricYearDesc" value="${metric?.metricDesc}"
                            data-validation-required-name="#{sla.metricYear.label.description}" readonly>
                 </div>
             </div>
-            <div class="z-edit-form flex-fill">
-                <div class="z-edit-row flex-row">
-                    <div class="flex-column">
-                        <div class="flex-column z-edit-row">
-                            <label th:text="#{sla.metricYear.label.minValue}" for="minValue" class="required"></label>
-                            <div>
-                                <input type="text" id="minValue" name="minValue" class="z-input" maxlength="128"
-                                       th:value="${metric?.minValue}" th:readonly="${view}"/>
-                                <span th:text="#{sla.metricYear.label.option.score}"></span>
-                            </div>
-                        </div>
+            <div class="flex-row z-edit-row">
+                <div class="flex-column col-1">
+                    <label th:text="#{sla.metricYear.label.minValue}" for="minValue" class="required"></label>
+                    <div class="flex-row">
+                        <input type="text" id="minValue" name="minValue" class="z-input" maxlength="4"
+                               th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
+                               th:value="${metric?.minValue}" th:readonly="${view}"/>
+                        <span class="pl-1" th:text="#{sla.metricYear.label.option.score}"></span>
                     </div>
-                    <div class="flex-column">
-                        <label th:text="#{sla.metricYear.label.maxValue}" for="maxValue" class="required"></label>
-                        <div>
-                            <input type="text" id="maxValue" name="maxValue" class="z-input" maxlength="128"
-                                   th:value="${metric?.maxValue}" th:readonly="${view}"/>
-                            <span th:text="#{sla.metricYear.label.option.score}"></span>
-                        </div>
+                </div>
+                <div class="flex-column col-1 ml-5">
+                    <label th:text="#{sla.metricYear.label.maxValue}" for="maxValue" class="required"></label>
+                    <div class="flex-row">
+                        <input type="text" id="maxValue" name="maxValue" class="z-input" maxlength="4"
+                               th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
+                               th:value="${metric?.maxValue}" th:readonly="${view}"/>
+                        <span class="pl-1" th:text="#{sla.metricYear.label.option.score}"></span>
                     </div>
-                    <div class="flex-column">
-                        <label th:text="#{sla.metricYear.label.weightValue}" for="weightValue" class="required"></label>
-                        <div>
-                            <input type="text" id="weightValue" name="weightValue" class="z-input" maxlength="128"
-                                   th:value="${metric?.weightValue}" th:readonly="${view}"/>
-                            <span th:text="#{sla.metricYear.label.option.percent}"></span>
-                        </div>
+                </div>
+                <div class="flex-column col-1 ml-5">
+                    <label th:text="#{sla.metricYear.label.weightValue}" for="weightValue" class="required"></label>
+                    <div class="flex-row">
+                        <input type="text" id="weightValue" name="weightValue" class="z-input" maxlength="4"
+                               th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
+                               th:value="${metric?.weightValue}" th:readonly="${view}"/>
+                        <span class="pl-1" th:text="#{sla.metricYear.label.option.percent}"></span>
                     </div>
-                    <div class="flex-column">
-                        <label th:text="#{sla.metricYear.label.owner}" for="owner" class="required"></label>
-                        <input type="text" id="owner" name="owner" class="z-input" maxlength="128"
-                               th:value="${metric?.owner}" th:readonly="${view}"/>
-                    </div>
-                    <div class="flex-column">
-                        <label th:text="#{sla.metricYear.label.comment}" for="comment" class="required"></label>
-                        <input type="text" id="comment" name="comment" class="z-input" maxlength="128"
-                               th:value="${metric?.comment}" th:readonly="${view}"/>
-                    </div>
+                </div>
+                <div class="flex-column col-2 ml-5">
+                    <label th:text="#{sla.metricYear.label.owner}" for="owner" class="required"></label>
+                    <input type="text" id="owner" name="owner" class="z-input" maxlength="128"
+                           th:value="${metric?.owner}" th:readonly="${view}"/>
+                </div>
+                <div class="flex-column col-6 pl-3">
+                    <label th:text="#{sla.metricYear.label.comment}" for="comment" class="required"></label>
+                    <input type="text" id="comment" name="comment" class="z-input" maxlength="128"
+                           th:value="${metric?.comment}" th:readonly="${view}"/>
                 </div>
             </div>
             <div class="z-edit-row flex-column flex-fill">
@@ -104,7 +103,8 @@
                     </th:block>
                 </div>
                 <div class="horizontal-bar"></div>
-                <p th:text="#{sla.metricYear.msg.zqlDescription}"></p>
+                <p class="pt-1 pb-3" th:text="#{sla.metricYear.msg.zqlDescription}"></p>
+                <a class="" onclick="openZqlManualModal()" th:text="#{sla.metricYear.label.zqlManual}"></a>
                 <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"  th:readonly="${view}"
                        th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
             </div>
@@ -167,6 +167,36 @@
             }
             aliceJs.initDesignedSelectTag();
         });
+    }
+
+    /**
+     * ZQL 사용법 모달 오픈
+     */
+    function openZqlManualModal() {
+        const zqlManualModal = new modal({
+            title: i18n.msg('sla.metricYear.label.zqlManual'),
+            body: createModalContent(),
+            classes: 'sla-zql-manual-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function(modal) {
+
+            }
+        });
+        zqlManualModal.show();
+    }
+
+    function createModalContent(data) {
+        return `<div>${i18n.msg('sla.zqlManual')}</div>`;
     }
 
     /**

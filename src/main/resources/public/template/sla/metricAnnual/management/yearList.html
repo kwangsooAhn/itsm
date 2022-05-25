@@ -38,9 +38,9 @@
             </div>
             <div class="grid__cell pr-2 pl-2 underline">
                 <a sec:authorize="hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/sla/metrics/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
+                   th:href="@{/sla/metrics/{id}/{year}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
                 <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/sla/metrics/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
+                   th:href="@{/sla/metrics/{id}/{year}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
                 </a>
             </div>
             <div class="grid__cell pr-2 pl-2">
