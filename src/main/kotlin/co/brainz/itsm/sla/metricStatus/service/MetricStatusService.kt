@@ -33,7 +33,7 @@ class MetricStatusService(
 
     fun getMetricStatusChartData(metricStatusChartCondition: MetricStatusChartCondition): MetricStatusChartDto {
         val metricDto = metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year)
-        val chartConfig = this.initChartConfig(metricStatusChartCondition.year, metricDto)
+        val chartConfig = this.initChartConfig(metricStatusChartCondition.year)
         return MetricStatusChartDto(
             metricYears = metricStatusChartCondition.year,
             metricId = metricStatusChartCondition.metricId,
@@ -44,11 +44,11 @@ class MetricStatusService(
         )
     }
 
-    private fun initChartConfig(year: String, metricDto: MetricYearDetailDto): ChartConfig {
+    private fun initChartConfig(year: String): ChartConfig {
         val range = ChartRange(
             type = ChartConstants.Range.BETWEEN.code,
-            fromDate = LocalDate.parse(year, DateTimeFormatter.ISO_DATE),
-            toDate = LocalDate.parse(year, DateTimeFormatter.ISO_DATE)
+            fromDate = LocalDate.of(year.toInt(),1,1),
+            toDate = LocalDate.of(year.toInt(),12,31)
         )
         return ChartConfig(
             range = range,
