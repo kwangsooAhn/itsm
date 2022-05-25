@@ -9,11 +9,9 @@
  * https://www.brainz.co.kr
  */
 import { CHART } from '../../lib/zConstants.js';
-import { zValidation } from '../../lib/zValidation.js';
 
 const DEFAULT_CHART_PROPERTY = {
     chart: { type: 'pie' },
-    subtitle: {},
     plotOptions: {
         pie: {
             size: 300,
@@ -39,7 +37,30 @@ const DEFAULT_CHART_PROPERTY = {
         data: [],
     }]
 };
+const COUNT_LOCATION_OPTION = {
+    chart: {
+        events: {
+            redraw: function () {
+                const chart = this,
+                    offsetLeft = -80,
+                    offsetTop = -24,
+                    x = chart.plotLeft + chart.plotWidth / 2 + offsetLeft,
+                    y = chart.plotTop + chart.plotHeight / 2 + offsetTop;
+                let value = 0;
+                chart.series[0].yData.forEach(function (point) {
+                    value += point;
+                });
+                // count number
+                chart.renderer.text(`<div class="highcharts-subtitle">` +
+                    `<span class="highcharts-subtitle-count text-ellipsis" title="${value}">${value}</span>` +
+                    `<br><span>Total</span></div>`, x, y, true).add()
+                    .toFront();
+            }
+        }
+    }
+};
 Object.freeze(DEFAULT_CHART_PROPERTY);
+Object.freeze(COUNT_LOCATION_OPTION);
 
 export const zPieChartMixin = {
     initProperty() {
@@ -52,6 +73,8 @@ export const zPieChartMixin = {
         this.setTooltipOption(defaultOptions);
         // 옵션 프로퍼티 초기화
         this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
+        // total 카운트 위치 옵션 설정
+        this._options = aliceJs.mergeObject(this._options, COUNT_LOCATION_OPTION);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
         // highcharts 이름 초기화
@@ -75,24 +98,6 @@ export const zPieChartMixin = {
         return chartHeight;
     },
     /**
-     * 데이터 갯수에 따른 차트 subtitle 좌표 조회
-     * @returns subtitle 좌표
-     */
-    getSubtitleLocation() {
-        let subtitleLocation = {
-            x: 180,
-            y: 180
-        };
-        // subtitle 의 x 좌표는 모달 여부로 계산
-        subtitleLocation.x
-            = !zValidation.isDOMElement(document.querySelector('.modal-content'))
-                ? subtitleLocation.x : subtitleLocation.x - 30;
-        // subtitle 의 y 좌표는 데이터(태그) 갯수로 계산
-        subtitleLocation.y
-            = (this.tags.length > 7) ? (subtitleLocation.y + 10 * (this.tags.length - 7)) : subtitleLocation.y;
-        return subtitleLocation;
-    },
-    /**
      * 차트 크기 설정
      * @param option 하이차트 옵션
      */
@@ -101,13 +106,6 @@ export const zPieChartMixin = {
         // 차트 높이
         Object.assign(option.chart, {
             height: chart.getChartHeight()
-        });
-        // subtitle 위치
-        Object.assign(option.subtitle, {
-            align: 'left',
-            verticalAlign: 'top',
-            x: chart.getSubtitleLocation().x,
-            y: chart.getSubtitleLocation().y
         });
     },
     /**
@@ -161,16 +159,6 @@ export const zPieChartMixin = {
      */
     update(data) {
         if (!data.length) { return false; }
-
-        // total 카운트 구성
-        let totalCount = 0;
-        data.filter(it => totalCount += Number(it.value));
-        this.chart.setSubtitle({
-            useHTML: true,
-            text: `<span class="highcharts-subtitle-count text-ellipsis" title="${totalCount}">${totalCount}</span>` +
-                `</br>` +
-                `<span>Total</span>`
-        }, false);
 
         let series = [];
         // 범례 헤더 구성
