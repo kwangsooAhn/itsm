@@ -8,6 +8,7 @@ package co.brainz.itsm.sla.metricYear.controller
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.service.MetricYearService
@@ -67,5 +68,13 @@ class MetricYearRestController(
     @DeleteMapping("/{metricId}/{year}")
     fun deleteMetricYear(@PathVariable metricId: String, @PathVariable year: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.deleteMetricYear(metricId, year))
+    }
+
+    /**
+     * 연도별 지표 복사하기
+     */
+    @PostMapping("/copy")
+    fun metricYearCopy(@RequestBody metricYearCopyDto: MetricYearCopyDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricYearService.metricYearCopy(metricYearCopyDto))
     }
 }
