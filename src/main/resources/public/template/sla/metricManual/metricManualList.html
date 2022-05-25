@@ -36,6 +36,7 @@
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis metric-value" th:text="${metric.metricValue}" th:title="${metric.metricValue}"></span>
+                <span class="text-ellipsis metric-value" th:text="#{|${metric.metricUnit}|}" th:title="${metric.metricUnit}">
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis date-time" th:text="${metric.createDt}" th:title="${metric.createDt}"></span>
