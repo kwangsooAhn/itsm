@@ -219,7 +219,7 @@ class UserRestController(
      * 사용자 비밀번호 확인 시 rsa key 전달
      */
     @GetMapping("/rsa")
-    fun userPasswordConfirm(): ResponseEntity<ZResponse> {
+    fun rsaKeySend(): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(userService.rsaKeySend())
     }
 
