@@ -20,12 +20,4 @@ import org.springframework.web.bind.annotation.RestController
 class MetricStatusRestController(
     private val metricStatusService: MetricStatusService
 ) {
-
-    /**
-     * 지표별 SLA 현황 차트 데이터
-     */
-    @PostMapping("")
-    fun getMetricStatusChartData(@RequestBody metricStatusChartCondition: MetricStatusChartCondition): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricStatusService.getMetricStatusChartData(metricStatusChartCondition))
-    }
 }
