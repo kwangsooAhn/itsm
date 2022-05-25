@@ -490,11 +490,11 @@ Object.assign(zCalendar.prototype, {
         // 종일 : 2022-05-20
         let rangeDateHtml = [];
         rangeDateHtml.push(start.toFormat(format));
-        // 종일X : 2022-05-20 13:00 ~ 14:00
+        // 종일X : 2022-05-20 13:00 ~ 2022-05-20 14:00
         if (!schedule.isAllDay) {
             rangeDateHtml.push(' ~ ');
             rangeDateHtml.push(
-                luxon.DateTime.fromMillis(schedule.end.getTime()).setZone(i18n.timezone).toFormat(i18n.timeFormat)
+                luxon.DateTime.fromMillis(schedule.end.getTime()).setZone(i18n.timezone).toFormat(format)
             );
         }
         // 반복 : (매주 X요일) | (매월 X번째 X요일)
@@ -645,6 +645,25 @@ Object.assign(zCalendar.prototype, {
             <span>${rangeDateHtml.join('')}</span>
             <span>${schedule.title}</span>
         </div>`.trim();
+    },
+    /**
+     * viewType에 따라서 조회 날짜 변경
+     */
+    getStandardDateTime: function () {
+        switch (this.options.viewType) {
+            case 'month': // 2022-05
+            case 'task':
+                return luxon.DateTime.fromMillis(
+                    this.calendar.getDate().getTime()).toFormat('yyyy-MM');
+            case 'week': // 2022-05-13
+                return luxon.DateTime.fromMillis(
+                    this.calendar.getDate().getTime()).toFormat('yyyy-MM-dd');
+            case 'day': // 2022-05-13
+                return luxon.DateTime.fromMillis(
+                    this.calendar.getDate().getTime()).toFormat('yyyy-MM-dd');
+            default:
+                break;
+        }
     },
     /**
      * 시작 시간을 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환

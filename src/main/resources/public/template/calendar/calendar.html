@@ -80,14 +80,11 @@
             return acc;
         }, []);
         const viewType = document.getElementById('calendarType').value;
-        // TODO: 날짜 기준 변경 필요
-        //standard: 2022-05 // 월
-        //standard: 2022-05-13 // 주
-        //standard: 2022-05-13 // 일
         const searchData = {
             viewType: viewType,
-            from: myCalendar.getFromSystemDateTime(),
-            to: myCalendar.getToSystemDateTime(),
+            standard: myCalendar.getStandardDateTime(),
+            //from: myCalendar.getFromSystemDateTime(),
+            //to: myCalendar.getToSystemDateTime(),
             calendarIds: calendarIds
         };
         aliceJs.fetchJson('/rest/calendars', {
