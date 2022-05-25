@@ -37,6 +37,7 @@ const DEFAULT_CHART_PROPERTY = {
         data: [],
     }]
 };
+// Total 카운트 위치 옵션
 const COUNT_LOCATION_OPTION = {
     chart: {
         events: {
@@ -47,14 +48,18 @@ const COUNT_LOCATION_OPTION = {
                     x = chart.plotLeft + chart.plotWidth / 2 + offsetLeft,
                     y = chart.plotTop + chart.plotHeight / 2 + offsetTop;
                 let value = 0;
+
+                // 기존 텍스트 엘리먼트가 있다면 제거
+                const preTitleElements = document.querySelectorAll('div.highcharts-subtitle');
+                preTitleElements.length ? preTitleElements[0].parentElement.remove() : '';
+
+                // count number
                 chart.series[0].yData.forEach(function (point) {
                     value += point;
                 });
-                // count number
                 chart.renderer.text(`<div class="highcharts-subtitle">` +
                     `<span class="highcharts-subtitle-count text-ellipsis" title="${value}">${value}</span>` +
-                    `<br><span>Total</span></div>`, x, y, true).add()
-                    .toFront();
+                    `<br><span>Total</span></div>`, x, y, true).add().toFront();
             }
         }
     }
@@ -73,7 +78,7 @@ export const zPieChartMixin = {
         this.setTooltipOption(defaultOptions);
         // 옵션 프로퍼티 초기화
         this._options = aliceJs.mergeObject(defaultOptions, this.customOptions);
-        // total 카운트 위치 옵션 설정
+        // Total 카운트 위치 옵션 설정
         this._options = aliceJs.mergeObject(this._options, COUNT_LOCATION_OPTION);
         // highcharts 초기화
         this.chart = Highcharts.chart(this.container, this.options);
