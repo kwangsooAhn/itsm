@@ -27,7 +27,7 @@
             userInfo = JSON.stringify({});
         }
         const sessionInfo = JSON.parse(userInfo);
-        i18n.yearFormat = defaultYearFormat;
+        i18n.yearFormat = (typeof sessionInfo.yearFormat !== 'undefined') ? sessionInfo.yearFormat : defaultYearFormat;
         i18n.dateTimeFormat = (typeof sessionInfo.dateTimeFormat !== 'undefined') ? sessionInfo.dateTimeFormat :
             defaultDateTimeFormat;
         i18n.dateFormat = (typeof sessionInfo.dateFormat !== 'undefined') ? sessionInfo.dateFormat : defaultDateFormat;
@@ -102,6 +102,21 @@
 
         return luxon.DateTime.fromFormat(beforeUserDate, i18n.dateFormat, {zone: i18n.timezone})
             .setZone(i18n.timezone).plus(offset).toFormat(i18n.dateFormat);
+    }
+
+    /**
+     * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
+     *
+     * @author Mo Hyung Nan
+     * @since 2022-05-25
+     * @param {String}  beforeUserYear 변환 대상 날짜.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToSystemYear(beforeUserYear, offset = { years : 0 }, format = i18n.yearFormat) {
+        if (beforeUserYear === null || beforeUserYear === '') { return ''; }
+
+        return luxon.DateTime.fromFormat(convertToUserYear(beforeUserYear), format, {zone: i18n.timezone})
+            .setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -372,6 +387,7 @@
     exports.getEndOfDate = getEndOfDate;
     exports.getEndOfDateTime = getEndOfDateTime;
     exports.getCustomDate = getCustomDate;
+    exports.systemYear = convertToSystemYear;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;
