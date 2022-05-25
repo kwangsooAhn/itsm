@@ -9563,6 +9563,11 @@ body.modal-active {
  * @author wdj
  * @version 1.0
  */
+:root {
+  --data-modal-width: 12;
+  --data-modal-height: 2;
+}
+
 .calendar__menu .calendar__move {
   border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -9620,13 +9625,17 @@ body.modal-active {
   height: 0.9375rem;
 }
 
+.modal-dialog.calendar {
+  --data-modal-width: 0;
+  --data-modal-height: 0;
+}
 .modal-dialog.calendar__modal--register {
-  width: 620px;
-  height: 320px;
-  right: auto;
+  width: calc(var(--data-modal-width) * 1px);
+  height: calc(var(--data-modal-height) * 1px);
+  margin: 0;
 }
 .modal-dialog.calendar__modal--register .modal-content {
-  height: calc(320px - 80px);
+  height: calc(var(--data-modal-height) * 1px - 80px);
   padding: 20px 20px 0px 20px;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -9645,6 +9654,7 @@ body.modal-active {
 }
 .modal-dialog.calendar__modal--repeat {
   width: 430px;
+  margin: 0;
 }
 .modal-dialog.calendar__modal--repeat .modal-content {
   padding: 20px 20px 0px 20px;
@@ -9661,11 +9671,12 @@ body.modal-active {
   gap: 8px;
 }
 .modal-dialog.calendar__modal--detail {
-  width: 300px;
-  height: 280px;
+  width: calc(var(--data-modal-width) * 1px);
+  height: calc(var(--data-modal-height) * 1px);
+  margin: 0;
 }
 .modal-dialog.calendar__modal--detail .modal-content {
-  height: calc(280px - 80px);
+  height: calc(var(--data-modal-height) * 1px - 80px);
   padding: 20px 20px 0px 20px;
   -ms-overflow-style: none;
   /* IE and Edge */

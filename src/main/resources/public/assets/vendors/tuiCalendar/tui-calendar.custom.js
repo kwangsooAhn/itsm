@@ -29,13 +29,16 @@ const CALENDAR_DEFAULT_OPTIONS = {
     ],
     // 반복 안함, 매월 X번째 X요일, 매주 X요일
     repeatTypes: ['dayOfMonth', 'weekOfMonth'],
-    dayOfMonthType: ['', 'first', 'second', 'third', 'fourth', 'last']
+    dayOfMonthType: ['', 'first', 'second', 'third', 'fourth', 'last'],
+    createModalSize: { w: 620, h: 320 }, // 모달 위치를 잡아주기 위해서 사용됨
+    detailModalSize: { w: 300, h: 280 } // 모달 위치를 잡아주기 위해서 사용됨
 };
 
 function zCalendar(target, options) {
-    this.calendarView = target.querySelector('#calendarView'); // 월, 주, 일 보기
-    this.taskView = target.querySelector('#taskView'); // 일정 보기
-    this.renderRange = target.querySelector('#renderRangeText'); // 달력 문구
+    this.el = target;
+    this.calendarView = this.el.querySelector('#calendarView'); // 월, 주, 일 보기
+    this.taskView = this.el.querySelector('#taskView'); // 일정 보기
+    this.renderRange = this.el.querySelector('#renderRangeText'); // 달력 문구
 
     this.calendarList = []; // 캘린더 목록
     this.scheduleList = []; // 일정 목록
@@ -66,7 +69,9 @@ function zCalendar(target, options) {
             }
         }],
         close: { closable: false },
-        onCreate: () => {
+        onCreate: (modal) => {
+            modal.wrapper.style.setProperty('--data-modal-width', this.options.createModalSize.w);
+            modal.wrapper.style.setProperty('--data-modal-height', this.options.createModalSize.h);
             // select 디자인
             aliceJs.initDesignedSelectTag(document.querySelector('.calendar__modal--register__main'));
             // 종일 여부 변경시 이벤트 추가
@@ -79,7 +84,7 @@ function zCalendar(target, options) {
             zDateTimePicker.initDateTimePicker(document.getElementById('endDt'),
                 this.onUpdateRangeDateTime.bind(this));
         },
-        onShow: (modal) => {},
+        onShow: () => {},
         onHide: () => {}
     });
     
@@ -99,10 +104,7 @@ function zCalendar(target, options) {
 
                 this.createModal.customOptions = schedule;
                 this.setCreateModal(schedule);
-
-                // 모달 위치 조정
-                this.setModalPosition(this.createModal.wrapper, modal.customOptions.event.target,
-                    this.calendar._layout.container);
+                this.setModalPosition(this.createModal.wrapper, modal.customOptions.event.target);
 
                 // 기존 모달 닫고 편집 모달 띄우기
                 modal.hide();
@@ -124,8 +126,11 @@ function zCalendar(target, options) {
             }
         }],
         close: { closable: false },
-        onCreate: () => {},
-        onShow: (modal) => {},
+        onCreate: (modal) => {
+            modal.wrapper.style.setProperty('--data-modal-width', this.options.detailModalSize.w);
+            modal.wrapper.style.setProperty('--data-modal-height', this.options.detailModalSize.h);
+        },
+        onShow: () => {},
         onHide: () => {}
     });
 
@@ -186,15 +191,12 @@ function zCalendar(target, options) {
             e.mode = 'register';
             this.createModal.customOptions = e;
             this.setCreateModal(e);
-            // 모달 위치 조정
-            const boxElement = e.guide.guideElement ? e.guide.guideElement :
+            const guideElement = e.guide.guideElement ? e.guide.guideElement :
                 e.guide.guideElements[Object.keys(e.guide.guideElements)[0]];
-            if (boxElement) {
-                this.setModalPosition(this.createModal.wrapper, boxElement, this.calendar._layout.container);
-            }
-
+            this.setModalPosition(this.createModal.wrapper, guideElement);
             // 모달 표시
             this.createModal.show();
+
         },
         // 편집 - drag & drop 시
         beforeUpdateSchedule: (e) => {
@@ -216,8 +218,7 @@ function zCalendar(target, options) {
         clickSchedule: (e) => {
             this.detailModal.customOptions = e;
             this.setDetailModal(e.schedule);
-            // 모달 위치 조정
-            this.setModalPosition(this.detailModal.wrapper, e.event.target, this.calendar._layout.container);
+            this.setModalPosition(this.detailModal.wrapper, e.event.target);
             // 모달 표시
             this.detailModal.show();
         }
@@ -440,41 +441,36 @@ Object.assign(zCalendar.prototype, {
         }
     },
     /**
-     * TODO: 스케쥴 등록|수정|상세보기 모달 위치 조정
+     * 스케쥴 등록|수정|상세보기 모달 위치 조정
      * @param {modal} 모달
      * @param {guide} 선택된 캘린더의 날짜 rect
      */
-    setModalPosition: function (modal, guide, layout) {
-        const guideBound = guide.getBoundingClientRect(),
-            containerBound = layout.getBoundingClientRect(),
-            modalSize = { width: modal.offsetWidth, height: modal.offsetHeight },
-            guideHorizontalCenter = (guideBound.left + guideBound.right) / 2,
-            margin = 3;
-        let x = guideHorizontalCenter - (modalSize.width / 2),
-            y = guideBound.top - modalSize.height;
+    setModalPosition: function (modal, guide) {
+        const modalDialog = modal.querySelector('.modal-dialog'),
+            guideBound = guide.getBoundingClientRect(),
+            modalSize = {
+                w: Number(modal.style.getPropertyValue('--data-modal-width')),
+                h: Number(modal.style.getPropertyValue('--data-modal-height'))
+            },
+            x = guideBound.left + modalSize.w,
+            _x = guideBound.left - modalSize.w,
+            y = guideBound.top + guideBound.height + modalSize.h,
+            _y = guideBound.top - modalSize.h,
+            w = window.innerWidth,
+            h = window.innerHeight,
+            margin = 8;  // 3은 간격
 
-        if (x + modalSize.width > containerBound.right) {
-            x = guideBound.right - modalSize.width;
-        }
-
-        if (x < containerBound.left) {
-            x = 0;
+        if (x >= w && _x > 0) {
+            modalDialog.style.left = guideBound.left + guideBound.width - modalSize.w + 'px';
         } else {
-            x = x - containerBound.left
+            modalDialog.style.left = guideBound.left + 'px';
         }
 
-        if (y < containerBound.top) {
-            y = guideBound.bottom - containerBound.top + margin;
+        if (y >= h && _y > 0) {
+            modalDialog.style.top = guideBound.top - modalSize.h - margin + 'px';
         } else {
-            y = y - containerBound.top - margin;
+            modalDialog.style.top = guideBound.top + guideBound.height +  margin + 'px';
         }
-
-        if (y + modalSize.height > containerBound.bottom) {
-            y = containerBound.bottom - modalSize.height - containerBound.top - margin;
-        }
-
-        modal.style.left = x + 'px';
-        modal.style.top = y + 'px';
     },
     /**
      * 스케쥴 상세 보기 모달 초기화
@@ -506,7 +502,6 @@ Object.assign(zCalendar.prototype, {
             rangeDateHtml.push('<br/>');
             rangeDateHtml.push('( ');
 
-            console.log(start.weekday);
             const dayOfMonthNumber = this.getWeekNumberOfMonth(start.toJSDate());
             rangeDateHtml.push(this.getRepeatTypeOptionText(schedule.raw.repeatType, start.weekday, dayOfMonthNumber));
             rangeDateHtml.push(' )');
@@ -724,9 +719,7 @@ Object.assign(zCalendar.prototype, {
                     const schedule = this.calendar.getSchedule(scheduleId, calendarId);
                     if (schedule) {
                         this.setDetailModal(schedule);
-                        // 모달 위치 조정
-                        this.setModalPosition(this.detailModal.wrapper, elem.querySelector('.calendar__color--round'),
-                            this.taskView);
+                        this.setModalPosition(this.detailModal.wrapper, elem.querySelector('.calendar__color--round'));
                         // 모달 표시
                         this.detailModal.show();
                     }
