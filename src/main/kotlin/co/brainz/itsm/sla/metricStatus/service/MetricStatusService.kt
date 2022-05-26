@@ -9,14 +9,13 @@ import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartConfig
+import co.brainz.itsm.statistic.customChart.dto.ChartData
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import java.time.LocalDate
 import java.time.Year
-import java.time.format.DateTimeFormatter
 import org.springframework.stereotype.Service
 
 @Service
@@ -38,8 +37,11 @@ class MetricStatusService(
             metricYears = metricStatusChartCondition.year,
             metricId = metricStatusChartCondition.metricId,
             chartType = metricStatusChartCondition.chartType,
-            tag = metricDto.metricName,
+            metricName = metricDto.metricName,
+            metricDesc = metricDto.comment,
+            tag = mutableListOf(),
             chartConfig = chartConfig,
+            chartData = this.initZqlCalculateData(),
             zqlString = metricDto.zqlString
         )
     }
@@ -47,8 +49,8 @@ class MetricStatusService(
     private fun initChartConfig(year: String): ChartConfig {
         val range = ChartRange(
             type = ChartConstants.Range.BETWEEN.code,
-            fromDate = LocalDate.of(year.toInt(),1,1),
-            toDate = LocalDate.of(year.toInt(),12,31)
+            fromDate = LocalDate.of(year.toInt(), 1, 1),
+            toDate = LocalDate.of(year.toInt(), 12, 31)
         )
         return ChartConfig(
             range = range,
@@ -56,4 +58,10 @@ class MetricStatusService(
             operation = ChartConstants.Operation.COUNT.code
         )
     }
+
+    private fun initZqlCalculateData(): MutableList<ChartData> {
+        //TODO chartData 대신 ZqlCalculatedData DTO로 변경 해야함
+        return mutableListOf()
+    }
+
 }
