@@ -1409,6 +1409,7 @@ insert into awf_url values ('/rest/sla/metrics/manual', 'post', '수동 지표 �
 insert into awf_url values ('/rest/sla/metrics/manual/{id}/{reference_dt}/{metricValue}', 'delete', '수동 지표 삭제', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/annual/excel', 'get', '년도별 현황 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/annual/{id}/preview', 'get', '년도별 현황 미리보기', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/status', 'get', '지표별 현황 목록 화면', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools', 'post', 'SLA 지표 등록', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools/{id}', 'put', 'SLA 지표 변경', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools/{id}', 'delete', 'SLA 지표 삭제', 'TRUE');
@@ -1457,7 +1458,6 @@ insert into awf_url values ('/sla/metrics/manual/search', 'get', '수동 지표�
 insert into awf_url values ('/sla/metrics/manual', 'get', '수동 지표관리 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/manual/new', 'get', '수동 지표 등록 모달 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/status/search', 'get', '지표별 현황 검색 화면', 'TRUE');
-insert into awf_url values ('/sla/metrics/status', 'get', '지표별 현황 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/annual/search', 'get', '년도별 현황 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/annual', 'get', '년도별 현황 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-pools/search', 'get', 'SLA 지표관리 검색 화면', 'TRUE');
@@ -1829,8 +1829,8 @@ insert into awf_url_auth_map values ('/sla/metrics/manual', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/manual/new', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/status/search', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/sla/metrics/status', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/sla/metrics/status', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/rest/sla/metrics/status', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics/status', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/annual/search', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/annual/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/annual', 'get', 'sla.manage');
