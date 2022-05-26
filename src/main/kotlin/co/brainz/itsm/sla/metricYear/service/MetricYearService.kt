@@ -16,6 +16,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
@@ -106,6 +107,12 @@ class MetricYearService(
      * 년도 선택 시 해당년도에 저장된 지표목록 불러오기
      */
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
+        when (metricLoadCondition.type) {
+            MetricPoolConstants.MetricTypeCode.SIMPLE_MANUAL.code -> metricLoadCondition.type =
+                MetricPoolConstants.MetricTypeCode.MANUAL.code
+            MetricPoolConstants.MetricTypeCode.SIMPLE_AUTO.code -> metricLoadCondition.type =
+                MetricPoolConstants.MetricTypeCode.AUTO.code
+        }
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
@@ -212,6 +219,7 @@ class MetricYearService(
         }
         return excelComponent.download(excelVO)
     }
+
     /**
      * 연도별 지표 세부 정보 조회
      */
