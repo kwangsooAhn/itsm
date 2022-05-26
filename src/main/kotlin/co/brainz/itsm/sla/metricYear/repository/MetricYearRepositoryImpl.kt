@@ -117,6 +117,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     metric.metricId,
                     metricYear.metricYear,
                     metric.metricName,
+                    metric.metricDesc,
                     groupCode.codeName,
                     typeCode.code,
                     unitCode.code,
