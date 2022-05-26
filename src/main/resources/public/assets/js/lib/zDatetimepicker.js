@@ -43,6 +43,9 @@
                     case 'HOUR':
                         rtn = luxon.DateTime.fromFormat(options.value, i18n.timeFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
                         break;
+                    case 'YEAR':
+                        rtn = luxon.DateTime.fromFormat(options.value, i18n.yearFormat, {zone: i18n.timezone}).setZone(i18n.timezone);
+                        break;
                 }
             }
             return rtn;
@@ -82,10 +85,12 @@
 
         // 선택된 날짜 초기화
         this.selectLuxon = util.getDate(options);
-        this.displayLuxon = this.selectLuxon.plus({ days: 0});
+        this.displayLuxon = this.selectLuxon.plus({days: 0});
 
         // 객체 초기화
-        if (options.el === null) { return; }
+        if (options.el === null) {
+            return;
+        }
         this.el = options.el;
 
         this.open = this.open.bind(this);
@@ -96,6 +101,8 @@
         this.changeTarget = this.changeTarget.bind(this);
         this.prevMonth = this.prevMonth.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
+        this.prevYear = this.prevYear.bind(this);
+        this.nextYear = this.nextYear.bind(this);
         this.setHour = this.setHour.bind(this);
         this.setMinute = this.setMinute.bind(this);
 
@@ -163,6 +170,30 @@
             buttonCancel.addEventListener('click', this.close, false);
             pickerButton.appendChild(buttonCancel);
         }
+
+        // create content > year
+        if (this.type === 'YEAR') {
+            let pickerContentYear = document.createElement('div');
+            pickerContentYear.className = 'z-picker-modal-content-year';
+            pickerContentYear.classList.add('active');
+            pickerContent.appendChild(pickerContentYear);
+            spanClose.remove();
+            buttonRemove.remove();
+            this.drawYear();
+
+            // create button
+            let pickerButton = document.createElement('div');
+            pickerButton.className = 'z-button-list z-picker-modal-button';
+            this.el.appendChild(pickerButton);
+
+            // create button > reset
+            let buttonReset = document.createElement('button');
+            buttonReset.type = 'button';
+            buttonReset.className = 'z-button extra small';
+            buttonReset.innerText = i18n.msg('datepicker.btn.reset');
+            buttonReset.addEventListener('click', this.removeTarget, false);
+            pickerButton.appendChild(buttonReset);
+        }
     }
 
     Object.assign(Picker.prototype, {
@@ -186,12 +217,15 @@
                 let resetLuxon = util.getDate({type: this.type, value: resetValue});
                 if (resetLuxon.valueOf() !== this.selectLuxon.valueOf()) {
                     this.selectLuxon = resetLuxon;
-                    this.displayLuxon = this.selectLuxon.plus({ days: 0});
+                    this.displayLuxon = this.selectLuxon.plus({days: 0});
                     if (this.type === 'DATE' || this.type === 'DATEHOUR') {
                         this.drawDate();
                     }
                     if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
                         this.drawTime();
+                    }
+                    if (this.type === 'YEAR') {
+                        this.drawYear();
                     }
                 }
                 // remove event
@@ -221,7 +255,7 @@
             if (y >= h && _y > 0) {
                 this.el.style.top = rect.top - oh - 3 + 'px'; // 3은 간격
             } else {
-                this.el.style.top = rect.top + rect.height +  3 + 'px';
+                this.el.style.top = rect.top + rect.height + 3 + 'px';
             }
         },
         // Date picker 생성 및 초기화 처리.
@@ -260,22 +294,22 @@
 
             // Sun ~ Sat
             for (let i = 0; i < 7; i++) {
-                const calendarTitle =  document.createElement('div');
+                const calendarTitle = document.createElement('div');
                 calendarTitle.classList.add('calendar-cell', 'calendar-title');
                 calendarTitle.textContent = luxon.DateTime.local().set({weekday: i}).setLocale(i18n.lang).toFormat('ccc');
                 calendarPanel.appendChild(calendarTitle);
             }
 
-            let firstDayOfDate = _this.selectLuxon.set({ day: 1 });
+            let firstDayOfDate = _this.selectLuxon.set({day: 1});
             let current_month = firstDayOfDate.month;
 
-            firstDayOfDate = firstDayOfDate.minus({ days: (firstDayOfDate.weekday || 8) });
+            firstDayOfDate = firstDayOfDate.minus({days: (firstDayOfDate.weekday || 8)});
 
             for (let i = 0; i < 42; i++) {
                 let dd = firstDayOfDate.day;
                 let mm = firstDayOfDate.month;
 
-                const calendarCell =  document.createElement('div');
+                const calendarCell = document.createElement('div');
                 calendarCell.className = 'calendar-cell';
                 calendarCell.setAttribute('data-value', firstDayOfDate.toFormat('yyyyMMdd'));
                 calendarCell.textContent = dd;
@@ -289,7 +323,7 @@
                 if (_this.displayLuxon.valueOf() === firstDayOfDate.valueOf()) {
                     calendarCell.classList.add('selected');
                 }
-                calendarCell.addEventListener('click', function (e) { 
+                calendarCell.addEventListener('click', function (e) {
                     const elem = e.target;
                     const parentElem = elem.parentNode;
                     const isSelected = elem.classList.contains('selected');
@@ -300,7 +334,11 @@
                         }
                         elem.classList.add('selected');
                         let selectedDate = elem.getAttribute('data-value');
-                        _this.changeDay({ year: selectedDate.substr(0, 4), month: selectedDate.substr(4, 2), day: selectedDate.substr(6, 2)});
+                        _this.changeDay({
+                            year: selectedDate.substr(0, 4),
+                            month: selectedDate.substr(4, 2),
+                            day: selectedDate.substr(6, 2)
+                        });
                         // 이전, 이후 날짜 선택시 달력이 변경된다. > 상단 제목을 바뀌었는데 달력이 안바뀌면 이상해서 추가함.
                         if (elem.classList.contains('prev') || elem.classList.contains('next')) {
                             _this.drawDate();
@@ -309,7 +347,7 @@
                     _this.changeTarget();
                 }, false);
                 calendarPanel.appendChild(calendarCell);
-                firstDayOfDate = firstDayOfDate.plus({ days: 1 });
+                firstDayOfDate = firstDayOfDate.plus({days: 1});
             }
         },
         // Time picker 생성 및 초기화 처리.
@@ -330,7 +368,7 @@
             // △ 버튼
             const hourArrowUp = document.createElement('span');
             hourArrowUp.className = 'z-icon i-arrow-right z-hour-up';
-            hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, { hours: 1 }), false);
+            hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, {hours: 1}), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
             let digitHour = document.createElement('input');
@@ -344,7 +382,7 @@
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
             hourArrowDown.className = 'z-icon i-arrow-right z-hour-down';
-            hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, { hours: -1 }), false);
+            hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, {hours: -1}), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
 
@@ -361,7 +399,7 @@
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
             minuteArrowUp.className = 'z-icon i-arrow-right z-minute-up';
-            minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this, { minutes: 1 }), false);
+            minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this, {minutes: 1}), false);
             minuteGroup.appendChild(minuteArrowUp);
             // 분
             let digitMinute = document.createElement('input');
@@ -375,7 +413,7 @@
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
             minuteArrowDown.className = 'z-icon i-arrow-right z-minute-down';
-            minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
+            minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, {minutes: -1}), false);
             minuteGroup.appendChild(minuteArrowDown);
             // create minute end -------------------------------------------------------------------
             _this.hourType = '24';
@@ -403,7 +441,7 @@
                     const parentElem = elem.parentNode;
                     const isActive = elem.classList.contains('selected');
                     if (!isActive) {
-                        for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
+                        for (let i = 0, len = parentElem.childNodes.length; i < len; i++) {
                             const child = parentElem.childNodes[i];
                             if (child.id === elem.id) {
                                 elem.classList.add('selected');
@@ -431,7 +469,7 @@
                     const parentElem = elem.parentNode;
                     const isActive = elem.classList.contains('selected');
                     if (!isActive) {
-                        for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
+                        for (let i = 0, len = parentElem.childNodes.length; i < len; i++) {
                             const child = parentElem.childNodes[i];
                             if (child.id === elem.id) {
                                 elem.classList.add('selected');
@@ -445,7 +483,93 @@
                 hourType.appendChild(buttonPM);
             }
         },
-        // remove 버튼 클릭시 실제 대상 input box의 데이터 삭제.
+        // Year picker 생성 및 초기화 처리.
+        drawYear: function () {
+            let _this = this;
+            const pickerYear = _this.el.querySelector('.z-picker-modal-content-year');
+            pickerYear.innerHTML = '';
+            // [create year panel]
+            const periodPanel = document.createElement('div');
+            periodPanel.className = 'z-picker-modal-content-year-period';
+            pickerYear.appendChild(periodPanel);
+
+            // prev year
+            const prevArrow = document.createElement('span');
+            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
+            prevArrow.addEventListener('click', _this.prevYear, false);
+            periodPanel.appendChild(prevArrow);
+
+            // text
+            const currentText = document.createElement('div');
+            currentText.className = 'date-text';
+            periodPanel.appendChild(currentText);
+            const textFormet = _this.selectLuxon.toFormat('yyyy');
+            const changeTextType = Number(textFormet) // string -> number 변환
+            // prev text
+            const prevText = document.createElement('span');
+            prevText.textContent = changeTextType - 4;
+            currentText.appendChild(prevText);
+            // next text
+            const nextText = document.createElement('span');
+            nextText.textContent = changeTextType + 4;
+            currentText.appendChild(nextText);
+
+            // next year
+            const nextArrow = document.createElement('span');
+            nextArrow.className = 'z-icon i-arrow-right z-date-next';
+            nextArrow.addEventListener('click', _this.nextYear, false);
+            periodPanel.appendChild(nextArrow);
+
+            // [create calendar]
+            const yearPanel = document.createElement('div');
+            yearPanel.className = 'z-picker-modal-content-year-years';
+            pickerYear.appendChild(yearPanel);
+
+            let firstYearOfDate = _this.selectLuxon.set();
+            let current_year = firstYearOfDate.year;
+
+            firstYearOfDate = firstYearOfDate.minus({years: 4}); // 선택된 년도 중간에 위치
+
+            for (let i = 0; i < 9; i++) {
+                let yy = firstYearOfDate.year;
+
+                const calendarCell = document.createElement('div');
+                calendarCell.className = 'calendar-cell';
+                calendarCell.setAttribute('data-value', firstYearOfDate.toFormat('yyyy'));
+                calendarCell.textContent = yy;
+
+                if (yy === current_year) { // 현재 년도
+                    calendarCell.classList.add('active');
+                } else if (yy < current_year) {
+                    calendarCell.classList.add('prev');
+                } else {
+                    calendarCell.classList.add('next');
+                }
+                if (_this.displayLuxon.valueOf() === firstYearOfDate.valueOf()) {
+                    calendarCell.classList.add('selected');
+                }
+                calendarCell.addEventListener('click', function (e) {
+                    const elem = e.target;
+                    const parentElem = elem.parentNode;
+                    const isSelected = elem.classList.contains('selected');
+                    if (!isSelected) {
+                        const prevSelectDay = parentElem.querySelector('.selected');
+                        if (prevSelectDay !== null) {
+                            prevSelectDay.classList.remove('selected');
+                        }
+                        let selectedDate = elem.getAttribute('data-value');
+                        _this.changeYear({year: selectedDate.substr(0, 4)});
+                        if (elem.classList.contains('prev') || elem.classList.contains('next')) {
+                            _this.drawYear();
+                        }
+                    }
+                    _this.changeTarget();
+                }, false);
+                yearPanel.appendChild(calendarCell);
+                firstYearOfDate = firstYearOfDate.plus({years: 1});
+            }
+        },
+        // remove 버튼 클릭시 대상 input box의 데이터 삭제.
         removeTarget: function () {
             this.target.value = '';
             this.close();
@@ -454,18 +578,33 @@
         },
         // Date picker 에서 이전 달력 (<) 아이콘 클릭시 이전 달력으로 변경.
         prevMonth: function () {
-            this.selectLuxon = this.selectLuxon.plus({ months: -1 });
+            this.selectLuxon = this.selectLuxon.plus({months: -1});
             this.drawDate();
         },
         // Date picker 에서 이후 달력 (>) 아이콘 클릭시 이후 달력으로 변경.
         nextMonth: function () {
-            this.selectLuxon = this.selectLuxon.plus({ months: 1 });
+            this.selectLuxon = this.selectLuxon.plus({months: 1});
             this.drawDate();
+        },
+        // Year picker 에서 이전 달력 (<) 아이콘 클릭시 이전 달력으로 변경.
+        prevYear: function () {
+            this.selectLuxon = this.selectLuxon.plus({years: -10});
+            this.drawYear();
+        },
+        // Year picker 에서 이후 달력 (>) 아이콘 클릭시 이후 달력으로 변경.
+        nextYear: function () {
+            this.selectLuxon = this.selectLuxon.plus({years: 10});
+            this.drawYear();
         },
         // Date picker 에서 특정 날짜 선택시 표시되는 날짜 변경.
         changeDay: function (offset) {
             this.selectLuxon = this.selectLuxon.set(offset);
-            this.displayLuxon = this.selectLuxon.plus({ days: 0});
+            this.displayLuxon = this.selectLuxon.plus({days: 0});
+        },
+        // Date picker 에서 특정 날짜 선택시 표시되는 날짜 변경.
+        changeYear: function (offset) {
+            this.selectLuxon = this.selectLuxon.set(offset);
+            this.displayLuxon = this.selectLuxon.plus({years: 0});
         },
         // Date picker 확인 버튼 클릭시 실제 대상 input box의 날짜 시간 값 변경.
         changeTarget: function () {
@@ -479,6 +618,9 @@
                 case 'HOUR':
                     this.target.value = this.selectLuxon.toFormat(i18n.timeFormat);
                     break;
+                case 'YEAR':
+                    this.target.value = this.selectLuxon.toFormat(i18n.yearFormat);
+                    break;
             }
             this.close();
 
@@ -487,9 +629,9 @@
         // 12 시간제를 사용할 경우, AM PM 버튼 클릭시 처리.
         changeMeridiem: function (meridiem) {
             if (meridiem === 'AM') { // -12
-                this.selectLuxon = this.selectLuxon.plus({ hours: -12 });
+                this.selectLuxon = this.selectLuxon.plus({hours: -12});
             } else { // PM + 12
-                this.selectLuxon = this.selectLuxon.plus({ hours: 12 });
+                this.selectLuxon = this.selectLuxon.plus({hours: 12});
             }
             this.meridiem = meridiem;
         },
@@ -499,7 +641,7 @@
             const selectLuxonHour = this.selectLuxon.hour;
             const selectLuxonMinute = this.selectLuxon.minute;
 
-            let changeTimeOffset = { hour: selectLuxonHour, minute: selectLuxonMinute };
+            let changeTimeOffset = {hour: selectLuxonHour, minute: selectLuxonMinute};
             const changeLuxon = this.selectLuxon.plus(offset);
 
             // 시간 변경
@@ -545,7 +687,7 @@
                 if (inputValue.length === 1) {
                     hourInput.value = '0' + Number(inputValue);
                 }
-                this.selectLuxon = this.selectLuxon.set({ hour: hourInput.value });
+                this.selectLuxon = this.selectLuxon.set({hour: hourInput.value});
             } else {
                 hourInput.value = this.selectLuxon.toFormat(this.hourFormat);
             }
@@ -563,9 +705,9 @@
             }
             if (rtn) {
                 if (inputValue.length === 1) {
-                    minuteInput.value = '0' + Number(inputValue) ;
+                    minuteInput.value = '0' + Number(inputValue);
                 }
-                this.selectLuxon = this.selectLuxon.set({ minute: minuteInput.value });
+                this.selectLuxon = this.selectLuxon.set({minute: minuteInput.value});
             } else {
                 minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
             }
@@ -639,7 +781,9 @@
      * @param callback 콜백 함수
      */
     function initDatePicker(targetElement, callback) {
-        if (targetElement === null) { return false; }
+        if (targetElement === null) {
+            return false;
+        }
 
         let options = JSON.parse(JSON.stringify(defaultOptions));
 
@@ -658,7 +802,9 @@
      * @param callback 콜백 함수
      */
     function initDateTimePicker(targetElement, callback) {
-        if (targetElement === null) { return false; }
+        if (targetElement === null) {
+            return false;
+        }
 
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'DATEHOUR';
@@ -679,7 +825,9 @@
      * @param callback 콜백 함수
      */
     function initTimePicker(targetElement, callback) {
-        if (targetElement === null) { return false; }
+        if (targetElement === null) {
+            return false;
+        }
 
         let options = JSON.parse(JSON.stringify(defaultOptions));
         options.type = 'HOUR';
@@ -693,9 +841,34 @@
         });
     }
 
+    /**
+     * YearPicker 초기화 시 호출(Year Only).
+     *
+     * @param targetElement Target element
+     * @param callback 콜백 함수
+     */
+    function initYearPicker(targetElement, callback) {
+        if (targetElement === null) {
+            return false;
+        }
+
+        let options = JSON.parse(JSON.stringify(defaultOptions));
+        options.type = 'YEAR';
+        options.title = 'datepicker.label.year';
+
+        let picker = initPicker(targetElement, options);
+        picker.target.addEventListener('changed', function () {
+            if (typeof callback === 'function') {
+                callback(picker.target, picker);
+            }
+        });
+    }
+
+
     exports.initDatePicker = initDatePicker;
     exports.initDateTimePicker = initDateTimePicker;
     exports.initTimePicker = initTimePicker;
+    exports.initYearPicker = initYearPicker;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

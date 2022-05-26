@@ -3657,7 +3657,7 @@ svg path.connector.hidden {
   display: inline-block;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   background-color: transparent;
   line-height: 1;
   opacity: 1;
@@ -3673,6 +3673,12 @@ svg path.connector.hidden {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   padding: 0.625rem 1.25rem;
+  /*
+   * size
+   */
+  /*
+   * 테마
+   */
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
@@ -3687,6 +3693,12 @@ svg path.connector.hidden {
 .z-button-text:disabled,
 .z-button-text.disabled {
   cursor: default;
+}
+.z-button.small,
+.z-button-icon.small,
+.z-button-text.small {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.4375rem;
 }
 .z-button.primary,
 .z-button-icon.primary,
