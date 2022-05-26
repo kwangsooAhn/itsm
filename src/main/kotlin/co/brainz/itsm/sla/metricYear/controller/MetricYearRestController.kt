@@ -82,7 +82,7 @@ class MetricYearRestController(
     /**
      * 년도별 SLA 현황 preview
      */
-    @GetMapping("/annual/{metricId}/{year}/preview")
+    @GetMapping("/{metricId}/{year}/preview")
     fun getMetricPreviewChart(@PathVariable metricId: String, @PathVariable year: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.metricPreviewChartData(metricId, year))
     }
