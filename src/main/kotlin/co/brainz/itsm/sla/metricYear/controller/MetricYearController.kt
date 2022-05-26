@@ -5,8 +5,12 @@
 
 package co.brainz.itsm.sla.metricYear.controller
 
+import co.brainz.framework.util.AliceUtil
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.service.MetricYearService
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -19,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/sla/metrics")
 class MetricYearController(
-    private val metricYearService: MetricYearService
+    private val metricYearService: MetricYearService,
+    private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val metricYearSearchPage: String = "sla/metricAnnual/management/yearSearch"
@@ -42,6 +47,9 @@ class MetricYearController(
     @GetMapping("")
     fun getMetricYears(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
         val result = metricYearService.getMetrics(metricYearSearchCondition)
+        val thisYear = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            .format(AliceUtil().changeTimeBasedTimezone(LocalDateTime.now(), currentSessionUser.getTimezone()))
+        model.addAttribute("thisYear", thisYear)
         model.addAttribute("metricYearsList", result.data)
         model.addAttribute("paging", result.paging)
         return metricYearListPage
