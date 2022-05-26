@@ -1332,7 +1332,7 @@ scheduler:
     schedule: "Schedule"
     scheduler: "Scheduler"
     searchPlaceholder: "Schedule Name / Execution Type / Class / Task Type"
-    src: Src
+    src:
     status: "Status"
     taskType: "Task Type"
   msg:
@@ -1411,6 +1411,8 @@ sla:
       newMetricManual: "Add manual metric data"
       referenceDate: "Reference Date"
       targetMetric: "Target Metric"
+    msg:
+      enterMetricValue: " Enter the metric value."
   metricType:
     auto: "Auto"
     manual: "Manual"

@@ -14,10 +14,15 @@
             <select id="targetMetric" name="targetMetric"></select>
         </div>
         <div class="flex-column col-1">
-            <label for="metricValue" class="mt-2 mb-2" th:text="#{sla.metricManual.label.metricValue}"></label>
-            <input type="text" id="metricValue" class="z-input col-pct-12" name="metricValue"  maxlength="4"
-                   onkeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
-            <span id="metricUnitText"></span>
+            <label for="metricValue" class="mt-2 mb-2">
+                <span th:text="#{sla.metricManual.label.metricValue}"></span>
+                <span class="required"></span>
+            </label>
+            <div class="flex-row">
+                <input type="text" id="metricValue" class="z-input col-pct-12" name="metricValue"  maxlength="4"
+                       onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required"/>
+                <span class="pl-1" id="metricUnitText"></span>
+            </div>
         </div>
     </div>
 </body>

@@ -18,8 +18,7 @@
         </select>
         <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
         <span>~</span>
-        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
-        <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
+        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="toDt" name="toDt"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
@@ -40,11 +39,12 @@
     window.onload = function() {
         // initialization date picker
         const fromDtElement = document.getElementById('fromDt');
-        const searchToDtElement = document.getElementById('searchToDt');
+        const toDtElement = document.getElementById('toDt');
         fromDtElement.value = searchFromDt;
-        searchToDtElement.value = searchToDt;
+        toDtElement.value = searchToDt;
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
-        zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
+        zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
+        document.getElementById('metricId').addEventListener('change', function () { getList(); });
         getList();
     };
 
@@ -53,7 +53,7 @@
             return false;
         }
         if (element.id === 'fromDt') {
-            const toDtValue = document.getElementById('searchToDt').value;
+            const toDtValue = document.getElementById('toDt').value;
             if (toDtValue !== '' && element.value !== '') {
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
@@ -69,7 +69,7 @@
             if (fromDtValue !== '' && element.value !== '') {
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
-                        document.getElementById('searchToDt').value = searchToDt;
+                        document.getElementById('toDt').value = searchToDt;
                         picker.open();
                     });
                 } else {
@@ -92,8 +92,6 @@
             setDateTimeFormat(listBody);
             setMetricValueFormat(listBody);
         });
-
-        console.log(document.getElementById('metricId').value)
     }
 
     /**
@@ -135,7 +133,6 @@
                     bindKey: false,
                     callback: function (modal) {
                         onSaveModal();
-                        modal.hide();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
@@ -153,7 +150,7 @@
                     document.getElementById('referenceDate').value = referenceDt;
                     zDateTimePicker.initDatePicker(document.getElementById('referenceDate'), setReferenceDatePicker);
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    getMetricYearList();
+                    getTargetMetricList();
                 }
             });
             metricManualModal.show();
@@ -163,8 +160,8 @@
     /**
      * 대상지표 검색
      */
-    function getMetricYearList() {
-        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('referenceDate').value.toString().substring(0, 4)
+    function getTargetMetricList() {
+        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('referenceDate').value.substring(0, 4)
             + '&target='
             + '&type=manual';
         aliceJs.fetchText(urlParam, {
@@ -175,9 +172,16 @@
             const selectTag = document.getElementById('targetMetric');
             for (let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
+                const metricUnitText = document.getElementById('metricUnitText');
                 selectOption.text = metricList[i].metricName;
                 selectOption.value = metricList[i].metricId;
                 selectTag.appendChild(selectOption);
+                metricUnitText.textContent = i18n.msg(metricList[0].metricUnit)
+                document.getElementById('targetMetric').addEventListener('change', function () {
+                    if (selectTag.value === metricList[i].metricId) {
+                        metricUnitText.textContent = i18n.msg(metricList[i].metricUnit)
+                    }
+                });
             }
             aliceJs.initDesignedSelectTag();
         });
@@ -188,7 +192,7 @@
         if (document.getElementById('referenceDate').value !== '' && element.value !== '') {
             const selectTag = document.getElementById('targetMetric');
             selectTag.options.length = 0;
-            getMetricYearList();
+            getTargetMetricList();
         }
     }
 
@@ -196,13 +200,15 @@
      * 수동 지표 저장
      */
     function onSaveModal() {
+        if (isEmpty('metricValue', 'sla.metricManual.msg.enterMetricValue')) return false;
+
         const data = {
-            metricId: /*[[${metric?.metricId}]]*/'',
+            metricId: document.getElementById('targetMetric').value,
             referenceDate: document.getElementById('referenceDate').value,
             metricValue: document.getElementById('metricValue').value
         };
 
-        aliceJs.fetchJson('/rest/sla/metrics/manual/new', {
+        aliceJs.fetchJson('/rest/sla/metrics/manual', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
