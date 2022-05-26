@@ -12,8 +12,8 @@ import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
@@ -128,13 +128,13 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
             .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
             .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
-            .where(metricYear.metricYear.`in`(metricLoadCondition.source))
+            .where(metricYear.metricYear.eq(metricLoadCondition.source))
 
         if (!metricLoadCondition.target.isNullOrEmpty()) {
-            query.where(metricYear.metricYear.notIn(metricLoadCondition.target))
+            query.where(metricYear.metricYear.ne(metricLoadCondition.target))
         }
         if (!metricLoadCondition.type.isNullOrEmpty()) {
-            query.where(typeCode.codeValue.`in`(metricLoadCondition.type))
+            query.where(metric.metricType.eq(metricLoadCondition.type))
         }
 
         return query.fetch()
@@ -162,7 +162,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             )
             .leftJoin(metric).on(metric.eq(metricYear.metric))
             .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
-            .where(metricYear.metricYear.`in`(metricYearSearchCondition.year))
+            .where(metricYear.metricYear.eq(metricYearSearchCondition.year))
             .fetch()
     }
 

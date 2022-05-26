@@ -27,9 +27,13 @@ object MetricPoolConstants {
      */
     const val METRIC_GROUP_P_CODE = "sla.metricGroup"
 
+    /**
+     * metric type code
+     */
     enum class MetricTypeCode(val code: String) {
-        AUTO("auto"),
-        MANUAL("manual")
-
+        AUTO("sla.metricType.auto"),
+        MANUAL("sla.metricType.manual"),
+        SIMPLE_AUTO("auto"),
+        SIMPLE_MANUAL("manual")
     }
 }

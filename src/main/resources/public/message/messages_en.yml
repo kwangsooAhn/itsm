@@ -601,10 +601,12 @@ datepicker:
   btn:
     am: "AM"
     pm: "PM"
+    reset: "Reset"
   label:
     date: "Select Date"
     datetime: "Select Date and Time"
     hour: "Select Time"
+    year: "Select Year"
 
 # Department:
 department:

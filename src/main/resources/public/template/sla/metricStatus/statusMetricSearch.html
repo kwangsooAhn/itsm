@@ -29,13 +29,12 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    let totalWeight = 0;
-    let yearDt = i18n.getDate();
+    let yearDt = i18n.getYear();
 
     window.onload = function () {
         const yearDtElement = document.getElementById('year');
         yearDtElement.value = yearDt;
-        zDateTimePicker.initDatePicker(yearDtElement, setDatePicker);
+        zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
 
         getList();
     };
@@ -49,7 +48,7 @@
      * 연도별 SLA 지표관리 검색
      */
     function getList(pageNum = 1) {
-        let urlParam = '/sla/metrics?year=' + document.getElementById('year').value.toString().substring(0, 4)
+        let urlParam = '/sla/metrics?year=' + document.getElementById('year').value
             + '&pageNum=' + pageNum;
         aliceJs.fetchText(urlParam, {
             method: 'GET'
@@ -59,10 +58,12 @@
             setMetricValueFormat(listBody);
 
             // 가중치 합이 100%가 아닐 경우 문구 생성
+            let totalWeight = 0;
             document.querySelectorAll('.weight-value').forEach(elem => {
                 const numWeightValue =  Number(elem.textContent);
                 totalWeight += numWeightValue;
             });
+            console.log(totalWeight)
             if (totalWeight !== 100) {
                 document.getElementById('weightValueScore').style.display = 'inline-block';
             } else {
