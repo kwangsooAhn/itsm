@@ -181,8 +181,9 @@ export const modalButtonMixin = {
             rowData.map((row) => {
                 gridBody = '';
                 row.forEach((item) => {
+                    const tdData = item || '';
                     gridBody += `<div class="grid__cell pr-2 pl-2">` +
-                        `<span class="text-ellipsis" title="${item}">${item}</span>` +
+                        `<span class="text-ellipsis" title="${tdData}">${tdData}</span>` +
                         `</div>`;
                 });
                 gridBodyRow += `<div class="grid__row">${gridBody}</div>`;
@@ -232,7 +233,7 @@ export const modalButtonMixin = {
                     modalContent.style.setProperty('--default-modal-height', this.elementSizeH + UNIT.PX);
 
                     // 모달 내부 스크롤 바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
                 }
             });
             targetTableModal.show();
