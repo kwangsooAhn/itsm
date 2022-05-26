@@ -54,6 +54,7 @@ class MetricYearRestController(
     fun getMetricExcel(metricYearSearchCondition: MetricYearSearchCondition): ResponseEntity<ByteArray> {
         return metricYearService.getMetricExcelDownload(metricYearSearchCondition)
     }
+
     /**
      * 연도별 지표 편집
      */
@@ -76,5 +77,13 @@ class MetricYearRestController(
     @PostMapping("/copy")
     fun metricYearCopy(@RequestBody metricYearCopyDto: MetricYearCopyDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.metricYearCopy(metricYearCopyDto))
+    }
+
+    /**
+     * 년도별 SLA 현황 preview
+     */
+    @GetMapping("/annual/{metricId}/{year}/preview")
+    fun getMetricPreviewChart(@PathVariable metricId: String, @PathVariable year: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricYearService.metricPreviewChartData(metricId, year))
     }
 }
