@@ -47,7 +47,7 @@ class MetricYearController(
     @GetMapping("")
     fun getMetricYears(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
         val result = metricYearService.getMetrics(metricYearSearchCondition)
-        val thisYear = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val thisYear = DateTimeFormatter.ofPattern("yyyy")
             .format(AliceUtil().changeTimeBasedTimezone(LocalDateTime.now(), currentSessionUser.getTimezone()))
         model.addAttribute("thisYear", thisYear)
         model.addAttribute("metricYearsList", result.data)
