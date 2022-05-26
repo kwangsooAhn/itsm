@@ -459,7 +459,7 @@ export const dynamicRowTableMixin = {
     // column Type - userSearch
     getUserSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        return new UIInput().setUIClass('z-input i-user-search text-ellipsis')
+        const element = new UIInput().setUIClass('z-input i-user-search text-ellipsis')
             .setUIId('userSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -472,13 +472,18 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
             .setUIAttribute('onkeydown', 'return false;')
-            .onUIClick(this.openUserSearchModal.bind(this))
             .onUIChange(this.updateValue.bind(this));
+
+        if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+            element.onUIClick(this.openUserSearchModal.bind(this));
+        }
+        
+        return element;
     },
     // column Type - OrganizationSearch
     getOrganizationSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        return new UIInput().setUIClass('z-input i-organization-search text-ellipsis')
+        const element = new UIInput().setUIClass('z-input i-organization-search text-ellipsis')
             .setUIId('organizationSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -488,8 +493,13 @@ export const dynamicRowTableMixin = {
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
             .setUIAttribute('onkeydown', 'return false;')
-            .onUIClick(this.openOrganizationSearchModal.bind(this))
             .onUIChange(this.updateValue.bind(this));
+
+        if (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) {
+            element.onUIClick(this.openOrganizationSearchModal.bind(this));
+        }
+
+        return element;
     },
     // 컴포넌트별 기본값 목록 세팅
     setDefaultValues(columns) {
@@ -919,7 +929,7 @@ export const dynamicRowTableMixin = {
                     this.getUserSearchList(target, e.target.value, false);
                 }), false);
                 this.getUserSearchList(target, document.getElementById('search').value, true);
-                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
             }
         });
         userSearchModal.show();
@@ -940,7 +950,7 @@ export const dynamicRowTableMixin = {
         }).then((htmlData) => {
             const searchUserList = document.getElementById('searchUserList');
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
             // 갯수 가운트
             aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
             // 체크 이벤트
