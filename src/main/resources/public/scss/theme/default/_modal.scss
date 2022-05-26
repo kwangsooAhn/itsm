@@ -308,6 +308,13 @@
     }
   }
 
+
+
+  // SLA 수동지표 데이터 추가 모달
+  &.sla-metric-manual-modal {
+    .modal-content { padding: 0.625rem 1.25rem; } // 10px 20px
+    @include scrollbarHidden;
+  }
   // SLA 복사해오기 모달
   &.sla-metric-yearly-copy-modal {
     width: 62.5rem; // 1000px

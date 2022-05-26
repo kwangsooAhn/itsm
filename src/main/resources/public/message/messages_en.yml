@@ -1332,7 +1332,7 @@ scheduler:
     schedule: "Schedule"
     scheduler: "Scheduler"
     searchPlaceholder: "Schedule Name / Execution Type / Class / Task Type"
-    src: Src
+    src:
     status: "Status"
     taskType: "Task Type"
   msg:
@@ -1370,13 +1370,13 @@ scheduler:
 # sla
 sla:
   calculationType:
-    average: "Average"
-    rate: "Rate"
-    total: "Total"
+    average: "average"
+    rate: "rate"
+    total: "total"
   metric:
     label:
       comment: "Comment"
-      description: "Description"
+      description: "description"
       group: "Group"
       groupName: "Group Name"
       metricPool: "SLA Metric management"
@@ -1398,6 +1398,21 @@ sla:
       duplicateMetricName: "The same metric name exists. Please check the metric name."
       enterMetricName: "Enter a metric name."
       viewDescription: "Inquire detailed information about SLA metric management."
+  metricManual:
+    btn:
+      addData: "Add Data"
+    label:
+      all: "ALL"
+      createDate: "Create Date"
+      createUser: "Create User"
+      metricManual: "Manual metric management"
+      metricName: "Metric Name"
+      metricValue: "Metric Value"
+      newMetricManual: "Add manual metric data"
+      referenceDate: "Reference Date"
+      targetMetric: "Target Metric"
+    msg:
+      enterMetricValue: " Enter the metric value."
   metricType:
     auto: "Auto"
     manual: "Manual"

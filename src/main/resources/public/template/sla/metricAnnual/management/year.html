@@ -149,7 +149,7 @@
      * 연도별 SLA 지표관리 검색
      */
     function getList() {
-        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('metricYear').value.toString().substring(0, 4)
+        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('metricYear').value.substring(0, 4)
             + '&target='
             + '&type=';
         aliceJs.fetchText(urlParam, {
