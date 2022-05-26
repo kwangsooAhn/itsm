@@ -41,7 +41,7 @@ class MetricStatusService(
             metricDesc = metricDto.comment,
             tag = mutableListOf(),
             chartConfig = chartConfig,
-            chartData = this.initZqlCalculateData(),
+            chartData = this.initZqlCalculatedData(),
             zqlString = metricDto.zqlString
         )
     }
@@ -59,7 +59,7 @@ class MetricStatusService(
         )
     }
 
-    private fun initZqlCalculateData(): MutableList<ChartData> {
+    private fun initZqlCalculatedData(): MutableList<ChartData> {
         //TODO chartData 대신 ZqlCalculatedData DTO로 변경 해야함
         return mutableListOf()
     }
