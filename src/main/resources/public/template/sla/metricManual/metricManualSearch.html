@@ -84,7 +84,7 @@
      */
     function getList(pageNum = 1) {
         let urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
-        aliceJs.fetchText('/sla/metrics/manual?' +urlParam, {
+        aliceJs.fetchText('/sla/metric-manuals?' +urlParam, {
             method: 'GET'
         }).then((htmlData) => {
             const listBody = document.getElementById('metricManualList');
@@ -120,7 +120,7 @@
      * 수동 지표 데이터 추가 모달
      */
     function openManualNewModal() {
-        aliceJs.fetchText('/sla/metrics/manual/new', {
+        aliceJs.fetchText('/sla/metric-manuals/new', {
             method: 'GET'
         }).then((htmlData) => {
             const metricManualModal = new modal({
@@ -208,7 +208,7 @@
             metricValue: document.getElementById('metricValue').value
         };
 
-        aliceJs.fetchJson('/rest/sla/metrics/manual', {
+        aliceJs.fetchJson('/rest/sla/metric-manuals', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -218,7 +218,7 @@
             switch (response.status) {
                 case aliceJs.response.success: // 등록 성공
                     zAlert.success([[#{common.msg.register}]], function () {
-                        window.location.href = '/sla/metrics/manual/search';
+                        window.location.href = '/sla/metric-manuals/search';
                     });
                     break;
                 case aliceJs.response.error:
@@ -235,7 +235,7 @@
      */
     function onDelete(metricManualId) {
         let url = '';
-        url = '/rest/sla/metrics/manual/' + metricManualId;
+        url = '/rest/sla/metric-manuals/' + metricManualId;
 
         zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
             aliceJs.fetchJson(url, {
@@ -243,7 +243,7 @@
             }).then((response) => {
                 if (response.status === aliceJs.response.success) {
                     zAlert.success([[#{common.msg.delete}]], function () {
-                        window.location.href = '/sla/metrics/manual/search';
+                        window.location.href = '/sla/metric-manuals/search';
                     });
                 }
             });
