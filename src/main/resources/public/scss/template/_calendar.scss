@@ -14,6 +14,11 @@
 .calendar {
   // 메뉴
   &__menu {
+    display: grid;
+    grid-template-columns: 385px auto 385px;
+    column-gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
     // <> 버튼
     .calendar__move {
       @include borderRadius(50%);
@@ -29,6 +34,10 @@
       .move--prev {
         @include rotate(180);
       }
+    }
+    // 문구
+    .calendar__render-range-text {
+      font-weight: $font-weight-semibold;
     }
   }
   // 캘린더

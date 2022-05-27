@@ -21,48 +21,62 @@
     <h6 class="description ml-2 pl-2" th:text="#{calendar.msg.description}"></h6>
 </div>
 <div layout:fragment="pageSearchResult">
-    <div class="calendar" id="calendar">
-        <div class="calendar__menu flex-row mb-3" id="calendarMenu">
-            <select class="col-2" id="calendarType">
-                <option value="month" th:text="#{calendar.label.month}" selected></option>
-                <option value="week" th:text="#{calendar.label.week}"></option>
-                <option value="day" th:text="#{calendar.label.day}"></option>
-                <option value="task" th:text="#{calendar.label.task}"></option>
-            </select>
-            <button type="button" class="z-button calendar__action primary ml-1" th:text="#{calendar.label.today}"
-                    data-action="today"
-                    onclick="onClickCalendarMenu(this);"></button>
-            <button type="button" class="z-button-icon calendar__action calendar__move ml-1" data-action="prev"
-                    onclick="onClickCalendarMenu(this);">
-                <span class="z-icon i-arrow-right move--prev"></span>
-            </button>
-            <button type="button" class="z-button-icon calendar__action calendar__move ml-1" data-action="next"
-                    onclick="onClickCalendarMenu(this);">
-                <span class="z-icon i-arrow-right move--next"></span>
-            </button>
-            <span class="calendar__render-range-text ml-1" id="renderRangeText"></span>
+    <div class="calendar">
+        <div class="calendar__menu" id="calendarMenu">
+            <div class="calendar__button-group">
+                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="prev"
+                        onclick="javascript:onClickCalendarMenu(this);">
+                    <span class="z-icon i-arrow-right move--prev"></span>
+                </button>
+                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="next"
+                        onclick="javascript:onClickCalendarMenu(this);">
+                    <span class="z-icon i-arrow-right move--next"></span>
+                </button>
+                <button type="button" class="z-button calendar__action secondary" th:text="#{calendar.label.today}"
+                        data-action="today" onclick="onClickCalendarMenu(this);"></button>
+                <div class="z-button-switch-group" id="calendarViewType">
+                    <button class="z-button-switch selected" type="button" data-action="month"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.month}"></span>
+                    </button>
+                    <button class="z-button-switch" type="button" data-action="week"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.week}"></span>
+                    </button>
+                    <button class="z-button-switch" type="button" data-action="day"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.day}"></span>
+                    </button>
+                    <button class="z-button-switch" type="button" data-action="task"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.task}"></span>
+                    </button>
+                </div>
+            </div>
+            <h3 class="calendar__render-range-text align-center"></h3>
+            <div class="ml-auto">
+                <button type="button" class="z-button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{cmdb.ci.btn.importTemplate}"></button>
+                <button type="button" class="z-button-icon secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
+                    <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
+                </button>
+            </div>
         </div>
-        <div class="calendar__view on" id="calendarView" style="height: 670px;"></div>
-        <div class="calendar__view" id="taskView"></div>
+        <div class="calendar__view on" id="calendarView" style="height: 700px;"></div>
+        <div class="calendar__view calendar__view--task" id="taskView"></div>
     </div>
 </div>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     const calendarList = /*[[${calendarList}]]*/ '';
     let myCalendar = null; // tui calendar 객체
+    let prevStandardDate = '';
     window.onload = function () {
-
         // 달력 초기화
-        myCalendar = new zCalendar(document.getElementById('calendar'), {
+        myCalendar = new zCalendar('calendarView', {
             viewType: 'month'
         });
         myCalendar.setRenderRangeText();
         // 목록 초기화
         myCalendar.setCalendars(calendarList);
-
-        // 이벤트 등록
-        document.getElementById('calendarType').addEventListener('change', function (e) {
-            myCalendar.setCalendarType(e.target.value, setSchedules);
-        });
         // 일정 조회
         setSchedules();
     };
@@ -79,12 +93,12 @@
             acc.push(cur.calendarId);
             return acc;
         }, []);
-        const viewType = document.getElementById('calendarType').value;
+        const viewType = document.querySelector('#calendarViewType .z-button-switch.selected')
+            .getAttribute('data-action');
+        prevStandardDate = myCalendar.getDate().toFormat('yyyy-MM');
         const searchData = {
             viewType: viewType,
-            standard: myCalendar.getStandardDateTime(),
-            //from: myCalendar.getFromSystemDateTime(),
-            //to: myCalendar.getToSystemDateTime(),
+            standard: getStandardDate(viewType, myCalendar.getDate()),
             calendarIds: calendarIds
         };
         aliceJs.fetchJson('/rest/calendars', {
@@ -148,11 +162,66 @@
     }
 
     /**
+     * viewType에 따라서 조회 날짜 변경
+     */
+    function getStandardDate(viewType, date) {
+        switch (viewType) {
+            case 'month': // 2022-05
+            case 'task':
+                return date.toFormat('yyyy-MM');
+            case 'week': // 2022-05-13
+                return date.toFormat('yyyy-MM-dd');
+            case 'day': // 2022-05-13
+                return date.toFormat('yyyy-MM-dd');
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 월, 주, 일, 일정리스트 클릭
+     */
+    function onClickCalendarType(e) {
+        const viewType = e.getAttribute('data-action');
+        const buttonGroup = e.parentNode;
+        // 초기화
+        for (let i = 0, len = buttonGroup.children.length ; i< len; i++) {
+            let child = buttonGroup.children[i];
+            if (child.classList.contains('selected')) {
+                child.classList.remove('selected');
+            }
+        }
+        e.classList.add('selected');
+
+        myCalendar.setCalendarViewType(viewType, setSchedules);
+    }
+
+    /**
      * 상단 메뉴 이벤트 처리
      * @param {e} 이벤트 객체
      */
     function onClickCalendarMenu(e) {
-        myCalendar.onClickCalendarMenu(e.getAttribute('data-action'), setSchedules);
+        myCalendar.onClickCalendarMenu(e.getAttribute('data-action'), (e) => {
+            // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
+            // (버튼 클릭시 주, 일 반복 일정을 서버에서 계산하기 때문에 조회 수를 줄여서 부하를 낮추기 위함)
+            if (luxon.DateTime.fromMillis(e.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate) {
+                setSchedules();
+            }
+        });
+    }
+
+    /**
+     * 일괄 등록 모달 호출
+     */
+    function openTemplateUploadModal() {
+
+    }
+
+    /**
+     * 일정 다운로드(엑셀)
+     */
+    function onExcelDownload() {
+
     }
 </script>
 </body>
