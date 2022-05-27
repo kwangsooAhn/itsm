@@ -233,23 +233,25 @@ class MetricYearService(
     @Transactional
     fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricPoolEntity = MetricPoolEntity(metricYearDto.metricId)
-        if (metricPoolEntity != null) {
-            val metricYearEntity = MetricYearEntity(
-                metric = metricPoolEntity,
-                metricYear = metricYearDto.year,
-                minValue = metricYearDto.minValue,
-                maxValue = metricYearDto.maxValue,
-                weightValue = metricYearDto.weightValue,
-                owner = metricYearDto.owner,
-                comment = metricYearDto.comment,
-                zqlString = metricYearDto.zqlString,
-                updateUserKey = currentSessionUser.getUserKey(),
-                updateDt = LocalDateTime.now()
-            )
-            metricYearRepository.save(metricYearEntity)
-        } else {
+        val metricYearEntity = metricYearRepository.findById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))
+
+        if (metricYearEntity.isEmpty) {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        } else {
+            metricYearRepository.save(
+                MetricYearEntity(
+                    metric = MetricPoolEntity(metricYearDto.metricId),
+                    metricYear = metricYearDto.year,
+                    minValue = metricYearDto.minValue,
+                    maxValue = metricYearDto.maxValue,
+                    weightValue = metricYearDto.weightValue,
+                    owner = metricYearDto.owner,
+                    comment = metricYearDto.comment,
+                    zqlString = metricYearDto.zqlString,
+                    updateUserKey = currentSessionUser.getUserKey(),
+                    updateDt = LocalDateTime.now()
+                )
+            )
         }
         return ZResponse(
             status = status.code
