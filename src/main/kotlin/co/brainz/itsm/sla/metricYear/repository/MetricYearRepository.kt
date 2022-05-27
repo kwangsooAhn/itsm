@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository
 interface MetricYearRepository : JpaRepository<MetricYearEntity, MetricYearEntityPk>, MetricYearRepositoryCustom {
 
     fun findByMetricAndMetricYear(metric: MetricPoolEntity, metricYear: String): MetricYearEntity
+
+    fun findByMetricYear(metricYear: String): List<MetricYearEntity>
 }
