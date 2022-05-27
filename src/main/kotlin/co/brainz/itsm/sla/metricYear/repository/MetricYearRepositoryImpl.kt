@@ -172,6 +172,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
     override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
+        val groupCode = QCodeEntity.codeEntity
 
         return from(metric)
             .select(
@@ -179,8 +180,9 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     MetricYearDetailDto::class.java,
                     metricYear.metric.metricId,
                     metricYear.metricYear,
-                    metric.metricGroup,
+                    groupCode.codeName.`as`("metricGroupName"),
                     metric.metricName,
+                    metric.metricDesc,
                     metric.metricType,
                     metric.metricUnit,
                     metric.calculationType,
@@ -193,6 +195,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                 )
             )
             .join(metricYear).on(metric.metricId.eq(metricYear.metric.metricId))
+            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
             .where(
                 metricYear.metric.metricId.eq(metricId)
                     .and(metricYear.metricYear.eq(year))
