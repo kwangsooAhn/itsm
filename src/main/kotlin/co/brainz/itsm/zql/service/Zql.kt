@@ -32,9 +32,9 @@ class Zql(
     private var period: ZqlPeriodType = ZqlPeriodType.MONTH
     private var instanceStatus: InstanceStatus = InstanceStatus.FINISH
     private var criteria: ZqlInstanceDateCriteria = ZqlInstanceDateCriteria.END
-    private var expression: String =""
+    private var expression: String = ""
 
-    fun setFrom(from: LocalDateTime):Zql {
+    fun setFrom(from: LocalDateTime): Zql {
         this.from = from
         return this
     }
@@ -61,6 +61,8 @@ class Zql(
 
     fun setExpression(expression: String): Zql {
         this.expression = expression
+        // 태그 파싱
+        this.tagList = ZqlUtil.tagParser(this.expression)
         return this
     }
 
@@ -85,9 +87,6 @@ class Zql(
      * @return 카테고리 날짜별로 관련된 토큰이 연결된 List<ZqlCategorizedData>
      */
     private fun init(): List<ZqlCategorizedData> {
-        // 태그 파싱
-        this.tagList = ZqlUtil.tagParser(this.expression)
-
         // 토큰 리스트 가져오기
         val tokenList = this.fetch()
 
@@ -127,15 +126,15 @@ class Zql(
      * @return 카테고리 일시와 카테고리별 표현식 적용 값의 합산 리스트
      */
     fun sum(): List<ZqlCalculatedData> {
-        val calculatedDataList = listOf<ZqlCalculatedData>()
-
-        init().map {
+        return init().map {
             ZqlCalculatedData(it.categorizedDT, (it.zqlTokenList.fold(0f) { acc, token ->
-                val expression = this.replaceExpression(token)
-                acc + ZqlUtil.checkExpression(expression) as Float
+                val value: Float = when (val expValue = ZqlUtil.checkSpEL(this.replaceExpression(token))) {
+                    is Number -> expValue.toString().toFloat()
+                    else -> 0f
+                }
+                acc + value
             }))
         }
-        return calculatedDataList
     }
 
     /**
@@ -153,7 +152,7 @@ class Zql(
             ZqlCalculatedData(
                 it.categorizedDT, (it.zqlTokenList.map { token ->
                     val expression = this.replaceExpression(token)
-                    ZqlUtil.checkExpression(expression) as Float
+                    ZqlUtil.checkSpEL(expression) as Float
                 }.average().toFloat())
             )
         }
@@ -175,7 +174,7 @@ class Zql(
             ZqlCalculatedData(
                 it.categorizedDT, (it.zqlTokenList.filter { token ->
                     val expression = this.replaceExpression(token)
-                    ZqlUtil.checkExpression(expression) as Boolean
+                    ZqlUtil.checkSpEL(expression) as Boolean
                 }.size.toFloat()
                     / it.zqlTokenList.size) * 100
             )
@@ -199,7 +198,7 @@ class Zql(
      */
     fun fetch(): List<ZqlToken> {
         val instances = this.getInstanceByZQL()
-        val tokens = tokenRepo.getEndTokenList(instances.map { it.instanceId }.toSet())
+        val tokens = tokenRepo.getLastTokenIdList(instances.map { it.instanceId }.toSet())
 
         return instances.map { instance ->
             val tokenId = tokens.filter { it.instance.instanceId == instance.instanceId }[0].tokenId
@@ -231,10 +230,9 @@ class Zql(
      */
     private fun getInstanceByZQL(): Set<WfInstanceEntity> {
         var docIds = mutableSetOf<String>()
-        val listOfDocIdsByTag = tagList.map { instanceRepo.getDocumentIdsByTag(it) }
-        listOfDocIdsByTag.forEach { docIds.addAll(it) }
-        listOfDocIdsByTag.forEach { docIdsByTag ->
-            docIds = docIdsByTag.filter { docIds.contains(it) }.toMutableSet()
+        val docIdsByTag = tagList.map { instanceRepo.getDocumentIdsByTag(it) }
+        docIdsByTag.forEach { docIds.addAll(it) }
+        docIdsByTag.forEach { docId -> docIds = docId.filter { docIds.contains(it) }.toMutableSet()
         }
         return instanceRepo.getInstanceByZQL(docIds, from, to, instanceStatus, criteria)
     }
@@ -258,9 +256,9 @@ class Zql(
      * @return 컴포넌트 값으로 치환된 표현식
      */
     private fun replaceExpression(token: ZqlToken): String {
-        val replacedExpression = this.expression
+        var replacedExpression = this.expression
         token.tagValues.forEach { tag ->
-            replacedExpression.replace(tag.key, tag.value)
+            replacedExpression = replacedExpression.replace(listOf(tag.key).toString(), tag.value)
         }
         return replacedExpression
     }

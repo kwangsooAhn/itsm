@@ -10,4 +10,6 @@ interface WfTokenRepositoryCustom {
     fun getEndTokenList(instanceIds: Set<String>): List<WfTokenEntity>
 
     fun getListRunningTokenList(instanceIds: Set<String>): List<WfTokenEntity>
+
+    fun getLastTokenIdList(instanceIds: Set<String>): List<Map<String,String>>
 }

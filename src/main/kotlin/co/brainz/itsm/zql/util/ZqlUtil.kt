@@ -16,7 +16,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
 
 object ZqlUtil {
-    val springElParser: ExpressionParser = SpelExpressionParser()
+    val spELParser: ExpressionParser = SpelExpressionParser()
     val context: EvaluationContext = StandardEvaluationContext(ZqlSpringElContext())
 
     /**
@@ -45,15 +45,13 @@ object ZqlUtil {
      * 설정된 ZQL 에서 태그 부분을 해당 데이터로 치환한 뒤에 ZQL 표현식을 체크하는데 사용한다.
      * 표현식에 따라서 숫자, 혹은 Boolean 등으로 결과가 나올 수 있다.
      *
-     * @param expression 표현식 스트링
+     * @param exp 표현식 스트링
      * @return 표현식을 처리한 값. Any 타입으로 리턴하며 사용하는 곳에서 해당 표현식을 감안해 타입을 변경해서 사용해야 한다.
      * @author Jung Hee Chan
      */
-    fun checkExpression(expression: String): Any? {
-        return try { springElParser.parseExpression(expression).getValue(context) }
-        catch (e: Exception) {
-            null
-        }
+    fun checkSpEL(exp: String): Any? {
+        return try { spELParser.parseExpression(exp).getValue(context) }
+        catch (e: Exception) { null }
     }
 
     /**
