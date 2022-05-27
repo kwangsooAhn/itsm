@@ -7,11 +7,9 @@
 package co.brainz.itsm.calendar.dto
 
 import java.io.Serializable
-import java.time.LocalDateTime
 
 data class CalendarRequest(
     val viewType: String,
-    val from: LocalDateTime,
-    val to: LocalDateTime,
+    val standard: String,
     val calendarIds: List<String>
 ) : Serializable

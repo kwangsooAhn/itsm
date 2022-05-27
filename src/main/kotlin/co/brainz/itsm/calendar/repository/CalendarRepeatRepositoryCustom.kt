@@ -7,5 +7,9 @@
 package co.brainz.itsm.calendar.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.itsm.calendar.entity.CalendarEntity
+import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
 
-interface CalendarRepeatRepositoryCustom : AliceRepositoryCustom
+interface CalendarRepeatRepositoryCustom : AliceRepositoryCustom {
+    fun findCalendarRepeatInCalendar(calendar: CalendarEntity): List<CalendarRepeatEntity>
+}

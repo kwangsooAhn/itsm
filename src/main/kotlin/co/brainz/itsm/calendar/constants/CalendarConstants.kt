@@ -19,4 +19,9 @@ object CalendarConstants {
         THIS("this"),
         AFTER("after")
     }
+
+    enum class RepeatType(val code: String) {
+        WEEK_OF_MONTH("weekOfMonth"),
+        DAY_OF_WEEK_IN_MONTH("dayOfMonth") // dayOfWeekInMonth
+    }
 }
