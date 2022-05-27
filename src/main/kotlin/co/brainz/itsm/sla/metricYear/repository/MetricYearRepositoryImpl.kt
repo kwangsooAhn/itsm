@@ -130,11 +130,11 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
             .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
             .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
-        if(!metricLoadCondition.source.isNullOrEmpty()){
+        if (!metricLoadCondition.source.isNullOrEmpty()) {
             query.where(metricYear.metricYear.eq(metricLoadCondition.source))
         }
         if (!metricLoadCondition.target.isNullOrEmpty()) {
-            query.where(metricYear.metricYear.ne(metricLoadCondition.target))
+            query.where(metricYear.metricYear.isNull.or(metricYear.metricYear.ne(metricLoadCondition.target)))
         }
         if (!metricLoadCondition.type.isNullOrEmpty()) {
             query.where(metric.metricType.eq(metricLoadCondition.type))
