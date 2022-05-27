@@ -233,25 +233,21 @@ class MetricYearService(
     @Transactional
     fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricYearEntity = metricYearRepository.findById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))
 
-        if (metricYearEntity.isEmpty) {
+        if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))) {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         } else {
-            metricYearRepository.save(
-                MetricYearEntity(
-                    metric = MetricPoolEntity(metricYearDto.metricId),
-                    metricYear = metricYearDto.year,
-                    minValue = metricYearDto.minValue,
-                    maxValue = metricYearDto.maxValue,
-                    weightValue = metricYearDto.weightValue,
-                    owner = metricYearDto.owner,
-                    comment = metricYearDto.comment,
-                    zqlString = metricYearDto.zqlString,
-                    updateUserKey = currentSessionUser.getUserKey(),
-                    updateDt = LocalDateTime.now()
-                )
-            )
+            val metricYearEntity = metricYearRepository.findByMetricAndMetricYear(MetricPoolEntity(metricYearDto.metricId), metricYearDto.year)
+            metricYearEntity.minValue = metricYearDto.minValue
+            metricYearEntity.maxValue = metricYearDto.maxValue
+            metricYearEntity.weightValue = metricYearDto.weightValue
+            metricYearEntity.owner = metricYearDto.owner
+            metricYearEntity.comment = metricYearDto.comment
+            metricYearEntity.zqlString = metricYearDto.zqlString
+            metricYearEntity.updateUserKey = currentSessionUser.getUserKey()
+            metricYearEntity.updateDt = LocalDateTime.now()
+
+            metricYearRepository.save(metricYearEntity)
         }
         return ZResponse(
             status = status.code
