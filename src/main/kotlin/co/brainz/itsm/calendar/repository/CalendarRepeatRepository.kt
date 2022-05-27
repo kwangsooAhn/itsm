@@ -11,4 +11,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CalendarRepeatRepository : JpaRepository<CalendarRepeatEntity, String>, CalendarRepositoryCustom
+interface CalendarRepeatRepository : JpaRepository<CalendarRepeatEntity, String>, CalendarRepeatRepositoryCustom

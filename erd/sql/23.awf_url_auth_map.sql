@@ -177,6 +177,9 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'put', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'delete', 'general');

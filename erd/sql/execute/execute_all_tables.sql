@@ -1269,6 +1269,9 @@ insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 �
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');
@@ -1631,6 +1634,9 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'put', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'delete', 'general');
@@ -9333,7 +9339,7 @@ CREATE TABLE awf_calendar_repeat_data
     repeat_value      varchar(64),
     schedule_title    varchar(200),
     schedule_contents text,
-    all_day_un        boolean,
+    all_day_yn        boolean,
     start_dt          timestamp,
     end_dt            timestamp,
     CONSTRAINT awf_calendar_repeat_data_pk PRIMARY KEY (data_id),
@@ -9349,7 +9355,7 @@ COMMENT ON COLUMN awf_calendar_repeat_data.repeat_type IS '반복일정 타입';
 COMMENT ON COLUMN awf_calendar_repeat_data.repeat_value IS '반복일정 설정 값';
 COMMENT ON COLUMN awf_calendar_repeat_data.schedule_title IS '제목';
 COMMENT ON COLUMN awf_calendar_repeat_data.schedule_contents IS '내용';
-COMMENT ON COLUMN awf_calendar_repeat_data.all_day_un IS '종일여부';
+COMMENT ON COLUMN awf_calendar_repeat_data.all_day_yn IS '종일여부';
 COMMENT ON COLUMN awf_calendar_repeat_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_repeat_data.end_dt IS '종료일';
 
@@ -9368,7 +9374,7 @@ CREATE TABLE awf_calendar_repeat_custom_data
     repeat_value      varchar(64),
     schedule_title    varchar(200),
     schedule_contents text,
-    all_day_un        boolean,
+    all_day_yn        boolean,
     start_dt          timestamp,
     end_dt            timestamp,
     CONSTRAINT awf_calendar_repeat_custom_data_pk PRIMARY KEY (data_id),
@@ -9384,7 +9390,7 @@ COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_type IS '반복일정 �
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_value IS '반복일정 설정 값';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.schedule_title IS '제목';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.schedule_contents IS '내용';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.all_day_un IS '종일여부';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.all_day_yn IS '종일여부';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.end_dt IS '종료일';
 

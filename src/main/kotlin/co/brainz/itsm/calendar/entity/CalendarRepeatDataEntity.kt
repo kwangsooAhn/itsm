@@ -39,7 +39,7 @@ class CalendarRepeatDataEntity(
     val repeatType: String?,
 
     @Column(name = "repeat_value", length = 64)
-    val repeatValue: String?,
+    val repeatValue: String? = null,
 
     @Column(name = "schedule_title", length = 200)
     val scheduleTitle: String,

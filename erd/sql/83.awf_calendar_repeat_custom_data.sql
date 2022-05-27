@@ -13,7 +13,7 @@ CREATE TABLE awf_calendar_repeat_custom_data
     repeat_value      varchar(64),
     schedule_title    varchar(200),
     schedule_contents text,
-    all_day_un        boolean,
+    all_day_yn        boolean,
     start_dt          timestamp,
     end_dt            timestamp,
     CONSTRAINT awf_calendar_repeat_custom_data_pk PRIMARY KEY (data_id),
@@ -29,6 +29,6 @@ COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_type IS '반복일정 �
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_value IS '반복일정 설정 값';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.schedule_title IS '제목';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.schedule_contents IS '내용';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.all_day_un IS '종일여부';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.all_day_yn IS '종일여부';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.end_dt IS '종료일';

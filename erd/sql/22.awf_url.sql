@@ -169,6 +169,9 @@ insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 �
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');

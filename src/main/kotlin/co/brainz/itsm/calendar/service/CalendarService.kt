@@ -17,6 +17,7 @@ import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.CalendarResponse
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
+import co.brainz.itsm.calendar.entity.CalendarEntity
 import co.brainz.itsm.calendar.entity.CalendarRepeatDataEntity
 import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
 import co.brainz.itsm.calendar.entity.CalendarScheduleEntity
@@ -28,6 +29,15 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.DayOfWeek
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.temporal.TemporalAdjusters
+import java.time.temporal.WeekFields
 import javax.transaction.Transactional
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -53,52 +63,201 @@ class CalendarService(
         return calendarRepository.getCalendarList(currentSessionUser.getUserKey())
     }
 
+    fun getRepeatData(
+        repeat: CalendarRepeatEntity,
+        repeatData: CalendarRepeatDataEntity,
+        calendar: CalendarEntity,
+        index: Int,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): ScheduleData {
+        return ScheduleData(
+            id = repeat.repeatId,
+            index = index,
+            dataId = repeatData.dataId,
+            title = repeatData.scheduleTitle,
+            contents = repeatData.scheduleContents,
+            allDayYn = repeatData.allDayYn,
+            startDt = startDate,
+            endDt = endDate,
+            ownerName = calendar.owner.userName,
+            repeatYn = true,
+            repeatType = repeatData.repeatType,
+            repeatValue = repeatData.repeatValue,
+            repeatPeriod = repeatData.repeatType
+        )
+    }
+
+    /**
+     * 일반 일정 조회
+     */
+    private fun getScheduleList(calendar: CalendarEntity, range: Range): List<ScheduleData> {
+        val scheduleList = mutableListOf<ScheduleData>()
+        val schedules = calendarScheduleRepository.findCalendarScheduleByCalendarBetweenStartDtAndEndDt(calendar, range)
+        schedules.forEach {
+            scheduleList.add(
+                ScheduleData(
+                    id = it.scheduleId,
+                    index = 1,
+                    title = it.scheduleTitle,
+                    contents = it.scheduleContents,
+                    allDayYn = it.allDayYn,
+                    ownerName = calendar.owner.userName,
+                    startDt = it.startDt,
+                    endDt = it.endDt
+                )
+            )
+        }
+        return scheduleList
+    }
+
+    /**
+     * 반복 일정 데이터 생성
+     */
+    private fun getRepeatMiningList(calendar: CalendarEntity, range: Range): List<ScheduleData> {
+        val repeatMiningList = mutableListOf<ScheduleData>()
+        val repeatList = calendarRepeatRepository.findCalendarRepeatInCalendar(calendar)
+        repeatList.forEach { repeat ->
+            val repeatDataList = calendarRepeatDataRepository.findCalendarRepeatDataInRange(repeat, range)
+            repeatDataList.forEach { repeatData ->
+                var startDt = this.getUTCToTimezone(repeatData.startDt, currentSessionUser.getTimezone())
+                var endDt = this.getUTCToTimezone(repeatData.endDt, currentSessionUser.getTimezone())
+                val duration = Duration.between(startDt, endDt)
+                // 현재 범위가 반복 일정의 최초 시작일보다 이후인지 체크
+                var index = 1
+                while (startDt <= range.to) {
+                    if ((startDt >= range.from && startDt <= range.to) || (endDt >= range.from && endDt <= range.to)) {
+                        repeatMiningList.add(
+                            this.getRepeatData(
+                                repeat,
+                                repeatData,
+                                calendar,
+                                index,
+                                startDt,
+                                endDt
+                            )
+                        )
+                        index++
+                    }
+                    startDt = this.getNextDate(startDt, repeatData)
+                    endDt = startDt.plusSeconds(duration.seconds)
+                }
+            }
+        }
+
+        // Timezone -> UTC 변환
+        repeatMiningList.forEach {
+            it.startDt = this.getTimezoneToUTC(it.startDt, currentSessionUser.getTimezone())
+            it.endDt = this.getTimezoneToUTC(it.endDt, currentSessionUser.getTimezone())
+        }
+
+        return repeatMiningList
+    }
+
+    /**
+     * 반복 일정 다음 날짜 구하기
+     */
+    private fun getNextDate(
+        localDateTime: LocalDateTime,
+        repeatData: CalendarRepeatDataEntity
+    ): LocalDateTime {
+        return when (repeatData.repeatType) {
+            CalendarConstants.RepeatType.WEEK_OF_MONTH.code -> {
+                localDateTime.plusDays(7)
+            }
+            CalendarConstants.RepeatType.DAY_OF_WEEK_IN_MONTH.code -> {
+                if (repeatData.repeatValue != null) {
+                    val values = repeatData.repeatValue.toString().split("_")
+                    val dayOfWeekInMonth =
+                        localDateTime.plusMonths(1).with(
+                            TemporalAdjusters.dayOfWeekInMonth(
+                                values[0].toInt(),
+                                DayOfWeek.of(values[1].toInt())
+                            )
+                        )
+                    dayOfWeekInMonth.with(LocalTime.of(localDateTime.hour, localDateTime.minute, localDateTime.second))
+                } else {
+                    localDateTime.plusDays(7)
+                }
+            }
+            else -> localDateTime
+        }
+    }
+
     /**
      * 캘린더별 전체 데이터 조회
      */
     fun getCalendars(calendarRequest: CalendarRequest): CalendarResponse {
         val calendars =
             calendarRepository.findCalendarsInOwner(calendarRequest.calendarIds.toSet(), currentSessionUser.getUserKey())
-        val range = Range(
-            from = calendarRequest.from,
-            to = calendarRequest.to
-        )
         val calendarList = mutableListOf<CalendarData>()
+        val range = this.getRange(calendarRequest, currentSessionUser.getTimezone())
+        val utcRange = this.getRange(calendarRequest, "UTC")
         calendars.forEach { calendar ->
-            // 일반 스케줄
-            val scheduleList = mutableListOf<ScheduleData>()
-            val schedules = calendarScheduleRepository.findCalendarScheduleByCalendarBetweenStartDtAndEndDt(calendar, range)
-            schedules.forEach {
-                scheduleList.add(
-                    ScheduleData(
-                        id = it.scheduleId,
-                        index = 1,
-                        title = it.scheduleTitle,
-                        contents = it.scheduleContents,
-                        allDayYn = it.allDayYn,
-                        ownerName = calendar.owner.userName,
-                        startDt = it.startDt,
-                        endDt = it.endDt
-                    )
-                )
-            }
-            // TODO: 반복 스케줄
-            val repeatList = mutableListOf<ScheduleData>()
-
             calendarList.add(
                 CalendarData(
                     id = calendar.calendarId,
-                    schedules = scheduleList,
-                    repeats = repeatList
+                    schedules = this.getScheduleList(calendar, range),
+                    repeats = this.getRepeatMiningList(calendar, utcRange)
                 )
             )
         }
-
         return CalendarResponse(
             from = range.from.toString(),
             to = range.to.toString(),
             calendars = calendarList
         )
+    }
+
+    /**
+     * 조회 범위 설정
+     */
+    private fun getRange(calendarRequest: CalendarRequest, zoneId: String): Range {
+        lateinit var startDate: LocalDateTime
+        lateinit var endDate: LocalDateTime
+        val standardArray = calendarRequest.standard.split("-")
+        when (calendarRequest.viewType) {
+            CalendarConstants.ViewType.MONTH.code -> {
+                val standardDate =
+                    LocalDateTime.of(standardArray[0].toInt(), standardArray[1].toInt(), 1, 0, 0)
+                startDate = standardDate.minusDays(standardDate[WeekFields.SUNDAY_START.dayOfWeek()].toLong() - 1)
+                endDate = startDate.plusDays(41).with(LocalTime.of(23, 59, 59)) // 1일부터 + 41일 까지 조회
+            }
+            CalendarConstants.ViewType.WEEK.code -> {
+                val standardDate =
+                    LocalDateTime.of(standardArray[0].toInt(), standardArray[1].toInt(), standardArray[2].toInt(), 0, 0)
+                startDate = standardDate.minusDays(standardDate[WeekFields.SUNDAY_START.dayOfWeek()].toLong() - 1)
+                endDate =
+                    standardDate.plusDays(
+                        7 - standardDate[WeekFields.SUNDAY_START.dayOfWeek()].toLong()
+                    ).with(LocalTime.of(23, 59, 59))
+            }
+            CalendarConstants.ViewType.DAY.code -> {
+                val standardDate =
+                    LocalDateTime.of(standardArray[0].toInt(), standardArray[1].toInt(), standardArray[2].toInt(), 0, 0)
+                startDate = standardDate
+                endDate = standardDate.with(LocalTime.of(23, 59, 59))
+            }
+        }
+
+        return Range(
+            from = LocalDateTime.ofInstant(startDate.toInstant(ZoneId.of(zoneId).rules.getOffset(Instant.now())), ZoneId.of("UTC")),
+            to = LocalDateTime.ofInstant(endDate.toInstant(ZoneId.of(zoneId).rules.getOffset(Instant.now())), ZoneId.of("UTC"))
+        )
+    }
+
+    /**
+     * UTC 시간으로 변경
+     */
+    private fun getTimezoneToUTC(localDateTime: LocalDateTime, zoneId: String): LocalDateTime {
+        return LocalDateTime.ofInstant(localDateTime.toInstant(ZoneId.of(zoneId).rules.getOffset(Instant.now())), ZoneId.of("UTC"))
+    }
+
+    /**
+     * Timezone 시간으로 변경
+     */
+    private fun getUTCToTimezone(localDateTime: LocalDateTime, zoneId: String): LocalDateTime {
+        return LocalDateTime.ofInstant(localDateTime.toInstant(ZoneOffset.UTC), ZoneId.of(zoneId))
     }
 
     /**
@@ -205,7 +364,35 @@ class CalendarService(
      */
     @Transactional
     fun postCalendarRepeat(calendarId: String, data: ScheduleData): ZResponse {
-        return ZResponse()
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        if (calendar.isPresent) {
+            val calendarRepeat =
+                calendarRepeatRepository.save(
+                    CalendarRepeatEntity(
+                        calendar = calendar.get()
+                    )
+                )
+            calendarRepeatDataRepository.save(
+                CalendarRepeatDataEntity(
+                    repeat = calendarRepeat,
+                    scheduleTitle = data.title,
+                    scheduleContents = data.contents,
+                    startDt = data.startDt,
+                    endDt = data.endDt,
+                    repeatStartDt = data.startDt,
+                    allDayYn = data.allDayYn,
+                    repeatValue = data.repeatValue,
+                    repeatType = data.repeatType
+                )
+            )
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        }
+
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
