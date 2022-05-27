@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/sla/metrics/status")
+@RequestMapping("/sla/metric-status")
 class MetricStatusController(
     private val metricStatusService: MetricStatusService
 ) {
