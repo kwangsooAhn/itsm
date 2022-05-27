@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/sla/metrics/status")
+@RequestMapping("/rest/sla/metric-status")
 class MetricStatusRestController(
     private val metricStatusService: MetricStatusService
 ) {

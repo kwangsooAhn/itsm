@@ -54,6 +54,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                 Projections.constructor(
                     MetricYearDataDto::class.java,
                     metricPool.metricId,
+                    metricYear.metricYear,
                     code.codeName.`as`("metricGroupName"),
                     metricPool.metricName,
                     metricYear.minValue,

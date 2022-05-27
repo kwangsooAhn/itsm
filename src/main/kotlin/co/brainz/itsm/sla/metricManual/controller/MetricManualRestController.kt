@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/sla/metrics/manual")
+@RequestMapping("/rest/sla/metric-manuals")
 class MetricManualRestController(
     private val metricManualService: MetricManualService
 ) {

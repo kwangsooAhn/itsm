@@ -10,6 +10,7 @@ import java.io.Serializable
 
 data class MetricYearDataDto(
     val metricId: String,
+    val metricYear: String,
     val metricGroupName: String,
     val metricName: String,
     val minValue: Double,
