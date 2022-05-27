@@ -54,6 +54,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                 Projections.constructor(
                     MetricYearDataDto::class.java,
                     metricPool.metricId,
+                    metricYear.metricYear,
                     code.codeName.`as`("metricGroupName"),
                     metricPool.metricName,
                     metricYear.minValue,
@@ -117,6 +118,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     metric.metricId,
                     metricYear.metricYear,
                     metric.metricName,
+                    metric.metricDesc,
                     groupCode.codeName,
                     typeCode.code,
                     unitCode.code,
@@ -128,8 +130,9 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
             .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
             .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
-            .where(metricYear.metricYear.eq(metricLoadCondition.source))
-
+        if(!metricLoadCondition.source.isNullOrEmpty()){
+            query.where(metricYear.metricYear.eq(metricLoadCondition.source))
+        }
         if (!metricLoadCondition.target.isNullOrEmpty()) {
             query.where(metricYear.metricYear.ne(metricLoadCondition.target))
         }

@@ -58,14 +58,15 @@
 
             // 가중치 합이 100%가 아닐 경우 문구 생성
             let totalWeight = 0;
+            const weightValueScore = document.getElementById('weightValueScore');
             document.querySelectorAll('.weight-value').forEach(elem => {
                 const numWeightValue =  Number(elem.textContent);
                 totalWeight += numWeightValue;
             });
             if (totalWeight !== 100) {
-                document.getElementById('weightValueScore').style.display = 'inline-block';
+                weightValueScore.style.display = 'inline-block';
             } else {
-                document.getElementById('weightValueScore').style.display = 'none';
+                weightValueScore.style.display = 'none';
             }
         });
     }
