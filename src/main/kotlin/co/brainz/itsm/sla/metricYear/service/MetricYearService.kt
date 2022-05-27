@@ -237,7 +237,8 @@ class MetricYearService(
         if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))) {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         } else {
-            val metricYearEntity = metricYearRepository.findByMetricAndMetricYear(MetricPoolEntity(metricYearDto.metricId), metricYearDto.year)
+            val metricYearEntity =
+                metricYearRepository.findByMetricAndMetricYear(MetricPoolEntity(metricYearDto.metricId), metricYearDto.year)
             metricYearEntity.minValue = metricYearDto.minValue
             metricYearEntity.maxValue = metricYearDto.maxValue
             metricYearEntity.weightValue = metricYearDto.weightValue
