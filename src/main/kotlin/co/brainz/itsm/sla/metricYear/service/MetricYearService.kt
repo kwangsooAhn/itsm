@@ -113,7 +113,11 @@ class MetricYearService(
             MetricPoolConstants.MetricTypeCode.SIMPLE_AUTO.code -> metricLoadCondition.type =
                 MetricPoolConstants.MetricTypeCode.AUTO.code
         }
-        return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+        val metricList = metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+        val metricIds: MutableSet<String> = mutableSetOf()
+        metricList.forEach { metricIds.add(it.metricId) }
+
+        return metricPoolRepository.findByMetricIds(metricIds)
     }
 
     /**
