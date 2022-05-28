@@ -8234,6 +8234,10 @@ body.modal-active {
 .modal-dialog.sla-zql-manual-modal .modal-content {
   padding: 0.625rem 1.25rem;
 }
+.modal-dialog.sla-zql-manual-modal .modal-content div {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
 
 /* _thumbnail.scss
  *

@@ -326,7 +326,13 @@
     width: 62.5rem; // 1000px
     @include scrollbarHidden;
 
-    .modal-content { padding: 0.625rem 1.25rem; } // 10px 20px
+    .modal-content {
+      padding: 0.625rem 1.25rem; // 10px 20px
+      div {
+        font-size: $font-size-l;
+        line-height: 1.5;
+      }
+    }
   }
 
 }
