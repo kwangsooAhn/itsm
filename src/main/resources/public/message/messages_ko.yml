@@ -1434,6 +1434,7 @@ sla:
       maxValue: "목표치"
       metricName: "지표 이름"
       metricYear: "연도별 SLA 지표관리"
+      metricYearStatus: "연도별 SLA 현황"
       minValue: "최소치"
       option:
         score: "점"
@@ -1441,6 +1442,8 @@ sla:
       owner: "담당자"
       targetYear: "대상 년도"
       type: "타입"
+      result: "결과"
+      resultScore: "최종점수"
       unit: "단위"
       weightValue: "가중치"
       year: "년"

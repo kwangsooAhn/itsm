@@ -1,205 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/itsm/pageType/commonEditLayout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/pagingListLayout">
 <head>
-    <title th:text="#{sla.metricYear.label.metricYear}"></title>
+    <title th:text="#{sla.metricYear.label.metricYearStatus}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{sla.metricYear.label.metricYear}"></h1>
-    <h6 class="description ml-2 pl-2"
-        th:text="${view} ? #{sla.metricYear.msg.viewDescription} : #{sla.metricYear.msg.description}"></h6>
+    <h1 th:text="#{sla.metricYear.label.metricYearStatus}"></h1>
 </div>
-<div layout:fragment="pageEdit">
-    <form id="frm" method="post">
-        <div class="z-edit-form flex-fill">
-            <div class="flex-column z-edit-row">
-                <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
-                <input type="text" class="z-input" id="metricYear" maxlength="100"
-                       th:classappend="${view || edit} ? 'readonly' : ''" value="${metric?.metricYear}"
-                       data-validation-required-name="#{sla.metricYear.label.targetYear}">
-            </div>
-            <div class="flex-column z-edit-row">
-                <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
-                <select id="metricYearName" th:classappend="${view || edit} ? 'readonly' : ''">
-                    <option th:each="metricName: ${metricNameList}"
-                            th:text="${metricName.codeName}" th:value="${metricName.code}"></option>
-                </select>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
-                <input type="text" class="z-input" id="metricYearGroup" th:value="#{|${metric.metricGroup}|}"
-                       data-validation-required-name="#{sla.metricYear.label.group}" maxlength="128" readonly>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label for="metricYearType" th:text="#{sla.metricYear.label.type}"></label>
-                <input type="text" class="z-input" id="metricYearType" th:value="#{|${metric.metricType}|}"
-                       data-validation-required-name="#{sla.metricYear.label.type}" maxlength="128" readonly>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label for="metricYearUnit" th:text="#{sla.metricYear.label.unit}"></label>
-                <input type="text" class="z-input" id="metricYearUnit" th:value="#{|${metric.metricUnit}|}"
-                        data-validation-required-name="#{sla.metricYear.label.unit}" maxlength="128" readonly>
-            </div>
-            <div class="flex-column z-edit-row">
-                <label for="metricYearCalcType" th:text="#{common.label.calculationType}"></label>
-                <input type="text" class="z-input" id="metricYearCalcType" th:value="#{|${metric.calculationType}|}"
-                       data-validation-required-name="#{common.label.calculationType}" maxlength="128" readonly>
-            </div>
-        </div>
-        <div class="z-edit-form flex-fill">
-            <div class="flex-column z-edit-row">
-                <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
-                <input type="text" class="z-input" id="metricYearDesc" value="${metric?.metricDesc}"
-                       data-validation-required-name="#{sla.metricYear.label.description}" readonly>
-            </div>
-        </div>
-        <div class="z-edit-form flex-fill">
-            <div class="z-edit-row flex-row">
-                <div class="flex-column">
-                    <div class="flex-column z-edit-row">
-                        <label th:text="#{sla.metricYear.label.minValue}" for="minValue" class="required"></label>
-                        <div>
-                            <input type="text" id="minValue" name="minValue" class="z-input" maxlength="128"
-                                   th:value="${metric?.minValue}" th:readonly="${view}"/>
-                            <span th:text="#{sla.metricYear.label.option.score}"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-column">
-                    <label th:text="#{sla.metricYear.label.maxValue}" for="maxValue" class="required"></label>
-                    <div>
-                        <input type="text" id="maxValue" name="maxValue" class="z-input" maxlength="128"
-                               th:value="${metric?.maxValue}" th:readonly="${view}"/>
-                        <span th:text="#{sla.metricYear.label.option.score}"></span>
-                    </div>
-                </div>
-                <div class="flex-column">
-                    <label th:text="#{sla.metricYear.label.weightValue}" for="weightValue" class="required"></label>
-                    <div>
-                        <input type="text" id="weightValue" name="weightValue" class="z-input" maxlength="128"
-                               th:value="${metric?.weightValue}" th:readonly="${view}"/>
-                        <span th:text="#{sla.metricYear.label.option.percent}"></span>
-                    </div>
-                </div>
-                <div class="flex-column">
-                    <label th:text="#{sla.metricYear.label.owner}" for="owner" class="required"></label>
-                    <input type="text" id="owner" name="owner" class="z-input" maxlength="128"
-                           th:value="${metric?.owner}" th:readonly="${view}"/>
-                </div>
-                <div class="flex-column">
-                    <label th:text="#{sla.metricYear.label.comment}" for="comment" class="required"></label>
-                    <input type="text" id="comment" name="comment" class="z-input" maxlength="128"
-                           th:value="${metric?.comment}" th:readonly="${view}"/>
-                </div>
-            </div>
-            <div class="z-edit-row flex-column flex-fill">
-                <div class="flex-row justify-content-between">
-                    <label class="required" th:text="#{sla.metricYear.label.zql}" for="zqlString"></label>
-                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.average'}">
-                        <p th:text="#{sla.metricYear.label.zqlAverageDescription}"></p>
-                    </th:block>
-                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.rate'}">
-                        <p th:text="#{sla.metricYear.label.zqlRateDescription}"></p>
-                    </th:block>
-                    <th:block th:if="${metric?.calculationType == 'sla.calculationType.total'}">
-                        <p th:text="#{sla.metricYear.label.zqlTotalDescription}"></p>
-                    </th:block>
-                </div>
-                <div class="horizontal-bar"></div>
-                <p th:text="#{sla.metricYear.msg.zqlDescription}"></p>
-                <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"  th:readonly="${view}"
-                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
-            </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/sla/metrics/search" th:text="#{common.btn.list}"></a>
-                </div>
-                <div class="z-button-list" sec:authorize="hasAuthority('sla.manage')">
-                    <button th:if="!${metric?.metricId}" type="button" id="insert"
-                            class="z-button primary" onclick="onSave('POST')" th:text="#{common.btn.register}">
-                    </button>
-                    <button th:if="${metric?.metricId}" type="button" id="update"
-                            class="z-button primary" onclick="onSave('PUT')" th:text="#{common.btn.modify}">
-                    </button>
-                    <button th:if="${metric?.metricId}" type="button" id="delete"
-                            class="z-button danger" onclick="onDelete()" th:text="#{common.btn.delete}">
-                    </button>
-                </div>
-            </div>
-        </div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+                th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
+            <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
+        </button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="metricYearStatusList"></div>
 </div>
 </body>
-<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
-    /*<![CDATA[ */
+<script layout:fragment="pageScript" th:inline="javascript">
+    /*<![CDATA[*/
+    let yearDt = i18n.getYear();
+
     window.onload = function () {
-        document.getElementById('minValue').focus();
-        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+        const yearDtElement = document.getElementById('year');
+        yearDtElement.value = yearDt;
+        zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
+
+        getList();
+    };
+
+    function setDatePicker(element, picker) {
+        if (typeof picker === 'undefined') return false;
+        if (document.getElementById('year').value !== '' && element.value !== '') getList();
     }
 
-    function onSave(method) {
-        if (isEmpty('metricName', 'sla.metric.msg.enterMetricName')) return false;
-        if (isEmpty('metricDesc', 'common.msg.enterContents')) return false;
-        if (isEmpty('metricGroup', 'common.msg.requiredSelect')) return false;
+    /**
+     * 연도별 SLA 지표관리 검색
+     */
+    function getList(pageNum = 1) {
+        const urlParam = '/sla/metrics?year=' + document.getElementById('year').value.toString().substring(0, 4) + '&pageNum=' + pageNum;
+        aliceJs.fetchText(urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            const listBody = document.getElementById('metricYearStatusList')
+            listBody.innerHTML = htmlData;
+            setMetricValueFormat(listBody);
 
-        let data = {
-            metricId: '',
-            metricName: document.getElementById('metricName').value,
-            metricDesc: document.getElementById('metricDesc').value,
-            metricGroup: document.getElementById('metricGroup').value
-        }
-        let url = '/rest/sla/metrics';
-        if (method === 'PUT') {
-            url += '/' + /*[[${metric?.metricId}]]*/'';
-            data.metricId = /*[[${metric?.metricId}]]*/'';
-        }
-
-        aliceJs.fetchJson(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then((response) => {
-            switch (response.status) {
-                case aliceJs.response.success: // 등록 성공
-                    zAlert.success([[#{common.msg.register}]], function () {
-                        window.location.href = '/sla/metrics/search';
-                    });
-                    break;
-                case aliceJs.response.successEdit: // 수정 성공
-                    zAlert.success([[#{common.msg.modify}]], function () {
-                        window.location.href = '/sla/metrics/search';
-                    });
-                    break;
-                case aliceJs.response.duplicate: // 이름 중복
-                    zAlert.warning([[#{sla.metric.msg.duplicateMetricName}]]);
-                    break;
-                case aliceJs.response.error:
-                    zAlert.danger([[#{common.msg.fail}]]);
-                    break;
-                default :
-                    break;
-            }
-        });
-    }
-
-    function onDelete() {
-        zAlert.confirm([[#{common.msg.confirmDelete}]], () => {
-            aliceJs.fetchJson('/rest/sla/metrics/' + [[${metric?.metricId}]], {
-                method: 'DELETE'
-            }).then((response) => {
-                if (response.status === aliceJs.response.success) {
-                    zAlert.success([[#{common.msg.delete}]], function () {
-                        window.location.href = '/sla/metrics/search';
-                    });
-                }
+            let totalWeight = 0;
+            const resultScore = document.getElementById('resultScore');
+            document.querySelectorAll('.result-value').forEach(elem => {
+                const numWeightValue =  Number(elem.textContent);
+                totalWeight += numWeightValue;
             });
         });
     }
-    /* ]]> */
+
+    /**
+     * 서버에서 전달받은 지표값 포맷을 변경한다.
+     */
+    function setMetricValueFormat(elem) {
+        elem.querySelectorAll('.metric-value').forEach(value => {
+            const userMetricValue = value.textContent.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
+            value.textContent = userMetricValue;
+            value.setAttribute('title', userMetricValue);
+        });
+    }
+
+    function onExcelDownload() {
+        document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
+        const search = aliceJs.serialize(document.getElementById('frmSearch'));
+        aliceJs.fetchDownload({
+            url: '/rest/sla/metrics/annual/excel?' + search,
+            fileName: i18n.msg('token.label.list') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+        });
+    }
+    /*]]>*/
 </script>
 </html>

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class MetricStatusController(
     private val metricStatusService: MetricStatusService
 ) {
-    private val metricStatusSearchPage: String = "sla/metricStatus/statusMetricSearch"
+    private val metricStatusSearchPage: String = "sla/metricAnnual/status/statusAnnualSearch"
 
     @GetMapping("/search")
     fun getMetricStatusSearch(request: HttpServletRequest, model: Model): String {
