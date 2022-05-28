@@ -19,7 +19,7 @@ import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
-import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -101,7 +101,7 @@ class MetricManualService(
         )
     }
 
-    fun getMetricManualData(): List<MetricLoadDto> {
+    fun getMetricManualData(): List<MetricYearSimpleDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString(),
             type = MetricPoolConstants.MetricTypeCode.MANUAL.code
