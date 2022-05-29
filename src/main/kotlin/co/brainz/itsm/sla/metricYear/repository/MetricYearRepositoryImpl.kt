@@ -10,11 +10,11 @@ import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
-import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
 import com.querydsl.core.BooleanBuilder
@@ -103,38 +103,31 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .fetchFirst() != null
     }
 
-    override fun findMetricListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
+    override fun findMetricListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricYearSimpleDto> {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
-        val typeCode = QCodeEntity.codeEntity
         val unitCode = QCodeEntity("unitCode")
-        val calcTypeCode = QCodeEntity("calcTypeCode")
-        val groupCode = QCodeEntity("groupCode")
 
         val query = from(metric)
             .select(
                 Projections.constructor(
-                    MetricLoadDto::class.java,
+                    MetricYearSimpleDto::class.java,
                     metric.metricId,
                     metricYear.metricYear,
                     metric.metricName,
-                    metric.metricDesc,
-                    groupCode.codeName,
-                    typeCode.code,
-                    unitCode.code,
-                    calcTypeCode.code
+                    unitCode.code
                 )
             )
-            .leftJoin(metricYear).on(metric.metricId.eq(metricYear.metric.metricId))
-            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
+            .join(metricYear).on(metric.metricId.eq(metricYear.metric.metricId))
             .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
+        if (!metricLoadCondition.source.isNullOrEmpty()) {
             .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
             .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
         if (!metricLoadCondition.source.isNullOrEmpty()) {
             query.where(metricYear.metricYear.eq(metricLoadCondition.source))
         }
         if (!metricLoadCondition.target.isNullOrEmpty()) {
-            query.where(metricYear.metricYear.ne(metricLoadCondition.target))
+            query.where(metricYear.metricYear.isNull.or(metricYear.metricYear.ne(metricLoadCondition.target)))
         }
         if (!metricLoadCondition.type.isNullOrEmpty()) {
             query.where(metric.metricType.eq(metricLoadCondition.type))
@@ -172,6 +165,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
     override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
+        val groupCode = QCodeEntity.codeEntity
 
         return from(metric)
             .select(
@@ -179,8 +173,9 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     MetricYearDetailDto::class.java,
                     metricYear.metric.metricId,
                     metricYear.metricYear,
-                    metric.metricGroup,
+                    groupCode.codeName.`as`("metricGroupName"),
                     metric.metricName,
+                    metric.metricDesc,
                     metric.metricType,
                     metric.metricUnit,
                     metric.calculationType,
@@ -193,6 +188,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                 )
             )
             .join(metricYear).on(metric.metricId.eq(metricYear.metric.metricId))
+            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
             .where(
                 metricYear.metric.metricId.eq(metricId)
                     .and(metricYear.metricYear.eq(year))

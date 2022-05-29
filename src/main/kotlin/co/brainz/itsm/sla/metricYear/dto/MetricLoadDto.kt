@@ -9,7 +9,6 @@ import java.io.Serializable
 
 data class MetricLoadDto(
     var metricId: String = "",
-    var metricYear: String = "",
     var metricName: String? = "",
     var metricDesc: String? = "",
     var metricGroupName: String? = "",
