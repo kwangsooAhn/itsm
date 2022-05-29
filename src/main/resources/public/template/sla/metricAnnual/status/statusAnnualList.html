@@ -45,19 +45,19 @@
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis metric-value" th:text="${metric.minValue}" th:title="${metric.minValue}"></span>
-                <span class="text-ellipsis metric-value" th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
+                <span th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis metric-value" th:text="${metric.maxValue}" th:title="${metric.maxValue}"></span>
-                <span class="text-ellipsis metric-value" th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
+                <span th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis metric-value" th:text="${metric.weightValue}" th:title="${metric.weightValue}"></span>
-                <span class="text-ellipsis metric-value" th:text="#{sla.metricYear.label.option.percent}" th:title="#{sla.metricYear.label.option.percent}"></span>
+                <span th:text="#{sla.metricYear.label.option.percent}" th:title="#{sla.metricYear.label.option.percent}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis metric-value result-value" th:text="${metric.score}" th:title="${metric.score}"></span>
-                <span class="text-ellipsis metric-value" th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
+                <span th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${metric.owner}" th:title="${metric.owner}"></span>
@@ -66,8 +66,9 @@
                 <span class="text-ellipsis" th:text="${metric.comment}" th:title="${metric.comment}"></span>
             </div>
             <div class="grid__cell pl-2">
-                <button type="button" class="z-button-icon form" th:onclick="onDelete([[${metric.metricManualId}]])">
-                    <span class="z-icon i-search"></span>
+                <button type="button" class="z-button-icon form"
+                        th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]], [[${chart.chartName}]])">
+                    <span class="z-icon i-popup"></span>
                 </button>
             </div>
         </div>

@@ -14,6 +14,13 @@
     <form id="searchFrm">
         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+        <div class="mt-5">
+            <p class="font-2" th:text="#{sla.metricYear.label.resultScore}"></p>
+            <p id="resultScore" class="font-bold font-4 mt-1">
+                <span></span>
+                <span th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
+            </p>
+        </div>
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
@@ -35,7 +42,7 @@
         yearDtElement.value = yearDt;
         zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
 
-        getList();
+        // getList();
     };
 
     function setDatePicker(element, picker) {
@@ -47,7 +54,9 @@
      * 연도별 SLA 지표관리 검색
      */
     function getList(pageNum = 1) {
-        const urlParam = '/sla/metrics?year=' + document.getElementById('year').value.toString().substring(0, 4) + '&pageNum=' + pageNum;
+        const urlParam = '/sla/metrics/annual?year='
+                        + document.getElementById('year').value.toString().substring(0, 4)
+                        + '&pageNum=' + pageNum;
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((htmlData) => {
@@ -56,10 +65,11 @@
             setMetricValueFormat(listBody);
 
             let totalWeight = 0;
-            const resultScore = document.getElementById('resultScore');
+            const resultScore = document.querySelector('#resultScore span:first-child');
             document.querySelectorAll('.result-value').forEach(elem => {
                 const numWeightValue =  Number(elem.textContent);
                 totalWeight += numWeightValue;
+                resultScore.textContent = totalWeight;
             });
         });
     }
@@ -72,6 +82,50 @@
             const userMetricValue = value.textContent.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
             value.textContent = userMetricValue;
             value.setAttribute('title', userMetricValue);
+        });
+    }
+
+    /**
+     * Chart view 화면 호출 (Modal)
+     */
+    function openChartViewModal(chartName, htmlData) {
+        let modalOptions = {
+            title: chartName,
+            body: htmlData,
+            classes: 'chart-view-modal',
+            buttons: [{
+                content: i18n.msg('common.btn.close'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function (modal) {
+                    zChartManager.destroy();
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function () {
+                getChart(chartId);
+            }
+        };
+
+        const chartViewModal = new modal(modalOptions);
+        chartViewModal.show();
+    }
+
+    function getChart() {
+        const url = '/rest/sla/metrics/annual/'
+                    + document.getElementById('metricChartName').value.toString().substring(0, 4)
+                    + document.getElementById('metricChartYear').value
+                    + 'priview';
+        aliceJs.fetchJson(url, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((response) => {
+            if (response.status !== aliceJs.response.success) { return false; }
+            // 차트 초기화
+            zChartManager.load(response.data);
         });
     }
 
