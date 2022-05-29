@@ -18,7 +18,7 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="z-button secondary" id="btnCopy" name="btnCopy"
-                th:onclick="" th:text="#{sla.metricYear.btn.copy}"></button>
+                th:onclick="openCopyModal()" th:text="#{sla.metricYear.btn.copy}"></button>
         <button type="button" class="z-button primary" onclick="location.href='/sla/metrics/new'"
                 sec:authorize="hasAuthority('sla.manage')" th:text="#{common.btn.add}"></button>
     </div>
@@ -79,6 +79,42 @@
             const userMetricValue = value.textContent.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
             value.textContent = userMetricValue;
             value.setAttribute('title', userMetricValue);
+        });
+    }
+
+    /**
+     * 수동 지표 데이터 추가 모달
+     */
+    function openCopyModal() {
+        aliceJs.fetchText('/sla/metrics/copy', {
+            method: 'GET'
+        }).then((htmlData) => {
+            const metricCopyModal = new modal({
+                title: i18n.msg('sla.metricYear.label.copy'),
+                body: htmlData,
+                classes: 'sla-metric-manual-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.save'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function () {
+                }
+            });
+            metricCopyModal.show();
         });
     }
     /*]]>*/
