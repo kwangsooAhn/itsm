@@ -308,6 +308,8 @@ insert into awf_url_auth_map values ('/sla/metrics/new', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/edit', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/view', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/view', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/copy', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/copy', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/annual/search', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metrics/annual/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metrics/annual', 'get', 'sla.manage');
@@ -325,6 +327,8 @@ insert into awf_url_auth_map values ('/sla/metric-pools/new', 'get', 'sla.manage
 insert into awf_url_auth_map values ('/sla/metric-pools/{id}/edit', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metric-pools/{id}/view', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metric-pools/{id}/view', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-status', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-status', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/sla/metric-status/search', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/sla/metric-status/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/statistics/basicChart/search', 'get', 'report.view');

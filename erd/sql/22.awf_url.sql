@@ -316,9 +316,11 @@ insert into awf_url values ('/sla/metrics', 'get', '년도별 지표관리 목�
 insert into awf_url values ('/sla/metrics/new', 'get', '년도별 지표관리 등록 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/{id}/{year}/edit', 'get', '년도별 지표관리 편집 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/{id}/{year}/view', 'get', '년도별 지표관리 조회 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/copy', 'get', '연도별 지표 복사해오기 모달 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-manuals/search', 'get', '수동 지표관리 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-manuals', 'get', '수동 지표관리 목록 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-manuals/new', 'get', '수동 지표 등록 모달 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-status', 'get', '지표별 현황 차트 화면', 'TRUE');
 insert into awf_url values ('/sla/metric-status/search', 'get', '지표별 현황 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/annual/search', 'get', '년도별 현황 검색 화면', 'TRUE');
 insert into awf_url values ('/sla/metrics/annual', 'get', '년도별 현황 목록 화면', 'TRUE');
