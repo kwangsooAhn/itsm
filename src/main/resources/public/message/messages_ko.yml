@@ -1383,6 +1383,7 @@ sla:
       group: "그룹"
       groupName: "그룹 이름"
       metricPool: "SLA 지표관리"
+      metricStatus: "지표별 SLA 현황"
       maxValue: "목표치"
       minValue: "최소치"
       name: "이름"
