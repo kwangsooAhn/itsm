@@ -32,6 +32,7 @@ class MetricYearController(
     private val metricYearPage: String = "sla/metricAnnual/management/year"
     private val metricAnnualPage: String = "sla/metricAnnual/status/statusAnnualSearch"
     private val metricAnnualListPage: String = "sla/metricAnnual/status/statusAnnualList"
+    private val metricCopyPage: String = "sla/metricAnnual/management/yearCopyModal"
 
     /**
      * 연도별 SLA 지표 관리 - 검색 화면 호출
@@ -100,5 +101,15 @@ class MetricYearController(
         model.addAttribute("metricYearsList", result.data)
         model.addAttribute("paging", result.paging)
         return metricAnnualListPage
+    }
+
+    /**
+     * 연도별 SLA 지표관리 - 복사하기 모달 호출
+     */
+    @GetMapping("/{target}/copy")
+    fun getMetricCopy(@PathVariable target: String, model: Model): String {
+        model.addAttribute("target", target)
+        model.addAttribute("yearsList", metricYearService.getYears())
+        return metricCopyPage
     }
 }
