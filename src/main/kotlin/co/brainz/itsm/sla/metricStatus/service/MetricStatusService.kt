@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricStatus.service
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
-import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartConfig
@@ -23,7 +23,7 @@ class MetricStatusService(
     private val metricYearRepository: MetricYearRepository
 ) {
 
-    fun getMetricList(): List<MetricLoadDto> {
+    fun getMetricList(): List<MetricYearSimpleDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString()
         )
@@ -63,5 +63,4 @@ class MetricStatusService(
         //TODO chartData 대신 ZqlCalculatedData DTO로 변경 해야함
         return mutableListOf()
     }
-
 }
