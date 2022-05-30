@@ -12,7 +12,10 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <select id="statusMetricYear" class="flex-column col-2 mr-1"></select>
+        <select id="statusMetricYear" class="flex-column col-2 mr-1">
+            <option th:each="yearsList: ${yearsList}" th:text="${years}" th:value="${years}" ></option>
+        </select>
+        <select id="statusMetricName" class="flex-column col-2 mr-1"></select>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
 </div>
@@ -23,6 +26,7 @@
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function () {
+        document.getElementById('statusMetricYear').addEventListener('change', function () { getList() });
         getList();
     };
 
@@ -33,12 +37,17 @@
         let urlParam = '/rest/sla/metric-status?metricId=' + '40289ed28113bee8018113cbfe8b0000'
                         + '&year=' + '2022'
                         + '&chartType=' + 'chart.basicLine'
-        aliceJs.fetchText(urlParam, {
+        aliceJs.fetchJson(urlParam, {
             method: 'GET'
         }).then((response) => {
-            let responseJson = JSON.parse(response);
-            const metricList = responseJson.data;
-            console.log(metricList)
+            const metricList = response.data;
+            const selectTag = document.getElementById('statusMetricName');
+            for (let i = 0; i < metricList.length; i++) {
+                const selectOption = document.createElement('option');
+                selectOption.text = metricList[i].metricName;
+                selectOption.value = metricList[i].metricId;
+                selectTag.appendChild(selectOption);
+            }
         });
     }
     /*]]>*/
