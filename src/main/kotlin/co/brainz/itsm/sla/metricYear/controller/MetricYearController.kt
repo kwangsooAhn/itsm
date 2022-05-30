@@ -19,6 +19,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/sla/metrics")
@@ -106,8 +107,8 @@ class MetricYearController(
     /**
      * 연도별 SLA 지표관리 - 복사하기 모달 호출
      */
-    @GetMapping("/{target}/copy")
-    fun getMetricCopy(@PathVariable target: String, model: Model): String {
+    @GetMapping("/copy")
+    fun getMetricCopy(@RequestParam target: String, model: Model): String {
         model.addAttribute("target", target)
         model.addAttribute("yearsList", metricYearService.getYears())
         return metricCopyPage
