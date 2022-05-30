@@ -86,7 +86,9 @@
      * 수동 지표 데이터 추가 모달
      */
     function openCopyModal() {
-        aliceJs.fetchText('/sla/metrics/copy', {
+        const url = '/sla/metrics/' + document.getElementById('year').value.substring(0, 4) + '/copy';
+        console.log(url)
+        aliceJs.fetchText(url, {
             method: 'GET'
         }).then((htmlData) => {
             const metricCopyModal = new modal({
@@ -131,8 +133,6 @@
         }).then((response) => {
             let responseJson = JSON.parse(response);
             const metricList = responseJson.data;
-
-            console.log(metricList)
             const selectTag = document.getElementById('copymetricName');
             for (let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
