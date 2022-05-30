@@ -129,11 +129,11 @@
         });
     }
 
-    function onExcelDownload() {
-        const search = aliceJs.serialize(document.getElementById('searchFrm'));
-        console.log(search);
+    function onExcelDownload(pageNum = 1) {
+        const search = document.getElementById('year').value.toString().substring(0, 4)
+                        + '&pageNum=' + pageNum;
         aliceJs.fetchDownload({
-            url: '/rest/sla/metrics/annual/excel?' + search,
+            url: '/rest/sla/metrics/annual/excel?year=' + search,
             fileName: i18n.msg('sla.metricYear.label.metricYearStatus') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
         });
     }
