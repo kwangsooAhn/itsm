@@ -40,10 +40,8 @@
                 <a th:if="${metric.metricYear >= thisYear}" sec:authorize="hasAuthority('sla.manage')"
                    th:text="${metric.metricName}" th:title="${metric.metricName}"
                    th:href="@{/sla/metrics/{id}/{year}/edit(id=${metric.metricId}, year=${metric.metricYear})}"></a>
-                <a th:if="${metric.metricYear < thisYear}" sec:authorize="hasAuthority('sla.manage')"
+                <a th:if="(${#authorization.expression('!hasAuthority(''sla.manage'')')} or (${metric.metricYear < thisYear}))"
                    th:title="${metric.metricName}" th:text="${metric.metricName}"
-                   th:href="@{/sla/metrics/{id}/{year}/view(id=${metric.metricId}, year=${metric.metricYear})}"></a>
-                <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"  th:title="${metric.metricName}"
                    th:href="@{/sla/metrics/{id}/{year}/view(id=${metric.metricId}, year=${metric.metricYear})}"></a>
             </div>
             <div class="grid__cell pr-2 pl-2">
