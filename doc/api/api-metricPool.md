@@ -62,9 +62,9 @@ PUT /rest/sla/metric-pools/{metricId}
   "metricName": "장애점수",
   "metricDesc": "장애점수 항목 설명입니다!",
   "metricGroup": "sla.metricGroup.default",
-  "metricType": "sla.metricType.auto",
-  "metricUnit": "sla.metricUnit.score",
-  "calculationType": "sla.calculationType.total"
+  "metricType": "자동",
+  "metricUnit": "점",
+  "calculationType": "합산"
 }
 ```
 
