@@ -242,23 +242,22 @@ class MetricYearService(
     @Transactional
     fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricPoolEntity = MetricPoolEntity(metricYearDto.metricId)
-        if (metricPoolEntity != null) {
-            val metricYearEntity = MetricYearEntity(
-                metric = metricPoolEntity,
-                metricYear = metricYearDto.year,
-                minValue = metricYearDto.minValue,
-                maxValue = metricYearDto.maxValue,
-                weightValue = metricYearDto.weightValue,
-                owner = metricYearDto.owner,
-                comment = metricYearDto.comment,
-                zqlString = metricYearDto.zqlString,
-                updateUserKey = currentSessionUser.getUserKey(),
-                updateDt = LocalDateTime.now()
-            )
-            metricYearRepository.save(metricYearEntity)
-        } else {
+
+        if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))) {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        } else {
+            val metricYearEntity =
+                metricYearRepository.findByMetricAndMetricYear(MetricPoolEntity(metricYearDto.metricId), metricYearDto.year)
+            metricYearEntity.minValue = metricYearDto.minValue
+            metricYearEntity.maxValue = metricYearDto.maxValue
+            metricYearEntity.weightValue = metricYearDto.weightValue
+            metricYearEntity.owner = metricYearDto.owner
+            metricYearEntity.comment = metricYearDto.comment
+            metricYearEntity.zqlString = metricYearDto.zqlString
+            metricYearEntity.updateUserKey = currentSessionUser.getUserKey()
+            metricYearEntity.updateDt = LocalDateTime.now()
+
+            metricYearRepository.save(metricYearEntity)
         }
         return ZResponse(
             status = status.code
@@ -282,26 +281,54 @@ class MetricYearService(
     @Transactional
     fun metricYearCopy(metricYearCopyDto: MetricYearCopyDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricYearEntity =
-            metricYearRepository.findById(MetricYearEntityPk(metric = metricYearCopyDto.metricId, metricYear = metricYearCopyDto.source))
 
-        if (metricYearEntity.isEmpty) {
-            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
-        } else {
-            metricYearRepository.save(
-                MetricYearEntity(
-                    metric = MetricPoolEntity(metricId = metricYearCopyDto.metricId),
-                    metricYear = metricYearCopyDto.target,
-                    minValue = metricYearEntity.get().minValue,
-                    maxValue = metricYearEntity.get().maxValue,
-                    weightValue = metricYearEntity.get().weightValue,
-                    owner = metricYearEntity.get().owner,
-                    comment = metricYearEntity.get().comment,
-                    zqlString = metricYearEntity.get().zqlString,
-                    createUserKey = currentSessionUser.getUserKey(),
-                    createDt = LocalDateTime.now()
+        // metricId가 있을 경우 해당 지표만 복사
+        if (!metricYearCopyDto.metricId.isNullOrBlank()) {
+            val metricYearEntity =
+                metricYearRepository.findById(
+                    MetricYearEntityPk(
+                        metric = metricYearCopyDto.metricId, metricYear = metricYearCopyDto.source))
+
+            when (metricYearEntity.isEmpty) {
+                true -> status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+                false -> metricYearRepository.save(
+                    MetricYearEntity(
+                        metric = MetricPoolEntity(metricId = metricYearCopyDto.metricId),
+                        metricYear = metricYearCopyDto.target,
+                        minValue = metricYearEntity.get().minValue,
+                        maxValue = metricYearEntity.get().maxValue,
+                        weightValue = metricYearEntity.get().weightValue,
+                        owner = metricYearEntity.get().owner,
+                        comment = metricYearEntity.get().comment,
+                        zqlString = metricYearEntity.get().zqlString,
+                        createUserKey = currentSessionUser.getUserKey(),
+                        createDt = LocalDateTime.now()
+                    )
                 )
-            )
+            }
+        // metricId가 없을 경우 전체 지표 복사 (중복 제외)
+        } else {
+            val metricSourceYearEntityList = metricYearRepository.findByMetricYear(metricYearCopyDto.source)
+            val metricTargetYearEntityList = metricYearRepository.findByMetricYear(metricYearCopyDto.target)
+
+            metricSourceYearEntityList.forEach { source ->
+                if (!metricTargetYearEntityList.contains(source)) {
+                    metricYearRepository.save(
+                        MetricYearEntity(
+                            metric = MetricPoolEntity(metricId = source.metric.metricId),
+                            metricYear = metricYearCopyDto.target,
+                            minValue = source.minValue,
+                            maxValue = source.maxValue,
+                            weightValue = source.weightValue,
+                            owner = source.owner,
+                            comment = source.comment,
+                            zqlString = source.zqlString,
+                            createUserKey = currentSessionUser.getUserKey(),
+                            createDt = LocalDateTime.now()
+                        )
+                    )
+                }
+            }
         }
         return ZResponse(
             status = status.code
