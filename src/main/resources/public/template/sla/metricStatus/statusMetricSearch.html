@@ -12,9 +12,32 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
+        <select id="statusMetricYear" class="flex-column col-2 mr-1">
+            <option th:each="years: ${yearsList}" th:text="${metricYears}" th:value="${metricYears}" ></option>
+        </select>
+        <select id="statusMetricName" class="flex-column col-2 mr-1">
+            <option th:each="years: ${yearsList}" th:text="${metricName}" th:value="${metricId}" ></option>
+        </select>
+        <div class="flex-row mr-auto">
+            <label class="z-radio" for="lineChart" tabindex="0">
+                <input id="lineChart" type="radio" name="type"
+                       th:checked="${chartType == 'chart.basicLine'}"
+                       th:classappend="${view} ? 'readonly'"
+                       th:disabled="${view}"
+                       th:readonly="${view}">
+                <span></span>
+                <span class="z-label mr-4" th:text="#{sla.chart.line}"></span>
+            </label>
+            <label class="z-radio" for="column" tabindex="0">
+                <input id="column" type="radio" name="type" th:checked="${chartType == 'chart.lineLine'}"
+                       th:classappend="${view} ? 'readonly'"
+                       th:disabled="${view}"
+                       th:readonly="${view}">
+                <span></span>
+                <span class="z-label" th:text="#{sla.chart.column}"></span>
+            </label>
+        </div>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
-        <span class="font-bold text-red500 pl-1" id="weightValueScore" th:text="#{sla.metricYear.msg.totalScore}"></span>
     </form>
 </div>
 <div layout:fragment="pageList">
@@ -28,10 +51,13 @@
     };
 
     /**
-     * 연도별 SLA 지표관리 검색
+     * 지표별 SLA 현황
      */
     function getList() {
-        let urlParam = '';
+        let urlParam = '/rest/sla/metric-status?metricId='
+                        + document.getElementById('statusMetricName').value
+                        + '&year=' + document.getElementById('statusMetricYear').value
+                        + '&chartType=' + document.getElementById('statusMetricYear').value;
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((htmlData) => {

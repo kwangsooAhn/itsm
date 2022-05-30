@@ -1376,6 +1376,9 @@ sla:
     average: "평균"
     rate: "비율"
     total: "합산"
+  chart:
+    line: "라인차트"
+    column: "컬럼차트"
   metric:
     label:
       comment: "비고"
