@@ -343,4 +343,11 @@ class MetricYearService(
         )
         return metricStatusService.getMetricStatusChartData(metricStatusCondition)
     }
+
+    /**
+     * 연도별 지표 복사하기 모달
+     */
+    fun getYears(): Set<String> {
+        return metricYearRepository.getYears()
+    }
 }

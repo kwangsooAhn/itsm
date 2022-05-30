@@ -192,4 +192,13 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             )
             .fetchOne()
     }
+
+    override fun getYears(): Set<String> {
+        val metricYear = QMetricYearEntity.metricYearEntity
+
+        return from(metricYear).distinct()
+            .select(metricYear.metricYear)
+            .orderBy(metricYear.metricYear.asc())
+            .fetch().toSet()
+    }
 }
