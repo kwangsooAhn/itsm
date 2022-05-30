@@ -13,10 +13,6 @@
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
         <select id="statusMetricYear" class="flex-column col-2 mr-1"></select>
-        <select id="statusMetricName" class="flex-column col-2 mr-1">
-            <option th:each="years: ${yearsList}" th:text="${metricName}" th:value="${metricId}" ></option>
-        </select>
-
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
 </div>
@@ -34,18 +30,15 @@
      * 지표별 SLA 현황
      */
     function getList() {
-        let urlParam = '/rest/sla/metric-status?metricId='
-                        + document.getElementById('statusMetricName').value
-                        + '&year=' + document.getElementById('statusMetricYear').value
-                        + '&chartType=' + document.getElementById('statusMetricYear').value;
+        let urlParam = '/rest/sla/metric-status?metricId=' + '40289ed28113bee8018113cbfe8b0000'
+                        + '&year=' + '2022'
+                        + '&chartType=' + 'chart.basicLine'
         aliceJs.fetchText(urlParam, {
             method: 'GET'
-        }).then((htmlData) => {
-            const chartBody = document.getElementById('metricStatusChart')
-            chartBody.innerHTML = htmlData;
-            let responseJson = JSON.parse(htmlData);
+        }).then((response) => {
+            let responseJson = JSON.parse(response);
             const metricList = responseJson.data;
-
+            console.log(metricList)
         });
     }
     /*]]>*/
