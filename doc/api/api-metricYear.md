@@ -201,10 +201,10 @@ GET /rest/sla/metrics/{metricId}/preview
     "message": null,
     "data": {
         "metricYears": "2022",
-        "metricId": "40289ed28113059901811305e63a0000",
+        "metricId": "40288a8c81129328018112974d660000",
         "chartType": "chart.basicLine",
-        "metricName": "test",
-        "metricDesc": "a",
+        "metricName": "장애점수",
+        "metricDesc": "장애점수 항목 설명입니다.",
         "tag": [],
         "chartConfig": {
             "range": {
@@ -222,7 +222,7 @@ GET /rest/sla/metrics/{metricId}/preview
             "condition": null
         },
         "chartData": [],
-        "zqlString": "a"
+        "zqlString": "(([incident_level] == 3)? 10:0) + (([incident_level] == 2)? 20:0) + (([incident_level] == 1)? 10:0) "
     }
 }
 ```
