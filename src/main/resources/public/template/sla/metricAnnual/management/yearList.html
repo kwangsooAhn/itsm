@@ -37,31 +37,27 @@
                 <span class="text-ellipsis" th:text="${metric.metricGroupName}" th:title="${metric.metricGroupName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2 underline">
-                <a sec:authorize="hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:if="${metric.metricYear >= thisYear}"
-                   th:href="@{/sla/metrics/{id}/{year}/edit(id=${metric.metricId}, year=${metric.metricYear})}" th:title="${metric.metricName}"></a>
-                <a sec:authorize="hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:if="${metric.metricYear < thisYear}"
-                   th:href="@{/sla/metrics/{id}/{year}/view(id=${metric.metricId}, year=${metric.metricYear})}" th:title="${metric.metricName}"></a>
-                <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"
-                   th:href="@{/sla/metrics/{id}/{year}/view(id=${metric.metricId}, year=${metric.metricYear})}" th:title="${metric.metricName}"></a>
+                <a th:if="${metric.metricYear >= thisYear}" sec:authorize="hasAuthority('sla.manage')"
+                   th:text="${metric.metricName}" th:title="${metric.metricName}"
+                   th:href="@{/sla/metrics/{id}/{year}/edit(id=${metric.metricId}, year=${metric.metricYear})}"></a>
+                <a th:if="${metric.metricYear < thisYear}" sec:authorize="hasAuthority('sla.manage')"
+                   th:title="${metric.metricName}" th:text="${metric.metricName}"
+                   th:href="@{/sla/metrics/{id}/{year}/view(id=${metric.metricId}, year=${metric.metricYear})}"></a>
+                <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"  th:title="${metric.metricName}"
+                   th:href="@{/sla/metrics/{id}/{year}/view(id=${metric.metricId}, year=${metric.metricYear})}"></a>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis metric-value" th:text="${metric.minValue}" th:title="${metric.minValue}"></span>
-                <span class="text-ellipsis metric-value" th:text="#{sla.metricYear.label.option.score}"
-                      th:title="#{sla.metricYear.label.option.score}"></span>
+                <span th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <span class="text-ellipsis metric-value" th:text="${metric.maxValue}"
-                      th:title="${metric.maxValue}"></span>
-                <span class="text-ellipsis metric-value" th:text="#{sla.metricYear.label.option.score}"
-                      th:title="#{sla.metricYear.label.option.score}"></span>
+                <span class="text-ellipsis metric-value" th:text="${metric.maxValue}" th:title="${metric.maxValue}"></span>
+                <span th:text="#{sla.metricYear.label.option.score}" th:title="#{sla.metricYear.label.option.score}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis metric-value weight-value" th:text="${metric.weightValue}"
                       th:title="${metric.weightValue}"></span>
-                <span class="text-ellipsis metric-value" th:text="#{sla.metricYear.label.option.percent}"
-                      th:title="#{sla.metricYear.label.option.percent}"></span>
+                <span th:text="#{sla.metricYear.label.option.percent}" th:title="#{sla.metricYear.label.option.percent}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span class="text-ellipsis" th:text="${metric.owner}" th:title="${metric.owner}"></span>

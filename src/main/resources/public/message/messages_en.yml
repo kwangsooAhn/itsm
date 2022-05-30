@@ -1456,22 +1456,30 @@ sla:
       zqlRateDescription: "The ratio calculation method finds the ratio of documents that satisfy the conditions of ZQL. ZQL must be in a format that represents a condition."
       zqlTotalDescription: "The total calculation method sums the results. The result of ZQL must be in numeric form."
   zqlManual: "
-    Basic Recipe<br/>
-    &nbsp;&nbsp;&nbsp;• A space is separated between operators, keywords, and item names, and no spaces are allowed between operators, keywords, and the item name itself.<br/>
-    &nbsp;&nbsp;&nbsp;• When specifying a tag as a condition, write it in <b><u>tag</u></b> format.<br/><br/>
-    Available Functions<br/>
-    &nbsp;&nbsp;&nbsp;• count: Count the number that satisfies the condition entered between ().<br/>
-    &nbsp;&nbsp;&nbsp;• sum: Finds the sum of items between ().<br/><br/>
-    Example<br/>
-    &nbsp;&nbsp;&nbsp;• When calculating the score for each disability level and obtaining the total.<br/>
-    &nbsp;&nbsp;&nbsp;• ([incident_level] = 3) * 10 + ([incident_level] = 2) * 20 + ([incident_level] = 1) * 30<br/>
-    &nbsp;&nbsp;&nbsp;• ZQL as above is when the tag 'indicent_level' is attached to the disability level item.<br/>
-    &nbsp;&nbsp;&nbsp;• If the value of the disability level is 3, multiply *10 to obtain the score.<br/>
-    &nbsp;&nbsp;&nbsp;• If the above conditions are specified for each disability class and registered, and the calculation method is selected as 'sum', the final score is calculated.<br/>
-    &nbsp;&nbsp;&nbsp;• In the case of finding the percentage of documents that complied with the desired completion date.<br/>
-    &nbsp;&nbsp;&nbsp;• <b><u>Desired completion date</u></b> >= <b><u>Due date</u></b><br/>
-    &nbsp;&nbsp;&nbsp;• ZQL as above compares the value of the item tagged with the desired completion date and the value of the item tagged with the desired completion date of the document to find documents that were completed before or on the same day as the desired completion date.<br/>
-    &nbsp;&nbsp;&nbsp;• If the ZQL as above is applied to the 'rate' calculation method, the proportion of documents that satisfy the condition among all documents during the measurement period is obtained."
+    Expression<br/>
+    &nbsp;&nbsp;&nbsp;- Date<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* It is expressed in the format yyyy-MM-dd hh:mm:ss between ‘’.<br/>
+    &nbsp;&nbsp;&nbsp;- Tag<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Tag is written in [tag] format.<br/><br/>
+    Calculation<br/>
+    &nbsp;&nbsp;&nbsp;- Date<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Date arithmetic is possible in the form plusYear(‘2022-05-18 00:00:00’, 1) , and the functions provided are plusYear, minusYear, plusMonths, minusMonths, plusDays, minusDays, plusHours, minusHours.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Date comparison operation can be used in the form equalsTo('2022-05-01 00:00:00', '2022-05-01 00:00:00') , and notEqualsTo, greaterThan, lessThan, greaterThanOrEuqalTo, lessThanOrEqualTo, etc. provides.<br/>
+    &nbsp;&nbsp;&nbsp;- Number<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* It provides +, -, *, /, %, and ^ functions, including arithmetic operations.<br/>
+    &nbsp;&nbsp;&nbsp;- Other Operators<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Provides relational operators <, >, ==, !=, <=, >=, lt, gt, eq, ne, le, ge.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Logical operators and, or, not, &&, ||, ! provides.<br/><br/>
+    예제<br/>
+    &nbsp;&nbsp;&nbsp;- When calculating the score for each disability level and obtaining the total.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* (([incident_level] == 3)? 10:0) + (([incident_level] == 2)? 20:0) + (([incident_level] == 1)? 10:0)<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• ZQL as above is when the tag 'indicent_level' is attached to the disability level item.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• If the value of the disability level is 3, it is scored as 10.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• If the above conditions are specified and the calculation method is selected as 'Sum', the final score is calculated by calculating the scores of all documents.<br/>
+    &nbsp;&nbsp;&nbsp;- In the case of finding the percentage of documents that complied with the desired completion date.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* greaterThanOrEqualTo( [Desired Completion Date], [Completion Date])<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• ZQL as above compares the value of the item tagged with the desired completion date and the value of the item tagged with the desired completion date of the document to find documents that were completed before or on the same day as the desired completion date.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• If the ZQL as above is applied to the 'rate' calculation method, the proportion of documents that satisfy the condition among all documents during the measurement period is obtained."
 
 # statistic
 statistic:
