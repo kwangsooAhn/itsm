@@ -138,7 +138,7 @@
         }).then((response) => {
             const metricList = response.data;
             const selectTag = document.getElementById('copyMetricName');
-            selectTag.options.length = 0;
+            selectTag.options.length = 1;
             for (let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
                 selectOption.text = metricList[i].metricName;

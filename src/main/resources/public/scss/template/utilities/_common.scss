@@ -9,8 +9,8 @@
 // 굵기
 .font-bold { font-weight: bold; } // 700
 // 사이즈
-@for $i from 1 through 5 {
-  $size: $i * 0.625rem; // 10px 씩 증가
+@for $i from 6 through 10 { // 12px ~ 20px
+  $size: $i * 0.125rem; // 2px 씩 증가
   .font-#{$i} { font-size: $size !important; }
 }
 // 밑줄
