@@ -18,10 +18,22 @@ class MetricStatusController(
     private val metricStatusService: MetricStatusService
 ) {
     private val metricStatusSearchPage: String = "sla/metricStatus/statusMetricSearch"
+    private val metricStatusChartPage: String = "sla/metricStatus/statusMetricChart"
 
+    /**
+     * 지표별 SLA 현황 검색 화면
+     */
     @GetMapping("/search")
     fun getMetricStatusSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("metricList", metricStatusService.getMetricList())
         return metricStatusSearchPage
+    }
+
+    /**
+     * 지표별 SLA 현황 차트 화면
+     */
+    @GetMapping("")
+    fun getMetricStatusChart(request: HttpServletRequest, model: Model): String {
+        return metricStatusChartPage
     }
 }
