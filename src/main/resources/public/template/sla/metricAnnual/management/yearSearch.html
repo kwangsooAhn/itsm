@@ -48,7 +48,7 @@
      * 연도별 SLA 지표관리 검색
      */
     function getList(pageNum = 1) {
-        const urlParam = '/sla/metrics?year=' + document.getElementById('year').value.toString().substring(0, 4) + '&pageNum=' + pageNum;
+        const urlParam = '/sla/metrics?year=' + document.getElementById('year').value.substring(0, 4) + '&pageNum=' + pageNum;
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((htmlData) => {
