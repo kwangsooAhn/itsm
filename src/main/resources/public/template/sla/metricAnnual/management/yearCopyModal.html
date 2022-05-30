@@ -8,7 +8,8 @@
     </select>
     <span class="mr-3" th:text="#{sla.metricYear.label.year}"></span>
     <select id="copyMetricName" class="flex-column col-2 mr-1"></select>
-    <span id="copyTargetYear" th:value="${target}"></span>
+    <span class="mr-3" id="copyTargetYearText" th:text="#{sla.metricYear.label.copy}"></span>
+    <input type="hidden" id="copyTargetYear" th:value="${target}">
 </div>
 </body>
 </html>

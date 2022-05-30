@@ -99,7 +99,7 @@
                     classes: 'z-button primary',
                     bindKey: false,
                     callback: function (modal) {
-                        modal.hide();
+                        onCopyModal();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
@@ -113,6 +113,8 @@
                     closable: false,
                 },
                 onCreate: function () {
+                    const copyTargetYear = document.getElementById('copyTargetYear').value
+                    document.getElementById('copyTargetYearText').textContent = i18n.msg('sla.metricYear.msg.copy', copyTargetYear)
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                     getSourceYearList();
                 }
@@ -128,7 +130,6 @@
         let urlParam = '/rest/sla/metrics?source=' + ''
             + '&target=' + document.getElementById('copyTargetYear').value
             + '&type=';
-        console.log(target)
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((response) => {
@@ -140,8 +141,43 @@
                 selectOption.text = metricList[i].metricName;
                 selectOption.value = metricList[i].metricId;
                 selectTag.appendChild(selectOption);
+                document.getElementById('copySourceYear').addEventListener('change', function () {
+                    selectOption.text = metricList[i].metricName;
+                    selectOption.value = metricList[i].metricId;
+                });
             }
             aliceJs.initDesignedSelectTag();
+        });
+    }
+
+    /**
+     * 복사해오기 모달 저장
+     */
+    function onCopyModal() {
+        let data = {
+            metricId: document.getElementById('copyMetricName').value,
+            source: document.getElementById('copySourceYear').value,
+            target: document.getElementById('copyTargetYear').value
+        }
+        aliceJs.fetchJson('/rest/sla/metrics/copy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success: // 등록 성공
+                    zAlert.success([[#{common.msg.register}]], function () {
+                        window.location.href = '/sla/metrics/search';
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger([[#{common.msg.fail}]]);
+                    break;
+                default :
+                    break;
+            }
         });
     }
     /*]]>*/
