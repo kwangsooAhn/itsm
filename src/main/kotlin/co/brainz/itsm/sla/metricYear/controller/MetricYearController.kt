@@ -106,8 +106,10 @@ class MetricYearController(
     /**
      * 연도별 SLA 지표관리 - 복사하기 모달 호출
      */
-    @GetMapping("/copy")
-    fun getMetricCopyList(): String {
+    @GetMapping("/{target}/copy")
+    fun getMetricCopy(@PathVariable target: String, model: Model): String {
+        model.addAttribute("target", target)
+        model.addAttribute("yearsList", metricYearService.getYears())
         return metricCopyPage
     }
 }
