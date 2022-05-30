@@ -321,4 +321,19 @@
     padding: 0.625rem 1.25rem; // 10px 20px
     @include scrollbarHidden;
   }
+  // SLA ZQL 사용법 모달
+  &.sla-zql-manual-modal {
+    width: 62.5rem; // 1000px
+    @include scrollbarHidden;
+
+    .modal-content {
+      height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+      div {
+        font-size: $font-size-l;
+        line-height: 1.5;
+      }
+    }
+  }
+
 }
