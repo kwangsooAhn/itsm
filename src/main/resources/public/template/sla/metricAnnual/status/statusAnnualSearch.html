@@ -130,11 +130,11 @@
     }
 
     function onExcelDownload() {
-        document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
-        const search = aliceJs.serialize(document.getElementById('frmSearch'));
+        const search = aliceJs.serialize(document.getElementById('searchFrm'));
+        console.log(search);
         aliceJs.fetchDownload({
             url: '/rest/sla/metrics/annual/excel?' + search,
-            fileName: i18n.msg('token.label.list') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+            fileName: i18n.msg('sla.metricYear.label.metricYearStatus') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
         });
     }
     /*]]>*/
