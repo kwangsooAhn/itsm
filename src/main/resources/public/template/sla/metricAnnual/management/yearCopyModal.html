@@ -7,7 +7,9 @@
         <option th:each="years: ${yearsList}" th:text="${years}" th:value="${years}" ></option>
     </select>
     <span class="mr-3" th:text="#{sla.metricYear.label.year}"></span>
-    <select id="copyMetricName" class="flex-column col-2 mr-1"></select>
+    <select id="copyMetricName" class="flex-column col-2 mr-1">
+        <option value="" th:text="#{sla.metricYear.label.all}" selected></option>
+    </select>
     <span class="mr-3" id="copyTargetYearText" th:text="#{sla.metricYear.label.copy}"></span>
     <input type="hidden" id="copyTargetYear" th:value="${target}">
 </div>
