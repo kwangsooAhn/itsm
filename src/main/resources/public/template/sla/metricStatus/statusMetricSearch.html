@@ -12,31 +12,11 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <select id="statusMetricYear" class="flex-column col-2 mr-1">
-            <option th:each="years: ${yearsList}" th:text="${metricYears}" th:value="${metricYears}" ></option>
-        </select>
+        <select id="statusMetricYear" class="flex-column col-2 mr-1"></select>
         <select id="statusMetricName" class="flex-column col-2 mr-1">
             <option th:each="years: ${yearsList}" th:text="${metricName}" th:value="${metricId}" ></option>
         </select>
-        <div class="flex-row mr-auto">
-            <label class="z-radio" for="lineChart" tabindex="0">
-                <input id="lineChart" type="radio" name="type"
-                       th:checked="${chartType == 'chart.basicLine'}"
-                       th:classappend="${view} ? 'readonly'"
-                       th:disabled="${view}"
-                       th:readonly="${view}">
-                <span></span>
-                <span class="z-label mr-4" th:text="#{sla.chart.line}"></span>
-            </label>
-            <label class="z-radio" for="column" tabindex="0">
-                <input id="column" type="radio" name="type" th:checked="${chartType == 'chart.lineLine'}"
-                       th:classappend="${view} ? 'readonly'"
-                       th:disabled="${view}"
-                       th:readonly="${view}">
-                <span></span>
-                <span class="z-label" th:text="#{sla.chart.column}"></span>
-            </label>
-        </div>
+
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
 </div>
@@ -63,6 +43,9 @@
         }).then((htmlData) => {
             const chartBody = document.getElementById('metricStatusChart')
             chartBody.innerHTML = htmlData;
+            let responseJson = JSON.parse(htmlData);
+            const metricList = responseJson.data;
+
         });
     }
     /*]]>*/
