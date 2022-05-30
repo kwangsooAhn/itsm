@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -82,8 +83,8 @@ class MetricYearRestController(
     /**
      * 년도별 SLA 현황 preview
      */
-    @GetMapping("/{metricId}/{year}/preview")
-    fun getMetricPreviewChart(@PathVariable metricId: String, @PathVariable year: String): ResponseEntity<ZResponse> {
+    @GetMapping("/{metricId}/preview")
+    fun getMetricPreviewChart(@PathVariable metricId: String, @RequestParam("year") year: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.metricPreviewChartData(metricId, year))
     }
 }
