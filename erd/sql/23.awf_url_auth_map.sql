@@ -246,13 +246,13 @@ insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'delete', 'system.
 insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics', 'post', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/{year}', 'put', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics', 'put', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/{year}', 'delete', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics/copy', 'post', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics/annual/excel', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics/annual/excel', 'get', 'sla.view');
-insert into awf_url_auth_map values ('/rest/sla/metrics/annual/{id}/preview', 'get', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/annual/{id}/preview', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/preview', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/preview', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/rest/sla/metric-manuals', 'post', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metric-manuals/{id}', 'delete', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metric-pools', 'post', 'sla.manage');

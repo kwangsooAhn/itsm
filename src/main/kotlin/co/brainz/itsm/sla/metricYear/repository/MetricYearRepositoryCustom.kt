@@ -9,6 +9,7 @@ package co.brainz.itsm.sla.metricYear.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition

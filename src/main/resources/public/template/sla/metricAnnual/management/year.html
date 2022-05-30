@@ -191,9 +191,9 @@
         const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
             elem.focus();
         };
-        const aaa = /^[0-9]*\.?[0-9]{0,3}$/;
+        const decimalValue = /^[0-9]*\.?[0-9]{0,3}$/;
         if (elem !== null) {
-            if (!aaa.test(elem.value)) {
+            if (!decimalValue.test(elem.value)) {
                 if (messageId !== undefined) zAlert.warning(i18n.msg(messageId), callback);
                 return false;
             }
@@ -333,11 +333,6 @@
             zqlString: document.getElementById('zqlString').value
         }
         let url = '/rest/sla/metrics';
-        if (method === 'PUT') {
-            data.metricId = /*[[${metric?.metricId}]]*/'';
-            data.year = /*[[${metric?.metricYear}]]*/'';
-            url += '/' + data.metricId + '/' + data.year;
-        }
 
         aliceJs.fetchJson(url, {
             method: method,
