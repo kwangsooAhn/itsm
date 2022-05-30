@@ -3,10 +3,12 @@
 <body>
 <!-- 복사해오기 모달 -->
 <div class="flex-row z-edit-row font-2">
-    <select id="copySourceYear" class="flex-column col-2 mr-1" required="required"></select>
+    <select id="copySourceYear" class="flex-column col-2 mr-1">
+        <option th:each="years: ${yearsList}" th:text="${years}" th:value="${years}" ></option>
+    </select>
     <span class="mr-3" th:text="#{sla.metricYear.label.year}"></span>
-    <select id="copymetricName" class="flex-column col-2 mr-1" required="required"></select>
-    <span th:text="#{sla.metricYear.msg.copy}"></span>
+    <select id="copyMetricName" class="flex-column col-2 mr-1"></select>
+    <span id="copyTargetYear" th:value="${target}"></span>
 </div>
 </body>
 </html>

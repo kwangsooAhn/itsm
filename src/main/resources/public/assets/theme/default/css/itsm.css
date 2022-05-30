@@ -8232,6 +8232,7 @@ body.modal-active {
   width: 62.5rem;
 }
 .modal-dialog.sla-metric-yearly-copy-modal .modal-content {
+  height: calc(15rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal {

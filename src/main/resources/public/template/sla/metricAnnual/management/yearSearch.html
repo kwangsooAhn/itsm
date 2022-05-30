@@ -86,8 +86,7 @@
      * 수동 지표 데이터 추가 모달
      */
     function openCopyModal() {
-        const url = '/sla/metrics/' + document.getElementById('year').value.substring(0, 4) + '/copy';
-        console.log(url)
+        const url = '/sla/metrics/copy?target=' + document.getElementById('year').value.substring(0, 4);
         aliceJs.fetchText(url, {
             method: 'GET'
         }).then((htmlData) => {
@@ -114,6 +113,7 @@
                     closable: false,
                 },
                 onCreate: function () {
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                     getSourceYearList();
                 }
             });
@@ -126,14 +126,15 @@
      */
     function getSourceYearList() {
         let urlParam = '/rest/sla/metrics?source=' + ''
-            + '&target=' + document.getElementById('copymetricName').value
+            + '&target=' + document.getElementById('copyTargetYear').value
             + '&type=';
+        console.log(target)
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((response) => {
             let responseJson = JSON.parse(response);
             const metricList = responseJson.data;
-            const selectTag = document.getElementById('copymetricName');
+            const selectTag = document.getElementById('copyMetricName');
             for (let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
                 selectOption.text = metricList[i].metricName;
