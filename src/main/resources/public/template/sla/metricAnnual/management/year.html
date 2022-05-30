@@ -301,7 +301,7 @@
                 closable: false,
             },
             onCreate: function(modal) {
-
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
             }
         });
         zqlManualModal.show();
