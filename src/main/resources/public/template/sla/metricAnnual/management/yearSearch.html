@@ -115,6 +115,7 @@
                 onCreate: function () {
                     const copyTargetYear = document.getElementById('copyTargetYear').value
                     document.getElementById('copyTargetYearText').textContent = i18n.msg('sla.metricYear.msg.copy', copyTargetYear)
+                    document.getElementById('copySourceYear').addEventListener('change', function () { getSourceYearList() });
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                     getSourceYearList();
                 }
@@ -127,24 +128,22 @@
      * source 년도 검색
      */
     function getSourceYearList() {
-        const sourceValue = document.getElementById('copySourceYear').value;
-        const targetValue = document.getElementById('copyTargetYear').value;
-        let urlParam = '/rest/sla/metrics?source=' + sourceValue  + '&target=' + targetValue + '&type=';
-        aliceJs.fetchText(urlParam, {
-            method: 'GET'
+        let data = {
+            sourceValue: document.getElementById('copySourceYear').value,
+            targetValue: document.getElementById('copyTargetYear').value
+        }
+        let urlParam = '/rest/sla/metrics?source=' + data.sourceValue  + '&target=' + data.targetValue + '&type=';
+        aliceJs.fetchJson(urlParam, {
+            method: 'GET',
         }).then((response) => {
-            let responseJson = JSON.parse(response);
-            const metricList = responseJson.data;
+            const metricList = response.data;
             const selectTag = document.getElementById('copyMetricName');
+            selectTag.options.length = 0;
             for (let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
                 selectOption.text = metricList[i].metricName;
                 selectOption.value = metricList[i].metricId;
                 selectTag.appendChild(selectOption);
-                document.getElementById('copySourceYear').addEventListener('change', function () {
-                    selectOption.text = metricList[i].metricName;
-                    selectOption.value = metricList[i].metricId;
-                });
             }
             aliceJs.initDesignedSelectTag();
         });
