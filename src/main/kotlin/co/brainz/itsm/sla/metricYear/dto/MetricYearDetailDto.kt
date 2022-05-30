@@ -11,8 +11,9 @@ import java.io.Serializable
 data class MetricYearDetailDto(
     val metricId: String,
     var metricYear: String,
-    var metricGroup: String,
+    var metricGroupName: String,
     var metricName: String,
+    var metricDesc: String? = null,
     var metricType: String,
     var metricUnit: String,
     var calculationType: String,

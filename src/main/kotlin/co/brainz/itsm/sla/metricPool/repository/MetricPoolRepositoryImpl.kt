@@ -13,6 +13,7 @@ import co.brainz.itsm.sla.metricPool.dto.MetricPoolDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPQLQuery
@@ -98,5 +99,32 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
             super.likeIgnoreCase(metricPool.metricName, metricPoolSearchCondition.searchValue)
         )
         return builder
+    }
+
+    override fun findByMetricIds(metricIds: Set<String>): List<MetricLoadDto> {
+        val metricPool = QMetricPoolEntity.metricPoolEntity
+        val typeCode = QCodeEntity.codeEntity
+        val unitCode = QCodeEntity("unitCode")
+        val calcTypeCode = QCodeEntity("calcTypeCode")
+        val groupCode = QCodeEntity("groupCode")
+        return from(metricPool)
+            .select(
+                Projections.constructor(
+                    MetricLoadDto::class.java,
+                    metricPool.metricId,
+                    metricPool.metricName,
+                    metricPool.metricDesc,
+                    groupCode.codeName,
+                    typeCode.code,
+                    unitCode.code,
+                    calcTypeCode.code
+                )
+            )
+            .leftJoin(groupCode).on(metricPool.metricGroup.eq(groupCode.code))
+            .leftJoin(unitCode).on(metricPool.metricUnit.eq(unitCode.code))
+            .leftJoin(typeCode).on(metricPool.metricType.eq(typeCode.code))
+            .leftJoin(calcTypeCode).on(metricPool.calculationType.eq(calcTypeCode.code))
+            .where(metricPool.metricId.`in`(metricIds))
+            .fetch()
     }
 }
