@@ -19,6 +19,9 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
+import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
@@ -31,6 +34,7 @@ import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -49,7 +53,8 @@ class MetricYearService(
     private val metricPoolRepository: MetricPoolRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val aliceMessageSource: AliceMessageSource,
-    private val excelComponent: ExcelComponent
+    private val excelComponent: ExcelComponent,
+    private val metricStatusService: MetricStatusService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -237,23 +242,22 @@ class MetricYearService(
     @Transactional
     fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricPoolEntity = MetricPoolEntity(metricYearDto.metricId)
-        if (metricPoolEntity != null) {
-            val metricYearEntity = MetricYearEntity(
-                metric = metricPoolEntity,
-                metricYear = metricYearDto.year,
-                minValue = metricYearDto.minValue,
-                maxValue = metricYearDto.maxValue,
-                weightValue = metricYearDto.weightValue,
-                owner = metricYearDto.owner,
-                comment = metricYearDto.comment,
-                zqlString = metricYearDto.zqlString,
-                updateUserKey = currentSessionUser.getUserKey(),
-                updateDt = LocalDateTime.now()
-            )
-            metricYearRepository.save(metricYearEntity)
-        } else {
+
+        if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))) {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        } else {
+            val metricYearEntity =
+                metricYearRepository.findByMetricAndMetricYear(MetricPoolEntity(metricYearDto.metricId), metricYearDto.year)
+            metricYearEntity.minValue = metricYearDto.minValue
+            metricYearEntity.maxValue = metricYearDto.maxValue
+            metricYearEntity.weightValue = metricYearDto.weightValue
+            metricYearEntity.owner = metricYearDto.owner
+            metricYearEntity.comment = metricYearDto.comment
+            metricYearEntity.zqlString = metricYearDto.zqlString
+            metricYearEntity.updateUserKey = currentSessionUser.getUserKey()
+            metricYearEntity.updateDt = LocalDateTime.now()
+
+            metricYearRepository.save(metricYearEntity)
         }
         return ZResponse(
             status = status.code
@@ -277,29 +281,66 @@ class MetricYearService(
     @Transactional
     fun metricYearCopy(metricYearCopyDto: MetricYearCopyDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricYearEntity =
-            metricYearRepository.findById(MetricYearEntityPk(metric = metricYearCopyDto.metricId, metricYear = metricYearCopyDto.source))
 
-        if (metricYearEntity.isEmpty) {
-            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
-        } else {
-            metricYearRepository.save(
-                MetricYearEntity(
-                    metric = MetricPoolEntity(metricId = metricYearCopyDto.metricId),
-                    metricYear = metricYearCopyDto.target,
-                    minValue = metricYearEntity.get().minValue,
-                    maxValue = metricYearEntity.get().maxValue,
-                    weightValue = metricYearEntity.get().weightValue,
-                    owner = metricYearEntity.get().owner,
-                    comment = metricYearEntity.get().comment,
-                    zqlString = metricYearEntity.get().zqlString,
-                    createUserKey = currentSessionUser.getUserKey(),
-                    createDt = LocalDateTime.now()
+        // metricId가 있을 경우 해당 지표만 복사
+        if (!metricYearCopyDto.metricId.isNullOrBlank()) {
+            val metricYearEntity =
+                metricYearRepository.findById(
+                    MetricYearEntityPk(
+                        metric = metricYearCopyDto.metricId, metricYear = metricYearCopyDto.source))
+
+            when (metricYearEntity.isEmpty) {
+                true -> status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+                false -> metricYearRepository.save(
+                    MetricYearEntity(
+                        metric = MetricPoolEntity(metricId = metricYearCopyDto.metricId),
+                        metricYear = metricYearCopyDto.target,
+                        minValue = metricYearEntity.get().minValue,
+                        maxValue = metricYearEntity.get().maxValue,
+                        weightValue = metricYearEntity.get().weightValue,
+                        owner = metricYearEntity.get().owner,
+                        comment = metricYearEntity.get().comment,
+                        zqlString = metricYearEntity.get().zqlString,
+                        createUserKey = currentSessionUser.getUserKey(),
+                        createDt = LocalDateTime.now()
+                    )
                 )
-            )
+            }
+        // metricId가 없을 경우 전체 지표 복사 (중복 제외)
+        } else {
+            val metricSourceYearEntityList = metricYearRepository.findByMetricYear(metricYearCopyDto.source)
+            val metricTargetYearEntityList = metricYearRepository.findByMetricYear(metricYearCopyDto.target)
+
+            metricSourceYearEntityList.forEach { source ->
+                if (!metricTargetYearEntityList.contains(source)) {
+                    metricYearRepository.save(
+                        MetricYearEntity(
+                            metric = MetricPoolEntity(metricId = source.metric.metricId),
+                            metricYear = metricYearCopyDto.target,
+                            minValue = source.minValue,
+                            maxValue = source.maxValue,
+                            weightValue = source.weightValue,
+                            owner = source.owner,
+                            comment = source.comment,
+                            zqlString = source.zqlString,
+                            createUserKey = currentSessionUser.getUserKey(),
+                            createDt = LocalDateTime.now()
+                        )
+                    )
+                }
+            }
         }
         return ZResponse(
             status = status.code
         )
+    }
+
+    fun metricPreviewChartData(metricId: String, year: String): MetricStatusChartDto {
+        val metricStatusCondition = MetricStatusChartCondition(
+            metricId = metricId,
+            year = year,
+            chartType = ChartConstants.Type.BASIC_LINE.code
+        )
+        return metricStatusService.getMetricStatusChartData(metricStatusCondition)
     }
 }

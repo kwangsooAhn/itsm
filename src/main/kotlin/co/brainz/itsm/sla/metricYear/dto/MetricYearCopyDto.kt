@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricYear.dto
 import java.io.Serializable
 
 data class MetricYearCopyDto(
-    val metricId: String,
+    val metricId: String? = null,
     val source: String,
     val target: String
 ) : Serializable
