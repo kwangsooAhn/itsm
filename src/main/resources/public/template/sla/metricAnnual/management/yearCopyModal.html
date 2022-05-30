@@ -2,14 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <!-- 복사해오기 모달 -->
-<div class="font-3">
-    <select required="required">
-        <option value="">2022</option>
-        </select>
-    <span th:text="#{sla.metricYear.label.year}"></span>
-    <select required="required">
-        <option value="">장애점수</option>
-    </select>
+<div class="flex-row z-edit-row font-2">
+    <select id="copySourceYear" class="flex-column col-2 mr-1" required="required"></select>
+    <span class="mr-3" th:text="#{sla.metricYear.label.year}"></span>
+    <select id="copymetricName" class="flex-column col-2 mr-1" required="required"></select>
     <span th:text="#{sla.metricYear.msg.copy}"></span>
 </div>
 </body>

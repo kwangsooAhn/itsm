@@ -112,9 +112,35 @@
                     closable: false,
                 },
                 onCreate: function () {
+                    getSourceYearList();
                 }
             });
             metricCopyModal.show();
+        });
+    }
+
+    /**
+     * source 년도 검색
+     */
+    function getSourceYearList() {
+        let urlParam = '/rest/sla/metrics?source=' + ''
+            + '&target=' + document.getElementById('copymetricName').value
+            + '&type=';
+        aliceJs.fetchText(urlParam, {
+            method: 'GET'
+        }).then((response) => {
+            let responseJson = JSON.parse(response);
+            const metricList = responseJson.data;
+
+            console.log(metricList)
+            const selectTag = document.getElementById('copymetricName');
+            for (let i = 0; i < metricList.length; i++) {
+                const selectOption = document.createElement('option');
+                selectOption.text = metricList[i].metricName;
+                selectOption.value = metricList[i].metricId;
+                selectTag.appendChild(selectOption);
+            }
+            aliceJs.initDesignedSelectTag();
         });
     }
     /*]]>*/
