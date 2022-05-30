@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -54,10 +55,11 @@ class MetricYearRestController(
     fun getMetricExcel(metricYearSearchCondition: MetricYearSearchCondition): ResponseEntity<ByteArray> {
         return metricYearService.getMetricExcelDownload(metricYearSearchCondition)
     }
+
     /**
      * 연도별 지표 편집
      */
-    @PutMapping("/{metricId}/{year}")
+    @PutMapping("/", "")
     fun updateMetricYear(@RequestBody metricYearDto: MetricYearDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.updateMetricYear(metricYearDto))
     }
@@ -76,5 +78,13 @@ class MetricYearRestController(
     @PostMapping("/copy")
     fun metricYearCopy(@RequestBody metricYearCopyDto: MetricYearCopyDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.metricYearCopy(metricYearCopyDto))
+    }
+
+    /**
+     * 년도별 SLA 현황 preview
+     */
+    @GetMapping("/{metricId}/preview")
+    fun getMetricPreviewChart(@PathVariable metricId: String, @RequestParam("year") year: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricYearService.metricPreviewChartData(metricId, year))
     }
 }

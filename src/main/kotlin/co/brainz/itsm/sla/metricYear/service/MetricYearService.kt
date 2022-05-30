@@ -19,6 +19,9 @@ import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
+import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
@@ -31,6 +34,7 @@ import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -49,7 +53,8 @@ class MetricYearService(
     private val metricPoolRepository: MetricPoolRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val aliceMessageSource: AliceMessageSource,
-    private val excelComponent: ExcelComponent
+    private val excelComponent: ExcelComponent,
+    private val metricStatusService: MetricStatusService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -328,5 +333,14 @@ class MetricYearService(
         return ZResponse(
             status = status.code
         )
+    }
+
+    fun metricPreviewChartData(metricId: String, year: String): MetricStatusChartDto {
+        val metricStatusCondition = MetricStatusChartCondition(
+            metricId = metricId,
+            year = year,
+            chartType = ChartConstants.Type.BASIC_LINE.code
+        )
+        return metricStatusService.getMetricStatusChartData(metricStatusCondition)
     }
 }
