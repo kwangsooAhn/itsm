@@ -64,8 +64,9 @@
             listBody.innerHTML = htmlData;
             setMetricValueFormat(listBody);
 
-            let totalWeight = 0;
             const resultScore = document.querySelector('#resultScore span:first-child');
+            let totalWeight = 0;
+            resultScore.textContent = '0';
             document.querySelectorAll('.result-value').forEach(elem => {
                 const numWeightValue =  Number(elem.textContent);
                 totalWeight += numWeightValue;
@@ -88,10 +89,10 @@
     /**
      * Chart view 화면 호출 (Modal)
      */
-    function openChartViewModal(chartName, htmlData) {
+    function openChartViewModal(chartId, chartType, chartName) {
         let modalOptions = {
             title: chartName,
-            body: htmlData,
+            body: createModalContent(),
             classes: 'chart-view-modal',
             buttons: [{
                 content: i18n.msg('common.btn.close'),
@@ -114,7 +115,18 @@
         chartViewModal.show();
     }
 
-    function getChart() {
+    function createModalContent() {
+        return `<div class="chart-edit-content">` +
+            `<div class="flex-column" id="getChart">` +
+            `<div class="flex-column z-edit-row mt-2">` +
+            `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
+            `</div>` +
+            `</div>` +
+            `</div>`;
+    }
+
+    function getChart(chartType) {
+        /*
         const url = '/rest/sla/metrics/annual/'
                     + document.getElementById('metricChartName').value.toString().substring(0, 4)
                     + document.getElementById('metricChartYear').value
@@ -127,6 +139,15 @@
             // 차트 초기화
             zChartManager.load(response.data);
         });
+        */
+
+        // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
+        aliceJs.fetchJson('../../../assets/js/chart/dummy/' + 'chart.basicLine.json', {
+            method: 'GET'
+        }).then((data) => {
+            // 차트 초기화
+            zChartManager.load(data);
+        });
     }
 
     function onExcelDownload(pageNum = 1) {
@@ -138,5 +159,26 @@
         });
     }
     /*]]>*/
+</script>
+<script type="module">
+    import ZChart from '../../../../assets/js/chart/zChart.js';
+
+    const zChartManager = {
+        load: function(data) {
+            // 차트 초기화
+            this.zChart = new ZChart('container', data);
+
+            // 데이터 업데이트
+            this.zChart.update(data.chartData);
+        },
+        destroy: function () {
+            if (this.zChart) {
+                this.zChart.destroy();
+                this.zChart = null;
+                delete this.zChart;
+            }
+        }
+    }
+    window.zChartManager = zChartManager;
 </script>
 </html>
