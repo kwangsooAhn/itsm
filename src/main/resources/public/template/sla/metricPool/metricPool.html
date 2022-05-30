@@ -102,7 +102,7 @@
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/sla/metric-pools/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" sec:authorize="hasAuthority('sla.manage')">
+                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
                              class="z-button primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
                     </button>
@@ -183,10 +183,20 @@
             aliceJs.fetchJson('/rest/sla/metric-pools/' + [[${metric?.metricId}]], {
                 method: 'DELETE'
             }).then((response) => {
-                if (response.status === aliceJs.response.success) {
-                    zAlert.success([[#{common.msg.delete}]], function () {
-                        window.location.href = '/sla/metric-pools/search';
-                    });
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success([[#{common.msg.delete}]], function () {
+                            window.location.href = '/sla/metric-pools/search';
+                        });
+                        break;
+                    case aliceJs.response.exist: // 사용중
+                        zAlert.warning([[#{sla.metric.msg.useMetric}]]);
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default :
+                        break;
                 }
             });
         });

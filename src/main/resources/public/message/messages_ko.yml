@@ -1400,6 +1400,7 @@ sla:
       description: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
       duplicateMetricName: "동일한 지표 이름이 존재합니다.<br>지표 이름을 확인해주세요."
       enterMetricName: "지표 이름을 입력하세요."
+      useMetric: "사용중인 지표입니다."
       viewDescription: "SLA 지표관리에 대한 상세 정보를 조회합니다."
   metricManual:
     btn:

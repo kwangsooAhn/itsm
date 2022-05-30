@@ -153,7 +153,7 @@
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/sla/metrics/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" sec:authorize="hasAuthority('sla.manage')">
+                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
                             class="z-button primary" onclick="onSave('POST')" th:text="#{common.btn.register}">
                     </button>
