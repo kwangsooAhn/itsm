@@ -264,13 +264,13 @@ insert into awf_url values ('/rest/schedulers/{id}', 'put', '스케줄러 수정
 insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄러 실행', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics', 'get', '해당 년도에 저장된 지표 목록', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics', 'post', '년도별 지표 등록', 'TRUE');
-insert into awf_url values ('/rest/sla/metrics/{id}/{year}', 'put', '년도별 지표 변경', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics', 'put', '년도별 지표 변경', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/{id}/{year}', 'delete', '년도별 지표 삭제', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/copy', 'post', '지표 데이터 복사', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-manuals', 'post', '수동 지표 등록', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-manuals/{id}', 'delete', '수동 지표 삭제', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/annual/excel', 'get', '년도별 현황 엑셀 다운로드', 'TRUE');
-insert into awf_url values ('/rest/sla/metrics/annual/{id}/{year}/preview', 'get', '년도별 현황 미리보기', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/{id}/{year}/preview', 'get', '년도별 현황 미리보기', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-status', 'get', '지표별 현황 목록 화면', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools', 'post', 'SLA 지표 등록', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools/{id}', 'put', 'SLA 지표 변경', 'TRUE');

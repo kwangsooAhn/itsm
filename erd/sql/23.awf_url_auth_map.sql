@@ -246,7 +246,7 @@ insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'delete', 'system.
 insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics', 'post', 'sla.manage');
-insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/{year}', 'put', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics', 'put', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/{year}', 'delete', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics/copy', 'post', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metrics/annual/excel', 'get', 'sla.manage');
