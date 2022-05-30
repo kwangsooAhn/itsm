@@ -199,7 +199,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
 
         return from(metricYear).distinct()
             .select(metricYear.metricYear)
-            .orderBy(metricYear.metricYear.asc())
+            .orderBy(metricYear.metricYear.desc())
             .fetch().toSet()
     }
 
