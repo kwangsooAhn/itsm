@@ -127,9 +127,9 @@
      * source 년도 검색
      */
     function getSourceYearList() {
-        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('copySourceYear').value
-            + '&target=' + document.getElementById('copyTargetYear').value
-            + '&type=';
+        const sourceValue = document.getElementById('copySourceYear').value;
+        const targetValue = document.getElementById('copyTargetYear').value;
+        let urlParam = '/rest/sla/metrics?source=' + sourceValue  + '&target=' + targetValue + '&type=';
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((response) => {
