@@ -18,10 +18,16 @@ class MetricStatusController(
     private val metricStatusService: MetricStatusService
 ) {
     private val metricStatusSearchPage: String = "sla/metricStatus/statusMetricSearch"
+    private val metricStatusChartPage: String = "sla/metricStatus/statusMetricChart"
 
     @GetMapping("/search")
     fun getMetricStatusSearch(request: HttpServletRequest, model: Model): String {
         model.addAttribute("metricList", metricStatusService.getMetricList())
         return metricStatusSearchPage
+    }
+
+    @GetMapping("")
+    fun getMetricStatusChart(request: HttpServletRequest, model: Model): String {
+        return metricStatusChartPage
     }
 }
