@@ -15,8 +15,8 @@
     "group": "만족도",
     "range": {
       "type": "chart.range.last.day",
-      "from": "2021-10-31T15:00:00.000Z",
-      "to": "2021-11-01T14:59:59.000Z"
+      "fromDateTime": "2021-10-31T15:00:00.000Z",
+      "toDateTime": "2021-11-01T14:59:59.000Z"
     }
   },
   "chartData": [{
