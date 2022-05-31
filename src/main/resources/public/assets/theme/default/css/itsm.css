@@ -8214,15 +8214,10 @@ body.modal-active {
 }
 .modal-dialog.sla-metric-yearly-copy-modal {
   width: 62.5rem;
-  padding: 0.625rem 1.25rem;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
 }
-.modal-dialog.sla-metric-yearly-copy-modal::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
+.modal-dialog.sla-metric-yearly-copy-modal .modal-content {
+  height: calc(15rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal {
   width: 62.5rem;

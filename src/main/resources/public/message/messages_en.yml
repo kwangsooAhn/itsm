@@ -1375,6 +1375,7 @@ sla:
     total: "total"
   metric:
     label:
+      all: "ALL"
       comment: "Comment"
       description: "description"
       group: "Group"
