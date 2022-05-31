@@ -594,28 +594,8 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
 insert into awf_menu values ('archive', 'menu', '/archives/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
-insert into awf_menu values ('statistic', 'menu', '', 8, 'TRUE');
-insert into awf_menu values ('workflow', 'menu', '', 9, 'TRUE');
-insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
-insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
-insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
-insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
-insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
-insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
-insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
-insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
-insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
-insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
-insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
-insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
-insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
-insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
-insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
-insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
-insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
-insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
-insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('calendar', 'menu', '/calendars', 8, 'TRUE');
+insert into awf_menu values ('statistic', 'menu', '', 9, 'TRUE');
 insert into awf_menu values ('statistic.customReportTemplate', 'statistic', '/statistics/customReportTemplate/search', 1, 'TRUE');
 insert into awf_menu values ('statistic.customReport', 'statistic', '/statistics/customReport/search', 2, 'TRUE');
 insert into awf_menu values ('statistic.basicReport', 'statistic', '/statistics/basicReport/search', 3, 'FALSE');
@@ -623,6 +603,27 @@ insert into awf_menu values ('statistic.customChart', 'statistic', '/statistics/
 insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistics/basicChart/search', 5, 'FALSE');
 insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistics/dashboardTemplate/search', 6, 'FALSE');
 insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
+insert into awf_menu values ('workflow', 'menu', '', 10, 'TRUE');
+insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
+insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
+insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
+insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4, 'TRUE');
+insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
+insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
+insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
+insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
+insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
+insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
+insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('config', 'menu', '', 12, 'TRUE');
+insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
+insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
+insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
+insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
+insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
+insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -686,7 +687,7 @@ insert into awf_menu_auth_map values ('workflow.numberingPattern', 'workflow.man
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
-
+insert into awf_menu_auth_map values ('calendar', 'general');
 /**
  * 알림
  */
@@ -1267,6 +1268,13 @@ insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE
 insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
+insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수정', 'TRUE');
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
@@ -1450,6 +1458,7 @@ insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FAL
 insert into awf_url values ('/rest/documentStorage', 'post', '보관 문서 데이터 추가', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}', 'delete', '보관 문서 데이터 삭제', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '보관 문서 데이터 존재 여부 확인', 'FALSE');
+insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1629,6 +1638,13 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
+insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');
@@ -1787,6 +1803,7 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','work
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/calendars', 'get', 'general');
 
 /**
  * 사용자정보
@@ -9252,4 +9269,148 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_id IS '자식속성아이디';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순서';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
+
+/**
+ * 캘린더
+ */
+DROP TABLE IF EXISTS awf_calendar cascade;
+
+CREATE TABLE awf_calendar
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_name varchar(100),
+    owner         varchar(128),
+    create_dt     timestamp,
+    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id),
+    CONSTRAINT awf_calendar_uk UNIQUE (owner, calendar_name)
+);
+
+COMMENT ON TABLE awf_calendar IS '캘린더';
+COMMENT ON COLUMN awf_calendar.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar.calendar_name IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar.owner IS '사용자';
+COMMENT ON COLUMN awf_calendar.create_dt IS '등록일';
+
+--기본 데이터
+insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', '기본', '0509e09412534a6e98f04ca79abb6424', now());
+insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', '기본', '4028b21c7c4df297017c4e595fd90000', now());
+insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', '기본', '40288ad27c729b34017c729c2e370000', now());
+insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', '기본', '40288ada7cfd3301017cfd3a78580000', now());
+insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', '기본', '2c9180867d0b3336017d0de8bf480001', now());
+insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', '기본', '2c91808e7c75dad2017c781635e22000', now());
+insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', '기본', '2c91808e7c75dad2017c781635e20000', now());
+
+/**
+ * 캘린더 스케줄
+ */
+DROP TABLE IF EXISTS awf_calendar_schedule cascade;
+
+CREATE TABLE awf_calendar_schedule
+(
+    schedule_id       varchar(128) NOT NULL,
+    calendar_id       varchar(128) NOT NULL,
+    schedule_title    varchar(200),
+    schedule_contents text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    CONSTRAINT awf_calendar_schedule_pk PRIMARY KEY (schedule_id),
+    CONSTRAINT awf_calendar_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar_schedule IS '사용자정의코드';
+COMMENT ON COLUMN awf_calendar_schedule.schedule_id IS '스케줄아이디';
+COMMENT ON COLUMN awf_calendar_schedule.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_schedule.schedule_title IS '제목';
+COMMENT ON COLUMN awf_calendar_schedule.schedule_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_schedule.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_schedule.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_schedule.end_dt IS '종료일';
+
+/**
+ * 캘린더 반복일정
+ */
+DROP TABLE IF EXISTS awf_calendar_repeat cascade;
+
+CREATE TABLE awf_calendar_repeat
+(
+    repeat_id   varchar(128) NOT NULL,
+    calendar_id varchar(128) NOT NULL,
+    CONSTRAINT awf_calendar_repeat_pk PRIMARY KEY (repeat_id),
+    CONSTRAINT awf_calendar_repeat_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar_repeat IS '캘린더 반복일정';
+COMMENT ON COLUMN awf_calendar_repeat.repeat_id IS '반복일정아이디';
+COMMENT ON COLUMN awf_calendar_repeat.calendar_id IS '캘린더아이디';
+
+/**
+ * 캘린더 반복일정 상세정보
+ */
+DROP TABLE IF EXISTS awf_calendar_repeat_data cascade;
+
+CREATE TABLE awf_calendar_repeat_data
+(
+    data_id           varchar(128) NOT NULL,
+    repeat_id         varchar(128) NOT NULL,
+    repeat_start_dt   timestamp,
+    repeat_end_dt     timestamp,
+    repeat_type       varchar(64),
+    repeat_value      varchar(64),
+    schedule_title    varchar(200),
+    schedule_contents text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    CONSTRAINT awf_calendar_repeat_data_pk PRIMARY KEY (data_id),
+    CONSTRAINT awf_calendar_repeat_data_fk FOREIGN KEY (repeat_id) REFERENCES awf_calendar_repeat (repeat_id)
+);
+
+COMMENT ON TABLE awf_calendar_repeat_data IS '캘린더 반복일정';
+COMMENT ON COLUMN awf_calendar_repeat_data.data_id IS '데이터아이디';
+COMMENT ON COLUMN awf_calendar_repeat_data.repeat_id IS '반복일정아이디';
+COMMENT ON COLUMN awf_calendar_repeat_data.repeat_start_dt IS '반복일정시작일';
+COMMENT ON COLUMN awf_calendar_repeat_data.repeat_end_dt IS '반복일정종료일';
+COMMENT ON COLUMN awf_calendar_repeat_data.repeat_type IS '반복일정 타입';
+COMMENT ON COLUMN awf_calendar_repeat_data.repeat_value IS '반복일정 설정 값';
+COMMENT ON COLUMN awf_calendar_repeat_data.schedule_title IS '제목';
+COMMENT ON COLUMN awf_calendar_repeat_data.schedule_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_repeat_data.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_repeat_data.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_repeat_data.end_dt IS '종료일';
+
+/**
+ * 캘린더 반복일정 커스텀 상세정보
+ */
+DROP TABLE IF EXISTS awf_calendar_repeat_custom_data cascade;
+
+CREATE TABLE awf_calendar_repeat_custom_data
+(
+    data_id           varchar(128) NOT NULL,
+    repeat_id         varchar(128) NOT NULL,
+    repeat_start_dt   timestamp,
+    repeat_end_dt     timestamp,
+    repeat_type       varchar(64),
+    repeat_value      varchar(64),
+    schedule_title    varchar(200),
+    schedule_contents text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    CONSTRAINT awf_calendar_repeat_custom_data_pk PRIMARY KEY (data_id),
+    CONSTRAINT awf_calendar_repeat_custom_data_fk FOREIGN KEY (repeat_id) REFERENCES awf_calendar_repeat (repeat_id)
+);
+
+COMMENT ON TABLE awf_calendar_repeat_custom_data IS '캘린더 반복일정';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.data_id IS '데이터아이디';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_id IS '반복일정아이디';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_start_dt IS '반복일정시작일';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_end_dt IS '반복일정종료일';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_type IS '반복일정 타입';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.repeat_value IS '반복일정 설정 값';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.schedule_title IS '제목';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.schedule_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.end_dt IS '종료일';
 
