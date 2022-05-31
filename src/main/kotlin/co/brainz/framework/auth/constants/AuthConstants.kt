@@ -6,6 +6,8 @@ object AuthConstants {
      */
     enum class AuthType(val value: String) {
         CANCEL("workflow.expire"),
-        DOCUMENT_VIEW("document.view")
+        DOCUMENT_VIEW("document.view"),
+        PORTAL_MANAGE("portal.manage"),
+        WORKFLOW_MANAGE("workflow.manage")
     }
 }

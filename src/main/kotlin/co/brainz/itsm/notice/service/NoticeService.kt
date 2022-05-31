@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.notice.service
 
+import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
@@ -21,6 +22,7 @@ import co.brainz.itsm.notice.dto.NoticeSearchCondition
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.mapper.NoticeMapper
 import co.brainz.itsm.notice.repository.NoticeRepository
+import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -32,11 +34,16 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class NoticeService(private val noticeRepository: NoticeRepository, private val aliceFileService: AliceFileService) {
+class NoticeService(
+    private val noticeRepository: NoticeRepository,
+    private val aliceFileService: AliceFileService,
+    private val userService: UserService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
+    private val auth = AuthConstants.AuthType.PORTAL_MANAGE.value
 
     // 공지사항 검색 결과
     fun findNoticeSearch(noticeSearchCondition: NoticeSearchCondition): NoticeListReturnDto {
@@ -116,6 +123,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     fun updateNotice(noticeNo: String, noticeDto: NoticeDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val noticeEntity = noticeRepository.findByNoticeNo(noticeNo)
+        noticeEntity.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
         if (noticeEntity.noticeNo.isNotEmpty()) {
             noticeEntity.noticeTitle = noticeDto.noticeTitle
             noticeEntity.noticeContents = noticeDto.noticeContents
@@ -145,6 +153,8 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     @Transactional
     fun delete(noticeNo: String): ZResponse {
+        val noticeDto = noticeRepository.findById(noticeNo).get()
+        noticeDto.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
         var status = ZResponseConstants.STATUS.SUCCESS
         try {
             noticeRepository.deleteById(noticeNo)

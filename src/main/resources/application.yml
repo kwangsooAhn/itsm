@@ -81,7 +81,7 @@ server:
     trust-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
   servlet:
     session:
-      timeout: 60m
+      timeout: 600
   tomcat:
     additional-tld-skip-patterns: "*.jar"
 
@@ -104,6 +104,7 @@ schedule.plugins.dir: C:\\plugins
 timezone:
   scheduler: Asia/Seoul
   customChart: Asia/Seoul
+  excel: Asia/Seoul
 
 # IP 접근 제한 기능 설정
 ip.access.control: true
@@ -137,6 +138,16 @@ sso.vendor: KSign
 
 # Plugin directory
 plugins.dir: C:\\plugins
+
+# 사용자 추가 기능 사용여부 : false 이면 추가 버튼 비활성화
+user.register.enable: true
+
+# Encryption Algorithm
+# bcrypt, aes256, sha256
+encryption:
+  algorithm: bcrypt
+  option:
+    salt:
 
 ---
 spring:

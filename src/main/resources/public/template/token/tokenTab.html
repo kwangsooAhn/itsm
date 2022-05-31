@@ -1,10 +1,23 @@
 <div class="z-token-tabs">
-    <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation" th:text="#{token.label.information}"></h5>
-    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComments" th:text="#{common.label.comment}"></h5>
+    <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation"
+        th:text="#{token.label.information}"></h5>
+    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComments"
+        th:text="#{common.label.comment}"></h5>
     <h5 class="z-token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
 </div>
 <div class="z-token-panels">
     <div class="z-token-panel on" id="tokenInformation">
+        <!-- 문서 보관함 -->
+        <span class="z-token-storage inline-flex align-items-center pointer">
+            <span class="z-icon-document-storage" id="documentStorage"
+                  onclick="zFormTokenTab.toggleDocumentStorage(this);">
+                <img class="load-svg" th:src="@{/assets/media/icons/document/icon_document_storage.svg}" width="20"
+                     height="20">
+                <label class="z-token-storage-label pointer" for="documentStorage">
+                    <span th:text="#{token.label.storage}"></span>
+                </label>
+            </span>
+        </span>
         <!-- 문서이력 -->
         <div class="z-token-history">
             <label class="z-token-history-sub-title" th:text="#{token.label.history}"></label>
@@ -46,14 +59,16 @@
     <!-- 댓글 -->
     <div class="z-token-panel z-token-comment" id="tokenComments">
         <div class="z-comment-add flex-row align-items-start">
-            <textarea id="commentValue" class="z-textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200" rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
-            <button class="z-button secondary" th:onclick="zFormTokenTab.saveComments()" th:text="#{common.btn.register}"></button>
+            <textarea id="commentValue" class="z-textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200"
+                      rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
+            <button class="z-button secondary" th:onclick="zFormTokenTab.saveComments()"
+                    th:text="#{common.btn.register}"></button>
         </div>
     </div>
     <!-- 태그 -->
     <div class="z-token-panel z-token-tag" id="tokenTag">
         <div class="tag-input">
-            <input type="text" class="z-input" id="tokenTags" th:value="${tagList}" />
+            <input type="text" class="z-input" id="tokenTags" th:value="${tagList}"/>
         </div>
     </div>
 </div>
