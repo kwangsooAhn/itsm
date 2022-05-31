@@ -57,54 +57,55 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script layout:fragment="pageScript" th:inline="javascript">
-    /*<![CDATA[*/
-    window.onload = function () {
-        document.getElementById('statusMetricYear').addEventListener('change', function () { getMetricList() });
-        getMetricList();
-    };
+        /*<![CDATA[*/
+        window.onload = function () {
+            document.getElementById('statusMetricYear').addEventListener('change', function () { getMetricList() });
+            getMetricList();
+        };
 
-    /**
-     * 지표 목록 가져오기
-     */
-    function getMetricList() {
-        let urlParam = '/rest/sla/metrics?source=' + document.getElementById('statusMetricYear').value
-            + '&target=' +'&type=';
-        aliceJs.fetchJson(urlParam, {
-            method: 'GET'
-        }).then((response) => {
-            const metricList = response.data;
-            const selectTag = document.getElementById('statusMetricName');
-            const options = selectTag.getElementsByTagName('option');
-            for(let i = options.length-1; i>=0 ; i--) {
-                selectTag.removeChild(options[i]);
-            }
-            for (let i = 0; i < metricList.length; i++) {
-                const selectOption = document.createElement('option');
-                selectOption.text = metricList[i].metricName;
-                selectOption.value = metricList[i].metricId;
-                selectTag.appendChild(selectOption);
-            }
-            aliceJs.initDesignedSelectTag();
-            getList();
-        });
-    }
+        /**
+         * 지표 목록 가져오기
+         */
+        function getMetricList() {
+            let urlParam = '/rest/sla/metrics?source=' + document.getElementById('statusMetricYear').value
+                + '&target=' +'&type=';
+            aliceJs.fetchJson(urlParam, {
+                method: 'GET'
+            }).then((response) => {
+                const metricList = response.data;
+                const selectTag = document.getElementById('statusMetricName');
+                const options = selectTag.getElementsByTagName('option');
+                for(let i = options.length-1; i>=0 ; i--) {
+                    selectTag.removeChild(options[i]);
+                }
+                for (let i = 0; i < metricList.length; i++) {
+                    const selectOption = document.createElement('option');
+                    selectOption.text = metricList[i].metricName;
+                    selectOption.value = metricList[i].metricId;
+                    selectTag.appendChild(selectOption);
+                }
+                aliceJs.initDesignedSelectTag();
+                getList();
+            });
+        }
 
-    /**
-     * 지표별 SLA 현황
-     */
-    function getList() {
-        let urlParam = '/rest/sla/metric-status?metricId=' + document.getElementById('statusMetricName').value
-            + '&year=' + document.getElementById('statusMetricYear').value
-            + '&chartType=' + document.querySelector('input[name="chartType"]:checked').value;
-        aliceJs.fetchJson(urlParam, {
-            method: 'GET'
-        }).then((response) => {
-        });
-    }
-    /*]]>*/
-</script>
+        /**
+         * 지표별 SLA 현황
+         */
+        function getList() {
+            let urlParam = '/rest/sla/metric-status?metricId=' + document.getElementById('statusMetricName').value
+                + '&year=' + document.getElementById('statusMetricYear').value
+                + '&chartType=' + document.querySelector('input[name="chartType"]:checked').value;
+            aliceJs.fetchJson(urlParam, {
+                method: 'GET'
+            }).then((response) => {
+                zChartManager.load(response.data);
+            });
+        }
+        /*]]>*/
+    </script>
     <script type="module">
-        import ZChart from '../../../../assets/js/chart/zChart.js';
+        import ZChart from '../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
             load: function(data) {
