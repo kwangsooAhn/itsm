@@ -62,6 +62,7 @@
                         <label for="metricYearNameInput" th:text="#{sla.metricYear.label.metricName}"></label>
                         <input type="text" class="z-input" id="metricYearNameInput" name="metricYearNameInput"
                                th:value="${metric?.metricName}" maxlength="128" readonly />
+                        <input type="hidden" id="metricYearIdInput" th:value="${metric?.metricId}"/>
                     </div>
                     <div class="flex-column col-2 pl-3">
                         <label for="metricYearGroupInput" th:text="#{sla.metricYear.label.group}"></label>
@@ -323,7 +324,7 @@
         if (isEmpty('zqlString', 'common.msg.requiredEnter')) return false;
 
         let data = {
-            metricId: (method === 'POST' ? document.getElementById('metricYearName').value : document.getElementById('metricYearInput').value),
+            metricId: (method === 'POST' ? document.getElementById('metricYearName').value : document.getElementById('metricYearIdInput').value),
             year: (method === 'POST' ? document.getElementById('metricYear').value : document.getElementById('metricYearInput').value),
             minValue: document.getElementById('minValue').value,
             maxValue: document.getElementById('maxValue').value,

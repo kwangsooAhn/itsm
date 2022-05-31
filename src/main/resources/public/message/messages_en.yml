@@ -1378,6 +1378,7 @@ sla:
     column: "Column Chart"
   metric:
     label:
+      all: "ALL"
       comment: "Comment"
       description: "description"
       group: "Group"

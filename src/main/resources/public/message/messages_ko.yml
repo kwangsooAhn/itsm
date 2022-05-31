@@ -1431,6 +1431,7 @@ sla:
     btn:
       copy: "복사해오기"
     label:
+      all: "전체"
       comment: "비고"
       copy: "지표 복사해오기"
       description: "설명"
