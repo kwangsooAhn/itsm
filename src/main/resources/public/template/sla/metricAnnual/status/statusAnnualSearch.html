@@ -6,6 +6,15 @@
 <head>
     <title th:text="#{sla.metricYear.label.metricYearStatus}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/stock.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{sla.metricYear.label.metricYearStatus}"></h1>
@@ -33,152 +42,152 @@
     <div class="z-list-content flex-row" id="metricYearStatusList"></div>
 </div>
 </body>
-<script layout:fragment="pageScript" th:inline="javascript">
-    /*<![CDATA[*/
-    let yearDt = i18n.getYear();
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        let yearDt = i18n.getYear();
 
-    window.onload = function () {
-        const yearDtElement = document.getElementById('year');
-        yearDtElement.value = yearDt;
-        zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
+        window.onload = function () {
+            const yearDtElement = document.getElementById('year');
+            yearDtElement.value = yearDt;
+            zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
 
-        getList();
-    };
-
-    function setDatePicker(element, picker) {
-        if (typeof picker === 'undefined') return false;
-        if (document.getElementById('year').value !== '' && element.value !== '') getList();
-    }
-
-    /**
-     * 연도별 SLA 지표관리 검색
-     */
-    function getList(pageNum = 1) {
-        const urlParam = '/sla/metrics/annual?year='
-                        + document.getElementById('year').value.toString().substring(0, 4)
-                        + '&pageNum=' + pageNum;
-        aliceJs.fetchText(urlParam, {
-            method: 'GET'
-        }).then((htmlData) => {
-            const listBody = document.getElementById('metricYearStatusList')
-            listBody.innerHTML = htmlData;
-            setMetricValueFormat(listBody);
-
-            const resultScore = document.querySelector('#resultScore span:first-child');
-            let totalWeight = 0;
-            resultScore.textContent = '0';
-            document.querySelectorAll('.result-value').forEach(elem => {
-                const numWeightValue =  Number(elem.textContent);
-                totalWeight += numWeightValue;
-                resultScore.textContent = totalWeight;
-            });
-        });
-    }
-
-    /**
-     * 서버에서 전달받은 지표값 포맷을 변경한다.
-     */
-    function setMetricValueFormat(elem) {
-        elem.querySelectorAll('.metric-value').forEach(value => {
-            const userMetricValue = value.textContent.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
-            value.textContent = userMetricValue;
-            value.setAttribute('title', userMetricValue);
-        });
-    }
-
-    /**
-     * Chart view 화면 호출 (Modal)
-     */
-    function openChartViewModal(chartId, chartType, chartName) {
-        let modalOptions = {
-            title: chartName,
-            body: createModalContent(),
-            classes: 'chart-view-modal',
-            buttons: [{
-                content: i18n.msg('common.btn.close'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function (modal) {
-                    zChartManager.destroy();
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: function () {
-                getChart(chartId);
-            }
+            getList();
         };
 
-        const chartViewModal = new modal(modalOptions);
-        chartViewModal.show();
-    }
+        function setDatePicker(element, picker) {
+            if (typeof picker === 'undefined') return false;
+            if (document.getElementById('year').value !== '' && element.value !== '') getList();
+        }
 
-    function createModalContent() {
-        return `<div class="chart-edit-content">` +
-            `<div class="flex-column" id="getChart">` +
-            `<div class="flex-column z-edit-row mt-2">` +
-            `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
-            `</div>` +
-            `</div>` +
-            `</div>`;
-    }
+        /**
+         * 연도별 SLA 지표관리 검색
+         */
+        function getList(pageNum = 1) {
+            const urlParam = '/sla/metrics/annual?year='
+                            + document.getElementById('year').value.toString().substring(0, 4)
+                            + '&pageNum=' + pageNum;
+            aliceJs.fetchText(urlParam, {
+                method: 'GET'
+            }).then((htmlData) => {
+                const listBody = document.getElementById('metricYearStatusList')
+                listBody.innerHTML = htmlData;
+                setMetricValueFormat(listBody);
 
-    function getChart(chartType) {
-        /*
-        const url = '/rest/sla/metrics/annual/'
-                    + document.getElementById('metricChartName').value.toString().substring(0, 4)
-                    + document.getElementById('metricChartYear').value
-                    + 'priview';
-        aliceJs.fetchJson(url, {
-            method: 'GET',
-            showProgressbar: true
-        }).then((response) => {
-            if (response.status !== aliceJs.response.success) { return false; }
-            // 차트 초기화
-            zChartManager.load(response.data);
-        });
-        */
+                const resultScore = document.querySelector('#resultScore span:first-child');
+                let totalWeight = 0;
+                resultScore.textContent = '0';
+                document.querySelectorAll('.result-value').forEach(elem => {
+                    const numWeightValue =  Number(elem.textContent);
+                    totalWeight += numWeightValue;
+                    resultScore.textContent = totalWeight;
+                });
+            });
+        }
 
-        // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
-        aliceJs.fetchJson('../../../assets/js/chart/dummy/' + 'chart.basicLine.json', {
-            method: 'GET'
-        }).then((data) => {
-            // 차트 초기화
-            zChartManager.load(data);
-        });
-    }
+        /**
+         * 서버에서 전달받은 지표값 포맷을 변경한다.
+         */
+        function setMetricValueFormat(elem) {
+            elem.querySelectorAll('.metric-value').forEach(value => {
+                const userMetricValue = value.textContent.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
+                value.textContent = userMetricValue;
+                value.setAttribute('title', userMetricValue);
+            });
+        }
 
-    function onExcelDownload(pageNum = 1) {
-        const search = document.getElementById('year').value.toString().substring(0, 4)
-                        + '&pageNum=' + pageNum;
-        aliceJs.fetchDownload({
-            url: '/rest/sla/metrics/annual/excel?year=' + search,
-            fileName: i18n.msg('sla.metricYear.label.metricYearStatus') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
-        });
-    }
-    /*]]>*/
-</script>
-<script type="module">
-    import ZChart from '../../../../assets/js/chart/zChart.js';
+        /**
+         * Chart view 화면 호출 (Modal)
+         */
+        function openChartViewModal(chartId, chartType, chartName) {
+            let modalOptions = {
+                title: '차트 데이터',
+                body: createModalContent(),
+                classes: 'chart-view-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        zChartManager.destroy();
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function () {
+                    getChart(chartId);
+                }
+            };
 
-    const zChartManager = {
-        load: function(data) {
-            // 차트 초기화
-            this.zChart = new ZChart('container', data);
+            const chartViewModal = new modal(modalOptions);
+            chartViewModal.show();
+        }
 
-            // 데이터 업데이트
-            this.zChart.update(data.chartData);
-        },
-        destroy: function () {
-            if (this.zChart) {
-                this.zChart.destroy();
-                this.zChart = null;
-                delete this.zChart;
+        function createModalContent() {
+            return `<div class="chart-edit-content">` +
+                `<div class="flex-column" id="getChart">` +
+                `<div class="flex-column z-edit-row mt-2">` +
+                `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
+                `</div>` +
+                `</div>` +
+                `</div>`;
+        }
+
+        function getChart(chartType) {
+            /*
+            const url = '/rest/sla/metrics/' + document.getElementById('statusYearId').value
+                        + '/preview?year=' + document.getElementById('year').value.toString().substring(0, 4);
+            aliceJs.fetchJson(url, {
+                method: 'GET',
+                showProgressbar: true
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success) { return false; }
+                // 차트 초기화
+                zChartManager.load(response.data);
+            });
+            */
+
+            // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
+            aliceJs.fetchJson('../../../assets/js/chart/dummy/chart.basicLine.json', {
+                method: 'GET'
+            }).then((data) => {
+                // 차트 초기화
+                zChartManager.load(data);
+            });
+        }
+
+        function onExcelDownload(pageNum = 1) {
+            const search = document.getElementById('year').value.toString().substring(0, 4)
+                            + '&pageNum=' + pageNum;
+            aliceJs.fetchDownload({
+                url: '/rest/sla/metrics/annual/excel?year=' + search,
+                fileName: i18n.msg('sla.metricYear.label.metricYearStatus') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+            });
+        }
+        /*]]>*/
+    </script>
+    <script type="module">
+        import ZChart from '../../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(data) {
+                // 차트 초기화
+                this.zChart = new ZChart('container', data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
             }
         }
-    }
-    window.zChartManager = zChartManager;
+        window.zChartManager = zChartManager;
 </script>
+</th:block>
 </html>
