@@ -203,14 +203,6 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .fetch().toSet()
     }
 
-    override fun findByMetricIds(): MutableSet<String> {
-        val metricYear = QMetricYearEntity.metricYearEntity
-
-        return from(metricYear)
-            .select(metricYear.metric.metricId)
-            .fetch().toMutableSet()
-    }
-
     override fun findMetricStatusList(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto {
         val content = this.getMetricStatus(metricYearSearchCondition)
         val count = this.getMetricsCount(metricYearSearchCondition)

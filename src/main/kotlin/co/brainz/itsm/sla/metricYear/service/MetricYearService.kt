@@ -123,8 +123,11 @@ class MetricYearService(
         metricList.forEach { metricIds.add(it.metricId) }
 
         if (!metricLoadCondition.target.isNullOrEmpty()) {
-            val metricIdList = metricYearRepository.findByMetricIds()
-            metricIds.removeAll(metricIdList)
+            val metricYearIds: LinkedHashSet<String> = linkedSetOf()
+            metricYearRepository.findAll().forEach {
+                metricYearIds.add(it.metric.metricId)
+            }
+            metricIds.removeAll(metricYearIds)
         }
 
         return metricPoolRepository.findByMetricIds(metricIds)
