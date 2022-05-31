@@ -45,7 +45,7 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        let yearDt = i18n.getYear();
+        const yearDt = i18n.getYear();
 
         window.onload = function () {
             const yearDtElement = document.getElementById('year');
@@ -70,7 +70,7 @@
             aliceJs.fetchText(urlParam, {
                 method: 'GET'
             }).then((htmlData) => {
-                const listBody = document.getElementById('metricYearStatusList')
+                const listBody = document.getElementById('metricYearStatusList');
                 listBody.innerHTML = htmlData;
                 setMetricValueFormat(listBody);
 
@@ -163,7 +163,9 @@
                             + '&pageNum=' + pageNum;
             aliceJs.fetchDownload({
                 url: '/rest/sla/metrics/annual/excel?year=' + search,
-                fileName: i18n.msg('sla.metricYear.label.metricYearStatus') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '')
+                fileName: document.getElementById('year').value.toString().substring(0, 4) + '_'
+                    + i18n.msg('sla.metricYear.label.metricYearStatus') + '_'
+                    + new Date().toISOString().substring(0, 10).replace(/-/g, '')
             });
         }
         /*]]>*/
@@ -172,7 +174,7 @@
         import ZChart from '../../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
-            load: function(data) {
+            load: function (data) {
                 // 차트 초기화
                 this.zChart = new ZChart('container', data);
 
@@ -186,7 +188,7 @@
                     delete this.zChart;
                 }
             }
-        }
+        };
         window.zChartManager = zChartManager;
     </script>
 </th:block>

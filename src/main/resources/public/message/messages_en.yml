@@ -1441,7 +1441,7 @@ sla:
       targetYear: "Target Year"
       type: "Type"
       result: "Result"
-      resultScore: "Final Score"
+      resultScore: "Result Score"
       unit: "Unit"
       weightValue: "Weight Value"
       year: "Year"
