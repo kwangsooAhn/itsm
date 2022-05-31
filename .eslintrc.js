@@ -55,7 +55,7 @@ module.exports = {
         // 키워드 전 후 공백
         'keyword-spacing': ['error', { 'before': true, 'after': true }],
         // 공백 뒤에 () 오지 않음
-        'space-before-function-paren': ['error', { 'anonymous': 'always', 'named': 'never', 'asyncArrow': 'always' }],
+        'space-before-function-paren': ['error', { 'anonymous': 'never', 'named': 'never', 'asyncArrow': 'always' }],
         // () 뒤에 공백
         'space-before-blocks': 'error',
         'no-unused-vars': ['error',
