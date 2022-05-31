@@ -6,6 +6,15 @@
 <head>
     <title th:text="#{sla.metric.label.metricStatus}"></title>
 </head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/stock.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+</th:block>
 <body>
 <div layout:fragment="pageTitle">
     <h1 th:text="#{sla.metric.label.metricStatus}"></h1>
@@ -46,7 +55,8 @@
     <div class="z-list-content flex-row" id="metricStatusChart"></div>
 </div>
 </body>
-<script layout:fragment="pageScript" th:inline="javascript">
+<th:block layout:fragment="pageScript">
+    <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function () {
         document.getElementById('statusMetricYear').addEventListener('change', function () { getMetricList() });
@@ -64,7 +74,10 @@
         }).then((response) => {
             const metricList = response.data;
             const selectTag = document.getElementById('statusMetricName');
-            selectTag.options.length = 0;
+            const options = selectTag.getElementsByTagName('option');
+            for(let i = options.length-1; i>=0 ; i--) {
+                selectTag.removeChild(options[i]);
+            }
             for (let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
                 selectOption.text = metricList[i].metricName;
@@ -90,4 +103,26 @@
     }
     /*]]>*/
 </script>
+    <script type="module">
+        import ZChart from '../../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(data) {
+                // 차트 초기화
+                this.zChart = new ZChart('container', data);
+
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function () {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        }
+        window.zChartManager = zChartManager;
+    </script>
+</th:block>
 </html>
