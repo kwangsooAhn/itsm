@@ -61,6 +61,81 @@ class MetricStatusService(
 
     private fun initZqlCalculatedData(): MutableList<ChartData> {
         //TODO chartData 대신 ZqlCalculatedData DTO로 변경 해야함
-        return mutableListOf()
+        //임시가데이터 입력
+        val dummyData: MutableList<ChartData> = mutableListOf()
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-01-01 00:00:00",
+            value = "3",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-02-01 00:00:00",
+            value = "0",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-03-01 00:00:00",
+            value = "8",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-04-01 00:00:00",
+            value = "4",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-05-01 00:00:00",
+            value = "3",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-06-01 00:00:00",
+            value = "6",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-07-01 00:00:00",
+            value = "1",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-08-01 00:00:00",
+            value = "3",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-09-01 00:00:00",
+            value = "8",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-10-01 00:00:00",
+            value = "2",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-11-01 00:00:00",
+            value = "5",
+            series = "장애점수"
+        ))
+        dummyData.add(ChartData(
+            id = "",
+            category = "2022-12-01 00:00:00",
+            value = "5",
+            series = "장애점수"
+        ))
+
+        return dummyData
     }
 }
