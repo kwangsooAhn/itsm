@@ -644,26 +644,6 @@ input, button, select, optgroup, textarea {
   font-weight: bold;
 }
 
-.font-6 {
-  font-size: 0.75rem !important;
-}
-
-.font-7 {
-  font-size: 0.875rem !important;
-}
-
-.font-8 {
-  font-size: 1rem !important;
-}
-
-.font-9 {
-  font-size: 1.125rem !important;
-}
-
-.font-10 {
-  font-size: 1.25rem !important;
-}
-
 .underline {
   text-decoration: underline;
   text-underline-position: under;
