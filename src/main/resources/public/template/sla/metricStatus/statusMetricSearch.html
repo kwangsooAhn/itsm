@@ -30,7 +30,7 @@
                 <div class="flex-row">
                     <label class="z-radio">
                         <input type="radio" id="slaChartLine" name="chartType" th:value="'chart.basicLine'"
-                               th:checked="'chart.basicLine'"
+                               th:checked="true"
                                th:classappend="${view} ? 'readonly'"
                                th:disabled="${view}"
                                th:readonly="${view}">
@@ -39,7 +39,6 @@
                     </label>
                     <label class="z-radio">
                         <input type="radio" id="slaChartColumn" name="chartType" th:value="chart.basicColumn"
-                               th:checked="'chart.basicColumn'"
                                th:classappend="${view} ? 'readonly'"
                                th:disabled="${view}"
                                th:readonly="${view}">
