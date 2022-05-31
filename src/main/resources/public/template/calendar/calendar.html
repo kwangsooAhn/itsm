@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
+      layout:decorate="~{layout/itsm/itsmLayout}">
 <head>
     <title th:text="#{calendar.label.calendar}"></title>
 </head>
@@ -16,11 +16,9 @@
     <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.custom.js}"></script>
 </th:block>
 <body>
-<div layout:fragment="pageTitle">
-    <h1 th:text="#{calendar.label.calendar}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{calendar.msg.description}"></h6>
+<div layout:fragment="pageTitle" class="z-main-title--empty">
 </div>
-<div layout:fragment="pageSearchResult">
+<th:block layout:fragment="pageContent">
     <div class="calendar">
         <div class="calendar__menu" id="calendarMenu">
             <div class="calendar__button-group">
@@ -61,10 +59,10 @@
                 </button>
             </div>
         </div>
-        <div class="calendar__view on" id="calendarView" style="height: 700px;"></div>
+        <div class="calendar__view on" id="calendarView" style="height: 780px;"></div>
         <div class="calendar__view calendar__view--task" id="taskView"></div>
     </div>
-</div>
+</th:block>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     const calendarList = /*[[${calendarList}]]*/ '';
     let myCalendar = null; // tui calendar 객체
@@ -79,6 +77,8 @@
         myCalendar.setCalendars(calendarList);
         // 일정 조회
         setSchedules();
+
+        OverlayScrollbars(document.querySelector('.z-main-content'), {className: 'scrollbar'});
     };
 
     /**
@@ -123,6 +123,7 @@
                             end: luxon.DateTime.fromISO(schedule.endDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
                             category: schedule.allDayYn ? 'allday' : 'time',
                             raw: {
+                                dataId: schedule.dataId,
                                 repeatId: '',
                                 repeatSeq: 1,
                                 repeatYn: schedule.repeatYn,
@@ -135,7 +136,7 @@
                     });
                     calendar.repeats.forEach((repeat) => {
                         schedules.push({
-                            id: repeat.id + repeat.index,
+                            id: repeat.dataId + repeat.index,
                             calendarId: calendar.id,
                             title: repeat.title,
                             body: repeat.contents,
@@ -145,6 +146,7 @@
                             end: luxon.DateTime.fromISO(repeat.endDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
                             category: repeat.allDayYn ? 'allday' : 'time',
                             raw: {
+                                dataId: repeat.dataId,
                                 repeatId: repeat.id,
                                 repeatSeq: repeat.index,
                                 repeatYn: repeat.repeatYn,
