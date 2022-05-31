@@ -1902,6 +1902,10 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 
+#resultScore {
+  font-size: 2rem;
+}
+
 .z-report-wrapper {
   display: flex;
   flex-direction: column;

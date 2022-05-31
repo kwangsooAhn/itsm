@@ -2332,6 +2332,10 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 
+#resultScore {
+  font-size: 2rem;
+}
+
 /* 폼 디자이너 팝업 layout
  * form-container - form-header : 상단
  *                - form-component-palette : 컴포넌트 팔레트
