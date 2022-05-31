@@ -4327,6 +4327,9 @@ select {
   align-items: baseline !important;
   padding: 0 3.75rem 2rem 3.75rem;
 }
+.z-itsm-container .z-main-title--empty + .z-main-content {
+  height: calc(100vh - 3.5rem);
+}
 .z-itsm-container .z-main-content {
   height: calc(100vh - 8.5rem);
 }
@@ -9577,6 +9580,9 @@ body.modal-active {
   --data-modal-height: 2;
 }
 
+.calendar {
+  margin: 30px 60px 0 60px;
+}
 .calendar__menu {
   display: grid;
   grid-template-columns: 385px auto 385px;
@@ -9610,6 +9616,83 @@ body.modal-active {
 }
 .calendar__view.on {
   display: block;
+}
+.calendar__view .tui-full-calendar-month-dayname {
+  border-right: 1px solid #CFD5D9;
+  border-left: 1px solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-dayname-name {
+  color: #757575;
+  font-weight: 500;
+}
+.calendar__view .tui-full-calendar-month-week-item {
+  border-right: 1px solid #CFD5D9;
+  border-left: 1px solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-week-item:last-of-type {
+  border-bottom: 2px solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-today .tui-full-calendar-weekday-grid-date-decorator {
+  width: 20px;
+  font-weight: 600;
+  background: transparent;
+  color: inherit;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  margin: 0 4px;
+}
+.calendar__view .tui-full-calendar-month-more {
+  width: 226px;
+  min-width: 226px;
+  margin: 40px 0 0 4px;
+}
+.calendar__view .tui-full-calendar-month-more-title {
+  text-align: center;
+}
+.calendar__view .tui-full-calendar-month-more-title .tui-full-calendar-month-more-title-day-label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
+  margin-bottom: 4px;
+}
+.calendar__view .tui-full-calendar-month-more-title .tui-full-calendar-month-more-title-day {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #424242;
+}
+.calendar__view .tui-full-calendar-month-more-list {
+  border-bottom: 1px solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-more-close {
+  line-height: inherit;
+  font-weight: 600;
+  padding: 0.625rem 0.875rem;
+}
+.calendar__view .tui-full-calendar-weekday-grid-date {
+  font-weight: 600;
+}
+.calendar__view .tui-full-calendar-weekday-schedule-title {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.calendar__view .tui-full-calendar-weekday-schedule-time {
+  color: #424242;
+}
+.calendar__view .tui-full-calendar-weekday-schedule-time.prev {
+  color: #9E9E9E;
+}
+.calendar__view .tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-more-schedules {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #757575;
+}
+.calendar__view .tui-full-calendar-extra-date {
+  background-color: #FAFAFA !important;
+}
+.calendar__view .tui-full-calendar-time-date-schedule-block-wrap {
+  margin-left: 10px;
 }
 .calendar__view .calendar__rowGroup {
   display: grid;
