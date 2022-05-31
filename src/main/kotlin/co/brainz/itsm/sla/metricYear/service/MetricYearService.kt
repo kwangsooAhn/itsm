@@ -134,7 +134,7 @@ class MetricYearService(
      * 년도별 SLA 현황 목록 조회
      */
     fun findMetricAnnualSearch(metricYearSearchCondition: MetricYearSearchCondition): MetricAnnualListReturnDto {
-        val pagingResult = metricYearRepository.findMetrics(metricYearSearchCondition)
+        val pagingResult = metricYearRepository.findMetricStatusList(metricYearSearchCondition)
         val dataList: List<MetricAnnualDto> = mapper.convertValue(pagingResult.dataList)
 
         return MetricAnnualListReturnDto(

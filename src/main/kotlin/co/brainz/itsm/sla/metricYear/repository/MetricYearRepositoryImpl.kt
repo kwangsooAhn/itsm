@@ -9,6 +9,7 @@ package co.brainz.itsm.sla.metricYear.repository
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
+import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
@@ -198,7 +199,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
 
         return from(metricYear).distinct()
             .select(metricYear.metricYear)
-            .orderBy(metricYear.metricYear.asc())
+            .orderBy(metricYear.metricYear.desc())
             .fetch().toSet()
     }
 
@@ -208,5 +209,47 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         return from(metricYear)
             .select(metricYear.metric.metricId)
             .fetch().toMutableSet()
+    }
+
+    override fun findMetricStatusList(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto {
+        val content = this.getMetricStatus(metricYearSearchCondition)
+        val count = this.getMetricsCount(metricYearSearchCondition)
+
+        return PagingReturnDto(
+            dataList = content.fetch(),
+            totalCount = count.fetchOne()
+        )
+    }
+
+    private fun getMetricStatus(metricYearSearchCondition: MetricYearSearchCondition): JPQLQuery<MetricAnnualDto> {
+        val metricPool = QMetricPoolEntity.metricPoolEntity
+        val metricYear = QMetricYearEntity.metricYearEntity
+        val code = QCodeEntity.codeEntity
+
+        val query = from(metricPool)
+            .select(
+                Projections.constructor(
+                    MetricAnnualDto::class.java,
+                    metricPool.metricId,
+                    code.codeName.`as`("metricGroupName"),
+                    metricPool.metricName,
+                    metricYear.minValue,
+                    metricYear.maxValue,
+                    metricYear.weightValue,
+                    Expressions.asNumber(0.0),
+                    metricYear.owner,
+                    metricYear.comment
+                )
+            )
+            .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
+            .leftJoin(code).on(metricPool.metricGroup.eq(code.code))
+            .where(this.searchByBuilder(metricYearSearchCondition, metricYear))
+            .orderBy(metricYear.createDt.desc())
+
+        if (metricYearSearchCondition.isPaging) {
+            query.limit(metricYearSearchCondition.contentNumPerPage)
+            query.offset((metricYearSearchCondition.pageNum - 1) * metricYearSearchCondition.contentNumPerPage)
+        }
+        return query
     }
 }

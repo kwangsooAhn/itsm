@@ -31,4 +31,6 @@ interface MetricYearRepositoryCustom : AliceRepositoryCustom {
     fun getYears(): Set<String>
 
     fun findByMetricIds(): MutableSet<String>
+
+    fun findMetricStatusList(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto
 }
