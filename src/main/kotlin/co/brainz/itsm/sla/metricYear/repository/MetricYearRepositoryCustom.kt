@@ -29,4 +29,6 @@ interface MetricYearRepositoryCustom : AliceRepositoryCustom {
     fun findMetricYear(metricId: String, year: String): MetricYearDetailDto
 
     fun getYears(): Set<String>
+
+    fun findMetricStatusList(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto
 }

@@ -122,6 +122,14 @@ class MetricYearService(
         val metricIds: MutableSet<String> = mutableSetOf()
         metricList.forEach { metricIds.add(it.metricId) }
 
+        if (!metricLoadCondition.target.isNullOrEmpty()) {
+            val metricYearIds: LinkedHashSet<String> = linkedSetOf()
+            metricYearRepository.findAll().forEach {
+                metricYearIds.add(it.metric.metricId)
+            }
+            metricIds.removeAll(metricYearIds)
+        }
+
         return metricPoolRepository.findByMetricIds(metricIds)
     }
 
@@ -129,7 +137,7 @@ class MetricYearService(
      * 년도별 SLA 현황 목록 조회
      */
     fun findMetricAnnualSearch(metricYearSearchCondition: MetricYearSearchCondition): MetricAnnualListReturnDto {
-        val pagingResult = metricYearRepository.findMetrics(metricYearSearchCondition)
+        val pagingResult = metricYearRepository.findMetricStatusList(metricYearSearchCondition)
         val dataList: List<MetricAnnualDto> = mapper.convertValue(pagingResult.dataList)
 
         return MetricAnnualListReturnDto(
@@ -306,7 +314,7 @@ class MetricYearService(
                     )
                 )
             }
-        // metricId가 없을 경우 전체 지표 복사 (중복 제외)
+            // metricId가 없을 경우 전체 지표 복사 (중복 제외)
         } else {
             val metricSourceYearEntityList = metricYearRepository.findByMetricYear(metricYearCopyDto.source)
             val metricTargetYearEntityList = metricYearRepository.findByMetricYear(metricYearCopyDto.target)
