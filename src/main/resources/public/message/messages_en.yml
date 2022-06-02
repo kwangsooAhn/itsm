@@ -1436,6 +1436,7 @@ sla:
       maxValue: "Max Value"
       metricName: "Metric Name"
       metricYear: "SLA metric management by year"
+      metricYearStatus: "SLA status by year"
       minValue: "Min Value"
       option:
         score: "Score"
@@ -1443,6 +1444,8 @@ sla:
       owner: "Owner"
       targetYear: "Target Year"
       type: "Type"
+      result: "Result"
+      resultScore: "Result Score"
       unit: "Unit"
       weightValue: "Weight Value"
       year: "Year"
