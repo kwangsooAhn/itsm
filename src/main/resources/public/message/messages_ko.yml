@@ -257,6 +257,7 @@ calendar:
   label:
     allDay: "종일"
     calendar: "일정"
+    contentsPlaceholder: "내용을 입력해주세요."
     day: "일간"
     dayOfMonth: "매월 {0}"
     dayOfMonthType:
@@ -291,6 +292,7 @@ calendar:
       today: "이 일정"
     repeatYn: "반복 여부"
     task: "일정 리스트"
+    titlePlaceholder: "제목을 입력해주세요."
     today: "오늘"
     week: "주간"
     weekOfMonth: "매주"
