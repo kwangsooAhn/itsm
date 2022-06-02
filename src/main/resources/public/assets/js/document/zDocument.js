@@ -339,6 +339,9 @@ class ZDocument {
         console.debug(saveData);
 
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
+
+        // 동적 버튼 blur
+        event.target.blur();
         const finishAction = function () {
             const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
             aliceJs.fetchJson(url, {
