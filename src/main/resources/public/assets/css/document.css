@@ -2047,6 +2047,19 @@ input, button, select, optgroup, textarea {
   margin: 0.625rem 0 0 0;
   padding-bottom: 1.25rem;
 }
+.z-document-container .z-token-properties .z-token-panels .z-token-storage {
+  margin: 1.75rem 0 0 0;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-storage .z-icon-document-storage {
+  display: contents;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-storage .z-icon-document-storage.active .document-storage-star {
+  fill: #FADF2D;
+  stroke: #D7BC20;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-storage .z-token-storage-label {
+  margin-left: 0.25rem;
+}
 .z-document-container .z-token-properties .z-token-panels .z-token-history {
   height: 100%;
 }

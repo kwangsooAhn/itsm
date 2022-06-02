@@ -34,7 +34,6 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.service.WfTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -186,12 +185,10 @@ class TokenService(
         )
     }
 
-    fun getTodoTokenCount(): Long = getTokenList(
-        TokenSearchCondition(
-            userKey = currentSessionUser.getUserKey(),
-            searchTokenType = WfTokenConstants.SearchType.TODO.code
-        )
-    ).paging.totalCountWithoutCondition
+    /**
+     * 처리할 문서 카운트 (메뉴 - 문서함)
+     */
+    fun getTodoTokenCount(): Long = wfInstanceService.getInstanceTodoCount()
 
     /**
      * 해당 인스턴스를 가진 토큰 데이터를 조회한다.

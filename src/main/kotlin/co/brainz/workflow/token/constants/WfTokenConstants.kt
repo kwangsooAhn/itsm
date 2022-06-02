@@ -38,7 +38,8 @@ object WfTokenConstants {
         TODO("token.type.todo"),
         REQUESTED("token.type.requested"),
         PROGRESS("token.type.progress"),
-        COMPLETED("token.type.completed")
+        COMPLETED("token.type.completed"),
+        STORED("token.type.stored")
     }
 
     /**
@@ -58,6 +59,7 @@ object WfTokenConstants {
                 Status.WAITING.code
             )
             SearchType.COMPLETED -> listOf(Status.FINISH.code)
+            SearchType.STORED -> null
         }
     }
 }

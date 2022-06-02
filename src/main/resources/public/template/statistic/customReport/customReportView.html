@@ -38,7 +38,7 @@
         /*<![CDATA[*/
         const report = /*[[${report}]]*/ null;
 
-        window.onload = function() {
+        window.onload = function () {
             // footer
             const userName = '[[${#authentication.details.userName}]]';
             const userEmail = '[[${#authentication.details.email}]]';
@@ -78,7 +78,7 @@
                 margin: 6,
                 filename: report['reportName'] + '.pdf',
                 html2canvas: { scale: 1 },
-                jsPDF: {orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: true}
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compressPDF: true }
             }).save();
         }
         /*]]>*/
@@ -88,14 +88,14 @@
         import ZChart from '../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
-            load: function(id, data) {
+            load: function (id, data) {
                 // 차트 초기화
                 this.zChart = new ZChart(id, data);
 
                 // 데이터 업데이트
                 this.zChart.update(data.chartData);
             }
-        }
+        };
         window.zChartManager = zChartManager;
 
         /*]]>*/

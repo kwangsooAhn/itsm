@@ -87,4 +87,15 @@ object ChartConstants {
         EVEN_RUNNING("even.running.document"),
         ONLY_RUNNING("only.running.document")
     }
+
+    /**
+     * Order Column
+     */
+    enum class OrderColumn(val code: String) {
+        CHART_NAME("chartName"),
+        CHART_DESC("chartDesc"),
+        CHART_TYPE("chartType"),
+        CREATE_DT("createDt"),
+        CREATE_USER_NAME("createUserName")
+    }
 }

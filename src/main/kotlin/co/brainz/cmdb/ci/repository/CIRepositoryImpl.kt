@@ -23,9 +23,19 @@ import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
+import com.querydsl.jpa.JPQLQuery
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import org.springframework.stereotype.Repository
 
+@Repository
 class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepositoryCustom {
+
+    val ci: QCIEntity = QCIEntity.cIEntity
+    val cmdbType: QCITypeEntity = QCITypeEntity.cITypeEntity
+    val cmdbClass: QCIClassEntity = QCIClassEntity.cIClassEntity
+    val cmdbTag: QAliceTagEntity = QAliceTagEntity.aliceTagEntity
+    val wfComponentCIData: QCIComponentDataEntity = QCIComponentDataEntity.cIComponentDataEntity
+    val wfInstance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
 
     /**
      * CI 단일 목록 조회.
@@ -66,13 +76,13 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
      * CI 목록 조회.
      */
     override fun findCIList(ciSearchCondition: CISearchCondition): PagingReturnDto {
-        val ci = QCIEntity.cIEntity
-        val cmdbType = QCITypeEntity.cITypeEntity
-        val cmdbClass = QCIClassEntity.cIClassEntity
-        val cmdbTag = QAliceTagEntity.aliceTagEntity
-        val wfComponentCIData = QCIComponentDataEntity.cIComponentDataEntity
-        val wfInstance = QWfInstanceEntity.wfInstanceEntity
+        return PagingReturnDto(
+            dataList = getCiList(ciSearchCondition).fetch(),
+            totalCount = getCiListCount(ciSearchCondition).fetchOne()
+        )
+    }
 
+    private fun getCiList(ciSearchCondition: CISearchCondition): JPQLQuery<CIsDto> {
         val query = from(ci)
             .select(
                 Projections.constructor(
@@ -96,24 +106,22 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             )
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
-        query.where(this.builder(ciSearchCondition, ci, cmdbClass, cmdbTag, wfComponentCIData, wfInstance))
+            .where(this.searchByBuilder(ciSearchCondition, ci, cmdbClass, cmdbTag, wfComponentCIData, wfInstance))
 
         if (ciSearchCondition.isPaging) {
             query.limit(ciSearchCondition.contentNumPerPage)
             query.offset((ciSearchCondition.pageNum - 1) * ciSearchCondition.contentNumPerPage)
         }
         query.orderBy(ci.ciName.asc())
+        return query
+    }
 
-        val countQuery = from(ci)
+    private fun getCiListCount(ciSearchCondition: CISearchCondition): JPQLQuery<Long> {
+        return from(ci)
             .select(ci.count())
             .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
             .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
-        countQuery.where(this.builder(ciSearchCondition, ci, cmdbClass, cmdbTag, wfComponentCIData, wfInstance))
-
-        return PagingReturnDto(
-            dataList = query.fetch(),
-            totalCount = countQuery.fetchOne()
-        )
+            .where(this.searchByBuilder(ciSearchCondition, ci, cmdbClass, cmdbTag, wfComponentCIData, wfInstance))
     }
 
     /**
@@ -128,7 +136,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
     }
 
     /**
-     * 동일 CI_NO에서 마지막 번호 조회.
+     * 동일 CI_NO 에서 마지막 번호 조회.
      */
     override fun getLastCiByCiNo(ciNoPrefix: String): CIEntity? {
         val ciEntity = QCIEntity.cIEntity
@@ -153,7 +161,7 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
         return query.fetchOne()
     }
 
-    private fun builder(
+    private fun searchByBuilder(
         ciSearchCondition: CISearchCondition,
         ci: QCIEntity,
         cmdbClass: QCIClassEntity,

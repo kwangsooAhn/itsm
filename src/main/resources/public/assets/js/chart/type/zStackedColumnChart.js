@@ -71,7 +71,7 @@ export const zStackedColumnChartMixin = {
             dataLabels: {
                 enabled: true,
                 formatter: function () {
-                    return chart.getLabelFormat(this.y);
+                    return this.y ? chart.getLabelFormat(this.y) : '';
                 }
             }
         });
@@ -92,11 +92,13 @@ export const zStackedColumnChartMixin = {
         Object.assign(option.tooltip, {
             formatter: function () {
                 const points = this.points;
-                let tooltipFormat = `<span style="font-size:inherit">${this.x}</span><br/>`;
+                let tooltipFormat = `<span style="font-size:inherit">` +
+                    `${Highcharts.dateFormat(chart.getDateTimeFormat(), this.x)}` +
+                    `</span></br>`;
                 for (let i = 0; i < points.length; i++) {
                     const point = points[i];
-                    tooltipFormat += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: ` +
-                        `${chart.getLabelFormat(point.y)}<br/>`;
+                    tooltipFormat += `<br/><span style="color:${point.color}">\u25CF</span><b> ${point.series.name}: ` +
+                        `${chart.getLabelFormat(point.y)}</b><br/>`;
                 }
                 return tooltipFormat;
             }

@@ -20,9 +20,22 @@ class WfInstanceConstants {
                 WfTokenConstants.SearchType.REQUESTED -> null
                 WfTokenConstants.SearchType.PROGRESS -> listOf(Status.RUNNING.code, Status.WAITING.code)
                 WfTokenConstants.SearchType.COMPLETED -> listOf(Status.FINISH.code)
+                WfTokenConstants.SearchType.STORED -> null
             }
         }
 
         const val TOKEN_DATA_DEFAULT: String = "\${default}"
+    }
+
+    /**
+     * Order Column
+     */
+    enum class OrderColumn(val code: String) {
+        CREATE_USER_NAME("createUserName"),
+        DOCUMENT_GROUP("documentGroup"),
+        ASSIGNEE_USER_NAME("assigneeUserName"),
+        ELEMENT_NAME("elementName"),
+        DOCUMENT_NO("documentNo"),
+        INSTANCE_START_DT("instanceStartDt")
     }
 }

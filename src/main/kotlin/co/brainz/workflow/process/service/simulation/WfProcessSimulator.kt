@@ -9,6 +9,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
+import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.process.dto.SimulationReport
 import co.brainz.workflow.process.dto.SimulationReportDto
@@ -29,7 +30,8 @@ import org.springframework.stereotype.Service
 class WfProcessSimulator(
     private val wfProcessRepository: WfProcessRepository,
     private val wfElementRepository: WfElementRepository,
-    private val wfDocumentRepository: WfDocumentRepository
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val wfElementDataRepository: WfElementDataRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -77,8 +79,8 @@ class WfProcessSimulator(
         var currentElement = startElement
         while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
 
-            // 컨넥터 가져오기.
-            val arrowElement = this.getArrowElement(currentElement)
+            // 컨넥터 가져오기. (없을 경우 break)
+            val arrowElement = this.getArrowElement(currentElement) ?: break
             this.simulation(arrowElement)
 
             // 다음 엘리먼트 가져오기
@@ -102,16 +104,10 @@ class WfProcessSimulator(
             }
             // GW 제외한 element 중 처리한 element 는 저장한다. (GW에 의한 반려, 회수 시 제외)
             if (WfElementConstants.ElementType.getAtomic(currentElement.elementType)
-                != WfElementConstants.ElementType.GATEWAY) {
+                != WfElementConstants.ElementType.GATEWAY
+            ) {
                 completeElements.add(currentElement.elementId)
             }
-        }
-
-        // 전체 엘리먼트와 검사된 엘리먼트의 개수를 비교한다.
-        // arrowConnector의 start-id, end-id 를 가지고 연결된 라인이므로 잘 그려진 프로세스이면 사이즈는 항상 같다.
-        if (allElementEntitiesInProcess.size != removedDuplicationElements.size) {
-            logger.error("Simulation failed. size error.")
-            throw AliceException(AliceErrorConstants.ERR_00005, "Simulation failed. size error.")
         }
     }
 
@@ -149,31 +145,27 @@ class WfProcessSimulator(
     /**
      * [current] 엘리먼트를 start-id 로 가지는 arrowConnector 를 리턴.
      */
-    private fun getArrowElement(current: WfElementEntity): WfElementEntity {
-        lateinit var element: WfElementEntity
-        try {
-            val arrowConnectors = this.allElementEntitiesInProcess.filter {
-                current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+    private fun getArrowElement(current: WfElementEntity): WfElementEntity? {
+        val element: WfElementEntity?
+        val arrowConnectors = this.allElementEntitiesInProcess.filter {
+            current.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+        }
+        // gateway 면
+        if (current.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
+            if (arrowConnectorInGateway[current.elementId] == null) {
+                arrowConnectorInGateway[current.elementId] = ArrayDeque(arrowConnectors)
             }
-            // gateway 면
-            if (current.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
-                if (arrowConnectorInGateway[current.elementId] == null) {
-                    arrowConnectorInGateway[current.elementId] = ArrayDeque(arrowConnectors)
-                }
-                element = arrowConnectorInGateway[current.elementId]!!.pop()
+            element = arrowConnectorInGateway[current.elementId]!!.pop()
 
-                // 모두 꺼내서 사용을 했으면 해당 gateway 는 삭제.
-                if (arrowConnectorInGateway[current.elementId]!!.size == 0) {
-                    arrowConnectorInGateway.remove(current.elementId)
-                } else {
-                    // 검증해야할 gateway 발 arrowConnector가 존재하므로 또다시 꺼낼 수 있도록 큐에 넣어 둔다.
-                    this.gatewayQueue.push(current)
-                }
+            // 모두 꺼내서 사용을 했으면 해당 gateway 는 삭제.
+            if (arrowConnectorInGateway[current.elementId]!!.size == 0) {
+                arrowConnectorInGateway.remove(current.elementId)
             } else {
-                element = arrowConnectors.last()
+                // 검증해야할 gateway 발 arrowConnector가 존재하므로 또다시 꺼낼 수 있도록 큐에 넣어 둔다.
+                this.gatewayQueue.push(current)
             }
-        } catch (e: NoSuchElementException) {
-            throw AliceException(AliceErrorConstants.ERR_00005, "ArrowConnector element not found.")
+        } else {
+            element = arrowConnectors.lastOrNull()
         }
         return element
     }
@@ -211,7 +203,7 @@ class WfProcessSimulator(
             WfElementConstants.ElementType.SUB_PROCESS -> WfProcessSimulationSubProcess(
                 wfDocumentRepository
             )
-            WfElementConstants.ElementType.TASK -> WfProcessSimulationTask()
+            WfElementConstants.ElementType.TASK -> WfProcessSimulationTask(wfElementDataRepository)
             else -> throw AliceException(
                 AliceErrorConstants.ERR_00005,
                 "Not found simulation. Check simulation factory class."
@@ -219,6 +211,8 @@ class WfProcessSimulator(
         }
 
         val result = simulationElement.validation(element)
+
+        if (!result) simulationReportDto.success = false // 1개의 엘리먼트만 실패하더라도 메인 결과는 실패로
 
         this.simulationReportDto.addSimulationReport(
             SimulationReport(

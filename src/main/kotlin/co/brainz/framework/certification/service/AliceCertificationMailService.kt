@@ -77,7 +77,7 @@ class AliceCertificationMailService(
     private fun makeLinkUrl(aliceCertificationDto: AliceCertificationDto): String {
         val uid =
             "${aliceCertificationDto.certificationCode}:${aliceCertificationDto.userId}:${aliceCertificationDto.email}"
-        val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
+        val encryptUid: String = AliceEncryptionUtil().encryptEncoder(uid, AliceConstants.EncryptionAlgorithm.AES256.value)
         val urlEncryptUid: String = URLEncoder.encode(encryptUid, StandardCharsets.UTF_8)
         return "$senderProtocol://$host:$senderPort/certification/valid?uid=$urlEncryptUid"
     }

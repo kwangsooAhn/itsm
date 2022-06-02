@@ -27,6 +27,10 @@ interface WfInstanceRepositoryCustom {
         tokenSearchCondition: TokenSearchCondition
     ): PagingReturnDto
 
+    fun findStoredInstances(
+        tokenSearchCondition: TokenSearchCondition
+    ): PagingReturnDto
+
     fun findInstanceHistory(instanceId: String): MutableList<RestTemplateInstanceHistoryDto>
 
     fun deleteInstances(instances: MutableList<WfInstanceEntity>)
@@ -37,4 +41,10 @@ interface WfInstanceRepositoryCustom {
     ): MutableList<RestTemplateInstanceListDto>
 
     fun getInstanceListInTag(tagValue: String, range: ChartRange, documentStatus: String?): List<WfInstanceEntity>
+
+    fun findTodoInstanceCount(
+        status: List<String>?,
+        tokenStatus: List<String>?,
+        tokenSearchCondition: TokenSearchCondition
+    ): Long
 }

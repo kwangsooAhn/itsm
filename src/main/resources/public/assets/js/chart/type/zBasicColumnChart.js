@@ -131,7 +131,7 @@ export const zBasicColumnChartMixin = {
             });
         }
     },
-    /**ad
+    /**
      * 업데이트
      * @param data 데이터
      */

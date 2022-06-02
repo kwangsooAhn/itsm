@@ -29,6 +29,7 @@
         function s4() {
             return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         }
+
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
@@ -132,20 +133,20 @@
      */
     function getPreviewTemplate() {
         return `<div id="fileTemplate" class="dz-preview dz-file-preview">` +
-                `<div class="dz-image"><img data-dz-thumbnail="" alt=""/></div>` +
-                `<div class="dz-details">` +
-                    `<img class="dz-file-type" alt=""/>` +
-                    `<div class="dz-filename"><span data-dz-name=""></span></div>` +
-                    `<div class="dz-size"><span data-dz-size=""></span></div>` +
-                    `<div class="dz-remove" data-dz-remove=""></div>` +
-                `</div>` +
-                `<div class="dz-progress">` +
-                    `<span class="dz-upload" data-dz-uploadprogress=""></span>` +
-                    `<span class="dz-upload-text float-left" data-dz-uploadprogress="">Uploading</span>` +
-                `</div>` +
-                `<div class="dz-error-message"><span data-dz-errormessage=""></span></div>` +
-                `<div class="dz-success-mark"><span>SUCCESS</span></div>` +
-                `<div class="dz-error-mark"><span>FAILED</span></div>` +
+            `<div class="dz-image"><img data-dz-thumbnail="" alt=""/></div>` +
+            `<div class="dz-details">` +
+            `<img class="dz-file-type" alt=""/>` +
+            `<div class="dz-filename"><span data-dz-name=""></span></div>` +
+            `<div class="dz-size"><span data-dz-size=""></span></div>` +
+            `<div class="dz-remove" data-dz-remove=""></div>` +
+            `</div>` +
+            `<div class="dz-progress">` +
+            `<span class="dz-upload" data-dz-uploadprogress=""></span>` +
+            `<span class="dz-upload-text float-left" data-dz-uploadprogress="">Uploading</span>` +
+            `</div>` +
+            `<div class="dz-error-message"><span data-dz-errormessage=""></span></div>` +
+            `<div class="dz-success-mark"><span>SUCCESS</span></div>` +
+            `<div class="dz-error-mark"><span>FAILED</span></div>` +
             `</div>`;
     }
 
@@ -164,19 +165,19 @@
                 ' ' + unit[fileSizeLogValue];
         }
         return `` +
-        `<div class="dz-preview dz-file-preview">` +
+            `<div class="dz-preview dz-file-preview">` +
             `<div class="dz-details">` +
-                `<img class="dz-file-type" src="${aliceJs.getFileExtensionIcon(getExtension(file.originName))}" alt=""/>` +
-                `<div class="dz-filename" id="loadedFileNames" style="${options.isView ? 'cursor: pointer': ''}">` +
-                    `<span>${file.originName}</span>` +
-                `</div>` +
-                `<div class="dz-size" id="loadedFileSize"><span>${convertedFileSize}</span></div>` +
-                `${options.isView ? `` : 
-                    `<div class="dz-remove"><span class="z-icon i-delete"></span></div>`}` +
-                    `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
-                `<input type="hidden" name="loadedFileSeq" value="${file.fileSeq}" />` +
+            `<img class="dz-file-type" src="${aliceJs.getFileExtensionIcon(getExtension(file.originName))}" alt=""/>` +
+            `<div class="dz-filename" id="loadedFileNames" style="${options.isView ? 'cursor: pointer' : ''}">` +
+            `<span>${aliceJs.filterXSS(file.originName)}</span>` +
             `</div>` +
-        `</div>`;
+            `<div class="dz-size" id="loadedFileSize"><span>${convertedFileSize}</span></div>` +
+            `${options.isView ? `` :
+                `<div class="dz-remove"><span class="z-icon i-delete"></span></div>`}` +
+            `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
+            `<input type="hidden" name="loadedFileSeq" value="${file.fileSeq}" />` +
+            `</div>` +
+            `</div>`;
     }
 
     /**
@@ -185,18 +186,18 @@
     function createDragAndDropZone(targetElement, options) {
         const dropZoneTemplate =
             `<div id="${dragAndDropZoneId}" class="${options.type}">` +
-                `<div class="${addFileBtnWrapClassName}">` +
-                    `<span>${options.dictDefaultMessage}</span>` +
-                    // 타입이 아바타일 경우 개행 추가
-                    `${options.type.indexOf('avatar') === -1 ? `` : `<br>`}` +
-                    // todo: #11252 현재 폼 디자이너 및 신청서는 clickable 옵션 사용이 제한되므로,
-                    //              디자인 차원에서 관련 메시지 및 버튼을 제거합니다.
-                    `${options.isForm ? `` :
-                        `<span>${options.clickableLineMessage}</span>` +
-                    `<span class="underline ${typeof options.clickable !== 'boolean' ? options.clickable : ''}">` +
-                        `${options.clickableMessage}` +
-                    `</span>`}` +
-                `</div>` +
+            `<div class="${addFileBtnWrapClassName}">` +
+            `<span>${options.dictDefaultMessage}</span>` +
+            // 타입이 아바타일 경우 개행 추가
+            `${options.type.indexOf('avatar') === -1 ? `` : `<br>`}` +
+            // todo: #11252 현재 폼 디자이너 및 신청서는 clickable 옵션 사용이 제한되므로,
+            //              디자인 차원에서 관련 메시지 및 버튼을 제거합니다.
+            `${options.isForm ? `` :
+                `<span>${options.clickableLineMessage}</span>` +
+                `<span class="underline ${typeof options.clickable !== 'boolean' ? options.clickable : ''}">` +
+                `${options.clickableMessage}` +
+                `</span>`}` +
+            `</div>` +
             `</div>`;
         targetElement.insertAdjacentHTML('beforeend', dropZoneTemplate);
     }
@@ -205,7 +206,7 @@
      * 업로드된 파일 다운로드 이벤트 핸들러
      */
     function fileDownloadHandler(e) {
-        const target = (e.target.parentElement.classList.contains('dz-details')) ?  e.target : e.target.parentElement;
+        const target = (e.target.parentElement.classList.contains('dz-details')) ? e.target : e.target.parentElement;
         const fileSeq = Number(target.parentElement.querySelector('input[name=loadedFileSeq]').value);
         aliceJs.fetchBlob(this.options.params.defaultUrl + '/filedownload?seq=' + fileSeq, {
             method: 'GET',
@@ -232,7 +233,7 @@
      * 업로드된 파일 삭제 이벤트 핸들러
      */
     function fileRemoveHandler(e) {
-        const target = (e.target.parentElement.classList.contains('dz-details')) ?  e.target : e.target.parentElement;
+        const target = (e.target.parentElement.classList.contains('dz-details')) ? e.target : e.target.parentElement;
         const delFile = target.parentElement.querySelector('input[name=loadedFileSeq]');
         delFile.name = delFileAttrName;
 
@@ -634,5 +635,5 @@
     exports.init = init;
     exports.avatar = avatar;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
+    Object.defineProperty(exports, '__esModule', {value: true});
 })));
