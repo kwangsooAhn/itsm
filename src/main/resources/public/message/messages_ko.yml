@@ -295,6 +295,7 @@ calendar:
     titlePlaceholder: "제목을 입력해주세요."
     today: "오늘"
     week: "주간"
+    weekAllDay: "종일 일정"
     weekOfMonth: "매주"
   msg:
     description: "일정을 추가하거나 조회 및 관리합니다."

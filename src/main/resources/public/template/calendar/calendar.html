@@ -59,7 +59,7 @@
                 </button>
             </div>
         </div>
-        <div class="calendar__view on" id="calendarView" style="height: 780px;"></div>
+        <div class="calendar__view on" id="calendarView" style="height: 800px;"></div>
         <div class="calendar__view calendar__view--task" id="taskView"></div>
     </div>
 </th:block>
@@ -93,12 +93,13 @@
             acc.push(cur.calendarId);
             return acc;
         }, []);
-        const viewType = document.querySelector('#calendarViewType .z-button-switch.selected')
-            .getAttribute('data-action');
+        // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
+        // (버튼 클릭시 주, 일 반복 일정을 서버에서 계산하기 때문에 조회 수를 줄여서 부하를 낮추기 위함)
+        const viewType = 'month';
         prevStandardDate = myCalendar.getDate().toFormat('yyyy-MM');
         const searchData = {
             viewType: viewType,
-            standard: getStandardDate(viewType, myCalendar.getDate()),
+            standard: myCalendar.getStandardDate(viewType, myCalendar.getDate()),
             calendarIds: calendarIds
         };
         aliceJs.fetchJson('/rest/calendars', {
@@ -165,23 +166,6 @@
     }
 
     /**
-     * viewType에 따라서 조회 날짜 변경
-     */
-    function getStandardDate(viewType, date) {
-        switch (viewType) {
-            case 'month': // 2022-05
-            case 'task':
-                return date.toFormat('yyyy-MM');
-            case 'week': // 2022-05-13
-                return date.toFormat('yyyy-MM-dd');
-            case 'day': // 2022-05-13
-                return date.toFormat('yyyy-MM-dd');
-            default:
-                break;
-        }
-    }
-
-    /**
      * 월, 주, 일, 일정리스트 클릭
      */
     function onClickCalendarType(e) {
@@ -196,7 +180,13 @@
         }
         e.classList.add('selected');
 
-        myCalendar.setCalendarViewType(viewType, setSchedules);
+        myCalendar.setCalendarViewType(viewType, (calendar) => {
+            // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
+            if (luxon.DateTime.fromMillis(calendar.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate ||
+                myCalendar.isReload) {
+                setSchedules();
+            }
+        });
     }
 
     /**
@@ -204,10 +194,9 @@
      * @param {e} 이벤트 객체
      */
     function onClickCalendarMenu(e) {
-        myCalendar.onClickCalendarMenu(e.getAttribute('data-action'), (e) => {
+        myCalendar.onClickCalendarMenu(e.getAttribute('data-action'), (calendar) => {
             // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
-            // (버튼 클릭시 주, 일 반복 일정을 서버에서 계산하기 때문에 조회 수를 줄여서 부하를 낮추기 위함)
-            if (luxon.DateTime.fromMillis(e.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate) {
+            if (luxon.DateTime.fromMillis(calendar.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate) {
                 setSchedules();
             }
         });
