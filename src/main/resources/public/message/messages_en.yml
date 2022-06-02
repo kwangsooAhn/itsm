@@ -295,6 +295,7 @@ calendar:
     titlePlaceholder: "Please enter the subject."
     today: "Today"
     week: "Weekly"
+    weekAllDay: "All day"
     weekOfMonth: "Every"
   msg:
     description: "View and manage user schedules."

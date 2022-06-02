@@ -47,9 +47,14 @@
     &.on {
       display: block;
     }
-    // tui 월별 캘린더
-    .tui-full-calendar-month {
-      &-dayname {
+    // tui 캘린더
+    .tui-full-calendar {
+      //
+      &-month {
+        height: 780px;
+      }
+      // 월별 캘린더 제목
+      &-month-dayname {
         @include border(1px, solid, $gray300, right);
         @include border(1px, solid, $gray300, left);
         &-name {
@@ -57,26 +62,64 @@
           font-weight: $font-weight-medium;
         }
       }
-      &-week-item {
+
+      // 월별 캘린더 Row
+      &-month-week-item {
         @include border(1px, solid, $gray300, right);
         @include border(1px, solid, $gray300, left);
         &:last-of-type {
           @include border(2px, solid, $gray300, bottom);
         }
+        .tui-full-calendar-weekday {
+          &-grid {
+            &-line {
+              // 현재 달력이 아닌 경우
+              &.tui-full-calendar-extra-date {
+                background-color: $neutral50 !important; // 라이브러리 강제 적용
+              }
+              // 1 ~ 31일
+              .tui-full-calendar-weekday-grid-header {
+                .tui-full-calendar-weekday-grid-date {
+                  font-weight: $font-weight-semibold;
+                }
+                // more 글자
+                .tui-full-calendar-weekday-grid-more-schedules {
+                  font-size: $font-size-xxs;
+                  font-weight: $font-weight-medium;
+                  color: $neutral600;
+                }
+              }
+
+            }
+          }
+          &-schedules {
+            // all day
+            .tui-full-calendar-weekday-schedule-title {
+              font-size: $font-size-xxs;
+              font-weight: $font-weight-regular;
+            }
+            // 시간 타입
+            .tui-full-calendar-weekday-schedule-time {
+              color: $neutral800;
+              &.prev {
+                color: $neutral500;
+              }
+            }
+          }
+        }
         // 오늘 날짜
         .tui-full-calendar-today {
           .tui-full-calendar-weekday-grid-date-decorator {
-            width: 20px;
             font-weight: $font-weight-semibold;
             background: transparent;
             color: inherit;
             @include borderRadius(0);
-            margin: 0 4px;
           }
         }
       }
-      // 캘린더 more 클릭시 호출되는 모달
-      &-more {
+
+      // 월별 캘린더 more 클릭시 호출되는 모달 상세 디자인
+      &-month-more {
         width: 226px;
         min-width: 226px;
         margin: 40px 0 0 4px;
@@ -109,40 +152,136 @@
           padding: 0.625rem 0.875rem;
         }
       }
-    }
-    // tui 주별 캘린더
-    .tui-full-calendar-weekday {
-      &-grid-date {
-        font-weight: $font-weight-semibold;
-      }
-      &-schedule-title {
-        font-size: $font-size-xxs;
-        font-weight: $font-weight-regular;
-      }
-      // 시간 타입 스케쥴
-      &-schedule-time {
-        color: $neutral800;
-        &.prev {
-          color: $neutral500;
+
+      // 주별 캘린더 제목
+      &-dayname-container {
+        @include border(1px, solid, $gray300, right);
+        @include border(1px, solid, $gray300, left);
+        overflow-y: hidden;
+
+        .tui-full-calendar-dayname {
+          line-height: inherit !important;
+
+          .tui-full-calendar-dayname-date-area {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 8px 0;
+
+            // 요일
+            .tui-full-calendar-dayname-name {
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              color: $neutral600;
+            }
+            // 날짜
+            .tui-full-calendar-dayname-date {
+              font-size: $font-size-l;
+              font-weight: $font-weight-semibold;
+            }
+          }
         }
       }
-      &-grid-line {
-        // more 글자
-        .tui-full-calendar-weekday-grid-more-schedules {
-          font-size: $font-size-xxs;
+
+      // 주별 캘린더 내용
+      &-vlayout-area {
+        @include border(0.0625rem, solid, $gray300, right);
+
+        .tui-full-calendar-daygrid-layout {
+          @include border(0.0625rem, solid, $gray300, left);
+        }
+
+        .tui-full-calendar-weekday-grid,
+        .tui-full-calendar-weekday-schedules,
+        .tui-full-calendar-timegrid-container {
+          &::-webkit-scrollbar {
+            width: $scrollbar-thick;
+
+            &-track {
+              background-color: $scrollbar-bg-color;
+            }
+            &-thumb {
+              background-color: $scrollbar-color;
+              &:hover {
+                background-color: $scrollbar-hover-color;
+              }
+              &:active {
+                background-color: $scrollbar-hover-color;
+              }
+            }
+            &-track,
+            &-thumb {
+              @include borderRadius($scrollbar-border-radius);
+            }
+          }
+          // firefox
+          scrollbar-width: thin;
+          scrollbar-color: $scrollbar-color $scrollbar-bg-color;
+        }
+
+        // 종일 일정
+        .tui-full-calendar-center-content {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+          font-size: $font-size-xs;
           font-weight: $font-weight-medium;
           color: $neutral600;
         }
+        .tui-full-calendar-weekday-schedule {
+          margin: 0 10px 0 10px;
+          // all day
+          .tui-full-calendar-weekday-schedule-title {
+            font-size: $font-size-xxs;
+            font-weight: $font-weight-regular;
+          }
+        }
+        // 시간 일정
+        .tui-full-calendar-time-schedule {
+          font-size: $font-size-xxs;
+          font-weight: $font-weight-regular;
+        }
+
+        .tui-full-calendar-timegrid-container {
+
+        }
       }
-    }
-    // 현재 달력이 아닌 경우
-    .tui-full-calendar-extra-date {
-      background-color: $neutral50 !important; // 라이브러리 강제 적용
+
+      // 시간 영역
+      &-timegrid-container {
+        .tui-full-calendar-timegrid-timezone {
+          @include border(0.0625rem, solid, $gray300, left);
+          @include border(0.0625rem, solid, $gray300, bottom);
+          // 시간
+          .tui-full-calendar-timegrid-hour {
+            span {
+              text-align: center;
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              color: $neutral600;
+            }
+          }
+
+          // 현재시간
+          .tui-full-calendar-timegrid-hourmarker-time {
+            text-align: center;
+            padding-right: 10px;
+            //font-size: $font-size-xs;
+            //font-weight: $font-weight-medium;
+            //color: $orange400;
+          }
+        }
+        .tui-full-calendar-timegrid-right {
+          @include border(0.0625rem, solid, $gray300, bottom);
+        }
+      }
+
     }
     // 일별 보기
     .tui-full-calendar-time-date-schedule-block-wrap {
       margin-left: 10px;
     }
+
     // 일정보기
     .calendar__rowGroup {
       display: grid;
