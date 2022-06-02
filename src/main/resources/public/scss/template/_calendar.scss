@@ -178,6 +178,7 @@
   }
   // 동그라미 아이콘
   &__color--round {
+    flex-shrink: 0;
     @include borderRadius(50%);
     width: 0.9375rem; // 15px
     height: 0.9375rem; // 15px
@@ -194,19 +195,46 @@
       width: calc(var(--data-modal-width) * 1px);
       height: calc(var(--data-modal-height) * 1px);
       margin: 0;
+      @include border(3px, solid, $blue600, top);
 
       .modal-content {
-        height: calc(var(--data-modal-height) * 1px - 80px);
+        height: calc(var(--data-modal-height) * 1px - 60px);
         padding: 20px 20px 0px 20px;
         @include scrollbarHidden;
+        @include border(1px, solid, $gray300, bottom);
 
         .calendar__modal--register__main {
           gap: 8px;
 
           .flex-row {
-            gap: 8px;
+            gap: 5px;
+          }
+          .schedule {
+            // 제목
+            &__title {
+              height: 48px;
+              font-size: $font-size-l;
+              font-weight: $font-weight-semibold;
+            }
+            // 날짜
+            &__date {
+              width: 195px;
+            }
+            // 내용
+            &__contents {
+              line-height: 1.4;
+            }
+            // 반복
+            &__repeat {
+              width: 338px;
+            }
           }
         }
+      }
+
+      .modal-bottom {
+        height: 60px;
+        padding: 0.75rem 1.25rem; // 12px 20px
       }
     }
     &__modal--repeat {
@@ -225,18 +253,66 @@
       width: calc(var(--data-modal-width) * 1px);
       height: calc(var(--data-modal-height) * 1px);
       margin: 0;
+      @include border(3px, solid, $blue600, top);
+
       .modal-content {
-        height: calc(var(--data-modal-height) * 1px - 80px);
+        height: calc(var(--data-modal-height) * 1px - 60px);
         padding: 20px 20px 0px 20px;
         @include scrollbarHidden;
+        @include border(1px, solid, $gray300, bottom);
 
         .calendar__modal--detail__main {
           gap: 8px;
-          // 제목
-          .calendar__modal--detail__title {
+
+          .flex-row {
             gap: 8px;
           }
+          .flex-column {
+            gap: 16px;
+          }
+
+          .z-button-list {
+            margin-left: auto;
+          }
+
+          .schedule {
+            // 제목
+            &__title {
+              font-size: $font-size-l;
+              font-weight: $font-weight-semibold;
+              color: $neutral800;
+            }
+            // 날짜
+            &__date {
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              color: $neutral600;
+            }
+            // 내용
+            &__contents {
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              color: $neutral800;
+            }
+            // 반복
+            &__repeat {
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              color: $neutral800;
+            }
+            // 작성자
+            &__owner {
+              font-size: $font-size-xxs;
+              font-weight: $font-weight-medium;
+              color: $neutral600;
+            }
+          }
         }
+      }
+
+      .modal-bottom {
+        height: 60px;
+        padding: 0.75rem 1.25rem; // 12px 20px
       }
     }
   }

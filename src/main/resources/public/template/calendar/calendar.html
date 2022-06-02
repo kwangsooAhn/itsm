@@ -67,7 +67,7 @@
     const calendarList = /*[[${calendarList}]]*/ '';
     let myCalendar = null; // tui calendar 객체
     let prevStandardDate = '';
-    window.onload = function () {
+    window.onload = function() {
         // 달력 초기화
         myCalendar = new zCalendar('calendarView', {
             viewType: 'month'
@@ -78,7 +78,7 @@
         // 일정 조회
         setSchedules();
 
-        OverlayScrollbars(document.querySelector('.z-main-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-main-content'), { className: 'scrollbar' });
     };
 
     /**
@@ -118,9 +118,10 @@
                             title: schedule.title,
                             body: schedule.contents,
                             isAllDay: schedule.allDayYn,
-                            start: luxon.DateTime.fromISO(schedule.startDt, {zone: 'utc'}).setZone(i18n.timezone)
+                            start: luxon.DateTime.fromISO(schedule.startDt, { zone: 'utc' }).setZone(i18n.timezone)
                                 .toJSDate(),
-                            end: luxon.DateTime.fromISO(schedule.endDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
+                            end: luxon.DateTime.fromISO(schedule.endDt, { zone: 'utc' }).setZone(i18n.timezone)
+                                .toJSDate(),
                             category: schedule.allDayYn ? 'allday' : 'time',
                             raw: {
                                 dataId: schedule.dataId,
@@ -141,9 +142,9 @@
                             title: repeat.title,
                             body: repeat.contents,
                             isAllDay: repeat.allDayYn,
-                            start: luxon.DateTime.fromISO(repeat.startDt, {zone: 'utc'}).setZone(i18n.timezone)
+                            start: luxon.DateTime.fromISO(repeat.startDt, { zone: 'utc' }).setZone(i18n.timezone)
                                 .toJSDate(),
-                            end: luxon.DateTime.fromISO(repeat.endDt, {zone: 'utc'}).setZone(i18n.timezone).toJSDate(),
+                            end: luxon.DateTime.fromISO(repeat.endDt, { zone: 'utc' }).setZone(i18n.timezone).toJSDate(),
                             category: repeat.allDayYn ? 'allday' : 'time',
                             raw: {
                                 dataId: repeat.dataId,

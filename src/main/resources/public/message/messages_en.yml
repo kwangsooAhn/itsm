@@ -257,6 +257,7 @@ calendar:
   label:
     allDay: "All day"
     calendar: "Calendar"
+    contentsPlaceholder: "Please enter your details"
     day: "Daily"
     dayOfMonth: "Monthly on the {0}"
     dayOfMonthType:
@@ -291,6 +292,7 @@ calendar:
       today: "This schedule"
     repeatYn: "Repeat"
     task: "List"
+    titlePlaceholder: "Please enter the subject."
     today: "Today"
     week: "Weekly"
     weekOfMonth: "Every"

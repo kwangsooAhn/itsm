@@ -37,10 +37,10 @@ const CALENDAR_DEFAULT_OPTIONS = {
         i18n.msg('calendar.label.shortDays.sun')
     ],
     // 반복 안함, 매월 X번째 X요일, 매주 X요일
-    repeatTypes: ['dayOfMonth', 'weekOfMonth'],
+    repeatTypes: ['none', 'dayOfMonth', 'weekOfMonth'],
     dayOfMonthType: ['', 'first', 'second', 'third', 'fourth', 'last'],
-    createModalSize: { w: 620, h: 320 }, // 모달 위치
-    detailModalSize: { w: 300, h: 280 }, // 모달 위치
+    createModalSize: { w: 450, h: 362 }, // 모달 위치
+    detailModalSize: { w: 450, h: 230 }, // 모달 위치
     isReadOnly: false, // 사용자 일정 편집 불가능하게 할 경우 true 로 설정한다.
 };
 
@@ -196,17 +196,28 @@ function zCalendar(id, options) {
         onCreate: (modal) => {
             modal.wrapper.style.setProperty('--data-modal-width', this.options.createModalSize.w);
             modal.wrapper.style.setProperty('--data-modal-height', this.options.createModalSize.h);
+            // 배경 색상 제거
+            modal.wrapper.querySelector('.modal-backdrop').style.backgroundColor = 'transparent';
             // select 디자인
             aliceJs.initDesignedSelectTag(document.querySelector('.calendar__modal--register__main'));
             // 종일 여부 변경시 이벤트 추가
             document.getElementById('allDayYn').addEventListener('change', this.onToggleAllDay.bind(this));
-            // 반복 여부 변경시 이벤트 추가
-            document.getElementById('repeatYn').addEventListener('change', this.onToggleRepeat.bind(this));
             // 이벤트 추가
             zDateTimePicker.initDateTimePicker(document.getElementById('startDt'),
                 this.onUpdateRangeDateTime.bind(this));
             zDateTimePicker.initDateTimePicker(document.getElementById('endDt'),
                 this.onUpdateRangeDateTime.bind(this));
+            // 스크롤바
+            OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+                className: 'inner-scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: 'class'
+                }
+            });
         },
         onShow: () => {},
         onHide: () => {}
@@ -218,30 +229,6 @@ function zCalendar(id, options) {
         body: this.getDetailModalTemplate(),
         classes: 'calendar__modal--detail',
         buttons: [{
-            content: i18n.msg('common.btn.toModify'),
-            classes: 'z-button primary',
-            bindKey: false,
-            callback: (modal) => {
-                // 수정 모달 호출
-                const schedule = modal.customOptions.schedule;
-                schedule.mode = 'edit';
-
-                this.createModal.customOptions = schedule;
-                this.setCreateModal(this.createModal.customOptions);
-                this.setModalPosition(this.createModal.wrapper, modal.customOptions.event.target);
-
-                // 기존 모달 닫고 편집 모달 띄우기
-                modal.hide();
-                this.createModal.show();
-            }
-        }, {
-            content: i18n.msg('common.btn.delete'),
-            classes: 'z-button secondary',
-            bindKey: false,
-            callback: (modal) => {
-                this.deleteSchedule(modal.customOptions.schedule);
-            }
-        },{
             content: i18n.msg('common.btn.close'),
             classes: 'z-button secondary',
             bindKey: false,
@@ -253,9 +240,21 @@ function zCalendar(id, options) {
         onCreate: (modal) => {
             modal.wrapper.style.setProperty('--data-modal-width', this.options.detailModalSize.w);
             modal.wrapper.style.setProperty('--data-modal-height', this.options.detailModalSize.h);
+            // 배경 색상 제거
+            modal.wrapper.querySelector('.modal-backdrop').style.backgroundColor = 'transparent';
         },
-        onShow: () => {},
-        onHide: () => {}
+        onShow: (modal) => {
+            // 이벤트 추가
+            this.bindScheduleEdit = this.onClickScheduleEdit.bind(this, modal);
+            modal.wrapper.querySelector('#scheduleEdit').addEventListener('click', this.bindScheduleEdit);
+
+            this.bindScheduleDelete = this.onClickScheduleDelete.bind(this, modal);
+            modal.wrapper.querySelector('#scheduleDelete').addEventListener('click', this.bindScheduleDelete);
+        },
+        onHide: (modal) => {
+            modal.wrapper.querySelector('#scheduleEdit').removeEventListener('click', this.bindScheduleEdit);
+            modal.wrapper.querySelector('#scheduleDelete').addEventListener('click', this.bindScheduleDelete);
+        }
     });
 
     // 반복 일정 수정 모달
@@ -452,14 +451,14 @@ Object.assign(zCalendar.prototype, {
 
         this.calendar.setCalendars(this.calendarList);
 
-        // TODO: 사용자별 일정 등록 기능 추가시 보이도록 처리하여 사용한다.
+        // 사용자별 일정 등록 기능 추가시 보이도록 처리하여 사용한다.
         const calendarList = this.createModal.wrapper.querySelector('#calendarList');
         const calendarOptionTemplate = this.calendarList.map((opt, idx) => {
             return `<option value="${opt.id}" ${idx === 0 ? 'selected=\'true\'' : ''}>${opt.name}</option>`;
         });
         calendarList.innerHTML = '';
         calendarList.insertAdjacentHTML('beforeend',
-            `<select class="col-3" id="calendarId">${calendarOptionTemplate}</select>`);
+            `<select id="calendarId">${calendarOptionTemplate}</select>`);
 
         // select box 디자인
         aliceJs.initDesignedSelectTag(document.querySelector('.calendar__modal--register__main'));
@@ -578,7 +577,7 @@ Object.assign(zCalendar.prototype, {
         }).join('');
 
         parent.insertAdjacentHTML('beforeend',
-            `<select class="col-2" id="repeatType">${repeatTypeOptionTemplate}</select>`);
+            `<select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>`);
 
         aliceJs.initDesignedSelectTag(parent);
     },
@@ -588,7 +587,7 @@ Object.assign(zCalendar.prototype, {
      */
     setCreateModal: function (schedule) {
         // 모달 버튼명 변경
-        this.detailModal.wrapper.querySelector('.modal-button').textContent = (schedule.mod === 'register') ?
+        this.createModal.wrapper.querySelector('.modal-button').textContent = (schedule.mod === 'register') ?
             i18n.msg('common.btn.register') : i18n.msg('common.btn.toModify');
 
         // 캘린더 ID
@@ -621,12 +620,6 @@ Object.assign(zCalendar.prototype, {
         this.createModal.customOptions.tempEnd = end.toMillis();
 
         const raw = ( schedule.mode === 'edit' && schedule.raw !== null) ? schedule.raw : {};
-        // 반복 여부
-        const repeatYn = this.createModal.wrapper.querySelector('#repeatYn');
-        repeatYn.checked = schedule.mode === 'edit' && Object.prototype.hasOwnProperty.call(raw, 'repeatYn') ?
-            raw.repeatYn : false;
-        repeatYn.dispatchEvent(new Event('change'));
-
         // 선택된 날짜에 따른 반복 일정 값 변경
         this.setRepeatType(schedule);
 
@@ -686,9 +679,6 @@ Object.assign(zCalendar.prototype, {
      * @param {schedule} schedule - schedule
      */
     setDetailModal: function (schedule) {
-        // 아이콘
-        const scheduleIcon = this.detailModal.wrapper.querySelector('#detailScheduleIcon');
-        scheduleIcon.style.backgroundColor = schedule.bgColor;
         // 제목
         const scheduleTitle = this.detailModal.wrapper.querySelector('#detailScheduleTitle');
         scheduleTitle.textContent = schedule.title;
@@ -706,15 +696,15 @@ Object.assign(zCalendar.prototype, {
                 luxon.DateTime.fromMillis(schedule.end.getTime()).setZone(i18n.timezone).toFormat(format)
             );
         }
+        rangeDateHtml.push('<span class="schedule__repeat">');
         // 반복 : (매주 X요일) | (매월 X번째 X요일)
         if (schedule.raw.repeatYn) {
-            rangeDateHtml.push('<br/>');
-            rangeDateHtml.push('( ');
-
             const dayOfMonthNumber = this.getWeekNumberOfMonth(start);
             rangeDateHtml.push(this.getRepeatTypeOptionText(schedule.raw.repeatType, start.weekday, dayOfMonthNumber));
-            rangeDateHtml.push(' )');
+        } else {
+            rangeDateHtml.push(i18n.msg('calendar.label.none'));
         }
+        rangeDateHtml.push('</span>');
         rangeDate.innerHTML = rangeDateHtml.join('');
 
         // 내용
@@ -792,29 +782,26 @@ Object.assign(zCalendar.prototype, {
             return `<option value="${opt}" ${idx === 0 ? 'selected=\'true\'' : ''}></option>`;
         }).join('');
         return `<div class="calendar__modal--register__main flex-column">
-            <div class="flex-row" id="calendarList" style="display: none;"></div>
+            <input type="text" class="z-input schedule__title" id="scheduleTitle" 
+                placeholder="${i18n.msg('calendar.label.titlePlaceholder')}">
             <div class="flex-row align-items-baseline" id="rangeDate">
-                <input type="text" class="z-input i-datetime-picker col-3" id="startDt"/>
-                <input type="text" class="z-input i-datetime-picker col-3" id="endDt"/>
-                <label class="z-switch">
-                    <span class="z-label">${i18n.msg('calendar.label.allDay')}</span>
-                    <input type="checkbox" id="allDayYn" name="allDayYn">
-                    <span></span>
-                </label>
+                <input type="text" class="z-input i-datetime-picker schedule__date" id="startDt"/> 
+                ~
+                <input type="text" class="z-input i-datetime-picker schedule__date" id="endDt"/> 
             </div>
             <div class="flex-row align-items-baseline">
-                <label class="z-switch col-2">
-                    <span class="z-label">${i18n.msg('calendar.label.repeatYn')}</span>
-                    <input type="checkbox" id="repeatYn" name="repeatYn">
+                <label class="z-checkbox">
+                    <input type="checkbox" id="allDayYn" name="allDayYn">
                     <span></span>
+                    <span class="z-label">${i18n.msg('calendar.label.allDay')}</span>
                 </label>
-                <div id="repeatDetail" style="visibility: hidden;">
-                    <select class="col-2" id="repeatType">${repeatTypeOptionTemplate}</select>
+                <div id="repeatDetail">
+                    <select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>
                 </div>
             </div>
-            <input type="text" class="z-input" id="scheduleTitle" placeholder="${i18n.msg('common.label.title')}">
-            <textarea class="z-textarea textarea-scroll-wrapper" id="scheduleContents" rows="3"
-                      placeholder="${i18n.msg('common.label.contents')}"></textarea>
+            <textarea class="z-textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+                      placeholder="${i18n.msg('calendar.label.contentsPlaceholder')}"></textarea>
+            <div class="flex-row" id="calendarList"></div>
         </div>`.trim();
     },
     /**
@@ -822,14 +809,20 @@ Object.assign(zCalendar.prototype, {
      */
     getDetailModalTemplate: function () {
         return `<div class="calendar__modal--detail__main flex-column">
-            <div class="calendar__modal--detail__title flex-row">
-                <span class="calendar__color--round" id="detailScheduleIcon" style="background-color: transparent">
-                </span>
-                <span id="detailScheduleTitle"></span>
+            <div class="flex-row">
+                <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
+                <div class="z-button-list flex-row float-right align-items-end">
+                    <button type="button" class="z-button-icon secondary" id="scheduleEdit">
+                        <span class="z-icon i-edit"></span>
+                    </button>
+                    <button type="button" class="z-button-icon secondary" id="scheduleDelete">
+                        <span class="z-icon i-delete"></span>
+                    </button>
+                </div>
             </div>
-            <span id="detailRangeDate"></span>
-            <span id="detailScheduleContents"></span>
-            <span id="detailOwnerName"></span>
+            <span class="schedule__date flex-column" id="detailRangeDate"></span>
+            <span class="schedule__contents" id="detailScheduleContents"></span>
+            <span class="schedule__owner" id="detailOwnerName"></span>
         </div>`.trim();
     },
     /**
@@ -875,7 +868,7 @@ Object.assign(zCalendar.prototype, {
         }
         // 템플릿 반환
         return `<div class="calendar__cell" data-calendarId="${schedule.calendarId}" data-scheduleId="${schedule.id}">
-            <span class="calendar__color--round" style="background-color: ${calendar.bgColor}"></span>
+            <span class="calendar__color--round" style="background-color: ${calendar.color}"></span>
             <span>${rangeDateHtml.join('')}</span>
             <span>${schedule.title}</span>
         </div>`.trim();
@@ -990,14 +983,12 @@ Object.assign(zCalendar.prototype, {
             .setZone(i18n.timezone).toFormat(format)
 
         // 시작일시 , 종료일시 초기화
-        this.createModal.wrapper.querySelectorAll('.z-picker-wrapper-date').forEach((dt) => {
-            dt.remove();
-        });
+        rangeDate.innerHTML = '';
+        const dateTemplate = ` <input type="text" class="z-input i-datetime-picker schedule__date" id="startDt" 
+            value="${newStart}"/>~<input type="text" class="z-input i-datetime-picker schedule__date" id="endDt" 
+            value="${newEnd}"/>`.trim();
 
-        rangeDate.insertAdjacentHTML('afterbegin',
-            `<input type="text" class="z-input i-datetime-picker col-3" id="endDt" value="${newEnd}"/>`);
-        rangeDate.insertAdjacentHTML('afterbegin',
-            `<input type="text" class="z-input i-datetime-picker col-3" id="startDt" value="${newStart}"/>`);
+        rangeDate.insertAdjacentHTML('beforeend',dateTemplate);
 
         // 종일 선택시, datePicker 를 사용하고 나머지는 dateTimePicker 사용
         const newStartDt = this.createModal.wrapper.querySelector('#startDt');
@@ -1013,13 +1004,6 @@ Object.assign(zCalendar.prototype, {
         }
 
         this.createModal.customOptions.isAllDay = e.target.checked;
-    },
-    /**
-     * 반복 여부 변경에 따른 처리
-     */
-    onToggleRepeat: function (e) {
-        const repeatDetail = this.createModal.wrapper.querySelector('#repeatDetail');
-        repeatDetail.style.visibility = e.target.checked ? 'visible' : 'hidden';
     },
     /**
      * 시작일시, 종료일시 변경에 따른 처리
@@ -1062,6 +1046,28 @@ Object.assign(zCalendar.prototype, {
         }
     },
     /**
+     * 상세보기 모달에서 편집 버튼 클릭시 처리
+     */
+    onClickScheduleEdit: function (modal) {
+        // 수정 모달 호출
+        const schedule = modal.customOptions.schedule;
+        schedule.mode = 'edit';
+
+        this.createModal.customOptions = schedule;
+        this.setCreateModal(this.createModal.customOptions);
+        this.setModalPosition(this.createModal.wrapper, modal.customOptions.event.target);
+
+        // 기존 모달 닫고 편집 모달 띄우기
+        modal.hide();
+        this.createModal.show();
+    },
+    /**
+     * 상세보기 모달에서 삭제 버튼 클릭시 처리
+     */
+    onClickScheduleDelete: function (modal) {
+        this.deleteSchedule(modal.customOptions.schedule);
+    },
+    /**
      * 스케쥴 저장
      * @param {schedule} schedule - schedule
      */
@@ -1071,10 +1077,11 @@ Object.assign(zCalendar.prototype, {
 
         const method = (schedule.mode === 'register') ? 'POST' : 'PUT';
         const calendarId = this.createModal.wrapper.querySelector('#calendarId').value;
-        const repeatYn = this.createModal.wrapper.querySelector('#repeatYn').checked; // 반복 여부 설정
         const raw = ( schedule.mode === 'edit' && schedule.raw !== null) ? schedule.raw : {};
         const repeatId = Object.prototype.hasOwnProperty.call(raw, 'repeatId') ? raw.repeatId : '';
         const repeatType = this.createModal.wrapper.querySelector('#repeatType');
+        const repeatYn = !(repeatType.value === 'none'); // 반복 여부 설정
+
         const start = luxon.DateTime.fromMillis(schedule.tempStart, {zone: i18n.timezone});
         const end = luxon.DateTime.fromMillis(schedule.tempEnd, {zone: i18n.timezone});
         const saveData = {
