@@ -1373,6 +1373,9 @@ sla:
     average: "average"
     rate: "rate"
     total: "total"
+  chart:
+    line: "Line Chart"
+    column: "Column Chart"
   metric:
     label:
       all: "ALL"
@@ -1381,6 +1384,7 @@ sla:
       group: "Group"
       groupName: "Group Name"
       metricPool: "SLA Metric management"
+      metricStatus: "SLA status by metric"
       maxValue: "Target value"
       minValue: "Minimum value"
       name: "Name"
