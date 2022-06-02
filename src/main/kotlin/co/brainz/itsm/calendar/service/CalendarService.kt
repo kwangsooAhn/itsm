@@ -18,9 +18,11 @@ import co.brainz.itsm.calendar.dto.CalendarResponse
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
 import co.brainz.itsm.calendar.entity.CalendarEntity
+import co.brainz.itsm.calendar.entity.CalendarRepeatCustomDataEntity
 import co.brainz.itsm.calendar.entity.CalendarRepeatDataEntity
 import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
 import co.brainz.itsm.calendar.entity.CalendarScheduleEntity
+import co.brainz.itsm.calendar.repository.CalendarRepeatCustomDataRepository
 import co.brainz.itsm.calendar.repository.CalendarRepeatDataRepository
 import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
 import co.brainz.itsm.calendar.repository.CalendarRepository
@@ -49,7 +51,8 @@ class CalendarService(
     private val calendarRepository: CalendarRepository,
     private val calendarScheduleRepository: CalendarScheduleRepository,
     private val calendarRepeatRepository: CalendarRepeatRepository,
-    private val calendarRepeatDataRepository: CalendarRepeatDataRepository
+    private val calendarRepeatDataRepository: CalendarRepeatDataRepository,
+    private val calendarRepeatCustomDataRepository: CalendarRepeatCustomDataRepository
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -123,24 +126,36 @@ class CalendarService(
                 var startDt = this.getUTCToTimezone(repeatData.startDt, currentSessionUser.getTimezone())
                 var endDt = this.getUTCToTimezone(repeatData.endDt, currentSessionUser.getTimezone())
                 val duration = Duration.between(startDt, endDt)
+
+                // 반복 일정 시작, 종료 안일 경우 진행한다. (특정 시점 이후 변경되면 그 날부터는 다른 list에서 실행)
+                var repeatStartDt = this.getUTCToTimezone(repeatData.repeatStartDt, currentSessionUser.getTimezone())
+                var repeatEndDt = repeatData.repeatEndDt?.let { this.getUTCToTimezone(it, currentSessionUser.getTimezone()) }
+
                 // 현재 범위가 반복 일정의 최초 시작일보다 이후인지 체크
                 var index = 1
                 while (startDt <= range.to) {
-                    if ((startDt >= range.from && startDt <= range.to) || (endDt >= range.from && endDt <= range.to)) {
-                        repeatMiningList.add(
-                            this.getRepeatData(
-                                repeat,
-                                repeatData,
-                                calendar,
-                                index,
-                                startDt,
-                                endDt
+                    if (repeatStartDt <= range.to) {
+                        if (repeatEndDt != null) {
+                            if (repeatEndDt < startDt) { // 반복 종료가 존재할 경우 다음 생성을 종료 (해당일자부터 수정된 반복 일정이 존재)
+                                break;
+                            }
+                        }
+                        if ((startDt >= range.from && startDt <= range.to) || (endDt >= range.from && endDt <= range.to)) {
+                            repeatMiningList.add(
+                                this.getRepeatData(
+                                    repeat,
+                                    repeatData,
+                                    calendar,
+                                    index,
+                                    startDt,
+                                    endDt
+                                )
                             )
-                        )
-                        index++
+                            index++
+                        }
+                        startDt = this.getNextDate(startDt, repeatData)
+                        endDt = startDt.plusSeconds(duration.seconds)
                     }
-                    startDt = this.getNextDate(startDt, repeatData)
-                    endDt = startDt.plusSeconds(duration.seconds)
                 }
             }
         }
@@ -237,6 +252,10 @@ class CalendarService(
                     LocalDateTime.of(standardArray[0].toInt(), standardArray[1].toInt(), standardArray[2].toInt(), 0, 0)
                 startDate = standardDate
                 endDate = standardDate.with(LocalTime.of(23, 59, 59))
+            }
+            CalendarConstants.ViewType.TASK.code -> {
+                startDate = LocalDateTime.of(standardArray[0].toInt(), standardArray[1].toInt(), 1, 0, 0)
+                endDate = startDate.with(TemporalAdjusters.lastDayOfMonth()).with(LocalTime.of(23, 59, 59))
             }
         }
 
@@ -400,7 +419,159 @@ class CalendarService(
      */
     @Transactional
     fun putCalendarRepeat(calendarId: String, data: ScheduleData): ZResponse {
-        return ZResponse()
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        if (calendar.isPresent) {
+            // 일반 > 반복 일정
+            if (!data.repeatYn) {
+                // 일반 삭제
+                calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar.get(), data.id)
+                // 반복 일정 데이터를 신규로 저장한다.
+
+                // repeat 등록
+                val calendarRepeat =
+                    calendarRepeatRepository.save(
+                        CalendarRepeatEntity(
+                            calendar = calendar.get()
+                        )
+                    )
+                // repeat 데이터 등록
+                val repeatData = calendarRepeatDataRepository.save(
+                    CalendarRepeatDataEntity(
+                        repeat = calendarRepeat,
+                        scheduleTitle = data.title,
+                        scheduleContents = data.contents,
+                        startDt = data.startDt,
+                        endDt = data.endDt,
+                        repeatStartDt = data.startDt,
+                        allDayYn = data.allDayYn,
+                        repeatValue = data.repeatValue,
+                        repeatType = data.repeatType
+                    )
+                )
+                when (data.repeatPeriod) {
+                    CalendarConstants.RepeatPeriod.THIS.code -> {
+                        // repeat, repeatData 신규 등록, custom 등록
+                        CalendarRepeatCustomDataEntity(
+                            customId = "",
+                            repeatData = repeatData,
+                            dataIndex = 1,
+                            customType = CalendarConstants.CustomType.MODIFY.code,
+                            scheduleTitle = data.title,
+                            scheduleContents = data.contents,
+                            allDayYn = data.allDayYn,
+                            startDt = data.startDt,
+                            endDt = data.endDt
+                        )
+
+                    }
+                    CalendarConstants.RepeatPeriod.AFTER.code -> {
+                        // 추가 없음
+                    }
+                    CalendarConstants.RepeatPeriod.ALL.code -> {
+                        // 추가없음
+                    }
+                }
+            } else {
+                when (data.repeatPeriod) {
+                    CalendarConstants.RepeatPeriod.THIS.code -> {
+                        // dataId 로 custom data 에 등록한다.
+                        // 조회시 커스텀 데이터 존재하면.. 그걸로 대체한다. (수정은 대체... 삭제는 제외)
+                        if (data.dataId != null && data.index != null) {
+                            val repeatData = calendarRepeatDataRepository.findByDataId(data.dataId)
+                            // 기존에 수정된 데이터면 삭제한다.
+                            calendarRepeatCustomDataRepository.deleteAllByRepeatDataAndDataIndex(repeatData, data.index)
+                            // 새롭게 넣는다.
+                            CalendarRepeatCustomDataEntity(
+                                customId = "",
+                                repeatData = repeatData,
+                                dataIndex = data.index,
+                                customType = CalendarConstants.CustomType.MODIFY.code,
+                                scheduleTitle = data.title,
+                                scheduleContents = data.contents,
+                                allDayYn = data.allDayYn,
+                                startDt = data.startDt,
+                                endDt = data.endDt
+                            )
+                        }
+                    }
+                    CalendarConstants.RepeatPeriod.AFTER.code -> {
+                        // data 테이블에 새롭게 추가
+                        // 조회시 해당 날짜부터는 새롭게 추가된 정보로 나와야한다.
+                        // dataId 로 기존의 repeatEndDt 를 신규 날짜 전날로 업데이트한 후 신규로 추가
+                        val repeat = calendarRepeatRepository.findByRepeatId(data.id)
+                        if (data.dataId != null) {
+                            val repeatData = calendarRepeatDataRepository.findByDataId(data.dataId)
+
+                            // 현재 선택된 반복일정을 종료날짜하고 이후에 추가된 반복일정을 제거한다.
+                            val currentRepeatData = calendarRepeatDataRepository.save(
+                                CalendarRepeatDataEntity(
+                                    dataId = data.dataId,
+                                    repeat = repeat.get(),
+                                    scheduleTitle = repeatData.scheduleTitle,
+                                    scheduleContents = repeatData.scheduleContents,
+                                    startDt = repeatData.startDt,
+                                    endDt = repeatData.endDt,
+                                    allDayYn = repeatData.allDayYn,
+                                    repeatStartDt = repeatData.startDt,
+                                    repeatEndDt = data.startDt.with(LocalTime.of(0, 0, 0)).minusSeconds(1),
+                                    repeatValue = repeatData.repeatValue,
+                                    repeatType = repeatData.repeatType
+                                )
+                            )
+                            val afterRepeatDataList = calendarRepeatDataRepository.findCalendarRepeatDataAfterEndDt(currentRepeatData)
+                            afterRepeatDataList.forEach {
+                                calendarRepeatCustomDataRepository.deleteAllByRepeatData(it)
+                                calendarRepeatDataRepository.deleteByDataId(it.dataId)
+                            }
+
+                            calendarRepeatDataRepository.save(
+                                CalendarRepeatDataEntity(
+                                    repeat = repeat.get(),
+                                    scheduleTitle = data.title,
+                                    scheduleContents = data.contents,
+                                    startDt = data.startDt,
+                                    endDt = data.endDt,
+                                    repeatStartDt = data.startDt,
+                                    allDayYn = data.allDayYn,
+                                    repeatValue = data.repeatValue,
+                                    repeatType = data.repeatType
+                                )
+                            )
+                        } else {
+                            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+                        }
+                    }
+                    CalendarConstants.RepeatPeriod.ALL.code -> {
+                        // 반복 일정이 다수 등록될 수 있으므로 삭제 후 새롭게 추가한다.
+                        val repeat = calendarRepeatRepository.findByRepeatId(data.id)
+                        val calendarDataList = calendarRepeatDataRepository.findAllByRepeat(repeat.get())
+                        calendarDataList.forEach {
+                            calendarRepeatCustomDataRepository.deleteAllByRepeatData(it)
+                        }
+                        calendarRepeatDataRepository.deleteAllByRepeat(repeat.get())
+                        calendarRepeatDataRepository.save(
+                            CalendarRepeatDataEntity(
+                                repeat = repeat.get(),
+                                scheduleTitle = data.title,
+                                scheduleContents = data.contents,
+                                startDt = data.startDt,
+                                endDt = data.endDt,
+                                repeatStartDt = data.startDt,
+                                allDayYn = data.allDayYn,
+                                repeatValue = data.repeatValue,
+                                repeatType = data.repeatType
+                            )
+                        )
+                    }
+                }
+            }
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
@@ -413,16 +584,27 @@ class CalendarService(
         // all 이면.. repeat, data, custom 모두 삭제
         // today 면... custom 에 존재하면 삭제.. custom 에 없으면 삭제로 추가
         // 오늘이후 면... data에 신규 추가 .. 신규 시작 날짜는 해당 일로 지정
-        when (calendarDeleteRequest.repeatPeriod) {
-            CalendarConstants.RepeatPeriod.ALL.code -> {
-
+        val repeat = calendarRepeatRepository.findByRepeatId(calendarDeleteRequest.id)
+        if (repeat.isPresent) {
+            when (calendarDeleteRequest.repeatPeriod) {
+                CalendarConstants.RepeatPeriod.ALL.code -> {
+                    val calendarDataList = calendarRepeatDataRepository.findAllByRepeat(repeat.get())
+                    calendarDataList.forEach {
+                        calendarRepeatCustomDataRepository.deleteAllByRepeatData(it)
+                    }
+                    calendarRepeatDataRepository.deleteAllByRepeat(repeat.get())
+                    calendarRepeatRepository.delete(repeat.get())
+                }
+                CalendarConstants.RepeatPeriod.THIS.code -> {
+                    // 커스텀에 오늘을 삭제로 추가한다.
+                    //
+                }
+                CalendarConstants.RepeatPeriod.AFTER.code -> {
+                    // 데이터에 신규로 추가한다
+                }
             }
-            CalendarConstants.RepeatPeriod.THIS.code -> {
-
-            }
-            CalendarConstants.RepeatPeriod.AFTER.code -> {
-
-            }
+        } else {
+            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         }
 
         return ZResponse(

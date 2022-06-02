@@ -13,4 +13,5 @@ import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
 
 interface CalendarRepeatDataRepositoryCustom : AliceRepositoryCustom {
     fun findCalendarRepeatDataInRange(repeat: CalendarRepeatEntity, range: Range): List<CalendarRepeatDataEntity>
+    fun findCalendarRepeatDataAfterEndDt(repeatData: CalendarRepeatDataEntity): List<CalendarRepeatDataEntity>
 }

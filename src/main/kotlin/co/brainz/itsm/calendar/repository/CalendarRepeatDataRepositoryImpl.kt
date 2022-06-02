@@ -22,4 +22,12 @@ class CalendarRepeatDataRepositoryImpl :
             .where(calendarRepeatData.repeat.eq(repeat))
             .fetch()
     }
+
+    override fun findCalendarRepeatDataAfterEndDt(repeatData: CalendarRepeatDataEntity): List<CalendarRepeatDataEntity> {
+        val calendarRepeatData = QCalendarRepeatDataEntity.calendarRepeatDataEntity
+        return from(calendarRepeatData)
+            .where(calendarRepeatData.repeat.eq(repeatData.repeat))
+            .where(calendarRepeatData.startDt.gt(repeatData.endDt))
+            .fetch()
+    }
 }

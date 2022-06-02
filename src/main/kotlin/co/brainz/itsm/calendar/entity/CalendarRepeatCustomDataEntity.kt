@@ -32,6 +32,9 @@ class CalendarRepeatCustomDataEntity(
     @Column(name = "data_index")
     val dataIndex: Int,
 
+    @Column(name = "custom_type", length = 64)
+    val customType: String,
+
     @Column(name = "schedule_title", length = 200)
     val scheduleTitle: String,
 
