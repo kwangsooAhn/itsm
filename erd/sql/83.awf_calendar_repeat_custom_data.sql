@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS awf_calendar_repeat_custom_data cascade;
 CREATE TABLE awf_calendar_repeat_custom_data
 (
     custom_id         varchar(128) NOT NULL,
+    custom_type       varchar(64),
     data_id           varchar(128) NOT NULL,
     data_index        int,
     schedule_title    varchar(200),
@@ -19,6 +20,7 @@ CREATE TABLE awf_calendar_repeat_custom_data
 
 COMMENT ON TABLE awf_calendar_repeat_custom_data IS '캘린더 반복일정 커스텀';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.custom_id IS '커스텀아이디';
+COMMENT ON COLUMN awf_calendar_repeat_custom_data.custom_type IS '커스텀타입';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.data_id IS '데이터아이디';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.data_index IS '데이터인덱스';
 COMMENT ON COLUMN awf_calendar_repeat_custom_data.schedule_title IS '제목';
