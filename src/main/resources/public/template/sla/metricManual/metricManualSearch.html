@@ -44,7 +44,7 @@
         toDtElement.value = searchToDt;
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
         zDateTimePicker.initDatePicker(toDtElement, setDatePicker);
-        document.getElementById('metricId').addEventListener('change', function () { getList(); });
+        document.getElementById('metricId').addEventListener('change', function() { getList(); });
         getList();
     };
 
@@ -56,7 +56,7 @@
             const toDtValue = document.getElementById('toDt').value;
             if (toDtValue !== '' && element.value !== '') {
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
+                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function() {
                         document.getElementById('fromDt').value = searchFromDt;
                         picker.open();
                     });
@@ -68,7 +68,7 @@
             const fromDtValue = document.getElementById('fromDt').value;
             if (fromDtValue !== '' && element.value !== '') {
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
+                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function() {
                         document.getElementById('toDt').value = searchToDt;
                         picker.open();
                     });
@@ -131,21 +131,21 @@
                     content: i18n.msg('common.btn.save'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         onSaveModal();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         modal.hide();
                     }
                 }],
                 close: {
                     closable: false,
                 },
-                onCreate: function () {
+                onCreate: function() {
                     let referenceDt = i18n.getDate();
                     document.getElementById('referenceDate').value = referenceDt;
                     zDateTimePicker.initDatePicker(document.getElementById('referenceDate'), setReferenceDatePicker);
@@ -170,14 +170,14 @@
             let responseJson = JSON.parse(response);
             const metricList = responseJson.data;
             const selectTag = document.getElementById('targetMetric');
-            for (let i = 0; i < metricList.length; i++) {
+            for(let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
                 const metricUnitText = document.getElementById('metricUnitText');
                 selectOption.text = metricList[i].metricName;
                 selectOption.value = metricList[i].metricId;
                 selectTag.appendChild(selectOption);
                 metricUnitText.textContent = i18n.msg(metricList[0].metricUnit)
-                document.getElementById('targetMetric').addEventListener('change', function () {
+                document.getElementById('targetMetric').addEventListener('change', function() {
                     if (selectTag.value === metricList[i].metricId) {
                         metricUnitText.textContent = i18n.msg(metricList[i].metricUnit)
                     }
@@ -220,7 +220,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success: // 등록 성공
-                    zAlert.success([[#{common.msg.register}]], function () {
+                    zAlert.success([[#{common.msg.register}]], function() {
                         window.location.href = '/sla/metric-manuals/search';
                     });
                     break;
@@ -245,7 +245,7 @@
                 method: 'DELETE'
             }).then((response) => {
                 if (response.status === aliceJs.response.success) {
-                    zAlert.success([[#{common.msg.delete}]], function () {
+                    zAlert.success([[#{common.msg.delete}]], function() {
                         window.location.href = '/sla/metric-manuals/search';
                     });
                 }

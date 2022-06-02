@@ -157,12 +157,12 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success: // 등록 성공
-                    zAlert.success([[#{common.msg.register}]], function () {
+                    zAlert.success([[#{common.msg.register}]], function() {
                         window.location.href = '/sla/metric-pools/search';
                     });
                     break;
                 case aliceJs.response.successEdit: // 수정 성공
-                    zAlert.success([[#{common.msg.modify}]], function () {
+                    zAlert.success([[#{common.msg.modify}]], function() {
                         window.location.href = '/sla/metric-pools/search';
                     });
                     break;
@@ -185,7 +185,7 @@
             }).then((response) => {
                 switch (response.status) {
                     case aliceJs.response.success:
-                        zAlert.success([[#{common.msg.delete}]], function () {
+                        zAlert.success([[#{common.msg.delete}]], function() {
                             window.location.href = '/sla/metric-pools/search';
                         });
                         break;
