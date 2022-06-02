@@ -318,8 +318,10 @@
   // SLA 복사해오기 모달
   &.sla-metric-yearly-copy-modal {
     width: 62.5rem; // 1000px
-    padding: 0.625rem 1.25rem; // 10px 20px
-    @include scrollbarHidden;
+    .modal-content {
+      height: calc(15rem - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+    }
   }
   // SLA ZQL 사용법 모달
   &.sla-zql-manual-modal {

@@ -1902,6 +1902,10 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 
+#resultScore {
+  font-size: 2rem;
+}
+
 /*
  * portal 화면 layout
  * 파일 경로 : portal/_layout.scss

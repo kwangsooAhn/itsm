@@ -1902,6 +1902,10 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 
+#resultScore {
+  font-size: 2rem;
+}
+
 /* 신청서 / 처리할 문서 양식 layout
  * z-document-container
  *                - z-document-main : 문서양식 메인

@@ -1376,6 +1376,9 @@ sla:
     average: "평균"
     rate: "비율"
     total: "합산"
+  chart:
+    line: "라인차트"
+    column: "컬럼차트"
   metric:
     label:
       comment: "비고"
@@ -1383,6 +1386,7 @@ sla:
       group: "그룹"
       groupName: "그룹 이름"
       metricPool: "SLA 지표관리"
+      metricStatus: "지표별 SLA 현황"
       maxValue: "목표치"
       minValue: "최소치"
       name: "이름"
@@ -1428,6 +1432,7 @@ sla:
     btn:
       copy: "복사해오기"
     label:
+      all: "전체"
       comment: "비고"
       copy: "지표 복사해오기"
       description: "설명"
@@ -1435,6 +1440,7 @@ sla:
       maxValue: "목표치"
       metricName: "지표 이름"
       metricYear: "연도별 SLA 지표관리"
+      metricYearStatus: "연도별 SLA 현황"
       minValue: "최소치"
       option:
         score: "점"
@@ -1442,6 +1448,8 @@ sla:
       owner: "담당자"
       targetYear: "대상 년도"
       type: "타입"
+      result: "결과"
+      resultScore: "최종점수"
       unit: "단위"
       weightValue: "가중치"
       year: "년"
