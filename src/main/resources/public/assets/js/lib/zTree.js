@@ -5,11 +5,11 @@
  * @version 1.0
  */
 
-(function (global, factory) {
+(function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.tree = global.tree || {})));
-}(this, (function (exports) {
+}(this, (function(exports) {
     'use strict';
 
     const iconPath = '/assets/media/icons/tree';
@@ -67,7 +67,7 @@
             modal.destroy();
         },
         onCreate: function(modal) {
-            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
         },
     };
 
@@ -471,11 +471,9 @@
      */
     function getSelectNode(node, selectedNode) {
         if (selectedNode === null) {
-            if (node.childNodes.length === 0) {
-                if (options.selectedValue === node.id) {
-                    selectedNode = node;
-                }
-            } else {
+            if (options.selectedValue === node.id) {
+                selectedNode = node;
+            } else if (node.childNodes.length > 0) {
                 for (let i = 0; i < node.childNodes.length; i++) {
                     selectedNode = getSelectNode(node.childNodes[i], selectedNode);
                 }
@@ -508,7 +506,7 @@
      * @return {*}
      */
     function getRecursiveParentCode(code, pArray) {
-        options.data.forEach(function (item) {
+        options.data.forEach(function(item) {
             if (item.code === code && item.pcode !== null) {
                 pArray.push(item.pcode);
                 getRecursiveParentCode(item.pcode, pArray);
@@ -536,7 +534,7 @@
         }
 
         // Node 생성
-        options.data.forEach(function (item) {
+        options.data.forEach(function(item) {
             if (item.level === options.rootLevel || item.typeLevel === options.rootLevel || item.classLevel === options.rootLevel) {
                 let expand = false;
                 if (expandObject.length > 0 && expandObject.indexOf(item) > -1) {
@@ -565,7 +563,7 @@
      * @param depth Tree 단계
      */
     function createChildNode(node, level, expandObject, depth) {
-        options.data.forEach(function (item) {
+        options.data.forEach(function(item) {
             let p_node_id = '';
             switch (options.source) {
                 case 'ciType':
@@ -599,7 +597,7 @@
      */
     function setTreeExpandNode(sessionKey) {
         let expandCodes = [];
-        document.querySelectorAll('#toggle_off').forEach(function(object){
+        document.querySelectorAll('#toggle_off').forEach(function(object) {
             if (object.style.visibility !== 'hidden') {
                 expandCodes.push(object.nextElementSibling.querySelector('label').textContent);
             }
@@ -691,7 +689,7 @@
                 }
                 // 사용자가 root를 지정하지 않았을 경우, root는 가져온 데이터의 최상위로 지정
                 if (options.view === 'modal' && options.source === 'code' && !userOptions.hasOwnProperty('root')) {
-                    const rootData = options.data.reduce(function (prev, curr) {
+                    const rootData = options.data.reduce(function(prev, curr) {
                         return prev.level < curr.level ? prev : curr;
                     });
                     options.root = rootData.code;
@@ -738,5 +736,5 @@
     exports.load = load;
     exports.setTreeExpandNode = setTreeExpandNode;
     exports.getTreeSelectNode = getTreeSelectNode;
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
