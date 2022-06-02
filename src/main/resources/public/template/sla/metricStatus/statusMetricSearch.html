@@ -130,8 +130,12 @@
 
         const zChartManager = {
             load: function(data) {
+                // 개별 정의 차트 옵션
+                const userOption = {
+                    exporting: { enabled: true }, // 하이차트 버튼(≡) 비표시
+                };
                 // 차트 초기화
-                this.zChart = new ZChart('container', data);
+                this.zChart = new ZChart('container', data, userOption);
                 // 데이터 업데이트
                 this.zChart.update(data);
             },
