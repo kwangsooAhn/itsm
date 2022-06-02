@@ -63,9 +63,9 @@
             const statusMetricYear = document.getElementById('statusMetricYear');
             const statusMetricName = document.getElementById('statusMetricName');
             const statusChartType = document.querySelectorAll('input[name="chartType"]');
-            statusMetricYear.addEventListener('change', function () { getList() });
-            statusMetricName.addEventListener('change', function () { getChart() });
-            statusChartType.forEach(elem => { elem.addEventListener('click', function () { getChart() }); });
+            statusMetricYear.addEventListener('change', function() { getList() });
+            statusMetricName.addEventListener('change', function() { getChart() });
+            statusChartType.forEach(elem => { elem.addEventListener('click', function() { getChart() }); });
             getList();
         };
 
@@ -81,7 +81,7 @@
                 const metricList = response.data;
                 const selectTag = document.getElementById('statusMetricName');
                 const options = selectTag.getElementsByTagName('option');
-                for(let i = options.length-1; i>=0 ; i--) {
+                for (let i = options.length-1; i>=0 ; i--) {
                     selectTag.removeChild(options[i]);
                 }
                 for (let i = 0; i < metricList.length; i++) {
@@ -135,7 +135,7 @@
                 // 데이터 업데이트
                 this.zChart.update(data);
             },
-            destroy: function () {
+            destroy: function() {
                 if (this.zChart) {
                     this.zChart.destroy();
                     this.zChart = null;

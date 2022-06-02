@@ -31,7 +31,7 @@
     /*<![CDATA[*/
     let yearDt = i18n.getYear();
 
-    window.onload = function () {
+    window.onload = function() {
         const yearDtElement = document.getElementById('year');
         yearDtElement.value = yearDt;
         zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
@@ -98,24 +98,24 @@
                     content: i18n.msg('common.btn.save'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         onCopyModal();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         modal.hide();
                     }
                 }],
                 close: {
                     closable: false,
                 },
-                onCreate: function () {
+                onCreate: function() {
                     const copyTargetYear = document.getElementById('copyTargetYear').value
                     document.getElementById('copyTargetYearText').textContent = i18n.msg('sla.metricYear.msg.copy', copyTargetYear)
-                    document.getElementById('copySourceYear').addEventListener('change', function () { getSourceYearList() });
+                    document.getElementById('copySourceYear').addEventListener('change', function() { getSourceYearList() });
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                     getSourceYearList();
                 }
@@ -139,7 +139,7 @@
             const metricList = response.data;
             const selectTag = document.getElementById('copyMetricName');
             const options = selectTag.getElementsByTagName('option');
-            for(let i = options.length-1; i>=1 ; i--) {
+            for (let i = options.length-1; i>=1 ; i--) {
                 selectTag.removeChild(options[i]);
             }
             for (let i = 0; i < metricList.length; i++) {
@@ -170,7 +170,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success: // 등록 성공
-                    zAlert.success([[#{common.msg.register}]], function () {
+                    zAlert.success([[#{common.msg.register}]], function() {
                         window.location.href = '/sla/metrics/search';
                     });
                     break;

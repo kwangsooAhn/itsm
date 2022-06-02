@@ -47,7 +47,7 @@
         /*<![CDATA[*/
         const yearDt = i18n.getYear();
 
-        window.onload = function () {
+        window.onload = function() {
             const yearDtElement = document.getElementById('year');
             yearDtElement.value = yearDt;
             zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
@@ -108,7 +108,7 @@
                     content: i18n.msg('common.btn.close'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         zChartManager.destroy();
                         modal.hide();
                     }
@@ -116,7 +116,7 @@
                 close: {
                     closable: false,
                 },
-                onCreate: function () {
+                onCreate: function() {
                     getChart();
                 }
             };
@@ -174,14 +174,14 @@
         import ZChart from '../../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
-            load: function (data) {
+            load: function(data) {
                 // 차트 초기화
                 this.zChart = new ZChart('container', data);
 
                 // 데이터 업데이트
                 this.zChart.update(data.chartData);
             },
-            destroy: function () {
+            destroy: function() {
                 if (this.zChart) {
                     this.zChart.destroy();
                     this.zChart = null;

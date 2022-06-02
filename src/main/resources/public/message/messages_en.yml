@@ -1402,6 +1402,7 @@ sla:
       description: "Register, modify, or delete the contents of SLA metric management."
       duplicateMetricName: "The same metric name exists. Please check the metric name."
       enterMetricName: "Enter a metric name."
+      useMetric: "This is the indicator in use."
       viewDescription: "Inquire detailed information about SLA metric management."
   metricManual:
     btn:

@@ -154,7 +154,7 @@
                 <div class="z-button-list">
                     <a class="z-button secondary" href="/sla/metrics/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" sec:authorize="hasAuthority('sla.manage')">
+                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
                             class="z-button primary" onclick="onSave('POST')" th:text="#{common.btn.register}">
                     </button>
@@ -174,7 +174,7 @@
     /*<![CDATA[ */
     let yearDt = i18n.getYear();
 
-    window.onload = function () {
+    window.onload = function() {
         if (/*[[${#strings.isEmpty(edit) && #strings.isEmpty(view)}]]*/) { // 등록일 때
             const yearDtElement = document.getElementById('metricYear');
             yearDtElement.value = yearDt;
@@ -189,7 +189,7 @@
     // 소수점 세자리수까지 입력 유효성 체크
     function checkDecimalValue(elementId, messageId, callbackFunc) {
         const elem = isNullElement(elementId);
-        const callback = (typeof callbackFunc === 'function') ? callbackFunc : function () {
+        const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
             elem.focus();
         };
         const decimalValue = /^[0-9]*\.?[0-9]{0,3}$/;
@@ -207,7 +207,10 @@
         if (typeof picker === 'undefined') return false;
         if (document.getElementById('metricYear').value !== '' && element.value !== '') {
             const selectTag = document.getElementById('metricYearName');
-            selectTag.options.length = 0;
+            const options = selectTag.getElementsByTagName('option');
+            for (let i = options.length-1; i>=0 ; i--) {
+                selectTag.removeChild(options[i]);
+            }
             getList();
         };
     }
@@ -260,7 +263,7 @@
                 } else {
                     zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlTotalDescription')
                 }
-                document.getElementById('metricYearName').addEventListener('change', function () {
+                document.getElementById('metricYearName').addEventListener('change', function() {
                     if (selectTag.value === metricList[i].metricId) {
                         metricYearGroup.value = metricList[i].metricGroupName;
                         metricYearType.value = i18n.msg(metricList[i].metricType);
@@ -344,12 +347,12 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success: // 등록 성공
-                    zAlert.success([[#{common.msg.register}]], function () {
+                    zAlert.success([[#{common.msg.register}]], function() {
                         window.location.href = '/sla/metrics/search';
                     });
                     break;
                 case aliceJs.response.successEdit: // 수정 성공
-                    zAlert.success([[#{common.msg.modify}]], function () {
+                    zAlert.success([[#{common.msg.modify}]], function() {
                         window.location.href = '/sla/metrics/search';
                     });
                     break;
@@ -372,7 +375,7 @@
                 method: 'DELETE'
             }).then((response) => {
                 if (response.status === aliceJs.response.success) {
-                    zAlert.success([[#{common.msg.delete}]], function () {
+                    zAlert.success([[#{common.msg.delete}]], function() {
                         window.location.href = '/sla/metrics/search';
                     });
                 }
