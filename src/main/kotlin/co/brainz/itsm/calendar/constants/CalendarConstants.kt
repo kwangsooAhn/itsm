@@ -11,7 +11,8 @@ object CalendarConstants {
     enum class ViewType(val code: String) {
         DAY("day"),
         WEEK("week"),
-        MONTH("month")
+        MONTH("month"),
+        TASK("task")
     }
 
     enum class RepeatPeriod(val code: String) {
@@ -23,5 +24,10 @@ object CalendarConstants {
     enum class RepeatType(val code: String) {
         WEEK_OF_MONTH("weekOfMonth"),
         DAY_OF_WEEK_IN_MONTH("dayOfMonth") // dayOfWeekInMonth
+    }
+
+    enum class CustomType(val code: String) {
+        MODIFY("modify"),
+        DELETE("delete")
     }
 }
