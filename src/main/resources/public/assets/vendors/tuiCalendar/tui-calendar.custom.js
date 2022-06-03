@@ -1294,7 +1294,7 @@ Object.assign(zCalendar.prototype, {
             repeatYn: repeatYn,
             repeatPeriod: '', // all, today, after
             standard: this.getStandardDate('month', this.getDate()),
-            startDt: this.getDate().setZone('utc+0').toISO()
+            startDt: luxon.DateTime.local().setZone('utc+0').toISO()
         };
 
         let url = '/rest/calendars/' + schedule.calendarId;
