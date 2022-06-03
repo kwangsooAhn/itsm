@@ -51,6 +51,7 @@ common:
     export: "Export"
     fail: "Fail"
     group: "Group"
+    importFile: "IMPORT FILE"
     modify: "Modify"
     name: "Name"
     nameAsc: "Order by name"
@@ -98,6 +99,7 @@ common:
     selectBeforeDateTime: "Please select before {0}."
     selectBeforeTime: "Please select before {0} time."
     selectColor: "Please select a color."
+    selectImportFile: "Please select an import file."
     success: "Successful."
     update: "Changed."
   code:
@@ -254,6 +256,8 @@ board:
 
 # Calendar
 calendar:
+  btn:
+    importTemplate: "Import Template"
   label:
     allDay: "All day"
     calendar: "Calendar"
@@ -299,6 +303,7 @@ calendar:
     weekOfMonth: "Every"
   msg:
     description: "View and manage user schedules."
+    noticeImportFile: "Import only possible in excel file."
 
 # Chart
 chart:
@@ -457,7 +462,6 @@ cmdb:
       relation: "CI Relation"
       targetCiName: "Target CI Name"
       whetherToInterlock: "Whether to Interlink"
-      importFile: "IMPORT FILE"
       interlock: "Interlink"
       nonInterlock: "Non Interlink"
     msg:
@@ -469,7 +473,6 @@ cmdb:
       failedDeleteCI: "Failed to delete asset information."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
-      selectImportFile: "Please select an import file."
       noticeImportFile: "Import only possible in excel file"
       tag: "Please enter a tag."
       viewDescription: "Retrieve detailed information about a CI.."
@@ -797,7 +800,6 @@ form:
     exportTarget: "Form"
     form: "Form"
     import: "Form IMPORT"
-    importFile: "IMPORT File"
     lang: "Language"
     name: "Form Name"
     redo: "Redo"
@@ -834,7 +836,6 @@ form:
     required: "Please enter the required item."
     saveInfo: "Saved at {0}"
     searchDescription: "View and manage forms."
-    selectImportFile: "Please select an import file."
     selectTargetUser: "Please select Target User for search."
     targetTableRequired: "Please enter the target Table."
     unique: "Duplicate data cannot be included."
@@ -1221,7 +1222,6 @@ process:
     exportTarget: "Process"
     imageDownload: "Download as Image"
     import: "Process Import"
-    importFile: "Import File"
     name: "Process Name"
     process: "Process"
     redo: "Redo"
@@ -1243,7 +1243,6 @@ process:
     noticeImportFile: "Import only possible in XML file"
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
-    selectImportFile: "Please select an import file."
     sourceMappingId: "Mapping ID of the component to which the attachment is to be added.<br>※ The working target component may be a file upload component or an image component."
     targetFileMappingId: "Mapping ID of the component to which the working condition is to be applied.<br>Compare the input value of the component with the working conditions."
     targetCIMappingId: "Mapping ID of CI component to reflect CMDB changes"
@@ -1512,7 +1511,6 @@ workflowAdmin:
     exportTarget: "Workflow"
     group: "Group"
     import: "WorkFlow IMPORT"
-    importFile: "IMPORT File"
     name: "Name"
     status: "Status"
     type: "Type"

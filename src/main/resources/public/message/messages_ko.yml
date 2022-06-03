@@ -51,6 +51,7 @@ common:
     export: "내보내기"
     fail: "실패"
     group: "그룹"
+    importFile: "IMPORT 파일"
     modify: "수정"
     name: "이름"
     nameAsc: "이름 순"
@@ -98,6 +99,7 @@ common:
     selectBeforeDateTime: "{0} 이전으로 선택하세요."
     selectBeforeTime: "{0} 시간 이전으로 선택하세요."
     selectColor: "색상을 선택하세요."
+    selectImportFile: "IMPORT 파일을 선택하세요."
     success: "성공하였습니다."
     update: "수정되었습니다."
   code:
@@ -254,6 +256,8 @@ board:
 
 # Calendar
 calendar:
+  btn:
+    importTemplate: "일괄등록"
   label:
     allDay: "종일"
     calendar: "일정"
@@ -299,6 +303,7 @@ calendar:
     weekOfMonth: "매주"
   msg:
     description: "일정을 추가하거나 조회 및 관리합니다."
+    noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
 
 # Chart
 chart:
@@ -456,7 +461,6 @@ cmdb:
       relation: "연관 관계"
       targetCiName: "대상 CI 이름"
       whetherToInterlink: "연동 여부"
-      importFile: "IMPORT 파일"
       interlink: "연동"
       nonInterlink: "비연동"
     msg:
@@ -468,7 +472,6 @@ cmdb:
       failedDeleteCI: "자산정보 삭제에 실패하였습니다."
       searchDescription: "CI를 조회 및 관리합니다."
       selectCI: "CI를 선택하세요."
-      selectImportFile: "IMPORT 파일을 선택하세요."
       noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
       tag: "태그를 입력하세요."
       viewDescription: "CI에 대한 상세 정보를 조회합니다."
@@ -796,7 +799,6 @@ form:
     exportTarget: "문서 양식"
     form: "문서양식"
     import: "폼 IMPORT"
-    importFile: "IMPORT 파일"
     lang: "언어"
     name: "양식이름"
     redo: "작업 재실행"
@@ -834,7 +836,6 @@ form:
     required: "필수 항목을 입력하세요."
     saveInfo: "{0} 에 저장됨"
     searchDescription: "문서양식를 조회 및 관리합니다."
-    selectImportFile: "IMPORT 파일을 선택하세요."
     selectTargetUser: "사용자를 선택하세요."
     targetTableRequired: "조회 대상 테이블명을 입력하세요."
     unique: "중복된 데이터는 포함할 수 없습니다."
@@ -1221,7 +1222,6 @@ process:
     exportTarget: "프로세스"
     imageDownload: "이미지로 다운로드"
     import: "프로세스 IMPORT"
-    importFile: "IMPORT 파일"
     name: "프로세스 이름"
     process: "프로세스"
     redo: "작업재실행"
@@ -1243,7 +1243,6 @@ process:
     noticeImportFile: "IMPORT시, XML파일만 가능합니다."
     startElementMustOne: '시작 이벤트는 반드시 1개이어야만 합니다.'
     searchDescription: "프로세스를 조회 및 관리합니다."
-    selectImportFile: "IMPORT 파일을 선택하세요."
     sourceMappingId: "첨부파일을 추가할 컴포넌트의 매핑 ID.<br>※ 작업대상 컴포넌트는 파일 업로드 컴포넌트 혹은 이미지 컴포넌트만 가능합니다."
     targetFileMappingId: "작업 조건을 적용할 컴포넌트의 매핑 ID. 해당 컴포넌트의 입력값을 작업 조건과 비교합니다."
     targetCIMappingId: "CMDB 변경사항을 반영하고자 하는 CI 컴포넌트의 매핑 ID"
@@ -1515,7 +1514,6 @@ workflowAdmin:
     exportTarget: "업무흐름"
     group: "그룹"
     import: "업무흐름 IMPORT"
-    importFile: "IMPORT 파일"
     name: "이름"
     status: "상태"
     type: "타입"

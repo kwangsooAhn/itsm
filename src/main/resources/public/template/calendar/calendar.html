@@ -53,7 +53,7 @@
             </div>
             <h3 class="calendar__render-range-text align-center"></h3>
             <div class="ml-auto">
-                <button type="button" class="z-button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{cmdb.ci.btn.importTemplate}"></button>
+                <button type="button" class="z-button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
                 <button type="button" class="z-button-icon secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
                     <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
                 </button>
@@ -67,6 +67,7 @@
     const calendarList = /*[[${calendarList}]]*/ '';
     let myCalendar = null; // tui calendar 객체
     let prevStandardDate = '';
+    let importFile;
     window.onload = function() {
         // 달력 초기화
         myCalendar = new zCalendar('calendarView', {
@@ -202,18 +203,127 @@
         });
     }
 
+    // 파일업로드 라이브러리로 파일 drag & drop시 callback으로 전달받는 파일을 저장한다.
+    function getImportFile(file) {
+        if (typeof file !== 'undefined') {
+            importFile = file;
+        }
+    }
+
     /**
      * 일괄 등록 모달 호출
      */
     function openTemplateUploadModal() {
-
+        const templateUploadContent = function() {
+            return `<div class="import-main flex-column">` +
+                `<div class="file-uploader-edit">` +
+                `<label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}` +
+                `<span class="required"></span></label>` +
+                `<div id="dropZoneFiles"></div>` +
+                `<div id="dropZoneUploadedFiles"></div>` +
+                `</div>` +
+                `<h6 class="description mt-1 pl-2">${i18n.msg('calendar.msg.noticeImportFile')}</h6>` +
+                `</div>`;
+        };
+        const importModal = new modal({
+            title: i18n.msg('calendar.btn.importTemplate'),
+            body: templateUploadContent(),
+            classes: 'template-import',
+            buttons: [
+                {
+                    content: i18n.msg('common.btn.import'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function() {
+                        if (document.getElementById('dropZoneFileUpload') !== null &&
+                            document.getElementById('fileTemplate') === null) {
+                            zAlert.warning(i18n.msg('common.msg.selectImportFile'));
+                            return false;
+                        }
+                        const formData = new FormData();
+                        formData.append('files', importFile);
+                        // TODO: 백엔드 구현 필요
+                        aliceJs.fetchJson('/rest/calendars/templateUpload', {
+                            method: 'POST',
+                            body: formData,
+                            showProgressBar: true
+                        }).then((response) => {
+                            // 성공시 페이지 새로 고침
+                            if (response.status === aliceJs.response.success) {
+                                zAlert.success(i18n.msg('common.msg.save'), function() {
+                                    location.reload();
+                                    return true;
+                                });
+                            }
+                        });
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }
+            ],
+            close: {
+                closable: false,
+            },
+            onCreate: function() {
+                // 파일 업로드 추가
+                zFileUploader.init({
+                    formId: 'importForm',
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles: '.xlsx,.xls',
+                    dropZoneUrl: '/fileupload?target=import',
+                    editor: true,
+                    userCallback: getImportFile
+                });
+                // 스크롤바 추가
+                OverlayScrollbars(document.querySelector('.template-import .modal-content'), { className: 'scrollbar' });
+            }
+        });
+        importModal.show();
     }
 
     /**
      * 일정 다운로드(엑셀)
      */
     function onExcelDownload() {
-
+        // 데이터 재조회
+        const calendarIds = calendarList.reduce((acc, cur) => {
+            acc.push(cur.calendarId);
+            return acc;
+        }, []);
+        const viewType = document.querySelector('#calendarViewType .z-button-switch.selected')
+            .getAttribute('data-action');
+        const searchData = {
+            viewType: viewType,
+            standard: myCalendar.getStandardDate(viewType, myCalendar.getDate()),
+            calendarIds: calendarIds
+        };
+        let excelFileName = i18n.msg('calendar.label.calendar') + '_' +
+            new Date().toISOString().substring(0, 10).replace(/-/g, '');
+        // TODO: 백엔드 구현 필요
+        aliceJs.fetchBlob('/rest/calendars/excel?', {
+            method: 'POST',
+            showProgressBar: true,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchData)
+        }).then((blob) => {
+            if (typeof blob === 'object') {
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = excelFileName;
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            }
+        });
     }
 </script>
 </body>
