@@ -539,19 +539,61 @@ Object.assign(zCalendar.prototype, {
         const daysInMonth = start.daysInMonth;
         const startOfMonth = new Date(start.toJSDate().setDate(1));
         const firstWeekDay = startOfMonth.getDay(); // 0: Sun ~ 6: Sat
-
         let taskViewTemplate = ``;
         for (let i = 0; i < daysInMonth; i++) {
-            const weekDay = ( Number(firstWeekDay) + i ) % 7;
+            // 주
+            let weekDay = (( Number(firstWeekDay) + i ) % 7) - 1;
+            if (weekDay === -1) { weekDay = 6; }
+
+            let classNames = ['calendar__rowGroup'];
+            const isToday = start.day === (i + 1);
+            if (isToday) {
+                classNames.push('today');
+            }
+
+            const isPrev = start.day > (i + 1);
+            if (isPrev) {
+                classNames.push('prev');
+            }
+
             const rowContentTemplate = `<div class="calendar__rowHead">
-                <span class="calendar__day">${i + 1}</span>
-                <span class="calendar__weekDay">${this.options.days[weekDay]}</span>
+                <span class="calendar__day${isToday ? ' underline' : ''}">${i + 1}</span>
+                <span class="calendar__weekDay">${start.monthShort}, ${this.options.shortDays[weekDay]}</span>
             </div>
             <div class="calendar__row" data-day="${i + 1}"></div>`.trim();
 
-            taskViewTemplate += `<div class="calendar__rowGroup">${rowContentTemplate}</div>`;
+            taskViewTemplate += `<div class="${classNames.join(' ')}">${rowContentTemplate}</div>`;
         }
         this.taskView.insertAdjacentHTML('beforeend', taskViewTemplate);
+
+        // 등록 이벤트 추가
+        // 셀 클릭이벤트 추가 - 상세 모달 호출
+        this.taskView.querySelectorAll('.calendar__row').forEach((row) => {
+            row.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (aliceJs.clickInsideElement(e, 'calendar__cell')) { return false; }
+                // 데이터 설정
+                const day = e.target.getAttribute('data-day');
+                const now = luxon.DateTime.local().setZone(i18n.timezone);
+                const startDt = luxon.DateTime.local(start.year, start.month, Number(day), now.hour)
+                    .startOf('hour').plus({ hour: 1 });
+                const endDt = startDt.plus({ hour: 1 });
+                const schedule = {
+                    mod: 'register',
+                    isAllDay: false,
+                    start: startDt.toJSDate(),
+                    end: endDt.toJSDate(),
+                };
+                this.createModal.customOptions = schedule;
+                this.setCreateModal(this.createModal.customOptions);
+
+                // 위치 조정
+                this.setModalPosition(this.createModal.wrapper, e.target);
+
+                // 모달 표시
+                this.createModal.show();
+            }, false);
+        });
     },
     /**
      * 상단 메뉴 현재 날짜 표시
@@ -899,9 +941,11 @@ Object.assign(zCalendar.prototype, {
     /**
      * 일정보기 템플릿
      * @param {schedule} schedule - schedule
+     * @param {isPrev} isPrev - 이전 데이터 여부
      */
-    getTaskViewCellTemplate: function (schedule) {
+    getTaskViewCellTemplate: function (schedule, isPrev) {
         const calendar = this.calendarList.find((item) => item.id ===schedule.calendarId);
+        const roundColor = isPrev ? calendar.dragBgColor : calendar.color;
         let rangeDateHtml = [];
         if (schedule.isAllDay) {
             rangeDateHtml.push(i18n.msg('calendar.label.allDay'));
@@ -917,7 +961,7 @@ Object.assign(zCalendar.prototype, {
         }
         // 템플릿 반환
         return `<div class="calendar__cell" data-calendarId="${schedule.calendarId}" data-scheduleId="${schedule.id}">
-            <span class="calendar__color--round" style="background-color: ${calendar.color}"></span>
+            <span class="calendar__color--round" style="background-color: ${roundColor}"></span>
             <span>${rangeDateHtml.join('')}</span>
             <span>${schedule.title}</span>
         </div>`.trim();
@@ -971,9 +1015,10 @@ Object.assign(zCalendar.prototype, {
             });
             this.taskView.querySelectorAll('.calendar__row').forEach((row) => {
                 const dayNumber = Number(row.getAttribute('data-day'));
+                const isPrev = row.parentNode.classList.contains('prev');
                 this.scheduleList.forEach((schedule) => {
                     if (dayNumber === schedule.start.getDate()) {
-                        row.insertAdjacentHTML('beforeend', this.getTaskViewCellTemplate(schedule));
+                        row.insertAdjacentHTML('beforeend', this.getTaskViewCellTemplate(schedule, isPrev));
                     }
                 });
             });
@@ -992,7 +1037,6 @@ Object.assign(zCalendar.prototype, {
                     }
                 }, false);
             });
-
         }
     },
     /**
@@ -1249,7 +1293,8 @@ Object.assign(zCalendar.prototype, {
             index: Object.prototype.hasOwnProperty.call(raw, 'repeatSeq') ? raw.repeatSeq : 1,
             repeatYn: repeatYn,
             repeatPeriod: '', // all, today, after
-            standard: this.getStandardDate('month', this.getDate())
+            standard: this.getStandardDate('month', this.getDate()),
+            startDt: this.getDate().setZone('utc+0').toISO()
         };
 
         let url = '/rest/calendars/' + schedule.calendarId;
@@ -1276,10 +1321,6 @@ Object.assign(zCalendar.prototype, {
      * 데이터 전송
      */
     restSubmit: function (method, url, data, modal) {
-        console.log('method', method);
-        console.log('url', url);
-        console.log('data', data);
-
         const resultMsg = function () {
             switch (method) {
                 case 'POST':
