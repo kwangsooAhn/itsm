@@ -440,6 +440,8 @@ export const ciMixin = {
         }
         if (!zValidation.isEmpty(document.getElementById('ciTags').value)) {
             const ciTags = JSON.parse(document.getElementById('ciTags').value);
+            console.log('저장된 내용을 불러옵니다.')
+            console.log(ciTags)
             ciTags.forEach((tag) => {
                 saveData.values.ciTags.push({'id': data.ciId, 'value': tag.value});
             });
@@ -626,8 +628,8 @@ export const ciMixin = {
                     });
                     // 태그 초기화
                     new zTag(document.getElementById('ciTags'), {
-                        suggestion: false,
-                        realtime: false,
+                        suggestion: true,
+                        realtime: true,
                         tagType: 'ci',
                         targetId: newCIId
                     });
@@ -758,8 +760,8 @@ export const ciMixin = {
 
             // 태그 초기화
             new zTag(document.getElementById('ciTags'), {
-                suggestion: false,
-                realtime: false,
+                suggestion: true,
+                realtime: true,
                 tagType: 'ci',
                 targetId: data.ciId
             });
@@ -834,8 +836,8 @@ export const ciMixin = {
                 this.selectModalSearchCI();
 
                 new zTag(document.getElementById('tagSearch'), {
-                    suggestion: false,
-                    realtime: false,
+                    suggestion: true,
+                    realtime: true,
                     tagType: 'ci',
                     targetId: '',
                     callback: function () {
@@ -865,8 +867,8 @@ export const ciMixin = {
             let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
             for (let i = 0; i < ciListTags.length; i++) {
                 new zTag(ciListTags[i], {
-                    suggestion: false,
-                    realtime: false,
+                    suggestion: true,
+                    realtime: true,
                     tagType: 'ci',
                     targetId: ciIdList[i].value
                 });
@@ -940,8 +942,8 @@ export const ciMixin = {
                 this.relationSelectModalSearchCI();
 
                 new zTag(document.getElementById('tagSearch'), {
-                    suggestion: false,
-                    realtime: false,
+                    suggestion: true,
+                    realtime: true,
                     tagType: 'ci',
                     targetId: '',
                     callback: function () {
@@ -970,8 +972,8 @@ export const ciMixin = {
             let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
             for (let i = 0; i < ciListTags.length; i++) {
                 new zTag(ciListTags[i], {
-                    suggestion: false,
-                    realtime: false,
+                    suggestion: true,
+                    realtime: true,
                     tagType: 'ci',
                     targetId: ciIdList[i].value
                 });
@@ -1029,8 +1031,8 @@ export const ciMixin = {
                     });
                     // 태그 초기화
                     new zTag(document.getElementById('ciTags'), {
-                        suggestion: false,
-                        realtime: false,
+                        suggestion: true,
+                        realtime: true,
                         tagType: 'ci',
                         targetId: ciId
                     });
