@@ -304,6 +304,12 @@ calendar:
   msg:
     description: "View and manage user schedules."
     noticeImportFile: "Import only possible in excel file."
+  tooltip:
+    templateRule: "The following contents must be included in the file.<br/><br/>
+         • startDt : start date Time<br/>
+         • endDt : end date Time<br/>
+         • title : subject<br/>
+         • contents : description"
 
 # Chart
 chart:

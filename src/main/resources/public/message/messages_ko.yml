@@ -304,6 +304,12 @@ calendar:
   msg:
     description: "일정을 추가하거나 조회 및 관리합니다."
     noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
+  tooltip:
+    templateRule: "파일에 아래와 같은 내용이 반드시 포함되어야 한다.<br/><br/>
+         • startDt : 시작 날짜<br/>
+         • endDt : 종료 날짜<br/>
+         • title : 제목<br/>
+         • contents : 내용"
 
 # Chart
 chart:

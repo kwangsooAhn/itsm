@@ -218,7 +218,14 @@
             return `<div class="import-main flex-column">` +
                 `<div class="file-uploader-edit">` +
                 `<label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}` +
-                `<span class="required"></span></label>` +
+                    `<span class="required"></span>` +
+                    `<div class="z-help-tooltip">` +
+                        `<span class="z-icon i-tooltip"></span>` +
+                        `<div class="z-tooltip-contents">` +
+                            `<span>${i18n.msg('calendar.tooltip.templateRule')}</span>` +
+                        `</div>` +
+                    `</div>` +
+                `</label>` +
                 `<div id="dropZoneFiles"></div>` +
                 `<div id="dropZoneUploadedFiles"></div>` +
                 `</div>` +
