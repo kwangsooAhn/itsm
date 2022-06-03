@@ -742,6 +742,7 @@ class ZFormTokenTab {
                 response.data.forEach((comment) => {
                     document.querySelector('#tokenComments').lastElementChild
                         .insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
+                    this.setDateTimeFormat();
                 });
             }
         });
