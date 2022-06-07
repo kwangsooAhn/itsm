@@ -22,7 +22,6 @@
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
-        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
         <div class="mt-5">
             <p class="font-2" th:text="#{sla.metricYear.label.resultScore}"></p>
             <p id="resultScore" class="font-bold mt-1">
@@ -63,10 +62,9 @@
         /**
          * 연도별 SLA 지표관리 검색
          */
-        function getList(pageNum = 1) {
+        function getList() {
             const urlParam = '/sla/metrics/annual?year='
-                            + document.getElementById('year').value.toString().substring(0, 4)
-                            + '&pageNum=' + pageNum;
+                            + document.getElementById('year').value.toString().substring(0, 4);
             aliceJs.fetchText(urlParam, {
                 method: 'GET'
             }).then((htmlData) => {
@@ -158,9 +156,8 @@
             */
         }
 
-        function onExcelDownload(pageNum = 1) {
-            const search = document.getElementById('year').value.toString().substring(0, 4)
-                            + '&pageNum=' + pageNum;
+        function onExcelDownload() {
+            const search = document.getElementById('year').value.toString().substring(0, 4);
             aliceJs.fetchDownload({
                 url: '/rest/sla/metrics/annual/excel?year=' + search,
                 fileName: document.getElementById('year').value.toString().substring(0, 4) + '_'

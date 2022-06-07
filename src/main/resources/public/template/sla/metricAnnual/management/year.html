@@ -258,7 +258,7 @@
                 // 해당 지표의 계산방식에 text 변경
                 if (metricList[0].metricCalculationType == 'sla.calculationType.average') {
                     zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlAverageDescription')
-                } else if (metricList[0].metricCalculationType == 'sla.calculationType.rate') {
+                } else if (metricList[0].metricCalculationType == 'sla.calculationType.percentage') {
                     zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlRateDescription')
                 } else {
                     zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlTotalDescription')
