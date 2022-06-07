@@ -379,9 +379,29 @@ class ZDocument {
     /**
      * 프로세스 맵 팝업 호출
      */
-    openProcessStatusPopUp() {
-        window.open('/tokens/' + this.data.instanceId + '/status', 'token_status_' + this.data.instanceId,
-            'width=1300, height=500');
+    openProcessStatusModal() {
+        const url = '/tokens/' + this.data.instanceId + '/status';
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((response) => {
+            const processStatusModal = new modal({
+                body: response,
+                classes: 'process-status-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                }
+            });
+            processStatusModal.show();
+        });
     }
 
     /**

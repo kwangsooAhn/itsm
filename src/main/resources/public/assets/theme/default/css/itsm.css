@@ -8167,12 +8167,15 @@ body.modal-active {
   height: 20.625rem;
 }
 .modal-dialog.password-check .modal-content {
-  height: calc(20.625rem - 3.875rem - 5rem);
+  height: 11.75rem;
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.password-check .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.process-status-modal {
+  min-width: 81.35rem !important;
 }
 
 /* _thumbnail.scss

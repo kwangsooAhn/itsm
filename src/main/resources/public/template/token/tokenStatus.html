@@ -12,8 +12,7 @@
 <body style="margin: 0;">
     <svg id="elementContainer"
          style="position: absolute; top: 0; left: 0; background-size: initial;"
-         th:width="${tokenStatus.width}"
-         th:height="${tokenStatus.height}"
+         th:style="'background-image:url(' + ${tokenStatus.imageData} + ');'"
          th:viewBox="${tokenStatus.left + ' ' + tokenStatus.top + ' ' + tokenStatus.width + ' ' + tokenStatus.height}"></svg>
 </body>
 <script type="text/javascript" th:inline="javascript">
@@ -24,7 +23,6 @@
             window.outerHeight - window.innerHeight + Number(/*[[${tokenStatus.height}]]*/)
         );
         let statusGroup = d3.select('#elementContainer')
-            .style('background-image', 'url([[${tokenStatus.imageData}]])')
             .append('g');
         /*[# th:each="element : ${tokenStatus.elements}"]*/
         /*[# th:if="${element.id == tokenStatus.elementId}"]*/
