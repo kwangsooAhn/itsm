@@ -728,9 +728,7 @@ export const ciMixin = {
                         if (response.status === aliceJs.response.success && !zValidation.isEmpty(response.data)) {
                             const ciRelation = response.data;
                             for (let i = 0; i < ciRelation.length; i++) {
-                                if (data.ciId !== ciRelation[i].ciId) {
-                                    ciRelation[i].targetCIId = ciRelation[i].ciId;
-                                }
+
                                 this.addCIRelation(ciRelation[i], false);
                             }
                         }
