@@ -1997,7 +1997,7 @@
                 elem.value = userDefaultValues[1];
 
                 // 기본 값 유효성 검증 - 설정된 기본값이 설정한 검색조건 내에 없을 경우 공란으로 표시
-                getUserList(elem, userDefaultData[1], false, true);
+                getUserList(elem, userDefaultData[0], false, true);
 
                 parent.appendChild(elem);
                 return elem;
@@ -2222,6 +2222,8 @@
         attributeValue.searchKey.forEach( (elem, index) => {
             searchKeys += (index > 0) ? '+' + elem.id : elem.id;
         });
+        console.log(targetCriteria);
+        console.log(searchKeys);
         // 검색
         const strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
             '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
@@ -2253,6 +2255,7 @@
             } else {
                 // 기본 값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
+                console.log(userListElem);
                 if (userListElem.querySelectorAll('.z-table-row').length === 0) {
                     target.value = '';
                     target.setAttribute('data-user-search', '');
