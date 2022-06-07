@@ -47,11 +47,10 @@ class MetricYearController(
      */
     @GetMapping("")
     fun getMetricYears(@RequestParam year: String, model: Model): String {
-        val result = metricYearService.getMetrics(year)
         val thisYear = DateTimeFormatter.ofPattern("yyyy")
             .format(AliceUtil().changeTimeBasedTimezone(LocalDateTime.now(), currentSessionUser.getTimezone()))
         model.addAttribute("thisYear", thisYear)
-        model.addAttribute("metricYearsList", result)
+        model.addAttribute("metricYearsList", metricYearService.getMetrics(year))
         return metricYearListPage
     }
 
