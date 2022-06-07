@@ -18,7 +18,6 @@ import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
-import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPQLQuery
@@ -35,22 +34,12 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .fetchFirst() != null
     }
 
-    override fun findMetrics(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto {
-        val content = this.getMetrics(metricYearSearchCondition)
-        val count = this.getMetricsCount(metricYearSearchCondition)
-
-        return PagingReturnDto(
-            dataList = content.fetch(),
-            totalCount = count.fetchOne()
-        )
-    }
-
-    private fun getMetrics(metricYearSearchCondition: MetricYearSearchCondition): JPQLQuery<MetricYearDataDto> {
+    override fun findMetrics(year: String): List<MetricYearDataDto> {
         val metricPool = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val code = QCodeEntity.codeEntity
 
-        val query = from(metricPool)
+        return from(metricPool)
             .select(
                 Projections.constructor(
                     MetricYearDataDto::class.java,
@@ -67,14 +56,9 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             )
             .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
             .leftJoin(code).on(metricPool.metricGroup.eq(code.code))
-            .where(this.searchByBuilder(metricYearSearchCondition, metricYear))
+            .where(super.likeIgnoreCase(metricYear.metricYear, year))
             .orderBy(metricYear.createDt.desc())
-
-        if (metricYearSearchCondition.isPaging) {
-            query.limit(metricYearSearchCondition.contentNumPerPage)
-            query.offset((metricYearSearchCondition.pageNum - 1) * metricYearSearchCondition.contentNumPerPage)
-        }
-        return query
+            .fetch()
     }
 
     private fun getMetricsCount(metricYearSearchCondition: MetricYearSearchCondition): JPQLQuery<Long> {
@@ -83,15 +67,6 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         return from(metricPool)
             .select(metricPool.count())
             .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
-            .where(this.searchByBuilder(metricYearSearchCondition, metricYear))
-    }
-
-    private fun searchByBuilder(metricYearSearchCondition: MetricYearSearchCondition, metricYear: QMetricYearEntity): BooleanBuilder {
-        val builder = BooleanBuilder()
-        builder.and(
-            super.likeIgnoreCase(metricYear.metricYear, metricYearSearchCondition.year)
-        )
-        return builder
     }
 
     override fun existsByMetricAndMetricYear(metricId: String, metricYear: String): Boolean {
@@ -237,7 +212,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             )
             .join(metricYear).on(metricPool.metricId.eq(metricYear.metric.metricId))
             .leftJoin(code).on(metricPool.metricGroup.eq(code.code))
-            .where(this.searchByBuilder(metricYearSearchCondition, metricYear))
+//            .where(this.searchByBuilder(metricYearSearchCondition, metricYear))
             .orderBy(metricYear.createDt.desc())
 
         if (metricYearSearchCondition.isPaging) {

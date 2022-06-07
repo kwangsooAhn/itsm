@@ -27,9 +27,9 @@ import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
@@ -67,19 +67,8 @@ class MetricYearService(
     /**
      * 연도별 SLA 지표 목록 조회
      */
-    fun getMetrics(metricYearSearchCondition: MetricYearSearchCondition): MetricYearListReturnDto {
-        val pagingResult = metricYearRepository.findMetrics(metricYearSearchCondition)
-
-        return MetricYearListReturnDto(
-            data = mapper.convertValue(pagingResult.dataList),
-            paging = AlicePagingData(
-                totalCount = pagingResult.totalCount,
-                totalCountWithoutCondition = metricYearRepository.count(),
-                currentPageNum = metricYearSearchCondition.pageNum,
-                totalPageNum = ceil(pagingResult.totalCount.toDouble() / metricYearSearchCondition.contentNumPerPage.toDouble()).toLong(),
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
+    fun getMetrics(year: String): List<MetricYearDataDto> {
+        return metricYearRepository.findMetrics(year)
     }
 
     /**
