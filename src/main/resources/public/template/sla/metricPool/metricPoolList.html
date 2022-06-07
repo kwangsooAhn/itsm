@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div class="grid" style="--data-columns-width: 15% 15% 8% 8% 8% 46%;">
+    <div class="grid__head">
+        <div class="grid__row">
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricGroup">
+                <span class="text-ellipsis" th:text="#{sla.metric.label.group}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricName">
+                <span class="text-ellipsis" th:text="#{sla.metric.label.name}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricType">
+                <span class="text-ellipsis" th:text="#{sla.metric.label.type}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricCalculationType">
+                <span class="text-ellipsis" th:text="#{common.label.calculationType}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricUnit">
+                <span class="text-ellipsis" th:text="#{sla.metric.label.unit}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="metricDescription">
+                <span class="text-ellipsis" th:text="#{sla.metric.label.description}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="grid__body">
+        <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(metricPoolList)}">
+            <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
+        </div>
+        <div class="grid__row" th:unless="${#arrays.isEmpty(metricPoolList)}" th:each="metric: ${metricPoolList}">
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${metric.metricGroupName}" th:title="${metric.metricGroupName}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2 underline">
+                <a sec:authorize="hasAuthority('sla.manage')" th:text="${metric.metricName}"
+                   th:href="@{/sla/metric-pools/{id}/edit(id=${metric.metricId})}" th:title="${metric.metricName}"></a>
+                <a sec:authorize="!hasAuthority('sla.manage')" th:text="${metric.metricName}"
+                   th:href="@{/sla/metric-pools/{id}/view(id=${metric.metricId})}" th:title="${metric.metricName}">
+                </a>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${metric.metricTypeName}" th:title="${metric.metricTypeName}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${metric.metricUnitName}" th:title="${metric.metricUnitName}"></span>
+            </div>
+            <div class="grid__cell pr-2 pl-2">
+                <span class="text-ellipsis" th:text="${metric.calculationTypeName}" th:title="${metric.calculationTypeName}"></span>
+            </div>
+            <div class="grid__cell pl-2">
+                <span class="text-ellipsis" th:text="${metric.metricDesc}" th:title="${metric.metricDesc}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:insert="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
+</body>
+</html>

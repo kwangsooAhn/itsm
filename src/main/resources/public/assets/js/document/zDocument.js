@@ -338,6 +338,8 @@ class ZDocument {
         saveData.componentData = this.getComponentData(this.form, []);
         console.debug(saveData);
 
+        // 동적 버튼 blur
+        event.target.blur();
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
         const finishAction = function () {
             const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';

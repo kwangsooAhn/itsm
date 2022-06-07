@@ -105,6 +105,7 @@ timezone:
   scheduler: Asia/Seoul
   customChart: Asia/Seoul
   excel: Asia/Seoul
+  sla: Asia/Seoul
 
 # IP 접근 제한 기능 설정
 ip.access.control: true
@@ -227,6 +228,11 @@ spring:
   datasource:
     url: jdbc:log4jdbc:postgresql://10.0.10.175:32836/itsm
 ---
+spring:
+  profiles: sla
+  datasource:
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32853/itsm
+---
 # For brainz open
 spring:
   profiles: brainz7
@@ -263,6 +269,12 @@ spring:
   profiles: ci
   datasource:
     url: jdbc:log4jdbc:postgresql://itsm.dev.db.develop:5432/itsm
+---
+# SLA DB (TEST용)
+spring:
+  profiles: sla
+  datasource:
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32853/itsm
 ---
 # Notification Toast Option
 notification:

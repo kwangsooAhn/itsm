@@ -330,4 +330,35 @@
       }
     }
   }
+
+
+
+  // SLA 수동지표 데이터 추가 모달
+  &.sla-metric-manual-modal {
+    .modal-content { padding: 0.625rem 1.25rem; } // 10px 20px
+    @include scrollbarHidden;
+  }
+  // SLA 복사해오기 모달
+  &.sla-metric-yearly-copy-modal {
+    width: 62.5rem; // 1000px
+    .modal-content {
+      height: calc(15rem - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+    }
+  }
+  // SLA ZQL 사용법 모달
+  &.sla-zql-manual-modal {
+    width: 62.5rem; // 1000px
+    @include scrollbarHidden;
+
+    .modal-content {
+      height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem; // 10px 20px
+      div {
+        font-size: $font-size-l;
+        line-height: 1.5;
+      }
+    }
+  }
+
 }

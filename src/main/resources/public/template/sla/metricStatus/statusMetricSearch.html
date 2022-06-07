@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/pagingListLayout">
+<head>
+    <title th:text="#{sla.metric.label.metricStatus}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/no-data-to-display.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/exporting.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/solid-gauge.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/modules/stock.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/plugin/pattern-fill-v2.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{sla.metric.label.metricStatus}"></h1>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <div class="flex-row align-items-end">
+            <select id="statusMetricYear" class="flex-column col-2 mr-1">
+                <option th:each="yearsList: ${yearsList}" th:text="${yearsList}" th:value="${yearsList}" ></option>
+            </select>
+            <select id="statusMetricName" class="flex-column col-2 mr-3"></select>
+            <div class="flex-column">
+                <div class="flex-row">
+                    <label class="z-radio">
+                        <input type="radio" id="slaChartLine" name="chartType" th:value="'chart.basicLine'"
+                               th:checked="true"
+                               th:classappend="${view} ? 'readonly'"
+                               th:disabled="${view}"
+                               th:readonly="${view}">
+                        <span></span>
+                        <span class="z-label  mr-4" th:text="#{sla.chart.line}"></span>
+                    </label>
+                    <label class="z-radio">
+                        <input type="radio" id="slaChartColumn" name="chartType" th:value="chart.basicColumn"
+                               th:classappend="${view} ? 'readonly'"
+                               th:disabled="${view}"
+                               th:readonly="${view}">
+                        <span></span>
+                        <span class="z-label mr-4" th:text="#{sla.chart.column}"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content" id="metricStatusChart">
+        <div id="container"></div>
+    </div>
+</div>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript" type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            const statusMetricYear = document.getElementById('statusMetricYear');
+            const statusMetricName = document.getElementById('statusMetricName');
+            const statusChartType = document.querySelectorAll('input[name="chartType"]');
+            statusMetricYear.addEventListener('change', function() { getList() });
+            statusMetricName.addEventListener('change', function() { getChart() });
+            statusChartType.forEach(elem => { elem.addEventListener('click', function() { getChart() }); });
+            getList();
+        };
+
+        /**
+         * 지표 목록 가져오기
+         */
+        function getList() {
+            let urlParam = '/rest/sla/metrics?source=' + document.getElementById('statusMetricYear').value
+                + '&target=' +'&type=';
+            aliceJs.fetchJson(urlParam, {
+                method: 'GET'
+            }).then((response) => {
+                const metricList = response.data;
+                const selectTag = document.getElementById('statusMetricName');
+                const options = selectTag.getElementsByTagName('option');
+                for (let i = options.length-1; i>=0 ; i--) {
+                    selectTag.removeChild(options[i]);
+                }
+                for (let i = 0; i < metricList.length; i++) {
+                    const selectOption = document.createElement('option');
+                    selectOption.text = metricList[i].metricName;
+                    selectOption.value = metricList[i].metricId;
+                    selectTag.appendChild(selectOption);
+                }
+                aliceJs.initDesignedSelectTag();
+                getChart();
+            });
+        }
+
+        /**
+         * 차트 데이터 조회
+         */
+        function getChart() {
+            let url = '/rest/sla/metric-status?metricId=' + document.getElementById('statusMetricName').value
+                + '&year=' + document.getElementById('statusMetricYear').value
+                + '&chartType=' + document.querySelector('input[name="chartType"]:checked').value;
+            aliceJs.fetchJson(url, {
+                method: 'GET',
+                showProgressbar: true
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success) { return false; }                // 기존 차트를 지우고 새로 그려준다.
+                // 기존 차트를 지우고 새로 그려준다.
+                zChartManager.destroy();
+                // 차트 초기화
+                zChartManager.load(response.data);
+            });
+
+            /*
+            // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
+            aliceJs.fetchJson('../../../assets/js/chart/dummy/chart.basicLine.json', {
+                method: 'GET'
+            }).then((data) => {
+                // 차트 초기화
+                zChartManager.load(data);
+            });
+            */
+        }
+        /*]]>*/
+    </script>
+    <script type="module">
+        import ZChart from '../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(data) {
+                // 개별 정의 차트 옵션
+                const customOptions = {
+                    exporting: { enabled: true }, // 하이차트 버튼(≡) 표시
+                };
+                // 차트 초기화
+                this.zChart = new ZChart('container', data, customOptions);
+                // 데이터 업데이트
+                this.zChart.update(data);
+            },
+            destroy: function() {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        }
+        window.zChartManager = zChartManager;
+    </script>
+</th:block>
+</html>

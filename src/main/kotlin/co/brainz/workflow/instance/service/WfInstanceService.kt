@@ -410,6 +410,11 @@ class WfInstanceService(
                     tokenSearchCondition
                 )
             }
+            WfTokenConstants.SearchType.STORED.code -> {
+                storedInstances(
+                    tokenSearchCondition
+                )
+            }
             else -> {
                 todoInstances(
                     WfInstanceConstants.getTargetStatusGroup(WfTokenConstants.SearchType.TODO),
