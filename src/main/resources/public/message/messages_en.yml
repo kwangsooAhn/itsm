@@ -762,8 +762,8 @@ form:
     state: "State"
     templatesList: "Templates List"
     title: "Form Designer"
-    undo: "Undo"
     update: "Update Form"
+    undo: "Undo"
   msg:
     checkPlugInButton: "Please click the {0} button for validation."
     dropdownCodeNotExist: "There is no Dropdown Code component matching the set mapping ID.</br>Check the mapping ID."
@@ -775,6 +775,7 @@ form:
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     failedImport: "Failed to import form."
     failedPlugInButton: "Processing failed because validation failed."
+    fileSelect: "Please select a file."
     information: "There are no common editable component detail attributes."
     label: "It must start and end with numbers and letters and can contain only numbers, letters, commas (.), underscores (_), and dashes (-)."
     max: "Please enter below {0}."
@@ -1285,40 +1286,6 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# statistic
-statistic:
-  btn:
-    create: "Create"
-    pdf: "PDF"
-  label:
-    automatic: "Automatic generation"
-    chart: "Chart"
-    columnName: "Column Name"
-    currentSituation: "Current Situation"
-    description: "Description"
-    publishDate: "Publish Date"
-    customReport: "Custom Report"
-    reportName: "Report Name"
-    search: "Report Search"
-    searchPlaceholder: "Template name"
-    customReportTemplate: "custom Report Template"
-    templateEdit: "Template Edit"
-    templateName: "Template Name"
-    templateRegister: "Template Register"
-  msg:
-    configDescription: "Set up templates using custom charts."
-    createFail: "Failed to generate report"
-    createSucess: "Report has been generated."
-    duplicateChart: "Duplicate chart exists."
-    editDescription: "Register, modify, or delete templates."
-    emptyChart: "Chart does not exist."
-    searchDescription: "Search report that you generated."
-    templateNameUsed: "Duplicate template name exists."
-  template:
-    all: "All"
-  tooltip:
-    reportName: "When creating a report, set the name of the report to be displayed.<br/>If the report name is not entered, the template name is used as the report name."
-
 # Role
 role:
   btn:
@@ -1331,6 +1298,9 @@ role:
     name: "Role Name"
     referenceCount: "Reference Count"
     role: "Role"
+  menu:
+    auth: "권한 설정"
+    common: "일반 정보"
   msg:
     duplicateRoleId: "Duplicate role id! Please enter other role id."
     duplicateRoleName: "Duplicate role name! Please enter other role name."
@@ -1465,6 +1435,7 @@ sla:
     btn:
       copy: "Copy"
     label:
+      all: "전체"
       comment: "Comment"
       copy: "Copy Metric"
       description: "Description"
@@ -1525,6 +1496,11 @@ sla:
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• ZQL as above compares the value of the item tagged with the desired completion date and the value of the item tagged with the desired completion date of the document to find documents that were completed before or on the same day as the desired completion date.<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• If the ZQL as above is applied to the 'rate' calculation method, the proportion of documents that satisfy the condition among all documents during the measurement period is obtained."
 
+
+
+
+
+
 # statistic
 statistic:
   btn:
@@ -1543,6 +1519,8 @@ statistic:
     templateEdit: "Template Edit"
     templateName: "Template Name"
     templateRegister: "Template Register"
+    columnName: "Column Name"
+    currentSituation: "Current Situation"
   msg:
     configDescription: "Set up templates using custom charts."
     createFail: "Failed to generate report"
