@@ -655,10 +655,13 @@ Object.assign(zCalendar.prototype, {
             return result;
         }, []);
 
+        const raw = ( schedule.mode === 'edit' && schedule.raw !== null) ? schedule.raw : {};
+        const repeatType = Object.prototype.hasOwnProperty.call(raw, 'repeatType') && raw.repeatType !== '' ?
+            raw.repeatType : 'none';
         // 반복 안함, 매월 X번째 X요일, 매주 X요일
         const repeatTypeOptionTemplate = repeatTypeOptions.map((opt, idx) => {
-            return `<option value="${opt.id}" ${idx === 0 ? 'selected=\'true\'' : ''} data-repeatValue="${opt.value}">`
-                + `${opt.text}</option>`;
+            return `<option value="${opt.id}" ${opt.id === repeatType ? 'selected=\'true\'' : ''} `
+                + ` data-repeatValue="${opt.value}">${opt.text}</option>`;
         }).join('');
 
         parent.insertAdjacentHTML('beforeend',
@@ -707,15 +710,6 @@ Object.assign(zCalendar.prototype, {
         const raw = ( schedule.mode === 'edit' && schedule.raw !== null) ? schedule.raw : {};
         // 선택된 날짜에 따른 반복 일정 값 변경
         this.setRepeatType(schedule);
-
-        // 반복 타입
-        const repeatType = this.createModal.wrapper.querySelector('#repeatType');
-        if (Object.prototype.hasOwnProperty.call(raw, 'repeatType') && raw.repeatType !== '') {
-            repeatType.querySelector('option[value="' + raw.repeatType + '"]').selected = true;
-            repeatType.value = raw.repeatType;
-        } else {
-            repeatType.options[0].selected = true;
-        }
 
         // 종일 여부
         const allDayYn = this.createModal.wrapper.querySelector('#allDayYn');
@@ -1213,16 +1207,7 @@ Object.assign(zCalendar.prototype, {
 
         let url = '/rest/calendars/' + calendarId;
         // 반복 일정일 경우
-
-        // 일반          repeatId === ''
-        // 일반 > 일반    repeatId === ''
-        // 일반 > 반복    repeatId === '' && repeatYn && schedule.mode === 'edit'
-        // 반복          repeatId === '' && repeatYn
-        // 반복 > 반복    repeatId !== '' && repeatYn
-        // 반복 > 일반    repeatId !== ''
-        if ((repeatId === '' && repeatYn && schedule.mode === 'register') ||
-            (repeatId !== '' && repeatYn) ||
-            (repeatId !== '')) {
+        if (repeatId !== '') {
             url += '/repeat';
             saveData.id = repeatId;
         } else { // 스케쥴 등록일 경우
@@ -1297,13 +1282,15 @@ Object.assign(zCalendar.prototype, {
         const raw = schedule.raw !== null ? schedule.raw : {};
         const repeatId = Object.prototype.hasOwnProperty.call(raw, 'repeatId') ? raw.repeatId : '';
         const repeatYn = Object.prototype.hasOwnProperty.call(raw, 'repeatYn') ? raw.repeatYn : '';
+        const start = luxon.DateTime.fromMillis(schedule.start.getTime(), {zone: i18n.timezone})
+            .setZone('utc+0').toISO();
         const saveData = {
             dataId: Object.prototype.hasOwnProperty.call(raw, 'dataId') ? raw.dataId : '',
             index: Object.prototype.hasOwnProperty.call(raw, 'repeatSeq') ? raw.repeatSeq : 1,
             repeatYn: repeatYn,
             repeatPeriod: '', // all, today, after
             standard: this.getStandardDate('month', this.getDate()),
-            startDt: luxon.DateTime.local().setZone('utc+0').toISO()
+            startDt: start // 현재 날짜 데이터 - 반복 일정 삭제시 오늘 날짜 필요
         };
 
         let url = '/rest/calendars/' + schedule.calendarId;
