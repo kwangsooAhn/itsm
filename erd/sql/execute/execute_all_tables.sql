@@ -328,8 +328,8 @@ insert into awf_code values ('sla.metricUnit.score', 'sla.metricUnit', 'score', 
 insert into awf_code values ('sla.metricUnit.percent', 'sla.metricUnit', 'percent', '%', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.metricUnit.time', 'sla.metricUnit', 'time', '시간', NULL, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.calculationType', 'sla', 'calculationType', '계산 방식', NULL, true, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values ('sla.calculationType.total', 'sla.calculationType', 'total', '합산', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values ('sla.calculationType.rate', 'sla.calculationType', 'rate', '비율', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType.sum', 'sla.calculationType', 'sum', '합산', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType.percentage', 'sla.calculationType', 'percentage', '비율', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.calculationType.average', 'sla.calculationType', 'average', '평균', NULL, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.metricGroup', 'sla', 'metricGroup', '지표 그룹', NULL, true, true, 2, 4, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.metricGroup.default', 'sla.metricGroup', 'default', '기본 그룹', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
@@ -1247,7 +1247,7 @@ insert into awf_url values ('/organizations/edit', 'get', '조직 관리 편집 
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
 insert into awf_url values ('/portals/browserguide', 'get', '포탈 브라우저 안내', 'FALSE');
 insert into awf_url values ('/portals/archives', 'get', '포달 자료실 리스트', 'FALSE');
-insert into awf_url values ('/portals/archives/{downloadId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
+insert into awf_url values ('/portals/archives/{archiveId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
 insert into awf_url values ('/portals/archives/search', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/portals/faqs', 'get', '포탈 FAQ 상세조회', 'FALSE');
 insert into awf_url values ('/portals/faqs/{faqId}/view', 'get', '포탈 FAQ 리스트', 'FALSE');
@@ -2126,7 +2126,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
-
+ 
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,
@@ -8799,8 +8799,8 @@ insert into awf_code_lang values ('sla.metricUnit', 'Metric Unit', 'en');
 insert into awf_code_lang values ('sla.metricUnit.score', 'score', 'en');
 insert into awf_code_lang values ('sla.metricUnit.time', 'time', 'en');
 insert into awf_code_lang values ('sla.calculationType', 'Calculation Type', 'en');
-insert into awf_code_lang values ('sla.calculationType.total', 'total', 'en');
-insert into awf_code_lang values ('sla.calculationType.rate', 'rate', 'en');
+insert into awf_code_lang values ('sla.calculationType.sum', 'sum', 'en');
+insert into awf_code_lang values ('sla.calculationType.percentage', 'percentage', 'en');
 insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
 insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
 insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
@@ -9480,3 +9480,4 @@ COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
 COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
 COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
+
