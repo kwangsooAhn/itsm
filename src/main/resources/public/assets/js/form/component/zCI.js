@@ -440,7 +440,6 @@ export const ciMixin = {
         }
         if (!zValidation.isEmpty(document.getElementById('ciTags').value)) {
             const ciTags = JSON.parse(document.getElementById('ciTags').value);
-            console.log('저장된 내용을 불러옵니다.')
             console.log(ciTags)
             ciTags.forEach((tag) => {
                 saveData.values.ciTags.push({'id': data.ciId, 'value': tag.value});
