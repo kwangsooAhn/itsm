@@ -95,7 +95,10 @@ class MetricYearController(
      */
     @GetMapping("/annual")
     fun getMetricAnnualList(@RequestParam year: String, model: Model): String {
-        model.addAttribute("metricYearsList", metricYearService.findMetricAnnualSearch(year))
+        val result = metricYearService.findMetricAnnualSearch(year)
+        model.addAttribute("metricYearsList", result.data)
+        model.addAttribute("totalCount", result.totalCount)
+        model.addAttribute("totalCountWithoutCondition",result.totalCountWithoutCondition)
         return metricAnnualListPage
     }
 
