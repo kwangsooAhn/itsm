@@ -1,12 +1,9 @@
 package co.brainz.workflow.token.repository
 
 import co.brainz.workflow.element.constants.WfElementConstants
-import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
-import com.querydsl.core.types.ExpressionUtils
-import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -47,27 +44,17 @@ class WfTokenRepositoryImpl : QuerydslRepositorySupport(WfTokenEntity::class.jav
             .fetch()
     }
 
-    override fun getLastTokenIdList(instanceIds: Set<String>): List<Map<String,String>> {
+    override fun getLastToken(instanceId: String): WfTokenEntity {
         val token = QWfTokenEntity.wfTokenEntity
-        val token2 = QWfTokenEntity.wfTokenEntity
-        val token3 = QWfTokenEntity.wfTokenEntity
-        val instance = QWfInstanceEntity.wfInstanceEntity
+        val tokenMaxStartDt = QWfTokenEntity.wfTokenEntity
 
-        // select wi.instance_id, max(wt.token_start_dt) from wf_instance wi, wf_token wt where wi.instance_id in ('492415df395d48d68d5ddbb7ccc33e57','3b49b6efdf994c5f8a37e376a383477a')
-        // and wi.instance_id = wt.instance_id
-        //     group by wi.instance_id
-
-        val temp =
-
-
-        from(token2)
-            .where(token2.tokenStartDt.eq(
-                from(token)
-                    .select(token.tokenStartDt.max())
-                    .join(instance).on(token.instance.eq(instance))
-                    .where(instance.instanceId.`in`(instanceIds))
-                    .groupBy(instance.instanceId)
+        return from(token)
+            .where(token.tokenStartDt.eq(
+                from(tokenMaxStartDt)
+                    .select(tokenMaxStartDt.tokenStartDt.max())
+                    .where(tokenMaxStartDt.instance.instanceId.eq(instanceId))
             ))
-            .where(instance.instanceId.`in`(instanceIds))
+            .where(token.instance.instanceId.eq(instanceId))
+            .fetchOne()
     }
 }

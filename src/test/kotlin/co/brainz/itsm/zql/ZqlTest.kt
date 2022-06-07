@@ -325,6 +325,30 @@ class ZqlTest {
     @DisplayName("ZQL Percentage Test")
     @Order(400)
     fun percentageTest() {
+        this.init()
+        val startDt: LocalDateTime = LocalDateTime.of(2020, 12, 31, 12, 12, 0)
+        val endDt: LocalDateTime = LocalDateTime.of(2021, 1, 3, 13, 17, 59)
+
+        // 2020-12-31 ~ 2021-01-03 사이에 진행된 종료문서 2개 생성.
+        createTag(listOf("incident_level"), this.comp)
+        val token1 = createToken(document, InstanceStatus.FINISH, startDt.minusDays(1), endDt.minusDays(1))
+        val token2 = createToken(document, InstanceStatus.FINISH, startDt, endDt)
+
+        // 평균을 위해서 사용할 컴포넌트의 값을 각각 10,20으로 설정
+        createTokenData(token1, this.comp, "10")
+        createTokenData(token2, this.comp, "20")
+
+        // 해당 태그를 사용한 표현식, 2020~2021년 2년간 월별로 종료일 기준의 완료된 문서 카운트 검색
+        val result = this.zql.setExpression("[incident_level] == 10")
+            .setFrom(LocalDateTime.of(2020, 1, 1, 0, 0, 0))
+            .setTo(LocalDateTime.of(2021, 12, 31, 21, 59, 59))
+            .setPeriod(ZqlPeriodType.MONTH)
+            .setInstanceStatus(InstanceStatus.FINISH)
+            .setCriteria(ZqlInstanceDateCriteria.END)
+            .percentage()
+
+        // 종료일 기준이기 때문에 문서의 종료일인 2021-01-03을 이용해서 ZQL 표현식을 적용하면 2개 문서중 1개가 참이므로 50% 예상 (단위는 없음).
+        println(result)
     }
 
     private fun createForm(status: String): WfFormEntity {

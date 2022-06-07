@@ -146,17 +146,17 @@ class Zql(
      * @return 카테고리 일시와 카테고리별 표현식 적용 값의 평균 리스트
      */
     fun average(): List<ZqlCalculatedData> {
-        val calculatedDataList = listOf<ZqlCalculatedData>()
-
-        init().map {
+        return init().map {
             ZqlCalculatedData(
-                it.categorizedDT, (it.zqlTokenList.map { token ->
-                    val expression = this.replaceExpression(token)
-                    ZqlUtil.checkSpEL(expression) as Float
+                it.categorizedDT,
+                (it.zqlTokenList.map { token ->
+                    when (val expValue = ZqlUtil.checkSpEL(this.replaceExpression(token))) {
+                        is Number -> expValue.toString().toFloat()
+                        else -> 0f
+                    } as Float
                 }.average().toFloat())
             )
         }
-        return calculatedDataList
     }
 
     /**
@@ -168,19 +168,18 @@ class Zql(
      * @return 카테고리별 일시와 카테고리별 전체 토큰에서 표현식이 참인 토큰의 비율 리스트
      */
     fun percentage(): List<ZqlCalculatedData> {
-        val calculatedDataList = listOf<ZqlCalculatedData>()
-
-        init().map {
+        return init().map {
             ZqlCalculatedData(
-                it.categorizedDT, (it.zqlTokenList.filter { token ->
-                    val expression = this.replaceExpression(token)
-                    ZqlUtil.checkSpEL(expression) as Boolean
+                it.categorizedDT,
+                (it.zqlTokenList.filter { token ->
+                    when (val expValue = ZqlUtil.checkSpEL(this.replaceExpression(token))) {
+                        is Boolean -> expValue as Boolean
+                        else -> false
+                    }
                 }.size.toFloat()
-                    / it.zqlTokenList.size) * 100
+                / (if (it.zqlTokenList.size > 0) it.zqlTokenList.size else 1)) * 100
             )
         }
-
-        return calculatedDataList
     }
 
     /**
@@ -198,17 +197,16 @@ class Zql(
      */
     fun fetch(): List<ZqlToken> {
         val instances = this.getInstanceByZQL()
-        val tokens = tokenRepo.getLastTokenIdList(instances.map { it.instanceId }.toSet())
 
         return instances.map { instance ->
-            val tokenId = tokens.filter { it.instance.instanceId == instance.instanceId }[0].tokenId
+            val token = tokenRepo.getLastToken(instance.instanceId)
             val tagValues = mutableMapOf<String, String>()
-            this.getTokenDataByTag(tokenId).forEach {
+            this.getTokenDataByTag(token.tokenId).forEach {
                 tagValues[it.tagValue] = it.componentValue
             }
 
             ZqlToken(
-                tokenId,
+                token.tokenId,
                 criteriaDT = if (this.criteria == ZqlInstanceDateCriteria.START) {
                     instance.instanceStartDt!!
                 } else {
@@ -232,7 +230,8 @@ class Zql(
         var docIds = mutableSetOf<String>()
         val docIdsByTag = tagList.map { instanceRepo.getDocumentIdsByTag(it) }
         docIdsByTag.forEach { docIds.addAll(it) }
-        docIdsByTag.forEach { docId -> docIds = docId.filter { docIds.contains(it) }.toMutableSet()
+        docIdsByTag.forEach { docId ->
+            docIds = docId.filter { docIds.contains(it) }.toMutableSet()
         }
         return instanceRepo.getInstanceByZQL(docIds, from, to, instanceStatus, criteria)
     }
