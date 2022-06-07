@@ -310,6 +310,12 @@ calendar:
          • endDt : 종료 날짜<br/>
          • title : 제목<br/>
          • contents : 내용"
+  excel:
+    type: 구분
+    title: 제목
+    contents: 내용
+    startDt: 시작일
+    endDt: 종료일
 
 # Chart
 chart:

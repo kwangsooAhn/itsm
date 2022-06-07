@@ -436,7 +436,7 @@ class CalendarRepeatService(
     /**
      * Timezone 시간으로 변경
      */
-    private fun getUTCToTimezone(localDateTime: LocalDateTime, zoneId: String): LocalDateTime {
+    fun getUTCToTimezone(localDateTime: LocalDateTime, zoneId: String): LocalDateTime {
         return LocalDateTime.ofInstant(localDateTime.toInstant(ZoneOffset.UTC), ZoneId.of(zoneId))
     }
 }

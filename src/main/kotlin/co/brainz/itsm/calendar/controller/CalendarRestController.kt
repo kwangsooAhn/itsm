@@ -104,4 +104,12 @@ class CalendarRestController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(calendarService.deleteCalendarRepeat(calendarId, calendarDeleteRequest))
     }
+
+    /**
+     * Excel 다운로드
+     */
+    @PostMapping("/excel")
+    fun getCalendarExcelDownload(@RequestBody calendarRequest: CalendarRequest): ResponseEntity<ByteArray> {
+        return calendarService.getCalendarExcelDownload(calendarRequest)
+    }
 }
