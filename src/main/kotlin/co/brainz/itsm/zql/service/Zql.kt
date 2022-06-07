@@ -195,7 +195,7 @@ class Zql(
      * @param
      * @return 연산 대상이 되는 ZqlToken 형태의 토큰 리스트
      */
-    fun fetch(): List<ZqlToken> {
+    private fun fetch(): List<ZqlToken> {
         val instances = this.getInstanceByZQL()
 
         return instances.map { instance ->

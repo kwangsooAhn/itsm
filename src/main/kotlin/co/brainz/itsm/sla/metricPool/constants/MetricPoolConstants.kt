@@ -36,4 +36,14 @@ object MetricPoolConstants {
         SIMPLE_AUTO("auto"),
         SIMPLE_MANUAL("manual")
     }
+
+    /**
+     * Metric calculation type
+     */
+    enum class MetricCalculationTypeCode(val code: String) {
+        SUM("sla.calculationType.total"),
+        PERCENTAGE("sla.calculationType.rate"),
+        AVERAGE("sla.calculationType.average"),
+        COUNT("")
+    }
 }

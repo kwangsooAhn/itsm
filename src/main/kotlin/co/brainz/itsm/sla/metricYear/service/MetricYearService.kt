@@ -35,6 +35,10 @@ import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import co.brainz.itsm.zql.const.ZqlInstanceDateCriteria
+import co.brainz.itsm.zql.const.ZqlPeriodType
+import co.brainz.itsm.zql.service.Zql
+import co.brainz.workflow.instance.constants.InstanceStatus
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -54,7 +58,8 @@ class MetricYearService(
     private val currentSessionUser: CurrentSessionUser,
     private val aliceMessageSource: AliceMessageSource,
     private val excelComponent: ExcelComponent,
-    private val metricStatusService: MetricStatusService
+    private val metricStatusService: MetricStatusService,
+    private val zql: Zql
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -140,8 +145,26 @@ class MetricYearService(
         val pagingResult = metricYearRepository.findMetricStatusList(metricYearSearchCondition)
         val dataList: List<MetricAnnualDto> = mapper.convertValue(pagingResult.dataList)
 
+        val from = LocalDateTime.of(metricYearSearchCondition.year.toInt(), 1, 1, 0, 0, 0)
+        val to = LocalDateTime.of(metricYearSearchCondition.year.toInt(), 12, 31, 23, 59, 59)
+        dataList.forEach {
+            zql.setExpression(it.zqlString)
+                .setFrom(from)
+                .setTo(to)
+                .setPeriod(ZqlPeriodType.YEAR)
+                .setInstanceStatus(InstanceStatus.FINISH)
+                .setCriteria(ZqlInstanceDateCriteria.END)
+
+            it.score = when (it.calculationType) {
+                MetricPoolConstants.MetricCalculationTypeCode.SUM.code -> zql.sum()[0].value
+                MetricPoolConstants.MetricCalculationTypeCode.PERCENTAGE.code -> zql.percentage()[0].value
+                MetricPoolConstants.MetricCalculationTypeCode.AVERAGE.code -> zql.average()[0].value
+                else -> 0f
+            }
+        }
+
         return MetricAnnualListReturnDto(
-            data = this.scoreCalculation(dataList),
+            data = dataList,
             paging = AlicePagingData(
                 totalCount = pagingResult.totalCount,
                 totalCountWithoutCondition = metricYearRepository.count(),
@@ -151,22 +174,6 @@ class MetricYearService(
 
             )
         )
-    }
-
-    //zql 구현이 되면 instance의 건수를 계산하여 결과값이 나온다.
-    /**
-     * zql.setZqlExpression(zqlString)
-    .setFromDateTime(from)
-    .setToDateTime(to)
-    .instanceStatus(InstanceStatus.RUNNING) // FINISH가 기본값. (SLA는 FINISH 사용)
-    .criteria(ZqlInstanceDateCriteria.FROM) // TO가 기본값. (SLA는 TO 사용)
-    .count() //.sum(), .average(), .percentage()
-     */
-    private fun scoreCalculation(metricYearList: List<MetricAnnualDto>): List<MetricAnnualDto> {
-        metricYearList.forEach {
-            it.score = 11.0
-        }
-        return metricYearList
     }
 
     /**
@@ -255,7 +262,10 @@ class MetricYearService(
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         } else {
             val metricYearEntity =
-                metricYearRepository.findByMetricAndMetricYear(MetricPoolEntity(metricYearDto.metricId), metricYearDto.year)
+                metricYearRepository.findByMetricAndMetricYear(
+                    MetricPoolEntity(metricYearDto.metricId),
+                    metricYearDto.year
+                )
             metricYearEntity.minValue = metricYearDto.minValue
             metricYearEntity.maxValue = metricYearDto.maxValue
             metricYearEntity.weightValue = metricYearDto.weightValue
@@ -295,7 +305,9 @@ class MetricYearService(
             val metricYearEntity =
                 metricYearRepository.findById(
                     MetricYearEntityPk(
-                        metric = metricYearCopyDto.metricId, metricYear = metricYearCopyDto.source))
+                        metric = metricYearCopyDto.metricId, metricYear = metricYearCopyDto.source
+                    )
+                )
 
             when (metricYearEntity.isEmpty) {
                 true -> status = ZResponseConstants.STATUS.ERROR_NOT_EXIST

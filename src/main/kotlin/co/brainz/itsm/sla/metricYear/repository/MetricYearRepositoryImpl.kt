@@ -225,6 +225,8 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     metricPool.metricId,
                     code.codeName.`as`("metricGroupName"),
                     metricPool.metricName,
+                    metricPool.calculationType,
+                    metricYear.zqlString,
                     metricYear.minValue,
                     metricYear.maxValue,
                     metricYear.weightValue,

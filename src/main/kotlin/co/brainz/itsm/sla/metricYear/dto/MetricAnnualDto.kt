@@ -12,10 +12,12 @@ data class MetricAnnualDto(
     val metricId: String = "",
     val metricGroupName: String? = "",
     val metricName: String? = "",
-    val minValue: Double? = 0.0,
-    val maxValue: Double? = 0.0,
-    val weightValue: Double = 0.0,
-    var score: Double? = 0.0,
+    val calculationType: String? = "",
+    val zqlString: String = "",
+    val minValue: Float? = 0f,
+    val maxValue: Float? = 0f,
+    val weightValue: Float = 0f,
+    var score: Float? = 0f,
     val owner: String? = "",
     val comment: String? = ""
 ) : Serializable
