@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.faq.service
 
+import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
@@ -19,6 +19,7 @@ import co.brainz.itsm.faq.dto.FaqListReturnDto
 import co.brainz.itsm.faq.dto.FaqSearchCondition
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.repository.FaqRepository
+import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -39,12 +40,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class FaqService(
     private val faqRepository: FaqRepository,
-    private val aliceFileService: AliceFileService,
-    private val codeService: CodeService
+    private val codeService: CodeService,
+    private val userService: UserService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+    private val auth = AuthConstants.AuthType.PORTAL_MANAGE.value
 
     /**
      * FAQ 목록을 조회한다.
@@ -117,8 +119,10 @@ class FaqService(
      */
     @Transactional
     fun updateFaq(faqId: String, faqDto: FaqDto): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
         val faqEntity = faqRepository.getOne(faqId)
+        faqEntity.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
+
+        var status = ZResponseConstants.STATUS.SUCCESS
         val count = faqRepository.getCountDuplicateFaqTitleAndCategory(faqDto.faqTitle, faqDto.faqGroup)
         if (count == 0 || (faqDto.faqTitle == faqEntity.faqTitle && faqDto.faqGroup == faqEntity.faqGroup)) {
             faqEntity.faqGroup = faqDto.faqGroup
@@ -138,6 +142,8 @@ class FaqService(
      */
     @Transactional
     fun deleteFaq(faqId: String): ZResponse {
+        val faq = faqRepository.findById(faqId).get()
+        faq.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
         faqRepository.deleteById(faqId)
         return ZResponse()
     }

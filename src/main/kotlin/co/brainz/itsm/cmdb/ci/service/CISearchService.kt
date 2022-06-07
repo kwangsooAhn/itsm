@@ -26,6 +26,11 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
@@ -39,6 +44,9 @@ class CISearchService(
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
+    @Value("\${timezone.excel}")
+    private val timezone: String? = null
 
     /**
      * 공통 출력 컬럼 조회
@@ -365,6 +373,8 @@ class CISearchService(
                 CIAttributeConstants.Type.GROUP_LIST.code,
                 CIAttributeConstants.Type.DROP_DOWN.code,
                 CIAttributeConstants.Type.USER_SEARCH.code,
+                CIAttributeConstants.Type.DATE.code,
+                CIAttributeConstants.Type.DATE_TIME.code,
                 CIAttributeConstants.Type.ORGANIZATION_SEARCH.code -> {
                     attributeIds.add(basic.columnName[index])
                 }
@@ -472,6 +482,36 @@ class CISearchService(
                             val attributeValue = it.value[index].toString()
                             if (attributeValue.isNotEmpty()) {
                                 it.value[index] = attributeValue.trim().split("|")[1]
+                            }
+                        }
+                    }
+                }
+                CIAttributeConstants.Type.DATE.code -> {
+                    val attribute = this.getAttribute(attributeList, basic.columnName[index])
+                    if (attribute.attributeId.isNotEmpty()) {
+                        basic.contents.forEach {
+                            val attributeValue = it.value[index].toString()
+                            if (attributeValue.isNotBlank()) {
+                                val localDateTime =
+                                    LocalDateTime.parse(attributeValue, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+                                val ldtZoned: ZonedDateTime = localDateTime.atZone(ZoneId.of("UTC"))
+                                it.value[index] = ldtZoned.withZoneSameInstant(ZoneId.of(timezone)).toLocalDateTime()
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                            }
+                        }
+                    }
+                }
+                CIAttributeConstants.Type.DATE_TIME.code -> {
+                    val attribute = this.getAttribute(attributeList, basic.columnName[index])
+                    if (attribute.attributeId.isNotEmpty()) {
+                        basic.contents.forEach {
+                            val attributeValue = it.value[index].toString()
+                            if (attributeValue.isNotBlank()) {
+                                val localDateTime =
+                                    LocalDateTime.parse(attributeValue, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+                                val ldtZoned: ZonedDateTime = localDateTime.atZone(ZoneId.of("UTC"))
+                                it.value[index] = ldtZoned.withZoneSameInstant(ZoneId.of(timezone)).toLocalDateTime()
+                                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                             }
                         }
                     }

@@ -68,6 +68,9 @@ abstract class AliceWebSecurityConfigurerAdapter(
             .and()
             .sessionManagement()
             .invalidSessionStrategy(AliceInvalidSessionStrategy())
+            .maximumSessions(1)
+            .maxSessionsPreventsLogin(false) // true: 기존 사용자 유지, false: 기존 사용자 logout
+            .expiredUrl("/sessionInvalid")
 
         // TODO csrf, 세션만료등 에러 핸들러 구현 요망 .and().exceptionHandling().accessDeniedHandler(AliceAccessDeniedHandler())
     }

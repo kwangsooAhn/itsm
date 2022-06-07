@@ -181,4 +181,13 @@ class AliceUtil {
         val timeOffset = timeZone.rules.getOffset(dateTime)
         return LocalDateTime.ofEpochSecond(dateTimeBasedUTC, 0, ZoneOffset.of(timeOffset.toString()))
     }
+
+    /**
+     * 수정 및 삭제 시 작성한 사용자와 비교 및 admin 권한 체크
+     */
+    fun urlAccessUserKeyCheck(sessionUser: CurrentSessionUser, createUserKey: String): Boolean {
+        if (sessionUser.getUserKey() == createUserKey) return true
+
+        return sessionUser.getRoles().contains(AliceConstants.SYSTEM_ROLE)
+    }
 }

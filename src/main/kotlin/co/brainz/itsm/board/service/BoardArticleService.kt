@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.board.service
 
+import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -28,6 +29,7 @@ import co.brainz.itsm.board.repository.BoardCategoryRepository
 import co.brainz.itsm.board.repository.BoardCommentRepository
 import co.brainz.itsm.board.repository.BoardReadRepository
 import co.brainz.itsm.board.repository.BoardRepository
+import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -44,10 +46,12 @@ class BoardArticleService(
     private val boardAdminRepository: BoardAdminRepository,
     private val boardCategoryRepository: BoardCategoryRepository,
     private val aliceFileService: AliceFileService,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val userService: UserService
 ) {
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+    private val auth = AuthConstants.AuthType.PORTAL_MANAGE.value
 
     /**
      * [boardArticleSearchCondition]을 받아서 게시판 목록을 [List<BoardRestDto>]으로 반환 한다.
@@ -79,16 +83,20 @@ class BoardArticleService(
      */
     @Transactional
     fun saveBoardArticle(boardArticleSaveDto: BoardArticleSaveDto): ZResponse {
+        val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
+        if (boardArticleSaveDto.boardId.isNotEmpty()) {
+            updatePortalBoardEntity.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
+        }
+
         var status = ZResponseConstants.STATUS.SUCCESS
+        val boardAdminId = boardArticleSaveDto.boardAdminId
+        val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         try {
-            val boardAdminId = boardArticleSaveDto.boardAdminId
             val boardCount = boardRepository.countByBoardAdminId(boardAdminId)
             var boardSeq = 0L
             if (boardCount > 0) {
                 boardSeq = boardRepository.findMaxBoardSeq(boardAdminId)
             }
-            val updatePortalBoardEntity = boardRepository.findById(boardArticleSaveDto.boardId).orElse(null)
-            val portalBoardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
             val portalBoardEntity = PortalBoardEntity(
                 boardId = boardArticleSaveDto.boardId,
                 boardAdmin = portalBoardAdminEntity,
@@ -124,6 +132,10 @@ class BoardArticleService(
      */
     @Transactional
     fun saveBoardArticleComment(boardArticleCommentDto: BoardArticleCommentDto): ZResponse {
+        if (boardArticleCommentDto.boardCommentId.isNotEmpty()) {
+            val commentDto = boardCommentRepository.findById(boardArticleCommentDto.boardCommentId).get()
+            commentDto.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
+        }
         val boardPortalBoardEntity = boardRepository.findById(boardArticleCommentDto.boardId).orElse(null)
         val portalBoardCommentEntity = PortalBoardCommentEntity(
             boardCommentId = boardArticleCommentDto.boardCommentId,
@@ -143,6 +155,10 @@ class BoardArticleService(
      */
     @Transactional
     fun getBoardArticleDetail(boardId: String, type: String): BoardArticleViewDto {
+        val boardDto = boardRepository.findByBoardId(boardId)
+        if (type == "edit") {
+            boardDto.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
+        }
         val boardReadEntity = boardReadRepository.findById(boardId).orElse(PortalBoardReadEntity())
         if (type == "view") {
             boardReadEntity.boardId = boardId
@@ -150,7 +166,6 @@ class BoardArticleService(
             boardReadRepository.save(boardReadEntity)
         }
 
-        val boardDto = boardRepository.findByBoardId(boardId)
         if (!boardDto.boardCategoryId.isNullOrEmpty()) {
             boardDto.boardCategoryName =
                 boardDto.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }
@@ -194,6 +209,8 @@ class BoardArticleService(
      */
     @Transactional
     fun deleteBoardArticle(boardId: String): ZResponse {
+        val boardDto = boardRepository.findById(boardId).get()
+        boardDto.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
         val boardReadCount = boardReadRepository.findById(boardId)
         if (!boardReadCount.isEmpty) {
             boardReadRepository.deleteById(boardId)
@@ -214,6 +231,8 @@ class BoardArticleService(
      */
     @Transactional
     fun deleteBoardArticleComment(boardCommentId: String): ZResponse {
+        val boardEntity = boardCommentRepository.findById(boardCommentId).get()
+        boardEntity.createUser?.let { userService.userAccessAuthCheck(it.userKey, auth) }
         boardCommentRepository.deleteById(boardCommentId)
         return ZResponse()
     }

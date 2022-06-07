@@ -19,6 +19,7 @@ import ZDefaultValueSearchProperty from '../../formDesigner/property/type/zDefau
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv, UIInput } from '../../lib/zUI.js';
 import { zValidation } from '../../lib/zValidation.js';
+import { ZSession } from '../../lib/zSession.js';
 
 /**
  * 컴포넌트 별 기본 속성 값
@@ -61,7 +62,8 @@ export const organizationSearchMixin = {
             .setUIId('organizationSearch' + this.id)
             .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)
-            .setUIAttribute('data-organization-search', (this.value === '${default}') ? defaultValues[0] : savedValues[0])
+            .setUIAttribute('data-organization-search',
+                (this.value === '${default}') ? defaultValues[0] : savedValues[0])
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('oncontextmenu', 'return false;')
             .setUIAttribute('onkeypress', 'return false;')
@@ -75,6 +77,13 @@ export const organizationSearchMixin = {
     },
     // DOM 객체가 모두 그려진 후 호출되는 이벤트 바인딩
     afterEvent() {
+        const defaultValue = this.elementDefaultValue;
+        // 기본값 타입이 session 일 경우 세션값을 사용
+        if (this.value === '${default}' && defaultValue.type === 'session') {
+            const newElementDefaultValue = JSON.parse(JSON.stringify(defaultValue));
+            newElementDefaultValue.data = `${ZSession.get('department')}|${ZSession.get('departmentName')}`;
+            this.elementDefaultValue = newElementDefaultValue;
+        }
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UIInput.setUIReadOnly(true);
@@ -82,6 +91,14 @@ export const organizationSearchMixin = {
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
                 this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+        }
+        // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
+        // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
+        // 기본값이 '${default}' 이면 실제 값을 저장한다.
+        if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
+            !zValidation.isEmpty(this.parent.parent.parent) && this.parent.parent.parent.status !== FORM.STATUS.EDIT &&
+            this.displayType === FORM.DISPLAY_TYPE.EDITABLE  && this.value === '${default}') {
+            this.value = this.elementDefaultValue.data;
         }
     },
     // set, get
@@ -171,7 +188,8 @@ export const organizationSearchMixin = {
 
     // 세부 속성 조회
     getProperty() {
-        const defaultValueSearchProperty = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue);
+        const defaultValueSearchProperty
+            = new ZDefaultValueSearchProperty('elementDefaultValue', 'element.defaultValue', this.elementDefaultValue);
         defaultValueSearchProperty.help = 'form.help.search-default';
 
         return [

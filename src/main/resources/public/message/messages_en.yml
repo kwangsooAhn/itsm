@@ -126,6 +126,7 @@ auth:
     editDescription: "Add or view and manage auth."
     enterAuthId: "Please enter a auth id."
     enterAuthName: "Please enter a auth name."
+    invalidRequest: "Invalid request"
     invalidToken: "Invalid token"
     searchPlaceholder: "Auth Name / Auth Desc"
   auth:
@@ -1016,6 +1017,7 @@ login:
     enterPassword: "Please enter your password."
     invalidUserOrPassword: "This is an unregistered ID or an incorrect password."
     ipAccessDenied: "This IP is not accessible."
+    maximumSession: "Maximum sessions for this principal exceeded"
     redirectedLoginPage: "seconds after, you will be redirected to the login page."
     sessionExpired: "Your session has expired."
     unKnownError: "An unknown error has occurred. Please contact the administrator."
@@ -1283,6 +1285,40 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
+# statistic
+statistic:
+  btn:
+    create: "Create"
+    pdf: "PDF"
+  label:
+    automatic: "Automatic generation"
+    chart: "Chart"
+    columnName: "Column Name"
+    currentSituation: "Current Situation"
+    description: "Description"
+    publishDate: "Publish Date"
+    customReport: "Custom Report"
+    reportName: "Report Name"
+    search: "Report Search"
+    searchPlaceholder: "Template name"
+    customReportTemplate: "custom Report Template"
+    templateEdit: "Template Edit"
+    templateName: "Template Name"
+    templateRegister: "Template Register"
+  msg:
+    configDescription: "Set up templates using custom charts."
+    createFail: "Failed to generate report"
+    createSucess: "Report has been generated."
+    duplicateChart: "Duplicate chart exists."
+    editDescription: "Register, modify, or delete templates."
+    emptyChart: "Chart does not exist."
+    searchDescription: "Search report that you generated."
+    templateNameUsed: "Duplicate template name exists."
+  template:
+    all: "All"
+  tooltip:
+    reportName: "When creating a report, set the name of the report to be displayed.<br/>If the report name is not entered, the template name is used as the report name."
+
 # Role
 role:
   btn:
@@ -1340,7 +1376,6 @@ scheduler:
     scheduleDescription: "Check the schedule details and history."
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
-    compareWithSchedulerExecuteTimeValue: "Scheduler start execute time is greater than or equal to end execute time."
     cronValue: "Cron can be entered up to 6 fields."
     cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."
@@ -1543,6 +1578,7 @@ token:
     searchPlaceholder: "Document No / Title / Create User"
     startDt: "Start Date"
     status: "Status"
+    storage: "Favorites"
     tagPlaceHolder: "#Tags"
     view: "Document View"
     viewer: "CC"
@@ -1551,6 +1587,7 @@ token:
     process: "Process"
     processMap: "Process Map"
   msg:
+    confirmDeleteStorageDocument: "Are you sure you want to delete favorite document?"
     selectToken: "Check the related documents to be added."
     selectViewer: "Check the viewers to be added."
     searchDescription: "View and search documents relating to me."
@@ -1562,6 +1599,7 @@ token:
     progress: "Document in progress"
     requested: "Application document"
     todo: "Document to process"
+    stored: "Stored Documents"
   action:
     withdraw: "withdraw"
     reject: "reject"
@@ -1622,6 +1660,7 @@ user:
     nowUserPassword: "Current Password"
     officeNumber: "officeNumber"
     password: "Password"
+    passwordCheck: "Password Check"
     position: "Position"
     profile: "Profile"
     rePassword: "rePassword"
@@ -1720,6 +1759,7 @@ validation:
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
+    pwValidationFail: "Password validation failed."
     required: "Please enter {0}."
     specialChar: "Please enter only special characters."
     unacceptableCharacters: "Contains special characters (/ \ % ;) that are not allowed."
@@ -1754,6 +1794,7 @@ file:
     failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
     fileSelect: "Please select a file."
     noAttachFile: "There are no attachments."
+    unacceptableCharacters: "contains special characters(. / \ %) that are not allowed File Name."
     registrationSuccess: "File Registration Success."
     searchDescription: "Add, view and manage Files to be used in forms."
     upload: "Drop files here to upload."

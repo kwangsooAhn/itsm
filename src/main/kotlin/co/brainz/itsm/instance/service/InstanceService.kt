@@ -24,6 +24,7 @@ import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
 import co.brainz.itsm.instance.mapper.CommentMapper
 import co.brainz.itsm.instance.repository.CommentRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
+import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
@@ -51,7 +52,8 @@ class InstanceService(
     private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val viewerRepository: ViewerRepository,
-    val wfTokenManagerService: WfTokenManagerService
+    private val wfTokenManagerService: WfTokenManagerService,
+    private val userService: UserService
 ) {
     private val commentMapper: CommentMapper = Mappers.getMapper(CommentMapper::class.java)
 
@@ -152,6 +154,8 @@ class InstanceService(
      * Delete Comment.
      */
     fun deleteComment(instanceId: String, commentId: String): ZResponse {
+        val commentEntity = commentRepository.getOne(commentId)
+        commentEntity.aliceUserEntity?.let { userService.userAccessAuthCheck(it.userKey, null) }
         commentRepository.deleteById(commentId)
         return ZResponse()
     }

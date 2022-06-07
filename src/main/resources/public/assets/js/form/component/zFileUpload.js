@@ -13,6 +13,7 @@ import ZCommonProperty from '../../formDesigner/property/type/zCommonProperty.js
 import ZGroupProperty from '../../formDesigner/property/type/zGroupProperty.js';
 import ZLabelProperty from '../../formDesigner/property/type/zLabelProperty.js';
 import ZSliderProperty from '../../formDesigner/property/type/zSliderProperty.js';
+import ZSwitchProperty from '../../formDesigner/property/type/zSwitchProperty.js';
 import { FORM } from '../../lib/zConstants.js';
 import { UIDiv } from '../../lib/zUI.js';
 
@@ -46,7 +47,8 @@ export const fileUploadMixin = {
 
         element.UIFileUpload = new UIDiv().setUIClass('z-fileupload')
             .addUIClass('file-uploader-edit')
-            .setUIId('fileupload' + this.id);
+            .setUIId('fileupload' + this.id)
+            .setUIAttribute('data-validation-required', this.validationRequired);
 
         element.UIFileUpload.dropZoneFiles = new UIDiv().setUIId('dropZoneFiles-' + this.id);
         element.UIFileUpload.addUI(element.UIFileUpload.dropZoneFiles);
@@ -158,7 +160,9 @@ export const fileUploadMixin = {
             ...new ZCommonProperty(this).getCommonProperty(),
             ...new ZLabelProperty(this).getLabelProperty(),
             new ZGroupProperty('group.element')
-                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth))
+                .addProperty(new ZSliderProperty('elementColumnWidth', 'element.columnWidth', this.elementColumnWidth)),
+            new ZGroupProperty('group.validation')
+                .addProperty(new ZSwitchProperty('validationRequired', 'validation.required', this.validationRequired))
         ];
     },
     // json 데이터 추출 (서버에 전달되는 json 데이터)

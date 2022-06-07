@@ -9,6 +9,7 @@ package co.brainz.itsm.statistic.customChart.respository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.framework.querydsl.dto.PagingReturnDto
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartDataDto
 import co.brainz.itsm.statistic.customChart.dto.ChartDto
 import co.brainz.itsm.statistic.customChart.dto.ChartSearchCondition
@@ -50,10 +51,11 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
             query.orderBy(chart.createDt.desc(), chart.chartName.asc(), chart.chartType.asc())
         } else {
             val column = when (chartSearchCondition.orderColName) {
-                QuerydslConstants.OrderColumn.CREATE_USER_NAME.code -> {
-                    chart.createUser.userName
-                }
-                else -> Expressions.stringPath(chart, chartSearchCondition.orderColName)
+                ChartConstants.OrderColumn.CHART_NAME.code -> chart.chartName
+                ChartConstants.OrderColumn.CHART_TYPE.code -> chart.chartType
+                ChartConstants.OrderColumn.CHART_DESC.code -> chart.chartDesc
+                ChartConstants.OrderColumn.CREATE_USER_NAME.code -> chart.createUser.userName
+                else -> Expressions.stringPath(chart, ChartConstants.OrderColumn.CREATE_DT.code)
             }
             val direction = when (chartSearchCondition.orderDir) {
                 QuerydslConstants.OrderSpecifier.DESC.code -> Order.DESC
@@ -78,12 +80,12 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
 
     private fun builder(chartSearchCondition: ChartSearchCondition, chart: QChartEntity): BooleanBuilder {
         val builder = BooleanBuilder()
-            builder.and(
-                super.eq(chart.chartType, chartSearchCondition.searchGroupName)
-            )
-            builder.and(
-                super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
-            )
+        builder.and(
+            super.eq(chart.chartType, chartSearchCondition.searchGroupName)
+        )
+        builder.and(
+            super.likeIgnoreCase(chart.chartName, chartSearchCondition.searchValue)
+        )
         return builder
     }
 
@@ -102,8 +104,9 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
                 )
             )
             .leftJoin(reportMap).on(chart.chartId.eq(reportMap.chartId))
-            .where(chart.chartId.`in`(chartIds)
-                .and(reportMap.template.templateId.eq(templateId))
+            .where(
+                chart.chartId.`in`(chartIds)
+                    .and(reportMap.template.templateId.eq(templateId))
             )
             .orderBy(reportMap.displayOrder.asc())
             .fetch()
@@ -112,8 +115,10 @@ class CustomChartRepositoryImpl : QuerydslRepositorySupport(ChartEntity::class.j
     override fun existsDuplicationData(chartDto: ChartDto): Boolean {
         val chart = QChartEntity.chartEntity
         val query = from(chart)
-            .where(chart.chartName.eq(chartDto.chartName)
-                .and(chart.chartType.eq(chartDto.chartType)))
+            .where(
+                chart.chartName.eq(chartDto.chartName)
+                    .and(chart.chartType.eq(chartDto.chartType))
+            )
         if (chartDto.chartId.isNotEmpty()) {
             query.where(!chart.chartId.eq(chartDto.chartId))
         }

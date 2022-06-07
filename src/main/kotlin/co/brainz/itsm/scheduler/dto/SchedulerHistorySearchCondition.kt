@@ -12,12 +12,12 @@ import java.time.format.DateTimeFormatter
 data class SchedulerHistorySearchCondition(
     var taskId: String = "",
     var searchResult: Boolean?,
-    var searchFromDt: String? = "",
-    var searchToDt: String? = "",
+    var fromDt: String? = "",
+    var toDt: String? = "",
     var offset: Long,
     var isScroll: Boolean = false,
     var isModalOpen: Boolean? = false
 ) : Serializable {
-    val formattedFromDt: LocalDateTime? = LocalDateTime.parse(searchFromDt, DateTimeFormatter.ISO_DATE_TIME)
-    val formattedToDt: LocalDateTime? = LocalDateTime.parse(searchToDt, DateTimeFormatter.ISO_DATE_TIME)
+    val formattedFromDt: LocalDateTime? = LocalDateTime.parse(fromDt, DateTimeFormatter.ISO_DATE_TIME)
+    val formattedToDt: LocalDateTime? = LocalDateTime.parse(toDt, DateTimeFormatter.ISO_DATE_TIME)
 }

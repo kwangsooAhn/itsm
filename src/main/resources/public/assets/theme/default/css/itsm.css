@@ -85,7 +85,7 @@ input, button, select, optgroup, textarea {
   --data-color: "";
 }
 
-/* _alignments.scss 
+/* _alignments.scss
  *
  * 파일 경로 : template/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -273,7 +273,7 @@ input, button, select, optgroup, textarea {
   flex-basis: 100% !important;
 }
 
-/* _columns.scss 
+/* _columns.scss
  *
  * 파일 경로 : template/utilities/_columns.scss
  * @description HTML element column 너비 관련 디자인
@@ -632,7 +632,7 @@ input, button, select, optgroup, textarea {
   font-style: normal;
   font-weight: 900;
 }
-/* _common.scss 
+/* _common.scss
  *
  * 파일 경로 : template/utilities/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -1647,6 +1647,53 @@ input, button, select, optgroup, textarea {
 
 .bg-indigo50 {
   background-color: #F1F5FE !important;
+}
+
+/* _charts.scss
+ *
+ * 파일 경로 : template/_charts.scss
+ * @description Highcharts custom design 을 위해 추가됨
+ * @author jy.lim
+ * @version 1.0
+ */
+.highcharts-pie-series.highcharts-legend-item > span {
+  width: 20.75rem;
+  height: 2.625rem;
+  padding: 0 10px;
+  border-bottom: 0.0625rem solid #E1E6EA;
+  color: #424242;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+.highcharts-pie-series.highcharts-legend-item > span:hover {
+  color: inherit !important;
+  background: #EEEEEE no-repeat 0 0;
+}
+.highcharts-pie-series.highcharts-legend-item:first-child > span {
+  border-bottom: 0.125rem solid #CFD5D9;
+  pointer-events: none;
+}
+.highcharts-pie-series.highcharts-legend-item:last-child > span {
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.highcharts-pie-series.highcharts-legend-item rect {
+  display: none;
+}
+.highcharts-pie-series.highcharts-legend-item .highcharts-legend-row {
+  margin: 0.875rem 0.625rem;
+}
+
+.highcharts-total {
+  width: 10rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: #8B9094;
+}
+.highcharts-total-count {
+  font-size: 3.25rem;
+  color: #222529;
 }
 
 /* _icons.scss
@@ -5710,7 +5757,7 @@ select {
   background: #8B9094;
 }
 
-/* _scrollbars.scss 
+/* _scrollbars.scss
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -6037,7 +6084,7 @@ select {
   stroke: transparent;
 }
 
-/* _file-uploader.scss 
+/* _file-uploader.scss
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -6593,7 +6640,7 @@ select {
   display: none;
 }
 
-/* _avatar.scss 
+/* _avatar.scss
  *
  * 파일 경로 : template/_avatar.scss
  * @description 아바타 관련 디자인
@@ -6771,7 +6818,7 @@ select {
   font-size: 0.8125rem;
 }
 
-/* _date-picker.scss 
+/* _date-picker.scss
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -7117,7 +7164,7 @@ select {
   margin: 0.75rem 0.6875rem 0.75rem 0 !important;
 }
 
-/* _text-editor.scss 
+/* _text-editor.scss
  *
  * 파일 경로 : template/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -7520,6 +7567,7 @@ span.node label {
 span.node_selected,
 span.modal_node_selected {
   padding: 0.25rem 0.188rem 0.25rem 0;
+  border: 0.0625rem solid transparent;
   background-color: transparent;
   cursor: pointer;
 }
@@ -7556,7 +7604,7 @@ span.modal_node_selected label {
   color: #222529;
 }
 
-/* _color-picker.scss 
+/* _color-picker.scss
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -8101,11 +8149,21 @@ body.modal-active {
   margin: 0.625rem 0;
 }
 .modal-dialog.chart-view-modal {
-  width: 62.5rem;
+  min-width: 62.5rem;
+}
+.modal-dialog.chart-view-modal .modal-header {
+  border-bottom: 0.0625rem solid transparent;
 }
 .modal-dialog.chart-view-modal .modal-content {
-  padding: 0.625rem 1.25rem 2.5rem 1.25rem;
+  width: auto;
   height: auto;
+}
+.modal-dialog.chart-view-modal .modal-content .chart-edit-content {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin: 0 1.5rem;
 }
 .modal-dialog.product-info-modal {
   width: 26.875rem;
@@ -8237,6 +8295,18 @@ body.modal-active {
 .modal-dialog.sla-zql-manual-modal .modal-content div {
   font-size: 1.25rem;
   line-height: 1.5;
+}
+.modal-dialog.password-check {
+  width: 34.38rem;
+  height: 20.625rem;
+}
+.modal-dialog.password-check .modal-content {
+  height: calc(20.625rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.password-check .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
 }
 
 /* _thumbnail.scss
@@ -8432,7 +8502,7 @@ body.modal-active {
   background-position: center center;
 }
 
-/* _tooltip.scss 
+/* _tooltip.scss
  *
  * 파일 경로 : template/_tooltip.scss
  * @description 툴팁 디자인
@@ -8935,7 +9005,7 @@ body.modal-active {
   background: #8B9094;
 }
 
-/** 
+/**
  * 댓글 디자인
  * /default/_reply.scss
  * 화면 : 게시판
@@ -9007,7 +9077,7 @@ body.modal-active {
   background-color: transparent;
 }
 
-/** 
+/**
  * 팝업 디자인
  * /default/_popup.scss
  * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업

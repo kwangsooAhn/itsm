@@ -5,6 +5,7 @@
 
 package co.brainz.framework.fileTransaction.service
 
+import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.constants.FileConstants
@@ -22,6 +23,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceFileUtil
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.user.service.UserService
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -55,6 +57,7 @@ class AliceFileService(
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
     private val aliceFileProvider: AliceFileProvider,
     private val currentSessionUser: CurrentSessionUser,
+    private val userService: UserService,
     environment: Environment
 ) : AliceFileUtil(environment) {
 
@@ -340,6 +343,8 @@ class AliceFileService(
      * 파일관리 다운로드
      */
     fun download(fileName: String): ResponseEntity<InputStreamResource> {
+        this.fileNameSpecialCheck(fileName)
+        userService.userAccessAuthCheck("", AuthConstants.AuthType.WORKFLOW_MANAGE.value)
         val dir = super.getPath(FileConstants.Path.FILE.path)
         val resource =
             FileSystemResource(Paths.get(dir.toString() + File.separator + fileName))
@@ -399,5 +404,18 @@ class AliceFileService(
             )
         }
         aliceFileOwnMapRepository.deleteByFileLocEntity(aliceFileLocEntity)
+    }
+
+    /**
+     * 파일명 검사
+     */
+    private fun fileNameSpecialCheck(fileName: String) {
+        val regexChar = "[/\\\\%]".toRegex()
+        if (regexChar.containsMatchIn(fileName)) {
+            throw AliceException(
+                AliceErrorConstants.ERR_00005,
+                AliceErrorConstants.ERR_00005.message + "Invalid file name :  $fileName"
+            )
+        }
     }
 }

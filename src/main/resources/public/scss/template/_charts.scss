@@ -1,0 +1,53 @@
+/* _charts.scss
+ *
+ * 파일 경로 : template/_charts.scss
+ * @description Highcharts custom design 을 위해 추가됨
+ * @author jy.lim
+ * @version 1.0
+ */
+
+// Pie chart
+.highcharts-pie {
+  &-series {
+    &.highcharts-legend-item {
+      > span {
+        width: 20.75rem; // 332px
+        height: 2.625rem; // 43px
+        padding: 0 10px;
+        @include border(0.0625rem, solid, $gray200, bottom); // 1px
+        color: $neutral800;
+        font-size: $font-size-xs !important;
+        font-weight: $font-weight-medium !important;
+        &:hover {
+          color: inherit !important;
+          background: $neutral200 no-repeat 0 0;
+        }
+      }
+      &:first-child > span {
+        @include border(0.125rem, solid, $gray300, bottom); // 2px
+        pointer-events: none;
+      }
+      &:last-child > span {
+        @include border(0.0625rem, solid, $gray300, bottom); // 1px
+      }
+      rect {
+        display: none;
+      }
+      .highcharts-legend-row {
+        margin: 0.875rem 0.625rem; // 14px 10px
+      }
+    }
+  }
+}
+.highcharts-total {
+  width: 10rem; // 160px
+  text-align: center;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-regular;
+  line-height: 1.1;
+  color: $gray500;
+  &-count {
+    font-size: 3.25rem; // 52px
+    color: $gray800;
+  }
+}
