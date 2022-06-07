@@ -23,6 +23,7 @@ import co.brainz.framework.download.excel.dto.ExcelRowVO
 import co.brainz.framework.download.excel.dto.ExcelSheetVO
 import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
@@ -68,6 +69,7 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Optional
+import javax.servlet.http.HttpServletRequest
 import kotlin.math.ceil
 import kotlin.random.Random
 import org.slf4j.Logger
@@ -106,7 +108,8 @@ class UserService(
     private val organizationRepository: OrganizationRepository,
     private val organizationRoleMapRepository: OrganizationRoleMapRepository,
     private val roleService: RoleService,
-    private val aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
+    private val aliceRoleAuthMapRepository: AliceRoleAuthMapRepository,
+    private val aliceEncryptionUtil: AliceEncryptionUtil
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -118,6 +121,9 @@ class UserService(
 
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
+
+    @Value("\${encryption.algorithm}")
+    private val algorithm: String = ""
 
     init {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -269,7 +275,7 @@ class UserService(
                 when (userUpdateDto.password?.isNotEmpty()) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                        userUpdateDto.password.let { targetEntity.password = aliceEncryptionUtil.encryptEncoder(password, this.algorithm) }
                         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
                     }
                 }
@@ -369,12 +375,12 @@ class UserService(
         var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
         when (true) {
-            targetEntity.userId != userUpdateDto.userId -> {
+            (targetEntity.userId != userUpdateDto.userId) -> {
                 if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
                     code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
                 }
             }
-            targetEntity.email != userUpdateDto.email -> {
+            (targetEntity.email != userUpdateDto.email) -> {
                 if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
                     code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
@@ -382,7 +388,7 @@ class UserService(
             !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
                 code = ZResponseConstants.STATUS.ERROR_NOT_EXIST.code
             }
-            targetEntity.password != userUpdateDto.password -> {
+            (targetEntity.password != userUpdateDto.password && !userUpdateDto.password.isNullOrEmpty()) -> {
                 val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
                 if (!this.passwordValidationCheck(password, userUpdateDto.userId, userUpdateDto.email)) {
                     code = ZResponseConstants.STATUS.ERROR_FAIL.code
@@ -460,14 +466,8 @@ class UserService(
      */
     @Transactional
     fun resetPassword(userKey: String, password: String): ZResponse {
-        val publicKey = aliceCryptoRsa.getPublicKey()
-        val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
-        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-        val privateKey =
-            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-        val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
         val targetEntity = userDetailsService.selectUserKey(userKey)
-        targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
+        targetEntity.password = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
         targetEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
         userRepository.save(targetEntity)
@@ -579,16 +579,33 @@ class UserService(
         val rawNowPassword = aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.nowPassword!!)
         val userEntity = selectUser(userUpdatePasswordDto.userId!!)
 
-        if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) { // 현재 비밀번호가 틀릴 경우
-            status = ZResponseConstants.STATUS.ERROR_FAIL
-        }
+        when (this.algorithm.toUpperCase()) {
+            AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                if (!BCryptPasswordEncoder().matches(rawNowPassword, userEntity.password)) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+                if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) {
+                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                }
+            }
+            AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                val encryptNowPassword = aliceEncryptionUtil.encryptEncoder(rawNowPassword, this.algorithm)
+                val encryptNewPassword = aliceEncryptionUtil.encryptEncoder(rawNewPassword, this.algorithm)
 
-        if (BCryptPasswordEncoder().matches(rawNewPassword, userEntity.password)) { // 새 비밀번호가 현재 비밀번호와 같을 경우
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                if (encryptNowPassword != userEntity.password) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+                if (encryptNewPassword == userEntity.password) {
+                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+                }
+            }
+            else -> {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
+            }
         }
 
         userEntity.password =
-            BCryptPasswordEncoder().encode(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!))
+            aliceEncryptionUtil.encryptEncoder(aliceCryptoRsa.decrypt(privateKey, userUpdatePasswordDto.newPassword!!), this.algorithm)
         userEntity.expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod)
 
         return ZResponse(
@@ -824,8 +841,12 @@ class UserService(
     /**
      * 사용자 비밀번호 확인 시 rsa key 전달
      */
-    fun rsaKeySend(): MutableMap<String, Any> {
+    fun rsaKeySend(request: HttpServletRequest): MutableMap<String, Any> {
         val map: MutableMap<String, Any> = mutableMapOf()
+        val session = request.getSession(true)
+        session.removeAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value)
+        session.setAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value, aliceCryptoRsa.getPrivateKey())
+
         map[AliceConstants.RsaKey.PUBLIC_MODULE.value] = aliceCryptoRsa.getPublicKeyModulus()
         map[AliceConstants.RsaKey.PUBLIC_EXPONENT.value] = aliceCryptoRsa.getPublicKeyExponent()
 
@@ -842,8 +863,21 @@ class UserService(
         val password = aliceCryptoRsa.decrypt(privateKey, data.getValue("password") as String)
         val userEntity = this.selectUserKey(currentSessionUser.getUserKey())
 
-        if (!BCryptPasswordEncoder().matches(password, userEntity.password)) {
-            status = ZResponseConstants.STATUS.ERROR_FAIL
+        when (this.algorithm.toUpperCase()) {
+            AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                if (!BCryptPasswordEncoder().matches(password, userEntity.password)) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+            }
+            AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                val encryptPassword = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
+                if (encryptPassword != userEntity.password) {
+                    status = ZResponseConstants.STATUS.ERROR_FAIL
+                }
+            }
+            else -> {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
+            }
         }
 
         return ZResponse(
@@ -873,7 +907,10 @@ class UserService(
 
         // 1가지의 문자 구성인 경우 10자 이상, 20자 미만의 비밀번호를 설정한다.
         // 문자 구성 : 대문자, 소문자, 특수문자 , 숫자
-        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(specialCharReg)) {
+        if (password.matches(upperCaseReg) || password.matches(lowerCaseReg) || password.matches(integerReg) || password.matches(
+                specialCharReg
+            )
+        ) {
             if (password.length < 10 || password.length > 20) {
                 return false
             }

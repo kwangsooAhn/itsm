@@ -72,166 +72,164 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
     /*<![CDATA[ */
-        const DATE_TYPE = [ 'date', 'time', 'dateTime' ];
-        const templateId = /*[[${template.templateId}]]*/ "";
-        const container = /*[[${template.result[0].result}]]*/ "";
-        const requestList = /*[[${template.result[2].result}]]*/ "";
+    const DATE_TYPE = [ 'date', 'time', 'dateTime' ];
+    const templateId = /*[[${template.templateId}]]*/ '';
+    const container = /*[[${template.result[0].result}]]*/ '';
+    const requestList = /*[[${template.result[2].result}]]*/ '';
 
-        let dummy = null; // KB 저축은행용 가데이터
+    let dummy = null; // KB 저축은행용 가데이터
 
-        window.onload = function () {
-            const container = /*[[${template.result[0].result}]]*/ "";
-            // 태그 전체 항목 제외
-            container.tags = container.tags.filter((tag) => tag.tagId !== 'all');
-            // 태그 데이터 변환
-            container.tags.forEach(tag => {
-                if (typeof tag.value === 'undefined' && typeof tag.tagValue !== 'undefined') {
-                    tag.value = tag.tagValue;
-                }
-            });
-            //TODO: 2022-02-25 KB 저축은행용 가데이터 표시 - 배포 및 시연 완료 후 가데이터 부분을 실데이터로 변경한다.
-            aliceJs.fetchJson('../../assets/js/temp/template001.json', {
-                method: 'GET'
-            }).then((data) => {
-                dummy = data;
-                // 차트 초기화
-                zChartManager.load(data.result[0].result);
-                zChartManager.update(data.result[0].result.chartData);
-
-                // 개인 요청 현황
-                const elem = document.querySelector('.contents__req-personal');
-                elem.innerHTML = '';
-                let dummyTemplate = `<table class="contents__req-user"><thead>`;
-                let countSum = 0;
-                const dummyBodyTemplate = data.result[1].result.map((req) => {
-                    countSum += Number(req.count);
-                    return `<tr class="contents__req-user-contents">` +
-                        `<td class="contents__req-user-title pl-5 col-2">` +
-                            `<h3 class="text-ellipsis pt-2">${req.documentName}</h3>` +
-                        `</td>` +
-                        `<td class="align-center col-1"><h2>${req.count}</h2></td>` +
-                        `</tr>`;
-                }).join('');
-                const dummyReqCountTemplate = `<tr class="contents__req-user-total">` +
-                    `<td class="contents__req-user-title pl-5 col-2 text-gray700"><span>${i18n.msg('dashboard.label.requestUnprocessedCount')}</span></td>` +
-                    `<td class="align-center col-1"><h1>${countSum}</h1></td></tr>`;
-                dummyTemplate += dummyReqCountTemplate;
-                dummyTemplate += `<tbody>${dummyBodyTemplate}</tbody>`;
-                elem.insertAdjacentHTML('beforeend', `${dummyTemplate}`);
-
-                // 요청현황
-                updateReqStatus(data.result[2].result);
-            });
-
-            aliceJs.openNoticePopup(/*[[${noticePopUp}]]*/);
-
+    window.onload = function () {
+        const container = /*[[${template.result[0].result}]]*/ '';
+        // 태그 전체 항목 제외
+        container.tags = container.tags.filter((tag) => tag.tagId !== 'all');
+        // 태그 데이터 변환
+        container.tags.forEach(tag => {
+            if (typeof tag.value === 'undefined' && typeof tag.tagValue !== 'undefined') {
+                tag.value = tag.tagValue;
+            }
+        });
+        //TODO: 2022-02-25 KB 저축은행용 가데이터 표시 - 배포 및 시연 완료 후 가데이터 부분을 실데이터로 변경한다.
+        aliceJs.fetchJson('../../assets/js/temp/template001.json', {
+            method: 'GET'
+        }).then((data) => {
+            dummy = data;
             // 차트 초기화
-            //zChartManager.load(container);
-            // 차트 데이터 업데이트
-            //zChartManager.update(container.chartData);
-            // 요청 현황
-            //updateReqStatus(requestList);
+            zChartManager.load(data.result[0].result);
+            zChartManager.update(data.result[0].result.chartData);
 
-            OverlayScrollbars(document.querySelector('.contents__req-user'), {className: 'inner-scrollbar'});
-            OverlayScrollbars(document.querySelector('.contents__req-status'), {
-                className: 'inner-scrollbar',
-                overflowBehavior: {
-                    y: 'hidden'
-                }
-            });
-        }
-        // TODO: 2022-02-25 KB 저축은행용 가데이터 표시
-        function getDummyData(organizationId) {
-            const dataList = JSON.parse(JSON.stringify(dummy.result[2].result));
-            const selectedOrganization = dummy.dummyMapping.find((item) => item.id === organizationId);
-            dataList.organizationId = organizationId;
-            dataList.organizationName = selectedOrganization.value;
-            if (organizationId != '') {
-                dataList.contents = dataList.contents.filter((item) => {
-                    return item[1] === selectedOrganization.value;
-                });
-            }
-            updateReqStatus(dataList);
-        }
-
-        /**
-         * column Type에 따라 date type 변환
-         */
-        function convertDate(type, date) {
-            const types = {
-                'date' : i18n.userDate(date),
-                'dateTime' : i18n.userDateTime(date),
-                'time' : i18n.userTime(date)
-            }
-            return types[type] || '';
-        }
-
-        /**
-         * 부서별 업무현황에서 클릭한 부서의 요청현황 목록을 검색한다.
-         */
-        function getOrganizationData(organizationId) {
-            let urlParam = '/rest/dashboard/template/' + templateId + '/component/' + /*[[${template.result[2].key}]]*/ "";
-            let param = {
-                organizationId: organizationId
-            }
-            aliceJs.fetchText(urlParam, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(param)
-            }).then((htmlData) => {
-                updateReqStatus(JSON.parse(htmlData)['data']['result']);
-            });
-        }
-
-        /**
-         * 요청현황 데이터를 업데이트한다.
-         */
-        function updateReqStatus(data) {
-            // 업무현황 grid 초기화
-            const gridElem = document.querySelector('.grid');
-            gridElem.innerHTML = '';
-
-            // sub title
-            document.getElementById('organizationName').textContent = data.organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
-
-            // grid column width
-            gridElem.style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
-
-            // grid header
-            const gridHead = data.columnTitle.map((title) => {
-                return `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`;
+            // 개인 요청 현황
+            const elem = document.querySelector('.contents__req-personal');
+            elem.innerHTML = '';
+            let dummyTemplate = `<table class="contents__req-user"><thead>`;
+            let countSum = 0;
+            const dummyBodyTemplate = data.result[1].result.map((req) => {
+                countSum += Number(req.count);
+                return `<tr class="contents__req-user-contents">` +
+                    `<td class="contents__req-user-title pl-5 col-2">` +
+                        `<h3 class="text-ellipsis pt-2">${req.documentName}</h3>` +
+                    `</td>` +
+                    `<td class="align-center col-1"><h2>${req.count}</h2></td>` +
+                    `</tr>`;
             }).join('');
-            gridElem.insertAdjacentHTML('beforeend', `<div class="grid__head"><div class="grid__row">${gridHead}</div></div>`);
+            const dummyReqCountTemplate = `<tr class="contents__req-user-total">` +
+                `<td class="contents__req-user-title pl-5 col-2 text-gray700">` +
+                `<span>${i18n.msg('dashboard.label.requestUnprocessedCount')}</span>` +
+                `</td>` +
+                `<td class="align-center col-1"><h1>${countSum}</h1></td></tr>`;
+            dummyTemplate += dummyReqCountTemplate;
+            dummyTemplate += `<tbody>${dummyBodyTemplate}</tbody>`;
+            elem.insertAdjacentHTML('beforeend', `${dummyTemplate}`);
 
-            // grid body
-            let gridBodyElem = '';
-            if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
-                gridBodyElem += `<div class="grid__body">`;
-                for (let i = 0; i < Object.keys(data.contents).length; i++) {
-                    gridBodyElem += `<div class="grid__row read-only">`;
-                    const gridContents = data.contents[i].map((value, index) => {
-                        const columnType = data.columnType[index];
-                        if (index === 0) { // 순번
-                            return `<div class="grid__cell pr-2 pl-4">${i + 1}</div>`;
-                        } else { // columnType에 따라 데이터 변환
-                            const columnType = data.columnType[index];
-                            value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
-                            return `<div class="grid__cell pr-2 pl-2"><span class="text-ellipsis">${value}</span></div>`;
-                        }
-                    }).join('');
-                    gridBodyElem += `${gridContents}</div>`;
-                }
-                gridBodyElem += `</div>`;
-            } else { // 요청사항 내역이 없는 경우
-                gridBodyElem = `<div class="grid__body"><div class="grid__row grid--noData read-only">
-                        <div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>
-                    </div></div>`;
+            // 요청현황
+            updateReqStatus(data.result[2].result);
+        });
+
+        aliceJs.openNoticePopup(/*[[${noticePopUp}]]*/);
+
+        // 차트 초기화
+        //zChartManager.load(container);
+        // 차트 데이터 업데이트
+        //zChartManager.update(container.chartData);
+        // 요청 현황
+        //updateReqStatus(requestList);
+
+        OverlayScrollbars(document.querySelector('.contents__req-user'), { className: 'inner-scrollbar' });
+        OverlayScrollbars(document.querySelector('.contents__req-status'), {
+            className: 'inner-scrollbar',
+            overflowBehavior: {
+                y: 'hidden'
             }
-            gridElem.insertAdjacentHTML('beforeend', `${gridBodyElem}`);
-            OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
+        });
+    };
+    // TODO: 2022-02-25 KB 저축은행용 가데이터 표시
+    function getDummyData(organizationId) {
+        const dataList = JSON.parse(JSON.stringify(dummy.result[2].result));
+        const selectedOrganization = dummy.dummyMapping.find((item) => item.id === organizationId);
+        dataList.organizationId = organizationId;
+        dataList.organizationName = selectedOrganization.value;
+        if (organizationId != '') {
+            dataList.contents = dataList.contents.filter((item) => item[1] === selectedOrganization.value);
         }
+        updateReqStatus(dataList);
+    }
+
+    /**
+     * column Type에 따라 date type 변환
+     */
+    function convertDate(type, date) {
+        const types = {
+            'date' : i18n.userDate(date),
+            'dateTime' : i18n.userDateTime(date),
+            'time' : i18n.userTime(date)
+        };
+        return types[type] || '';
+    }
+
+    /**
+     * 부서별 업무현황에서 클릭한 부서의 요청현황 목록을 검색한다.
+     */
+    function getOrganizationData(organizationId) {
+        let urlParam = '/rest/dashboard/template/' + templateId + '/component/' + /*[[${template.result[2].key}]]*/ '';
+        let param = {
+            organizationId: organizationId
+        };
+        aliceJs.fetchText(urlParam, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(param)
+        }).then((htmlData) => {
+            updateReqStatus(JSON.parse(htmlData)['data']['result']);
+        });
+    }
+
+    /**
+     * 요청현황 데이터를 업데이트한다.
+     */
+    function updateReqStatus(data) {
+        // 업무현황 grid 초기화
+        const gridElem = document.querySelector('.grid');
+        gridElem.innerHTML = '';
+
+        // sub title
+        document.getElementById('organizationName').textContent = data.organizationId ? data.organizationName : i18n.msg('dashboard.label.all');
+
+        // grid column width
+        gridElem.style.setProperty('--data-columns-width', data.columnWidth.toString().trim().replaceAll(',', ' '));
+
+        // grid header
+        const gridHead = data.columnTitle.map((title) => `<div class="grid__cell pr-2 pl-2" data-grid-sortable="false">${title}</div>`).join('');
+        gridElem.insertAdjacentHTML('beforeend', `<div class="grid__head"><div class="grid__row">${gridHead}</div></div>`);
+
+        // grid body
+        let gridBodyElem = '';
+        if (Object.keys(data.contents).length > 0) { // 요청사항 내역이 있는 경우
+            gridBodyElem += `<div class="grid__body">`;
+            for (let i = 0; i < Object.keys(data.contents).length; i++) {
+                gridBodyElem += `<div class="grid__row read-only">`;
+                const gridContents = data.contents[i].map((value, index) => {
+                    const columnType = data.columnType[index];
+                    if (index === 0) { // 순번
+                        return `<div class="grid__cell pr-2 pl-4">${i + 1}</div>`;
+                    } else { // columnType에 따라 데이터 변환
+                        const columnType = data.columnType[index];
+                        value = DATE_TYPE.includes(columnType) ? convertDate(columnType, value): value;
+                        return `<div class="grid__cell pr-2 pl-2"><span class="text-ellipsis">${value}</span></div>`;
+                    }
+                }).join('');
+                gridBodyElem += `${gridContents}</div>`;
+            }
+            gridBodyElem += `</div>`;
+        } else { // 요청사항 내역이 없는 경우
+            gridBodyElem = `<div class="grid__body"><div class="grid__row grid--noData read-only">
+                    <div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>
+                </div></div>`;
+        }
+        gridElem.insertAdjacentHTML('beforeend', `${gridBodyElem}`);
+        OverlayScrollbars(document.querySelector('.grid__body'), { className: 'inner-scrollbar' });
+    }
 
     /* ]]> */
     </script>
@@ -239,7 +237,7 @@
         import ZChart from '../../assets/js/chart/zChart.js';
 
         const zChartManager = {
-            load: function(data) {
+            load: function (data) {
                 // 개별 정의 차트 옵션
                 const userOption = {
                     chart: {
@@ -248,14 +246,14 @@
                                 const ticks = this.xAxis[0].ticks;
                                 const points = this.series[0].points;
                                 points.forEach(function (point, i) {
-                                   if (ticks[i]) {
-                                       const label = ticks[i].label.element;
-                                       label.addEventListener('click', function () {
-                                           //TODO: 2022-02-25 KB 저축은행용 가데이터 표시 - 배포 및 시연 완료 후 가데이터 부분 부서 클릭시 실행
-                                           getDummyData(point.linkKey);
-                                           //getOrganizationData(point.linkKey);
-                                       });
-                                   }
+                                    if (ticks[i]) {
+                                        const label = ticks[i].label.element;
+                                        label.addEventListener('click', function () {
+                                            //TODO: 2022-02-25 KB 저축은행용 가데이터 표시 - 배포 및 시연 완료 후 가데이터 부분 부서 클릭시 실행
+                                            getDummyData(point.linkKey);
+                                            //getOrganizationData(point.linkKey);
+                                        });
+                                    }
                                 });
                             }
                         },
@@ -278,7 +276,11 @@
                         title: {
                             text: i18n.msg('dashboard.label.requestUnprocessedCount')
                         }
-                    }
+                    },
+                    legend: {
+                        x: -20,
+                        y: 30
+                    },
                 };
                 // 차트 초기화
                 this.zChart = new ZChart('container', data, userOption);
@@ -294,7 +296,7 @@
                     delete this.zChart;
                 }
             }
-        }
+        };
         window.zChartManager = zChartManager;
     </script>
 </th:block>

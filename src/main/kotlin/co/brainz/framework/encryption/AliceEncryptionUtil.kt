@@ -1,5 +1,6 @@
 package co.brainz.framework.encryption
 
+import co.brainz.framework.constants.AliceConstants
 import java.math.BigInteger
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
@@ -13,15 +14,18 @@ import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import org.apache.commons.codec.binary.Base64
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
 class AliceEncryptionUtil {
 
     private lateinit var iv: String
     private lateinit var keySpec: Key
-    private val twoWayAlgorithm: String = "aes256"
-    private val oneWayAlgorithm: String = "sha512"
+
+    @Value("\${encryption.option.salt}")
+    private val salt: String = ""
 
     init {
         val key = AliceSecurityConstant.keyValue
@@ -36,37 +40,40 @@ class AliceEncryptionUtil {
         this.keySpec = keySpec
     }
 
-    // 양방향  암호화
-    fun twoWayEnCode(str: String): String {
-        var enStr: String = ""
-        if (str != "") {
-            if (twoWayAlgorithm == "aes256") {
-                enStr = enCodeAES256(str)
+    fun encryptEncoder(text: String, algorithm: String): String {
+        var encryptText = text
+        if (text.isNotBlank() && algorithm.isNotBlank()) {
+            when (algorithm.toUpperCase()) {
+                AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                    encryptText = BCryptPasswordEncoder().encode(text)
+                }
+                AliceConstants.EncryptionAlgorithm.AES256.value -> {
+                    encryptText = enCodeAES256(text)
+                }
+                AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                    var salt = ""
+                    if (this.salt.isNotBlank()) {
+                        salt = this.salt
+                    }
+                    encryptText = enCodeSHA256(text, salt)
+                }
             }
         }
-        return enStr
+
+        return encryptText
     }
 
-    // 양방향  복호화
-    fun twoWayDeCode(str: String): String {
-        var deStr: String = ""
-        if (str != "") {
-            if (twoWayAlgorithm == "aes256") {
-                deStr = deCodeAES256(str)
+    fun encryptDecoder(text: String, algorithm: String): String {
+        var targetText = text
+        if (text.isNotBlank() && algorithm.isNotBlank()) {
+            when (algorithm.toUpperCase()) {
+                AliceConstants.EncryptionAlgorithm.AES256.value -> {
+                    targetText = deCodeAES256(text)
+                }
             }
         }
-        return deStr
-    }
 
-    // 단항향 암호화
-    fun oneWayEnCode(str: String): String {
-        var enStr: String = ""
-        if (str != "") {
-            if (oneWayAlgorithm == "sha512") {
-                enStr = enCodeSHA512(str)
-            }
-        }
-        return enStr
+        return targetText
     }
 
     // AES 256 암호화
@@ -79,10 +86,10 @@ class AliceEncryptionUtil {
         IllegalBlockSizeException::class,
         BadPaddingException::class
     )
-    private fun enCodeAES256(str: String): String {
+    private fun enCodeAES256(text: String): String {
         val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
-        val encrypted = c.doFinal(str.toByteArray(charset("UTF-8")))
+        val encrypted = c.doFinal(text.toByteArray(charset("UTF-8")))
 
         return String(Base64.encodeBase64(encrypted))
     }
@@ -97,26 +104,20 @@ class AliceEncryptionUtil {
         IllegalBlockSizeException::class,
         BadPaddingException::class
     )
-    private fun deCodeAES256(str: String): String {
+    private fun deCodeAES256(text: String): String {
         val c: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray(charset("UTF-8"))))
-        val byteStr = Base64.decodeBase64(str.toByteArray())
+        val byteStr = Base64.decodeBase64(text.toByteArray())
 
         return String(c.doFinal(byteStr), charset("UTF-8"))
     }
 
-    // SHA 512 암호화
-    private fun enCodeSHA512(str: String): String {
-        lateinit var toReturn: String
-        try {
-            val digest: MessageDigest = MessageDigest.getInstance("SHA-512")
-            digest.reset()
-            digest.update(str.toByteArray(charset("utf8")))
-            toReturn = String.format("%0128x", BigInteger(1, digest.digest()))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    // SHA 256 암호화
+    private fun enCodeSHA256(text: String, salt: String): String {
+        val digest: MessageDigest = MessageDigest.getInstance("SHA-256")
+        digest.reset()
+        digest.update((text.plus(salt)).toByteArray(charset("utf8")))
 
-        return toReturn
+        return String.format("%064x", BigInteger(1, digest.digest()))
     }
 }
