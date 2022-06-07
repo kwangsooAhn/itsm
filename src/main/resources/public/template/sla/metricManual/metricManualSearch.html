@@ -163,7 +163,7 @@
     function getTargetMetricList() {
         let urlParam = '/rest/sla/metrics?source=' + document.getElementById('referenceDate').value.substring(0, 4)
             + '&target='
-            + '&type=manual';
+            + '&type=sla.metricType.manual';
         aliceJs.fetchText(urlParam, {
             method: 'GET'
         }).then((response) => {

@@ -63,10 +63,9 @@
         /**
          * 연도별 SLA 지표관리 검색
          */
-        function getList(pageNum = 1) {
+        function getList() {
             const urlParam = '/sla/metrics/annual?year='
-                            + document.getElementById('year').value.toString().substring(0, 4)
-                            + '&pageNum=' + pageNum;
+                            + document.getElementById('year').value.toString().substring(0, 4);
             aliceJs.fetchText(urlParam, {
                 method: 'GET'
             }).then((htmlData) => {
@@ -158,9 +157,8 @@
             */
         }
 
-        function onExcelDownload(pageNum = 1) {
-            const search = document.getElementById('year').value.toString().substring(0, 4)
-                            + '&pageNum=' + pageNum;
+        function onExcelDownload() {
+            const search = document.getElementById('year').value.toString().substring(0, 4);
             aliceJs.fetchDownload({
                 url: '/rest/sla/metrics/annual/excel?year=' + search,
                 fileName: document.getElementById('year').value.toString().substring(0, 4) + '_'
