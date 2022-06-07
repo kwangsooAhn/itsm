@@ -262,8 +262,8 @@ insert into awf_code values ('sla.metricUnit.score', 'sla.metricUnit', 'score', 
 insert into awf_code values ('sla.metricUnit.percent', 'sla.metricUnit', 'percent', '%', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.metricUnit.time', 'sla.metricUnit', 'time', '시간', NULL, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.calculationType', 'sla', 'calculationType', '계산 방식', NULL, true, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values ('sla.calculationType.total', 'sla.calculationType', 'total', '합산', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values ('sla.calculationType.rate', 'sla.calculationType', 'rate', '비율', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType.sum', 'sla.calculationType', 'sum', '합산', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType.percentage', 'sla.calculationType', 'percentage', '비율', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.calculationType.average', 'sla.calculationType', 'average', '평균', NULL, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.metricGroup', 'sla', 'metricGroup', '지표 그룹', NULL, true, true, 2, 4, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_code values ('sla.metricGroup.default', 'sla.metricGroup', 'default', '기본 그룹', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);

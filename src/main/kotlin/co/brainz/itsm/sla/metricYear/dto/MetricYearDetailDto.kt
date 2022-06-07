@@ -17,9 +17,9 @@ data class MetricYearDetailDto(
     var metricType: String,
     var metricUnit: String,
     var calculationType: String,
-    var minValue: Double,
-    var maxValue: Double,
-    var weightValue: Double,
+    var minValue: Float,
+    var maxValue: Float,
+    var weightValue: Float,
     var owner: String? = null,
     var comment: String? = null,
     var zqlString: String

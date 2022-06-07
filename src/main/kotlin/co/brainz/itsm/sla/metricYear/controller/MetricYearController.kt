@@ -7,7 +7,6 @@ package co.brainz.itsm.sla.metricYear.controller
 
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.service.MetricYearService
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -47,13 +46,11 @@ class MetricYearController(
      * 연도별 SLA 지표 관리 - 리스트 화면 호출
      */
     @GetMapping("")
-    fun getMetricYears(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
-        val result = metricYearService.getMetrics(metricYearSearchCondition)
+    fun getMetricYears(@RequestParam year: String, model: Model): String {
         val thisYear = DateTimeFormatter.ofPattern("yyyy")
             .format(AliceUtil().changeTimeBasedTimezone(LocalDateTime.now(), currentSessionUser.getTimezone()))
         model.addAttribute("thisYear", thisYear)
-        model.addAttribute("metricYearsList", result.data)
-        model.addAttribute("paging", result.paging)
+        model.addAttribute("metricYearsList", metricYearService.getMetrics(year))
         return metricYearListPage
     }
 
@@ -97,10 +94,11 @@ class MetricYearController(
      * 년도별 SLA 현황 리스트 호출
      */
     @GetMapping("/annual")
-    fun getMetricAnnualList(metricYearSearchCondition: MetricYearSearchCondition, model: Model): String {
-        val result = metricYearService.findMetricAnnualSearch(metricYearSearchCondition)
+    fun getMetricAnnualList(@RequestParam year: String, model: Model): String {
+        val result = metricYearService.findMetricAnnualSearch(year)
         model.addAttribute("metricYearsList", result.data)
-        model.addAttribute("paging", result.paging)
+        model.addAttribute("totalCount", result.totalCount)
+        model.addAttribute("totalCountWithoutCondition",result.totalCountWithoutCondition)
         return metricAnnualListPage
     }
 
