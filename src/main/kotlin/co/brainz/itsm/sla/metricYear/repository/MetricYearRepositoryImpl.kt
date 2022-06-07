@@ -114,7 +114,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     metricYear.minValue,
                     metricYear.maxValue,
                     metricYear.weightValue,
-                    Expressions.asNumber(0L),
+                    Expressions.asNumber(0f),
                     metricYear.owner,
                     metricYear.comment
                 )
