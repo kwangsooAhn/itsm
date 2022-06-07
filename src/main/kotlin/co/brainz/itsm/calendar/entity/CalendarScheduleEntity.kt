@@ -30,17 +30,23 @@ data class CalendarScheduleEntity(
     val calendar: CalendarEntity,
 
     @Column(name = "schedule_title", length = 200)
-    val scheduleTitle: String,
+    var scheduleTitle: String,
 
     @Column(name = "schedule_contents")
-    val scheduleContents: String? = null,
+    var scheduleContents: String? = null,
 
     @Column(name = "all_day_yn")
-    val allDayYn: Boolean,
+    var allDayYn: Boolean,
 
     @Column(name = "start_dt")
-    val startDt: LocalDateTime,
+    var startDt: LocalDateTime,
 
     @Column(name = "end_dt")
-    val endDt: LocalDateTime
+    var endDt: LocalDateTime,
+
+    @Column(name = "create_dt")
+    val createDt: LocalDateTime? = null,
+
+    @Column(name = "update_dt")
+    val updateDt: LocalDateTime? = null
 ) : Serializable
