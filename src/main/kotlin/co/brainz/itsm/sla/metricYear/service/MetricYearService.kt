@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.sla.metricYear.service
 
-import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
@@ -14,7 +13,6 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
-import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
@@ -23,14 +21,12 @@ import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
 import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
-import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
@@ -42,9 +38,7 @@ import co.brainz.workflow.instance.constants.InstanceStatus
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.convertValue
 import java.time.LocalDateTime
-import kotlin.math.ceil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -67,19 +61,8 @@ class MetricYearService(
     /**
      * 연도별 SLA 지표 목록 조회
      */
-    fun getMetrics(metricYearSearchCondition: MetricYearSearchCondition): MetricYearListReturnDto {
-        val pagingResult = metricYearRepository.findMetrics(metricYearSearchCondition)
-
-        return MetricYearListReturnDto(
-            data = mapper.convertValue(pagingResult.dataList),
-            paging = AlicePagingData(
-                totalCount = pagingResult.totalCount,
-                totalCountWithoutCondition = metricYearRepository.count(),
-                currentPageNum = metricYearSearchCondition.pageNum,
-                totalPageNum = ceil(pagingResult.totalCount.toDouble() / metricYearSearchCondition.contentNumPerPage.toDouble()).toLong(),
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-            )
-        )
+    fun getMetrics(year: String): List<MetricYearDataDto> {
+        return metricYearRepository.findMetrics(year)
     }
 
     /**
@@ -117,12 +100,6 @@ class MetricYearService(
      * 년도 선택 시 해당년도에 저장된 지표목록 불러오기
      */
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
-        when (metricLoadCondition.type) {
-            MetricPoolConstants.MetricTypeCode.SIMPLE_MANUAL.code -> metricLoadCondition.type =
-                MetricPoolConstants.MetricTypeCode.MANUAL.code
-            MetricPoolConstants.MetricTypeCode.SIMPLE_AUTO.code -> metricLoadCondition.type =
-                MetricPoolConstants.MetricTypeCode.AUTO.code
-        }
         val metricList = metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
         val metricIds: MutableSet<String> = mutableSetOf()
         metricList.forEach { metricIds.add(it.metricId) }
@@ -141,13 +118,12 @@ class MetricYearService(
     /**
      * 년도별 SLA 현황 목록 조회
      */
-    fun findMetricAnnualSearch(metricYearSearchCondition: MetricYearSearchCondition): MetricAnnualListReturnDto {
-        val pagingResult = metricYearRepository.findMetricStatusList(metricYearSearchCondition)
-        val dataList: List<MetricAnnualDto> = mapper.convertValue(pagingResult.dataList)
+    fun findMetricAnnualSearch(year: String): List<MetricAnnualDto> {
+        val metricAnnualDtoList = metricYearRepository.findMetricStatusList(year)
 
-        val from = LocalDateTime.of(metricYearSearchCondition.year.toInt(), 1, 1, 0, 0, 0)
-        val to = LocalDateTime.of(metricYearSearchCondition.year.toInt(), 12, 31, 23, 59, 59)
-        dataList.forEach {
+        val from = LocalDateTime.of(year.toInt(), 1, 1, 0, 0, 0)
+        val to = LocalDateTime.of(year.toInt(), 12, 31, 23, 59, 59)
+        metricAnnualDtoList.forEach {
             zql.setExpression(it.zqlString)
                 .setFrom(from)
                 .setTo(to)
@@ -163,24 +139,14 @@ class MetricYearService(
             }
         }
 
-        return MetricAnnualListReturnDto(
-            data = dataList,
-            paging = AlicePagingData(
-                totalCount = pagingResult.totalCount,
-                totalCountWithoutCondition = metricYearRepository.count(),
-                currentPageNum = metricYearSearchCondition.pageNum,
-                totalPageNum = ceil(pagingResult.totalCount.toDouble() / metricYearSearchCondition.contentNumPerPage).toLong(),
-                orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
-
-            )
-        )
+        return metricAnnualDtoList
     }
 
     /**
      *  년도별 SLA 현황 엑셀 다운로드
      */
-    fun getMetricExcelDownload(metricYearSearchCondition: MetricYearSearchCondition): ResponseEntity<ByteArray> {
-        val returnDto = metricYearRepository.findMetricYearListForExcel(metricYearSearchCondition)
+    fun getMetricExcelDownload(year: String): ResponseEntity<ByteArray> {
+        val returnDto = metricYearRepository.findMetricYearListForExcel(year)
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(

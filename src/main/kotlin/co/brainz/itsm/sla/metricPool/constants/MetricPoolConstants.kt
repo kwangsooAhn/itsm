@@ -32,9 +32,7 @@ object MetricPoolConstants {
      */
     enum class MetricTypeCode(val code: String) {
         AUTO("sla.metricType.auto"),
-        MANUAL("sla.metricType.manual"),
-        SIMPLE_AUTO("auto"),
-        SIMPLE_MANUAL("manual")
+        MANUAL("sla.metricType.manual")
     }
 
     /**

@@ -13,9 +13,9 @@ data class MetricYearDataDto(
     val metricYear: String,
     val metricGroupName: String,
     val metricName: String,
-    val minValue: Double,
-    val maxValue: Double,
-    val weightValue: Double,
+    val minValue: Float,
+    val maxValue: Float,
+    val weightValue: Float,
     val owner: String? = null,
     val comment: String? = null
 ) : Serializable
