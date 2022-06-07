@@ -117,12 +117,6 @@ class MetricYearService(
      * 년도 선택 시 해당년도에 저장된 지표목록 불러오기
      */
     fun getYearSaveMetricList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
-        when (metricLoadCondition.type) {
-            MetricPoolConstants.MetricTypeCode.SIMPLE_MANUAL.code -> metricLoadCondition.type =
-                MetricPoolConstants.MetricTypeCode.MANUAL.code
-            MetricPoolConstants.MetricTypeCode.SIMPLE_AUTO.code -> metricLoadCondition.type =
-                MetricPoolConstants.MetricTypeCode.AUTO.code
-        }
         val metricList = metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
         val metricIds: MutableSet<String> = mutableSetOf()
         metricList.forEach { metricIds.add(it.metricId) }
