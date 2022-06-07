@@ -11,10 +11,10 @@ import java.io.Serializable
 data class MetricYearExcelDto(
     val metricGroupName: String?,
     val metricName: String?,
-    val minValue: Double?,
-    val maxValue: Double?,
-    val weightValue: Double?,
-    val score: Long?,
+    val minValue: Float?,
+    val maxValue: Float?,
+    val weightValue: Float?,
+    val score: Float?,
     val owner: String?,
     val comment: String?
 ) : Serializable

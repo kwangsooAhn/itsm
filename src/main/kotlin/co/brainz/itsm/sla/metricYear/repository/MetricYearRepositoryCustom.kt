@@ -7,12 +7,11 @@
 package co.brainz.itsm.sla.metricYear.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.framework.querydsl.dto.PagingReturnDto
+import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearSearchCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 
 interface MetricYearRepositoryCustom : AliceRepositoryCustom {
@@ -25,11 +24,11 @@ interface MetricYearRepositoryCustom : AliceRepositoryCustom {
 
     fun findMetricListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricYearSimpleDto>
 
-    fun findMetricYearListForExcel(metricYearSearchCondition: MetricYearSearchCondition): List<MetricYearExcelDto>
+    fun findMetricYearListForExcel(year: String): List<MetricYearExcelDto>
 
     fun findMetricYear(metricId: String, year: String): MetricYearDetailDto
 
     fun getYears(): Set<String>
 
-    fun findMetricStatusList(metricYearSearchCondition: MetricYearSearchCondition): PagingReturnDto
+    fun findMetricStatusList(year: String): List<MetricAnnualDto>
 }

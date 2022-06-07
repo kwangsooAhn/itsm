@@ -31,13 +31,13 @@ data class MetricYearEntity(
     var metricYear: String = "",
 
     @Column(name = "min_value")
-    var minValue: Double? = null,
+    var minValue: Float? = null,
 
     @Column(name = "max_value")
-    var maxValue: Double? = null,
+    var maxValue: Float? = null,
 
     @Column(name = "weight_value")
-    var weightValue: Double? = null,
+    var weightValue: Float? = null,
 
     @Column(name = "owner", length = 100)
     var owner: String? = null,
