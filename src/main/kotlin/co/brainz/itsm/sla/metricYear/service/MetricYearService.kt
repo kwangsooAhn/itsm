@@ -20,7 +20,7 @@ import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
 import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
-import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
+import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
@@ -124,7 +124,7 @@ class MetricYearService(
     /**
      * 년도별 SLA 현황 목록 조회
      */
-    fun findMetricAnnualSearch(year: String): List<MetricAnnualDto> {
+    fun findMetricAnnualSearch(year: String): MetricAnnualListReturnDto {
         val metricAnnualDtoList = metricYearRepository.findMetricStatusList(year)
 
         val from = LocalDateTime.of(year.toInt(), 1, 1, 0, 0, 0)
@@ -144,7 +144,12 @@ class MetricYearService(
                 else -> 0f
             }
         }
-        return metricAnnualDtoList
+        return MetricAnnualListReturnDto(
+            data = metricAnnualDtoList,
+            totalCount = metricAnnualDtoList.size.toLong(),
+            totalCountWithoutCondition = metricYearRepository.count()
+        )
+
     }
 
     /**
