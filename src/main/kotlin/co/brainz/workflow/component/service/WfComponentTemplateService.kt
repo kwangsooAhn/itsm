@@ -32,13 +32,13 @@ class WfComponentTemplateService(
         val wfComponentTemplateList: MutableList<WfComponentTemplateDto> = mutableListOf()
 
         wfComponentTemplateRepository.findAll().let {
-            it.forEach {
+            it.forEach { wfComponentTemplateEntity ->
                 wfComponentTemplateList.add(
                     WfComponentTemplateDto(
-                        templateId = it.templateId,
-                        templateName = it.templateName,
-                        type = it.componentType,
-                        data = mapper.readValue(it.componentData, LinkedHashMap::class.java)
+                        templateId = wfComponentTemplateEntity.templateId,
+                        templateName = wfComponentTemplateEntity.templateName,
+                        type = wfComponentTemplateEntity.componentType,
+                        data = mapper.readValue(wfComponentTemplateEntity.componentData, LinkedHashMap::class.java)
                     )
                 )
             }

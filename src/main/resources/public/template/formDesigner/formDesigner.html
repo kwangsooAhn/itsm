@@ -70,7 +70,6 @@
             OverlayScrollbars(document.getElementById('formMain'), { className: 'scrollbar' });
         });
 
-        // todo: #13134 dummy json / 추후 백엔드 구현 시 제거
         aliceJs.fetchJson('/rest/forms/component/template', {
             method: 'GET',
             showProgressbar: true
