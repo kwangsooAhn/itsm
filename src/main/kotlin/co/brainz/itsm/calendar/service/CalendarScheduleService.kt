@@ -19,6 +19,7 @@ import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
 import co.brainz.itsm.calendar.repository.CalendarScheduleRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
@@ -120,17 +121,19 @@ class CalendarScheduleService(
                 while (iterator.hasNext()) {
                     val row = iterator.next()
                     if (row.rowNum > 0) { // 0 은 제목 라인
-                        scheduleList.add(
-                            CalendarScheduleEntity(
-                                allDayYn = false,
-                                startDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(0).stringCellValue, format)),
-                                endDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(1).stringCellValue, format)),
-                                scheduleTitle = row.getCell(2).stringCellValue,
-                                scheduleContents = row.getCell(3).stringCellValue,
-                                calendar = calendar,
-                                createDt = LocalDateTime.now()
+                        if (this.isValidCheck(row)) {
+                            scheduleList.add(
+                                CalendarScheduleEntity(
+                                    allDayYn = false,
+                                    startDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(0).stringCellValue, format)),
+                                    endDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(1).stringCellValue, format)),
+                                    scheduleTitle = row.getCell(2).stringCellValue,
+                                    scheduleContents = row.getCell(3).stringCellValue,
+                                    calendar = calendar,
+                                    createDt = LocalDateTime.now()
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -142,6 +145,20 @@ class CalendarScheduleService(
         }
         return status
     }
+
+    /**
+     * 엑셀 Cell 필수값 체크
+     */
+    private fun isValidCheck(row: Row): Boolean {
+        var isValid = true
+        for (i in 0..2) { // 내용은 제외
+            if (isValid && row.getCell(i) == null) {
+                isValid = false
+            }
+        }
+        return isValid
+    }
+
 
     /**
      * UTC 값을 사용자의 시간대로 변경
