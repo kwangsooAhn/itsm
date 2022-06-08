@@ -1336,7 +1336,8 @@ Object.assign(zCalendar.prototype, {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            showProgressbar: true
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
