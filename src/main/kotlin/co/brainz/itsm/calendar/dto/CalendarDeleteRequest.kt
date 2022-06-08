@@ -12,7 +12,6 @@ import java.time.LocalDateTime
 data class CalendarDeleteRequest(
     val id: String,
     val dataId: String? = null,
-    val standard: String,
     val index: Int = 1,
     val repeatYn: Boolean? = false,
     val repeatPeriod: String? = null,

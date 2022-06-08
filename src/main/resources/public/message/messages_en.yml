@@ -310,6 +310,12 @@ calendar:
          • endDt : end date Time<br/>
          • title : subject<br/>
          • contents : description"
+  excel:
+    type: Type
+    title: Title
+    contents: Contents
+    startDt: Start Date
+    endDt: End Date
 
 # Chart
 chart:
@@ -707,6 +713,7 @@ document:
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
     checkUrlLink: "Please enter it according to the URL format"
+    deleteDocument: "Do you want to delete this document? All documents written in temporary status will be deleted."
     duplicateName: "the duplication name document. check document."
     enterWorkFlowColor: "Please enter WorkFlow Color."
     enterDocumentLink: "Please enter document's link."
@@ -1421,7 +1428,6 @@ scheduler:
     scheduleDescription: "Check the schedule details and history."
     searchDescription: "Register and manage repetitive tasks."
     useSchedule: "Schedule in use."
-    compareWithSchedulerExecuteTimeValue: "Scheduler start execute time is greater than or equal to end execute time."
     cronValue: "Cron can be entered up to 6 fields."
     cronError: "Enter the correct Cron expression."
     jarNotExist: "JAR file does not exist."

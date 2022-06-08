@@ -1237,6 +1237,16 @@ insert into awf_url values ('/rest/boards/articles/comments', 'post', '게시판
 insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '게시판 댓글 삭제', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/calendars/excel', 'post', '일정 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/template', 'get', '일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/templateUpload', 'post', '일괄 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
@@ -1268,13 +1278,6 @@ insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE
 insert into awf_url values ('/rest/codes/related/{id}', 'get', '연관 코드 상세 조회', 'FALSE');
 insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
-insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
-insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
-insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
-insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
-insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
-insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
-insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수정', 'TRUE');
 insert into awf_url values ('/rest/custom-codes', 'post', '커스텀 코드 등록', 'TRUE');
@@ -1609,6 +1612,16 @@ insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'gen
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/excel', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/template', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/templateUpload', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
@@ -1638,13 +1651,6 @@ insert into awf_url_auth_map values ('/rest/codes/{id}', 'get', 'system.manage')
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/codes/excel', 'get', 'system.manage');
-insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
-insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
-insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
-insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');
-insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'post', 'general');
-insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'put', 'general');
-insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'system.manage');
@@ -8985,6 +8991,9 @@ COMMENT ON COLUMN awf_dashboard_template.template_config is '템플릿 설정';
 COMMENT ON COLUMN awf_dashboard_template.template_desc is '템플릿 설명';
 
 -- 초기 데이터 샘플
+-- name : type이 field면, 테이블 필드명, type이 Mapping이면 Mapping_id
+-- document : document_id
+-- organization : organization_id
 INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현황', '{
   "components": [
     {
@@ -9314,8 +9323,8 @@ CREATE TABLE awf_calendar_schedule
     all_day_yn        boolean,
     start_dt          timestamp,
     end_dt            timestamp,
-    createDt          timestamp,
-    updateDt          timestamp,
+    create_dt          timestamp,
+    update_dt          timestamp,
     CONSTRAINT awf_calendar_schedule_pk PRIMARY KEY (schedule_id),
     CONSTRAINT awf_calendar_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
 );
@@ -9328,8 +9337,8 @@ COMMENT ON COLUMN awf_calendar_schedule.schedule_contents IS '내용';
 COMMENT ON COLUMN awf_calendar_schedule.all_day_yn IS '종일여부';
 COMMENT ON COLUMN awf_calendar_schedule.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_schedule.end_dt IS '종료일';
-COMMENT ON COLUMN awf_calendar_schedule.createDt IS '등록일';
-COMMENT ON COLUMN awf_calendar_schedule.updateDt IS '수정일';
+COMMENT ON COLUMN awf_calendar_schedule.create_dt IS '등록일';
+COMMENT ON COLUMN awf_calendar_schedule.update_dt IS '수정일';
 
 /**
  * 캘린더 반복일정

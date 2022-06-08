@@ -7,6 +7,7 @@
 package co.brainz.itsm.calendar.service
 
 import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
 import co.brainz.itsm.calendar.entity.CalendarEntity
@@ -17,11 +18,18 @@ import co.brainz.itsm.calendar.repository.CalendarRepeatDataRepository
 import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
 import co.brainz.itsm.calendar.repository.CalendarScheduleRepository
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Workbook
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class CalendarScheduleService(
+    private val currentSessionUser: CurrentSessionUser,
     private val calendarScheduleRepository: CalendarScheduleRepository,
+    private val calendarRepeatService: CalendarRepeatService,
     private val calendarRepeatRepository: CalendarRepeatRepository,
     private val calendarRepeatDataRepository: CalendarRepeatDataRepository
 ) {
@@ -93,6 +101,70 @@ class CalendarScheduleService(
         scheduleId: String
     ) {
         calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar, scheduleId)
+    }
+
+    /**
+     * Excel 일괄 등록
+     */
+    fun postTemplateUpload(
+        calendar: CalendarEntity,
+        multipartFiles: List<MultipartFile>
+    ): ZResponseConstants.STATUS {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val scheduleList = mutableListOf<CalendarScheduleEntity>()
+        try {
+            val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+            multipartFiles.forEach { file ->
+                val workbook: Workbook = XSSFWorkbook(file.inputStream)
+                val sheet = workbook.getSheetAt(0)
+                val iterator = sheet.rowIterator()
+                while (iterator.hasNext()) {
+                    val row = iterator.next()
+                    if (row.rowNum > 0) { // 0 은 제목 라인
+                        if (this.isValidCheck(row)) {
+                            scheduleList.add(
+                                CalendarScheduleEntity(
+                                    allDayYn = false,
+                                    startDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(0).stringCellValue, format)),
+                                    endDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(1).stringCellValue, format)),
+                                    scheduleTitle = row.getCell(2).stringCellValue,
+                                    scheduleContents = row.getCell(3).stringCellValue,
+                                    calendar = calendar,
+                                    createDt = LocalDateTime.now()
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+            if (scheduleList.isNotEmpty()) {
+                calendarScheduleRepository.saveAll(scheduleList)
+            }
+        } catch (e: Exception) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+        return status
+    }
+
+    /**
+     * 엑셀 Cell 필수값 체크
+     */
+    private fun isValidCheck(row: Row): Boolean {
+        var isValid = true
+        for (i in 0..2) { // 내용은 제외
+            if (isValid && row.getCell(i) == null) {
+                isValid = false
+            }
+        }
+        return isValid
+    }
+
+
+    /**
+     * UTC 값을 사용자의 시간대로 변경
+     */
+    private fun getTimezoneToUTC(localDateTime: LocalDateTime): LocalDateTime {
+        return calendarRepeatService.getTimezoneToUTC(localDateTime, currentSessionUser.getTimezone())
     }
 
     /**
