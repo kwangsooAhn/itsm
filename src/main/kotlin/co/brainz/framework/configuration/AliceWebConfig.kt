@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.ResourceBundleMessageSource
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+import org.springframework.security.core.session.SessionRegistry
+import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.LocaleResolver
@@ -96,5 +98,10 @@ class AliceWebConfig {
         val client: HttpClient =
             HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()
         return builder.requestFactory { HttpComponentsClientHttpRequestFactory(client) }.build()
+    }
+
+    @Bean
+    fun sessionRegistry(): SessionRegistry {
+        return SessionRegistryImpl()
     }
 }
