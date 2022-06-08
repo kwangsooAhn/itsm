@@ -6,8 +6,14 @@
 
 package co.brainz.itsm.calendar.service
 
+import co.brainz.framework.download.excel.ExcelComponent
+import co.brainz.framework.download.excel.dto.ExcelCellVO
+import co.brainz.framework.download.excel.dto.ExcelRowVO
+import co.brainz.framework.download.excel.dto.ExcelSheetVO
+import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.calendar.constants.CalendarConstants
 import co.brainz.itsm.calendar.dto.CalendarData
@@ -23,12 +29,15 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
 import javax.transaction.Transactional
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class CalendarService(
@@ -36,7 +45,9 @@ class CalendarService(
     private val calendarRepository: CalendarRepository,
     private val calendarRepeatRepository: CalendarRepeatRepository,
     private val calendarScheduleService: CalendarScheduleService,
-    private val calendarRepeatService: CalendarRepeatService
+    private val calendarRepeatService: CalendarRepeatService,
+    private val aliceMessageSource: AliceMessageSource,
+    private val excelComponent: ExcelComponent
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -179,6 +190,102 @@ class CalendarService(
         return ZResponse(
             status = status.code
         )
+    }
+
+    /**
+     * 캘린더 일정 Excel 다운로드
+     */
+    fun getCalendarExcelDownload(calendarRequest: CalendarRequest): ResponseEntity<ByteArray> {
+        val calendarDataList = this.getCalendars(calendarRequest).calendars
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.type"), cellWidth = 3000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.title"), cellWidth = 10000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.startDt"), cellWidth = 6000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.endDt"), cellWidth = 6000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.contents"), cellWidth = 15000)
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        calendarDataList.forEach { calendarData ->
+            val calendar = calendarRepository.findById(calendarData.id)
+            if (calendar.isPresent) {
+                val scheduleList = mutableListOf<ScheduleData>()
+                excelVO.sheets[0].sheetName = calendar.get().calendarName
+                scheduleList.addAll(calendarData.instances)
+                scheduleList.addAll(calendarData.schedules)
+                scheduleList.addAll(calendarData.repeats)
+                scheduleList.sortBy { it.startDt }
+                scheduleList.forEach { schedule ->
+                    excelVO.sheets[0].rows.add(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(value = calendar.get().calendarName),
+                                ExcelCellVO(value = schedule.title),
+                                ExcelCellVO(value = this.getTimezoneFormat(schedule.startDt)),
+                                ExcelCellVO(value = this.getTimezoneFormat(schedule.endDt)),
+                                ExcelCellVO(value = schedule.contents)
+                            )
+                        )
+                    )
+                }
+            }
+        }
+        return excelComponent.download(excelVO)
+    }
+
+    /**
+     * 일괄 등록 템플릿 다운로드
+     */
+    fun getCalendarExcelTemplateDownload(): ResponseEntity<ByteArray> {
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.startDt"), cellWidth = 6000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.endDt"), cellWidth = 6000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.title"), cellWidth = 10000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.contents"), cellWidth = 15000)
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        return excelComponent.download(excelVO)
+    }
+
+    /**
+     * Excel 일괄 등록
+     */
+    fun postTemplateUpload(calendarId: String, multipartFiles: List<MultipartFile>): ZResponse {
+        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        val status = if (calendar.isPresent) {
+            calendarScheduleService.postTemplateUpload(calendar.get(), multipartFiles)
+        } else {
+            ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * Excel 다운로드시 사용자 타임존으로 변경
+     */
+    private fun getTimezoneFormat(localDateTime: LocalDateTime): String {
+        return calendarRepeatService.getUTCToTimezone(localDateTime, currentSessionUser.getTimezone())
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
     }
 
     /**

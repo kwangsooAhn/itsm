@@ -249,7 +249,6 @@
                         }
                         const formData = new FormData();
                         formData.append('files', importFile);
-                        // TODO: 백엔드 구현 필요
                         aliceJs.fetchJson(`/rest/calendars/${calendarList[0].calendarId}/templateUpload`, {
                             method: 'POST',
                             body: formData,
@@ -311,7 +310,6 @@
         };
         let excelFileName = i18n.msg('calendar.label.calendar') + '_' +
             new Date().toISOString().substring(0, 10).replace(/-/g, '');
-        // TODO: 백엔드 구현 필요
         aliceJs.fetchBlob('/rest/calendars/excel?', {
             method: 'POST',
             showProgressBar: true,

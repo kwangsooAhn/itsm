@@ -310,6 +310,12 @@ calendar:
          • endDt : end date Time<br/>
          • title : subject<br/>
          • contents : description"
+  excel:
+    type: Type
+    title: Title
+    contents: Contents
+    startDt: Start Date
+    endDt: End Date
 
 # Chart
 chart:
