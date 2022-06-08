@@ -89,7 +89,7 @@ class MetricStatusService(
                 chartData.add(
                     ChartData(
                         id = "",
-                        category = month.toString(),
+                        category = month.atStartOfDay().toString(),
                         value = point,
                         series = metric.metricName
                     )
