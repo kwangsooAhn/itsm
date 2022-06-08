@@ -10,6 +10,7 @@ package co.brainz.itsm.form.controller
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.form.service.FormService
+import co.brainz.workflow.component.dto.WfComponentTemplateDto
 import co.brainz.workflow.provider.constants.WorkflowConstants
 import co.brainz.workflow.provider.dto.RestTemplateFormDataDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -109,4 +110,29 @@ class FormRestController(private val formService: FormService) {
     fun deleteForm(@PathVariable formId: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(formService.deleteForm(formId))
     }
+
+    /**
+     * 컴포넌트 템플릿 조회.
+     */
+    @GetMapping("/component/template")
+    fun getComponentTemplateData(): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.getComponentTemplateData())
+    }
+
+    /**
+     * 컴포넌트 템플릿 저장.
+     */
+    @PostMapping("/component/template")
+    fun saveComponentTemplate(@RequestBody wfComponentTemplateDto: WfComponentTemplateDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.saveComponentTemplate(wfComponentTemplateDto))
+    }
+
+    /**
+     * 컴포넌트 템플릿 삭제.
+     */
+    @DeleteMapping("/component/template/{templateId}")
+    fun deleteComponentTemplate(@PathVariable templateId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(formService.deleteComponentTemplate(templateId))
+    }
+
 }

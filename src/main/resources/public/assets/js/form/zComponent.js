@@ -450,32 +450,35 @@ export default class ZComponent {
                     delete orgData.id;
                     // component template data
                     const templateData = {
-                        'template_name': document.getElementById('templateName').value,
+                        'templateName': document.getElementById('templateName').value,
                         'type': _this.type,
                         'data': JSON.stringify(orgData) // 선택된 컴포넌트의 실시간 설정 데이터
                     };
                     // todo: #13134 템플릿 등록 rest 처리 후 response 에 따라 성공시 modal.hide() 처리 / URL 수정
-                    // aliceJs.fetchJson('/rest/forms', {
-                    //     method: 'POST',
-                    //     headers: {
-                    //         'Content-Type': 'application/json'
-                    //     },
-                    //     body: JSON.stringify(templateData),
-                    //     showProgressbar: true
-                    // }).then((response) => {
-                    //     switch (response.status) {
-                    //         case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.register'), () => {
-                        modal.hide();
+                    aliceJs.fetchJson('/rest/forms/component/template', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(templateData),
+                        showProgressbar: true
+                    }).then((response) => {
+                        switch (response.status) {
+                            case aliceJs.response.success:
+                                zAlert.success(i18n.msg('common.msg.register'), () => {
+                                    modal.hide();
+                                });
+                                break;
+                            case aliceJs.response.duplicate:
+                                zAlert.warning(i18n.msg('form.msg.duplicateTemplateName'));
+                                break;
+                            case aliceJs.response.error:
+                                zAlert.danger(i18n.msg('common.msg.fail'));
+                                break;
+                            default:
+                                break;
+                        }
                     });
-                    //             break;
-                    //         case aliceJs.response.error:
-                    //             zAlert.danger(i18n.msg('common.msg.fail'));
-                    //             break;
-                    //         default:
-                    //             break;
-                    //     }
-                    // });
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),

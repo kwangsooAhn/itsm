@@ -244,12 +244,11 @@ class ZFormDesigner {
         const componentIconBoxes = document.querySelectorAll('.z-component-icon-box[data-type="template"]');
         componentIconBoxes.forEach((icon) => {
             let templateData = [];
-            // todo: #13134 dummy json / 추후 백엔드 구현 시 URL 수정
-            aliceJs.fetchJson('../../../assets/js/temp/componentTemplate.json', {
+            aliceJs.fetchJson('/rest/forms/component/template', {
                 method: 'GET'
-            }).then((data) => {
+            }).then((response) => {
                 templateData.length = 0;
-                templateData = JSON.parse(JSON.stringify(data));
+                templateData = response.data;
             });
 
             new Sortable(icon, {
@@ -1091,23 +1090,23 @@ class ZFormDesigner {
     deleteTemplate(e) {
         const target = e.target || e;
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            // aliceJs.fetchJson('/rest/forms/componentTemplates' + target.id, {
-            //     method: 'DELETE'
-            // }).then((response) => {
-            //     switch (response.status) {
-            //         case aliceJs.response.success:
-            zAlert.success(i18n.msg('common.msg.delete'), () => {
-                // template 탭에서 제거
-                target.parentElement.remove();
+            aliceJs.fetchJson('/rest/forms/component/template/' + target.id, {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), () => {
+                            // template 탭에서 제거
+                            target.parentElement.remove();
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
+                }
             });
-            //             break;
-            //         case aliceJs.response.error:
-            //             zAlert.danger(i18n.msg('common.msg.fail'));
-            //             break;
-            //         default:
-            //             break;
-            //     }
-            // });
         });
     }
 
