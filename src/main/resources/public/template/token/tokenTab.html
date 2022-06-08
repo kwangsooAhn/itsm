@@ -46,6 +46,19 @@
                 <tbody class="z-table-body" id="viewer"></tbody>
             </table>
         </div>
+        <!-- 일정 등록 -->
+        <div class="z-token-calendar">
+            <div class="flex-row align-items-end justify-content-between mb-2">
+                <label class="z-token-calendar-sub-title" th:text="#{token.label.calendar}"></label>
+                <button type="button" class="z-button-text float-right mb-1"
+                        th:text="#{token.label.calendarAdd}"
+                        th:onclick="zFormTokenTab.openCalendarModal()">
+                </button>
+            </div>
+            <table class="z-table z-token-calendar-table">
+                <tbody class="z-table-body" id="calendar"></tbody>
+            </table>
+        </div>
         <!-- 관련문서 -->
         <div class="z-token-related" id="related">
             <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
@@ -89,4 +102,7 @@
         <span id="spanTotalCount" class="search-count"></span>
         <div class="table-set" id="subUserList"></div>
     </div>
+</template>
+<!-- 일정 등록 모달 -->
+<template id="calendarModalTemplate">
 </template>

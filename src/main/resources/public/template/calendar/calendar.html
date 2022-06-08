@@ -214,28 +214,32 @@
      * 일괄 등록 모달 호출
      */
     function openTemplateUploadModal() {
+        const calendarOptionTemplate = calendarList.map((opt, idx) =>
+            `<option value="${opt.calendarId}" ${idx === 0 ? 'selected=\'true\'' : ''}>${opt.calendarName}</option>`);
+
         const templateUploadContent = function() {
-            return `<div class="import-main flex-column">` +
-                `<div class="file-uploader-edit">` +
-                `<label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}` +
-                    `<span class="required"></span>` +
-                    `<div class="z-help-tooltip">` +
-                        `<span class="z-icon i-tooltip"></span>` +
-                        `<div class="z-tooltip-contents">` +
-                            `<span>${i18n.msg('calendar.tooltip.templateRule')}</span>` +
-                        `</div>` +
-                    `</div>` +
-                `</label>` +
-                `<div id="dropZoneFiles"></div>` +
-                `<div id="dropZoneUploadedFiles"></div>` +
-                `</div>` +
-                `<h6 class="description mt-1 pl-2">${i18n.msg('calendar.msg.noticeImportFile')}</h6>` +
-                `</div>`;
+            return `<div class="import-main flex-column">
+                <div class="mt-1"><select id="calendarId">${calendarOptionTemplate}</select></div>
+                <div class="file-uploader-edit">
+                <label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}
+                    <span class="required"></span>
+                    <div class="z-help-tooltip">
+                        <span class="z-icon i-tooltip"></span>
+                        <div class="z-tooltip-contents">
+                            <span>${i18n.msg('calendar.tooltip.templateRule')}</span>
+                        </div>
+                    </div>
+                </label>
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+                </div>
+                <h6 class="description mt-1 pl-2">${i18n.msg('calendar.msg.noticeImportFile')}</h6>
+                </div>`.trim();
         };
         const importModal = new modal({
             title: i18n.msg('calendar.btn.importTemplate'),
             body: templateUploadContent(),
-            classes: 'template-import',
+            classes: 'calendar__template--import',
             buttons: [
                 {
                     content: i18n.msg('common.btn.import'),
@@ -249,7 +253,8 @@
                         }
                         const formData = new FormData();
                         formData.append('files', importFile);
-                        aliceJs.fetchJson(`/rest/calendars/${calendarList[0].calendarId}/templateUpload`, {
+                        const calendarId = document.querySelector('#calendarId').value;
+                        aliceJs.fetchJson(`/rest/calendars/${calendarId}/templateUpload`, {
                             method: 'POST',
                             body: formData,
                             showProgressBar: true
@@ -260,6 +265,8 @@
                                     location.reload();
                                     return true;
                                 });
+                            } else {
+                                zAlert.danger(i18n.msg('common.msg.fail'));
                             }
                         });
                     }
@@ -286,7 +293,10 @@
                     userCallback: getImportFile
                 });
                 // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.template-import .modal-content'), { className: 'scrollbar' });
+                OverlayScrollbars(document.querySelector('.calendar__template--import .modal-content'),
+                    { className: 'scrollbar' });
+                // selectbox 디자인
+                aliceJs.initDesignedSelectTag(document.querySelector('.calendar__template--import'));
             }
         });
         importModal.show();
@@ -310,6 +320,7 @@
         };
         let excelFileName = i18n.msg('calendar.label.calendar') + '_' +
             new Date().toISOString().substring(0, 10).replace(/-/g, '');
+        // TODO: 백엔드 구현 필요
         aliceJs.fetchBlob('/rest/calendars/excel?', {
             method: 'POST',
             showProgressBar: true,

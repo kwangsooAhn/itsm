@@ -85,7 +85,7 @@ class ZFormTokenTab {
      */
     selectTokenTab(e) {
         // 탭 동작
-        Array.prototype.filter.call(e.target.parentNode.children, function (child) {
+        Array.prototype.filter.call(e.target.parentNode.children, function(child) {
             return child !== e.target;
         }).forEach((siblingElement) => {
             siblingElement.classList.remove('active');
@@ -95,7 +95,7 @@ class ZFormTokenTab {
         // 컨텐츠 내용 동작
         const selectedTab = document.getElementById(e.target.dataset.targetContents);
         if (zValidation.isDefined(selectedTab)) {
-            Array.prototype.filter.call(selectedTab.parentNode.children, function (child) {
+            Array.prototype.filter.call(selectedTab.parentNode.children, function(child) {
                 return child !== selectedTab;
             }).forEach((siblingElement) => {
                 siblingElement.classList.remove('on');
@@ -251,7 +251,7 @@ class ZFormTokenTab {
                     const clonedViewerList = JSON.parse(JSON.stringify(this.viewerList));
                     const saveViewerData = [];
                     selectedViewerList.forEach((viewer) => {
-                        const findIndex = clonedViewerList.findIndex(function (item) {
+                        const findIndex = clonedViewerList.findIndex(function(item) {
                             return item.viewerKey === viewer.id;
                         });
 
@@ -356,7 +356,7 @@ class ZFormTokenTab {
                             viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
                         });
                     } else {
-                        let removeIndex = this.viewerList.findIndex(function (key) {
+                        let removeIndex = this.viewerList.findIndex(function(key) {
                             return key.viewerKey === e.target.id;
                         });
                         if (removeIndex > -1) {
@@ -411,7 +411,7 @@ class ZFormTokenTab {
                             const parent = document.getElementById('viewer');
                             parent.removeChild(removeRow);
                             // 데이터 삭제
-                            const findIndex = this.viewerList.findIndex(function (item) {
+                            const findIndex = this.viewerList.findIndex(function(item) {
                                 return item.viewerKey === viewerKey;
                             });
                             this.viewerList.splice(findIndex, 1);
@@ -505,7 +505,7 @@ class ZFormTokenTab {
                             instanceId: e.target.value
                         });
                     } else {
-                        let removeIndex = this.relatedDocList.findIndex(function (key) {
+                        let removeIndex = this.relatedDocList.findIndex(function(key) {
                             return key.instanceId === e.target.value;
                         });
                         if (removeIndex > -1) {
@@ -888,6 +888,13 @@ class ZFormTokenTab {
                 }
             });
         });
+    }
+
+    /**
+     * 일정 등록/수정 모달 오픈
+     */
+    openCalendarModal() {
+        const calendarModalTemplate = document.getElementById('calendarModalTemplate');
     }
 }
 
