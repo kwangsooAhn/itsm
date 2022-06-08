@@ -346,3 +346,7 @@ insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무�
 insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
 insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
 insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌트 템플릿 조회', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
+
