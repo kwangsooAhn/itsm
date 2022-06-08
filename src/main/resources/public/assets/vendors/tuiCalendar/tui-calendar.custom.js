@@ -1255,7 +1255,15 @@ Object.assign(zCalendar.prototype, {
         };
         let url = '/rest/calendars/' + schedule.calendarId;
         // 반복 일정일 경우
-        if (repeatId !== '') {
+        // 일반          repeatId === ''
+        // 일반 > 일반    repeatId === ''
+        // 일반 > 반복    repeatId === '' && repeatYn && schedule.mode === 'edit'
+        // 반복          repeatId === '' && repeatYn
+        // 반복 > 반복    repeatId !== '' && repeatYn
+        // 반복 > 일반    repeatId !== ''
+        if ((repeatId === '' && repeatYn && schedule.mode === 'register') ||
+            (repeatId !== '' && repeatYn) ||
+            (repeatId !== '')) {
             url += '/repeat';
             saveData.id = repeatId;
         } else { // 스케쥴 등록일 경우

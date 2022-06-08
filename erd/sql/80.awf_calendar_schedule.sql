@@ -12,6 +12,8 @@ CREATE TABLE awf_calendar_schedule
     all_day_yn        boolean,
     start_dt          timestamp,
     end_dt            timestamp,
+    createDt          timestamp,
+    updateDt          timestamp,
     CONSTRAINT awf_calendar_schedule_pk PRIMARY KEY (schedule_id),
     CONSTRAINT awf_calendar_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
 );
@@ -24,3 +26,5 @@ COMMENT ON COLUMN awf_calendar_schedule.schedule_contents IS '내용';
 COMMENT ON COLUMN awf_calendar_schedule.all_day_yn IS '종일여부';
 COMMENT ON COLUMN awf_calendar_schedule.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_schedule.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_schedule.createDt IS '등록일';
+COMMENT ON COLUMN awf_calendar_schedule.updateDt IS '수정일';

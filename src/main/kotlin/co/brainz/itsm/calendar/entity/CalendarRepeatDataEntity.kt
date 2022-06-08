@@ -41,11 +41,11 @@ class CalendarRepeatDataEntity(
     @Column(name = "repeat_value", length = 64)
     val repeatValue: String? = null,
 
-    @Column(name = "schedule_title", length = 200)
-    val scheduleTitle: String,
+    @Column(name = "repeat_title", length = 200)
+    val repeatTitle: String,
 
-    @Column(name = "schedule_contents")
-    val scheduleContents: String? = null,
+    @Column(name = "repeat_contents")
+    val repeatContents: String? = null,
 
     @Column(name = "all_day_yn")
     val allDayYn: Boolean,
@@ -54,5 +54,8 @@ class CalendarRepeatDataEntity(
     val startDt: LocalDateTime,
 
     @Column(name = "end_dt")
-    val endDt: LocalDateTime
+    var endDt: LocalDateTime,
+
+    @Column(name = "create_dt")
+    val createDt: LocalDateTime? = null
 ) : Serializable

@@ -15,5 +15,7 @@ import org.springframework.stereotype.Repository
 interface CalendarRepeatCustomDataRepository :
     JpaRepository<CalendarRepeatCustomDataEntity, String>, CalendarRepeatCustomDataRepositoryCustom {
     fun deleteAllByRepeatData(repeatData: CalendarRepeatDataEntity)
+    fun findAllByRepeatData(repeatData: CalendarRepeatDataEntity): List<CalendarRepeatCustomDataEntity>
     fun deleteAllByRepeatDataAndDataIndex(repeatData: CalendarRepeatDataEntity, index: Int)
+    fun deleteByRepeatDataAndDataIndex(repeatData: CalendarRepeatDataEntity, index: Int)
 }

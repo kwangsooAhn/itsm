@@ -35,18 +35,21 @@ class CalendarRepeatCustomDataEntity(
     @Column(name = "custom_type", length = 64)
     val customType: String,
 
-    @Column(name = "schedule_title", length = 200)
-    val scheduleTitle: String,
+    @Column(name = "custom_title", length = 200)
+    val customTitle: String,
 
-    @Column(name = "schedule_contents")
-    val scheduleContents: String? = null,
+    @Column(name = "custom_contents")
+    val customContents: String? = null,
 
     @Column(name = "all_day_yn")
     val allDayYn: Boolean,
 
     @Column(name = "start_dt")
-    val startDt: LocalDateTime,
+    val startDt: LocalDateTime? = null,
 
     @Column(name = "end_dt")
-    val endDt: LocalDateTime
+    val endDt: LocalDateTime? = null,
+
+    @Column(name = "create_dt")
+    val createDt: LocalDateTime
 ) : Serializable

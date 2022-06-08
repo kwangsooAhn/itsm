@@ -104,5 +104,4 @@ class CalendarRestController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(calendarService.deleteCalendarRepeat(calendarId, calendarDeleteRequest))
     }
-
 }

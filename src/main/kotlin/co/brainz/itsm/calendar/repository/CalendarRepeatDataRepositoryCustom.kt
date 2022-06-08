@@ -7,11 +7,10 @@
 package co.brainz.itsm.calendar.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.entity.CalendarRepeatDataEntity
 import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
 
 interface CalendarRepeatDataRepositoryCustom : AliceRepositoryCustom {
-    fun findCalendarRepeatDataInRange(repeat: CalendarRepeatEntity, range: Range): List<CalendarRepeatDataEntity>
+    fun findCalendarRepeatDataInRange(repeat: CalendarRepeatEntity): List<CalendarRepeatDataEntity>
     fun findCalendarRepeatDataAfterEndDt(repeatData: CalendarRepeatDataEntity): List<CalendarRepeatDataEntity>
 }

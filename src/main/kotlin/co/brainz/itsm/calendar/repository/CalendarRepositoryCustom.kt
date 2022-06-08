@@ -12,7 +12,6 @@ import co.brainz.itsm.calendar.entity.CalendarEntity
 import java.util.Optional
 
 interface CalendarRepositoryCustom : AliceRepositoryCustom {
-
     fun getCalendarList(userKey: String): List<CalendarDto>
     fun findCalendarInOwner(calendarId: String, userKey: String): Optional<CalendarEntity>
     fun findCalendarsInOwner(calendarIds: Set<String>, userKey: String): List<CalendarEntity>
