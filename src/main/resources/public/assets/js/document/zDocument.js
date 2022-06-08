@@ -398,6 +398,12 @@ class ZDocument {
                 }],
                 close: {
                     closable: false,
+                },
+                onCreate: () => {
+                    let statusGroup = d3.select('#elementContainer')
+                        .style('background-image', 'url([[${tokenStatus.imageData}]])')
+                        .append('g');
+                    console.log(statusGroup)
                 }
             });
             processStatusModal.show();
