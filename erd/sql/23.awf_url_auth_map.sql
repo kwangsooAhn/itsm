@@ -149,6 +149,8 @@ insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'ge
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/excel', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/template', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/templateUpload', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
 insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');

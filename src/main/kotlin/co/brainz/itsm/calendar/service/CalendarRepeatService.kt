@@ -429,7 +429,7 @@ class CalendarRepeatService(
     /**
      * UTC 시간으로 변경
      */
-    private fun getTimezoneToUTC(localDateTime: LocalDateTime, zoneId: String): LocalDateTime {
+    fun getTimezoneToUTC(localDateTime: LocalDateTime, zoneId: String): LocalDateTime {
         return LocalDateTime.ofInstant(localDateTime.toInstant(ZoneId.of(zoneId).rules.getOffset(Instant.now())), ZoneId.of("UTC"))
     }
 

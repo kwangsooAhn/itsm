@@ -139,6 +139,8 @@ insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 �
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
 insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/calendars/excel', 'post', '일정 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/template', 'get', '일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/templateUpload', 'post', '일괄 등록', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
 insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');

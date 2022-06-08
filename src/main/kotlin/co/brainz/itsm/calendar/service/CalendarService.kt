@@ -37,6 +37,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class CalendarService(
@@ -191,6 +192,9 @@ class CalendarService(
         )
     }
 
+    /**
+     * 캘린더 일정 Excel 다운로드
+     */
     fun getCalendarExcelDownload(calendarRequest: CalendarRequest): ResponseEntity<ByteArray> {
         val calendarDataList = this.getCalendars(calendarRequest).calendars
         val excelVO = ExcelVO(
@@ -236,6 +240,44 @@ class CalendarService(
             }
         }
         return excelComponent.download(excelVO)
+    }
+
+    /**
+     * 일괄 등록 템플릿 다운로드
+     */
+    fun getCalendarExcelTemplateDownload(): ResponseEntity<ByteArray> {
+        val excelVO = ExcelVO(
+            sheets = mutableListOf(
+                ExcelSheetVO(
+                    rows = mutableListOf(
+                        ExcelRowVO(
+                            cells = listOf(
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.startDt"), cellWidth = 6000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.endDt"), cellWidth = 6000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.title"), cellWidth = 10000),
+                                ExcelCellVO(value = aliceMessageSource.getMessage("calendar.excel.contents"), cellWidth = 15000)
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        return excelComponent.download(excelVO)
+    }
+
+    /**
+     * Excel 일괄 등록
+     */
+    fun postTemplateUpload(calendarId: String, multipartFiles: List<MultipartFile>): ZResponse {
+        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        val status = if (calendar.isPresent) {
+            calendarScheduleService.postTemplateUpload(calendar.get(), multipartFiles)
+        } else {
+            ZResponseConstants.STATUS.ERROR_NOT_EXIST
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 
     /**
