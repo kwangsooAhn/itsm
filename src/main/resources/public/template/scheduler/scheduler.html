@@ -172,8 +172,8 @@
     /*<![CDATA[*/
     const taskId = /*[[${schedule?.taskId}]]*/;
     let offsetCount = 0;
-    let maxExecuteTime = i18n.getDateTime();
-    let minExecuteTime = i18n.getDateTime({days: -30});
+    let searchToDt = i18n.getDate();
+    let searchFromDt = i18n.getDate({'months': -1});
 
     window.onload = function () {
         changeContainer(document.getElementById('taskType').value);
@@ -254,8 +254,9 @@
                     `<option value="true">${i18n.msg('scheduler.result.true')}</option>` +
                     `<option value="false">${i18n.msg('scheduler.result.false')}</option>` +
                     `</select>` +
-                    `<input type="text" class="z-input i-datetime-picker datetime col-3 mr-1" id="searchFromDt" name="searchFromDt" value=""/>` +
-                    `<input type="text" class="z-input i-datetime-picker datetime col-3" id="searchToDt" name="searchToDt" value=""/>` +
+                    `<input type="text" class="z-input i-date-picker search-date col-3 mr-1" id="fromDt" name="fromDt" value=""/>` +
+                    `<input type="text" class="z-input i-date-picker search-date col-3" id="searchToDt" name="searchToDt" value=""/>` +
+                    `<input type="hidden" class="search-date" id="toDt" name="toDt"/>` +
                     `</form>` +
                     `<div class="table-set" id="historyList"></div>`,
                 buttons: [{
@@ -270,13 +271,13 @@
                     closable: false
                 },
                 onCreate: function (modal) {
-                    const searchFromDtElement = document.getElementById('searchFromDt');
+                    const fromDtElement = document.getElementById('fromDt');
                     const searchToDtElement = document.getElementById('searchToDt');
-                    searchFromDtElement.value = minExecuteTime;
-                    searchToDtElement.value = maxExecuteTime;
+                    fromDtElement.value = searchFromDt;
+                    searchToDtElement.value = searchToDt;
                     setDateTimeFormat(document.getElementById('searchFrm'));
-                    zDateTimePicker.initDateTimePicker(searchFromDtElement, changeDateTimePicker);
-                    zDateTimePicker.initDateTimePicker(searchToDtElement, changeDateTimePicker);
+                    zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
+                    zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
 
                     aliceJs.initDesignedSelectTag();
                     document.getElementById('searchResult').addEventListener('change', function () {
@@ -287,6 +288,8 @@
             const historyViewModal = new modal(historyOptions);
             historyViewModal.show();
         }
+        document.getElementById('toDt').value =
+            i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
         const url = '/schedulers/' + taskId + '/history?' +
             aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount + '&isScroll=' + isScroll;
         restModalSubmit(url, isScroll);
@@ -296,6 +299,9 @@
      * 스케줄 이력 검색
      */
     function getList(isScroll) {
+        document.getElementById('toDt').value =
+            i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
+
         let url = '/schedulers/' + taskId + '/history?' +
             aliceJs.serialize(document.getElementById('searchFrm')) + '&isScroll=' + isScroll;
         if (isScroll) {
@@ -354,31 +360,32 @@
     }
 
     /**
-     * DateTimePicker 변경시 호출
+     * DatePicker 변경시 호출
      */
-    function changeDateTimePicker(element, picker) {
-        const taskId = /*[[${schedule?.taskId}]]*/''
-
-        if (element.id === 'searchFromDt') {
+    function setDatePicker(element, picker) {
+        if (element.id === 'fromDt') {
             const searchToDtValue = document.getElementById('searchToDt').value;
-            if (!i18n.compareSystemDateTime(element.value, searchToDtValue)) {
-                zAlert.warning(i18n.msg('scheduler.msg.compareWithSchedulerExecuteTimeValue', searchToDtValue), function () {
-                    document.getElementById('searchFromDt').value = minExecuteTime
-                    setDateTimeFormat(document.getElementById('searchFrm'))
-                    picker.open();
-                });
-            } else {
-                getList(false);
+            if (searchToDtValue !== '' && element.value !== '') {
+                if (i18n.systemDate(searchToDtValue) < i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', searchToDtValue), function () {
+                        document.getElementById('fromDt').value = searchFromDt;
+                        picker.open();
+                    });
+                } else {
+                    getList(false);
+                }
             }
         } else {
-            const searchFromDtValue = document.getElementById('searchFromDt').value;
-            if (!i18n.compareSystemDateTime(searchFromDtValue, element.value)) {
-                zAlert.warning(i18n.msg('scheduler.msg.compareWithSchedulerExecuteTimeValue', searchFromDtValue), function () {
-                    document.getElementById('searchToDt').value = maxExecuteTime
-                    picker.open();
-                });
-            } else {
-                getList(false);
+            const searchFromDtValue = document.getElementById('fromDt').value;
+            if (searchFromDtValue !== '' && element.value !== '') {
+                if (i18n.systemDate(searchFromDtValue) > i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', searchFromDtValue), function () {
+                        document.getElementById('searchToDt').value = searchToDt;
+                        picker.open();
+                    });
+                } else {
+                    getList(false);
+                }
             }
         }
     }
