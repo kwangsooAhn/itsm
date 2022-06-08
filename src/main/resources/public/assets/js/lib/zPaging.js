@@ -35,17 +35,13 @@ export default class ZPaging {
      */
     update() {
         // 전체 검색건수, 저장된 데이터 전체 건수, 정렬 순서등을 출력
-        const spanTotalCount = document.getElementById('spanTotalCount');
-        const spanTotalCountWithoutCondition = document.getElementById('spanTotalCountWithoutCondition');
-        if (spanTotalCount || spanTotalCountWithoutCondition) {
-            document.getElementById('spanTotalCount').innerText =
-                i18n.msg('common.label.count', document.getElementById('totalCount').value);
-            document.getElementById('spanTotalCountWithoutCondition').innerText =
-                i18n.msg(
-                    'common.label.totalCountWithoutCondition',
-                    document.getElementById('totalCountWithoutCondition').value
-                );
-        }
+        document.getElementById('spanTotalCount').innerText =
+            i18n.msg('common.label.count', document.getElementById('totalCount').value);
+        document.getElementById('spanTotalCountWithoutCondition').innerText =
+            i18n.msg(
+                'common.label.totalCountWithoutCondition',
+                document.getElementById('totalCountWithoutCondition').value
+            );
 
         // 정렬
         this.makeSortGridIcon();
