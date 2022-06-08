@@ -71,11 +71,11 @@
         });
 
         // todo: #13134 dummy json / 추후 백엔드 구현 시 제거
-        aliceJs.fetchJson('../../assets/js/temp/componentTemplate.json', {
+        aliceJs.fetchJson('/rest/forms/component/template', {
             method: 'GET',
             showProgressbar: true
-        }).then((data) => {
-            const dummy = data;
+        }).then((response) => {
+            const dummy = response.data;
             let templateList = document.getElementById('customComponentList').querySelector('.list-group');
             templateList.innerHTML = '';
             dummy.forEach( (dummyData) => {
@@ -350,25 +350,7 @@
                             <span class="z-icon i-arrow-right"></span>
                         </label>
                         <div class="z-accordion-content" id="customComponentList">
-                            <div class="z-component-icon-box list-group" data-type="template">
-                                <!-- todo: #13134 sample 추후 템플릿 목록에서 데이터를 가져와서 그려준다. -->
-                                <!-- 반복 구간 start -->
-                                <div class="z-component-icon component-template list-group-item"
-                                     id="templateComponent" tabindex="0">
-                                    <!-- data-value = jsonData() -->
-                                    <input th:type="hidden" data-value=""/>
-                                    <!-- z-component-name은 데이터에서 가져오기. th:text, th:tile 모두 설정 -->
-                                    <span class="z-icon i-componentTemplate"></span>
-                                    <span class="z-component-name text-ellipsis" th:text="#{form.label.templateName}"
-                                          th:title="#{form.label.templateName}" ></span>
-                                    <!-- button id에 템플릿 id 추가 -->
-                                    <button type="button" class="z-button-icon-sm" tabindex="-1" id=""
-                                            onclick="zFormDesigner.deleteTemplate(this);">
-                                        <span class="z-icon i-remove"></span>
-                                    </button>
-                                </div>
-                                <!-- 반복 구간 end -->
-                            </div>
+                            <div class="z-component-icon-box list-group" data-type="template"></div>
                         </div>
                     </div>
                 </div>
