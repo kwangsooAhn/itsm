@@ -39,4 +39,12 @@ object DocumentConstants {
      * document displayType p_code.
      */
     const val DOCUMENT_DISPLAY_TYPE_P_CODE = "document.displayType"
+
+    /**
+     * document status.
+     */
+    enum class DocumentStatus(val value: String) {
+        USE("document.status.use"),
+        TEMPORARY("document.status.temporary")
+    }
 }

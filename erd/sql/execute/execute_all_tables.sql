@@ -8991,6 +8991,9 @@ COMMENT ON COLUMN awf_dashboard_template.template_config is '템플릿 설정';
 COMMENT ON COLUMN awf_dashboard_template.template_desc is '템플릿 설명';
 
 -- 초기 데이터 샘플
+-- name : type이 field면, 테이블 필드명, type이 Mapping이면 Mapping_id
+-- document : document_id
+-- organization : organization_id
 INSERT INTO awf_dashboard_template VALUES ('template-001', '부서별 요청현황', '{
   "components": [
     {
