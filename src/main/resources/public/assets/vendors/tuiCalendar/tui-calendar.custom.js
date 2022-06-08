@@ -1350,6 +1350,10 @@ Object.assign(zCalendar.prototype, {
                                 modal.parentModal.hide();
                             }
                         }
+                        // 삭제시 화면 reload
+                        if (method === 'DELETE') {
+                            location.reload();
+                        }
                         // 데이터를 새로 가져옴
                         this.isReload = true;
                         const menu = document.querySelector('#calendarViewType .z-button-switch.selected');

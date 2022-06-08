@@ -1453,6 +1453,8 @@ token:
   label:
     all: "All Document"
     assignee: "Assignee"
+    calendar: "Calendar"
+    calendarAdd: "+ Calendar Add"
     completed: "Completed Documents"
     docNo: "Document No"
     documentGroup: "Document Type"

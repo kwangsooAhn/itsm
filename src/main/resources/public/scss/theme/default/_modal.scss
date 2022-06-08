@@ -300,7 +300,6 @@
     }
   }
   // CI 템플릿 IMPORT 모달
-  // 일정 관리 일괄 등록 모달
   &.template-import {
     width: 37.5rem; // 600px
     height: 22.5rem; // 360px
@@ -329,6 +328,23 @@
         display: inline-block;
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
+    }
+  }
+
+  // 일정 관리 일괄 등록 모달
+  &.calendar__template--import {
+    width: 37.5rem; // 600px
+    height: 25.625rem; // 410px
+
+    .modal-content {
+      height: calc(25.625rem - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
     }
   }
 }
