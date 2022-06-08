@@ -13,6 +13,7 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
@@ -66,8 +67,13 @@ class MetricYearService(
 
         return MetricYearListReturnDto(
             data = result,
-            totalCount = result.size.toLong(),
-            totalCountWithoutCondition = metricYearRepository.count()
+            paging = AlicePagingData(
+                totalCount = result.size.toLong(),
+                totalCountWithoutCondition = metricYearRepository.count(),
+                currentPageNum = 0L,
+                totalPageNum = 0L,
+                orderType = ""
+            )
         )
     }
 
@@ -146,8 +152,13 @@ class MetricYearService(
         }
         return MetricAnnualListReturnDto(
             data = metricAnnualDtoList,
-            totalCount = metricAnnualDtoList.size.toLong(),
-            totalCountWithoutCondition = metricYearRepository.count()
+            paging = AlicePagingData(
+                totalCount = metricAnnualDtoList.size.toLong(),
+                totalCountWithoutCondition = metricYearRepository.count(),
+                currentPageNum = 0L,
+                totalPageNum = 0L,
+                orderType = ""
+            )
         )
 
     }
