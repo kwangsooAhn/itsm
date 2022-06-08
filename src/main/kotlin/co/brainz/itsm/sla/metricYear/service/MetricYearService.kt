@@ -13,6 +13,7 @@ import co.brainz.framework.download.excel.dto.ExcelVO
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
@@ -20,13 +21,13 @@ import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
 import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
-import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
+import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
@@ -61,8 +62,19 @@ class MetricYearService(
     /**
      * 연도별 SLA 지표 목록 조회
      */
-    fun getMetrics(year: String): List<MetricYearDataDto> {
-        return metricYearRepository.findMetrics(year)
+    fun getMetrics(year: String): MetricYearListReturnDto {
+        val result = metricYearRepository.findMetrics(year)
+
+        return MetricYearListReturnDto(
+            data = result,
+            paging = AlicePagingData(
+                totalCount = result.size.toLong(),
+                totalCountWithoutCondition = metricYearRepository.count(),
+                currentPageNum = 0L,
+                totalPageNum = 0L,
+                orderType = ""
+            )
+        )
     }
 
     /**
@@ -118,7 +130,7 @@ class MetricYearService(
     /**
      * 년도별 SLA 현황 목록 조회
      */
-    fun findMetricAnnualSearch(year: String): List<MetricAnnualDto> {
+    fun findMetricAnnualSearch(year: String): MetricAnnualListReturnDto {
         val metricAnnualDtoList = metricYearRepository.findMetricStatusList(year)
 
         val from = LocalDateTime.of(year.toInt(), 1, 1, 0, 0, 0)
@@ -138,7 +150,17 @@ class MetricYearService(
                 else -> 0f
             }
         }
-        return metricAnnualDtoList
+        return MetricAnnualListReturnDto(
+            data = metricAnnualDtoList,
+            paging = AlicePagingData(
+                totalCount = metricAnnualDtoList.size.toLong(),
+                totalCountWithoutCondition = metricYearRepository.count(),
+                currentPageNum = 0L,
+                totalPageNum = 0L,
+                orderType = ""
+            )
+        )
+
     }
 
     /**
