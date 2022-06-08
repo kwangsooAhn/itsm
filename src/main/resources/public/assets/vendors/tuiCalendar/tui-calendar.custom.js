@@ -675,7 +675,7 @@ Object.assign(zCalendar.prototype, {
      */
     setCreateModal: function (schedule) {
         // 모달 버튼명 변경
-        this.createModal.wrapper.querySelector('.modal-button').textContent = (schedule.mod === 'register') ?
+        this.createModal.wrapper.querySelector('.modal-button').textContent = (schedule.mode === 'register') ?
             i18n.msg('common.btn.register') : i18n.msg('common.btn.toModify');
 
         // 캘린더 ID
@@ -707,7 +707,6 @@ Object.assign(zCalendar.prototype, {
         endDt.setAttribute('value', end.toFormat(format));
         this.createModal.customOptions.tempEnd = end.toMillis();
 
-        const raw = ( schedule.mode === 'edit' && schedule.raw !== null) ? schedule.raw : {};
         // 선택된 날짜에 따른 반복 일정 값 변경
         this.setRepeatType(schedule);
 
@@ -718,6 +717,9 @@ Object.assign(zCalendar.prototype, {
             allDayYn.checked = false;
         }
         if (allDayYn.checked !== schedule.isAllDay) {
+            if (schedule.mode === 'edit') {
+                allDayYn.checked = schedule.isAllDay;
+            }
             allDayYn.dispatchEvent(new Event('change'));
         }
     },
@@ -1201,13 +1203,15 @@ Object.assign(zCalendar.prototype, {
             repeatYn: repeatYn,
             repeatType: repeatYn ?  repeatType.options[repeatType.selectedIndex].value : '',
             repeatValue: repeatType.options[repeatType.selectedIndex].getAttribute('data-repeatvalue'),
-            repeatPeriod: '', // all, today, after
-            standard: this.getStandardDate('month', this.getDate())
+            repeatPeriod: '' // all, today, after
         };
 
         let url = '/rest/calendars/' + calendarId;
-        // 반복 일정일 경우
-        if (repeatId !== '') {
+        // 일반(신규) -> 일반 = '/schedule'
+        // 일반(신규) -> 반복 = '/repeat'
+        // 일반 -> 일반,반복 = '/schedule'
+        // 반복 -> 일반,반복 = '/repeat'
+        if ((repeatId === '' && repeatYn && method === 'POST') || repeatId !== '' ) {
             url += '/repeat';
             saveData.id = repeatId;
         } else { // 스케쥴 등록일 경우
@@ -1216,7 +1220,7 @@ Object.assign(zCalendar.prototype, {
         }
 
         // 반복일정 수정여부 확인
-        if (method === 'PUT' && repeatId !== '') {
+        if (method === 'PUT' && repeatId !== '' && repeatYn) {
             this.repeatModal.customOptions = { url: url, method: method };
             this.repeatModal.saveData = saveData;
             this.repeatModal.parentModal = this.createModal;
@@ -1250,20 +1254,12 @@ Object.assign(zCalendar.prototype, {
             repeatYn: repeatYn,
             repeatType: Object.prototype.hasOwnProperty.call(raw, 'repeatType') ? raw.repeatType : '',
             repeatValue: Object.prototype.hasOwnProperty.call(raw, 'repeatValue') ? raw.repeatValue : '',
-            repeatPeriod: '', // all, today, after
-            standard: this.getStandardDate('month', this.getDate())
+            repeatPeriod: '' // all, today, after
         };
         let url = '/rest/calendars/' + schedule.calendarId;
-        // 반복 일정일 경우
-        // 일반          repeatId === ''
-        // 일반 > 일반    repeatId === ''
-        // 일반 > 반복    repeatId === '' && repeatYn && schedule.mode === 'edit'
-        // 반복          repeatId === '' && repeatYn
-        // 반복 > 반복    repeatId !== '' && repeatYn
-        // 반복 > 일반    repeatId !== ''
-        if ((repeatId === '' && repeatYn && schedule.mode === 'register') ||
-            (repeatId !== '' && repeatYn) ||
-            (repeatId !== '')) {
+        // 일반 -> 일반,반복 = '/schedule'
+        // 반복 -> 일반,반복 = '/repeat'
+        if (repeatId !== '' ) {
             url += '/repeat';
             saveData.id = repeatId;
         } else { // 스케쥴 등록일 경우
@@ -1297,7 +1293,6 @@ Object.assign(zCalendar.prototype, {
             index: Object.prototype.hasOwnProperty.call(raw, 'repeatSeq') ? raw.repeatSeq : 1,
             repeatYn: repeatYn,
             repeatPeriod: '', // all, today, after
-            standard: this.getStandardDate('month', this.getDate()),
             startDt: start // 현재 날짜 데이터 - 반복 일정 삭제시 오늘 날짜 필요
         };
 
@@ -1341,7 +1336,8 @@ Object.assign(zCalendar.prototype, {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            showProgressbar: true
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
