@@ -249,7 +249,6 @@
                         }
                         const formData = new FormData();
                         formData.append('files', importFile);
-                        // TODO: 백엔드 구현 필요
                         aliceJs.fetchJson(`/rest/calendars/${calendarList[0].calendarId}/templateUpload`, {
                             method: 'POST',
                             body: formData,
