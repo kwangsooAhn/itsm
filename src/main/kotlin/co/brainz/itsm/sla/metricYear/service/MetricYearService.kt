@@ -24,9 +24,9 @@ import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
@@ -61,8 +61,14 @@ class MetricYearService(
     /**
      * 연도별 SLA 지표 목록 조회
      */
-    fun getMetrics(year: String): List<MetricYearDataDto> {
-        return metricYearRepository.findMetrics(year)
+    fun getMetrics(year: String): MetricYearListReturnDto {
+        val result = metricYearRepository.findMetrics(year)
+
+        return MetricYearListReturnDto(
+            data = result,
+            totalCount = result.size.toLong(),
+            totalCountWithoutCondition = metricYearRepository.count()
+        )
     }
 
     /**

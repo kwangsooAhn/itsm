@@ -49,8 +49,11 @@ class MetricYearController(
     fun getMetricYears(@RequestParam year: String, model: Model): String {
         val thisYear = DateTimeFormatter.ofPattern("yyyy")
             .format(AliceUtil().changeTimeBasedTimezone(LocalDateTime.now(), currentSessionUser.getTimezone()))
+        val result = metricYearService.getMetrics(year)
         model.addAttribute("thisYear", thisYear)
-        model.addAttribute("metricYearsList", metricYearService.getMetrics(year))
+        model.addAttribute("metricYearsList", result.data)
+        model.addAttribute("totalCount", result.totalCount)
+        model.addAttribute("totalCountWithoutCondition", result.totalCountWithoutCondition)
         return metricYearListPage
     }
 
