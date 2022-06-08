@@ -18,7 +18,6 @@ import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
-import com.querydsl.jpa.JPQLQuery
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -182,6 +181,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     metricPool.metricName,
                     metricPool.calculationType,
                     metricYear.zqlString,
+                    metricPool.metricType,
                     metricYear.minValue,
                     metricYear.maxValue,
                     metricYear.weightValue,

@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.convertValue
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Year
 import kotlin.math.ceil
@@ -107,5 +108,12 @@ class MetricManualService(
             type = MetricPoolConstants.MetricTypeCode.MANUAL.code
         )
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+    }
+
+    /**
+     * 기간 내 매뉴얼 지표 점수의 합
+     */
+    fun getManualPointSum(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float {
+        return metricManualRepository.findManualPointSum(metricManualId, startDt, endDt);
     }
 }

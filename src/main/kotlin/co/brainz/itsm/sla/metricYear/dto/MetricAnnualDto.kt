@@ -14,6 +14,7 @@ data class MetricAnnualDto(
     val metricName: String? = "",
     val calculationType: String? = "",
     val zqlString: String = "",
+    val metricType: String ="",
     val minValue: Float? = 0f,
     val maxValue: Float? = 0f,
     val weightValue: Float = 0f,

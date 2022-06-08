@@ -14,6 +14,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
@@ -53,6 +54,7 @@ class MetricYearService(
     private val aliceMessageSource: AliceMessageSource,
     private val excelComponent: ExcelComponent,
     private val metricStatusService: MetricStatusService,
+    private val metricManualService: MetricManualService,
     private val zql: Zql
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -124,18 +126,22 @@ class MetricYearService(
         val from = LocalDateTime.of(year.toInt(), 1, 1, 0, 0, 0)
         val to = LocalDateTime.of(year.toInt(), 12, 31, 23, 59, 59)
         metricAnnualDtoList.forEach {
-            zql.setExpression(it.zqlString)
-                .setFrom(from)
-                .setTo(to)
-                .setPeriod(ZqlPeriodType.YEAR)
-                .setInstanceStatus(InstanceStatus.FINISH)
-                .setCriteria(ZqlInstanceDateCriteria.END)
+            it.score = if (it.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
+                metricManualService.getManualPointSum(it.metricId, from.toLocalDate(), to.toLocalDate())
+            } else {
+                zql.setExpression(it.zqlString)
+                    .setFrom(from)
+                    .setTo(to)
+                    .setPeriod(ZqlPeriodType.YEAR)
+                    .setInstanceStatus(InstanceStatus.FINISH)
+                    .setCriteria(ZqlInstanceDateCriteria.END)
 
-            it.score = when (it.calculationType) {
-                MetricPoolConstants.MetricCalculationTypeCode.SUM.code -> zql.sum()[0].value
-                MetricPoolConstants.MetricCalculationTypeCode.PERCENTAGE.code -> zql.percentage()[0].value
-                MetricPoolConstants.MetricCalculationTypeCode.AVERAGE.code -> zql.average()[0].value
-                else -> 0f
+                when (it.calculationType) {
+                    MetricPoolConstants.MetricCalculationTypeCode.SUM.code -> zql.sum()[0].value
+                    MetricPoolConstants.MetricCalculationTypeCode.PERCENTAGE.code -> zql.percentage()[0].value
+                    MetricPoolConstants.MetricCalculationTypeCode.AVERAGE.code -> zql.average()[0].value
+                    else -> 0f
+                }
             }
         }
         return metricAnnualDtoList
