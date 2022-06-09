@@ -29,6 +29,9 @@ const DEFAULT_CHART_PROPERTY = {
         split: false,
         crosshairs: true
     },
+    legend: {
+        y: 30
+    },
     series: []
 };
 Object.freeze(DEFAULT_CHART_PROPERTY);

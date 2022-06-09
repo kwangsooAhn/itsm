@@ -99,6 +99,7 @@
          * 차트 데이터 조회
          */
         function getChart() {
+            /*
             let url = '/rest/sla/metric-status?metricId=' + document.getElementById('statusMetricName').value
                 + '&year=' + document.getElementById('statusMetricYear').value
                 + '&chartType=' + document.querySelector('input[name="chartType"]:checked').value;
@@ -106,14 +107,14 @@
                 method: 'GET',
                 showProgressbar: true
             }).then((response) => {
-                if (response.status !== aliceJs.response.success) { return false; }                // 기존 차트를 지우고 새로 그려준다.
+                if (response.status !== aliceJs.response.success) { return false; }
                 // 기존 차트를 지우고 새로 그려준다.
                 zChartManager.destroy();
                 // 차트 초기화
                 zChartManager.load(response.data);
             });
+            */
 
-            /*
             // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
             aliceJs.fetchJson('../../../assets/js/chart/dummy/chart.basicLine.json', {
                 method: 'GET'
@@ -121,7 +122,6 @@
                 // 차트 초기화
                 zChartManager.load(data);
             });
-            */
         }
         /*]]>*/
     </script>
