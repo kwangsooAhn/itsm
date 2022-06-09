@@ -47,7 +47,6 @@ class TokenController(
     private val tokenPopUpPage: String = "token/tokenPopUp"
     private val tokenInstanceListPage: String = "token/tokenInstanceList"
     private val tokenTabPage: String = "token/tokenTab"
-    private val tokenStatusPage: String = "token/tokenStatus"
 
     /**
      * 처리할 문서 리스트 호출 화면.
@@ -160,15 +159,5 @@ class TokenController(
     @GetMapping("/tokenTab")
     fun getDocumentEditTab(model: Model): String {
         return tokenTabPage
-    }
-
-    /**
-     * 프로세스 상태 화면.
-     */
-    @GetMapping("/{instanceId}/status")
-    fun getProcessStatus(@PathVariable instanceId: String, model: Model): String {
-        val tokenStatusDto = tokenService.getTokenStatus(instanceId)
-        model.addAttribute("tokenStatus", tokenStatusDto)
-        return tokenStatusPage
     }
 }
