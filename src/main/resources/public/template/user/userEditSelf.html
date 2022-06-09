@@ -222,10 +222,10 @@
                     </div>
                     <div class="flex-column col-2 ml-2">
                         <label class="field-label"></label>
-                        <label class="z-checkbox">
-                            <input type="checkbox" id="userAbsence-checkBox" th:checked="${users?.absenceYn}">
-                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                        <label class="z-checkbox align-center">
+                            <input type="checkbox" id="userAbsenceCheckbox" th:checked="${users?.absenceYn}">
                             <span></span>
+                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
                         </label>
                     </div>
                 </div>
@@ -283,7 +283,6 @@
 
     function runAbsenceDocument() {
         if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
-        zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
             let absenceInfo = {
                 userKey: document.getElementById('userKey').value,
                 substituteUserKey: document.getElementById('substituteUserKey').value
@@ -306,7 +305,6 @@
                         break;
                 }
             });
-        });
     }
 
     function preSubmitCheck(url) {
@@ -318,13 +316,13 @@
 
     function restSubmit(url) {
         // 사용자 부재 설정
-            const absenceInfo = {
-                startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
-                endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-                substituteUserKey: document.getElementById('substituteUserKey').value
-            }
-        if (document.getElementById('userAbsence').checked) {
-            runAbsenceDocument();
+        const absenceInfo = {
+            startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+            endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+            substituteUserKey: document.getElementById('substituteUserKey').value
+        }
+        if (document.getElementById('userAbsenceCheckbox').checked) {
+            this.runAbsenceDocument();
         }
         const data = {
             userKey: document.getElementById('userKey').value,

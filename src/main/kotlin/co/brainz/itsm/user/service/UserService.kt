@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.user.service
 
+import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
@@ -664,17 +665,17 @@ class UserService(
                 isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
             }
             else -> { // 본인이 아닌 경우 사용자 관리자 권한이 있는지 확인한다.
-                var hasRole = false
-                val permitRoles = setOf("ROLE_admin", "system.manage")
+                var hasAuth = false
+                val permitAuths = setOf(AuthConstants.AuthType.SYSTEM_MANAGE.value)
                 run loop@{
                     currentSessionUser.getUserDto()?.grantedAuthorises?.forEach {
-                        if (permitRoles.contains(it.authority)) {
-                            hasRole = true
+                        if (permitAuths.contains(it.authority)) {
+                            hasAuth = true
                             return@loop
                         }
                     }
                 }
-                if (hasRole) {
+                if (hasAuth) {
                     isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
                 }
             }

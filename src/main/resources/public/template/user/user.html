@@ -242,9 +242,9 @@
                     <div class="flex-column col-2 ml-2">
                         <label class="field-label"></label>
                         <label class="z-checkbox align-center">
-                            <input type="checkbox" id="userAbsence-checkBox" th:checked="${users?.absenceYn}">
-                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                            <input type="checkbox" id="userAbsenceCheckbox" th:checked="${users?.absenceYn}">
                             <span></span>
+                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
                         </label>
                         </div>
                     </div>
@@ -395,7 +395,9 @@
                 endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
                 substituteUserKey: document.getElementById('substituteUserKey').value
             }
-            runAbsenceDocument();
+            if (document.getElementById('userAbsenceCheckbox').checked) {
+                runAbsenceDocument();
+            }
         }
         const data = {
             userKey: document.getElementById('userKey').value,
