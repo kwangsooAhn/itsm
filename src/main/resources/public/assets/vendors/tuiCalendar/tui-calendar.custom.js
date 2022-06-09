@@ -483,6 +483,7 @@ Object.assign(zCalendar.prototype, {
             result.push({
                 id: data.calendarId,
                 name: data.calendarName,
+                type: data.calendarType, // 'user' | 'document'
                 color: this.options.colors[idx],
                 bgColor: mainColor,
                 borderColor: mainColor,
@@ -496,7 +497,9 @@ Object.assign(zCalendar.prototype, {
         // 사용자별 일정 등록 기능 추가시 보이도록 처리하여 사용한다.
         const calendarList = this.createModal.wrapper.querySelector('#calendarList');
         const calendarOptionTemplate = this.calendarList.map((opt, idx) => {
-            return `<option value="${opt.id}" ${idx === 0 ? 'selected=\'true\'' : ''}>${opt.name}</option>`;
+            if (opt.type !== 'document') { // 문서함에서 등록된 일정은 편집 불가하다.
+                return `<option value="${opt.id}" ${idx === 0 ? 'selected=\'true\'' : ''}>${opt.name}</option>`;
+            }
         });
         calendarList.innerHTML = '';
         calendarList.insertAdjacentHTML('beforeend',
@@ -794,6 +797,12 @@ Object.assign(zCalendar.prototype, {
         // 작성자
         const ownerName = this.detailModal.wrapper.querySelector('#detailOwnerName');
         ownerName.textContent = schedule.raw.ownerName;
+
+        // 문서함에서 등록된 일정일 경우 편집 불가능
+        this.detailModal.wrapper.querySelector('#scheduleEdit').style.visibility =
+            (schedule.raw.calendarType === 'document') ? 'hidden' : 'visible';
+        this.detailModal.wrapper.querySelector('#scheduleDelete').style.visibility =
+            (schedule.raw.calendarType === 'document') ? 'hidden' : 'visible';
     },
     /**
      * 이전 스케쥴 디자인 추가
