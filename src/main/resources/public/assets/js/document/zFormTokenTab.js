@@ -1006,6 +1006,18 @@ class ZFormTokenTab {
                     this.onUpdateRangeDateTime.bind(this), { isHalf: true });
                 zDateTimePicker.initDatePicker(document.getElementById('endDt'),
                     this.onUpdateRangeDateTime.bind(this), { isHalf: true });
+
+                // 스크롤바
+                OverlayScrollbars(document.getElementById('scheduleContents'), {
+                    className: 'inner-scrollbar',
+                    resize: 'vertical',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: 'class'
+                    }
+                });
             }
         });
         calendarRegisterModal.show();

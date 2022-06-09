@@ -80,6 +80,7 @@
         this.id = options.id;
         this.type = options.type;
         this.target = options.inputEl;
+        this.isHalf = options.isHalf;
 
         // 선택된 날짜 초기화
         this.selectLuxon = util.getDate(options);
@@ -367,7 +368,8 @@
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
             minuteArrowUp.className = 'z-icon i-arrow-right z-minute-up';
-            minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this, { minutes: 1 }), false);
+            minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this,
+                { minutes: this.isHalf ? 30 : 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
             // 분
             let digitMinute = document.createElement('input');
@@ -381,7 +383,8 @@
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
             minuteArrowDown.className = 'z-icon i-arrow-right z-minute-down';
-            minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
+            minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this,
+                { minutes: this.isHalf ? -30 : -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
             // create minute end -------------------------------------------------------------------
             _this.hourType = '24';
@@ -651,9 +654,7 @@
         let options = JSON.parse(JSON.stringify(defaultOptions));
 
         const pickerOptions = Object.assign({}, options, userOptions);
-        console.log(pickerOptions);
-
-        let picker = initPicker(targetElement, options);
+        let picker = initPicker(targetElement, pickerOptions);
         picker.target.addEventListener('changed', function() {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
@@ -676,8 +677,7 @@
         options.title = 'datepicker.label.datetime';
 
         const pickerOptions = Object.assign({}, options, userOptions);
-        console.log(pickerOptions);
-        let picker = initPicker(targetElement, options);
+        let picker = initPicker(targetElement, pickerOptions);
         picker.target.addEventListener('changed', function() {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
@@ -700,8 +700,7 @@
         options.title = 'datepicker.label.hour';
 
         const pickerOptions = Object.assign({}, options, userOptions);
-        console.log(pickerOptions);
-        let picker = initPicker(targetElement, options);
+        let picker = initPicker(targetElement, pickerOptions);
         picker.target.addEventListener('changed', function() {
             if (typeof callback === 'function') {
                 callback(picker.target, picker);
