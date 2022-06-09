@@ -665,7 +665,7 @@ class UserService(
             }
             else -> { // 본인이 아닌 경우 사용자 관리자 권한이 있는지 확인한다.
                 var hasRole = false
-                val permitRoles = setOf("ROLE_admin", "ROLE_users.manager")
+                val permitRoles = setOf("ROLE_admin", "system.manage")
                 run loop@{
                     currentSessionUser.getUserDto()?.grantedAuthorises?.forEach {
                         if (permitRoles.contains(it.authority)) {
