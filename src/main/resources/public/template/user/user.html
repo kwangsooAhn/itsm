@@ -320,32 +320,6 @@
         }
     }
 
-    function runAbsenceDocument() {
-        if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
-            let absenceInfo = {
-                userKey: document.getElementById('userKey').value,
-                substituteUserKey: document.getElementById('substituteUserKey').value
-            }
-            aliceJs.fetchJson('/rest/users/absence', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(absenceInfo)
-            }).then((response) => {
-                switch (response.status) {
-                    case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.modify'));
-                        break;
-                    case aliceJs.response.error:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                    default:
-                        break;
-                }
-            });
-    }
-
     function validation() {
         if (isEmpty('userId', 'user.msg.enterUserId')) return false;
         if (!isValidUserId('userId', true)) return false;
@@ -393,10 +367,9 @@
             absenceInfo = {
                 startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
                 endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-                substituteUserKey: document.getElementById('substituteUserKey').value
-            }
-            if (document.getElementById('userAbsenceCheckbox').checked) {
-                runAbsenceDocument();
+                substituteUserKey: document.getElementById('substituteUserKey').value,
+                userKey: document.getElementById('userKey').value,
+                absenceCheck: document.getElementById('userAbsenceCheckbox').checked
             }
         }
         const data = {

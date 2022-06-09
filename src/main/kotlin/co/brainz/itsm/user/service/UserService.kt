@@ -360,6 +360,9 @@ class UserService(
             }
         }
 
+        //사용자 부재 설정 후 권한 위임 체크시 이동
+        if (userUpdateDto.absence?.absenceCheck == true) code = this.executeUserProcessingDocumentAbsence(userUpdateDto.absence!!)
+
         return ZResponse(
             status = code
         )
@@ -654,15 +657,14 @@ class UserService(
      * 사용자 현재 문서 업무 대리인으로 변경
      */
     @Transactional
-    fun executeUserProcessingDocumentAbsence(absenceInfo: String): ZResponse {
+    fun executeUserProcessingDocumentAbsence(absenceInfo: UserAbsenceDto): String {
         var status = ZResponseConstants.STATUS.SUCCESS
         var isSuccess = false
-        val absence = mapper.readValue(absenceInfo, Map::class.java)
-        val fromUser = absence["userKey"].toString()
-        val toUser = absence["substituteUserKey"].toString()
-        when (absence["userKey"].toString()) {
+        val fromUser = absenceInfo.userKey
+        val toUser = absenceInfo.substituteUserKey
+        when (fromUser) {
             currentSessionUser.getUserKey() -> {
-                isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
+                isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser!!)
             }
             else -> { // 본인이 아닌 경우 사용자 관리자 권한이 있는지 확인한다.
                 var hasAuth = false
@@ -676,16 +678,14 @@ class UserService(
                     }
                 }
                 if (hasAuth) {
-                    isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
+                    isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser!!, toUser!!)
                 }
             }
         }
         if (!isSuccess) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return ZResponse(
-            status = status.code
-        )
+        return status.code
     }
 
     /**
