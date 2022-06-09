@@ -1010,7 +1010,7 @@ login:
     userSignUp: "회원가입"
   msg:
     disabledUser: "계정이 비활성화되었습니다. 관리자에게 문의하세요."
-    duplicateSessionLogin: "이미 다른 환경에서 로그인된 상태입니다. 기존 연결을 종료하시겠습니까?"
+    duplicateSessionLogin: "이미 다른 환경에서 로그인된 상태입니다.<br>기존 연결을 종료하시겠습니까?"
     enterId: "아이디를 입력하세요."
     enterPassword: "비밀번호를 입력하세요."
     invalidUserOrPassword: "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다."

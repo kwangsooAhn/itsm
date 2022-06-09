@@ -217,10 +217,16 @@
                 body: JSON.stringify(data)
             }).then((response) => {
                 switch (response.status) {
-                    case aliceJs.response.success: // 중복 로그인 아님
+                    case aliceJs.response.success:
                         document.loginForm.submit();
                         break;
-                    case aliceJs.response.duplicate: // 중복 로그인
+                    case aliceJs.response.invalidUser:
+                        zAlert.warning(i18n.msg('login.msg.invalidUserOrPassword'))
+                        break;
+                    case aliceJs.response.disabledUser:
+                        zAlert.warning(i18n.msg('login.msg.disabledUser'))
+                        break;
+                    case aliceJs.response.duplicateLogin:
                         zAlert.confirm(i18n.msg('login.msg.duplicateSessionLogin'), () => {
                             document.loginForm.submit(); // 기존 세션 종료 , 현재 세션 로그인 처리
                         });
