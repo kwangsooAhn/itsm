@@ -316,11 +316,11 @@
 
     function restSubmit(url) {
         // 사용자 부재 설정
-        const absenceInfo = {
-            startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
-            endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-            substituteUserKey: document.getElementById('substituteUserKey').value
-        }
+            const absenceInfo = {
+                startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+                endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+                substituteUserKey: document.getElementById('substituteUserKey').value
+            }
         if (document.getElementById('userAbsenceCheckbox').checked) {
             this.runAbsenceDocument();
         }
