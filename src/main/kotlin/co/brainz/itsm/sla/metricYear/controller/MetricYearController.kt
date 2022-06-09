@@ -49,8 +49,10 @@ class MetricYearController(
     fun getMetricYears(@RequestParam year: String, model: Model): String {
         val thisYear = DateTimeFormatter.ofPattern("yyyy")
             .format(AliceUtil().changeTimeBasedTimezone(LocalDateTime.now(), currentSessionUser.getTimezone()))
+        val result = metricYearService.getMetrics(year)
         model.addAttribute("thisYear", thisYear)
-        model.addAttribute("metricYearsList", metricYearService.getMetrics(year))
+        model.addAttribute("metricYearsList", result.data)
+        model.addAttribute("paging", result.paging)
         return metricYearListPage
     }
 
@@ -95,7 +97,9 @@ class MetricYearController(
      */
     @GetMapping("/annual")
     fun getMetricAnnualList(@RequestParam year: String, model: Model): String {
-        model.addAttribute("metricYearsList", metricYearService.findMetricAnnualSearch(year))
+        val result = metricYearService.findMetricAnnualSearch(year)
+        model.addAttribute("metricYearsList", result.data)
+        model.addAttribute("paging", result.paging)
         return metricAnnualListPage
     }
 

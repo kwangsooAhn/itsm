@@ -36,6 +36,9 @@ const DEFAULT_CHART_PROPERTY = {
         shared: true,
         crosshairs: false
     },
+    legend: {
+        y: 30
+    },
     series: []
 };
 Object.freeze(DEFAULT_CHART_PROPERTY);
