@@ -259,7 +259,7 @@ class AliceUserDetailsService(
     /**
      * 사용자 확인, 같은 계정으로 로그인한 다른 세션이 있는지 체크
      */
-    fun duplicateSessionCheck(request: HttpServletRequest, response: HttpServletResponse, userSimpleDto: AliceUserSimpleDto) : ZResponse {
+    fun duplicateSessionCheck(userSimpleDto: AliceUserSimpleDto) : ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
