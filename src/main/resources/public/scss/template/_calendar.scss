@@ -7,8 +7,8 @@
  */
 
 :root {
-  --data-modal-width: 12;
-  --data-modal-height: 2;
+  --data-modal-width: 450;
+  --data-modal-height: 375;
 }
 
 .calendar {
@@ -377,132 +377,152 @@
 }
 
 // 모달
-.modal-dialog {
-  &.calendar {
-    --data-modal-width: 0;
-    --data-modal-height: 0;
+.modal-wrapper {
+  .modal-dialog {
+    &.calendar {
+      &__modal--register {
+        width: calc(var(--data-modal-width) * 0.063rem); // 1px
+        height: calc(var(--data-modal-height) * 0.063rem);
+        margin: 0;
+        @include border(0.188rem, solid, $blue600, top); // 3px
 
-    &__modal--register {
-      width: calc(var(--data-modal-width) * 0.063rem); // 1px
-      height: calc(var(--data-modal-height) * 0.063rem);
-      margin: 0;
-      @include border(0.188rem, solid, $blue600, top); // 3px
-
-      .modal-content {
-        height: calc(var(--data-modal-height) * 0.063rem - 3.75rem);  // 1px - 60px
-        padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
-        @include scrollbarHidden;
-        @include border(0.063rem, solid, $gray300, bottom); // 1px
-
-        .calendar__modal--register__main {
-          gap: 0.5rem; // 8px
-
-          .flex-row {
-            gap: 0.313rem; // 5px
+        // 문서함 모달일 경우 자동으로 위치 조정
+        &.document {
+          margin: auto;
+          border-top-color: transparent;
+          .modal-content {
+            height: calc(var(--data-modal-height) * 0.063rem - 3.75rem - 4.375rem); // 1px - 60px - 70px
+            padding: 1.25rem; // 20px
           }
-          .schedule {
-            // 제목
-            &__title {
-              height: 3rem; // 48px
-              font-size: $font-size-l;
-              font-weight: $font-weight-semibold;
+        }
+
+        .modal-content {
+          height: calc(var(--data-modal-height) * 0.063rem - 3.75rem); // 1px - 60px
+          padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
+          @include scrollbarHidden;
+          @include border(0.063rem, solid, $gray300, bottom); // 1px
+
+          .calendar__modal--register__main {
+            gap: 0.5rem; // 8px
+
+            .flex-row {
+              gap: 0.313rem; // 5px
             }
-            // 날짜
-            &__date {
-              width: 12.188rem; // 195px
-            }
-            // 내용
-            &__contents {
-              line-height: 1.4;
-            }
-            // 반복
-            &__repeat {
-              width: 21.125rem; // 338px
+
+            .schedule {
+              // 제목
+              &__title {
+                height: 3rem; // 48px
+                font-size: $font-size-l;
+                font-weight: $font-weight-semibold;
+              }
+
+              // 날짜
+              &__date {
+                width: 12.188rem; // 195px
+              }
+
+              // 내용
+              &__contents {
+                line-height: 1.4;
+              }
+
+              // 반복
+              &__repeat {
+                width: 21.125rem; // 338px
+              }
             }
           }
         }
-      }
 
-      .modal-bottom {
-        height: 3.75rem; // 60px
-        padding: 0.75rem 1.25rem; // 12px 20px
-      }
-    }
-    &__modal--repeat {
-      width: 26.875rem; // 430px
-      .modal-content {
-        padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
-        @include scrollbarHidden;
-
-        .calendar__modal--repeat__main {
-          gap: 0.5rem; // 8px
+        .modal-bottom {
+          height: 3.75rem; // 60px
+          padding: 0.75rem 1.25rem; // 12px 20px
         }
       }
-    }
-    &__modal--detail {
-      width: calc(var(--data-modal-width) * 0.063rem); // 1px
-      height: calc(var(--data-modal-height) * 0.063rem); // 1px
-      margin: 0;
-      @include border(0.188rem, solid, $blue600, top); // 3px
 
-      .modal-content {
-        height: calc(var(--data-modal-height) * 0.063rem - 3.75rem);  // 1px - 60px
-        padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
-        @include scrollbarHidden;
-        @include border(1px, solid, $gray300, bottom);
+      &__modal--repeat {
+        width: 26.875rem; // 430px
+        .modal-content {
+          padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
+          @include scrollbarHidden;
 
-        .calendar__modal--detail__main {
-          gap: 0.5rem; // 8px
-
-          .flex-row {
+          .calendar__modal--repeat__main {
             gap: 0.5rem; // 8px
           }
-          .flex-column {
-            gap: 1rem; // 16px
-          }
-
-          .z-button-list {
-            margin-left: auto;
-          }
-
-          .schedule {
-            // 제목
-            &__title {
-              font-size: $font-size-l;
-              font-weight: $font-weight-semibold;
-              color: $neutral800;
-            }
-            // 날짜
-            &__date {
-              font-size: $font-size-xs;
-              font-weight: $font-weight-medium;
-              color: $neutral600;
-            }
-            // 내용
-            &__contents {
-              font-size: $font-size-xs;
-              font-weight: $font-weight-medium;
-              color: $neutral800;
-            }
-            // 반복
-            &__repeat {
-              font-size: $font-size-xs;
-              font-weight: $font-weight-medium;
-              color: $neutral800;
-            }
-            // 작성자
-            &__owner {
-              font-size: $font-size-xxs;
-              font-weight: $font-weight-medium;
-              color: $neutral600;
-            }
-          }
         }
       }
 
-      .modal-bottom {
-        height: 3.75rem; // 60px
-        padding: 0.75rem 1.25rem; // 12px 20px
+      &__modal--detail {
+        width: calc(var(--data-modal-width) * 0.063rem); // 1px
+        height: calc(var(--data-modal-height) * 0.063rem); // 1px
+        margin: 0;
+        @include border(0.188rem, solid, $blue600, top); // 3px
+
+        .modal-content {
+          height: calc(var(--data-modal-height) * 0.063rem - 3.75rem); // 1px - 60px
+          padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
+          @include scrollbarHidden;
+          @include border(1px, solid, $gray300, bottom);
+
+          .calendar__modal--detail__main {
+            gap: 0.5rem; // 8px
+
+            .flex-row {
+              gap: 0.5rem; // 8px
+            }
+
+            .flex-column {
+              gap: 1rem; // 16px
+            }
+
+            .z-button-list {
+              margin-left: auto;
+            }
+
+            .schedule {
+              // 제목
+              &__title {
+                font-size: $font-size-l;
+                font-weight: $font-weight-semibold;
+                color: $neutral800;
+              }
+
+              // 날짜
+              &__date {
+                font-size: $font-size-xs;
+                font-weight: $font-weight-medium;
+                color: $neutral600;
+              }
+
+              // 내용
+              &__contents {
+                font-size: $font-size-xs;
+                font-weight: $font-weight-medium;
+                color: $neutral800;
+              }
+
+              // 반복
+              &__repeat {
+                font-size: $font-size-xs;
+                font-weight: $font-weight-medium;
+                color: $neutral800;
+              }
+
+              // 작성자
+              &__owner {
+                font-size: $font-size-xxs;
+                font-weight: $font-weight-medium;
+                color: $neutral600;
+              }
+            }
+          }
+        }
+
+        .modal-bottom {
+          height: 3.75rem; // 60px
+          padding: 0.75rem 1.25rem; // 12px 20px
+        }
       }
     }
   }
