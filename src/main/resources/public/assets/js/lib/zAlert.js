@@ -79,8 +79,8 @@ zAlert.danger = function (message, callbackFunc) {
  * @param cancelCallbackFunc cancel 시 callback function
  */
 zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
-    // const target = event.target;
-    // target.blur();
+    const target = event.target;
+    target.blur();
 
     const myModal = new modal({
         message: message,

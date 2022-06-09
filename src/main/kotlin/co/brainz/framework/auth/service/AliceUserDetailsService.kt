@@ -27,8 +27,6 @@ import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.repository.UserRepository
 import java.security.PrivateKey
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
