@@ -240,10 +240,12 @@
                         </div>
                     </div>
                     <div class="flex-column col-2 ml-2">
-                        <label class="field-label" th:text="#{user.label.executeCurrentAbsence}"></label>
-                        <div class="flex-row z-input-button">
-                            <button type="button" class="z-button form" onclick="runAbsenceDocument();"
-                                    th:text="#{user.btn.immediately}"></button>
+                        <label class="field-label"></label>
+                        <label class="z-checkbox align-center">
+                            <input type="checkbox" id="userAbsence-checkBox" th:checked="${users?.absenceYn}">
+                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                            <span></span>
+                        </label>
                         </div>
                     </div>
                 </div>
@@ -320,7 +322,6 @@
 
     function runAbsenceDocument() {
         if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
-        zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
             let absenceInfo = {
                 userKey: document.getElementById('userKey').value,
                 substituteUserKey: document.getElementById('substituteUserKey').value
@@ -343,7 +344,6 @@
                         break;
                 }
             });
-        });
     }
 
     function validation() {
@@ -395,6 +395,7 @@
                 endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
                 substituteUserKey: document.getElementById('substituteUserKey').value
             }
+            runAbsenceDocument();
         }
         const data = {
             userKey: document.getElementById('userKey').value,
