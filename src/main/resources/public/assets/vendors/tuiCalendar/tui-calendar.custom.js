@@ -207,9 +207,9 @@ function zCalendar(id, options) {
             document.getElementById('allDayYn').addEventListener('change', this.onToggleAllDay.bind(this));
             // 이벤트 추가
             zDateTimePicker.initDateTimePicker(document.getElementById('startDt'),
-                this.onUpdateRangeDateTime.bind(this));
+                this.onUpdateRangeDateTime.bind(this), { isHalf: true });
             zDateTimePicker.initDateTimePicker(document.getElementById('endDt'),
-                this.onUpdateRangeDateTime.bind(this));
+                this.onUpdateRangeDateTime.bind(this), { isHalf: true });
             // 스크롤바
             OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
                 className: 'inner-scrollbar',
@@ -712,9 +712,9 @@ Object.assign(zCalendar.prototype, {
 
         // 종일 여부
         const allDayYn = this.createModal.wrapper.querySelector('#allDayYn');
-        if (schedule.mode === 'register') {
-            schedule.isAllDay = true;
-            allDayYn.checked = false;
+        if (schedule.mode === 'register') { // 등록일 경우 기본값은 종일여부
+            schedule.isAllDay = false;
+            allDayYn.checked = true;
         }
         if (allDayYn.checked !== schedule.isAllDay) {
             if (schedule.mode === 'edit') {
@@ -1105,8 +1105,8 @@ Object.assign(zCalendar.prototype, {
             zDateTimePicker.initDatePicker(newStartDt, this.onUpdateRangeDateTime.bind(this));
             zDateTimePicker.initDatePicker(newEndDt, this.onUpdateRangeDateTime.bind(this));
         } else {
-            zDateTimePicker.initDateTimePicker(newStartDt, this.onUpdateRangeDateTime.bind(this));
-            zDateTimePicker.initDateTimePicker(newEndDt, this.onUpdateRangeDateTime.bind(this));
+            zDateTimePicker.initDateTimePicker(newStartDt, this.onUpdateRangeDateTime.bind(this), { isHalf: true });
+            zDateTimePicker.initDateTimePicker(newEndDt, this.onUpdateRangeDateTime.bind(this), { isHalf: true });
         }
 
         this.createModal.customOptions.isAllDay = e.target.checked;
