@@ -17,7 +17,7 @@ data class MetricStatusChartDto(
     val chartType: String,
     val metricName: String? = "",
     val metricDesc: String? = "",
-    val tag: MutableList<AliceTagDto>? = null,
+    val tags: MutableList<AliceTagDto>? = null,
     val chartConfig: ChartConfig,
     val chartData: MutableList<ChartData> = mutableListOf(),
     val zqlString: String? = null

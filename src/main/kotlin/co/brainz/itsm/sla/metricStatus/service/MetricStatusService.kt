@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.sla.metricStatus.service
 
+import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
@@ -24,6 +25,7 @@ import co.brainz.workflow.instance.constants.InstanceStatus
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Year
+import java.time.format.DateTimeFormatter
 import org.springframework.stereotype.Service
 
 @Service
@@ -44,13 +46,16 @@ class MetricStatusService(
         val metricDto =
             metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year)
         val chartConfig = this.initChartConfig(metricStatusChartCondition.year)
+        val tag = mutableListOf<AliceTagDto>()
+        tag.add(AliceTagDto(tagId = "", tagValue = metricDto.metricName))
+
         return MetricStatusChartDto(
             metricYears = metricStatusChartCondition.year,
             metricId = metricStatusChartCondition.metricId,
             chartType = metricStatusChartCondition.chartType,
             metricName = metricDto.metricName,
             metricDesc = metricDto.comment,
-            tag = mutableListOf(),
+            tags = tag,
             chartConfig = chartConfig,
             chartData = this.initZqlCalculatedData(metricStatusChartCondition),
             zqlString = metricDto.zqlString
@@ -76,7 +81,7 @@ class MetricStatusService(
         val from = LocalDateTime.of(metricStatusChartCondition.year.toInt(), 1, 1, 0, 0, 0)
         val to = LocalDateTime.of(metricStatusChartCondition.year.toInt(), 12, 31, 23, 59, 59)
         val chartData = mutableListOf<ChartData>()
-
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (metric.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
             for (i in 1..12) {
                 val month = LocalDate.of(metricStatusChartCondition.year.toInt(), i, 1)
@@ -89,7 +94,7 @@ class MetricStatusService(
                 chartData.add(
                     ChartData(
                         id = "",
-                        category = month.atStartOfDay().toString(),
+                        category = month.atStartOfDay().format(formatter),
                         value = point,
                         series = metric.metricName
                     )
@@ -99,7 +104,7 @@ class MetricStatusService(
             zql.setExpression(metric.zqlString)
                 .setFrom(from)
                 .setTo(to)
-                .setPeriod(ZqlPeriodType.YEAR)
+                .setPeriod(ZqlPeriodType.MONTH)
                 .setInstanceStatus(InstanceStatus.FINISH)
                 .setCriteria(ZqlInstanceDateCriteria.END)
 
@@ -113,7 +118,7 @@ class MetricStatusService(
             calculatedData.forEach {
                 chartData.add(ChartData(
                     id = "",
-                    category = it.categoryDT.toString(),
+                    category = it.categoryDT.format(formatter),
                     value = it.value.toString(),
                     series = metric.metricName
                 ))

@@ -63,9 +63,9 @@
             const statusMetricYear = document.getElementById('statusMetricYear');
             const statusMetricName = document.getElementById('statusMetricName');
             const statusChartType = document.querySelectorAll('input[name="chartType"]');
-            statusMetricYear.addEventListener('change', function() { getList() });
-            statusMetricName.addEventListener('change', function() { getChart() });
-            statusChartType.forEach(elem => { elem.addEventListener('click', function() { getChart() }); });
+            statusMetricYear.addEventListener('change', function() { getList(); });
+            statusMetricName.addEventListener('change', function() { getChart(); });
+            statusChartType.forEach(elem => { elem.addEventListener('click', function() { getChart(); }); });
             getList();
         };
 
@@ -113,15 +113,14 @@
                 zChartManager.load(response.data);
             });
 
-            /*
+
             // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
-            aliceJs.fetchJson('../../../assets/js/chart/dummy/chart.basicLine.json', {
-                method: 'GET'
-            }).then((data) => {
-                // 차트 초기화
-                zChartManager.load(data);
-            });
-            */
+            // aliceJs.fetchJson('../../../assets/js/chart/dummy/chart.basicLine.json', {
+            //     method: 'GET'
+            // }).then((data) => {
+            //     // 차트 초기화
+            //     zChartManager.load(data);
+            // });
         }
         /*]]>*/
     </script>
@@ -137,7 +136,7 @@
                 // 차트 초기화
                 this.zChart = new ZChart('container', data, customOptions);
                 // 데이터 업데이트
-                this.zChart.update(data);
+                this.zChart.update(data.chartData);
             },
             destroy: function() {
                 if (this.zChart) {
@@ -146,7 +145,7 @@
                     delete this.zChart;
                 }
             }
-        }
+        };
         window.zChartManager = zChartManager;
     </script>
 </th:block>

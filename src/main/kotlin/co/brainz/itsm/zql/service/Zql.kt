@@ -149,12 +149,12 @@ class Zql(
         return init().map {
             ZqlCalculatedData(
                 it.categorizedDT,
-                (it.zqlTokenList.map { token ->
+                if (it.zqlTokenList.size > 0) (it.zqlTokenList.map { token ->
                     when (val expValue = ZqlUtil.checkSpEL(this.replaceExpression(token))) {
                         is Number -> expValue.toString().toFloat()
                         else -> 0f
-                    } as Float
-                }.average().toFloat())
+                    }
+                }.average().toFloat()) else 0f
             )
         }
     }
@@ -196,9 +196,7 @@ class Zql(
      * @return 연산 대상이 되는 ZqlToken 형태의 토큰 리스트
      */
     private fun fetch(): List<ZqlToken> {
-        val instances = this.getInstanceByZQL()
-
-        return instances.map { instance ->
+        return this.getInstanceByZQL().map { instance ->
             val token = tokenRepo.getLastToken(instance.instanceId)
             val tagValues = mutableMapOf<String, String>()
             this.getTokenDataByTag(token.tokenId).forEach {

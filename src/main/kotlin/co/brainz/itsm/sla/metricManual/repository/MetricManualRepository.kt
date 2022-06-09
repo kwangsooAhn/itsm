@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MetricManualRepository : JpaRepository<MetricManualEntity, String>, MetricManualRepositoryCustom {
-    @Query("select sum(m.metricValue) from MetricManualEntity m where m.metricManualId = :metricManualId " +
+    @Query("select sum(m.metricValue) from MetricManualEntity m where m.metric.metricId = :metricManualId " +
         "and m.referenceDate >= :startDt and m.referenceDate <= :endDt")
     fun findManualPointSum(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float?
 }
