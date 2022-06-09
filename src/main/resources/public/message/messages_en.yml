@@ -1010,6 +1010,7 @@ login:
     userSignUp: "Sign Up"
   msg:
     disabledUser: "Your account has been disabled. Please contact the administrator."
+    duplicateSessionLogin: "You are already login from a different environment.<br>Are you sure you want to terminate the existing connection?"
     enterId: "Please enter your ID."
     enterPassword: "Please enter your password."
     invalidUserOrPassword: "This is an unregistered ID or an incorrect password."
