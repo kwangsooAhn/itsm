@@ -388,8 +388,8 @@ class ZDocument {
             let responseJson = JSON.parse(response);
             const tokenStatus = responseJson.data;
             const processStatusModalTemplate = `<svg id="elementContainer"` +
-                `style="position: absolute; top: 0; left: 0; background-size: initial;">` +
-                `</svg>`;
+                `style="position: absolute; top: 0; left: 0; background-size: initial;"` +
+                `viewBox="${tokenStatus.left} ${tokenStatus.top} ${tokenStatus.width} ${tokenStatus.height}"></svg>`;
             const processStatusModal = new modal({
                 body: processStatusModalTemplate,
                 classes: 'process-status-modal',
@@ -405,6 +405,7 @@ class ZDocument {
                     closable: false,
                 },
                 onCreate: () => {
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
                     let statusGroup = d3.select('#elementContainer')
                         .style('background-image', 'url(' + tokenStatus.imageData + ')')
                         .style('width', tokenStatus.width)
@@ -413,7 +414,6 @@ class ZDocument {
                     const element = tokenStatus.elements;
                     element.forEach(elementId => {
                         if (elementId.id === tokenStatus.elementId) {
-                            console.log(elementId)
                             const type = elementId.type,
                                 width = Number(elementId.width),
                                 height = Number(elementId.height),

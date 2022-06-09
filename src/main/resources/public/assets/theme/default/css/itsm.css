@@ -8175,7 +8175,12 @@ body.modal-active {
   margin: 1rem 0 0.5rem 0;
 }
 .modal-dialog.process-status-modal {
-  min-width: 81.35rem !important;
+  width: 82.6rem !important;
+  height: 33.125rem;
+}
+.modal-dialog.process-status-modal .modal-content {
+  width: 100%;
+  height: calc(33.125rem - 5rem);
 }
 
 /* _thumbnail.scss

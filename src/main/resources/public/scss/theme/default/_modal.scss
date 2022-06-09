@@ -334,6 +334,11 @@
 
   // 문서함 프로세스 맵
   &.process-status-modal {
-    min-width: 81.35rem !important;// 1300px
+    width: 82.6rem !important;// 1320px
+    height: 33.125rem; // 530px;
+    .modal-content {
+      width: 100%;
+      height: calc(33.125rem - #{$modal-bottom-height});
+    }
   }
 }
