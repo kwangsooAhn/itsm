@@ -10,13 +10,13 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
-import co.brainz.itsm.calendar.entity.CalendarEntity
-import co.brainz.itsm.calendar.entity.CalendarRepeatDataEntity
-import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
-import co.brainz.itsm.calendar.entity.CalendarScheduleEntity
-import co.brainz.itsm.calendar.repository.CalendarRepeatDataRepository
-import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
-import co.brainz.itsm.calendar.repository.CalendarScheduleRepository
+import co.brainz.itsm.calendar.entity.CalendarUserEntity
+import co.brainz.itsm.calendar.entity.CalendarUserRepeatDataEntity
+import co.brainz.itsm.calendar.entity.CalendarUserRepeatEntity
+import co.brainz.itsm.calendar.entity.CalendarUserScheduleEntity
+import co.brainz.itsm.calendar.repository.CalendarUserRepeatDataRepository
+import co.brainz.itsm.calendar.repository.CalendarUserRepeatRepository
+import co.brainz.itsm.calendar.repository.CalendarUserScheduleRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import org.apache.poi.ss.usermodel.Row
@@ -26,20 +26,20 @@ import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
-class CalendarScheduleService(
+class CalendarUserScheduleService(
     private val currentSessionUser: CurrentSessionUser,
-    private val calendarScheduleRepository: CalendarScheduleRepository,
-    private val calendarRepeatService: CalendarRepeatService,
-    private val calendarRepeatRepository: CalendarRepeatRepository,
-    private val calendarRepeatDataRepository: CalendarRepeatDataRepository
+    private val calendarUserScheduleRepository: CalendarUserScheduleRepository,
+    private val calendarUserRepeatService: CalendarUserRepeatService,
+    private val calendarUserRepeatRepository: CalendarUserRepeatRepository,
+    private val calendarUserRepeatDataRepository: CalendarUserRepeatDataRepository
 ) {
 
     /**
      * 일반 일정 조회
      */
-    fun getScheduleList(calendar: CalendarEntity, range: Range): List<ScheduleData> {
+    fun getUserScheduleList(calendarUser: CalendarUserEntity, range: Range): List<ScheduleData> {
         val scheduleList = mutableListOf<ScheduleData>()
-        val schedules = calendarScheduleRepository.findCalendarScheduleByCalendarBetweenStartDtAndEndDt(calendar, range)
+        val schedules = calendarUserScheduleRepository.findCalendarScheduleByCalendarBetweenStartDtAndEndDt(calendarUser, range)
         schedules.forEach {
             scheduleList.add(
                 ScheduleData(
@@ -48,7 +48,7 @@ class CalendarScheduleService(
                     title = it.scheduleTitle,
                     contents = it.scheduleContents,
                     allDayYn = it.allDayYn,
-                    ownerName = calendar.owner.userName,
+                    ownerName = calendarUser.owner.userName,
                     startDt = it.startDt,
                     endDt = it.endDt
                 )
@@ -61,14 +61,14 @@ class CalendarScheduleService(
      * 일반 일정 등록
      */
     fun postCalendarSchedule(
-        calendar: CalendarEntity,
+        calendarUser: CalendarUserEntity,
         scheduleData: ScheduleData
     ): ZResponseConstants.STATUS {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val calendarSchedule = calendarScheduleRepository.save(
-            CalendarScheduleEntity(
+        val calendarSchedule = calendarUserScheduleRepository.save(
+            CalendarUserScheduleEntity(
                 scheduleId = "",
-                calendar = calendar,
+                calendar = calendarUser,
                 scheduleTitle = scheduleData.title,
                 scheduleContents = scheduleData.contents,
                 allDayYn = scheduleData.allDayYn,
@@ -86,10 +86,10 @@ class CalendarScheduleService(
     /**
      * 일반 일정 수정 (일반 > 일반, 일반 > 반복)
      */
-    fun putCalendarSchedule(calendar: CalendarEntity, scheduleData: ScheduleData): ZResponseConstants.STATUS {
+    fun putCalendarSchedule(calendarUser: CalendarUserEntity, scheduleData: ScheduleData): ZResponseConstants.STATUS {
         return when (scheduleData.repeatYn) {
-            true -> putScheduleToRepeat(calendar, scheduleData)
-            false -> this.putSchedule(calendar, scheduleData)
+            true -> putScheduleToRepeat(calendarUser, scheduleData)
+            false -> this.putSchedule(calendarUser, scheduleData)
         }
     }
 
@@ -97,21 +97,21 @@ class CalendarScheduleService(
      * 스케줄 삭제
      */
     fun deleteCalendarSchedule(
-        calendar: CalendarEntity,
+        calendarUser: CalendarUserEntity,
         scheduleId: String
     ) {
-        calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar, scheduleId)
+        calendarUserScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendarUser, scheduleId)
     }
 
     /**
      * Excel 일괄 등록
      */
     fun postTemplateUpload(
-        calendar: CalendarEntity,
+        calendarUser: CalendarUserEntity,
         multipartFiles: List<MultipartFile>
     ): ZResponseConstants.STATUS {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val scheduleList = mutableListOf<CalendarScheduleEntity>()
+        val userScheduleList = mutableListOf<CalendarUserScheduleEntity>()
         try {
             val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             multipartFiles.forEach { file ->
@@ -122,14 +122,14 @@ class CalendarScheduleService(
                     val row = iterator.next()
                     if (row.rowNum > 0) { // 0 은 제목 라인
                         if (this.isValidCheck(row)) {
-                            scheduleList.add(
-                                CalendarScheduleEntity(
+                            userScheduleList.add(
+                                CalendarUserScheduleEntity(
                                     allDayYn = false,
                                     startDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(0).stringCellValue, format)),
                                     endDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(1).stringCellValue, format)),
                                     scheduleTitle = row.getCell(2).stringCellValue,
                                     scheduleContents = row.getCell(3).stringCellValue,
-                                    calendar = calendar,
+                                    calendar = calendarUser,
                                     createDt = LocalDateTime.now()
                                 )
                             )
@@ -137,8 +137,8 @@ class CalendarScheduleService(
                     }
                 }
             }
-            if (scheduleList.isNotEmpty()) {
-                calendarScheduleRepository.saveAll(scheduleList)
+            if (userScheduleList.isNotEmpty()) {
+                calendarUserScheduleRepository.saveAll(userScheduleList)
             }
         } catch (e: Exception) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
@@ -164,26 +164,26 @@ class CalendarScheduleService(
      * UTC 값을 사용자의 시간대로 변경
      */
     private fun getTimezoneToUTC(localDateTime: LocalDateTime): LocalDateTime {
-        return calendarRepeatService.getTimezoneToUTC(localDateTime, currentSessionUser.getTimezone())
+        return calendarUserRepeatService.getTimezoneToUTC(localDateTime, currentSessionUser.getTimezone())
     }
 
     /**
      * 일반 일정 수정 (일반 > 반복)
      */
     private fun putScheduleToRepeat(
-        calendar: CalendarEntity,
+        calendarUser: CalendarUserEntity,
         data: ScheduleData
     ): ZResponseConstants.STATUS {
         var status = ZResponseConstants.STATUS.SUCCESS
-        calendarScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendar, data.id)
-        val repeat = calendarRepeatRepository.save(
-            CalendarRepeatEntity(
-                calendar = calendar
+        calendarUserScheduleRepository.deleteCalendarScheduleEntityByCalendarAndScheduleId(calendarUser, data.id)
+        val repeat = calendarUserRepeatRepository.save(
+            CalendarUserRepeatEntity(
+                calendar = calendarUser
             )
         )
         if (repeat.repeatId.isNotEmpty()) {
-            calendarRepeatDataRepository.save(
-                CalendarRepeatDataEntity(
+            calendarUserRepeatDataRepository.save(
+                CalendarUserRepeatDataEntity(
                     dataId = "",
                     repeatTitle = data.title,
                     repeatContents = data.contents,
@@ -207,16 +207,16 @@ class CalendarScheduleService(
      * 일반 일정 수정 (일반 > 일반)
      */
     private fun putSchedule(
-        calendar: CalendarEntity,
+        calendarUser: CalendarUserEntity,
         data: ScheduleData
     ): ZResponseConstants.STATUS {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val calendarSchedule = calendarScheduleRepository.findById(data.id)
+        val calendarSchedule = calendarUserScheduleRepository.findById(data.id)
         if (calendarSchedule.isPresent) {
-            calendarScheduleRepository.save(
-                CalendarScheduleEntity(
+            calendarUserScheduleRepository.save(
+                CalendarUserScheduleEntity(
                     scheduleId = data.id,
-                    calendar = calendar,
+                    calendar = calendarUser,
                     scheduleTitle = data.title,
                     scheduleContents = data.contents,
                     allDayYn = data.allDayYn,

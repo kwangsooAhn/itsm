@@ -18,44 +18,35 @@ import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Table(name = "awf_calendar_repeat_data")
-class CalendarRepeatDataEntity(
+@Table(name = "awf_calendar_user_schedule")
+data class CalendarUserScheduleEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "data_id", length = 128)
-    val dataId: String = "",
+    @Column(name = "schedule_id", length = 128)
+    val scheduleId: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "repeat_id")
-    val repeat: CalendarRepeatEntity,
+    @JoinColumn(name = "calendar_id")
+    val calendar: CalendarUserEntity,
 
-    @Column(name = "repeat_start_dt")
-    val repeatStartDt: LocalDateTime,
+    @Column(name = "schedule_title", length = 200)
+    var scheduleTitle: String,
 
-    @Column(name = "repeat_end_dt")
-    val repeatEndDt: LocalDateTime? = null,
-
-    @Column(name = "repeat_type", length = 64)
-    val repeatType: String?,
-
-    @Column(name = "repeat_value", length = 64)
-    val repeatValue: String? = null,
-
-    @Column(name = "repeat_title", length = 200)
-    val repeatTitle: String,
-
-    @Column(name = "repeat_contents")
-    val repeatContents: String? = null,
+    @Column(name = "schedule_contents")
+    var scheduleContents: String? = null,
 
     @Column(name = "all_day_yn")
-    val allDayYn: Boolean,
+    var allDayYn: Boolean,
 
     @Column(name = "start_dt")
-    val startDt: LocalDateTime,
+    var startDt: LocalDateTime,
 
     @Column(name = "end_dt")
     var endDt: LocalDateTime,
 
     @Column(name = "create_dt")
-    val createDt: LocalDateTime? = null
+    val createDt: LocalDateTime? = null,
+
+    @Column(name = "update_dt")
+    val updateDt: LocalDateTime? = null
 ) : Serializable

@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.calendar.repository
 
-import co.brainz.itsm.calendar.entity.CalendarRepeatCustomDataEntity
+import co.brainz.itsm.calendar.entity.CalendarUserRepeatCustomDataEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class CalendarRepeatCustomDataRepositoryImpl :
-    QuerydslRepositorySupport(CalendarRepeatCustomDataEntity::class.java), CalendarRepeatCustomDataRepositoryCustom
+class CalendarUserRepeatCustomDataRepositoryImpl :
+    QuerydslRepositorySupport(CalendarUserRepeatCustomDataEntity::class.java), CalendarUserRepeatCustomDataRepositoryCustom

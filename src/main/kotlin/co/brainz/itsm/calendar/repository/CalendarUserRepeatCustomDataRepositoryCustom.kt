@@ -8,4 +8,4 @@ package co.brainz.itsm.calendar.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 
-interface CalendarRepeatCustomDataRepositoryCustom : AliceRepositoryCustom
+interface CalendarUserRepeatCustomDataRepositoryCustom : AliceRepositoryCustom

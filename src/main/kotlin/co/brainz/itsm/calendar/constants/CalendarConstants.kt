@@ -9,6 +9,14 @@ package co.brainz.itsm.calendar.constants
 object CalendarConstants {
 
     /**
+     * 캘린더 타입
+     */
+    enum class CalendarType(val code: String) {
+        USER("user"),
+        DOCUMENT("document")
+    }
+
+    /**
      * 출력 타입
      */
     enum class ViewType(val code: String) {

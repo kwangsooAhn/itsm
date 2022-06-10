@@ -6,12 +6,12 @@
 
 package co.brainz.itsm.calendar.repository
 
-import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
+import co.brainz.itsm.calendar.entity.CalendarUserRepeatEntity
 import java.util.Optional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CalendarRepeatRepository : JpaRepository<CalendarRepeatEntity, String>, CalendarRepeatRepositoryCustom {
-    fun findByRepeatId(repeatId: String): Optional<CalendarRepeatEntity>
+interface CalendarUserRepeatRepository : JpaRepository<CalendarUserRepeatEntity, String>, CalendarUserRepeatRepositoryCustom {
+    fun findByRepeatId(repeatId: String): Optional<CalendarUserRepeatEntity>
 }
