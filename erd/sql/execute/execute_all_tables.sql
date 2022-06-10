@@ -9287,34 +9287,53 @@ DROP TABLE IF EXISTS awf_calendar cascade;
 CREATE TABLE awf_calendar
 (
     calendar_id   varchar(128) NOT NULL,
-    calendar_name varchar(100),
-    owner         varchar(128),
-    create_dt     timestamp,
-    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id),
-    CONSTRAINT awf_calendar_uk UNIQUE (owner, calendar_name)
+    calendar_type varchar(100) NOT NULL,
+    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id)
 );
 
 COMMENT ON TABLE awf_calendar IS '캘린더';
 COMMENT ON COLUMN awf_calendar.calendar_id IS '캘린더아이디';
-COMMENT ON COLUMN awf_calendar.calendar_name IS '캘린더아이디';
-COMMENT ON COLUMN awf_calendar.owner IS '사용자';
-COMMENT ON COLUMN awf_calendar.create_dt IS '등록일';
+COMMENT ON COLUMN awf_calendar.calendar_type IS '캘린더구분';
 
 --기본 데이터
-insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', '기본', '0509e09412534a6e98f04ca79abb6424', now());
-insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', '기본', '4028b21c7c4df297017c4e595fd90000', now());
-insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', '기본', '40288ad27c729b34017c729c2e370000', now());
-insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', '기본', '40288ada7cfd3301017cfd3a78580000', now());
-insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', '기본', '2c9180867d0b3336017d0de8bf480001', now());
-insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', '기본', '2c91808e7c75dad2017c781635e22000', now());
-insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', '기본', '2c91808e7c75dad2017c781635e20000', now());
+insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', 'user');
+insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', 'user');
+insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', 'user');
+insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', 'user');
+insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', 'user');
+insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', 'user');
+insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', 'user');
+insert into awf_calendar values ('9c1320817c0d3112616d1df8df480002', 'document');
 
 /**
- * 캘린더 스케줄
+ * 문서 캘린더
  */
-DROP TABLE IF EXISTS awf_calendar_schedule cascade;
+DROP TABLE IF EXISTS awf_calendar_document cascade;
 
-CREATE TABLE awf_calendar_schedule
+CREATE TABLE awf_calendar_document
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_name varchar(100),
+    create_dt     timestamp,
+    CONSTRAINT awf_calendar_document_pk PRIMARY KEY (calendar_id),
+    CONSTRAINT awf_calendar_document_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id),
+    CONSTRAINT awf_calendar_document_uk UNIQUE (calendar_name)
+);
+
+COMMENT ON TABLE awf_calendar_document IS '문서 캘린더';
+COMMENT ON COLUMN awf_calendar_document.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_document.calendar_name IS '캘린더이름';
+COMMENT ON COLUMN awf_calendar_document.create_dt IS '등록일';
+
+--기본 데이터
+insert into awf_calendar_document values ('9c1320817c0d3112616d1df8df480002', '문서', now());
+
+/**
+ * 문서 캘린더 스케줄
+ */
+DROP TABLE IF EXISTS awf_calendar_document_schedule cascade;
+
+CREATE TABLE awf_calendar_document_schedule
 (
     schedule_id       varchar(128) NOT NULL,
     calendar_id       varchar(128) NOT NULL,
@@ -9323,46 +9342,141 @@ CREATE TABLE awf_calendar_schedule
     all_day_yn        boolean,
     start_dt          timestamp,
     end_dt            timestamp,
-    create_dt          timestamp,
-    update_dt          timestamp,
-    CONSTRAINT awf_calendar_schedule_pk PRIMARY KEY (schedule_id),
-    CONSTRAINT awf_calendar_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+    create_dt         timestamp,
+    update_dt         timestamp,
+    CONSTRAINT awf_calendar_document_schedule_pk PRIMARY KEY (schedule_id),
+    CONSTRAINT awf_calendar_document_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
 );
 
-COMMENT ON TABLE awf_calendar_schedule IS '사용자정의코드';
-COMMENT ON COLUMN awf_calendar_schedule.schedule_id IS '스케줄아이디';
-COMMENT ON COLUMN awf_calendar_schedule.calendar_id IS '캘린더아이디';
-COMMENT ON COLUMN awf_calendar_schedule.schedule_title IS '제목';
-COMMENT ON COLUMN awf_calendar_schedule.schedule_contents IS '내용';
-COMMENT ON COLUMN awf_calendar_schedule.all_day_yn IS '종일여부';
-COMMENT ON COLUMN awf_calendar_schedule.start_dt IS '시작일';
-COMMENT ON COLUMN awf_calendar_schedule.end_dt IS '종료일';
-COMMENT ON COLUMN awf_calendar_schedule.create_dt IS '등록일';
-COMMENT ON COLUMN awf_calendar_schedule.update_dt IS '수정일';
+COMMENT ON TABLE awf_calendar_document_schedule IS '문서 캘린더 스케줄';
+COMMENT ON COLUMN awf_calendar_document_schedule.schedule_id IS '스케줄아이디';
+COMMENT ON COLUMN awf_calendar_document_schedule.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_document_schedule.schedule_title IS '제목';
+COMMENT ON COLUMN awf_calendar_document_schedule.schedule_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_document_schedule.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_document_schedule.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_document_schedule.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_document_schedule.create_dt IS '등록일';
+COMMENT ON COLUMN awf_calendar_document_schedule.update_dt IS '수정일';
 
 /**
- * 캘린더 반복일정
+ * 사용자 캘린더
  */
-DROP TABLE IF EXISTS awf_calendar_repeat cascade;
+DROP TABLE IF EXISTS awf_calendar_user cascade;
 
-CREATE TABLE awf_calendar_repeat
+CREATE TABLE awf_calendar_user
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_name varchar(100),
+    owner         varchar(128),
+    create_dt     timestamp,
+    CONSTRAINT awf_calendar_user_pk PRIMARY KEY (calendar_id),
+    CONSTRAINT awf_calendar_user_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id),
+    CONSTRAINT awf_calendar_user_uk UNIQUE (owner, calendar_name)
+);
+
+COMMENT ON TABLE awf_calendar_user IS '사용자 캘린더';
+COMMENT ON COLUMN awf_calendar_user.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_user.calendar_name IS '캘린더이름';
+COMMENT ON COLUMN awf_calendar_user.owner IS '사용자';
+COMMENT ON COLUMN awf_calendar_user.create_dt IS '등록일';
+
+--기본 데이터
+insert into awf_calendar_user values ('2b2380667b0c3133026d0de8df480001', '기본', '0509e09412534a6e98f04ca79abb6424', now());
+insert into awf_calendar_user values ('2c1120637b0d4123026d0de8df480005', '기본', '4028b21c7c4df297017c4e595fd90000', now());
+insert into awf_calendar_user values ('1a2380167a0c3161026d0de7df780203', '기본', '40288ad27c729b34017c729c2e370000', now());
+insert into awf_calendar_user values ('2c2183663b0c3133228d3ce8cf580015', '기본', '40288ada7cfd3301017cfd3a78580000', now());
+insert into awf_calendar_user values ('4a2388567c7b2113121d0de8bf110002', '기본', '2c9180867d0b3336017d0de8bf480001', now());
+insert into awf_calendar_user values ('3b2380627b1c3133625d1de9af233001', '기본', '2c91808e7c75dad2017c781635e22000', now());
+insert into awf_calendar_user values ('6d2381637b0d1233322d0fe8df471009', '기본', '2c91808e7c75dad2017c781635e20000', now());
+
+/**
+ * 사용자 캘린더 스케줄
+ */
+DROP TABLE IF EXISTS awf_calendar_user_schedule cascade;
+
+CREATE TABLE awf_calendar_user_schedule
+(
+    schedule_id       varchar(128) NOT NULL,
+    calendar_id       varchar(128) NOT NULL,
+    schedule_title    varchar(200),
+    schedule_contents text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    create_dt         timestamp,
+    update_dt         timestamp,
+    CONSTRAINT awf_calendar_user_schedule_pk PRIMARY KEY (schedule_id),
+    CONSTRAINT awf_calendar_user_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar_user_schedule IS '사용자 캘린더 스케줄';
+COMMENT ON COLUMN awf_calendar_user_schedule.schedule_id IS '스케줄아이디';
+COMMENT ON COLUMN awf_calendar_user_schedule.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_user_schedule.schedule_title IS '제목';
+COMMENT ON COLUMN awf_calendar_user_schedule.schedule_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_user_schedule.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_user_schedule.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_user_schedule.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_user_schedule.create_dt IS '등록일';
+COMMENT ON COLUMN awf_calendar_user_schedule.update_dt IS '수정일';
+
+/**
+ * 사용자 캘린더 반복일정
+ */
+DROP TABLE IF EXISTS awf_calendar_user_repeat cascade;
+
+CREATE TABLE awf_calendar_user_repeat
 (
     repeat_id   varchar(128) NOT NULL,
     calendar_id varchar(128) NOT NULL,
-    CONSTRAINT awf_calendar_repeat_pk PRIMARY KEY (repeat_id),
-    CONSTRAINT awf_calendar_repeat_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+    CONSTRAINT awf_calendar_user_repeat_pk PRIMARY KEY (repeat_id),
+    CONSTRAINT awf_calendar_user_repeat_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
 );
 
-COMMENT ON TABLE awf_calendar_repeat IS '캘린더 반복일정';
-COMMENT ON COLUMN awf_calendar_repeat.repeat_id IS '반복일정아이디';
-COMMENT ON COLUMN awf_calendar_repeat.calendar_id IS '캘린더아이디';
+COMMENT ON TABLE awf_calendar_user_repeat IS '사용자 캘린더 반복일정';
+COMMENT ON COLUMN awf_calendar_user_repeat.repeat_id IS '반복일정아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat.calendar_id IS '캘린더아이디';
 
 /**
- * 캘린더 반복일정 상세정보
+ * 사용자 캘린더 반복일정 커스텀 상세정보
  */
-DROP TABLE IF EXISTS awf_calendar_repeat_data cascade;
+DROP TABLE IF EXISTS awf_calendar_user_repeat_custom_data cascade;
 
-CREATE TABLE awf_calendar_repeat_data
+CREATE TABLE awf_calendar_user_repeat_custom_data
+(
+    custom_id         varchar(128) NOT NULL,
+    data_id           varchar(128) NOT NULL,
+    custom_type       varchar(64),
+    data_index        int,
+    custom_title      varchar(200),
+    custom_contents   text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    create_dt         timestamp,
+    CONSTRAINT awf_calendar_user_repeat_custom_data_pk PRIMARY KEY (custom_id),
+    CONSTRAINT awf_calendar_user_repeat_custom_data_fk FOREIGN KEY (data_id) REFERENCES awf_calendar_user_repeat_data (data_id)
+);
+
+COMMENT ON TABLE awf_calendar_user_repeat_custom_data IS '사용자 캘린더 반복일정 커스텀';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_id IS '커스텀아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_id IS '데이터아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_type IS '커스텀타입';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_index IS '데이터인덱스';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_title IS '제목';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
+
+/**
+ * 사용자 캘린더 반복일정 상세정보
+ */
+DROP TABLE IF EXISTS awf_calendar_user_repeat_data cascade;
+
+CREATE TABLE awf_calendar_user_repeat_data
 (
     data_id           varchar(128) NOT NULL,
     repeat_id         varchar(128) NOT NULL,
@@ -9376,54 +9490,21 @@ CREATE TABLE awf_calendar_repeat_data
     start_dt          timestamp,
     end_dt            timestamp,
     create_dt         timestamp,
-    CONSTRAINT awf_calendar_repeat_data_pk PRIMARY KEY (data_id),
-    CONSTRAINT awf_calendar_repeat_data_fk FOREIGN KEY (repeat_id) REFERENCES awf_calendar_repeat (repeat_id)
+    CONSTRAINT awf_calendar_user_repeat_data_pk PRIMARY KEY (data_id),
+    CONSTRAINT awf_calendar_user_repeat_data_fk FOREIGN KEY (repeat_id) REFERENCES awf_calendar_user_repeat (repeat_id)
 );
 
-COMMENT ON TABLE awf_calendar_repeat_data IS '캘린더 반복일정';
-COMMENT ON COLUMN awf_calendar_repeat_data.data_id IS '데이터아이디';
-COMMENT ON COLUMN awf_calendar_repeat_data.repeat_id IS '반복일정아이디';
-COMMENT ON COLUMN awf_calendar_repeat_data.repeat_start_dt IS '반복일정시작일';
-COMMENT ON COLUMN awf_calendar_repeat_data.repeat_end_dt IS '반복일정종료일';
-COMMENT ON COLUMN awf_calendar_repeat_data.repeat_type IS '반복일정 타입';
-COMMENT ON COLUMN awf_calendar_repeat_data.repeat_value IS '반복일정 설정 값';
-COMMENT ON COLUMN awf_calendar_repeat_data.repeat_title IS '제목';
-COMMENT ON COLUMN awf_calendar_repeat_data.repeat_contents IS '내용';
-COMMENT ON COLUMN awf_calendar_repeat_data.all_day_yn IS '종일여부';
-COMMENT ON COLUMN awf_calendar_repeat_data.start_dt IS '시작일';
-COMMENT ON COLUMN awf_calendar_repeat_data.end_dt IS '종료일';
-COMMENT ON COLUMN awf_calendar_repeat_data.create_dt IS '등록일';
-
-/**
- * 캘린더 반복일정 커스텀 상세정보
- */
-DROP TABLE IF EXISTS awf_calendar_repeat_custom_data cascade;
-
-CREATE TABLE awf_calendar_repeat_custom_data
-(
-    custom_id         varchar(128) NOT NULL,
-    data_id           varchar(128) NOT NULL,
-    custom_type       varchar(64),
-    data_index        int,
-    custom_title      varchar(200),
-    custom_contents   text,
-    all_day_yn        boolean,
-    start_dt          timestamp,
-    end_dt            timestamp,
-    create_dt         timestamp,
-    CONSTRAINT awf_calendar_repeat_custom_data_pk PRIMARY KEY (custom_id),
-    CONSTRAINT awf_calendar_repeat_custom_data_fk FOREIGN KEY (data_id) REFERENCES awf_calendar_repeat_data (data_id)
-);
-
-COMMENT ON TABLE awf_calendar_repeat_custom_data IS '캘린더 반복일정 커스텀';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.custom_id IS '커스텀아이디';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.data_id IS '데이터아이디';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.custom_type IS '커스텀타입';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.data_index IS '데이터인덱스';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.custom_title IS '제목';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.custom_contents IS '내용';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.all_day_yn IS '종일여부';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.start_dt IS '시작일';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.end_dt IS '종료일';
-COMMENT ON COLUMN awf_calendar_repeat_custom_data.create_dt IS '등록일';
+COMMENT ON TABLE awf_calendar_user_repeat_data IS '사용자 캘린더 반복일정';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.data_id IS '데이터아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_id IS '반복일정아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_start_dt IS '반복일정시작일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_end_dt IS '반복일정종료일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_type IS '반복일정 타입';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_value IS '반복일정 설정 값';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_title IS '제목';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.create_dt IS '등록일';
 

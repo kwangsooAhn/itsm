@@ -10,7 +10,7 @@ import java.io.Serializable
 
 data class CalendarData(
     val id: String,
+    val type: String,
     val schedules: List<ScheduleData> = emptyList(),
-    val repeats: List<ScheduleData> = emptyList(),
-    val instances: List<ScheduleData> = emptyList()
+    val repeats: List<ScheduleData> = emptyList()
 ) : Serializable

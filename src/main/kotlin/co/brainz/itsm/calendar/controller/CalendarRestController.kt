@@ -11,7 +11,9 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.calendar.dto.CalendarDeleteRequest
 import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.ScheduleData
+import co.brainz.itsm.calendar.service.CalendarDocumentService
 import co.brainz.itsm.calendar.service.CalendarService
+import co.brainz.itsm.calendar.service.CalendarUserService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -29,7 +31,9 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/rest/calendars")
 class CalendarRestController(
-    private val calendarService: CalendarService
+    private val calenderService: CalendarService,
+    private val calendarUserService: CalendarUserService,
+    private val calendarDocumentService: CalendarDocumentService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -39,7 +43,7 @@ class CalendarRestController(
      */
     @PostMapping("/", "")
     fun getCalendars(@RequestBody calendarRequest: CalendarRequest): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.getCalendars(calendarRequest))
+        return ZAliceResponse.response(calenderService.getCalendars(calendarRequest))
     }
 
     /**
@@ -50,7 +54,7 @@ class CalendarRestController(
         @PathVariable calendarId: String,
         @RequestBody data: ScheduleData
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.postCalendarSchedule(calendarId, data))
+        return ZAliceResponse.response(calendarUserService.postCalendarSchedule(calendarId, data))
     }
 
     /**
@@ -61,7 +65,7 @@ class CalendarRestController(
         @PathVariable calendarId: String,
         @RequestBody data: ScheduleData
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.putCalendarSchedule(calendarId, data))
+        return ZAliceResponse.response(calendarUserService.putCalendarSchedule(calendarId, data))
     }
 
     /**
@@ -72,7 +76,7 @@ class CalendarRestController(
         @PathVariable calendarId: String,
         @RequestBody calendarDeleteRequest: CalendarDeleteRequest
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.deleteCalendarSchedule(calendarId, calendarDeleteRequest))
+        return ZAliceResponse.response(calendarUserService.deleteCalendarSchedule(calendarId, calendarDeleteRequest))
     }
 
     /**
@@ -83,7 +87,7 @@ class CalendarRestController(
         @PathVariable calendarId: String,
         @RequestBody data: ScheduleData
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.postCalendarRepeat(calendarId, data))
+        return ZAliceResponse.response(calendarUserService.postCalendarRepeat(calendarId, data))
     }
 
     /**
@@ -94,7 +98,7 @@ class CalendarRestController(
         @PathVariable calendarId: String,
         @RequestBody data: ScheduleData
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.putCalendarRepeat(calendarId, data))
+        return ZAliceResponse.response(calendarUserService.putCalendarRepeat(calendarId, data))
     }
 
     /**
@@ -105,7 +109,7 @@ class CalendarRestController(
         @PathVariable calendarId: String,
         @RequestBody calendarDeleteRequest: CalendarDeleteRequest
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.deleteCalendarRepeat(calendarId, calendarDeleteRequest))
+        return ZAliceResponse.response(calendarUserService.deleteCalendarRepeat(calendarId, calendarDeleteRequest))
     }
 
     /**
@@ -113,7 +117,7 @@ class CalendarRestController(
      */
     @PostMapping("/excel")
     fun getCalendarExcelDownload(@RequestBody calendarRequest: CalendarRequest): ResponseEntity<ByteArray> {
-        return calendarService.getCalendarExcelDownload(calendarRequest)
+        return calenderService.getCalendarExcelDownload(calendarRequest)
     }
 
     /**
@@ -121,7 +125,7 @@ class CalendarRestController(
      */
     @GetMapping("/template")
     fun getCalendarExcelTemplateDownload(): ResponseEntity<ByteArray> {
-        return calendarService.getCalendarExcelTemplateDownload()
+        return calenderService.getCalendarExcelTemplateDownload()
     }
 
     /**
@@ -132,6 +136,6 @@ class CalendarRestController(
         @PathVariable calendarId: String,
         @RequestPart("files") multipartFiles: List<MultipartFile>
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(calendarService.postTemplateUpload(calendarId, multipartFiles))
+        return ZAliceResponse.response(calenderService.postTemplateUpload(calendarId, multipartFiles))
     }
 }

@@ -8,9 +8,7 @@ package co.brainz.itsm.calendar.dto
 
 import java.io.Serializable
 
-data class CalendarDto(
-    val calendarId: String,
-    val calendarType: String,
-    val calendarName: String? = "",
-    val owner: String? = null
+data class CalendarCondition(
+    val userKey: String? = null,
+    val calendarType: String
 ) : Serializable

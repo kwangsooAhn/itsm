@@ -18,8 +18,8 @@ import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Table(name = "awf_calendar_repeat_custom_data")
-class CalendarRepeatCustomDataEntity(
+@Table(name = "awf_calendar_user_repeat_custom_data")
+class CalendarUserRepeatCustomDataEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "custom_id", length = 128)
@@ -27,7 +27,7 @@ class CalendarRepeatCustomDataEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "data_id")
-    val repeatData: CalendarRepeatDataEntity,
+    val repeatData: CalendarUserRepeatDataEntity,
 
     @Column(name = "data_index")
     val dataIndex: Int,

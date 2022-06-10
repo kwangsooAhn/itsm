@@ -13,15 +13,15 @@ import co.brainz.itsm.calendar.dto.CalendarDeleteRequest
 import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
-import co.brainz.itsm.calendar.entity.CalendarEntity
-import co.brainz.itsm.calendar.entity.CalendarRepeatCustomDataEntity
-import co.brainz.itsm.calendar.entity.CalendarRepeatDataEntity
-import co.brainz.itsm.calendar.entity.CalendarRepeatEntity
-import co.brainz.itsm.calendar.entity.CalendarScheduleEntity
-import co.brainz.itsm.calendar.repository.CalendarRepeatCustomDataRepository
-import co.brainz.itsm.calendar.repository.CalendarRepeatDataRepository
-import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
-import co.brainz.itsm.calendar.repository.CalendarScheduleRepository
+import co.brainz.itsm.calendar.entity.CalendarUserEntity
+import co.brainz.itsm.calendar.entity.CalendarUserRepeatCustomDataEntity
+import co.brainz.itsm.calendar.entity.CalendarUserRepeatDataEntity
+import co.brainz.itsm.calendar.entity.CalendarUserRepeatEntity
+import co.brainz.itsm.calendar.entity.CalendarUserScheduleEntity
+import co.brainz.itsm.calendar.repository.CalendarUserRepeatCustomDataRepository
+import co.brainz.itsm.calendar.repository.CalendarUserRepeatDataRepository
+import co.brainz.itsm.calendar.repository.CalendarUserRepeatRepository
+import co.brainz.itsm.calendar.repository.CalendarUserScheduleRepository
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.Instant
@@ -33,23 +33,23 @@ import java.time.temporal.TemporalAdjusters
 import org.springframework.stereotype.Service
 
 @Service
-class CalendarRepeatService(
+class CalendarUserRepeatService(
     private val currentSessionUser: CurrentSessionUser,
-    private val calendarRepeatRepository: CalendarRepeatRepository,
-    private val calendarRepeatDataRepository: CalendarRepeatDataRepository,
-    private val calendarRepeatCustomDataRepository: CalendarRepeatCustomDataRepository,
-    private val calendarScheduleRepository: CalendarScheduleRepository
+    private val calendarUserRepeatRepository: CalendarUserRepeatRepository,
+    private val calendarUserRepeatDataRepository: CalendarUserRepeatDataRepository,
+    private val calendarUserRepeatCustomDataRepository: CalendarUserRepeatCustomDataRepository,
+    private val calendarUserScheduleRepository: CalendarUserScheduleRepository
 ) {
 
     /**
      * 반복 일정 데이터 생성
      */
-    fun getRepeatMiningList(calendar: CalendarEntity, range: Range, calendarRequest: CalendarRequest): List<ScheduleData> {
+    fun getRepeatMiningList(calendarUser: CalendarUserEntity, range: Range, calendarRequest: CalendarRequest): List<ScheduleData> {
         val repeatMiningList = mutableListOf<ScheduleData>()
-        val repeatList = calendarRepeatRepository.findCalendarRepeatInCalendar(calendar)
+        val repeatList = calendarUserRepeatRepository.findCalendarRepeatInCalendar(calendarUser)
         repeatList.forEach { repeat ->
             val repeatDataMiningList = mutableListOf<ScheduleData>()
-            val repeatDataList = calendarRepeatDataRepository.findCalendarRepeatDataInRange(repeat)
+            val repeatDataList = calendarUserRepeatDataRepository.findCalendarRepeatDataInRange(repeat)
             repeatDataList.forEach { repeatData ->
                 var startDt = this.getUTCToTimezone(repeatData.startDt, currentSessionUser.getTimezone())
                 var endDt = this.getUTCToTimezone(repeatData.endDt, currentSessionUser.getTimezone())
@@ -79,7 +79,7 @@ class CalendarRepeatService(
                                     allDayYn = repeatData.allDayYn,
                                     startDt = startDt,
                                     endDt = endDt,
-                                    ownerName = calendar.owner.userName,
+                                    ownerName = calendarUser.owner.userName,
                                     repeatYn = true,
                                     repeatType = repeatData.repeatType,
                                     repeatValue = repeatData.repeatValue,
@@ -97,7 +97,7 @@ class CalendarRepeatService(
             // 커스텀 데이터 처리
             repeatDataList.forEach {
                 val repeatCustomDataList =
-                    calendarRepeatCustomDataRepository.findAllByRepeatData(it)
+                    calendarUserRepeatCustomDataRepository.findAllByRepeatData(it)
                 // dataId, index 가 같은 데이터는 override
                 repeatCustomDataList.forEach { customData ->
                     val iterator = repeatDataMiningList.listIterator()
@@ -137,18 +137,18 @@ class CalendarRepeatService(
      * 반복 일정 등록
      */
     fun postCalendarRepeat(
-        calendar: CalendarEntity,
+        calendarUser: CalendarUserEntity,
         data: ScheduleData
     ): ZResponseConstants.STATUS {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val calendarRepeat = calendarRepeatRepository.save(
-            CalendarRepeatEntity(
-                calendar = calendar
+        val calendarRepeat = calendarUserRepeatRepository.save(
+            CalendarUserRepeatEntity(
+                calendar = calendarUser
             )
         )
         if (calendarRepeat.repeatId.isNotEmpty()) {
-            calendarRepeatDataRepository.save(
-                CalendarRepeatDataEntity(
+            calendarUserRepeatDataRepository.save(
+                CalendarUserRepeatDataEntity(
                     repeat = calendarRepeat,
                     repeatTitle = data.title,
                     repeatContents = data.contents,
@@ -171,12 +171,12 @@ class CalendarRepeatService(
      * 반복 일정 수정 (반복 > 반복, 반복 > 일반)
      */
     fun putCalendarRepeat(
-        calendar: CalendarEntity,
+        calendarUser: CalendarUserEntity,
         data: ScheduleData
     ): ZResponseConstants.STATUS {
         return when (data.repeatYn) {
             true -> putRepeat(data)
-            false -> putRepeatToSchedule(calendar, data)
+            false -> putRepeatToSchedule(calendarUser, data)
         }
     }
 
@@ -184,7 +184,7 @@ class CalendarRepeatService(
      * 반복 일정 삭제
      */
     fun deleteCalendarRepeat(
-        repeat: CalendarRepeatEntity,
+        repeat: CalendarUserRepeatEntity,
         request: CalendarDeleteRequest
     ): ZResponseConstants.STATUS {
         var status = ZResponseConstants.STATUS.SUCCESS
@@ -194,15 +194,15 @@ class CalendarRepeatService(
             }
             CalendarConstants.RepeatPeriod.TODAY.code -> {
                 if (request.dataId != null) {
-                    val repeatData = calendarRepeatDataRepository.findByDataId(request.dataId)
+                    val repeatData = calendarUserRepeatDataRepository.findByDataId(request.dataId)
                     // 삭제전에 오늘만 별도로 저장된 경우가 있으면 제거한다.
-                    calendarRepeatCustomDataRepository.deleteByRepeatDataAndDataIndex(
+                    calendarUserRepeatCustomDataRepository.deleteByRepeatDataAndDataIndex(
                         repeatData,
                         request.index
                     )
                     // 커스텀에 오늘을 삭제로 추가한다.
-                    calendarRepeatCustomDataRepository.save(
-                        CalendarRepeatCustomDataEntity(
+                    calendarUserRepeatCustomDataRepository.save(
+                        CalendarUserRepeatCustomDataEntity(
                             repeatData = repeatData,
                             dataIndex = request.index,
                             allDayYn = false,
@@ -216,10 +216,10 @@ class CalendarRepeatService(
             }
             CalendarConstants.RepeatPeriod.AFTER.code -> {
                 if (request.dataId != null) {
-                    val repeatData = calendarRepeatDataRepository.findByDataId(request.dataId)
+                    val repeatData = calendarUserRepeatDataRepository.findByDataId(request.dataId)
                     // 기존 반복 일정의 완료일을 전날로 변경한다.
-                    val currentRepeatData = calendarRepeatDataRepository.save(
-                        CalendarRepeatDataEntity(
+                    val currentRepeatData = calendarUserRepeatDataRepository.save(
+                        CalendarUserRepeatDataEntity(
                             dataId = request.dataId,
                             repeat = repeat,
                             repeatTitle = repeatData.repeatTitle,
@@ -234,15 +234,15 @@ class CalendarRepeatService(
                         )
                     )
                     // 커스텀 데이터 삭제
-                    calendarRepeatCustomDataRepository.deleteByRepeatDataAndDataIndex(
+                    calendarUserRepeatCustomDataRepository.deleteByRepeatDataAndDataIndex(
                         repeatData,
                         request.index
                     )
                     // repeatData 에 이후 일정이 있으면 삭제한다.
-                    val afterRepeatDataList = calendarRepeatDataRepository.findCalendarRepeatDataAfterEndDt(currentRepeatData)
+                    val afterRepeatDataList = calendarUserRepeatDataRepository.findCalendarRepeatDataAfterEndDt(currentRepeatData)
                     afterRepeatDataList.forEach {
-                        calendarRepeatCustomDataRepository.deleteAllByRepeatData(it)
-                        calendarRepeatDataRepository.deleteByDataId(it.dataId)
+                        calendarUserRepeatCustomDataRepository.deleteAllByRepeatData(it)
+                        calendarUserRepeatDataRepository.deleteByDataId(it.dataId)
                     }
                 }
             }
@@ -254,17 +254,17 @@ class CalendarRepeatService(
     /**
      * 반복 일정 수정 (반복 > 일반)
      */
-    private fun putRepeatToSchedule(calendar: CalendarEntity, data: ScheduleData): ZResponseConstants.STATUS {
+    private fun putRepeatToSchedule(calendarUser: CalendarUserEntity, data: ScheduleData): ZResponseConstants.STATUS {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val repeat = calendarRepeatRepository.findByRepeatId(data.id)
+        val repeat = calendarUserRepeatRepository.findByRepeatId(data.id)
         if (repeat.isPresent) {
             // 반복 일정 관련 전부 삭제
             this.deleteAllRepeat(repeat.get())
             // 일반 등록
-            calendarScheduleRepository.save(
-                CalendarScheduleEntity(
+            calendarUserScheduleRepository.save(
+                CalendarUserScheduleEntity(
                     scheduleId = "",
-                    calendar = calendar,
+                    calendar = calendarUser,
                     scheduleTitle = data.title,
                     scheduleContents = data.contents,
                     allDayYn = data.allDayYn,
@@ -287,14 +287,14 @@ class CalendarRepeatService(
         when (data.repeatPeriod) {
             CalendarConstants.RepeatPeriod.TODAY.code -> {
                 if (data.dataId != null && data.index != null) {
-                    val repeatData = calendarRepeatDataRepository.findByDataId(data.dataId)
+                    val repeatData = calendarUserRepeatDataRepository.findByDataId(data.dataId)
                     // 기존 커스텀에 저장된 데이터가 존재하면 삭제한다.
-                    calendarRepeatCustomDataRepository.deleteAllByRepeatDataAndDataIndex(
+                    calendarUserRepeatCustomDataRepository.deleteAllByRepeatDataAndDataIndex(
                         repeatData,
                         data.index
                     )
-                    calendarRepeatCustomDataRepository.save(
-                        CalendarRepeatCustomDataEntity(
+                    calendarUserRepeatCustomDataRepository.save(
+                        CalendarUserRepeatCustomDataEntity(
                             customId = "",
                             repeatData = repeatData,
                             dataIndex = data.index,
@@ -310,14 +310,14 @@ class CalendarRepeatService(
                 }
             }
             CalendarConstants.RepeatPeriod.AFTER.code -> {
-                val repeat = calendarRepeatRepository.findByRepeatId(data.id)
+                val repeat = calendarUserRepeatRepository.findByRepeatId(data.id)
                 if (data.dataId != null) {
-                    val repeatData = calendarRepeatDataRepository.findByDataId(data.dataId)
+                    val repeatData = calendarUserRepeatDataRepository.findByDataId(data.dataId)
                     // 기존 커스텀 삭제
-                    calendarRepeatCustomDataRepository.deleteAllByRepeatData(repeatData)
+                    calendarUserRepeatCustomDataRepository.deleteAllByRepeatData(repeatData)
                     // 현재 선택된 반복일정을 종료날짜를 새롭게 추가된 날짜 -1초로 업데이트
-                    val currentRepeatData = calendarRepeatDataRepository.save(
-                        CalendarRepeatDataEntity(
+                    val currentRepeatData = calendarUserRepeatDataRepository.save(
+                        CalendarUserRepeatDataEntity(
                             dataId = data.dataId,
                             repeat = repeat.get(),
                             repeatTitle = repeatData.repeatTitle,
@@ -332,14 +332,14 @@ class CalendarRepeatService(
                         )
                     )
                     // 신규 반복 일정 이후 날짜에 등록된 반복 일정이 존재할 경우 삭제
-                    val afterRepeatDataList = calendarRepeatDataRepository.findCalendarRepeatDataAfterEndDt(currentRepeatData)
+                    val afterRepeatDataList = calendarUserRepeatDataRepository.findCalendarRepeatDataAfterEndDt(currentRepeatData)
                     afterRepeatDataList.forEach {
-                        calendarRepeatCustomDataRepository.deleteAllByRepeatData(it)
-                        calendarRepeatDataRepository.deleteByDataId(it.dataId)
+                        calendarUserRepeatCustomDataRepository.deleteAllByRepeatData(it)
+                        calendarUserRepeatDataRepository.deleteByDataId(it.dataId)
                     }
                     // 신규 반복 일정 추가
-                    calendarRepeatDataRepository.save(
-                        CalendarRepeatDataEntity(
+                    calendarUserRepeatDataRepository.save(
+                        CalendarUserRepeatDataEntity(
                             repeat = repeat.get(),
                             repeatTitle = data.title,
                             repeatContents = data.contents,
@@ -357,15 +357,15 @@ class CalendarRepeatService(
                 }
             }
             CalendarConstants.RepeatPeriod.ALL.code -> {
-                val repeat = calendarRepeatRepository.findByRepeatId(data.id)
-                val repeatDataList = calendarRepeatDataRepository.findAllByRepeat(repeat.get())
+                val repeat = calendarUserRepeatRepository.findByRepeatId(data.id)
+                val repeatDataList = calendarUserRepeatDataRepository.findAllByRepeat(repeat.get())
                 // 반복 일정이 다수 등록될 수 있으므로 삭제 후 새롭게 추가한다.
                 repeatDataList.forEach {
-                    calendarRepeatCustomDataRepository.deleteAllByRepeatData(it)
+                    calendarUserRepeatCustomDataRepository.deleteAllByRepeatData(it)
                 }
-                calendarRepeatDataRepository.deleteAllByRepeat(repeat.get())
-                calendarRepeatDataRepository.save(
-                    CalendarRepeatDataEntity(
+                calendarUserRepeatDataRepository.deleteAllByRepeat(repeat.get())
+                calendarUserRepeatDataRepository.save(
+                    CalendarUserRepeatDataEntity(
                         repeat = repeat.get(),
                         repeatTitle = data.title,
                         repeatContents = data.contents,
@@ -387,13 +387,13 @@ class CalendarRepeatService(
     /**
      * 반복 관련 데이터 전부 삭제
      */
-    private fun deleteAllRepeat(repeat: CalendarRepeatEntity) {
-        val repeatDataList = calendarRepeatDataRepository.findAllByRepeat(repeat)
+    private fun deleteAllRepeat(repeat: CalendarUserRepeatEntity) {
+        val repeatDataList = calendarUserRepeatDataRepository.findAllByRepeat(repeat)
         repeatDataList.forEach {
-            calendarRepeatCustomDataRepository.deleteAllByRepeatData(it)
+            calendarUserRepeatCustomDataRepository.deleteAllByRepeatData(it)
         }
-        calendarRepeatDataRepository.deleteAllByRepeat(repeat)
-        calendarRepeatRepository.delete(repeat)
+        calendarUserRepeatDataRepository.deleteAllByRepeat(repeat)
+        calendarUserRepeatRepository.delete(repeat)
     }
 
     /**
@@ -401,7 +401,7 @@ class CalendarRepeatService(
      */
     private fun getNextDate(
         localDateTime: LocalDateTime,
-        repeatData: CalendarRepeatDataEntity
+        repeatData: CalendarUserRepeatDataEntity
     ): LocalDateTime {
         return when (repeatData.repeatType) {
             CalendarConstants.RepeatType.WEEK_OF_MONTH.code -> {

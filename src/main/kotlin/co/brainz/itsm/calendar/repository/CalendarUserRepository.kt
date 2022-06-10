@@ -6,9 +6,9 @@
 
 package co.brainz.itsm.calendar.repository
 
-import co.brainz.itsm.calendar.entity.CalendarEntity
+import co.brainz.itsm.calendar.entity.CalendarUserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CalendarRepository : JpaRepository<CalendarEntity, String>, CalendarRepositoryCustom
+interface CalendarUserRepository : JpaRepository<CalendarUserEntity, String>, CalendarUserRepositoryCustom

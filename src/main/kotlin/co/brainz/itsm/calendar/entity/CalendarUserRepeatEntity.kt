@@ -17,8 +17,8 @@ import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Table(name = "awf_calendar_repeat")
-data class CalendarRepeatEntity(
+@Table(name = "awf_calendar_user_repeat")
+data class CalendarUserRepeatEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "repeat_id", length = 128)
@@ -26,5 +26,5 @@ data class CalendarRepeatEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendar_id")
-    val calendar: CalendarEntity
+    val calendar: CalendarUserEntity
 ) : Serializable
