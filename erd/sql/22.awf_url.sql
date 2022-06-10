@@ -340,7 +340,6 @@ insert into awf_url values ('/rest/users/rsa','get', 'RSA Key 받기', 'FALSE');
 insert into awf_url values ('/rest/users/passwordConfirm','post', '사용자 비밀번호 확인', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
-insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
 insert into	awf_url values ('/rest/workflows/workflowLink', 'post', '업무흐름 링크 등록', 'TRUE');
 insert into awf_url values ('/workflows/workflowLink/{id}/edit', 'get', '업무흐름 링크 편집', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'delete', '업무흐름 링크 삭제', 'TRUE');
