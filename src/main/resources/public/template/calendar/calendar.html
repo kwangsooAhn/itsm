@@ -168,75 +168,6 @@
         });
     }
 
-    // 필요에 따라 가데이터 사용
-    /*function getDummy() {
-        return {
-            'from': '2022-05-01 00:00',
-            'to': '2022-05-31 23:59',
-            'calendars': [
-                {
-                    'id': '40288ab2804f694401804f6fe99e0000',
-                    'type': 'user',
-                    'schedules': [
-                        {
-                            'id': '40288ab2804f7f5e01804f858f1d0001',
-                            'dataId': '',
-                            'index': 1,
-                            'title': '개인 연차',
-                            'contents': '개인 사유',
-                            'allDayYn': true,
-                            'startDt': '2022-06-06T15:00:00.000Z',
-                            'endDt': '2022-06-06T15:00:00.000Z',
-                            'repeatYn': false,
-                            'repeatType': 'none',
-                            'repeatValue': '',
-                            'repeatPeriod': '',
-                            'ownerName': '우다정'
-                        },
-                        {
-                            'id': '40288ab2804f7f5e01804f858f1d0004',
-                            'dataId': '',
-                            'index': 1,
-                            'title': '외근',
-                            'contents': '새마을금고',
-                            'allDayYn': true,
-                            'startDt': '2022-06-13T09:00:00.000Z',
-                            'endDt': '2022-06-13T10:00:00.000Z',
-                            'repeatYn': false,
-                            'repeatType': 'none',
-                            'repeatValue': '',
-                            'repeatPeriod': '',
-                            'ownerName': '우다정'
-                        }
-                    ],
-                    'repeats': []
-                },
-                {
-                    'id': '40288ab2804f694401804f6fe99e0001',
-                    'type': 'document',
-                    'schedules': [
-                        {
-                            'id': '40288ab2804f7f5e01804f858f1d0003',
-                            'dataId': '',
-                            'index': 1,
-                            'title': 'ITSM팀 회의',
-                            'contents': '장소: 8F 대회의실',
-                            'allDayYn': false,
-                            'startDt': '2022-06-16T01:00:00.000Z',
-                            'endDt': '2022-06-16T02:00:00.000Z',
-                            'repeatYn': false,
-                            'repeatType': 'none',
-                            'repeatValue': '',
-                            'repeatPeriod': '',
-                            'ownerName': 'ADMIN'
-                        }
-                    ],
-                    'repeats': []
-                }
-            ]
-        };
-    }*/
-
     /**
      * 월, 주, 일, 일정리스트 클릭
      */
@@ -285,8 +216,12 @@
      * 일괄 등록 모달 호출
      */
     function openTemplateUploadModal() {
-        const calendarOptionTemplate = calendarList.map((opt, idx) =>
-            `<option value="${opt.calendarId}" ${idx === 0 ? 'selected=\'true\'' : ''}>${opt.calendarName}</option>`);
+        const calendarOptionTemplate = calendarList.map((opt, idx) => {
+            if (opt.calendarType !== 'document') { // 문서함에서 등록된 일정은 편집 불가하다.
+                return `<option value="${opt.calendarId}" ${idx === 0 ? 'selected=\'true\'' : ''}>` +
+                    `${opt.calendarName}</option>`;
+            }
+        });
 
         const templateUploadContent = function() {
             return `<div class="import-main flex-column">
