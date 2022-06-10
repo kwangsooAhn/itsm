@@ -98,9 +98,9 @@
         /**
          * Chart view 화면 호출 (Modal)
          */
-        function openChartViewModal() {
+        function openChartViewModal(metricId) {
             let modalOptions = {
-                title: '차트 데이터',
+                title: i18n.msg('sla.metricYear.label.metricYearStatus'),
                 body: createModalContent(),
                 classes: 'chart-view-modal',
                 buttons: [{
@@ -116,7 +116,7 @@
                     closable: false,
                 },
                 onCreate: function() {
-                    getChart();
+                    getChart(metricId);
                 }
             };
 
@@ -134,8 +134,8 @@
                 `</div>`;
         }
 
-        function getChart() {
-            const url = '/rest/sla/metrics/' + document.getElementById('statusYearId').value
+        function getChart(metricId) {
+            const url = '/rest/sla/metrics/' + metricId
                         + '/preview?year=' + document.getElementById('year').value.toString().substring(0, 4);
             aliceJs.fetchJson(url, {
                 method: 'GET',
@@ -145,16 +145,6 @@
                 // 차트 초기화
                 zChartManager.load(response.data);
             });
-
-            /*
-            // 가데이터 표시 (필요시 주석 제거하여 사용 바람)
-            aliceJs.fetchJson('../../../assets/js/chart/dummy/chart.basicLine.json', {
-                method: 'GET'
-            }).then((data) => {
-                // 차트 초기화
-                zChartManager.load(data);
-            });
-            */
         }
 
         function onExcelDownload() {
