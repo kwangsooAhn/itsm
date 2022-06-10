@@ -203,11 +203,10 @@
             document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
             document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
 
-            const data = {};
-            const userId = document.getElementById('userId').value
-            const password = document.getElementById('password').value
-            data.userId = userId
-            data.password = password
+            const data = {
+                userId: document.getElementById('userId').value,
+                password: document.getElementById('password').value
+            };
 
             aliceJs.fetchJson('/rest/login', {
                 method: 'POST',

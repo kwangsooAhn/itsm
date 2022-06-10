@@ -23,7 +23,8 @@ class AliceLoginRestController(
      * 중복 로그인인지 체크
      */
     @PostMapping("/rest/login")
-    fun checkLoginSession(@RequestBody userSimpleDto: AliceUserSimpleDto
+    fun checkLoginSession(
+        @RequestBody userSimpleDto: AliceUserSimpleDto
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(userDetailsService.duplicateSessionCheck(userSimpleDto))
     }

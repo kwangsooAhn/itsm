@@ -257,45 +257,45 @@ class AliceUserDetailsService(
     /**
      * 사용자 확인, 같은 계정으로 로그인한 다른 세션이 있는지 체크
      */
-    fun duplicateSessionCheck(userSimpleDto: AliceUserSimpleDto) : ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
+    fun duplicateSessionCheck(userSimpleDto: AliceUserSimpleDto): ZResponse {
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val userId = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.userId)
         val password = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.password)
 
-        when (aliceUserRepository.existsByUserId(userId)) {
-            false -> status = ZResponseConstants.STATUS.ERROR_INVALID_USER
-            true ->  {
+        val code: String = when (aliceUserRepository.existsByUserId(userId)) {
+            false -> ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+            true -> {
                 val userEntity = userRepository.findByUserId(userId)
                 if (!userEntity.useYn) {
-                    status = ZResponseConstants.STATUS.ERROR_DISABLED_USER
+                    ZResponseConstants.STATUS.ERROR_DISABLED_USER.code
                 }
                 when (this.algorithm.toUpperCase()) {
                     AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
                         val bcryptPasswordEncoder = BCryptPasswordEncoder()
                         if (!bcryptPasswordEncoder.matches(password, userEntity.password)) {
-                            status = ZResponseConstants.STATUS.ERROR_INVALID_USER
+                            ZResponseConstants.STATUS.ERROR_INVALID_USER.code
                         }
                     }
                     AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
                         val encryptPassword = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
                         if (encryptPassword != userEntity.password) {
-                            status = ZResponseConstants.STATUS.ERROR_INVALID_USER
+                            ZResponseConstants.STATUS.ERROR_INVALID_USER.code
                         }
                     }
                     else -> {
-                        status = ZResponseConstants.STATUS.ERROR_INVALID_USER
+                        ZResponseConstants.STATUS.ERROR_INVALID_USER.code
                     }
                 }
                 //중복 로그인 체크
-                if (sessionRegistry.allPrincipals.contains(userId)) {
-                    status = ZResponseConstants.STATUS.ERROR_DUPLICATE_LOGIN
+                when (sessionRegistry.allPrincipals.contains(userId)) {
+                    true -> ZResponseConstants.STATUS.ERROR_DUPLICATE_LOGIN.code
+                    false -> ZResponseConstants.STATUS.SUCCESS.code
                 }
             }
         }
         return ZResponse(
-            status = status.code
+            status = code
         )
     }
 }
