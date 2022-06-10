@@ -1,5 +1,6 @@
 package co.brainz.framework.configuration
 
+import java.util.EventListener
 import java.util.Locale
 import java.util.MissingResourceException
 import java.util.ResourceBundle
@@ -11,6 +12,7 @@ import org.apache.http.impl.client.HttpClients
 import org.apache.http.ssl.SSLContextBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,6 +21,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.session.SessionRegistryImpl
+import org.springframework.security.web.session.HttpSessionEventPublisher
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.LocaleResolver
@@ -103,5 +106,10 @@ class AliceWebConfig {
     @Bean
     fun sessionRegistry(): SessionRegistry {
         return SessionRegistryImpl()
+    }
+
+    @Bean
+    fun httpSessionEventPublisher(): ServletListenerRegistrationBean<*>? {
+        return ServletListenerRegistrationBean<EventListener?>(HttpSessionEventPublisher())
     }
 }
