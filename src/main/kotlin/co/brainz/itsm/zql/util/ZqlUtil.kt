@@ -10,6 +10,7 @@ import co.brainz.itsm.zql.const.ZqlPeriodType
 import co.brainz.itsm.zql.dto.ZqlCategorizedData
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import org.springframework.expression.EvaluationContext
 import org.springframework.expression.ExpressionParser
 import org.springframework.expression.spel.standard.SpelExpressionParser
@@ -88,35 +89,26 @@ object ZqlUtil {
         val periodList = mutableListOf<LocalDateTime>()
         when (period) {
             ZqlPeriodType.YEAR -> {
-                for (i in from.year..to.year) {
-                    periodList.add(LocalDate.of(i, 1, 1).atStartOfDay())
+                for (i in 0..ChronoUnit.YEARS.between(from, to)) {
+                    periodList.add(LocalDate.of(from.plusYears(i).year, 1, 1).atStartOfDay())
                 }
             }
             ZqlPeriodType.MONTH -> {
-                for (i in from.year..to.year) {
-                    for (j in 1..12) {
-                        periodList.add(LocalDate.of(i, j, 1).atStartOfDay())
-                    }
+                for (i in 0..ChronoUnit.MONTHS.between(from, to)) {
+                    val plusMonth = from.plusMonths(i)
+                    periodList.add(LocalDate.of(plusMonth.year, plusMonth.month, 1).atStartOfDay())
                 }
             }
             ZqlPeriodType.DAY -> {
-                for (i in from.year..to.year) {
-                    for (j in 1..12) {
-                        for (k in 1..LocalDate.of(i, j, 1).lengthOfMonth()) {
-                            periodList.add(LocalDate.of(i, j, k).atStartOfDay())
-                        }
-                    }
+                for (i in 0..ChronoUnit.DAYS.between(from, to)) {
+                    val plusDay = from.plusDays(i)
+                    periodList.add(LocalDate.of(plusDay.year, plusDay.month, plusDay.dayOfMonth).atStartOfDay())
                 }
             }
             ZqlPeriodType.HOUR -> {
-                for (i in from.year..to.year) {
-                    for (j in 1..12) {
-                        for (k in 1..LocalDate.of(i, j, 1).lengthOfMonth()) {
-                            for (h in 0..23) {
-                                periodList.add(LocalDateTime.of(i, j, k, h, 0, 0))
-                            }
-                        }
-                    }
+                for (i in 0..ChronoUnit.HOURS.between(from, to)) {
+                    val plusHour = from.plusHours(i)
+                    periodList.add(LocalDateTime.of(plusHour.year, plusHour.month, plusHour.dayOfMonth, plusHour.hour, 0, 0))
                 }
             }
         }
