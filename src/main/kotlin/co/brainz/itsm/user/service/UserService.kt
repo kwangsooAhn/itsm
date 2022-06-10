@@ -660,11 +660,11 @@ class UserService(
     fun executeUserProcessingDocumentAbsence(absenceInfo: UserAbsenceDto): String {
         var status = ZResponseConstants.STATUS.SUCCESS
         var isSuccess = false
-        val fromUser = absenceInfo.userKey
-        val toUser = absenceInfo.substituteUserKey
+        val fromUser = absenceInfo.userKey ?: ""
+        val toUser = absenceInfo.substituteUserKey ?: ""
         when (fromUser) {
             currentSessionUser.getUserKey() -> {
-                isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser!!)
+                isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
             }
             else -> { // 본인이 아닌 경우 사용자 관리자 권한이 있는지 확인한다.
                 var hasAuth = false
@@ -678,7 +678,7 @@ class UserService(
                     }
                 }
                 if (hasAuth) {
-                    isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser!!, toUser!!)
+                    isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
                 }
             }
         }
