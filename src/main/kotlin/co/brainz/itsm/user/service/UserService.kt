@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.user.service
 
+import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
@@ -359,6 +360,9 @@ class UserService(
             }
         }
 
+        //사용자 부재 설정 후 권한 위임 체크시 이동
+        if (userUpdateDto.absence?.absenceCheck == true) code = this.executeUserProcessingDocumentAbsence(userUpdateDto.absence!!)
+
         return ZResponse(
             status = code
         )
@@ -653,28 +657,27 @@ class UserService(
      * 사용자 현재 문서 업무 대리인으로 변경
      */
     @Transactional
-    fun executeUserProcessingDocumentAbsence(absenceInfo: String): ZResponse {
+    fun executeUserProcessingDocumentAbsence(absenceInfo: UserAbsenceDto): String {
         var status = ZResponseConstants.STATUS.SUCCESS
         var isSuccess = false
-        val absence = mapper.readValue(absenceInfo, Map::class.java)
-        val fromUser = absence["userKey"].toString()
-        val toUser = absence["substituteUserKey"].toString()
-        when (absence["userKey"].toString()) {
+        val fromUser = absenceInfo.userKey ?: ""
+        val toUser = absenceInfo.substituteUserKey ?: ""
+        when (fromUser) {
             currentSessionUser.getUserKey() -> {
                 isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
             }
             else -> { // 본인이 아닌 경우 사용자 관리자 권한이 있는지 확인한다.
-                var hasRole = false
-                val permitRoles = setOf("ROLE_admin", "ROLE_users.manager")
+                var hasAuth = false
+                val permitAuths = setOf(AuthConstants.AuthType.SYSTEM_MANAGE.value)
                 run loop@{
                     currentSessionUser.getUserDto()?.grantedAuthorises?.forEach {
-                        if (permitRoles.contains(it.authority)) {
-                            hasRole = true
+                        if (permitAuths.contains(it.authority)) {
+                            hasAuth = true
                             return@loop
                         }
                     }
                 }
-                if (hasRole) {
+                if (hasAuth) {
                     isSuccess = this.changeDocumentAssigneeToAbsenceUser(fromUser, toUser)
                 }
             }
@@ -682,9 +685,7 @@ class UserService(
         if (!isSuccess) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
         }
-        return ZResponse(
-            status = status.code
-        )
+        return status.code
     }
 
     /**

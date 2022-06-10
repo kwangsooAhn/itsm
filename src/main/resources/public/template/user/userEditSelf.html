@@ -221,11 +221,12 @@
                         </div>
                     </div>
                     <div class="flex-column col-2 ml-2">
-                        <label class="field-label" th:text="#{user.label.executeCurrentAbsence}"></label>
-                        <div class="flex-row z-input-button">
-                            <button type="button" class="z-button form" onclick="runAbsenceDocument();"
-                                    th:text="#{user.btn.immediately}"></button>
-                        </div>
+                        <label class="field-label"></label>
+                        <label class="z-checkbox align-center">
+                            <input type="checkbox" id="userAbsenceCheckbox" th:checked="${users?.absenceYn}">
+                            <span></span>
+                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -280,34 +281,6 @@
         setAbsenceDisplay();
     };
 
-    function runAbsenceDocument() {
-        if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
-        zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
-            let absenceInfo = {
-                userKey: document.getElementById('userKey').value,
-                substituteUserKey: document.getElementById('substituteUserKey').value
-            }
-            aliceJs.fetchJson('/rest/users/absence', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(absenceInfo)
-            }).then((response) => {
-                switch (response.status) {
-                    case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.modify'));
-                        break;
-                    case aliceJs.response.error:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                    default:
-                        break;
-                }
-            });
-        });
-    }
-
     function preSubmitCheck(url) {
         if (!validation()) {
             return false;
@@ -317,11 +290,13 @@
 
     function restSubmit(url) {
         // 사용자 부재 설정
-        const absenceInfo = {
-            startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
-            endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-            substituteUserKey: document.getElementById('substituteUserKey').value
-        }
+            const absenceInfo = {
+                startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+                endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+                substituteUserKey: document.getElementById('substituteUserKey').value,
+                userKey: document.getElementById('userKey').value,
+                absenceCheck: document.getElementById('userAbsenceCheckbox').checked
+            }
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
