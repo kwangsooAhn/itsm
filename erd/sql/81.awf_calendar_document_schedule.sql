@@ -7,6 +7,7 @@ CREATE TABLE awf_calendar_document_schedule
 (
     schedule_id       varchar(128) NOT NULL,
     calendar_id       varchar(128) NOT NULL,
+    instance_id       varchar(128) NOT NULL,
     schedule_title    varchar(200),
     schedule_contents text,
     all_day_yn        boolean,
@@ -21,6 +22,7 @@ CREATE TABLE awf_calendar_document_schedule
 COMMENT ON TABLE awf_calendar_document_schedule IS '문서 캘린더 스케줄';
 COMMENT ON COLUMN awf_calendar_document_schedule.schedule_id IS '스케줄아이디';
 COMMENT ON COLUMN awf_calendar_document_schedule.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_document_schedule.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN awf_calendar_document_schedule.schedule_title IS '제목';
 COMMENT ON COLUMN awf_calendar_document_schedule.schedule_contents IS '내용';
 COMMENT ON COLUMN awf_calendar_document_schedule.all_day_yn IS '종일여부';

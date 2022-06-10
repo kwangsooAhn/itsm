@@ -8,6 +8,7 @@ package co.brainz.itsm.instance.controller
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.instance.dto.CommentDto
+import co.brainz.itsm.instance.dto.InstanceScheduleDto
 import co.brainz.itsm.instance.dto.InstanceViewerListDto
 import co.brainz.itsm.instance.service.InstanceService
 import org.springframework.http.ResponseEntity
@@ -77,5 +78,21 @@ class InstanceRestController(
         @PathVariable viewerKey: String
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(instanceService.deleteInstanceViewer(instanceId, viewerKey))
+    }
+
+    @PostMapping("/{instanceId}/schedule")
+    fun setSchedule(
+        @PathVariable instanceId: String,
+        @RequestBody instanceScheduleDto: InstanceScheduleDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.setSchedule(instanceId, instanceScheduleDto))
+    }
+
+    @DeleteMapping("/{instanceId}/schedule/{scheduleId}")
+    fun deleteSchedule(
+        @PathVariable instanceId: String,
+        @PathVariable scheduleId: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.deleteSchedule(instanceId, scheduleId))
     }
 }

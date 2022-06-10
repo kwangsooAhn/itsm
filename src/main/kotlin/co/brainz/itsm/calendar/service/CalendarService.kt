@@ -1,9 +1,3 @@
-/*
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- *
- */
-
 package co.brainz.itsm.calendar.service
 
 import co.brainz.framework.download.excel.ExcelComponent
@@ -16,15 +10,13 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.calendar.constants.CalendarConstants
+import co.brainz.itsm.calendar.dto.CalendarCondition
 import co.brainz.itsm.calendar.dto.CalendarData
-import co.brainz.itsm.calendar.dto.CalendarDeleteRequest
 import co.brainz.itsm.calendar.dto.CalendarDto
 import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.CalendarResponse
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
-import co.brainz.itsm.calendar.repository.CalendarRepeatRepository
-import co.brainz.itsm.calendar.repository.CalendarRepository
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -32,163 +24,61 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
-import javax.transaction.Transactional
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
 class CalendarService(
-    private val currentSessionUser: CurrentSessionUser,
-    private val calendarRepository: CalendarRepository,
-    private val calendarRepeatRepository: CalendarRepeatRepository,
-    private val calendarScheduleService: CalendarScheduleService,
-    private val calendarRepeatService: CalendarRepeatService,
     private val aliceMessageSource: AliceMessageSource,
+    private val calendarUserService: CalendarUserService,
+    private val calendarDocumentService: CalendarDocumentService,
+    private val calendarUserScheduleService: CalendarUserScheduleService,
+    private val calendarUserRepeatService: CalendarUserRepeatService,
+    private val currentSessionUser: CurrentSessionUser,
     private val excelComponent: ExcelComponent
 ) {
-
-    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     /**
      * 캘린더 목록 조회
      */
     fun getCalendarList(): List<CalendarDto> {
-        return calendarRepository.getCalendarList(currentSessionUser.getUserKey())
+        val calendarList = mutableListOf<CalendarDto>()
+        // user
+        calendarList.addAll(
+            calendarUserService.getCalendarUserList(
+                CalendarCondition(
+                    userKey = currentSessionUser.getUserKey(),
+                    calendarType = CalendarConstants.CalendarType.USER.code
+                )
+            )
+        )
+        // document
+        calendarList.addAll(
+            calendarDocumentService.getCalendarDocumentList(
+                CalendarCondition(
+                    calendarType = CalendarConstants.CalendarType.DOCUMENT.code
+                )
+            )
+        )
+        return calendarList
     }
 
     /**
      * 캘린더별 전체 데이터 조회
      */
     fun getCalendars(calendarRequest: CalendarRequest): CalendarResponse {
-        val calendars =
-            calendarRepository.findCalendarsInOwner(calendarRequest.calendarIds.toSet(), currentSessionUser.getUserKey())
         val calendarList = mutableListOf<CalendarData>()
         val range = this.getRange(calendarRequest, currentSessionUser.getTimezone())
         val utcRange = this.getRange(calendarRequest, "UTC")
-        calendars.forEach { calendar ->
-            calendarList.add(
-                CalendarData(
-                    id = calendar.calendarId,
-                    schedules = calendarScheduleService.getScheduleList(calendar, range),
-                    repeats = calendarRepeatService.getRepeatMiningList(calendar, utcRange, calendarRequest)
-                )
-            )
-        }
+        // 사용자 캘린더
+        calendarList.addAll(calendarUserService.getUserCalendars(calendarRequest, range, utcRange))
+        // 문서 캘린더
+        calendarList.addAll(calendarDocumentService.getDocumentCalendars())
         return CalendarResponse(
             from = range.from.toString(),
             to = range.to.toString(),
             calendars = calendarList
-        )
-    }
-
-    /**
-     * 일반 일정 등록
-     */
-    @Transactional
-    fun postCalendarSchedule(calendarId: String, scheduleData: ScheduleData): ZResponse {
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
-        val status = if (calendar.isPresent) {
-            calendarScheduleService.postCalendarSchedule(calendar.get(), scheduleData)
-        } else {
-            ZResponseConstants.STATUS.ERROR_NOT_EXIST
-        }
-        return ZResponse(
-            status = status.code
-        )
-    }
-
-    /**
-     * 일반 일정 수정
-     */
-    @Transactional
-    fun putCalendarSchedule(calendarId: String, scheduleData: ScheduleData): ZResponse {
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
-        val status = if (calendar.isPresent) {
-            calendarScheduleService.putCalendarSchedule(calendar.get(), scheduleData)
-        } else {
-            ZResponseConstants.STATUS.ERROR_NOT_EXIST
-        }
-        return ZResponse(
-            status = status.code
-        )
-    }
-
-    /**
-     * 스케줄 삭제
-     */
-    @Transactional
-    fun deleteCalendarSchedule(
-        calendarId: String,
-        calendarDeleteRequest: CalendarDeleteRequest
-    ): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
-        if (calendar.isPresent) {
-            calendarScheduleService.deleteCalendarSchedule(calendar.get(), calendarDeleteRequest.id)
-        } else {
-            status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
-        }
-        return ZResponse(
-            status = status.code
-        )
-    }
-
-    /**
-     * 반복 일정 등록
-     */
-    @Transactional
-    fun postCalendarRepeat(
-        calendarId: String,
-        data: ScheduleData
-    ): ZResponse {
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
-        val status = if (calendar.isPresent) {
-            calendarRepeatService.postCalendarRepeat(calendar.get(), data)
-        } else {
-            ZResponseConstants.STATUS.ERROR_NOT_EXIST
-        }
-        return ZResponse(
-            status = status.code
-        )
-    }
-
-    /**
-     * 반복 일정 수정
-     */
-    @Transactional
-    fun putCalendarRepeat(
-        calendarId: String,
-        data: ScheduleData
-    ): ZResponse {
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
-        val status = if (calendar.isPresent) {
-            calendarRepeatService.putCalendarRepeat(calendar.get(), data)
-        } else {
-            ZResponseConstants.STATUS.ERROR_NOT_EXIST
-        }
-        return ZResponse(
-            status = status.code
-        )
-    }
-
-    /**
-     * 반복 일정 삭제
-     */
-    @Transactional
-    fun deleteCalendarRepeat(
-        calendarId: String,
-        calendarDeleteRequest: CalendarDeleteRequest
-    ): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
-        val repeat = calendarRepeatRepository.findByRepeatId(calendarDeleteRequest.id)
-        if (repeat.isPresent) {
-            status = calendarRepeatService.deleteCalendarRepeat(repeat.get(), calendarDeleteRequest)
-        }
-        return ZResponse(
-            status = status.code
         )
     }
 
@@ -214,30 +104,41 @@ class CalendarService(
                 )
             )
         )
-
         calendarDataList.forEach { calendarData ->
-            val calendar = calendarRepository.findById(calendarData.id)
-            if (calendar.isPresent) {
-                val scheduleList = mutableListOf<ScheduleData>()
-                excelVO.sheets[0].sheetName = calendar.get().calendarName
-                scheduleList.addAll(calendarData.instances)
-                scheduleList.addAll(calendarData.schedules)
-                scheduleList.addAll(calendarData.repeats)
-                scheduleList.sortBy { it.startDt }
-                scheduleList.forEach { schedule ->
-                    excelVO.sheets[0].rows.add(
-                        ExcelRowVO(
-                            cells = listOf(
-                                ExcelCellVO(value = calendar.get().calendarName),
-                                ExcelCellVO(value = schedule.title),
-                                ExcelCellVO(value = this.getTimezoneFormat(schedule.startDt)),
-                                ExcelCellVO(value = this.getTimezoneFormat(schedule.endDt)),
-                                ExcelCellVO(value = schedule.contents)
-                            )
-                        )
-                    )
+            var calendarName = ""
+            when (calendarData.type) {
+                CalendarConstants.CalendarType.USER.code -> {
+                    val calendar = calendarUserService.findCalendarInOwner(calendarData.id, currentSessionUser.getUserKey())
+                    if (calendar.isPresent) {
+                        calendarName = calendar.get().calendarName
+                    }
+                }
+                CalendarConstants.CalendarType.DOCUMENT.code -> {
+                    val calendar = calendarDocumentService.findCalendar(calendarData.id)
+                    if (calendar.isPresent) {
+                        calendarName = calendar.get().calendarName
+                    }
                 }
             }
+            val scheduleList = mutableListOf<ScheduleData>()
+            excelVO.sheets[0].sheetName = calendarName
+            scheduleList.addAll(calendarData.schedules)
+            scheduleList.addAll(calendarData.repeats)
+            scheduleList.sortBy { it.startDt }
+            scheduleList.forEach { schedule ->
+                excelVO.sheets[0].rows.add(
+                    ExcelRowVO(
+                        cells = listOf(
+                            ExcelCellVO(value = calendarName),
+                            ExcelCellVO(value = schedule.title),
+                            ExcelCellVO(value = this.getTimezoneFormat(schedule.startDt)),
+                            ExcelCellVO(value = this.getTimezoneFormat(schedule.endDt)),
+                            ExcelCellVO(value = schedule.contents)
+                        )
+                    )
+                )
+            }
+
         }
         return excelComponent.download(excelVO)
     }
@@ -269,9 +170,9 @@ class CalendarService(
      * Excel 일괄 등록
      */
     fun postTemplateUpload(calendarId: String, multipartFiles: List<MultipartFile>): ZResponse {
-        val calendar = calendarRepository.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
+        val calendar = calendarUserService.findCalendarInOwner(calendarId, currentSessionUser.getUserKey())
         val status = if (calendar.isPresent) {
-            calendarScheduleService.postTemplateUpload(calendar.get(), multipartFiles)
+            calendarUserScheduleService.postTemplateUpload(calendar.get(), multipartFiles)
         } else {
             ZResponseConstants.STATUS.ERROR_NOT_EXIST
         }
@@ -284,7 +185,7 @@ class CalendarService(
      * Excel 다운로드시 사용자 타임존으로 변경
      */
     private fun getTimezoneFormat(localDateTime: LocalDateTime): String {
-        return calendarRepeatService.getUTCToTimezone(localDateTime, currentSessionUser.getTimezone())
+        return calendarUserRepeatService.getUTCToTimezone(localDateTime, currentSessionUser.getTimezone())
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
     }
 
