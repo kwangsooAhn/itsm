@@ -67,7 +67,7 @@
                 <span class="text-ellipsis" th:text="${metric.comment}" th:title="${metric.comment}"></span>
             </div>
             <div class="grid__cell pl-2">
-                <button type="button" class="z-button-icon form" onclick="openChartViewModal()">
+                <button type="button" class="z-button-icon form" th:onclick="openChartViewModal([[${metric.metricId}]])">
                     <span class="z-icon i-popup"></span>
                 </button>
             </div>
