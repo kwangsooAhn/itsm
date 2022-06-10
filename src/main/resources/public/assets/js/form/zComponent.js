@@ -454,7 +454,6 @@ export default class ZComponent {
                         'type': _this.type,
                         'data': JSON.stringify(orgData) // 선택된 컴포넌트의 실시간 설정 데이터
                     };
-                    // todo: #13134 템플릿 등록 rest 처리 후 response 에 따라 성공시 modal.hide() 처리 / URL 수정
                     aliceJs.fetchJson('/rest/forms/component/template', {
                         method: 'POST',
                         headers: {
@@ -466,6 +465,8 @@ export default class ZComponent {
                         switch (response.status) {
                             case aliceJs.response.success:
                                 zAlert.success(i18n.msg('common.msg.register'), () => {
+                                    // 컴포넌트 팔레트 새로고침
+                                    zFormDesigner.initComponentTemplatePalette();
                                     modal.hide();
                                 });
                                 break;

@@ -74,24 +74,26 @@
             method: 'GET',
             showProgressbar: true
         }).then((response) => {
-            const dummy = response.data;
-            let templateList = document.getElementById('customComponentList').querySelector('.list-group');
-            templateList.innerHTML = '';
-            dummy.forEach( (dummyData) => {
-                const templateItem =
-                    `<div class="z-component-template-icon list-group-item" id="templateComponent" ` +
-                        `data-value="${dummyData.templateId}">` +
-                    `<span class="z-icon i-componentTemplate"></span>` +
-                    `<span class="z-component-name text-ellipsis" title="${aliceJs.filterXSS(dummyData.templateName)}">` +
-                        `${aliceJs.filterXSS(dummyData.templateName)}` +
-                    `</span>` +
-                    `<button type="button" class="z-button-icon-sm" tabindex="-1" id="${dummyData.templateId}" ` +
-                        `onclick="zFormDesigner.deleteTemplate(this);">` +
-                        `<span class="z-icon i-remove"></span>` +
-                    `</button>` +
-                `</div>`;
-                templateList.insertAdjacentHTML('beforeend', templateItem);
-            });
+            if (response.status === aliceJs.response.success) {
+                let templateList = document.getElementById('customComponentList').querySelector('.list-group');
+                templateList.innerHTML = '';
+                const templateData = response.data;
+                templateData.forEach( (data) => {
+                    const templateItem =
+                        `<div class="z-component-template-icon list-group-item" id="templateComponent" ` +
+                            `data-value="${data.templateId}">` +
+                        `<span class="z-icon i-componentTemplate"></span>` +
+                        `<span class="z-component-name text-ellipsis" title="${aliceJs.filterXSS(data.templateName)}">` +
+                            `${aliceJs.filterXSS(data.templateName)}` +
+                        `</span>` +
+                        `<button type="button" class="z-button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
+                            `onclick="zFormDesigner.deleteTemplate(this);">` +
+                            `<span class="z-icon i-remove"></span>` +
+                        `</button>` +
+                    `</div>`;
+                    templateList.insertAdjacentHTML('beforeend', templateItem);
+                });
+            }
         });
     </script>
 </head>
