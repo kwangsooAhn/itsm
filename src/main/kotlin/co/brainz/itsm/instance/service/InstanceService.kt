@@ -14,8 +14,10 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.calendar.service.CalendarDocumentService
 import co.brainz.itsm.instance.dto.CommentDto
 import co.brainz.itsm.instance.dto.InstanceCommentDto
+import co.brainz.itsm.instance.dto.InstanceScheduleDto
 import co.brainz.itsm.instance.dto.InstanceViewerListDto
 import co.brainz.itsm.instance.dto.ViewerListDto
 import co.brainz.itsm.instance.dto.ViewerListReturnDto
@@ -53,7 +55,8 @@ class InstanceService(
     private val organizationRepository: OrganizationRepository,
     private val viewerRepository: ViewerRepository,
     private val wfTokenManagerService: WfTokenManagerService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val calendarDocumentService: CalendarDocumentService
 ) {
     private val commentMapper: CommentMapper = Mappers.getMapper(CommentMapper::class.java)
 
@@ -245,5 +248,31 @@ class InstanceService(
             viewerRepository.delete(viewer)
         }
         return ZResponse()
+    }
+
+    /**
+     * Set Document Calendar Schedule.
+     */
+    @Transactional
+    fun setSchedule(instanceId: String, instanceScheduleDto: InstanceScheduleDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val isSuccess = this.setInitInstance(instanceId, instanceScheduleDto.documentId)
+        if (isSuccess) {
+            status = calendarDocumentService.postDocumentSchedule(instanceScheduleDto)
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * Delete Document Calendar Schedule.
+     */
+    @Transactional
+    fun deleteSchedule(instanceId: String, scheduleId: String): ZResponse {
+        val status = calendarDocumentService.deleteDocumentSchedule(instanceId, scheduleId)
+        return ZResponse(
+            status = status.code
+        )
     }
 }

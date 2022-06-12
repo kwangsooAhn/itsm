@@ -1317,6 +1317,8 @@ insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
 insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
 insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{id}/schedule', 'post', '문서 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/schedule/{id}', 'delete', '문서 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
@@ -1676,6 +1678,8 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.m
 insert into awf_url_auth_map values ('/rest/files', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}', 'delete', 'general');
@@ -9337,6 +9341,7 @@ CREATE TABLE awf_calendar_document_schedule
 (
     schedule_id       varchar(128) NOT NULL,
     calendar_id       varchar(128) NOT NULL,
+    instance_id       varchar(128) NOT NULL,
     schedule_title    varchar(200),
     schedule_contents text,
     all_day_yn        boolean,
@@ -9351,6 +9356,7 @@ CREATE TABLE awf_calendar_document_schedule
 COMMENT ON TABLE awf_calendar_document_schedule IS '문서 캘린더 스케줄';
 COMMENT ON COLUMN awf_calendar_document_schedule.schedule_id IS '스케줄아이디';
 COMMENT ON COLUMN awf_calendar_document_schedule.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_document_schedule.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN awf_calendar_document_schedule.schedule_title IS '제목';
 COMMENT ON COLUMN awf_calendar_document_schedule.schedule_contents IS '내용';
 COMMENT ON COLUMN awf_calendar_document_schedule.all_day_yn IS '종일여부';
