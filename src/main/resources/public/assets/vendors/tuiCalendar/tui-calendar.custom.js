@@ -1360,7 +1360,7 @@ Object.assign(zCalendar.prototype, {
                             }
                         }
                         // 삭제시 화면 reload
-                        if (method === 'DELETE') {
+                        if (method === 'DELETE' || method === 'PUT') {
                             location.reload();
                         }
                         // 데이터를 새로 가져옴
