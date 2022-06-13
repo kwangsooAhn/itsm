@@ -318,7 +318,7 @@ class ZFormDesigner {
                     }
                 },
                 onEnd: function (evt) {
-                    zFormDesigner.setOnEnd(this, evt);
+                    zFormDesigner.setComponentTemplateOnEnd(this, evt);
                 }
             });
         });
@@ -328,7 +328,7 @@ class ZFormDesigner {
      * @param sortable : sortable target
      * @param evt
      */
-    setOnEnd(sortable, evt) {
+    setComponentTemplateOnEnd(sortable, evt) {
         // template data update
         this.getComponentTemplateData().then( (templateData) => {
             if (evt.from === evt.to)    {
