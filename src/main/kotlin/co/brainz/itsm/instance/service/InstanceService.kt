@@ -61,15 +61,6 @@ class InstanceService(
         return wfInstanceService.getInstancesHistory(instanceId)
     }
 
-    fun getInstanceHistoryByTokenId(tokenId: String): List<RestTemplateInstanceHistoryDto>? {
-        var histories: MutableList<RestTemplateInstanceHistoryDto>? = mutableListOf()
-
-        getInstanceId(tokenId)?.let { instanceId ->
-            histories = wfInstanceService.getInstancesHistory(instanceId)
-        }
-        return histories
-    }
-
     fun getInstance(instanceId: String): RestTemplateInstanceDto {
         return wfInstanceService.instance(instanceId)
     }
