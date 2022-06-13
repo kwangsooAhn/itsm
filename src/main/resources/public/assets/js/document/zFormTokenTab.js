@@ -897,17 +897,7 @@ class ZFormTokenTab {
     reloadCalendar() {
         const calendar = document.getElementById('calendar');
         calendar.innerHTML = '';
-
-        const dummy = [
-            { id: '2c9180ab7b2a039b017b2a15b1f4442', title: '단순문의 일정',  startDt: '2022-06-02T01:00:00.000Z', endDt: '2022-06-02T02:00:00.000Z', allDayYn: false },
-            { id: '2c9180ab7b2a039b017b2a15b1f4443', title: '테스트 문서 일정',  startDt: '2022-06-08T15:00:00.000Z', endDt: '2022-06-08T15:00:00.000Z', allDayYn: true }
-        ];
-        dummy.forEach((schedule) => {
-            calendar.insertAdjacentHTML('beforeend', this.makeCalendarFragment(schedule));
-        });
-
-        // TODO: 백엔드 구현 필요
-        /*aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/viewer/', {
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/schedule', {
             method: 'GET'
         }).then((response) => {
             if (response.status === aliceJs.response.success && response.data.length > 0) {
@@ -915,7 +905,7 @@ class ZFormTokenTab {
                     calendar.insertAdjacentHTML('beforeend', this.makeCalendarFragment(schedule));
                 });
             }
-        });*/
+        });
     }
 
     /**
@@ -1140,8 +1130,8 @@ class ZFormTokenTab {
                     case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.delete'), () => {
                             // 테이블 삭제
-                            const removeRow = document.getElementById('calendar' + id);
                             const parent = document.getElementById('calendar');
+                            const removeRow = document.getElementById('schedule' + id);
                             parent.removeChild(removeRow);
                         });
                         break;
