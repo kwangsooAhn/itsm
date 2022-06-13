@@ -202,7 +202,36 @@
             }
             document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
             document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
-            document.loginForm.submit();
+
+            const data = {
+                userId: document.getElementById('userId').value,
+                password: document.getElementById('password').value
+            };
+
+            aliceJs.fetchJson('/rest/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        document.loginForm.submit();
+                        break;
+                    case aliceJs.response.invalidUser:
+                        zAlert.warning(i18n.msg('login.msg.invalidUserOrPassword'))
+                        break;
+                    case aliceJs.response.disabledUser:
+                        zAlert.warning(i18n.msg('login.msg.disabledUser'))
+                        break;
+                    case aliceJs.response.duplicateLogin:
+                        zAlert.confirm(i18n.msg('login.msg.duplicateSessionLogin'), () => {
+                            document.loginForm.submit(); // 기존 세션 종료 , 현재 세션 로그인 처리
+                        });
+                        break;
+                }
+            })
             window._onLogin = false;
         }
     }

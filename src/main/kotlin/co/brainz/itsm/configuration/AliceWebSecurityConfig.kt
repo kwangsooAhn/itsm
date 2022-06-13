@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.core.session.SessionRegistry
 
 @Configuration
 @EnableWebSecurity
@@ -22,8 +23,9 @@ class AliceWebSecurityConfig(
     authProvider: AliceAuthProvider,
     authSuccessHandler: AliceAuthSuccessHandler,
     authFailureHandler: AliceAuthFailureHandler,
-    logoutSuccessHandler: AliceLogoutSuccessHandler
-) : AliceWebSecurityConfigurerAdapter(authProvider, authSuccessHandler, authFailureHandler, logoutSuccessHandler) {
+    logoutSuccessHandler: AliceLogoutSuccessHandler,
+    sessionRegistry: SessionRegistry
+) : AliceWebSecurityConfigurerAdapter(authProvider, authSuccessHandler, authFailureHandler, logoutSuccessHandler, sessionRegistry) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun ignoreConfigure(web: WebSecurity) {
