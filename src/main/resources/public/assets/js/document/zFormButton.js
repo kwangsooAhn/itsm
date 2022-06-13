@@ -59,7 +59,7 @@ class ZFormButton {
         if (this.isToken) {
             // 프로세스 맵 버튼
             const UIProcessMapButton = new UIButton(i18n.msg('token.label.processMap')).addUIClass('secondary')
-                .onUIClick(this.zForm.openProcessStatusPopUp.bind(this.zForm));
+                .onUIClick(this.zForm.openProcessStatusModal.bind(this.zForm));
             UIButtonGroup.addUI(UIProcessMapButton);
 
             // 인쇄 버튼

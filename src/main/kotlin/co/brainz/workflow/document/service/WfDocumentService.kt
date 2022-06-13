@@ -315,28 +315,7 @@ class WfDocumentService(
             wfDocumentEntity.documentIcon = documentDto.documentIcon
 
             if (params["isDeleteData"].toString().toBoolean()) {
-                logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
-                val instanceIds = mutableListOf<String>()
-                wfDocumentEntity.instance?.let { instances ->
-                    instances.forEach {
-                        instanceIds.add(it.instanceId)
-                    }
-
-                    ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
-                        ciComponentDataList.forEach { ciComponentData ->
-                            val ciDto = CIDto(
-                                ciId = ciComponentData.ciId,
-                                typeId = "",
-                                ciName = "",
-                                ciStatus = "",
-                                interlink = false
-                            )
-                            ciService.deleteCI(ciDto)
-                        }
-                    }
-
-                    wfInstanceRepository.deleteInstances(instances)
-                }
+                this.deleteInstancesByStatusTemporary(wfDocumentEntity)
             }
         }
 
@@ -416,8 +395,9 @@ class WfDocumentService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
-        if (instanceCnt == 0) {
+        if (instanceCnt == 0 || selectedDocument.documentStatus == DocumentConstants.DocumentStatus.TEMPORARY.value) {
             logger.debug("Try delete document...")
+            this.deleteInstancesByStatusTemporary(selectedDocument)
             wfDocumentDisplayRepository.deleteByDocumentId(documentId)
             wfDocumentRepository.deleteByDocumentId(documentId)
         } else {
@@ -696,14 +676,16 @@ class WfDocumentService(
 
         // 프로세스 중복 체크
         if (status == ZResponseConstants.STATUS.SUCCESS &&
-            wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)) {
+            wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)
+        ) {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             message = "process"
         }
 
         // 문서 중복 체크
         if (status == ZResponseConstants.STATUS.SUCCESS &&
-            wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")) {
+            wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")
+        ) {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             message = "document"
         }
@@ -755,6 +737,7 @@ class WfDocumentService(
             message = message
         )
     }
+
     /**
      * 업무흐름 Import - 폼.
      * WfFormService.kt - saveAsFormData 참고
@@ -854,5 +837,32 @@ class WfDocumentService(
      */
     fun getSearchFieldValues(filedOption: FieldOptionDto): List<Array<Any>> {
         return wfDocumentRepository.getSearchFieldValues(filedOption)
+    }
+
+    /**
+     * 임시상태 수정 및 삭제 시 인스턴스 제거
+     */
+    private fun deleteInstancesByStatusTemporary(wfDocumentEntity: WfDocumentEntity) {
+        logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
+        val instanceIds = mutableListOf<String>()
+        wfDocumentEntity.instance?.let { instances ->
+            instances.forEach {
+                instanceIds.add(it.instanceId)
+            }
+
+            ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
+                ciComponentDataList.forEach { ciComponentData ->
+                    val ciDto = CIDto(
+                        ciId = ciComponentData.ciId,
+                        typeId = "",
+                        ciName = "",
+                        ciStatus = "",
+                        interlink = false
+                    )
+                    ciService.deleteCI(ciDto)
+                }
+            }
+            wfInstanceRepository.deleteInstances(instances)
+        }
     }
 }

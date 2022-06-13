@@ -12,5 +12,7 @@ data class UserAbsenceDto(
     var startDt: LocalDateTime? = null,
     var endDt: LocalDateTime? = null,
     var substituteUserKey: String? = "",
-    var substituteUser: String? = ""
+    var substituteUser: String? = "",
+    var userKey: String? = "",
+    var absenceCheck: Boolean? = false
 ) : Serializable

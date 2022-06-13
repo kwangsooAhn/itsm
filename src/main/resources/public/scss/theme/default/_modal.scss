@@ -315,6 +315,7 @@
 
     }
   }
+
   // 비밀번호 확인 모달
   &.password-check {
     width: 34.38rem; // 550px
@@ -328,6 +329,16 @@
         display: inline-block;
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
+    }
+  }
+
+  // 문서함 프로세스 맵
+  &.process-status-modal {
+    width: 82.6rem !important;// 1320px
+    height: 33.125rem; // 530px;
+    .modal-content {
+      width: 100%;
+      height: calc(33.125rem - #{$modal-bottom-height});
     }
   }
 }

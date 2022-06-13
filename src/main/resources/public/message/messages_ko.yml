@@ -650,6 +650,7 @@ document:
     checkDuplication: "이미 해당 문서와 프로세스로 생성된 업무흐름이 존재합니다."
     checkUrlLink: "URL 형식에 맞게 입력하세요."
     duplicateName: "해당 신청서와 같은 이름이 존재합니다."
+    deleteDocument: "해당 신청서를 삭제 하시겠습니까?<br/>임시 상태로 작성된 문서 모두 삭제 됩니다."
     enterWorkFlowColor: "업무흐름 색상을 입력하세요."
     enterDocumentLink: "신청서 링크를 입력하세요."
     enterDocumentName: "신청서 이름을 입력하세요."
