@@ -985,84 +985,92 @@ input, button, select, optgroup, textarea {
   background-color: #FF850A !important;
 }
 
+.text-itsm {
+  color: #0014c3 !important;
+}
+
+.bg-itsm {
+  background-color: #0014c3 !important;
+}
+
 .text-blue900 {
-  color: #092C73 !important;
+  color: #091F5E !important;
 }
 
 .bg-blue900 {
-  background-color: #092C73 !important;
+  background-color: #091F5E !important;
 }
 
 .text-blue800 {
-  color: #103F8B !important;
+  color: #102E71 !important;
 }
 
 .bg-blue800 {
-  background-color: #103F8B !important;
+  background-color: #102E71 !important;
 }
 
 .text-blue700 {
-  color: #1959AC !important;
+  color: #19428D !important;
 }
 
 .bg-blue700 {
-  background-color: #1959AC !important;
+  background-color: #19428D !important;
 }
 
 .text-blue600 {
-  color: #2578CE !important;
+  color: #2559A8 !important;
 }
 
 .bg-blue600 {
-  background-color: #2578CE !important;
+  background-color: #2559A8 !important;
 }
 
 .text-blue500 {
-  color: #339AF0 !important;
+  color: #3373C4 !important;
 }
 
 .bg-blue500 {
-  background-color: #339AF0 !important;
+  background-color: #3373C4 !important;
 }
 
 .text-blue400 {
-  color: #64BBF6 !important;
+  color: #619CDB !important;
 }
 
 .bg-blue400 {
-  background-color: #64BBF6 !important;
+  background-color: #619CDB !important;
 }
 
 .text-blue300 {
-  color: #84D1FA !important;
+  color: #83BBED !important;
 }
 
 .bg-blue300 {
-  background-color: #84D1FA !important;
+  background-color: #83BBED !important;
 }
 
 .text-blue200 {
-  color: #ADE6FD !important;
+  color: #AFD9F9 !important;
 }
 
 .bg-blue200 {
-  background-color: #ADE6FD !important;
+  background-color: #AFD9F9 !important;
 }
 
 .text-blue100 {
-  color: #E3F5FC !important;
+  color: #D6EDFC !important;
 }
 
 .bg-blue100 {
-  background-color: #E3F5FC !important;
+  background-color: #D6EDFC !important;
 }
 
 .text-blue50 {
-  color: #F1F9FC !important;
+  color: #E0F3FF !important;
 }
 
 .bg-blue50 {
-  background-color: #F1F9FC !important;
+  background-color: #E0F3FF !important;
 }
 
 .text-green900 {
