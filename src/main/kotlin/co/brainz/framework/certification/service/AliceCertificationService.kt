@@ -19,6 +19,7 @@ import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.itsm.calendar.service.CalendarService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import java.security.PrivateKey
@@ -40,7 +41,8 @@ class AliceCertificationService(
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileAvatarService: AliceFileAvatarService,
-    private val aliceEncryptionUtil: AliceEncryptionUtil
+    private val aliceEncryptionUtil: AliceEncryptionUtil,
+    private val calendarService: CalendarService
 ) {
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
@@ -75,6 +77,8 @@ class AliceCertificationService(
                     this.avatarFileNameMod(user)
                 }
                 this.setUserDetail(aliceSignUpDto, user, target)
+                // 캘린더 생성
+                this.calendarService.setCalendar(user)
                 logger.info("New user created : $1", user.userName)
             }
             AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code -> {

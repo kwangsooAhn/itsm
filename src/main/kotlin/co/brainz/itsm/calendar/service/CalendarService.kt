@@ -1,5 +1,6 @@
 package co.brainz.itsm.calendar.service
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
@@ -17,6 +18,8 @@ import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.CalendarResponse
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
+import co.brainz.itsm.calendar.entity.CalendarEntity
+import co.brainz.itsm.calendar.repository.CalendarRepository
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -31,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile
 @Service
 class CalendarService(
     private val aliceMessageSource: AliceMessageSource,
+    private val calendarRepository: CalendarRepository,
     private val calendarUserService: CalendarUserService,
     private val calendarDocumentService: CalendarDocumentService,
     private val calendarUserScheduleService: CalendarUserScheduleService,
@@ -228,5 +232,19 @@ class CalendarService(
             from = LocalDateTime.ofInstant(startDate.toInstant(ZoneId.of(zoneId).rules.getOffset(Instant.now())), ZoneId.of("UTC")),
             to = LocalDateTime.ofInstant(endDate.toInstant(ZoneId.of(zoneId).rules.getOffset(Instant.now())), ZoneId.of("UTC"))
         )
+    }
+
+    /**
+     * 캘린더 추가
+     */
+    fun setCalendar(user: AliceUserEntity) {
+        val calendar = calendarRepository.save(
+            CalendarEntity(
+                calendarType = CalendarConstants.CalendarType.USER.code
+            )
+        )
+        if (calendar.calendarId.isNotEmpty()) {
+            calendarUserService.setCalendarUser(calendar, user)
+        }
     }
 }

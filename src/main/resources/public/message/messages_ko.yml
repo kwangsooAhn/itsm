@@ -278,6 +278,7 @@ calendar:
       thursday: "목요일"
       friday: "금요일"
       saturday: "토요일"
+    default: "기본"
     shortDays:
       sun: "일"
       mon: "월"
