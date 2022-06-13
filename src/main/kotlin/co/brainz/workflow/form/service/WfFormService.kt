@@ -162,16 +162,16 @@ class WfFormService(
                             val optionValue =
                                 objMapper.readValue(componentPropertyEntity.propertyOptions, LinkedHashMap::class.java)
                             when (componentPropertyEntity.propertyType) {
-                                WfFormConstants.PropertyType.DISPLAY.value -> componentDto.display =
-                                    objMapper.convertValue(optionValue, linkedMapType)
-                                WfFormConstants.PropertyType.LABEL.value -> componentDto.label =
-                                    objMapper.convertValue(optionValue, linkedMapType)
-                                WfFormConstants.PropertyType.VALIDATION.value -> componentDto.validation =
-                                    objMapper.convertValue(optionValue, linkedMapType)
-                                WfFormConstants.PropertyType.ELEMENT.value -> componentDto.element =
-                                    objMapper.convertValue(optionValue, linkedMapType)
-                                WfFormConstants.PropertyType.PLUGIN.value -> componentDto.plugin =
-                                    objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.DISPLAY.value ->
+                                    componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.LABEL.value ->
+                                    componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.VALIDATION.value ->
+                                    componentDto.validation = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.ELEMENT.value ->
+                                    componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.PLUGIN.value ->
+                                    componentDto.plugin = objMapper.convertValue(optionValue, linkedMapType)
                             }
                         }
                     }
@@ -200,10 +200,10 @@ class WfFormService(
             for (groupPropertyEntity in groupPropertyEntityList) {
                 val optionValue = objMapper.readValue(groupPropertyEntity.propertyOptions, LinkedHashMap::class.java)
                 when (groupPropertyEntity.propertyType) {
-                    WfFormConstants.PropertyType.DISPLAY.value -> groupDto.display =
-                        objMapper.convertValue(optionValue, linkedMapType)
-                    WfFormConstants.PropertyType.LABEL.value -> groupDto.label =
-                        objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.DISPLAY.value ->
+                        groupDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.LABEL.value ->
+                        groupDto.label = objMapper.convertValue(optionValue, linkedMapType)
                 }
             }
             formGroupList.add(groupDto)
