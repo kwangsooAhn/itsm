@@ -1376,8 +1376,8 @@ scheduler:
 sla:
   calculationType:
     average: "average"
-    rate: "rate"
-    total: "total"
+    percentage: "percentage"
+    sum: "sum"
   chart:
     line: "Line Chart"
     column: "Column Chart"

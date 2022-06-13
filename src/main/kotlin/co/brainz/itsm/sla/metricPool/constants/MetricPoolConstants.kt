@@ -39,8 +39,8 @@ object MetricPoolConstants {
      * Metric calculation type
      */
     enum class MetricCalculationTypeCode(val code: String) {
-        SUM("sla.calculationType.total"),
-        PERCENTAGE("sla.calculationType.rate"),
+        SUM("sla.calculationType.sum"),
+        PERCENTAGE("sla.calculationType.percentage"),
         AVERAGE("sla.calculationType.average"),
         COUNT("")
     }
