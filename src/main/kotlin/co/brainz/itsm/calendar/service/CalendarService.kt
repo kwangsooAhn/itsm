@@ -74,7 +74,7 @@ class CalendarService(
         // 사용자 캘린더
         calendarList.addAll(calendarUserService.getUserCalendars(calendarRequest, range, utcRange))
         // 문서 캘린더
-        calendarList.addAll(calendarDocumentService.getDocumentCalendars())
+        calendarList.addAll(calendarDocumentService.getDocumentCalendars(range))
         return CalendarResponse(
             from = range.from.toString(),
             to = range.to.toString(),

@@ -80,6 +80,13 @@ class InstanceRestController(
         return ZAliceResponse.response(instanceService.deleteInstanceViewer(instanceId, viewerKey))
     }
 
+    @GetMapping("/{instanceId}/schedule")
+    fun getSchedule(
+        @PathVariable instanceId: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(instanceService.getSchedule(instanceId))
+    }
+
     @PostMapping("/{instanceId}/schedule")
     fun setSchedule(
         @PathVariable instanceId: String,

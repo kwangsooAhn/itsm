@@ -22,5 +22,6 @@ data class ScheduleData(
     val repeatYn: Boolean = false,
     val repeatType: String? = "",
     val repeatValue: String? = "",
-    val repeatPeriod: String? = ""
+    val repeatPeriod: String? = "",
+    val instanceId: String? = null
 ) : Serializable

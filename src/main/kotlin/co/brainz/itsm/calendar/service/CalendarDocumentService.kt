@@ -4,7 +4,10 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.itsm.calendar.constants.CalendarConstants
 import co.brainz.itsm.calendar.dto.CalendarCondition
 import co.brainz.itsm.calendar.dto.CalendarData
+import co.brainz.itsm.calendar.dto.CalendarDocumentCondition
 import co.brainz.itsm.calendar.dto.CalendarDto
+import co.brainz.itsm.calendar.dto.Range
+import co.brainz.itsm.calendar.dto.ScheduleData
 import co.brainz.itsm.calendar.entity.CalendarDocumentEntity
 import co.brainz.itsm.calendar.entity.CalendarDocumentScheduleEntity
 import co.brainz.itsm.calendar.repository.CalendarDocumentRepository
@@ -34,9 +37,41 @@ class CalendarDocumentService(
     /**
      * 문서 캘린더 스케줄 조회
      */
-    fun getDocumentCalendars(): List<CalendarData> {
+    fun getDocumentCalendars(range: Range): List<CalendarData> {
         val calendarList = mutableListOf<CalendarData>()
+        val calendar = calendarRepository.findCalendarByCalendarType(CalendarConstants.CalendarType.DOCUMENT.code)
+        if (calendar.isPresent) {
+            val documentScheduleList = this.getDocumentSchedule(CalendarDocumentCondition(range = range))
+            val scheduleList = mutableListOf<ScheduleData>()
+            documentScheduleList.forEach {
+                scheduleList.add(
+                    ScheduleData(
+                        id = it.scheduleId,
+                        title = it.scheduleTitle,
+                        contents = it.scheduleContents,
+                        allDayYn = it.allDayYn,
+                        startDt = it.startDt,
+                        endDt = it.endDt,
+                        instanceId = it.instance.instanceId
+                    )
+                )
+            }
+            calendarList.add(
+                CalendarData(
+                    id = calendar.get().calendarId,
+                    type = CalendarConstants.CalendarType.DOCUMENT.code,
+                    schedules = scheduleList
+                )
+            )
+        }
         return calendarList
+    }
+
+    /**
+     * 문서 일정 조회
+     */
+    fun getDocumentSchedule(calendarDocumentCondition: CalendarDocumentCondition): List<CalendarDocumentScheduleEntity> {
+        return calendarDocumentScheduleRepository.findDocumentSchedule(calendarDocumentCondition)
     }
 
     /**

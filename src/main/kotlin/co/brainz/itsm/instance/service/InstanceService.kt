@@ -14,6 +14,8 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.calendar.dto.CalendarDocument
+import co.brainz.itsm.calendar.dto.CalendarDocumentCondition
 import co.brainz.itsm.calendar.service.CalendarDocumentService
 import co.brainz.itsm.instance.dto.CommentDto
 import co.brainz.itsm.instance.dto.InstanceCommentDto
@@ -248,6 +250,29 @@ class InstanceService(
             viewerRepository.delete(viewer)
         }
         return ZResponse()
+    }
+
+    /**
+     * Get Document Calendar Schedule.
+     */
+    fun getSchedule(instanceId: String): ZResponse {
+        val calendarDocumentList = calendarDocumentService.getDocumentSchedule(CalendarDocumentCondition(instanceId = instanceId))
+        val documentScheduleList = mutableListOf<CalendarDocument>()
+        calendarDocumentList.forEach {
+            documentScheduleList.add(
+                CalendarDocument(
+                    id = it.scheduleId,
+                    title = it.scheduleTitle,
+                    contents = it.scheduleContents,
+                    startDt = it.startDt,
+                    endDt = it.endDt,
+                    allDayYn = it.allDayYn
+                )
+            )
+        }
+        return ZResponse(
+            data = documentScheduleList
+        )
     }
 
     /**
