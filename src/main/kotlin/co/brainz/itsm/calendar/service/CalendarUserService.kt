@@ -6,8 +6,10 @@
 
 package co.brainz.itsm.calendar.service
 
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.calendar.constants.CalendarConstants
 import co.brainz.itsm.calendar.dto.CalendarCondition
@@ -17,9 +19,11 @@ import co.brainz.itsm.calendar.dto.CalendarDto
 import co.brainz.itsm.calendar.dto.CalendarRequest
 import co.brainz.itsm.calendar.dto.Range
 import co.brainz.itsm.calendar.dto.ScheduleData
+import co.brainz.itsm.calendar.entity.CalendarEntity
 import co.brainz.itsm.calendar.entity.CalendarUserEntity
 import co.brainz.itsm.calendar.repository.CalendarUserRepeatRepository
 import co.brainz.itsm.calendar.repository.CalendarUserRepository
+import java.time.LocalDateTime
 import java.util.Optional
 import javax.transaction.Transactional
 import org.slf4j.Logger
@@ -28,6 +32,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CalendarUserService(
+    private val aliceMessageSource: AliceMessageSource,
     private val currentSessionUser: CurrentSessionUser,
     private val calendarUserRepository: CalendarUserRepository,
     private val calendarUserRepeatRepository: CalendarUserRepeatRepository,
@@ -178,5 +183,19 @@ class CalendarUserService(
      */
     fun findCalendarInOwner(calendarId: String, owner: String): Optional<CalendarUserEntity> {
         return calendarUserRepository.findCalendarInOwner(calendarId, owner)
+    }
+
+    /**
+     * 사용자 캘린더 추가
+     */
+    fun setCalendarUser(calendar: CalendarEntity, user: AliceUserEntity) {
+        calendarUserRepository.save(
+            CalendarUserEntity(
+                calendarId = calendar.calendarId,
+                calendarName = aliceMessageSource.getMessage("calendar.label.default"),
+                owner = user,
+                createDt = LocalDateTime.now()
+            )
+        )
     }
 }

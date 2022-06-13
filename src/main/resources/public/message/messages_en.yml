@@ -278,6 +278,7 @@ calendar:
       thursday: "Thursday"
       friday: "Friday"
       saturday: "Saturday"
+    default: "Default"
     shortDays:
       sun: "Sun"
       mon: "Mon"
