@@ -361,7 +361,7 @@ class UserService(
         }
 
         //사용자 부재 설정 후 권한 위임 체크시 이동
-        if (userUpdateDto.absence?.absenceCheck == true) code = this.executeUserProcessingDocumentAbsence(userUpdateDto.absence!!)
+        if (userUpdateDto.absence?.transferYN == true) code = this.executeUserProcessingDocumentAbsence(userUpdateDto.absence!!)
 
         return ZResponse(
             status = code
@@ -566,6 +566,7 @@ class UserService(
             absenceDto.substituteUser = userDetailsService.selectUserKey(absenceDto.substituteUserKey!!).userName
             absenceDto.startDt = mapper.convertValue(absenceMap["startDt"], LocalDateTime::class.java)
             absenceDto.endDt = mapper.convertValue(absenceMap["endDt"], LocalDateTime::class.java)
+            absenceDto.transferYN = mapper.convertValue(absenceMap["transferYN"], Boolean::class.java)
         }
         return absenceDto
     }
@@ -644,6 +645,7 @@ class UserService(
         absenceMap["startDt"] = mapper.convertValue(absenceDto.startDt, LocalDateTime::class.java)
         absenceMap["endDt"] = mapper.convertValue(absenceDto.endDt, LocalDateTime::class.java)
         absenceMap["substituteUserKey"] = absenceDto.substituteUserKey.toString()
+        absenceMap["transferYN"] = absenceDto.transferYN.toString()
         val userCustomEntity = UserCustomEntity(
             user = userDetailsService.selectUserKey(userKey),
             customType = UserConstants.UserCustom.USER_ABSENCE.code,
