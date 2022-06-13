@@ -259,8 +259,6 @@ class ZFormDesigner {
      * 컴포넌트 템플릿 팔레트 초기화 및 이벤트 추가
      */
     initComponentTemplatePalette() {
-        if (!this.isEditable) { return false; }
-
         // 팔레트 영역 새로 그리기
         let templateList = document.getElementById('customComponentList').querySelector('.list-group');
         templateList.innerHTML = '';
