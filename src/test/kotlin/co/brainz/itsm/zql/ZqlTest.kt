@@ -251,7 +251,7 @@ class ZqlTest {
         val token = createToken(document, InstanceStatus.FINISH, startDt, endDt)
 
         // 해당 태그를 사용한 표현식, 2020~2021년 2년간 월별로 종료일 기준의 완료된 문서 카운트 검색
-        val result = this.zql.setExpression("[incident_level] = 1")
+        val result = this.zql.setExpression("[incident_level] == 1")
             .setFrom(LocalDateTime.of(2020, 1, 1, 0, 0, 0))
             .setTo(LocalDateTime.of(2021, 12, 31, 21, 59, 59))
             .setPeriod(ZqlPeriodType.MONTH)
