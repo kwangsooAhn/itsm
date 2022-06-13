@@ -248,15 +248,15 @@ function zCalendar(id, options) {
         },
         onShow: (modal) => {
             // 이벤트 추가
-            this.bindScheduleEdit = this.onClickScheduleEdit.bind(this, modal);
+            this.bindScheduleEdit = this.onClickScheduleEdit.bind(this);
             modal.wrapper.querySelector('#scheduleEdit').addEventListener('click', this.bindScheduleEdit);
 
-            this.bindScheduleDelete = this.onClickScheduleDelete.bind(this, modal);
+            this.bindScheduleDelete = this.onClickScheduleDelete.bind(this);
             modal.wrapper.querySelector('#scheduleDelete').addEventListener('click', this.bindScheduleDelete);
         },
         onHide: (modal) => {
             modal.wrapper.querySelector('#scheduleEdit').removeEventListener('click', this.bindScheduleEdit);
-            modal.wrapper.querySelector('#scheduleDelete').addEventListener('click', this.bindScheduleDelete);
+            modal.wrapper.querySelector('#scheduleDelete').removeEventListener('click', this.bindScheduleDelete);
         }
     });
 
@@ -1163,24 +1163,26 @@ Object.assign(zCalendar.prototype, {
     /**
      * 상세보기 모달에서 편집 버튼 클릭시 처리
      */
-    onClickScheduleEdit: function (modal) {
+    onClickScheduleEdit: function (e) {
         // 수정 모달 호출
-        const schedule = modal.customOptions.schedule;
+        const schedule = this.detailModal.customOptions.schedule;
         schedule.mode = 'edit';
 
         this.createModal.customOptions = schedule;
         this.setCreateModal(this.createModal.customOptions);
-        this.setModalPosition(this.createModal.wrapper, modal.customOptions.event.target);
+        this.setModalPosition(this.createModal.wrapper, this.detailModal.customOptions.event.target);
 
         // 기존 모달 닫고 편집 모달 띄우기
-        modal.hide();
+        this.detailModal.hide();
         this.createModal.show();
     },
     /**
      * 상세보기 모달에서 삭제 버튼 클릭시 처리
      */
-    onClickScheduleDelete: function (modal) {
-        this.deleteSchedule(modal.customOptions.schedule);
+    onClickScheduleDelete: function (e) {
+        if (aliceJs.clickInsideElement(e, 'z-button-icon')) {
+            this.deleteSchedule(this.detailModal.customOptions.schedule);
+        }
     },
     /**
      * 스케쥴 저장
@@ -1358,10 +1360,6 @@ Object.assign(zCalendar.prototype, {
                                 modal.parentModal) {
                                 modal.parentModal.hide();
                             }
-                        }
-                        // 삭제시 화면 reload
-                        if (method === 'DELETE' || method === 'PUT') {
-                            location.reload();
                         }
                         // 데이터를 새로 가져옴
                         this.isReload = true;
