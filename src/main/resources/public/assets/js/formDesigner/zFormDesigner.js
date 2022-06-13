@@ -235,9 +235,8 @@ class ZFormDesigner {
             });
         });
     }
-
     /**
-     * 컴포넌트 템플릿 팔레트 데이터 구성
+     * 컴포넌트 템플릿 팔레트 데이터
      */
     async getComponentTemplateData() {
         let templateData = '';
@@ -256,7 +255,6 @@ class ZFormDesigner {
         }
         return templateData;
     }
-
     /**
      * 컴포넌트 템플릿 팔레트 초기화 및 이벤트 추가
      */
@@ -327,10 +325,9 @@ class ZFormDesigner {
             });
         });
     }
-
     /**
-     * component Template > sortable.onEnd()
-     * @param sortable : target sortable 객체
+     * component Template > sortable.onEnd() 구성
+     * @param sortable : sortable target
      * @param evt
      */
     setOnEvent(sortable, evt) {
@@ -420,7 +417,6 @@ class ZFormDesigner {
             sortable.options.editor.history.save(histories);
         });
     }
-
     /**
      * JSON 데이터 정렬 (Recursive)
      * @param data JSON 데이터
