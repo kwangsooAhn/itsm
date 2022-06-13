@@ -141,9 +141,9 @@ input, button, select, optgroup, textarea {
   float: right;
 }
 
-/* _flex.scss
+/* _display.scss
  *
- * 파일 경로 : template/utilities/_flex.scss
+ * 파일 경로 : template/utilities/_display.scss
  * @description flex display 관련 디자인
  * @author jy.lim
  * @version 1.0
