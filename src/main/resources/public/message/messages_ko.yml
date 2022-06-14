@@ -1376,8 +1376,8 @@ scheduler:
 sla:
   calculationType:
     average: "평균"
-    rate: "비율"
-    total: "합산"
+    percentage: "비율"
+    sum: "합산"
   chart:
     line: "라인차트"
     column: "컬럼차트"
@@ -1468,7 +1468,7 @@ sla:
       zqlAverageDescription: "평균 계산방식은 결과의 평균을 구합니다. ZQl의 결과는 숫자형태여야 합니다."
       zqlDescription: "ZQL을 사용하여 SLA 대상 문서 및 계산방법을 설정할 수 있습니다."
       zqlDescriptionCheck: "을 확인하세요."
-      zqlRateDescription: "비율 계산방식은 ZQL의 조건을 만족하는 문서의 비율을 구합니다. ZQL은 조건을 나타내는 형식이어야 합니다."
+      zqlPercentageDescription: "비율 계산방식은 ZQL의 조건을 만족하는 문서의 비율을 구합니다. ZQL은 조건을 나타내는 형식이어야 합니다."
       zqlTotalDescription: "합산 계산 방식은 결과를 합산합니다. ZQL의 결과는 숫자형태여야 합니다."
   zqlManual: "
     표현<br/>

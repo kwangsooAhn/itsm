@@ -256,9 +256,9 @@
                 metricYearCalcType.value = i18n.msg(metricList[0].metricCalculationType);
                 metricYearDesc.value = metricList[0].metricDesc;
                 // 해당 지표의 계산방식에 text 변경
-                if (metricList[0].metricCalculationType == 'sla.calculationType.average') {
+                if (metricList[0].metricCalculationType === 'sla.calculationType.average') {
                     zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlAverageDescription')
-                } else if (metricList[0].metricCalculationType == 'sla.calculationType.percentage') {
+                } else if (metricList[0].metricCalculationType === 'sla.calculationType.percentage') {
                     zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlRateDescription')
                 } else {
                     zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlTotalDescription')
@@ -271,10 +271,10 @@
                         metricYearCalcType.value = i18n.msg(metricList[i].metricCalculationType);
                         metricYearDesc.value = metricList[i].metricDesc;
 
-                        if (metricList[i].metricCalculationType == 'sla.calculationType.average') {
+                        if (metricList[i].metricCalculationType === 'sla.calculationType.average') {
                             zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlAverageDescription')
-                        } else if (metricList[i].metricCalculationType == 'sla.calculationType.rate') {
-                            zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlRateDescription')
+                        } else if (metricList[i].metricCalculationType === 'sla.calculationType.percentage') {
+                            zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlPercentageDescription')
                         } else {
                             zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlTotalDescription')
                         }

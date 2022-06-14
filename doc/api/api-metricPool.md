@@ -30,7 +30,7 @@ POST /rest/sla/metric-pools
   "metricGroup": "sla.metricGroup.default",
   "metricType": "sla.metricType.auto",
   "metricUnit": "sla.metricUnit.score",
-  "calculationType": "sla.calculationType.total"
+  "calculationType": "sla.calculationType.sum"
 }
 ```
 
