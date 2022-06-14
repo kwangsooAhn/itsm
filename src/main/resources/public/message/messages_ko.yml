@@ -1086,7 +1086,7 @@ menu:
   board:
     parent: "게시판"
   calendar:
-    parent: "일정 관리"
+    parent: "일정"
   config:
     auth: "권한"
     boardAdmin: "게시판"
