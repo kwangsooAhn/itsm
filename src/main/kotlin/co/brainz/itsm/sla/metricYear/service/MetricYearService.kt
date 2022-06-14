@@ -26,8 +26,8 @@ import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearData
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
@@ -83,23 +83,23 @@ class MetricYearService(
      * 연도별 지표 신규 등록
      */
     @Transactional
-    fun createMetricYear(metricYearDto: MetricYearDto): ZResponse {
+    fun createMetricYear(metricYearData: MetricYearData): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricEntity = metricPoolRepository.findByMetricId(metricYearDto.metricId)
+        val metricEntity = metricPoolRepository.findByMetricId(metricYearData.metricId)
 
-        if (metricYearRepository.existsByMetricAndMetricYear(metricYearDto.metricId, metricYearDto.year)) {
+        if (metricYearRepository.existsByMetricAndMetricYear(metricYearData.metricId, metricYearData.year)) {
             status = ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             metricYearRepository.save(
                 MetricYearEntity(
                     metric = metricEntity,
-                    metricYear = metricYearDto.year,
-                    minValue = metricYearDto.minValue,
-                    maxValue = metricYearDto.maxValue,
-                    weightValue = metricYearDto.weightValue,
-                    owner = metricYearDto.owner,
-                    comment = metricYearDto.comment,
-                    zqlString = metricYearDto.zqlString,
+                    metricYear = metricYearData.year,
+                    minValue = metricYearData.minValue,
+                    maxValue = metricYearData.maxValue,
+                    weightValue = metricYearData.weightValue,
+                    owner = metricYearData.owner,
+                    comment = metricYearData.comment,
+                    zqlString = metricYearData.zqlString,
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )
@@ -248,23 +248,23 @@ class MetricYearService(
      * 연도별 지표 편집
      */
     @Transactional
-    fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
+    fun updateMetricYear(metricYearData: MetricYearData): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
 
-        if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))) {
+        if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearData.metricId, metricYearData.year))) {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         } else {
             val metricYearEntity =
                 metricYearRepository.findByMetricAndMetricYear(
-                    MetricPoolEntity(metricYearDto.metricId),
-                    metricYearDto.year
+                    MetricPoolEntity(metricYearData.metricId),
+                    metricYearData.year
                 )
-            metricYearEntity.minValue = metricYearDto.minValue
-            metricYearEntity.maxValue = metricYearDto.maxValue
-            metricYearEntity.weightValue = metricYearDto.weightValue
-            metricYearEntity.owner = metricYearDto.owner
-            metricYearEntity.comment = metricYearDto.comment
-            metricYearEntity.zqlString = metricYearDto.zqlString
+            metricYearEntity.minValue = metricYearData.minValue
+            metricYearEntity.maxValue = metricYearData.maxValue
+            metricYearEntity.weightValue = metricYearData.weightValue
+            metricYearEntity.owner = metricYearData.owner
+            metricYearEntity.comment = metricYearData.comment
+            metricYearEntity.zqlString = metricYearData.zqlString
             metricYearEntity.updateUserKey = currentSessionUser.getUserKey()
             metricYearEntity.updateDt = LocalDateTime.now()
 

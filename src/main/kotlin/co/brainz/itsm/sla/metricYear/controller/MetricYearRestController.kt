@@ -9,7 +9,7 @@ import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearData
 import co.brainz.itsm.sla.metricYear.service.MetricYearService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -35,8 +35,8 @@ class MetricYearRestController(
      * 신규 연도별 지표 등록
      */
     @PostMapping("/", "")
-    fun insertMetric(@RequestBody metricYearDto: MetricYearDto): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricYearService.createMetricYear(metricYearDto))
+    fun insertMetric(@RequestBody metricYearData: MetricYearData): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricYearService.createMetricYear(metricYearData))
     }
 
     /**
@@ -59,8 +59,8 @@ class MetricYearRestController(
      * 연도별 지표 편집
      */
     @PutMapping("/", "")
-    fun updateMetricYear(@RequestBody metricYearDto: MetricYearDto): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricYearService.updateMetricYear(metricYearDto))
+    fun updateMetricYear(@RequestBody metricYearData: MetricYearData): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricYearService.updateMetricYear(metricYearData))
     }
 
     /**
