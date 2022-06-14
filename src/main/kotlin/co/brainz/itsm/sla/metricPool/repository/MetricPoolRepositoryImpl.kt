@@ -33,31 +33,31 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
     }
 
     private fun getMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): JPQLQuery<MetricViewData> {
-        val metricPool = QMetricPoolEntity.metricPoolEntity
+        val metric = QMetricPoolEntity.metricPoolEntity
         val typeCode = QCodeEntity.codeEntity
         val unitCode = QCodeEntity("unitCode")
         val calcTypeCode = QCodeEntity("calcTypeCode")
         val groupCode = QCodeEntity("groupCode")
 
-        val query = from(metricPool)
+        val query = from(metric)
             .select(
                 Projections.constructor(
                     MetricViewData::class.java,
-                    metricPool.metricId,
-                    metricPool.metricName,
-                    metricPool.metricDesc,
+                    metric.metricId,
+                    metric.metricName,
+                    metric.metricDesc,
                     groupCode.codeName.`as`("metricGroupName"),
                     typeCode.codeName.`as`("metricTypeName"),
                     unitCode.codeName.`as`("metricUnitName"),
                     calcTypeCode.codeName.`as`("calculationTypeName")
                 )
             )
-            .leftJoin(typeCode).on(metricPool.metricType.eq(typeCode.code))
-            .leftJoin(unitCode).on(metricPool.metricUnit.eq(unitCode.code))
-            .leftJoin(calcTypeCode).on(metricPool.calculationType.eq(calcTypeCode.code))
-            .leftJoin(groupCode).on(metricPool.metricGroup.eq(groupCode.code))
-            .where(this.searchByBuilder(metricPoolSearchCondition, metricPool))
-            .orderBy(metricPool.createDt.desc())
+            .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
+            .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
+            .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
+            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
+            .where(this.searchByBuilder(metricPoolSearchCondition, metric))
+            .orderBy(metric.createDt.desc())
 
         if (metricPoolSearchCondition.isPaging) {
             query.limit(metricPoolSearchCondition.contentNumPerPage)
@@ -67,29 +67,29 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
     }
 
     private fun getMetricPoolsCount(metricPoolSearchCondition: MetricPoolSearchCondition): JPQLQuery<Long> {
-        val metricPool = QMetricPoolEntity.metricPoolEntity
-        return from(metricPool)
-            .select(metricPool.count())
-            .where(this.searchByBuilder(metricPoolSearchCondition, metricPool))
+        val metric = QMetricPoolEntity.metricPoolEntity
+        return from(metric)
+            .select(metric.count())
+            .where(this.searchByBuilder(metricPoolSearchCondition, metric))
     }
 
     override fun findMetric(metricId: String): MetricData {
-        val metricPool = QMetricPoolEntity.metricPoolEntity
+        val metric = QMetricPoolEntity.metricPoolEntity
 
-        return from(metricPool)
+        return from(metric)
             .select(
                 Projections.constructor(
                     MetricData::class.java,
-                    metricPool.metricId,
-                    metricPool.metricName,
-                    metricPool.metricDesc,
-                    metricPool.metricGroup,
-                    metricPool.metricType,
-                    metricPool.metricUnit,
-                    metricPool.calculationType
+                    metric.metricId,
+                    metric.metricName,
+                    metric.metricDesc,
+                    metric.metricGroup,
+                    metric.metricType,
+                    metric.metricUnit,
+                    metric.calculationType
                 )
             )
-            .where(metricPool.metricId.eq(metricId))
+            .where(metric.metricId.eq(metricId))
             .fetchOne()
     }
 
@@ -102,29 +102,29 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
     }
 
     override fun findByMetricIds(metricIds: Set<String>): List<MetricLoadDto> {
-        val metricPool = QMetricPoolEntity.metricPoolEntity
+        val metric = QMetricPoolEntity.metricPoolEntity
         val typeCode = QCodeEntity.codeEntity
         val unitCode = QCodeEntity("unitCode")
         val calcTypeCode = QCodeEntity("calcTypeCode")
         val groupCode = QCodeEntity("groupCode")
-        return from(metricPool)
+        return from(metric)
             .select(
                 Projections.constructor(
                     MetricLoadDto::class.java,
-                    metricPool.metricId,
-                    metricPool.metricName,
-                    metricPool.metricDesc,
+                    metric.metricId,
+                    metric.metricName,
+                    metric.metricDesc,
                     groupCode.codeName,
                     typeCode.code,
                     unitCode.code,
                     calcTypeCode.code
                 )
             )
-            .leftJoin(groupCode).on(metricPool.metricGroup.eq(groupCode.code))
-            .leftJoin(unitCode).on(metricPool.metricUnit.eq(unitCode.code))
-            .leftJoin(typeCode).on(metricPool.metricType.eq(typeCode.code))
-            .leftJoin(calcTypeCode).on(metricPool.calculationType.eq(calcTypeCode.code))
-            .where(metricPool.metricId.`in`(metricIds))
+            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
+            .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
+            .leftJoin(typeCode).on(metric.metricType.eq(typeCode.code))
+            .leftJoin(calcTypeCode).on(metric.calculationType.eq(calcTypeCode.code))
+            .where(metric.metricId.`in`(metricIds))
             .fetch()
     }
 }
