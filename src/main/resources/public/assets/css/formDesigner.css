@@ -5,90 +5,13 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _reset.scss
- *
- * 파일 경로 : template/_reset.scss
- * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
- * @author wdj
- * @version 1.0
- */
-*,
-*::before,
-*::after {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-
-body {
-  line-height: 1;
-}
-
-ol, ul {
-  list-style: none;
-}
-
-blockquote, q {
-  quotes: none;
-}
-
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: "";
-  content: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-template {
-  display: none;
-}
-
-input, button, select, optgroup, textarea {
-  font-family: inherit;
-  font-size: 100%;
-  line-height: 1.2;
-  margin: 0;
-  max-width: 100%;
-  background-color: #FFFFFF;
-  border: none;
-}
-
 :root {
   --data-color: "";
 }
 
 /* _alignments.scss 
  *
- * 파일 경로 : template/utilities/_alignments.scss
+ * 파일 경로 : foundations/utilities/_alignments.scss
  * @description 정렬, 배치 관련 디자인
  * @author jy.lim
  * @version 1.0
@@ -141,10 +64,113 @@ input, button, select, optgroup, textarea {
   float: right;
 }
 
+/* _columns.scss 
+ *
+ * 파일 경로 : foundations/utilities/_columns.scss
+ * @description HTML element column 너비 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.col-1 {
+  width: 5rem !important;
+}
+
+.col-2 {
+  width: 10rem !important;
+}
+
+.col-3 {
+  width: 15rem !important;
+}
+
+.col-4 {
+  width: 20rem !important;
+}
+
+.col-5 {
+  width: 25rem !important;
+}
+
+.col-6 {
+  width: 30rem !important;
+}
+
+.col-7 {
+  width: 35rem !important;
+}
+
+.col-8 {
+  width: 40rem !important;
+}
+
+.col-9 {
+  width: 45rem !important;
+}
+
+.col-10 {
+  width: 50rem !important;
+}
+
+.col-11 {
+  width: 55rem !important;
+}
+
+.col-12 {
+  width: 60rem !important;
+}
+
+.col-pct-1 {
+  width: 8.3333333333% !important;
+}
+
+.col-pct-2 {
+  width: 16.6666666667% !important;
+}
+
+.col-pct-3 {
+  width: 25% !important;
+}
+
+.col-pct-4 {
+  width: 33.3333333333% !important;
+}
+
+.col-pct-5 {
+  width: 41.6666666667% !important;
+}
+
+.col-pct-6 {
+  width: 50% !important;
+}
+
+.col-pct-7 {
+  width: 58.3333333333% !important;
+}
+
+.col-pct-8 {
+  width: 66.6666666667% !important;
+}
+
+.col-pct-9 {
+  width: 75% !important;
+}
+
+.col-pct-10 {
+  width: 83.3333333333% !important;
+}
+
+.col-pct-11 {
+  width: 91.6666666667% !important;
+}
+
+.col-pct-12 {
+  width: 100% !important;
+}
+
 /* _display.scss
  *
- * 파일 경로 : template/utilities/_display.scss
- * @description flex display 관련 디자인
+ * 파일 경로 : foundations/utilities/_display.scss
+ * @description display 관련 디자인
  * @author jy.lim
  * @version 1.0
  */
@@ -274,112 +300,9 @@ input, button, select, optgroup, textarea {
   flex-basis: 100% !important;
 }
 
-/* _columns.scss 
- *
- * 파일 경로 : template/utilities/_columns.scss
- * @description HTML element column 너비 관련 디자인
- * @author jy.lim
- * @version 1.0
- */
-.col-1 {
-  width: 5rem !important;
-}
-
-.col-2 {
-  width: 10rem !important;
-}
-
-.col-3 {
-  width: 15rem !important;
-}
-
-.col-4 {
-  width: 20rem !important;
-}
-
-.col-5 {
-  width: 25rem !important;
-}
-
-.col-6 {
-  width: 30rem !important;
-}
-
-.col-7 {
-  width: 35rem !important;
-}
-
-.col-8 {
-  width: 40rem !important;
-}
-
-.col-9 {
-  width: 45rem !important;
-}
-
-.col-10 {
-  width: 50rem !important;
-}
-
-.col-11 {
-  width: 55rem !important;
-}
-
-.col-12 {
-  width: 60rem !important;
-}
-
-.col-pct-1 {
-  width: 8.3333333333% !important;
-}
-
-.col-pct-2 {
-  width: 16.6666666667% !important;
-}
-
-.col-pct-3 {
-  width: 25% !important;
-}
-
-.col-pct-4 {
-  width: 33.3333333333% !important;
-}
-
-.col-pct-5 {
-  width: 41.6666666667% !important;
-}
-
-.col-pct-6 {
-  width: 50% !important;
-}
-
-.col-pct-7 {
-  width: 58.3333333333% !important;
-}
-
-.col-pct-8 {
-  width: 66.6666666667% !important;
-}
-
-.col-pct-9 {
-  width: 75% !important;
-}
-
-.col-pct-10 {
-  width: 83.3333333333% !important;
-}
-
-.col-pct-11 {
-  width: 91.6666666667% !important;
-}
-
-.col-pct-12 {
-  width: 100% !important;
-}
-
 /* _spacing.scss
  *
- * 파일 경로 : template/utilities/_spacing.scss
+ * 파일 경로 : foundations/utilities/_spacing.scss
  * @description HTML element padding, margin 여백 관련 디자인
  * @author jy.lim
  * @version 1.0
@@ -572,70 +495,86 @@ input, button, select, optgroup, textarea {
   margin-left: auto;
 }
 
-/* _fonts.scss
+/* _reset.scss
  *
- * 파일 경로 : template/utilities/_fonts.scss
- * @description 글꼴 관련 설정
- * @author jy.lim
+ * 파일 경로 : template/_reset.scss
+ * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
+ * @author wdj
  * @version 1.0
  */
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-Thin.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 100;
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-ExtraLight.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 200;
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-Light.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 300;
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-Regular.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 400;
+
+body {
+  line-height: 1;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-Medium.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 500;
+
+ol, ul {
+  list-style: none;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-SemiBold.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 600;
+
+blockquote, q {
+  quotes: none;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-Bold.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 700;
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-ExtraBold.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 800;
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
-@font-face {
-  font-family: "Pretendard";
-  src: local("Pretendard"), url("../fonts/Pretendard-Black.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 900;
+
+template {
+  display: none;
 }
+
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 0;
+  max-width: 100%;
+  background-color: #FFFFFF;
+  border: none;
+}
+
 /* _common.scss 
  *
- * 파일 경로 : template/utilities/_common.scss
+ * 파일 경로 : foundations/utilities/_common.scss
  * @description 공통으로 사용되는 디자인
  * @author wdj
  * @version 1.0
@@ -720,6 +659,426 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
   color: #757575;
+}
+
+/* _font.scss
+ *
+ * 파일 경로 : foundations/utilities/_font.scss
+ * @description 글꼴 관련 설정
+ * @author jy.lim
+ * @version 1.0
+ */
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-Thin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-ExtraLight.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-Light.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-Medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-SemiBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-ExtraBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: local("Pretendard"), url("../../../fonts/Pretendard-Black.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 900;
+}
+/* _icons.scss
+ *
+ * 공통으로 사용되는 아이콘
+ *
+ * <선언 방법>
+ * <span class="z-icon i-delete"></span>
+ ** z-icon : 공통 아이콘 클래스
+ ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
+ *
+ * 파일 경로 : foundations/_icons.scss
+ * @description 공통 아이콘
+ * @author wdj
+ * @version 1.0
+ */
+.z-icon {
+  display: inline-block;
+  -webkit-print-color-adjust: exact;
+}
+.z-icon.i-gnb-board {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-statistic {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-dashboard {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_dashboard.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_dashboard.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-document {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_document.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_document.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-archive {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_download.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-faq {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_faq.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_faq.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-notice {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_notice.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_notice.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-config {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_config.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_config.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-workflow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_workflow.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_workflow.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-token {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_token.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_token.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-cmdb {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_cmdb.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_cmdb.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb_sub_dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_sub_dot.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_sub_dot.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-search {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_search.svg");
+  mask-image: url("../../../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-delete {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_delete.svg");
+  mask-image: url("../../../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-list-delete {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_list-delete.svg");
+  mask-image: url("../../../media/icons/icon_list-delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-edit {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_edit.svg");
+  mask-image: url("../../../media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-popup {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_popup.svg");
+  mask-image: url("../../../media/icons/icon_popup.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-clipboard {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_clipboard.svg");
+  mask-image: url("../../../media/icons/icon_clipboard.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-plus {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_plus.svg");
+  mask-image: url("../../../media/icons/icon_plus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-minus {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_minus.svg");
+  mask-image: url("../../../media/icons/icon_minus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-check {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_check.svg");
+  mask-image: url("../../../media/icons/icon_check.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-remove {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../../media/icons/icon_clear.svg");
+  mask-image: url("../../../media/icons/icon_clear.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-copy {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_copy.svg");
+  mask-image: url("../../../media/icons/icon_copy.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-arrow-right {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_arrow_right.svg");
+  mask-image: url("../../../media/icons/icon_arrow_right.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-arrow-double {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../../media/icons/icon_arrow_double.svg");
+  mask-image: url("../../../media/icons/icon_arrow_double.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-color-palette {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/colorPicker/icon_color_palette.svg");
+  mask-image: url("../../../media/icons/colorPicker/icon_color_palette.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-image {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_image.svg");
+  mask-image: url("../../../media/icons/icon_image.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-folder {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_folder.svg");
+  mask-image: url("../../../media/icons/icon_folder.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-download {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/fileUploader/icon_download.svg");
+  mask-image: url("../../../media/icons/fileUploader/icon_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-list-download {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_list-download.svg");
+  mask-image: url("../../../media/icons/icon_list-download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-upload {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
+  mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-tooltip {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_tooltip.svg");
+  mask-image: url("../../../media/icons/icon_tooltip.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-download-as-excel {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_download_xls.svg");
+  mask-image: url("../../../media/icons/icon_download_xls.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-sorting {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../../media/icons/icon_sorting.svg");
+  mask-image: url("../../../media/icons/icon_sorting.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 /*
@@ -1673,7 +2032,7 @@ input, button, select, optgroup, textarea {
  ** z-icon : 공통 아이콘 클래스
  ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
  *
- * 파일 경로 : template/_icons.scss
+ * 파일 경로 : foundations/_icons.scss
  * @description 공통 아이콘
  * @author wdj
  * @version 1.0
@@ -1682,11 +2041,131 @@ input, button, select, optgroup, textarea {
   display: inline-block;
   -webkit-print-color-adjust: exact;
 }
+.z-icon.i-gnb-board {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-statistic {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_statistic.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-dashboard {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_dashboard.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_dashboard.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-document {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_document.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_document.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-archive {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_download.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-faq {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_faq.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_faq.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-notice {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_notice.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_notice.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-config {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_config.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_config.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-workflow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_workflow.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_workflow.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-token {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_token.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_token.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-cmdb {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_cmdb.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_cmdb.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb_sub_dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  -webkit-mask-image: url("../media/icons/gnb/icon_gnb_sub_dot.svg");
+  mask-image: url("../media/icons/gnb/icon_gnb_sub_dot.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-search {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_search.svg");
-  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_search.svg");
+  mask-image: url("../../../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1695,8 +2174,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_delete.svg");
-  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_delete.svg");
+  mask-image: url("../../../media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1705,8 +2184,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-list-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_list-delete.svg");
-  mask-image: url("../media/icons/icon_list-delete.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_list-delete.svg");
+  mask-image: url("../../../media/icons/icon_list-delete.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1715,8 +2194,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-edit {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_edit.svg");
-  mask-image: url("../media/icons/icon_edit.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_edit.svg");
+  mask-image: url("../../../media/icons/icon_edit.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1725,8 +2204,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-popup {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_popup.svg");
-  mask-image: url("../media/icons/icon_popup.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_popup.svg");
+  mask-image: url("../../../media/icons/icon_popup.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1735,8 +2214,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-clipboard {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_clipboard.svg");
-  mask-image: url("../media/icons/icon_clipboard.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_clipboard.svg");
+  mask-image: url("../../../media/icons/icon_clipboard.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1745,8 +2224,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-plus {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_plus.svg");
-  mask-image: url("../media/icons/icon_plus.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_plus.svg");
+  mask-image: url("../../../media/icons/icon_plus.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1755,8 +2234,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-minus {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_minus.svg");
-  mask-image: url("../media/icons/icon_minus.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_minus.svg");
+  mask-image: url("../../../media/icons/icon_minus.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1765,8 +2244,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-check {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_check.svg");
-  mask-image: url("../media/icons/icon_check.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_check.svg");
+  mask-image: url("../../../media/icons/icon_check.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1775,8 +2254,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-remove {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/icon_clear.svg");
-  mask-image: url("../media/icons/icon_clear.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_clear.svg");
+  mask-image: url("../../../media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1785,8 +2264,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-copy {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_copy.svg");
-  mask-image: url("../media/icons/icon_copy.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_copy.svg");
+  mask-image: url("../../../media/icons/icon_copy.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1795,8 +2274,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-arrow-right {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_arrow_right.svg");
-  mask-image: url("../media/icons/icon_arrow_right.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_arrow_right.svg");
+  mask-image: url("../../../media/icons/icon_arrow_right.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1805,8 +2284,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-arrow-double {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/icon_arrow_double.svg");
-  mask-image: url("../media/icons/icon_arrow_double.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_arrow_double.svg");
+  mask-image: url("../../../media/icons/icon_arrow_double.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1815,8 +2294,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-color-palette {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/colorPicker/icon_color_palette.svg");
-  mask-image: url("../media/icons/colorPicker/icon_color_palette.svg");
+  -webkit-mask-image: url("../../../media/icons/colorPicker/icon_color_palette.svg");
+  mask-image: url("../../../media/icons/colorPicker/icon_color_palette.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1825,8 +2304,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-image {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_image.svg");
-  mask-image: url("../media/icons/icon_image.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_image.svg");
+  mask-image: url("../../../media/icons/icon_image.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1835,8 +2314,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-folder {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_folder.svg");
-  mask-image: url("../media/icons/icon_folder.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_folder.svg");
+  mask-image: url("../../../media/icons/icon_folder.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1845,8 +2324,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-download {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/fileUploader/icon_download.svg");
-  mask-image: url("../media/icons/fileUploader/icon_download.svg");
+  -webkit-mask-image: url("../../../media/icons/fileUploader/icon_download.svg");
+  mask-image: url("../../../media/icons/fileUploader/icon_download.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1855,8 +2334,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-list-download {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_list-download.svg");
-  mask-image: url("../media/icons/icon_list-download.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_list-download.svg");
+  mask-image: url("../../../media/icons/icon_list-download.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1865,8 +2344,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-upload {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/fileUploader/icon_upload.svg");
-  mask-image: url("../media/icons/fileUploader/icon_upload.svg");
+  -webkit-mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
+  mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1875,8 +2354,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-tooltip {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_tooltip.svg");
-  mask-image: url("../media/icons/icon_tooltip.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_tooltip.svg");
+  mask-image: url("../../../media/icons/icon_tooltip.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1885,8 +2364,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-download-as-excel {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_download_xls.svg");
-  mask-image: url("../media/icons/icon_download_xls.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_download_xls.svg");
+  mask-image: url("../../../media/icons/icon_download_xls.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1895,8 +2374,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-sorting {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_sorting.svg");
-  mask-image: url("../media/icons/icon_sorting.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_sorting.svg");
+  mask-image: url("../../../media/icons/icon_sorting.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1906,8 +2385,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-save {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/topmenu/icon_save.svg");
-  mask-image: url("../media/icons/formDesigner/topmenu/icon_save.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/topmenu/icon_save.svg");
+  mask-image: url("../../../media/icons/formDesigner/topmenu/icon_save.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1916,8 +2395,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-save-as {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/topmenu/icon_save_as.svg");
-  mask-image: url("../media/icons/formDesigner/topmenu/icon_save_as.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/topmenu/icon_save_as.svg");
+  mask-image: url("../../../media/icons/formDesigner/topmenu/icon_save_as.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1926,8 +2405,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-undo {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/topmenu/icon_undo.svg");
-  mask-image: url("../media/icons/formDesigner/topmenu/icon_undo.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/topmenu/icon_undo.svg");
+  mask-image: url("../../../media/icons/formDesigner/topmenu/icon_undo.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1936,8 +2415,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-redo {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/topmenu/icon_redo.svg");
-  mask-image: url("../media/icons/formDesigner/topmenu/icon_redo.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/topmenu/icon_redo.svg");
+  mask-image: url("../../../media/icons/formDesigner/topmenu/icon_redo.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1946,8 +2425,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-preview {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/topmenu/icon_preview.svg");
-  mask-image: url("../media/icons/formDesigner/topmenu/icon_preview.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/topmenu/icon_preview.svg");
+  mask-image: url("../../../media/icons/formDesigner/topmenu/icon_preview.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1956,8 +2435,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-inputBox {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_inputbox.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_inputbox.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_inputbox.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_inputbox.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1966,8 +2445,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-textArea {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_textarea.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_textarea.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_textarea.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_textarea.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1976,8 +2455,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-textEditor {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_text_editor.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_text_editor.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_text_editor.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_text_editor.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1986,8 +2465,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dropdown {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdown.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_dropdown.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_dropdown.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_dropdown.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1996,8 +2475,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-radio {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_radio.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_radio.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_radio.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_radio.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2006,8 +2485,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-checkBox {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_checkbox.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_checkbox.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_checkbox.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_checkbox.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2016,8 +2495,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-date {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_date.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_date.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_date.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_date.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2026,8 +2505,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-time {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_time.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_time.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_time.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_time.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2036,8 +2515,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dateTime {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_datetime.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_datetime.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_datetime.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_datetime.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2046,8 +2525,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-fileUpload {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_fileupload.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_fileupload.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_fileupload.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_fileupload.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2056,8 +2535,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-customCode {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_custom_code.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_custom_code.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_custom_code.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_custom_code.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2066,8 +2545,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dynamicRowTable {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2076,8 +2555,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-ci {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_ci.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_ci.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_ci.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_ci.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2086,8 +2565,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-label {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_label.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_label.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_label.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_label.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2096,8 +2575,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-image {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_image.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_image.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_image.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_image.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2106,8 +2585,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-divider {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_divider.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_divider.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_divider.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_divider.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2116,8 +2595,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-fileDownload {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_filedownload.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_filedownload.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_filedownload.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2126,8 +2605,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-userSearch {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_user.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_user.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2136,8 +2615,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-dropdownCode {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_dropdownCode.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2146,8 +2625,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-userSearch {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_user.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_user.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_user.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2156,8 +2635,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-organizationSearch {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_organization.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_organization.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_organization.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_organization.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2166,8 +2645,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-historyInquiry {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_historyinquiry.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2176,8 +2655,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-modalButton {
   width: 2rem;
   height: 2rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg ");
-  mask-image: url("../media/icons/formDesigner/palette/icon_modalButton.svg ");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/palette/icon_modalButton.svg ");
+  mask-image: url("../../../media/icons/formDesigner/palette/icon_modalButton.svg ");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2186,8 +2665,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-copy {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/tooltip/icon_copy.svg");
-  mask-image: url("../media/icons/formDesigner/tooltip/icon_copy.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/tooltip/icon_copy.svg");
+  mask-image: url("../../../media/icons/formDesigner/tooltip/icon_copy.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2196,8 +2675,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/tooltip/icon_remove.svg");
-  mask-image: url("../media/icons/formDesigner/tooltip/icon_remove.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/tooltip/icon_remove.svg");
+  mask-image: url("../../../media/icons/formDesigner/tooltip/icon_remove.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2206,8 +2685,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-no-image {
   width: 100%;
   height: 2.813rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/form/icon_image_component.svg");
-  mask-image: url("../media/icons/formDesigner/form/icon_image_component.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/form/icon_image_component.svg");
+  mask-image: url("../../../media/icons/formDesigner/form/icon_image_component.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2219,8 +2698,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-align-left {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_align_left.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_align_left.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_align_left.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_align_left.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2229,8 +2708,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-align-center {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_align_center.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_align_center.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_align_center.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_align_center.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2239,8 +2718,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-align-right {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_align_right.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_align_right.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_align_right.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_align_right.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2249,8 +2728,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-position-left {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_label_position_left.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_label_position_left.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_label_position_left.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_label_position_left.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2259,8 +2738,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-position-top {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_label_position_top.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_label_position_top.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_label_position_top.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_label_position_top.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2269,8 +2748,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-position-hidden {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_label_position_hidden.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_label_position_hidden.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_label_position_hidden.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_label_position_hidden.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2279,8 +2758,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-display-position-left {
   width: 20px;
   height: 20px;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_display_left.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_display_left.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_display_left.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_display_left.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2289,8 +2768,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-display-position-right {
   width: 20px;
   height: 20px;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_display_right.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_display_right.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_display_right.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_display_right.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2299,8 +2778,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-bold {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_bold.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_bold.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_bold.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_bold.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2309,8 +2788,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-italic {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_italic.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_italic.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_italic.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_italic.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2319,8 +2798,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-underline {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/formDesigner/property/icon_underline.svg");
-  mask-image: url("../media/icons/formDesigner/property/icon_underline.svg");
+  -webkit-mask-image: url("../../../media/icons/formDesigner/property/icon_underline.svg");
+  mask-image: url("../../../media/icons/formDesigner/property/icon_underline.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2663,7 +3142,7 @@ input, button, select, optgroup, textarea {
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-date-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-date-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-date-picker {
-  background-image: url("../media/icons/formDesigner/palette/icon_date_picker_drag.svg");
+  background-image: url("../../../media/icons/formDesigner/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -2672,7 +3151,7 @@ input, button, select, optgroup, textarea {
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-time-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-time-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-time-picker {
-  background-image: url("../media/icons/formDesigner/palette/icon_time_picker_drag.svg");
+  background-image: url("../../../media/icons/formDesigner/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -2681,7 +3160,7 @@ input, button, select, optgroup, textarea {
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-datetime-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-datetime-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-datetime-picker {
-  background-image: url("../media/icons/formDesigner/palette/icon_date_time_picker_drag.svg");
+  background-image: url("../../../media/icons/formDesigner/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -3096,56 +3575,56 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border: 0.0625rem solid #76BD26 !important;
 }
 .z-input.i-search {
-  background-image: url("../media/icons/icon_search.svg");
+  background-image: url("../../../media/icons/icon_search.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-date-picker {
-  background-image: url("../media/icons/dateTimePicker/icon_date_picker.svg");
+  background-image: url("../../../media/icons/dateTimePicker/icon_date_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-time-picker {
-  background-image: url("../media/icons/dateTimePicker/icon_time_picker.svg");
+  background-image: url("../../../media/icons/dateTimePicker/icon_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-datetime-picker {
-  background-image: url("../media/icons/dateTimePicker/icon_date_time_picker.svg");
+  background-image: url("../../../media/icons/dateTimePicker/icon_date_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-user-search {
-  background-image: url("../media/icons/document/icon_user.svg");
+  background-image: url("../../../media/icons/document/icon_user.svg");
   background-size: 1.5rem 1.5rem;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-organization-search {
-  background-image: url("../media/icons/document/icon_organization.svg");
+  background-image: url("../../../media/icons/document/icon_organization.svg");
   background-size: 1.5rem 1.5rem;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-px {
-  background-image: url("../media/icons/icon_px.svg");
+  background-image: url("../../../media/icons/icon_px.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
 .z-input.i-mb {
-  background-image: url("../media/icons/icon_mb.svg");
+  background-image: url("../../../media/icons/icon_mb.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -3316,8 +3795,8 @@ div.z-textarea-readonly {
   mask-size: 1.5rem;
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_clear.svg");
-  mask-image: url("../media/icons/icon_clear.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_clear.svg");
+  mask-image: url("../../../media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -3339,8 +3818,8 @@ div.z-textarea-readonly {
   left: 0;
   -webkit-mask-size: 1.125rem;
   mask-size: 1.125rem;
-  -webkit-mask-image: url("../media/icons/icon_check.svg");
-  mask-image: url("../media/icons/icon_check.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_check.svg");
+  mask-image: url("../../../media/icons/icon_check.svg");
 }
 .z-switch input[type=checkbox]:disabled + span {
   background-color: #E1E6EA;
@@ -3541,7 +4020,7 @@ select {
   width: 0.625rem;
   height: 0.438rem;
   padding-top: 0.9375rem;
-  background-image: url("../media/icons/icon_select_check.svg");
+  background-image: url("../../../media/icons/icon_select_check.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -5074,7 +5553,7 @@ select {
   position: absolute;
   top: 0.313rem;
   left: -2rem;
-  background-image: url("../media/icons/alert/icon_alert_success.svg");
+  background-image: url("../../../media/icons/alert/icon_alert_success.svg");
   background-size: 100%;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -5157,42 +5636,42 @@ select {
   border: 0.0625rem solid #CFD5D9;
 }
 .z-alert-icon-success {
-  background-image: url("../media/icons/alert/icon_alert_success.svg");
+  background-image: url("../../../media/icons/alert/icon_alert_success.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
 .z-alert-icon-info {
-  background-image: url("../media/icons/alert/icon_alert_info.svg");
+  background-image: url("../../../media/icons/alert/icon_alert_info.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
 .z-alert-icon-warning {
-  background-image: url("../media/icons/alert/icon_alert_warning.svg");
+  background-image: url("../../../media/icons/alert/icon_alert_warning.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
 .z-alert-icon-danger {
-  background-image: url("../media/icons/alert/icon_alert_danger.svg");
+  background-image: url("../../../media/icons/alert/icon_alert_danger.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
 .z-alert-icon-confirm {
-  background-image: url("../media/icons/alert/icon_alert_confirm.svg");
+  background-image: url("../../../media/icons/alert/icon_alert_confirm.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
 .z-alert-icon-email {
-  background-image: url("../media/icons/alert/icon_alert_email.svg");
+  background-image: url("../../../media/icons/alert/icon_alert_email.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -5231,7 +5710,7 @@ select {
   border: 0.0625rem solid #ABB0B5;
   color: #424242;
   background-color: #FFFFFF;
-  background-image: url("../media/icons/validation/icon_default.svg");
+  background-image: url("../../../media/icons/validation/icon_default.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 1rem;
@@ -5244,7 +5723,7 @@ select {
   border: 0.0625rem solid #D6EDFC;
   color: #3373C4;
   background-color: #D6EDFC;
-  background-image: url("../media/icons/validation/icon_info.svg");
+  background-image: url("../../../media/icons/validation/icon_info.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 1rem;
@@ -5257,7 +5736,7 @@ select {
   border: 0.0625rem solid #FEF2EB !important;
   color: #F52525;
   background-color: #FEF2EB;
-  background-image: url("../media/icons/validation/icon_error.svg");
+  background-image: url("../../../media/icons/validation/icon_error.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 1rem;
@@ -5270,7 +5749,7 @@ select {
   border: 0.0625rem solid #F6FCE0;
   color: #5CA21B;
   background-color: #F6FCE0;
-  background-image: url("../media/icons/validation/icon_success.svg");
+  background-image: url("../../../media/icons/validation/icon_success.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 1rem;
@@ -5329,7 +5808,7 @@ select {
   background-color: transparent;
 }
 .scrollbar > .os-scrollbar-corner.os-scrollbar-corner-resize {
-  background-image: url("../media/icons/icon_resize.svg");
+  background-image: url("../../../media/icons/icon_resize.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -5574,7 +6053,7 @@ select {
   height: 24px;
   background-color: transparent;
   border: none;
-  background-image: url("../media/icons/icon_resize.svg");
+  background-image: url("../../../media/icons/icon_resize.svg");
   background-size: 12px;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -5740,8 +6219,8 @@ select {
   display: block;
   width: 2.5rem;
   height: 2.5rem;
-  -webkit-mask-image: url("../media/icons/fileUploader/icon_upload.svg");
-  mask-image: url("../media/icons/fileUploader/icon_upload.svg");
+  -webkit-mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
+  mask-image: url("../../../media/icons/fileUploader/icon_upload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -5978,8 +6457,8 @@ select {
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-remove .z-icon.i-delete {
   width: 1.5rem;
   height: 1.5rem;
-  -webkit-mask-image: url("../media/icons/icon_clear.svg");
-  mask-image: url("../media/icons/icon_clear.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_clear.svg");
+  mask-image: url("../../../media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -7207,8 +7686,8 @@ body.modal-active {
 .z-thumbnail-main .z-icon.i-file-upload {
   width: 5rem;
   height: 5rem;
-  -webkit-mask-image: url("../media/icons/icon_file_upload.svg");
-  mask-image: url("../media/icons/icon_file_upload.svg");
+  -webkit-mask-image: url("../../../media/icons/icon_file_upload.svg");
+  mask-image: url("../../../media/icons/icon_file_upload.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -8173,12 +8652,12 @@ span.modal_node_selected label {
   font-size: 0.875rem;
 }
 .property .z-input:not(.tagify).i-unit-search {
-  background: url("../media/icons/formDesigner/unit/icon_unit_search.svg") no-repeat 97% 50%;
+  background: url("../../../media/icons/formDesigner/unit/icon_unit_search.svg") no-repeat 97% 50%;
   background-color: #FFFFFF;
   padding: 0 1.875rem 0 0.5rem;
 }
 .property .z-input:not(.tagify).i-unit-px {
-  background: url("../media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
+  background: url("../../../media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
   background-color: #FFFFFF;
   padding: 0 1.875rem 0 0.5rem;
   text-align: right;

@@ -1,0 +1,100 @@
+/* _icons.scss
+ *
+ * 공통으로 사용되는 아이콘
+ *
+ * <선언 방법>
+ * <span class="z-icon i-delete"></span>
+ ** z-icon : 공통 아이콘 클래스
+ ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
+ *
+ * 파일 경로 : foundations/_icons.scss
+ * @description 공통 아이콘
+ * @author wdj
+ * @version 1.0
+ */
+
+// icon size
+// 1.25rem, 1.25rem // 20xp 20px
+// 1.5rem, 1.5rem // 24xp 24px
+
+.z-icon {
+  display: inline-block;
+  -webkit-print-color-adjust:exact;
+  // 네비게이션
+  &.i-gnb-board { @include maskImage($icon-gnb-board, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-statistic { @include maskImage($icon-gnb-statistic, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-dashboard { @include maskImage($icon-gnb-dashboard, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-document { @include maskImage($icon-gnb-document, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-archive { @include maskImage($icon-gnb-download, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-faq { @include maskImage($icon-gnb-faq, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-notice { @include maskImage($icon-gnb-notice, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-config { @include maskImage($icon-gnb-config, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-workflow { @include maskImage($icon-gnb-workflow, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-token { @include maskImage($icon-gnb-token, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-cmdb { @include maskImage($icon-gnb-cmdb, 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb_sub_dot { @include maskImage($icon-gnb-sub-dot, 0.25rem, 0.25rem, no-repeat, center); } // 4xp 4px
+
+  // 검색 아이콘
+  &.i-search { @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 삭제 아이콘
+  &.i-delete { @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center); }
+  &.i-list-delete { @include maskImage('#{$icon-folder-path}icon_list-delete.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 편집 아이콘
+  &.i-edit { @include maskImage('#{$icon-folder-path}icon_edit.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 팝업 아이콘
+  &.i-popup { @include maskImage('#{$icon-folder-path}icon_popup.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // clipboard 아이콘
+  &.i-clipboard { @include maskImage('#{$icon-folder-path}icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // + 아이콘
+  &.i-plus { @include maskImage('#{$icon-folder-path}icon_plus.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // - 아이콘
+  &.i-minus { @include maskImage('#{$icon-folder-path}icon_minus.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // check 아이콘
+  &.i-check { @include maskImage('#{$icon-folder-path}icon_check.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // X 아이콘
+  &.i-remove { @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center); }
+
+  // copy
+  &.i-copy { @include maskImage('#{$icon-folder-path}icon_copy.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 화살표(>) 아이콘
+  &.i-arrow-right { @include maskImage('#{$icon-folder-path}icon_arrow_right.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 화살표(>>) 아이콘
+  &.i-arrow-double { @include maskImage('#{$icon-folder-path}icon_arrow_double.svg', 1.5rem, 1.5rem, no-repeat, center); }
+
+  // colorPicker > color palette
+  &.i-color-palette { @include maskImage('#{$icon-folder-path}colorPicker/icon_color_palette.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 이미지 아이콘
+  &.i-image { @include maskImage('#{$icon-folder-path}icon_image.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 폴더
+  &.i-folder { @include maskImage('#{$icon-folder-path}icon_folder.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // fileUploader
+  // fileUploader > 다운로드
+  &.i-download { @include maskImage('#{$icon-folder-path}fileUploader/icon_download.svg', 1.25rem, 1.25rem, no-repeat, center); }
+  &.i-list-download { @include maskImage('#{$icon-folder-path}icon_list-download.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // fileUploader > 업로드
+  &.i-upload { @include maskImage('#{$icon-folder-path}fileUploader/icon_upload.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 툴팁
+  &.i-tooltip { @include maskImage('#{$icon-folder-path}icon_tooltip.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 엑셀 다운로드
+  &.i-download-as-excel { @include maskImage('#{$icon-folder-path}icon_download_xls.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+  // 삭제 아이콘
+  &.i-sorting { @include maskImage('#{$icon-folder-path}icon_sorting.svg', 1.25rem, 1.25rem, no-repeat, center); }
+
+}

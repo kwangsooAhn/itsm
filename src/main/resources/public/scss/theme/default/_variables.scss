@@ -1,11 +1,4 @@
-//////////////////////////// Asset path ////////////////////////////
-$font-folder-path:                            '../../../fonts';
-$icon-folder-path:                            '../../../media/icons/';
-$image-folder-path:                           '../../../media/images/';
 
-// 테마별 경로
-$theme-icon-folder-path:                       '../media/icons/';
-$theme-image-folder-path:                      '../media/images/';
 
 ////////////////////////////// Layout //////////////////////////////
 // Main
@@ -67,22 +60,6 @@ $top-menu-user-dropdown-margin:               0.188rem; // 3px
 $top-menu-user-dropdown-bg-hover:             $blue50;
 $top-menu-user-dropdown-bg-active:            $blue100;
 $top-menu-user-dropdown-active-color:         $blue700;
-
-// Menu Icons
-$icon-gnb-color:                              $gray500;
-
-$icon-gnb-board:                              $theme-icon-folder-path + 'gnb/icon_gnb_board.svg';
-$icon-gnb-cmdb:                               $theme-icon-folder-path + 'gnb/icon_gnb_cmdb.svg';
-$icon-gnb-config:                             $theme-icon-folder-path + 'gnb/icon_gnb_config.svg';
-$icon-gnb-dashboard:                          $theme-icon-folder-path + 'gnb/icon_gnb_dashboard.svg';
-$icon-gnb-document:                           $theme-icon-folder-path + 'gnb/icon_gnb_document.svg';
-$icon-gnb-download:                           $theme-icon-folder-path + 'gnb/icon_gnb_download.svg';
-$icon-gnb-faq:                                $theme-icon-folder-path + 'gnb/icon_gnb_faq.svg';
-$icon-gnb-notice:                             $theme-icon-folder-path + 'gnb/icon_gnb_notice.svg';
-$icon-gnb-statistic:                          $theme-icon-folder-path + 'gnb/icon_gnb_statistic.svg';
-$icon-gnb-token:                              $theme-icon-folder-path + 'gnb/icon_gnb_token.svg';
-$icon-gnb-workflow:                           $theme-icon-folder-path + 'gnb/icon_gnb_workflow.svg';
-$icon-gnb-sub-dot:                            $theme-icon-folder-path + 'gnb/icon_gnb_sub_dot.svg';
 
 ////////////////////////////// Edit //////////////////////////////
 $edit-content-bg-color:                       $white;

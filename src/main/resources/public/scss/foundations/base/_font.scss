@@ -1,3 +1,11 @@
+/* _font.scss
+ *
+ * 파일 경로 : foundations/utilities/_font.scss
+ * @description 글꼴 관련 설정
+ * @author jy.lim
+ * @version 1.0
+ */
+
 // font face 설정 mixin
 // @include fontFace("Pretendard", $font-folder-path + "/" + $fname , "opentype", normal, $weight);
 @mixin fontFace($name, $path, $format, $style, $weight) {
@@ -7,4 +15,8 @@
     font-style: if($style == null, normal, $style);
     font-weight: $weight;
   }
+}
+
+@each $fname, $weight in $font-face-map {
+  @include fontFace("Pretendard", $font-folder-path + "/" + $fname , "woff2", normal, $weight);
 }
