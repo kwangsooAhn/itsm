@@ -6,13 +6,10 @@
  */
 @charset 'utf-8';
 
-@import '../bz-colors.scss';                    // 상속 불가
 @import '../template/_functions.scss';          // 상속 불가
-@import '../template/_variables.scss';          // 상속 불가
 @import '../foundations/foundations.scss';      // 상속 불가
-@import '../template/_colors.scss';
+@import '../template/_variables.scss';          // 상속 불가
 @import '_variables.scss';
-@import '_icons.scss';
 @import '_layout.scss';
 @import '_elements.scss';
 @import '_buttons.scss';

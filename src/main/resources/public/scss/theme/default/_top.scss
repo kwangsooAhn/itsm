@@ -31,7 +31,7 @@
         .i-arrow-right {
             margin-left: auto;
             float: right;
-            background-color: $icon-gnb-color;
+            background-color: $gray500;
             @include rotate(90);
         }
         &:hover {

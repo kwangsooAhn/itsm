@@ -1,3 +1,9 @@
+// base
+@import 'base/_reset.scss';
+@import 'base/_colors.scss';
+@import 'base/_font.scss';
+@import 'base/_icons.scss';
+
 // mixins
 @import 'mixins/_animation.scss';
 @import 'mixins/_border.scss';
@@ -14,9 +20,3 @@
 @import 'utilities/_columns.scss';
 @import 'utilities/_display.scss';
 @import 'utilities/_spacing.scss';
-
-// base
-@import 'base/_reset.scss';
-@import 'base/_common.scss';
-@import 'base/_font.scss';
-@import 'base/_icons.scss';

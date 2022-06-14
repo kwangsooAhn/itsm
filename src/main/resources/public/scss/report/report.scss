@@ -6,12 +6,9 @@
  */
 @charset "utf-8";
 
-@import '../bz-colors.scss';                    // 상속 불가
 @import '../template/_functions.scss';          // 상속 불가
-@import '../template/_variables.scss';          // 상속 불가
 @import '../foundations/foundations.scss';      // 상속 불가
-@import '../foundations/base/icons';              // 공통 아이콘
-@import '../template/_colors.scss';
+@import '../template/_variables.scss';          // 상속 불가
 @import '../template/_charts.scss';
 @import '_variables.scss';
 @import '_layout.scss';

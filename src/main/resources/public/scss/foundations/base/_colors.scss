@@ -301,3 +301,14 @@ $colors: (
         'cyan': $cyan,
         'indigo': $indigo
 );
+
+@each $color_name, $color in $colors {
+  @each $color_type, $color_value in $color {
+    .text-#{$color_type} {
+      color: $color_value !important;
+    }
+    .bg-#{$color_type} {
+      background-color: $color_value !important;
+    }
+  }
+}
