@@ -123,11 +123,6 @@ class TokenController(
     @GetMapping("/{tokenId}/print")
     fun getDocumentPrint(@PathVariable tokenId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("time", LocalDateTime.now())
-        model.addAttribute("instanceHistory", instanceService.getInstanceHistoryByTokenId(tokenId))
-        model.addAttribute(
-            "documentNo",
-            instanceService.getInstance(instanceService.getInstanceId(tokenId)!!).documentNo
-        )
         return tokenPrintPage
     }
 
