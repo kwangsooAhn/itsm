@@ -1468,7 +1468,7 @@ sla:
       zqlAverageDescription: "The average calculation method takes the average of the results. The result of ZQl must be in numeric form."
       zqlDescription: "You can use ZQL to set SLA subject documents and calculation methods."
       zqlDescriptionCheck: "check the link on the left"
-      zqlRateDescription: "The ratio calculation method finds the ratio of documents that satisfy the conditions of ZQL. ZQL must be in a format that represents a condition."
+      zqlPercentageDescription: "The ratio calculation method finds the ratio of documents that satisfy the conditions of ZQL. ZQL must be in a format that represents a condition."
       zqlTotalDescription: "The total calculation method sums the results. The result of ZQL must be in numeric form."
   zqlManual: "
     Expression<br/>
