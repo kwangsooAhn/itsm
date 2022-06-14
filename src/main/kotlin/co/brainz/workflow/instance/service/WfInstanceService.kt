@@ -30,8 +30,8 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceExcelDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
-import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListReturnDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceTopicListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -385,8 +385,43 @@ class WfInstanceService(
     fun findAllInstanceListByRelatedCheck(
         instanceId: String,
         searchValue: String
-    ): MutableList<RestTemplateInstanceListDto> {
-        return wfInstanceRepository.findAllInstanceListByRelatedCheck(instanceId, searchValue)
+    ): MutableList<RestTemplateInstanceTopicListDto> {
+        val instanceList = wfInstanceRepository.findAllInstanceListByRelatedCheck(instanceId, searchValue)
+        val restTemplateInstanceTopicList: MutableList<RestTemplateInstanceTopicListDto> = mutableListOf()
+        val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
+
+        for (instance in instanceList) {
+            val instanceTopicList = RestTemplateInstanceTopicListDto(
+                instanceId = instance.instanceId,
+                documentName = instance.documentName,
+                documentNo = instance.documentNo,
+                createDt = instance.createDt,
+                tokenId = instance.tokenId,
+                assigneeUserKey = instance.assigneeUserKey,
+                assigneeUserName = instance.assigneeUserName,
+                related = instance.related
+            )
+            // Topic
+            val tokenIds = mutableSetOf<String>()
+            instance.tokenId?.let { tokenIds.add(it) }
+            val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
+            if (tokenIds.isNotEmpty()) {
+                tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds, componentTypeForTopicDisplay))
+            }
+            val topics = mutableListOf<String>()
+            tokenDataList.forEach { tokenData ->
+                if (tokenData.component.isTopic &&
+                    componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
+                ) {
+                    topics.add(tokenData.value)
+                }
+            }
+            if (topics.isNotEmpty()) {
+                instanceTopicList.topics = topics
+            }
+            restTemplateInstanceTopicList.add(instanceTopicList)
+        }
+        return restTemplateInstanceTopicList
     }
 
     fun instancesForExcel(tokenSearchCondition: TokenSearchCondition): MutableList<RestTemplateInstanceExcelDto> {
