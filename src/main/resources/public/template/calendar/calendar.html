@@ -326,7 +326,6 @@
         };
         let excelFileName = i18n.msg('calendar.label.calendar') + '_' +
             new Date().toISOString().substring(0, 10).replace(/-/g, '');
-        // TODO: 백엔드 구현 필요
         aliceJs.fetchBlob('/rest/calendars/excel?', {
             method: 'POST',
             showProgressBar: true,
