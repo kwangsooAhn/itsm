@@ -391,6 +391,9 @@ class WfInstanceService(
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
 
         for (instance in instanceList) {
+            val assigneeUserAvatarPath = instance.assigneeUserKey?.let { userDetailsService.selectUserKey(it) }
+                ?.let { userDetailsService.makeAvatarPath(it) }
+
             val instanceTopicList = RestTemplateInstanceTopicListDto(
                 instanceId = instance.instanceId,
                 documentName = instance.documentName,
@@ -399,7 +402,8 @@ class WfInstanceService(
                 tokenId = instance.tokenId,
                 assigneeUserKey = instance.assigneeUserKey,
                 assigneeUserName = instance.assigneeUserName,
-                related = instance.related
+                related = instance.related,
+                assigneeUserAvatarPath = assigneeUserAvatarPath
             )
             // Topic
             val tokenIds = mutableSetOf<String>()

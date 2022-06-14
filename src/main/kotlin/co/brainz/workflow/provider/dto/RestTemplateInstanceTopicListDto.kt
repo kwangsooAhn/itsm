@@ -12,5 +12,6 @@ data class RestTemplateInstanceTopicListDto(
     val assigneeUserKey: String? = "",
     val assigneeUserName: String? = "",
     var related: Boolean = false,
-    var topics: MutableList<String>? = null
+    var topics: MutableList<String>? = null,
+    val assigneeUserAvatarPath: String? = ""
 ) : Serializable
