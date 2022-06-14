@@ -11,6 +11,8 @@ import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.dto.PortalTopDto
@@ -54,8 +56,8 @@ class PortalRestController(
     }
 
     @GetMapping("/top")
-    fun getTopList(@RequestParam(value = "limit") limit: Long): LinkedHashMap<String, List<PortalTopDto>> {
-        return portalService.getTopList(limit)
+    fun getTopList(@RequestParam(value = "limit") limit: Long): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(portalService.getTopList(limit))
     }
 
     /**
