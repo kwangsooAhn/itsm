@@ -16,7 +16,7 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
-import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
+import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
@@ -138,7 +138,7 @@ class MetricYearService(
         val from = LocalDateTime.of(year.toInt(), 1, 1, 0, 0, 0)
         val to = LocalDateTime.of(year.toInt(), 12, 31, 23, 59, 59)
         metricAnnualDtoList.forEach {
-            it.score = if (it.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
+            it.score = if (it.metricType == MetricPoolConst.Type.MANUAL.code) {
                 metricManualService.getManualPointSum(it.metricId, from.toLocalDate(), to.toLocalDate())
             } else {
                 zql.setExpression(it.zqlString)
@@ -149,9 +149,9 @@ class MetricYearService(
                     .setCriteria(ZqlInstanceDateCriteria.END)
 
                 when (it.calculationType) {
-                    MetricPoolConstants.MetricCalculationTypeCode.SUM.code -> zql.sum()[0].value
-                    MetricPoolConstants.MetricCalculationTypeCode.PERCENTAGE.code -> zql.percentage()[0].value
-                    MetricPoolConstants.MetricCalculationTypeCode.AVERAGE.code -> zql.average()[0].value
+                    MetricPoolConst.CalculationType.SUM.code -> zql.sum()[0].value
+                    MetricPoolConst.CalculationType.PERCENTAGE.code -> zql.percentage()[0].value
+                    MetricPoolConst.CalculationType.AVERAGE.code -> zql.average()[0].value
                     else -> 0f
                 }
             }

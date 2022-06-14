@@ -6,7 +6,7 @@
 package co.brainz.itsm.sla.metricPool.controller
 
 import co.brainz.itsm.code.service.CodeService
-import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
+import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.service.MetricPoolService
 import org.slf4j.Logger
@@ -52,12 +52,12 @@ class MetricPoolController(
      */
     @GetMapping("/new")
     fun getMetricNew(model: Model): String {
-        model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_GROUP_P_CODE))
-        model.addAttribute("metricTypeList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_TYPE_P_CODE))
-        model.addAttribute("metricUnitList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_UNIT_P_CODE))
+        model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConst.GROUP_P_CODE))
+        model.addAttribute("metricTypeList", codeService.selectCodeByParent(MetricPoolConst.TYPE_P_CODE))
+        model.addAttribute("metricUnitList", codeService.selectCodeByParent(MetricPoolConst.UNIT_P_CODE))
         model.addAttribute(
             "metricCalcTypeList",
-            codeService.selectCodeByParent(MetricPoolConstants.METRIC_CALCULATION_TYPE_P_CODE)
+            codeService.selectCodeByParent(MetricPoolConst.CALCULATION_TYPE_P_CODE)
         )
         return metricPoolPage
     }
@@ -67,7 +67,7 @@ class MetricPoolController(
      */
     @GetMapping("/{metricId}/edit")
     fun getMetricEdit(@PathVariable metricId: String, model: Model): String {
-        model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConstants.METRIC_GROUP_P_CODE))
+        model.addAttribute("metricGroupList", codeService.selectCodeByParent(MetricPoolConst.GROUP_P_CODE))
         model.addAttribute("metric", metricPoolService.getMetricDetail(metricId))
         model.addAttribute("edit", true)
         return metricPoolPage
