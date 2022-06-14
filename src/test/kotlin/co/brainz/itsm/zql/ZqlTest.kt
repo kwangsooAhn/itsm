@@ -322,9 +322,14 @@ class ZqlTest {
     }
 
     @Test
-    @DisplayName("ZQL Percentage Test")
+    @DisplayName("ZQL Percentage Test1")
     @Order(400)
-    fun percentageTest() {
+    fun percentageTest1() {
+        /*
+         * 여기서는 비율 방식으로 가장 간단한 형식을 테스트한다.
+         * 태그가 달린 컴포넌트의 값 1개를 이용해서 해당 값이 조건에 맞는 비율을 구한다.
+         * 즉, 장애레벨이 '긴급'인 비율을 구하는 것과 같은 식이다.
+         */
         this.init()
         val startDt: LocalDateTime = LocalDateTime.of(2020, 12, 31, 12, 12, 0)
         val endDt: LocalDateTime = LocalDateTime.of(2021, 1, 3, 13, 17, 59)
@@ -334,12 +339,52 @@ class ZqlTest {
         val token1 = createToken(document, InstanceStatus.FINISH, startDt.minusDays(1), endDt.minusDays(1))
         val token2 = createToken(document, InstanceStatus.FINISH, startDt, endDt)
 
-        // 평균을 위해서 사용할 컴포넌트의 값을 각각 10,20으로 설정
+        // 비율을 위해서 사용할 컴포넌트의 값을 설정
         createTokenData(token1, this.comp, "10")
         createTokenData(token2, this.comp, "20")
 
         // 해당 태그를 사용한 표현식, 2020~2021년 2년간 월별로 종료일 기준의 완료된 문서 카운트 검색
         val result = this.zql.setExpression("[incident_level] == 10")
+            .setFrom(LocalDateTime.of(2020, 1, 1, 0, 0, 0))
+            .setTo(LocalDateTime.of(2021, 12, 31, 21, 59, 59))
+            .setPeriod(ZqlPeriodType.MONTH)
+            .setInstanceStatus(InstanceStatus.FINISH)
+            .setCriteria(ZqlInstanceDateCriteria.END)
+            .percentage()
+
+        // 종료일 기준이기 때문에 문서의 종료일인 2021-01-03을 이용해서 ZQL 표현식을 적용하면 2개 문서중 1개가 참이므로 50% 예상 (단위는 없음).
+        println(result)
+    }
+
+    @Test
+    @DisplayName("ZQL Percentage Test2")
+    @Order(400)
+    fun percentageTest2() {
+        /*
+         * 여기서는 비율 방식중에서 1개의 문서의 2개의 컴포넌트의 값을 구해서 그 값을 비교하여 참인 경우의 비율을 구한다.
+         * 즉, 완료희망일보다 완료일이 더 큰 문서를 구하는 식이다.
+         */
+        this.init()
+        val startDt: LocalDateTime = LocalDateTime.of(2020, 12, 31, 12, 12, 0)
+        val endDt: LocalDateTime = LocalDateTime.of(2021, 1, 3, 13, 17, 59)
+
+        // 컴포넌트가 2개 필요하므로 init에서 생성된 것 외에 1개 더 생성. (완료희망일)
+        val comp2 = createComponent(this.form)
+        createTag(listOf("z-serviceDesk-incident-request-deadline"), comp2)
+
+        // 2020-12-31 ~ 2021-01-03 사이에 진행된 종료문서 2개 생성.
+        createTag(listOf("z-process-date"), this.comp) // 완료일 태그.
+        val token1 = createToken(document, InstanceStatus.FINISH, startDt.minusDays(1), endDt.minusDays(1)) // 조건을 만족하는 토큰
+        val token2 = createToken(document, InstanceStatus.FINISH, startDt, endDt) // 조건에 맞지 않는 토큰
+
+        // 비율을 위해서 사용할 컴포넌트의 값을 각각 시간으로 설정
+        createTokenData(token1, this.comp, "2022-04-07T02:17:00.000Z")  // 완료일
+        createTokenData(token1, comp2, "2022-04-07T05:58:00.000Z") // 완료 희망일
+        createTokenData(token2, this.comp, "2022-04-07T05:58:00.000Z")
+        createTokenData(token2, comp2, "2022-04-07T02:17:00.000Z")
+
+        // 해당 태그를 사용한 표현식, 2020~2021년 2년간 월별로 종료일 기준의 완료된 문서 카운트 검색
+        val result = this.zql.setExpression("greaterThanOrEqualTo(\"[z-serviceDesk-incident-request-deadline]\", \"[z-process-date]\")")
             .setFrom(LocalDateTime.of(2020, 1, 1, 0, 0, 0))
             .setTo(LocalDateTime.of(2021, 12, 31, 21, 59, 59))
             .setPeriod(ZqlPeriodType.MONTH)
