@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricPool.dto
 
 import java.io.Serializable
 
-data class MetricDto(
+data class MetricData(
     val metricId: String,
     var metricName: String,
     var metricDesc: String? = null,

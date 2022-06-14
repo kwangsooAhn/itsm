@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricPool.repository
 
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
-import co.brainz.itsm.sla.metricPool.dto.MetricDto
+import co.brainz.itsm.sla.metricPool.dto.MetricData
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
@@ -73,13 +73,13 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
             .where(this.searchByBuilder(metricPoolSearchCondition, metricPool))
     }
 
-    override fun findMetric(metricId: String): MetricDto {
+    override fun findMetric(metricId: String): MetricData {
         val metricPool = QMetricPoolEntity.metricPoolEntity
 
         return from(metricPool)
             .select(
                 Projections.constructor(
-                    MetricDto::class.java,
+                    MetricData::class.java,
                     metricPool.metricId,
                     metricPool.metricName,
                     metricPool.metricDesc,
