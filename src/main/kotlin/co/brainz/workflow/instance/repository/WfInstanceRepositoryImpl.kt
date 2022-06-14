@@ -676,6 +676,7 @@ class WfInstanceRepositoryImpl(
         if (searchValue.isNotEmpty()) {
             query.where(
                 document.documentName.likeIgnoreCase("%$searchValue%")
+                    .or(instance.documentNo.likeIgnoreCase("%$searchValue%"))
                     .or(user.userName.likeIgnoreCase("%$searchValue%"))
             )
         }
