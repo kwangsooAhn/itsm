@@ -9,8 +9,8 @@ package co.brainz.itsm.sla.metricPool.repository
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.dto.MetricData
-import co.brainz.itsm.sla.metricPool.dto.MetricPoolDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
+import co.brainz.itsm.sla.metricPool.dto.MetricViewData
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
@@ -32,7 +32,7 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
         )
     }
 
-    private fun getMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): JPQLQuery<MetricPoolDto> {
+    private fun getMetricPools(metricPoolSearchCondition: MetricPoolSearchCondition): JPQLQuery<MetricViewData> {
         val metricPool = QMetricPoolEntity.metricPoolEntity
         val typeCode = QCodeEntity.codeEntity
         val unitCode = QCodeEntity("unitCode")
@@ -42,7 +42,7 @@ class MetricPoolRepositoryImpl : QuerydslRepositorySupport(MetricPoolEntity::cla
         val query = from(metricPool)
             .select(
                 Projections.constructor(
-                    MetricPoolDto::class.java,
+                    MetricViewData::class.java,
                     metricPool.metricId,
                     metricPool.metricName,
                     metricPool.metricDesc,
