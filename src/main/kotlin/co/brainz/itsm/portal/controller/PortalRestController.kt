@@ -7,13 +7,13 @@
 package co.brainz.itsm.portal.controller
 
 import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
-import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
-import co.brainz.itsm.portal.dto.PortalTopDto
 import co.brainz.itsm.portal.service.PortalService
 import org.mapstruct.factory.Mappers
 import org.springframework.core.io.InputStreamResource
@@ -36,7 +36,7 @@ class PortalRestController(
      * 포탈 검색 리스트 호출 처리
      */
     @GetMapping("")
-    fun getPortalList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
+    fun getPortalList(portalSearchDto: PortalSearchDto): ResponseEntity<ZResponse> {
         val portalResult = portalService.findPortalListOrSearchList(portalSearchDto)
         val portalResultList = mutableListOf<PortalDto>()
         for (data in portalResult.data) {
@@ -50,25 +50,25 @@ class PortalRestController(
             )
             portalResultList.add(portalDto)
         }
-        return portalResultList
+        return ZAliceResponse.response(portalResultList)
     }
 
     @GetMapping("/top")
-    fun getTopList(@RequestParam(value = "limit") limit: Long): LinkedHashMap<String, List<PortalTopDto>> {
-        return portalService.getTopList(limit)
+    fun getTopList(@RequestParam(value = "limit") limit: Long): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(portalService.getTopList(limit))
     }
 
     /**
      * 파일 허용 확장자 목록가져오기
      */
     @GetMapping("/filenameextensions")
-    fun getFileNameExtension(): List<AliceFileNameExtensionDto> {
+    fun getFileNameExtension(): ResponseEntity<ZResponse> {
         val fileNameExtensions = mutableListOf<AliceFileNameExtensionDto>()
         val foundFileNameExtensions = aliceFileProvider.getFileNameExtension()
         for (foundFileNameExtension in foundFileNameExtensions) {
             fileNameExtensions.add(fileMapper.toAliceFileNameExtensionDto(foundFileNameExtension))
         }
-        return fileNameExtensions
+        return ZAliceResponse.response(fileNameExtensions)
     }
 
     /**
@@ -78,8 +78,8 @@ class PortalRestController(
      * @param fileDataId 문자열로 파일 목록을 가져오기 위한 값. ex) 111,22,33
      */
     @GetMapping("/filelist")
-    fun getFileList(@RequestParam ownId: String, @RequestParam fileDataId: String): List<AliceFileOwnMapDto> {
-        return aliceFileService.getList(ownId, fileDataId)
+    fun getFileList(@RequestParam ownId: String, @RequestParam fileDataId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(aliceFileService.getList(ownId, fileDataId))
     }
 
     /**
