@@ -98,12 +98,9 @@ class UserController(
         val users = userMapper.toUserDto(userEntity)
         users.avatarPath = userDetailsService.makeAvatarPath(userEntity)
         users.avatarSize = userService.getUserAvatarSize(userEntity)
-        users.absence= UserAbsenceDto()
-
         if (users.absenceYn) {
             users.absence = userService.getUserAbsenceInfo(users.userKey)
-        }
-
+       }
         val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0]
         val usersTime = if (timeFormat.size == 3) {
