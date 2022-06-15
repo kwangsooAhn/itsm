@@ -210,19 +210,6 @@
                         }
                     }
                 });
-
-                /*
-                 * 포탈 검색 시, 검색한 내용 색상 변경
-                 */
-                if (isNotEmpty('searchValue')) {
-                    document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-title > a').forEach((data) => {
-                        regExpSearch(data);
-                    });
-                    document.querySelectorAll('.z-card-row > .z-card-item-box > .z-card-item-content > .text-ellipsis').forEach((data) => {
-                        regExpSearch(data);
-                    });
-
-                }
             });
         }
 
