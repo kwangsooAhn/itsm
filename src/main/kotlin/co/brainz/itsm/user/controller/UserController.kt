@@ -18,7 +18,6 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
-import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.service.UserService
@@ -100,7 +99,7 @@ class UserController(
         users.avatarSize = userService.getUserAvatarSize(userEntity)
         if (users.absenceYn) {
             users.absence = userService.getUserAbsenceInfo(users.userKey)
-       }
+        }
         val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0]
         val usersTime = if (timeFormat.size == 3) {
