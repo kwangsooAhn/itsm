@@ -10,10 +10,10 @@ import co.brainz.itsm.code.entity.QCodeEntity
 import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDataDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearViewData
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.QMetricYearEntity
 import com.querydsl.core.types.Projections
@@ -31,7 +31,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .fetchFirst() != null
     }
 
-    override fun findMetrics(year: String): List<MetricYearDataDto> {
+    override fun findMetrics(year: String): List<MetricYearViewData> {
         val metricPool = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val code = QCodeEntity.codeEntity
@@ -39,7 +39,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         return from(metricPool)
             .select(
                 Projections.constructor(
-                    MetricYearDataDto::class.java,
+                    MetricYearViewData::class.java,
                     metricPool.metricId,
                     metricYear.metricYear,
                     code.codeName.`as`("metricGroupName"),

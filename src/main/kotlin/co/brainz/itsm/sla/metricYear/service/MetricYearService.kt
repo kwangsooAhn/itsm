@@ -16,7 +16,7 @@ import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
-import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
+import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
@@ -26,8 +26,8 @@ import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearCopyDto
+import co.brainz.itsm.sla.metricYear.dto.MetricYearData
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearListReturnDto
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntityPk
@@ -83,23 +83,23 @@ class MetricYearService(
      * 연도별 지표 신규 등록
      */
     @Transactional
-    fun createMetricYear(metricYearDto: MetricYearDto): ZResponse {
+    fun createMetricYear(metricYearData: MetricYearData): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val metricEntity = metricPoolRepository.findByMetricId(metricYearDto.metricId)
+        val metricEntity = metricPoolRepository.findByMetricId(metricYearData.metricId)
 
-        if (metricYearRepository.existsByMetricAndMetricYear(metricYearDto.metricId, metricYearDto.year)) {
+        if (metricYearRepository.existsByMetricAndMetricYear(metricYearData.metricId, metricYearData.year)) {
             status = ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             metricYearRepository.save(
                 MetricYearEntity(
                     metric = metricEntity,
-                    metricYear = metricYearDto.year,
-                    minValue = metricYearDto.minValue,
-                    maxValue = metricYearDto.maxValue,
-                    weightValue = metricYearDto.weightValue,
-                    owner = metricYearDto.owner,
-                    comment = metricYearDto.comment,
-                    zqlString = metricYearDto.zqlString,
+                    metricYear = metricYearData.year,
+                    minValue = metricYearData.minValue,
+                    maxValue = metricYearData.maxValue,
+                    weightValue = metricYearData.weightValue,
+                    owner = metricYearData.owner,
+                    comment = metricYearData.comment,
+                    zqlString = metricYearData.zqlString,
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )
@@ -138,7 +138,7 @@ class MetricYearService(
         val from = LocalDateTime.of(year.toInt(), 1, 1, 0, 0, 0)
         val to = LocalDateTime.of(year.toInt(), 12, 31, 23, 59, 59)
         metricAnnualDtoList.forEach {
-            it.score = if (it.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
+            it.score = if (it.metricType == MetricPoolConst.Type.MANUAL.code) {
                 metricManualService.getManualPointSum(it.metricId, from.toLocalDate(), to.toLocalDate())
             } else {
                 zql.setExpression(it.zqlString)
@@ -149,9 +149,9 @@ class MetricYearService(
                     .setCriteria(ZqlInstanceDateCriteria.END)
 
                 when (it.calculationType) {
-                    MetricPoolConstants.MetricCalculationTypeCode.SUM.code -> zql.sum()[0].value
-                    MetricPoolConstants.MetricCalculationTypeCode.PERCENTAGE.code -> zql.percentage()[0].value
-                    MetricPoolConstants.MetricCalculationTypeCode.AVERAGE.code -> zql.average()[0].value
+                    MetricPoolConst.CalculationType.SUM.code -> zql.sum()[0].value
+                    MetricPoolConst.CalculationType.PERCENTAGE.code -> zql.percentage()[0].value
+                    MetricPoolConst.CalculationType.AVERAGE.code -> zql.average()[0].value
                     else -> 0f
                 }
             }
@@ -166,7 +166,6 @@ class MetricYearService(
                 orderType = ""
             )
         )
-
     }
 
     /**
@@ -248,23 +247,23 @@ class MetricYearService(
      * 연도별 지표 편집
      */
     @Transactional
-    fun updateMetricYear(metricYearDto: MetricYearDto): ZResponse {
+    fun updateMetricYear(metricYearData: MetricYearData): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
 
-        if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearDto.metricId, metricYearDto.year))) {
+        if (!metricYearRepository.existsById(MetricYearEntityPk(metricYearData.metricId, metricYearData.year))) {
             status = ZResponseConstants.STATUS.ERROR_NOT_EXIST
         } else {
             val metricYearEntity =
                 metricYearRepository.findByMetricAndMetricYear(
-                    MetricPoolEntity(metricYearDto.metricId),
-                    metricYearDto.year
+                    MetricPoolEntity(metricYearData.metricId),
+                    metricYearData.year
                 )
-            metricYearEntity.minValue = metricYearDto.minValue
-            metricYearEntity.maxValue = metricYearDto.maxValue
-            metricYearEntity.weightValue = metricYearDto.weightValue
-            metricYearEntity.owner = metricYearDto.owner
-            metricYearEntity.comment = metricYearDto.comment
-            metricYearEntity.zqlString = metricYearDto.zqlString
+            metricYearEntity.minValue = metricYearData.minValue
+            metricYearEntity.maxValue = metricYearData.maxValue
+            metricYearEntity.weightValue = metricYearData.weightValue
+            metricYearEntity.owner = metricYearData.owner
+            metricYearEntity.comment = metricYearData.comment
+            metricYearEntity.zqlString = metricYearData.zqlString
             metricYearEntity.updateUserKey = currentSessionUser.getUserKey()
             metricYearEntity.updateDt = LocalDateTime.now()
 
@@ -348,6 +347,9 @@ class MetricYearService(
         )
     }
 
+    /**
+     * 연도별 SLA 현황 preview
+     */
     fun metricPreviewChartData(metricId: String, year: String): MetricStatusDto {
         val metricStatusCondition = MetricStatusCondition(
             metricId = metricId,
@@ -358,7 +360,7 @@ class MetricYearService(
     }
 
     /**
-     * 연도별 지표 복사하기 모달
+     * 연도별 지표가 있는 년도 가져오기
      */
     fun getYears(): Set<String> {
         return metricYearRepository.getYears()

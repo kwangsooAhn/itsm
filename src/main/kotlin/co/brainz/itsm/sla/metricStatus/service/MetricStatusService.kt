@@ -7,7 +7,7 @@ package co.brainz.itsm.sla.metricStatus.service
 
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
-import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
+import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
@@ -94,7 +94,7 @@ class MetricStatusService(
         val to = LocalDateTime.of(metricStatusCondition.year.toInt(), 12, 31, 23, 59, 59)
         val chartData = mutableListOf<ChartData>()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if (metric.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
+        if (metric.metricType == MetricPoolConst.Type.MANUAL.code) {
             for (i in 1..12) {
                 val month = LocalDate.of(metricStatusCondition.year.toInt(), i, 1)
                 val point = metricManualService.getManualPointSum(
@@ -121,9 +121,9 @@ class MetricStatusService(
                 .setCriteria(ZqlInstanceDateCriteria.END)
 
             val calculatedData: List<ZqlCalculatedData> = when (metric.calculationType) {
-                MetricPoolConstants.MetricCalculationTypeCode.SUM.code -> zql.sum()
-                MetricPoolConstants.MetricCalculationTypeCode.PERCENTAGE.code -> zql.percentage()
-                MetricPoolConstants.MetricCalculationTypeCode.AVERAGE.code -> zql.average()
+                MetricPoolConst.CalculationType.SUM.code -> zql.sum()
+                MetricPoolConst.CalculationType.PERCENTAGE.code -> zql.percentage()
+                MetricPoolConst.CalculationType.AVERAGE.code -> zql.average()
                 else -> listOf()
             }
 

@@ -7,7 +7,7 @@ package co.brainz.itsm.sla.metricPool.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.itsm.sla.metricPool.dto.MetricDto
+import co.brainz.itsm.sla.metricPool.dto.MetricData
 import co.brainz.itsm.sla.metricPool.service.MetricPoolService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -31,16 +31,16 @@ class MetricPoolRestController(
      * 신규 지표 등록 처리
      */
     @PostMapping("/", "")
-    fun insertMetric(@RequestBody metricDto: MetricDto): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricPoolService.createMetric(metricDto))
+    fun insertMetric(@RequestBody metricData: MetricData): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricPoolService.createMetric(metricData))
     }
 
     /**
      * 지표 편집
      */
     @PutMapping("/{metricId}")
-    fun updateMetric(@PathVariable metricId: String, @RequestBody metricDto: MetricDto): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricPoolService.updateMetric(metricId, metricDto))
+    fun updateMetric(@PathVariable metricId: String, @RequestBody metricData: MetricData): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricPoolService.updateMetric(metricId, metricData))
     }
 
     /**

@@ -16,7 +16,7 @@ import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSimpleDto
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
 import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
-import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
+import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
@@ -63,7 +63,7 @@ class MetricManualService(
      * 수동지표 검색
      */
     fun getMetricsByManual(): List<MetricManualSimpleDto> {
-        return metricManualRepository.findMetricByMetricType(MetricPoolConstants.MetricTypeCode.MANUAL.code)
+        return metricManualRepository.findMetricByMetricType(MetricPoolConst.Type.MANUAL.code)
     }
 
     /**
@@ -73,7 +73,7 @@ class MetricManualService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val metricEntity = metricPoolRepository.findById(metricManualDataDto.metricId).get()
 
-        if (metricEntity.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
+        if (metricEntity.metricType == MetricPoolConst.Type.MANUAL.code) {
             metricManualRepository.save(
                 MetricManualEntity(
                     metric = metricEntity,
@@ -108,7 +108,7 @@ class MetricManualService(
     fun getMetricManuals(): List<MetricYearSimpleDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString(),
-            type = MetricPoolConstants.MetricTypeCode.MANUAL.code
+            type = MetricPoolConst.Type.MANUAL.code
         )
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
