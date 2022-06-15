@@ -348,6 +348,9 @@ class MetricYearService(
         )
     }
 
+    /**
+     * 연도별 SLA 현황 preview
+     */
     fun metricPreviewChartData(metricId: String, year: String): MetricStatusChartDto {
         val metricStatusCondition = MetricStatusChartCondition(
             metricId = metricId,
@@ -358,7 +361,7 @@ class MetricYearService(
     }
 
     /**
-     * 연도별 지표 복사하기 모달
+     * 연도별 지표가 있는 년도 가져오기
      */
     fun getYears(): Set<String> {
         return metricYearRepository.getYears()
