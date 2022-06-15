@@ -15,6 +15,7 @@ object ZResponseConstants {
         SUCCESS_EDIT("Z-0001"),
         SUCCESS_EDIT_EMAIL("Z-0002"),
         SUCCESS_EDIT_PASSWORD("Z-0003"),
+        SUCCESS_ALREADY_LOGIN("Z-0004"),
         ERROR_FAIL("E-0000"),
         ERROR_DUPLICATE("E-0001"),
         ERROR_EXPIRED("E-0002"),

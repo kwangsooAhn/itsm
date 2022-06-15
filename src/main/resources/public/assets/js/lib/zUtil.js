@@ -18,6 +18,7 @@ aliceJs.response = {
     successEdit: 'Z-0001',
     successEditEmail: 'Z-0002',
     successEditPassword: 'Z-0003',
+    successAlreadyLogin: 'Z-0004',
     error: 'E-0000',
     duplicate: 'E-0001',
     expired: 'E-0002',
