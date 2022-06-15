@@ -1410,6 +1410,7 @@ insert into awf_url values ('/rest/sla/metric-manuals/{id}', 'delete', '수동 �
 insert into awf_url values ('/rest/sla/metrics/annual/excel', 'get', '년도별 현황 엑셀 다운로드', 'TRUE');
 insert into awf_url values ('/rest/sla/metrics/{id}/preview', 'get', '년도별 현황 미리보기', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-status', 'get', '지표별 현황 목록 화면', 'TRUE');
+insert into awf_url VALUES ('/rest/sla/metric-status/list', 'get', '년도별 지표 목록 불러오기 ', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools', 'post', 'SLA 지표 등록', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools/{id}', 'put', 'SLA 지표 변경', 'TRUE');
 insert into awf_url values ('/rest/sla/metric-pools/{id}', 'delete', 'SLA 지표 삭제', 'TRUE');
@@ -1783,6 +1784,8 @@ insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'put', 'sla.
 insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'delete', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metric-status', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metric-status', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/rest/sla/metric-status/list', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-status/list', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/rest/statistics/customChart', 'post', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.view');
