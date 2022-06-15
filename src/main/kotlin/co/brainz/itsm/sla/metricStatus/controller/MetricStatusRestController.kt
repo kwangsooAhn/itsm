@@ -9,6 +9,7 @@ import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
 import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import org.springframework.http.ResponseEntity
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,5 +27,13 @@ class MetricStatusRestController(
     @GetMapping("")
     fun getMetricStatusChartData(metricStatusChartCondition: MetricStatusChartCondition, model: Model): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricStatusService.getMetricStatusChartData(metricStatusChartCondition))
+    }
+
+    /**
+     * 년도별 기준으로 지표목록 불러오기
+     */
+    @GetMapping("/list")
+    fun getMetricYearList(metricLoadCondition: MetricLoadCondition): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricStatusService.getMetricYearList(metricLoadCondition))
     }
 }

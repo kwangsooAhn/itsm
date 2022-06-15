@@ -24,6 +24,8 @@ interface MetricYearRepositoryCustom : AliceRepositoryCustom {
 
     fun findMetricListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricYearSimpleDto>
 
+    fun findMetricYearListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricYearSimpleDto>
+
     fun findMetricYearListForExcel(year: String): List<MetricYearExcelDto>
 
     fun findMetricYear(metricId: String, year: String): MetricYearDetailDto?

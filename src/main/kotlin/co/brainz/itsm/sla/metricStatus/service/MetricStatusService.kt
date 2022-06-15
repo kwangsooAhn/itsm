@@ -8,9 +8,11 @@ package co.brainz.itsm.sla.metricStatus.service
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
+import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
@@ -32,7 +34,8 @@ import org.springframework.stereotype.Service
 class MetricStatusService(
     private val metricYearRepository: MetricYearRepository,
     private val zql: Zql,
-    private val metricManualService: MetricManualService
+    private val metricManualService: MetricManualService,
+    private val metricPoolRepository: MetricPoolRepository
 ) {
 
     fun getMetricList(): List<MetricYearSimpleDto> {
@@ -126,5 +129,21 @@ class MetricStatusService(
         }
 
         return chartData
+    }
+
+    fun getMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
+        val metricList = metricYearRepository.findMetricYearListByLoadCondition(metricLoadCondition)
+        val metricIds: MutableSet<String> = mutableSetOf()
+        metricList.forEach { metricIds.add(it.metricId) }
+
+        if (!metricLoadCondition.target.isNullOrEmpty()) {
+            val metricYearIds: LinkedHashSet<String> = linkedSetOf()
+            metricYearRepository.findByMetricYear(metricLoadCondition.target!!).forEach {
+                metricYearIds.add(it.metric.metricId)
+            }
+            metricIds.removeAll(metricYearIds)
+        }
+
+        return metricPoolRepository.findByMetricIds(metricIds)
     }
 }

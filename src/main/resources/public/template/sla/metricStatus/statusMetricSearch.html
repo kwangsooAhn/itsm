@@ -82,8 +82,8 @@
          * 지표 목록 가져오기
          */
         function getList() {
-            let urlParam = '/rest/sla/metrics?source=' + document.getElementById('statusMetricYear').value
-                + '&target=' +'&type=';
+            let urlParam = '/rest/sla/metric-status/list?source=' + document.getElementById('statusMetricYear').value
+                + '&target=' + '&type=';
             aliceJs.fetchJson(urlParam, {
                 method: 'GET'
             }).then((response) => {
