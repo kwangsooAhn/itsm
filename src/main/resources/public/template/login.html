@@ -216,8 +216,11 @@
                 body: JSON.stringify(data)
             }).then((response) => {
                 switch (response.status) {
-                    case aliceJs.response.success:
+                    case aliceJs.response.success: // 최초 로그인
                         document.loginForm.submit();
+                        break;
+                    case aliceJs.response.successAlreadyLogin: // 동일 세션 로그인
+                        location.href = '/login';
                         break;
                     case aliceJs.response.invalidUser:
                         zAlert.warning(i18n.msg('login.msg.invalidUserOrPassword'))
@@ -227,7 +230,7 @@
                         break;
                     case aliceJs.response.duplicateLogin:
                         zAlert.confirm(i18n.msg('login.msg.duplicateSessionLogin'), () => {
-                            document.loginForm.submit(); // 기존 세션 종료 , 현재 세션 로그인 처리
+                            document.loginForm.submit(); // 중복 로그인 - 기존 세션 종료 , 현재 세션 로그인 처리
                         });
                         break;
                 }

@@ -39,6 +39,7 @@ import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.DefaultRedirectStrategy
 import org.springframework.security.web.RedirectStrategy
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
@@ -259,38 +260,51 @@ class AliceUserDetailsService(
      */
     fun duplicateSessionCheck(userSimpleDto: AliceUserSimpleDto): ZResponse {
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-        val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-        val userId = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.userId)
-        val password = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.password)
+        val securityContextObject =
+            attr.request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
 
-        val code: String = when (aliceUserRepository.existsByUserId(userId)) {
-            false -> ZResponseConstants.STATUS.ERROR_INVALID_USER.code
-            true -> {
-                val userEntity = userRepository.findByUserId(userId)
-                if (!userEntity.useYn) {
-                    ZResponseConstants.STATUS.ERROR_DISABLED_USER.code
-                }
-                when (this.algorithm.toUpperCase()) {
-                    AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
-                        val bcryptPasswordEncoder = BCryptPasswordEncoder()
-                        if (!bcryptPasswordEncoder.matches(password, userEntity.password)) {
+        val code: String
+        if (securityContextObject != null) {
+            code = ZResponseConstants.STATUS.SUCCESS_ALREADY_LOGIN.code
+        } else {
+            val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+            val userId = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.userId)
+            val password = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.password)
+
+            code = when (aliceUserRepository.existsByUserId(userId)) {
+                false -> ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+                true -> {
+                    val userEntity = userRepository.findByUserId(userId)
+                    if (!userEntity.useYn) {
+                        ZResponseConstants.STATUS.ERROR_DISABLED_USER.code
+                    }
+                    when (this.algorithm.toUpperCase()) {
+                        AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                            val bcryptPasswordEncoder = BCryptPasswordEncoder()
+                            if (!bcryptPasswordEncoder.matches(password, userEntity.password)) {
+                                ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+                            } else { // 중복 로그인 체크
+                                when (sessionRegistry.allPrincipals.contains(userId)) {
+                                    true -> ZResponseConstants.STATUS.ERROR_DUPLICATE_LOGIN.code
+                                    false -> ZResponseConstants.STATUS.SUCCESS.code
+                                }
+                            }
+                        }
+                        AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                            val encryptPassword = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
+                            if (encryptPassword != userEntity.password) {
+                                ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+                            } else { // 중복 로그인 체크
+                                when (sessionRegistry.allPrincipals.contains(userId)) {
+                                    true -> ZResponseConstants.STATUS.ERROR_DUPLICATE_LOGIN.code
+                                    false -> ZResponseConstants.STATUS.SUCCESS.code
+                                }
+                            }
+                        }
+                        else -> {
                             ZResponseConstants.STATUS.ERROR_INVALID_USER.code
                         }
                     }
-                    AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
-                        val encryptPassword = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
-                        if (encryptPassword != userEntity.password) {
-                            ZResponseConstants.STATUS.ERROR_INVALID_USER.code
-                        }
-                    }
-                    else -> {
-                        ZResponseConstants.STATUS.ERROR_INVALID_USER.code
-                    }
-                }
-                //중복 로그인 체크
-                when (sessionRegistry.allPrincipals.contains(userId)) {
-                    true -> ZResponseConstants.STATUS.ERROR_DUPLICATE_LOGIN.code
-                    false -> ZResponseConstants.STATUS.SUCCESS.code
                 }
             }
         }
