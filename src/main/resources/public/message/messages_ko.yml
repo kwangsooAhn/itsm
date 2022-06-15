@@ -1414,7 +1414,7 @@ token:
     print: "처리할 문서 인쇄"
     read: "읽음"
     relatedInstance: "관련 문서"
-    relatedInstancePlaceholder: "신청서 이름 / 등록자"
+    relatedInstancePlaceholder: "문서번호 / 문서종류 / 담당자"
     searchPlaceholder: "문서번호 / 제목 / 등록자"
     status: "상태"
     startDt: "시작 일시"

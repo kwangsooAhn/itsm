@@ -33,7 +33,7 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
-import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceTopicListDto
 import co.brainz.workflow.token.service.WfTokenService
 import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
@@ -79,7 +79,7 @@ class InstanceService(
     fun findAllInstanceListByRelatedCheck(
         instanceId: String,
         searchValue: String
-    ): List<RestTemplateInstanceListDto>? {
+    ): List<RestTemplateInstanceTopicListDto>? {
         return wfInstanceService.findAllInstanceListByRelatedCheck(instanceId, searchValue)
     }
 

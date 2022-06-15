@@ -1411,7 +1411,7 @@ token:
     print: "Process Document Print"
     read: "Read"
     relatedInstance: "Related Documents"
-    relatedInstancePlaceholder: "Document Name / Create User"
+    relatedInstancePlaceholder: "Document No / Document Type / Assignee"
     searchPlaceholder: "Document No / Title / Create User"
     startDt: "Start Date"
     status: "Status"

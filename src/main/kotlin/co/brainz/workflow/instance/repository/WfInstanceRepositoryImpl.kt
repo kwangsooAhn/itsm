@@ -607,6 +607,8 @@ class WfInstanceRepositoryImpl(
         instanceId: String,
         searchValue: String
     ): MutableList<RestTemplateInstanceListDto> {
+        val startDtSubToken = QWfTokenEntity.wfTokenEntity
+
         val query = from(instance)
             .select(
                 Projections.constructor(
@@ -615,8 +617,8 @@ class WfInstanceRepositoryImpl(
                     document.documentName,
                     instance.documentNo,
                     instance.instanceStartDt,
-                    instance.instanceEndDt,
-                    user.userKey,
+                    token.tokenId,
+                    token.assigneeId,
                     user.userName,
                     ExpressionUtils.`as`(
                         JPAExpressions.select(
@@ -645,7 +647,8 @@ class WfInstanceRepositoryImpl(
             )
             .distinct()
             .innerJoin(document).on(document.documentId.eq(instance.document.documentId))
-            .leftJoin(user).on(user.userKey.eq(instance.instanceCreateUser.userKey))
+            .innerJoin(token).on(instance.instanceId.eq(token.instance.instanceId))
+            .leftJoin(user).on(user.userKey.eq(token.assigneeId))
             .where(
                 instance.instanceId.notIn(instanceId).and(
                     instance.instanceId.notIn(
@@ -654,11 +657,26 @@ class WfInstanceRepositoryImpl(
                             .from(token)
                             .where(token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code))
                     )
+                    // 최신 토큰값 조회를 위해 tokenId.max() 대신 tokenStartDt.max()로 수정 (#12080 참고)
+                ).and(
+                    token.tokenId.eq(
+                        from(token)
+                            .select(token.tokenId.max())
+                            .where(
+                                token.tokenStartDt.eq(
+                                    from(startDtSubToken)
+                                        .select(startDtSubToken.tokenStartDt.max())
+                                        .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                                )
+                            )
+
+                    )
                 )
             )
         if (searchValue.isNotEmpty()) {
             query.where(
                 document.documentName.likeIgnoreCase("%$searchValue%")
+                    .or(instance.documentNo.likeIgnoreCase("%$searchValue%"))
                     .or(user.userName.likeIgnoreCase("%$searchValue%"))
             )
         }
