@@ -45,20 +45,5 @@ $font-weight-bold:                            700 !default;
 $font-weight-extrabold:                       800 !default;
 $font-weight-black:                           900 !default;
 
-// font face 설정 mixin
-// @include fontFace("Pretendard", $font-folder-path + "/" + $fname , "opentype", normal, $weight);
-@mixin fontFace($name, $path, $format, $style, $weight) {
-  @font-face {
-    font-family: $name;
-    src: local($name), url($path) format($format);
-    font-style: if($style == null, normal, $style);
-    font-weight: $weight;
-  }
-}
-
-@each $fname, $weight in $font-face-map {
-  @include fontFace("Pretendard", $font-folder-path + "/" + $fname , "woff2", normal, $weight);
-}
-
 // 굵기
 .font-bold { font-weight: $font-weight-bold; } // 700

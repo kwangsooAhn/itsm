@@ -75,13 +75,13 @@
     font-size: $font-size-xs;
 
     &.i-unit-search {
-      background: url($icon-folder-path + "formDesigner/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
+      background: url($icon-folder-path + "designer/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
       background-color: $white;
       padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
     }
 
     &.i-unit-px {
-      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
+      background: url($icon-folder-path + "designer/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
       background-color: $white;
       padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
       text-align: right;

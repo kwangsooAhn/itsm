@@ -8,7 +8,7 @@
     let initialStatus = null;
     const i18nMsgPrefix = 'process.designer.attribute.';
     const data = {};
-    const iconDirectory = '/assets/media/icons/process';
+    const iconDirectory = '/assets/media/icons/designer';
     const itemSize = 22;
     const itemMargin = 10;
     const assigneeTypeData = {

@@ -1017,6 +1017,39 @@ input, button, select, optgroup, textarea {
  * @author jy.lim
  * @version 1.0
  */
+.font-bold {
+  font-weight: 700;
+}
+
+.horizontal-bar {
+  height: 0.0625rem;
+  margin: 0.9375rem;
+  background-color: #ABB0B5;
+}
+
+.vertical-bar {
+  width: 1.875rem;
+  min-height: 1.875rem;
+  border-right: 0.0625rem solid #ABB0B5;
+  margin: 0 1.875rem 0 0;
+  vertical-align: middle;
+}
+
+.under-bar {
+  border-bottom: 0.0625rem solid #3373C4;
+  padding-bottom: 0.625rem;
+  margin-bottom: 0.625rem;
+  margin-top: 1.875rem;
+}
+.under-bar .bold {
+  border-bottom: calc(0.0625rem * 2) solid #3373C4;
+}
+.under-bar label {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #757575;
+}
+
 @font-face {
   font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-Thin.woff2") format("woff2");
@@ -1071,981 +1104,6 @@ input, button, select, optgroup, textarea {
   font-style: normal;
   font-weight: 900;
 }
-.font-bold {
-  font-weight: 700;
-}
-
-/* _icons.scss
- *
- * 공통으로 사용되는 아이콘
- *
- * <선언 방법>
- * <span class="z-icon i-delete"></span>
- ** z-icon : 공통 아이콘 클래스
- ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
- *
- * 파일 경로 : foundations/_icons.scss
- * @description 공통 아이콘
- * @author wdj
- * @version 1.0
- */
-.z-icon {
-  display: inline-block;
-  -webkit-print-color-adjust: exact;
-}
-.z-icon.i-search {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_search.svg");
-  mask-image: url("../../assets/media/icons/icon_search.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-delete {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
-  mask-image: url("../../assets/media/icons/icon_delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-list-delete {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-edit {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_edit.svg");
-  mask-image: url("../../assets/media/icons/icon_edit.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-popup {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_popup.svg");
-  mask-image: url("../../assets/media/icons/icon_popup.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-clipboard {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_clipboard.svg");
-  mask-image: url("../../assets/media/icons/icon_clipboard.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-plus {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_plus.svg");
-  mask-image: url("../../assets/media/icons/icon_plus.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-minus {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_minus.svg");
-  mask-image: url("../../assets/media/icons/icon_minus.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-check {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_check.svg");
-  mask-image: url("../../assets/media/icons/icon_check.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-remove {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
-  mask-image: url("../../assets/media/icons/icon_clear.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-copy {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_copy.svg");
-  mask-image: url("../../assets/media/icons/icon_copy.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-arrow-right {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_arrow_right.svg");
-  mask-image: url("../../assets/media/icons/icon_arrow_right.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-arrow-double {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_arrow_double.svg");
-  mask-image: url("../../assets/media/icons/icon_arrow_double.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-color-palette {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/colorPicker/icon_color_palette.svg");
-  mask-image: url("../../assets/media/icons/colorPicker/icon_color_palette.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-image {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_image.svg");
-  mask-image: url("../../assets/media/icons/icon_image.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-folder {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_folder.svg");
-  mask-image: url("../../assets/media/icons/icon_folder.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-download {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_download.svg");
-  mask-image: url("../../assets/media/icons/fileUploader/icon_download.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-list-download {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_list-download.svg");
-  mask-image: url("../../assets/media/icons/icon_list-download.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-upload {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_upload.svg");
-  mask-image: url("../../assets/media/icons/fileUploader/icon_upload.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-tooltip {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_tooltip.svg");
-  mask-image: url("../../assets/media/icons/icon_tooltip.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-download-as-excel {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_download_xls.svg");
-  mask-image: url("../../assets/media/icons/icon_download_xls.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-sorting {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_sorting.svg");
-  mask-image: url("../../assets/media/icons/icon_sorting.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-board {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_board.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_board.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-statistic {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_statistic.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_statistic.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-dashboard {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_dashboard.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_dashboard.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-document {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_document.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_document.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-archive {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_download.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_download.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-faq {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_faq.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_faq.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-notice {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_notice.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_notice.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-config {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_config.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_config.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-workflow {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_workflow.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_workflow.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-token {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_token.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_token.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb-cmdb {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_cmdb.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_cmdb.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gnb_sub_dot {
-  width: 0.25rem;
-  height: 0.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_sub_dot.svg");
-  mask-image: url("../../assets/media/icons/gnb/icon_gnb_sub_dot.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-save {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_save.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_save.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-save-as {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_save_as.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_save_as.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-undo {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_undo.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_undo.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-redo {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_redo.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_redo.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-preview {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_preview.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/topmenu/icon_preview.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-inputBox {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_inputbox.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_inputbox.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-textArea {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_textarea.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_textarea.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-textEditor {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_text_editor.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_text_editor.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-dropdown {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_dropdown.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_dropdown.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-radio {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_radio.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_radio.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-checkBox {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_checkbox.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_checkbox.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-date {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_date.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_date.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-time {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_time.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_time.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-dateTime {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_datetime.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_datetime.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-fileUpload {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_fileupload.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_fileupload.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-customCode {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_custom_code.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_custom_code.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-dynamicRowTable {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_dynamic_row_table.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-ci {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_ci.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_ci.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-label {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_label.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_label.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-image {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_image.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_image.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-divider {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_divider.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_divider.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-fileDownload {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_filedownload.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_filedownload.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-userSearch {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_user.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_user.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-dropdownCode {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_dropdownCode.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_dropdownCode.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-userSearch {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_user.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_user.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-organizationSearch {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_organization.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_organization.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-historyInquiry {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_historyinquiry.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_historyinquiry.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-modalButton {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/palette/icon_modalButton.svg ");
-  mask-image: url("../../assets/media/icons/formDesigner/palette/icon_modalButton.svg ");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-copy {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/tooltip/icon_copy.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/tooltip/icon_copy.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-delete {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/tooltip/icon_remove.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/tooltip/icon_remove.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-no-image {
-  width: 100%;
-  height: 2.813rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/form/icon_image_component.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/form/icon_image_component.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: 2.813rem;
-  mask-size: 2.813rem;
-  background: #ABB0B5;
-}
-.z-icon.i-align-left {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_align_left.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_align_left.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-align-center {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_align_center.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_align_center.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-align-right {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_align_right.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_align_right.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-position-left {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_label_position_left.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_label_position_left.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-position-top {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_label_position_top.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_label_position_top.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-position-hidden {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_label_position_hidden.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_label_position_hidden.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-display-position-left {
-  width: 20px;
-  height: 20px;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_display_left.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_display_left.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-display-position-right {
-  width: 20px;
-  height: 20px;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_display_right.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_display_right.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-bold {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_bold.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_bold.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-italic {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_italic.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_italic.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-underline {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/formDesigner/property/icon_underline.svg");
-  mask-image: url("../../assets/media/icons/formDesigner/property/icon_underline.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-save {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/topmenu/icon_save.svg");
-  mask-image: url("../../assets/media/icons/process/topmenu/icon_save.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-save-as {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/topmenu/icon_save_as.svg");
-  mask-image: url("../../assets/media/icons/process/topmenu/icon_save_as.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-undo {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/topmenu/icon_undo.svg");
-  mask-image: url("../../assets/media/icons/process/topmenu/icon_undo.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-redo {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/topmenu/icon_redo.svg");
-  mask-image: url("../../assets/media/icons/process/topmenu/icon_redo.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-simulation {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/topmenu/icon_simulation.svg");
-  mask-image: url("../../assets/media/icons/process/topmenu/icon_simulation.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-image-download {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/topmenu/icon_image_download.svg");
-  mask-image: url("../../assets/media/icons/process/topmenu/icon_image_download.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-task {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_task.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_task.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-subprocess {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_subprocess.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_subprocess.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-gateway {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_gateway.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_gateway.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-group {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_group.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_group.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-annotation {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_annotation.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_annotation.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-connector {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_connector.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_connector.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-background {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_background.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_background.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-event {
-  width: 2rem;
-  height: 2rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/element-palette/icon_event.svg");
-  mask-image: url("../../assets/media/icons/process/element-palette/icon_event.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-minimap {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/editor/icon_map.svg");
-  mask-image: url("../../assets/media/icons/process/editor/icon_map.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-simulation-report {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/process/editor/icon_simulation_report.svg");
-  mask-image: url("../../assets/media/icons/process/editor/icon_simulation_report.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-
-.horizontal-bar {
-  height: 0.0625rem;
-  margin: 0.9375rem;
-  background-color: #ABB0B5;
-}
-
-.vertical-bar {
-  width: 1.875rem;
-  min-height: 1.875rem;
-  border-right: 0.0625rem solid #ABB0B5;
-  margin: 0 1.875rem 0 0;
-  vertical-align: middle;
-}
-
-.under-bar {
-  border-bottom: 0.0625rem solid #3373C4;
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  margin-top: 1.875rem;
-}
-.under-bar .bold {
-  border-bottom: calc(0.0625rem * 2) solid #3373C4;
-}
-.under-bar label {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #757575;
-}
-
 .underline {
   text-decoration: underline;
   text-underline-position: under;
@@ -2581,6 +1639,948 @@ input, button, select, optgroup, textarea {
   margin-left: auto;
 }
 
+/* _icons.scss
+ *
+ * 공통으로 사용되는 아이콘
+ *
+ * <선언 방법>
+ * <span class="z-icon i-delete"></span>
+ ** z-icon : 공통 아이콘 클래스
+ ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
+ *
+ * 파일 경로 : foundations/_icons.scss
+ * @description 공통 아이콘
+ * @author wdj
+ * @version 1.0
+ */
+.z-icon {
+  display: inline-block;
+  -webkit-print-color-adjust: exact;
+}
+.z-icon.i-search {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_search.svg");
+  mask-image: url("../../assets/media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-delete {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-list-delete {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_list-delete.svg");
+  mask-image: url("../../assets/media/icons/icon_list-delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-edit {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_edit.svg");
+  mask-image: url("../../assets/media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-popup {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_popup.svg");
+  mask-image: url("../../assets/media/icons/icon_popup.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-clipboard {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_clipboard.svg");
+  mask-image: url("../../assets/media/icons/icon_clipboard.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-plus {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_plus.svg");
+  mask-image: url("../../assets/media/icons/icon_plus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-minus {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_minus.svg");
+  mask-image: url("../../assets/media/icons/icon_minus.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-check {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_check.svg");
+  mask-image: url("../../assets/media/icons/icon_check.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-remove {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
+  mask-image: url("../../assets/media/icons/icon_clear.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-copy {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_copy.svg");
+  mask-image: url("../../assets/media/icons/icon_copy.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-arrow-right {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_arrow_right.svg");
+  mask-image: url("../../assets/media/icons/icon_arrow_right.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-arrow-double {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_arrow_double.svg");
+  mask-image: url("../../assets/media/icons/icon_arrow_double.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-color-palette {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/colorPicker/icon_color_palette.svg");
+  mask-image: url("../../assets/media/icons/colorPicker/icon_color_palette.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-image {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_image.svg");
+  mask-image: url("../../assets/media/icons/icon_image.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-folder {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_folder.svg");
+  mask-image: url("../../assets/media/icons/icon_folder.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-download {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_download.svg");
+  mask-image: url("../../assets/media/icons/fileUploader/icon_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-list-download {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_list-download.svg");
+  mask-image: url("../../assets/media/icons/icon_list-download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-upload {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_upload.svg");
+  mask-image: url("../../assets/media/icons/fileUploader/icon_upload.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-tooltip {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_tooltip.svg");
+  mask-image: url("../../assets/media/icons/icon_tooltip.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-download-as-excel {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_download_xls.svg");
+  mask-image: url("../../assets/media/icons/icon_download_xls.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-sorting {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_sorting.svg");
+  mask-image: url("../../assets/media/icons/icon_sorting.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-board {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_board.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_board.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-statistic {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_statistic.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_statistic.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-dashboard {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_dashboard.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_dashboard.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-document {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_document.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_document.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-archive {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_download.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-faq {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_faq.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_faq.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-notice {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_notice.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_notice.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-config {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_config.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_config.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-workflow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_workflow.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_workflow.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-token {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_token.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_token.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb-cmdb {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_cmdb.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_cmdb.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gnb_sub_dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_sub_dot.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_sub_dot.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-save {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_save.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-save-as {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save_as.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_save_as.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-undo {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_undo.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_undo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-redo {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_redo.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_redo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-preview {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_preview.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_preview.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-copy {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-delete {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-no-image {
+  width: 100%;
+  height: 2.813rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/form/icon_image_component.svg");
+  mask-image: url("../../assets/media/icons/designer/form/icon_image_component.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 2.813rem;
+  mask-size: 2.813rem;
+  background: #ABB0B5;
+}
+.z-icon.i-inputBox {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_inputbox.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_inputbox.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-textArea {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_textarea.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_textarea.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-textEditor {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_text_editor.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_text_editor.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-dropdown {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dropdown.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_dropdown.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-radio {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_radio.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_radio.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-checkBox {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_checkbox.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_checkbox.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-date {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_date.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_date.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-time {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_time.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_time.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-dateTime {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_datetime.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_datetime.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-fileUpload {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_fileupload.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_fileupload.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-customCode {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_custom_code.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_custom_code.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-dynamicRowTable {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dynamic_row_table.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_dynamic_row_table.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-ci {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_ci.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_ci.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-label {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_label.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_label.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-image {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_image.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_image.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-divider {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_divider.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_divider.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-fileDownload {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_filedownload.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_filedownload.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-userSearch {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-dropdownCode {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dropdownCode.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_dropdownCode.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-userSearch {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-organizationSearch {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_organization.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_organization.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-historyInquiry {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_historyinquiry.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_historyinquiry.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-modalButton {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-align-left {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_left.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_align_left.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-align-center {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_center.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_align_center.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-align-right {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_right.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_align_right.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-position-left {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_left.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_label_position_left.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-position-top {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_top.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_label_position_top.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-position-hidden {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_hidden.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_label_position_hidden.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-display-position-left {
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_display_left.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_display_left.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-display-position-right {
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_display_right.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_display_right.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-bold {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_bold.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_bold.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-italic {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_italic.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_italic.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-underline {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_underline.svg");
+  mask-image: url("../../assets/media/icons/designer/property/icon_underline.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-save {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_save.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-save-as {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save_as.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_save_as.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-undo {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_undo.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_undo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-redo {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_redo.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_redo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-simulation {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_simulation.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_simulation.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-image-download {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_image_download.svg");
+  mask-image: url("../../assets/media/icons/designer/topmenu/icon_image_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-task {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_task.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_task.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-subprocess {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_subprocess.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_subprocess.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-gateway {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_gateway.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_gateway.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-group {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_group.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_group.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-annotation {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_annotation.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_annotation.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-connector {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_connector.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_connector.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-background {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_background.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_background.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-event {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_event.svg");
+  mask-image: url("../../assets/media/icons/designer/element-palette/icon_event.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-minimap {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/editor/icon_map.svg");
+  mask-image: url("../../assets/media/icons/designer/editor/icon_map.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-simulation-report {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/editor/icon_simulation_report.svg");
+  mask-image: url("../../assets/media/icons/designer/editor/icon_simulation_report.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
 /* _layout.scss
  *
  * 파일 경로 : template/_layout.scss
@@ -2916,7 +2916,7 @@ input, button, select, optgroup, textarea {
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-date-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-date-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-date-picker {
-  background-image: url("../../assets/media/icons/formDesigner/palette/icon_date_picker_drag.svg");
+  background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -2925,7 +2925,7 @@ input, button, select, optgroup, textarea {
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-time-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-time-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-time-picker {
-  background-image: url("../../assets/media/icons/formDesigner/palette/icon_time_picker_drag.svg");
+  background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -2934,7 +2934,7 @@ input, button, select, optgroup, textarea {
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-datetime-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-datetime-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-datetime-picker {
-  background-image: url("../../assets/media/icons/formDesigner/palette/icon_date_time_picker_drag.svg");
+  background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
@@ -8443,12 +8443,12 @@ span.modal_node_selected label {
   font-size: 0.875rem;
 }
 .property .z-input:not(.tagify).i-unit-search {
-  background: url("../../assets/media/icons/formDesigner/unit/icon_unit_search.svg") no-repeat 97% 50%;
+  background: url("../../assets/media/icons/designer/unit/icon_unit_search.svg") no-repeat 97% 50%;
   background-color: #FFFFFF;
   padding: 0 1.875rem 0 0.5rem;
 }
 .property .z-input:not(.tagify).i-unit-px {
-  background: url("../../assets/media/icons/formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
+  background: url("../../assets/media/icons/designer/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
   background-color: #FFFFFF;
   padding: 0 1.875rem 0 0.5rem;
   text-align: right;

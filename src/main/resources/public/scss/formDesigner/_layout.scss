@@ -313,15 +313,15 @@ $component-icon: (
             }
             // 날짜 시간 컴포넌트
             &.i-date-picker {
-              @include backgroundImage($icon-folder-path + 'formDesigner/palette/icon_date_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+              @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
 
             &.i-time-picker {
-              @include backgroundImage($icon-folder-path + 'formDesigner/palette/icon_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+              @include backgroundImage($icon-folder-path + 'designer/palette/icon_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
 
             &.i-datetime-picker {
-              @include backgroundImage($icon-folder-path + 'formDesigner/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+              @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
           }
           .z-radio,
