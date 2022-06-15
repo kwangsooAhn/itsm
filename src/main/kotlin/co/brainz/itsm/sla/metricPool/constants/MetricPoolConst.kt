@@ -5,32 +5,32 @@
 
 package co.brainz.itsm.sla.metricPool.constants
 
-object MetricPoolConstants {
+object MetricPoolConst {
 
     /**
      * metric type p_code
      */
-    const val METRIC_TYPE_P_CODE = "sla.metricType"
+    const val TYPE_P_CODE = "sla.metricType"
 
     /**
      * metric UNIT p_code
      */
-    const val METRIC_UNIT_P_CODE = "sla.metricUnit"
+    const val UNIT_P_CODE = "sla.metricUnit"
 
     /**
      * metric calculation type p_code
      */
-    const val METRIC_CALCULATION_TYPE_P_CODE = "sla.calculationType"
+    const val CALCULATION_TYPE_P_CODE = "sla.calculationType"
 
     /**
      * metric group p_code
      */
-    const val METRIC_GROUP_P_CODE = "sla.metricGroup"
+    const val GROUP_P_CODE = "sla.metricGroup"
 
     /**
      * metric type code
      */
-    enum class MetricTypeCode(val code: String) {
+    enum class Type(val code: String) {
         AUTO("sla.metricType.auto"),
         MANUAL("sla.metricType.manual")
     }
@@ -38,7 +38,7 @@ object MetricPoolConstants {
     /**
      * Metric calculation type
      */
-    enum class MetricCalculationTypeCode(val code: String) {
+    enum class CalculationType(val code: String) {
         SUM("sla.calculationType.sum"),
         PERCENTAGE("sla.calculationType.percentage"),
         AVERAGE("sla.calculationType.average"),

@@ -10,7 +10,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
-import co.brainz.itsm.sla.metricPool.dto.MetricDto
+import co.brainz.itsm.sla.metricPool.dto.MetricData
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
@@ -58,17 +58,17 @@ class MetricPoolService(
      * 지표 신규 등록
      */
     @Transactional
-    fun createMetric(metricDto: MetricDto): ZResponse {
-        val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
+    fun createMetric(metricData: MetricData): ZResponse {
+        val status = this.checkMetricName(metricData.metricId, metricData.metricName.trim())
         if (status == ZResponseConstants.STATUS.SUCCESS) {
             metricPoolRepository.save(
                 MetricPoolEntity(
-                    metricName = metricDto.metricName.trim(),
-                    metricDesc = metricDto.metricDesc,
-                    metricGroup = metricDto.metricGroup,
-                    metricType = metricDto.metricType,
-                    metricUnit = metricDto.metricUnit,
-                    calculationType = metricDto.calculationType,
+                    metricName = metricData.metricName.trim(),
+                    metricDesc = metricData.metricDesc,
+                    metricGroup = metricData.metricGroup,
+                    metricType = metricData.metricType,
+                    metricUnit = metricData.metricUnit,
+                    calculationType = metricData.calculationType,
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )
@@ -82,7 +82,7 @@ class MetricPoolService(
     /**
      * 지표 세부 정보 조회
      */
-    fun getMetricDetail(metricId: String): MetricDto {
+    fun getMetricDetail(metricId: String): MetricData {
         return metricPoolRepository.findMetric(metricId)
     }
 
@@ -90,13 +90,13 @@ class MetricPoolService(
      * 지표 편집
      */
     @Transactional
-    fun updateMetric(metricId: String, metricDto: MetricDto): ZResponse {
-        val status = this.checkMetricName(metricDto.metricId, metricDto.metricName.trim())
+    fun updateMetric(metricId: String, metricData: MetricData): ZResponse {
+        val status = this.checkMetricName(metricData.metricId, metricData.metricName.trim())
         if (status == ZResponseConstants.STATUS.SUCCESS) {
             val metricEntity = metricPoolRepository.findByMetricId(metricId)
-            metricEntity.metricName = metricDto.metricName
-            metricEntity.metricDesc = metricDto.metricDesc
-            metricEntity.metricGroup = metricDto.metricGroup
+            metricEntity.metricName = metricData.metricName
+            metricEntity.metricDesc = metricData.metricDesc
+            metricEntity.metricGroup = metricData.metricGroup
             metricEntity.updateUserKey = currentSessionUser.getUserKey()
             metricEntity.updateDt = LocalDateTime.now()
 
