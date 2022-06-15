@@ -23,7 +23,7 @@
     <form id="searchFrm">
         <div class="flex-row align-items-end">
             <select id="statusMetricYear" class="flex-column col-2 mr-1">
-                <option th:each="yearsList: ${yearsList}" th:text="${yearsList}" th:value="${yearsList}" ></option>
+                <option th:each="yearsList: ${yearsList}" th:text="${yearsList}" th:value="${yearsList}"></option>
             </select>
             <select id="statusMetricName" class="flex-column col-2 mr-3"></select>
             <div class="flex-column">
@@ -66,6 +66,15 @@
             statusMetricYear.addEventListener('change', function() { getList(); });
             statusMetricName.addEventListener('change', function() { getChart(); });
             statusChartType.forEach(elem => { elem.addEventListener('click', function() { getChart(); }); });
+            if ( statusMetricName.value === "" || statusMetricYear.value === "") {
+                const container = document.getElementById('container');
+                const noData = `
+                <div class="grid__row grid--noData read-only align-center">
+                    <label>${i18n.msg('common.msg.noData')}</label>
+                </div>
+            `;
+                container.insertAdjacentHTML('beforeend', noData);
+            }
             getList();
         };
 
@@ -99,19 +108,26 @@
          * 차트 데이터 조회
          */
         function getChart() {
-            let url = '/rest/sla/metric-status?metricId=' + document.getElementById('statusMetricName').value
-                + '&year=' + document.getElementById('statusMetricYear').value
-                + '&chartType=' + document.querySelector('input[name="chartType"]:checked').value;
-            aliceJs.fetchJson(url, {
-                method: 'GET',
-                showProgressbar: true
-            }).then((response) => {
-                if (response.status !== aliceJs.response.success) { return false; }                // 기존 차트를 지우고 새로 그려준다.
-                // 기존 차트를 지우고 새로 그려준다.
-                zChartManager.destroy();
-                // 차트 초기화
-                zChartManager.load(response.data);
-            });
+            const metricName = document.getElementById('statusMetricName').value;
+            const metricYear = document.getElementById('statusMetricYear').value;
+
+            if ( metricName !== "" && metricYear !== "") {
+                let url = '/rest/sla/metric-status?metricId=' + metricName
+                    + '&year=' + metricYear
+                    + '&chartType=' + document.querySelector('input[name="chartType"]:checked').value;
+                aliceJs.fetchJson(url, {
+                    method: 'GET',
+                    showProgressbar: true
+                }).then((response) => {
+                    if (response.status !== aliceJs.response.success) {
+                        return false;
+                    }                // 기존 차트를 지우고 새로 그려준다.
+                    // 기존 차트를 지우고 새로 그려준다.
+                    zChartManager.destroy();
+                    // 차트 초기화
+                    zChartManager.load(response.data);
+                });
+            }
         }
         /*]]>*/
     </script>
