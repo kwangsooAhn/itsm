@@ -105,7 +105,7 @@ class MetricManualService(
     /**
      * 수동인 대상지표 목록 조회
      */
-    fun getMetricManualData(): List<MetricYearSimpleDto> {
+    fun getMetricManuals(): List<MetricYearSimpleDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString(),
             type = MetricPoolConstants.MetricTypeCode.MANUAL.code

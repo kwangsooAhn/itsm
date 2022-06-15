@@ -27,7 +27,7 @@ class MetricManualController(
      */
     @GetMapping("/search")
     fun getMetricManualSearch(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("metricList", metricManualService.getMetricPoolsByManual())
+        model.addAttribute("metricList", metricManualService.getMetricsByManual())
         return metricManualSearchPage
     }
 
@@ -47,7 +47,7 @@ class MetricManualController(
      */
     @GetMapping("/new")
     fun getMetricManualNew(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("metricList", metricManualService.getMetricManualData())
+        model.addAttribute("metricList", metricManualService.getMetricManuals())
         return metricManualNewModalPage
     }
 }
