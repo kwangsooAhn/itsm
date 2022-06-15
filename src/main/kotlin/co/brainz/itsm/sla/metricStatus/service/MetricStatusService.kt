@@ -42,10 +42,10 @@ class MetricStatusService(
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
-    fun getMetricStatusChartData(metricStatusChartCondition: MetricStatusChartCondition): MetricStatusChartDto {
+    fun getMetricStatusChartData(metricStatusChartCondition: MetricStatusChartCondition): MetricStatusChartDto? {
         val metricDto =
-            metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year)
-        val chartConfig = this.initChartConfig(metricStatusChartCondition.year)
+            metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year) ?: return null
+
         val tag = mutableListOf<AliceTagDto>()
         tag.add(AliceTagDto(tagId = "", tagValue = metricDto.metricName))
 
@@ -56,7 +56,7 @@ class MetricStatusService(
             metricName = metricDto.metricName,
             metricDesc = metricDto.comment,
             tags = tag,
-            chartConfig = chartConfig,
+            chartConfig = this.initChartConfig(metricStatusChartCondition.year),
             chartData = this.initZqlCalculatedData(metricStatusChartCondition),
             zqlString = metricDto.zqlString
         )
@@ -82,7 +82,7 @@ class MetricStatusService(
         val to = LocalDateTime.of(metricStatusChartCondition.year.toInt(), 12, 31, 23, 59, 59)
         val chartData = mutableListOf<ChartData>()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if (metric.metricType == MetricPoolConst.Type.MANUAL.code) {
+        if (metric!!.metricType == MetricPoolConst.Type.MANUAL.code) {
             for (i in 1..12) {
                 val month = LocalDate.of(metricStatusChartCondition.year.toInt(), i, 1)
                 val point = metricManualService.getManualPointSum(
@@ -108,7 +108,7 @@ class MetricStatusService(
                 .setInstanceStatus(InstanceStatus.FINISH)
                 .setCriteria(ZqlInstanceDateCriteria.END)
 
-            val calculatedData:  List<ZqlCalculatedData> = when (metric.calculationType) {
+            val calculatedData: List<ZqlCalculatedData> = when (metric.calculationType) {
                 MetricPoolConst.CalculationType.SUM.code -> zql.sum()
                 MetricPoolConst.CalculationType.PERCENTAGE.code -> zql.percentage()
                 MetricPoolConst.CalculationType.AVERAGE.code -> zql.average()

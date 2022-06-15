@@ -124,7 +124,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
             .fetch()
     }
 
-    override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto {
+    override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto? {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val groupCode = QCodeEntity.codeEntity
