@@ -14,13 +14,13 @@ body.modal-active {
   @include resetPosition();
   display: none;
   overflow:auto;
-  z-index: $z-index-modal;
+  z-index: 1000;
 
   &.modal-active { display: block; }
 
   .modal-backdrop {
     @include resetPosition();
-    z-index: $z-index-between-alert-modal;
+    z-index: 5000;
     background-color: hexToRGBA($gray600, 0.6);
   }
 
@@ -30,7 +30,7 @@ body.modal-active {
     background-color: $white;
     opacity: 0;
     transition: 0.3s;
-    z-index: $z-index-between-alert-modal;
+    z-index: 5000;
     @include absolute(4em, 0, null, 0);
     @include borderRadius(0.25rem); // 4px
     @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray600);
@@ -56,7 +56,7 @@ body.modal-active {
     }
 
     .modal-bottom {
-      height: $modal-bottom-height;
+      height: 5rem; // 80px
       padding: 1.25rem 1.25rem; // 20px
     }
   }

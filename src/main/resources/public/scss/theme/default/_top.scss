@@ -72,7 +72,7 @@
             font-size: $font-size-xs;
             @include border(0.0625rem, solid, $gray300, all); // 1px
             @include borderRadius(0.25rem); // 4px
-            z-index: $z-index-gnb;
+            z-index: 100;
         }
         &-item {
             width: 118px;

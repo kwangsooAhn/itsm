@@ -14,9 +14,9 @@
   .property-group-label {
     width: 100%;
     font-family: $font-family;
-    font-size: $property-group-label-font-size;
+    font-size: $font-size-m ; // 16px
     font-weight: $font-weight-medium;
-    color: $property-group-label-color;
+    color: $neutral600;
   }
 }
 
@@ -30,7 +30,7 @@
   .property-label {
     @include relative();
     font-size: $font-size-xs;
-    color: $property-label-color;
+    color: $neutral600;
 
     .property-label-text {
       display: inline-block;

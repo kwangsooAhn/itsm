@@ -223,7 +223,7 @@ label {
 
     &:focus,
     &:hover {
-      z-index: $z-index-event;
+      z-index: 25;
     }
   }
   button {
@@ -234,7 +234,7 @@ label {
     &:focus,
     &:hover,
     &:active {
-      z-index: $z-index-event;
+      z-index: 25;
     }
   }
 }
@@ -286,11 +286,11 @@ input, textarea, select {
       @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
 
       &[data-error] {
-        @include border($validation-error-border-width, solid, $validation-error-border-color, all);
+        @include border(0.0625rem, solid, $red500, all);
         @include boxShadow(0, 0, 0, 0, $white);
       }
       &[data-success] {
-        @include border($validation-success-border-width, solid, $validation-success-border-color, all);
+        @include border(0.0625rem, solid, $green500, all);
         @include boxShadow(0, 0, 0, 0, $white);
       }
     }
@@ -326,11 +326,11 @@ input, textarea, select {
   }
 
   &.error {
-    @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+    @include border(0.0625rem, solid, $red500 !important, all);
   }
 
   &.success {
-    @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
+    @include border(0.0625rem, solid, $green500 !important, all);
   }
 
   // z-input with background img
@@ -381,7 +381,7 @@ input, textarea, select {
       &:focus,
       &:hover,
       &:active {
-        z-index: $z-index-event;
+        z-index: 25;
       }
     }
 
@@ -481,11 +481,11 @@ input, textarea, select {
   }
 
   &.error {
-    @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+    @include border(0.0625rem, solid, $red500 !important, all);
   }
 
   &.success {
-    @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
+    @include border(0.0625rem, solid, $green500 !important, all);
   }
 }
 // os-div 작업
@@ -704,7 +704,7 @@ select {
     display: none;
     list-style: none;
     @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
-    z-index: $z-index-between-alert-modal;
+    z-index: 5000;
     padding: 0.25rem 0; // 4px
     margin: 0;
     @include border(0.0625rem, solid, $gray400, all);
@@ -750,7 +750,7 @@ select {
 .z-slider {
   min-height: 1.375rem; // 22px
   .z-range {
-    --range-fill-color: #{$slider-range-fill-color};
+    --range-fill-color: #{$blue500};
     --range-location: 100%;
     -webkit-appearance: none;
     appearance: none;
@@ -759,57 +759,57 @@ select {
     height: 0.375rem; // 6px
     padding: 0;
     @include borderRadius(0.25rem); // 4px
-    background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
+    background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $neutral200 var(--range-location), $neutral200 100%);
     outline: 0;
 
     &:disabled {
-      --range-fill-color: #{$slider-range-disabled-fill-color};
-      background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
+      --range-fill-color: #{$gray300};
+      background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $neutral200 var(--range-location), $neutral200 100%);
     }
 
     // Thumb (= round button)
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      @include thumb($slider-thumb-size, $slider-thumb-size, 0.0625rem solid $slider-thumb-border-color, 50%, $slider-thumb-bg-color); // 18px 18px
-      @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-shadow-color); // 2px
+      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
       &:hover {
-        border-color: $slider-thumb-hover-border-color;
-        background-color: $slider-thumb-hover-bg-color;
+        border-color: $blue400;
+        background-color: $blue100;
       }
       &:focus {
-        border-color: $slider-thumb-focus-border-color;
+        border-color: $blue600;
         @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
       }
       &:active {
-        border-color: $slider-thumb-active-border-color;
-        background-color: $slider-thumb-active-bg-color;
+        border-color: $blue500;
+        background-color: $blue200;
       }
       &:disabled {
-        border-color: $slider-thumb-disabled-border-color;
-        background-color: $slider-thumb-disabled-bg-color;
+        border-color: $gray300;
+        background-color: $neutral200;
       }
     }
 
     // firefox
     &::-moz-range-thumb { // 동그라미
-      @include thumb($slider-thumb-size, $slider-thumb-size, 0.0625rem solid $slider-thumb-border-color, 50%, $slider-thumb-bg-color); // 18px 18px
-      @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-shadow-color); // 2px
+      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
       &:hover {
-        border-color: $slider-thumb-hover-border-color;
+        border-color: $blue400;
         background-color: $blue100;
       }
       &:focus {
-        border-color: $slider-thumb-focus-border-color;
-        @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-focus-border-color); // 2px
+        border-color: $blue600;
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
       }
       &:active {
-        border-color: $slider-thumb-active-border-color;
-        background-color: $slider-thumb-active-bg-color;
+        border-color: $blue500;
+        background-color: $blue200;
       }
       &:disabled {
-        border-color: $slider-thumb-disabled-border-color;
-        background-color: $slider-thumb-disabled-bg-color;
+        border-color: $gray300;
+        background-color: $neutral200;
       }
     }
   }
@@ -905,7 +905,7 @@ select {
     &.error {
       + span {
         &::before {
-          @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+          @include border(0.0625rem, solid, $red500 !important, all);
         }
       }
     }
@@ -1039,7 +1039,7 @@ select {
     &.error {
       + span {
         &::before {
-          @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+          @include border(0.0625rem, solid, $red500 !important, all);
         }
       }
     }
@@ -1074,33 +1074,21 @@ select {
   }
 
   // readonly, disabled 클래스 설정시 라벨의 동작을 막음
-  &.readonly,
-  &.disabled {
-    pointer-events: none;
-  }
+  &.readonly, &.disabled { pointer-events: none; }
 }
 
-.z-view-hover {
-  pointer-events: none;
-}
+.z-view-hover { pointer-events: none; }
 
 // label default
 .label {
   @include borderRadius(0.125rem); // 2px
   padding: 0.375rem; // 6px
+  border-color: $blue300;
+  background-color: $blue300;
+  color: $blue700;
   font-size: $font-size-xs;
   font-weight: $font-weight-bold;
   line-height: 1.0625rem; //17px
-  // 기본 테마별 라벨
-  @each $theme, $value in $label-themes-default {
-    &.#{$theme} {
-      color: map-get($value, 'default', 'font');
-      background-color: map-get($value, 'default', 'background');
-      border-color: map-get($value, 'default', 'border');
-    }
-  }
 }
 
-.z-divider {
-  margin: 0;
-}
+.z-divider { margin: 0; }

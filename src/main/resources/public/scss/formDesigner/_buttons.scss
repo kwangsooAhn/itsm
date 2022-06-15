@@ -29,7 +29,7 @@
     @include absolute($right: 0);
     padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
     margin: 0.6875rem 0 0 0; // 11px
-    z-index: $z-index-between-tooltip-gnb;
+    z-index: 250;
     background-color: $white;
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
@@ -71,7 +71,7 @@
           color: map-get($layout-header-dropdown, 'active', 'font');
           background-color: map-get($layout-header-dropdown, 'active', 'background');
           border-color: map-get($layout-header-dropdown, 'active', 'border');
-          z-index: $z-index-event;
+          z-index: 25;
           @if map-get($layout-header-dropdown, 'active', 'shadow') != null {
             box-shadow: map-get($layout-header-dropdown, 'active', 'shadow');
           }
@@ -152,7 +152,7 @@
     color: map-get($button-tab, 'active', 'font');
     background-color: map-get($button-tab, 'active', 'background');
     border-color: map-get($button-tab, 'active', 'border');
-    z-index: $z-index-event;
+    z-index: 25;
     @if map-get($button-tab, 'active', 'shadow') != null {
       box-shadow: map-get($button-tab, 'active', 'shadow');
     }
@@ -166,7 +166,7 @@
     color: map-get($button-tab, 'selected', 'font');
     background-color: map-get($button-tab, 'selected', 'background');
     border-color: map-get($button-tab, 'selected', 'border');
-    z-index: $z-index-event;
+    z-index: 25;
     @if map-get($button-tab, 'selected', 'shadow') != null {
       box-shadow: map-get($button-tab, 'selected', 'shadow');
     }

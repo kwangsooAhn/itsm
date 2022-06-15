@@ -11,11 +11,6 @@
   width: 100%;
 }
 
-@mixin fixedContainer {
-  @include fixed($layout-header-height, $layout-properties-width, 0, 0);
-  overflow-y: auto;
-}
-
 @mixin gridTemplate() {
   .grid {
     display: grid;
@@ -531,7 +526,7 @@
     // 데이터 없을 때
     .no-data-found {
       width: 100%;
-      background-color:$no-data-found-bg-color;
+      background-color: $neutral50;
       pointer-events: none;
 
       .i-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }

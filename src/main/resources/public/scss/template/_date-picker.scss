@@ -27,11 +27,11 @@
   @include borderRadius(0.0625rem); // 1px
   @include boxShadow(0, 0, 0.3125rem, 0, $gray300);
   text-align: center;
-  z-index: $z-index-modal;
+  z-index: 1000;
   // modal open
   &.active { 
     display: block; 
-    z-index: $z-index-modal;
+    z-index: 1000;
   }
   // modal title
   &-title {

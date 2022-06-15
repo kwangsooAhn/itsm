@@ -6,6 +6,17 @@
  * @version 1.0
  */
 
+:root {
+  --data-color: '';
+}
+// custom color palette
+$custom-color-plus: (
+  'default': ('font': $gray500, 'background': $white, 'border': $gray300),
+  'hover': ('font' : $gray500, 'background': $blue100, 'border': $gray300),
+  'focus': ('font': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
+);
+
 .z-color-picker-wrapper {
   font-family: $font-family;
   font-size: $font-size-xs;
@@ -61,11 +72,11 @@
     @include borderRadius(0.125rem); // 2px
     @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0 2px 12px 0
     background-color: $white;
-    z-index: $z-index-modal;
+    z-index: 1000;
     // modal open
     &.active {
       display: block;
-      z-index: $z-index-modal;
+      z-index: 1000;
     }
     // color palette
     .z-palette-container {
@@ -171,7 +182,7 @@
             line-height: 0.3125rem; // 5px
             @include absolute($top: -0.25rem,$right: -0.25rem); // -4px -4px
             @include borderRadius(50%);
-            background-color: $validation-error-font-color;
+            background-color: $red500;
             padding: 0;
             visibility: hidden;
 

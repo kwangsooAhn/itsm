@@ -17,14 +17,14 @@
 
     &.z-alert-active {
       display: block;
-      z-index: $z-index-alert;
+      z-index: 999999;
     }
   }
 
   &-backdrop {
     @include fixed(0, 0, 0, 0);
     background: hexToRGBA($gray500, 0.5);
-    z-index: $z-index-alert;
+    z-index: 999999;
   }
 
   &-dialog {

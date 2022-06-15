@@ -58,7 +58,7 @@ svg {
         stroke-width: 2 !important;
 
         &.error {
-          stroke: $validation-error-font-color !important;
+          stroke: $red500 !important;
         }
       }
 
@@ -90,7 +90,7 @@ svg {
           stroke-width: 2 !important;
         }
 
-        &.error { stroke: $validation-error-font-color !important; }
+        &.error { stroke: $red500 !important; }
       }
     }
   }
@@ -108,7 +108,7 @@ svg {
         stroke: $blue500 !important;
         stroke-width: 2 !important;
 
-        &.error { stroke: $validation-error-font-color !important; }
+        &.error { stroke: $red500 !important; }
       }
 
       text {
@@ -136,7 +136,7 @@ svg {
         stroke-width: 2;
 
         &.error {
-          stroke: $validation-error-font-color !important;
+          stroke: $red500 !important;
         }
       }
 

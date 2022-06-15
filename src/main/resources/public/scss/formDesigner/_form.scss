@@ -1,5 +1,12 @@
 /* form, group, row, component 디자인 */
 // 폼
+:root {
+  --data-column: 12;
+  --data-row: 2;
+  --data-align: flex-start;
+}
+
+
 .z-form {
   display: inline-block;
   min-height: 56.25rem; // 900px
@@ -31,7 +38,7 @@
   &-accordion-checkBox {
     @include absolute();
     opacity: 0;
-    z-index: $z-index-hidden;
+    z-index: -1;
   }
   // 라벨
   &-label {
@@ -414,7 +421,7 @@
 // tooptip
 .z-tooltip-menu {
   visibility: hidden;
-  z-index: $z-index-tooltip;
+  z-index: 500;
   @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
   background-color: $white;
   height: 2.5rem; // 40px;

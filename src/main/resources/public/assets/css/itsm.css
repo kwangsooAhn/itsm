@@ -2580,10 +2580,6 @@ input, button, select, optgroup, textarea {
   margin-left: auto;
 }
 
-:root {
-  --data-color: "";
-}
-
 /* _charts.scss
  *
  * 파일 경로 : template/_charts.scss
@@ -3707,14 +3703,12 @@ select {
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
   padding: 0.375rem;
+  border-color: #83BBED;
+  background-color: #83BBED;
+  color: #19428D;
   font-size: 0.875rem;
   font-weight: 700;
   line-height: 1.0625rem;
-}
-.label.normal {
-  color: #19428D;
-  background-color: #83BBED;
-  border-color: #83BBED;
 }
 
 .z-divider {
@@ -8091,6 +8085,10 @@ span.modal_node_selected label {
  * @author jy.lim
  * @version 1.0
  */
+:root {
+  --data-color: "";
+}
+
 .z-color-picker-wrapper {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;

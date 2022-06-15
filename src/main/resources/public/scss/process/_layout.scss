@@ -17,13 +17,13 @@
   &-header {
     @include fixedHeader;
     left: 0;
-    height: $layout-header-height;
+    height: 2.875rem;
     font-family: $font-family;
     font-size: $font-size-s;
     font-weight: $font-weight-medium;
     color: $white;;
     background-color: $blue500;
-    z-index: $z-index-gnb;
+    z-index: 100;
 
     .i-process-designer {
       width: 12.5rem; // 200px
@@ -43,7 +43,7 @@
   }
   // element palette
   &-element-palette {
-    @include fixed($layout-header-height, null, 0, 0);
+    @include fixed(2.875rem, null, 0, 0);
     width: 6.25rem; // 100px
     background-color: $white;
     @include border(0.0625rem, solid, $gray300, right); // 1px
@@ -52,7 +52,7 @@
   }
   // main
   &-main {
-    @include fixedContainer;
+    @include fixed(2.875rem, 18.75rem, 0, 0);
     left: 6.25rem; // 100px
     overflow: hidden;
 
@@ -148,8 +148,8 @@
                 font-weight: $font-weight-medium;
                 margin: 1.25rem 0.938rem; // 20px 15px
 
-                &.success { color: $validation-success-font-color; }
-                &.failed { color: $validation-error-font-color; }
+                &.success { color: $green600; }
+                &.failed { color: $red500; }
             }
             // 내용
             .details {
@@ -161,7 +161,7 @@
 
               div {
                 margin: 0.625rem 0; // 10px 0
-                &.failed { color: $validation-error-font-color; }
+                &.failed { color: $red500; }
               }
 
               &-result, &-element-info, &-failed-message {
@@ -178,8 +178,8 @@
 
   // 세부 속성 상단
   &-properties-header {
-    @include fixed($top: $layout-header-height, $right: 0);
-    width: $layout-properties-width;
+    @include fixed($top: 2.875rem, $right: 0);
+    width: 18.75rem; // 300px
     height: 2.5rem; // 40px
     font-size: $font-size-s;
     font-weight: $font-weight-bold;
@@ -191,8 +191,8 @@
   }
   // element 속성
   &-properties {
-    @include fixed(calc(#{$layout-header-height} + 2.5rem), 0, 0, null); // 40px
-    width: $layout-properties-width;
+    @include fixed(calc(2.875rem + 2.5rem), 0, 0, null); // 40px
+    width: 18.75rem; // 300px
     background-color: $white;
     @include border(0.0625rem, solid, $gray300, left);
     @include boxShadow(0, 0.125rem, 0.125rem, 0, $gray300); // 2px
@@ -203,8 +203,8 @@
     // element 명
     .properties-group-title {
       font-family: $font-family;
-      font-size: $property-group-label-font-size;
-      color: $property-group-label-color;
+      font-size: $font-size-s; // 16px;
+      color: $gray800;
       margin: 1.563rem 1.563rem 0 1.563rem; // 25px 25px 0 25px
     }
 
@@ -216,7 +216,7 @@
         display: inline-block;
         width: 100%;
         font-size: $font-size-xs;
-        color: $property-label-color;
+        color: $gray500;
       }
       // 마지막 속성은 선 추가
       &.last {
@@ -266,14 +266,14 @@
       margin: 1.25rem 1.563rem; // 20px 25px
       .process-info-title {
         font-family: $font-family;
-        font-size: $property-group-label-font-size;
-        color: $property-group-label-color;
+        font-size: $font-size-s; // 16px;
+        color: $gray800;
       }
       // 엘리먼트 갯수
       .process-info-dashboard {
         margin-top: 1.25rem; // 20px
         .total {
-          color: $property-label-color;
+          color: $gray500;
           padding: 0 0 0.625rem 0; // 0 0 10px 0
           margin: 0;
           @include border(calc(0.0625rem * 2), solid, $gray300, bottom);

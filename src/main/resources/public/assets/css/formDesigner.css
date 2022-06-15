@@ -2581,16 +2581,6 @@ input, button, select, optgroup, textarea {
   margin-left: auto;
 }
 
-:root {
-  --data-color: "";
-}
-
-:root {
-  --data-column: 12;
-  --data-row: 2;
-  --data-align: flex-start;
-}
-
 /* _layout.scss
  *
  * 파일 경로 : template/_layout.scss
@@ -2661,7 +2651,6 @@ input, button, select, optgroup, textarea {
   right: 18.75rem;
   bottom: 0;
   left: 0;
-  overflow-y: auto;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
@@ -2688,7 +2677,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-properties-panel {
   position: fixed;
-  top: calc(2.875rem + 2.5rem);
+  top: 5.375rem;
   right: 0;
   bottom: 0;
   display: flex;
@@ -2868,7 +2857,7 @@ input, button, select, optgroup, textarea {
   transform: rotate(90deg);
 }
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked ~ .z-accordion-content {
-  height: calc(100vh - (40px * 4) - 2.875rem);
+  height: calc(100vh - 160px - 2.875rem);
   border-bottom-color: #CFD5D9;
   overflow-y: auto;
   -ms-overflow-style: none;
@@ -4120,14 +4109,12 @@ select {
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
   padding: 0.375rem;
+  border-color: #83BBED;
+  background-color: #83BBED;
+  color: #19428D;
   font-size: 0.875rem;
   font-weight: 700;
   line-height: 1.0625rem;
-}
-.label.normal {
-  color: #19428D;
-  background-color: #83BBED;
-  border-color: #83BBED;
 }
 
 .z-divider {
@@ -6998,6 +6985,10 @@ select {
  * @author jy.lim
  * @version 1.0
  */
+:root {
+  --data-color: "";
+}
+
 .z-color-picker-wrapper {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
@@ -7368,7 +7359,7 @@ body.modal-active {
   font-size: 0.875rem;
   font-weight: 500;
   color: #8B9094;
-  padding: 0.625rem;
+  padding: 0;
 }
 .z-thumbnail-main .z-thumbnail {
   display: inline-block;
@@ -7500,6 +7491,10 @@ body.modal-active {
   width: 14.375rem;
 }
 
+.z-thumbnail-main {
+  padding: 0.625rem;
+}
+
 /* _tooltip.scss 
  *
  * 파일 경로 : template/_tooltip.scss
@@ -7551,13 +7546,13 @@ body.modal-active {
 }
 .z-help-tooltip .z-tooltip-contents {
   position: absolute;
-  left: 0;
+  left: auto;
   visibility: hidden;
   background-color: #FFFFFF;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #3373C4;
-  width: 100%;
+  width: 28.125rem;
   border: 0.125rem solid #3373C4;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -7780,7 +7775,18 @@ body.modal-active {
   position: static;
 }
 
+.z-tooltip-contents {
+  left: 0;
+  width: 100%;
+}
+
 /* form, group, row, component 디자인 */
+:root {
+  --data-column: 12;
+  --data-row: 2;
+  --data-align: flex-start;
+}
+
 .z-form {
   display: inline-block;
   min-height: 56.25rem;

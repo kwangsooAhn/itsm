@@ -68,7 +68,7 @@
           position: relative;
           display: contents;
           overflow: hidden;
-          z-index: $z-index-between-event-and-default ;
+          z-index: 10 ;
 
           img {
             object-fit: cover;
@@ -77,7 +77,7 @@
         .dz-success-mark, .dz-error-mark { display: none; }
         // 마우스 오버시 효과
         &:hover {
-          z-index: $z-index-event;
+          z-index: 25;
           .dz-details {
             opacity: 1;
           }
@@ -100,7 +100,7 @@
           text-align: center;
           color: $gray500;
           opacity: 0;
-          z-index: $z-index-between-event-and-default;
+          z-index: 10;
 
           .dz-file-type,
           .dz-filename,

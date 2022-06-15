@@ -121,7 +121,7 @@
           outline: 0;
           border-color: $blue500;
           background-color: $blue100;
-          z-index: $z-index-event;
+          z-index: 25;
           .dz-details {
             opacity: 1;
           }
@@ -167,7 +167,7 @@
           text-align: center;
           color: hexToRGBA($black, 0.9);
           opacity: 0;
-          z-index: $z-index-between-event-and-default;
+          z-index: 10;
           // 파일 아이콘
           .dz-file-type {
             grid-column: 1;
@@ -240,7 +240,7 @@
           display: block;
           @include relative();
           overflow: hidden;
-          z-index: $z-index-between-event-and-default;
+          z-index: 10;
           img {
             display: block;
           }
@@ -251,7 +251,7 @@
         }
 
         &.dz-error {
-          border-color: $validation-error-font-color;
+          border-color: $red500;
           // 툴팁
           .dz-error-message {
             display: block;
@@ -263,7 +263,7 @@
             padding: 0.5em 1.2em;
             opacity: 0;
             @include transition(opacity 0.3s ease);
-            z-index: $z-index-tooltip;
+            z-index: 500;
             pointer-events: none;
 
             &:after {
@@ -283,7 +283,7 @@
           .dz-remove {
             .z-icon {
               &.i-delete {
-                @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center, null, $validation-error-font-color); // 24px 24px
+                @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center, null, $red500); // 24px 24px
               }
             }
           }
@@ -311,7 +311,7 @@
           margin: 0 3rem 0 2.625rem; // 0 48px 0 42px
           @include scale(1);
           opacity: 1;
-          z-index: $z-index-between-modal-gnb;
+          z-index: 750;
           overflow: hidden;
           pointer-events: none;
 

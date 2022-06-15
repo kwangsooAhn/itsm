@@ -20,38 +20,38 @@
     @include boxShadow(0, 0, 0.125rem, 0, $gray300);
   }
   &.info {
-    @include border(0.0625rem, solid, $validation-info-bg-color, all);
-    color: $validation-info-font-color;
-    background-color: $validation-info-bg-color;
+    @include border(0.0625rem, solid, $blue100, all);
+    color: $blue500;
+    background-color: $blue100;
     @include backgroundImage('#{$icon-folder-path}validation/icon_info.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
       &.i-remove {
-        background: $validation-info-font-color;
+        background: $blue500;
       }
     }
   }
   &.error {
-    @include border(0.0625rem, solid, $validation-error-bg-color !important, all);
-    color: $validation-error-font-color;
-    background-color: $validation-error-bg-color;
+    @include border(0.0625rem, solid, $red50 !important, all);
+    color: $red500;
+    background-color: $red50;
     @include backgroundImage('#{$icon-folder-path}validation/icon_error.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
       &.i-remove {
-        background: $validation-error-font-color;
+        background: $red500;
       }
     }
   }
   &.success {
-    @include border(0.0625rem, solid, $validation-success-bg-color, all);
-    color: $validation-success-font-color;
-    background-color: $validation-success-bg-color;
+    @include border(0.0625rem, solid, $green100, all);
+    color: $green600;
+    background-color: $green100;
     @include backgroundImage('#{$icon-folder-path}validation/icon_success.svg', null, no-repeat, 1rem, center, null);
 
     .z-icon {
       &.i-remove {
-        background: $validation-success-font-color;
+        background: $green600;
       }
     }
   }

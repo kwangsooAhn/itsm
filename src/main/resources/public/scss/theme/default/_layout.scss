@@ -350,7 +350,7 @@
       tr:hover { background-color: $neutral200; }
       // 데이터 없을때
       .no-data-found-list {
-        background-color: $no-data-found-list-bg;
+        background-color: $neutral50;
         pointer-events: none;
       }
     }

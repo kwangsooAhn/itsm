@@ -2581,10 +2581,6 @@ input, button, select, optgroup, textarea {
   margin-left: auto;
 }
 
-:root {
-  --data-color: "";
-}
-
 /* _charts.scss
  *
  * 파일 경로 : template/_charts.scss

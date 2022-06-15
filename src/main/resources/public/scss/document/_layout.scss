@@ -13,17 +13,17 @@
   @include container;
 
   .z-document-main {
-    @include fixed(0, $layout-properties-width, 0, 0);
+    @include fixed(0, 33.125rem, 0, 0); // 530px
     @include scrollbarHidden;
     overflow-y: auto;
     background-color: $neutral50;
 
     // 상단 영역
     .z-document-main-header {
-      @include fixed(0, $layout-properties-width, null, 0);
+      @include fixed(0, 33.125rem null, 0); // 530px
       padding: 0.75rem 1rem; // 12px
       background: $blue500;
-      z-index: $z-index-gnb;
+      z-index: 100;
 
       .z-action-button-top-area {
         .z-button-list {
@@ -72,13 +72,13 @@
   .toggle--tab {
     position: absolute;
     top: 4.688rem; // 75px
-    right: $layout-properties-width;
+    right: 33.125rem; // 530px
     padding: 0.25rem 0; // 4px 0
     background-color: $gray400;
     border-radius: 0;
     border-top-left-radius: 0.3125rem; // 5px
     border-bottom-left-radius: 0.3125rem; // 5px
-    z-index: $z-index-tooltip;
+    z-index: 500;
 
     .z-icon {
       &.i-arrow-double {
@@ -117,7 +117,7 @@
   // 디자인 적용 작업 시 신청서 + 문서함 부분과 나눠지는 부분에 대한 고려가 필요함.
   .z-token-properties {
     @include fixed(0, 0, 0, null);
-    width: $layout-properties-width;
+    width: 33.125rem; // 530px
     background-color: $white;
     @include border(0.0625rem, solid, $gray300, left);
     overflow: hidden;

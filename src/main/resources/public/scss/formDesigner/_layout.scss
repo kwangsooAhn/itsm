@@ -8,6 +8,15 @@
  *                - form-properties-panel-header: 세부 속성 제목
  *                - form-properties-panel : 세부속성
  */
+$component-icon: (
+        'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
+        'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
+        'focus': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+        'active': ('font': $blue700, 'icon': $blue700, 'background': $blue100, 'border': $blue400),
+        'drag': ('font': $gray800, 'icon': $blue500, 'background': $white, 'border': $gray300, 'shadow': 0 0 0.125rem $gray300),
+        'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
+);
+
 // 폼 양식
 .z-form {
   &-container {
@@ -16,13 +25,13 @@
   &-header {
     @include fixedHeader;
     left: 0;
-    height: $layout-header-height;
+    height: 2.875rem; // 46px;
     font-family: $font-family;
     font-size: $font-size-s;
     font-weight: $font-weight-medium;
     color: $white;;
     background-color: $blue500;
-    z-index: $z-index-gnb;
+    z-index: 100;
     .i-form-designer {
       width: 12.5rem; // 200px
       padding: 0 0.75rem; // 0 12px
@@ -39,7 +48,7 @@
     }
   }
   &-component-palette {
-    @include fixed($layout-header-height, null, 0, 0);
+    @include fixed(2.875rem, null, 0, 0); // 46px
     width: 12.5rem; // 200px
     background-color: $white;
     @include border(0.0625rem, solid, $gray300, right); // 1px
@@ -48,14 +57,14 @@
 
   }
   &-main {
-    @include fixedContainer;
+    @include fixed(2.875rem, 18.75rem, 0, 0);
     @include scrollbarHidden;
     left: 12.5rem; // 200px
     right: 20rem; // 320px
     background-color: $neutral50;
   }
   &-properties-panel-header {
-    @include fixed($top: $layout-header-height, $right: 0);
+    @include fixed($top: 2.875rem, $right: 0); // 46px
     width: 20rem; // 320px
     height: 2.5rem; // 40px
     font-size: $font-size-l;
@@ -65,7 +74,7 @@
     padding: 0.625rem 0.75rem; // 10px 12px;
   }
   &-properties-panel {
-    @include fixed(calc(#{$layout-header-height} + 2.5rem), 0, 0, null); // 40px
+    @include fixed(calc(2.875rem + 2.5rem), 0, 0, null); // 40px
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -91,7 +100,7 @@
     input[type=radio] {
       @include absolute();
       opacity: 0;
-      z-index: $z-index-hidden;
+      z-index: -1;
     }
     .z-accordion-label {
       height: 40px; // 40px
@@ -178,7 +187,7 @@
           &:focus {
             background-color: map-get($component-icon, 'focus', 'background');;
             border-color: map-get($component-icon, 'focus', 'border');
-            z-index: $z-index-event;
+            z-index: 25;
             @if map-get($component-icon, 'focus', 'shadow') != null {
               box-shadow: map-get($component-icon, 'focus', 'shadow');
             }
@@ -194,7 +203,7 @@
           &.active {
             border-color: map-get($component-icon, 'active', 'border');
             background-color: map-get($component-icon, 'active', 'background');
-            z-index: $z-index-event;
+            z-index: 25;
             @if map-get($component-icon, 'active', 'shadow') != null {
               box-shadow: map-get($component-icon, 'active', 'shadow');
             }
@@ -252,7 +261,7 @@
         }
       }
       ~ .z-accordion-content {
-        height: calc(100vh - (40px * 4) - #{$layout-header-height}); // 40px
+        height: calc(100vh - (40px * 4) - 2.875rem); // 40px
         border-bottom-color: $gray300;
         overflow-y: auto;
         @include scrollbarHidden;

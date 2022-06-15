@@ -43,7 +43,7 @@
   .z-header {
     @include fixedHeader;
     max-width: 120rem;
-    height: $layout-header-height;
+    height: 3.125rem; // 50px
     padding: 0 1.25rem; // 0 20px
     font-size: $font-size-s;
     font-weight: $font-weight-medium;
@@ -55,11 +55,11 @@
       font-size: 1.125rem; // 18px
     }
     // 상단이 존재하면
-    + .z-main { top: $layout-header-height; }
+    + .z-main { top: 3.125rem }; // 50px
   }
   // 포탈 메인
   .z-main {
-    @include fixed(0, $layout-properties-width, 0, 0);
+    @include fixed(0, 0, 0, 0);
     max-width: 120rem;
     margin: 0 auto;
     overflow-y: auto;
@@ -493,3 +493,6 @@
 
 // 공지사항 상단 공지
 .notice-pinned { background-color: $blue100; }
+
+// 데이터 없을 때
+.no-data-found { background-color:$neutral200; }
