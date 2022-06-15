@@ -2623,7 +2623,7 @@ input, button, select, optgroup, textarea {
   left: 0;
   height: 2.875rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #FFFFFF;
   background-color: #3373C4;
@@ -2634,7 +2634,7 @@ input, button, select, optgroup, textarea {
   padding: 0 0.75rem;
 }
 .z-form-header .z-form-name {
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
 .z-form-header .z-form-button-list {
   width: 19.06rem;
@@ -3146,7 +3146,7 @@ table td, table th {
   color: #757575;
 }
 .z-table .z-table-head {
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -3219,7 +3219,7 @@ table td, table th {
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
@@ -5852,15 +5852,15 @@ select {
   height: 0.5rem;
   fill: #F5F5F5;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb {
   height: 0.5rem;
   fill: #E0E0E0;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb:hover {
   fill: #CFD5D9;
@@ -7336,7 +7336,7 @@ body.modal-active {
 }
 
 .modal-dialog.save-as .modal-content {
-  height: calc(25.63rem - 3.875rem - 5rem);
+  height: 16.755rem;
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -7483,7 +7483,7 @@ body.modal-active {
   display: inline-block;
   width: 100%;
   height: 100%;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: #3373C4;
   font-size: 2rem;
   font-weight: 700;
   color: #8B9094;
@@ -7494,7 +7494,7 @@ body.modal-active {
   height: 48.44rem;
 }
 .modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
-  height: calc(48.44rem - 3.875rem - 5rem);
+  height: 39.565rem;
 }
 .modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
   width: 14.375rem;
@@ -7680,8 +7680,8 @@ body.modal-active {
   -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
   -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  padding: 7px;
-  margin: 16px 0 0 0;
+  padding: 0.4375rem;
+  margin: 1rem 0 0 0;
   z-index: 500;
 }
 .z-header-tooltip .z-header-tooltip-contents.last {
@@ -8249,7 +8249,7 @@ ul.tree li {
 }
 ul.tree ul {
   position: relative;
-  margin: 0 0 0 calc(0.875rem * 2.3);
+  margin: 0 0 0 2.0125rem;
   padding: 0;
   list-style-type: none;
   -webkit-user-select: none;
@@ -8266,14 +8266,14 @@ ul.tree ul:before {
   border-left: 0.0625rem solid #CFD5D9;
 }
 ul.tree ul li {
-  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
+  padding-left: 1.6565rem;
 }
 ul.tree ul li:before {
   content: "";
   position: absolute;
   top: 0.9375rem;
   left: 0;
-  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
+  width: 1.6565rem;
   height: 0.0625rem;
   border-top: 0.0625rem solid #CFD5D9;
 }

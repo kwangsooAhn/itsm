@@ -21,19 +21,19 @@ body.modal-active {
   .modal-backdrop {
     @include resetPosition();
     z-index: $z-index-between-alert-modal;
-    background-color: $modal-backdrop-bg-color;
+    background-color: hexToRGBA($gray600, 0.6);
   }
 
   .modal-dialog {
-    width: $modal-width;
+    width: 26.875rem; // 430px
     margin: 0 auto 2em auto;
-    background-color: $modal-bg-color;
+    background-color: $white;
     opacity: 0;
     transition: 0.3s;
     z-index: $z-index-between-alert-modal;
     @include absolute(4em, 0, null, 0);
     @include borderRadius(0.25rem); // 4px
-    @include boxShadow(0, 0.125rem, 0.75rem, 0, $modal-box-shadow-color);
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray600);
 
     &.modal-active {
       transition: 0.3s;
@@ -41,13 +41,13 @@ body.modal-active {
     }
 
     .modal-header {
-      min-height: $modal-header-height;
-      font-size: $modal-header-font-size;
-      font-weight: $modal-header-font-weight;
-      color: $modal-header-font-color;
+      min-height: 3.875rem; // 62px
+      font-size: 1.5rem; // 24px;
+      font-weight: $font-weight-medium;
+      color: $gray800;
       padding: 1.25rem; // 20px
       line-height: 1.2;
-      @include border(2px, solid, $modal-header-border, bottom);
+      @include border(2px, solid, $gray100, bottom);
       @include borderRadius(0.25rem 0.25rem 0 0); // 4px
     }
 

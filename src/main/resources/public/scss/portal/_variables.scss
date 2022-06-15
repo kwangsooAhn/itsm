@@ -19,146 +19,15 @@ $button-themes-social: (
 //////////////////////////// layout ////////////////////////////
 // header
 $layout-header-height:                       3.125rem; // 50px
-$layout-header-font-size:                    $font-size-s;
-$layout-header-font-color:                   $white;
-$layout-header-font-weight:                  $font-weight-medium;
-$layout-header-bg-color:                     $blue500;
-
 // properties
 $layout-properties-width:                    0;
 
-// main > main-banner
-$main-banner-height:                         8.75rem; // 140px
-
-// main > main-header
-$main-header-border-color:                   $gray300;
-$main-header-bg-color:                       $neutral50;
-
-// main > main-search
-$main-search-height:                         6.25rem; // 100px
-$main-search-bg-color:                       $neutral50;
-
-// content
-$content-list-height:                        40.438rem; // 647px
-
-// card
-$card-list-font-color:                       $gray600;
-$card-border-color:                          $gray300;
-// 카드 목록 마우스 오버시
-$card-list-hover-bg-color:                   $neutral200;
-
-// 검색 결과 목록
-$list-bottom-border-color:                   $gray300;
-// 검색 키워드 색상
-$keyword-font-color:                         $blue500;
-// 검색 내용
-$list-row-content-font-color:                $gray600;
-// 데이터 없을때 색상
-$no-data-font-color:                         $gray400;
-
-// list
-$layout-list-height:                         35.44rem; // 567px
-
-// 공지사항 상단 공지 (배경색 별도 처리)
-$notice-pinned-color:                        $blue100;
-
-//////////////////////////// faq ////////////////////////////
-// faq > faq group
-$faq-group-font-size:                        $font-size-m; // 18px
-$faq-group-font-weight:                      $font-weight-medium;
-$faq-group-font-color:                       $gray600;
-$faq-group-border-width:                     0.0625rem; // 1px
-$faq-group-border-color:                     $gray300;
-$faq-group-icon-color:                       $gray500;
-$faq-group-opened-border-width:              0.0625rem; // 1px
-$faq-group-opened-border-color:              $blue500;
-$faq-group-opened-font-color:                $blue500;
-$faq-group-opened-icon-color:                $blue500;
-// faq > faq group > faq row
-$faq-row-font-size:                          $font-size-s; // 16px
-$faq-row-font-weight:                        $font-weight-medium;
-$faq-row-font-color:                         $gray600;
-$faq-row-opened-bg-color:                    $blue100;
-$faq-row-border-color:                       $gray300;
-$faq-row-opened-border-color:                $blue500;
-// faq > faq group > faq row content
-$faq-row-content-font-size:                  $font-size-s; // 16px
-$faq-row-content-font-weight:                $font-weight-regular;
-$faq-row-content-font-color:                 $gray800;
-
-//////////////////////////// element /////////////////////////////////
-$table-body-height:                          35rem; // 560px
-$table-th-font-color:                        $gray600;
-$table-td-font-size:                         $font-size-s; // 16px
-$table-td-font-weight:                       $font-weight-regular;
-$table-td-font-color:                        $gray800;
-$table-row-hover-bg-color:                   $neutral200;
 
 // 데이터 없을때
 $no-data-found-bg-color:                     $neutral200;
 
-////////////////////////// 브라우저 가이드 //////////////////////////
-$browser-guide-bg-color:                     $neutral50;
-$browser-box-bg-color:                       $white;
-$browser-box-border-color:                   $gray300;
-$browser-box-hover-border-color:             $gray400;
-
-////////////////////////// 로그인  //////////////////////////
-$login-bg-color:                             $blue500;
-
-$login-form-width:                           38.13rem; // 610px
-$login-form-font-size:                       $font-size-s; // 16px
-$login-form-font-weight:                     $font-weight-regular;
-$login-form-font-color:                      $gray800;
-$login-form-border-color:                    $gray300;
-
-$login-divide-font-color:                    $gray400;
-
-////////////////////////// 회원 가입  //////////////////////////
-$signup-bg-color:                            $blue500;
-$signup-logo-position-top:                   5rem; // 80px
-$signup-logo-position-left:                  5rem; // 80px
-
-$signup-form-width:                          38.13rem; // 610px
-// 계정이 있으신가요? 문구
-$signup-login-note-color:                    $white;
-
-////////////////////////// 세션 만료  //////////////////////////
-$session-invalid-font-color:                 $gray800;
-$session-invalid-count-font-color:           $blue500;
-$session-invalid-bg-color:                   $gray50;
-$session-invalid-border-color:               $gray300;
-
-////////////////////////// 에러  //////////////////////////
-$error-font-color:                           $gray800;
-$error-code-font-color:                      $blue500;
-$error-description-font-color:               $gray600;
-$error-bg-color:                             $blue50;
-$error-border-color:                         $gray300;
-
-///////////////////////// 메일 인증 ////////////////////////////
-$email-certificate-font-color:               $gray800;
-$email-certificate-description-font-color:   $gray600;
-$email-certificate-bg-color:                 $neutral50;
-$email-certificate-border-color:             $gray300;
-
-///////////////////////// 비밀번호 변경 안내 ////////////////////////////
-$password-update-modal-width:                50rem; //800px
-$password-update-modal-height:               34.5rem; //552px
-$modal-header-height:                        3.375rem; //54px
 $modal-bottom-height:                        3.5rem; //56px
 
 ////////////////////////////// 리스트 //////////////////////////////
 // 리스트 - 데이터 없을때
 $no-data-found-list-bg:                       $white;
-
-// 리스트 - 선택시
-$list-active-font-color:                      $blue700;
-$list-active-bg-color:                        $blue100;
-
-// 공지사항 상단 공지 (배경색 별도 처리)
-$notice-pinned-color:                         $blue100;
-
-// 리스트 항목명
-$list-head-font-color:                        $gray800;
-$list-body-font-color:                        $gray800;

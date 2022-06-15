@@ -7,7 +7,7 @@
  */
 
 .ql-wrapper-container {
-  background-color: $element-bg-color;
+  background-color: $white;
   // 툴바
   .ql-toolbar {
     // 라이브러리 outline 디자인 해제
@@ -16,12 +16,12 @@
     }
 
     &.ql-snow {
-      font-family: $element-font-family;
-      @include border($element-border-width, solid, $element-border-color, all);
+      font-family: $font-family;
+      @include border(0.0625rem, solid, $gray400, all);
       padding: 0;
 
       .ql-picker {
-        color: $element-font-color;
+        color: $neutral800;
       }
 
       .ql-formats {
@@ -31,7 +31,7 @@
         .ql-picker-label,
         .ql-picker-item {
           &.ql-active {
-            color: $element-hover-font-color;
+            color: $gray800;
           }
         }
 
@@ -51,18 +51,18 @@
             }
 
             &:hover {
-              background-color: $element-hover-bg-color;
+              background-color: $blue100;
             }
             &:focus {
-              color: $element-focus-font-color;
-              border-color: $element-focus-border-color;
-              @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+              color: $blue700;
+              border-color: $blue600;
+              @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
             }
           }
 
           .ql-picker-options {
             padding: 0;
-            @include boxShadow(0, 0.125rem, 0.75rem, 0, $text-editor-option-box-shadow-color); // 0 2px 12px 0
+            @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0 2px 12px 0
             // 상대 크기
             .ql-picker-item[data-value='1']::before {
               font-size: 2em;
@@ -84,8 +84,8 @@
           &.ql-expanded {
             .ql-picker-label {
               border-color: transparent;
-              color: $element-active-font-color;
-              background-color: $element-active-bg-color;
+              color: $blue700;
+              background-color: $blue200;
 
               // 화살표 회전
               svg {
@@ -95,13 +95,13 @@
             }
             //  heading
             .ql-picker-options {
-              margin-left: -$element-border-width; // -1px
-              border-color: $element-border-color;
+              margin-left: -0.0625rem; // -1px
+              border-color: $gray400;
 
               // 선택된 item
               .ql-picker-item {
                 &.ql-selected {
-                  color: $text-editor-toolbar-selected-font-color;
+                  color: $blue500;
                 }
               }
             }
@@ -122,11 +122,11 @@
 
               .ql-label,
               .bg-line {
-                fill: $element-font-color;
+                fill: $neutral800;
               }
 
               .bg {
-                fill: $element-bg-color;
+                fill: $white;
               }
             }
 
@@ -135,40 +135,40 @@
             }
 
             &:hover {
-              color: $element-hover-font-color;
-              background-color: $element-hover-bg-color;
+              color: $gray800;
+              background-color: $blue100;
             }
             &:focus {
-              color: $element-focus-border-color;
-              border-color: $element-focus-border-color;
-              @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+              color: $blue600;
+              border-color: $blue600;
+              @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
             }
           }
 
           .ql-picker-item {
             &:hover,
             &:focus {
-              border-color: $text-editor-toolbar-selected-font-color;
+              border-color: $blue500;
             }
           }
 
           .ql-picker-options {
-            @include boxShadow(0, 0.125rem, 0.75rem, 0, $text-editor-option-box-shadow-color); // 0 2px 12px 0
+            @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0 2px 12px 0
           }
 
           &.ql-expanded {
             .ql-picker-label {
               border-color: transparent;
-              color: $element-active-font-color;
-              background-color: $element-active-bg-color;
+              color: $blue700;
+              background-color: $blue200;
             }
 
             .ql-picker-options {
-              border-color: $element-bg-color;
+              border-color: $white;
 
               .ql-picker-item {
                 &.ql-selected {
-                  border-color: $text-editor-toolbar-selected-font-color;
+                  border-color: $blue500;
                 }
               }
             }
@@ -201,39 +201,39 @@
           }
 
           &:hover {
-            color: $element-hover-font-color;
-            background-color: $element-hover-bg-color;
+            color: $gray800;
+            background-color: $blue100;
           }
 
           &:focus {
-            color: $element-focus-border-color;
-            border-color: $element-focus-border-color;
-            @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+            color: $blue600;
+            border-color: $blue600;
+            @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
 
             .ql-icon {
-              fill : $element-focus-border-color;
+              fill : $blue600;
             }
           }
 
           &:enabled:active,
           &:enabled.active {
-            color: $element-active-font-color;
-            background-color: $element-active-bg-color;
+            color: $blue700;
+            background-color: $blue200;
 
             .ql-icon {
-              fill : $element-active-font-color;
+              fill : $blue700;
             }
           }
 
           &.ql-active {
-            color: $text-editor-toolbar-selected-font-color;
+            color: $blue500;
 
             .ql-icon {
-              fill : $text-editor-toolbar-selected-font-color;
+              fill : $blue500;
             }
 
             &:after {
-              background: $text-editor-toolbar-selected-font-color;
+              background: $blue500;
             }
           }
         }
@@ -247,11 +247,11 @@
   // 툴바 readonly
   .ql-toolbar-readonly {
     .ql-picker {
-      color: $element-disabled-font-color !important;
+      color: $gray400 !important;
     }
     .ql-icon,
     .ql-transparent {
-      fill : $element-disabled-font-color !important;
+      fill : $gray400 !important;
     }
     .bg {
       opacity: 0;
@@ -259,9 +259,9 @@
 
     button {
       &.ql-active {
-        color: $element-disabled-font-color !important;
+        color: $gray400 !important;
         .ql-icon {
-          fill : $element-disabled-font-color !important;
+          fill : $gray400 !important;
         }
         &:after {
           background: transparent !important;
@@ -273,12 +273,12 @@
   .ql-container {
     &.ql-snow {
       height: auto;
-      font-family: $element-font-family;
-      font-size: $element-font-size;
-      font-weight: $element-font-weight;
-      line-height: $element-line-height;
-      color: $element-font-color;
-      @include border($element-border-width, solid, $element-border-color, all);
+      font-family: $font-family;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      line-height: 1.2;
+      color: $neutral800;
+      @include border(0.0625rem, solid, $gray400, all);
       .ql-editor {
         min-height: 7.5rem; // 120px
         padding: 0.625rem; // 10px
@@ -288,7 +288,7 @@
         }
 
         h1, h2, h3, h4, h5, h6 {
-          line-height: $element-line-height;
+          line-height: 1.2;
         }
 
         em {
@@ -331,38 +331,38 @@
     outline: 0;
     .ql-toolbar {
       &.ql-snow {
-        border-color: $element-hover-border-color;
+        border-color: $blue400;
       }
     }
     .ql-container {
       &.ql-snow:not(.ql-disabled) {
-        border-color: $element-hover-border-color;
+        border-color: $blue400;
       }
     }
   }
   // focus
   &:focus:not(.ql-readonly) {
     outline: 0;
-    @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+    @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
     .ql-toolbar {
       &.ql-snow {
-        border-color: $element-focus-border-color;
+        border-color: $blue600;
       }
     }
     .ql-container {
       &.ql-snow {
-        border-color: $element-focus-border-color;
+        border-color: $blue600;
       }
     }
   }
 
   // 텍스트에디터는 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
   &:not(.ql-border-disabled).ql-readonly {
-    background-color: $element-disabled-bg-color;
+    background-color: $neutral200;
     pointer-events: none;
     .ql-container {
       &.ql-snow {
-        color: $element-disabled-font-color !important;
+        color: $gray400 !important;
       }
     }
   }

@@ -9,9 +9,9 @@
   }
   &-input-row {
     padding: 1.3125rem 1.25rem; // 21px 20px
-    @include border($reply-content-border-width, solid, $reply-content-border-color, top);
-    @include border($reply-content-border-width, solid, $reply-content-border-color, bottom);
-    background-color: $reply-content-bg-color;
+    @include border(0.0625rem, solid, $gray300, top);  // 1px
+    @include border(0.0625rem, solid, $gray300, bottom);  // 1px
+    background-color: $neutral50;
     .reply-input {
       width: 100%;
       margin: 0 0.3125rem; // 5px
@@ -23,7 +23,7 @@
 
   &-list {
     padding: 0 0;
-    @include verticalBar(1.25rem, 1.25rem, $reply-content-border-width solid $reply-content-border-color, 0.0625rem 0.9375rem 0.0625rem 0);
+    @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $gray300, 0.0625rem 0.9375rem 0.0625rem 0);
     margin-top: 0.0625rem; // -1px
     // 댓글이 없으면 라인 생략
     &:empty { border-color: transparent; }
@@ -35,11 +35,11 @@
         font-weight: $font-weight-regular;
       }
       &-create-date {
-        color: $reply-date-font-color;
+        color: $gray400;
         font-weight: $font-weight-regular;
       }
       &-row {
-        @include border($reply-content-border-width, solid, $reply-content-border-color, bottom);
+        @include border(0.0625rem, solid, $gray300, bottom);
         padding-top : 1.875rem; // 30px
         padding-bottom: 1.875rem; // 30px
       }

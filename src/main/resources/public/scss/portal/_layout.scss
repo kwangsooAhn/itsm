@@ -45,11 +45,11 @@
     max-width: 120rem;
     height: $layout-header-height;
     padding: 0 1.25rem; // 0 20px
-    font-size: $layout-header-font-size;
-    font-weight: $layout-header-font-weight;
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
     align-items: center;
-    color: $layout-header-font-color;
-    background-color: $layout-header-bg-color;
+    color: $white;;
+    background-color: $blue500;
     .z-name {
       padding: 0 0.9375rem; // 0 15px
       font-size: 1.125rem; // 18px
@@ -69,27 +69,27 @@
       height: 100%;
 
       .z-main-banner {
-        height: $main-banner-height;
-        background-color: $main-search-bg-color;
+        height: 8.75rem; // 140px
+        background-color: $neutral50;
 
         .title { padding: 3.75rem 0 1.875rem 0; } // 60px 0px 30px 0px
       }
 
       .z-main-search {
-        height: $main-search-height;
-        background-color: $main-search-bg-color;
+        height: 6.25rem; // 100px
+        background-color: $neutral50;
         @include border(0.0625rem, solid, $gray300 ,bottom);
         padding: 1.875rem 0; // 30px 0
 
         // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
        &.slide-up {
           + .z-main-card .z-card-list {
-            height: calc(#{$main-banner-height} + #{$content-list-height});
+            height: calc(8.75rem + 40.438rem);; // 140px 647px
           }
         }
         &.slide-down {
           + .z-main-card .z-card-list {
-            height: $content-list-height;
+            height: 40.438rem; // 647px
           }
         }
       }
@@ -101,7 +101,7 @@
           padding: 3.4375rem 13.75rem 0 13.75rem; // 55px 220px 0 220px
           .z-card {
             width: 30rem; // 480px
-            @include border(0.0625rem, solid, $card-border-color, all);
+            @include border(0.0625rem, solid, $gray300, all);
 
             &-header { padding-top: 3.4375rem; } // 55px
 
@@ -113,9 +113,9 @@
                 th, td {
                   padding: 0 1.25rem 0 1.25rem; // 0 20px
                   vertical-align: middle;
-                  &:hover { background-color: $card-list-hover-bg-color; }
+                  &:hover { background-color: $neutral200; }
 
-                  a { color: $card-list-font-color; }
+                  a { color: $gray600; }
                 }
               }
             }
@@ -123,12 +123,12 @@
         }
         // 포탈 메인 검색 후 결과 화면
         .z-card-list {
-          height: $content-list-height;
+          height: 40.438rem; // 647px
           padding: 2.625rem 22.5rem 0 22.5rem; // 42px 360px 0 360px
 
           .z-card-row {
             width: 100%;
-            @include border(0.0625rem, solid, $list-bottom-border-color, bottom);
+            @include border(0.0625rem, solid, $gray300, bottom);
             padding: 0.8125rem 0; // 13px 0
             // 마지막 row
             &:last-child {
@@ -142,18 +142,18 @@
               &-title {
                 padding-bottom: 0.5rem; // 8px
 
-                a { color: $headings-font-color;
+                a { color: $neutral800;
 
-                  .keyword { color: $keyword-font-color; }
+                  .keyword { color: $blue500; }
                 }
               }
 
               &-content {
                 font-size: $font-size-s;
                 font-weight: $font-weight-regular;
-                color: $list-row-content-font-color;
+                color: $gray600;
 
-                .keyword { color: $keyword-font-color; }
+                .keyword { color: $blue500; }
               }
             }
             // 검색 데이터가 없을 때
@@ -161,7 +161,7 @@
               width: 100%;
               height: 100%;
               margin: 4.375rem 0 0 0; //70px
-              color: $no-data-font-color;
+              color: $gray400;
             }
           }
         }
@@ -170,16 +170,16 @@
       // 검색 영역
       .z-main-header {
         padding: 0 13.75rem 0 13.75rem; // 220px
-        background-color: $main-header-bg-color;
-        @include border(0.0625rem, solid, $main-header-border-color, bottom); // 1px
+        background-color: $neutral50;
+        @include border(0.0625rem, solid, $gray300, bottom); // 1px
 
         .z-page-title { padding: 2.5rem 0; }  // 40px 0
         .z-page-search {
           .z-search-count {
-            font-family: $layout-header-search-font-family;
-            font-weight: $layout-header-search-font-weight;
+            font-family: $font-family;
+            font-weight: $font-weight-medium;
             font-size: 0.875rem;
-            color: $layout-header-search-color;
+            color: $neutral600;
           }
         }
       }
@@ -187,7 +187,7 @@
       // 페이징
       .z-list-content {
         padding: 1.5rem 13.75rem 0 13.75rem; // 24px 220px
-        height: $content-list-height;
+        height: 40.438rem; // 647px
 
         .z-table {
           @include relative();
@@ -212,17 +212,17 @@
           &-group {
             @include relative();
             min-height: 3.438rem; // 55px
-            @include border($faq-group-border-width, solid, $faq-group-border-color, all);
+            @include border(0.0625rem, solid, $gray300, all);
             @include borderRadius(0.0625rem); // 1px
             margin-bottom: 0.625rem; // 10px
 
             &-title {
               height: 3.438rem; // 55px
               padding: 1.25rem 0.9375rem; // 20px 15px
-              @include border($faq-group-border-width, solid, transparent, bottom); // 1px
-              font-size: $faq-group-font-size;
-              font-weight: $faq-group-font-weight;
-              color: $faq-group-font-color;
+              @include border(0.0625rem, solid, transparent, bottom); // 1px
+              font-size: $font-size-m;
+              font-weight: $font-weight-medium;
+              color: $gray600;
               // 그룹일 경우 summary의 화살표 숨김
               &::-webkit-details-marker { display: none; }
               .z-icon {
@@ -230,32 +230,32 @@
                   @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
                   display: inline-block;
                   opacity: 1;
-                  background: $faq-group-icon-color;
+                  background: $gray500;
                 }
                 &.i-minus {
                   @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
                   display: inline-block;
                   opacity: 0;
-                  background: $faq-group-icon-color;
+                  background: $gray500;
                 }
               }
             }
             &[open] {
-              @include border($faq-group-opened-border-width, solid, $faq-group-opened-border-color, all); // 1px
+              @include border(0.0625rem, solid, $blue500, all); // 1px
               .z-faq-group-title {
-                color: $faq-group-opened-font-color;
-                border-bottom-color: $faq-group-opened-border-color;
+                color: $blue500;
+                border-bottom-color: $blue500;
                 .z-icon {
                   &.i-plus {
                     opacity: 0;
                   }
                   &.i-minus {
-                    background: $faq-group-opened-icon-color;
+                    background: $blue500;
                     opacity: 1;
                   }
                 }
               }
-              .z-faq-row { background-color: $faq-row-opened-bg-color; }
+              .z-faq-row { background-color: $blue100; }
             }
           }
           // level 2
@@ -265,21 +265,21 @@
             &:last-of-type { padding-bottom: 2.188rem; } // 35px
 
             &-title {
-              font-size: $faq-row-font-size;
-              font-weight: $faq-row-font-weight;
-              color: $faq-row-font-color;
+              font-size: $font-size-s;
+              font-weight: $font-weight-medium;
+              color: $gray600;
             }
 
             &[open] {
-              @include horizontalBar(0.0625rem, 0.9375rem 0, $faq-row-opened-border-color);
+              @include horizontalBar(0.0625rem, 0.9375rem 0, $blue500);
             }
           }
           // level 3
           &-row-content {
             margin: 1.25rem 1.063rem 0 0; // 20px 17px
-            font-size: $faq-row-content-font-size;
-            font-weight: $faq-row-content-font-weight;
-            color: $faq-row-content-font-color;
+            font-size: $font-size-s;
+            font-weight: $font-weight-regular;
+            color: $gray800;
           }
         }
       }
@@ -304,17 +304,17 @@
 
         // 로그인
         &.z-login-background {
-          width: calc(100vw - #{$login-form-width});
+          width: calc(100vw - 38.13rem); // 610px
           height: 100%;
-          @include backgroundImage('#{$image-folder-path}login/img_login_main.png', null, no-repeat, 0, 0, $login-bg-color);
+          @include backgroundImage('#{$image-folder-path}login/img_login_main.png', null, no-repeat, 0, 0, $blue500);
           overflow: hidden;
         }
 
         // 회원 가입
         &.z-signup-background {
-          width: calc(100vw - #{$signup-form-width});
+          width: calc(100vw - 38.13rem); // 610px
           height: 100%;
-          @include backgroundImage('#{$image-folder-path}signup/img_signup_main.png', null, no-repeat, 0, 0, $signup-bg-color);
+          @include backgroundImage('#{$image-folder-path}signup/img_signup_main.png', null, no-repeat, 0, 0, $blue500);
           overflow: hidden;
 
           // 로그인 버튼 영역
@@ -324,7 +324,7 @@
             // 계정이 있으신가요? 문구
             .z-signup-login-note {
               font-weight: $font-weight-medium;
-              color: $signup-login-note-color;
+              color: $white;
               vertical-align: middle;
             }
           }
@@ -334,7 +334,7 @@
         &.z-session-background {
           width: 50vw;
           height: 100vh;
-          @include backgroundImage('#{$image-folder-path}session/img_session_main.png', null, no-repeat, 0, 0, $session-invalid-bg-color);
+          @include backgroundImage('#{$image-folder-path}session/img_session_main.png', null, no-repeat, 0, 0, $gray50);
           overflow: hidden;
         }
 
@@ -342,7 +342,7 @@
         &.z-error-background {
           width: 50vw;
           height: 100vh;
-          @include backgroundImage('#{$image-folder-path}error/img_error_caution.png', null, no-repeat, 0, 0, $error-bg-color);
+          @include backgroundImage('#{$image-folder-path}error/img_error_caution.png', null, no-repeat, 0, 0, $blue50);
           overflow: hidden;
         }
 
@@ -350,7 +350,7 @@
         &.z-email-certificate-background {
           width: 50vw;
           height: 100vh;
-          background-color: $email-certificate-bg-color;
+          background-color: $neutral50;
           overflow: hidden;
         }
       }
@@ -359,7 +359,7 @@
       .z-vertical-split-right {
         // 로그인
         &.z-login-form {
-          width: $login-form-width;
+          width: 38.13rem; // 610px
           padding: 8.5rem 4.0625rem 0 4.0625rem; // 136px 65px 0 65px
           h1 {
             height: 2.313rem; // 37px
@@ -371,15 +371,15 @@
           .z-login-divide {
             flex-basis: 100%;
             margin: 4rem 0 4rem 0; // 64px 0 64px 0
-            color: $login-divide-font-color;
-            font-size: $login-form-font-size;
+            color: $gray400;
+            font-size: $font-size-s;
 
             &::before {
               content: '';
               flex-grow: 1;
               height: 0.063rem; // 1px
               margin-right: 1rem; // 16px
-              background: $login-form-border-color;
+              background: $gray300;
             }
 
             &::after {
@@ -387,7 +387,7 @@
               flex-grow: 1;
               height: 0.063rem; // 1px
               margin-left: 1rem; // 16px
-              background: $login-form-border-color;
+              background: $gray300;
             }
           }
 
@@ -402,13 +402,13 @@
           .z-login-other {
             height: 1.063rem; // 17px
             margin-top: 6.188rem; // 99px
-            font-size: $login-form-font-size;
-            font-weight: $login-form-font-weight;
-            color: $login-form-font-color;
+            font-size: $font-size-s;
+            font-weight: $font-weight-regular;
+            color: $gray800;
 
-            @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid $login-form-border-color, 0 1.875rem 0 0); // 30px,  40px
+            @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid $gray300, 0 1.875rem 0 0); // 30px,  40px
 
-            a { color: $login-form-font-color; }
+            a { color: $gray800; }
 
             &-signUp,
             &-findPwd,
@@ -418,7 +418,7 @@
 
         // 회원 가입
         &.z-signup-form {
-          width: $signup-form-width;
+          width: 38.13rem; // 610px
           padding: 5.6875rem 4.0625rem 0 4.0625rem; // 91px 65px 0 65px
           .z-signup-base-form {
             @include relative(); // tooltip 영역 지정 용도
@@ -429,34 +429,34 @@
         &.z-session-form {
           width: 50vw;
           padding: 21.5625rem 6.25rem; // 345px 100px
-          @include border(0.0625rem, solid, $session-invalid-border-color, left);
+          @include border(0.0625rem, solid, $gray300, left);
 
           h1 {
-            color: $session-invalid-font-color;
+            color: $gray800;
             line-height: 1.7;
           }
           // 세션 카운트
-          .z-session-count-txt { color: $session-invalid-count-font-color; }
+          .z-session-count-txt { color: $blue500; }
         }
 
         // 에러
         &.z-error-form {
           width: 50vw;
           padding: 16.875rem 5.625rem; // 270px 90px
-          @include border(0.0625rem, solid, $error-border-color, left);
+          @include border(0.0625rem, solid, $gray300, left);
 
           h1 {
-            color: $error-font-color;
+            color: $gray800;
             line-height: 1.7;
           }
 
           .z-error-code-txt {
-            color: $error-code-font-color;
+            color: $blue500;
             margin: 1.25rem 0; // 20px
           }
 
           .z-error-bottom-txt {
-            color: $error-description-font-color;
+            color: $gray600;
             margin: 5rem 0; // 80px
           }
         }
@@ -465,15 +465,15 @@
         &.z-email-certificate-form {
           width: 50vw;
           padding: 21.5625rem 6.25rem; // 345px 100px
-          @include border(0.0625rem, solid, $email-certificate-border-color, left);
+          @include border(0.0625rem, solid, $gray300, left);
 
           h1 {
-            color: $email-certificate-font-color;
+            color: $gray800;
             line-height: 1.7;
           }
 
           h3 {
-            color: $email-certificate-description-font-color;
+            color: $gray600;
             margin: 1.25rem 0 5rem 0; // 20px 0 80px 0
           }
         }
@@ -492,4 +492,4 @@
 }
 
 // 공지사항 상단 공지
-.notice-pinned { background-color: $notice-pinned-color; }
+.notice-pinned { background-color: $blue100; }

@@ -16,7 +16,7 @@
     @include fixed(0, $layout-properties-width, 0, 0);
     @include scrollbarHidden;
     overflow-y: auto;
-    background-color: $layout-main-bg-color;
+    background-color: $neutral50;
 
     // 상단 영역
     .z-document-main-header {
@@ -50,7 +50,7 @@
       .z-document-numbering {
         margin: 6.25rem 0 0.625rem; // 100px 0 0 10px
         text-align: left;
-        font-family: $document-numbering-font-family;
+        font-family: $font-family;
         font-size: $font-size-xs;
       }
     }
@@ -118,8 +118,8 @@
   .z-token-properties {
     @include fixed(0, 0, 0, null);
     width: $layout-properties-width;
-    background-color: $layout-properties-bg-color;
-    @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
+    background-color: $white;
+    @include border(0.0625rem, solid, $gray300, left);
     overflow: hidden;
     @include transition(all 0.25s ease-out);
 
@@ -129,15 +129,15 @@
       padding: 0 1.375rem; // 22px
 
       .z-token-tab {
-        color: $token-tab-color;
+        color: $gray400;
         flex: 1;
         padding: 0.625rem 0; // 10px 0
-        @include border($token-tab-border-width, solid, $token-tab-border-color, bottom);
+        @include border(0.0625rem, solid, $gray300, bottom);
 
         // 선택된 탭일 경우
         &.active {
-          color: $token-tab-selected-color;
-          @include border($token-tab-selected-border-width, solid, $token-tab-selected-border-color, bottom);
+          color: $gray800;
+          @include border(0.188rem, solid, $blue500, bottom); // 3px
         }
       }
     }
@@ -158,7 +158,7 @@
         // 아이콘
         .z-icon {
           &.i-delete {
-            background: $element-icon-color;
+            background: $gray500;
           }
         }
       }
@@ -195,7 +195,7 @@
 
           &-sub-title {
             display: block;
-            color: $token-tab-sub-title-color;
+            color: $gray500;
             margin: 1.75rem 0 0.3125rem 0; // 28px 0 5px 0
           }
 
@@ -205,14 +205,14 @@
             }
 
             .z-table-head {
-              background-color: $token-history-thead-bg-color;
-              @include border($token-history-table-border-width, solid, $token-history-table-border-color, top);
+              background-color: $neutral100;
+              @include border(0.0625rem, solid, $gray300, top);
 
               tr {
                 height: 2rem; // 32px
 
                 th {
-                  color: $token-history-thead-color;
+                  color: $gray400;
                 }
               }
             }
@@ -223,7 +223,7 @@
 
               tr {
                 width: 100%;
-                @include border($token-history-table-border-width, solid, $token-history-table-border-color, bottom);
+                @include border(0.0625rem, solid, $gray300, bottom);
               }
             }
           }
@@ -233,7 +233,7 @@
         &-related {
           &-sub-title {
             display: block;
-            color: $token-tab-sub-title-color;
+            color: $gray500;
             margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
           }
 
@@ -245,15 +245,15 @@
             .z-document {
               &-color {
                 width: 0.375rem; // 6px
-                @include borderRadius($token-related-border-radius);
+                @include borderRadius(0.125rem);
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;
               }
 
               &-row {
                 flex: 1;
-                @include border($token-related-border-width, solid, $token-related-border-color, all);
-                @include borderRadius($token-related-border-radius);
+                @include border(0.0625rem, solid, $gray300, all);
+                @include borderRadius(0.125rem);
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
                 padding: 1rem; // 16px
@@ -267,11 +267,11 @@
                       h6 {
                         &:first-child {
                           font-weight: $font-weight-bold;
-                          color: $token-related-name-color;
+                          color: $gray800;
                         }
 
                         &:last-child {
-                          color: $token-related-numbering-color;
+                          color: $gray500;
                           margin-left: 0.5rem; //8px
                         }
                       }
@@ -294,8 +294,8 @@
 
           // 관련 문서 추가
           .z-document-add {
-            @include border($token-related-border-width, solid, $token-related-border-color, all);
-            background-color: $token-related-add-bg-color;
+            @include border(0.0625rem, solid, $gray300, all);
+            background-color: $neutral50;
 
             .z-button-icon {
               width: 100%;
@@ -303,7 +303,7 @@
 
               .z-icon {
                 &.i-plus {
-                  background: $element-icon-color;
+                  background: $gray500;
                 }
               }
             }
@@ -315,19 +315,19 @@
           &-item {
             padding: 1rem; // 16px
             margin: 0.625rem 0 0 0; // 10px 0 0 0
-            @include border($token-comment-border-width, solid, $token-comment-border-color, all);
-            @include borderRadius($token-comment-border-radius);
+            @include border(0.0625rem, solid, $gray300, all);
+            @include borderRadius(0.125rem);
 
             .z-comment {
               &-row {
                 &-info {
                   .z-user-name {
                     font-weight: $font-weight-bold;
-                    color: $token-comment-user-name-color;
+                    color: $gray800;
                   }
 
                   .z-comment-time {
-                    color: $token-comment-time-color;
+                    color: $gray500;
                     margin-left: 0.5rem; //8px
                   }
                 }
@@ -355,7 +355,7 @@
         &-viewer {
           &-sub-title {
             display: block;
-            color: $token-tab-sub-title-color;
+            color: $gray500;
             margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
           }
 
@@ -376,7 +376,7 @@
 
             .z-icon {
               &.i-clear {
-                background: $element-icon-color;
+                background: $gray500;
               }
             }
           }

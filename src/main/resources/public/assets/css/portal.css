@@ -3693,7 +3693,7 @@ input, button, select, optgroup, textarea {
   padding: 1.875rem 0;
 }
 .z-portal-container .z-main .z-main-content .z-main-search.slide-up + .z-main-card .z-card-list {
-  height: calc(8.75rem + 40.438rem);
+  height: 49.188rem;
 }
 .z-portal-container .z-main .z-main-content .z-main-search.slide-down + .z-main-card .z-card-list {
   height: 40.438rem;
@@ -3879,7 +3879,7 @@ input, button, select, optgroup, textarea {
   color: #222529;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-sub-title {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -4260,7 +4260,7 @@ table td, table th {
   color: #757575;
 }
 .z-table .z-table-head {
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -4333,7 +4333,7 @@ table td, table th {
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
@@ -6881,15 +6881,15 @@ summary:focus {
   height: 0.5rem;
   fill: #F5F5F5;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb {
   height: 0.5rem;
   fill: #E0E0E0;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb:hover {
   fill: #CFD5D9;
@@ -8085,8 +8085,8 @@ summary:focus {
   -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
   -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  padding: 7px;
-  margin: 16px 0 0 0;
+  padding: 0.4375rem;
+  margin: 1rem 0 0 0;
   z-index: 500;
 }
 .z-header-tooltip .z-header-tooltip-contents.last {
@@ -8268,7 +8268,7 @@ body.modal-active {
   opacity: 1;
 }
 .modal-wrapper .modal-dialog .modal-header {
-  min-height: 3.375rem;
+  min-height: 3.875rem;
   font-size: 1.5rem;
   font-weight: 500;
   color: #222529;
@@ -8292,7 +8292,7 @@ body.modal-active {
   height: 34.5rem;
 }
 .modal-dialog.password-update-notice .modal-content {
-  height: calc(34.5rem - 3.375rem - 3.5rem);
+  height: 25.625rem;
   padding: 0.25rem 1.25rem 0.25rem 1.25rem;
 }
 .modal-dialog.password-update-notice .modal-content .field-label {

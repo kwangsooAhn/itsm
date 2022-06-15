@@ -8,33 +8,33 @@
 
 // 레이아웃
 .z-thumbnail-main {
-  font-family: $thumbnail-font-family;
-  font-size: $thumbnail-font-size;
-  font-weight: $thumbnail-font-weight;
-  color: $thumbnail-font-color;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $gray500;
   padding: $thumbnail-main-padding;
 
    // 썸네일
   .z-thumbnail {
     display: inline-block;
-    width: $thumbnail-width;
-    height: $thumbnail-height;
+    width: 15rem; // 240px;
+    height: 18.13rem; // 290px;
     margin: 0.625rem; // 10px
     padding: 0;
-    @include border($thumbnail-border-width, solid, $thumbnail-border-color, all);
-    background-color: $thumbnail-bg-color;
+    @include border(0.0625rem, solid, $gray300, all);
+    background-color: $white;
     cursor: pointer;
     overflow: hidden;
 
     &:hover {
-      @include border($thumbnail-border-width, solid, $thumbnail-hover-border-color, all);
-      background-color: $thumbnail-hover-bg-color;
+      @include border(0.0625rem, solid, $blue500, all);
+      background-color: $white;
     }
 
     &.selected {
-      @include border($thumbnail-selected-border-width, solid, $thumbnail-selected-border-color, all);
-      background-color: $thumbnail-selected-bg-color;
-      @include boxShadow(0, 0, 0.125rem, 0, $thumbnail-selected-box-shadow-color); // 2px
+      @include border(0.0625rem, solid, $blue600, all);
+      background-color: $white;
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
     }
     // 썸네일 이미지
     .z-thumbnail-image, .z-thumbnail-file {
@@ -66,8 +66,8 @@
 
         &:first-child {
           label {
-            color:  $thumbnail-file-name-font-color;
-            font-weight: $thumbnail-file-name-font-weight;
+            color:  $gray800;
+            font-weight: $font-weight-bold;
             cursor: pointer;
           }
           // 더블 클릭시 fileName 수정 가능
@@ -84,7 +84,7 @@
     .z-thumbnail-bottom {
       height: 2.5rem; // 40px
       line-height: 2.5rem;
-      @include border($thumbnail-border-width, solid, $thumbnail-border-color, top);
+      @include border(0.0625rem, solid, $gray300, top);
       padding: 0 0.625rem 0 0.9375rem; // 0 10px 0 15px
 
       // 삭제 버튼
@@ -93,7 +93,7 @@
         height: 2.5rem; // 40px
 
         .z-icon {
-          &.i-delete { background: $thumbnail-icon-color; }
+          &.i-delete { background: $gray400; }
         }
       }
     }
@@ -101,31 +101,31 @@
   // 썸네일 파일 업로드
   .z-thumbnail-upload {
     display: inline-block;
-    width: $thumbnail-width;
-    height: $thumbnail-height;
+    width: 15rem; // 240px;
+    height: 18.13rem; // 290px;
     margin: 0.625rem; // 10px
     padding: 5.313rem 0 0 0; // 85px
-    @include border($thumbnail-border-width, solid, $thumbnail-border-color, all);
+    @include border(0.0625rem, solid, $gray300, all);
     box-shadow: none;
-    background-color: $thumbnail-upload-bg-color;
+    background-color: $neutral50;
     cursor: pointer;
     overflow: hidden;
 
     .z-thumbnail-upload-text {
-      color: $thumbnail-upload-font-color;
-      font-weight: $thumbnail-upload-font-weight;
+      color: $blue500;
+      font-weight: $font-weight-bold;
     }
 
     &:hover {
-      @include border($thumbnail-border-width, solid, $thumbnail-hover-border-color, all);
-      background-color: $thumbnail-upload-hover-bg-color;
+      @include border(0.0625rem, solid, $blue500, all);
+      background-color: $blue100;
     }
   }
   // 아이콘
   .z-icon {
     &.i-file-upload {
       @include maskImage('#{$icon-folder-path}icon_file_upload.svg', 5rem, 5rem, no-repeat, center); // 80px 80px
-      background: $thumbnail-icon-color;
+      background: $gray400;
     }
   }
   // 데이터 없을 때
@@ -133,9 +133,9 @@
     display: inline-block;
     width: 100%;
     height: 100%;
-    font-family: $thumbnail-nodata-font-family;
-    font-size: $thumbnail-nodata-font-size;
-    font-weight: $thumbnail-nodata-font-weight;
-    color: $thumbnail-nodata-font-color;
+    font-family: $blue500;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $gray500;
   }
 }

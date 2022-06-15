@@ -33,7 +33,7 @@
   .z-main {
     display: flex;
     flex-direction: column;
-    width: calc(100% - #{$nav-width});
+    width: calc(100% - 13.75rem); // 220px
     height: 100vh;
 
     &-title {
@@ -46,7 +46,7 @@
       height: calc(100vh - 8.5rem);
 
       .z-page-content {
-        @include border(0.0625rem,solid,$layout-main-header-border-color,top);
+        @include border(0.0625rem,solid,$gray300,top);
         flex: 1 1 auto;
       }
 
@@ -55,10 +55,10 @@
         flex-direction: row;
         padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
         .z-search-count {
-          font-family: $layout-header-search-font-family;
-          font-weight: $layout-header-search-font-weight;
+          font-family: $font-family;
+          font-weight: $font-weight-medium;
           font-size: 0.875rem;
-          color: $layout-header-search-color;
+          color: $neutral600;
         }
       }
 
@@ -84,10 +84,10 @@
         // CMDB CI
         // 세부 속성
         .attribute-group {
-          background-color: $cmdb-ci-attribute-bg-color;
+          background-color: $neutral50;
           padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-          @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
-          @include borderRadius($cmdb-ci-attribute-border-radius);
+          @include border(0.0625rem, solid, $gray300, all);
+          @include borderRadius(0.0625rem); // 1px
           margin-bottom: 0.625rem; // 10px
 
           // Group List일 경우, 하위 속성 존재함
@@ -100,10 +100,10 @@
             }
 
             .child-attribute-row {
-              background-color: $cmdb-ci-child-attribute-bg-color;
+              background-color: $white;
               padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
-              @include border($cmdb-ci-child-attribute-border-width, solid, $cmdb-ci-child-attribute-border-color, all);
-              @include borderRadius($cmdb-ci-child-attribute-border-radius);
+              @include border(0.0625rem, solid, $gray300, all); // 1px
+              @include borderRadius(0.0625rem); // 1px
               margin-top: 0.625rem; // 10px
 
               .z-button-attribute-delete {
@@ -154,8 +154,8 @@
 
 // 리스트 출력용 컬러 아이콘
 .document-color-circle {
-  width: $document-color-size;
-  height:$document-color-size;
+  width: 1rem; // 16px
+  height: 1rem; // 16px
   @include borderRadius(50%);
   margin-right: 0.625rem; // 10px
   display: inline-block;
@@ -205,7 +205,7 @@
 .z-token-header,
 .z-image-header {
   padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
-  @include border($layout-main-header-border-width, solid, $layout-main-header-border-color, bottom);
+  @include border(0.0625rem, solid, $gray300, bottom);
 }
 
 /////////////////////////////////////////////// 리스트 /////////////////////////////////////////////////////
@@ -241,7 +241,7 @@
 .z-cmdb-ci-content,
 .z-report-template-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
-  background-color: $layout-content-bg-color;
+  background-color: $neutral50;
 }
 
 /////////////////////////////////////////////// 카드 /////////////////////////////////////////////////////
@@ -250,7 +250,7 @@
 // 대시보드
 .z-document-content {
   padding: 0 0.9375rem 0 3.75rem; // 0 15px 0 60px
-  background-color: $card-content-bg-color;
+  background-color: $white;
 
   .document-column {
     width: 100%;
@@ -259,7 +259,7 @@
     //신청서 문서이름
     .document-name {
       width: 17.5rem; //280px
-      color: $element-font-color;
+      color: $neutral800;
       font-size: 1.5625rem;
       font-weight: $font-weight-semibold;
     }
@@ -284,7 +284,7 @@
 .z-token-content,
 .z-dashboard-content {
   padding: 0 1.875rem 0 3.75rem; // 0 30px 0 60px
-  background-color: $card-content-bg-color;
+  background-color: $white;
 }
 
 /////////////////////////////////////////////// EDIT /////////////////////////////////////////////////////
@@ -294,8 +294,8 @@
 .z-download-content-edit,
 .z-board-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  background-color: $edit-content-bg-color;
-  @include border($edit-content-border-width, solid, $edit-content-border-color, top);
+  background-color: $white;
+  @include border(0.0625rem, solid, $gray300, top);  // 1px
 }
 
 // 역할, 권한, 코드, 패턴, 문서번호, CMDB Type
@@ -314,8 +314,8 @@
 // 시스템관리 > 사용자
 .z-user-content-edit {
   padding: 0 23.13rem 3.125rem 23.13rem; // 0 370px 50px 370px
-  @include border($edit-content-border-width, solid, $edit-content-border-color, top);
-  background-color: $edit-content-bg-color;
+  @include border(0.0625rem, solid, $gray300, top); //1px
+  background-color: $white;
 
   .sub-title { margin-top: 2.5rem; } // 40px
 
@@ -329,8 +329,8 @@
 // 시스템관리 > 게시판
 .z-board-admin-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border($edit-content-border-width, solid, $edit-content-border-color, top);
-  background-color: $edit-content-bg-color;
+  @include border(0.0625rem, solid, $gray300, top); // 1px
+  background-color: $white;
 
   // 카테고리 테이블
   .edit-table {
@@ -339,15 +339,15 @@
       height: 2.5rem; // 40px
       line-height: 2.5rem;
       th {
-        @include border($element-border-width, solid, $element-border-color, bottom);
+        @include border(0.0625rem, solid, $gray400, bottom);
       }
       td {
         padding: 0 0.9375rem; // 0 15px
-        @include border($element-border-width, solid, $element-border-color, bottom);
+        @include border(0.0625rem, solid, $gray400, bottom);
       }
     }
     .tbody {
-      tr:hover { background-color: $list-hover-bg-color; }
+      tr:hover { background-color: $neutral200; }
       // 데이터 없을때
       .no-data-found-list {
         background-color: $no-data-found-list-bg;
@@ -359,7 +359,7 @@
 // 업무흐름 관리 > 파일 관리
 .z-file-content-edit {
   padding: 0 3.75rem; // 0 60px
-  background-color: $edit-content-bg-color;
+  background-color: $white;
 }
 // 업무흐름 관리 > 커스텀 코드
 // CMDB > Attribute
@@ -367,8 +367,8 @@
 .z-cmdb-attribute-content-edit,
 .z-scheduler-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border($edit-content-border-width, solid, $edit-content-border-color, top);
-  background-color: $edit-content-bg-color;
+  @include border(0.0625rem, solid, $gray300, top); // 1px
+  background-color: $white;
   height: 100%;
 
   .under-bar {
@@ -398,8 +398,8 @@
 // Report > Template
 .z-report-template-content-edit {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border($edit-content-border-width, solid, $edit-content-border-color, top);
-  background-color: $edit-content-bg-color;
+  @include border(0.0625rem, solid, $gray300, top); // 1px
+  background-color: $white;
   height: 100%;
 }
 
@@ -411,21 +411,21 @@
 .z-board-content-view,
 .z-cmdb-attribute-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
-  @include border($view-content-border-width, solid, $view-content-border-color, top);
-  background-color: $view-content-bg-color;
+  @include border(0.0625rem, solid, $gray300, top);
+  background-color: $white;
 }
 
 .z-chart-content-view {
   .z-chart-content-title {
-    font-family: $chart-title-font-family;
-    font-size: $chart-title-font-size;
-    color: $chart-title-font-color;
-    font-weight: $chart-title-font-weight;
+    font-family: $font-family;
+    font-size: $font-size-m;
+    color: $gray800;
+    font-weight: $font-weight-bold;
   }
 }
 
 // 공지사항 상단 공지
-.notice-pinned { background-color: $notice-pinned-color; }
+.notice-pinned { background-color: $blue100; }
 
 // CI 조회
 .cmdb-ci-content {

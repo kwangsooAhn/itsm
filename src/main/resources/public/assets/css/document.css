@@ -3002,7 +3002,7 @@ table td, table th {
   color: #757575;
 }
 .z-table .z-table-head {
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -3075,7 +3075,7 @@ table td, table th {
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
@@ -4077,7 +4077,7 @@ select {
   }
   .z-print-main .z-drawing-board .z-form .z-row-tooltip .z-textarea {
     width: inherit;
-    max-width: calc(210mm - 10mm);
+    max-width: 200mm;
   }
   .z-print-main-footer {
     position: fixed;
@@ -4169,7 +4169,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-wrapper .modal-dialog.token-list .modal-content {
-  height: calc(53.0625rem - 3.875rem - 5rem);
+  height: 44.1875rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list {
@@ -4197,11 +4197,11 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content {
-  height: calc(53.0625rem - 3.875rem - 5rem);
+  height: 44.1875rem;
   padding: 1.25rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit {
-  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
+  height: 41.0625rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-form {
   padding: 0 2.5rem;
@@ -4248,7 +4248,7 @@ body.modal-active {
   border-bottom: 0.0625rem solid #ABB0B5;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
-  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
+  height: 41.0625rem;
 }
 .modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .view-form {
   padding: 0 2.5rem;
@@ -4324,7 +4324,7 @@ body.modal-active {
   height: 44.19rem;
 }
 .modal-wrapper .modal-dialog.tree .modal-content {
-  height: calc(44.19rem - 3.875rem - 5rem);
+  height: 35.315rem;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-wrapper .modal-dialog.tree .modal-content div {
@@ -4341,7 +4341,7 @@ body.modal-active {
   height: 46.875rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content {
-  height: calc(46.875rem - 3.875rem - 5rem);
+  height: 38rem;
   padding: 0.625rem 1.25rem 0.625rem 1.25rem;
 }
 .modal-wrapper .modal-dialog.custom-code-list .modal-content .field-label {
@@ -4359,7 +4359,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-wrapper .modal-dialog.sub-user-modal .modal-content, .modal-wrapper .modal-dialog.target-user-modal .modal-content {
-  height: calc(53.0625rem - 3.875rem - 5rem);
+  height: 44.1875rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list,

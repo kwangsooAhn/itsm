@@ -2617,7 +2617,7 @@ input, button, select, optgroup, textarea {
   left: 0;
   height: 2.875rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #FFFFFF;
   background-color: #3373C4;
@@ -2628,7 +2628,7 @@ input, button, select, optgroup, textarea {
   padding: 0 0.75rem;
 }
 .z-process-header .z-process-name {
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
 .z-process-header .z-process-button-list {
   width: 19.06rem;
@@ -2893,7 +2893,7 @@ input, button, select, optgroup, textarea {
   color: #8B9094;
   padding: 0 0 0.625rem 0;
   margin: 0;
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-process-properties .process-info-main .process-info-dashboard table tr td {
   padding: 0.625rem;
@@ -3001,7 +3001,7 @@ table td, table th {
   color: #757575;
 }
 .z-table .z-table-head {
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -3074,7 +3074,7 @@ table td, table th {
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
@@ -5956,15 +5956,15 @@ svg path.connector.hidden {
   height: 0.5rem;
   fill: #F5F5F5;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb {
   height: 0.5rem;
   fill: #E0E0E0;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb:hover {
   fill: #CFD5D9;
@@ -6428,8 +6428,8 @@ svg path.connector.hidden {
   -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
   -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  padding: 7px;
-  margin: 16px 0 0 0;
+  padding: 0.4375rem;
+  margin: 1rem 0 0 0;
   z-index: 500;
 }
 .z-header-tooltip .z-header-tooltip-contents.last {
@@ -6604,7 +6604,7 @@ body.modal-active {
 }
 
 .modal-dialog.save-as .modal-content {
-  height: calc(25.63rem - 3.875rem - 5rem);
+  height: 16.755rem;
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -6751,7 +6751,7 @@ body.modal-active {
   display: inline-block;
   width: 100%;
   height: 100%;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-family: #3373C4;
   font-size: 2rem;
   font-weight: 700;
   color: #8B9094;
@@ -6762,7 +6762,7 @@ body.modal-active {
   height: 48.44rem;
 }
 .modal-dialog.z-thumbnail-file .modal-content {
-  height: calc(48.44rem - 3.875rem - 5rem);
+  height: 39.565rem;
 }
 .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
   width: 14.375rem;

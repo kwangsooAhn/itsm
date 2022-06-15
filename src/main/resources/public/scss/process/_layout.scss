@@ -18,20 +18,20 @@
     @include fixedHeader;
     left: 0;
     height: $layout-header-height;
-    font-family: $layout-header-font-family;
-    font-size: $layout-header-font-size;
-    font-weight: $layout-header-font-weight;
-    color: $layout-header-font-color;
-    background-color: $layout-header-bg-color;
+    font-family: $font-family;
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
+    color: $white;;
+    background-color: $blue500;
     z-index: $z-index-gnb;
 
     .i-process-designer {
       width: 12.5rem; // 200px
-      padding: 0 $layout-header-padding; // 0 12px
+      padding: 0 0.75rem; // 0 12px
     }
 
     .z-process-name {
-      font-size: $layout-header-font-size;
+      font-size: $font-size-s;
     }
     .z-process-button-list {
       width: 19.06rem; // 305px
@@ -44,16 +44,16 @@
   // element palette
   &-element-palette {
     @include fixed($layout-header-height, null, 0, 0);
-    width: $layout-element-palette-width;
-    background-color: $layout-element-palette-bg-color;
-    @include border($layout-element-palette-border-width, solid, $layout-element-palette-border-color, right); // 1px
-    @include boxShadow(0, 0, 0.125rem, 0, $layout-element-palette-box-shadow-color); // 2px
+    width: 6.25rem; // 100px
+    background-color: $white;
+    @include border(0.0625rem, solid, $gray300, right); // 1px
+    @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
     overflow: hidden;
   }
   // main
   &-main {
     @include fixedContainer;
-    left: $layout-element-palette-width;
+    left: 6.25rem; // 100px
     overflow: hidden;
 
     .z-drawing-board {
@@ -62,13 +62,13 @@
       height: 100%;
       // 모눈 종이 : 내부 디자인 속성은 _elements.scss 참조
       svg {
-        background-color: $drawing-board-bg-color;
+        background-color: $neutral50;
         // 선
         g.grid {
           path { display: none; }
           line {
-            stroke: $drawing-board-line-color;
-            stroke-width: $drawing-board-line-width;
+            stroke: $gray200;
+            stroke-width: 1;
             stroke-opacity: 1;
             shape-rendering: crispEdges;
           }
@@ -77,24 +77,24 @@
       // 미니맵
       .z-minimap {
         display: inline-block;
-        width: $minimap-width;
-        height: $minimap-height;
+        width: 21.875rem; // 350px
+        height: 16.25rem; // 260px
         @include absolute($right: 3.438rem, $bottom: 0.625rem); // 55px 10px
-        background-color: $minimap-bg-color;
-        @include border($minimap-border-width, solid, $minimap-border-color, all);
-        border-radius: $minimap-border-radius;
-        @include boxShadow(0, 0, 0.3125rem, 0, $minimap-box-shadow-color); // 5px
+        background-color: $white;
+        @include border(0.0625rem, solid, $gray300, all);
+        border-radius: 0.0625rem; // 1px
+        @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px
         overflow: hidden;
 
         svg {
           @include absolute($top: 1.875rem, $left: 1.875rem); // 30px 30px
-          background-color: $minimap-inside-bg-color;
-          @include border($minimap-border-width, solid, $minimap-border-color, all);
-          border-radius: $minimap-border-radius;
+          background-color: $neutral50;
+          @include border(0.0625rem, solid, $gray300, all);
+          border-radius: 0.0625rem; // 1px
           // 미니맵 위치 변경시 표시되는 네모박스
           rect.z-minimap-guide {
-            fill: $minimap-guide-bg-color;
-            fill-opacity: $minimap-guide-bg-color-opacity;
+            fill: $neutral400;
+            fill-opacity: 0.25;
             stroke-width: 0;
           }
         }
@@ -104,31 +104,31 @@
       // 시뮬레이션
       .z-simulation-report {
         display: block;
-        width: $simulation-report-width;
-        height: $simulation-report-height;
+        width: 63.75rem; // 1020px
+        height: 22.688rem; // 363px
         @include absolute(0, 0, 0, 0);
-        background-color: $simulation-report-bg-color;
-        @include border($simulation-report-border-width, solid, $simulation-report-border-color, all);
-        border-radius: $simulation-report-border-radius;
-        @include boxShadow(0, 0, 0.3125rem, 0, $simulation-report-box-shadow-color); // 5px
+        background-color: $white;
+        @include border(0.0625rem, solid, $gray300, all);
+        border-radius: 0.0625rem;
+        @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px
         margin: auto;
         overflow: hidden;
         // 제목
         &-title {
           height: 3.375rem; // 54px
-          font-size: $simulation-report-title-font-size;
-          font-weight: $simulation-report-title-font-weight;
-          color: $simulation-report-title-font-color;
-          @include border($simulation-report-border-width, solid, $simulation-report-border-color, bottm);
+          font-size: $font-size-m;
+          font-weight: $font-weight-medium;
+          color: $gray800;
+          @include border(0.0625rem, solid, $gray300, bottm);
           padding: 1.125rem; // 17px
 
           .z-icon {
             &i-minus {
               @include absolute($right: 1.125rem); // 17px
               cursor: pointer;
-              background: $element-icon-color;
+              background: $gray500;
               &:hover {
-                background: $element-hover-icon-color;
+                background: $blue500;
               }
 
             }
@@ -144,8 +144,8 @@
             overflow-y: auto;
             // 결과
             .result {
-                font-size: $simulation-report-title-font-size;
-                font-weight: $simulation-report-title-font-weight;
+                font-size: $font-size-m;
+                font-weight: $font-weight-medium;
                 margin: 1.25rem 0.938rem; // 20px 15px
 
                 &.success { color: $validation-success-font-color; }
@@ -153,10 +153,10 @@
             }
             // 내용
             .details {
-              font-family: $simulation-report-content-font-family;
-              font-size: $simulation-report-content-font-size;
-              font-weight: $simulation-report-content-font-weight;
-              color: $simulation-report-content-font-color;
+              font-family: $font-family;
+              font-size: $font-size-xs;
+              font-weight: $font-weight-regular;
+              color: $gray800;
               margin: 0 0.938rem; // 0 15px
 
               div {
@@ -180,29 +180,29 @@
   &-properties-header {
     @include fixed($top: $layout-header-height, $right: 0);
     width: $layout-properties-width;
-    height: $layout-properties-header-height;
-    font-size: $layout-properties-header-font-size;
-    font-weight: $layout-properties-header-font-weight;
-    color: $layout-properties-header-font-color;
-    background-color: $layout-properties-header-bg-color;
-    @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
-    @include boxShadow(0, 0, 0.125rem, 0, $layout-properties-box-shadow-color); // 2px
+    height: 2.5rem; // 40px
+    font-size: $font-size-s;
+    font-weight: $font-weight-bold;
+    color: $gray600;
+    background-color: $white;
+    @include border(0.0625rem, solid, $gray300, left);
+    @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
     padding: 0.625rem 1.563rem; // 10px 25px;
   }
   // element 속성
   &-properties {
-    @include fixed(calc(#{$layout-header-height} + #{$layout-properties-header-height}), 0, 0, null);
+    @include fixed(calc(#{$layout-header-height} + 2.5rem), 0, 0, null); // 40px
     width: $layout-properties-width;
-    background-color: $layout-properties-bg-color;
-    @include border($layout-properties-border-width, solid, $layout-properties-border-color, left);
-    @include boxShadow(0, 0.125rem, 0.125rem, 0, $layout-properties-box-shadow-color); // 2px
+    background-color: $white;
+    @include border(0.0625rem, solid, $gray300, left);
+    @include boxShadow(0, 0.125rem, 0.125rem, 0, $gray300); // 2px
     overflow-x: hidden;
     overflow-y: auto;
     @include scrollbarHidden;
 
     // element 명
     .properties-group-title {
-      font-family: $property-group-label-font-family;
+      font-family: $font-family;
       font-size: $property-group-label-font-size;
       color: $property-group-label-color;
       margin: 1.563rem 1.563rem 0 1.563rem; // 25px 25px 0 25px
@@ -215,13 +215,13 @@
       &-title {
         display: inline-block;
         width: 100%;
-        font-size: $property-label-font-size;
+        font-size: $font-size-xs;
         color: $property-label-color;
       }
       // 마지막 속성은 선 추가
       &.last {
         padding-bottom: 1.875rem; // 30px
-        @include border($layout-properties-border-width, solid, $layout-properties-border-color, bottom);
+        @include border(0.0625rem, solid, $gray300, bottom);
       }
       // Id
       .copy { width: 81% !important; }
@@ -241,7 +241,7 @@
           th, td {
             text-align: center;
             vertical-align: middle;
-            border-color: $element-border-color;
+            border-color: $gray400;
             padding: 0 0.625rem; // 0 10px
           }
         }
@@ -253,10 +253,10 @@
       legend, .properties { padding:  0.9375rem 0 0.4375rem 0; } // 15px 0 7.5px 0
       .properties:last-child {
         padding-bottom: 1.875rem; // 30px
-        @include border($layout-properties-border-width, solid, $layout-properties-border-color, bottom);
+        @include border(0.0625rem, solid, $gray300, bottom);
       }
       &[name="condition"] {
-        @include border($layout-properties-border-width, solid, $layout-properties-border-color, bottom);
+        @include border(0.0625rem, solid, $gray300, bottom);
         .properties:last-child { border: none; }
       }
     }
@@ -265,7 +265,7 @@
     .process-info-main {
       margin: 1.25rem 1.563rem; // 20px 25px
       .process-info-title {
-        font-family: $property-group-label-font-family;
+        font-family: $font-family;
         font-size: $property-group-label-font-size;
         color: $property-group-label-color;
       }
@@ -276,7 +276,7 @@
           color: $property-label-color;
           padding: 0 0 0.625rem 0; // 0 0 10px 0
           margin: 0;
-          @include border(calc(#{$layout-properties-border-width} * 2), solid, $layout-properties-border-color, bottom);
+          @include border(calc(0.0625rem * 2), solid, $gray300, bottom);
         }
         table tr td {
             padding: 0.625rem; // 10px 들여쓰기

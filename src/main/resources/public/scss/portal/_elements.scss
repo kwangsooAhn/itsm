@@ -14,7 +14,7 @@ summary {
 .z-table {
   .z-table-body {
     display: block;
-    height: $table-body-height;
+    height: 35rem; // 560px
     tr {
       display: table;
       table-layout: fixed;

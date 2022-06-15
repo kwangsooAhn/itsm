@@ -13,7 +13,7 @@
   .z-icon-notification {
     height: 1.5rem; // 24px
     &.active {
-      .notification-round {  fill: $top-menu-notification-active-color; }
+      .notification-round {  fill: $blue500; }
     }
     &:hover { cursor: pointer; }
   }
@@ -21,10 +21,10 @@
   &-panel {
     @include relative($left: 70.8rem, $bottom: 0); // 좌측 간격 1132.8px
     width: 26.25rem; // 420px
-    @include border(0.0625rem solid $notification-panel-border-color, all); // 1px
-    @include boxShadow(0, 0, 0.3125rem, 0, $notification-panel-box-shadow-color); // 5px
-    color: $notification-panel-color;
-    background-color: $notification-panel-background;
+    @include border(0.0625rem solid $neutral200, all); // 1px
+    @include boxShadow(0, 0, 0.3125rem, 0, $neutral200); // 5px
+    color: $gray800;
+    background-color: $white;
     display: none;
     z-index: $z-index-event;
     &.on { display: block; }
@@ -36,19 +36,19 @@
     height: 2.5rem; // 40px
     padding: 0 0.938rem; // 0 15px
     align-items: baseline;
-    background-color: $notification-header-background;
+    background-color: $blue500;
     span {
       display: inline-block;
-      font-size: $notification-header-font-size; // 14px
-      font-family: $notification-header-font-family;
-      font-weight: $notification-header-font-weight;
-      color: $notification-header-color;
+      font-size: $font-size-xs;
+      font-family: $font-family;
+      font-weight: $font-weight-regular;
+      color: $white;
 
       // header 내부 컨텐츠
       &.z-title {
-        font-size: $notification-header-title-font-size; // 16px
-        font-family: $notification-header-title-font-family;
-        font-weight: $notification-header-title-font-weight;
+        font-size: $font-size-s;
+        font-family: $font-family;
+        font-weight: $font-weight-medium;
       }
       &.z-total {
         margin: auto 0.3125rem; //5px
@@ -61,7 +61,7 @@
       &.z-icon {
         &.i-remove {
           margin-left: auto;
-          background: $notification-icon-close-color;
+          background: $white;
         }
       }
     }
@@ -79,9 +79,9 @@
   &-content {
     height: 6.875rem; // 110px
     padding: 0.938rem;// 15px
-    @include border(0.063rem, solid, $notification-content-border-color, bottom); // 1px
+    @include border(0.063rem, solid, $neutral200, bottom); // 1px
     &:hover {
-      background-color: hexToRGBA($notification-content-background, 0.1);
+      background-color: hexToRGBA($blue300, 0.1);
     }
     // 체크 박스 영역
     .z-notification-checked {
@@ -91,25 +91,25 @@
       input[type="checkbox"] {
         @include relative();
         display: inline-block;
-        width: $notification-checkbox-size;
-        height: $notification-checkbox-size;
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
         padding: 0.313rem; // 5px
         margin: 0;
-        @include border($notification-checkbox-border, solid, $notification-checkbox-border-color, all);
-        @include borderRadius($notification-checkbox-border);
+        @include border(0.063rem, solid, $blue500, all); // 1px
+        @include borderRadius(0.063rem); // 1px
         -webkit-appearance: none;
         cursor: pointer;
         &:checked {
-          @include border($notification-checkbox-border, solid, $notification-checkbox-checked-border-color, all);
-          color: $notification-checkbox-checked-color;
+          @include border(0.063rem, solid, $neutral200, all); // 1px
+          color: $gray300;
           cursor: unset;
         }
         &:checked::after {
           content: '\2714';
           @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
-          font-size: $notification-checkbox-checked-font-size; // 16px
-          font-family: $notification-checkbox-checked-font-family;
-          color: $notification-checkbox-checked-color;
+          font-size: $font-size-s;
+          font-family: $font-family;
+          color: $gray300;
         }
       }
     }
@@ -117,18 +117,18 @@
     .z-icon {
       &.i-delete {
         padding: 0;
-        background: $notification-icon-color;
+        background: $gray500;
       }
     }
     span {
       &.z-title {
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
-        font-weight: $notification-content-title-font-weight;
-        font-size: $notification-content-title-font-size; // 16px
-        font-family: $notification-content-title-font-family;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-s;
+        font-family: $font-family;
         line-height: 1.2;
-        color: $notification-content-title-color;
+        color: $gray800;
         &.z-confirm {
           opacity: 0.75;
         }
@@ -140,28 +140,28 @@
         }
       }
       &.z-document-no {
-        font-size: $notification-content-date-font-size;
-        color: $notification-content-date-color;
+        font-size: $font-size-xs;
+        color: $gray500;
       }
       &.z-message {
         display: block;
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
         margin-left: 1.75rem; // 28px
-        font-weight: $notification-content-message-font-weight;
-        font-size: $notification-content-message-font-size; // 16px
-        font-family: $notification-content-message-font-family;
-        color: $notification-content-message-color;
+        font-weight: $font-weight-regular;
+        font-size: $font-size-s;
+        font-family: $font-family;
+        color: $gray800;
         &.z-confirm {
-            color: $notification-content-message-confirm-color;
+            color: $gray400;
         }
       }
       &.z-date {
         margin-left: 1.75rem; // 28px
-        font-font: $notification-content-date-font-family;
-        font-weight: $notification-content-date-font-weight;
-        font-size: $notification-content-date-font-size; // 14px
-        color: $notification-content-date-color;
+        font-font: $font-family;
+        font-weight: $font-weight-regular;
+        font-size: $font-size-xs;
+        color: $gray500;
       }
     }
   }
@@ -171,25 +171,25 @@
 // 전체 화면 우측 하단에서 지정한 시간동안만 노출되는 notification
 // toastify.css wrapper
 .alice-toastify {
-  height: $toastify-height;
+  height: 6.25rem; // 100px
   padding: 0 !important;
-  @include borderRadius($toastify-border-radius !important);
-  @include boxShadow(0, 0, 0.3125rem, 0, $toastify-box-shadow-color !important);
-  background: $toastify-background;
+  @include borderRadius(0.0625rem !important); // 1px
+  @include boxShadow(0, 0, 0.3125rem, 0, $neutral200 !important);
+  background: $white !important;
   &.toastify-right {
     right: 0.625rem; // 10px
   }
   &.toast-content {
     .icon {
-      width: $toastify-icon-size;
-      height: $toastify-icon-size;
+      width: 6.25rem; // 100px
+      height: 6.25rem; // 100px
       @include backgroundImage('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem, null, null, null, null); // 100px
     }
     .content {
       width: 23.13rem; // 370px
       height: 100%;
       padding: 0.938rem; // 15px
-      @include border($toastify-border-radius, solid, $toastify-content-border-color !important, all);
+      @include border(0.0625rem, solid, $neutral200 !important, all); // 1px
       div {
         &.title {
           padding-bottom: 0.625rem; // 10px
@@ -199,29 +199,28 @@
           padding-bottom: 0.625rem; // 10px
         }
         &.date {
-          color: $toastify-content-date-color;
+          color: $gray500;
         }
         span {
           &.z-title {
             max-width: 18.13rem; // 290px
-            font-size: $toastify-content-title-font-size; // 16px
-            font-weight: $toastify-content-title-font-weight;
-            font-family: $toastify-content-title-font-family;
-            color: $toastify-content-title-color;
+            font-size: $font-size-s;
+            font-weight: $font-weight-medium;
+            font-family: $font-family;
+            color: $gray800;
           }
           &.z-message {
             max-width: 22.5rem; // 360px
-            font-size: $toastify-content-message-font-size; // 16px
-            font-weight: $toastify-content-message-font-weight;
-            font-family: $toastify-content-message-font-family;
-            font-font: $toastify-content-message-font-family;
-            color: $toastify-content-message-color;
+            font-size: $font-size-s;
+            font-weight: $font-weight-regular;
+            font-family: $font-family;
+            color: $gray800;
           }
           &.z-date {
-            font-size: $toastify-content-date-font-size; // 14px
-            font-weight: $toastify-content-date-font-weight;
-            font-family: $toastify-content-date-font-family;
-            color: $toastify-content-date-color;
+            font-size: $font-size-xs;
+            font-weight: $font-weight-regular;
+            font-family: $font-family;
+            color: $gray500;
           }
         }
       }
@@ -230,6 +229,6 @@
   .toast-close {
     @include absolute($top: 0.688rem, $right: 0.688rem); // 11px 11px
     padding: 0;
-    @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center, null, $notification-icon-color); // 24px
+    @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray500); // 24px
   }
 }

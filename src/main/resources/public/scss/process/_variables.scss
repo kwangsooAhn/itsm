@@ -1,17 +1,7 @@
 //////////////////////////// layout ////////////////////////////
 // header
 $layout-header-height:                             2.875rem; // 46px
-$layout-header-padding:                            0.75rem; // 12px
-$layout-header-font-family:                        $font-family;
-$layout-header-font-size:                          $font-size-m;
-$layout-header-font-color:                         $white;
-$layout-header-font-weight:                        $font-weight-medium;
-$layout-header-bg-color:                           $blue500;
-// header > dropdown
-$layout-header-dropdown-border-width:              0.0625rem; // 1px
-$layout-header-dropdown-border-color:              $gray300;
-$layout-header-dropdown-box-shadow-color:          $gray300;
-$layout-header-dropdown-bg-color:                  $white;
+
 $layout-header-dropdown: (
         'default': ('font': $gray800, 'background': $white, 'border': $white),
         'hover': ('font' : $gray800, 'background': $blue50, 'border': $blue50),
@@ -19,21 +9,6 @@ $layout-header-dropdown: (
         'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
 );
 
-// element palette
-$layout-element-palette-width:                     6.25rem; // 100px
-$layout-element-palette-bg-color:                  $white;
-$layout-element-palette-border-color:              $gray300;
-$layout-element-palette-border-width:              0.0625rem; // 1px
-$layout-element-palette-box-shadow-color:          $gray300;
-
-// 엘리먼트 아이콘
-$element-icon-width:                               5.625rem; // 90px
-$element-icon-height:                              4.375rem; // 70px
-$element-icon-font-family:                         $font-family;
-$element-icon-font-size:                           $font-size-xs;
-$element-icon-font-weight:                         $font-weight-medium;
-$element-icon-border-radius:                       0.125rem; // 2px
-$element-icon-border-width:                        0.0625rem; // 1px
 $element-icon: (
   'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
   'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
@@ -52,103 +27,14 @@ $element-icon-toggle: (
   'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
 
-// main > drawing-board
-$drawing-board-bg-color:                           $neutral50; // 모눈종이 바탕색
-$drawing-board-line-width:                         1; // 모눈종이 라인 굵기
-$drawing-board-line-color:                         $gray200; // 모눈종이 선 색상
-
-// 미니맵
-$minimap-width:                                    21.875rem; // 350px
-$minimap-height:                                   16.25rem; // 260px
-$minimap-bg-color:                                 $white;
-$minimap-inside-bg-color:                          $neutral50; // 미니맵 내부 배경 색상
-$minimap-border-color:                             $gray300;
-$minimap-border-width:                             0.0625rem;
-$minimap-box-shadow-color:                         $gray300;
-$minimap-border-radius:                            0.0625rem; // 1px
-$minimap-guide-bg-color:                           $neutral400; // 미니맵 위치 변경시 표시되는 색상
-$minimap-guide-bg-color-opacity:                   0.25; // 미니맵 위치 변경시 표시되는 색상 불투명도
-
-// 시뮬레이션 리포트
-$simulation-report-width:                          63.75rem; // 1020px
-$simulation-report-height:                         22.688rem; // 363px
-$simulation-report-bg-color:                       $white;
-$simulation-report-border-color:                   $gray300;
-$simulation-report-border-width:                   0.0625rem;
-$simulation-report-box-shadow-color:               $gray300;
-$simulation-report-border-radius:                  0.0625rem; // 1px
-// 모달의 제목과 성공/실패 결과 표시
-$simulation-report-title-font-size:                $font-size-m; // 18px
-$simulation-report-title-font-weight:              $font-weight-medium;
-$simulation-report-title-font-color:               $gray800;
-$simulation-report-content-font-family:            $font-family;
-$simulation-report-content-font-size:              $font-size-xs; // 14px
-$simulation-report-content-font-weight:            $font-weight-regular;
-$simulation-report-content-font-color:             $gray800;
-
-// process properties header
-$layout-properties-header-height:                  2.5rem; // 40px
-$layout-properties-header-font-size:               $font-size-s; // 16px
-$layout-properties-header-font-color:              $gray600;
-$layout-properties-header-font-weight:             $font-weight-bold;
-$layout-properties-header-bg-color:                $white;
-
-// process properties
-$layout-properties-width:                          18.75rem; // 300px
-$layout-properties-bg-color:                       $white;
-$layout-properties-border-color:                   $gray300;
-$layout-properties-border-width:                   0.0625rem; // 1px
-$layout-properties-box-shadow-color:               $gray300;
-
 // 세부 속성명
 $property-group-label-color:                       $gray800;
-$property-group-label-font-family:                 $font-family;
 $property-group-label-font-size:                   $font-size-s; // 16px
 $property-label-color:                             $gray500;
-$property-label-font-size:                         $font-size-xs; // 14px
-
-//////////////////////////// element ////////////////////////////
-// element
-$node-font-size:                                   $font-size-s; // 16px
-$node-font-weight:                                 $font-weight-medium;
-$node-font-color:                                  $gray600;
-$node-width:                                       1; // 두께
-$node-selected-width:                              2;
-$node-selected-color:                              $blue500;
-
-// task
-$event-color:                                      $pink500; // start , end
-$gateway-color:                                    $orange400;
-$userTask-color:                                   $cyan500;
-$manualTask-color:                                 $indigo500;
-$scriptTask-color:                                 $green500;
-$subprocess-color:                                 $violet500;
-$reject-color:                                     $red500;
-$annotation-color:                                 $black;
-$group-color:                                      $black;
-
-// 선
-$connector-color:                                  $gray600;
-$connector-width:                                  1; // 두께
-$connector-selected-width:                         2;
-$connector-pointer-color:                          $blue500; // 점
-
-// 가이드라인 (정렬 일치시 나타나는 선)
-$guides-line-color:                                $gray400;
-
-// tooltip
-$element-tooltip-bg-color:                         $white;
-$element-tooltip-border-width:                     1;
-$element-tooltip-border-color:                     $gray300;
 
 $tooltip-contents-left:                            0;
 $tooltip-contents-width:                           100%;
 
 //////////////////////////// thumbnail //////////////////////////
 // thumbnail
-$thumbnail-modal-width:                            1040px; // 1040px
-$thumbnail-modal-height:                           48.44rem; // 775px
 $thumbnail-main-padding:                           0.625rem; // 10px
-
-//////////////////////////// 다른이름으로 저장하기 //////////////////////////
-$save-as-modal-height:                             25.63rem; // 410px

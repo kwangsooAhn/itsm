@@ -8,7 +8,7 @@
   // 목록
   &-list {
     height: 13.5rem; // 216px
-    @include border($element-border-width, solid, $element-border-color, all);
+    @include border(0.0625rem, solid, $gray400, all);
     @include borderRadius(0.0625rem); // 1px
     padding: 0.5rem 0.625rem; // 8px 10px
 

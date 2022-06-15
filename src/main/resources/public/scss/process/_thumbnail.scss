@@ -3,11 +3,11 @@
 // 파일 선택 모달
 .modal-dialog {
   &.z-thumbnail-file {
-    width: $thumbnail-modal-width;
-    height: $thumbnail-modal-height;
+    width: 1040px; // 1040px
+    height: 48.44rem; // 775px
     
     .modal-content {
-      height: calc(#{$thumbnail-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      height: calc(48.44rem - 3.875rem - 5rem); // 775px
 
       .z-thumbnail-main {
         .z-thumbnail {
