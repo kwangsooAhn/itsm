@@ -14,5 +14,5 @@ data class UserAbsenceDto(
     var substituteUserKey: String? = "",
     var substituteUser: String? = "",
     var userKey: String? = "",
-    var transferYN: Boolean? = false
+    var transferYN: Boolean = false
 ) : Serializable
