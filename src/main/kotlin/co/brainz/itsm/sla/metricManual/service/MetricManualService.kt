@@ -11,7 +11,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.sla.metricManual.dto.MetricManualDataDto
-import co.brainz.itsm.sla.metricManual.dto.MetricManualListReturnDto
+import co.brainz.itsm.sla.metricManual.dto.MetricManualReturnDto
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSearchCondition
 import co.brainz.itsm.sla.metricManual.dto.MetricManualSimpleDto
 import co.brainz.itsm.sla.metricManual.entity.MetricManualEntity
@@ -44,10 +44,10 @@ class MetricManualService(
     /**
      * 수동 지표 리스트 조회
      */
-    fun findMetricManualSearch(manualSearchCondition: MetricManualSearchCondition): MetricManualListReturnDto {
+    fun findMetricManualSearch(manualSearchCondition: MetricManualSearchCondition): MetricManualReturnDto {
         val pagingResult = metricManualRepository.findMetricManualSearch(manualSearchCondition)
 
-        return MetricManualListReturnDto(
+        return MetricManualReturnDto(
             data = mapper.convertValue(pagingResult.dataList),
             paging = AlicePagingData(
                 totalCount = pagingResult.totalCount,
@@ -62,7 +62,7 @@ class MetricManualService(
     /**
      * 수동지표 검색
      */
-    fun getMetricPoolsByManual(): List<MetricManualSimpleDto> {
+    fun getMetricsByManual(): List<MetricManualSimpleDto> {
         return metricManualRepository.findMetricByMetricType(MetricPoolConstants.MetricTypeCode.MANUAL.code)
     }
 
@@ -102,6 +102,9 @@ class MetricManualService(
         )
     }
 
+    /**
+     * 수동인 대상지표 목록 조회
+     */
     fun getMetricManualData(): List<MetricYearSimpleDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString(),
@@ -114,6 +117,6 @@ class MetricManualService(
      * 기간 내 매뉴얼 지표 점수의 합
      */
     fun getManualPointSum(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float {
-        return metricManualRepository.findManualPointSum(metricManualId, startDt, endDt)?: 0f;
+        return metricManualRepository.findManualPointSum(metricManualId, startDt, endDt) ?: 0f;
     }
 }
