@@ -35,6 +35,9 @@ class MetricStatusService(
     private val metricManualService: MetricManualService
 ) {
 
+    /**
+     * 현재 년도에 저징된 지표 조회
+     */
     fun getMetricList(): List<MetricYearSimpleDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString()
@@ -42,6 +45,9 @@ class MetricStatusService(
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
+    /**
+     * 차트 데이터 조회
+     */
     fun getMetricStatusChartData(metricStatusCondition: MetricStatusCondition): MetricStatusDto {
         val metricDto =
             metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year)
@@ -62,6 +68,9 @@ class MetricStatusService(
         )
     }
 
+    /**
+     * 차트 구성 세팅
+     */
     private fun initChartConfig(year: String): ChartConfig {
         val range = ChartRange(
             type = ChartConstants.Range.BETWEEN.code,
@@ -75,6 +84,9 @@ class MetricStatusService(
         )
     }
 
+    /**
+     *  차트 계산
+     */
     private fun initZqlCalculatedData(metricStatusCondition: MetricStatusCondition): MutableList<ChartData> {
         val metric =
             metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year)
