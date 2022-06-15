@@ -11,6 +11,8 @@ import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.dto.PortalTopDto
@@ -36,7 +38,7 @@ class PortalRestController(
      * 포탈 검색 리스트 호출 처리
      */
     @GetMapping("")
-    fun getPortalList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
+    fun getPortalList(portalSearchDto: PortalSearchDto): ResponseEntity<ZResponse> {
         val portalResult = portalService.findPortalListOrSearchList(portalSearchDto)
         val portalResultList = mutableListOf<PortalDto>()
         for (data in portalResult.data) {
@@ -50,7 +52,7 @@ class PortalRestController(
             )
             portalResultList.add(portalDto)
         }
-        return portalResultList
+        return ZAliceResponse.response(portalResultList)
     }
 
     @GetMapping("/top")
