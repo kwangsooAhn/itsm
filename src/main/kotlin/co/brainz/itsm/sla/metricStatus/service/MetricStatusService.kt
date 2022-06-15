@@ -8,8 +8,8 @@ package co.brainz.itsm.sla.metricStatus.service
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConstants
-import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
-import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
@@ -42,22 +42,22 @@ class MetricStatusService(
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
-    fun getMetricStatusChartData(metricStatusChartCondition: MetricStatusChartCondition): MetricStatusChartDto {
+    fun getMetricStatusChartData(metricStatusCondition: MetricStatusCondition): MetricStatusDto {
         val metricDto =
-            metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year)
-        val chartConfig = this.initChartConfig(metricStatusChartCondition.year)
+            metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year)
+        val chartConfig = this.initChartConfig(metricStatusCondition.year)
         val tag = mutableListOf<AliceTagDto>()
         tag.add(AliceTagDto(tagId = "", tagValue = metricDto.metricName))
 
-        return MetricStatusChartDto(
-            metricYears = metricStatusChartCondition.year,
-            metricId = metricStatusChartCondition.metricId,
-            chartType = metricStatusChartCondition.chartType,
+        return MetricStatusDto(
+            metricYears = metricStatusCondition.year,
+            metricId = metricStatusCondition.metricId,
+            chartType = metricStatusCondition.chartType,
             metricName = metricDto.metricName,
             metricDesc = metricDto.comment,
             tags = tag,
             chartConfig = chartConfig,
-            chartData = this.initZqlCalculatedData(metricStatusChartCondition),
+            chartData = this.initZqlCalculatedData(metricStatusCondition),
             zqlString = metricDto.zqlString
         )
     }
@@ -75,20 +75,20 @@ class MetricStatusService(
         )
     }
 
-    private fun initZqlCalculatedData(metricStatusChartCondition: MetricStatusChartCondition): MutableList<ChartData> {
+    private fun initZqlCalculatedData(metricStatusCondition: MetricStatusCondition): MutableList<ChartData> {
         val metric =
-            metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year)
-        val from = LocalDateTime.of(metricStatusChartCondition.year.toInt(), 1, 1, 0, 0, 0)
-        val to = LocalDateTime.of(metricStatusChartCondition.year.toInt(), 12, 31, 23, 59, 59)
+            metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year)
+        val from = LocalDateTime.of(metricStatusCondition.year.toInt(), 1, 1, 0, 0, 0)
+        val to = LocalDateTime.of(metricStatusCondition.year.toInt(), 12, 31, 23, 59, 59)
         val chartData = mutableListOf<ChartData>()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (metric.metricType == MetricPoolConstants.MetricTypeCode.MANUAL.code) {
             for (i in 1..12) {
-                val month = LocalDate.of(metricStatusChartCondition.year.toInt(), i, 1)
+                val month = LocalDate.of(metricStatusCondition.year.toInt(), i, 1)
                 val point = metricManualService.getManualPointSum(
                     metric.metricId,
                     month,
-                    LocalDate.of(metricStatusChartCondition.year.toInt(), i, month.lengthOfMonth())
+                    LocalDate.of(metricStatusCondition.year.toInt(), i, month.lengthOfMonth())
                 ).toString()
 
                 chartData.add(
@@ -108,7 +108,7 @@ class MetricStatusService(
                 .setInstanceStatus(InstanceStatus.FINISH)
                 .setCriteria(ZqlInstanceDateCriteria.END)
 
-            val calculatedData:  List<ZqlCalculatedData> = when (metric.calculationType) {
+            val calculatedData: List<ZqlCalculatedData> = when (metric.calculationType) {
                 MetricPoolConstants.MetricCalculationTypeCode.SUM.code -> zql.sum()
                 MetricPoolConstants.MetricCalculationTypeCode.PERCENTAGE.code -> zql.percentage()
                 MetricPoolConstants.MetricCalculationTypeCode.AVERAGE.code -> zql.average()
