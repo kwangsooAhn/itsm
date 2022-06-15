@@ -2222,8 +2222,6 @@
         attributeValue.searchKey.forEach( (elem, index) => {
             searchKeys += (index > 0) ? '+' + elem.id : elem.id;
         });
-        console.log(targetCriteria);
-        console.log(searchKeys);
         // 검색
         const strUrl = '/users/searchUsers?searchValue=' + encodeURIComponent(search.trim()) +
             '&targetCriteria=' + targetCriteria + '&searchKeys=' + searchKeys;
@@ -2255,7 +2253,6 @@
             } else {
                 // 기본 값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                console.log(userListElem);
                 if (userListElem.querySelectorAll('.z-table-row').length === 0) {
                     target.value = '';
                     target.setAttribute('data-user-search', '');
