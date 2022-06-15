@@ -548,7 +548,7 @@ class UserService(
     /**
      * 사용자 정의 업무 대리인 조회
      */
-    fun getUserAbsenceInfo(userKey: String): UserAbsenceDto? {
+    fun getUserAbsenceInfo(userKey: String): UserAbsenceDto {
         val userEntity = userDetailsService.selectUserKey(userKey)
         var absenceInfo = ""
         run loop@{
