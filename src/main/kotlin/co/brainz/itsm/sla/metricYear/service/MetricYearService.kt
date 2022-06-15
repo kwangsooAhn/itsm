@@ -166,7 +166,6 @@ class MetricYearService(
                 orderType = ""
             )
         )
-
     }
 
     /**
