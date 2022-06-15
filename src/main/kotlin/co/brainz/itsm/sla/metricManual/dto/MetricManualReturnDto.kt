@@ -9,7 +9,7 @@ package co.brainz.itsm.sla.metricManual.dto
 import co.brainz.framework.util.AlicePagingData
 import java.io.Serializable
 
-data class MetricManualListReturnDto(
+data class MetricManualReturnDto(
     val data: List<MetricManualDto> = emptyList(),
     val paging: AlicePagingData
 ) : Serializable
