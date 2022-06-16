@@ -119,4 +119,12 @@ class MetricManualService(
     fun getManualPointSum(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float {
         return metricManualRepository.findManualPointSum(metricManualId, startDt, endDt) ?: 0f;
     }
+
+    fun getManualPointAverage(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float {
+        return metricManualRepository.findManualPointSum(metricManualId, startDt, endDt) ?: 0f;
+    }
+
+    fun getManualPointPercentage(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float {
+        return metricManualRepository.findManualPointSum(metricManualId, startDt, endDt) ?: 0f;
+    }
 }

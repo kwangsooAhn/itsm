@@ -139,7 +139,25 @@ class MetricYearService(
         val to = LocalDateTime.of(year.toInt(), 12, 31, 23, 59, 59)
         metricAnnualDtoList.forEach {
             it.score = if (it.metricType == MetricPoolConst.Type.MANUAL.code) {
-                metricManualService.getManualPointSum(it.metricId, from.toLocalDate(), to.toLocalDate())
+                when (it.calculationType) {
+                    MetricPoolConst.CalculationType.SUM.code -> metricManualService.getManualPointSum(
+                        it.metricId,
+                        from.toLocalDate(),
+                        to.toLocalDate()
+                    )
+                    MetricPoolConst.CalculationType.AVERAGE.code -> metricManualService.getManualPointAverage(
+                        it.metricId,
+                        from.toLocalDate(),
+                        to.toLocalDate()
+                    )
+                    MetricPoolConst.CalculationType.PERCENTAGE.code -> metricManualService.getManualPointPercentage(
+                        it.metricId,
+                        from.toLocalDate(),
+                        to.toLocalDate()
+                    )
+                    else -> 0f
+                }
+
             } else {
                 zql.setExpression(it.zqlString)
                     .setFrom(from)
