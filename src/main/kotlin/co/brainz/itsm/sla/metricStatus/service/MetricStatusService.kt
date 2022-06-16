@@ -9,8 +9,8 @@ import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
-import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
-import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
@@ -48,9 +48,9 @@ class MetricStatusService(
         return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
     }
 
-    fun getMetricStatusChartData(metricStatusChartCondition: MetricStatusChartCondition): MetricStatusChartDto? {
+    fun getMetricStatusChartData(metricStatusCondition: MetricStatusCondition): MetricStatusDto? {
         val metricDto =
-            metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year) ?: return null
+            metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year) ?: return null
 
         val tag = mutableListOf<AliceTagDto>()
         tag.add(AliceTagDto(tagId = "", tagValue = metricDto.metricName))
@@ -62,8 +62,8 @@ class MetricStatusService(
             metricName = metricDto.metricName,
             metricDesc = metricDto.comment,
             tags = tag,
-            chartConfig = this.initChartConfig(metricStatusChartCondition.year),
-            chartData = this.initZqlCalculatedData(metricStatusChartCondition),
+            chartConfig = this.initChartConfig(metricStatusCondition.year),
+            chartData = this.initZqlCalculatedData(metricStatusCondition),
             zqlString = metricDto.zqlString
         )
     }
@@ -128,12 +128,14 @@ class MetricStatusService(
             }
 
             calculatedData.forEach {
-                chartData.add(ChartData(
-                    id = "",
-                    category = it.categoryDT.format(formatter),
-                    value = it.value.toString(),
-                    series = metric.metricName
-                ))
+                chartData.add(
+                    ChartData(
+                        id = "",
+                        category = it.categoryDT.format(formatter),
+                        value = it.value.toString(),
+                        series = metric.metricName
+                    )
+                )
             }
         }
 

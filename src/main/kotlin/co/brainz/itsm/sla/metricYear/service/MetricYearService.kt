@@ -350,8 +350,8 @@ class MetricYearService(
     /**
      * 연도별 SLA 현황 preview
      */
-    fun metricPreviewChartData(metricId: String, year: String): MetricStatusChartDto? {
-        val metricStatusCondition = MetricStatusChartCondition(
+    fun metricPreviewChartData(metricId: String, year: String): MetricStatusDto? {
+        val metricStatusCondition = MetricStatusCondition(
             metricId = metricId,
             year = year,
             chartType = ChartConstants.Type.BASIC_LINE.code
