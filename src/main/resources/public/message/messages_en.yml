@@ -84,6 +84,7 @@ common:
     modify: "Modified."
     noData: "There is no data."
     notSaveAfterDestroy: "It cannot be saved in the destroy."
+    notSaveAfterPublishAndUse: "It is not possible to save during the publish or used."
     processedOrDelete: "Already processed or deleted."
     register: "Registered."
     required: "Please enter {0}."

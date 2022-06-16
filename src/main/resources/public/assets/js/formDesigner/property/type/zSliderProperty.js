@@ -12,7 +12,7 @@
  *
  * https://www.brainz.co.kr
  */
-import {UIDiv, UISlider} from '../../../lib/zUI.js';
+import { UIDiv, UISlider } from '../../../lib/zUI.js';
 import { FORM } from '../../../lib/zConstants.js';
 import { zValidation } from '../../../lib/zValidation.js';
 import ZProperty from '../zProperty.js';
@@ -29,8 +29,7 @@ export default class ZSliderProperty extends ZProperty {
     makeProperty(panel) {
         this.panel = panel;
         // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우) 또는 (문서가 '사용/발행' 이고 연결된 업무흐름이 없는 경우)
-        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable)
-            || (!this.panel.editor.isDestory && !this.panel.editor.isCreatedWorkFlow);
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);

@@ -54,8 +54,24 @@ import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.time.LocalDateTime
-import java.util.ArrayDeque
-import java.util.UUID
+import java.util.*
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.MutableList
+import kotlin.collections.MutableMap
+import kotlin.collections.containsKey
+import kotlin.collections.filter
+import kotlin.collections.first
+import kotlin.collections.forEach
+import kotlin.collections.get
+import kotlin.collections.getValue
+import kotlin.collections.isNotEmpty
+import kotlin.collections.last
+import kotlin.collections.mutableListOf
+import kotlin.collections.mutableMapOf
+import kotlin.collections.orEmpty
+import kotlin.collections.set
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -316,6 +332,9 @@ class WfDocumentService(
 
             if (params["isDeleteData"].toString().toBoolean()) {
                 this.deleteInstancesByStatusTemporary(wfDocumentEntity)
+
+                // 신청서 사용시, 폼/프로세스 상태 변경
+                this.updateFormAndProcessStatus(wfDocumentEntity)
             }
         }
 
@@ -661,7 +680,7 @@ class WfDocumentService(
 
     /**
      * 업무흐름 Import.
-     * 신규로 Import된 프로세스, 폼은 '발행' 상태이다.
+     * 신규로 Import된 프로세스, 폼은 문서가 '임시'일 경우 '발행' 상태이고 '사용'일 경우 사용 상태이다.
      */
     @Transactional
     fun importDocument(documentImportDto: DocumentImportDto): ZResponse {
@@ -701,22 +720,24 @@ class WfDocumentService(
             val newProcessId = importDto.processData.process?.id!!
 
             // 신청서 저장
-            val newDocumentId = wfDocumentRepository.save(WfDocumentEntity(
-                documentId = "",
-                documentType = importDto.documentData.documentType,
-                documentName = importDto.documentData.documentName,
-                documentDesc = importDto.documentData.documentDesc,
-                form = WfFormEntity(formId = newFormId),
-                process = WfProcessEntity(processId = newProcessId),
-                createDt = LocalDateTime.now(),
-                createUserKey = currentSessionUser.getUserKey(),
-                documentStatus = importDto.documentData.documentStatus,
-                apiEnable = importDto.documentData.apiEnable,
-                numberingRule = numberingRuleRepository.findById(importDto.documentData.documentNumberingRuleId).get(),
-                documentColor = importDto.documentData.documentColor,
-                documentGroup = importDto.documentData.documentGroup,
-                documentIcon = importDto.documentData.documentIcon
-            )).documentId
+            val newDocumentId = wfDocumentRepository.save(
+                WfDocumentEntity(
+                    documentId = "",
+                    documentType = importDto.documentData.documentType,
+                    documentName = importDto.documentData.documentName,
+                    documentDesc = importDto.documentData.documentDesc,
+                    form = WfFormEntity(formId = newFormId),
+                    process = WfProcessEntity(processId = newProcessId),
+                    createDt = LocalDateTime.now(),
+                    createUserKey = currentSessionUser.getUserKey(),
+                    documentStatus = importDto.documentData.documentStatus,
+                    apiEnable = importDto.documentData.apiEnable,
+                    numberingRule = numberingRuleRepository.findById(importDto.documentData.documentNumberingRuleId).get(),
+                    documentColor = importDto.documentData.documentColor,
+                    documentGroup = importDto.documentData.documentGroup,
+                    documentIcon = importDto.documentData.documentIcon
+                )
+            ).documentId
             // 신청서 양식 편집 저장
             val wfDocumentDisplayEntities: MutableList<WfDocumentDisplayEntity> = mutableListOf()
             for (display in importDto.displayData) {
@@ -744,7 +765,11 @@ class WfDocumentService(
      */
     private fun importForm(documentImportDto: DocumentImportDto): DocumentImportDto {
         documentImportDto.formData.id = ""
-        documentImportDto.formData.status = WorkflowConstants.FormStatus.PUBLISH.value
+        //신규로 Import된 폼은 문서가 '임시'일 경우 발행 상태이고 '사용'일 경우 사용 상태이다.
+        documentImportDto.formData.status = when (documentImportDto.documentData.documentStatus) {
+            DocumentConstants.DocumentStatus.TEMPORARY.value -> WorkflowConstants.FormStatus.PUBLISH.value
+            else -> WorkflowConstants.FormStatus.USE.value
+        }
         documentImportDto.formData.createUserKey = currentSessionUser.getUserKey()
         documentImportDto.formData.createDt = LocalDateTime.now()
 
@@ -780,11 +805,16 @@ class WfDocumentService(
      * WfProcessService.kt - saveAsProcess 참고
      */
     private fun importProcess(documentImportDto: DocumentImportDto): DocumentImportDto {
+        // 신규로 Import된 프로세스는 문서가 '임시'일 경우 발행 상태이고 '사용'일 경우 사용 상태이다.
+        val processStatus = when (documentImportDto.documentData.documentStatus) {
+            DocumentConstants.DocumentStatus.TEMPORARY.value -> WorkflowConstants.ProcessStatus.PUBLISH.value
+            else -> WorkflowConstants.ProcessStatus.USE.value
+        }
         val processDto = wfProcessService.insertProcess(
             RestTemplateProcessDto(
                 processName = documentImportDto.processData.process?.name.toString(),
                 processDesc = documentImportDto.processData.process?.description,
-                processStatus = WorkflowConstants.ProcessStatus.PUBLISH.value,
+                processStatus = processStatus,
                 enabled = false,
                 createDt = LocalDateTime.now(),
                 createUserKey = currentSessionUser.getUserKey()

@@ -38,8 +38,15 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.util.UUID
+import java.util.*
 import javax.transaction.Transactional
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.List
+import kotlin.collections.MutableList
+import kotlin.collections.forEach
+import kotlin.collections.isNotEmpty
+import kotlin.collections.mutableListOf
+import kotlin.collections.orEmpty
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
@@ -73,12 +80,12 @@ class WfFormService(
     fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
         val pagingResult = wfFormRepository.findFormEntityList(formSearchCondition)
         val formList = mutableListOf<RestTemplateFormDto>()
+        // 발행 / 사용 상태일 경우 수정 불가능 (#8969 일감 참조)
         for (form in pagingResult.dataList as List<WfFormEntity>) {
             val restTemplateDto = wfFormMapper.toFormViewDto(form)
             when (restTemplateDto.status) {
-                WfFormConstants.FormStatus.EDIT.value,
-                WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
-                WfFormConstants.FormStatus.USE.value -> restTemplateDto.editable = false
+                WfFormConstants.FormStatus.EDIT.value -> restTemplateDto.editable = true
+                else -> false
             }
             formList.add(restTemplateDto)
         }

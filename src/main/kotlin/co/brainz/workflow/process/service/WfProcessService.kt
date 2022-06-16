@@ -38,7 +38,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import java.util.UUID
+import java.util.*
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -65,9 +65,10 @@ class WfProcessService(
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
         val pagingResult = wfProcessRepository.findProcessEntityList(processSearchCondition)
         val processList = pagingResult.dataList as List<WfProcessEntity>
+        // 발행 / 사용 상태일 경우 수정 불가능 (#8969 일감 참조)
         for (process in processList) {
             val enabled = when (process.processStatus) {
-                WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
+                WfProcessConstants.Status.EDIT.code -> true
                 else -> false
             }
             val processViewDto = processMapper.toProcessViewDto(process)
@@ -524,8 +525,8 @@ class WfProcessService(
                 ) {
                     elementData[WfElementConstants.AttributeId.SCRIPT_DETAIL.value] = mutableListOf(
                         valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString +
-                                "|" +
-                                valueObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value).asString
+                            "|" +
+                            valueObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value).asString
                     )
                 }
                 if (valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value) != null &&
@@ -537,7 +538,7 @@ class WfProcessService(
                     actionArray.forEach { action ->
                         actionList.add(
                             action.asJsonObject.get(WfElementConstants.AttributeId.CONDITION.value).asString +
-                                    "|" + action.asJsonObject.get(WfElementConstants.AttributeId.FILE.value).asString
+                                "|" + action.asJsonObject.get(WfElementConstants.AttributeId.FILE.value).asString
                         )
                     }
                     elementData[WfElementConstants.AttributeId.SCRIPT_ACTION.value] = actionList
