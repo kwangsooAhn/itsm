@@ -43,7 +43,7 @@
                 <th:block th:if="${#strings.isEmpty(edit) && #strings.isEmpty(view)}">
                     <div class="flex-column col-2 pl-2">
                         <label for="metricType">
-                            <span th:text="#{sla.metric.label.type}"></span>
+                            <span class="required" th:text="#{sla.metric.label.type}"></span>
                         </label>
                         <select id="metricType">
                             <option th:text="#{sla.metric.label.selectMetricType}" value="" selected></option>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="metricUnit">
-                            <span th:text="#{sla.metric.label.unit}"></span>
+                            <span class="required" th:text="#{sla.metric.label.unit}"></span>
                         </label>
                         <select id="metricUnit">
                             <option th:text="#{sla.metric.label.selectMetricUnit}" value="" selected></option>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="calculationType">
-                            <span th:text="#{common.label.calculationType}"></span>
+                            <span class="required" th:text="#{common.label.calculationType}"></span>
                         </label>
                         <select id="calculationType">
                             <option th:text="#{sla.metric.label.selectMetricCalcType}" value="" selected></option>
@@ -72,7 +72,6 @@
                         </select>
                     </div>
                 </th:block>
-
                 <!-- 편집, 조회 페이지 -->
                 <th:block th:if="!${#strings.isEmpty(edit) && #strings.isEmpty(view)}">
                     <div class="flex-column col-2 pl-2">
