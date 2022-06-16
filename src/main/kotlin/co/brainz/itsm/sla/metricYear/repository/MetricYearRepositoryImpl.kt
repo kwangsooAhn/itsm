@@ -44,6 +44,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     metricYear.metricYear,
                     code.codeName.`as`("metricGroupName"),
                     metricPool.metricName,
+                    metricPool.metricUnit,
                     metricYear.minValue,
                     metricYear.maxValue,
                     metricYear.weightValue,

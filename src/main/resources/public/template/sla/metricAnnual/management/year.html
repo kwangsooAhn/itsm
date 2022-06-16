@@ -94,7 +94,7 @@
                 </div>
             </th:block>
             <div class="flex-row z-edit-row">
-                <div class="flex-column col-1">
+                <div class="flex-column col-2">
                     <label th:text="#{sla.metricYear.label.minValue}" for="minValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="minValue" name="minValue" class="z-input metric-value"
@@ -104,7 +104,7 @@
                         <span class="pl-1" id="minValueUnit"></span>
                     </div>
                 </div>
-                <div class="flex-column col-1 ml-5">
+                <div class="flex-column col-2 ml-5">
                     <label th:text="#{sla.metricYear.label.maxValue}" for="maxValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="maxValue" name="maxValue" class="z-input metric-value"
@@ -114,7 +114,7 @@
                         <span class="pl-1" id="mixValueUnit"></span>
                     </div>
                 </div>
-                <div class="flex-column col-1 ml-5">
+                <div class="flex-column col-2 ml-5">
                     <label th:text="#{sla.metricYear.label.weightValue}" for="weightValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="weightValue" name="weightValue" class="z-input metric-value"
@@ -124,15 +124,17 @@
                         <span class="pl-1" th:text="#{sla.metricYear.label.option.percent}"></span>
                     </div>
                 </div>
-                <div class="flex-column col-2 ml-5">
+                <div class="flex-column col-3 ml-5">
                     <label th:text="#{sla.metricYear.label.owner}" for="owner" class="required"></label>
                     <input type="text" id="owner" name="owner" class="z-input" maxlength="128"
                            th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[0-9]/g,\'\');'"
                            th:value="${metric?.owner}" th:readonly="${view}"/>
                 </div>
-                <div class="flex-column col-6 pl-3">
+            </div>
+            <div class="z-edit-form z-edit-row">
+                <div class="flex-column">
                     <label th:text="#{sla.metricYear.label.comment}" for="comment" class="required"></label>
-                    <input type="text" id="comment" name="comment" class="z-input" maxlength="128"
+                    <input type="text" class="z-input" id="comment" name="comment" maxlength="128"
                            th:value="${metric?.comment}" th:readonly="${view}"/>
                 </div>
             </div>
