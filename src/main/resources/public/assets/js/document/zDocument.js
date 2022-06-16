@@ -379,9 +379,64 @@ class ZDocument {
     /**
      * 프로세스 맵 팝업 호출
      */
-    openProcessStatusPopUp() {
-        window.open('/tokens/' + this.data.instanceId + '/status', 'token_status_' + this.data.instanceId,
-            'width=1300, height=500');
+    openProcessStatusModal() {
+        const url = '/rest/tokens/' + this.data.instanceId + '/status';
+        aliceJs.fetchText(url, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((response) => {
+            let responseJson = JSON.parse(response);
+            const tokenStatus = responseJson.data;
+            const processStatusModalTemplate = `<svg id="elementContainer"` +
+                `style="position: absolute; top: 0; left: 0; background-size: initial;"` +
+                `viewBox="${tokenStatus.left} ${tokenStatus.top} ${tokenStatus.width} ${tokenStatus.height}"></svg>`;
+            const processStatusModal = new modal({
+                body: processStatusModalTemplate,
+                classes: 'process-status-modal',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: (modal) => {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: () => {
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    let statusGroup = d3.select('#elementContainer')
+                        .style('background-image', 'url(' + tokenStatus.imageData + ')')
+                        .style('width', tokenStatus.width)
+                        .style('height', tokenStatus.height)
+                        .append('g');
+                    const element = tokenStatus.elements;
+                    element.forEach(elementId => {
+                        if (elementId.id === tokenStatus.elementId) {
+                            const type = elementId.type,
+                                width = Number(elementId.width),
+                                height = Number(elementId.height),
+                                x = Number(elementId['position-x']), // center - x
+                                y = Number(elementId['position-y']); // center - y
+                            if (type === 'userTask' || type === 'subprocess') {
+                                statusGroup.append('rect')
+                                    .attr('width', width)
+                                    .attr('height', height)
+                                    .attr('x', x - (width / 2))
+                                    .attr('y', y - (height / 2))
+                                    .attr('rx', 4)
+                                    .attr('ry', 4)
+                                    .style('stroke', '#FF405A')
+                                    .style('stroke-width', 3)
+                                    .style('fill', 'none');
+                            }
+                        }
+                    });
+                }
+            });
+            processStatusModal.show();
+        });
     }
 
     /**

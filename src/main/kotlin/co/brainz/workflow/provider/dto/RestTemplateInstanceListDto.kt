@@ -7,9 +7,9 @@ data class RestTemplateInstanceListDto(
     var instanceId: String?,
     var documentName: String?,
     var documentNo: String?,
-    var instanceStartDt: LocalDateTime?,
-    var instanceEndDt: LocalDateTime?,
-    var instanceCreateUserKey: String?,
-    var instanceCreateUserName: String?,
+    var createDt: LocalDateTime?,
+    val tokenId: String? = null,
+    val assigneeUserKey: String? = "",
+    val assigneeUserName: String? = "",
     var related: Boolean = false
 ) : Serializable

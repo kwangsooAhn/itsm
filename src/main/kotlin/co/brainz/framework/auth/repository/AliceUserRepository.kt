@@ -22,4 +22,6 @@ interface AliceUserRepository : JpaRepository<AliceUserEntity, String> {
      * 사용자의 KEY로 해당 사용자 1건을 조회한다.
      */
     fun findByUserKey(userKey: String): AliceUserEntity
+
+    fun existsByUserId(userId: String): Boolean
 }
