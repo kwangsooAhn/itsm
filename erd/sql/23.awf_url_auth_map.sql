@@ -260,6 +260,8 @@ insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'put', 'sla.
 insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'delete', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metric-status', 'get', 'sla.manage');
 insert into awf_url_auth_map values ('/rest/sla/metric-status', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/rest/sla/metric-status/list', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-status/list', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/rest/statistics/customChart', 'post', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.view');

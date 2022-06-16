@@ -27,8 +27,9 @@ class MetricStatusController(
      */
     @GetMapping("/search")
     fun getMetricStatusSearch(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("metricList", metricStatusService.getMetricList())
-        model.addAttribute("yearsList", metricYearService.getYears())
+        val yearList = metricYearService.getYears()
+        model.addAttribute("yearsList", yearList)
+        model.addAttribute("metricList", metricStatusService.getMetricList(yearList.firstOrNull()?: ""))
         return metricStatusSearchPage
     }
 
