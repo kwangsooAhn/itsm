@@ -22,6 +22,7 @@ import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusDto
 import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
+import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
@@ -133,8 +134,24 @@ class MetricYearService(
      * 년도별 SLA 현황 목록 조회
      */
     fun findMetricAnnualSearch(year: String): MetricAnnualListReturnDto {
-        val metricAnnualDtoList = metricYearRepository.findMetricStatusList(year)
+        var metricAnnualDtoList = metricYearRepository.findMetricStatusList(year)
+        metricAnnualDtoList = this.scoreCalculation(metricAnnualDtoList, year)
+        return MetricAnnualListReturnDto(
+            data = metricAnnualDtoList,
+            paging = AlicePagingData(
+                totalCount = metricAnnualDtoList.size.toLong(),
+                totalCountWithoutCondition = metricYearRepository.count(),
+                currentPageNum = 0L,
+                totalPageNum = 0L,
+                orderType = ""
+            )
+        )
+    }
 
+    /**
+     * 년도별 SLA 현황 결과값 조회
+     */
+    private fun scoreCalculation(metricAnnualDtoList: List<MetricAnnualDto>, year: String): List<MetricAnnualDto> {
         val from = LocalDateTime.of(year.toInt(), 1, 1, 0, 0, 0)
         val to = LocalDateTime.of(year.toInt(), 12, 31, 23, 59, 59)
         metricAnnualDtoList.forEach {
@@ -156,23 +173,14 @@ class MetricYearService(
                 }
             }
         }
-        return MetricAnnualListReturnDto(
-            data = metricAnnualDtoList,
-            paging = AlicePagingData(
-                totalCount = metricAnnualDtoList.size.toLong(),
-                totalCountWithoutCondition = metricYearRepository.count(),
-                currentPageNum = 0L,
-                totalPageNum = 0L,
-                orderType = ""
-            )
-        )
+        return metricAnnualDtoList
     }
 
     /**
      *  년도별 SLA 현황 엑셀 다운로드
      */
     fun getMetricExcelDownload(year: String): ResponseEntity<ByteArray> {
-        val returnDto = metricYearRepository.findMetricYearListForExcel(year)
+        var returnDto = metricYearRepository.findMetricStatusList(year)
         val excelVO = ExcelVO(
             sheets = mutableListOf(
                 ExcelSheetVO(
@@ -217,6 +225,7 @@ class MetricYearService(
                 )
             )
         )
+        returnDto = this.scoreCalculation(returnDto, year)
         returnDto.forEach { result ->
             excelVO.sheets[0].rows.add(
                 ExcelRowVO(
