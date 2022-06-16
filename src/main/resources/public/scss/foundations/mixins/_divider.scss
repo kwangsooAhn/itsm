@@ -40,4 +40,4 @@
 // 세로 선
 @include verticalBar(1.875rem, 1.875rem, 0.0625rem solid $gray400, 0 1.875rem 0 0); // 0 30px 0 0
 // 아래 실선
-@include underBar(0.0625rem, 0.625rem, $blue500); // 1px 10px
+@include underBar(0.0625rem, 0.625rem, $gray400); // 1px 10px

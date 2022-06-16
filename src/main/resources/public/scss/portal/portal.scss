@@ -6,9 +6,7 @@
  */
 @charset 'utf-8';
 
-@import '../foundations/base/functions';          // 상속 불가
 @import '../foundations/foundations.scss';      // 상속 불가
-@import '_icons.scss';
 @import '_layout.scss';
 @import '_elements.scss';
 @import '_buttons.scss';

@@ -20,7 +20,7 @@
 
     // 상단 영역
     .z-document-main-header {
-      @include fixed(0, 33.125rem null, 0); // 530px
+      @include fixed(0, 33.125rem, null, 0); // 530px
       padding: 0.75rem 1rem; // 12px
       background: $blue500;
       z-index: 100;

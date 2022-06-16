@@ -1036,13 +1036,13 @@ input, button, select, optgroup, textarea {
 }
 
 .under-bar {
-  border-bottom: 0.0625rem solid #3373C4;
+  border-bottom: 0.0625rem solid #ABB0B5;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
   margin-top: 1.875rem;
 }
 .under-bar .bold {
-  border-bottom: calc(0.0625rem * 2) solid #3373C4;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 .under-bar label {
   font-size: 1.125rem;
@@ -3390,8 +3390,6 @@ input, button, select, optgroup, textarea {
 .z-board-header,
 .z-user-header,
 .z-board-admin-header,
-.z-process-header,
-.z-form-header,
 .z-document-admin-header,
 .z-custom-code-header,
 .z-auth-header,
@@ -3649,7 +3647,7 @@ input, button, select, optgroup, textarea {
   position: fixed;
   top: 0;
   right: 33.125rem;
-  bottom: 0;
+  left: 0;
   padding: 0.75rem 1rem;
   background: #3373C4;
   z-index: 100;
