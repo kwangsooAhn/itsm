@@ -1,8 +1,8 @@
-(function (global, factory) {
+(function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.zProcessDesigner = global.zProcessDesigner || {})));
-}(this, (function (exports) {
+}(this, (function(exports) {
     'use strict';
 
     let initialStatus = null;
@@ -25,14 +25,14 @@
         {
             type: 'delete', parent: 'action',
             url: iconDirectory + '/tooltip/icon_tooltip_delete.svg',
-            action: function () {
+            action: function() {
                 deleteElements();
             }
         },
         {
             type: 'copy', parent: 'action',
             url: iconDirectory + '/tooltip/icon_tooltip_copy.svg',
-            action: function (el) {
+            action: function(el) {
                 copyElement(el);
             }
         },
@@ -40,7 +40,7 @@
             type: 'edit', parent: 'action',
             url: iconDirectory + '/tooltip/icon_tooltip_edit.svg',
             focusUrl: iconDirectory + '/tooltip/icon_tooltip_edit_focus.svg',
-            action: function (el) {
+            action: function(el) {
                 setElementCategoryItems(el);
             }
         },
@@ -48,38 +48,38 @@
             type: 'suggest', parent: 'action',
             url: iconDirectory + '/tooltip/icon_tooltip_suggest.svg',
             focusUrl: iconDirectory + '/tooltip/icon_tooltip_suggest_focus.svg',
-            action: function (el) {
+            action: function(el) {
                 setSuggestElementItems(el);
             }
         },
         {
             type: 'userTask', parent: 'suggest',
             url: iconDirectory + '/tooltip/icon_tooltip_user_task.svg',
-            action: function (el) {
+            action: function(el) {
                 suggestElement(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'suggest',
             url: iconDirectory + '/tooltip/icon_tooltip_manual_task.svg',
-            action: function (el) {
+            action: function(el) {
                 suggestElement(el, 'manualTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest',
             url: iconDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
-            action: function (el) {
+            action: function(el) {
                 suggestElement(el, 'exclusiveGateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest',
             url: iconDirectory + '/tooltip/icon_tooltip_end.svg',
-            action: function (el) {
+            action: function(el) {
                 suggestElement(el, 'commonEnd');
             }
         }, {
             type: 'commonStart', parent: 'event',
             url: iconDirectory + '/tooltip/icon_tooltip_start.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'commonStart');
             }
         }, {
@@ -87,7 +87,7 @@
             url: iconDirectory + '/tooltip/icon_tooltip_event_start_timer.svg',
             elementUrl: iconDirectory + '/element-type/icon_element_event_start_timer.svg',
             elementSelectedUrl: iconDirectory + '/element-type/icon_element_event_start_timer_selected.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'timerStart');
             }
         }, {
@@ -95,13 +95,13 @@
             url: iconDirectory + '/tooltip/icon_tooltip_event_signal.svg',
             elementUrl: iconDirectory + '/element-type/icon_element_event_signal.svg',
             elementSelectedUrl: iconDirectory + '/element-type/icon_element_event_signal_selected.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'signalSend');
             }
         }, {
             type: 'commonEnd', parent: 'event',
             url: iconDirectory + '/tooltip/icon_tooltip_end.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'commonEnd');
             }
         }, {
@@ -109,7 +109,7 @@
             url: iconDirectory + '/tooltip/icon_tooltip_user_task.svg',
             elementUrl: iconDirectory + '/element-type/icon_element_user_task.svg',
             elementSelectedUrl: iconDirectory + '/element-type/icon_element_user_task_selected.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'userTask');
             }
         }, {
@@ -117,7 +117,7 @@
             url: iconDirectory + '/tooltip/icon_tooltip_manual_task.svg',
             elementUrl: iconDirectory + '/element-type/icon_element_manual_task.svg',
             elementSelectedUrl: iconDirectory + '/element-type/icon_element_manual_task_selected.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'manualTask');
             }
         }, {
@@ -125,7 +125,7 @@
             url: iconDirectory + '/tooltip/icon_tooltip_script_task.svg',
             elementUrl: iconDirectory + '/element-type/icon_element_script_task.svg',
             elementSelectedUrl: iconDirectory + '/element-type/icon_element_script_task_selected.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'scriptTask');
             }
         }, {
@@ -133,13 +133,13 @@
             url: '',
             elementUrl: iconDirectory + '/element-type/icon_element_subprocess.svg',
             elementSelectedUrl: iconDirectory + '/element-type/icon_element_subprocess_selected.svg',
-            action: function () {}
+            action: function() {}
         }, {
             type: 'exclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
             elementUrl: iconDirectory + '/element-type/icon_element_exclusive_gateway.svg',
             elementSelectedUrl: iconDirectory + '/element-type/icon_element_exclusive_gateway_selected.svg',
-            action: function (el) {
+            action: function(el) {
                 editElementType(el, 'exclusiveGateway');
             }
         }/*, {
@@ -193,7 +193,7 @@
      */
     function getElementDefaultType(category) {
         let type = elementsProperties[category][0].type;
-        let defaultTypeProperties = elementsProperties[category].filter(function (prop) {
+        let defaultTypeProperties = elementsProperties[category].filter(function(prop) {
             return prop.default === 'true';
         });
         if (defaultTypeProperties.length > 0) {
@@ -211,7 +211,7 @@
     function editElementType(element, type) {
         const elementId = element.node().id,
             elements = zProcessDesigner.data.elements;
-        const elementData = elements.filter(function (elem) { return elem.id === elementId; });
+        const elementData = elements.filter(function(elem) { return elem.id === elementId; });
         if (elementData.length) {
             if (elementData[0].type === type) {
                 d3.select('g.alice-tooltip').remove();
@@ -223,8 +223,8 @@
             delete typeData.name;
             delete typeData.notification;
             delete typeData.description;
-            Object.keys(typeData).forEach(function (newKey) {
-                Object.keys(elementData[0].data).forEach(function (oldKey) {
+            Object.keys(typeData).forEach(function(newKey) {
+                Object.keys(elementData[0].data).forEach(function(oldKey) {
                     if (newKey === oldKey) {
                         typeData[newKey] = elementData[0].data[oldKey];
                     }
@@ -238,7 +238,7 @@
             d3.select('g.alice-tooltip').remove();
             changeElementType(element, type, true);
             zProcessDesigner.utils.history.saveHistory(
-                [{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]
+                [{ 0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0])) }]
             );
         }
     }
@@ -253,7 +253,7 @@
     function changeElementType(element, type, isSelected) {
         const category = getElementCategory(type);
         const typeList = elementsProperties[category];
-        typeList.forEach(function (t) {
+        typeList.forEach(function(t) {
             element.classed(t.type, t.type === type);
             d3.select(element.node().parentNode).select('.element-type').classed(t.type, t.type === type);
         });
@@ -274,11 +274,11 @@
      */
     function setElementData(elementData, attributeData) {
         const elementDataKeys = [
-            {key: 'name', default: ''},
-            {key: 'notification', default: 'N'},
-            {key: 'description', default: ''}
+            { key: 'name', default: '' },
+            { key: 'notification', default: 'N' },
+            { key: 'description', default: '' }
         ];
-        elementDataKeys.forEach(function (e) {
+        elementDataKeys.forEach(function(e) {
             elementData[e.key] = e.default;
             if (typeof attributeData[e.key] !== 'undefined') {
                 elementData[e.key] = attributeData[e.key];
@@ -299,7 +299,7 @@
 
         const elementId = elem.node().id,
             elements = zProcessDesigner.data.elements;
-        let elemList = elements.filter(function (attr) { return attr.id === elementId; });
+        let elemList = elements.filter(function(attr) { return attr.id === elementId; });
         if (elemList.length > 0) {
             return;
         }
@@ -335,7 +335,7 @@
             elemData.data = attributeData;
             elemData.data['start-id'] = data.sourceId;
             elemData.data['end-id'] = data.targetId;
-            elements.forEach(function (e) {
+            elements.forEach(function(e) {
                 if (e.id === data.sourceId) { elemData.data['start-name'] = e.name; }
                 if (e.id === data.targetId) { elemData.data['end-name'] = e.name; }
             });
@@ -346,7 +346,7 @@
             zProcessDesigner.changeTextToElement(elementId, elemData.name);
         }
         elements.push(elemData);
-        zProcessDesigner.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+        zProcessDesigner.utils.history.saveHistory([{ 0: {}, 1: JSON.parse(JSON.stringify(elemData)) }]);
     }
 
     /**
@@ -363,12 +363,12 @@
             console.error('No information found for category(%s), type(%s) in the configuration file.', category, type);
             return data;
         }
-        let elementTypeData = elementTypeList.filter(function (elem) { return elem.type === type; });
+        let elementTypeData = elementTypeList.filter(function(elem) { return elem.type === type; });
         if (elementTypeData.length > 0) {
             let attributeList = elementTypeData[0].attribute;
-            attributeList.forEach(function (attr) {
+            attributeList.forEach(function(attr) {
                 let items = attr.items;
-                items.forEach(function (item) {
+                items.forEach(function(item) {
                     data[item.id] = item.default;
                 });
             });
@@ -391,12 +391,12 @@
             console.error('No information found for category(%s), type(%s) in the configuration file.', category, type);
             return data;
         }
-        let elementTypeData = elementTypeList.filter(function (elem) { return elem.type === type; });
+        let elementTypeData = elementTypeList.filter(function(elem) { return elem.type === type; });
         if (elementTypeData.length > 0) {
             let attributeList = elementTypeData[0].attribute;
-            attributeList.forEach(function (attr) {
+            attributeList.forEach(function(attr) {
                 let items = attr.items;
-                items.forEach(function (item) {
+                items.forEach(function(item) {
                     if (item.required === 'Y') {
                         required.push(item.id);
                     }
@@ -416,28 +416,28 @@
             return;
         }
 
-        let actionTooltip = tooltipItems.filter(function (item) { return item.parent === 'action'; });
+        let actionTooltip = tooltipItems.filter(function(item) { return item.parent === 'action'; });
         if (elem.classed('subprocess')) {
-            actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type !== 'edit'; });
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });
         } else if (elem.classed('artifact')) {
-            actionTooltip = actionTooltip.filter(function (tooltip) {
+            actionTooltip = actionTooltip.filter(function(tooltip) {
                 return tooltip.type === 'delete' || tooltip.type === 'copy';
             });
         } else if (elem.classed('connector')) {
-            actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type === 'delete'; });
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type === 'delete'; });
         } else if (elem.classed('gateway')) {
             // 병렬, 포괄적 게이트웨이 숨김
-            actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type !== 'edit'; });
+            actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });
         }
 
         if (!elem.classed('gateway')) {
             let isSuggest = true,
                 isEdit = true;
             let elementId = elem.node().id;
-            let connectors = zProcessDesigner.data.elements.filter(function (attr) {
+            let connectors = zProcessDesigner.data.elements.filter(function(attr) {
                 return attr.type === 'arrowConnector';
             });
-            connectors.forEach(function (c) {
+            connectors.forEach(function(c) {
                 let connectorNode = document.getElementById(c.id);
                 if (connectorNode) {
                     const data = d3.select(connectorNode).data()[0];
@@ -454,10 +454,10 @@
                 isSuggest = false;
             }
             if (!isSuggest) {
-                actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type !== 'suggest'; });
+                actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'suggest'; });
             }
             if (!isEdit) {
-                actionTooltip = actionTooltip.filter(function (tooltip) { return tooltip.type !== 'edit'; });
+                actionTooltip = actionTooltip.filter(function(tooltip) { return tooltip.type !== 'edit'; });
             }
         }
 
@@ -471,7 +471,7 @@
             .attr('class', 'tooltip-container action-tooltip')
             .attr('width', containerWidth)
             .attr('height', containerHeight)
-            .on('mousedown', function () {
+            .on('mousedown', function() {
                 d3.event.stopPropagation();
                 d3.event.preventDefault();
             });
@@ -481,16 +481,16 @@
             .enter()
             .append('rect')
             .attr('class', 'action-tooltip-item')
-            .attr('id', function (d) { return 'action-tooltip-item-' + d.type; })
-            .attr('x', function (d, i) { return  itemMargin + (i * (itemSize + itemMargin) ); })
+            .attr('id', function(d) { return 'action-tooltip-item-' + d.type; })
+            .attr('x', function(d, i) { return  itemMargin + (i * (itemSize + itemMargin) ); })
             .attr('y', itemMargin)
             .attr('width', itemSize)
             .attr('height', itemSize)
-            .style('fill', function (d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
-            .on('mousedown', function (d) {
+            .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 d3.event.preventDefault();
-                actionTooltip.forEach(function (t) {
+                actionTooltip.forEach(function(t) {
                     if (t.focusUrl) {
                         let item = document.getElementById('action-tooltip-item-' + t.type);
                         d3.select(item).style('fill', 'url(#' + t.parent + '-' + t.type + ')');
@@ -542,7 +542,7 @@
             return;
         }
 
-        let suggestTooltip = tooltipItems.filter(function (item) { return item.parent === 'suggest'; });
+        let suggestTooltip = tooltipItems.filter(function(item) { return item.parent === 'suggest'; });
         setElementItems(suggestTooltip, elem);
     }
 
@@ -562,17 +562,17 @@
             category = 'gateway';
         }
         if (category) {
-            elementTypeItems = tooltipItems.filter(function (item) { return item.parent === category; });
+            elementTypeItems = tooltipItems.filter(function(item) { return item.parent === category; });
         }
 
         if (elem.classed('event')) {
             const elementId = elem.node().id;
             let isSourceConnected = false,
                 isTargetConnected = false;
-            let connectors = zProcessDesigner.data.elements.filter(function (e) {
+            let connectors = zProcessDesigner.data.elements.filter(function(e) {
                 return e.type === 'arrowConnector';
             });
-            connectors.forEach(function (c) {
+            connectors.forEach(function(c) {
                 if (c.data['start-id'] === elementId) {
                     isSourceConnected = true;
                 }
@@ -582,11 +582,11 @@
             });
             if (isSourceConnected || isTargetConnected) {
                 if (elem.classed('commonEnd')) {
-                    elementTypeItems = elementTypeItems.filter(function (item) { return item.type === 'commonEnd'; });
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type === 'commonEnd'; });
                 } else {
-                    elementTypeItems = elementTypeItems.filter(function (item) { return item.type !== 'commonEnd'; });
+                    elementTypeItems = elementTypeItems.filter(function(item) { return item.type !== 'commonEnd'; });
                     if (isTargetConnected) {
-                        elementTypeItems = elementTypeItems.filter(function (item) {
+                        elementTypeItems = elementTypeItems.filter(function(item) {
                             return item.type !== 'commonStart';
                         });
                     }
@@ -605,7 +605,7 @@
     function getElementData(elem) {
         const elementId = elem.node().id,
             elements = zProcessDesigner.data.elements;
-        return elements.filter(function (e) { return e.id === elementId; })[0];
+        return elements.filter(function(e) { return e.id === elementId; })[0];
     }
 
     /**
@@ -615,7 +615,7 @@
         const containerTransform = d3.zoomTransform(d3.select('g.element-container').node());
         //console.debug('container transform : x(%s), y(%s)', containerTransform.x, containerTransform.y);
         if (containerTransform.x !== 0 || containerTransform.y !== 0) {
-            zProcessDesigner.data.elements.forEach(function (elem) {
+            zProcessDesigner.data.elements.forEach(function(elem) {
                 const nodeElement = d3.select(document.getElementById(elem.id));
                 if (elem.type !== 'arrowConnector') {
                     const bbox = zProcessDesigner.utils.getBoundingBoxCenter(nodeElement);
@@ -650,7 +650,7 @@
     function deleteElements() {
         let selectedNodes = d3.selectAll('.node.selected, .connector.selected').nodes();
         let histories = [];
-        selectedNodes.forEach(function (node) {
+        selectedNodes.forEach(function(node) {
             let history = deleteElement(d3.select(node));
             histories = [].concat(history, histories);
         });
@@ -669,11 +669,11 @@
             elements = zProcessDesigner.data.elements;
 
 
-        elements.forEach(function (e, i) {
+        elements.forEach(function(e, i) {
             if (elementId === e.id) {
                 let originElementData = JSON.parse(JSON.stringify(e));
                 elements.splice(i, 1);
-                histories.push({0: originElementData, 1: {}});
+                histories.push({ 0: originElementData, 1: {} });
             }
         });
 
@@ -692,7 +692,7 @@
                         }
                         let originElementData = JSON.parse(JSON.stringify(elements[i]));
                         elements.splice(i, 1);
-                        histories.push({0: originElementData, 1: {}});
+                        histories.push({ 0: originElementData, 1: {} });
                     }
                 }
             }
@@ -729,7 +729,7 @@
             zProcessDesigner.data.elements.push(elemData);
 
             zProcessDesigner.removeElementSelected();
-            zProcessDesigner.utils.history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(elemData))}]);
+            zProcessDesigner.utils.history.saveHistory([{ 0: {}, 1: JSON.parse(JSON.stringify(elemData)) }]);
             zProcessDesigner.setElementMenu();
         }
     }
@@ -783,7 +783,7 @@
         if (elem.classed('gateway')) {
             const distance = 10;
             let bottom = targetBbox.cy - distance - (addElemHeight / 2);
-            zProcessDesigner.elements.links.forEach(function (e) {
+            zProcessDesigner.elements.links.forEach(function(e) {
                 if (e.sourceId === elem.node().id) {
                     const bbox = zProcessDesigner.utils.getBoundingBoxCenter(
                         d3.select(document.getElementById(e.targetId)));
@@ -807,17 +807,17 @@
 
             const connectorElementId = ZWorkflowUtil.generateUUID();
             zProcessDesigner.elements.links.push(
-                {id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N'}
+                { id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N' }
             );
             zProcessDesigner.setConnectors();
 
-            const connectorElementData = zProcessDesigner.data.elements.filter(function (elem) {
+            const connectorElementData = zProcessDesigner.data.elements.filter(function(elem) {
                 return elem.id === connectorElementId;
             })[0];
             zProcessDesigner.utils.history.undo_list.pop(); // remove add connector history.
             zProcessDesigner.utils.history.saveHistory([
-                {0: {}, 1: JSON.parse(JSON.stringify(elemData))},
-                {0: {}, 1: JSON.parse(JSON.stringify(connectorElementData))}
+                { 0: {}, 1: JSON.parse(JSON.stringify(elemData)) },
+                { 0: {}, 1: JSON.parse(JSON.stringify(connectorElementData)) }
             ]);
         }
     }
@@ -850,7 +850,7 @@
             .attr('y', y)
             .attr('width', containerWidth)
             .attr('height', containerHeight)
-            .on('mousedown', function () { d3.event.stopPropagation(); });
+            .on('mousedown', function() { d3.event.stopPropagation(); });
 
         tooltipItemContainer.selectAll('element-tooltip-item')
             .data(items)
@@ -858,11 +858,11 @@
             .append('rect')
             .attr('class', 'element-tooltip-item')
             .attr('x', x + itemMargin)
-            .attr('y', function (d, i) { return y + itemMargin + (i * (itemSize + itemMargin)); })
+            .attr('y', function(d, i) { return y + itemMargin + (i * (itemSize + itemMargin)); })
             .attr('width', itemSize)
             .attr('height', itemSize)
-            .style('fill', function (d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
-            .on('mousedown', function (d) {
+            .style('fill', function(d) { return 'url(#' + d.parent + '-' + d.type + ')'; })
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 d.action(elem);
             });
@@ -879,11 +879,11 @@
             const elements = zProcessDesigner.data.elements;
             for (let i = 0, len = elementsKeys.length; i < len; i++) {
                 if (elem.classed(elementsKeys[i])) {
-                    let property = JSON.parse(JSON.stringify(elements.filter(function (attr) {
+                    let property = JSON.parse(JSON.stringify(elements.filter(function(attr) {
                         return attr.id === elementId;
                     })[0]));
                     let properties = elementsProperties[elementsKeys[i]];
-                    let attributes = properties.filter(function (p) { return p.type === property.type; });
+                    let attributes = properties.filter(function(p) { return p.type === property.type; });
                     if (attributes.length > 0) {
                         if (typeof property.name !== 'undefined') {
                             property.data.name = property.name;
@@ -916,7 +916,7 @@
      * @return {{0: JSON, 1: JSON}} 이력정보
      */
     function changeDisplayValue(id, isSaveHistory) {
-        let elementData = zProcessDesigner.data.elements.filter(function (attr) { return attr.id === id; });
+        let elementData = zProcessDesigner.data.elements.filter(function(attr) { return attr.id === id; });
         if (elementData.length) {
             const originElementData = JSON.parse(JSON.stringify(elementData[0])),
                 nodeElement = d3.select(document.getElementById(id));
@@ -952,7 +952,7 @@
                 };
             }
 
-            let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
+            let historyData = { 0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0])) };
             if (isSaveHistory !== false) {
                 zProcessDesigner.utils.history.saveHistory([historyData]);
             }
@@ -975,10 +975,10 @@
                 zProcessDesigner.data.process[propertyObject.name] = propertyObject.value;
             }
             zProcessDesigner.utils.history.saveHistory([
-                {0: originProcessData, 1: JSON.parse(JSON.stringify(zProcessDesigner.data.process))}
+                { 0: originProcessData, 1: JSON.parse(JSON.stringify(zProcessDesigner.data.process)) }
             ]);
         } else {
-            let elementData = zProcessDesigner.data.elements.filter(function (attr) { return attr.id === id; });
+            let elementData = zProcessDesigner.data.elements.filter(function(attr) { return attr.id === id; });
             if (!elementData.length) { return false; }
             const originElementData = JSON.parse(JSON.stringify(elementData[0]));
             elementData[0].data = {};
@@ -999,7 +999,7 @@
                         }
                     }
                 }
-                let filerKeys = ['id', 'name', 'notification', 'description'].filter(function (key) {
+                let filerKeys = ['id', 'name', 'notification', 'description'].filter(function(key) {
                     return key === propertyObject.name;
                 });
                 if (filerKeys.length) {
@@ -1010,10 +1010,10 @@
             }
 
             const changeElementData = JSON.parse(JSON.stringify(elementData[0]));
-            zProcessDesigner.utils.history.saveHistory([{0: originElementData, 1: changeElementData}]);
+            zProcessDesigner.utils.history.saveHistory([{ 0: originElementData, 1: changeElementData }]);
 
             if (originElementData.name !== changeElementData.name) {
-                const connectors = zProcessDesigner.data.elements.filter(function (attr) {
+                const connectors = zProcessDesigner.data.elements.filter(function(attr) {
                     return attr.type === 'arrowConnector';
                 });
                 for (let i = 0, len = connectors.length; i < len; i++) {
@@ -1053,10 +1053,10 @@
             }
         } else {
             let dataList = assigneeTypeData.users;
-            let dataKeys = {value: 'userKey', text: 'userName'};
+            let dataKeys = { value: 'userKey', text: 'userName' };
             if (assigneeTypeObject.value === 'assignee.type.candidate.groups') {
                 dataList = assigneeTypeData.groups;
-                dataKeys = {value: 'roleId', text: 'roleName'};
+                dataKeys = { value: 'roleId', text: 'roleName' };
             }
             setMultipleDatatable(assigneeObject, dataList, dataKeys, value);
         }
@@ -1158,7 +1158,7 @@
             sourceMappingProperties.appendChild(sourceMappingLabel);
             sourceMappingProperties.appendChild(sourceMappingInput);
 
-            let keyupHandler = function () {
+            let keyupHandler = function() {
                 inputObject.value = targetMappingInput.value + '|' + sourceMappingInput.value;
                 const evt = document.createEvent('HTMLEvents');
                 evt.initEvent('change', false, true);
@@ -1211,7 +1211,7 @@
             targetMappingProperties.appendChild(targetMappingLabel);
             targetMappingProperties.appendChild(targetMappingInput);
 
-            let keyupHandler = function () {
+            let keyupHandler = function() {
                 inputObject.value = targetMappingInput.value;
                 const evt = document.createEvent('HTMLEvents');
                 evt.initEvent('change', false, true);
@@ -1256,7 +1256,7 @@
                 targetPlugInSelect.dispatchEvent(new Event('change'));
             });
 
-            const changeHandler = function () {
+            const changeHandler = function() {
                 inputObject.value = targetPlugInSelect.value;
                 const evt = document.createEvent('HTMLEvents');
                 evt.initEvent('change', false, true);
@@ -1334,7 +1334,7 @@
             fileBtn.className = 'z-button-icon z-button-attach-file';
             let fileIcon = document.createElement('span');
             fileIcon.className = 'z-icon i-folder';
-            fileBtn.addEventListener('click', function () {
+            fileBtn.addEventListener('click', function() {
                 aliceJs.thumbnail({
                     title: i18n.msg('common.label.attachFile'),
                     targetId: fileInput.id,
@@ -1353,7 +1353,7 @@
             btnAdd.className = 'z-button form mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
-            const saveData = function () {
+            const saveData = function() {
                 let dataBody = inputObject.parentNode.querySelector('tbody');
                 let rows = dataBody.querySelectorAll('tr');
                 let scriptValue = '';
@@ -1373,7 +1373,7 @@
                 inputObject.dispatchEvent(evt);
             };
 
-            btnAdd.addEventListener('click', function () {
+            btnAdd.addEventListener('click', function() {
                 let targetMappingValue = document.querySelector('#target-mapping-id').value.trim();
 
                 if (targetMappingValue === '') {
@@ -1409,7 +1409,7 @@
                 }
             });
 
-            const addDataRow = function (conditionValue, fileValue) {
+            const addDataRow = function(conditionValue, fileValue) {
                 let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
                 let row = document.createElement('tr');
                 row.className = 'z-option-table-row';
@@ -1425,13 +1425,13 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
-                btnDel.className = 'z-button-icon';
+                btnDel.className = 'z-button-icon-sm mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
-                btnIcon.className = 'z-icon i-delete';
+                btnIcon.className = 'z-icon i-remove';
                 btnDel.appendChild(btnIcon);
 
-                btnDel.addEventListener('click', function () {
+                btnDel.addEventListener('click', function() {
                     this.parentNode.parentNode.remove();
                     saveData();
                 });
@@ -1518,7 +1518,7 @@
         btnAdd.className = 'z-button-icon form z-button-candidate-add';
         btnAdd.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
 
-        const saveData = function () {
+        const saveData = function() {
             let dataBody = inputObject.parentNode.querySelector('tbody');
             let rows = dataBody.querySelectorAll('tr');
             let assigneeValue = '';
@@ -1536,7 +1536,7 @@
             inputObject.dispatchEvent(evt);
         };
 
-        const addDataRow = function (dataVal, dataText) {
+        const addDataRow = function(dataVal, dataText) {
             let dataBody = inputObject.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
             row.className = 'z-option-table-row';
@@ -1552,13 +1552,13 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
-            btnDel.className = 'z-button-icon';
+            btnDel.className = 'z-button-icon-sm mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
-            btnIcon.className = 'z-icon i-delete';
+            btnIcon.className = 'z-icon i-remove';
             btnDel.appendChild(btnIcon);
 
-            btnDel.addEventListener('click', function () {
+            btnDel.addEventListener('click', function() {
                 this.parentNode.parentNode.remove();
                 saveData();
             });
@@ -1569,7 +1569,7 @@
             saveData();
         };
 
-        btnAdd.addEventListener('click', function () {
+        btnAdd.addEventListener('click', function() {
             let dataSelect = this.parentNode.querySelector('select'),
                 dataBody = inputObject.parentNode.querySelector('tbody'),
                 rows = dataBody.querySelectorAll('tr');
@@ -1718,7 +1718,7 @@
                     }
 
                     // change 이벤트 설정
-                    let changeEventHandler = function () {
+                    let changeEventHandler = function() {
                         changePropertiesDataValue(id);
                         if (property.id === 'is-default') {
                             let conditionValueObject = elementContainer.querySelector('input[name=condition-value]');
@@ -1736,7 +1736,7 @@
                     // 그 외 이벤트 설정
                     switch (property.id) {
                         case 'name': {
-                            let keyupHandler = function () {
+                            let keyupHandler = function() {
                                 zProcessDesigner.changeTextToElement(id, this.value);
                             };
                             if (id === zProcessDesigner.data.process.id) {
@@ -1746,9 +1746,9 @@
                             break;
                         }
                         case 'reject-id': {
-                            const addRejectClass = function (e) {
+                            const addRejectClass = function(e) {
                                 e.stopPropagation();
-                                const elementData = zProcessDesigner.data.elements.filter(function (elem) {
+                                const elementData = zProcessDesigner.data.elements.filter(function(elem) {
                                     return elem.id === e.target.value;
                                 });
                                 if (elementData.length) {
@@ -1760,14 +1760,14 @@
                             };
                             elementObject.addEventListener('keyup', addRejectClass);
                             elementObject.addEventListener('focus', addRejectClass);
-                            elementObject.addEventListener('focusout', function () {
+                            elementObject.addEventListener('focusout', function() {
                                 d3.selectAll('.node').classed('reject-element', false);
                             });
                             break;
                         }
                         case 'target-document-list': {
                             setMultipleDatatable(elementObject, documents,
-                                {value: 'documentId', text: 'documentName'}, elemData[property.id]);
+                                { value: 'documentId', text: 'documentName' }, elemData[property.id]);
                             break;
                         }
                         case 'script-detail' : {
@@ -1813,8 +1813,8 @@
             let actionFieldset = elementContainer.querySelector('fieldset[name=action]');
             let conditionFieldset = elementContainer.querySelector('fieldset[name=condition]');
             if (actionFieldset && conditionFieldset) {
-                let element = zProcessDesigner.data.elements.filter(function (e) { return e.id === id; })[0];
-                let sourceElement = zProcessDesigner.data.elements.filter(function (e) {
+                let element = zProcessDesigner.data.elements.filter(function(e) { return e.id === id; })[0];
+                let sourceElement = zProcessDesigner.data.elements.filter(function(e) {
                     return e.id === element.data['start-id'];
                 })[0];
 
@@ -1828,7 +1828,7 @@
                 disabledFieldset.querySelector('input[type=radio]').checked = false;
                 disabledFieldset.querySelector('input[type=radio]').disabled = true;
                 disabledFieldset.disabled = true;
-                disabledFieldset.querySelectorAll('input:not([type=radio])').forEach(function (inputObject) {
+                disabledFieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
                     if (inputObject.tagName.toUpperCase() === 'INPUT' &&
                         inputObject.type.toUpperCase() === 'CHECKBOX') {
                         inputObject.checked = false;
@@ -1936,7 +1936,7 @@
                 let copyBtn = document.createElement('button');
                 copyBtn.className = 'z-button-icon secondary btn-clipboard-tooltip';
                 copyBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-clipboard"></span>`);
-                copyBtn.addEventListener('click', function () {
+                copyBtn.addEventListener('click', function() {
                     elementObject.select();
                     elementObject.setSelectionRange(0, 99999);
                     document.execCommand('copy');
@@ -1944,7 +1944,7 @@
                     let tooltip = document.getElementById('clipboardTooltipText');
                     tooltip.textContent = 'Copy Success';
                 });
-                copyBtn.addEventListener('mouseout', function () {
+                copyBtn.addEventListener('mouseout', function() {
                     let tooltip = document.getElementById('clipboardTooltipText');
                     tooltip.textContent = 'Copy to clipboard';
                 });
@@ -1968,7 +1968,7 @@
                 // textarea 에 스크롤 적용
                 propertyContainer.querySelectorAll('textarea').forEach(element => {
                     element.classList.add('textarea-scroll-wrapper');
-                    OverlayScrollbars(element, {className: 'inner-scrollbar'});
+                    OverlayScrollbars(element, { className: 'inner-scrollbar' });
                 });
                 break;
             }
@@ -1995,8 +1995,8 @@
                 elementObject = document.createElement('select');
                 let optionList = JSON.parse(JSON.stringify(property['sub-list']));
                 if (property.id === 'sub-document-id') {
-                    documents.forEach(function (d) {
-                        optionList.push({id: d.documentId, name: d.documentName});
+                    documents.forEach(function(d) {
+                        optionList.push({ id: d.documentId, name: d.documentName });
                     });
                 }
                 for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
@@ -2006,12 +2006,12 @@
                     elementObject.appendChild(option);
                 }
                 if (property.id === 'assignee-type') {
-                    elementObject.addEventListener('change', function () {
+                    elementObject.addEventListener('change', function() {
                         changePropertyAssigneeType(this);
                     });
                 }
                 if (property.id === 'script-type') {
-                    elementObject.addEventListener('change', function () {
+                    elementObject.addEventListener('change', function() {
                         changePropertyScriptType(this);
                     });
                 }
@@ -2022,7 +2022,7 @@
                 elementObject = document.createElement('input');
                 elementObject.id = property.id;
                 elementObject.value = elemData[property.id];
-                elementObject.addEventListener('change', function (e) {
+                elementObject.addEventListener('change', function(e) {
                     if (properties.type === 'groupArtifact') {
                         const groupElement = d3.select(document.getElementById(id));
                         groupElement.style(e.target.id === 'line-color' ? 'stroke' : 'fill', e.target.value);
@@ -2031,7 +2031,7 @@
                 propertyContainer.appendChild(elementObject);
 
                 // color picker 초기화
-                new zColorPicker(elementObject, {type: (property.id === 'line-color') ? 'line' : 'fill'});
+                new zColorPicker(elementObject, { type: (property.id === 'line-color') ? 'line' : 'fill' });
                 break;
             }
             default:
@@ -2050,17 +2050,17 @@
     function connectorIsDefaultChangeHandler(target, id) {
         d3.select(document.getElementById(id)).classed('is-default', target.checked);
         let sourceId;
-        zProcessDesigner.elements.links.forEach(function (l) {
+        zProcessDesigner.elements.links.forEach(function(l) {
             if (l.id === id) {
                 l.isDefault = target.checked ? 'Y' : 'N';
                 sourceId = l.sourceId;
             }
         });
-        zProcessDesigner.elements.links.forEach(function (l) {
+        zProcessDesigner.elements.links.forEach(function(l) {
             if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
                 d3.select(document.getElementById(l.id)).classed('is-default', false);
                 l.isDefault = 'N';
-                zProcessDesigner.data.elements.forEach(function (e) {
+                zProcessDesigner.data.elements.forEach(function(e) {
                     if (e.id === l.id) {
                         e.data['is-default'] = 'N';
                     }
@@ -2076,7 +2076,7 @@
      * @param id element ID
      */
     function connectorConditionChangeHandler(target, id) {
-        let arrowConnectors = zProcessDesigner.data.elements.filter(function (e) {
+        let arrowConnectors = zProcessDesigner.data.elements.filter(function(e) {
             return e.type === 'arrowConnector' && e.data['start-id'] === id;
         });
         for (let i = 0, len = arrowConnectors.length; i < len; i++) {
@@ -2087,7 +2087,7 @@
             } else {
                 if (connectorData['is-default'] === 'Y') {
                     connectorData['is-default'] = 'N';
-                    let targetConnector = zProcessDesigner.elements.links.filter(function (l) {
+                    let targetConnector = zProcessDesigner.elements.links.filter(function(l) {
                         return l.id === arrowConnectors[i].id;
                     })[0];
                     d3.select(document.getElementById(targetConnector.id)).classed('is-default', false);
@@ -2101,30 +2101,30 @@
     function setProcessInformation() {
         const elements = zProcessDesigner.data.elements;
         let categories = [];
-        elements.forEach(function (elem) {
+        elements.forEach(function(elem) {
             categories.push(zProcessDesigner.getElementCategory(elem.type));
         });
 
-        let uniqList =  categories.reduce(function (a, b) {
+        let uniqList =  categories.reduce(function(a, b) {
             if (a.indexOf(b) < 0 ) { a.push(b); }
             return a;
         }, []);
         const countList = [];
-        uniqList.forEach(function (item) {
+        uniqList.forEach(function(item) {
             let count = 0;
-            categories.forEach(function (category) {
+            categories.forEach(function(category) {
                 if (item === category) {
                     count++;
                 }
             });
-            countList.push({category: item, count: count});
+            countList.push({ category: item, count: count });
         });
         // 프로세스 개요
         let infoContainer = document.querySelector('.process-info-dashboard');
-        infoContainer.querySelectorAll('.count').forEach(function (label) {
+        infoContainer.querySelectorAll('.count').forEach(function(label) {
             label.textContent = '0';
         });
-        countList.forEach(function (countInfo) {
+        countList.forEach(function(countInfo) {
             infoContainer.querySelector('#' + countInfo.category + '-count').textContent = countInfo.count;
         });
         infoContainer.querySelector('#element-count').textContent = elements.length;
@@ -2169,7 +2169,7 @@
                     zProcessDesigner.data = response.data;
                     const elements = zProcessDesigner.data.elements;
                     initialStatus = zProcessDesigner.data.process.status;
-                    elements.forEach(function (element) {
+                    elements.forEach(function(element) {
                         const category = getElementCategory(element.type);
                         element.required = getAttributeRequired(category, element.type);
                     });
@@ -2224,7 +2224,7 @@
 
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];
-        tooltipItems.forEach(function (item) {
+        tooltipItems.forEach(function(item) {
             if (item.url) {
                 let data = {};
                 data.id = item.parent + '-' + item.type;
@@ -2254,14 +2254,14 @@
         defs.selectAll('pattern').data(imageLoadingList)
             .enter()
             .append('pattern')
-            .attr('id', function (d) { return d.id; })
+            .attr('id', function(d) { return d.id; })
             .attr('width', 1)
             .attr('height', 1)
             .attr('patternUnits', 'objectBoundingBox')
             .append('image')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('xlink:href', function (d) { return d.url; });
+            .attr('xlink:href', function(d) { return d.url; });
     }
 
     exports.data = data;
@@ -2275,5 +2275,5 @@
     exports.changeElementType = changeElementType;
     exports.resetElementPosition = resetElementPosition;
     exports.deleteElements = deleteElements;
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));

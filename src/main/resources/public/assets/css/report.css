@@ -3303,7 +3303,7 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #222529;
   padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .z-itsm-container .z-main .view-sub-title {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;

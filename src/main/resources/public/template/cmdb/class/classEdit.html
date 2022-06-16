@@ -111,8 +111,8 @@
             <select class="col-pct-3" id="alarmTargetAttributeId">
                 <option selected="selected" th:text="#{common.label.notSelect}" value=""></option>
             </select>
-            <button class="z-button-icon extra" onclick="deleteAlarmCondition(event)">
-                <span class="z-icon i-delete"></span>
+            <button class="z-button-icon-sm ml-2 mr-2 mt-auto mb-auto" onclick="deleteAlarmCondition(event)">
+                <span class="z-icon i-remove"></span>
             </button>
         </div>
     </template>
@@ -125,7 +125,7 @@
     let classAttributeMap = new Map();
     let observer = aliceJs.pageObserver;
 
-    window.onload = function () {
+    window.onload = function() {
         observer.set();
         document.getElementById('search').focus();
         onCreate();
@@ -133,8 +133,8 @@
         getCIClassList();
         document.getElementById('search').addEventListener('keyup', aliceJs.debounce (() => getCIClassList()), false);
 
-        OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('txtClassDesc'), {
             className: 'scrollbar',
             resize: 'vertical',
@@ -203,7 +203,7 @@
                 attributeList.removeChild(attributeList.firstChild);
             }
             if (response.data.extendsAttributes !== null) {
-                response.data.extendsAttributes.forEach(function (data) {
+                response.data.extendsAttributes.forEach(function(data) {
                     drawAttribute({
                         key: data.attributeId,
                         value: data.attributeName
@@ -212,7 +212,7 @@
             }
             classAttributeMap.clear();
             if (response.data.attributes !== null) {
-                response.data.attributes.forEach(function (data) {
+                response.data.attributes.forEach(function(data) {
                     classAttributeMap.set(data.attributeId, data.attributeName);
                     drawAttribute({
                         key: data.attributeId,
@@ -242,10 +242,10 @@
             target: 'treeList',
             text: 'className',
             totalCount: true,
-            onCreate: function () {
+            onCreate: function() {
                 document.getElementById('treeList').querySelector('.node').click();
             },
-            selectedNode: function (response) {
+            selectedNode: function(response) {
                 onGetDetail(response.id);
             }
         });
@@ -327,7 +327,7 @@
             const selectedAlarmAttributeId = alarmAttributeId.options[alarmAttributeId.selectedIndex].value;
             if (alarmAttributeId && selectedAlarmAttributeId === '') {
                 isValid = false;
-                zAlert.warning(i18n.msg('cmdb.class.msg.selectAlertItem'), function () {
+                zAlert.warning(i18n.msg('cmdb.class.msg.selectAlertItem'), function() {
                     alarmAttributeId.focus();
                 });
                 break outer;
@@ -338,7 +338,7 @@
             const period = alarmNodeList[i].querySelector('#periodValue');
             if (period && period.value === '') {
                 isValid = false;
-                zAlert.warning(i18n.msg('cmdb.class.msg.enterCondition'), function () {
+                zAlert.warning(i18n.msg('cmdb.class.msg.enterCondition'), function() {
                     period.focus();
                 });
                 break outer;
@@ -354,7 +354,7 @@
             const selectedAlarmTargetAttributeId = alarmTargetAttributeId.options[alarmTargetAttributeId.selectedIndex].value;
             if (alarmTargetAttributeId && selectedAlarmTargetAttributeId === '') {
                 isValid = false;
-                zAlert.warning(i18n.msg('cmdb.class.msg.selectAlertTarget'), function () {
+                zAlert.warning(i18n.msg('cmdb.class.msg.selectAlertTarget'), function() {
                     alarmTargetAttributeId.focus();
                 });
                 break outer;
@@ -367,7 +367,7 @@
         const saveAlarmsSet = new Set(saveAlarmsList.map(alarm => JSON.stringify(alarm)));
         if (saveAlarmsSet.size < saveAlarmsList.length) {
             isValid = false;
-            zAlert.warning(i18n.msg('cmdb.class.msg.duplicateAlarm'), function () {
+            zAlert.warning(i18n.msg('cmdb.class.msg.duplicateAlarm'), function() {
                 document.getElementById('alarmList').focus();
             });
         }
@@ -391,7 +391,7 @@
             return false;
         }
         const saveAttributeList = [];
-        attributeNodeList.forEach(function (elem) {
+        attributeNodeList.forEach(function(elem) {
             saveAttributeList.push(elem.id);
         });
 
@@ -424,7 +424,7 @@
             switch (response.status) {
                 case aliceJs.response.success:
                     if (response.data) {
-                        zAlert.success(resultMsg, function () {
+                        zAlert.success(resultMsg, function() {
                             window.location.href = '/cmdb/class/edit';
                         });
                     }
@@ -445,7 +445,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.delete'), function () {
+                    zAlert.success(i18n.msg('common.msg.delete'), function() {
                         window.location.href = '/cmdb/class/edit';
                     });
                     break;
@@ -478,11 +478,11 @@
 
         if (document.getElementById('attribute-add') != null) {
             const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'z-button-icon extra';
+            deleteBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-auto mb-auto';
             const deleteIcon = document.createElement('span');
-            deleteIcon.className = 'z-icon i-delete';
+            deleteIcon.className = 'z-icon i-remove';
             deleteBtn.appendChild(deleteIcon);
-            deleteBtn.addEventListener('click', function () {
+            deleteBtn.addEventListener('click', function() {
                 zAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), () => {
                     const row = deleteBtn.parentNode;
                     classAttributeMap.delete(inputElem.id);
@@ -512,11 +512,11 @@
                 content: i18n.msg('common.btn.select'),
                 classes: 'z-button primary',
                 bindKey: false,
-                callback: function (modal) {
+                callback: function(modal) {
                     while (attributeList.hasChildNodes()) {
                         attributeList.removeChild(attributeList.firstChild);
                     }
-                    classAttributeMap.forEach(function (value, key) {
+                    classAttributeMap.forEach(function(value, key) {
                         drawAttribute({
                             key: key,
                             value: value
@@ -528,7 +528,7 @@
                 content: i18n.msg('common.btn.cancel'),
                 classes: 'z-button secondary',
                 bindKey: false,
-                callback: function (modal) {
+                callback: function(modal) {
                     document.querySelectorAll('td> label> input[type= checkbox]').forEach((checkbox) => {
                         if (checkbox.checked && !checkbox.disabled) {
                             classAttributeMap.delete(checkbox.value);
@@ -540,7 +540,7 @@
             close: {
                 closable: false,
             },
-            onCreate: function (modal) {
+            onCreate: function(modal) {
                 document.getElementById('attributeSearch').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getAttributeList(e.target.value, false);
                 }), false);
@@ -566,17 +566,17 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('ciClassAttributeList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-            document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
-                checkbox.addEventListener('change', function (e) {
+            document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function(e) {
                     if (e.target.checked) {
                         classAttributeMap.set(e.target.value, e.target.name);
                     } else {
                         classAttributeMap.delete(e.target.value);
                     }
                 });
-                classAttributeMap.forEach(function (value, key) {
+                classAttributeMap.forEach(function(value, key) {
                     if (checkbox.value === key) {
                         checkbox.checked = true;
                         checkbox.disabled = true;
@@ -598,7 +598,7 @@
             alarmAttributeSelect.remove(1);
         }
         // 감시 항목 옵션 추가
-        const alarmAttributeOptions = data.alarmAttributes.map(function (opt) {
+        const alarmAttributeOptions = data.alarmAttributes.map(function(opt) {
             return `<option value="${opt.attributeId}">${aliceJs.filterXSS(opt.attributeText)}</option>`;
         }).join('');
         alarmAttributeSelect.insertAdjacentHTML('beforeend', alarmAttributeOptions);
@@ -608,7 +608,7 @@
             alarmTargetAttributeSelect.remove(1);
         }
         // 대상 옵션 추가
-        const alarmTargetAttributeOptions = data.alarmTargetAttributes.map(function (opt) {
+        const alarmTargetAttributeOptions = data.alarmTargetAttributes.map(function(opt) {
             return `<option value="${opt.attributeId}">${aliceJs.filterXSS(opt.attributeText)}</option>`;
         }).join('');
         alarmTargetAttributeSelect.insertAdjacentHTML('beforeend', alarmTargetAttributeOptions);
@@ -621,7 +621,7 @@
     /**
      * + 버튼 클릭시 알림 설정 신규 추가
      */
-    function addAlarmCondition(data = { attributeId: '', condition: { period: '', unit: 'month', option: 'before'}, targetAttributeId: ''} ) {
+    function addAlarmCondition(data = { attributeId: '', condition: { period: '', unit: 'month', option: 'before' }, targetAttributeId: '' } ) {
         const alarmConditionTemplate = document.getElementById('alarmConditionTemplate');
         const alarmList = document.getElementById('alarmList');
         const alarm =  alarmConditionTemplate.content.cloneNode(true);

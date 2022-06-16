@@ -134,11 +134,11 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
-    window.onload = function () {
+    window.onload = function() {
         document.getElementById('customCodeName').focus();
         const targetTable = document.getElementById('targetTable');
         const condition = document.getElementById('condition');
-        targetTable.addEventListener('change', function () {
+        targetTable.addEventListener('change', function() {
             initColumnSelectBox(this.value);
             while (condition.hasChildNodes()) {
                 condition.removeChild(condition.firstChild);
@@ -151,7 +151,7 @@
             document.getElementById('conditionLabel').insertAdjacentHTML('beforeend', `<span class="required"></span>`);
         }
         // 스크롤바 추가
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
     };
 
     //column select box 초기화
@@ -205,7 +205,7 @@
     function initCondition() {
         const condition = JSON.parse(/*[[${customCode?.condition}]]*/'');
         if (condition !== null) {
-            Object.keys(condition).forEach(function (index) {
+            Object.keys(condition).forEach(function(index) {
                 drawCondition(condition[index]);
             });
         }
@@ -267,11 +267,11 @@
 
         if (!isView) {
             const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'z-button-icon extra';
+            deleteBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-2 mb-2';
             const deleteIcon = document.createElement('span');
-            deleteIcon.className = 'z-icon i-delete';
+            deleteIcon.className = 'z-icon i-remove';
             deleteBtn.appendChild(deleteIcon);
-            deleteBtn.addEventListener('click', function () {
+            deleteBtn.addEventListener('click', function() {
                 zAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), () => {
                     const row = deleteBtn.parentNode;
                     const conditionElems = document.querySelectorAll('input[name=conditionValue]');
@@ -404,7 +404,7 @@
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(resultMsg, function () {
+                    zAlert.success(resultMsg, function() {
                         location.href = '/custom-codes/search';
                     });
                     break;
@@ -433,7 +433,7 @@
             }).then((response) => {
                 switch (response.status) {
                     case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        zAlert.success(i18n.msg('common.msg.delete'), function() {
                             location.href = '/custom-codes/search';
                         });
                         break;
