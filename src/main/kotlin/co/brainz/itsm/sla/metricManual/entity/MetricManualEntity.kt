@@ -35,7 +35,7 @@ data class MetricManualEntity(
     var referenceDate: LocalDate? = null,
 
     @Column(name = "metric_value")
-    var metricValue: Double? = null,
+    var metricValue: Float? = null,
 
     @Column(name = "create_user_key", length = 128)
     var userKey: String? = "",
