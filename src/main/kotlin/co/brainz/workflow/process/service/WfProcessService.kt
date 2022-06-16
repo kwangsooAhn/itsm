@@ -38,7 +38,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import java.util.*
+import java.util.UUID
 import kotlin.math.ceil
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
