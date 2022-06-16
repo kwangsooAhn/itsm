@@ -6,6 +6,7 @@
 package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
+import co.brainz.framework.auth.dto.AliceUserSimpleDto
 import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -15,10 +16,17 @@ import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.user.dto.UserListDataDto
+import co.brainz.itsm.user.repository.UserRepository
+import java.security.PrivateKey
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -27,8 +35,15 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.session.SessionRegistry
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.web.DefaultRedirectStrategy
+import org.springframework.security.web.RedirectStrategy
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 
 @Component
 class AliceUserDetailsService(
@@ -37,14 +52,21 @@ class AliceUserDetailsService(
     private var aliceMenuRepository: AliceMenuRepository,
     private var aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private var aliceRoleAuthMapRepository: AliceRoleAuthMapRepository,
-    private var groupRepository: OrganizationRepository
+    private var groupRepository: OrganizationRepository,
+    private val userRepository: UserRepository,
+    private val sessionRegistry: SessionRegistry,
+    private val aliceCryptoRsa: AliceCryptoRsa,
+    private val aliceEncryptionUtil: AliceEncryptionUtil
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-
+    private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
     val aliceUserMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     @Value("\${file.image.uri}")
     private val resourcesUriPath: String? = null
+
+    @Value("\${encryption.algorithm}")
+    private val algorithm: String = ""
 
     @Throws(EmptyResultDataAccessException::class)
     fun loadUserByUsername(userId: String): AliceUserEntity {
@@ -231,5 +253,63 @@ class AliceUserDetailsService(
             }
         }
         return urlEntities
+    }
+
+    /**
+     * 사용자 확인, 같은 계정으로 로그인한 다른 세션이 있는지 체크
+     */
+    fun duplicateSessionCheck(userSimpleDto: AliceUserSimpleDto): ZResponse {
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val securityContextObject =
+            attr.request.getSession(false)?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
+
+        val code: String
+        if (securityContextObject != null) {
+            code = ZResponseConstants.STATUS.SUCCESS_ALREADY_LOGIN.code
+        } else {
+            val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+            val userId = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.userId)
+            val password = aliceCryptoRsa.decrypt(privateKey, userSimpleDto.password)
+
+            code = when (aliceUserRepository.existsByUserId(userId)) {
+                false -> ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+                true -> {
+                    val userEntity = userRepository.findByUserId(userId)
+                    if (!userEntity.useYn) {
+                        ZResponseConstants.STATUS.ERROR_DISABLED_USER.code
+                    }
+                    when (this.algorithm.toUpperCase()) {
+                        AliceConstants.EncryptionAlgorithm.BCRYPT.value -> {
+                            val bcryptPasswordEncoder = BCryptPasswordEncoder()
+                            if (!bcryptPasswordEncoder.matches(password, userEntity.password)) {
+                                ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+                            } else { // 중복 로그인 체크
+                                when (sessionRegistry.allPrincipals.contains(userId)) {
+                                    true -> ZResponseConstants.STATUS.ERROR_DUPLICATE_LOGIN.code
+                                    false -> ZResponseConstants.STATUS.SUCCESS.code
+                                }
+                            }
+                        }
+                        AliceConstants.EncryptionAlgorithm.AES256.value, AliceConstants.EncryptionAlgorithm.SHA256.value -> {
+                            val encryptPassword = aliceEncryptionUtil.encryptEncoder(password, this.algorithm)
+                            if (encryptPassword != userEntity.password) {
+                                ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+                            } else { // 중복 로그인 체크
+                                when (sessionRegistry.allPrincipals.contains(userId)) {
+                                    true -> ZResponseConstants.STATUS.ERROR_DUPLICATE_LOGIN.code
+                                    false -> ZResponseConstants.STATUS.SUCCESS.code
+                                }
+                            }
+                        }
+                        else -> {
+                            ZResponseConstants.STATUS.ERROR_INVALID_USER.code
+                        }
+                    }
+                }
+            }
+        }
+        return ZResponse(
+            status = code
+        )
     }
 }

@@ -201,7 +201,7 @@
                 </ul>
             </div>
         </div>
-        <div class="flex-column z-edit-row">
+        <div th:if="${users?.userKey != null}" class="flex-column z-edit-row">
             <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
@@ -240,10 +240,12 @@
                         </div>
                     </div>
                     <div class="flex-column col-2 ml-2">
-                        <label class="field-label" th:text="#{user.label.executeCurrentAbsence}"></label>
-                        <div class="flex-row z-input-button">
-                            <button type="button" class="z-button form" onclick="runAbsenceDocument();"
-                                    th:text="#{user.btn.immediately}"></button>
+                        <label class="field-label"></label>
+                        <label class="z-checkbox align-center">
+                            <input type="checkbox" id="transferYN" th:checked="${users?.absence.transferYN}">
+                            <span></span>
+                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                        </label>
                         </div>
                     </div>
                 </div>
@@ -305,7 +307,7 @@
             setOrganizationRole();
         }
         setUserRole();
-        setAbsenceDisplay();
+        if ([[${users?.userKey}]] !== null) setAbsenceDisplay();
     };
 
     function checkUserRole(roleObject) {
@@ -316,34 +318,6 @@
         } else {
             userRoles = userRoles.filter((element) => element !== roleObject.value);
         }
-    }
-
-    function runAbsenceDocument() {
-        if (isEmpty('substituteUserKey', 'user.msg.enterSubstituteUser')) return false;
-        zAlert.confirm(i18n.msg('user.msg.confirmWIPToSubstituteUser'), () => {
-            let absenceInfo = {
-                userKey: document.getElementById('userKey').value,
-                substituteUserKey: document.getElementById('substituteUserKey').value
-            }
-            aliceJs.fetchJson('/rest/users/absence', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(absenceInfo)
-            }).then((response) => {
-                switch (response.status) {
-                    case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.modify'));
-                        break;
-                    case aliceJs.response.error:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                    default:
-                        break;
-                }
-            });
-        });
     }
 
     function validation() {
@@ -389,11 +363,13 @@
 
         // 사용자 부재 설정
         let absenceInfo = {};
-        if (document.getElementById('userAbsence').checked) {
+        if (([[${users?.userKey}]] !== null) && document.getElementById('userAbsence').checked) {
             absenceInfo = {
                 startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
                 endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-                substituteUserKey: document.getElementById('substituteUserKey').value
+                substituteUserKey: document.getElementById('substituteUserKey').value,
+                userKey: document.getElementById('userKey').value,
+                transferYN: document.getElementById('transferYN').checked
             }
         }
         const data = {

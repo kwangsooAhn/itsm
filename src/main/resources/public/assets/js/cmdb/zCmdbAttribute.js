@@ -1997,7 +1997,7 @@
                 elem.value = userDefaultValues[1];
 
                 // 기본 값 유효성 검증 - 설정된 기본값이 설정한 검색조건 내에 없을 경우 공란으로 표시
-                getUserList(elem, userDefaultData[1], false, true);
+                getUserList(elem, userDefaultData[0], false, true);
 
                 parent.appendChild(elem);
                 return elem;

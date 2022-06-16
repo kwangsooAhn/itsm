@@ -18,7 +18,9 @@ class AliceLogoutSuccessHandler : LogoutSuccessHandler {
         }
         // Set redirectUrl
         if (request.getParameter("redirectUrl") != null) {
-            request.session.setAttribute("redirectUrl", request.getParameter("redirectUrl"))
+            if (!request.getParameter("redirectUrl").contains("/sessionInvalid")) {
+                request.session.setAttribute("redirectUrl", request.getParameter("redirectUrl"))
+            }
         }
         response.status = HttpServletResponse.SC_OK
         response.sendRedirect("/login")

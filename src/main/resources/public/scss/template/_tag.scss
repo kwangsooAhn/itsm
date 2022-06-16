@@ -1,5 +1,5 @@
 /* 태그 기능 디자인
- * /default/_tag.scss
+ * template/_tag.scss
  * @description 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
  *              변수를 통해 중복되는 코드 제거 및 코드 컨벤션에 맞게 수정
  * @author jy.lim
@@ -24,8 +24,8 @@
   min-height: 2.125rem; // 34px
   align-items: flex-start;
   flex-wrap: wrap;
-  font-family: $element-font-family;
-  font-size: $element-font-size;
+  font-family: $font-family;
+  font-size: $font-size-xs;
   cursor: text;
   outline: 0;
   @include transition(0.1s);
@@ -47,11 +47,11 @@
   &.z-input {
     height: max-content;
     padding: 0;
-    @include border($element-border-width, solid, $element-border-color); // 1px
+    @include border(0.0625rem, solid, $gray400); // 1px
     @include borderRadius(0.125rem); // 2px
 
     > .tagify__input {
-      padding: 0 $element-indent;
+      padding: 0 0.75rem;
       visibility: visible;
 
       &:not(:first-child) {
@@ -69,25 +69,25 @@
 
     &:hover {
       outline: 0;
-      border-color: $element-hover-border-color;
+      border-color: $blue400;
     }
 
     &:focus {
       outline: 0;
-      border-color: $element-focus-border-color;
-      @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+      border-color: $blue600;
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
     }
 
     &:active {
       outline: 0;
-      border-color: $element-active-border-color;
+      border-color: $blue600;
     }
 
   }
 
   &:disabled {
-    border-color: $element-readonly-border-color;
-    background-color: $element-readonly-bg-color;
+    border-color: $gray300;
+    background-color: transparent;
     pointer-events: none;
     cursor: default;
 
@@ -99,8 +99,9 @@
     .tagify__tag > div {
       pointer-events: none;
       &::before {
-        color: $tagify-read-font-color;
-        background-color: $tagify-read-bg-color;
+        color: $gray500;
+        background-color: $neutral400;
+      ;
         pointer-events: none;
         box-shadow: none;
       }
@@ -117,7 +118,7 @@
     @include relative();
     display: inline-flex;
     margin: 0.1875rem 0 0.1875rem 0.1875rem; // 3px 0 3px 3px
-    @include borderRadius($tag-border-radius);
+    @include borderRadius(0.25rem);
     align-items: center;
     z-index: 1;
     outline: 0;
@@ -127,10 +128,10 @@
     > div {
       max-width: 100%;
       padding: 0.2813rem 0.5rem; // 4.5px 8px
-      @include borderRadius($tag-border-radius);
+      @include borderRadius(0.25rem);
       vertical-align: top;
       box-sizing: border-box;
-      color: $tag-editable-font-color;
+      color: $gray700;
       line-height: 1.4;
       @include userSelect(none);
       @include transition(0.13s ease-out);
@@ -159,38 +160,38 @@
         pointer-events: none;
         @include transition(120ms ease);
         @include animation(0s, 0.3s, tags--bump, ease-out, 1);
-        @include insideBorder(1.25rem, $tag-bg-color);
+        @include insideBorder(1.25rem, $gray100);
       }
     }
 
     // 중복 태그 origin tag
     &.tagify--mark {
       animation: none;
-      @include border(0.0625rem, solid, $tag-invalid-border-color);
+      @include border(0.0625rem, solid, $red500);
     }
 
     // 중복 태그 invalid tag
     &.tagify--notAllowed {
       &:not(.tagify__tag--editable) {
         div {
-          color: $tag-invalid-color;
+          color: $red500;
           > span {
             opacity: 1;
           }
           &::before {
-            @include insideBorder(1.25rem, $tag-invalid-bg-color);
+            @include insideBorder(1.25rem, $red100);
             @include transition(0.2s);
           }
         }
 
         // 삭제 버튼
         .tagify__tag__removeBtn {
-          color: $tag-invalid-color;
+          color: $red500;
           pointer-events: none;
         }
 
         &:hover {
-          @include border($element-border-width, solid, $tag-invalid-color, all); // 1px
+          @include border(0.0625rem, solid, $red500, all); // 1px
           .tagify__tag__removeBtn {
             background-color: transparent;
           }
@@ -204,13 +205,13 @@
         color: black;
 
         &::before {
-          box-shadow: 0 0 0 0.125rem $tag-editable-box-shadow-color inset !important; // 2px
+          box-shadow: 0 0 0 0.125rem $gray100 inset !important; // 2px
         }
       }
 
       &.tagify--invalid {
         > div::before {
-          box-shadow: 0 0 0 0.125rem $tag-invalid-box-shadow-color inset !important; // 2px
+          box-shadow: 0 0 0 0.125rem $red200 inset !important; // 2px
         }
       }
     }
@@ -230,7 +231,7 @@
       font-family: $font-family;
       font-size: 1.25rem; // 20px
       font-weight: $font-weight-bold;
-      color: $tag-btn-remove-color;
+      color: $gray600;
       background: 0 0;
 
       &::after {
@@ -240,8 +241,8 @@
       }
 
       &:hover {
-        color: $tag-btn-remove-hover-color;
-        background: $tag-btn-remove-hover-bg-color;
+        color: $white;
+        background: $gray600;
         + div {
           > span {
             opacity: 1; // 기존 0.5
@@ -294,7 +295,7 @@
       content: attr(data-placeholder);
       line-height: 1em;
       z-index: 1;
-      color: $tag-input-font-color;
+      color: $gray400;
       opacity: 0;
       margin: auto 0;
       white-space: nowrap;
@@ -307,7 +308,7 @@
       display: inline-block;
       max-width: 6.25rem; // 100px
       white-space: pre;
-      color: $tag-input-font-color;
+      color: $gray400;
       opacity: 0; // 기존 0.3
       pointer-events: none;
     }
@@ -328,7 +329,7 @@
   @include absolute();
   margin-top: 0.3125rem; // 5px
   transform: translateY(1px);
-  background: $element-bg-color;
+  background: $white;
   overflow: hidden;
   z-index: 9999;
 
@@ -345,8 +346,8 @@
   &__wrapper {
     max-height: 18.75rem;
     padding: 0.4375rem; // 7px
-    @include border($tag-auto-complete-border-width, solid, $tag-auto-complete-border-color, all); // 1px
-    @include boxShadow(0, 0.125rem, 0.75rem, 0, $tag-auto-complete-box-shadow-color); // 0px 2px 12px
+    @include border(0.0625rem, solid, $gray300, all); // 1px
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0px 2px 12px
     @include transition(0.25s cubic-bezier(0, 1, 0.5, 1));
     overflow: hidden;
 
@@ -361,15 +362,15 @@
     padding: 0.2813rem 0.5rem; // 4.5px, 8px
     margin: 0.0625rem;
     @include borderRadius(0.125rem);
-    font-family: $element-font-family;
-    font-size: $element-font-size;
+    font-family: $font-family;
+    font-size: $font-size-xs;
     box-sizing: inherit;
     cursor: pointer;
     outline: 0;
 
     &--active {
-      color: $tag-font-color;
-      background: $tag-bg-color;
+      color: $gray700;
+      background: $gray100;
     }
   }
 }
@@ -378,20 +379,20 @@
 .tags-look {
   .tagify__dropdown__item {
     display: inline-block;
-    @include borderRadius($tag-border-radius);
+    @include borderRadius(0.25rem);
     padding: 0.25rem 0.5rem; // 4px, 8px
-    background: $tag-bg-color;
+    background: $gray100;
     margin: 0.5rem 0.25rem 0 0.25rem; // 8px 4px 0 4px
-    color: $tag-font-color;
+    color: $gray700;
     @include transition(0s);
 
     &:hover {
-      color: $tag-font-color;
-      background: $tag-bg-color;
+      color: $gray700;
+      background: $gray100;
     }
 
     &--active {
-      color: $tag-font-color;
+      color: $gray700;
     }
   }
 }

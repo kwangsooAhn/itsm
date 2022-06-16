@@ -29,10 +29,10 @@
     @include absolute($right: 0);
     padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
     margin: 0.6875rem 0 0 0; // 11px
-    z-index: $z-index-between-tooltip-gnb;
-    background-color: $layout-header-dropdown-bg-color;
-    @include border($layout-header-dropdown-border-width, solid, $layout-header-dropdown-border-color, all); // 1px
-    @include boxShadow(0, 2px, 12px, 0, $layout-header-dropdown-box-shadow-color); // 0, 2px, 12px, 0
+    z-index: 250;
+    background-color: $white;
+    @include border(0.0625rem, solid, $gray300, all); // 1px
+    @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
 
     .z-dropdown-item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0
@@ -71,7 +71,7 @@
           color: map-get($layout-header-dropdown, 'active', 'font');
           background-color: map-get($layout-header-dropdown, 'active', 'background');
           border-color: map-get($layout-header-dropdown, 'active', 'border');
-          z-index: $z-index-event;
+          z-index: 25;
           @if map-get($layout-header-dropdown, 'active', 'shadow') != null {
             box-shadow: map-get($layout-header-dropdown, 'active', 'shadow');
           }
@@ -96,17 +96,17 @@
 // element palette > element icon
 .z-element-icon {
   display: inline-block;
-  font-family: $element-icon-font-family;
-  font-size: $element-icon-font-size;
-  font-weight: $element-icon-font-weight;
-  width: $element-icon-width;
-  height: $element-icon-height;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  width: 5.625rem; // 90px
+  height: 4.375rem; // 70px
   padding: 0;
   margin: 0.313rem 0.313rem 0 0.313rem; // 5px
   color: map-get($element-icon, 'default', 'font');
   background-color: map-get($element-icon, 'default', 'background');
-  @include border($element-icon-border-width, solid, map-get($element-icon, 'default', 'border'), all); // 1px
-  @include borderRadius($element-icon-border-radius);
+  @include border(0.0625rem, solid, map-get($element-icon, 'default', 'border'), all); // 1px
+  @include borderRadius(0.125rem); // 2px
   @if map-get($element-icon, 'default', 'shadow') != null {
     box-shadow: map-get($element-icon, 'default', 'shadow');
   }
@@ -127,7 +127,7 @@
 
   .z-element-icon-text {
     display: block;
-    font-weight: $element-icon-font-weight;
+    font-weight: $font-weight-medium;
     color: map-get($element-icon, 'default', 'font');
   }
 
@@ -170,7 +170,7 @@
   &.active {
     background-color: map-get($element-icon, 'drag', 'background');
     border-color: map-get($element-icon, 'drag', 'border');
-    z-index: $z-index-event;
+    z-index: 25;
     @if map-get($element-icon, 'drag', 'shadow') != null {
       box-shadow: map-get($element-icon, 'drag', 'shadow');
     }
@@ -202,7 +202,7 @@
   &.move-icon {
     color: map-get($element-icon-toggle, 'default', 'font');
     background-color: map-get($element-icon-toggle, 'default', 'background');
-    @include border($element-icon-border-width, solid, map-get($element-icon-toggle, 'default', 'border'), all);
+    @include border(0.0625rem, solid, map-get($element-icon-toggle, 'default', 'border'), all);
     @if map-get($element-icon-toggle, 'default', 'shadow') != null {
       box-shadow: map-get($element-icon-toggle, 'default', 'shadow');
     }
@@ -251,7 +251,7 @@
       color: map-get($element-icon-toggle, 'active', 'font');
       background-color: map-get($element-icon-toggle, 'active', 'background');
       border-color: map-get($element-icon-toggle, 'active', 'border');
-      z-index: $z-index-event;
+      z-index: 25;
       @if map-get($element-icon-toggle, 'active', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'active', 'shadow');
       }
@@ -268,7 +268,7 @@
       color: map-get($element-icon-toggle, 'selected', 'font');
       background-color: map-get($element-icon-toggle, 'selected', 'background');
       border-color: map-get($element-icon-toggle, 'selected', 'border');
-      z-index: $z-index-event;
+      z-index: 25;
       @if map-get($element-icon-toggle, 'selected', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'selected', 'shadow');
       }
@@ -318,12 +318,12 @@
   &.z-button-candidate-add {
     margin-left: 0.3125rem; // 5px
     .z-icon {
-      &.i-plus { background: $element-icon-color; }
+      &.i-plus { background: $gray500; }
     }
   }
   &.z-button-attach-file {
     .z-icon {
-      &.i-folder { background: $element-icon-color; }
+      &.i-folder { background: $gray500; }
     }
   }
 }
