@@ -326,6 +326,9 @@
         if (isEmpty('owner', 'common.msg.requiredEnter')) return false;
         if (isEmpty('comment', 'common.msg.requiredEnter')) return false;
         if (isEmpty('zqlString', 'common.msg.requiredEnter')) return false;
+        if (!this.checkDecimalValue('minValue', 'sla.metricYear.msg.checkValue')) return false;
+        if (!this.checkDecimalValue('maxValue', 'sla.metricYear.msg.checkValue')) return false;
+        if (!this.checkDecimalValue('weightValue', 'sla.metricYear.msg.checkValue')) return false;
 
         let data = {
             metricId: (method === 'POST' ? document.getElementById('metricYearName').value : document.getElementById('metricYearIdInput').value),
