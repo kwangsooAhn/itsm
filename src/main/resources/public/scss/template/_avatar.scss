@@ -9,17 +9,17 @@
   &-edit {
     // 아바타 타이틀
     .avatar-title {
-      font-size: $avatar-font-size;
-      font-weight: $avatar-font-weight;
-      color: $avatar-font-color;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      color: $gray500;
       margin: 0.5625rem 0 0.5625rem 0; // 9px
     }
     // dropzone
     .avatar {
-      width: $avatar-dropzone-width;
-      height: $avatar-dropzone-height;
-      background-color: $avatar-dropzone-bg-color;
-      @include border($avatar-border-width, solid, $avatar-border-color, all); // 1px
+      width: 20.63rem; // 330px
+      height: 20.63rem; // 330px
+      background-color: $neutral50;
+      @include border(0.0625rem, solid, $gray300, all); // 1px
       padding: 0;
 
       // drag and drop 영역
@@ -27,15 +27,15 @@
         margin: 1.875rem 0;
         // Drop files here to upload or browse 문구
         &.dz-message {
-          font-size: $avatar-dropzone-font-size;
-          font-weight: $avatar-dropzone-font-weight;
-          color: $avatar-dropzone-font-color;
+          font-size: $font-size-xs;
+          font-weight: $font-weight-regular;
+          color: $gray400;
           text-align: center;
           margin-top: 5.313rem; // 85px
           // 아이콘
           .z-icon {
             &.i-avatar {
-              @include maskImage('#{$icon-folder-path}fileUploader/icon_avatar.svg', 100%, 5rem, no-repeat, center, 5rem, $avatar-dropzone-icon-color);
+              @include maskImage('#{$icon-folder-path}fileUploader/icon_avatar.svg', 100%, 5rem, no-repeat, center, 5rem, $gray300);
               margin-bottom: 1.25rem; // 20px
             }
           }
@@ -44,7 +44,7 @@
             margin-top: 0.5rem;
             // browse 버튼
             .dz-clickable {
-              color: $avatar-dropzone-clickable-font-color;
+              color: $blue500;
               cursor: pointer;
             }
           }
@@ -68,7 +68,7 @@
           position: relative;
           display: contents;
           overflow: hidden;
-          z-index: $z-index-between-event-and-default ;
+          z-index: 10 ;
 
           img {
             object-fit: cover;
@@ -77,14 +77,14 @@
         .dz-success-mark, .dz-error-mark { display: none; }
         // 마우스 오버시 효과
         &:hover {
-          z-index: $z-index-event;
+          z-index: 25;
           .dz-details {
             opacity: 1;
           }
         }
 
         &.dz-image-preview {
-          background: $avatar-image-bg-color;
+          background: $white;
           .dz-details {
             @include transition(opacity 0.2s linear);
           }
@@ -98,9 +98,9 @@
           align-items: center;
           line-height: 150%;
           text-align: center;
-          color: $avatar-font-color;
+          color: $gray500;
           opacity: 0;
-          z-index: $z-index-between-event-and-default;
+          z-index: 10;
 
           .dz-file-type,
           .dz-filename,
@@ -132,9 +132,9 @@
 
       .avatar-text {
         display: block;
-        font-size: $avatar-desc-font-size;
-        font-weight: $avatar-desc-font-weight;
-        color: $avatar-desc-font-color;
+        font-size: $font-size-xs;
+        font-weight: $font-weight-regular;
+        color: $gray400;
         text-align: left;
         margin-bottom: 0.3125rem;
       }
@@ -152,8 +152,8 @@
       }
 
       .avatar {
-        width: $avatar-dropzone-sm-width;
-        height: $avatar-dropzone-sm-height;
+        width: 9.375rem; // 150px
+        height: 9.375rem; // 150px
         padding: 0;
 
         .dz-message {
@@ -169,7 +169,7 @@
           }
 
           span {
-            font-size: $avatar-sm-font-size;
+            font-size: 0.8125rem; // 13px
           }
         }
       }
@@ -177,7 +177,7 @@
       .avatar-description {
         vertical-align: top;
         .avatar-text {
-          font-size: $avatar-sm-font-size;
+          font-size: 0.8125rem; // 13px
         }
       }
     }

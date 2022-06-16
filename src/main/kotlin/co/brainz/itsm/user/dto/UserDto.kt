@@ -33,7 +33,7 @@ class UserDto(
     var avatarValue: String = "",
     var avatarSize: Long = 0L,
     var absenceYn: Boolean = false,
-    var absence: UserAbsenceDto? = null,
+    var absence: UserAbsenceDto = UserAbsenceDto(),
     var createDt: LocalDateTime? = null,
     var updateDt: LocalDateTime? = null,
     var totalCount: Long = 0L

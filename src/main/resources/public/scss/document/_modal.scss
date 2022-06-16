@@ -4,16 +4,16 @@
 
   &.modal-active {
     display:block;
-    z-index: $z-index-modal;
+    z-index: 1000;
   }
 
   .modal-dialog {
     // 신청서 > 관련 문서 선택 모달
     &.token-list {
-      width: $token-list-modal-width;
-      height: $token-list-modal-height;
+      width: 62.5rem; // 1000px
+      height: 53.0625rem; // 849px
       .modal-content {
-        height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        height: calc(53.0625rem - 3.875rem - 5rem); // 849px
         padding: 0.625rem 1.25rem; // 10px 20px
         // 관련문서 목록
         .related-instance-list {
@@ -46,15 +46,15 @@
     &.cmdb-ci-update-modal,
     &.cmdb-ci-view-modal,
     &.cmdb-ci-list-modal {
-      width: $cmdb-ci-modal-width;
-      height: $cmdb-ci-modal-height;
+      width: 62.5rem; // 1000px
+      height: 53.0625rem; // 849px
 
       .modal-content {
-        height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        height: calc(53.0625rem - 3.875rem - 5rem); // 849px
         padding: 1.25rem; // 20px
         // TODO: UX팀 디자인 작업 후 변경 예정
         .cmdb-ci-content-edit {
-          height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
+          height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem); // 부모 높이 - 50px
           .edit-form { padding: 0 2.5rem; } // 40px
 
           .edit-row {  margin-top: 0.625rem; } // 10px
@@ -62,10 +62,10 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: $cmdb-ci-attribute-bg-color;
+            background-color: $neutral50;
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-            @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
-            @include borderRadius($cmdb-ci-attribute-border-radius);
+            @include border(0.0625rem, solid, $gray300, all);
+            @include borderRadius(0.0625rem); // 1px
             margin-bottom: 0.625rem; // 10px
 
             // Group List일 경우, 하위 속성 존재함
@@ -78,10 +78,10 @@
               }
 
               .child-attribute-row {
-                background-color: $cmdb-ci-child-attribute-bg-color;
+                background-color: $white;
                 padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
-                @include border($cmdb-ci-child-attribute-border-width, solid, $cmdb-ci-child-attribute-border-color, all);
-                @include borderRadius($cmdb-ci-child-attribute-border-radius);
+                @include border(0.0625rem, solid, $gray300, all); // 1px
+                @include borderRadius(0.0625rem); // 1px
                 margin-top: 0.625rem; // 10px
 
                 .z-button-attribute-delete {
@@ -94,12 +94,12 @@
           .z-relation-group {
             .z-table-row {
               height: 2.5rem;
-              @include border($element-border-width, solid, $element-border-color, bottom);
+              @include border(0.0625rem, solid, $gray400, bottom);
             }
           }
         }
         .cmdb-ci-content-view {
-          height: calc(#{$cmdb-ci-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 3.125rem); // 부모 높이 - 50px
+          height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem); // 부모 높이 - 50px
           .view-form { padding: 0 2.5rem; } // 40px
 
           .view-row {  margin-top: 0.625rem; } // 10px
@@ -107,10 +107,10 @@
 
           // 세부 속성
           .attribute-group {
-            background-color: $cmdb-ci-attribute-bg-color;
+            background-color: $neutral50;
             padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-            @include border($cmdb-ci-attribute-border-width, solid, $cmdb-ci-attribute-border-color, all);
-            @include borderRadius($cmdb-ci-attribute-border-radius);
+            @include border(0.0625rem, solid, $gray300, all);
+            @include borderRadius(0.0625rem); // 1px
 
             // Group List일 경우, 하위 속성 존재함
             .child-attribute-group {
@@ -121,10 +121,10 @@
               }
 
               .child-attribute-row {
-                background-color: $cmdb-ci-child-attribute-bg-color;
+                background-color: $white;
                 padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
-                @include border($cmdb-ci-child-attribute-border-width, solid, $cmdb-ci-child-attribute-border-color, all);
-                @include borderRadius($cmdb-ci-child-attribute-border-radius);
+                @include border(0.0625rem, solid, $gray300, all); // 1px
+                @include borderRadius(0.0625rem); // 1px
 
                 .z-button-attribute-delete {
                   @include absolute($right: 0.3125rem); //5px
@@ -174,18 +174,18 @@
     }
     // 트리 모달
     &.tree {
-      width: $tree-modal-width;
-      height: $tree-modal-height;
+      width: 40rem; // 640px
+      height: 44.19rem; // 707px
 
       .modal-content {
-        height: calc(#{$tree-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        height: calc(44.19rem - 3.875rem - 5rem);
         padding: 1.125rem 0 0 1.25rem;
         div {
           height: 100%;
           label { font-weight: $font-weight-regular; }
           li {
             &:last-child:before {
-              background-color: $modal-bg-color;
+              background-color: $white;
             }
           }
         }
@@ -193,11 +193,11 @@
     }
 
     &.custom-code-list {
-      width: $custom-code-modal-width;
-      height: $custom-code-modal-height;
+      width: 40rem; // 640px
+      height: 46.875rem; // 750px
 
       .modal-content {
-        height: calc(#{$custom-code-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        height: calc(46.875rem - 3.875rem - 5rem);
         padding: 0.625rem 1.25rem 0.625rem 1.25rem; // 10px 20px 20px 20px
 
         .field-label {
@@ -218,11 +218,11 @@
     // 신청서, 처리할 문서 > 참조인 모달
     &.sub-user-modal,
     &.target-user-modal {
-      width: $token-list-modal-width;
-      height: $token-list-modal-height;
+      width: 62.5rem; // 1000px
+      height: 53.0625rem; // 849px
 
       .modal-content {
-        height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+        height: calc(53.0625rem - 3.875rem - 5rem); // 849px
         padding: 0.625rem 1.25rem; // 10px 20px
 
         .sub-user-list,
@@ -252,7 +252,7 @@
       height: var(--default-modal-height);
 
       .modal-content {
-        height: calc(var(--default-modal-height) - #{$modal-header-height} - #{$modal-bottom-height} - 1.25rem);
+        height: calc(var(--default-modal-height) - 3.875rem - 5rem - 1.25rem);
         margin: 0.625rem 1.25rem 0 1.25rem; // 10px 20px 0 20px
 
         @include gridTemplate();

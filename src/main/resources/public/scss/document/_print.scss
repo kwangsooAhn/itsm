@@ -38,8 +38,8 @@
 }
 @media print {
   html, body {
-    width: $print-a4-width;
-    height: $print-a4-height;
+    width: 210mm;
+    height: 297mm;
   }
   .z-print {
     padding: 0;
@@ -78,7 +78,7 @@
             break-inside: avoid;
             .z-textarea {
               width: inherit;
-              max-width: calc(#{$print-a4-width} - 10mm);
+              max-width: calc(210mm - 10mm);
             }
           }
         }
@@ -88,7 +88,7 @@
     &-main-footer {
       position: fixed;
       bottom: 0;
-      width: $print-a4-width;
+      width: 210mm;
     }
   }
 }

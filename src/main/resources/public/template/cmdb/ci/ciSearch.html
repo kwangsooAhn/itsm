@@ -78,7 +78,7 @@
         let searchData = null;
         let tempSearchData = null;
         let importFile;
-        window.onload = function () {
+        window.onload = function() {
             document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce(() => getList()), false);
 
             getTree();
@@ -104,12 +104,12 @@
                 target: 'treeList',
                 text: 'typeName',
                 totalCount: false,
-                onCreate: function () {
+                onCreate: function() {
                     zPagingManager.load();
                     // 전체 선택
                     document.getElementById('treeList').querySelector('.node').click();
                 },
-                selectedNode: function (response) {
+                selectedNode: function(response) {
                     document.getElementById('treeTypeId').value = response.id;
                     document.getElementById('treeTypeName').value = response.textContent;
                     // 버튼 색상 초기화
@@ -195,36 +195,62 @@
         function getItemWithType(data, index) {
             const attributeValue = JSON.parse(data.attributeValue);
             switch (data.attributeType) {
-                case 'inputbox':
-                    return `<input type="text" class="z-input field-element" id="${data.attributeId}" value="${data.searchValue}" data-attributeType="${data.attributeType}" onBlur="changeSearchDetail(this);">`;
-                case 'dropdown':
-                    const optionTemplate = attributeValue.option.map(function (opt) {
-                        return `<option value='${opt.value}' ${opt.value === data.searchValue ? 'selected=\'true\'' : ''}>${opt.text}</option>`;
+                case 'inputbox': {
+                    return `<input type="text" class="z-input field-element" ` +
+                        `id="${data.attributeId}" value="${data.searchValue}" ` +
+                        `data-attributeType="${data.attributeType}" onBlur="changeSearchDetail(this);">`;
+                }
+                case 'dropdown': {
+                    const optionTemplate = attributeValue.option.map(function(opt) {
+                        return `<option value='${opt.value}' ${opt.value === data.searchValue ? 'selected=\'true\'' : ''}>` +
+                            `${opt.text}` +
+                            `</option>`;
                     }).join('');
-                    return `<select id="${data.attributeId}" class="field-element" data-attributeType="${data.attributeType}" onchange="changeSearchDetail(this)">${optionTemplate}</select>`;
-                case 'radio':
-                    const radioTemplate = attributeValue.option.map(function (opt, idx) {
+                    return `<select id="${data.attributeId}" class="field-element" ` +
+                        `data-attributeType="${data.attributeType}" onchange="changeSearchDetail(this)">` +
+                        `${optionTemplate}` +
+                        `</select>`;
+                }
+                case 'radio': {
+                    const radioTemplate = attributeValue.option.map(function(opt, idx) {
                         return `<label for="${data.attributeId}_${idx}" class="z-radio horizontal" tabindex="-1">` +
-                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" value="${opt.value}" name="${data.attributeId}" data-attributeType="${data.attributeType}" ` +
+                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" ` +
+                            `value="${opt.value}" name="${data.attributeId}" data-attributeType="${data.attributeType}" ` +
                             `${opt.value === data.searchValue ? 'checked=\'true\'' : ''} onclick="changeSearchDetail(this)">` +
                             `<span></span><span>${opt.text}</span>` +
                             `</label>`;
                     }).join('');
                     return `<div class="z-radio-group field-element">${radioTemplate}</div>`;
-                case 'date':
-                    return `<input type="text" class="z-input field-element i-date-picker search-date" id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}" data-attributeType="${data.attributeType}">`;
-                case 'datetime':
-                    return `<input type="text" class="z-input field-element i-datetime-picker search-datetime" id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}" data-attributeType="${data.attributeType}">`;
-                case 'userSearch':
+                }
+                case 'date': {
+                    return `<input type="text" class="z-input field-element i-date-picker search-date" ` +
+                        `id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}" ` +
+                        `data-attributeType="${data.attributeType}">`;
+                }
+                case 'datetime': {
+                    return `<input type="text" class="z-input field-element i-datetime-picker search-datetime" ` +
+                        `id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}" ` +
+                        `data-attributeType="${data.attributeType}">`;
+                }
+                case 'userSearch': {
                     const userDefaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
-                    return `<input type="text" class="z-input field-element i-user-search text-ellipsis" id="${data.attributeId}" value="${userDefaultValues[1]}" data-attributeType="${data.attributeType}" ` +
-                        `data-attributeIdx="${index}" onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" onClick="openUserSearchModal(this);" ` +
-                        `data-user-id="${userDefaultValues[2]}" data-user-search="${userDefaultValues[0]}" data-realTimeSelectedUser="${(data.searchValue !== '') ? data.searchValue : ''}">`;
-                case 'organizationSearch':
+                    return `<input type="text" class="z-input field-element i-user-search text-ellipsis" ` +
+                        `id="${data.attributeId}" value="${userDefaultValues[1]}" ` +
+                        `data-attributeType="${data.attributeType}" data-attributeIdx="${index}" ` +
+                        `onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" ` +
+                        `onclick="openUserSearchModal(this);" ` +
+                        `data-user-id="${userDefaultValues[2]}" data-user-search="${userDefaultValues[0]}" ` +
+                        `data-realTimeSelectedUser="${(data.searchValue !== '') ? data.searchValue : ''}">`;
+                }
+                case 'organizationSearch': {
                     const defaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
-                    return `<input type="text" class="z-input field-element i-organization-search text-ellipsis" id="${data.attributeId}" value="${defaultValues[1]}" data-attributeType="${data.attributeType}" ` +
-                        `data-attributeIdx="${index}" onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" onClick="openOrganizationSearchModal(this);" ` +
+                    return `<input type="text" class="z-input field-element i-organization-search text-ellipsis" ` +
+                        `id="${data.attributeId}" value="${defaultValues[1]}" ` +
+                        `data-attributeType="${data.attributeType}" data-attributeIdx="${index}" `+
+                        `onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" ` +
+                        `onclick="openOrganizationSearchModal(this);" ` +
                         `data-organization-search="${defaultValues[0]}">`;
+                }
                 default:
                     break;
             }
@@ -233,10 +259,10 @@
         function createDetailSearchContent() {
             let searchTemplate = ``;
             if (searchData !== null) {
-                searchTemplate = searchData.map(function (item, index) {
+                searchTemplate = searchData.map(function(item, index) {
                     const templateWithType = getItemWithType(item, index);
                     return `<div class="flex-row align-items-center">` +
-                        `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
+                        `<label class="field-label text-ellipsis" title="${item.attributeText}">${item.attributeText}</label>` +
                         `${templateWithType}` +
                         `</div>`;
                 }).join('');
@@ -264,7 +290,7 @@
                     content: i18n.msg('common.btn.search'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         searchData = tempSearchData;
                         const btnDetailSearch = document.getElementById('btnDetailSearch');
                         if (btnDetailSearch && btnDetailSearch.classList.contains('secondary')) {
@@ -278,14 +304,14 @@
                     content: i18n.msg('common.btn.initialization'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         const btnDetailSearch = document.getElementById('btnDetailSearch');
                         if (btnDetailSearch && btnDetailSearch.classList.contains('primary')) {
                             btnDetailSearch.classList.remove('primary');
                             btnDetailSearch.classList.add('secondary');
                         }
                         if (searchData !== null) {
-                            searchData.forEach(function (item) {
+                            searchData.forEach(function(item) {
                                 item.searchValue = '';
                             });
                         }
@@ -296,7 +322,7 @@
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         tempSearchData = searchData;
                         modal.hide();
                     }
@@ -304,16 +330,17 @@
                 close: {
                     closable: false,
                 },
-                onCreate: function (modal) {
+                onCreate: function(modal) {
                     aliceJs.initDesignedSelectTag();
                     // 날짜시간 picker 추가
-                    document.querySelectorAll('.search-date').forEach(function (elem) {
+                    document.querySelectorAll('.search-date').forEach(function(elem) {
                         zDateTimePicker.initDatePicker(elem, changeSearchDetail);
                     });
-                    document.querySelectorAll('.search-datetime').forEach(function (elem) {
+                    document.querySelectorAll('.search-datetime').forEach(function(elem) {
                         zDateTimePicker.initDateTimePicker(elem, changeSearchDetail);
                     });
-                    OverlayScrollbars(document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), { className: 'scrollbar' });
+                    OverlayScrollbars(
+                        document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), { className: 'scrollbar' });
                 }
             });
             ciDetailSearchModal.show();
@@ -325,7 +352,7 @@
         function changeSearchDetail(target) {
             const targetType = target.getAttribute('data-attributeType');
             const targetId = target.id.split('_')[0];
-            const findIndex = tempSearchData.findIndex(function (item) {
+            const findIndex = tempSearchData.findIndex(function(item) {
                 return item.attributeId === targetId;
             });
             let changeValue = '';
@@ -370,7 +397,9 @@
                 + '&typeId=' + document.getElementById('treeTypeId').value
                 + '&orderColName=' + orderColName
                 + '&orderDir=' + orderDir;
-            let excelFileName = i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+            let excelFileName = i18n.msg('cmdb.ci.label.ciInquiry') + '_'
+                    + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+
             aliceJs.fetchBlob('/rest/cmdb/cis/excel?' + urlParam, {
                 method: 'POST',
                 showProgressBar: true,
@@ -399,7 +428,9 @@
             const urlParam = 'typeId=' + document.getElementById('treeTypeId').value;
             // 다운로드 되는 파일은 “IT자산 템플릿-[CI유형명]-20220214”와 같은 형식의 이름을 가진다.
             const typeName = document.getElementById('treeTypeName').value;
-            let excelFileName = i18n.msg('cmdb.ci.label.ciTemplate') + '-' + typeName + '-' + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+            let excelFileName = i18n.msg('cmdb.ci.label.ciTemplate') + '-' + typeName + '-'
+                + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+
             aliceJs.fetchBlob('/rest/cmdb/cis/template?' + urlParam, {
                 method: 'GET',
                 showProgressBar: true
@@ -437,7 +468,7 @@
             }).then((response) => {
                 // 성공시 페이지 새로 고침
                 if (response.status === aliceJs.response.success) {
-                    zAlert.success(i18n.msg('common.msg.save'), function () {
+                    zAlert.success(i18n.msg('common.msg.save'), function() {
                         location.reload();
                         return true;
                     });
@@ -449,10 +480,12 @@
          * 템플릿 업로드 모달 오픈
          */
         function openTemplateUploadModal() {
-            const createTemplateUploadContent = function () {
+            const createTemplateUploadContent = function() {
                 return `<div class="import-main flex-column">` +
                     `<div class="file-uploader-edit">` +
-                    `<label class="file-uploader-title field-label">${i18n.msg('cmdb.ci.label.importFile')}<span class="required"></span></label>` +
+                    `<label class="file-uploader-title field-label">` +
+                    `${i18n.msg('cmdb.ci.label.importFile')}<span class="required"></span>` +
+                    `</label>` +
                     `<div id="dropZoneFiles"></div>` +
                     `<div id="dropZoneUploadedFiles"></div>` +
                     `</div>` +
@@ -468,8 +501,8 @@
                         content: i18n.msg('cmdb.ci.btn.import'),
                         classes: 'z-button primary',
                         bindKey: false,
-                        callback: function (modal) {
-                            if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
+                        callback: function(modal) {
+                            if (isNotNull('dropZoneFileUpload') && document.getElementById('fileTemplate') === null) {
                                 zAlert.warning(i18n.msg('cmdb.ci.msg.selectImportFile'));
                                 return false;
                             }
@@ -479,7 +512,7 @@
                         content: i18n.msg('common.btn.cancel'),
                         classes: 'z-button secondary',
                         bindKey: false,
-                        callback: function (modal) {
+                        callback: function(modal) {
                             modal.hide();
                         }
                     }
@@ -487,7 +520,7 @@
                 close: {
                     closable: false,
                 },
-                onCreate: function (modal) {
+                onCreate: function(modal) {
                     // 파일 업로드 추가
                     zFileUploader.init({
                         formId: 'importForm',
@@ -521,14 +554,14 @@
                         content: i18n.msg('common.btn.close'),
                         classes: 'z-button secondary',
                         bindKey: false,
-                        callback: function (modal) {
+                        callback: function(modal) {
                             modal.hide();
                         }
                     }],
                     close: {
                         closable: false,
                     },
-                    onCreate: function (modal) {
+                    onCreate: function(modal) {
                         document.getElementById('ciAttributes').click();
                         const ciDetailModalContent = document.querySelector('.cmdb-ci-view-modal');
                         // 스크롤바 추가
@@ -590,7 +623,7 @@
                     }
                 }],
                 close: { closable: false },
-                onCreate: function () {
+                onCreate: function() {
                     // 기존 선택된 값 할당
                     if (target.getAttribute('data-user-search') !== '') {
                         const realTimeSelectedUser = `${target.getAttribute('data-user-search')}|` +
@@ -677,7 +710,7 @@
         import ZPaging from '../../../assets/js/lib/zPaging.js';
 
         const zPagingManager = {
-            load: function () {
+            load: function() {
                 if (typeof this.zPaging === 'undefined') {
                     this.zPaging = new ZPaging();
                 }
