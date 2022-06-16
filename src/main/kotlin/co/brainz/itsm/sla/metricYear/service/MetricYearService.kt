@@ -145,12 +145,8 @@ class MetricYearService(
                         from.toLocalDate(),
                         to.toLocalDate()
                     )
-                    MetricPoolConst.CalculationType.AVERAGE.code -> metricManualService.getManualPointAverage(
-                        it.metricId,
-                        from.toLocalDate(),
-                        to.toLocalDate()
-                    )
-                    MetricPoolConst.CalculationType.PERCENTAGE.code -> metricManualService.getManualPointPercentage(
+                    MetricPoolConst.CalculationType.AVERAGE.code,
+                    MetricPoolConst.CalculationType.PERCENTAGE.code -> metricManualService.getManualPointAverage(
                         it.metricId,
                         from.toLocalDate(),
                         to.toLocalDate()
