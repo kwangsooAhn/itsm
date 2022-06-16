@@ -1460,7 +1460,7 @@ sla:
       zqlManual: "ZQL Manual"
       zqlPlaceholder: "No ZQL applied."
     msg:
-      checkValue: "You can enter up to three decimal places."
+      checkValue: "You can enter up to fourth decimal places."
       copy: "Copy the metric to the {0} year metric."
       description: "Register, modify, or delete the contents of SLA metric management by year."
       totalScore: "A normal score is calculated when the weights add up to 100%."
