@@ -98,7 +98,7 @@
                     <label th:text="#{sla.metricYear.label.minValue}" for="minValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="minValue" name="minValue" class="z-input metric-value"
-                               onchange="checkDecimalValue('weightValue','sla.metricYear.msg.checkValue')"
+                               onchange="checkDecimalValue('minValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.minValue}" th:readonly="${view}"/>
                         <span class="pl-1" th:text="#{sla.metricYear.label.option.score}"></span>
@@ -108,7 +108,7 @@
                     <label th:text="#{sla.metricYear.label.maxValue}" for="maxValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="maxValue" name="maxValue" class="z-input metric-value"
-                               onchange="checkDecimalValue('weightValue','sla.metricYear.msg.checkValue')"
+                               onchange="checkDecimalValue('maxValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.maxValue}" th:readonly="${view}"/>
                         <span class="pl-1" th:text="#{sla.metricYear.label.option.score}"></span>
@@ -186,13 +186,14 @@
         setMetricValueFormat();
     }
 
-    // 소수점 세자리수까지 입력 유효성 체크
+    // 소수점 이하 네 번째 자리까지 입력 유효성 체크
     function checkDecimalValue(elementId, messageId, callbackFunc) {
         const elem = isNullElement(elementId);
         const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
             elem.focus();
         };
-        const decimalValue = /^[0-9]*\.?[0-9]{0,3}$/;
+        const decimalValue = /^[0-9]*\.?[0-9]{0,4}$/;
+        console.log(elem.value)
         if (elem !== null) {
             if (!decimalValue.test(elem.value)) {
                 if (messageId !== undefined) zAlert.warning(i18n.msg(messageId), callback);
