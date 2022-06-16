@@ -19,8 +19,9 @@
                 <span class="required"></span>
             </label>
             <div class="flex-row">
-                <input type="text" id="metricValue" class="z-input col-pct-12" name="metricValue"  maxlength="4"
-                       onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required"/>
+                <input type="text" id="metricValue" class="z-input col-pct-13" name="metricValue"
+                       onkeyup="this.value=this.value.replace(/[^0-9.]/g,'');"
+                       onchange="checkDecimalValue('metricValue','sla.metricYear.msg.checkValue')" required="required"/>
                 <span class="pl-1" id="metricUnitText"></span>
             </div>
         </div>
