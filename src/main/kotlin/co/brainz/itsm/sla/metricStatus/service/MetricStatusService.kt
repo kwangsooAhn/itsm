@@ -38,6 +38,9 @@ class MetricStatusService(
     private val metricPoolRepository: MetricPoolRepository
 ) {
 
+    /**
+     * 현재 년도에 저징된 지표 조회
+     */
     fun getMetricList(): List<MetricYearSimpleDto> {
         val metricLoadCondition = MetricLoadCondition(
             source = Year.now().toString()
@@ -52,10 +55,10 @@ class MetricStatusService(
         val tag = mutableListOf<AliceTagDto>()
         tag.add(AliceTagDto(tagId = "", tagValue = metricDto.metricName))
 
-        return MetricStatusChartDto(
-            metricYears = metricStatusChartCondition.year,
-            metricId = metricStatusChartCondition.metricId,
-            chartType = metricStatusChartCondition.chartType,
+        return MetricStatusDto(
+            metricYears = metricStatusCondition.year,
+            metricId = metricStatusCondition.metricId,
+            chartType = metricStatusCondition.chartType,
             metricName = metricDto.metricName,
             metricDesc = metricDto.comment,
             tags = tag,
@@ -65,6 +68,9 @@ class MetricStatusService(
         )
     }
 
+    /**
+     * 차트 구성 세팅
+     */
     private fun initChartConfig(year: String): ChartConfig {
         val range = ChartRange(
             type = ChartConstants.Range.BETWEEN.code,
@@ -78,20 +84,23 @@ class MetricStatusService(
         )
     }
 
-    private fun initZqlCalculatedData(metricStatusChartCondition: MetricStatusChartCondition): MutableList<ChartData> {
+    /**
+     *  차트 계산
+     */
+    private fun initZqlCalculatedData(metricStatusCondition: MetricStatusCondition): MutableList<ChartData> {
         val metric =
-            metricYearRepository.findMetricYear(metricStatusChartCondition.metricId, metricStatusChartCondition.year)
-        val from = LocalDateTime.of(metricStatusChartCondition.year.toInt(), 1, 1, 0, 0, 0)
-        val to = LocalDateTime.of(metricStatusChartCondition.year.toInt(), 12, 31, 23, 59, 59)
+            metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year)
+        val from = LocalDateTime.of(metricStatusCondition.year.toInt(), 1, 1, 0, 0, 0)
+        val to = LocalDateTime.of(metricStatusCondition.year.toInt(), 12, 31, 23, 59, 59)
         val chartData = mutableListOf<ChartData>()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (metric!!.metricType == MetricPoolConst.Type.MANUAL.code) {
             for (i in 1..12) {
-                val month = LocalDate.of(metricStatusChartCondition.year.toInt(), i, 1)
+                val month = LocalDate.of(metricStatusCondition.year.toInt(), i, 1)
                 val point = metricManualService.getManualPointSum(
                     metric.metricId,
                     month,
-                    LocalDate.of(metricStatusChartCondition.year.toInt(), i, month.lengthOfMonth())
+                    LocalDate.of(metricStatusCondition.year.toInt(), i, month.lengthOfMonth())
                 ).toString()
 
                 chartData.add(

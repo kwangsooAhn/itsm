@@ -11,7 +11,7 @@ import co.brainz.itsm.statistic.customChart.dto.ChartConfig
 import co.brainz.itsm.statistic.customChart.dto.ChartData
 import java.io.Serializable
 
-data class MetricStatusChartDto(
+data class MetricStatusDto(
     val metricYears: String,
     val metricId: String,
     val chartType: String,

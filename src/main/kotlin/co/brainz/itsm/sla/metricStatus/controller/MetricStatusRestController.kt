@@ -7,7 +7,7 @@ package co.brainz.itsm.sla.metricStatus.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
 import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import org.springframework.http.ResponseEntity
@@ -25,8 +25,8 @@ class MetricStatusRestController(
      * 지표별 SLA 현황 차트 데이터
      */
     @GetMapping("")
-    fun getMetricStatusChartData(metricStatusChartCondition: MetricStatusChartCondition, model: Model): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricStatusService.getMetricStatusChartData(metricStatusChartCondition))
+    fun getMetricStatusChartData(metricStatusCondition: MetricStatusCondition, model: Model): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricStatusService.getMetricStatusChartData(metricStatusCondition))
     }
 
     /**

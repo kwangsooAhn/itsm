@@ -8,7 +8,7 @@ package co.brainz.itsm.sla.metricStatus.dto
 
 import java.io.Serializable
 
-data class MetricStatusChartCondition(
+data class MetricStatusCondition(
     val metricId: String,
     val year: String,
     val chartType: String
