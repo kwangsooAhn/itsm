@@ -248,7 +248,7 @@ class MetricYearService(
     /**
      * 연도별 지표 세부 정보 조회
      */
-    fun getMetricYearDetail(metricId: String, year: String): MetricYearDetailDto {
+    fun getMetricYearDetail(metricId: String, year: String): MetricYearDetailDto? {
         return metricYearRepository.findMetricYear(metricId, year)
     }
 
@@ -359,7 +359,7 @@ class MetricYearService(
     /**
      * 연도별 SLA 현황 preview
      */
-    fun metricPreviewChartData(metricId: String, year: String): MetricStatusDto {
+    fun metricPreviewChartData(metricId: String, year: String): MetricStatusDto? {
         val metricStatusCondition = MetricStatusCondition(
             metricId = metricId,
             year = year,

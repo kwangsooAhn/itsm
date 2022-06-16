@@ -97,7 +97,26 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         return query.fetch()
     }
 
-    override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto {
+    override fun findMetricYearListByLoadCondition(year: String): List<MetricYearSimpleDto> {
+        val metric = QMetricPoolEntity.metricPoolEntity
+        val metricYear = QMetricYearEntity.metricYearEntity
+
+        return from(metricYear)
+            .select(
+                Projections.constructor(
+                    MetricYearSimpleDto::class.java,
+                    metric.metricId,
+                    metricYear.metricYear,
+                    metric.metricName,
+                    metric.metricUnit
+                )
+            )
+            .leftJoin(metric).on(metricYear.metric.metricId.eq(metric.metricId))
+            .where(metricYear.metricYear.eq(year))
+            .fetch()
+    }
+
+    override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto? {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val groupCode = QCodeEntity.codeEntity
