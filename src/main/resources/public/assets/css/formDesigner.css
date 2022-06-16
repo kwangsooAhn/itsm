@@ -2594,6 +2594,1029 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 
+@-webkit-keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@-moz-keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@-o-keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@-webkit-keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@-moz-keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@-o-keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.z-itsm-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+.z-itsm-container .z-main {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 13.75rem);
+  height: 100vh;
+}
+.z-itsm-container .z-main-title {
+  display: flex;
+  align-items: baseline !important;
+  padding: 0 3.75rem 2rem 3.75rem;
+}
+.z-itsm-container .z-main-content {
+  height: calc(100vh - 8.5rem);
+}
+.z-itsm-container .z-main-content .z-page-content {
+  border-top: 0.0625rem solid #CFD5D9;
+  flex: 1 1 auto;
+}
+.z-itsm-container .z-main-content .z-page-search {
+  display: flex;
+  flex-direction: row;
+  padding: 0 3.75rem 1.25rem 3.75rem;
+}
+.z-itsm-container .z-main-content .z-page-search .z-search-count {
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #757575;
+}
+.z-itsm-container .z-main-content .z-page-result {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.875rem 3.75rem 1.875rem 3.75rem;
+  background-color: #FFFFFF;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-color {
+  width: 0.75rem;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-row {
+  padding: 1.875rem 3rem;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-title {
+  color: #222529;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-title .z-document-numbering {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #8B9094;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-topic {
+  width: 39.38rem;
+  margin-top: 1.5625rem;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-topic .topic {
+  font-size: 1rem;
+  font-weight: 400;
+  display: block;
+  margin-bottom: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-detail .user-name,
+.z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-detail .create-dt,
+.z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-detail .element-name {
+  font-size: 1rem;
+  font-weight: 400;
+}
+.z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-tag {
+  max-width: 23.75rem;
+  margin-top: 3.5rem;
+}
+.z-itsm-container .z-main-content .z-page-result .sub-title {
+  margin: 1.25rem 0;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-box {
+  width: 23.75rem;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  padding: 1.5625rem;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-info {
+  margin-left: 1.5625rem;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-count {
+  margin-bottom: 0.9375rem;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-header-type {
+  color: #000000;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-type {
+  color: #8B9094;
+}
+.z-itsm-container .z-main-content .z-page-result .statistic-table {
+  width: 100%;
+}
+.z-itsm-container .z-main-content .z-page-result .scroll-wrap {
+  flex: 1 1 auto;
+  margin-right: 1.25rem;
+}
+.z-itsm-container .z-main-content .z-page-result .scroll-wrap .card:first-of-type {
+  margin-top: 0;
+}
+.z-itsm-container .z-main-content .z-page-result .component {
+  height: 22.5rem;
+}
+.z-itsm-container .z-main-content .z-page-result .component-title {
+  font-weight: 500;
+}
+.z-itsm-container .z-main-content .z-page-result .component-title > *:first-child {
+  font-size: 1.25rem;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents {
+  flex: 1 1 auto;
+  padding: 0.625rem 0.3125rem;
+  border: 0.0625rem solid #CFD5D9;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-organization {
+  width: 80rem;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-user {
+  width: 15.625rem;
+  height: 16.875rem;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-user-title {
+  max-width: 10rem;
+  cursor: default;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-user-total {
+  height: 4.375rem;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-user-contents {
+  height: 3.125rem;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status {
+  display: flex;
+  border: none;
+  overflow-x: hidden;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid {
+  display: grid;
+  flex: 1;
+  align-content: start;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__row {
+  display: grid;
+  grid-template-columns: var(--data-columns-width);
+  grid-template-rows: 49px;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  font-weight: 500;
+  color: #424242;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row {
+  color: #757575;
+  border-bottom: 0.125rem solid #CFD5D9;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
+  cursor: pointer;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
+  background: #757575;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body {
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row {
+  color: #222529;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  cursor: pointer;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row.read-only {
+  cursor: default;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row:hover {
+  background-color: #EEEEEE;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .sub-text {
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid--noData .grid__cell {
+  grid-column: 1/-1;
+  justify-content: center;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon {
+  padding: 0;
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:hover, .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:focus, .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:active, .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon .z-icon {
+  background-color: #63686C;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:hover .z-icon {
+  background-color: #ABB0B5;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:focus .z-icon {
+  background-color: #222529;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:active .z-icon {
+  background-color: #222529;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:disabled .z-icon {
+  background-color: #CFD5D9;
+}
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body {
+  max-height: 16.375rem;
+}
+.z-itsm-container .z-main-content .z-page-edit {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  padding: 2.1875rem 23.125rem 3.125rem 23.125rem;
+  background-color: #FFFFFF;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-edit-form {
+  display: flex;
+  flex-direction: column;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-edit-row {
+  width: 100%;
+  margin: 0.625rem 0 0 0;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-edit-row label {
+  margin: 0.625rem 0;
+  height: 1rem;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-edit-row.off {
+  display: none;
+}
+.z-itsm-container .z-main-content .z-page-edit label {
+  margin: 0.625rem 0;
+}
+.z-itsm-container .z-main-content .z-page-edit .z-button-list {
+  margin: 1.875rem 0;
+}
+.z-itsm-container .z-main-content .z-page-list {
+  display: flex;
+  flex: 1;
+  padding: 0 3.75rem 1.25rem 3.75rem;
+  overflow-x: hidden;
+}
+.z-itsm-container .z-main-content .z-page-list .z-list-content {
+  flex: 1;
+}
+.z-itsm-container .z-main-content .z-page-list .z-list-content a, .z-itsm-container .z-main-content .z-page-list .z-list-content button {
+  cursor: pointer;
+}
+.z-itsm-container .z-main-content .z-page-list .z-table {
+  position: relative;
+  border: none;
+}
+.z-itsm-container .z-main-content .z-page-list .z-list-tree {
+  height: 37.88rem;
+}
+.z-itsm-container .z-main-content .z-page-list .no-data-text {
+  width: 100%;
+  text-align: center;
+}
+.z-itsm-container .z-main-content .z-page-list .grid {
+  display: grid;
+  flex: 1;
+  align-content: start;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__row {
+  display: grid;
+  grid-template-columns: var(--data-columns-width);
+  grid-template-rows: 49px;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__cell {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  font-weight: 500;
+  color: #424242;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
+  color: #757575;
+  border-bottom: 0.125rem solid #CFD5D9;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
+  cursor: pointer;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
+  background: #757575;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__body {
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
+  color: #222529;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  cursor: pointer;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__body .grid__row.read-only {
+  cursor: default;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__body .grid__row:hover {
+  background-color: #EEEEEE;
+}
+.z-itsm-container .z-main-content .z-page-list .grid__body .sub-text {
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.z-itsm-container .z-main-content .z-page-list .grid--noData .grid__cell {
+  grid-column: 1/-1;
+  justify-content: center;
+}
+.z-itsm-container .z-main-content .z-page-list .grid .z-button-icon {
+  padding: 0;
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:hover, .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:focus, .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:active, .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.z-itsm-container .z-main-content .z-page-list .grid .z-button-icon .z-icon {
+  background-color: #63686C;
+}
+.z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:hover .z-icon {
+  background-color: #ABB0B5;
+}
+.z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:focus .z-icon {
+  background-color: #222529;
+}
+.z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:active .z-icon {
+  background-color: #222529;
+}
+.z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:disabled .z-icon {
+  background-color: #CFD5D9;
+}
+.z-itsm-container .z-main-content .z-page-column-item {
+  display: flex;
+  flex: 1;
+  padding: 0 1.875rem;
+  width: 50%;
+}
+.z-itsm-container .z-main-content .z-page-column-item:first-child {
+  padding-left: 3.75rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item:last-child {
+  padding-right: 3.75rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-tree {
+  flex: 1;
+  margin-top: 0.9375rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-search {
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 1.25rem 0;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 100%;
+  background-color: #FFFFFF;
+  padding: 2.1875rem 0;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2.5rem 0 2.5rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row {
+  margin-top: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row label {
+  margin: 0.625rem 0;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row .z-input:read-only {
+  width: auto;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-edit-row .z-input.attribute {
+  width: 100%;
+}
+.z-itsm-container .z-main-content .z-page-column-item .z-page-edit .z-edit-form .z-button-list {
+  margin: 1.875rem 0;
+}
+.z-itsm-container .z-main-content .card-list {
+  flex-wrap: wrap;
+  padding-bottom: 0.625rem;
+}
+.z-itsm-container .z-main-content .card-list .card {
+  position: relative;
+  min-width: 32.0625rem;
+  width: 100%;
+  min-height: 9.375rem;
+  margin: 1.25rem 1.25rem 0 0;
+  padding: 0;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+.z-itsm-container .z-main-content .card-list .card:hover {
+  box-shadow: 0 0 0.625rem 0 #E1E6EA;
+}
+.z-itsm-container .z-main-content .card-list .card .document-column h3 {
+  width: 28rem;
+}
+.z-itsm-container .z-main-content .card-list .document-card {
+  min-width: auto;
+  width: 28.5rem;
+  min-height: 11.5625rem;
+  margin-right: 2.8125rem;
+}
+.z-itsm-container .z-main-content .card-list .no-data-found {
+  width: 100%;
+  background-color: #FAFAFA;
+  pointer-events: none;
+}
+.z-itsm-container .z-main-content .card-list .no-data-found .i-no-card {
+  content: url("../../assets/media/icons/icon_no_card.svg");
+}
+.z-itsm-container .z-main-content .card-list .no-data-found .no-data-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #BDBDBD;
+  margin-left: 2.5rem;
+}
+.z-itsm-container .z-main-content .z-page-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  padding: 2.1875rem 23.125rem 3.125rem 23.125rem;
+}
+.z-itsm-container .z-main-content .z-page-view .z-view-row {
+  width: 100%;
+  margin: 0.625rem 0 0 0;
+}
+.z-itsm-container .z-main-content .z-page-view .z-view-row label {
+  margin: 0.625rem 0;
+}
+.z-itsm-container .z-main-content .z-page-view .z-button-list {
+  margin-top: 1.875rem;
+}
+.z-itsm-container .z-main-content .z-page-view-sub-title {
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #8B9094;
+  padding: 0 1.25rem;
+}
+.z-itsm-container .z-main-content .z-page-view-content {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #424242;
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+}
+.z-itsm-container .z-main-content .z-page-view-content pre {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
+}
+.z-itsm-container .z-main-content .z-page-view-content .view-text {
+  margin: 0;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group {
+  background-color: #FAFAFA;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin-bottom: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group {
+  position: relative;
+  padding-top: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group .z-button-attribute-add {
+  position: absolute;
+  top: -1.875rem;
+  right: 0;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group .child-attribute-row {
+  background-color: #FFFFFF;
+  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin-top: 0.625rem;
+}
+.z-itsm-container .z-main-content .z-page-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete {
+  position: absolute;
+  right: 0.3125rem;
+}
+.z-itsm-container .z-main .z-edit {
+  height: 100vh;
+}
+.z-itsm-container .z-main .z-edit .z-edit-row {
+  margin: 0.625rem 0 0;
+}
+.z-itsm-container .z-main .z-edit .z-edit-row label {
+  margin: 0.625rem 0;
+}
+.z-itsm-container .z-main .z-edit .z-edit-row .z-button-list {
+  margin-top: 1.875rem;
+}
+.z-itsm-container .z-main .z-edit .z-edit-column .z-edit-row {
+  margin: 0.625rem 0 0 0;
+}
+.z-itsm-container .z-main .view {
+  height: 100vh;
+}
+.z-itsm-container .z-main .view .view-row {
+  margin: 0.625rem 0 0 0;
+}
+.z-itsm-container .z-main .view .view-row .z-button-list {
+  margin-top: 1.875rem;
+}
+.z-itsm-container .z-main .view-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #222529;
+  padding-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #CFD5D9;
+}
+.z-itsm-container .z-main .view-sub-title {
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #8B9094;
+  padding: 0 1.25rem;
+}
+.z-itsm-container .z-main .view-content {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #424242;
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+}
+.z-itsm-container .z-main .view-content pre {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
+  white-space: -o-pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-break: break-all;
+}
+.z-itsm-container .z-main .view-content .view-text {
+  margin: 0;
+}
+
+.slide-down {
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: slideDown;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: slideDown;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: slideDown;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: slideDown;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: slideDown;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+}
+
+.slide-up {
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: slideUp;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: slideUp;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: slideUp;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: slideUp;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: slideUp;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+}
+
+.i-profile-photo {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  background-color: transparent;
+}
+
+.document-color-round {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  width: 0.9375rem;
+  height: 0.9375rem;
+}
+
+.user-name {
+  display: inline-block;
+  max-width: 8.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+}
+
+.document-color-circle {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  margin-right: 0.625rem;
+  display: inline-block;
+}
+
+.z-faq-header,
+.z-download-header,
+.z-board-header,
+.z-user-header,
+.z-board-admin-header,
+.z-process-header,
+.z-form-header,
+.z-document-admin-header,
+.z-custom-code-header,
+.z-auth-header,
+.z-role-header,
+.z-code-header,
+.z-numbering-pattern-header,
+.z-numbering-rule-header,
+.z-chart-header,
+.z-cmdb-attribute-header,
+.z-cmdb-class-header,
+.z-cmdb-type-header,
+.z-cmdb-ci-header,
+.z-scheduler-header,
+.z-report-template-header {
+  padding: 0 3.75rem 0 3.75rem;
+}
+
+.z-document-header,
+.z-token-header,
+.z-image-header {
+  padding: 0 3.75rem 0 3.75rem;
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+
+.z-faq-content,
+.z-download-content,
+.z-board-content,
+.z-user-content,
+.z-board-admin-content,
+.z-process-content,
+.z-form-content,
+.z-document-admin-content,
+.z-custom-code-content,
+.z-auth-content,
+.z-role-content,
+.z-code-content,
+.z-numbering-pattern-content,
+.z-numbering-rule-content,
+.z-chart-content,
+.z-cmdb-attribute-content,
+.z-cmdb-type-content,
+.z-cmdb-class-content,
+.z-cmdb-ci-content,
+.z-report-template-content {
+  padding: 0.9375rem 3.75rem;
+  background-color: #FAFAFA;
+}
+
+.z-document-content {
+  padding: 0 0.9375rem 0 3.75rem;
+  background-color: #FFFFFF;
+}
+.z-document-content .document-column {
+  width: 100%;
+  height: 100%;
+  padding: 1.5625rem;
+}
+.z-document-content .document-column .document-name {
+  width: 17.5rem;
+  color: #424242;
+  font-size: 1.5625rem;
+  font-weight: 600;
+}
+.z-document-content .document-column .document-icon {
+  position: absolute;
+  top: 3rem;
+  right: -1rem;
+  overflow: hidden;
+}
+.z-document-content .document-column .document-description {
+  display: block;
+  width: 17.5rem;
+  margin-top: 0.625rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #8B9094;
+  margin-top: 0.625rem;
+}
+
+.z-token-content,
+.z-dashboard-content {
+  padding: 0 1.875rem 0 3.75rem;
+  background-color: #FFFFFF;
+}
+
+.z-notice-content-edit,
+.z-faq-content-edit,
+.z-download-content-edit,
+.z-board-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  background-color: #FFFFFF;
+  border-top: 0.0625rem solid #CFD5D9;
+}
+
+.z-auth-content-edit {
+  height: 41.25rem;
+  margin: 0 0 1.875rem 0;
+}
+.z-auth-content-edit .edit-form {
+  padding: 0 1.875rem 0 4.0625rem;
+}
+.z-auth-content-edit .edit-form .edit-row {
+  margin-top: 0.625rem;
+}
+
+.z-user-content-edit {
+  padding: 0 23.13rem 3.125rem 23.13rem;
+  border-top: 0.0625rem solid #CFD5D9;
+  background-color: #FFFFFF;
+}
+.z-user-content-edit .sub-title {
+  margin-top: 2.5rem;
+}
+.z-user-content-edit .select-date-time {
+  width: calc(100% - 10.0005rem);
+}
+.z-user-content-edit .hour-select {
+  width: 9.688rem;
+}
+
+.z-board-admin-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  border-top: 0.0625rem solid #CFD5D9;
+  background-color: #FFFFFF;
+}
+.z-board-admin-content-edit .edit-table {
+  margin: 1.25rem 0 0 0;
+}
+.z-board-admin-content-edit .edit-table tr {
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
+.z-board-admin-content-edit .edit-table tr th {
+  border-bottom: 0.0625rem solid #ABB0B5;
+}
+.z-board-admin-content-edit .edit-table tr td {
+  padding: 0 0.9375rem;
+  border-bottom: 0.0625rem solid #ABB0B5;
+}
+.z-board-admin-content-edit .edit-table .tbody tr:hover {
+  background-color: #EEEEEE;
+}
+.z-board-admin-content-edit .edit-table .tbody .no-data-found-list {
+  background-color: #FAFAFA;
+  pointer-events: none;
+}
+
+.z-file-content-edit {
+  padding: 0 3.75rem;
+  background-color: #FFFFFF;
+}
+
+.z-custom-code-content-edit,
+.z-cmdb-attribute-content-edit,
+.z-scheduler-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  border-top: 0.0625rem solid #CFD5D9;
+  background-color: #FFFFFF;
+  height: 100%;
+}
+.z-custom-code-content-edit .under-bar,
+.z-cmdb-attribute-content-edit .under-bar,
+.z-scheduler-content-edit .under-bar {
+  margin-top: 0.625rem;
+}
+.z-custom-code-content-edit .condition,
+.z-cmdb-attribute-content-edit .condition,
+.z-scheduler-content-edit .condition {
+  width: 28.31rem;
+}
+.z-custom-code-content-edit .attribute,
+.z-cmdb-attribute-content-edit .attribute,
+.z-scheduler-content-edit .attribute {
+  margin-left: 4rem;
+}
+
+.z-cmdb-class-content-edit {
+  height: 41.25rem;
+  margin: 0 0 1.875rem 0;
+}
+.z-cmdb-class-content-edit .edit-form {
+  padding: 0 1.875rem 0 4.0625rem;
+}
+.z-cmdb-class-content-edit .edit-form .edit-row {
+  margin-top: 0.625rem;
+}
+.z-cmdb-class-content-edit .attribute {
+  width: 27.94rem;
+}
+
+.z-report-template-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  border-top: 0.0625rem solid #CFD5D9;
+  background-color: #FFFFFF;
+  height: 100%;
+}
+
+.z-notice-content-view,
+.z-faq-content-view,
+.z-download-content-view,
+.z-board-content-view,
+.z-cmdb-attribute-content-view {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  border-top: 0.0625rem solid #CFD5D9;
+  background-color: #FFFFFF;
+}
+
+.z-chart-content-view .z-chart-content-title {
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1.125rem;
+  color: #222529;
+  font-weight: 700;
+}
+
+.notice-pinned {
+  background-color: #D6EDFC;
+}
+
+.cmdb-ci-content {
+  height: 100%;
+}
+.cmdb-ci-content .grid__body {
+  max-height: 36.25rem;
+}
+
 /* 폼 디자이너 팝업 layout
  * form-container - form-header : 상단
  *                - form-component-palette : 컴포넌트 팔레트
@@ -3897,6 +4920,44 @@ select {
   -moz-border-radius: 0.125rem;
 }
 
+.z-switch {
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+}
+.z-switch .z-label-name {
+  width: 12.5rem;
+}
+.z-switch-list {
+  height: 22.5rem;
+  padding: 0.5rem 0.625rem;
+}
+.z-switch-list .right {
+  right: 0.25rem;
+}
+.z-switch-list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
+.z-switch-list .os-content {
+  padding-top: 0 !important;
+}
+.z-switch-list li {
+  display: list-item;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+  height: 2.5rem;
+  padding-right: 0.2rem;
+}
+.z-switch-list .z-switch .z-label {
+  margin-left: 0;
+}
+.z-switch-list .z-switch input[type=checkbox] + span {
+  left: inherit;
+}
+
 .z-checkbox {
   margin-right: 0.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -3988,6 +5049,33 @@ select {
 }
 .z-checkbox.readonly, .z-checkbox.disabled {
   pointer-events: none;
+}
+
+.z-checkbox-all {
+  display: table-cell;
+}
+.z-checkbox-list {
+  height: 13.5rem;
+  border: 0.0625rem solid #ABB0B5;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  padding: 0.5rem 0.625rem;
+}
+.z-checkbox-list .right {
+  right: 0.25rem;
+}
+.z-checkbox-list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
+.z-checkbox-list li {
+  height: 1.5rem;
+  display: list-item;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
 }
 
 .z-radio {
@@ -5155,6 +6243,11 @@ select {
 .z-button-toggle-group.vertical .z-button-toggle:not(:last-of-type) {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.z-button-code .z-icon.i-search {
+  background: #8B9094;
+  pointer-events: none;
 }
 
 .z-header-button.z-button-icon .z-icon {
@@ -6912,6 +8005,9 @@ select {
 .ql-wrapper-container .ql-toolbar-readonly button.ql-active:after {
   background: transparent !important;
 }
+.ql-wrapper-container .ql-container {
+  height: 12.5rem;
+}
 .ql-wrapper-container .ql-container.ql-snow {
   height: auto;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -7326,6 +8422,336 @@ body.modal-active {
   padding: 1.25rem 1.25rem;
 }
 
+.modal-dialog.scheduler-list-modal {
+  width: 62.5rem;
+  height: 40.625rem;
+}
+.modal-dialog.scheduler-list-modal .modal-content {
+  height: 31.75rem;
+  padding: 1.25rem;
+}
+.modal-dialog.scheduler-list-modal .modal-content .table-set {
+  margin-top: 2.188rem;
+}
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body {
+  display: block;
+  width: 60rem;
+  height: 21.75rem;
+  overflow-y: auto;
+  border: none;
+}
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row {
+  display: table;
+  width: 100%;
+  height: 2.125rem;
+  line-height: 2.125rem;
+}
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td {
+  display: inline-block;
+  max-width: 22.5rem;
+  vertical-align: middle;
+}
+.modal-dialog.tree {
+  width: 40rem;
+  height: 44.19rem;
+}
+.modal-dialog.tree .modal-content {
+  height: 35.315rem;
+  padding: 1.125rem 0 0 1.25rem;
+}
+.modal-dialog.tree .modal-content div {
+  height: 100%;
+}
+.modal-dialog.tree .modal-content div label {
+  font-weight: 400;
+}
+.modal-dialog.tree .modal-content div li:last-child:before {
+  background-color: #FFFFFF;
+}
+.modal-dialog.form-import, .modal-dialog.process-import {
+  width: 37.5rem;
+  height: 31.25rem;
+}
+.modal-dialog.form-import .modal-content, .modal-dialog.process-import .modal-content {
+  height: 22.375rem;
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.form-import .modal-content .field-label, .modal-dialog.process-import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.form-edit, .modal-dialog.process-edit {
+  width: 34.38rem;
+  height: 22.5rem;
+}
+.modal-dialog.form-edit .modal-content, .modal-dialog.process-edit .modal-content {
+  height: 13.625rem;
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.form-edit .modal-content .field-label, .modal-dialog.process-edit .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.document-edit, .modal-dialog.workFlow-import {
+  width: 40rem;
+  height: 50.63rem;
+}
+.modal-dialog.document-edit .modal-content, .modal-dialog.workFlow-import .modal-content {
+  height: 41.755rem;
+  padding: 1.25rem;
+}
+.modal-dialog.document-edit .modal-content .workflow-content, .modal-dialog.workFlow-import .modal-content .workflow-content {
+  width: 37.5rem;
+  height: 39.255rem;
+  padding: 0 1.25rem;
+}
+.modal-dialog.document-edit .modal-content .field-label, .modal-dialog.workFlow-import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.document-edit .modal-content .hidden-control-content, .modal-dialog.workFlow-import .modal-content .hidden-control-content {
+  display: none;
+}
+.modal-dialog.document-edit .modal-content .hidden-control-content.on, .modal-dialog.workFlow-import .modal-content .hidden-control-content.on {
+  display: block;
+}
+.modal-dialog.document-display {
+  width: fit-content;
+  max-width: 90vw;
+  min-width: 68rem;
+  height: 42.188rem;
+}
+.modal-dialog.document-display .modal-content {
+  height: 33.313rem;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+.modal-dialog.document-display .modal-content .document-display-content {
+  height: 30.813rem;
+  padding: 0 1.25rem;
+  overflow-y: auto;
+}
+.modal-dialog.document-display .modal-content .document-display-content .z-table {
+  width: auto;
+}
+.modal-dialog.document-display .modal-content .document-display-content .z-table .z-table-body {
+  border: none;
+}
+.modal-dialog.document-display .modal-content .document-display-content .z-table .z-table-body tr:hover {
+  background-color: transparent;
+}
+.modal-dialog.document-display .modal-content .document-display-content .z-table th, .modal-dialog.document-display .modal-content .document-display-content .z-table td {
+  padding: 0 1.5rem 0.625rem 0;
+  overflow: initial;
+}
+.modal-dialog.cmdb-class-attribute-modal, .modal-dialog.sub-user-modal, .modal-dialog.target-user-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content, .modal-dialog.target-user-modal .modal-content {
+  height: 44.1875rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list,
+.modal-dialog.sub-user-modal .modal-content .target-user-list, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list,
+.modal-dialog.target-user-modal .modal-content .sub-user-list,
+.modal-dialog.target-user-modal .modal-content .target-user-list {
+  margin-top: 0.9375rem;
+}
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set {
+  margin-top: 1.875rem;
+}
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body {
+  display: block;
+  width: 60rem;
+  height: 35.313rem;
+  overflow-y: auto;
+  border: none;
+}
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.cmdb-class-attribute-modal .modal-content .target-user-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.sub-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .instance-list, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body .instance-list,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body .instance-list {
+  display: flex;
+  width: 100%;
+  height: 2.188rem;
+  line-height: 2.188rem;
+}
+.modal-dialog.chart-edit-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-dialog.chart-edit-modal .modal-content {
+  height: 44.1875rem;
+  padding: 0.625rem 1.25rem 2.5rem 1.25rem;
+  overflow: hidden;
+}
+.modal-dialog.chart-edit-modal .modal-content .chart-edit-content {
+  width: 60rem;
+  height: 41.0625rem;
+  padding: 0 1.25rem;
+  overflow-y: auto;
+}
+.modal-dialog.chart-edit-modal .modal-content .chart-edit-content label {
+  margin: 0.625rem 0;
+}
+.modal-dialog.chart-view-modal {
+  min-width: 62.5rem;
+}
+.modal-dialog.chart-view-modal .modal-header {
+  border-bottom: 0.0625rem solid transparent;
+}
+.modal-dialog.chart-view-modal .modal-content {
+  width: auto;
+  height: auto;
+}
+.modal-dialog.chart-view-modal .modal-content .chart-edit-content {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin: 0 1.5rem;
+}
+.modal-dialog.product-info-modal {
+  width: 26.875rem;
+  height: 31.25rem;
+}
+.modal-dialog.product-info-modal .modal-content {
+  margin: 1.25rem;
+  height: 30rem;
+  padding: 0.625rem;
+  border-color: #FFFFFF;
+}
+.modal-dialog.product-info-modal .modal-content label {
+  color: #8B9094;
+  margin: 0.625rem 0;
+}
+.modal-dialog.product-info-modal .modal-content .i-logo {
+  height: 2.5rem;
+  margin-bottom: 1.875rem;
+}
+.modal-dialog.product-info-modal .modal-content .top-line {
+  color: #222529;
+  border-color: #FFFFFF;
+  border-width: 0.0625rem;
+  border-top-color: #8B9094;
+  border-style: ridge;
+  padding-top: 0.625rem;
+}
+.modal-dialog.product-info-modal .modal-content .product-href {
+  color: #3373C4;
+  margin: 0.625rem 0;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal {
+  width: 40.125rem;
+  height: 43.75rem;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
+  height: 34.875rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
+  margin: 1rem 0 0 0;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-label {
+  flex-basis: 30%;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-element {
+  flex-basis: 70%;
+}
+.modal-dialog.cmdb-ci-view-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content {
+  height: 44.1875rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .view-row {
+  margin-top: 0.625rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .field-label {
+  margin: 0.625rem 0;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  background-color: #FAFAFA;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group {
+  position: relative;
+}
+.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  background-color: #FFFFFF;
+  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.template-import {
+  width: 37.5rem;
+  height: 22.5rem;
+}
+.modal-dialog.template-import .modal-content {
+  height: 13.625rem;
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.template-import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.password-check {
+  width: 34.38rem;
+  height: 20.625rem;
+}
+.modal-dialog.password-check .modal-content {
+  height: 11.75rem;
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.password-check .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.process-status-modal {
+  width: 82.6rem !important;
+  height: 33.125rem;
+}
+.modal-dialog.process-status-modal .modal-content {
+  width: 100%;
+  height: 28.125rem;
+}
+
 .modal-dialog.save-as .modal-content {
   height: 16.755rem;
   padding: 0.625rem 1.25rem;
@@ -7478,6 +8904,66 @@ body.modal-active {
   font-size: 2rem;
   font-weight: 700;
   color: #8B9094;
+}
+
+.modal-dialog.z-thumbnail-icon {
+  width: 47.81rem;
+  height: 45rem;
+  top: 7rem;
+}
+.modal-dialog.z-thumbnail-icon .modal-content {
+  height: 36.125rem;
+}
+.modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main {
+  padding: 1.375rem;
+  height: auto;
+}
+.modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main .z-thumbnail {
+  width: 10.31rem;
+  height: 10.31rem;
+  margin: 0.4375rem;
+  -webkit-box-shadow: 0 0 0 0.0625rem #CFD5D9;
+  -moz-box-shadow: 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: 0 0 0 0.0625rem #CFD5D9;
+}
+.modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main .z-thumbnail .z-thumbnail-icon {
+  width: 6.25rem;
+  height: 6.25rem;
+  margin: 2rem auto;
+}
+.modal-dialog.z-thumbnail-cmdb-icon {
+  top: 15rem;
+}
+.modal-dialog.z-thumbnail-cmdb-icon .z-thumbnail {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.4375rem;
+  -webkit-box-shadow: 0 0 0 0.0625rem #CFD5D9;
+  -moz-box-shadow: 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: 0 0 0 0.0625rem #CFD5D9;
+}
+.modal-dialog.z-thumbnail-cmdb-icon .z-thumbnail .z-thumbnail-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.4375rem;
+  background-repeat: no-repeat;
+}
+.modal-dialog.z-thumbnail-preview {
+  width: 760px;
+  height: 645px;
+}
+.modal-dialog.z-thumbnail-preview .modal-header .z-thumbnail-preview-name {
+  line-height: 1.2;
+}
+.modal-dialog.z-thumbnail-preview .modal-content {
+  height: calc(645px - 3.875rem - 5rem);
+  padding: 30px;
+}
+.modal-dialog.z-thumbnail-preview .modal-content .z-thumbnail-preview-file {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .modal-dialog.z-thumbnail-image, .modal-dialog.z-thumbnail-file {
@@ -8613,7 +10099,7 @@ span.modal_node_selected label {
 }
 
 /* 태그 기능 디자인
- * /default/_tag.scss
+ * template/_tag.scss
  * @description 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
  *              변수를 통해 중복되는 코드 제거 및 코드 컨벤션에 맞게 수정
  * @author jy.lim

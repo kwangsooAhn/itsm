@@ -271,6 +271,7 @@
   }
   // 편집 영역
   .ql-container {
+    height: 12.5rem; // 200px
     &.ql-snow {
       height: auto;
       font-family: $font-family;

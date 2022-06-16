@@ -542,3 +542,12 @@ $button-themes-social: (
     }
   }
 }
+
+.z-button-code {
+  .z-icon {
+    &.i-search {
+      background: $gray500;
+      pointer-events: none;
+    }
+  }
+}
