@@ -29,7 +29,7 @@ data class MetricManualSimpleDto(
 data class MetricManualDataDto(
     val metricId: String = "",
     val referenceDate: String? = null,
-    val metricValue: Double? = null
+    val metricValue: Float? = null
 ) : Serializable {
     val formattedReferenceDate: LocalDate? = LocalDate.parse(
         referenceDate, DateTimeFormatter.ISO_DATE
