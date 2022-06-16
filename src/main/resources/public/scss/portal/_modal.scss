@@ -3,11 +3,11 @@
 .modal-dialog {
   // 폼 / 프로세스 등록 / 수정 모달
   &.password-update-notice {
-    width: $password-update-modal-width;
-    height: $password-update-modal-height;
+    width: 50rem; //800px
+    height: 34.5rem; //552px
 
     .modal-content {
-      height: calc(#{$password-update-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      height: calc(34.5rem - 3.875rem - 5rem); //552px
       padding: 0.25rem 1.25rem 0.25rem 1.25rem; // 10px 20px 20px 20px
 
       .field-label {
@@ -15,5 +15,6 @@
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
     }
+    .modal-bottom { height: 3.5rem }; //56px
   }
 }
