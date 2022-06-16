@@ -14,7 +14,7 @@ data class MetricManualDto(
     val metricManualId: String = "",
     val metricName: String? = "",
     val referenceDate: LocalDate? = null,
-    val metricValue: Double? = null,
+    val metricValue: Float? = null,
     val metricUnit: String? = null,
     val createDt: LocalDateTime? = null,
     val createUserName: String? = null
