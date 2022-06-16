@@ -18,6 +18,7 @@ aliceJs.response = {
     successEdit: 'Z-0001',
     successEditEmail: 'Z-0002',
     successEditPassword: 'Z-0003',
+    successAlreadyLogin: 'Z-0004',
     error: 'E-0000',
     duplicate: 'E-0001',
     expired: 'E-0002',
@@ -28,7 +29,10 @@ aliceJs.response = {
     duplicateEmail: 'E-0007',
     duplicateOrganization: 'E-0008',
     duplicateWorkflow: 'E-0009',
-    notExistClass: 'E-0010'
+    notExistClass: 'E-0010',
+    duplicateLogin: 'E-0011',
+    invalidUser: 'E-0012',
+    disabledUser: 'E-0013'
 };
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출

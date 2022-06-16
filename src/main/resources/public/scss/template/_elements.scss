@@ -18,9 +18,9 @@ body {
 // headings
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-family;
-  font-weight: $headings-font-weight;
-  line-height: $headings-line-height;
-  color: $headings-font-color;
+  font-weight: $font-weight-medium;
+  line-height: 1.2;
+  color: $neutral800;
 }
 
 h1 {
@@ -29,16 +29,16 @@ h1 {
   color: $neutral800;
 }
 h2 {
-  font-size: $h2-font-size;
+  font-size: $font-size-xl;
 }
 h3 {
-  font-size: $h3-font-size;
+  font-size: $font-size-l;
 }
 h4 {
-  font-size: $h4-font-size;
+  font-size: $font-size-m;
 }
 h5 {
-  font-size: $h5-font-size;
+  font-size: $font-size-s;
 }
 h6 {
   font-size: $font-size-xs; // 14px;
@@ -51,7 +51,7 @@ a:link,
 a:visited,
 a:hover,
 a:active {
-  color: $element-font-color;
+  color: $neutral800;
   text-decoration: none;
 }
 
@@ -69,10 +69,10 @@ table {
   }
 }
 .z-table {
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  color: $element-font-color;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $neutral800;
   background-color: transparent;
   border: none;
 
@@ -82,18 +82,18 @@ table {
       &:first-child { padding-left: 1.25rem; } // 20px
     }
 
-    a { color: $element-font-color; }
+    a { color: $neutral800; }
   }
 
   th {
-    font-family: $table-head-font-family;
-    font-size: $table-head-font-size;
-    font-weight: $table-head-font-weight;
-    color: $table-head-font-color;
+    font-family: $font-family;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $neutral600;
   }
 
   .z-table-head {
-    @include border(calc(#{$element-border-width} * 2), solid, $element-border-color, bottom);
+    @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
     tr { height: 2.5rem; } // 42px
   }
 
@@ -104,12 +104,12 @@ table {
       height: 2.5625rem; // 41px
 
       // 마우스 오버시 배경 색상
-      &:hover { background-color: $table-row-hover-bg-color; }
+      &:hover { background-color: $neutral200; }
 
       // 선택된 경우
       &.active {
-        background-color: $table-row-active-bg-color;
-        td { color: $table-row-active-font-color; }
+        background-color: $blue100;
+        td { color: $blue700; }
       }
     }
     // 데이터 없을때
@@ -143,15 +143,15 @@ table {
   }
 }
 .z-option-table {
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  color: $option-table-font-color;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $gray400;
   background-color: transparent;
   border: none;
 
   tr {
-    @include border($element-border-width, solid, $element-border-color, bottom);
+    @include border(0.0625rem, solid, $gray400, bottom);
     border-left: none;
     border-right: none;
     height: 2.5rem; // 40px
@@ -160,13 +160,13 @@ table {
 
     &.z-option-table-header {
       height: 2rem; // 32px
-      font-family: $table-head-font-family;
-      font-size: $table-head-font-size;
-      font-weight: $table-head-font-weight;
-      color: $option-table-header-font-color;
-      @include border($element-border-width, solid, $element-border-color, top);
-      @include border(calc(#{$element-border-width} * 2), solid, $element-border-color, bottom);
-      background-color: $option-table-header-bg-color;
+      font-family: $font-family;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      color: $gray400;
+      @include border(0.0625rem, solid, $gray400, top);
+      @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
+      background-color: $neutral100;
     }
 
     &.z-option-table-row {
@@ -187,11 +187,11 @@ table {
         .z-icon {
           display: block;
           margin: 0 auto;
-          background: $option-table-icon-color;
+          background: $gray400;
           pointer-events: none;
         }
         &:hover {
-          .z-icon { background: $option-table-icon-hover-color; }
+          .z-icon { background: $blue500; }
         }
       }
     }
@@ -207,10 +207,10 @@ span {
 }
 // label
 label {
-  font-family: $label-font-family;
-  color: $label-font-color;
-  font-size: $label-font-size;
-  font-weight: $label-font-weight;
+  font-family: $font-family;
+  color: $neutral600;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
 }
 // input box + button
 .input-button {
@@ -223,7 +223,7 @@ label {
 
     &:focus,
     &:hover {
-      z-index: $z-index-event;
+      z-index: 25;
     }
   }
   button {
@@ -234,7 +234,7 @@ label {
     &:focus,
     &:hover,
     &:active {
-      z-index: $z-index-event;
+      z-index: 25;
     }
   }
 }
@@ -252,19 +252,19 @@ input, textarea, select {
 }
 .z-input {
   height: 2.125rem; // 34px
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  @include border($element-border-width, solid, $element-border-color, all);
-  @include borderRadius($element-border-radius); // 2px
-  padding: 0 $element-indent; // 들여쓰기
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1.2;
+  color: $neutral800;
+  background-color: $white;
+  @include border(0.0625rem, solid, $gray400, all);
+  @include borderRadius(0.125rem); // 2px
+  padding: 0 0.75rem; // 들여쓰기
   vertical-align: middle;
 
   &::placeholder {
-    color: $element-placeholder-font-color;
+    color: $gray400;
   }
 
   //readonly와 disabled일 때 placeholder감추기
@@ -277,60 +277,60 @@ input, textarea, select {
   &:not(:read-only) {
     &:hover {
       outline: 0;
-      @include border($element-hover-border-width, solid, $element-hover-border-color, all);
+      @include border(0.0625rem, solid, $blue400, all);
     }
 
     &:focus {
       outline: 0;
-      @include border($element-focus-border-width, solid, $element-focus-border-color, all);
-      @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+      @include border(0.0625rem, solid, $blue600, all);
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
 
       &[data-error] {
-        @include border($validation-error-border-width, solid, $validation-error-border-color, all);
-        @include boxShadow(0, 0, 0, 0, $element-bg-color);
+        @include border(0.0625rem, solid, $red500, all);
+        @include boxShadow(0, 0, 0, 0, $white);
       }
       &[data-success] {
-        @include border($validation-success-border-width, solid, $validation-success-border-color, all);
-        @include boxShadow(0, 0, 0, 0, $element-bg-color);
+        @include border(0.0625rem, solid, $green500, all);
+        @include boxShadow(0, 0, 0, 0, $white);
       }
     }
 
     &:active {
       outline: 0;
-      @include border($element-active-border-width, solid, $element-active-border-color, all);
+      @include border(0.0625rem, solid, $blue600, all);
     }
   }
 
   &:read-only:not(:disabled):not(.tagify) {
-    background-color: $element-readonly-bg-color;
+    background-color: transparent;
     background-image: none;
     border: none;
-    @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
+    @include border(0.0625rem, solid, $gray300, bottom);
     @include borderRadius(0);
     cursor: default;
     width: 100%;
 
     &:hover,
     &:focus {
-      @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
+      @include border(0.0625rem, solid, $gray300, bottom);
       @include resetBoxShadow();
     }
   }
 
   &:disabled {
-    color: $element-disabled-font-color;
-    background-color: $element-disabled-bg-color;
-    @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
+    color: $gray400;
+    background-color: $neutral200;
+    @include border(0.0625rem, solid, $gray300, all);
     pointer-events: none;
     cursor: default;
   }
 
   &.error {
-    @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+    @include border(0.0625rem, solid, $red500 !important, all);
   }
 
   &.success {
-    @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
+    @include border(0.0625rem, solid, $green500 !important, all);
   }
 
   // z-input with background img
@@ -381,7 +381,7 @@ input, textarea, select {
       &:focus,
       &:hover,
       &:active {
-        z-index: $z-index-event;
+        z-index: 25;
       }
     }
 
@@ -393,7 +393,7 @@ input, textarea, select {
         width: 100%;
         height: 1px;
         @include absolute($bottom: -0.5rem); //8px
-        @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
+        @include border(0.0625rem, solid, $gray300, bottom);
       }
       -webkit-print-color-adjust:exact;
     }
@@ -416,20 +416,20 @@ input, textarea, select {
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
 .z-textarea {
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $view-content-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  padding: 0.5rem $element-indent; // 들여쓰기 8px 16px
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1.6;
+  color: $neutral800;
+  background-color: $white;
+  padding: 0.5rem 0.75rem; // 들여쓰기 8px 16px
   &:not(.os-textarea) {
-    @include border($element-border-width, solid, $element-border-color, all);
-    @include borderRadius($element-border-radius);
+    @include border(0.0625rem, solid, $gray400, all);
+    @include borderRadius(0.125rem);
   }
 
   &::placeholder {
-    color: $element-placeholder-font-color;
+    color: $gray400;
   }
 
   //readonly와 disabled일 때 placeholder감추기
@@ -442,50 +442,50 @@ input, textarea, select {
   &:not(:read-only) {
     &:focus {
       outline: 0;
-      @include border($element-focus-border-width, solid, $element-focus-border-color, all);
-      @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+      @include border(0.0625rem, solid, $blue600, all);
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
     }
 
     &:hover {
       outline: 0;
-      @include border($element-hover-border-width, solid, $element-hover-border-color, all);
+      @include border(0.0625rem, solid, $blue400, all);
     }
 
     &:active {
       outline: 0;
-      @include border($element-active-border-width, solid, $element-active-border-color, all);
+      @include border(0.0625rem, solid, $blue600, all);
     }
   }
 
   &:read-only:not(:disabled):not(.os-host-textarea) {
-    background-color: $element-readonly-bg-color;
+    background-color: transparent;
     border: none !important;
-    @include border($element-readonly-border-width, solid, $element-readonly-border-color !important, left);
+    @include border(0.0625rem, solid, $gray300 !important, left);
     @include borderRadius(0);
     cursor: default;
     resize: none;
 
     &:hover,
     &:focus {
-      @include border($element-readonly-border-width, solid, $element-readonly-border-color, all);
+      @include border(0.0625rem, solid, $gray300, all);
       @include resetBoxShadow();
     }
   }
 
   &:disabled {
-    color: $element-disabled-font-color;
-    background-color: $element-disabled-bg-color;
-    @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
+    color: $gray400;
+    background-color: $neutral200;
+    @include border(0.0625rem, solid, $gray300, all);
     pointer-events: none;
     cursor: default;
   }
 
   &.error {
-    @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+    @include border(0.0625rem, solid, $red500 !important, all);
   }
 
   &.success {
-    @include border($validation-success-border-width, solid, $validation-success-border-color !important, all);
+    @include border(0.0625rem, solid, $green500 !important, all);
   }
 }
 // os-div 작업
@@ -499,11 +499,11 @@ div.z-textarea {
 .z-switch {
   @include relative();
   height: 1.75rem; //26px
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1.2;
+  color: $neutral800;
   outline: none;
 
   .z-label {
@@ -568,15 +568,15 @@ div.z-textarea {
 select {
   width: inherit;
   height: 2.125rem; // 34px
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
-  background-color: $element-bg-color;
-  @include border($element-border-width, solid, $element-border-color, all);
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1.2;
+  color: $neutral800;
+  background-color: $white;
+  @include border(0.0625rem, solid, $gray400, all);
   @include borderRadius(0.0625rem);
-  padding: 0 $element-indent;
+  padding: 0 0.75rem;
   vertical-align: middle;
   -moz-appearance: none; /* Firefox */
   -webkit-appearance: none; /* Safari and Chrome */
@@ -606,34 +606,34 @@ select {
     align-items: center;
     @include absolute(0, 0, 0, 0);
     width: 100%;
-    padding: 0.5rem 1.75rem 0.5rem $element-indent; // 8px 28px 8px 12px
-    font-family: $element-font-family;
-    font-size: $element-font-size;
-    font-weight: $element-font-weight;
-    line-height: $element-line-height;
-    color: $element-font-color;
-    background-color: $element-bg-color;
+    padding: 0.5rem 1.75rem 0.5rem 0.75rem; // 8px 28px 8px 12px
+    font-family: $font-family;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    line-height: 1.2;
+    color: $neutral800;
+    background-color: $white;
     cursor: pointer;
     @include borderRadius(0.125rem); // 2px
-    @include border($element-border-width, solid, $element-border-color, all);
+    @include border(0.0625rem, solid, $gray400, all);
     @include ellipsis(block);
 
     &:not(.readonly) {
 
       &:hover {
         outline: 0;
-        @include border($element-hover-border-width, solid, $element-hover-border-color, all);
+        @include border(0.0625rem, solid, $blue400, all);
       }
 
       &:focus {
         outline: 0;
-        @include border($element-focus-border-width, solid, $element-focus-border-color, all);
-        @include boxShadow(0, 0, 0.125rem, 0, $element-focus-shadow-color); // 2px
+        @include border(0.0625rem, solid, $blue600, all);
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
       }
 
       &.active {
         outline: 0;
-        @include border($element-active-border-width, solid, $element-active-border-color, all);
+        @include border(0.0625rem, solid, $blue600, all);
         // 열렸을때 출력되는 화살표 아이콘
         .z-icon {
           &.i-arrow-right {
@@ -653,7 +653,7 @@ select {
         &.i-arrow-right {
           @include absolute($right: 0.5rem); // 8px
           margin-top: -0.1875rem; //3px
-          background: $element-icon-color;
+          background: $gray500;
           @include rotate(90);
         }
       }
@@ -661,9 +661,9 @@ select {
 
     // readonly
     &.readonly {
-      background-color: $element-readonly-bg-color;
+      background-color: transparent;
       border: none;
-      @include border($element-readonly-border-width, solid, $element-readonly-border-color, bottom);
+      @include border(0.0625rem, solid, $gray300, bottom);
       @include borderRadius(0);
       cursor: default;
     }
@@ -686,15 +686,15 @@ select {
 
     // disabled
     &.disabled-select {
-      color: $element-disabled-font-color;
-      background-color: $element-disabled-bg-color;
-      @include border($element-disabled-border-width, solid, $element-disabled-border-color, all);
+      color: $gray400;
+      background-color: $neutral200;
+      @include border(0.0625rem, solid, $gray300, all);
       pointer-events: none;
       cursor: default;
 
       .z-select-box-label {
-        color: $element-disabled-font-color;
-        background-color: $element-disabled-bg-color;
+        color: $gray400;
+        background-color: $neutral200;
       }
     }
   }
@@ -704,34 +704,34 @@ select {
     display: none;
     list-style: none;
     @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
-    z-index: $z-index-between-alert-modal;
+    z-index: 5000;
     padding: 0.25rem 0; // 4px
     margin: 0;
-    @include border($element-border-width, solid, $element-border-color, all);
-    background-color: $element-bg-color;
+    @include border(0.0625rem, solid, $gray400, all);
+    background-color: $white;
     max-height: 25rem; // 400px
-    color: $element-font-color;
+    color: $neutral800;
     outline: 0;
     overflow: auto;
     @include borderRadius(0.125rem); // 2px
-    @include boxShadow(0, 0, 0.125rem, 0, $element-shadow-color);
+    @include boxShadow(0, 0, 0.125rem, 0, $gray300);
     li {
       padding: 0.5625rem 1.75rem 0.5625rem 0; // 9px 28px 9px 16px
       margin: 0 0.3125rem; // 5px
       text-indent: 0.4375rem; // 7px
       align-items: center;
       font-family: inherit;
-      font-size: $element-font-size;
-      font-weight: $element-font-weight;
-      line-height: $element-line-height;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      line-height: 1.2;
       @include ellipsis(block);
 
-      &:hover { background: $element-hover-bg-color; }
+      &:hover { background: $blue100; }
 
       &[rel='hide'] { display: none; }
     }
     .selected {
-      color: $element-checked-color;
+      color: $blue500;
 
       // 선택된 옵션에 표시되는 체크 아이콘
       &:after {
@@ -750,7 +750,7 @@ select {
 .z-slider {
   min-height: 1.375rem; // 22px
   .z-range {
-    --range-fill-color: #{$slider-range-fill-color};
+    --range-fill-color: #{$blue500};
     --range-location: 100%;
     -webkit-appearance: none;
     appearance: none;
@@ -759,57 +759,57 @@ select {
     height: 0.375rem; // 6px
     padding: 0;
     @include borderRadius(0.25rem); // 4px
-    background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
+    background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $neutral200 var(--range-location), $neutral200 100%);
     outline: 0;
 
     &:disabled {
-      --range-fill-color: #{$slider-range-disabled-fill-color};
-      background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $slider-range-bg-color var(--range-location), $slider-range-bg-color 100%);
+      --range-fill-color: #{$gray300};
+      background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $neutral200 var(--range-location), $neutral200 100%);
     }
 
     // Thumb (= round button)
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      @include thumb($slider-thumb-size, $slider-thumb-size, 0.0625rem solid $slider-thumb-border-color, 50%, $slider-thumb-bg-color); // 18px 18px
-      @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-shadow-color); // 2px
+      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
       &:hover {
-        border-color: $slider-thumb-hover-border-color;
-        background-color: $slider-thumb-hover-bg-color;
+        border-color: $blue400;
+        background-color: $blue100;
       }
       &:focus {
-        border-color: $slider-thumb-focus-border-color;
+        border-color: $blue600;
         @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
       }
       &:active {
-        border-color: $slider-thumb-active-border-color;
-        background-color: $slider-thumb-active-bg-color;
+        border-color: $blue500;
+        background-color: $blue200;
       }
       &:disabled {
-        border-color: $slider-thumb-disabled-border-color;
-        background-color: $slider-thumb-disabled-bg-color;
+        border-color: $gray300;
+        background-color: $neutral200;
       }
     }
 
     // firefox
     &::-moz-range-thumb { // 동그라미
-      @include thumb($slider-thumb-size, $slider-thumb-size, 0.0625rem solid $slider-thumb-border-color, 50%, $slider-thumb-bg-color); // 18px 18px
-      @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-shadow-color); // 2px
+      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
+      @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
       &:hover {
-        border-color: $slider-thumb-hover-border-color;
+        border-color: $blue400;
         background-color: $blue100;
       }
       &:focus {
-        border-color: $slider-thumb-focus-border-color;
-        @include boxShadow(0, 0, 0.125rem, 0, $slider-thumb-focus-border-color); // 2px
+        border-color: $blue600;
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
       }
       &:active {
-        border-color: $slider-thumb-active-border-color;
-        background-color: $slider-thumb-active-bg-color;
+        border-color: $blue500;
+        background-color: $blue200;
       }
       &:disabled {
-        border-color: $slider-thumb-disabled-border-color;
-        background-color: $slider-thumb-disabled-bg-color;
+        border-color: $gray300;
+        background-color: $neutral200;
       }
     }
   }
@@ -819,8 +819,36 @@ select {
     margin-left: 2%;
     &:read-only:not(:disabled) {
       width: 23%;
-      @include border($element-border-width, solid, $element-border-color, all);
+      @include border(0.0625rem, solid, $gray400, all);
       @include borderRadius(0.125rem); // 2px
+    }
+  }
+}
+
+// 스위치 목록
+// ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
+.z-switch {
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+  .z-label {
+    &-name { width: 12.5rem; } //200px
+  }
+  // 목록
+  &-list {
+    height: 22.5rem; // 360px
+    padding: 0.5rem 0.625rem; // 8px 10px
+    .right { right: 0.25rem; } // 4px
+    .padding { padding: 0.1875rem 0 0.1875rem 0; } // 3px
+    .os-content { padding-top: 0 !important; }
+    li {
+      @include ellipsis(list-item);
+      height: 2.5rem; // 40px
+      padding-right: 0.2rem;
+    }
+    .z-switch {
+      .z-label { margin-left: 0; }
+      input[type=checkbox] + span { left: inherit }
     }
   }
 }
@@ -828,15 +856,15 @@ select {
 // checkbox
 .z-checkbox {
   margin-right: 0.5rem; // 8px
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
-  line-height: $element-line-height;
-  color: $element-font-color;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1.2;
+  color: $neutral800;
   outline: none;
 
   > span:first-of-type {
-    padding-right: $checkbox-indent;
+    padding-right: 0.5rem; //8px
   }
 
   input[type=checkbox] {
@@ -847,12 +875,12 @@ select {
       &::before {
         content: '';
         display: inline-block;
-        width: $checkbox-size;
-        height: $checkbox-size;
+        width: 1.125rem; // 18px;
+        height: 1.125rem; // 18px;
         margin-bottom: 0.125rem; // 2px
-        @include border($element-border-width, solid, $element-border-color, all);
+        @include border(0.0625rem, solid, $gray400, all);
         @include borderRadius(0.125rem); // 2px
-        background-color: $element-bg-color;
+        background-color: $white;
         vertical-align: middle;
       }
     }
@@ -864,8 +892,8 @@ select {
           @include absolute($top: 0, $left: 0);
           width: 0.75rem; // 12px
           height: 0.375rem; // 6px
-          @include border(0.125rem, solid, $element-checked-color, bottom, top);
-          @include border(0.125rem, solid, $element-checked-color, left, right);
+          @include border(0.125rem, solid, $blue500, bottom, top);
+          @include border(0.125rem, solid, $blue500, left, right);
           @include borderRadius(0.125rem); // 2px
           @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
         }
@@ -880,8 +908,8 @@ select {
       &:hover {
         + span {
           &::before {
-            border-color: $element-hover-border-color;
-            background-color: $element-hover-bg-color;
+            border-color: $blue400;
+            background-color: $blue100;
           }
         }
       }
@@ -891,21 +919,21 @@ select {
     &.readonly {
       + span {
         &::before {
-          background-color: $element-disabled-bg-color;
+          background-color: $neutral200;
         }
         &::after {
-          border-color: $element-disabled-font-color;
+          border-color: $gray400;
         }
       }
       ~ .z-label {
-        color: $element-disabled-font-color;
+        color: $gray400;
       }
     }
 
     &.error {
       + span {
         &::before {
-          @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+          @include border(0.0625rem, solid, $red500 !important, all);
         }
       }
     }
@@ -916,8 +944,8 @@ select {
     input[type=checkbox]:not(.readonly) {
       + span {
         &:before {
-          border-color: $element-focus-border-color;
-          @include boxShadow(0, 0, 0.0625rem, 0, $element-focus-shadow-color);
+          border-color: $blue600;
+          @include boxShadow(0, 0, 0.0625rem, 0, $blue600);
         }
       }
     }
@@ -927,11 +955,11 @@ select {
     input[type=checkbox]:not(.readonly) {
       + span {
         &:before {
-          border-color: $element-active-border-color;
-          background-color: $element-active-bg-color;
+          border-color: $blue600;
+          background-color: $blue200;
         }
         &:after {
-          border-color: $element-checked-active-color;
+          border-color: $blue700;
         }
       }
     }
@@ -943,20 +971,45 @@ select {
     pointer-events: none;
   }
 }
+// 체크박스 목록
+// ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
+.z-checkbox {
+  // 전체 선택
+  &-all { display: table-cell; }
+  // 목록
+  &-list {
+    height: 13.5rem; // 216px
+    @include border(0.0625rem, solid, $gray400, all);
+    @include borderRadius(0.0625rem); // 1px
+    padding: 0.5rem 0.625rem; // 8px 10px
+
+    .right {
+      right: 0.25rem; // 4px
+    }
+    .padding {
+      padding: 0.1875rem 0 0.1875rem 0; // 3px
+    }
+
+    li {
+      height: 1.5rem; // 24px
+      @include ellipsis(list-item);
+    }
+  }
+}
 
 // radio button
 .z-radio {
   @include relative();
   margin-right: 0.5rem; // 8px
-  font-family: $element-font-family;
-  font-size: $element-font-size;
-  font-weight: $element-font-weight;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
   line-height: 1.6;
-  color: $element-font-color;
+  color: $neutral800;
   outline: none;
 
   > span:first-of-type {
-    padding-right: $radio-indent;
+    padding-right: 0.5rem; //8px
   }
 
   input[type=radio] {
@@ -969,10 +1022,10 @@ select {
         content: '';
         @include relative($top: -0.0625rem); // -1px
         display: inline-block;
-        width: $radio-border-size;
-        height: $radio-border-size;
-        background-color: $element-bg-color;
-        @include border($element-border-width, solid, $element-border-color, all);
+        width: 1.125rem; // 18px;
+        height: 1.125rem; // 18px;
+        background-color: $white;
+        @include border(0.0625rem, solid, $gray400, all);
         @include borderRadius(50%);
         vertical-align: middle;
         text-align: center;
@@ -981,8 +1034,8 @@ select {
       &::after { // 선택시 작은 원
         content: '';
         @include absolute($top: -0.35rem, $left: 0); // top: -5.6 px
-        width: $radio-inner-size;
-        height: $radio-inner-size;
+        width: 0.625rem; // 10px;
+        height: 0.625rem; // 10px;
         background-color: transparent;
         @include borderRadius(50%);
       }
@@ -996,10 +1049,10 @@ select {
       &:checked {
         + span {
           &::before {
-            border-color: $element-border-color;
+            border-color: $gray400;
           }
           &::after {
-            background-color: $element-checked-color;
+            background-color: $blue500;
             @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
           }
         }
@@ -1008,8 +1061,8 @@ select {
       &:hover {
         + span {
           &::before {
-            border-color: $element-hover-border-color;
-            background-color: $element-hover-bg-color;
+            border-color: $blue400;
+            background-color: $blue100;
           }
         }
       }
@@ -1019,17 +1072,17 @@ select {
     &.readonly {
       + span {
         &::before {
-          border-color: $element-disabled-border-color;
-          background-color: $element-disabled-bg-color;
+          border-color: $gray300;
+          background-color: $neutral200;
         }
       }
       ~ .z-label {
-        color: $element-disabled-font-color;
+        color: $gray400;
       }
       &:checked {
         + span {
           &::after {
-            background-color: $element-disabled-font-color;
+            background-color: $gray400;
             @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
           }
         }
@@ -1039,7 +1092,7 @@ select {
     &.error {
       + span {
         &::before {
-          @include border($validation-error-border-width, solid, $validation-error-border-color !important, all);
+          @include border(0.0625rem, solid, $red500 !important, all);
         }
       }
     }
@@ -1050,9 +1103,9 @@ select {
     input[type=radio]:not(.readonly) {
       + span {
         &:before {
-          border-color: $element-focus-border-color;
+          border-color: $blue600;
 
-          @include boxShadow(0, 0, 0.125rem, 0, $element-focus-border-color); // 2px
+          @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
         }
       }
     }
@@ -1062,11 +1115,11 @@ select {
     input[type=radio]:not(.readonly) {
       + span {
         &:before {
-          border-color: $element-active-border-color;
-          background-color: $element-active-bg-color;
+          border-color: $blue600;
+          background-color: $blue200;
         }
         &::after {
-          background-color: $element-checked-active-color;
+          background-color: $blue700;
           @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
         }
       }
@@ -1074,33 +1127,21 @@ select {
   }
 
   // readonly, disabled 클래스 설정시 라벨의 동작을 막음
-  &.readonly,
-  &.disabled {
-    pointer-events: none;
-  }
+  &.readonly, &.disabled { pointer-events: none; }
 }
 
-.z-view-hover {
-  pointer-events: none;
-}
+.z-view-hover { pointer-events: none; }
 
 // label default
 .label {
   @include borderRadius(0.125rem); // 2px
   padding: 0.375rem; // 6px
+  border-color: $blue300;
+  background-color: $blue300;
+  color: $blue700;
   font-size: $font-size-xs;
   font-weight: $font-weight-bold;
   line-height: 1.0625rem; //17px
-  // 기본 테마별 라벨
-  @each $theme, $value in $label-themes-default {
-    &.#{$theme} {
-      color: map-get($value, 'default', 'font');
-      background-color: map-get($value, 'default', 'background');
-      border-color: map-get($value, 'default', 'border');
-    }
-  }
 }
 
-.z-divider {
-  margin: 0;
-}
+.z-divider { margin: 0; }

@@ -421,7 +421,7 @@
         if (isDocumentLink) url = '/rest/workflows/workflowLink/' + documentId;
         else url = '/rest/workflows/' + documentId;
 
-        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+        zAlert.confirm(i18n.msg('document.msg.deleteDocument'), () => {
             aliceJs.fetchJson(url, {
                 method: 'DELETE'
             }).then((response) => {

@@ -114,6 +114,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                 ?.or(super.likeIgnoreCase(organization.organizationName, userSearchCondition.searchValue))
                 ?.or(super.likeIgnoreCase(user.officeNumber, userSearchCondition.searchValue))
                 ?.or(super.likeIgnoreCase(user.mobileNumber, userSearchCondition.searchValue))
+                ?.or(user.userKey.eq(userSearchCondition.searchValue))
         )
             .and(
                 user.userName.notIn(AliceUserConstants.CREATE_USER_ID)
