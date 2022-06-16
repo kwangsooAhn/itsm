@@ -19,8 +19,8 @@ import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
-import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartCondition
-import co.brainz.itsm.sla.metricStatus.dto.MetricStatusChartDto
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
+import co.brainz.itsm.sla.metricStatus.dto.MetricStatusDto
 import co.brainz.itsm.sla.metricStatus.service.MetricStatusService
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualListReturnDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
@@ -350,8 +350,8 @@ class MetricYearService(
     /**
      * 연도별 SLA 현황 preview
      */
-    fun metricPreviewChartData(metricId: String, year: String): MetricStatusChartDto {
-        val metricStatusCondition = MetricStatusChartCondition(
+    fun metricPreviewChartData(metricId: String, year: String): MetricStatusDto {
+        val metricStatusCondition = MetricStatusCondition(
             metricId = metricId,
             year = year,
             chartType = ChartConstants.Type.BASIC_LINE.code
