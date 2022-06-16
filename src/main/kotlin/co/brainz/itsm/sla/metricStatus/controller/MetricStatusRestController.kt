@@ -33,7 +33,7 @@ class MetricStatusRestController(
      * 년도별 기준으로 지표목록 불러오기
      */
     @GetMapping("/list")
-    fun getMetricYearList(metricLoadCondition: MetricLoadCondition): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(metricStatusService.getMetricYearList(metricLoadCondition))
+    fun getMetricYearList(year: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricStatusService.getMetricList(year))
     }
 }

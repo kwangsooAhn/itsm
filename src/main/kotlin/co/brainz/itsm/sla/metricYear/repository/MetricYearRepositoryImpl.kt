@@ -98,34 +98,23 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         return query.fetch()
     }
 
-    override fun findMetricYearListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricYearSimpleDto> {
+    override fun findMetricYearListByLoadCondition(year: String): List<MetricYearSimpleDto> {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
-        val unitCode = QCodeEntity("unitCode")
 
-        val query = from(metricYear)
+        return from(metricYear)
             .select(
                 Projections.constructor(
                     MetricYearSimpleDto::class.java,
                     metric.metricId,
                     metricYear.metricYear,
                     metric.metricName,
-                    unitCode.code
+                    metric.metricUnit
                 )
             )
             .leftJoin(metric).on(metricYear.metric.metricId.eq(metric.metricId))
-            .leftJoin(unitCode).on(metric.metricUnit.eq(unitCode.code))
-        if (!metricLoadCondition.source.isNullOrEmpty()) {
-            query.where(metricYear.metricYear.eq(metricLoadCondition.source))
-        }
-        if (!metricLoadCondition.target.isNullOrEmpty()) {
-            query.where(metricYear.metricYear.isNull.or(metricYear.metricYear.ne(metricLoadCondition.target)))
-        }
-        if (!metricLoadCondition.type.isNullOrEmpty()) {
-            query.where(metric.metricType.eq(metricLoadCondition.type))
-        }
-
-        return query.fetch()
+            .where(metricYear.metricYear.eq(year))
+            .fetch()
     }
 
     override fun findMetricYearListForExcel(year: String): List<MetricYearExcelDto> {

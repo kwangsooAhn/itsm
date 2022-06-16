@@ -41,11 +41,8 @@ class MetricStatusService(
     /**
      * 현재 년도에 저징된 지표 조회
      */
-    fun getMetricList(): List<MetricYearSimpleDto> {
-        val metricLoadCondition = MetricLoadCondition(
-            source = Year.now().toString()
-        )
-        return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+    fun getMetricList(year: String): List<MetricYearSimpleDto> {
+        return metricYearRepository.findMetricYearListByLoadCondition(year)
     }
 
     fun getMetricStatusChartData(metricStatusCondition: MetricStatusCondition): MetricStatusDto? {
@@ -140,21 +137,5 @@ class MetricStatusService(
         }
 
         return chartData
-    }
-
-    fun getMetricYearList(metricLoadCondition: MetricLoadCondition): List<MetricLoadDto> {
-        val metricList = metricYearRepository.findMetricYearListByLoadCondition(metricLoadCondition)
-        val metricIds: MutableSet<String> = mutableSetOf()
-        metricList.forEach { metricIds.add(it.metricId) }
-
-        if (!metricLoadCondition.target.isNullOrEmpty()) {
-            val metricYearIds: LinkedHashSet<String> = linkedSetOf()
-            metricYearRepository.findByMetricYear(metricLoadCondition.target!!).forEach {
-                metricYearIds.add(it.metric.metricId)
-            }
-            metricIds.removeAll(metricYearIds)
-        }
-
-        return metricPoolRepository.findByMetricIds(metricIds)
     }
 }
