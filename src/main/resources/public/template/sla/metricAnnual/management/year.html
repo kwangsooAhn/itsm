@@ -193,7 +193,6 @@
             elem.focus();
         };
         const decimalValue = /^[0-9]*\.?[0-9]{0,4}$/;
-        console.log(elem.value)
         if (elem !== null) {
             if (!decimalValue.test(elem.value)) {
                 if (messageId !== undefined) zAlert.warning(i18n.msg(messageId), callback);
