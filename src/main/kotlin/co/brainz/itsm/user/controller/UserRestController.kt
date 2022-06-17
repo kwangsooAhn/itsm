@@ -9,12 +9,14 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -50,7 +52,8 @@ class UserRestController(
     private val userDetailsService: AliceUserDetailsService,
     private val localeResolver: LocaleResolver,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val currentSessionUser: CurrentSessionUser
+    private val currentSessionUser: CurrentSessionUser,
+    private val roleService: RoleService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -95,7 +98,8 @@ class UserRestController(
         if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
             result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
             result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code) {
+            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code
+        ) {
             if (SecurityContextHolder.getContext().authentication != null) {
                 if (user.userKey == currentSessionUser.getUserKey()) {
                     localeResolver.setLocale(request, response, Locale(user.lang))
@@ -116,32 +120,28 @@ class UserRestController(
         request: HttpServletRequest,
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
-        val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
-        if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
-            result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code) {
-            localeResolver.setLocale(request, response, Locale(user.lang))
-            if (SecurityContextHolder.getContext().authentication != null) {
-                if (user.userKey == currentSessionUser.getUserKey()) {
-                    SecurityContextHolder.getContext().authentication =
-                        userDetailsService.createNewAuthentication(user.userKey)
+        var result: ZResponse? = null
+        val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey, setOf(AliceConstants.SYSTEM_ROLE))
+        if (userSessionRoleCheck == ZResponseConstants.STATUS.SUCCESS.code) {
+            result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
+            if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
+                result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
+                result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
+                result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_PASSWORD.code
+            ) {
+                localeResolver.setLocale(request, response, Locale(user.lang))
+                if (SecurityContextHolder.getContext().authentication != null) {
+                    if (user.userKey == currentSessionUser.getUserKey()) {
+                        SecurityContextHolder.getContext().authentication =
+                            userDetailsService.createNewAuthentication(user.userKey)
+                    }
                 }
             }
         }
-        return ZAliceResponse.response(result)
-    }
-
-    /**
-     * 사용자의 처리할 문서를 위임자로 변경
-     */
-    @PostMapping("/absence")
-    fun executeUserProcessingDocumentAbsence(
-        @RequestBody absenceInfo: String
-    ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(
-            userService.executeUserProcessingDocumentAbsence(absenceInfo)
-        )
+        return when (userSessionRoleCheck) {
+            ZResponseConstants.STATUS.SUCCESS.code -> ZAliceResponse.response(ZResponse(status = result!!.status))
+            else -> ZAliceResponse.response(ZResponse(status = userSessionRoleCheck))
+        }
     }
 
     /**
@@ -201,5 +201,23 @@ class UserRestController(
         userSearchCondition: UserSearchCondition
     ): ResponseEntity<ByteArray> {
         return userService.getUsersExcelDownload(userSearchCondition)
+    }
+
+    /**
+     * 사용자 비밀번호 확인 시 rsa key 전달
+     */
+    @GetMapping("/rsa")
+    fun rsaKeySend(request: HttpServletRequest): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.rsaKeySend(request))
+    }
+
+    /**
+     * 사용자 비밀번호 확인
+     */
+    @PostMapping("/passwordConfirm")
+    fun userPasswordConfirm(
+        @RequestBody data: HashMap<String, Any>
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(userService.userPasswordConfirm(data))
     }
 }

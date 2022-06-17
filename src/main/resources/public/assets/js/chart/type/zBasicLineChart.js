@@ -12,12 +12,14 @@
 import { CHART } from '../../lib/zConstants.js';
 
 const DEFAULT_CHART_PROPERTY = {
-    chart: { type: 'line' },
+    chart: { type: 'areaspline' },
     xAxis: {
         type: 'datetime',
-        startOnTick: false,
-        endOnTick: false,
-        labels: {}
+        labels: {},
+        crosshair: {
+            width: 1,
+            color: '#ABB0B5'
+        }
     },
     plotOptions: {
         series: {}
@@ -110,11 +112,11 @@ export const zBasicLineChartMixin = {
                 const points = this.points;
                 let tooltipFormat = `<span style="font-size:inherit">` +
                     `${Highcharts.dateFormat(chart.getDateTimeFormat(), this.x)}` +
-                    `</span><br/>`;
+                    `</span></br>`;
                 for (let i = 0; i < points.length; i++) {
                     const point = points[i];
-                    tooltipFormat += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: ` +
-                        `${chart.getLabelFormat(point.y)}<br/>`;
+                    tooltipFormat += `<br/><span style="color:${point.color}">\u25CF</span><b> ${point.series.name}: ` +
+                        `${chart.getLabelFormat(point.y)}</b><br/>`;
                 }
                 return tooltipFormat;
             }
@@ -156,6 +158,17 @@ export const zBasicLineChartMixin = {
                     });
                 }
             }
+            this.chart.series[i].update(
+                {
+                    fillColor: {
+                        linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                        stops: [
+                            [0, aliceJs.hexToRgba(this.chart.options.colors[i], 0.4)],
+                            [1, aliceJs.hexToRgba(this.chart.options.colors[i], 0.1)]
+                        ]
+                    }
+                }
+            );
             this.chart.series[i].update({ id: seriesId }, false);
             this.chart.series[i].setData(series, false);
         }

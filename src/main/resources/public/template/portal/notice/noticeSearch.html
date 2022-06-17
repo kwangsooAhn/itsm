@@ -14,11 +14,13 @@
         </div>
         <div class="z-page-search pb-4">
             <form id="searchFrm">
-                <input type="text" class="z-input i-search text-ellipsis col-5" id="searchValue" name="searchValue" maxlength="100"
+                <input type="text" class="z-input i-search text-ellipsis col-5" id="searchValue" name="searchValue"
+                       maxlength="100"
                        th:placeholder="#{notice.label.searchPlaceholder}"/>
                 <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
                 <span>~</span>
-                <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+                <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt"
+                       name="searchToDt"/>
                 <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
                 <!-- 리스트 검색 갯수 : 포탈 화면 고려해서 13개로 처리함 -->
                 <input type="hidden" id="contentNumPerPage" name="contentNumPerPage" readonly="readonly" value="13"/>
@@ -45,7 +47,7 @@
         searchToDtElement.value = searchToDt;
         zDateTimePicker.initDatePicker(fromDtElement, setDatePicker);
         zDateTimePicker.initDatePicker(searchToDtElement, setDatePicker);
-        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce(() => getList()), false);
         getList();
     };
 
@@ -55,23 +57,27 @@
         }
         if (element.id === 'fromDt') {
             const toDtValue = document.getElementById('searchToDt').value;
-            if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
-                    document.getElementById('fromDt').value = searchFromDt;
-                    picker.open();
-                });
-            } else {
-                getList();
+            if (toDtValue !== '' && element.value !== '') {
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', toDtValue), function () {
+                        document.getElementById('fromDt').value = searchFromDt;
+                        picker.open();
+                    });
+                } else {
+                    getList();
+                }
             }
         } else {
             const fromDtValue = document.getElementById('fromDt').value;
-            if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
-                    document.getElementById('searchToDt').value = searchToDt;
-                    picker.open();
-                });
-            } else {
-                getList();
+            if (fromDtValue !== '' && element.value !== '') {
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', fromDtValue), function () {
+                        document.getElementById('searchToDt').value = searchToDt;
+                        picker.open();
+                    });
+                } else {
+                    getList();
+                }
             }
         }
     }
@@ -101,6 +107,7 @@
             dt.setAttribute('title', userDateTime);
         });
     }
+
     /* ]]> */
 </script>
 </html>

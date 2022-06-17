@@ -315,28 +315,10 @@ class WfDocumentService(
             wfDocumentEntity.documentIcon = documentDto.documentIcon
 
             if (params["isDeleteData"].toString().toBoolean()) {
-                logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
-                val instanceIds = mutableListOf<String>()
-                wfDocumentEntity.instance?.let { instances ->
-                    instances.forEach {
-                        instanceIds.add(it.instanceId)
-                    }
+                this.deleteInstancesByStatusTemporary(wfDocumentEntity)
 
-                    ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
-                        ciComponentDataList.forEach { ciComponentData ->
-                            val ciDto = CIDto(
-                                ciId = ciComponentData.ciId,
-                                typeId = "",
-                                ciName = "",
-                                ciStatus = "",
-                                interlink = false
-                            )
-                            ciService.deleteCI(ciDto)
-                        }
-                    }
-
-                    wfInstanceRepository.deleteInstances(instances)
-                }
+                // 신청서 사용시, 폼/프로세스 상태 변경
+                this.updateFormAndProcessStatus(wfDocumentEntity)
             }
         }
 
@@ -416,8 +398,9 @@ class WfDocumentService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val selectedDocument = wfDocumentRepository.getOne(documentId)
         val instanceCnt = wfInstanceRepository.countByDocument(selectedDocument)
-        if (instanceCnt == 0) {
+        if (instanceCnt == 0 || selectedDocument.documentStatus == DocumentConstants.DocumentStatus.TEMPORARY.value) {
             logger.debug("Try delete document...")
+            this.deleteInstancesByStatusTemporary(selectedDocument)
             wfDocumentDisplayRepository.deleteByDocumentId(documentId)
             wfDocumentRepository.deleteByDocumentId(documentId)
         } else {
@@ -681,7 +664,7 @@ class WfDocumentService(
 
     /**
      * 업무흐름 Import.
-     * 신규로 Import된 프로세스, 폼은 '발행' 상태이다.
+     * 신규로 Import된 프로세스, 폼은 문서가 '임시'일 경우 '발행' 상태이고 '사용'일 경우 사용 상태이다.
      */
     @Transactional
     fun importDocument(documentImportDto: DocumentImportDto): ZResponse {
@@ -696,14 +679,16 @@ class WfDocumentService(
 
         // 프로세스 중복 체크
         if (status == ZResponseConstants.STATUS.SUCCESS &&
-            wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)) {
+            wfProcessRepository.existsByProcessName(documentImportDto.processData.process!!.name!!)
+        ) {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             message = "process"
         }
 
         // 문서 중복 체크
         if (status == ZResponseConstants.STATUS.SUCCESS &&
-            wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")) {
+            wfDocumentRepository.existsByDocumentName(documentImportDto.documentData.documentName, "")
+        ) {
             status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             message = "document"
         }
@@ -719,22 +704,24 @@ class WfDocumentService(
             val newProcessId = importDto.processData.process?.id!!
 
             // 신청서 저장
-            val newDocumentId = wfDocumentRepository.save(WfDocumentEntity(
-                documentId = "",
-                documentType = importDto.documentData.documentType,
-                documentName = importDto.documentData.documentName,
-                documentDesc = importDto.documentData.documentDesc,
-                form = WfFormEntity(formId = newFormId),
-                process = WfProcessEntity(processId = newProcessId),
-                createDt = LocalDateTime.now(),
-                createUserKey = currentSessionUser.getUserKey(),
-                documentStatus = importDto.documentData.documentStatus,
-                apiEnable = importDto.documentData.apiEnable,
-                numberingRule = numberingRuleRepository.findById(importDto.documentData.documentNumberingRuleId).get(),
-                documentColor = importDto.documentData.documentColor,
-                documentGroup = importDto.documentData.documentGroup,
-                documentIcon = importDto.documentData.documentIcon
-            )).documentId
+            val newDocumentId = wfDocumentRepository.save(
+                WfDocumentEntity(
+                    documentId = "",
+                    documentType = importDto.documentData.documentType,
+                    documentName = importDto.documentData.documentName,
+                    documentDesc = importDto.documentData.documentDesc,
+                    form = WfFormEntity(formId = newFormId),
+                    process = WfProcessEntity(processId = newProcessId),
+                    createDt = LocalDateTime.now(),
+                    createUserKey = currentSessionUser.getUserKey(),
+                    documentStatus = importDto.documentData.documentStatus,
+                    apiEnable = importDto.documentData.apiEnable,
+                    numberingRule = numberingRuleRepository.findById(importDto.documentData.documentNumberingRuleId).get(),
+                    documentColor = importDto.documentData.documentColor,
+                    documentGroup = importDto.documentData.documentGroup,
+                    documentIcon = importDto.documentData.documentIcon
+                )
+            ).documentId
             // 신청서 양식 편집 저장
             val wfDocumentDisplayEntities: MutableList<WfDocumentDisplayEntity> = mutableListOf()
             for (display in importDto.displayData) {
@@ -755,13 +742,18 @@ class WfDocumentService(
             message = message
         )
     }
+
     /**
      * 업무흐름 Import - 폼.
      * WfFormService.kt - saveAsFormData 참고
      */
     private fun importForm(documentImportDto: DocumentImportDto): DocumentImportDto {
         documentImportDto.formData.id = ""
-        documentImportDto.formData.status = WorkflowConstants.FormStatus.PUBLISH.value
+        //신규로 Import된 폼은 문서가 '임시'일 경우 발행 상태이고 '사용'일 경우 사용 상태이다.
+        documentImportDto.formData.status = when (documentImportDto.documentData.documentStatus) {
+            DocumentConstants.DocumentStatus.TEMPORARY.value -> WorkflowConstants.FormStatus.PUBLISH.value
+            else -> WorkflowConstants.FormStatus.USE.value
+        }
         documentImportDto.formData.createUserKey = currentSessionUser.getUserKey()
         documentImportDto.formData.createDt = LocalDateTime.now()
 
@@ -797,11 +789,16 @@ class WfDocumentService(
      * WfProcessService.kt - saveAsProcess 참고
      */
     private fun importProcess(documentImportDto: DocumentImportDto): DocumentImportDto {
+        // 신규로 Import된 프로세스는 문서가 '임시'일 경우 발행 상태이고 '사용'일 경우 사용 상태이다.
+        val processStatus = when (documentImportDto.documentData.documentStatus) {
+            DocumentConstants.DocumentStatus.TEMPORARY.value -> WorkflowConstants.ProcessStatus.PUBLISH.value
+            else -> WorkflowConstants.ProcessStatus.USE.value
+        }
         val processDto = wfProcessService.insertProcess(
             RestTemplateProcessDto(
                 processName = documentImportDto.processData.process?.name.toString(),
                 processDesc = documentImportDto.processData.process?.description,
-                processStatus = WorkflowConstants.ProcessStatus.PUBLISH.value,
+                processStatus = processStatus,
                 enabled = false,
                 createDt = LocalDateTime.now(),
                 createUserKey = currentSessionUser.getUserKey()
@@ -854,5 +851,32 @@ class WfDocumentService(
      */
     fun getSearchFieldValues(filedOption: FieldOptionDto): List<Array<Any>> {
         return wfDocumentRepository.getSearchFieldValues(filedOption)
+    }
+
+    /**
+     * 임시상태 수정 및 삭제 시 인스턴스 제거
+     */
+    private fun deleteInstancesByStatusTemporary(wfDocumentEntity: WfDocumentEntity) {
+        logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
+        val instanceIds = mutableListOf<String>()
+        wfDocumentEntity.instance?.let { instances ->
+            instances.forEach {
+                instanceIds.add(it.instanceId)
+            }
+
+            ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
+                ciComponentDataList.forEach { ciComponentData ->
+                    val ciDto = CIDto(
+                        ciId = ciComponentData.ciId,
+                        typeId = "",
+                        ciName = "",
+                        ciStatus = "",
+                        interlink = false
+                    )
+                    ciService.deleteCI(ciDto)
+                }
+            }
+            wfInstanceRepository.deleteInstances(instances)
+        }
     }
 }

@@ -228,6 +228,8 @@
         if (e.target.value.trim() !== '') {
             modifyName = e.target.value.trim() + '.' + extension;
         }
+        this.fileNameSpecialCharCheck(modifyName);
+
         if (name === modifyName) { return false; }
         aliceJs.fetchJson('/rest/files', {
             method: 'PUT',
@@ -266,6 +268,14 @@
             }
         }, false);
         inputObj.focus();
+    }
+
+    function fileNameSpecialCharCheck(name) {
+        let regex = new RegExp('[./\\\\%]');
+        if (name.match(regex)) {
+            zAlert.warning('[(#{file.msg.unacceptableCharacters})]');
+            return false;
+        }
     }
     // 업로드
     function uploadFile(fileObj) {
@@ -307,6 +317,7 @@
     // 다운로드
     function downLoadFile(thumbnail) {
         const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+        this.fileNameSpecialCharCheck(fileName.split('.')[0]);
         aliceJs.fetchBlob('/rest/files/download?fileName=' + encodeURIComponent(fileName), {
             method: 'GET',
             showProgressbar: true

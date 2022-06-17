@@ -64,4 +64,12 @@ class TokenRestController(private val tokenService: TokenService) {
     fun getTokensExcelDownload(tokenSearchCondition: TokenSearchCondition): ResponseEntity<ByteArray> {
         return tokenService.getTokensExcelDownload(tokenSearchCondition)
     }
+
+    /**
+     * 프로세스 상태 화면.
+     */
+    @GetMapping("/{instanceId}/status")
+    fun getProcessStatus(@PathVariable instanceId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(tokenService.getTokenStatus(instanceId))
+    }
 }

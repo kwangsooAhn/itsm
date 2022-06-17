@@ -9,9 +9,9 @@
 // -------------------------
 ul.tree {
   font-family: $font-family;
-  font-size:  $tree-font-size;
-  font-weight:  $tree-font-weight;
-  color: $tree-font-color;
+  font-size:  $font-size-xs;
+  font-weight:  $font-weight-medium;
+  color: $gray800;
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -21,7 +21,7 @@ ul.tree {
   li {
     @include relative();
     display: block;
-    line-height: $tree-line-height;
+    line-height: 1.875rem; // 30px
     padding-right: 0.125rem; // 2px
 
     text-overflow: ellipsis;
@@ -33,7 +33,7 @@ ul.tree {
   // -------------------------
   ul {
     @include relative();
-    margin: 0 0 0 calc(#{$tree-toggle-icon-width} * 2.3);
+    margin: 0 0 0 calc(0.875rem * 2.3);
     padding: 0;
     list-style-type: none;
     @include userSelect(none);
@@ -41,25 +41,25 @@ ul.tree {
     &:before {
       content: '';
       @include absolute($top: 0, $bottom: 0);
-      @include border($tree-line-width, solid, $tree-line-color, left);
+      @include border(0.0625rem, solid, $gray300, left);
     }
 
     li {
-      padding-left: $tree-indentation;
+      padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
       // horizontal line
       &:before {
         content: '';
-        @include absolute($top: ($tree-line-height / 2), $left: 0); // half of line-height
-        width: $tree-indentation;
-        height: $tree-line-width; // 1px
-        @include border($tree-line-width, solid, $tree-line-color, top);
+        @include absolute($top: (1.875rem / 2), $left: 0); // 30px half of line-height
+        width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
+        height: 0.0625rem; // 1px
+        @include border(0.0625rem, solid, $gray300, top);
       }
        // cover the excess line
        &:last-child:before {
         height: auto;
-        top: ($tree-line-height / 2);
+        top: (1.875rem / 2); // 30px
         bottom: 0;
-         @include border($tree-line-width, solid, $tree-line-hidden-color, left);
+         @include border(0.0625rem, solid, $white, left);
       }
 
       // Level 3+
@@ -68,7 +68,7 @@ ul.tree {
     }
   }
 
-  label { color: $tree-font-color; }
+  label { color: $gray800; }
 }
 
 img {
@@ -90,13 +90,13 @@ img {
 
 span.node {
   padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
-  @include border($tree-border-width, solid, $tree-border-color, all);
+  @include border(0.0625rem, solid, transparent, all);
   &:hover {
-    background-color: $tree-hover-bg-color;
+    background-color: $blue100;
     @include borderRadius(0.125rem); // 2px
   }
   label {
-    padding-left: $tree-folder-margin-left;
+    padding-left: 0.5rem; // 8px
     cursor: pointer;
   }
   cursor: pointer;
@@ -105,10 +105,11 @@ span.node {
 span.node_selected,
 span.modal_node_selected,{
   padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
-  background-color: $tree-selected-bg-color;
+  @include border(0.0625rem, solid, transparent, all);
+  background-color: transparent;
   label {
-    color: $tree-selected-font-color;
-    padding-left: $tree-folder-margin-left;
+    color: $blue500;
+    padding-left: 0.5rem; // 8px
     cursor: pointer;
   }
   cursor: pointer;
@@ -122,10 +123,10 @@ span.modal_node_selected,{
 
   .tree-title {
     height: 2.5rem; // 40px
-    font-size:  $modal-header-font-size;
-    font-weight:  $modal-header-font-weight;
-    color: $modal-header-font-color;
-    @include border($modal-border-width, solid, $modal-border-color, bottom);
+    font-size:  1.5rem; // 24px;
+    font-weight:  $font-weight-medium;
+    color: $gray800;
+    @include border(0.0625rem, solid, $gray300, bottom);
   }
 
   .tree-list {
@@ -138,8 +139,8 @@ span.modal_node_selected,{
     width: 100%;
     height: 100%;
     text-align: center;
-    font-size: $tree-font-size;
-    font-weight: $tree-font-weight;
-    color: $tree-font-color;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $gray800;
   }
 }

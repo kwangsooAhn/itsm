@@ -24,7 +24,7 @@ class ZFormDesigner {
         this.domElement = document.getElementById('formDrawingBoard') || document.body;
         // edit, view, complete 등 문서의 상태에 따라 아코디언, 컴포넌트 등 동작을 막음
         this.domElement.classList.add('edit');
-        this.isView = false; // view 모드인지 여부 > TODO: 추후 없어질 예정
+        this.isView = false; // view 모드인지 여부
         this.isEditable = true; // 편집 여부
         this.isDestory = false; // 폐기 여부
         this.history = new ZHistory(this);  // 이력 관리
@@ -98,7 +98,7 @@ class ZFormDesigner {
     initShortcut() {
         const shortcuts = [
             //폼 양식 저장
-            { 'keys': 'ctrl+s', 'command': 'zFormDesigner.saveForm(false);', 'force': true},
+            { 'keys': 'ctrl+s', 'command': 'zFormDesigner.saveForm(false);', 'force': true },
             //폼 양식 다른이름으로 저장
             { 'keys': 'ctrl+shift+s', 'command': 'zFormDesigner.openSaveAsModal();', 'force': true },
             //폼 편집 화면 작업 취소
@@ -151,15 +151,15 @@ class ZFormDesigner {
                 draggable: '.list-group-item',
                 fallbackOnBody: true,
                 swapThreshold: 0.65,
-                onChoose: function () {
-                    // drag 시작 시, 기존 선택된 객체 선택 해제
+                onChoose: function() {
+                    // drag 시작시, 기존 선택된 객체 선택 해제
                     this.options.editor.deSelectObject();
                 },
-                onClone: function (evt) {
-                    // drag & drop 시 디자인 추가
+                onClone: function(evt) {
+                    // drag & drop시 디자인 추가
                     evt.clone.classList.add('placeholder');
                 },
-                onMove: function (evt) {
+                onMove: function(evt) {
                     if (evt.from !== evt.to && evt.dragged.classList.contains('z-component-icon')) {
                         // drag시 컴포넌트 표시
                         evt.dragged.classList.add('z-component-icon-drag-in');
@@ -170,7 +170,7 @@ class ZFormDesigner {
                         }
                     }
                 },
-                onEnd: function (evt) {
+                onEnd: function(evt) {
                     if (evt.from === evt.to) {
                         if (evt.item.children.length === 3) {
                             evt.item.removeChild(evt.item.children[2]);
@@ -199,7 +199,7 @@ class ZFormDesigner {
                     } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.GROUP)) {
                         // 신규 row / component 추가
                         const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, parentObject, evt.newDraggableIndex);
-                        editor.addObjectByType(FORM.LAYOUT.COMPONENT, {type: evt.item.id}, row, 0);
+                        editor.addObjectByType(FORM.LAYOUT.COMPONENT, { type: evt.item.id }, row, 0);
                         // 이력 추가
                         histories.push({
                             type: 'add',
@@ -496,7 +496,7 @@ class ZFormDesigner {
                 addObject = new ZForm(data);
                 addObject.UIElement.addUIClass('list-group');
 
-                if (!this.isEditable && !this.isCreatedWorkFlow) { break; }
+                if (!this.isEditable) { break; }
                 // drag & drop 이벤트 추가
                 new Sortable(addObject.UIElement.domElement, {
                     group: {
@@ -513,10 +513,10 @@ class ZFormDesigner {
                     swapThreshold: 0.65,
                     filter: '.' + 'z-tooltip-menu',
                     preventOnFilter: true,
-                    onChoose: function () {
+                    onChoose: function() {
                         this.options.editor.deSelectObject();
                     },
-                    onEnd: function (evt) {
+                    onEnd: function(evt) {
                         const editor = this.options.editor;
                         const swapObject = editor.swapObject(editor.form, evt.oldDraggableIndex, evt.newDraggableIndex);
                         if (swapObject) {
@@ -530,7 +530,7 @@ class ZFormDesigner {
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIGroup.addUIClass('list-group');
 
-                if (!this.isEditable && !this.isCreatedWorkFlow) {
+                if (!this.isEditable) {
                     addObject.UIElement.UITooltipMenu.addUIClass('off');
                     break;
                 }
@@ -550,14 +550,14 @@ class ZFormDesigner {
                     swapThreshold: 0.65,
                     filter: '.' + 'z-tooltip-menu',
                     preventOnFilter: true,
-                    onChoose: function () {
+                    onChoose: function() {
                         this.options.editor.deSelectObject();
                     },
-                    onClone: function (evt) {
+                    onClone: function(evt) {
                     // clone 대상이되는 엘리먼트 디자인 변경
                         evt.clone.classList.add('z-component-drag-ghost');
                     },
-                    onEnd: function (evt) {
+                    onEnd: function(evt) {
                         evt.clone.classList.remove('z-component-drag-ghost');
 
                         const editor = this.options.editor;
@@ -627,7 +627,7 @@ class ZFormDesigner {
                 addObject.UIElement.addUIClass('list-group-item');
                 addObject.UIElement.UIRow.addUIClass('list-group');
 
-                if (!this.isEditable && !this.isCreatedWorkFlow) {
+                if (!this.isEditable) {
                     addObject.UIElement.UITooltipMenu.addUIClass('off');
                     break;
                 }
@@ -636,7 +636,7 @@ class ZFormDesigner {
                     group: {
                         name: 'row',
                         pull: 'clone',
-                        put: function (to) { // row 컴포넌트 갯수 제한
+                        put: function(to) { // row 컴포넌트 갯수 제한
                             if (to.el.classList.contains('z-row') &&
                           to.el.children.length >= FORM.MAX_COMPONENT_IN_ROW) {
                                 return 'false';
@@ -645,7 +645,7 @@ class ZFormDesigner {
                             }
                         }
                     },
-                    direction: function (evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
+                    direction: function(evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
                         if (target !== null &&
                         target.className.includes('z-component-tooltip') &&
                         (dragEl.className.includes('z-component-tooltip') ||
@@ -663,14 +663,14 @@ class ZFormDesigner {
                     swapThreshold: 0.65,
                     filter: '.' + 'z-tooltip-menu',
                     preventOnFilter: true,
-                    onChoose: function () {
+                    onChoose: function() {
                         this.options.editor.deSelectObject();
                     },
-                    onClone: function (evt) {
+                    onClone: function(evt) {
                     // clone 대상이되는 엘리먼트 디자인 변경
                         evt.clone.classList.add('z-component-drag-ghost');
                     },
-                    onEnd: function (evt) {
+                    onEnd: function(evt) {
                         evt.clone.classList.remove('z-component-drag-ghost');
 
                         const editor = this.options.editor;
@@ -745,7 +745,7 @@ class ZFormDesigner {
             case FORM.LAYOUT.COMPONENT:
                 addObject = new ZComponent(data);
                 addObject.UIElement.addUIClass('list-group-item');
-                if (!this.isEditable && !this.isCreatedWorkFlow) {
+                if (!this.isEditable) {
                     addObject.UIElement.UITooltipMenu.addUIClass('off');
                 }
                 break;
@@ -1018,7 +1018,7 @@ class ZFormDesigner {
                 }
             ],
             close: { closable: false },
-            onCreate: function () {
+            onCreate: function() {
                 OverlayScrollbars(document.getElementById('newFormDesc'), {
                     className: 'scrollbar',
                     resize: 'none',
@@ -1124,6 +1124,12 @@ class ZFormDesigner {
                 return false;
             }
         }
+
+        // '발행' or '사용' 상태의 문서를 저장하려는 경우 경고 표시 (#8969 일감 참조)
+        if (this.isView && deployableStatus.includes(this.data.status)) {
+            zAlert.warning(i18n.msg('common.msg.notSaveAfterPublishAndUse'));
+            return false;
+        }
         return true;
     }
 
@@ -1160,7 +1166,7 @@ class ZFormDesigner {
     onLeftClickHandler(e) {
         // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
         if (e.target != null && !e.target.classList.contains('z-header-button-dropdown')) {
-            document.querySelectorAll('.' + 'z-header-button-dropdown').forEach(function (dropdown) {
+            document.querySelectorAll('.' + 'z-header-button-dropdown').forEach(function(dropdown) {
                 if (dropdown.classList.contains('active')) {
                     dropdown.classList.remove('active');
                 }

@@ -1,36 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block>
+    <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+    <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+</th:block>
 <body>
 <div class="z-main-top">
     <div class="flex-row justify-content-end">
         <span class="z-notification">
             <span class="z-icon-notification" onclick="toggleNotificationContainer();">
-                <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="25" height="27">
+                <img class="load-svg"
+                     th:src="@{/assets/media/icons/gnb/icon_gnb_notification.svg}"
+                     width="25" height="27">
             </span>
         </span>
         <span class="z-divide">|</span>
         <button class="z-user z-user-info flex-row align-items-center" tabindex="0">
-            <img class="z-img i-user-profile z-user" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
+            <img class="z-img i-user-profile z-user"
+                 th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
             <span class="z-user z-user-name text-ellipsis" sec:authentication="details.userName"></span>
             <span class="z-user z-icon i-arrow-right"></span>
         </button>
         <ul class="z-dropdown-content">
             <li class="z-dropdown-item" tabindex="-1">
-                <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.editUserInfo}" onclick="getUserEdit()" tabindex="0"></button>
+                <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.editUserInfo}"
+                        onclick="openPasswordConfirmModal()" tabindex="0"></button>
             </li>
             <li class="z-dropdown-item" tabindex="-1">
-                <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()" tabindex="0"></button>
+                <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
+                        tabindex="0"></button>
             </li>
         </ul>
     </div>
     <div id="notification-panel" class="z-notification-panel"></div>
-    <div id="toast-panel" name="toast-panel" ></div>
+    <div id="toast-panel" name="toast-panel"></div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
         let notificationDiv = null;
-        window.addEventListener('DOMContentLoaded', function(){
+        window.addEventListener('DOMContentLoaded', function () {
             const userInfo = document.querySelector('.z-user-info');
             document.querySelector('.z-user-info').addEventListener('click', function (e) {
                 e.preventDefault();
@@ -48,9 +59,9 @@
             aliceJs.loadSvg();
             notificationDiv = document.getElementById('notification-panel');
             hiddenProgressBar();
-            setInterval(function () {
+            /*setInterval(function () {
                 getNotificationList(true);
-            }, 60000); // 60초 주기
+            }, 60000);*/ // 60초 주기
             getNotificationList(true);
 
             document.addEventListener('click', notificationContainerOff, false);
@@ -59,12 +70,13 @@
         function getUserEdit() {
             document.location.href = '/users/[(${#authentication.details.userKey})]/editself';
         }
+
         function logout() {
             document.getElementById('logoutForm').submit();
         }
 
         function toggleNotificationContainer() {
-            if (notificationDiv!== null) {
+            if (notificationDiv !== null) {
                 if (notificationDiv.classList.contains('on')) {
                     notificationDiv.classList.remove('on');
                 } else {
@@ -75,7 +87,9 @@
 
         function notificationContainerOff(e) {
             //알림창 내부를 클릭한 경우 동작하지 않는다.
-            if (aliceJs.clickInsideElement(e, 'z-notification-panel') || aliceJs.clickInsideElement(e, 'z-notification')) { return false; }
+            if (aliceJs.clickInsideElement(e, 'z-notification-panel') || aliceJs.clickInsideElement(e, 'z-notification')) {
+                return false;
+            }
 
             if (notificationDiv && notificationDiv.classList.contains('on')) {
                 notificationDiv.classList.remove('on');
@@ -132,10 +146,10 @@
                 position: 'right',
                 stopOnFocus: true,
                 className: 'alice-toastify toast-content',
-                onShow: function() {
+                onShow: function () {
                     updateNotification(param.notificationId, 'display');
                 },
-                onClick: function() {
+                onClick: function () {
                     // 문서 알림일 경우만 팝업 호출
                     if (param.notificationType === 'document') {
                         openTokenPage(param.notificationId, param.tokenId);
@@ -168,6 +182,91 @@
                 method: 'DELETE'
             }).then((status) => {
                 getNotificationList(false);
+            });
+        }
+
+        // 패스워드 인증 모달 오픈
+        function openPasswordConfirmModal(userKey, manageAuth) {
+            const passwordAuthModalTemplate = `<div class="flex-column">` +
+                `<label class="field-label" for="password">${i18n.msg('user.label.password')}<span class="required"></span></label>` +
+                `<input type="password" id="modalPassword" name="modalPassword" class="z-input" maxlength="50" value="">` +
+                `</div>`;
+
+            const passwordConfirmModal = new modal({
+                title: i18n.msg('user.label.passwordCheck'),
+                body: passwordAuthModalTemplate,
+                classes: 'password-check',
+                buttons: [{
+                    content: i18n.msg('common.btn.check'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        passwordEncryptAndConfirm(userKey, manageAuth);
+                        modal.hide();
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function (modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                }
+            })
+            passwordConfirmModal.show();
+        }
+
+        // 입력받은 패스워드 암호화
+        function passwordEncryptAndConfirm(userKey, manageAuth) {
+            let keyModule = '';
+            let keyExponent = '';
+            aliceJs.fetchJson('/rest/users/rsa', {
+                method: 'GET'
+            }).then((response) => {
+                keyModule = Object.values(response.data)[0];
+                keyExponent = Object.values(response.data)[1];
+
+                const data = {};
+                const password = document.getElementById('modalPassword').value;
+                const rsa = new RSAKey();
+                rsa.setPublic(keyModule, keyExponent);
+                data.password = rsa.encrypt(password);
+
+                passwordConfirm(data, userKey, manageAuth);
+            })
+        }
+
+        // 입력받은 패스워드 확인 처리
+        function passwordConfirm(data, userKey, manageAuth) {
+            aliceJs.fetchJson('/rest/users/passwordConfirm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        if (userKey === '' || userKey === undefined) {
+                            getUserEdit();
+                        } else {
+                            if (manageAuth) {
+                                document.location.href = '/users/' + userKey + '/edit';
+                            } else {
+                                document.location.href = '/users/' + userKey + '/view';
+                            }
+                        }
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('user.msg.passwordNotEquals'));
+                        break;
+                    default :
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                }
             });
         }
     </script>

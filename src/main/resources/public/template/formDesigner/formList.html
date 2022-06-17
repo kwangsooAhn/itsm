@@ -20,17 +20,15 @@
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
             <td width="27%" class="align-left underline">
-                <th:block th:if="${form.editable == true}">
-                    <a sec:authorize="!hasAuthority('workflow.manage')" th:text="${form.name}"
-                       th:attr="onclick=|openFormDesignerView('${form.id}', true)|" th:title="${form.name}"></a>
-                    <a sec:authorize="hasAuthority('workflow.manage')" th:text="${form.name}"
-                       th:attr="onclick=|openFormDesignerEdit('${form.id}', true)|" th:title="${form.name}"></a>
+                <th:block sec:authorize="hasAuthority('workflow.manage')">
+                    <a th:if="${form.editable == true}" th:text="${form.name}"
+                       th:attr="onclick=|openFormDesignerEdit('${form.id}')|" th:title="${form.name}"></a>
+                    <a th:unless="${form.editable == true}" th:text="${form.name}"
+                       th:attr="onclick=|openFormDesignerView('${form.id}')|" th:title="${form.name}"></a>
                 </th:block>
-                <div th:unless="${form.editable == true}">
-                    <a th:if="${form.status == 'form.status.use'}" th:text="${form.name}"
-                       th:attr="onclick=|openFormDesignerView('${form.id}', true)|" th:title="${form.name}"></a>
-                    <span th:unless="${form.status == 'form.status.use'}" th:text="${form.name}" th:title="${form.name}"></span>
-                </div>
+                <th:block sec:authorize="!hasAuthority('workflow.manage')">
+                    <span th:text="${form.name}" th:title="${form.name}"></span>
+                </th:block>
             </td>
             <td width="10%" class="align-center" th:text="#{${form.status}}" th:title="#{${form.status}}"></td>
             <td width="30%" class="align-left" th:text="${form.desc}" th:title="${form.desc}"></td>
@@ -42,8 +40,8 @@
                 </button>
             </td>
             <td width="4%" class="align-center">
-                <th:block th:if="${form.editable == true}">
-                    <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="deleteForm([[${form.id}]])">
+                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${form.editable == true}">
+                    <button type="button" class="z-button-icon form" th:onclick="deleteForm([[${form.id}]])">
                         <span class="z-icon i-list-delete"></span>
                     </button>
                 </th:block>

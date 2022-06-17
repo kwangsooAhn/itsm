@@ -27,7 +27,6 @@ import java.util.TimeZone
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
@@ -40,10 +39,14 @@ class AliceCertificationService(
     private val codeService: CodeService,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceFileAvatarService: AliceFileAvatarService
+    private val aliceFileAvatarService: AliceFileAvatarService,
+    private val aliceEncryptionUtil: AliceEncryptionUtil
 ) {
     @Value("\${password.expired.period}")
     private var passwordExpiredPeriod: Long = 90L
+
+    @Value("\${encryption.algorithm}")
+    private val algorithm: String = ""
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -130,7 +133,7 @@ class AliceCertificationService(
 
     @Transactional
     fun valid(uid: String): Int {
-        val decryptUid: String = AliceEncryptionUtil().twoWayDeCode(uid)
+        val decryptUid: String = AliceEncryptionUtil().encryptDecoder(uid, AliceConstants.EncryptionAlgorithm.AES256.value)
         val values: List<String> = decryptUid.split(":".toRegex())
         val userDto: AliceUserEntity = findByUserId(values[1])
         var validCode: Int = AliceUserConstants.Status.SIGNUP.value
@@ -170,7 +173,7 @@ class AliceCertificationService(
         val user = AliceUserEntity(
             userKey = "",
             userId = aliceSignUpDto.userId,
-            password = BCryptPasswordEncoder().encode(password),
+            password = aliceEncryptionUtil.encryptEncoder(password.toString(), this.algorithm),
             userName = aliceSignUpDto.userName,
             email = aliceSignUpDto.email,
             position = aliceSignUpDto.position,

@@ -12,7 +12,9 @@ import { ZSession } from '../lib/zSession.js';
 import { zValidation } from '../lib/zValidation.js';
 
 class ZFormTokenTab {
-    constructor() {}
+    constructor() {
+    }
+
     /**
      * 클래스 초기화
      *
@@ -42,6 +44,8 @@ class ZFormTokenTab {
             const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
                 sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
             document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
+            // 아이콘 추가
+            aliceJs.loadSvg();
 
             this.reloadTab();
 
@@ -59,6 +63,7 @@ class ZFormTokenTab {
             aliceJs.initDesignedSelectTag();
         });
     }
+
     /**
      * 탭 생성 : 우측 문서 정보, 의견, 태그 영역
      */
@@ -68,7 +73,8 @@ class ZFormTokenTab {
         const relatedInstance = this.reloadRelatedInstance();
         const comment = this.reloadTokenComment();
         const tag = this.reloadTokenTag();
-        Promise.all([history, viewer, relatedInstance, comment, tag]).then(() => {
+        const documentStorage = this.reloadDocumentStorage();
+        Promise.all([history, viewer, relatedInstance, comment, tag, documentStorage]).then(() => {
             // 날짜 표기 변경
             this.setDateTimeFormat();
         });
@@ -79,7 +85,7 @@ class ZFormTokenTab {
      */
     selectTokenTab(e) {
         // 탭 동작
-        Array.prototype.filter.call(e.target.parentNode.children, function (child) {
+        Array.prototype.filter.call(e.target.parentNode.children, function(child) {
             return child !== e.target;
         }).forEach((siblingElement) => {
             siblingElement.classList.remove('active');
@@ -89,7 +95,7 @@ class ZFormTokenTab {
         // 컨텐츠 내용 동작
         const selectedTab = document.getElementById(e.target.dataset.targetContents);
         if (zValidation.isDefined(selectedTab)) {
-            Array.prototype.filter.call(selectedTab.parentNode.children, function (child) {
+            Array.prototype.filter.call(selectedTab.parentNode.children, function(child) {
                 return child !== selectedTab;
             }).forEach((siblingElement) => {
                 siblingElement.classList.remove('on');
@@ -100,6 +106,7 @@ class ZFormTokenTab {
         // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
         sessionStorage.setItem('alice_token-tab-selected', e.target.dataset.targetContents);
     }
+
     /**
      * 서버에서 전달받은 데이터의 날짜 포맷을 변경한다.
      */
@@ -155,12 +162,16 @@ class ZFormTokenTab {
     makeHistoryFragment(token) {
         token.assigneeName = token.assigneeName ? token.assigneeName : '';
         return `<tr class="flex-row align-items-center">` +
-            `<td style="width: 30%;" class="align-center date-time" name="tokenDt" title="${token.tokenStartDt}">` + token.tokenStartDt + `</td>` +
+            `<td style="width: 30%;" class="align-center date-time" name="tokenDt" title="${token.tokenStartDt}">` +
+            token.tokenStartDt + `</td>` +
             `<td style="width: 32%;" class="align-center" title="${token.elementName}">` + token.elementName + `</td>` +
-            `<td style="width: 20%;" class="align-center" title="${token.assigneeName}">` + token.assigneeName + `</td>` +
-            `<td style="width: 18%;" class="align-center" title="${i18n.msg(token.tokenAction)}">` + i18n.msg(token.tokenAction) + `</td>` +
+            `<td style="width: 20%;" class="align-center" title="${token.assigneeName}">` +
+            token.assigneeName + `</td>` +
+            `<td style="width: 18%;" class="align-center" title="${i18n.msg(token.tokenAction)}">` +
+            i18n.msg(token.tokenAction) + `</td>` +
             `</tr>`;
     }
+
     /***************************************************************************************************************
      * 관련문서 처리 로직
      * - 이것도 사실 파일을 분리했으면 좋겠다. 그치만, 문서조회 팝업의 전체의 구조 및 디자인 변경을 하게 되면 그때 같이 하자.
@@ -202,14 +213,16 @@ class ZFormTokenTab {
     makeViewerFragment(viewer) {
         return `<tr class="flex-row align-items-center" id="viewer${viewer.viewerKey}">` +
             `<td style="width: 8%;" class="align-left p-0">` +
-                `<img class="z-img i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
+            `<img class="z-img i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
             `</td>` +
             `<td style="width: 25%;" class="align-left" title="${viewer.viewerName}">${viewer.viewerName}</td>` +
-            `<td style="width: 52%;" class="align-left" title="${viewer.organizationName}">${viewer.organizationName}</td>` +
+            `<td style="width: 52%;" class="align-left" title="${viewer.organizationName}">` +
+            `${viewer.organizationName}</td>` +
             `<td style="width: 15%;" class="align-center">` +
-                (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
-                    `<button type="button" class="z-button-icon-sm" tabindex="-1" onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
-                    `<span class="z-icon i-remove"></span>` +
+            (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
+                `<button type="button" class="z-button-icon-sm" tabindex="-1" ` +
+                `onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
+                `<span class="z-icon i-remove"></span>` +
                 `</button>`) +
             `</td>` +
             `</tr>`;
@@ -238,7 +251,7 @@ class ZFormTokenTab {
                     const clonedViewerList = JSON.parse(JSON.stringify(this.viewerList));
                     const saveViewerData = [];
                     selectedViewerList.forEach((viewer) => {
-                        const findIndex = clonedViewerList.findIndex(function (item) {
+                        const findIndex = clonedViewerList.findIndex(function(item) {
                             return item.viewerKey === viewer.id;
                         });
 
@@ -295,7 +308,7 @@ class ZFormTokenTab {
             }],
             close: { closable: false },
             onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce((e) => {
                     this.getViewerList(e.target.value, false);
                 }), false);
                 this.getViewerList(document.getElementById('search').value, true);
@@ -319,7 +332,8 @@ class ZFormTokenTab {
         }).then((htmlData) => {
             const viewerList = document.getElementById('subUserList');
             viewerList.innerHTML = htmlData;
-            OverlayScrollbars(viewerList, {className: 'scrollbar'});
+
+            OverlayScrollbars(viewerList.querySelector('.z-table-body'), { className: 'scrollbar' });
             // 갯수 가운트
             aliceJs.showTotalCount(viewerList.querySelectorAll('.z-table-row').length);
             this.viewerList.forEach((viewer) => {
@@ -343,7 +357,9 @@ class ZFormTokenTab {
                             viewerType: DOCUMENT.VIEWER_TYPE.REGISTER
                         });
                     } else {
-                        let removeIndex= this.viewerList.findIndex(function (key) {return key.viewerKey === e.target.id;});
+                        let removeIndex = this.viewerList.findIndex(function(key) {
+                            return key.viewerKey === e.target.id;
+                        });
                         if (removeIndex > -1) {
                             this.viewerList.splice(removeIndex, 1);
                         }
@@ -396,7 +412,7 @@ class ZFormTokenTab {
                             const parent = document.getElementById('viewer');
                             parent.removeChild(removeRow);
                             // 데이터 삭제
-                            const findIndex = this.viewerList.findIndex(function (item) {
+                            const findIndex = this.viewerList.findIndex(function(item) {
                                 return item.viewerKey === viewerKey;
                             });
                             this.viewerList.splice(findIndex, 1);
@@ -407,9 +423,6 @@ class ZFormTokenTab {
                         break;
                     default:
                         break;
-                }
-                if (response.status === 200) {
-
                 }
             });
         });
@@ -448,7 +461,7 @@ class ZFormTokenTab {
                 closable: false,
             },
             onCreate: () => {
-                document.getElementById('search').addEventListener('keyup', aliceJs.debounce ((e) => {
+                document.getElementById('search').addEventListener('keyup', aliceJs.debounce((e) => {
                     this.getRelatedDoc(e.target.value, false);
                 }), false);
                 this.getRelatedDoc(document.getElementById('search').value, true);
@@ -456,6 +469,7 @@ class ZFormTokenTab {
         });
         relatedTokenModal.show();
     }
+
     /**
      * 관련 문서 조회 : 현재 조회한 문서와 관련이 있는 문서를 조회
      *
@@ -463,14 +477,15 @@ class ZFormTokenTab {
      * @param showProgressbar ProgressBar 표시여부
      */
     getRelatedDoc(search, showProgressbar) {
-        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() + '&instanceId=' + this.instanceId, {
+        aliceJs.fetchText('/tokens/view-pop/documents?searchValue=' + search.trim() +
+            '&instanceId=' + this.instanceId, {
             method: 'GET',
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('instanceList').innerHTML = htmlData;
-            OverlayScrollbars(document.getElementById('instanceListBody'), {className: 'scrollbar'});
+            OverlayScrollbars(document.getElementById('instanceListBody'), { className: 'scrollbar' });
             this.setDateTimeFormat();
-            OverlayScrollbars(document.getElementById('instanceList'), {className: 'scrollbar'});
+            OverlayScrollbars(document.getElementById('instanceList'), { className: 'scrollbar' });
             aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
 
             const relatedDocumentListBody = document.getElementById('instanceListBody');
@@ -491,7 +506,7 @@ class ZFormTokenTab {
                             instanceId: e.target.value
                         });
                     } else {
-                        let removeIndex = this.relatedDocList.findIndex(function (key) {
+                        let removeIndex = this.relatedDocList.findIndex(function(key) {
                             return key.instanceId === e.target.value;
                         });
                         if (removeIndex > -1) {
@@ -502,6 +517,7 @@ class ZFormTokenTab {
             });
         });
     }
+
     /**
      * 관련 문서 저장 : 선택한 문서를 관련문서로 저장
      */
@@ -521,7 +537,7 @@ class ZFormTokenTab {
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'),  () => {
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
                         this.folderId = response.data.folderId;
                         this.reloadRelatedInstance().then(() => {
                             // 날짜 표기 변경
@@ -538,6 +554,7 @@ class ZFormTokenTab {
             this.relatedDocList = [];// 저장후 검색리스트 초기화
         });
     }
+
     /**
      * 관련 문서 삭제
      * @param folderId 삭제 대상 폴더 아이디
@@ -565,6 +582,7 @@ class ZFormTokenTab {
             });
         });
     }
+
     /**
      * 관련문서 세부내용 조회를 위해 팝업 오픈 (tokenView.html)
      */
@@ -572,7 +590,8 @@ class ZFormTokenTab {
         const _width = 1500, _height = 920;
         const _left = Math.ceil((window.screen.width - _width) / 2);
         const _top = Math.ceil((window.screen.height - _height) / 4);
-        window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
+        window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' +
+            (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
     }
 
     /**
@@ -588,7 +607,8 @@ class ZFormTokenTab {
         }).then((response) => {
             if (response.status === aliceJs.response.success && response.data.length > 0) {
                 response.data.forEach((instance) => {
-                    document.querySelector('#related label').insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
+                    document.querySelector('#related label')
+                        .insertAdjacentElement('afterend', this.makeRelatedInstanceFragment(instance));
                 });
                 // 날짜 표기 변경
                 this.setDateTimeFormat();
@@ -632,13 +652,14 @@ class ZFormTokenTab {
             `<span class="vertical-bar"></span>` +
             `<h6 class="dateFormatFromNow">` + instance.instanceStartDt + `</h6>` +
             `<span class="vertical-bar"></span>` +
-            `<h6>` +  i18n.msg('common.code.token.status.' + instance.instanceStatus) + `</h6>` +
+            `<h6>` + i18n.msg('common.code.token.status.' + instance.instanceStatus) + `</h6>` +
             `</div>` +
             `</div>` +
             `</div>`;
 
         return aliceJs.makeElementFromString(htmlString);
     }
+
     /***************************************************************************************************************
      * 댓글 처리 로직
      * - 이것도 사실 파일을 분리했으면 좋겠다. 그치만, 문서조회 팝업의 전체의 구조 및 디자인 변경을 하게 되면 그때 같이 하자.
@@ -648,7 +669,9 @@ class ZFormTokenTab {
      */
     saveComments() {
         const commentElem = document.getElementById('commentValue');
-        if (!zValidation.isDefined(commentElem)) { return false; }
+        if (!zValidation.isDefined(commentElem)) {
+            return false;
+        }
 
         if (zValidation.isEmpty(commentElem.value)) {
             zAlert.warning(i18n.msg('comment.msg.enterComments'));
@@ -667,7 +690,7 @@ class ZFormTokenTab {
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'),  () => {
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
                         document.getElementById('commentValue').value = '';
                         this.reloadTokenComment();
                     });
@@ -680,11 +703,12 @@ class ZFormTokenTab {
             }
         });
     }
+
     /**
      * 댓글 삭제
      */
     removeComment(commentId) {
-        zAlert.confirm(i18n.msg('common.msg.confirmDelete'),  () => {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
             aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/comments/' + commentId, {
                 method: 'DELETE'
             }).then((response) => {
@@ -703,6 +727,7 @@ class ZFormTokenTab {
             });
         });
     }
+
     /**
      * 댓글 재로딩
      */
@@ -716,11 +741,14 @@ class ZFormTokenTab {
         }).then((response) => {
             if (response.status === aliceJs.response.success && response.data.length > 0) {
                 response.data.forEach((comment) => {
-                    document.querySelector('#tokenComments').lastElementChild.insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
+                    document.querySelector('#tokenComments').lastElementChild
+                        .insertAdjacentElement('beforebegin', this.makeCommentsFragment(comment));
+                    this.setDateTimeFormat();
                 });
             }
         });
     }
+
     /**
      * 댓글 출력을 위한 화면 코드 조각
      * @param comment 댓글 1개 정보
@@ -734,7 +762,7 @@ class ZFormTokenTab {
             `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
-            `<h6 class="z-comment-time date-time">` + i18n.userDateTime(comment.createDt) + `</h6>` +
+            `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
@@ -747,7 +775,7 @@ class ZFormTokenTab {
             `</div>` +
             `<div class="z-comment-row-content">` +
             `<h6 class="text-wordWrap">` +
-                `${aliceJs.filterXSS(comment.content)}` +
+            `${aliceJs.filterXSS(comment.content)}` +
             `</h6>` +
             `</div>` +
             `</div>`;
@@ -774,6 +802,92 @@ class ZFormTokenTab {
                     }
                 });
             }
+        });
+    }
+
+    /**
+     * 문서 보관처리 여부 조회
+     */
+    reloadDocumentStorage() {
+        const starIcon = document.getElementById('documentStorage');
+        if (starIcon.classList.contains('active')) {
+            starIcon.classList.remove('active');
+        }
+
+        return aliceJs.fetchJson('/rest/documentStorage/' + this.instanceId + '/exist', {
+            method: 'GET'
+        }).then((response) => {
+            if (response.status === aliceJs.response.success && response.data) {
+                // 보관처리
+                starIcon.classList.add('active');
+            }
+        });
+    }
+
+    /**
+     * 문서 보관
+     * @param starIcon 별모양 아이콘
+     */
+    toggleDocumentStorage(starIcon) {
+        if (starIcon.classList.contains('active')) {
+            // 문서 보관 삭제
+            this.removeDocumentStorage(starIcon);
+        } else {
+            // 문서 보관 처리
+            this.saveDocumentStorage(starIcon);
+        }
+    }
+
+    /**
+     * 문서 저장
+     */
+    saveDocumentStorage(starIcon) {
+        const saveData = {
+            instanceId: this.instanceId,
+            documentId: this.documentId,
+        };
+
+        aliceJs.fetchJson('/rest/documentStorage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData),
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    starIcon.classList.add('active');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default :
+                    break;
+            }
+        });
+
+    }
+
+    /**
+     * 보관된 문서 삭제
+     * @param starIcon 별모양 아이콘
+     */
+    removeDocumentStorage(starIcon) {
+        zAlert.confirm(i18n.msg('token.msg.confirmDeleteStorageDocument'), () => {
+            aliceJs.fetchJson('/rest/documentStorage/' + this.instanceId, {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        starIcon.classList.remove('active');
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
+                }
+            });
         });
     }
 }

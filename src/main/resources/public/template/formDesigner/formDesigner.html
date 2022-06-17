@@ -54,9 +54,9 @@
         });
         window.zFormDesigner = zFormDesigner;
 
-        window.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.z-header-button-dropdown').forEach(function (dropdown) {
-                dropdown.addEventListener('click', function (e) {
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.z-header-button-dropdown').forEach(function(dropdown) {
+                dropdown.addEventListener('click', function(e) {
                     e.preventDefault();
 
                     if (e.target.classList.contains('active')) {
@@ -152,7 +152,7 @@
                         </div>
                     </button>
                     <!--저장하기-->
-                    <th:block th:if="${!createdWorkFlow}" sec:authorize="hasAuthority('workflow.manage')">
+                    <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('workflow.manage')">
                         <div id="fileCommand">
                             <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip"
                                     data-actionType="save" data-targetId="fileCommand"

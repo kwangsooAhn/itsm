@@ -1,14 +1,14 @@
-(function (global, factory) {
+(function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.zProcessDesigner = global.zProcessDesigner || {})));
-}(this, (function (exports) {
+}(this, (function(exports) {
     'use strict';
 
     let savedData = {};
     let isEdited = false;
 
-    window.addEventListener('beforeunload', function (event) {
+    window.addEventListener('beforeunload', function(event) {
         if (isEdited) {
             event.returnValue = '';
         } else {
@@ -19,8 +19,8 @@
     const history = {
         redo_list: [],
         undo_list: [],
-        saveHistory: function (data, list, keep_redo) {
-            data = data.filter(function (d) { // data check
+        saveHistory: function(data, list, keep_redo) {
+            data = data.filter(function(d) { // data check
                 return !ZWorkflowUtil.compareJson(d[0], d[1]);
             });
             if (!data.length) {
@@ -33,10 +33,10 @@
             (list || this.undo_list).push(data);
 
             // 엘리먼트 정렬
-            zProcessDesigner.data.elements.sort(function (a, b) {
+            zProcessDesigner.data.elements.sort(function(a, b) {
                 return a.id < b.id ? -1 : 1;
             });
-            savedData.elements.sort(function (a, b) {
+            savedData.elements.sort(function(a, b) {
                 return a.id < b.id ? -1 : 1;
             });
 
@@ -44,7 +44,7 @@
             changeProcessName();
             setProcessMinimap();
         },
-        undo: function () {
+        undo: function() {
             zProcessDesigner.removeElementSelected();
             zProcessDesigner.setElementMenu();
             if (this.undo_list.length) {
@@ -53,7 +53,7 @@
                 this.saveHistory(restoreData, this.redo_list, true);
             }
         },
-        redo: function () {
+        redo: function() {
             zProcessDesigner.removeElementSelected();
             zProcessDesigner.setElementMenu();
             if (this.redo_list.length) {
@@ -71,7 +71,7 @@
          * @param selection
          * @returns {{x: number, width: number, y: number, height: number}}
          */
-        getBoundingBoxCenter: function (selection) {
+        getBoundingBoxCenter: function(selection) {
             const element = selection.node();
             const bbox = element.getBBox();
             let x = bbox.x,
@@ -92,7 +92,7 @@
          * @param b 종료좌표
          * @return {number} 좌표 사이 거리
          */
-        calcDist: function (a, b) {
+        calcDist: function(a, b) {
             let dist = Math.sqrt(
                 Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
             );
@@ -125,11 +125,11 @@
      * @param type 타입(undo, redo)
      */
     function redrawProcess(restoreData, type) {
-        const restoreProcess = function (originData, changeData) {
+        const restoreProcess = function(originData, changeData) {
             let links = zProcessDesigner.elements.links;
             if (!Object.keys(originData).length || !Object.keys(changeData).length) {
                 if (!Object.keys(changeData).length) { // delete element
-                    zProcessDesigner.data.elements.forEach(function (elem, i) {
+                    zProcessDesigner.data.elements.forEach(function(elem, i) {
                         if (originData.id === elem.id) {
                             zProcessDesigner.data.elements.splice(i, 1);
                         }
@@ -239,7 +239,7 @@
                 }
             }
         };
-        restoreData.forEach(function (data) {
+        restoreData.forEach(function(data) {
             let originData = data[1],
                 changeData = data[0];
             if (type === 'redo') {
@@ -257,7 +257,7 @@
     function saveProcess() {
         if (!validationCheck()) return false;
         zProcessDesigner.resetElementPosition();
-        save(function (response) {
+        save(function(response) {
             switch (response.status) {
                 case aliceJs.response.success:
                     zAlert.success(i18n.msg('common.msg.save'));
@@ -286,7 +286,7 @@
      * 자동 저장 (현재는 최초 오픈 시 start event 추가 후 저장 기능을 위해서만 사용중)
      */
     function autoSaveProcess() {
-        save(function (response) {
+        save(function(response) {
             if (response.status === aliceJs.response.success) {
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(zProcessDesigner.data));
@@ -324,11 +324,11 @@
          *
          * @return {boolean} 체크성공여부
          */
-        const checkRequired = function () {
+        const checkRequired = function() {
             let nameTextObject = document.getElementById('newProcessName');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.classList.add('error');
-                zAlert.warning(i18n.msg('common.msg.requiredEnter'), function () {
+                zAlert.warning(i18n.msg('common.msg.requiredEnter'), function() {
                     nameTextObject.focus();
                 });
                 return false;
@@ -339,7 +339,7 @@
         /**
          * 저장처리.
          */
-        const saveAs = function () {
+        const saveAs = function() {
             const saveAsProcessData = JSON.parse(JSON.stringify(zProcessDesigner.data));
             let processData = saveAsProcessData.process;
             processData.name = document.getElementById('newProcessName').value;
@@ -355,7 +355,7 @@
                 switch (response.status) {
                     case aliceJs.response.success:
                         const processId = response.data.processId;
-                        zAlert.success(i18n.msg('common.msg.save'), function () {
+                        zAlert.success(i18n.msg('common.msg.save'), function() {
                             opener.location.reload();
 
                             window.name = 'process_' + processId + '_edit';
@@ -377,7 +377,7 @@
         /**
          * 다른 이름으로 저장하기 모달 저장 CallBack.
          */
-        const saveAsCallBack = function () {
+        const saveAsCallBack = function() {
             if (checkRequired()) {
                 saveAs();
                 return true;
@@ -398,7 +398,7 @@
                     content: i18n.msg('common.btn.save'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         if (saveAsCallBack()) {
                             modal.hide();
                         }
@@ -407,13 +407,13 @@
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         modal.hide();
                     }
                 }
             ],
             close: { closable: false },
-            onCreate: function (modal) {
+            onCreate: function(modal) {
                 OverlayScrollbars(document.getElementById('newProcessDescription'), {
                     className: 'scrollbar',
                     resize: 'none',
@@ -451,20 +451,9 @@
             }
 
             // 전체 결과
-            let mainResult = '';
-            let mainResultClassName = '';
-            switch (response.status) {
-                case aliceJs.response.success:
-                    mainResult = (response.data) ? i18n.msg('common.label.success') : i18n.msg('common.label.fail');
-                    mainResultClassName = (response.data) ? 'success' : 'failed';
-                    break;
-                case aliceJs.response.error:
-                    mainResult = i18n.msg('common.label.error');
-                    mainResultClassName = 'failed';
-                    break;
-                default:
-                    break;
-            }
+            let mainResult = response.data.success ? i18n.msg('common.label.success') : i18n.msg('common.label.fail');
+            let mainResultClassName = response.data.success ? 'success' : 'failed';
+
             prevReportResult.classList.add(mainResultClassName);
             prevReportResult.textContent = mainResult;
 
@@ -473,18 +462,18 @@
             for (let i = 0; i < curReportList.length; i++) {
                 const report = curReportList[i];
 
-                const successOrFailure = '[' + (response.data.success ? i18n.msg('common.label.success') : i18n.msg('common.label.fail')) + ']';
+                const successOrFailure = '[' + (report.success ? i18n.msg('common.label.success') : i18n.msg('common.label.fail')) + ']';
                 const order = '[' + [i + 1] + '/' + curReportList.length + ']';
                 const elementDescription = '[' + report.elementType + (report.elementName !== '' ? ':' + report.elementName : '') + ']';
                 const message = response.data.success ? '' : '[' + report.failedMessage + ']';
-                const reportDetailClassName = response.data.success ? '' : 'failed';
+                const reportDetailClassName = report.success ? '' : 'failed';
 
                 if (response.data.success) {
                     document.getElementById(report.elementId).classList.remove('selected', 'error');
                 } else {
                     document.getElementById(report.elementId).classList.add('selected', 'error');
-
                 }
+
                 const count = document.createElement('span');
                 count.className = 'details-number-of';
                 count.textContent = order;
@@ -544,7 +533,7 @@
             canvas.height = viewBox[3];
             let context = canvas.getContext('2d');
             let image = new Image();
-            image.onload = function () {
+            image.onload = function() {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
@@ -570,12 +559,12 @@
             let svgString = getSVGString(svgNode);
             let xmlString = createProcessXMLString(viewBox, svgString);
             let formData = new FormData();
-            let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], {type: 'text/plain'});
+            let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], { type: 'text/plain' });
             formData.append('file', blob, zProcessDesigner.data.process.id + '.xml');
 
             let xhr = new XMLHttpRequest();
             xhr.open('POST', '/fileupload?target=process');
-            xhr.onerror = function () {
+            xhr.onerror = function() {
                 console.error('Process file upload failed!');
             };
             xhr.send(formData);
@@ -609,12 +598,12 @@
         let displayNode = xmlDoc.createElement('display');
         const excludeElementTypes = ['annotation', 'group', 'arrowConnector'];
         const elements = zProcessDesigner.data.elements.filter(elem => excludeElementTypes.indexOf(elem.type) === -1);
-        elements.forEach(function (element) {
+        elements.forEach(function(element) {
             let elementNode = xmlDoc.createElement('element');
             elementNode.setAttribute('id', element.id);
             elementNode.setAttribute('type', element.type);
             let keys = Object.keys(element.display);
-            keys.forEach(function (key) {
+            keys.forEach(function(key) {
                 elementNode.setAttribute(key, element.display[key]);
             });
             displayNode.appendChild(elementNode);
@@ -643,7 +632,7 @@
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
-        svg.selectAll('.node.selected').nodes().forEach(function (node) {
+        svg.selectAll('.node.selected').nodes().forEach(function(node) {
             zProcessDesigner.setDeselectedElement(d3.select(node));
         });
         svg.selectAll('.selected').classed('selected', false);
@@ -658,7 +647,7 @@
             });
         }
 
-        return Promise.all(Array.from(svgNode.querySelectorAll('image')).map(function (image) {
+        return Promise.all(Array.from(svgNode.querySelectorAll('image')).map(function(image) {
             return new Promise(resolve => {
                 let url = image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
                 let promise = asyncImageLoader(url);
@@ -727,14 +716,14 @@
         zShortcut.init();
 
         const shortcuts = [
-            {'keys': 'ctrl+s', 'command': 'zProcessDesigner.utils.save();', 'force': true},             // 저장
-            {'keys': 'ctrl+shift+s', 'command': 'zProcessDesigner.utils.saveAs();', 'force': true},     // 다른 이름으로 저장
-            {'keys': 'ctrl+z', 'command': 'zProcessDesigner.utils.undo();', 'force': false},            // 작업 취소
-            {'keys': 'ctrl+shift+z', 'command': 'zProcessDesigner.utils.redo();', 'force': false},      // 작업 재실행
-            {'keys': 'ctrl+e', 'command': 'zProcessDesigner.utils.simulation();', 'force': false},      // 미리보기(시뮬레이션)
-            {'keys': 'ctrl+d', 'command': 'zProcessDesigner.utils.download();', 'force': false},        // 이미지 다운로드
-            {'keys': 'ctrl+x,delete', 'command': 'zProcessDesigner.deleteElements();', 'force': false}, // 엘리먼트 삭제
-            {'keys': 'alt+e', 'command': 'zProcessDesigner.utils.focus();', 'force': false}             // 세부 속성 편집: 제일 처음으로 이동
+            { 'keys': 'ctrl+s', 'command': 'zProcessDesigner.utils.save();', 'force': true },             // 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'zProcessDesigner.utils.saveAs();', 'force': true },     // 다른 이름으로 저장
+            { 'keys': 'ctrl+z', 'command': 'zProcessDesigner.utils.undo();', 'force': false },            // 작업 취소
+            { 'keys': 'ctrl+shift+z', 'command': 'zProcessDesigner.utils.redo();', 'force': false },      // 작업 재실행
+            { 'keys': 'ctrl+e', 'command': 'zProcessDesigner.utils.simulation();', 'force': false },      // 미리보기(시뮬레이션)
+            { 'keys': 'ctrl+d', 'command': 'zProcessDesigner.utils.download();', 'force': false },        // 이미지 다운로드
+            { 'keys': 'ctrl+x,delete', 'command': 'zProcessDesigner.deleteElements();', 'force': false }, // 엘리먼트 삭제
+            { 'keys': 'alt+e', 'command': 'zProcessDesigner.utils.focus();', 'force': false }             // 세부 속성 편집: 제일 처음으로 이동
         ];
 
         for (let i = 0; i < shortcuts.length; i++) {
@@ -765,13 +754,13 @@
         minimapSvg.html(content);
         minimapSvg.attr('width', 290).attr('height', 200);
         minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
-        minimapSvg.selectAll('text').nodes().forEach(function (node) {
+        minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') {
                 d3.select(node).remove();
             }
         });
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
-        minimapSvg.selectAll('.node.selected').nodes().forEach(function (node) {
+        minimapSvg.selectAll('.node.selected').nodes().forEach(function(node) {
             zProcessDesigner.setDeselectedElement(d3.select(node));
         });
         minimapSvg.selectAll('.selected').classed('selected', false);
@@ -809,7 +798,7 @@
             nodeBottomArray = [],
             nodeLeftArray = [];
         const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
-        nodes.forEach(function (node) {
+        nodes.forEach(function(node) {
             let nodeBBox = zProcessDesigner.utils.getBoundingBoxCenter(d3.select(node));
             nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
             nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
@@ -847,7 +836,7 @@
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
         minimapButton.className = 'z-button-icon secondary z-button-minimap';
-        minimapButton.addEventListener('click', function (e) {
+        minimapButton.addEventListener('click', function(e) {
             const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
             elem.classList.toggle('active');
             document.querySelector('div.z-minimap').classList.toggle('closed');
@@ -861,7 +850,7 @@
         setProcessMinimap();
 
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
-        const simulationToggleEvent = function () {
+        const simulationToggleEvent = function() {
             document.querySelector('.z-simulation-report').classList.toggle('closed');
             document.querySelector('.z-button-simulation-report').classList.toggle('active');
         };
@@ -914,16 +903,16 @@
         let simulationReportY = 0;
         d3.select(document.querySelector('.z-simulation-report')).call(
             d3.drag()
-                .on('start', function () {
+                .on('start', function() {
                     simulationReportX = (d3.event.x - simulationReportX);
                     simulationReportY = (d3.event.y - simulationReportY);
                 })
-                .on('drag', function () {
+                .on('drag', function() {
                     let x = (d3.event.x - simulationReportX) + 'px';
                     let y = (d3.event.y - simulationReportY) + 'px';
                     this.style.transform = 'translate(' + x + ',' + y + ')';
                 })
-                .on('end', function () {
+                .on('end', function() {
                     simulationReportX = (d3.event.x - simulationReportX);
                     simulationReportY = (d3.event.y - simulationReportY);
                 })
@@ -988,7 +977,7 @@
     exports.simulationProcess = simulationProcess;
     exports.downloadProcessImage = downloadProcessImage;
     exports.onDropdownClickHandler = onDropdownClickHandler;
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
 
 function validationCheck() {
@@ -1000,7 +989,18 @@ function validationCheck() {
     let nowStatus = zProcessDesigner.data.process.status;
     let commonStartCount = 0;
     let commonStartId = '';
-    if (zProcessDesigner.isView) return false;
+
+    // '발행' or '사용' 상태의 문서를 저장하려는 경우 경고 표시 (#8969 일감 참조)
+    if (zProcessDesigner.isView && deployableStatus.includes(zProcessDesigner.initialStatus)) {
+        zAlert.warning(i18n.msg('common.msg.notSaveAfterPublishAndUse'));
+        return false;
+    }
+
+    // 폐기상태일 경우 저장 불가능
+    if (zProcessDesigner.isView && zProcessDesigner.initialStatus === 'process.status.destroy') {
+        zAlert.warning(i18n.msg('common.msg.notSaveAfterDestroy'));
+        return false;
+    }
 
     // '편집' 상태에서 '발행' or '사용' 상태로 저장하려는 경우 유효성 검증
     if (zProcessDesigner.initialStatus === 'process.status.edit' && deployableStatus.includes(nowStatus)) {

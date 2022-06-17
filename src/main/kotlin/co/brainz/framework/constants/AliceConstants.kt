@@ -29,7 +29,15 @@ object AliceConstants {
 
         /** RSA 사용할 대상인지 확인할 파라미터 이름 */
         USE_RSA("RSA")
-        ;
+    }
+
+    /**
+     * Login Encryption Algorithm
+     */
+    enum class EncryptionAlgorithm(val value: String) {
+        BCRYPT("BCRYPT"),
+        AES256("AES256"),
+        SHA256("SHA256")
     }
 
     /**
@@ -58,7 +66,8 @@ object AliceConstants {
         PATTEN98("/filedel"),
         PATTEN99("/fileSubmit"),
         PATTEN100("/i18n/**"),
-        PATTEN101("/fileImages/**")
+        PATTEN101("/fileImages/**"),
+        PATTEN102("/rest/login")
         ;
 
         companion object {

@@ -24,6 +24,7 @@ import co.brainz.itsm.instance.entity.WfInstanceViewerEntity
 import co.brainz.itsm.instance.mapper.CommentMapper
 import co.brainz.itsm.instance.repository.CommentRepository
 import co.brainz.itsm.instance.repository.ViewerRepository
+import co.brainz.itsm.user.service.UserService
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
@@ -32,7 +33,7 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
-import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceTopicListDto
 import co.brainz.workflow.token.service.WfTokenService
 import java.time.LocalDateTime
 import org.mapstruct.factory.Mappers
@@ -51,21 +52,13 @@ class InstanceService(
     private val organizationService: OrganizationService,
     private val organizationRepository: OrganizationRepository,
     private val viewerRepository: ViewerRepository,
-    val wfTokenManagerService: WfTokenManagerService
+    private val wfTokenManagerService: WfTokenManagerService,
+    private val userService: UserService
 ) {
     private val commentMapper: CommentMapper = Mappers.getMapper(CommentMapper::class.java)
 
     fun getInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto>? {
         return wfInstanceService.getInstancesHistory(instanceId)
-    }
-
-    fun getInstanceHistoryByTokenId(tokenId: String): List<RestTemplateInstanceHistoryDto>? {
-        var histories: MutableList<RestTemplateInstanceHistoryDto>? = mutableListOf()
-
-        getInstanceId(tokenId)?.let { instanceId ->
-            histories = wfInstanceService.getInstancesHistory(instanceId)
-        }
-        return histories
     }
 
     fun getInstance(instanceId: String): RestTemplateInstanceDto {
@@ -86,7 +79,7 @@ class InstanceService(
     fun findAllInstanceListByRelatedCheck(
         instanceId: String,
         searchValue: String
-    ): List<RestTemplateInstanceListDto>? {
+    ): List<RestTemplateInstanceTopicListDto>? {
         return wfInstanceService.findAllInstanceListByRelatedCheck(instanceId, searchValue)
     }
 
@@ -152,6 +145,8 @@ class InstanceService(
      * Delete Comment.
      */
     fun deleteComment(instanceId: String, commentId: String): ZResponse {
+        val commentEntity = commentRepository.getOne(commentId)
+        commentEntity.aliceUserEntity?.let { userService.userAccessAuthCheck(it.userKey, null) }
         commentRepository.deleteById(commentId)
         return ZResponse()
     }

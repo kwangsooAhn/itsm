@@ -48,7 +48,7 @@
             document.getElementById('searchGroupName').addEventListener('change', function () { getList(); });
             document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
             getList();
-        }
+        };
 
         /**
          * Chart 검색
@@ -111,7 +111,7 @@
         function createModalContent() {
             return `<div class="chart-edit-content">` +
                 `<div class="flex-column" id="getChart">` +
-                    `<div class="flex-column z-edit-row mt-2">` +
+                    `<div class="flex-column z-edit-row mt-2 mr-5 mb-5 ml-5">` +
                         `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
                         `</div>` +
                     `</div>` +
@@ -142,7 +142,7 @@
         import ZChart from '../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
-            load: function(data) {
+            load: function (data) {
                 // 차트 초기화
                 this.zChart = new ZChart('container', data);
 
@@ -156,7 +156,7 @@
                     delete this.zChart;
                 }
             }
-        }
+        };
         window.zChartManager = zChartManager;
     </script>
 </th:block>

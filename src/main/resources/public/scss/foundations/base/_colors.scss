@@ -1,0 +1,314 @@
+// 1. Colors
+// ==========================================================================
+//브랜드 컬러
+$brand-color-brainz: #0066FF;
+$brand-color-zenius: #FF850A;
+$brand-color-itsm : #0014c3;
+
+//Blue
+$blue900: #091F5E;
+$blue800: #102E71;
+$blue700: #19428D;
+$blue600: #2559A8;
+$blue500: #3373C4;
+$blue400: #619CDB;
+$blue300: #83BBED;
+$blue200: #AFD9F9;
+$blue100: #D6EDFC;
+$blue50: #E0F3FF;
+
+//Green
+$green900: #235A07;
+$green800: #316D0C;
+$green700: #468813;
+$green600: #5CA21B;
+$green500: #76BD26;
+$green400: #A0D756;
+$green300: #C0EB7A;
+$green200: #DBF8A9;
+$green100: #F6FCE0;
+$green50: #F8FDF1;
+
+//Yellow
+$yellow900: #776308;
+$yellow800: #907A0E;
+$yellow700: #B39A16;
+$yellow600: #D7BC20;
+$yellow500: #FADF2D;
+$yellow400: #FBE961;
+$yellow300: #FDF080;
+$yellow200: #FEF6AB;
+$yellow100: #FEFBD4;
+$yellow50: #FEFDEB;
+
+//Orange
+$orange900: #7A2601;
+$orange800: #933603;
+$orange700: #B74C05;
+$orange600: #DB6707;
+$orange500: #FF850A;
+$orange400: #FFAC47;
+$orange300: #FFC46C;
+$orange200: #FFDC9C;
+$orange100: #FFEDD1;
+$orange50: #FFF8E9;
+
+//Red
+$red900: #75072D;
+$red800: #8E0B2D;
+$red700: #B0122D;
+$red600: #D21B2A;
+$red500: #F52525;
+$red400: #F9685A;
+$red300: #FC917B;
+$red200: #FEBEA7;
+$red100: #FEE2D3;
+$red50: #FEF2EB;
+
+//Violet
+$violet900: #301270;
+$violet800: #451D88;
+$violet700: #632FA9;
+$violet600: #8444CA;
+$violet500: #A95EEB;
+$violet400: #C585F3;
+$violet300: #D89FF9;
+$violet200: #EAC0FD;
+$violet100: #F6DFFE;
+$violet50: #FBF0FE;
+
+//Gray
+$gray900: #171D21;
+$gray800: #222529;
+$gray700: #505559;
+$gray600: #63686C;
+$gray500: #8B9094;
+$gray400: #ABB0B5;
+$gray300: #CFD5D9;
+$gray200: #E1E6EA;
+$gray100: #EBF1F5;
+$gray50: #F6F8FA;
+
+//Neutral Gray
+$neutral900: #212121;
+$neutral800: #424242;
+$neutral700: #616161;
+$neutral600: #757575;
+$neutral500: #9E9E9E;
+$neutral400: #BDBDBD;
+$neutral300: #E0E0E0;
+$neutral200: #EEEEEE;
+$neutral100: #F5F5F5;
+$neutral50: #FAFAFA;
+
+//Black
+$black: #000000;
+
+//White
+$white: #FFFFFF;
+
+//Pink
+$pink900: #731376;
+$pink800: #8F1F87;
+$pink700: #B1319C;
+$pink600: #D448AF;
+$pink500: #F763C1;
+$pink400: #FA89C6;
+$pink300: #FCA1C9;
+$pink200: #FEC1D5;
+$pink100: #FEE0E7;
+$pink50: #FEF1F4;
+
+//Cyan
+$cyan900: #0C446B;
+$cyan800: #155E81;
+$cyan700: #2181A1;
+$cyan600: #30A8C0;
+$cyan500: #47D1DE;
+$cyan400: #67DDE0;
+$cyan300: #91EBEB;
+$cyan200: #B8F5F3;
+$cyan100: #DCFAFA;
+$cyan50: #E8F9FA;
+
+//Indigo
+$indigo900: #131F76;
+$indigo800: #21308F;
+$indigo700: #3448B1;
+$indigo600: #4C64D4;
+$indigo500: #6885F7;
+$indigo400: #8DA5FA;
+$indigo300: #A4BAFC;
+$indigo200: #C3D2FE;
+$indigo100: #E1E9FE;
+$indigo50: #F1F5FE;
+
+// Color Pallet
+$brand-color: (
+        "brainz": $brand-color-brainz,
+        "zenius": $brand-color-zenius,
+        "itsm": $brand-color-itsm
+);
+$blue: (
+        'blue900': $blue900,
+        'blue800': $blue800,
+        'blue700': $blue700,
+        'blue600': $blue600,
+        'blue500': $blue500,
+        'blue400': $blue400,
+        'blue300': $blue300,
+        'blue200': $blue200,
+        'blue100': $blue100,
+        'blue50': $blue50
+);
+$green: (
+        'green900': $green900,
+        'green800': $green800,
+        'green700': $green700,
+        'green600': $green600,
+        'green500': $green500,
+        'green400': $green400,
+        'green300': $green300,
+        'green200': $green200,
+        'green100': $green100,
+        'green50': $green50
+);
+$yellow: (
+        'yellow900': $yellow900,
+        'yellow800': $yellow800,
+        'yellow700': $yellow700,
+        'yellow600': $yellow600,
+        'yellow500': $yellow500,
+        'yellow400': $yellow400,
+        'yellow300': $yellow300,
+        'yellow200': $yellow200,
+        'yellow100': $yellow100,
+        'yellow50': $yellow50
+);
+$orange: (
+        'orange900': $orange900,
+        'orange800': $orange800,
+        'orange700': $orange700,
+        'orange600': $orange600,
+        'orange500': $orange500,
+        'orange400': $orange400,
+        'orange300': $orange300,
+        'orange200': $orange200,
+        'orange100': $orange100,
+        'orange50': $orange50
+);
+$red: (
+        'red900': $red900,
+        'red800': $red800,
+        'red700': $red700,
+        'red600': $red600,
+        'red500': $red500,
+        'red400': $red400,
+        'red300': $red300,
+        'red200': $red200,
+        'red100': $red100,
+        'red50': $red50
+);
+$violet: (
+        'violet900': $violet900,
+        'violet800': $violet800,
+        'violet700': $violet700,
+        'violet600': $violet600,
+        'violet500': $violet500,
+        'violet400': $violet400,
+        'violet300': $violet300,
+        'violet200': $violet200,
+        'violet100': $violet100,
+        'violet50': $violet50
+);
+$gray: (
+        'gray900': $gray900,
+        'gray800': $gray800,
+        'gray700': $gray700,
+        'gray600': $gray600,
+        'gray500': $gray500,
+        'gray400': $gray400,
+        'gray300': $gray300,
+        'gray200': $gray200,
+        'gray100': $gray100,
+        'gray50': $gray50
+);
+$neutral: (
+        'neutral900': $neutral900,
+        'neutral800': $neutral800,
+        'neutral700': $neutral700,
+        'neutral600': $neutral600,
+        'neutral500': $neutral500,
+        'neutral400': $neutral400,
+        'neutral300': $neutral300,
+        'neutral200': $neutral200,
+        'neutral100': $neutral100,
+        'neutral50': $neutral50
+);
+$pink: (
+        'pink900': $pink900,
+        'pink800': $pink800,
+        'pink700': $pink700,
+        'pink600': $pink600,
+        'pink500': $pink500,
+        'pink400': $pink400,
+        'pink300': $pink300,
+        'pink200': $pink200,
+        'pink100': $pink100,
+        'pink50': $pink50
+);
+$cyan: (
+        'cyan900': $cyan900,
+        'cyan800': $cyan800,
+        'cyan700': $cyan700,
+        'cyan600': $cyan600,
+        'cyan500': $cyan500,
+        'cyan400': $cyan400,
+        'cyan300': $cyan300,
+        'cyan200': $cyan200,
+        'cyan100': $cyan100,
+        'cyan50': $cyan50
+);
+$indigo: (
+        'indigo900': $indigo900,
+        'indigo800': $indigo800,
+        'indigo700': $indigo700,
+        'indigo600': $indigo600,
+        'indigo500': $indigo500,
+        'indigo400': $indigo400,
+        'indigo300': $indigo300,
+        'indigo200': $indigo200,
+        'indigo100': $indigo100,
+        'indigo50': $indigo50
+);
+$shades: (
+        'black': $black,
+        'white': $white ,
+        'transparent': transparent
+);
+$colors: (
+        'brand': $brand-color,
+        'blue': $blue,
+        'green': $green,
+        'yellow': $yellow,
+        'orange': $orange,
+        'red': $red,
+        'violet': $violet,
+        'gray': $gray,
+        'neutral': $neutral,
+        'shades': $shades,
+        'pink': $pink,
+        'cyan': $cyan,
+        'indigo': $indigo
+);
+
+@each $color_name, $color in $colors {
+  @each $color_type, $color_value in $color {
+    .text-#{$color_type} {
+      color: $color_value !important;
+    }
+    .bg-#{$color_type} {
+      background-color: $color_value !important;
+    }
+  }
+}

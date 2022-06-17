@@ -14,4 +14,6 @@ interface WfElementDataRepository : JpaRepository<WfElementDataEntity, WfElement
         element: WfElementEntity,
         endId: String = WfElementConstants.AttributeId.TARGET_ID.value
     ): WfElementDataEntity
+
+    fun countByAttributeIdAndAttributeValue(attributeId: String, attributeVale: String): Int
 }

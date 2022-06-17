@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 /**
@@ -18,7 +19,8 @@ abstract class AliceWebSecurityConfigurerAdapter(
     private val authProvider: AliceAuthProvider,
     private val authSuccessHandler: AliceAuthSuccessHandler,
     private val authFailureHandler: AliceAuthFailureHandler,
-    private val logoutSuccessHandler: AliceLogoutSuccessHandler
+    private val logoutSuccessHandler: AliceLogoutSuccessHandler,
+    private val sessionRegistry: SessionRegistry
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(web: WebSecurity) {
@@ -68,6 +70,9 @@ abstract class AliceWebSecurityConfigurerAdapter(
             .and()
             .sessionManagement()
             .invalidSessionStrategy(AliceInvalidSessionStrategy())
+            .maximumSessions(1)
+            .expiredUrl("/sessionInvalid")
+            .sessionRegistry(sessionRegistry)
 
         // TODO csrf, 세션만료등 에러 핸들러 구현 요망 .and().exceptionHandling().accessDeniedHandler(AliceAccessDeniedHandler())
     }

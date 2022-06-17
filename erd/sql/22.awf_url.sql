@@ -109,7 +109,7 @@ insert into awf_url values ('/organizations/edit', 'get', '조직 관리 편집 
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
 insert into awf_url values ('/portals/browserguide', 'get', '포탈 브라우저 안내', 'FALSE');
 insert into awf_url values ('/portals/archives', 'get', '포달 자료실 리스트', 'FALSE');
-insert into awf_url values ('/portals/archives/{downloadId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
+insert into awf_url values ('/portals/archives/{archiveId}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
 insert into awf_url values ('/portals/archives/search', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/portals/faqs', 'get', '포탈 FAQ 상세조회', 'FALSE');
 insert into awf_url values ('/portals/faqs/{faqId}/view', 'get', '포탈 FAQ 리스트', 'FALSE');
@@ -278,6 +278,7 @@ insert into awf_url values ('/rest/tags/{id}', 'delete', 'Tag 삭제', 'FALSE');
 insert into awf_url values ('/rest/tokens/data', 'post', 'token 신규 등록', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'get', '처리할 문서 상세 데이터', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'put', 'token 수정', 'TRUE');
+insert into awf_url values ('/rest/tokens/{id}/status', 'get', '프로세스맵 팝업 화면', 'FALSE');
 insert into awf_url values ('/rest/users', 'post', '사용자 등록', 'TRUE');
 insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
@@ -323,7 +324,6 @@ insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 �
 insert into awf_url values ('/tokens/{id}/edit', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view', 'get', '', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
-insert into awf_url values ('/tokens/{id}/status', 'get', '프로세스맵 팝업 화면', 'FALSE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
 insert into awf_url values ('/tokens/tokenTab','get','문서조회 탭화면', 'TRUE');
 insert into awf_url values ('/users', 'get', '사용자 조회 목록 화면', 'TRUE');
@@ -336,9 +336,10 @@ insert into awf_url values ('/users/substituteUsers', 'get', '업무 대리인 �
 insert into awf_url values ('/users/searchUsers', 'get', '사용자 검색 모달 리스트 화면', 'FALSE');
 insert into awf_url values ('/rest/users/updatePassword','put', '비밀번호 변경', 'FALSE');
 insert into awf_url values ('/rest/users/nextTime','put', '비밀번호 다음에 변경하기', 'FALSE');
+insert into awf_url values ('/rest/users/rsa','get', 'RSA Key 받기', 'FALSE');
+insert into awf_url values ('/rest/users/passwordConfirm','post', '사용자 비밀번호 확인', 'FALSE');
 insert into awf_url values ('/rest/tokens/todoCount', 'get', '문서함카운트', 'FALSE');
 insert into awf_url values ('/rest/tokens/excel', 'get', '문서함 엑셀 다운로드', 'TRUE');
-insert into awf_url values ('/rest/users/absence', 'post', '사용자 현재 문서 이관', 'FALSE');
 insert into	awf_url values ('/rest/workflows/workflowLink', 'post', '업무흐름 링크 등록', 'TRUE');
 insert into awf_url values ('/workflows/workflowLink/{id}/edit', 'get', '업무흐름 링크 편집', 'TRUE');
 insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'delete', '업무흐름 링크 삭제', 'TRUE');
@@ -346,6 +347,9 @@ insert into awf_url values ('/rest/workflows/workflowLink/{id}', 'put', '업무�
 insert into awf_url values ('/itsm','get','SSO 사용 여부', 'FALSE');
 insert into awf_url values ('/itsm/sso','get','SSO 토큰 확인 화면', 'FALSE');
 insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FALSE');
+insert into awf_url values ('/rest/documentStorage', 'post', '보관 문서 데이터 추가', 'FALSE');
+insert into awf_url values ('/rest/documentStorage/{instanceId}', 'delete', '보관 문서 데이터 삭제', 'FALSE');
+insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '보관 문서 데이터 존재 여부 확인', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌트 템플릿 조회', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');

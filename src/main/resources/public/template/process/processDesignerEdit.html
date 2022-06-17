@@ -31,7 +31,7 @@
 <div class="z-wrapper">
     <div class="z-process-container">
         <div class="z-process-header flex-row align-items-center">
-            <img class="z-img i-process-designer"  th:src="@{/assets/media/icons/process/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
+            <img class="z-img i-process-designer"  th:src="@{/assets/media/icons/designer/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
             <span class="z-process-name ml-auto mr-auto" id="processName"></span>
             <!-- 버튼 영역 -->
             <div class="z-process-button-list flex-row mr-3">
@@ -80,7 +80,7 @@
                     </button>
                 </div>
                 <!--저장하기-->
-                <th:block th:if="${!createdWorkFlow}">
+                <th:block th:if="${#strings.isEmpty(isView)}">
                     <div id="fileCommand">
                         <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand"
                                 onclick="zProcessDesigner.saveProcess();">
@@ -107,8 +107,8 @@
                         </ul>
                     </div>
                 </th:block>
-                <!--프로세스에 연결된 업무흐름이 있을 땐 다른이름으로 저장하기 만 가능-->
-                <th:block th:unless="${!createdWorkFlow}">
+                <!--프로세스가 사용일때 다른이름으로 저장하기 만 가능-->
+                <th:block th:unless="${#strings.isEmpty(isView)}">
                     <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.saveAsProcess();">
                         <span class="z-icon i-save-as"></span>
                         <div class="z-header-tooltip-contents last">
@@ -264,8 +264,8 @@
             zProcessDesigner.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
         // 드롭다운 이벤트 추가
-        document.querySelectorAll('.z-header-button-dropdown').forEach(function (dropdown) {
-            dropdown.addEventListener('click', function (e) {
+        document.querySelectorAll('.z-header-button-dropdown').forEach(function(dropdown) {
+            dropdown.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 if (e.target.classList.contains('active')) {
@@ -273,7 +273,7 @@
                 } else {
                     e.target.classList.add('active');
                 }
-            })
+            });
         });
         // 디자인 select box 추가
         aliceJs.initDesignedSelectTag();
