@@ -101,7 +101,10 @@
                                onchange="checkDecimalValue('minValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.minValue}" th:readonly="${view}"/>
-                        <span class="pl-1" id="minValueUnit"></span>
+                        <span class="pl-1" id="mixValueUnit"
+                              th:if="${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
+                        <span class="pl-1" th:text="#{|${metric?.metricUnit}|}"
+                              th:if="!${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
                     </div>
                 </div>
                 <div class="flex-column col-2 ml-5">
@@ -111,7 +114,10 @@
                                onchange="checkDecimalValue('maxValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.maxValue}" th:readonly="${view}"/>
-                        <span class="pl-1" id="mixValueUnit"></span>
+                        <span class="pl-1" id="mixValueUnit"
+                              th:if="${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
+                        <span class="pl-1" th:text="#{|${metric?.metricUnit}|}"
+                              th:if="!${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
                     </div>
                 </div>
                 <div class="flex-column col-2 ml-5">
@@ -364,7 +370,7 @@
      * 연도별 SLA 지표관리 등록
      */
     function onSave(method) {
-        if (isEmpty('metricYearName', 'sla.metricYear.msg.noMetric')) return false;
+        if (isEmpty('metricYearName', 'sla.metricYear.msg.noMetric')) return;
         if (isEmpty('minValue', 'common.msg.requiredEnter')) return false;
         if (isEmpty('maxValue', 'common.msg.requiredEnter')) return false;
         if (isEmpty('weightValue', 'common.msg.requiredEnter')) return false;
