@@ -1449,6 +1449,9 @@ insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FAL
 insert into awf_url values ('/rest/documentStorage', 'post', '보관 문서 데이터 추가', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}', 'delete', '보관 문서 데이터 삭제', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '보관 문서 데이터 존재 여부 확인', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌트 템플릿 조회', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 
 /**
  * URL별권한매핑
@@ -9255,3 +9258,22 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_id IS '자식속성아�
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순서';
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
 
+/**
+ * 컴포넌트 템플릿
+ */
+DROP TABLE IF EXISTS wf_component_template cascade;
+
+CREATE TABLE wf_component_template
+(
+    template_id varchar(128) NOT NULL,
+    template_name varchar(128) NOT NULL,
+    component_type varchar(100) NOT NULL,
+    component_data text NOT NULL,
+    CONSTRAINT wf_component_template_pk PRIMARY KEY (template_id)
+);
+
+COMMENT ON TABLE wf_component_template IS '컴포넌트 템플릿';
+COMMENT ON COLUMN wf_component_template.template_id IS '컴포넌트 템플릿 아이디';
+COMMENT ON COLUMN wf_component_template.template_name IS '컴포넌트 템플릿 이름';
+COMMENT ON COLUMN wf_component_template.component_type IS '컴포넌트 타입';
+COMMENT ON COLUMN wf_component_template.component_data IS '컴포넌트 속성값';

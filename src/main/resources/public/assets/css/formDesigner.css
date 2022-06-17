@@ -2067,6 +2067,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-create-template {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-no-image {
   width: 100%;
   height: 2.813rem;
@@ -2305,6 +2315,16 @@ input, button, select, optgroup, textarea {
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
   mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-componentTemplate {
+  width: 1rem;
+  height: 1rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -3256,7 +3276,7 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #222529;
   padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .z-itsm-container .z-main .view-sub-title {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -3698,7 +3718,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-properties-panel {
   position: fixed;
-  top: 5.375rem;
+  top: calc(2.875rem + 2.5rem);
   right: 0;
   bottom: 0;
   display: flex;
@@ -3870,6 +3890,90 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #ABB0B5;
 }
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon {
+  display: inline-block;
+  width: 12.5rem;
+  height: 2.5rem;
+  padding: 0.75rem;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #CFD5D9;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-left-color: transparent;
+  cursor: move;
+  outline: none;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon .z-icon {
+  background: #8B9094;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon .z-component-name {
+  width: 8.125rem;
+  height: 1rem;
+  margin: 0 0.3125rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #63686C;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon:hover {
+  background-color: #D6EDFC;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon:hover .z-icon {
+  background: #63686C;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon:hover .z-component-name {
+  color: #63686C;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon:focus {
+  background-color: #FFFFFF;
+  border-color: #2559A8;
+  z-index: 25;
+  box-shadow: 0 0 0.125rem #2559A8;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon:focus .z-icon {
+  background: #8B9094;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon:focus .z-component-name {
+  color: #63686C;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.active {
+  border-color: #619CDB;
+  background-color: #D6EDFC;
+  z-index: 25;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.active .z-icon {
+  background: #19428D;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.active .z-component-name {
+  font-weight: 700;
+  color: #19428D;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.drag {
+  border-color: #CFD5D9;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0.125rem #CFD5D9;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.drag .z-icon {
+  background: #3373C4;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.drag .z-component-name {
+  font-weight: 700;
+  color: #222529;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.drag .z-component-tooltip {
+  display: none;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.placeholder {
+  border-color: #CFD5D9;
+  background-color: #EEEEEE;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.placeholder .z-icon {
+  background: #ABB0B5;
+}
+.z-component-accordion-box .z-component-accordion .z-accordion-content .z-component-icon-box .z-component-template-icon.placeholder .z-component-name {
+  font-weight: 500;
+  color: #ABB0B5;
+}
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked + .z-accordion-label .z-icon.i-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -3878,7 +3982,7 @@ input, button, select, optgroup, textarea {
   transform: rotate(90deg);
 }
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked ~ .z-accordion-content {
-  height: calc(100vh - 160px - 2.875rem);
+  height: calc(100vh - (40px * 4) - 2.875rem);
   border-bottom-color: #CFD5D9;
   overflow-y: auto;
   -ms-overflow-style: none;
@@ -4156,7 +4260,7 @@ table td, table th {
   color: #757575;
 }
 .z-table .z-table-head {
-  border-bottom: 0.125rem solid #ABB0B5;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -4229,7 +4333,7 @@ table td, table th {
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: 0.125rem solid #ABB0B5;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
@@ -6930,15 +7034,15 @@ select {
   height: 0.5rem;
   fill: #F5F5F5;
   stroke-width: 0;
-  rx: 0.25rem;
-  ry: 0.25rem;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
 }
 .highcharts-scrollbar-thumb {
   height: 0.5rem;
   fill: #E0E0E0;
   stroke-width: 0;
-  rx: 0.25rem;
-  ry: 0.25rem;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
 }
 .highcharts-scrollbar-thumb:hover {
   fill: #CFD5D9;
@@ -8425,7 +8529,7 @@ body.modal-active {
   height: 40.625rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content {
-  height: 31.75rem;
+  height: calc(40.625rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set {
@@ -8454,7 +8558,7 @@ body.modal-active {
   height: 44.19rem;
 }
 .modal-dialog.tree .modal-content {
-  height: 35.315rem;
+  height: calc(44.19rem - 3.875rem - 5rem);
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-dialog.tree .modal-content div {
@@ -8471,7 +8575,7 @@ body.modal-active {
   height: 31.25rem;
 }
 .modal-dialog.form-import .modal-content, .modal-dialog.process-import .modal-content {
-  height: 22.375rem;
+  height: calc(31.25rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-import .modal-content .field-label, .modal-dialog.process-import .modal-content .field-label {
@@ -8483,7 +8587,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.form-edit .modal-content, .modal-dialog.process-edit .modal-content {
-  height: 13.625rem;
+  height: calc(22.5rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-edit .modal-content .field-label, .modal-dialog.process-edit .modal-content .field-label {
@@ -8495,12 +8599,12 @@ body.modal-active {
   height: 50.63rem;
 }
 .modal-dialog.document-edit .modal-content, .modal-dialog.workFlow-import .modal-content {
-  height: 41.755rem;
+  height: calc(50.63rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .workflow-content, .modal-dialog.workFlow-import .modal-content .workflow-content {
-  width: 37.5rem;
-  height: 39.255rem;
+  width: calc(40rem - 2.5rem);
+  height: calc(50.63rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .field-label, .modal-dialog.workFlow-import .modal-content .field-label {
@@ -8520,12 +8624,12 @@ body.modal-active {
   height: 42.188rem;
 }
 .modal-dialog.document-display .modal-content {
-  height: 33.313rem;
+  height: calc(42.188rem - 3.875rem - 5rem);
   padding: 1.25rem;
   overflow: hidden;
 }
 .modal-dialog.document-display .modal-content .document-display-content {
-  height: 30.813rem;
+  height: calc(42.188rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
   overflow-y: auto;
 }
@@ -8547,7 +8651,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content, .modal-dialog.target-user-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
@@ -8607,13 +8711,13 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.chart-edit-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 2.5rem 1.25rem;
   overflow: hidden;
 }
 .modal-dialog.chart-edit-modal .modal-content .chart-edit-content {
-  width: 60rem;
-  height: 41.0625rem;
+  width: calc(62.5rem - 2.5rem);
+  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
   padding: 0 1.25rem;
   overflow-y: auto;
 }
@@ -8672,7 +8776,7 @@ body.modal-active {
   height: 43.75rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
-  height: 34.875rem;
+  height: calc(43.75rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
@@ -8689,7 +8793,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .view-row {
@@ -8722,7 +8826,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.template-import .modal-content {
-  height: 13.625rem;
+  height: calc(22.5rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.template-import .modal-content .field-label {
@@ -8734,7 +8838,7 @@ body.modal-active {
   height: 20.625rem;
 }
 .modal-dialog.password-check .modal-content {
-  height: 11.75rem;
+  height: calc(20.625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.password-check .modal-content .field-label {
@@ -8747,11 +8851,11 @@ body.modal-active {
 }
 .modal-dialog.process-status-modal .modal-content {
   width: 100%;
-  height: 28.125rem;
+  height: calc(33.125rem - 5rem);
 }
 
 .modal-dialog.save-as .modal-content {
-  height: 16.755rem;
+  height: calc(25.63rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -8767,6 +8871,26 @@ body.modal-active {
   margin: 1rem 0 0.5rem 0;
 }
 .modal-dialog.save-as .modal-content .textarea-scroll-wrapper {
+  min-height: 7.5rem;
+  resize: none;
+}
+.modal-dialog.create-template .modal-content {
+  height: calc(25.63rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.create-template .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.create-template .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.create-template .modal-content .textarea-scroll-wrapper {
   min-height: 7.5rem;
   resize: none;
 }
@@ -8910,7 +9034,7 @@ body.modal-active {
   top: 7rem;
 }
 .modal-dialog.z-thumbnail-icon .modal-content {
-  height: 36.125rem;
+  height: calc(45rem - 3.875rem - 5rem);
 }
 .modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main {
   padding: 1.375rem;
@@ -8969,7 +9093,7 @@ body.modal-active {
   height: 48.44rem;
 }
 .modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
-  height: 39.565rem;
+  height: calc(48.44rem - 3.875rem - 5rem);
 }
 .modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
   width: 14.375rem;
@@ -9392,8 +9516,7 @@ body.modal-active {
 
 .z-component-tooltip {
   position: relative;
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.375rem 0.5rem;
   margin: 0.5rem;
   border: 0.0625rem dashed #CFD5D9;
@@ -9429,8 +9552,7 @@ body.modal-active {
   width: 100%;
 }
 .z-component .z-component-label {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   font-weight: 500;
   padding: 0;
@@ -9451,8 +9573,7 @@ body.modal-active {
   padding: 0.4375rem 0 0.4375rem 0;
 }
 .z-component .z-element {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
@@ -9677,7 +9798,7 @@ body.modal-active {
 .z-tooltip-menu .z-tooltip-menu-items .z-tooltip-menu-item {
   display: inline-block;
   margin: 0 0.25rem;
-  padding: 0 0.5rem;
+  padding: 0 0.25rem;
   cursor: pointer;
 }
 .z-tooltip-menu .z-tooltip-menu-items .z-tooltip-menu-item .z-icon {
@@ -9739,7 +9860,7 @@ ul.tree li {
 }
 ul.tree ul {
   position: relative;
-  margin: 0 0 0 2.0125rem;
+  margin: 0 0 0 calc(0.875rem * 2.3);
   padding: 0;
   list-style-type: none;
   -webkit-user-select: none;
@@ -9756,14 +9877,14 @@ ul.tree ul:before {
   border-left: 0.0625rem solid #CFD5D9;
 }
 ul.tree ul li {
-  padding-left: 1.6565rem;
+  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
 }
 ul.tree ul li:before {
   content: "";
   position: absolute;
   top: 0.9375rem;
   left: 0;
-  width: 1.6565rem;
+  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
   height: 0.0625rem;
   border-top: 0.0625rem solid #CFD5D9;
 }
@@ -9879,8 +10000,7 @@ span.modal_node_selected label {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 4px);
+  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 4px);
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
