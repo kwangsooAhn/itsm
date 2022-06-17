@@ -75,10 +75,10 @@ class WfElementService(
 
         if (nextElementData.elementType != WfElementConstants.ElementType.USER_TASK.value) {
             do {
-                val wfTokenDto = WfTokenDto(
+                val tokenDto = WfTokenDto(
                     elementId = nextElementData.elementId
                 )
-                connector = this.getConnector(wfTokenDto)
+                connector = this.getConnector(tokenDto)
                 nextElementId = wfElementDataRepository.findByElementAndAttributeId(connector).attributeValue
                 nextElementData = wfElementRepository.getOne(nextElementId)
             } while (nextElementData.elementType != WfElementConstants.ElementType.USER_TASK.value)

@@ -13,6 +13,8 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.form.dto.FormSearchCondition
+import co.brainz.workflow.component.dto.WfComponentTemplateDto
+import co.brainz.workflow.component.service.WfComponentTemplateService
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.constants.WorkflowConstants
@@ -22,10 +24,13 @@ import co.brainz.workflow.provider.dto.RestTemplateFormListReturnDto
 import java.time.LocalDateTime
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 
 @Service
 class FormService(
     private val wfFormService: WfFormService,
+    private val wfComponentTemplateService: WfComponentTemplateService,
     private val currentSessionUser: CurrentSessionUser
 ) {
 
@@ -193,5 +198,31 @@ class FormService(
             status = status.code,
             data = formMap
         )
+    }
+
+    /**
+     * 컴포넌트 템플릿 조회.
+     * @return ZReponse
+     */
+    fun getComponentTemplateData(): ZResponse {
+        return wfComponentTemplateService.getComponentTemplateData()
+    }
+
+    /**
+     * 컴포넌트 템플릿 저장.
+     * @param wfComponentTemplateDto
+     * @return ZResponse
+     */
+    fun saveComponentTemplate(@RequestBody wfComponentTemplateDto: WfComponentTemplateDto): ZResponse {
+        return wfComponentTemplateService.saveComponentTemplate(wfComponentTemplateDto)
+    }
+
+    /**
+     * 컴포넌트 템플릿 삭제.
+     * @param templateId
+     * @return ZResponse
+     */
+    fun deleteComponentTemplate(@PathVariable templateId: String): ZResponse {
+        return wfComponentTemplateService.deleteComponentTemplate(templateId)
     }
 }

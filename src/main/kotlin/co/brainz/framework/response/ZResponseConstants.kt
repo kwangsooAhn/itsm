@@ -15,6 +15,7 @@ object ZResponseConstants {
         SUCCESS_EDIT("Z-0001"),
         SUCCESS_EDIT_EMAIL("Z-0002"),
         SUCCESS_EDIT_PASSWORD("Z-0003"),
+        SUCCESS_ALREADY_LOGIN("Z-0004"),
         ERROR_FAIL("E-0000"),
         ERROR_DUPLICATE("E-0001"),
         ERROR_EXPIRED("E-0002"),
@@ -25,6 +26,9 @@ object ZResponseConstants {
         ERROR_DUPLICATE_EMAIL("E-0007"),
         ERROR_DUPLICATE_ORGANIZATION("E-0008"),
         ERROR_DUPLICATE_WORKFLOW("E-0009"),
-        ERROR_NOT_EXIST_CLASS("E-0010")
+        ERROR_NOT_EXIST_CLASS("E-0010"),
+        ERROR_DUPLICATE_LOGIN("E-0011"),
+        ERROR_INVALID_USER("E-0012"),
+        ERROR_DISABLED_USER("E-0013")
     }
 }

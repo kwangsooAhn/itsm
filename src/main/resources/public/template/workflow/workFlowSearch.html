@@ -58,7 +58,6 @@
     const DOCUMENT_TYPE_LINK = 'application-form-link';
 
     let importFile;
-    let offsetCount = 0;
     window.onload = function() {
         document.getElementById('searchDocuments').focus();
         document.getElementById('searchGroupName').addEventListener('change', function() { getList(); });
@@ -250,7 +249,8 @@
     // 업무흐름 등록 , 수정
     function openDocumentEdit(documentId, isDocumentLink) {
         let url = '';
-        if (isDocumentLink) url = (documentId !== undefined) ? '/workflows/workflowLink/' + documentId + '/edit' : '/workflows/new'; //신청서 링크일경우
+        if (isDocumentLink) url = (documentId !== undefined) ? '/workflows/workflowLink/' + documentId + '/edit' :
+            '/workflows/new'; //신청서 링크일경우
         else url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new'; // 신청서, 업무흐름일경우
 
         aliceJs.fetchText(url, {
@@ -316,7 +316,9 @@
                     aliceJs.initDesignedSelectTag();
 
                     // 수정일 경우 타입에 따라 모달 제목 변경
-                    if (documentId !== undefined) document.querySelector('.modal-header').innerHTML = (documentType === 'workflow') ? i18n.msg('document.label.workFlowEdit') : i18n.msg('document.label.registerEdit');
+                    if (documentId !== undefined) document.querySelector('.modal-header').innerHTML =
+                        (documentType === 'workflow') ? i18n.msg('document.label.workFlowEdit') :
+                            i18n.msg('document.label.registerEdit');
                 }
             };
 

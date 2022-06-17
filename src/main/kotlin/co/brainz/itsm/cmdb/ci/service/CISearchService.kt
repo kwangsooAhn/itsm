@@ -26,12 +26,12 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
 
 @Service
 class CISearchService(
@@ -302,6 +302,12 @@ class CISearchService(
                             CIAttributeConstants.Type.RADIO.code,
                             CIAttributeConstants.Type.DROP_DOWN.code -> {
                                 if (searchItem.searchValue != content.value[idx]?.toString()) {
+                                    removeIndexes.add(index)
+                                }
+                            }
+                            // todo: #13265 userSearch value 구성 변경 검토 (userKey|name|id > userKey|name)
+                            CIAttributeConstants.Type.USER_SEARCH.code -> {
+                                if (content.value[idx]?.toString()?.contains(searchItem.searchValue.split('|')[0]) == false) {
                                     removeIndexes.add(index)
                                 }
                             }

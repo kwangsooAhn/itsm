@@ -145,18 +145,6 @@ class UserRestController(
     }
 
     /**
-     * 사용자의 처리할 문서를 위임자로 변경
-     */
-    @PostMapping("/absence")
-    fun executeUserProcessingDocumentAbsence(
-        @RequestBody absenceInfo: String
-    ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(
-            userService.executeUserProcessingDocumentAbsence(absenceInfo)
-        )
-    }
-
-    /**
      * 전체 사용자 목록 조회.
      */
     @GetMapping("/all")

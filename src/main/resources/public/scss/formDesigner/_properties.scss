@@ -8,15 +8,15 @@
   width: 100%;
   padding: 1.5625rem 0.75rem 0.625rem 0.75rem; // 25px 12px 10px 12px;
   &:not(:last-child) { @include border(0.0625rem, solid, $gray300, bottom); } // 1px
-  &:first-child { @include border(0.0625rem, solid, $layout-properties-panel-header-border-color, top); }
+  &:first-child { @include border(0.0625rem, solid, $gray300, top); }
 
   // 라벨
   .property-group-label {
     width: 100%;
-    font-family: $property-group-label-font-family;
-    font-size: $property-group-label-font-size;
-    font-weight: $property-group-label-font-weight;
-    color: $property-group-label-color;
+    font-family: $font-family;
+    font-size: $font-size-m ; // 16px
+    font-weight: $font-weight-medium;
+    color: $neutral600;
   }
 }
 
@@ -29,8 +29,8 @@
   // 라벨
   .property-label {
     @include relative();
-    font-size: $property-label-font-size;
-    color: $property-label-color;
+    font-size: $font-size-xs;
+    color: $neutral600;
 
     .property-label-text {
       display: inline-block;
@@ -72,17 +72,17 @@
   // input 엘리먼트
   .z-input:not(.tagify) {
     width: 100%;
-    font-size: $property-font-size;
+    font-size: $font-size-xs;
 
     &.i-unit-search {
-      background: url($icon-folder-path + "formDesigner/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
-      background-color: $element-bg-color;
+      background: url($icon-folder-path + "designer/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
+      background-color: $white;
       padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
     }
 
     &.i-unit-px {
-      background: url($icon-folder-path + "formDesigner/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
-      background-color: $element-bg-color;
+      background: url($icon-folder-path + "designer/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
+      background-color: $white;
       padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
       text-align: right;
 
@@ -217,7 +217,7 @@
         @include relative();
         margin-top: 0.625rem;
         padding-top: 0.625rem;
-        @include border($property-panel-border-width, solid, $property-panel-border-color, all); // 1px
+        @include border(0.0625rem, solid, $gray300, all); // 1px
 
         .z-panel-common {
           .panel-name {
@@ -236,14 +236,14 @@
           padding: 0;
           .z-icon {
             display: inline-block;
-            background: $property-panel-icon-color;
+            background: $blue500;
             pointer-events: none;
 
             &.z-prev {
               @include rotate(180);
             }
             &.z-clear {
-              background: $element-icon-color;
+              background: $gray500;
             }
           }
         }
@@ -253,7 +253,7 @@
           border: none;
 
           &:last-child {
-            @include border($property-panel-border-width, solid, $property-panel-border-color, top); // 1px
+            @include border(0.0625rem, solid, $gray300, top); // 1px
           }
         }
       }

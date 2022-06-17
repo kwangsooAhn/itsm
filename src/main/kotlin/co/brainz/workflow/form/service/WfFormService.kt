@@ -73,12 +73,12 @@ class WfFormService(
     fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
         val pagingResult = wfFormRepository.findFormEntityList(formSearchCondition)
         val formList = mutableListOf<RestTemplateFormDto>()
+        // 발행 / 사용 상태일 경우 수정 불가능 (#8969 일감 참조)
         for (form in pagingResult.dataList as List<WfFormEntity>) {
             val restTemplateDto = wfFormMapper.toFormViewDto(form)
             when (restTemplateDto.status) {
-                WfFormConstants.FormStatus.EDIT.value,
-                WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
-                WfFormConstants.FormStatus.USE.value -> restTemplateDto.editable = false
+                WfFormConstants.FormStatus.EDIT.value -> restTemplateDto.editable = true
+                else -> false
             }
             formList.add(restTemplateDto)
         }
@@ -127,7 +127,7 @@ class WfFormService(
      * @return RestTemplateFormDataDto
      */
     fun getFormData(formId: String): RestTemplateFormDataDto {
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId)
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
         val linkedMapType = TypeFactory.defaultInstance()
             .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
 
@@ -136,12 +136,12 @@ class WfFormService(
         for (formGroup in formGroupEntityList) {
 
             val rowListInGroup: MutableList<FormRowDto> = mutableListOf()
-            val formRowEntityList = wfFormRowRepository.findByGroupId(formGroup.formGroupId)
+            val formRowEntityList = formGroup.formRows
             for (formRow in formRowEntityList) {
 
                 // 컴포넌트 구성
                 val componentDtoList: MutableList<FormComponentDto> = mutableListOf()
-                val componentEntityList = wfComponentRepository.findByRowId(formRow.formRowId)
+                val componentEntityList = formRow.components
                 for (componentEntity in componentEntityList) {
                     // 기본 component dto
                     val componentDto = FormComponentDto(
@@ -156,22 +156,23 @@ class WfFormService(
                     )
 
                     // component 속성 채우기
-                    val componentPropertyEntityList =
-                        wfComponentPropertyRepository.findByComponentId(componentEntity.componentId)
-                    for (componentPropertyEntity in componentPropertyEntityList) {
-                        val optionValue =
-                            objMapper.readValue(componentPropertyEntity.propertyOptions, LinkedHashMap::class.java)
-                        when (componentPropertyEntity.propertyType) {
-                            WfFormConstants.PropertyType.DISPLAY.value -> componentDto.display =
-                                objMapper.convertValue(optionValue, linkedMapType)
-                            WfFormConstants.PropertyType.LABEL.value -> componentDto.label =
-                                objMapper.convertValue(optionValue, linkedMapType)
-                            WfFormConstants.PropertyType.VALIDATION.value -> componentDto.validation =
-                                objMapper.convertValue(optionValue, linkedMapType)
-                            WfFormConstants.PropertyType.ELEMENT.value -> componentDto.element =
-                                objMapper.convertValue(optionValue, linkedMapType)
-                            WfFormConstants.PropertyType.PLUGIN.value -> componentDto.plugin =
-                                objMapper.convertValue(optionValue, linkedMapType)
+                    val componentPropertyEntityList = componentEntity.properties
+                    if (componentPropertyEntityList != null) {
+                        for (componentPropertyEntity in componentPropertyEntityList) {
+                            val optionValue =
+                                objMapper.readValue(componentPropertyEntity.propertyOptions, LinkedHashMap::class.java)
+                            when (componentPropertyEntity.propertyType) {
+                                WfFormConstants.PropertyType.DISPLAY.value ->
+                                    componentDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.LABEL.value ->
+                                    componentDto.label = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.VALIDATION.value ->
+                                    componentDto.validation = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.ELEMENT.value ->
+                                    componentDto.element = objMapper.convertValue(optionValue, linkedMapType)
+                                WfFormConstants.PropertyType.PLUGIN.value ->
+                                    componentDto.plugin = objMapper.convertValue(optionValue, linkedMapType)
+                            }
                         }
                     }
                     componentDtoList.add(componentDto)
@@ -195,35 +196,35 @@ class WfFormService(
             )
 
             // 그룹 속성 채우기
-            val groupPropertyEntityList = wfFormGroupPropertyRepository.findByFormGroupId(formGroup.formGroupId)
+            val groupPropertyEntityList = formGroup.properties
             for (groupPropertyEntity in groupPropertyEntityList) {
                 val optionValue = objMapper.readValue(groupPropertyEntity.propertyOptions, LinkedHashMap::class.java)
                 when (groupPropertyEntity.propertyType) {
-                    WfFormConstants.PropertyType.DISPLAY.value -> groupDto.display =
-                        objMapper.convertValue(optionValue, linkedMapType)
-                    WfFormConstants.PropertyType.LABEL.value -> groupDto.label =
-                        objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.DISPLAY.value ->
+                        groupDto.display = objMapper.convertValue(optionValue, linkedMapType)
+                    WfFormConstants.PropertyType.LABEL.value ->
+                        groupDto.label = objMapper.convertValue(optionValue, linkedMapType)
                 }
             }
             formGroupList.add(groupDto)
         }
 
         var displayOption: LinkedHashMap<String, Any> = LinkedHashMap()
-        formEntity.get().formDisplayOption?.let {
+        formEntity.formDisplayOption?.let {
             val displayOptionMap = objMapper.readValue(it, LinkedHashMap::class.java)
             displayOption = objMapper.convertValue(displayOptionMap, linkedMapType)
         }
 
         return RestTemplateFormDataDto(
             id = formId,
-            name = formEntity.get().formName,
-            status = formEntity.get().formStatus,
-            desc = formEntity.get().formDesc,
-            category = formEntity.get().formCategory ?: "",
-            updateDt = formEntity.get().updateDt,
-            updateUserKey = formEntity.get().updateUser?.userKey,
-            createDt = formEntity.get().createDt,
-            createUserKey = formEntity.get().createUser?.userKey,
+            name = formEntity.formName,
+            status = formEntity.formStatus,
+            desc = formEntity.formDesc,
+            category = formEntity.formCategory ?: "",
+            updateDt = formEntity.updateDt,
+            updateUserKey = formEntity.updateUser?.userKey,
+            createDt = formEntity.createDt,
+            createUserKey = formEntity.createUser?.userKey,
             group = formGroupList,
             display = displayOption,
             createdWorkFlow = this.checkCreatedWorkFlow(formId)

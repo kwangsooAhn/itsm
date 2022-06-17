@@ -25,58 +25,58 @@ svg {
       .node {
         fill: $white;
         opacity: 1;
-        stroke-width: $node-width;
+        stroke-width: 1;
       }
 
       .element-type.task,
       .element-type.subprocess {
-        stroke-width: $node-width;
+        stroke-width: 1;
         stroke-dasharray: 0, 40, 40, 40;
       }
       // userTask
       .node.task.userTask,
-      .element-type.task.userTask { stroke: $userTask-color; }
+      .element-type.task.userTask { stroke: $cyan500; }
       // manualTask
       .node.task.manualTask,
-      .element-type.task.manualTask { stroke: $manualTask-color; }
+      .element-type.task.manualTask { stroke: $indigo500; }
       // scriptTask
       .node.task.scriptTask,
-      .element-type.task.scriptTask { stroke: $scriptTask-color; }
+      .element-type.task.scriptTask { stroke: $green500; }
       // 서브 프로세스
       .node.subprocess,
-      .element-type.subprocess { stroke: $subprocess-color; }
+      .element-type.subprocess { stroke: $violet500; }
       // 게이트웨이
-      .node.gateway { stroke: $gateway-color; }
+      .node.gateway { stroke: $orange400; }
       // 이벤트
-      .node.event { stroke: $event-color; }
+      .node.event { stroke: $pink500; }
       
       .node.event.commonEnd,
-      .node.event.messageEnd { stroke-width: $node-selected-width; }
+      .node.event.messageEnd { stroke-width: 2; }
 
       .node.selected {
-        stroke: $node-selected-color !important;
-        stroke-width: $node-selected-width !important;
+        stroke: $blue500 !important;
+        stroke-width: 2 !important;
 
         &.error {
-          stroke: $validation-error-font-color !important;
+          stroke: $red500 !important;
         }
       }
 
       .node.reject-element {
-        stroke: $reject-color !important;
-        stroke-width: $node-selected-width !important;
+        stroke: $red500 !important;
+        stroke-width: 2 !important;
       }
 
       .annotation {
-        stroke: $annotation-color;
+        stroke: $black;
         fill-opacity: 0;
         stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
       }
 
       text {
-        font-size: $node-font-size;
-        font-weight: $node-font-weight;
-        fill: $node-font-color;
+        font-size: $font-size-s;
+        font-weight: $font-weight-medium;
+        fill: $gray600;
         text-anchor: middle;
         dominant-baseline: middle;
         user-select: none;
@@ -86,11 +86,11 @@ svg {
         .node,
         .element-type.task,
         .element-type.subprocess {
-          stroke: $node-selected-color !important;
-          stroke-width: $node-selected-width !important;
+          stroke: $blue500 !important;
+          stroke-width: 2 !important;
         }
 
-        &.error { stroke: $validation-error-font-color !important; }
+        &.error { stroke: $red500 !important; }
       }
     }
   }
@@ -98,23 +98,23 @@ svg {
   g.group-artifact-container {
     g.element {
       .group {
-        stroke: $group-color;
+        stroke: $black;
         fill: $white;
         fill-opacity: 1;
         stroke-dasharray: 5, 5;
       }
 
       .node.selected {
-        stroke: $node-selected-color !important;
-        stroke-width: $node-selected-width !important;
+        stroke: $blue500 !important;
+        stroke-width: 2 !important;
 
-        &.error { stroke: $validation-error-font-color !important; }
+        &.error { stroke: $red500 !important; }
       }
 
       text {
-        font-size: $node-font-size;
-        font-weight: $node-font-weight;
-        fill: $node-font-color;
+        font-size: $font-size-s;
+        font-weight: $font-weight-medium;
+        fill: $gray600;
         text-anchor: middle;
         dominant-baseline: middle;
         user-select: none;
@@ -126,17 +126,17 @@ svg {
     g.connector {
       path.connector {
         fill: none;
-        stroke: $connector-color;
-        stroke-width: $connector-width;
+        stroke: $gray600;
+        stroke-width: 1;
         cursor: default;
       }
 
       path.connector.selected {
         stroke-dasharray: 10, 2;
-        stroke-width: $connector-selected-width;
+        stroke-width: 2;
 
         &.error {
-          stroke: $validation-error-font-color !important;
+          stroke: $red500 !important;
         }
       }
 
@@ -156,32 +156,32 @@ svg {
       }
 
       text {
-        font-size: $node-font-size;
-        font-weight: $node-font-weight;
-        fill: $node-font-color;
+        font-size: $font-size-s;
+        font-weight: $font-weight-medium;
+        fill: $gray600;
         dominant-baseline: text-before-edge;
         user-select: none;
 
         &.selected {
-          fill: $node-selected-color;
+          fill: $blue500;
         }
       }
 
       circle.pointer {
-        fill: $connector-pointer-color;
+        fill: $blue500;
         cursor: move;
-        &.move { fill: $connector-pointer-color; }
+        &.move { fill: $blue500; }
       }
     }
   }
 
-  defs marker path { fill: $connector-color; }
+  defs marker path { fill: $gray600; }
   // 툴팁
   g.alice-tooltip {
     rect.tooltip-container {
-      fill: $element-tooltip-bg-color;
-      stroke: $element-tooltip-border-color;
-      stroke-width: $element-tooltip-border-width;
+      fill: $white;
+      stroke: $gray300;
+      stroke-width: 1;
     }
 
     rect.action-tooltip-item:hover,
@@ -192,15 +192,15 @@ svg {
   // 가이드 라인
   g.guides-container {
     line.guides-line {
-      stroke: $guides-line-color;
+      stroke: $gray400;
       stroke-width: 0;
     }
   }
   // 미연결 선
   path.connector {
     fill: none;
-    stroke: $connector-color;
-    stroke-width: $connector-width;
+    stroke: $gray600;
+    stroke-width: 1;
     &.drag-line { pointer-events: none; }
     &.hidden { stroke-width: 0; }
   }

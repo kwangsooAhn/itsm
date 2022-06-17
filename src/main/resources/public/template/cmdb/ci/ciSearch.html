@@ -195,36 +195,62 @@
         function getItemWithType(data, index) {
             const attributeValue = JSON.parse(data.attributeValue);
             switch (data.attributeType) {
-                case 'inputbox':
-                    return `<input type="text" class="z-input field-element" id="${data.attributeId}" value="${data.searchValue}" data-attributeType="${data.attributeType}" onBlur="changeSearchDetail(this);">`;
-                case 'dropdown':
+                case 'inputbox': {
+                    return `<input type="text" class="z-input field-element" ` +
+                        `id="${data.attributeId}" value="${data.searchValue}" ` +
+                        `data-attributeType="${data.attributeType}" onBlur="changeSearchDetail(this);">`;
+                }
+                case 'dropdown': {
                     const optionTemplate = attributeValue.option.map(function(opt) {
-                        return `<option value='${opt.value}' ${opt.value === data.searchValue ? 'selected=\'true\'' : ''}>${opt.text}</option>`;
+                        return `<option value='${opt.value}' ${opt.value === data.searchValue ? 'selected=\'true\'' : ''}>` +
+                            `${opt.text}` +
+                            `</option>`;
                     }).join('');
-                    return `<select id="${data.attributeId}" class="field-element" data-attributeType="${data.attributeType}" onchange="changeSearchDetail(this)">${optionTemplate}</select>`;
-                case 'radio':
+                    return `<select id="${data.attributeId}" class="field-element" ` +
+                        `data-attributeType="${data.attributeType}" onchange="changeSearchDetail(this)">` +
+                        `${optionTemplate}` +
+                        `</select>`;
+                }
+                case 'radio': {
                     const radioTemplate = attributeValue.option.map(function(opt, idx) {
                         return `<label for="${data.attributeId}_${idx}" class="z-radio horizontal" tabindex="-1">` +
-                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" value="${opt.value}" name="${data.attributeId}" data-attributeType="${data.attributeType}" ` +
+                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" ` +
+                            `value="${opt.value}" name="${data.attributeId}" data-attributeType="${data.attributeType}" ` +
                             `${opt.value === data.searchValue ? 'checked=\'true\'' : ''} onclick="changeSearchDetail(this)">` +
                             `<span></span><span>${opt.text}</span>` +
                             `</label>`;
                     }).join('');
                     return `<div class="z-radio-group field-element">${radioTemplate}</div>`;
-                case 'date':
-                    return `<input type="text" class="z-input field-element i-date-picker search-date" id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}" data-attributeType="${data.attributeType}">`;
-                case 'datetime':
-                    return `<input type="text" class="z-input field-element i-datetime-picker search-datetime" id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}" data-attributeType="${data.attributeType}">`;
-                case 'userSearch':
+                }
+                case 'date': {
+                    return `<input type="text" class="z-input field-element i-date-picker search-date" ` +
+                        `id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}" ` +
+                        `data-attributeType="${data.attributeType}">`;
+                }
+                case 'datetime': {
+                    return `<input type="text" class="z-input field-element i-datetime-picker search-datetime" ` +
+                        `id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}" ` +
+                        `data-attributeType="${data.attributeType}">`;
+                }
+                case 'userSearch': {
                     const userDefaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
-                    return `<input type="text" class="z-input field-element i-user-search text-ellipsis" id="${data.attributeId}" value="${userDefaultValues[1]}" data-attributeType="${data.attributeType}" ` +
-                        `data-attributeIdx="${index}" onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" onClick="openUserSearchModal(this);" ` +
-                        `data-user-id="${userDefaultValues[2]}" data-user-search="${userDefaultValues[0]}" data-realTimeSelectedUser="${(data.searchValue !== '') ? data.searchValue : ''}">`;
-                case 'organizationSearch':
+                    return `<input type="text" class="z-input field-element i-user-search text-ellipsis" ` +
+                        `id="${data.attributeId}" value="${userDefaultValues[1]}" ` +
+                        `data-attributeType="${data.attributeType}" data-attributeIdx="${index}" ` +
+                        `onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" ` +
+                        `onclick="openUserSearchModal(this);" ` +
+                        `data-user-id="${userDefaultValues[2]}" data-user-search="${userDefaultValues[0]}" ` +
+                        `data-realTimeSelectedUser="${(data.searchValue !== '') ? data.searchValue : ''}">`;
+                }
+                case 'organizationSearch': {
                     const defaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
-                    return `<input type="text" class="z-input field-element i-organization-search text-ellipsis" id="${data.attributeId}" value="${defaultValues[1]}" data-attributeType="${data.attributeType}" ` +
-                        `data-attributeIdx="${index}" onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" onClick="openOrganizationSearchModal(this);" ` +
+                    return `<input type="text" class="z-input field-element i-organization-search text-ellipsis" ` +
+                        `id="${data.attributeId}" value="${defaultValues[1]}" ` +
+                        `data-attributeType="${data.attributeType}" data-attributeIdx="${index}" `+
+                        `onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" ` +
+                        `onclick="openOrganizationSearchModal(this);" ` +
                         `data-organization-search="${defaultValues[0]}">`;
+                }
                 default:
                     break;
             }
@@ -236,7 +262,7 @@
                 searchTemplate = searchData.map(function(item, index) {
                     const templateWithType = getItemWithType(item, index);
                     return `<div class="flex-row align-items-center">` +
-                        `<label class="field-label text-ellipsis">${item.attributeText}</label>` +
+                        `<label class="field-label text-ellipsis" title="${item.attributeText}">${item.attributeText}</label>` +
                         `${templateWithType}` +
                         `</div>`;
                 }).join('');
@@ -313,7 +339,8 @@
                     document.querySelectorAll('.search-datetime').forEach(function(elem) {
                         zDateTimePicker.initDateTimePicker(elem, changeSearchDetail);
                     });
-                    OverlayScrollbars(document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), { className: 'scrollbar' });
+                    OverlayScrollbars(
+                        document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), { className: 'scrollbar' });
                 }
             });
             ciDetailSearchModal.show();
@@ -370,7 +397,9 @@
                 + '&typeId=' + document.getElementById('treeTypeId').value
                 + '&orderColName=' + orderColName
                 + '&orderDir=' + orderDir;
-            let excelFileName = i18n.msg('cmdb.ci.label.ciInquiry') + '_' + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+            let excelFileName = i18n.msg('cmdb.ci.label.ciInquiry') + '_'
+                    + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+
             aliceJs.fetchBlob('/rest/cmdb/cis/excel?' + urlParam, {
                 method: 'POST',
                 showProgressBar: true,
@@ -399,7 +428,9 @@
             const urlParam = 'typeId=' + document.getElementById('treeTypeId').value;
             // 다운로드 되는 파일은 “IT자산 템플릿-[CI유형명]-20220214”와 같은 형식의 이름을 가진다.
             const typeName = document.getElementById('treeTypeName').value;
-            let excelFileName = i18n.msg('cmdb.ci.label.ciTemplate') + '-' + typeName + '-' + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+            let excelFileName = i18n.msg('cmdb.ci.label.ciTemplate') + '-' + typeName + '-'
+                + new Date().toISOString().substring(0, 10).replace(/-/g, '');
+
             aliceJs.fetchBlob('/rest/cmdb/cis/template?' + urlParam, {
                 method: 'GET',
                 showProgressBar: true
@@ -452,7 +483,9 @@
             const createTemplateUploadContent = function() {
                 return `<div class="import-main flex-column">` +
                     `<div class="file-uploader-edit">` +
-                    `<label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}<span class="required"></span></label>` +
+                    `<label class="file-uploader-title field-label">` +
+                    `${i18n.msg('common.label.importFile')}<span class="required"></span>` +
+                    `</label>` +
                     `<div id="dropZoneFiles"></div>` +
                     `<div id="dropZoneUploadedFiles"></div>` +
                     `</div>` +
@@ -469,7 +502,7 @@
                         classes: 'z-button primary',
                         bindKey: false,
                         callback: function(modal) {
-                            if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
+                            if (isNotNull('dropZoneFileUpload') && document.getElementById('fileTemplate') === null) {
                                 zAlert.warning(i18n.msg('common.msg.selectImportFile'));
                                 return false;
                             }
