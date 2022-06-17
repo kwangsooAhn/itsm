@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="flex-column z-edit-row">
-                <label th:text="#{sla.metric.label.description}" for="metricDesc" class="required"></label>
+                <label th:text="#{sla.metric.label.description}" for="metricDesc"></label>
                 <input type="text" id="metricDesc" name="metricDesc" class="z-input" maxlength="128"
                        th:value="${metric?.metricDesc}" th:readonly="${view}"/>
             </div>
