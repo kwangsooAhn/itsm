@@ -87,12 +87,12 @@
     </div>
     <template id="chartListTemplate">
         <div class="flex-row mt-2">
-            <div class="flex-column col-11">
+            <div class="flex-column col-12">
                 <select name="chart" th:classappend="${view}?'readonly':''"></select>
             </div>
-            <div class="flex-column col-1">
-                <button th:if="!${view}" type="button" class="z-button-icon extra">
-                    <span class="z-icon i-delete"></span>
+            <div class="flex-column">
+                <button th:if="!${view}" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">
+                    <span class="z-icon i-remove"></span>
                 </button>
             </div>
         </div>
