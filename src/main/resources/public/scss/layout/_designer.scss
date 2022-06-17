@@ -1,18 +1,21 @@
-@import "../template/buttons";
+/* FormDesigner
+ *
+ *
+ * 파일 경로 : template/_tree.scss
+ * @description 폼 디자이너에서만 사용되는 scss
+ * @version 1.0
+ */
 
+////////////////////////// button //////////////////////////
 // header button
 .z-header-button {
   &.z-button-icon {
     .z-icon {
       pointer-events: none;
-
-      &.i-arrow-right {
-        @include rotate(90);
-      }
+      &.i-arrow-right { @include rotate(90); }
     }
   }
 }
-
 // header dropdown button
 .z-header-button-dropdown {
   width: 1.25rem; // 20px
@@ -24,43 +27,43 @@
   }
 
   + .z-dropdown-content {
-    min-width: 9.625rem; // 154px
-    visibility: hidden;
     @include absolute($right: 0);
-    padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
-    margin: 0.6875rem 0 0 0; // 11px
-    z-index: 250;
-    background-color: $white;
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
+    min-width: 9.625rem; // 154px
+    margin: 0.6875rem 0 0 0; // 11px
+    padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
+    background-color: $white;
+    z-index: 250;
+    visibility: hidden;
 
     .z-dropdown-item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0
 
       .z-button-dropdown {
         width: 100%;
-        font-weight: $font-weight-medium;
-        color: map-get($layout-header-dropdown, 'default', 'font');
-        background-color: map-get($layout-header-dropdown, 'default', 'background');
         border-color: map-get($layout-header-dropdown, 'default', 'border');
+        background-color: map-get($layout-header-dropdown, 'default', 'background');
+        color: map-get($layout-header-dropdown, 'default', 'font');
+        font-weight: $font-weight-medium;
         @if map-get($layout-header-dropdown, 'default', 'shadow') != null {
           box-shadow: map-get($layout-header-dropdown, 'default', 'shadow');
         }
         &:focus {
-          outline: 0;
-          color: map-get($layout-header-dropdown, 'focus', 'font');
-          background-color: map-get($layout-header-dropdown, 'focus', 'background');
           border-color: map-get($layout-header-dropdown, 'focus', 'border');
+          background-color: map-get($layout-header-dropdown, 'focus', 'background');
+          color: map-get($layout-header-dropdown, 'focus', 'font');
+          outline: 0;
           @if map-get($layout-header-dropdown, 'focus', 'shadow') != null {
             box-shadow: map-get($layout-header-dropdown, 'focus', 'shadow');
           }
         }
 
         &:hover {
-          outline: 0;
-          color: map-get($layout-header-dropdown, 'hover', 'font');
-          background-color: map-get($layout-header-dropdown, 'hover', 'background');
           border-color: map-get($layout-header-dropdown, 'hover', 'border');
+          background-color: map-get($layout-header-dropdown, 'hover', 'background');
+          color: map-get($layout-header-dropdown, 'hover', 'font');
+          outline: 0;
           @if map-get($layout-header-dropdown, 'hover', 'shadow') != null {
             box-shadow: map-get($layout-header-dropdown, 'hover', 'shadow');
           }
@@ -68,9 +71,9 @@
 
         &:enabled:active,
         &:enabled.active {
-          color: map-get($layout-header-dropdown, 'active', 'font');
-          background-color: map-get($layout-header-dropdown, 'active', 'background');
           border-color: map-get($layout-header-dropdown, 'active', 'border');
+          background-color: map-get($layout-header-dropdown, 'active', 'background');
+          color: map-get($layout-header-dropdown, 'active', 'font');
           z-index: 25;
           @if map-get($layout-header-dropdown, 'active', 'shadow') != null {
             box-shadow: map-get($layout-header-dropdown, 'active', 'shadow');
@@ -82,17 +85,14 @@
 
   &.active {
     .z-icon {
-      &.i-arrow-right {
-        @include rotate(-90);
-      }
+      &.i-arrow-right { @include rotate(-90); }
     }
     + .z-dropdown-content {
-      visibility: visible;
       display: block;
+      visibility: visible;
     }
   }
 }
-
 // button group
 // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
 // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
@@ -101,103 +101,85 @@
 
   .z-button-switch,
   .z-button-toggle {
-
     .z-text { pointer-events: none; }
-
     .z-icon { pointer-events: none; }
   }
 }
 
 // 열속성 > tab 버튼
 .z-tab {
-  color: map-get($button-tab, 'default', 'font');
-  background-color: map-get($button-tab, 'default', 'background');
-  border-color: map-get($button-tab, 'default', 'border');
   border-width: 0.0625rem; //1px
+  border-color: map-get($button-tab, 'default', 'border');
+  background-color: map-get($button-tab, 'default', 'background');
+  color: map-get($button-tab, 'default', 'font');
   @if map-get($button-tab, 'default', 'shadow') != null {
     box-shadow: map-get($button-tab, 'default', 'shadow');
   }
-  .z-icon {
-    background: map-get($button-tab, 'default', 'font');
-  }
+  .z-icon { background: map-get($button-tab, 'default', 'font'); }
 
   &:focus {
-    outline: 0;
-    color: map-get($button-tab, 'focus', 'font');
-    background-color: map-get($button-tab, 'focus', 'background');
     border-color: map-get($button-tab, 'focus', 'border');
+    background-color: map-get($button-tab, 'focus', 'background');
+    color: map-get($button-tab, 'focus', 'font');
+    outline: 0;
     @if map-get($button-tab, 'focus', 'shadow') != null {
       box-shadow: map-get($button-tab, 'focus', 'shadow');
     }
-    .z-icon {
-      background: map-get($button-tab, 'focus', 'font');
-    }
+    .z-icon { background: map-get($button-tab, 'focus', 'font'); }
   }
 
   &:hover {
-    outline: 0;
-    color: map-get($button-tab, 'hover', 'font');
-    background-color: map-get($button-tab, 'hover', 'background');
     border-color: map-get($button-tab, 'hover', 'border');
+    background-color: map-get($button-tab, 'hover', 'background');
+    color: map-get($button-tab, 'hover', 'font');
+    outline: 0;
     @if map-get($button-tab, 'hover', 'shadow') != null {
       box-shadow: map-get($button-tab, 'hover', 'shadow');
     }
-    .z-icon {
-      background: map-get($button-tab, 'hover', 'font');
-    }
+    .z-icon { ackground: map-get($button-tab, 'hover', 'font'); }
   }
 
   &:enabled:active,
   &:enabled.active {
-    color: map-get($button-tab, 'active', 'font');
-    background-color: map-get($button-tab, 'active', 'background');
     border-color: map-get($button-tab, 'active', 'border');
+    background-color: map-get($button-tab, 'active', 'background');
+    color: map-get($button-tab, 'active', 'font');
     z-index: 25;
     @if map-get($button-tab, 'active', 'shadow') != null {
       box-shadow: map-get($button-tab, 'active', 'shadow');
     }
-    .z-icon {
-      background: map-get($button-tab, 'active', 'font');
-    }
+    .z-icon { background: map-get($button-tab, 'active', 'font'); }
   }
   // 선택된 경우
   &.selected:not(:disabled),
   &.selected:not(.disabled) {
-    color: map-get($button-tab, 'selected', 'font');
-    background-color: map-get($button-tab, 'selected', 'background');
     border-color: map-get($button-tab, 'selected', 'border');
+    background-color: map-get($button-tab, 'selected', 'background');
+    color: map-get($button-tab, 'selected', 'font');
     z-index: 25;
     @if map-get($button-tab, 'selected', 'shadow') != null {
       box-shadow: map-get($button-tab, 'selected', 'shadow');
     }
-    .z-icon {
-      background: map-get($button-tab, 'selected', 'font');
-    }
+    .z-icon { background: map-get($button-tab, 'selected', 'font'); }
   }
 
   &:disabled,
   &.disabled {
-    color: map-get($button-tab, 'disabled', 'font');
-    background-color: map-get($button-tab, 'disabled', 'background');
     border-color: map-get($button-tab, 'disabled', 'border');
+    background-color: map-get($button-tab, 'disabled', 'background');
+    color: map-get($button-tab, 'disabled', 'font');
     cursor: default;
     @if map-get($button-tab, 'disabled', 'shadow') != null {
       box-shadow: map-get($button-tab, 'disabled', 'shadow');
     }
-    .z-icon {
-      background: map-get($button-tab, 'disabled', 'font');
-    }
+    .z-icon { background: map-get($button-tab, 'disabled', 'font'); }
   }
 }
 
 .z-button,
 .z-button-icon,
-.z-button-icon-sm
-{
-  &:disabled,
-  &.disabled {
-    display: none;
-  }
+.z-button-icon-sm {
+  &:disabled, &.disabled { display: none; }
 }
 
 .z-button-icon {
@@ -233,6 +215,26 @@
     + span {
       // 동그라미
       &::before { top: 0.125rem; } // 2px
+    }
+  }
+}
+
+////////////////////////// date-picker //////////////////////////
+.z-picker-wrapper-date { width: 100%; }
+
+////////////////////////// element //////////////////////////
+// input + button for custom code
+.z-input-button {
+  .z-button-icon-sm { -webkit-print-color-adjust:exact; }
+}
+
+// main
+.z-component {
+  .z-radio {
+    input[type=radio] {
+      + span {
+        &::after { top: 0.35rem; } // 5.6px
+      }
     }
   }
 }
