@@ -23,7 +23,7 @@
                         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="metricYear" name="metricYear"/>
                     </div>
                     <div class="flex-column col-3 pl-3">
-                        <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
+                        <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}" class="required"></label>
                         <select id="metricYearName"></select>
                     </div>
                     <div class="flex-column col-2 pl-3">
@@ -194,7 +194,6 @@
             zqlDescription.textContent = zqlDescriptionText(metric.calculationType);
         }
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
-        document.getElementById('minValue').focus();
         setMetricValueFormat();
     }
 
@@ -365,6 +364,7 @@
      * 연도별 SLA 지표관리 등록
      */
     function onSave(method) {
+        if (isEmpty('metricYearName', 'sla.metricYear.msg.noMetric')) return false;
         if (isEmpty('minValue', 'common.msg.requiredEnter')) return false;
         if (isEmpty('maxValue', 'common.msg.requiredEnter')) return false;
         if (isEmpty('weightValue', 'common.msg.requiredEnter')) return false;

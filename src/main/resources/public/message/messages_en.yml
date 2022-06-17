@@ -1465,6 +1465,7 @@ sla:
       checkValue: "You can enter up to fourth decimal places."
       copy: "Copy the metric to the {0} year metric."
       description: "Register, modify, or delete the contents of SLA metric management by year."
+      noMetric: "There are no registered metric for the target year."
       totalScore: "A normal score is calculated when the weights add up to 100%."
       viewDescription: "Inquire detailed information about SLA metric management by year."
       zqlAverageDescription: "The average calculation method takes the average of the results. The result of ZQl must be in numeric form."
