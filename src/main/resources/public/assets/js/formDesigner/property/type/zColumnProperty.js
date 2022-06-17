@@ -150,8 +150,7 @@ export default class ZColumnProperty extends ZProperty {
     makeProperty(panel) {
         this.panel = panel;
         // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우) 또는 (문서가 '사용/발행' 이고 연결된 업무흐름이 없는 경우)
-        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable)
-            || (!this.panel.editor.isDestory && !this.panel.editor.isCreatedWorkFlow);
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -324,11 +323,11 @@ export default class ZColumnProperty extends ZProperty {
             }
         }
 
-        tab = this.tabs.find(function (item) {
+        tab = this.tabs.find(function(item) {
             return item.domElement.id === id;
         });
 
-        panel = this.panels.find(function (item) {
+        panel = this.panels.find(function(item) {
             return item.domElement.id === id;
         });
 
@@ -418,7 +417,7 @@ export default class ZColumnProperty extends ZProperty {
                 { name: i18n.msg('form.properties.columnType.dateTime'), value: 'dateTime' },
                 { name: i18n.msg('form.properties.columnType.label'), value: 'label' },
                 { name: i18n.msg('form.properties.columnType.userSearch'), value: 'userSearch' },
-                { name: i18n.msg('form.properties.columnType.organizationSearch'), value: 'organizationSearch'}
+                { name: i18n.msg('form.properties.columnType.organizationSearch'), value: 'organizationSearch' }
             ]);
 
         // head - input
@@ -446,7 +445,7 @@ export default class ZColumnProperty extends ZProperty {
 
         // head - fontOption
         const columnHeadFontOption = [
-            { 'name': 'i-bold', 'value': 'bold'},
+            { 'name': 'i-bold', 'value': 'bold' },
             { 'name': 'i-italic', 'value': 'italic' },
             { 'name': 'i-underline', 'value': 'underline' }
         ];
@@ -475,7 +474,7 @@ export default class ZColumnProperty extends ZProperty {
 
         // content - fontOption
         const columnContentFontOption = [
-            { 'name': 'i-bold', 'value': 'bold'},
+            { 'name': 'i-bold', 'value': 'bold' },
             { 'name': 'i-italic', 'value': 'italic' },
             { 'name': 'i-underline', 'value': 'underline' }
         ];
@@ -577,10 +576,10 @@ export default class ZColumnProperty extends ZProperty {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
             option.columnElement.defaultValueRadio,
             [
-                {name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE},
-                {name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW},
-                {name: '', value: FORM.DATE_TYPE.HOURS},
-                {name: '', value: FORM.DATE_TYPE.TIME_PICKER}
+                { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
+                { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
+                { name: '', value: FORM.DATE_TYPE.HOURS },
+                { name: '', value: FORM.DATE_TYPE.TIME_PICKER }
             ]);
         return [
             new ZGroupProperty('group.columnElement')
@@ -595,10 +594,10 @@ export default class ZColumnProperty extends ZProperty {
         const defaultValueRadioProperty = new ZDefaultValueRadioProperty(id + '|columnElement.defaultValueRadio', 'element.defaultValueRadio',
             option.columnElement.defaultValueRadio,
             [
-                {name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE},
-                {name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW},
-                {name: '', value: FORM.DATE_TYPE.DATETIME},
-                {name: '', value: FORM.DATE_TYPE.DATETIME_PICKER}
+                { name: 'form.properties.option.none', value: FORM.DATE_TYPE.NONE },
+                { name: 'form.properties.option.now', value: FORM.DATE_TYPE.NOW },
+                { name: '', value: FORM.DATE_TYPE.DATETIME },
+                { name: '', value: FORM.DATE_TYPE.DATETIME_PICKER }
             ]);
         return [
             new ZGroupProperty('group.columnElement')
@@ -618,7 +617,7 @@ export default class ZColumnProperty extends ZProperty {
     // 컬럼 세부 속성 - userSearch
     getPropertyForColumnTypeUserSearch(option, id) {
         const defaultValueSearchProperty = new ZDefaultValueSearchProperty(id + '|columnElement.defaultValue', 'element.defaultValue', option.columnElement.defaultValue);
-        defaultValueSearchProperty.help = 'form.help.search-default'
+        defaultValueSearchProperty.help = 'form.help.search-default';
         const userSearchProperty = new ZUserSearchProperty(id + '|columnElement.userSearchTarget',
             'element.searchTargetCriteria', option.columnElement.userSearchTarget);
         return [
@@ -631,8 +630,8 @@ export default class ZColumnProperty extends ZProperty {
     }
     // 컬럼 세부 속성 - OrganizationSearch
     getPropertyForColumnTypeOrganizationSearch(option, id) {
-        const defaultValueSearchProperty = new ZDefaultValueSearchProperty(id + '|columnElement.defaultValue', 'element.defaultValue', option.columnElement.defaultValue)
-        defaultValueSearchProperty.help = 'form.help.search-default'
+        const defaultValueSearchProperty = new ZDefaultValueSearchProperty(id + '|columnElement.defaultValue', 'element.defaultValue', option.columnElement.defaultValue);
+        defaultValueSearchProperty.help = 'form.help.search-default';
         return [
             new ZGroupProperty('group.columnElement')
                 .addProperty(defaultValueSearchProperty),

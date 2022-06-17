@@ -73,12 +73,12 @@ class WfFormService(
     fun getFormList(formSearchCondition: FormSearchCondition): RestTemplateFormListReturnDto {
         val pagingResult = wfFormRepository.findFormEntityList(formSearchCondition)
         val formList = mutableListOf<RestTemplateFormDto>()
+        // 발행 / 사용 상태일 경우 수정 불가능 (#8969 일감 참조)
         for (form in pagingResult.dataList as List<WfFormEntity>) {
             val restTemplateDto = wfFormMapper.toFormViewDto(form)
             when (restTemplateDto.status) {
-                WfFormConstants.FormStatus.EDIT.value,
-                WfFormConstants.FormStatus.PUBLISH.value -> restTemplateDto.editable = true
-                WfFormConstants.FormStatus.USE.value -> restTemplateDto.editable = false
+                WfFormConstants.FormStatus.EDIT.value -> restTemplateDto.editable = true
+                else -> false
             }
             formList.add(restTemplateDto)
         }

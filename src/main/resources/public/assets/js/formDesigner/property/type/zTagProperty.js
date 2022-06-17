@@ -25,8 +25,7 @@ export default class ZTagProperty extends ZProperty {
     makeProperty(panel) {
         this.panel = panel;
         // 속성 편집 가능여부 체크 - 문서가 '편집'이거나 또는 (문서가 '사용/발행' 이고 항시 편집 가능한 경우) 또는 (문서가 '사용/발행' 이고 연결된 업무흐름이 없는 경우)
-        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable)
-            || (!this.panel.editor.isDestory && !this.panel.editor.isCreatedWorkFlow);
+        this.isEditable = this.panel.editor.isEditable || (!this.panel.editor.isDestory && this.isAlwaysEditable);
 
         this.UIElement = new UIDiv().setUIClass('property')
             .setUIProperty('--data-column', this.columnWidth);
@@ -37,7 +36,7 @@ export default class ZTagProperty extends ZProperty {
         // 태그 속성의 특이한 점은 실제로는 input box 를 사용하지만 값은 json 형태의 데이터가 Array 형태로 관리된다는 점이다.
         // 아래와 같이 스트링으로 변환하여 input box 의 값으로 넣어줘야 tagify 에서 파싱해서 쓸 수 있다.
         let valueString = '[' +
-            this.value.map(function (tag) {
+            this.value.map(function(tag) {
                 return JSON.stringify(tag);
             }).toString() + ']';
 
