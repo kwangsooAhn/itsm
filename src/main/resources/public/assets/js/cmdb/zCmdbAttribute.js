@@ -281,8 +281,8 @@
                     `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
-                `<span class="z-icon i-delete"></span>` +
+                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<span class="z-icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -348,8 +348,8 @@
                 `</div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
-                `<span class="z-icon i-delete"></span>` +
+                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<span class="z-icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -418,8 +418,8 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon extra">` +
-                `<span class="z-icon i-delete"></span>` +
+                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<span class="z-icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -687,8 +687,8 @@
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
             `<div class="flex-column">` +
-            `<button id="${rowId}_delete" type="button" class="z-button-icon extra ml-1">` +
-            `<span class="z-icon i-delete"></span>` +
+            `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+            `<span class="z-icon i-remove"></span>` +
             `</button>` +
             `</div>` +
             `</div>`;
@@ -1085,8 +1085,8 @@
                     `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                    `<button type="button" class="z-button-icon extra user-search-delete-btn"` +
-                        ` data-user-id="${data.id}"><span class="z-icon i-delete"></span>` +
+                    `<button type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2 extra user-search-delete-btn"` +
+                        ` data-user-id="${data.id}"><span class="z-icon i-remove"></span>` +
                     `</button>` +
                 `</div>` +
             `</div>`;
@@ -1890,8 +1890,8 @@
                 if (parent.children.length > 1 && displayMode === 'edit') {
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
-                    removeBtn.className = 'z-button-icon extra z-button-attribute-delete';
-                    removeBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-delete"></span>`);
+                    removeBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-2 mb-2 z-button-attribute-delete';
+                    removeBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-remove"></span>`);
                     removeBtn.addEventListener('click', removeCIAttributeChild, false);
                     elem.appendChild(removeBtn);
                 }

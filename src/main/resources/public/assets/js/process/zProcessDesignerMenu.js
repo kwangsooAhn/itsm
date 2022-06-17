@@ -1425,10 +1425,10 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
-                btnDel.className = 'z-button-icon';
+                btnDel.className = 'z-button-icon-sm mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
-                btnIcon.className = 'z-icon i-delete';
+                btnIcon.className = 'z-icon i-remove';
                 btnDel.appendChild(btnIcon);
 
                 btnDel.addEventListener('click', function() {
@@ -1552,10 +1552,10 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
-            btnDel.className = 'z-button-icon';
+            btnDel.className = 'z-button-icon-sm mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
-            btnIcon.className = 'z-icon i-delete';
+            btnIcon.className = 'z-icon i-remove';
             btnDel.appendChild(btnIcon);
 
             btnDel.addEventListener('click', function() {

@@ -98,8 +98,8 @@
                             <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                             <td class="col-1 align-center">
                                 <th:block th:if="${category.boardCount == 0}">
-                                    <button class="z-button-icon extra" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])" type="button">
-                                        <span class="z-icon i-delete" ></span>
+                                    <button class="z-button-icon-sm mt-2 mb-2" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])" type="button">
+                                        <span class="z-icon i-remove" ></span>
                                     </button>
                                 </th:block>
                             </td>
