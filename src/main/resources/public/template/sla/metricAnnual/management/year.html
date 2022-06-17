@@ -24,7 +24,9 @@
                     </div>
                     <div class="flex-column col-3 pl-3">
                         <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}" class="required"></label>
-                        <select id="metricYearName"></select>
+                        <select id="metricYearName">
+                            <option value="" th:text="#{common.msg.select}" selected></option>
+                        </select>
                     </div>
                     <div class="flex-column col-2 pl-3">
                         <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
@@ -370,7 +372,7 @@
      * 연도별 SLA 지표관리 등록
      */
     function onSave(method) {
-        if (document.getElementById('metricYearName') && isEmpty('metricYearName', 'sla.metricYear.msg.noMetric', function() {
+        if (document.getElementById('metricYearName') && isEmpty('metricYearName', 'sla.metric.msg.noMetric', function() {
             document.getElementById('metricYearName').blur();
         })
         ) return false;

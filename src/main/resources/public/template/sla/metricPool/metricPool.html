@@ -126,7 +126,6 @@
 
     function saveSLA(method) {
         if (isEmpty('metricName', 'sla.metric.msg.enterMetricName')) return false;
-        if (isEmpty('metricDesc', 'common.msg.enterContents')) return false;
         if (isEmpty('metricGroup', 'common.msg.requiredSelect')) return false;
         if (method === 'POST' && isEmpty('metricType', 'common.msg.requiredSelect')) return false;
         if (method === 'POST' && isEmpty('metricUnit', 'common.msg.requiredSelect')) return false;

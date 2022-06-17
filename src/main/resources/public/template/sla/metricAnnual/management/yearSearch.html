@@ -156,6 +156,10 @@
      * 복사해오기 모달 저장
      */
     function onCopyModal() {
+        if (document.getElementById('copySourceYear') && isEmpty('copySourceYear', 'sla.metric.msg.noMetric', function() {
+            document.getElementById('copySourceYear').blur();
+        })
+        ) return false;
         let data = {
             metricId: document.getElementById('copyMetricName').value,
             source: document.getElementById('copySourceYear').value,

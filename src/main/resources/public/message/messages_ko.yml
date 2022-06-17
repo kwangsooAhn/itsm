@@ -1409,6 +1409,7 @@ sla:
       description: "SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
       duplicateMetricName: "동일한 지표 이름이 존재합니다.<br>지표 이름을 확인해주세요."
       enterMetricName: "지표 이름을 입력하세요."
+      noMetric: "대상 년도에 등록된 지표가 없습니다."
       useMetric: "사용중인 지표입니다."
       viewDescription: "SLA 지표관리에 대한 상세 정보를 조회합니다."
   metricManual:
@@ -1465,7 +1466,6 @@ sla:
       checkValue: "소수점 이하 네 번째 자리까지 입력할 수 있습니다."
       copy: "지표를 {0}년 지표로 복사합니다."
       description: "연도별 SLA 지표관리에 대한 내용을 등록하거나 수정, 삭제합니다."
-      noMetric: "대상 년도에 등록된 지표가 없습니다."
       totalScore: "가중치 합산이 100%가 되어야 정상적인 점수가 계산됩니다."
       viewDescription: "연도별 SLA 지표관리에 대한 상세 정보를 조회합니다."
       zqlAverageDescription: "평균 계산방식은 결과의 평균을 구합니다. ZQl의 결과는 숫자형태여야 합니다."
