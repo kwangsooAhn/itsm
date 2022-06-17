@@ -85,4 +85,10 @@ class MetricManualRepositoryImpl : QuerydslRepositorySupport(MetricManualEntity:
             .where(metric.metricType.eq(metricType))
             .fetch()
     }
+
+    override fun existsByMetric(metricId: String): Boolean {
+        return from(manual)
+            .where(manual.metric.metricId.eq(metricId))
+            .fetchFirst() != null
+    }
 }

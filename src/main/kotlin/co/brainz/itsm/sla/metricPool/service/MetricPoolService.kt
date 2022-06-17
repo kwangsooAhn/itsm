@@ -10,6 +10,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
 import co.brainz.itsm.sla.metricPool.dto.MetricData
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional
 class MetricPoolService(
     private val metricPoolRepository: MetricPoolRepository,
     private val metricYearRepository: MetricYearRepository,
+    private val metricManualRepository: MetricManualRepository,
     private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -113,8 +115,8 @@ class MetricPoolService(
     @Transactional
     fun deleteMetric(metricId: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        // 연도별 지표에 존재하는지 체크
-        if (metricYearRepository.existsByMetric(metricId)) {
+        // 연도별 지표 or 수동지표 테이블에 존재하는지 체크
+        if (metricYearRepository.existsByMetric(metricId) || metricManualRepository.existsByMetric(metricId)) {
             status = ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             metricPoolRepository.deleteById(metricId)
