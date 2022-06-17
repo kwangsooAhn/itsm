@@ -1396,6 +1396,10 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
+.none {
+  display: none;
+}
+
 .flex-col-1 {
   flex-basis: 8.3333333333% !important;
 }
@@ -5566,12 +5570,14 @@ body.modal-active {
   height: 28.125rem;
 }
 .modal-dialog.sla-metric-manual-modal {
+  width: 30rem;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
 }
 .modal-dialog.sla-metric-manual-modal .modal-content {
+  height: 16.125rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
@@ -5582,7 +5588,7 @@ body.modal-active {
   width: 62.5rem;
 }
 .modal-dialog.sla-metric-yearly-copy-modal .modal-content {
-  height: 6.125rem;
+  height: 9.125rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal {
@@ -5603,6 +5609,23 @@ body.modal-active {
 .modal-dialog.sla-zql-manual-modal .modal-content div {
   font-size: 1.25rem;
   line-height: 1.5;
+}
+.modal-dialog.sla-chart-view-modal {
+  min-width: 68.75rem;
+}
+.modal-dialog.sla-chart-view-modal .modal-header {
+  border-bottom: 0.0625rem solid transparent;
+}
+.modal-dialog.sla-chart-view-modal .modal-content {
+  width: auto;
+  height: auto;
+}
+.modal-dialog.sla-chart-view-modal .modal-content .chart-edit-content {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin: 0 1.5rem;
 }
 
 .modal-wrapper.modal-active {

@@ -30,6 +30,7 @@ data class MetricYearViewData(
     val metricYear: String,
     val metricGroupName: String,
     val metricName: String,
+    val metricUnit: String,
     val minValue: Float,
     val maxValue: Float,
     val weightValue: Float,

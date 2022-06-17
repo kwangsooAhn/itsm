@@ -23,7 +23,7 @@
                         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="metricYear" name="metricYear"/>
                     </div>
                     <div class="flex-column col-3 pl-3">
-                        <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}"></label>
+                        <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}" class="required"></label>
                         <select id="metricYearName"></select>
                     </div>
                     <div class="flex-column col-2 pl-3">
@@ -94,27 +94,33 @@
                 </div>
             </th:block>
             <div class="flex-row z-edit-row">
-                <div class="flex-column col-1">
+                <div class="flex-column col-2">
                     <label th:text="#{sla.metricYear.label.minValue}" for="minValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="minValue" name="minValue" class="z-input metric-value"
                                onchange="checkDecimalValue('minValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.minValue}" th:readonly="${view}"/>
-                        <span class="pl-1" th:text="#{sla.metricYear.label.option.score}"></span>
+                        <span class="pl-1" id="minValueUnit"
+                              th:if="${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
+                        <span class="pl-1" th:text="#{|${metric?.metricUnit}|}"
+                              th:if="!${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
                     </div>
                 </div>
-                <div class="flex-column col-1 ml-5">
+                <div class="flex-column col-2 ml-5">
                     <label th:text="#{sla.metricYear.label.maxValue}" for="maxValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="maxValue" name="maxValue" class="z-input metric-value"
                                onchange="checkDecimalValue('maxValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.maxValue}" th:readonly="${view}"/>
-                        <span class="pl-1" th:text="#{sla.metricYear.label.option.score}"></span>
+                        <span class="pl-1" id="maxValueUnit"
+                              th:if="${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
+                        <span class="pl-1" th:text="#{|${metric?.metricUnit}|}"
+                              th:if="!${#strings.isEmpty(edit) && #strings.isEmpty(view)}"></span>
                     </div>
                 </div>
-                <div class="flex-column col-1 ml-5">
+                <div class="flex-column col-2 ml-5">
                     <label th:text="#{sla.metricYear.label.weightValue}" for="weightValue" class="required"></label>
                     <div class="flex-row">
                         <input type="text" id="weightValue" name="weightValue" class="z-input metric-value"
@@ -124,31 +130,35 @@
                         <span class="pl-1" th:text="#{sla.metricYear.label.option.percent}"></span>
                     </div>
                 </div>
-                <div class="flex-column col-2 ml-5">
-                    <label th:text="#{sla.metricYear.label.owner}" for="owner" class="required"></label>
+                <div class="flex-column col-3 ml-5">
+                    <label th:text="#{sla.metricYear.label.owner}" for="owner"></label>
                     <input type="text" id="owner" name="owner" class="z-input" maxlength="128"
                            th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[0-9]/g,\'\');'"
                            th:value="${metric?.owner}" th:readonly="${view}"/>
                 </div>
-                <div class="flex-column col-6 pl-3">
-                    <label th:text="#{sla.metricYear.label.comment}" for="comment" class="required"></label>
-                    <input type="text" id="comment" name="comment" class="z-input" maxlength="128"
+            </div>
+            <div class="z-edit-form z-edit-row">
+                <div class="flex-column">
+                    <label th:text="#{sla.metricYear.label.comment}" for="comment"></label>
+                    <input type="text" class="z-input" id="comment" name="comment" maxlength="128"
                            th:value="${metric?.comment}" th:readonly="${view}"/>
                 </div>
             </div>
-            <div class="z-edit-row flex-column flex-fill">
-                <div class="flex-row justify-content-between align-items-center">
-                    <label class="required" th:text="#{sla.metricYear.label.zql}" for="zqlString"></label>
-                    <p class="font-bold text-blue500" id="zqlDescription"></p>
+            <div id="zqlContainer">
+                <div class="z-edit-row flex-column flex-fill" id="zqlContents">
+                    <div class="flex-row justify-content-between align-items-center">
+                        <label class="required" th:text="#{sla.metricYear.label.zql}" for="zqlString"></label>
+                        <p class="font-bold text-blue500" id="zqlDescription"></p>
+                    </div>
+                    <div class="horizontal-bar"></div>
+                    <p class="pt-1 pb-3">
+                        <span th:text="#{sla.metricYear.msg.zqlDescription}"></span>
+                        <a class="font-bold underline" onclick="openZqlManualModal()" th:text="#{sla.metricYear.label.zqlManual}"></a>
+                        <span th:text="#{sla.metricYear.msg.zqlDescriptionCheck}"></span>
+                    </p>
+                    <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"  th:readonly="${view}"
+                           th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
                 </div>
-                <div class="horizontal-bar"></div>
-                <p class="pt-1 pb-3">
-                    <span th:text="#{sla.metricYear.msg.zqlDescription}"></span>
-                    <a class="font-bold underline" onclick="openZqlManualModal()" th:text="#{sla.metricYear.label.zqlManual}"></a>
-                    <span th:text="#{sla.metricYear.msg.zqlDescriptionCheck}"></span>
-                </p>
-                <input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128"  th:readonly="${view}"
-                       th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
             </div>
             <div class="flex-row justify-content-between z-edit-row">
                 <div class="z-button-list">
@@ -173,6 +183,9 @@
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     let yearDt = i18n.getYear();
+    let metric = /*[[${metric}]]*/;
+    const zqlContents = document.getElementById('zqlContents');
+    const zqlDescription = document.getElementById('zqlDescription');
 
     window.onload = function() {
         if (/*[[${#strings.isEmpty(edit) && #strings.isEmpty(view)}]]*/) { // 등록일 때
@@ -180,8 +193,12 @@
             yearDtElement.value = yearDt;
             zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
             getList()
+        } else if (/*[[!${#strings.isEmpty(edit) && #strings.isEmpty(view)}]]*/) { // 편집 조회일 때
+            if (metric.metricType === 'sla.metricType.manual') {
+                zqlContents.remove();
+            }
+            zqlDescription.textContent = zqlDescriptionText(metric.calculationType);
         }
-        document.getElementById('minValue').focus();
         OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
         setMetricValueFormat();
     }
@@ -242,9 +259,10 @@
             const metricYearGroup = document.getElementById('metricYearGroup');
             const metricYearType = document.getElementById('metricYearType');
             const metricYearUnit = document.getElementById('metricYearUnit');
+            const minValueUnit = document.getElementById('minValueUnit');
+            const maxValueUnit = document.getElementById('maxValueUnit');
             const metricYearCalcType = document.getElementById('metricYearCalcType');
             const metricYearDesc = document.getElementById('metricYearDesc');
-            const zqlDescription = document.getElementById('zqlDescription')
             for (let i = 0; i < metricList.length; i++) {
                 const selectOption = document.createElement('option');
                 selectOption.text = metricList[i].metricName;
@@ -253,36 +271,69 @@
                 metricYearGroup.value = metricList[0].metricGroupName;
                 metricYearType.value = i18n.msg(metricList[0].metricType);
                 metricYearUnit.value = i18n.msg(metricList[0].metricUnit);
+                minValueUnit.textContent = i18n.msg(metricList[0].metricUnit);
+                maxValueUnit.textContent = i18n.msg(metricList[0].metricUnit);
                 metricYearCalcType.value = i18n.msg(metricList[0].metricCalculationType);
                 metricYearDesc.value = metricList[0].metricDesc;
-                // 해당 지표의 계산방식에 text 변경
-                if (metricList[0].metricCalculationType === 'sla.calculationType.average') {
-                    zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlAverageDescription')
-                } else if (metricList[0].metricCalculationType === 'sla.calculationType.percentage') {
-                    zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlRateDescription')
+
+                if (metricList[0].metricType === 'sla.metricType.manual') {
+                    zqlContents.remove()
                 } else {
-                    zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlTotalDescription')
+                    zqlDescription.textContent = zqlDescriptionText(metricList[0].metricCalculationType);
                 }
+
+                // 지표 목록 변경시 change 이벤트
                 document.getElementById('metricYearName').addEventListener('change', function() {
+                    const parent = document.getElementById('zqlContainer');
+                    const zqlContents = document.getElementById('zqlContents');
                     if (selectTag.value === metricList[i].metricId) {
                         metricYearGroup.value = metricList[i].metricGroupName;
                         metricYearType.value = i18n.msg(metricList[i].metricType);
                         metricYearUnit.value = i18n.msg(metricList[i].metricUnit);
+                        minValueUnit.textContent = i18n.msg(metricList[i].metricUnit);
+                        maxValueUnit.textContent = i18n.msg(metricList[i].metricUnit);
                         metricYearCalcType.value = i18n.msg(metricList[i].metricCalculationType);
                         metricYearDesc.value = metricList[i].metricDesc;
-
-                        if (metricList[i].metricCalculationType === 'sla.calculationType.average') {
-                            zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlAverageDescription')
-                        } else if (metricList[i].metricCalculationType === 'sla.calculationType.percentage') {
-                            zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlPercentageDescription')
+                        if (metricList[i].metricType === 'sla.metricType.manual') {
+                            zqlContents.remove();
                         } else {
-                            zqlDescription.textContent = i18n.msg('sla.metricYear.msg.zqlTotalDescription')
+                            zqlDescription.textContent = zqlDescriptionText(metricList[i].metricCalculationType);
+                            // 타입이 자동일 경우 zql container 생성
+                            const template =
+                                `<div class="z-edit-row flex-column flex-fill" id="zqlContents">` +
+                                `<div class="flex-row justify-content-between align-items-center">` +
+                                `<label class="required" for="zqlString">${i18n.msg('sla.metricYear.label.zql')}</label>` +
+                                `<p class="font-bold text-blue500" id="zqlDescription"></p>` +
+                                `</div>` +
+                                `<div class="horizontal-bar"></div>` +
+                                `<p class="pt-1 pb-3">` +
+                                `<span>${i18n.msg('sla.metricYear.msg.zqlDescription')}</span>` +
+                                `<a class="font-bold underline" onclick="openZqlManualModal()" >` +
+                                `${i18n.msg('sla.metricYear.label.zqlManual')}</a>` +
+                                `<span">${i18n.msg('${sla.metricYear.msg.zqlDescriptionCheck')}</span>` +
+                                `</p>` +
+                                `<input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128" ` +
+                                `placeholder="${i18n.msg('${sla.metricYear.label.zqlPlaceholder')}"/>` +
+                                `</div>`;
+                            if (parent.children.length === 0) parent.insertAdjacentHTML('beforeend', template);
                         }
                     }
                 });
             }
             aliceJs.initDesignedSelectTag();
         });
+    }
+
+    // 해당 지표의 계산방식에 zqlDescription text 변경
+    function zqlDescriptionText(param) {
+        switch (param) {
+            case 'sla.calculationType.average':
+                return i18n.msg('sla.metricYear.msg.zqlAverageDescription');
+            case 'sla.calculationType.percentage':
+                return i18n.msg('sla.metricYear.msg.zqlPercentageDescription');
+            default:
+                return i18n.msg('sla.metricYear.msg.zqlTotalDescription');
+        }
     }
 
     /**
@@ -319,15 +370,14 @@
      * 연도별 SLA 지표관리 등록
      */
     function onSave(method) {
-        if (isEmpty('minValue', 'common.msg.requiredEnter')) return false;
-        if (isEmpty('maxValue', 'common.msg.requiredEnter')) return false;
-        if (isEmpty('weightValue', 'common.msg.requiredEnter')) return false;
-        if (isEmpty('owner', 'common.msg.requiredEnter')) return false;
-        if (isEmpty('comment', 'common.msg.requiredEnter')) return false;
-        if (isEmpty('zqlString', 'common.msg.requiredEnter')) return false;
-        if (!this.checkDecimalValue('minValue', 'sla.metricYear.msg.checkValue')) return false;
-        if (!this.checkDecimalValue('maxValue', 'sla.metricYear.msg.checkValue')) return false;
-        if (!this.checkDecimalValue('weightValue', 'sla.metricYear.msg.checkValue')) return false;
+        if (document.getElementById('metricYearName') && isEmpty('metricYearName', 'sla.metricYear.msg.noMetric', function() {
+            document.getElementById('metricYearName').blur();
+        })
+        ) return false;
+        if (isEmpty('minValue', 'common.msg.requiredEnter') || !this.checkDecimalValue('minValue', 'sla.metricYear.msg.checkValue')) return false;
+        if (isEmpty('maxValue', 'common.msg.requiredEnter') || !this.checkDecimalValue('maxValue', 'sla.metricYear.msg.checkValue')) return false;
+        if (isEmpty('weightValue', 'common.msg.requiredEnter') || !this.checkDecimalValue('weightValue', 'sla.metricYear.msg.checkValue')) return false;
+        if (document.getElementById('zqlString') && isEmpty('zqlString', 'common.msg.requiredEnter')) return false;
 
         let data = {
             metricId: (method === 'POST' ? document.getElementById('metricYearName').value : document.getElementById('metricYearIdInput').value),
@@ -337,7 +387,7 @@
             weightValue: document.getElementById('weightValue').value,
             owner: document.getElementById('owner').value,
             comment: document.getElementById('comment').value,
-            zqlString: document.getElementById('zqlString').value
+            zqlString: document.getElementById('zqlString') ? document.getElementById('zqlString').value : ''
         }
         let url = '/rest/sla/metrics';
 
