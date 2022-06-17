@@ -95,6 +95,7 @@
   &.i-gnb-workflow { @include maskImage('#{$icon-folder-path}gnb/icon_gnb_workflow.svg', 1.5rem, 1.5rem, no-repeat, center); }
   &.i-gnb-token { @include maskImage('#{$icon-folder-path}gnb/icon_gnb_token.svg', 1.5rem, 1.5rem, no-repeat, center); }
   &.i-gnb-cmdb { @include maskImage('#{$icon-folder-path}gnb/icon_gnb_cmdb.svg', 1.5rem, 1.5rem, no-repeat, center); }
+  &.i-gnb-calendar { @include maskImage('#{$icon-folder-path}gnb/icon_gnb_calendar.svg', 1.5rem, 1.5rem, no-repeat, center); }
   &.i-gnb_sub_dot { @include maskImage('#{$icon-folder-path}gnb/icon_gnb_sub_dot.svg', 0.25rem, 0.25rem, no-repeat, center); } // 4xp 4px
 
   //////////////////////////// formDesinger ////////////////////////////

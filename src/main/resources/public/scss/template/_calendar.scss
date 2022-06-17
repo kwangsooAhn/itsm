@@ -1,6 +1,6 @@
-/* _calendar.scss
+/*
  *
- * 파일 경로 : template/_calendar.scss
+ *
  * @description tui-calendar 라이브러리 재디자인
  * @author wdj
  * @version 1.0
@@ -9,6 +9,15 @@
 :root {
   --data-modal-width: 450;
   --data-modal-height: 375;
+}
+
+// TODO: 정리 필요
+.z-button-switch {
+  .z-text {
+    display: inline-block;
+    padding: 0.5625rem 0.875rem; // 9px 14px
+    pointer-events: none;
+  }
 }
 
 .calendar {
@@ -210,33 +219,33 @@
         .tui-full-calendar-weekday-schedules,
         .tui-full-calendar-timegrid-container {
           &::-webkit-scrollbar {
-            width: $scrollbar-thick;
+            width: 0.5rem; // 8px
 
             &-track {
-              background-color: $scrollbar-bg-color;
+              background-color: $neutral100;
             }
 
             &-thumb {
-              background-color: $scrollbar-color;
+              background-color: $neutral300;
 
               &:hover {
-                background-color: $scrollbar-hover-color;
+                background-color: $gray300;
               }
 
               &:active {
-                background-color: $scrollbar-hover-color;
+                background-color: $gray300;
               }
             }
 
             &-track,
             &-thumb {
-              @include borderRadius($scrollbar-border-radius);
+              @include borderRadius(0.5rem);
             }
           }
 
           // firefox
           scrollbar-width: thin;
-          scrollbar-color: $scrollbar-color $scrollbar-bg-color;
+          scrollbar-color: $neutral300 $neutral100;
         }
 
         // 종일 일정
@@ -523,6 +532,22 @@
           height: 3.75rem; // 60px
           padding: 0.75rem 1.25rem; // 12px 20px
         }
+      }
+    }
+    // 일정 관리 일괄 등록 모달
+    &.calendar__template--import {
+      width: 37.5rem; // 600px
+      height: 25.625rem; // 410px
+
+      .modal-content {
+        height: calc(25.625rem - 3.875rem - 5rem);
+        padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+        .field-label {
+          display: inline-block;
+          margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+        }
+
       }
     }
   }
