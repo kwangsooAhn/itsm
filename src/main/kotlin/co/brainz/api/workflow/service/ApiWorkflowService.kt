@@ -11,6 +11,7 @@ import co.brainz.api.dto.RequestDto
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.cmdb.ci.service.CIService
@@ -176,7 +177,15 @@ class ApiWorkflowService(
                     instancePlatform = WorkflowConstants.InstancePlatform.API.code,
                     data = wfTokenDataRepository.getTokenDataList(token.tokenId)
                 )
-                return wfEngine.progressWorkflow(tokenDto)
+
+                return when (wfEngine.progressWorkflow(tokenDto)) {
+                    ZResponseConstants.STATUS.SUCCESS.code -> {
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
             }
             false -> {
                 throw AliceException(
