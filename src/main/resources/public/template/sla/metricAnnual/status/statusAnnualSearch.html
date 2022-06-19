@@ -34,7 +34,7 @@
     <div class="ml-auto">
         <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
-            <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
+            <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}"/>
         </button>
     </div>
 </div>
@@ -47,7 +47,7 @@
         /*<![CDATA[*/
         const yearDt = i18n.getYear();
 
-        window.onload = function() {
+        window.onload = function () {
             const yearDtElement = document.getElementById('year');
             yearDtElement.value = yearDt;
             zDateTimePicker.initYearPicker(yearDtElement, setDatePicker);
@@ -73,14 +73,25 @@
                 listBody.innerHTML = htmlData;
                 setMetricValueFormat(listBody);
 
+                //최종점수 계산
+                let scoreArr = {
+                    'score': [],
+                    'weight': []
+                };
+                let resultArr = [];
                 const resultScore = document.querySelector('#resultScore span:first-child');
-                let totalWeight = 0;
                 resultScore.textContent = '0';
+
                 document.querySelectorAll('.result-value').forEach(elem => {
-                    const numWeightValue =  Number(elem.textContent);
-                    totalWeight += numWeightValue;
-                    resultScore.textContent = totalWeight;
+                    scoreArr.score.push(Number(elem.textContent));
                 });
+                document.querySelectorAll('.weight-value').forEach(elem => {
+                    scoreArr.weight.push(Number(elem.textContent));
+                });
+                for (let i = 0; i < scoreArr.score.length; i++) {
+                    resultArr.push(scoreArr.weight[i] / 100 * scoreArr.score[i]);
+                }
+                resultScore.textContent = resultArr.reduce((a, b) => (a + b));
             });
         }
 
