@@ -270,36 +270,23 @@
                 selectOption.text = metricList[i].metricName;
                 selectOption.value = metricList[i].metricId;
                 selectTag.appendChild(selectOption);
-                metricYearGroup.value = metricList[0].metricGroupName;
-                metricYearType.value = i18n.msg(metricList[0].metricType);
-                metricYearUnit.value = i18n.msg(metricList[0].metricUnit);
-                minValueUnit.textContent = i18n.msg(metricList[0].metricUnit);
-                maxValueUnit.textContent = i18n.msg(metricList[0].metricUnit);
-                metricYearCalcType.value = i18n.msg(metricList[0].metricCalculationType);
-                metricYearDesc.value = metricList[0].metricDesc;
-
-                if (metricList[0].metricType === 'sla.metricType.manual') {
-                    zqlContents.remove()
-                } else {
-                    zqlDescription.textContent = zqlDescriptionText(metricList[0].metricCalculationType);
-                }
 
                 // 지표 목록 변경시 change 이벤트
                 document.getElementById('metricYearName').addEventListener('change', function() {
                     const parent = document.getElementById('zqlContainer');
                     const zqlContents = document.getElementById('zqlContents');
+                    const zqlDescription = document.getElementById('zqlDescription');
                     if (selectTag.value === metricList[i].metricId) {
                         metricYearGroup.value = metricList[i].metricGroupName;
                         metricYearType.value = i18n.msg(metricList[i].metricType);
                         metricYearUnit.value = i18n.msg(metricList[i].metricUnit);
-                        minValueUnit.textContent = i18n.msg(metricList[i].metricUnit);
-                        maxValueUnit.textContent = i18n.msg(metricList[i].metricUnit);
                         metricYearCalcType.value = i18n.msg(metricList[i].metricCalculationType);
                         metricYearDesc.value = metricList[i].metricDesc;
-                        if (metricList[i].metricType === 'sla.metricType.manual') {
+                        minValueUnit.textContent = i18n.msg(metricList[i].metricUnit);
+                        maxValueUnit.textContent = i18n.msg(metricList[i].metricUnit);
+                        if (zqlContents && (metricList[i].metricType === 'sla.metricType.manual')) {
                             zqlContents.remove();
-                        } else {
-                            zqlDescription.textContent = zqlDescriptionText(metricList[i].metricCalculationType);
+                        } else if (metricList[i].metricType === 'sla.metricType.auto') {
                             // 타입이 자동일 경우 zql container 생성
                             const template =
                                 `<div class="z-edit-row flex-column flex-fill" id="zqlContents">` +
@@ -318,6 +305,8 @@
                                 `placeholder="${i18n.msg('${sla.metricYear.label.zqlPlaceholder')}"/>` +
                                 `</div>`;
                             if (parent.children.length === 0) parent.insertAdjacentHTML('beforeend', template);
+                            console.log(zqlDescription)
+                            zqlDescription.textContent = zqlDescriptionText(metricList[i].metricCalculationType);
                         }
                     }
                 });
