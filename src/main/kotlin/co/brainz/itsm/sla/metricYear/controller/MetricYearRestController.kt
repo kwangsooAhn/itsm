@@ -86,4 +86,12 @@ class MetricYearRestController(
     fun getMetricPreviewChart(@PathVariable metricId: String, @RequestParam("year") year: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(metricYearService.metricPreviewChartData(metricId, year))
     }
+
+    /**
+     * 연도별 지표 복사하기
+     */
+    @GetMapping("/exist")
+    fun metricYearExist(): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(metricYearService.getYears())
+    }
 }
