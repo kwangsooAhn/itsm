@@ -12333,42 +12333,6 @@ span.modal_node_selected label {
   height: 0.5rem;
 }
 
-/* form, group, row, component 디자인 - document ver. */
-.z-group-tooltip {
-  border: 0.0625rem solid #FFFFFF;
-}
-
-.z-row-tooltip {
-  border: 0.0625rem solid #FFFFFF;
-}
-
-.z-component-tooltip {
-  border: 0.0625rem solid #FFFFFF;
-}
-
-.z-component {
-  padding: 0 1rem;
-}
-.z-component-tooltip {
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-.z-component span {
-  word-break: break-all;
-}
-
-.z-group.accordion .z-group-accordion-checkBox:checked ~ .row-tooltip:not(.off):last-child {
-  border-bottom: 0.0625rem solid #CFD5D9;
-}
-.z-group .z-element {
-  pointer-events: auto;
-}
-
-.z-dr-table-button-group {
-  top: -0.25rem !important;
-}
-
 /* 신청서 / 처리할 문서 양식 layout
  * z-document-container
  *                - z-document-main : 문서양식 메인
@@ -12377,8 +12341,38 @@ span.modal_node_selected label {
  *                - z-token-properties : 문서이력, 관련문서, 의견, 태그
  */
 .z-document-container {
+  /* form, group, row, component 디자인 - document ver. */
   max-width: 120rem;
   margin: 0 auto;
+}
+.z-document-container .z-group-tooltip {
+  border: 0.0625rem solid #FFFFFF;
+}
+.z-document-container .z-row-tooltip {
+  border: 0.0625rem solid #FFFFFF;
+}
+.z-document-container .z-component-tooltip {
+  border: 0.0625rem solid #FFFFFF;
+}
+.z-document-container .z-component {
+  padding: 0 1rem;
+}
+.z-document-container .z-component-tooltip {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.z-document-container .z-component span {
+  word-break: break-all;
+}
+.z-document-container .z-group.accordion .z-group-accordion-checkBox:checked ~ .row-tooltip:not(.off):last-child {
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.z-document-container .z-group .z-element {
+  pointer-events: auto;
+}
+.z-document-container .z-dr-table-button-group {
+  top: -0.25rem !important;
 }
 .z-document-container .z-document-main {
   position: fixed;
@@ -13075,3 +13069,10 @@ span.modal_node_selected label {
     width: 210mm;
   }
 }
+/* portal
+ *
+ *
+ * 파일 경로 : layout/_portal.scss
+ * @description portal에서 사용되는 scss
+ * @version 1.0
+ */

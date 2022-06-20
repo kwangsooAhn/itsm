@@ -13,40 +13,6 @@
   }
 }
 
-////////////////////////// form //////////////////////////
-/* form, group, row, component 디자인 - document ver. */
-// 툴팁 border 초기화
-$tooltip-type: (group, row, component);
-@each $type in $tooltip-type {
-  .z-#{$type}-tooltip {
-    @include border(0.0625rem, solid, $white, all); // 1px
-  }
-}
-
-.z-component {
-  padding: 0 1rem;
-  &-tooltip {
-    display: flex;
-    margin: 0;
-    padding: 0;
-  }
-  span { word-break: break-all; }
-}
-
-.z-group {
-  &.accordion {
-    .z-group-accordion-checkBox:checked {
-      ~ .row-tooltip:not(.off):last-child {
-        @include border(0.0625rem, solid, $gray300, bottom); // 1px
-      }
-    }
-  }
-  .z-element { pointer-events: auto; }
-}
-
-.z-dr-table-button-group { top: -0.25rem !important; }
-
-////////////////////////// layout //////////////////////////
 /* 신청서 / 처리할 문서 양식 layout
  * z-document-container
  *                - z-document-main : 문서양식 메인
@@ -56,7 +22,39 @@ $tooltip-type: (group, row, component);
  */
 // 신청서, 문서함 공통
 .z-document-container {
+  ////////////////////////// form //////////////////////////
+  $tooltip-type: (group, row, component);
+  @each $type in $tooltip-type {
+    .z-#{$type}-tooltip {
+      @include border(0.0625rem, solid, $white, all); // 1px
+    }
+  }
+  /* form, group, row, component 디자인 - document ver. */
+  // 툴팁 border 초기화
+  .z-component {
+    padding: 0 1rem;
+    &-tooltip {
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    span { word-break: break-all; }
+  }
+  .z-group {
+    &.accordion {
+      .z-group-accordion-checkBox:checked {
+        ~ .row-tooltip:not(.off):last-child {
+          @include border(0.0625rem, solid, $gray300, bottom); // 1px
+        }
+      }
+    }
+    .z-element { pointer-events: auto; }
+  }
+  .z-dr-table-button-group { top: -0.25rem !important; }
+
+  ////////////////////////// layout //////////////////////////
   @include container;
+
 
   .z-document-main {
     @include fixed(0, 33.125rem, 0, 0); // 530px
