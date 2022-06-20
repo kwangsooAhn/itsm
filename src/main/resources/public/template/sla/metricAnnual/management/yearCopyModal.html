@@ -4,6 +4,7 @@
 <!-- 복사해오기 모달 -->
 <div class="flex-row z-edit-row">
     <select id="copySourceYear" class="flex-column col-2 mr-1">
+        <option value="" th:text="#{sla.metricYear.label.targetYear}" selected></option>
         <option th:each="years: ${yearsList}" th:text="${years}" th:value="${years}" ></option>
     </select>
     <span class="mr-3" th:text="#{sla.metricYear.label.year}"></span>
