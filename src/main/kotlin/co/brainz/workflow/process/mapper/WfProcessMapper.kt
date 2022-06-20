@@ -20,7 +20,8 @@ interface WfProcessMapper {
         Mapping(source = "createUser.userName", target = "createUserName"),
         Mapping(source = "updateUser.userKey", target = "updateUserKey"),
         Mapping(source = "updateUser.userName", target = "updateUserName"),
-        Mapping(target = "enabled", ignore = true)
+        Mapping(target = "enabled", ignore = true),
+        Mapping(target = "createdWorkFlow", ignore = true)
     )
     fun toProcessViewDto(processEntity: WfProcessEntity): RestTemplateProcessViewDto
 
@@ -54,7 +55,8 @@ interface WfProcessMapper {
         Mapping(source = "updateDt", target = "updateDt"),
         Mapping(source = "updateUserKey", target = "updateUserKey"),
         Mapping(target = "updateUserName", ignore = true),
-        Mapping(target = "enabled", ignore = true)
+        Mapping(target = "enabled", ignore = true),
+        Mapping(target = "createdWorkFlow", ignore = true)
     )
     fun toRestTemplateProcessViewDto(restTemplateProcessDto: RestTemplateProcessDto): RestTemplateProcessViewDto
 }
