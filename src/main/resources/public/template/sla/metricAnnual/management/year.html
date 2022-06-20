@@ -240,7 +240,7 @@
     function setMetricValueFormat() {
         document.querySelectorAll('.metric-value').forEach(value => {
             const userMetricValue = value.value.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
-            value.value = userMetricvalue = '';
+            value.value = userMetricValue;
             value.setAttribute('title', userMetricValue);
         });
     }
