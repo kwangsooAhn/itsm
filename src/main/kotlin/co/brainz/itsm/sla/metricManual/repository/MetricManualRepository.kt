@@ -16,4 +16,8 @@ interface MetricManualRepository : JpaRepository<MetricManualEntity, String>, Me
     @Query("select sum(m.metricValue) from MetricManualEntity m where m.metric.metricId = :metricManualId " +
         "and m.referenceDate >= :startDt and m.referenceDate <= :endDt")
     fun findManualPointSum(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float?
+
+    @Query("select avg(m.metricValue) from MetricManualEntity m where m.metric.metricId = :metricManualId " +
+        "and m.referenceDate >= :startDt and m.referenceDate <= :endDt")
+    fun findManualPointAverage(metricManualId: String, startDt: LocalDate, endDt: LocalDate): Float?
 }
