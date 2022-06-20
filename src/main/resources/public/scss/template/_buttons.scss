@@ -107,25 +107,6 @@ $button-group: (
         'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
         'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
-//////////////////////////// Designer /////////////////////
-//////////////////////////// portal ///////////////////////////
-$button-themes-social: (
-        'google': (
-                'default': ('font': $gray800, 'background': $white, 'border': $gray300),
-                'hover': ('font' : $gray800, 'background': $neutral200, 'border': $gray300),
-                'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-                'active': ('font': $gray800, 'background': $neutral300, 'border': $gray400),
-                'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
-        ),
-        'kakao': (
-                'default': ('font': $gray800, 'background': $yellow500, 'border': $yellow600),
-                'hover': ('font' : $gray800, 'background': $yellow400, 'border': $yellow600),
-                'focus': ('font': $gray800, 'background': $yellow500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-                'active': ('font': $gray800, 'background': $yellow600, 'border': $yellow800),
-                'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
-        )
-);
-
 .z-button,
 .z-button-icon,
 .z-button-text {
