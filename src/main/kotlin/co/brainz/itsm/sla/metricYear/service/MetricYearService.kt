@@ -170,7 +170,6 @@ class MetricYearService(
                     )
                     else -> 0f
                 }
-
             } else {
                 zql.setExpression(it.zqlString)
                     .setFrom(from)
