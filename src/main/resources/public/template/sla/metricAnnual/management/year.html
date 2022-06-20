@@ -187,7 +187,7 @@
     let yearDt = i18n.getYear();
     let metric = /*[[${metric}]]*/;
     const zqlContents = document.getElementById('zqlContents');
-    const zqlDescription = document.getElementById('zqlDescription');
+    let zqlDescription = document.getElementById('zqlDescription');
 
     window.onload = function() {
         if (/*[[${#strings.isEmpty(edit) && #strings.isEmpty(view)}]]*/) { // 등록일 때
@@ -275,7 +275,6 @@
                 document.getElementById('metricYearName').addEventListener('change', function() {
                     const parent = document.getElementById('zqlContainer');
                     const zqlContents = document.getElementById('zqlContents');
-                    const zqlDescription = document.getElementById('zqlDescription');
                     if (selectTag.value === metricList[i].metricId) {
                         metricYearGroup.value = metricList[i].metricGroupName;
                         metricYearType.value = i18n.msg(metricList[i].metricType);
@@ -305,8 +304,8 @@
                                 `placeholder="${i18n.msg('${sla.metricYear.label.zqlPlaceholder')}"/>` +
                                 `</div>`;
                             if (parent.children.length === 0) parent.insertAdjacentHTML('beforeend', template);
-                            console.log(zqlDescription)
-                            zqlDescription.textContent = zqlDescriptionText(metricList[i].metricCalculationType);
+                            document.querySelector('#zqlDescription').textContent =
+                                zqlDescriptionText(metricList[i].metricCalculationType);
                         }
                     }
                 });
