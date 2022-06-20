@@ -10,7 +10,6 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearViewData
 
@@ -24,9 +23,9 @@ interface MetricYearRepositoryCustom : AliceRepositoryCustom {
 
     fun findMetricListByLoadCondition(metricLoadCondition: MetricLoadCondition): List<MetricYearSimpleDto>
 
-    fun findMetricYearListForExcel(year: String): List<MetricYearExcelDto>
+    fun findMetricYearListByLoadCondition(year: String): List<MetricYearSimpleDto>
 
-    fun findMetricYear(metricId: String, year: String): MetricYearDetailDto
+    fun findMetricYear(metricId: String, year: String): MetricYearDetailDto?
 
     fun getYears(): Set<String>
 

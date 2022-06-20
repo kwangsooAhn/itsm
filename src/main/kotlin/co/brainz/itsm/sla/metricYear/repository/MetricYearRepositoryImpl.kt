@@ -11,7 +11,6 @@ import co.brainz.itsm.sla.metricPool.entity.QMetricPoolEntity
 import co.brainz.itsm.sla.metricYear.dto.MetricAnnualDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
 import co.brainz.itsm.sla.metricYear.dto.MetricYearDetailDto
-import co.brainz.itsm.sla.metricYear.dto.MetricYearExcelDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearViewData
 import co.brainz.itsm.sla.metricYear.entity.MetricYearEntity
@@ -44,6 +43,7 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
                     metricYear.metricYear,
                     code.codeName.`as`("metricGroupName"),
                     metricPool.metricName,
+                    metricPool.metricUnit,
                     metricYear.minValue,
                     metricYear.maxValue,
                     metricYear.weightValue,
@@ -98,33 +98,26 @@ class MetricYearRepositoryImpl : QuerydslRepositorySupport(MetricYearEntity::cla
         return query.fetch()
     }
 
-    override fun findMetricYearListForExcel(year: String): List<MetricYearExcelDto> {
+    override fun findMetricYearListByLoadCondition(year: String): List<MetricYearSimpleDto> {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
-        val groupCode = QCodeEntity.codeEntity
 
-        //TODO 결과값 출력 변경 해야함
         return from(metricYear)
             .select(
                 Projections.constructor(
-                    MetricYearExcelDto::class.java,
-                    groupCode.codeName,
+                    MetricYearSimpleDto::class.java,
+                    metric.metricId,
+                    metricYear.metricYear,
                     metric.metricName,
-                    metricYear.minValue,
-                    metricYear.maxValue,
-                    metricYear.weightValue,
-                    Expressions.asNumber(0f),
-                    metricYear.owner,
-                    metricYear.comment
+                    metric.metricUnit
                 )
             )
-            .leftJoin(metric).on(metric.eq(metricYear.metric))
-            .leftJoin(groupCode).on(metric.metricGroup.eq(groupCode.code))
+            .leftJoin(metric).on(metricYear.metric.metricId.eq(metric.metricId))
             .where(metricYear.metricYear.eq(year))
             .fetch()
     }
 
-    override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto {
+    override fun findMetricYear(metricId: String, year: String): MetricYearDetailDto? {
         val metric = QMetricPoolEntity.metricPoolEntity
         val metricYear = QMetricYearEntity.metricYearEntity
         val groupCode = QCodeEntity.codeEntity

@@ -8,9 +8,11 @@ package co.brainz.itsm.sla.metricStatus.service
 import co.brainz.framework.tag.dto.AliceTagDto
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
+import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusDto
 import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
+import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
@@ -32,26 +34,21 @@ import org.springframework.stereotype.Service
 class MetricStatusService(
     private val metricYearRepository: MetricYearRepository,
     private val zql: Zql,
-    private val metricManualService: MetricManualService
+    private val metricManualService: MetricManualService,
+    private val metricPoolRepository: MetricPoolRepository
 ) {
 
     /**
      * 현재 년도에 저징된 지표 조회
      */
-    fun getMetricList(): List<MetricYearSimpleDto> {
-        val metricLoadCondition = MetricLoadCondition(
-            source = Year.now().toString()
-        )
-        return metricYearRepository.findMetricListByLoadCondition(metricLoadCondition)
+    fun getMetricList(year: String): List<MetricYearSimpleDto> {
+        return metricYearRepository.findMetricYearListByLoadCondition(year)
     }
 
-    /**
-     * 차트 데이터 조회
-     */
-    fun getMetricStatusChartData(metricStatusCondition: MetricStatusCondition): MetricStatusDto {
+    fun getMetricStatusChartData(metricStatusCondition: MetricStatusCondition): MetricStatusDto? {
         val metricDto =
-            metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year)
-        val chartConfig = this.initChartConfig(metricStatusCondition.year)
+            metricYearRepository.findMetricYear(metricStatusCondition.metricId, metricStatusCondition.year) ?: return null
+
         val tag = mutableListOf<AliceTagDto>()
         tag.add(AliceTagDto(tagId = "", tagValue = metricDto.metricName))
 
@@ -62,7 +59,7 @@ class MetricStatusService(
             metricName = metricDto.metricName,
             metricDesc = metricDto.comment,
             tags = tag,
-            chartConfig = chartConfig,
+            chartConfig = this.initChartConfig(metricStatusCondition.year),
             chartData = this.initZqlCalculatedData(metricStatusCondition),
             zqlString = metricDto.zqlString
         )
@@ -94,7 +91,7 @@ class MetricStatusService(
         val to = LocalDateTime.of(metricStatusCondition.year.toInt(), 12, 31, 23, 59, 59)
         val chartData = mutableListOf<ChartData>()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if (metric.metricType == MetricPoolConst.Type.MANUAL.code) {
+        if (metric!!.metricType == MetricPoolConst.Type.MANUAL.code) {
             for (i in 1..12) {
                 val month = LocalDate.of(metricStatusCondition.year.toInt(), i, 1)
                 val point = metricManualService.getManualPointSum(
@@ -128,12 +125,14 @@ class MetricStatusService(
             }
 
             calculatedData.forEach {
-                chartData.add(ChartData(
-                    id = "",
-                    category = it.categoryDT.format(formatter),
-                    value = it.value.toString(),
-                    series = metric.metricName
-                ))
+                chartData.add(
+                    ChartData(
+                        id = "",
+                        category = it.categoryDT.format(formatter),
+                        value = it.value.toString(),
+                        series = metric.metricName
+                    )
+                )
             }
         }
 

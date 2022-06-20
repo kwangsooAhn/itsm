@@ -83,6 +83,11 @@
      * 수동지표관리 검색
      */
     function getList(pageNum = 1) {
+        let fromDt = document.getElementById('fromDt').value;
+        let toDt = document.getElementById('toDt').value;
+        document.getElementById('fromDt').value = fromDt === '' ? searchFromDt : document.getElementById('fromDt').value;
+        document.getElementById('toDt').value = toDt === '' ? searchToDt : document.getElementById('toDt').value;
+
         let urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
         aliceJs.fetchText('/sla/metric-manuals?' +urlParam, {
             method: 'GET'

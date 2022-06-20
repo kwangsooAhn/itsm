@@ -866,14 +866,13 @@ class WfInstanceRepositoryImpl(
         }
 
         if (status == InstanceStatus.RUNNING) {
-            query.where(
-                defaultWhere.or(
-                    (instance.instanceStatus.eq(InstanceStatus.RUNNING.code)
-                        .and(instance.instanceStartDt.goe(from)))
-                        .and(instance.instanceStartDt.loe(to))
-                )
+            defaultWhere.or(
+                (instance.instanceStatus.eq(InstanceStatus.RUNNING.code)
+                    .and(instance.instanceStartDt.goe(from)))
+                    .and(instance.instanceStartDt.loe(to))
             )
         }
-        return query.fetch().toSet()
+
+        return query.where(defaultWhere).fetch().toSet()
     }
 }
