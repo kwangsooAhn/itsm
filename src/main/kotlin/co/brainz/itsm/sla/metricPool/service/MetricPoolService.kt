@@ -115,8 +115,8 @@ class MetricPoolService(
     @Transactional
     fun deleteMetric(metricId: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        // 연도별 지표 or 수동지표 테이블에 존재하는지 체크
-        if (metricYearRepository.existsByMetric(metricId) || metricManualRepository.existsByMetric(metricId)) {
+        // 연도별 지표에 존재하는지 체크
+        if (metricYearRepository.existsByMetric(metricId)) {
             status = ZResponseConstants.STATUS.ERROR_EXIST
         } else {
             metricPoolRepository.deleteById(metricId)
