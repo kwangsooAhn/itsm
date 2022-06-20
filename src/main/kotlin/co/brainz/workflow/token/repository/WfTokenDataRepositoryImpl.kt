@@ -97,7 +97,6 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
             .fetch()
     }
 
-
     override fun getTokenDataByTag(tokenId: String, tags: List<String>): List<ZqlComponentValue> {
         val tokenData = QWfTokenDataEntity.wfTokenDataEntity
         val tag = QAliceTagEntity.aliceTagEntity
