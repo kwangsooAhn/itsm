@@ -208,6 +208,10 @@
      * 수동 지표 저장
      */
     function onSaveModal() {
+        if (document.getElementById('targetMetric') && isEmpty('targetMetric', 'sla.metric.msg.noMetric', function() {
+            document.getElementById('targetMetric').blur();
+        })
+        ) return false;
         if (isEmpty('metricValue', 'sla.metricManual.msg.enterMetricValue')) return false;
         if (!this.checkDecimalValue('metricValue', 'sla.metricYear.msg.checkValue')) return false;
 
