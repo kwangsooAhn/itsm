@@ -379,7 +379,9 @@ $layout-header-dropdown: (
 }
 
 ////////////////////////// date-picker //////////////////////////
-.z-picker-wrapper-date { width: 100%; }
+.z-form-container {
+  .z-picker-wrapper-date { width: 100%; }
+}
 
 ////////////////////////// element //////////////////////////
 // input + button for custom code

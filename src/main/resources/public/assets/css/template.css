@@ -10569,7 +10569,7 @@ span.modal_node_selected label {
   top: 0.125rem;
 }
 
-.z-picker-wrapper-date {
+.z-form-container .z-picker-wrapper-date {
   width: 100%;
 }
 
