@@ -107,58 +107,6 @@ $button-group: (
         'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
         'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
-//////////////////////////// Designer /////////////////////
-// 열 속성 > tab button
-$button-tab: (
-        'default': ('font': $white, 'background': $white, 'border': $gray300),
-        'hover': ('font' : $blue100, 'background': $blue100, 'border': $gray300 ),
-        'focus': ('font': $white, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-        'active': ('font': $blue200, 'background': $blue200, 'border': $blue400),
-        'selected': ('font': $blue500, 'background': $blue500, 'border': $blue500),
-        'disabled': ('font': $neutral200, 'background': $neutral200, 'border': $neutral200)
-);
-// header > dropdown
-$layout-header-dropdown: (
-        'default': ('font': $gray800, 'background': $white, 'border': $white),
-        'hover': ('font' : $gray800, 'background': $blue50, 'border': $blue50),
-        'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-        'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
-);
-$element-icon: (
-        'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
-        'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
-        'focus': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-        'active': ('font': $blue700, 'icon': $blue700, 'background': $blue100, 'border': $blue400),
-        'drag': ('font': $gray800, 'icon': $blue500, 'background': $white, 'border': $gray300, 'shadow': 0 0 0.125rem $gray300),
-        'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
-);
-// 엘리먼트 아이콘 - 연결선, 배경이동 (토글 버튼)
-$element-icon-toggle: (
-        'default': ('font': $gray800, 'background': $white, 'border': $gray300),
-        'hover': ('font' : $gray800, 'background': $blue100, 'border': $gray300),
-        'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-        'active': ('font': $blue700, 'background': $blue200, 'border': $blue400),
-        'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
-        'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
-);
-//////////////////////////// portal ///////////////////////////
-$button-themes-social: (
-        'google': (
-                'default': ('font': $gray800, 'background': $white, 'border': $gray300),
-                'hover': ('font' : $gray800, 'background': $neutral200, 'border': $gray300),
-                'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-                'active': ('font': $gray800, 'background': $neutral300, 'border': $gray400),
-                'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
-        ),
-        'kakao': (
-                'default': ('font': $gray800, 'background': $yellow500, 'border': $yellow600),
-                'hover': ('font' : $gray800, 'background': $yellow400, 'border': $yellow600),
-                'focus': ('font': $gray800, 'background': $yellow500, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-                'active': ('font': $gray800, 'background': $yellow600, 'border': $yellow800),
-                'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
-        )
-);
-
 .z-button,
 .z-button-icon,
 .z-button-text {
