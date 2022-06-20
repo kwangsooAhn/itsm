@@ -11,8 +11,6 @@ import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.repository.MetricPoolRepository
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusCondition
 import co.brainz.itsm.sla.metricStatus.dto.MetricStatusDto
-import co.brainz.itsm.sla.metricYear.dto.MetricLoadCondition
-import co.brainz.itsm.sla.metricYear.dto.MetricLoadDto
 import co.brainz.itsm.sla.metricYear.dto.MetricYearSimpleDto
 import co.brainz.itsm.sla.metricYear.repository.MetricYearRepository
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
@@ -26,7 +24,6 @@ import co.brainz.itsm.zql.service.Zql
 import co.brainz.workflow.instance.constants.InstanceStatus
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.Year
 import java.time.format.DateTimeFormatter
 import org.springframework.stereotype.Service
 

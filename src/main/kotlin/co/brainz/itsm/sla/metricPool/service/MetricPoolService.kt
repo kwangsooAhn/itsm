@@ -10,6 +10,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
 import co.brainz.itsm.sla.metricPool.dto.MetricData
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolListReturnDto
 import co.brainz.itsm.sla.metricPool.dto.MetricPoolSearchCondition
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional
 class MetricPoolService(
     private val metricPoolRepository: MetricPoolRepository,
     private val metricYearRepository: MetricYearRepository,
+    private val metricManualRepository: MetricManualRepository,
     private val currentSessionUser: CurrentSessionUser
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)

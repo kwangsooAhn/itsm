@@ -86,41 +86,51 @@
      * 연도별 지표 복사해오기 모달
      */
     function openCopyModal() {
-        const url = '/sla/metrics/copy?target=' + document.getElementById('year').value.substring(0, 4);
-        aliceJs.fetchText(url, {
+        //복사 가능한 지표가 있는지 확인
+        aliceJs.fetchJson('/rest/sla/metrics/exist', {
             method: 'GET'
-        }).then((htmlData) => {
-            const metricCopyModal = new modal({
-                title: i18n.msg('sla.metricYear.label.copy'),
-                body: htmlData,
-                classes: 'sla-metric-yearly-copy-modal',
-                buttons: [{
-                    content: i18n.msg('common.btn.save'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        onCopyModal();
-                    }
-                }, {
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function() {
-                    const copyTargetYear = document.getElementById('copyTargetYear').value
-                    document.getElementById('copyTargetYearText').textContent = i18n.msg('sla.metricYear.msg.copy', copyTargetYear)
-                    document.getElementById('copySourceYear').addEventListener('change', function() { getSourceYearList() });
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    getSourceYearList();
-                }
-            });
-            metricCopyModal.show();
+        }).then((response) => {
+            if (response.data.length === 0) {
+                zAlert.warning(i18n.msg('sla.metricYear.msg.metricYearNotExist'));
+            } else {
+
+                const url = '/sla/metrics/copy?target=' + document.getElementById('year').value.substring(0, 4);
+                aliceJs.fetchText(url, {
+                    method: 'GET'
+                }).then((htmlData) => {
+                    const metricCopyModal = new modal({
+                        title: i18n.msg('sla.metricYear.label.copy'),
+                        body: htmlData,
+                        classes: 'sla-metric-yearly-copy-modal',
+                        buttons: [{
+                            content: i18n.msg('common.btn.save'),
+                            classes: 'z-button primary',
+                            bindKey: false,
+                            callback: function(modal) {
+                                onCopyModal();
+                            }
+                        }, {
+                            content: i18n.msg('common.btn.cancel'),
+                            classes: 'z-button secondary',
+                            bindKey: false,
+                            callback: function(modal) {
+                                modal.hide();
+                            }
+                        }],
+                        close: {
+                            closable: false,
+                        },
+                        onCreate: function() {
+                            const copyTargetYear = document.getElementById('copyTargetYear').value
+                            document.getElementById('copyTargetYearText').textContent = i18n.msg('sla.metricYear.msg.copy', copyTargetYear)
+                            document.getElementById('copySourceYear').addEventListener('change', function() { getSourceYearList() });
+                            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                            getSourceYearList();
+                        }
+                    });
+                    metricCopyModal.show();
+                });
+            }
         });
     }
 

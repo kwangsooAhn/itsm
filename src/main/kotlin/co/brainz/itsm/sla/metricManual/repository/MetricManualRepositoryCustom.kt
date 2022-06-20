@@ -13,4 +13,6 @@ import co.brainz.itsm.sla.metricManual.dto.MetricManualSimpleDto
 interface MetricManualRepositoryCustom : AliceRepositoryCustom {
     fun findMetricManualSearch(manualSearchCondition: MetricManualSearchCondition): PagingReturnDto
     fun findMetricByMetricType(metricType: String): List<MetricManualSimpleDto>
+
+    fun existsByMetric(metricId: String): Boolean
 }

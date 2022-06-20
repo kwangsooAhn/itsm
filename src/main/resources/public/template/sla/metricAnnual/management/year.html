@@ -430,10 +430,17 @@
             aliceJs.fetchJson(url, {
                 method: 'DELETE'
             }).then((response) => {
-                if (response.status === aliceJs.response.success) {
-                    zAlert.success([[#{common.msg.delete}]], function() {
-                        window.location.href = '/sla/metrics/search';
-                    });
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success([[#{common.msg.delete}]], function() {
+                            window.location.href = '/sla/metrics/search';
+                        });
+                        break;
+                    case aliceJs.response.exist: // 사용중
+                        zAlert.warning([[#{sla.metric.msg.useMetric}]]);
+                        break;
+                    default :
+                        break;
                 }
             });
         });

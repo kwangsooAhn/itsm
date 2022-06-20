@@ -15,6 +15,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.sla.metricManual.repository.MetricManualRepository
 import co.brainz.itsm.sla.metricManual.service.MetricManualService
 import co.brainz.itsm.sla.metricPool.constants.MetricPoolConst
 import co.brainz.itsm.sla.metricPool.entity.MetricPoolEntity
@@ -52,6 +53,7 @@ import org.springframework.transaction.annotation.Transactional
 class MetricYearService(
     private val metricYearRepository: MetricYearRepository,
     private val metricPoolRepository: MetricPoolRepository,
+    private val metricManualRepository: MetricManualRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val aliceMessageSource: AliceMessageSource,
     private val excelComponent: ExcelComponent,
@@ -300,8 +302,13 @@ class MetricYearService(
      * 연도별 지표 삭제
      */
     fun deleteMetricYear(metricId: String, year: String): ZResponse {
-        val status = ZResponseConstants.STATUS.SUCCESS
-        metricYearRepository.deleteById(MetricYearEntityPk(metricId, year))
+        var status = ZResponseConstants.STATUS.SUCCESS
+        // 수동지표 테이블에 존재하는지 체크
+        if (metricManualRepository.existsByMetric(metricId)) {
+            status = ZResponseConstants.STATUS.ERROR_EXIST
+        } else {
+            metricYearRepository.deleteById(MetricYearEntityPk(metricId, year))
+        }
         return ZResponse(
             status = status.code
         )
