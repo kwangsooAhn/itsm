@@ -25,7 +25,7 @@
                     <div class="flex-column col-3 pl-3">
                         <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}" class="required"></label>
                         <select id="metricYearName">
-                            <option value="" th:text="#{common.msg.select}" selected></option>
+                            <option value th:text="#{common.msg.select}" selected></option>
                         </select>
                     </div>
                     <div class="flex-column col-2 pl-3">
@@ -240,7 +240,7 @@
     function setMetricValueFormat() {
         document.querySelectorAll('.metric-value').forEach(value => {
             const userMetricValue = value.value.replace(/.?0+$/, ''); // '.' 뒤에 '0'만 오는 경우 제거
-            value.value = userMetricValue;
+            value.value = userMetricvalue = '';
             value.setAttribute('title', userMetricValue);
         });
     }
@@ -275,6 +275,17 @@
                 document.getElementById('metricYearName').addEventListener('change', function() {
                     const parent = document.getElementById('zqlContainer');
                     const zqlContents = document.getElementById('zqlContents');
+                    if (selectTag.value === '') {
+                        metricYearGroup.value = '';
+                        metricYearType.value = '';
+                        metricYearUnit.value = '';
+                        metricYearCalcType.value = '';
+                        metricYearDesc.value = '';
+                        minValueUnit.textContent = '';
+                        maxValueUnit.textContent = '';
+                        if (parent.children.length === 0) parent.insertAdjacentHTML('beforeend', createZqlContent());
+                        document.querySelector('#zqlDescription').textContent = '';
+                    }
                     if (selectTag.value === metricList[i].metricId) {
                         metricYearGroup.value = metricList[i].metricGroupName;
                         metricYearType.value = i18n.msg(metricList[i].metricType);
@@ -287,23 +298,7 @@
                             zqlContents.remove();
                         } else if (metricList[i].metricType === 'sla.metricType.auto') {
                             // 타입이 자동일 경우 zql container 생성
-                            const template =
-                                `<div class="z-edit-row flex-column flex-fill" id="zqlContents">` +
-                                `<div class="flex-row justify-content-between align-items-center">` +
-                                `<label class="required" for="zqlString">${i18n.msg('sla.metricYear.label.zql')}</label>` +
-                                `<p class="font-bold text-blue500" id="zqlDescription"></p>` +
-                                `</div>` +
-                                `<div class="horizontal-bar"></div>` +
-                                `<p class="pt-1 pb-3">` +
-                                `<span>${i18n.msg('sla.metricYear.msg.zqlDescription')}</span>` +
-                                `<a class="font-bold underline" onclick="openZqlManualModal()" >` +
-                                `${i18n.msg('sla.metricYear.label.zqlManual')}</a>` +
-                                `<span">${i18n.msg('${sla.metricYear.msg.zqlDescriptionCheck')}</span>` +
-                                `</p>` +
-                                `<input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128" ` +
-                                `placeholder="${i18n.msg('${sla.metricYear.label.zqlPlaceholder')}"/>` +
-                                `</div>`;
-                            if (parent.children.length === 0) parent.insertAdjacentHTML('beforeend', template);
+                            if (parent.children.length === 0) parent.insertAdjacentHTML('beforeend', createZqlContent());
                             document.querySelector('#zqlDescription').textContent =
                                 zqlDescriptionText(metricList[i].metricCalculationType);
                         }
@@ -312,6 +307,24 @@
             }
             aliceJs.initDesignedSelectTag();
         });
+    }
+
+    function createZqlContent() {
+        return `<div class="z-edit-row flex-column flex-fill" id="zqlContents">` +
+            `<div class="flex-row justify-content-between align-items-center">` +
+            `<label class="required" for="zqlString">${i18n.msg('sla.metricYear.label.zql')}</label>` +
+            `<p class="font-bold text-blue500" id="zqlDescription"></p>` +
+            `</div>` +
+            `<div class="horizontal-bar"></div>` +
+            `<p class="pt-1 pb-3">` +
+            `<span>${i18n.msg('sla.metricYear.msg.zqlDescription')}</span>` +
+            `<a class="font-bold underline" onclick="openZqlManualModal()" >` +
+            `${i18n.msg('sla.metricYear.label.zqlManual')}</a>` +
+            `<span">${i18n.msg('${sla.metricYear.msg.zqlDescriptionCheck')}</span>` +
+            `</p>` +
+            `<input type="text" id="zqlString" name="zqlString" class="z-input" maxlength="128" ` +
+            `placeholder="${i18n.msg('${sla.metricYear.label.zqlPlaceholder')}"/>` +
+            `</div>`;
     }
 
     // 해당 지표의 계산방식에 zqlDescription text 변경
