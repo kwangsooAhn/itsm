@@ -7,6 +7,10 @@
 @charset "utf-8";
 
 // layout
+@import '_wrapper.scss';
+@import '_navigation.scss';
+@import '_header.scss';
+@import '_content.scss';
 
 // page
 @import '_designer.scss';

@@ -7,6 +7,7 @@
 @charset "utf-8";
 
 @import '../foundations/foundations.scss';
+@import '../layout/layout.scss';
 @import '_charts.scss';
 @import '_alerts.scss';
 @import '_avatar.scss';
@@ -15,9 +16,7 @@
 @import '_date-picker.scss';
 @import '_elements.scss';
 @import '_file-uploader.scss';
-@import '_layout.scss';
 @import '_modal.scss';
-@import '_navigation.scss';
 @import '_notification.scss';
 @import '_paging.scss';
 @import '_popup.scss';
@@ -30,4 +29,3 @@
 @import '_top.scss';
 @import '_tree.scss';
 @import '_validations.scss';
-@import '../layout/layout.scss';
