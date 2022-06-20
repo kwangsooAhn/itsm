@@ -11,6 +11,7 @@ interface NotificationMapper {
 
     @Mappings(
         Mapping(target = "receivedUser", ignore = true),
+        Mapping(target = "target", ignore = true),
         Mapping(target = "createDt", ignore = true),
         Mapping(target = "updateDt", ignore = true),
         Mapping(target = "createUser", ignore = true),

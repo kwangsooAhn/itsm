@@ -5,6 +5,7 @@
 
 package co.brainz.workflow.engine
 
+import co.brainz.framework.response.ZResponseConstants
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
@@ -13,6 +14,7 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenAction
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.token.constants.WfTokenConstants
 import javax.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -35,7 +37,14 @@ class WfEngine(
         // 시작 이벤트 이후 첫번째 토큰 생성.
         val firstTokenDto = this.getFirstToken(tokenDto)
 
-        return this.progressWorkflow(firstTokenDto!!)
+        return when (this.progressWorkflow(firstTokenDto!!)) {
+            ZResponseConstants.STATUS.SUCCESS.code -> {
+                true
+            }
+            else -> {
+                false
+            }
+        }
     }
 
     /**
@@ -61,12 +70,21 @@ class WfEngine(
     /**
      * Progress workflow.
      */
-    fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
+    fun progressWorkflow(tokenDto: WfTokenDto): String {
         logger.debug("Progress Token")
 
         if (tokenDto.action == null) {
             logger.warn("Token action data is null.")
-            return false
+            return ZResponseConstants.STATUS.ERROR_FAIL.code
+        }
+
+        // Check processed tokens
+        if (tokenDto.tokenId.isNotBlank()) {
+            val isTokenCompleted = wfTokenManagerService.getToken(tokenDto.tokenId).tokenStatus == WfTokenConstants.Status.FINISH.code
+            if (isTokenCompleted) {
+                logger.warn("The target token has already been processed.")
+                return ZResponseConstants.STATUS.ERROR_PROCESSED_TOKEN.code
+            }
         }
 
         when (WfElementConstants.Action.isApplicationAction(tokenDto.action!!)) {
@@ -95,7 +113,7 @@ class WfEngine(
                 } while (nextTokenManager.isAutoComplete)
             }
         }
-        return true
+        return ZResponseConstants.STATUS.SUCCESS.code
     }
 
     /**

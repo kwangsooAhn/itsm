@@ -32,7 +32,8 @@ aliceJs.response = {
     notExistClass: 'E-0010',
     duplicateLogin: 'E-0011',
     invalidUser: 'E-0012',
-    disabledUser: 'E-0013'
+    disabledUser: 'E-0013',
+    processedToken:'E-0014'
 };
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
@@ -44,7 +45,7 @@ aliceJs.response = {
  * - printError div를 만들어서 에러 내용을 상세히 찍는 부분은 그대로 살려둔다. 다만 화면에 출력하는 부분만 주석처리 함.
  * - 향후 단순 alert이 아닌 상세 리포팅 모달이 필요한 경우 아래 모듈을 발전시켜 사용할 예정이다.
  */
-aliceJs.xhrErrorResponse = function (elementId, text) {
+aliceJs.xhrErrorResponse = function(elementId, text) {
     let elmNode = document.getElementById(elementId);
 
     if (elmNode == null) {
@@ -66,19 +67,19 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     // text 정보들 - timestamp, status, error, message, path, exceptionType, knownError
     const data = JSON.parse(text);
     let messages = [
-        {key: '코드', text: data.status},
-        {key: '에러', text: data.error},
-        {key: '메시지', text: data.message},
-        {key: '호출 URL', text: data.path}
+        { key: '코드', text: data.status },
+        { key: '에러', text: data.error },
+        { key: '메시지', text: data.message },
+        { key: '호출 URL', text: data.path }
     ];
     if (data.hasOwnProperty('exceptionType')) {
-        messages.push({key: '예외 종류', text: data.exceptionType});
+        messages.push({ key: '예외 종류', text: data.exceptionType });
     }
     if (data.hasOwnProperty('knownError')) {
-        messages.push({key: '정의된 에러', text: data.knownError});
+        messages.push({ key: '정의된 에러', text: data.knownError });
     }
     const table = document.createElement('table');
-    messages.forEach(function (obj) {
+    messages.forEach(function(obj) {
         const tr = table.insertRow();
         const keyTd = tr.insertCell();
         const valueTd = tr.insertCell();
@@ -95,7 +96,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
  * @param  {Node}   form The form to serialize
  * @return {String}      The serialized form data
  */
-aliceJs.serialize = function (form) {
+aliceJs.serialize = function(form) {
     // Setup our serialized data
     const serialized = [];
 
@@ -137,7 +138,7 @@ aliceJs.serialize = function (form) {
  * @param form
  * @returns {[]}
  */
-aliceJs.serializeArray = function (form) {
+aliceJs.serializeArray = function(form) {
     // Setup our serialized data
     const serialized = [];
 
@@ -177,9 +178,9 @@ aliceJs.serializeArray = function (form) {
  * @param form
  * @returns {{}}
  */
-aliceJs.serializeObject = function (form) {
+aliceJs.serializeObject = function(form) {
     const result = {};
-    aliceJs.serializeArray(form).forEach(function (element) {
+    aliceJs.serializeArray(form).forEach(function(element) {
         const node = result[element.name];
         if ('undefined' !== typeof node && node !== null) {
             if (Array.isArray(node)) {
@@ -200,10 +201,10 @@ aliceJs.serializeObject = function (form) {
  * @param form element - document.getElementById('fromid')
  * @returns {{}}
  */
-aliceJs.formDataToObject = function (form) {
-    let formDataObject = {fileSeq:[], delFileSeq:[]};
+aliceJs.formDataToObject = function(form) {
+    let formDataObject = { fileSeq:[], delFileSeq:[] };
     const formData = new FormData(form);
-    formData.forEach(function (value, key) {
+    formData.forEach(function(value, key) {
 
         if (key === 'fileSeq' || key === 'delFileSeq') {
             formDataObject[key].push(value);
@@ -225,7 +226,7 @@ aliceJs.formDataToObject = function (form) {
  * params post 인 경우 사용할 파라미터
  * async 비동기 true, 동기 false
  */
-aliceJs.sendXhr = function (option) {
+aliceJs.sendXhr = function(option) {
     let method = option.method;
     let url = option.url;
     let callbackFunc = option.callbackFunc;
@@ -250,7 +251,7 @@ aliceJs.sendXhr = function (option) {
         xhr.responseType = option.responseType;
     }
 
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (this.readyState === 0) {
             //console.log('요청이 초기화되지 않음, 객체만 생성되고 아직 초기화되지 않은 상태(' + this.status + ')');
         } else if (this.readyState === 1) {
@@ -292,7 +293,7 @@ aliceJs.sendXhr = function (option) {
     };
 
     // 네트워크 수준의 에러시 처리 내용
-    xhr.onerror = function () {
+    xhr.onerror = function() {
         console.error('Maybe network error');
         aliceJs.xhrErrorResponse('printError', this.responseText);
     };
@@ -376,7 +377,7 @@ function hiddenProgressBar() {
 /*
  * 사용자 액션 처리 시간 지연
  */
-aliceJs.debounce = function (func, timeout = 500) {
+aliceJs.debounce = function(func, timeout = 500) {
     let timer;
     return (...args) => { //함수의 파라미터 값들을 배열로 전달 받음
         clearTimeout(timer);
@@ -514,7 +515,7 @@ function dateFormatFromNow(date) {
  * @param extension 확장자
  * @returns icon path 파일명
  */
-aliceJs.getFileExtensionIcon = function (extension) {
+aliceJs.getFileExtensionIcon = function(extension) {
     return '/assets/media/icons/fileUploader/icon_document_' + extension + '.svg';
 };
 
@@ -529,13 +530,13 @@ aliceJs.getFileExtensionIcon = function (extension) {
  * isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
  * thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
  */
-aliceJs.thumbnail = function (options) {
+aliceJs.thumbnail = function(options) {
     /**
      * 썸네일 저장
      *
      * @param targetId 대상 input
      */
-    const saveThumbnail = function (targetId) {
+    const saveThumbnail = function(targetId) {
         // image 미선택 시 알림창 출력
         let selectedFile = document.querySelector('.z-thumbnail.selected');
         if (!selectedFile) {
@@ -558,7 +559,7 @@ aliceJs.thumbnail = function (options) {
     /**
      * 썸네일 선택.
      */
-    const thumbnailSelect = function (e) {
+    const thumbnailSelect = function(e) {
         const elem = aliceJs.clickInsideElement(e, 'z-thumbnail');
         if (elem) {
             const parentElem = elem.parentNode;
@@ -575,7 +576,7 @@ aliceJs.thumbnail = function (options) {
         }
     };
 
-    const getThumbnail = function (type, file) {
+    const getThumbnail = function(type, file) {
         let thumbnailTemplate = '';
         switch (type) {
             case 'image':
@@ -606,7 +607,7 @@ aliceJs.thumbnail = function (options) {
      * @param files 파일목록
      * @return content html
      */
-    const createContent = function (response) {
+    const createContent = function(response) {
         const container = document.createElement('div');
         container.className = 'z-thumbnail-main flex-row flex-wrap';
         if (response.status === aliceJs.response.success && response.data.data.length > 0) {
@@ -624,7 +625,7 @@ aliceJs.thumbnail = function (options) {
                 // 이벤트 등록
                 thumbnail.addEventListener('click', thumbnailSelect, false);
                 if (options.thumbnailDoubleClickUse) {
-                    thumbnail.addEventListener('dblclick', function () {
+                    thumbnail.addEventListener('dblclick', function() {
                         document.querySelector('.thumbnail-save').click();
                     }, false);
                 }
@@ -680,7 +681,7 @@ aliceJs.thumbnail = function (options) {
                 content: i18n.msg('common.btn.select'),
                 classes: 'z-button primary thumbnail-save',
                 bindKey: false,
-                callback: function (modal) {
+                callback: function(modal) {
                     if (saveThumbnail(options.targetId)) {
                         modal.hide();
                     }
@@ -689,15 +690,15 @@ aliceJs.thumbnail = function (options) {
                 content: i18n.msg('common.btn.cancel'),
                 classes: 'z-button secondary',
                 bindKey: false,
-                callback: function (modal) {
+                callback: function(modal) {
                     modal.hide();
                 }
             }],
             close: {
                 closable: false,
             },
-            onCreate: function (modal) {
-                OverlayScrollbars(document.querySelector('.z-thumbnail-main').closest('.modal-content'), {className: 'scrollbar'});
+            onCreate: function(modal) {
+                OverlayScrollbars(document.querySelector('.z-thumbnail-main').closest('.modal-content'), { className: 'scrollbar' });
             }
         };
 
@@ -711,7 +712,7 @@ aliceJs.thumbnail = function (options) {
  * @param item 대상
  * @returns {Boolean} boolean
  */
-aliceJs.isObject = function (item) {
+aliceJs.isObject = function(item) {
     return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
 };
 
@@ -720,12 +721,12 @@ aliceJs.isObject = function (item) {
  * @param target target 객체
  * @param source source 객제
  */
-aliceJs.mergeObject = function (target, source) {
+aliceJs.mergeObject = function(target, source) {
     if (aliceJs.isObject(target) && aliceJs.isObject(source)) {
-        Object.keys(source).forEach(function (key) {
+        Object.keys(source).forEach(function(key) {
             if (aliceJs.isObject(source[key])) {
                 if (!target[key]) {
-                    Object.assign(target, {[key]: {}});
+                    Object.assign(target, { [key]: {} });
                 }
                 aliceJs.mergeObject(target[key], source[key]);
             } else if (typeof source[key] === 'function') {
@@ -749,7 +750,7 @@ aliceJs.mergeObject = function (target, source) {
  * @param {Object} value
  * @returns {boolean}
  */
-aliceJs.isEmpty = function (value) {
+aliceJs.isEmpty = function(value) {
     return value === '' || value == null || (typeof value === 'object' && !Object.keys(value).length);
 };
 
@@ -759,7 +760,7 @@ aliceJs.isEmpty = function (value) {
  * @param {String} className 클래스명
  * @return {Object} 존재하면 객제 반환
  */
-aliceJs.clickInsideElement = function (e, className) {
+aliceJs.clickInsideElement = function(e, className) {
     let el = e.srcElement || e.target;
     while (el !== null) {
         if (el.classList && el.classList.contains(className)) return el;
@@ -774,7 +775,7 @@ aliceJs.clickInsideElement = function (e, className) {
  * @param {string} value
  * @returns {string} rgba
  */
-aliceJs.rgbaToHex = function (value) {
+aliceJs.rgbaToHex = function(value) {
     let rgba = value.replace(/\s/g, '').match(rgbaReg);
     return rgba ?
         '#' +
@@ -789,7 +790,7 @@ aliceJs.rgbaToHex = function (value) {
  * @param {string} value
  * @returns {string} alpha
  */
-aliceJs.rgbaOpacity = function (value) {
+aliceJs.rgbaOpacity = function(value) {
     let rgba = value.replace(/\s/g, '').match(rgbaReg);
     let alpha = (rgba && rgba[4]);
     if (alpha === null || alpha === '') {
@@ -805,7 +806,7 @@ aliceJs.rgbaOpacity = function (value) {
  * @param {number} opacity
  * @returns {string} hexValue
  */
-aliceJs.hexToRgba = function (value, opacity) {
+aliceJs.hexToRgba = function(value, opacity) {
     let hexValue;
     if (value !== '' && typeof opacity !== 'undefined') {
         if (aliceJs.isHexCode(value)) {
@@ -828,7 +829,7 @@ aliceJs.hexToRgba = function (value, opacity) {
  * @param {string} value
  * @returns {boolean}
  */
-aliceJs.isHexCode = function (value) {
+aliceJs.isHexCode = function(value) {
     return hexReg.test(value);
 };
 
@@ -838,7 +839,7 @@ aliceJs.isHexCode = function (value) {
  * @param {string} value
  * @returns {boolean}
  */
-aliceJs.isRgba = function (value) {
+aliceJs.isRgba = function(value) {
     return rgbaReg.test(value);
 };
 
@@ -928,7 +929,7 @@ aliceJs.slideDown = (target, duration = 500) => {
  * Replace all SVG images with inline SVG
  *
  */
-aliceJs.loadSvg = function () {
+aliceJs.loadSvg = function() {
     const svgList = document.querySelectorAll('img.load-svg');
     for (let i = 0, len = svgList.length; i < len; i++) {
         const img = svgList[i];
@@ -967,7 +968,7 @@ aliceJs.loadSvg = function () {
  * @param objectId 전체수 저장 object-id (default: totalCount)
  * @return {boolean} 스크롤 처리 진행 여부
  */
-aliceJs.isEnableScrollEvent = function (offset, objectId = 'totalCount') {
+aliceJs.isEnableScrollEvent = function(offset, objectId = 'totalCount') {
     let totalObject = document.getElementById(objectId);
     return offset < totalObject.value;
 };
@@ -978,7 +979,7 @@ aliceJs.isEnableScrollEvent = function (offset, objectId = 'totalCount') {
  * @param totalCount 목록에 보여주고 싶은 건수
  * @param objectId 전체수 저장 object-id (default: spanTotalCount)
  */
-aliceJs.showTotalCount = function (totalCount, objectId = 'spanTotalCount') {
+aliceJs.showTotalCount = function(totalCount, objectId = 'spanTotalCount') {
     document.getElementById(objectId).textContent = i18n.msg('common.label.count', totalCount);
 };
 
@@ -990,7 +991,7 @@ aliceJs.showTotalCount = function (totalCount, objectId = 'spanTotalCount') {
  * @param str 문자열
  * @return {string} 변환된 문자열
  */
-aliceJs.filterXSS = function (str) {
+aliceJs.filterXSS = function(str) {
     return (typeof str === 'string' || str instanceof String)?
         str.replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
@@ -1004,7 +1005,7 @@ aliceJs.filterXSS = function (str) {
  * @param index1 old index
  * @param index2 new index
  */
-aliceJs.moveObject = function (array, index1, index2) {
+aliceJs.moveObject = function(array, index1, index2) {
     while (index1 < 0) {
         index1 += array.length;
     }
@@ -1020,7 +1021,7 @@ aliceJs.moveObject = function (array, index1, index2) {
     array.splice(index2, 0, array.splice(index1, 1)[0]);
 };
 
-aliceJs.getNodeIndex = function (elem) {
+aliceJs.getNodeIndex = function(elem) {
     let index = 0;
 
     if (!elem || !elem.parentNode) {
@@ -1036,7 +1037,7 @@ aliceJs.getNodeIndex = function (elem) {
     return index;
 };
 
-aliceJs.swapNode = function (node1, node2) {
+aliceJs.swapNode = function(node1, node2) {
     let p1 = node1.parentNode,
         p2 = node2.parentNode,
         i1, i2;
@@ -1059,7 +1060,7 @@ aliceJs.swapNode = function (node1, node2) {
  * @param option 옵션
  * @return 비동기 통신 객체 = Promise 객체
  */
-aliceJs.doFetch = async function (url, option) {
+aliceJs.doFetch = async function(url, option) {
     // Progressbar 추가
     const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? false : option.showProgressbar;
     if (showProgressbar) {
@@ -1068,7 +1069,7 @@ aliceJs.doFetch = async function (url, option) {
     if (option.showProgressbar) {
         delete option.showProgressbar;
     }
-    const checkFetch = function (response) {
+    const checkFetch = function(response) {
         // Progressbar 삭제
         if (showProgressbar) {
             hiddenProgressBar();
@@ -1098,7 +1099,7 @@ aliceJs.doFetch = async function (url, option) {
  * @param option 옵션
  * @returns Promise 객체 반환값
  */
-aliceJs.fetchJson = function (url, option) {
+aliceJs.fetchJson = function(url, option) {
     return aliceJs.doFetch(url, option)
         .then(response => response.text())
         .then((data) => data ? JSON.parse(data) : {});
@@ -1110,7 +1111,7 @@ aliceJs.fetchJson = function (url, option) {
  * @param option 옵션
  * @returns Promise 객체 반환값
  */
-aliceJs.fetchText = function (url, option) {
+aliceJs.fetchText = function(url, option) {
     return aliceJs.doFetch(url, option)
         .then(response => response.text());
 };
@@ -1121,7 +1122,7 @@ aliceJs.fetchText = function (url, option) {
  * @param option 옵션
  * @returns Promise 객체 반환값
  */
-aliceJs.fetchBlob = function (url, option) {
+aliceJs.fetchBlob = function(url, option) {
     return aliceJs.doFetch(url, option)
         .then(response => response.blob());
 };
@@ -1133,7 +1134,7 @@ aliceJs.fetchBlob = function (url, option) {
  * @param source 믹스인
  * @return target 믹스인이 추가된 대상
  */
-aliceJs.importMixin = function (target, source) {
+aliceJs.importMixin = function(target, source) {
     for (const key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
             const descriptor = Object.getOwnPropertyDescriptor(source, key);
@@ -1149,7 +1150,7 @@ aliceJs.importMixin = function (target, source) {
  * @param rexg
  * @param flag
  */
-aliceJs.removeChar = function (event, rexg = integerReg, flag = 'g') {
+aliceJs.removeChar = function(event, rexg = integerReg, flag = 'g') {
     event = event || window.event;
     let regToString = '[' + rexg.toString()
         .replaceAll('/', '')
@@ -1164,7 +1165,7 @@ aliceJs.removeChar = function (event, rexg = integerReg, flag = 'g') {
 };
 
 
-aliceJs.convertDateFormat = function (format, type, date) {
+aliceJs.convertDateFormat = function(format, type, date) {
     let reformatDate = date;
     if (format === 'systemFormat') { //  ISO8601 규격 포멧으로 서버에 데이터 전달할때 사용 ex> 2021-06-29T15:00:00.000Z
         switch (type) {
@@ -1198,7 +1199,7 @@ aliceJs.convertDateFormat = function (format, type, date) {
  * alert div내부의 X 버튼을 클릭했을 때, 해당 div를 제거한다.
  * @param req
  */
-aliceJs.removeTarget = function (req) {
+aliceJs.removeTarget = function(req) {
     let target = req.parentElement;
     target.remove();
 };
@@ -1207,7 +1208,7 @@ aliceJs.removeTarget = function (req) {
  * input 엘리먼트 내부의 X 버튼을 클릭했을 때, 같은 레벨의 input value를 clear한다.
  * @param req
  */
-aliceJs.clearText = function (req) {
+aliceJs.clearText = function(req) {
     let target = req.parentElement.getElementsByTagName('input');
     for (let i = 0; i < target.length; i++) {
         target[i].value = '';
@@ -1221,7 +1222,7 @@ aliceJs.clearText = function (req) {
  * input+button 에 input value 초기화 x 버튼 출력
  * @param target
  */
-aliceJs.inputButtonRemove = function (target) {
+aliceJs.inputButtonRemove = function(target) {
     let xTarget = target || document.querySelector('.input-button-remove-btn');
     if (xTarget !== null) {
         let inputValue = xTarget.previousElementSibling.value;
@@ -1230,7 +1231,7 @@ aliceJs.inputButtonRemove = function (target) {
         } else {
             xTarget.classList.add('active');
         }
-        xTarget.addEventListener('click', function (e) {
+        xTarget.addEventListener('click', function(e) {
             e.preventDefault();
             this.previousElementSibling.value = null;
             this.classList.remove('active');
@@ -1244,7 +1245,7 @@ aliceJs.inputButtonRemove = function (target) {
  * @param keyName
  * @param callBackFunc
  */
-aliceJs.pressKeyForAction = function (event, keyName, callBackFunc) {
+aliceJs.pressKeyForAction = function(event, keyName, callBackFunc) {
     if (event.key === keyName) {
         callBackFunc();
     }
@@ -1254,7 +1255,7 @@ aliceJs.pressKeyForAction = function (event, keyName, callBackFunc) {
  * z-slider > range value에 따라 range fill 영역을 계산한다.
  * @param target
  */
-aliceJs.drawSlider = function (target) {
+aliceJs.drawSlider = function(target) {
     let thumbLocation =  parseInt((target.value - 1) * 100 / (target.max - 1)) + '%';
     target.style.cssText = '--range-location:' + thumbLocation;
 };
@@ -1266,7 +1267,7 @@ aliceJs.drawSlider = function (target) {
  * @param type       : validation message의 타입 (alert / success)
  * @param isAbsolute : message box의 position: absolute 처리 여부
  */
-aliceJs.drawValidateMsg = function (target, message, type, isAbsolute) {
+aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     // reset attributes
     document.querySelectorAll('.z-input').forEach(elem => {
         elem.addEventListener('input', () => el.removeAttribute('data-' + type));
@@ -1286,7 +1287,7 @@ aliceJs.drawValidateMsg = function (target, message, type, isAbsolute) {
     // set clear button
     let clearSpan = document.createElement('span');
     clearSpan.className = 'z-icon i-remove ml-auto';
-    clearSpan.onclick = function () {
+    clearSpan.onclick = function() {
         aliceJs.removeTarget(this);
     };
     validateMsg.appendChild(clearSpan);
@@ -1308,7 +1309,7 @@ aliceJs.drawValidateMsg = function (target, message, type, isAbsolute) {
  * noticePopup 데이터를 통해 팝업창을 생성한다.
  * @param noticePopupData : 공지사항 데이터
  */
-aliceJs.openNoticePopup = function (noticePopupData) {
+aliceJs.openNoticePopup = function(noticePopupData) {
     noticePopupData.forEach((data) => {
         const targetId = data.noticeNo;
         const targetUrl = '/notices/' + targetId + '/view-pop';
@@ -1322,7 +1323,7 @@ aliceJs.openNoticePopup = function (noticePopupData) {
  * cookie 데이터가 존재하는지 검사한다.
  * @param name : 공지사항 게시글의 noticeNo 데이터
  */
-aliceJs.getCookie = function (name) {
+aliceJs.getCookie = function(name) {
     const nameOfCookie = name + '=';
     let x = 0;
     while (x <= document.cookie.length) {
@@ -1344,7 +1345,7 @@ aliceJs.getCookie = function (name) {
  * @param htmlString
  * @return {Element}
  */
-aliceJs.makeElementFromString = function (htmlString) {
+aliceJs.makeElementFromString = function(htmlString) {
     let div = document.createElement('div');
     div.innerHTML = htmlString;
     return div.firstElementChild;
@@ -1355,7 +1356,7 @@ aliceJs.makeElementFromString = function (htmlString) {
  *
  * @param option 옵션
  */
-aliceJs.fetchDownload = function (option) {
+aliceJs.fetchDownload = function(option) {
     let url = option.url;
     let fileName = (option.fileName === undefined || option.fileName === null) ? '' : option.fileName;
     aliceJs.doFetch(url, {
