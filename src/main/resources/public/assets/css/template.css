@@ -13839,3 +13839,92 @@ span.modal_node_selected label {
 .modal-dialog.password-update-notice .modal-bottom {
   height: 3.5rem;
 }
+
+/* report
+ *
+ *
+ * 파일 경로 : layout/_report.scss
+ * @description report에서 사용되는 scss
+ * @version 1.0
+ */
+.z-report-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 120rem;
+  margin: 0.5cm auto;
+}
+
+.z-report {
+  margin: 1cm auto;
+}
+.z-report .z-report-main .z-report-main-header {
+  line-height: 1.2;
+  margin: 0 0 10mm 0;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+.z-report .z-report-main .z-report-area .z-drawing-board {
+  width: 45.625rem;
+  margin: 0 auto;
+}
+.z-report .z-report-main .z-report-area .z-drawing-board .z-chart-content {
+  margin: 0 0 1.25rem 0;
+}
+.z-report .z-report-main .z-report-area .z-drawing-board .z-chart-content .z-chart {
+  padding: 0.75rem 0 0 0;
+}
+.z-report .z-report-main .z-report-area .z-form {
+  box-shadow: none;
+}
+.z-report .z-report-main .z-report-area .z-form input, .z-report .z-report-main .z-report-area .z-form textarea, .z-report .z-report-main .z-report-area .z-form button, .z-report .z-report-main .z-report-area .z-form select,
+.z-report .z-report-main .z-report-area .z-form .dropzone, .z-report .z-report-main .z-report-area .z-form .ql-toolbar,
+.z-report .z-report-main .z-report-area .z-form label.radio, .z-report .z-report-main .z-report-area .z-form label.checkbox {
+  pointer-events: none;
+}
+.z-report .z-report-main .z-report-main-footer {
+  display: flex;
+  width: 45.625rem;
+  margin: 4mm auto 10mm;
+  line-height: 1.2;
+}
+.z-report .z-report-main .z-report-main-footer .z-logo {
+  width: 9.5rem;
+  height: 1.625rem;
+  -webkit-mask-image: url("../../assets/media/icons/logo/icon_logo.svg");
+  mask-image: url("../../assets/media/icons/logo/icon_logo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  display: inline-block;
+  background-color: #000000;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+
+  .z-report {
+    width: initial;
+    min-height: initial;
+    margin: 0;
+    padding: 0mm 20mm;
+    border: initial;
+    border-radius: initial;
+    background: initial;
+    box-shadow: initial;
+    page-break-after: always;
+  }
+  .z-report .z-report-main-header {
+    margin: 0 0 10mm 0;
+  }
+  .z-report .z-form {
+    box-shadow: none;
+  }
+}
