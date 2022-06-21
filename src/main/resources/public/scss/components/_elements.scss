@@ -117,18 +117,10 @@ table {
         border-color: transparent;
       }
       .z-icon { background-color: $gray600; }
-      &:hover {
-        .z-icon { background-color: $gray400; }
-      }
-      &:focus {
-        .z-icon { background-color: $gray800; }
-      }
-      &:active {
-        .z-icon { background-color: $gray800; }
-      }
-      &:disabled {
-        .z-icon { background-color: $gray300; }
-      }
+      &:hover .z-icon { background-color: $gray400; }
+      &:focus .z-icon { background-color: $gray800; }
+      &:active .z-icon { background-color: $gray800; }
+      &:disabled .z-icon { background-color: $gray300; }
     }
   }
 }
@@ -160,7 +152,8 @@ table {
     }
 
     &.z-option-table-row {
-      .z-checkbox, .z-radio { margin: 0 0 0 0.75rem; } // 12px
+      .z-checkbox,
+      .z-radio { margin: 0 0 0 0.75rem; } // 12px
 
       .z-input {
         width: 85%;
@@ -177,9 +170,7 @@ table {
           background: $gray400;
           pointer-events: none;
         }
-        &:hover {
-          .z-icon { background: $blue500; }
-        }
+        &:hover .z-icon { background: $blue500; }
       }
     }
   }
@@ -207,14 +198,12 @@ label {
     margin: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-
     &:focus, &:hover { z-index: 25; }
   }
   button {
     margin-left: -0.0625rem;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-
     &:focus, &:hover, &:active { z-index: 25; }
   }
 }
@@ -285,8 +274,7 @@ input, textarea, select {
     background-image: none;
     cursor: default;
 
-    &:hover,
-    &:focus {
+    &:hover, &:focus {
       @include border(0.0625rem, solid, $gray300, bottom);
       @include resetBoxShadow();
     }
@@ -345,7 +333,6 @@ input, textarea, select {
     .z-button-search {
       @include borderRadius(0.25rem);
       margin-left: 1rem; // 16px
-
       &:focus, &:hover, &:active { z-index: 25; }
     }
 
@@ -423,8 +410,7 @@ input, textarea, select {
     cursor: default;
     resize: none;
 
-    &:hover,
-    &:focus {
+    &:hover, &:focus {
       @include border(0.0625rem, solid, $gray300, all);
       @include resetBoxShadow();
     }
@@ -581,9 +567,7 @@ select {
         @include border(0.0625rem, solid, $blue600, all);
         outline: 0;
         // 열렸을때 출력되는 화살표 아이콘
-        .z-icon {
-          &.i-arrow-right { @include rotate(-90); }
-        }
+        .z-icon.i-arrow-right { @include rotate(-90); }
 
         + .z-select-options { display: block; }
       }
@@ -772,9 +756,7 @@ select {
   display: inline-block;
   width: 100%;
   margin: 0 !important;
-  .z-label {
-    &-name { width: 12.5rem; } //200px
-  }
+  .z-label-name { width: 12.5rem; } //200px
   // 목록
   &-list {
     height: 22.5rem; // 360px
@@ -864,9 +846,7 @@ select {
     }
 
     &.error {
-      + span {
-        &::before { @include border(0.0625rem, solid, $red500 !important, all); }
-      }
+      + span::before { @include border(0.0625rem, solid, $red500 !important, all); }
     }
   }
 
@@ -976,49 +956,39 @@ select {
       }
 
       &:hover {
-        + span {
-          &::before {
-            border-color: $blue400;
-            background-color: $blue100;
-          }
+        + span::before {
+          border-color: $blue400;
+          background-color: $blue100;
         }
       }
     }
     // 라디오버튼은 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
     &:disabled,
     &.readonly {
-      + span {
-        &::before {
-          border-color: $gray300;
-          background-color: $neutral200;
-        }
+      + span::before {
+        border-color: $gray300;
+        background-color: $neutral200;
       }
       ~ .z-label { color: $gray400; }
       &:checked {
-        + span {
-          &::after {
-            @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
-            background-color: $gray400;
-          }
+        + span::after {
+          @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
+          background-color: $gray400;
         }
       }
     }
 
     &.error {
-      + span {
-        &::before { @include border(0.0625rem, solid, $red500 !important, all); }
-      }
+      + span::before { @include border(0.0625rem, solid, $red500 !important, all); }
     }
   }
 
   &:focus {
     input[type=radio]:not(:disabled),
     input[type=radio]:not(.readonly) {
-      + span {
-        &:before {
-          @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
-          border-color: $blue600;
-        }
+      + span::before {
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+        border-color: $blue600;
       }
     }
   }
@@ -1026,7 +996,7 @@ select {
     input[type=radio]:not(:disabled),
     input[type=radio]:not(.readonly) {
       + span {
-        &:before {
+        &::before {
           border-color: $blue600;
           background-color: $blue200;
         }
@@ -1060,9 +1030,9 @@ $label-themes-default: (
   // 기본 테마별 라벨
   @each $theme, $value in $label-themes-default {
     &.#{$theme} {
-      color: map-get($value, 'default', 'font');
-      background-color: map-get($value, 'default', 'background');
       border-color: map-get($value, 'default', 'border');
+      background-color: map-get($value, 'default', 'background');
+      color: map-get($value, 'default', 'font');
     }
   }
 

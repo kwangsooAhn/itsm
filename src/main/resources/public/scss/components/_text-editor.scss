@@ -25,9 +25,7 @@
         padding: 0;
         // picker inside item common
         .ql-picker-label,
-        .ql-picker-item {
-          &.ql-active { color: $gray800; }
-        }
+        .ql-picker-item.ql-active { color: $gray800; }
 
         // headings
         .ql-header {
@@ -80,9 +78,7 @@
               border-color: $gray400;
 
               // 선택된 item
-              .ql-picker-item {
-                &.ql-selected { color: $blue500; }
-              }
+              .ql-picker-item.ql-selected { color: $blue500; }
             }
           }
         }
@@ -129,9 +125,7 @@
             .ql-picker-options {
               border-color: $white;
 
-              .ql-picker-item {
-                &.ql-selected { border-color: $blue500; }
-              }
+              .ql-picker-item.ql-selected { border-color: $blue500; }
             }
           }
         }
@@ -236,10 +230,7 @@
 
   // 테두리 없음
   &.ql-border-disabled {
-    .ql-toolbar {
-      &.ql-snow { border-color: transparent; }
-    }
-    .ql-container {
+    .ql-toolbar,.ql-container {
       &.ql-snow { border-color: transparent; }
     }
   }
@@ -247,20 +238,14 @@
   // hover
   &:hover:not(.ql-readonly) {
     outline: 0;
-    .ql-toolbar {
-      &.ql-snow { border-color: $blue400; }
-    }
-    .ql-container {
-      &.ql-snow:not(.ql-disabled) { border-color: $blue400; }
-    }
+    .ql-toolbar.ql-snow,
+    .ql-container.ql-snow:not(.ql-disabled) { border-color: $blue400; }
   }
   // focus
   &:focus:not(.ql-readonly) {
     @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
     outline: 0;
-    .ql-toolbar {
-      &.ql-snow { border-color: $blue600; }
-    }
+    .ql-toolbar,
     .ql-container {
       &.ql-snow { border-color: $blue600; }
     }
@@ -270,8 +255,6 @@
   &:not(.ql-border-disabled).ql-readonly {
     background-color: $neutral200;
     pointer-events: none;
-    .ql-container {
-      &.ql-snow { color: $gray400 !important; }
-    }
+    .ql-container.ql-snow { color: $gray400 !important; }
   }
 }

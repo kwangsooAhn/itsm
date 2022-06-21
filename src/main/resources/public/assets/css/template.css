@@ -7790,7 +7790,8 @@ input, button, select, optgroup, textarea {
 .avatar-edit .avatar .dz-preview .dz-image img {
   object-fit: cover;
 }
-.avatar-edit .avatar .dz-preview .dz-success-mark, .avatar-edit .avatar .dz-preview .dz-error-mark {
+.avatar-edit .avatar .dz-preview .dz-success-mark,
+.avatar-edit .avatar .dz-preview .dz-error-mark {
   display: none;
 }
 .avatar-edit .avatar .dz-preview:hover {
@@ -8725,7 +8726,7 @@ input, button, select, optgroup, textarea {
 .z-button-text:hover:hover {
   text-decoration: underline;
 }
-.z-button-text:active, .z-button-textfocus {
+.z-button-text:active, .z-button-text:focus {
   color: #222529;
 }
 .z-button-text:disabled, .z-button-text.disabled {
@@ -8772,15 +8773,6 @@ input, button, select, optgroup, textarea {
   user-select: none;
   white-space: nowrap;
   cursor: pointer;
-}
-.z-button-switch-group .z-button-switch .z-icon,
-.z-button-switch-group .z-button-toggle .z-icon,
-.z-button-toggle-group .z-button-switch .z-icon,
-.z-button-toggle-group .z-button-toggle .z-icon {
-  display: inline-block;
-  background: #222529;
-  vertical-align: middle;
-  pointer-events: none;
 }
 .z-button-switch-group .z-button-switch:focus,
 .z-button-switch-group .z-button-toggle:focus,
@@ -8834,6 +8826,27 @@ input, button, select, optgroup, textarea {
 .z-button-toggle-group .z-button-toggle:enabled.active .z-icon {
   background: #19428D;
 }
+.z-button-switch-group .z-button-switch:disabled, .z-button-switch-group .z-button-switch.disabled,
+.z-button-switch-group .z-button-toggle:disabled,
+.z-button-switch-group .z-button-toggle.disabled,
+.z-button-toggle-group .z-button-switch:disabled,
+.z-button-toggle-group .z-button-switch.disabled,
+.z-button-toggle-group .z-button-toggle:disabled,
+.z-button-toggle-group .z-button-toggle.disabled {
+  border-color: #CFD5D9;
+  background-color: #EEEEEE;
+  color: #ABB0B5;
+  cursor: default;
+}
+.z-button-switch-group .z-button-switch:disabled .z-icon, .z-button-switch-group .z-button-switch.disabled .z-icon,
+.z-button-switch-group .z-button-toggle:disabled .z-icon,
+.z-button-switch-group .z-button-toggle.disabled .z-icon,
+.z-button-toggle-group .z-button-switch:disabled .z-icon,
+.z-button-toggle-group .z-button-switch.disabled .z-icon,
+.z-button-toggle-group .z-button-toggle:disabled .z-icon,
+.z-button-toggle-group .z-button-toggle.disabled .z-icon {
+  background: #ABB0B5;
+}
 .z-button-switch-group .z-button-switch.selected:not(:disabled), .z-button-switch-group .z-button-switch.selected:not(.disabled),
 .z-button-switch-group .z-button-toggle.selected:not(:disabled),
 .z-button-switch-group .z-button-toggle.selected:not(.disabled),
@@ -8855,26 +8868,14 @@ input, button, select, optgroup, textarea {
 .z-button-toggle-group .z-button-toggle.selected:not(.disabled) .z-icon {
   background: #3373C4;
 }
-.z-button-switch-group .z-button-switch:disabled, .z-button-switch-group .z-button-switch.disabled,
-.z-button-switch-group .z-button-toggle:disabled,
-.z-button-switch-group .z-button-toggle.disabled,
-.z-button-toggle-group .z-button-switch:disabled,
-.z-button-toggle-group .z-button-switch.disabled,
-.z-button-toggle-group .z-button-toggle:disabled,
-.z-button-toggle-group .z-button-toggle.disabled {
-  border-color: #CFD5D9;
-  background-color: #EEEEEE;
-  color: #ABB0B5;
-  cursor: default;
-}
-.z-button-switch-group .z-button-switch:disabled .z-icon, .z-button-switch-group .z-button-switch.disabled .z-icon,
-.z-button-switch-group .z-button-toggle:disabled .z-icon,
-.z-button-switch-group .z-button-toggle.disabled .z-icon,
-.z-button-toggle-group .z-button-switch:disabled .z-icon,
-.z-button-toggle-group .z-button-switch.disabled .z-icon,
-.z-button-toggle-group .z-button-toggle:disabled .z-icon,
-.z-button-toggle-group .z-button-toggle.disabled .z-icon {
-  background: #ABB0B5;
+.z-button-switch-group .z-button-switch .z-icon,
+.z-button-switch-group .z-button-toggle .z-icon,
+.z-button-toggle-group .z-button-switch .z-icon,
+.z-button-toggle-group .z-button-toggle .z-icon {
+  display: inline-block;
+  background: #222529;
+  vertical-align: middle;
+  pointer-events: none;
 }
 .z-button-switch-group .z-button-switch:not(:first-child),
 .z-button-switch-group .z-button-toggle:not(:first-child),
@@ -8931,7 +8932,7 @@ input, button, select, optgroup, textarea {
 
 /* _charts.scss
  *
- * 파일 경로 : component/_charts.scss
+ * 파일 경로 : components/_charts.scss
  * @description Highcharts custom design 을 위해 추가됨
  * @author jy.lim
  * @version 1.0
@@ -9154,7 +9155,8 @@ table td, table th {
   font-size: 0.875rem;
   font-weight: 500;
 }
-.z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
+.z-option-table tr.z-option-table-row .z-checkbox,
+.z-option-table tr.z-option-table-row .z-radio {
   margin: 0 0 0 0.75rem;
 }
 .z-option-table tr.z-option-table-row .z-input {
@@ -10083,15 +10085,15 @@ select {
 .z-radio input[type=radio].error + span::before {
   border: 0.0625rem solid #F52525 !important;
 }
-.z-radio:focus input[type=radio]:not(:disabled) + span:before,
-.z-radio:focus input[type=radio]:not(.readonly) + span:before {
+.z-radio:focus input[type=radio]:not(:disabled) + span::before,
+.z-radio:focus input[type=radio]:not(.readonly) + span::before {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
 }
-.z-radio:active input[type=radio]:not(:disabled) + span:before,
-.z-radio:active input[type=radio]:not(.readonly) + span:before {
+.z-radio:active input[type=radio]:not(:disabled) + span::before,
+.z-radio:active input[type=radio]:not(.readonly) + span::before {
   border-color: #2559A8;
   background-color: #AFD9F9;
 }
@@ -10122,9 +10124,9 @@ select {
   line-height: 1.0625rem;
 }
 .label.normal {
-  color: #19428D;
-  background-color: #83BBED;
   border-color: #83BBED;
+  background-color: #83BBED;
+  color: #19428D;
 }
 
 .z-divider {
@@ -11287,7 +11289,7 @@ body.modal-active {
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
   min-width: 1.875rem;
 }
-.scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+.scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle::before {
   position: absolute;
   top: -0.375rem;
   right: 0;
@@ -11303,7 +11305,7 @@ body.modal-active {
 .scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
   min-height: 1.875rem;
 }
-.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle::before {
   position: absolute;
   top: 0;
   right: -0.125rem;
@@ -11363,15 +11365,15 @@ body.modal-active {
   transition: background-color 0.3s;
 }
 
-.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle::before {
   display: none;
 }
 
-.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle:before {
+.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle::before {
   display: none;
 }
 
-.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle::before {
   right: -0.375rem;
   left: -0.125rem;
 }
@@ -11390,7 +11392,7 @@ body.modal-active {
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
   min-width: 1.875rem;
 }
-.inner-scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+.inner-scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle::before {
   position: absolute;
   top: -0.375rem;
   right: 0;
@@ -11406,7 +11408,7 @@ body.modal-active {
 .inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
   min-height: 1.875rem;
 }
-.inner-scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+.inner-scrollbar > .os-scrollbar-vertical .os-scrollbar-handle::before {
   position: absolute;
   top: 0;
   right: -0.125rem;
@@ -11453,7 +11455,7 @@ body.modal-active {
 .inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
   min-width: 1.875rem;
 }
-.inner-scrollbar-dark > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+.inner-scrollbar-dark > .os-scrollbar-horizontal .os-scrollbar-handle::before {
   position: absolute;
   top: -0.375rem;
   right: 0;
@@ -11469,7 +11471,7 @@ body.modal-active {
 .inner-scrollbar-dark > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
   min-height: 1.875rem;
 }
-.inner-scrollbar-dark > .os-scrollbar-vertical .os-scrollbar-handle:before {
+.inner-scrollbar-dark > .os-scrollbar-vertical .os-scrollbar-handle::before {
   position: absolute;
   top: 0;
   right: -0.125rem;
@@ -11519,15 +11521,15 @@ body.modal-active {
   transition: background-color 0.3s;
 }
 
-.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle::before {
   display: none;
 }
 
-.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle:before {
+.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle::before {
   display: none;
 }
 
-.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle::before {
   right: -0.375rem;
   left: -0.125rem;
 }
@@ -12113,7 +12115,7 @@ body.modal-active {
   margin: 0;
   padding: 0;
 }
-.ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-picker-label.ql-active,
+.ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-picker-label,
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats .ql-picker-item.ql-active {
   color: #222529;
 }
@@ -12344,18 +12346,13 @@ body.modal-active {
 .ql-wrapper-container .ql-container.error {
   border: 0.0625rem solid #F52525 !important;
 }
-.ql-wrapper-container.ql-border-disabled .ql-toolbar.ql-snow {
-  border-color: transparent;
-}
-.ql-wrapper-container.ql-border-disabled .ql-container.ql-snow {
+.ql-wrapper-container.ql-border-disabled .ql-toolbar.ql-snow, .ql-wrapper-container.ql-border-disabled .ql-container.ql-snow {
   border-color: transparent;
 }
 .ql-wrapper-container:hover:not(.ql-readonly) {
   outline: 0;
 }
-.ql-wrapper-container:hover:not(.ql-readonly) .ql-toolbar.ql-snow {
-  border-color: #619CDB;
-}
+.ql-wrapper-container:hover:not(.ql-readonly) .ql-toolbar.ql-snow,
 .ql-wrapper-container:hover:not(.ql-readonly) .ql-container.ql-snow:not(.ql-disabled) {
   border-color: #619CDB;
 }
@@ -12365,9 +12362,7 @@ body.modal-active {
   box-shadow: 0 0 0.125rem 0 #2559A8;
   outline: 0;
 }
-.ql-wrapper-container:focus:not(.ql-readonly) .ql-toolbar.ql-snow {
-  border-color: #2559A8;
-}
+.ql-wrapper-container:focus:not(.ql-readonly) .ql-toolbar.ql-snow,
 .ql-wrapper-container:focus:not(.ql-readonly) .ql-container.ql-snow {
   border-color: #2559A8;
 }

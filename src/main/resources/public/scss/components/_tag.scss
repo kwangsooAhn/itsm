@@ -30,9 +30,7 @@
   &:read-only {
     border: none;
     cursor: inherit;
-
     > .tagify__input { display: none; }
-
     .tagify__tag__removeBtn { display: none; }
   }
 
@@ -45,12 +43,9 @@
     > .tagify__input {
       padding: 0 0.75rem;
       visibility: visible;
-
       &:not(:first-child) { padding: 0.25rem; }
     }
-
     > .tagify__input { display: block; }
-
     .tagify__tag__removeBtn { display: inherit; }
 
     &:hover {
@@ -183,10 +178,7 @@
         color: black;
         &::before { box-shadow: 0 0 0 0.125rem $gray100 inset !important; } // 2px
       }
-
-      &.tagify--invalid {
-        > div::before { box-shadow: 0 0 0 0.125rem $red200 inset !important; } // 2px
-      }
+      &.tagify--invalid > div::before { box-shadow: 0 0 0 0.125rem $red200 inset !important; } // 2px
     }
 
     // remove tag button

@@ -67,10 +67,10 @@
           display: contents;
           overflow: hidden;
           z-index: 10 ;
-
           img { object-fit: cover; }
         }
-        .dz-success-mark, .dz-error-mark { display: none; }
+        .dz-success-mark,
+        .dz-error-mark { display: none; }
         // 마우스 오버시 효과
         &:hover {
           z-index: 25;
@@ -97,6 +97,7 @@
           .dz-file-type,
           .dz-filename,
           .dz-size { display: none; }
+
           .dz-remove {
             @include absolute(0, 0, null, null);
             @include backgroundImage($icon-folder-path + 'icon_clear.svg', 1.125rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 18px
@@ -127,7 +128,6 @@
     // 회원 가입시 아바타는 기존 크기보다 작다.
     .avatar-sm {
       margin-bottom: 1.25rem; // 20px
-
       > div {
         display: inline-block;
         &:first-child { margin-right: 0.625rem; }

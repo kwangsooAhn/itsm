@@ -102,9 +102,7 @@ body.modal-active { overflow: hidden !important; }
       div {
         height: 100%;
         label { font-weight: $font-weight-regular; }
-        li {
-          &:last-child:before { background-color: $white; }
-        }
+        li:last-child:before { background-color: $white; }
       }
     }
   }

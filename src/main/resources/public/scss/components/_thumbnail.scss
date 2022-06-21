@@ -92,9 +92,7 @@
         padding: 0;
         height: 2.5rem; // 40px
 
-        .z-icon {
-          &.i-delete { background: $gray400; }
-        }
+        .z-icon.i-delete { background: $gray400; }
       }
     }
   }
@@ -192,9 +190,7 @@
     width: 760px; // 760px
     height: 645px; // 645px
 
-    .modal-header {
-      .z-thumbnail-preview-name { line-height: 1.2; }
-    }
+    .modal-header .z-thumbnail-preview-name { line-height: 1.2; }
 
     .modal-content {
       height: calc(645px - 3.875rem - 5rem);
