@@ -2719,6 +2719,12 @@ input, button, select, optgroup, textarea {
   border-top: 0.0625rem solid #CFD5D9;
   flex: 1 1 auto;
 }
+.z-itsm-container .z-main-content .z-page-content .hidden-control-content {
+  display: none;
+}
+.z-itsm-container .z-main-content .z-page-content .hidden-control-content.on {
+  display: block;
+}
 .z-itsm-container .z-main-content .z-page-search {
   display: flex;
   flex-direction: row;

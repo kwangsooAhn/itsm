@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/itsm/pageType/commonEditLayout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${documentId != null} ? #{document.label.workflowEdit} : #{document.label.write}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zColorPicker.js}"></script>
+</th:block><body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{document.label.workFlow}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{document.msg.adminEditDescription}"></h6>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="z-edit-form flex-fill">
+        <!-- 업무흐름 구분 -->
+        <div class="flex-column z-edit-row">
+            <label for="documentType">
+                <span th:text="#{document.label.type}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="documentType" onchange="setDocumentType(this.value)" th:disabled="${documentData?.documentId != undefined}">
+                <option value="application-form" th:text="#{document.type.applicationForm}" th:selected="${documentData?.documentType == 'application-form'}"></option>
+                <option value="workflow" th:text="#{document.type.workflow}" th:selected="${documentData?.documentType == 'workflow'}"></option>
+                <option value="application-form-link" th:text="#{document.type.applicationFormLink}" th:selected="${documentData?.documentType == 'application-form-link'}"></option>
+            </select>
+        </div>
+        <!-- 신청서 이름 -->
+        <div class="flex-column z-edit-row">
+            <label for="documentName">
+                <span th:text="#{document.label.name}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" class="z-input" id="documentName" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
+        </div>
+        <!-- 설명 -->
+        <div class="flex-column z-edit-row">
+            <label th:text="#{document.label.description}" for="documentDesc"></label>
+            <textarea id="documentDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"
+                      th:text="${documentData?.documentDesc}"></textarea>
+        </div>
+        <!-- 업무흐름 구분 :  신청서 -->
+        <div id= "applicationFormGroup" class="hidden-control-content">
+            <!-- 그룹 -->
+            <div class="flex-column z-edit-row">
+                <label th:text="#{common.label.group}" for="applicationDocumentGroup"></label>
+                <select id="applicationDocumentGroup">
+                    <option value="" th:text="#{document.label.notSelect}" selected></option>
+                    <option th:each="group:${groupList}" th:value="${group.code}"
+                            th:text="${group.codeValue}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
+                </select>
+            </div>
+            <!-- 문서양식 -->
+            <div class="flex-column z-edit-row">
+                <label for="applicationDocumentForm">
+                    <span th:text="#{document.label.form}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="applicationDocumentForm" th:disabled="${documentId}">
+                    <option value="" th:text="#{common.msg.select}" selected></option>
+                    <option th:each="form:${formList}"
+                            th:id="${form?.id}"
+                            th:value="${form?.id}"
+                            th:text="${form?.name}"
+                            th:selected="${documentData?.formId} == ${form?.id}"></option>
+                </select>
+            </div>
+            <!-- 프로세스 -->
+            <div class="flex-column z-edit-row">
+                <label for="applicationDocumentProcess">
+                    <span th:text="#{document.label.process}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="applicationDocumentProcess" th:disabled="${documentId}">
+                    <option value="" th:text="#{common.msg.select}" selected></option>
+                    <option th:each="process:${processList}"
+                            th:id="${process?.id}"
+                            th:value="${process?.id}"
+                            th:text="${process?.name}"
+                            th:selected="${documentData?.processId} == ${process?.id}"></option>
+                </select>
+            </div>
+            <!-- 문서번호 규칙 -->
+            <div class="flex-column z-edit-row">
+                <label for="applicationNumberingRule">
+                    <span th:text="#{document.label.numberingRule}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="applicationNumberingRule" th:disabled="${documentId}">
+                    <option value="" th:text="#{common.msg.select}" selected></option>
+                    <option th:each="numberingRule:${numberingRuleList}"
+                            th:id="${numberingRule.numberingId}"
+                            th:value="${numberingRule.numberingId}"
+                            th:text="${numberingRule.numberingName}"
+                            th:selected="${documentData?.documentNumberingRuleId} == ${numberingRule.numberingId}"></option>
+                </select>
+            </div>
+            <!-- 신청서 상태 -->
+            <div class="flex-column z-edit-row">
+                <label th:text="#{document.label.status}" for="applicationDocumentStatus"></label>
+                <input type="hidden" id="applicationPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
+                <select id="applicationDocumentStatus">
+                    <option th:each="status:${statusList}" th:value="${status.code}"
+                            th:text="${status.codeName}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
+                </select>
+            </div>
+            <!-- API 활성화 -->
+            <div class="flex-column z-edit-row">
+                <label th:text="#{document.label.apiEnable}" for="applicationApiEnable"></label>
+                <select id="applicationApiEnable" required="required">
+                    <option value="true" th:text="#{document.label.enable}" th:selected="${documentData?.apiEnable == true}"></option>
+                    <option value="false" th:text="#{document.label.disable}" th:selected="${documentData?.apiEnable == false}"></option>
+                </select>
+            </div>
+            <!-- 업무 흐름 색상 -->
+            <div class="flex-column z-edit-row">
+                <label for="applicationDocumentColor">
+                    <span th:text="#{document.label.workFlowColor}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="applicationDocumentColor" th:value="${documentData?.documentColor}"/>
+            </div>
+            <!-- 신청서 아이콘 -->
+            <div class="flex-column z-edit-row">
+                <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
+                <div class="flex-row z-input-button">
+                    <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+                    <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                        <span class="z-icon i-remove"></span>
+                    </button>
+                    <button type="button" class="z-button-search z-button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                </div>
+            </div>
+        </div>
+        <!-- 업무흐름 구분 :  업무흐름 -->
+        <div id="workflowGroup" class="hidden-control-content">
+            <!-- 문서양식 -->
+            <div class="flex-column z-edit-row">
+                <label for="workflowDocumentForm">
+                    <span th:text="#{document.label.form}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="workflowDocumentForm" th:disabled="${documentId}">
+                    <option value="" th:text="#{common.msg.select}" selected></option>
+                    <option th:each="form:${formList}"
+                            th:id="${form?.id}"
+                            th:value="${form?.id}"
+                            th:text="${form?.name}"
+                            th:selected="${documentData?.formId} == ${form?.id}"></option>
+                </select>
+            </div>
+            <!-- 프로세스 -->
+            <div class="flex-column z-edit-row">
+                <label for="workflowDocumentProcess">
+                    <span th:text="#{document.label.process}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="workflowDocumentProcess" th:disabled="${documentId}">
+                    <option value="" th:text="#{common.msg.select}" selected></option>
+                    <option th:each="process:${processList}"
+                            th:id="${process?.id}"
+                            th:value="${process?.id}"
+                            th:text="${process?.name}"
+                            th:selected="${documentData?.processId} == ${process?.id}"></option>
+                </select>
+            </div>
+            <!-- 문서번호 규칙 -->
+            <div class="flex-column z-edit-row">
+                <label for="workflowNumberingRule">
+                    <span th:text="#{document.label.numberingRule}"></span>
+                    <span class="required"></span>
+                </label>
+                <select id="workflowNumberingRule"th:disabled="${documentId}">
+                    <option value="" th:text="#{common.msg.select}" selected></option>
+                    <option th:each="numberingRule:${numberingRuleList}"
+                            th:id="${numberingRule.numberingId}"
+                            th:value="${numberingRule.numberingId}"
+                            th:text="${numberingRule.numberingName}"
+                            th:selected="${documentData?.documentNumberingRuleId} == ${numberingRule.numberingId}"></option>
+                </select>
+            </div>
+            <!-- 신청서 상태 -->
+            <div class="flex-column z-edit-row">
+                <label th:text="#{document.label.status}" for="workflowDocumentStatus"></label>
+                <input type="hidden" id="workflowPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
+                <select id="workflowDocumentStatus">
+                    <option th:each="status:${statusList}" th:value="${status.code}"
+                            th:text="${status.codeName}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
+                </select>
+            </div>
+            <!-- API 활성화 -->
+            <div class="flex-column z-edit-row">
+                <label th:text="#{document.label.apiEnable}" for="workflowApiEnable"></label>
+                <select id="workflowApiEnable" required="required">
+                    <option value="true" th:text="#{document.label.enable}" th:selected="${documentData?.apiEnable == true}"></option>
+                    <option value="false" th:text="#{document.label.disable}" th:selected="${documentData?.apiEnable == false}"></option>
+                </select>
+            </div>
+            <!-- 업무 흐름 색상 -->
+            <div class="flex-column z-edit-row">
+                <label for="workflowDocumentColor">
+                    <span th:text="#{document.label.workFlowColor}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="workflowDocumentColor" th:value="${documentData?.documentColor}"/>
+            </div>
+        </div>
+        <!-- 업무흐름 구분 :  링크 -->
+        <div id="applicationFormLinkGroup" class="hidden-control-content">
+            <!-- 신청서 상태 -->
+            <div class="flex-column z-edit-row">
+                <label th:text="#{document.label.status}" for="linkDocumentStatus"></label>
+                <input type="hidden" id="linkPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
+                <select id="linkDocumentStatus">
+                    <option th:each="status:${statusList}" th:value="${status.code}"
+                            th:text="${status.codeName}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
+                </select>
+            </div>
+            <!-- url 링크 -->
+            <div class="flex-column z-edit-row">
+                <label for="linkUrl">
+                    <span th:text="#{document.label.link}"></span>
+                    <span class="required"></span>
+                </label>
+                <div class="flex-column">
+                    <input type="text" class="z-input" id="linkUrl" th:value="${documentData?.documentLinkUrl}" maxlength="512"/>
+                </div>
+            </div>
+            <!-- 업무 흐름 색상 -->
+            <div class="flex-column z-edit-row">
+                <label for="linkDocumentColor">
+                    <span th:text="#{document.label.workFlowColor}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="linkDocumentColor" th:value="${documentData?.documentColor}"/>
+            </div>
+            <!-- 신청서 아이콘 -->
+            <div class="flex-column z-edit-row">
+                <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
+                <div class="flex-row z-input-button">
+                    <input type="text" id="linkDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+                    <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                        <span class="z-icon i-remove"></span>
+                    </button>
+                    <button type="button" class="z-button-search z-button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                </div>
+            </div>
+        </div>
+        <div class="flex-row justify-content-between edit-row">
+            <div class="z-button-list">
+                <a class="z-button secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
+            </div>
+            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+                <button type="button" class="z-button primary" onclick="saveDocument('POST')"
+                        th:if="${documentId == null}" th:text="#{common.btn.register}">
+                </button>
+                <button type="button" class="z-button primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
+                        th:unless="${documentId == null}" th:text="#{common.btn.modify}">
+                </button>
+                <button type="button" class="z-button secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
+                        th:if="${documentId} and ${documentData?.documentType != 'application-form-link'}"
+                        th:text="#{document.label.registerDisplay}">
+                </button>
+                <button type="button" class="z-button danger"
+                        th:onclick="deleteDocument([[${documentId}]], [[${documentData?.documentType} == 'application-form-link']])"
+                        th:if="${documentId}" th:text="#{common.btn.delete}">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
+    /*<![CDATA[*/
+    // Document status.
+    const STATUS_TEMPORARY = 'document.status.temporary';
+    const STATUS_USE = 'document.status.use';
+    const STATUS_DESTROY = 'document.status.destroy';
+
+    // Document type.
+    const DOCUMENT_TYPE_FORM = 'application-form';
+    const DOCUMENT_TYPE_WORKFLOW = 'workflow';
+    const DOCUMENT_TYPE_LINK = 'application-form-link';
+
+    window.onload = function() {
+        const documentType = document.getElementById('documentType').value;
+        setDocumentType(documentType);
+
+        const prefix = getPrefixForId(documentType);
+        const statusElem = document.getElementById(prefix + 'DocumentStatus');
+        const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus').value;
+
+        // 신청서 상태 초기화
+        switch (prevStatus) {
+            case STATUS_TEMPORARY:
+                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                break;
+            case STATUS_USE:
+                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                break;
+            case STATUS_DESTROY:
+                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                break;
+            default: // 신규 등록
+        }
+        // 스크롤바 추가
+        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+            className: 'inner-scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: 'class'
+            }
+        });
+    };
+
+    // ID 검색을 위한 prefix 반환
+    function getPrefixForId(type) {
+        switch (type) {
+            case DOCUMENT_TYPE_FORM:
+                return 'application';
+            case DOCUMENT_TYPE_WORKFLOW:
+                return 'workflow';
+            case DOCUMENT_TYPE_LINK:
+                return 'link';
+        }
+    }
+
+    // 신청서, 업무흐름 유효성 검증
+    function emptyValidationForDocumentOrWorkflow(prefix) { // 신청서/ 업무흐름일 경우 유효성 체크
+        if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
+        if (isEmpty(prefix + 'DocumentForm', 'document.msg.selectForm')) { return false; }
+        if (isEmpty(prefix + 'DocumentProcess', 'document.msg.selectProcess')) { return false; }
+        if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
+        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
+
+        return true;
+    }
+    // 신청서 링크 전용 유효성검사
+    function emptyValidationForDocumentLink(prefix) {
+        if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
+        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
+        if (isEmpty(prefix + 'Url', 'document.msg.enterDocumentLink')) { return false; }
+        if (!isUrl(prefix + 'Url', 'document.msg.checkUrlLink')) { return false; }
+
+        return true;
+    }
+
+    // 신청서 저장 / 수정
+    function saveDocument(method, documentId) {
+        const documentType = document.getElementById('documentType').value;
+        // 유효성 검증
+        const prefix = getPrefixForId(documentType);
+        if ((documentType === DOCUMENT_TYPE_LINK && !emptyValidationForDocumentLink(prefix)) ||
+            (documentType !== DOCUMENT_TYPE_LINK && !emptyValidationForDocumentOrWorkflow(prefix))) {
+            return false;
+        }
+
+        const documentGroup = document.getElementById(prefix + 'DocumentGroup');
+        const documentForm = document.getElementById(prefix + 'DocumentForm');
+        const documentProcess = document.getElementById(prefix + 'DocumentProcess');
+        const documentNumberingRule = document.getElementById(prefix + 'NumberingRule');
+        const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus');
+        const documentStatus = document.getElementById(prefix + 'DocumentStatus');
+        const apiEnable = document.getElementById(prefix + 'ApiEnable');
+        const documentLinkUrl = document.getElementById(prefix + 'Url');
+        const documentColor = document.getElementById(prefix + 'DocumentColor');
+        const documentIcon = document.getElementById(prefix + 'DocumentIcon');
+
+        let documentInfo = {
+            documentType: documentType,
+            documentName: document.getElementById('documentName').value,
+            documentDesc: document.getElementById('documentDesc').value,
+            formId: documentType === DOCUMENT_TYPE_LINK ? '' : documentForm.value,
+            processId: documentType === DOCUMENT_TYPE_LINK ? '' : documentProcess.value,
+            documentNumberingRuleId: documentType === DOCUMENT_TYPE_LINK ? '' : documentNumberingRule.value,
+            documentStatus: documentStatus.value,
+            apiEnable: documentType === DOCUMENT_TYPE_LINK ? 'false' : apiEnable.value,
+            documentLinkUrl: documentType === DOCUMENT_TYPE_LINK ? documentLinkUrl.value : null,
+            documentColor: documentColor.value,
+            documentGroup: documentType === DOCUMENT_TYPE_FORM ? documentGroup.value : null,
+            documentIcon: (documentIcon !== null && documentType !== DOCUMENT_TYPE_WORKFLOW) ?  documentIcon.value : null
+        };
+
+        let url = (documentType === DOCUMENT_TYPE_LINK) ? '/rest/workflows/workflowLink' : '/rest/workflows';
+        if (method === 'PUT' && documentId !== undefined) {
+            documentInfo.documentId = documentId;
+            url += '/' + documentId;
+        }
+
+        if (documentType !== DOCUMENT_TYPE_LINK && prevStatus.value === STATUS_TEMPORARY &&
+            documentInfo.documentStatus === STATUS_USE) { // 신청서/업무흐름 수정(신청서 링크 제외)
+            zAlert.confirm(i18n.msg('document.msg.changeStatusEnabled'), () => {
+                restSubmit(method, url + '?isDeleteData=true', documentInfo, (response) => {
+                    switch (response.status) {
+                        case aliceJs.response.success:
+                            zAlert.success(i18n.msg('common.msg.save'), function() {
+                                window.location.href = '/workflows/search';
+                            });
+                            break;
+                        case aliceJs.response.duplicate:
+                            zAlert.warning(i18n.msg('document.msg.nameDuplication'));
+                            break;
+                        case aliceJs.response.error:
+                            zAlert.danger(i18n.msg('common.msg.fail'));
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            });
+        } else {
+            restSubmit(method, url, documentInfo, (response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.save'), function() {
+                            if (documentId === undefined && documentType !== DOCUMENT_TYPE_LINK) {
+                                // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
+                                console.log(response.data);
+                                openDocumentDisplay(response.data);
+                            } else {
+                                window.location.href = '/workflows/search';
+                            }
+                        });
+                        break;
+                    case aliceJs.response.duplicate:
+                        zAlert.warning(i18n.msg('document.msg.nameDuplication'));
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    case aliceJs.response.duplicateWorkflow:
+                        zAlert.warning(i18n.msg('document.msg.checkDuplication'));
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+    }
+
+    // 신청서 아이콘 선택 팝업
+    function openIcon() {
+        const documentType = document.getElementById('documentType');
+        const prefix = getPrefixForId(documentType.value);
+        aliceJs.thumbnail({
+            title: i18n.msg('document.label.icon'),
+            targetId: prefix + 'DocumentIcon',
+            type: 'icon',
+            isThumbnailInfo: false,
+            isFilePrefix: false,
+            thumbnailDoubleClickUse: true,
+            selectedPath: document.getElementById(prefix + 'DocumentIcon').value,
+        });
+    }
+
+    // 업무흐름 구분 변경
+    function setDocumentType(type) {
+        const applicationForm = document.getElementById('applicationFormGroup');
+        const workflow = document.getElementById('workflowGroup');
+        const applicationFormLink = document.getElementById('applicationFormLinkGroup');
+        const prefix = getPrefixForId(type);
+
+        switch (type) {
+            case DOCUMENT_TYPE_FORM:
+                applicationForm.classList.add('on');
+                workflow.classList.remove('on');
+                applicationFormLink.classList.remove('on');
+                break;
+            case DOCUMENT_TYPE_WORKFLOW:
+                workflow.classList.add('on');
+                applicationForm.classList.remove('on');
+                applicationFormLink.classList.remove('on');
+                break;
+            case DOCUMENT_TYPE_LINK:
+                applicationFormLink.classList.add('on');
+                workflow.classList.remove('on');
+                applicationForm.classList.remove('on');
+                break;
+            default:
+        }
+        if (document.querySelector('.hidden-control-content.on .z-color-box') == null) {
+            new zColorPicker(document.getElementById(prefix + 'DocumentColor'), { type: 'fill' });
+        }
+    }
+
+    // 신청서 양식 편집 화면
+    function openDocumentDisplay(documentId) {
+        aliceJs.fetchText('/workflows/' + documentId + '/display', {
+            method: 'GET'
+        }).then((htmlData) => {
+            let modalOptions = {
+                title: i18n.msg('document.label.registerDisplay'),
+                body: htmlData,
+                classes: 'document-display',
+                buttons: [{
+                    content: i18n.msg('common.btn.modify'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        saveDocumentDisplay(documentId);
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    aliceJs.initDesignedSelectTag();
+
+                    OverlayScrollbars(document.querySelector('.document-display-content'), { className: 'scrollbar' });
+                }
+            };
+            const documentDisplayModal = new modal(modalOptions);
+            documentDisplayModal.show();
+        });
+    }
+
+    /* Display data save */
+    function saveDocumentDisplay(documentId) {
+        const arrDisplay = [];
+        Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
+            const objDisplay = {};
+            const strArr = item.id.split('_');
+            objDisplay.formGroupId = strArr[0];     // formGroupId
+            objDisplay.elementId = strArr[1];       // elementId
+            objDisplay.display = item.value;        // display
+            arrDisplay.push(objDisplay);
+        });
+
+        const saveData = {
+            documentId: documentId,
+            displays: arrDisplay
+        };
+
+        aliceJs.fetchJson('/rest/workflows/' + documentId + '/display', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saveData)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.save'), function() {
+                        location.reload();
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    // 업무흐름 삭제
+    function deleteDocument(documentId, isDocumentLink) {
+        let url = '';
+        if (isDocumentLink) url = '/rest/workflows/workflowLink/' + documentId;
+        else url = '/rest/workflows/' + documentId;
+
+        zAlert.confirm(i18n.msg('document.msg.deleteDocument'), () => {
+            aliceJs.fetchJson(url, {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), function() {
+                            window.location.href = '/workflows/search';
+                        });
+                        break;
+                    case aliceJs.response.exist:
+                        // 시작된 인스턴스가 있을 경우 삭제 불가능
+                        zAlert.warning(i18n.msg('document.msg.launchedInstance'));
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+        });
+    }
+
+    function restSubmit(method, url, data, resultFunc, isShowProgressbar) {
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            showProgressbar: isShowProgressbar
+        }).then((response) => {
+            resultFunc(response);
+        });
+    }
+    /*]]>*/
+</script>
+</html>
