@@ -71,7 +71,6 @@
       display: block;
       width: 17.5rem; // 280px
       margin-top: 0.625rem; // 10px
-      margin-top: 0.625rem; // 10px
       color: $gray500;
       font-size: $font-size-s; // 16px
       font-weight: $font-weight-regular;
@@ -103,7 +102,6 @@
   // 스크롤바
   .edit-form {
     padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
-
     .edit-row { margin-top: 0.625rem; } // 10px
   }
 }
@@ -112,11 +110,8 @@
   @include border(0.0625rem, solid, $gray300, top); //1px
   padding: 0 23.13rem 3.125rem 23.13rem; // 0 370px 50px 370px
   background-color: $white;
-
   .sub-title { margin-top: 2.5rem; } // 40px
-
   .select-date-time { width: calc(100% - 10.0005rem); } // 310px
-
   .hour-select { width: 9.688rem; } // 155px
 }
 // 시스템관리 > 게시판
@@ -131,11 +126,8 @@
     tr {
       height: 2.5rem; // 40px
       line-height: 2.5rem;
-      th { @include border(0.0625rem, solid, $gray400, bottom); }
-      td {
-        @include border(0.0625rem, solid, $gray400, bottom);
-        padding: 0 0.9375rem; // 0 15px
-      }
+      th, td { @include border(0.0625rem, solid, $gray400, bottom); }
+      td { padding: 0 0.9375rem; } // 0 15px
     }
     .tbody {
       tr:hover { background-color: $neutral200; }
@@ -161,15 +153,10 @@
   height: 100%;
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
-
   .under-bar { margin-top: 0.625rem; } // 10px
-
   // 조건
   .condition { width: 28.31rem; } // 453px
-
-  .attribute {
-    margin-left: 4rem;
-  }
+  .attribute { margin-left: 4rem; }
 }
 // CMDB > Class
 .z-cmdb-class-content-edit{
@@ -210,10 +197,8 @@
     font-weight: $font-weight-bold;
   }
 }
-
 // 공지사항 상단 공지
 .notice-pinned { background-color: $blue100; }
-
 // CI 조회
 .cmdb-ci-content {
   height: 100%;
