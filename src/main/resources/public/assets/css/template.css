@@ -7,7 +7,7 @@
  */
 /* _reset.scss
  *
- * 파일 경로 : template/_reset.scss
+ * 파일 경로 : components/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
  * @author wdj
  * @version 1.0
@@ -73,13 +73,13 @@ template {
 }
 
 input, button, select, optgroup, textarea {
+  max-width: 100%;
+  margin: 0;
+  border: none;
+  background-color: #FFFFFF;
   font-family: inherit;
   font-size: 100%;
   line-height: 1.2;
-  margin: 0;
-  max-width: 100%;
-  background-color: #FFFFFF;
-  border: none;
 }
 
 .text-brainz {
@@ -1037,8 +1037,8 @@ input, button, select, optgroup, textarea {
 .vertical-bar {
   width: 1.875rem;
   min-height: 1.875rem;
-  border-right: 0.0625rem solid #ABB0B5;
   margin: 0 1.875rem 0 0;
+  border-right: 0.0625rem solid #ABB0B5;
   vertical-align: middle;
 }
 
@@ -1052,62 +1052,62 @@ input, button, select, optgroup, textarea {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 .under-bar label {
+  color: #757575;
   font-size: 1.125rem;
   font-weight: 500;
-  color: #757575;
 }
 
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-Thin.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-ExtraLight.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 200;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-Light.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-Regular.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-Medium.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-SemiBold.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 600;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-Bold.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-ExtraBold.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 800;
 }
 @font-face {
-  font-family: "Pretendard";
   src: local("Pretendard"), url("../../assets/fonts/Pretendard-Black.woff2") format("woff2");
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 900;
 }
@@ -1124,10 +1124,10 @@ input, button, select, optgroup, textarea {
 }
 
 .required::after {
-  color: #F52525;
   content: "*";
-  font-weight: 700;
   margin-left: 0.1875rem;
+  color: #F52525;
+  font-weight: 700;
 }
 
 .text-clip {
@@ -1135,11 +1135,11 @@ input, button, select, optgroup, textarea {
 }
 
 .text-ellipsis {
+  overflow: hidden;
   display: inline-block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
 }
 
@@ -1784,6 +1784,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-copy {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-arrow-right {
   width: 1.25rem;
   height: 1.25rem;
@@ -2079,16 +2089,6 @@ input, button, select, optgroup, textarea {
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_image_download.svg");
   mask-image: url("../../assets/media/icons/designer/topmenu/icon_image_download.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-copy {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
-  mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2720,19 +2720,19 @@ input, button, select, optgroup, textarea {
   color: #222529;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-title .z-document-numbering {
+  color: #8B9094;
   font-size: 1rem;
   font-weight: 400;
-  color: #8B9094;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-topic {
   width: 39.38rem;
   margin-top: 1.5625rem;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row-content .z-document-topic .topic {
-  font-size: 1rem;
-  font-weight: 400;
   display: block;
   margin-bottom: 0.625rem;
+  font-size: 1rem;
+  font-weight: 400;
 }
 .z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-detail .user-name,
 .z-itsm-container .z-main-content .z-page-result .z-document-row-info .z-document-detail .create-dt,
@@ -2748,11 +2748,11 @@ input, button, select, optgroup, textarea {
   margin: 1.25rem 0;
 }
 .z-itsm-container .z-main-content .z-page-result .statistic-box {
-  width: 23.75rem;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
+  width: 23.75rem;
   padding: 1.5625rem;
 }
 .z-itsm-container .z-main-content .z-page-result .statistic-info {
@@ -2825,14 +2825,14 @@ input, button, select, optgroup, textarea {
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell {
   display: flex;
-  height: 100%;
   align-items: center;
-  font-weight: 500;
+  height: 100%;
   color: #424242;
+  font-weight: 500;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row {
-  color: #757575;
   border-bottom: 0.125rem solid #CFD5D9;
+  color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
@@ -2841,12 +2841,12 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
-  background: #757575;
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
+  background: #757575;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
   -webkit-transform: rotate(0deg);
@@ -2864,8 +2864,8 @@ input, button, select, optgroup, textarea {
   flex-direction: column;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row {
-  color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
+  color: #222529;
   cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row.read-only {
@@ -2885,8 +2885,8 @@ input, button, select, optgroup, textarea {
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon {
   padding: 0;
-  background-color: transparent;
   border-color: transparent;
+  background-color: transparent;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:hover, .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:focus, .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:active, .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid .z-button-icon:disabled {
   background-color: transparent;
@@ -2973,14 +2973,14 @@ input, button, select, optgroup, textarea {
 }
 .z-itsm-container .z-main-content .z-page-list .grid__cell {
   display: flex;
-  height: 100%;
   align-items: center;
-  font-weight: 500;
+  height: 100%;
   color: #424242;
+  font-weight: 500;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
-  color: #757575;
   border-bottom: 0.125rem solid #CFD5D9;
+  color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
@@ -2989,12 +2989,12 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
-  background: #757575;
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
+  background: #757575;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
   -webkit-transform: rotate(0deg);
@@ -3012,8 +3012,8 @@ input, button, select, optgroup, textarea {
   flex-direction: column;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
-  color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
+  color: #222529;
   cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row.read-only {
@@ -3033,8 +3033,8 @@ input, button, select, optgroup, textarea {
 }
 .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon {
   padding: 0;
-  background-color: transparent;
   border-color: transparent;
+  background-color: transparent;
 }
 .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:hover, .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:focus, .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:active, .z-itsm-container .z-main-content .z-page-list .grid .z-button-icon:disabled {
   background-color: transparent;
@@ -3108,17 +3108,17 @@ input, button, select, optgroup, textarea {
   padding-bottom: 0.625rem;
 }
 .z-itsm-container .z-main-content .card-list .card {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  overflow: hidden;
   position: relative;
   min-width: 32.0625rem;
   width: 100%;
   min-height: 9.375rem;
   margin: 1.25rem 1.25rem 0 0;
   padding: 0;
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  overflow: hidden;
   cursor: pointer;
 }
 .z-itsm-container .z-main-content .card-list .card:hover {
@@ -3142,10 +3142,10 @@ input, button, select, optgroup, textarea {
   content: url("../../assets/media/icons/icon_no_card.svg");
 }
 .z-itsm-container .z-main-content .card-list .no-data-found .no-data-text {
+  margin-left: 2.5rem;
+  color: #BDBDBD;
   font-size: 1.125rem;
   font-weight: 500;
-  color: #BDBDBD;
-  margin-left: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-view {
   display: flex;
@@ -3164,19 +3164,19 @@ input, button, select, optgroup, textarea {
   margin-top: 1.875rem;
 }
 .z-itsm-container .z-main-content .z-page-view-sub-title {
+  padding: 0 1.25rem;
+  color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #8B9094;
-  padding: 0 1.25rem;
 }
 .z-itsm-container .z-main-content .z-page-view-content {
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+  color: #424242;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.6;
-  color: #424242;
-  min-height: 13.4375rem;
-  padding: 0.3125rem 1.25rem;
 }
 .z-itsm-container .z-main-content .z-page-view-content pre {
   overflow-wrap: break-word;
@@ -3245,26 +3245,26 @@ input, button, select, optgroup, textarea {
   margin-top: 1.875rem;
 }
 .z-itsm-container .z-main .view-title {
+  border-bottom: 0.125rem solid #CFD5D9;
+  padding-bottom: 0.625rem;
+  color: #222529;
   font-size: 1.125rem;
   font-weight: 500;
-  color: #222529;
-  padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-itsm-container .z-main .view-sub-title {
+  padding: 0 1.25rem;
+  color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #8B9094;
-  padding: 0 1.25rem;
 }
 .z-itsm-container .z-main .view-content {
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+  color: #424242;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.6;
-  color: #424242;
-  min-height: 13.4375rem;
-  padding: 0.3125rem 1.25rem;
 }
 .z-itsm-container .z-main .view-content pre {
   overflow-wrap: break-word;
@@ -3360,11 +3360,11 @@ input, button, select, optgroup, textarea {
 }
 
 .user-name {
+  overflow: hidden;
   display: inline-block;
   max-width: 8.75rem;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
 }
 
@@ -4571,11 +4571,11 @@ input, button, select, optgroup, textarea {
   padding: 0.6875rem 0 0.6875rem 0.3125rem;
 }
 .z-component .z-element .z-dr-table .z-dr-table-header .z-dr-table-header-cell {
+  overflow: hidden;
   display: inline-block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   padding: 0 0.5rem;
 }
@@ -6565,14 +6565,14 @@ input, button, select, optgroup, textarea {
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__cell {
   display: flex;
-  height: 100%;
   align-items: center;
-  font-weight: 500;
+  height: 100%;
   color: #424242;
+  font-weight: 500;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row {
-  color: #757575;
   border-bottom: 0.125rem solid #CFD5D9;
+  color: #757575;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
@@ -6581,12 +6581,12 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
-  background: #757575;
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
+  background: #757575;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
   -webkit-transform: rotate(0deg);
@@ -6604,8 +6604,8 @@ input, button, select, optgroup, textarea {
   flex-direction: column;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row {
-  color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
+  color: #222529;
   cursor: pointer;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row.read-only {
@@ -6625,8 +6625,8 @@ input, button, select, optgroup, textarea {
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon {
   padding: 0;
-  background-color: transparent;
   border-color: transparent;
+  background-color: transparent;
 }
 .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:hover, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:focus, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:active, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled {
   background-color: transparent;
@@ -7201,28 +7201,28 @@ input, button, select, optgroup, textarea {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-title {
+  border-bottom: 0.125rem solid #CFD5D9;
+  margin-bottom: 0.625rem;
+  padding-bottom: 0.625rem;
+  color: #222529;
   font-size: 1.125rem;
   font-weight: 500;
-  color: #222529;
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-sub-title {
+  padding: 0 1.25rem;
+  color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #8B9094;
-  padding: 0 1.25rem;
   line-height: 1.5;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-content {
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+  color: #424242;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.6;
-  color: #424242;
-  min-height: 13.4375rem;
-  padding: 0.3125rem 1.25rem;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-content pre {
   overflow-wrap: break-word;
@@ -7354,8 +7354,8 @@ input, button, select, optgroup, textarea {
 .z-portal-container .z-main .z-main-content .z-vertical-split-right.z-login-form .z-login-other .vertical-bar {
   width: 1.25rem;
   min-height: 2.5rem;
-  border-right: 0.0625rem solid #CFD5D9;
   margin: 0 1.875rem 0 0;
+  border-right: 0.0625rem solid #CFD5D9;
   vertical-align: middle;
 }
 .z-portal-container .z-main .z-main-content .z-vertical-split-right.z-login-form .z-login-other a {
@@ -9052,11 +9052,11 @@ table {
   line-height: 1.5;
 }
 table td, table th {
+  overflow: hidden;
   display: table-cell;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   vertical-align: middle;
 }
@@ -9599,11 +9599,11 @@ select {
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
   border: 0.0625rem solid #ABB0B5;
+  overflow: hidden;
   display: block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   align-items: center;
   width: 100%;
@@ -9714,11 +9714,11 @@ select {
   z-index: 5000;
 }
 .z-select .z-select-options li {
+  overflow: hidden;
   display: block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   align-items: center;
   margin: 0 0.3125rem;
@@ -9869,11 +9869,11 @@ select {
   padding-top: 0 !important;
 }
 .z-switch-list li {
+  overflow: hidden;
   display: list-item;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   height: 2.5rem;
   padding-right: 0.2rem;
@@ -9996,11 +9996,11 @@ select {
   padding: 0.1875rem 0 0.1875rem 0;
 }
 .z-checkbox-list li {
+  overflow: hidden;
   display: list-item;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   height: 1.5rem;
 }
@@ -10276,11 +10276,11 @@ select {
   display: block;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message .add-file-button-wrap {
+  overflow: hidden;
   display: inline-block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   text-align: left;
 }
@@ -10391,11 +10391,11 @@ select {
   grid-row: 1/span 2;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-filename {
+  overflow: hidden;
   display: inline-block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   grid-column: 2;
   padding: 0 0.75rem;
@@ -10403,11 +10403,11 @@ select {
   text-align: left;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-size {
+  overflow: hidden;
   display: inline-block;
   max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   grid-column: 2;
   padding: 0 0.75rem;
@@ -11231,26 +11231,26 @@ body.modal-active {
   margin-top: 1.875rem;
 }
 .itsm-popup .view-title {
+  border-bottom: 0.125rem solid #CFD5D9;
+  padding-bottom: 0.625rem;
+  color: #222529;
   font-size: 1.125rem;
   font-weight: 500;
-  color: #222529;
-  padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
 }
 .itsm-popup .view-sub-title {
+  padding: 0 1.25rem;
+  color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #8B9094;
-  padding: 0 1.25rem;
 }
 .itsm-popup .view-content {
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+  color: #424242;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.6;
-  color: #424242;
-  min-height: 13.4375rem;
-  padding: 0.3125rem 1.25rem;
 }
 .itsm-popup .view-content pre {
   overflow-wrap: break-word;
@@ -11776,11 +11776,11 @@ body.modal-active {
   box-sizing: border-box;
 }
 .tagify__tag > div > * {
+  overflow: hidden;
   display: inline-block;
   max-width: max-content;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
   -webkit-transition: 0.8s ease;
   -moz-transition: 0.8s ease;
@@ -13719,8 +13719,8 @@ body.modal-active {
 .reply-list .vertical-bar {
   width: 1.25rem;
   min-height: 1.25rem;
-  border-right: 0.0625rem solid #CFD5D9;
   margin: 0.0625rem 0.9375rem 0.0625rem 0;
+  border-right: 0.0625rem solid #CFD5D9;
   vertical-align: middle;
 }
 .reply-list:empty {
