@@ -157,9 +157,9 @@ class TokenService(
                 true -> this.aliceFileService.uploadFiles(it.value)
             }
         }
-        val isSuccess = wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
+        val statusCode = wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
         return ZResponse(
-            status = if (isSuccess) ZResponseConstants.STATUS.SUCCESS.code else ZResponseConstants.STATUS.ERROR_FAIL.code
+            status = statusCode
         )
     }
 

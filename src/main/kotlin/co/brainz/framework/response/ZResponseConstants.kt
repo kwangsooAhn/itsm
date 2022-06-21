@@ -29,6 +29,7 @@ object ZResponseConstants {
         ERROR_NOT_EXIST_CLASS("E-0010"),
         ERROR_DUPLICATE_LOGIN("E-0011"),
         ERROR_INVALID_USER("E-0012"),
-        ERROR_DISABLED_USER("E-0013")
+        ERROR_DISABLED_USER("E-0013"),
+        ERROR_PROCESSED_TOKEN("E-0014")
     }
 }

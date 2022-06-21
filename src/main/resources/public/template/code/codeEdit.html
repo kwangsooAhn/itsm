@@ -107,8 +107,8 @@
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.name}"></label>
             <input class="z-input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
-            <button type="button" sec:authorize="hasAuthority('system.manage')" class="z-button-icon extra">
-                <span class="z-icon i-delete"></span>
+            <button type="button" sec:authorize="hasAuthority('system.manage')" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">
+                <span class="z-icon i-remove"></span>
             </button>
         </div>
     </template>
@@ -122,15 +122,15 @@
     const sessionKey = 'code_expand_key';
     let observer = aliceJs.pageObserver;
 
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function() {
         observer.set();
 
         if (document.getElementById('btnCodeLang') !== null) {
             document.getElementById('btnCodeLang').addEventListener('click', drawCodeLang);
         }
-        OverlayScrollbars(document.querySelector('.z-page-tree'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.z-page-edit'), {className: 'scrollbar'});
-        OverlayScrollbars(document.getElementById('txtCodeDesc'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.getElementById('txtCodeDesc'), { className: 'scrollbar' });
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getCodeList()), false);
 
         if (document.getElementById('btnUpdate') !== null) {
@@ -157,10 +157,10 @@
             leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
             sessionKey: sessionKey,
             totalCount: true,
-            onCreate: function () {
+            onCreate: function() {
                 document.getElementById('treeList').querySelector('.node').click();
             },
-            selectedNode: function (response) {
+            selectedNode: function(response) {
                 onGetDetail(response.id);
             }
         });
@@ -301,7 +301,7 @@
         }
 
         if (codeUnacceptableChar(jsonData.code) === false) {
-            zAlert.warning('[(#{validation.msg.unacceptableCharacters})]', function () {
+            zAlert.warning('[(#{validation.msg.unacceptableCharacters})]', function() {
                 document.getElementById('txtCode').focus();
             });
             return false;
@@ -346,7 +346,7 @@
             switch (response.status) {
                 case aliceJs.response.success:
                     tree.setTreeExpandNode(sessionKey);
-                    zAlert.success(resultMsg, function () {
+                    zAlert.success(resultMsg, function() {
                         window.location.href = '/codes/edit';
                     });
                     break;
@@ -373,7 +373,7 @@
             switch (response.status) {
                 case aliceJs.response.success:
                     tree.setTreeExpandNode(sessionKey);
-                    zAlert.success('[(#{common.msg.delete})]', function () {
+                    zAlert.success('[(#{common.msg.delete})]', function() {
                         window.location.href = '/codes/edit';
                     });
                     break;
@@ -410,7 +410,7 @@
         langCodeRow.querySelector('input').value = (typeof param.codeLangValue !== 'undefined') ? param.codeLangValue : '';
         const deleteBtn = langCodeRow.querySelector('button.z-button-icon');
         if (deleteBtn !== null) {
-            deleteBtn.addEventListener('click', function () {
+            deleteBtn.addEventListener('click', function() {
                 const row = deleteBtn.parentNode;
                 row.remove();
                 observer.isChanged = true;
@@ -433,7 +433,7 @@
         if (param !== '') {
             const codeLang = JSON.parse(param);
             for (let index in codeLang) {
-                drawCodeLang({lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue}, editable);
+                drawCodeLang({ lang: codeLang[index].lang, codeLangValue: codeLang[index].codeValue }, editable);
             }
         }
         divCodeLang.querySelectorAll('button').forEach((elem) => {

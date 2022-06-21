@@ -730,6 +730,7 @@ document:
     selectProcess: "Please select process."
     selectNumberingRule: "Please select numbering rule"
     terminate: "The document will be forcibly closed. Would you like to proceed though?"
+    processedDocuments: "This document has already been processed."
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"

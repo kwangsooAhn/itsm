@@ -729,6 +729,7 @@ document:
     selectProcess: "프로세스를 선택하세요."
     selectNumberingRule: "문서번호 규칙을 선택하세요."
     terminate: "해당 문서가 강제 종료가 됩니다.<br/>그래도 진행 하시겠습니까?"
+    processedDocuments: "이미 처리된 문서입니다."
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"
