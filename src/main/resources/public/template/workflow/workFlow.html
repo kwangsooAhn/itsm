@@ -422,7 +422,6 @@
                         zAlert.success(i18n.msg('common.msg.save'), function() {
                             if (documentId === undefined && documentType !== DOCUMENT_TYPE_LINK) {
                                 // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
-                                console.log(response.data);
                                 openDocumentDisplay(response.data);
                             } else {
                                 window.location.href = '/workflows/search';
