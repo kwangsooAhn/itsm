@@ -1,6 +1,6 @@
 /* _validations.scss
  *
- * 파일 경로 : template/_validations.scss
+ * 파일 경로 : components/_validations.scss
  * @description validation message
  * @author jy.lim
  * @version 1.0
@@ -14,45 +14,39 @@
 
   &.default {
     @include border(0.0625rem, solid, $gray400, all);
-    color: $neutral800;
-    background-color: $white;
     @include backgroundImage('#{$icon-folder-path}validation/icon_default.svg', null, no-repeat, 1rem, center, null);
     @include boxShadow(0, 0, 0.125rem, 0, $gray300);
+    background-color: $white;
+    color: $neutral800;
   }
   &.info {
     @include border(0.0625rem, solid, $blue100, all);
-    color: $blue500;
-    background-color: $blue100;
     @include backgroundImage('#{$icon-folder-path}validation/icon_info.svg', null, no-repeat, 1rem, center, null);
+    background-color: $blue100;
+    color: $blue500;
 
     .z-icon {
-      &.i-remove {
-        background: $blue500;
-      }
+      &.i-remove { background: $blue500; }
     }
   }
   &.error {
     @include border(0.0625rem, solid, $red50 !important, all);
-    color: $red500;
-    background-color: $red50;
     @include backgroundImage('#{$icon-folder-path}validation/icon_error.svg', null, no-repeat, 1rem, center, null);
+    background-color: $red50;
+    color: $red500;
 
     .z-icon {
-      &.i-remove {
-        background: $red500;
-      }
+      &.i-remove { background: $red500; }
     }
   }
   &.success {
     @include border(0.0625rem, solid, $green100, all);
-    color: $green600;
-    background-color: $green100;
     @include backgroundImage('#{$icon-folder-path}validation/icon_success.svg', null, no-repeat, 1rem, center, null);
+    background-color: $green100;
+    color: $green600;
 
     .z-icon {
-      &.i-remove {
-        background: $green600;
-      }
+      &.i-remove { background: $green600; }
     }
   }
 

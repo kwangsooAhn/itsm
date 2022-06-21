@@ -1,5 +1,5 @@
 /* 태그 기능 디자인
- * template/_tag.scss
+ * components/_tag.scss
  * @description 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
  *              변수를 통해 중복되는 코드 제거 및 코드 컨벤션에 맞게 수정
  * @author jy.lim
@@ -7,80 +7,66 @@
  */
 // tag 동작 이벤트
 @include keyframe(tags--bump) {
-  30% {
-    transform: scale(1.2);
-  }
+  30% { transform: scale(1.2); }
 }
 @include keyframe(rotateLoader) {
-  to {
-    transform: rotate(1turn);
-  }
+  to { transform: rotate(1turn); }
 }
 
 .tagify {
   @include relative();
+  @include transition(0.1s);
   display: inline-flex;
-  width: 100%;
-  min-height: 2.125rem; // 34px
   align-items: flex-start;
   flex-wrap: wrap;
+  width: 100%;
+  min-height: 2.125rem; // 34px
   font-family: $font-family;
   font-size: $font-size-xs;
   cursor: text;
   outline: 0;
-  @include transition(0.1s);
   --tag-hide-transition: 0.3s;
 
   &:read-only {
     border: none;
     cursor: inherit;
 
-    > .tagify__input {
-      display: none;
-    }
+    > .tagify__input { display: none; }
 
-    .tagify__tag__removeBtn {
-      display: none;
-    }
+    .tagify__tag__removeBtn { display: none; }
   }
 
   &.z-input {
-    height: max-content;
-    padding: 0;
     @include border(0.0625rem, solid, $gray400); // 1px
     @include borderRadius(0.125rem); // 2px
+    height: max-content;
+    padding: 0;
 
     > .tagify__input {
       padding: 0 0.75rem;
       visibility: visible;
 
-      &:not(:first-child) {
-        padding: 0.25rem;
-      }
+      &:not(:first-child) { padding: 0.25rem; }
     }
 
-    > .tagify__input {
-      display: block;
-    }
+    > .tagify__input { display: block; }
 
-    .tagify__tag__removeBtn {
-      display: inherit;
-    }
+    .tagify__tag__removeBtn { display: inherit; }
 
     &:hover {
-      outline: 0;
       border-color: $blue400;
+      outline: 0;
     }
 
     &:focus {
-      outline: 0;
-      border-color: $blue600;
       @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      border-color: $blue600;
+      outline: 0;
     }
 
     &:active {
-      outline: 0;
       border-color: $blue600;
+      outline: 0;
     }
 
   }
@@ -99,75 +85,71 @@
     .tagify__tag > div {
       pointer-events: none;
       &::before {
-        color: $gray500;
         background-color: $neutral400;
-      ;
-        pointer-events: none;
+        color: $gray500;
         box-shadow: none;
+        pointer-events: none;
       }
     }
   }
 
-  + input,
-  + textarea {
-    display: none !important;
-  }
+  + input, + textarea { display: none !important; }
 
   // editable tag design
   &__tag {
     @include relative();
-    display: inline-flex;
-    margin: 0.1875rem 0 0.1875rem 0.1875rem; // 3px 0 3px 3px
     @include borderRadius(0.25rem);
+    @include transition(0.13s ease-out);
+    display: inline-flex;
     align-items: center;
+    margin: 0.1875rem 0 0.1875rem 0.1875rem; // 3px 0 3px 3px
     z-index: 1;
     outline: 0;
     cursor: default;
-    @include transition(0.13s ease-out);
     // 태그 문구
     > div {
-      max-width: 100%;
-      padding: 0.2813rem 0.5rem; // 4.5px 8px
       @include borderRadius(0.25rem);
-      vertical-align: top;
-      box-sizing: border-box;
-      color: $gray700;
-      line-height: 1.4;
       @include userSelect(none);
       @include transition(0.13s ease-out);
+      max-width: 100%;
+      padding: 0.2813rem 0.5rem; // 4.5px 8px
+      color: $gray700;
+      line-height: 1.4;
+      vertical-align: top;
+      box-sizing: border-box;
 
       > * {
         @include ellipsis(inline-block, max-content);
+        @include transition(0.8s ease);
         max-width: 15.625rem;
         vertical-align: top;
-        @include transition(0.8s ease);
       }
 
       > [contenteditable] {
+        @include userSelect(text);
         max-width: 21.88rem; // 350px
         margin: -0.125rem; // -2px
         padding: 0.125rem; // 2px
         outline: 0;
-        @include userSelect(text);
         cursor: text;
       }
 
       &::before {
-        content: '';
         @include absolute(0, 0, 0, 0);
         @include borderRadius(inherit);
-        z-index: -1;
-        pointer-events: none;
         @include transition(120ms ease);
         @include animation(0s, 0.3s, tags--bump, ease-out, 1);
         @include insideBorder(1.25rem, $gray100);
+        content: '';
+        z-index: -1;
+        pointer-events: none;
       }
     }
 
     // 중복 태그 origin tag
     &.tagify--mark {
-      animation: none;
       @include border(0.0625rem, solid, $red500);
+      animation: none;
     }
 
     // 중복 태그 invalid tag
@@ -175,9 +157,7 @@
       &:not(.tagify__tag--editable) {
         div {
           color: $red500;
-          > span {
-            opacity: 1;
-          }
+          > span { opacity: 1; }
           &::before {
             @include insideBorder(1.25rem, $red100);
             @include transition(0.2s);
@@ -192,9 +172,7 @@
 
         &:hover {
           @include border(0.0625rem, solid, $red500, all); // 1px
-          .tagify__tag__removeBtn {
-            background-color: transparent;
-          }
+          .tagify__tag__removeBtn { background-color: transparent; }
         }
       }
     }
@@ -203,53 +181,44 @@
     &--editable {
       > div {
         color: black;
-
-        &::before {
-          box-shadow: 0 0 0 0.125rem $gray100 inset !important; // 2px
-        }
+        &::before { box-shadow: 0 0 0 0.125rem $gray100 inset !important; } // 2px
       }
 
       &.tagify--invalid {
-        > div::before {
-          box-shadow: 0 0 0 0.125rem $red200 inset !important; // 2px
-        }
+        > div::before { box-shadow: 0 0 0 0.125rem $red200 inset !important; } // 2px
       }
     }
 
     // remove tag button
     &__removeBtn {
+      @include transition(0.2s ease-out);
+      @include borderRadius(50%);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 1rem; // 16px
       height: 1rem; // 16px
       margin: 0 0.25rem 0 0; // 0 4.66667px
-      @include transition(0.2s ease-out);
-      @include borderRadius(50%);
-      order: 5;
-      cursor: pointer;
+      background: 0 0;
+      color: $gray600;
       font-family: $font-family;
       font-size: 1.25rem; // 20px
       font-weight: $font-weight-bold;
-      color: $gray600;
-      background: 0 0;
+      order: 5;
+      cursor: pointer;
 
       &::after {
+        content: '\00D7';
         height: 1.125rem; // 18px
         line-height: 0.875rem; // 14px
-        content: '\00D7';
       }
 
       &:hover {
-        color: $white;
         background: $gray600;
+        color: $white;
         + div {
-          > span {
-            opacity: 1; // 기존 0.5
-          }
-          &::before {
-            @include transition(0.2s);
-          }
+          > span { opacity: 1; } // 기존 0.5
+          &::before { @include transition(0.2s); }
         }
       }
     }
@@ -267,17 +236,17 @@
     // 미 입력시, placeholder 투명도 조정 가능
     &:empty::before {
       @include transition(0.2s ease-out);
+      width: auto;
       opacity: 1; // 기존 0.5
       transform: none;
-      width: auto;
     }
 
     &:focus {
       outline: 0;
       &::before {
         @include transition(0.2s ease-out);
-        opacity: 0;
         @include translate(6px, 0); // 6px
+        opacity: 0;
       }
 
       &:empty::before {
@@ -288,16 +257,16 @@
     }
 
     &::before {
-      display: inline-block;
       @include absolute($top: 0, $bottom: 0);
+      content: attr(data-placeholder);
+      display: inline-block;
       width: 0;
       height: 1em;
-      content: attr(data-placeholder);
+      margin: auto 0;
+      color: $gray400;
       line-height: 1em;
       z-index: 1;
-      color: $gray400;
       opacity: 0;
-      margin: auto 0;
       white-space: nowrap;
       pointer-events: none;
     }
@@ -307,15 +276,14 @@
       content: attr(data-suggest);
       display: inline-block;
       max-width: 6.25rem; // 100px
-      white-space: pre;
       color: $gray400;
       opacity: 0; // 기존 0.3
+      white-space: pre;
       pointer-events: none;
     }
 
     .tagify__tag {
       margin: 0;
-
       > div {
         padding-top: 0;
         padding-bottom: 0;
@@ -327,15 +295,15 @@
 // 태그 자동 완성
 .tagify__dropdown {
   @include absolute();
-  margin-top: 0.3125rem; // 5px
-  transform: translateY(1px);
-  background: $white;
   overflow: hidden;
+  margin-top: 0.3125rem; // 5px
+  background: $white;
   z-index: 9999;
+  transform: translateY(1px);
 
   &[placement=top] {
-    margin-top: 0;
     @include translate(0, -2px);
+    margin-top: 0;
     .tagify__dropdown__wrapper {
       border-top-width: .0625rem; // 1px
       border-bottom-width: 0;
@@ -344,24 +312,22 @@
 
   // 자동 완성 wrapper
   &__wrapper {
-    max-height: 18.75rem;
-    padding: 0.4375rem; // 7px
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0px 2px 12px
     @include transition(0.25s cubic-bezier(0, 1, 0.5, 1));
     overflow: hidden;
+    max-height: 18.75rem;
+    padding: 0.4375rem; // 7px
 
-    &:hover {
-      overflow: auto;
-    }
+    &:hover { overflow: auto; }
   }
 
   &__item {
     @include relative();
+    @include borderRadius(0.125rem);
     height: 1.75rem;
     padding: 0.2813rem 0.5rem; // 4.5px, 8px
     margin: 0.0625rem;
-    @include borderRadius(0.125rem);
     font-family: $font-family;
     font-size: $font-size-xs;
     box-sizing: inherit;
@@ -369,8 +335,8 @@
     outline: 0;
 
     &--active {
-      color: $gray700;
       background: $gray100;
+      color: $gray700;
     }
   }
 }
@@ -378,21 +344,19 @@
 // 테마
 .tags-look {
   .tagify__dropdown__item {
-    display: inline-block;
     @include borderRadius(0.25rem);
+    @include transition(0s);
+    display: inline-block;
+    margin: 0.5rem 0.25rem 0 0.25rem; // 8px 4px 0 4px
     padding: 0.25rem 0.5rem; // 4px, 8px
     background: $gray100;
-    margin: 0.5rem 0.25rem 0 0.25rem; // 8px 4px 0 4px
     color: $gray700;
-    @include transition(0s);
 
     &:hover {
-      color: $gray700;
       background: $gray100;
+      color: $gray700;
     }
 
-    &--active {
-      color: $gray700;
-    }
+    &--active { color: $gray700; }
   }
 }

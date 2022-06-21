@@ -20,12 +20,12 @@
   // .notification hover 시 노출되는 영역 전반
   &-panel {
     @include relative($left: 70.8rem, $bottom: 0); // 좌측 간격 1132.8px
-    width: 26.25rem; // 420px
     @include border(0.0625rem solid $neutral200, all); // 1px
     @include boxShadow(0, 0, 0.3125rem, 0, $neutral200); // 5px
-    color: $gray800;
-    background-color: $white;
     display: none;
+    width: 26.25rem; // 420px
+    background-color: $white;
+    color: $gray800;
     z-index: 25;
     &.on { display: block; }
   }
@@ -33,16 +33,16 @@
   // notification 상단 영역 
   &-header {
     display: flex;
+    align-items: baseline;
     height: 2.5rem; // 40px
     padding: 0 0.938rem; // 0 15px
-    align-items: baseline;
     background-color: $blue500;
     span {
       display: inline-block;
+      color: $white;
       font-size: $font-size-xs;
       font-family: $font-family;
       font-weight: $font-weight-regular;
-      color: $white;
 
       // header 내부 컨텐츠
       &.z-title {
@@ -50,12 +50,8 @@
         font-family: $font-family;
         font-weight: $font-weight-medium;
       }
-      &.z-total {
-        margin: auto 0.3125rem; //5px
-      }
-      &.z-message {
-        margin-left: 0.625rem;  // 10px
-      }
+      &.z-total { margin: auto 0.3125rem; } //5px
+      &.z-message { margin-left: 0.625rem; }  // 10px
 
       // 우측 상단 X 버튼
       &.z-icon {
@@ -77,12 +73,10 @@
     }
   }
   &-content {
+    @include border(0.063rem, solid, $neutral200, bottom); // 1px
     height: 6.875rem; // 110px
     padding: 0.938rem;// 15px
-    @include border(0.063rem, solid, $neutral200, bottom); // 1px
-    &:hover {
-      background-color: hexToRGBA($blue300, 0.1);
-    }
+    &:hover { background-color: hexToRGBA($blue300, 0.1); }
     // 체크 박스 영역
     .z-notification-checked {
       display: flex;
@@ -90,26 +84,26 @@
       background-color: $white;
       input[type="checkbox"] {
         @include relative();
+        @include border(0.063rem, solid, $blue500, all); // 1px
+        @include borderRadius(0.063rem); // 1px
         display: inline-block;
         width: 1.125rem; // 18px
         height: 1.125rem; // 18px
-        padding: 0.313rem; // 5px
         margin: 0;
-        @include border(0.063rem, solid, $blue500, all); // 1px
-        @include borderRadius(0.063rem); // 1px
-        -webkit-appearance: none;
+        padding: 0.313rem; // 5px
         cursor: pointer;
+        -webkit-appearance: none;
         &:checked {
           @include border(0.063rem, solid, $neutral200, all); // 1px
           color: $gray300;
           cursor: unset;
         }
         &:checked::after {
-          content: '\2714';
           @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
+          content: '\2714';
+          color: $gray300;
           font-size: $font-size-s;
           font-family: $font-family;
-          color: $gray300;
         }
       }
     }
@@ -124,14 +118,12 @@
       &.z-title {
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
+        color: $gray800;
         font-weight: $font-weight-medium;
         font-size: $font-size-s;
         font-family: $font-family;
         line-height: 1.2;
-        color: $gray800;
-        &.z-confirm {
-          opacity: 0.75;
-        }
+        &.z-confirm { opacity: 0.75; }
       }
       &.z-title__link {
         &:hover {
@@ -140,28 +132,26 @@
         }
       }
       &.z-document-no {
-        font-size: $font-size-xs;
         color: $gray500;
+        font-size: $font-size-xs;
       }
       &.z-message {
         display: block;
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
         margin-left: 1.75rem; // 28px
+        color: $gray800;
         font-weight: $font-weight-regular;
         font-size: $font-size-s;
         font-family: $font-family;
-        color: $gray800;
-        &.z-confirm {
-            color: $gray400;
-        }
+        &.z-confirm { color: $gray400; }
       }
       &.z-date {
         margin-left: 1.75rem; // 28px
+        color: $gray500;
         font-font: $font-family;
         font-weight: $font-weight-regular;
         font-size: $font-size-xs;
-        color: $gray500;
       }
     }
   }
@@ -171,56 +161,50 @@
 // 전체 화면 우측 하단에서 지정한 시간동안만 노출되는 notification
 // toastify.css wrapper
 .alice-toastify {
-  height: 6.25rem; // 100px
-  padding: 0 !important;
   @include borderRadius(0.0625rem !important); // 1px
   @include boxShadow(0, 0, 0.3125rem, 0, $neutral200 !important);
+  height: 6.25rem; // 100px
+  padding: 0 !important;
   background: $white !important;
-  &.toastify-right {
-    right: 0.625rem; // 10px
-  }
+  &.toastify-right { right: 0.625rem; } // 10px
   &.toast-content {
     .icon {
+      @include backgroundImage('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem, null, null, null, null); // 100px
       width: 6.25rem; // 100px
       height: 6.25rem; // 100px
-      @include backgroundImage('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem, null, null, null, null); // 100px
     }
     .content {
+      @include border(0.0625rem, solid, $neutral200 !important, all); // 1px
       width: 23.13rem; // 370px
       height: 100%;
       padding: 0.938rem; // 15px
-      @include border(0.0625rem, solid, $neutral200 !important, all); // 1px
       div {
         &.title {
           padding-bottom: 0.625rem; // 10px
           label, button { display: none; }
         }
-        &.message {
-          padding-bottom: 0.625rem; // 10px
-        }
-        &.date {
-          color: $gray500;
-        }
+        &.message { padding-bottom: 0.625rem; } // 10px
+        &.date { color: $gray500; }
         span {
           &.z-title {
             max-width: 18.13rem; // 290px
+            color: $gray800;
             font-size: $font-size-s;
             font-weight: $font-weight-medium;
             font-family: $font-family;
-            color: $gray800;
           }
           &.z-message {
             max-width: 22.5rem; // 360px
+            color: $gray800;
             font-size: $font-size-s;
             font-weight: $font-weight-regular;
             font-family: $font-family;
-            color: $gray800;
           }
           &.z-date {
+            color: $gray500;
             font-size: $font-size-xs;
             font-weight: $font-weight-regular;
             font-family: $font-family;
-            color: $gray500;
           }
         }
       }
@@ -228,7 +212,7 @@
   }
   .toast-close {
     @include absolute($top: 0.688rem, $right: 0.688rem); // 11px 11px
-    padding: 0;
     @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray500); // 24px
+    padding: 0;
   }
 }

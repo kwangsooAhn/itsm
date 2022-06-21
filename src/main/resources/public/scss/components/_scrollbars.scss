@@ -1,6 +1,6 @@
 /* _scrollbars.scss 
  *
- * 파일 경로 : template/_scrollbars.scss
+ * 파일 경로 : components/_scrollbars.scss
  * @description 스크롤바 디자인
  * @author wdj
  * @version 1.0
@@ -11,14 +11,12 @@
     right: 0.625rem; // 10px
     height: 0.5rem;
     >.os-scrollbar-track {
-      >.os-scrollbar-handle {
-        min-width: 1.875rem; // 30px
-      }
+      >.os-scrollbar-handle { min-width: 1.875rem; } // 30px
     }
     .os-scrollbar-handle {
       &:before {
-        content: '';
         @include absolute(-0.375rem, 0, -0.125rem, 0); // -6px 0 -2px 0
+        content: '';
         display: block;
       }
     }
@@ -27,14 +25,12 @@
     bottom: 0.625rem; // 10px
     width: 0.5rem;
     >.os-scrollbar-track {
-      >.os-scrollbar-handle {
-        min-height: 1.875rem; // 30px
-      }
+      >.os-scrollbar-handle { min-height: 1.875rem; } // 30px
     }
     .os-scrollbar-handle {
       &:before {
-        content: '';
         @include absolute(0, -0.125rem, 0, -0.375rem); // 0 -2px 0 -6px
+        content: '';
         display: block;
       }
     }
@@ -43,35 +39,27 @@
     width: 1.6875rem; // 27px
     height: 1.6875rem; // 27px
     background-color: transparent;
-    &.os-scrollbar-corner-resize {
-      @include backgroundImage('#{$icon-folder-path}icon_resize.svg', null, no-repeat, 0, 0, null);
-    }
+    &.os-scrollbar-corner-resize { @include backgroundImage('#{$icon-folder-path}icon_resize.svg', null, no-repeat, 0, 0, null); }
   }
   >.os-scrollbar {
     box-sizing: border-box;
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
-      background: $neutral100;
       @include borderRadius(0.5rem); // 8px
+      background: $neutral100;
       >.os-scrollbar-handle {
         @include borderRadius(0.5rem); // 8px
         background: $neutral300;
       }
-      >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
-        background: $gray300;
-      }
+      >.os-scrollbar-handle.active { background: $gray300; } // scrollbar 클릭 이동 시
     }
     &:hover {
       >.os-scrollbar-track {
-        >.os-scrollbar-handle { // scrollbar 마우스 오버
-          background: $gray300;
-        }
+        >.os-scrollbar-handle { background: $gray300; } // scrollbar 마우스 오버
       }
     }
   }
-  >.os-scrollbar.os-scrollbar-unusable {
-    background: transparent;
-  }
+  >.os-scrollbar.os-scrollbar-unusable { background: transparent; }
 }
 .scrollbar.os-host-rtl {
   >.os-scrollbar-horizontal {
@@ -82,27 +70,21 @@
 .scrollbar.os-host-transition {
   >.os-scrollbar {
     >.os-scrollbar-track {
-      >.os-scrollbar-handle {
-        @include transition(background-color 0.3s);
-      }
+      >.os-scrollbar-handle { @include transition(background-color 0.3s); }
     }
   }
 }
 .scrollbar.os-host-scrollbar-horizontal-hidden {
   >.os-scrollbar-horizontal {
     .os-scrollbar-handle {
-      &:before {
-        display: none;
-      }
+      &:before { display: none; }
     }
   }
 }
 .scrollbar.os-host-scrollbar-vertical-hidden {
   >.os-scrollbar-vertical {
     .os-scrollbar-handle {
-      &:before {
-        display: none;
-      }
+      &:before { display: none; }
     }
   }
 }
@@ -120,9 +102,7 @@
 .textarea-scroll-wrapper {
   display: block;
   &.scrollbar {
-    >.os-scrollbar-vertical {
-      bottom: 0;
-    }
+    >.os-scrollbar-vertical { bottom: 0; }
   }
 }
 // element 내부 scrollbar
@@ -131,14 +111,12 @@
     right: 0.625rem; // 10px
     height: 0.25rem; // 4px
     >.os-scrollbar-track {
-      >.os-scrollbar-handle {
-        min-width: 1.875rem; // 30px
-      }
+      >.os-scrollbar-handle { min-width: 1.875rem; } // 30px
     }
     .os-scrollbar-handle {
       &:before {
-        content: '';
         @include absolute(-0.375rem, 0, -0.125rem, 0); // -6px 0 -2px 0;
+        content: '';
         display: block;
       }
     }
@@ -147,14 +125,12 @@
     bottom: 0.625rem; // 10px
     width: 0.25rem; // 4px
     >.os-scrollbar-track {
-      >.os-scrollbar-handle {
-        min-height: 1.875rem; // 30px
-      }
+      >.os-scrollbar-handle { min-height: 1.875rem; } // 30px
     }
     .os-scrollbar-handle {
       &:before {
-        content: '';
         @include absolute(0, -0.125rem, 0,  -0.375rem); // 0 -2px 0 -6px
+        content: '';
         display: block;
       }
     }
@@ -168,27 +144,21 @@
     box-sizing: border-box;
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
-      background: $neutral100;
       @include borderRadius(0.5rem); // 8px scrollbar 배경 모서리 곡선
+      background: $neutral100;
       >.os-scrollbar-handle {
         @include borderRadius(0.5rem); // 8px
         background: $neutral300;
       }
-      >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
-        background: $gray300;
-      }
+      >.os-scrollbar-handle.active { background: $gray300; } // scrollbar 클릭 이동 시
     }
     &:hover {
       >.os-scrollbar-track {
-        >.os-scrollbar-handle { // scrollbar 마우스 오버
-          background: $gray300;
-        }
+        >.os-scrollbar-handle { background: $gray300; } // scrollbar 마우스 오버
       }
     }
   }
-  >.os-scrollbar.os-scrollbar-unusable {
-    background: transparent;
-  }
+  >.os-scrollbar.os-scrollbar-unusable { background: transparent; }
 }
 // 내부 scrollbar dark 테마
 .inner-scrollbar-dark {
@@ -196,14 +166,12 @@
     right: 0.625rem; // 10px
     height: 0.25rem; // 4px
     >.os-scrollbar-track {
-      >.os-scrollbar-handle {
-        min-width: 1.875rem; // 30px
-      }
+      >.os-scrollbar-handle { min-width: 1.875rem; } // 30px
     }
     .os-scrollbar-handle {
       &:before {
-        content: '';
         @include absolute(-0.375rem, 0, -0.125rem, 0); // -6px 0 -2px 0;
+        content: '';
         display: block;
       }
     }
@@ -212,14 +180,12 @@
     bottom: 0.625rem; // 10px
     width: 0.25rem; // 4px
     >.os-scrollbar-track {
-      >.os-scrollbar-handle {
-        min-height: 1.875rem; // 30px
-      }
+      >.os-scrollbar-handle { min-height: 1.875rem; } // 30px
     }
     .os-scrollbar-handle {
       &:before {
-        content: '';
         @include absolute(0, -0.125rem, 0,  -0.375rem); // 0 -2px 0 -6px
+        content: '';
         display: block;
       }
     }
@@ -233,27 +199,21 @@
     box-sizing: border-box;
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
-      background: $gray800;
       @include borderRadius(0.5rem); // 8px scrollbar 배경 모서리 곡선
+      background: $gray800;
       >.os-scrollbar-handle {
         @include borderRadius(0.5rem); // 8px
         background: $gray600;
       }
-      >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
-        background: $gray500;
-      }
+      >.os-scrollbar-handle.active { background: $gray500; } // scrollbar 클릭 이동 시
     }
     &:hover {
       >.os-scrollbar-track {
-        >.os-scrollbar-handle { // scrollbar 마우스 오버
-          background: $gray500;
-        }
+        >.os-scrollbar-handle { background: $gray500; } // scrollbar 마우스 오버
       }
     }
   }
-  >.os-scrollbar.os-scrollbar-unusable {
-    background: transparent;
-  }
+  >.os-scrollbar.os-scrollbar-unusable { background: transparent; }
 }
 .scrollbar.os-host-rtl {
   >.os-scrollbar-horizontal {
@@ -274,18 +234,14 @@
 .scrollbar.os-host-scrollbar-horizontal-hidden {
   >.os-scrollbar-horizontal {
     .os-scrollbar-handle {
-      &:before {
-        display: none;
-      }
+      &:before { display: none; }
     }
   }
 }
 .scrollbar.os-host-scrollbar-vertical-hidden {
   >.os-scrollbar-vertical {
     .os-scrollbar-handle {
-      &:before {
-        display: none;
-      }
+      &:before { display: none; }
     }
   }
 }
@@ -302,12 +258,12 @@
 // TODO: text editor scrollbar
 .ql-container {
   .ql-editor {
-    resize: vertical;
     overflow: auto;
+    resize: vertical;
     // background of the scrollbar
     &::-webkit-scrollbar-track {
-      background-color: $neutral100;
       @include borderRadius(0.5rem); // 8px
+      background-color: $neutral100;
     }
     // total width
     &::-webkit-scrollbar {
@@ -316,30 +272,23 @@
     }
     // scrollbar
     &::-webkit-scrollbar-thumb {
-      background-color: $neutral300;
       @include borderRadius(0.5rem); // 8px
-      &:hover {
-        background-color: $gray300;
-      }
-      &:active {
-        background-color: $gray300;
-      }
+      background-color: $neutral300;
+      &:hover, &:active { background-color: $gray300; }
     }
     // corner
     &::-webkit-resizer {
+      @include backgroundImage('#{$icon-folder-path}icon_resize.svg', 12px, no-repeat, 0, 0, null);
       width: 24px;
       height: 24px;
-      background-color: transparent;
       border: none;
-      @include backgroundImage('#{$icon-folder-path}icon_resize.svg', 12px, no-repeat, 0, 0, null);
+      background-color: transparent;
     }
   }
 
   //게시판 읽기 textarea고정
   &.ql-disabled{
-    .ql-editor{
-      resize:none;
-    }
+    .ql-editor{ resize:none; }
   }
 }
 // highcharts scrollbar
@@ -357,9 +306,7 @@
     stroke-width: 0;
     rx: calc(0.5rem / 2);
     ry: calc(0.5rem / 2);
-    &:hover {
-      fill: $gray300;
-    }
+    &:hover { fill: $gray300; }
   }
   &-button { display: none; }
   &-arrow { display: none; }

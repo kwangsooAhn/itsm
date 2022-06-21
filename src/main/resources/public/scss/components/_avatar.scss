@@ -1,6 +1,6 @@
 /* _avatar.scss 
  *
- * 파일 경로 : template/_avatar.scss
+ * 파일 경로 : components/_avatar.scss
  * @description 아바타 관련 디자인
  * @author wdj
  * @version 1.0
@@ -9,29 +9,29 @@
   &-edit {
     // 아바타 타이틀
     .avatar-title {
+      margin: 0.5625rem 0 0.5625rem 0; // 9px
+      color: $gray500;
       font-size: $font-size-xs;
       font-weight: $font-weight-medium;
-      color: $gray500;
-      margin: 0.5625rem 0 0.5625rem 0; // 9px
     }
     // dropzone
     .avatar {
+      @include border(0.0625rem, solid, $gray300, all); // 1px
       width: 20.63rem; // 330px
       height: 20.63rem; // 330px
-      background-color: $neutral50;
-      @include border(0.0625rem, solid, $gray300, all); // 1px
       padding: 0;
+      background-color: $neutral50;
 
       // drag and drop 영역
       .dz-default {
         margin: 1.875rem 0;
         // Drop files here to upload or browse 문구
         &.dz-message {
+          margin-top: 5.313rem; // 85px
+          color: $gray400;
           font-size: $font-size-xs;
           font-weight: $font-weight-regular;
-          color: $gray400;
           text-align: center;
-          margin-top: 5.313rem; // 85px
           // 아이콘
           .z-icon {
             &.i-avatar {
@@ -52,9 +52,7 @@
 
         &.dz-drag-hover {
          border-style: solid;
-          .dz-message {
-            opacity: 0.5;
-          }
+          .dz-message { opacity: 0.5; }
         }
       }
        // 업로드된 파일 미리보기
@@ -70,60 +68,47 @@
           overflow: hidden;
           z-index: 10 ;
 
-          img {
-            object-fit: cover;
-          }
+          img { object-fit: cover; }
         }
         .dz-success-mark, .dz-error-mark { display: none; }
         // 마우스 오버시 효과
         &:hover {
           z-index: 25;
-          .dz-details {
-            opacity: 1;
-          }
+          .dz-details { opacity: 1; }
         }
 
         &.dz-image-preview {
           background: $white;
-          .dz-details {
-            @include transition(opacity 0.2s linear);
-          }
+          .dz-details { @include transition(opacity 0.2s linear); }
         }
 
         .dz-details {
           @include absolute(0, null, null, 0);
           display: block;
+          align-items: center;
           min-width: 100%;
           max-width: 100%;
-          align-items: center;
-          line-height: 150%;
-          text-align: center;
           color: $gray500;
+          text-align: center;
+          line-height: 150%;
           opacity: 0;
           z-index: 10;
 
           .dz-file-type,
           .dz-filename,
-          .dz-size {
-            display: none;
-          }
+          .dz-size { display: none; }
           .dz-remove {
             @include absolute(0, 0, null, null);
+            @include backgroundImage($icon-folder-path + 'icon_clear.svg', 1.125rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 18px
             display: block;
             width: 1.125rem;
             height: 1.125rem;
-            @include backgroundImage($icon-folder-path + 'icon_clear.svg', 1.125rem, no-repeat, center, center, hexToRGBA($white, 0.4)); // 18px
             cursor: pointer;
-
-            &:hover {
-              background-color: hexToRGBA($white, 0.9);
-            }
+            &:hover { background-color: hexToRGBA($white, 0.9); }
           }
         }
-
         .dz-progress { display: none; }
       }
-
       &.dz-started .dz-message { display: none; }
     }
     // 상세 설명
@@ -132,11 +117,11 @@
 
       .avatar-text {
         display: block;
+        margin-bottom: 0.3125rem;
+        color: $gray400;
         font-size: $font-size-xs;
         font-weight: $font-weight-regular;
-        color: $gray400;
         text-align: left;
-        margin-bottom: 0.3125rem;
       }
     }
     // 회원 가입시 아바타는 기존 크기보다 작다.
@@ -145,10 +130,7 @@
 
       > div {
         display: inline-block;
-
-        &:first-child {
-          margin-right: 0.625rem;
-        }
+        &:first-child { margin-right: 0.625rem; }
       }
 
       .avatar {
@@ -162,23 +144,19 @@
           .z-icon {
             &.i-avatar {
               height: 2.813rem; // 45px
+              margin-bottom: 0.9375rem; // 15px
               -webkit-mask-size: 2.813rem;
               mask-size: 2.813rem;
-              margin-bottom: 0.9375rem; // 15px
             }
           }
 
-          span {
-            font-size: 0.8125rem; // 13px
-          }
+          span { font-size: 0.8125rem; } // 13px
         }
       }
       // 상세 설명
       .avatar-description {
         vertical-align: top;
-        .avatar-text {
-          font-size: 0.8125rem; // 13px
-        }
+        .avatar-text { font-size: 0.8125rem; } // 13px
       }
     }
   }

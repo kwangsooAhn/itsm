@@ -1,6 +1,6 @@
 /* _elements.scss
  *
- * 파일 경로 : template/_elements.scss
+ * 파일 경로 : components/_elements.scss
  * @description HTML element 디자인
  * @author wdj
  * @version 1.0
@@ -17,33 +17,25 @@ body {
 
 // headings
 h1, h2, h3, h4, h5, h6 {
+  color: $neutral800;
   font-family: $font-family;
   font-weight: $font-weight-medium;
   line-height: 1.2;
-  color: $neutral800;
 }
 
 h1 {
+  color: $neutral800;
   font-size: $font-size-xl; // 32px;
   font-weight: $font-weight-bold;
-  color: $neutral800;
 }
-h2 {
-  font-size: $font-size-xl;
-}
-h3 {
-  font-size: $font-size-l;
-}
-h4 {
-  font-size: $font-size-m;
-}
-h5 {
-  font-size: $font-size-s;
-}
+h2 { font-size: $font-size-xl; }
+h3 { font-size: $font-size-l; }
+h4 { font-size: $font-size-m; }
+h5 { font-size: $font-size-s; }
 h6 {
+  color: $neutral600;
   font-size: $font-size-xs; // 14px;
   font-weight: $font-weight-medium;
-  color: $neutral600;
 }
 // a
 a { cursor: pointer; }
@@ -69,12 +61,12 @@ table {
   }
 }
 .z-table {
+  border: none;
+  background-color: transparent;
+  color: $neutral800;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
-  color: $neutral800;
-  background-color: transparent;
-  border: none;
 
   td, th {
     &:not(.p-0) {
@@ -86,10 +78,10 @@ table {
   }
 
   th {
+    color: $neutral600;
     font-family: $font-family;
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
-    color: $neutral600;
   }
 
   .z-table-head {
@@ -113,9 +105,7 @@ table {
       }
     }
     // 데이터 없을때
-    .no-data-found-list {
-      pointer-events: none;
-    }
+    .no-data-found-list { pointer-events: none; }
 
     // icon button
     .z-button-icon {
@@ -143,34 +133,33 @@ table {
   }
 }
 .z-option-table {
+  border: none;
+  background-color: transparent;
+  color: $gray400;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
-  color: $gray400;
-  background-color: transparent;
-  border: none;
 
   tr {
     @include border(0.0625rem, solid, $gray400, bottom);
+    height: 2.5rem; // 40px
     border-left: none;
     border-right: none;
-    height: 2.5rem; // 40px
 
     th, td { padding: 0 0.5rem; }
 
     &.z-option-table-header {
+      @include border(0.0625rem, solid, $gray400, top);
+      @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
       height: 2rem; // 32px
+      background-color: $neutral100;
+      color: $gray400;
       font-family: $font-family;
       font-size: $font-size-xs;
       font-weight: $font-weight-medium;
-      color: $gray400;
-      @include border(0.0625rem, solid, $gray400, top);
-      @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
-      background-color: $neutral100;
     }
 
     &.z-option-table-row {
-
       .z-checkbox, .z-radio { margin: 0 0 0 0.75rem; } // 12px
 
       .z-input {
@@ -178,9 +167,7 @@ table {
         padding: 0.75rem;
         margin: 0.25rem; // 4px
         // 입력된 값이 있으면
-        &:not(:placeholder-shown):not(:focus) {
-          border-color: transparent;
-        }
+        &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
       }
 
       .z-button-icon {
@@ -202,13 +189,13 @@ table {
 
 // span
 span {
-  font-family: inherit;
   margin: auto 0;
+  font-family: inherit;
 }
 // label
 label {
-  font-family: $font-family;
   color: $neutral600;
+  font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
 }
@@ -221,21 +208,14 @@ label {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 
-    &:focus,
-    &:hover {
-      z-index: 25;
-    }
+    &:focus, &:hover { z-index: 25; }
   }
   button {
     margin-left: -0.0625rem;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 
-    &:focus,
-    &:hover,
-    &:active {
-      z-index: 25;
-    }
+    &:focus, &:hover, &:active { z-index: 25; }
   }
 }
 
@@ -247,31 +227,26 @@ label {
 //  2. z-element 모두 구성된 후에 _element.scss로 overwrite 할 것.
 
 input, textarea, select {
-  &:focus,
-  &:hover { outline: 0; }
+  &:focus, &:hover { outline: 0; }
 }
 .z-input {
+  @include border(0.0625rem, solid, $gray400, all);
+  @include borderRadius(0.125rem); // 2px
   height: 2.125rem; // 34px
+  padding: 0 0.75rem; // 들여쓰기
+  background-color: $white;
+  color: $neutral800;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   line-height: 1.2;
-  color: $neutral800;
-  background-color: $white;
-  @include border(0.0625rem, solid, $gray400, all);
-  @include borderRadius(0.125rem); // 2px
-  padding: 0 0.75rem; // 들여쓰기
   vertical-align: middle;
 
-  &::placeholder {
-    color: $gray400;
-  }
+  &::placeholder { color: $gray400; }
 
   //readonly와 disabled일 때 placeholder감추기
   &:read-only::placeholder,
-  &:disabled::placeholder {
-    color: transparent;
-  }
+  &:disabled::placeholder { color: transparent; }
 
   &:not(:disabled),
   &:not(:read-only) {
@@ -281,9 +256,9 @@ input, textarea, select {
     }
 
     &:focus {
-      outline: 0;
       @include border(0.0625rem, solid, $blue600, all);
       @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      outline: 0;
 
       &[data-error] {
         @include border(0.0625rem, solid, $red500, all);
@@ -296,19 +271,19 @@ input, textarea, select {
     }
 
     &:active {
-      outline: 0;
       @include border(0.0625rem, solid, $blue600, all);
+      outline: 0;
     }
   }
 
   &:read-only:not(:disabled):not(.tagify) {
-    background-color: transparent;
-    background-image: none;
-    border: none;
     @include border(0.0625rem, solid, $gray300, bottom);
     @include borderRadius(0);
-    cursor: default;
     width: 100%;
+    border: none;
+    background-color: transparent;
+    background-image: none;
+    cursor: default;
 
     &:hover,
     &:focus {
@@ -318,20 +293,15 @@ input, textarea, select {
   }
 
   &:disabled {
-    color: $gray400;
-    background-color: $neutral200;
     @include border(0.0625rem, solid, $gray300, all);
+    background-color: $neutral200;
+    color: $gray400;
     pointer-events: none;
     cursor: default;
   }
 
-  &.error {
-    @include border(0.0625rem, solid, $red500 !important, all);
-  }
-
-  &.success {
-    @include border(0.0625rem, solid, $green500 !important, all);
-  }
+  &.error { @include border(0.0625rem, solid, $red500 !important, all); }
+  &.success { @include border(0.0625rem, solid, $green500 !important, all); }
 
   // z-input with background img
   &.i-search {
@@ -370,32 +340,26 @@ input, textarea, select {
     @include relative();
     height: 2.125rem; // 34px
 
-    .z-input {
-      flex-basis: 100%;
-    }
+    .z-input { flex-basis: 100%; }
 
     .z-button-search {
-      margin-left: 1rem; // 16px
       @include borderRadius(0.25rem);
+      margin-left: 1rem; // 16px
 
-      &:focus,
-      &:hover,
-      &:active {
-        z-index: 25;
-      }
+      &:focus, &:hover, &:active { z-index: 25; }
     }
 
     .z-button-icon-sm {
       position: relative;
       margin-top: 0.625rem; // 10px
+      -webkit-print-color-adjust:exact;
       &::before {
+        @include absolute($bottom: -0.5rem); //8px
+        @include border(0.0625rem, solid, $gray300, bottom);
         content: '';
         width: 100%;
         height: 1px;
-        @include absolute($bottom: -0.5rem); //8px
-        @include border(0.0625rem, solid, $gray300, bottom);
       }
-      -webkit-print-color-adjust:exact;
     }
   }
 
@@ -403,65 +367,59 @@ input, textarea, select {
   /* Chrome, Safari, Edge */
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
     margin: 0;
+    -webkit-appearance: none;
   }
   /* Firefox */
-  &[type=number] {
-    -moz-appearance: textfield;
-  }
+  &[type=number] { -moz-appearance: textfield; }
 }
 
 // textarea
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
 .z-textarea {
+  padding: 0.5rem 0.75rem; // 들여쓰기 8px 16px
+  background-color: $white;
+  color: $neutral800;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   line-height: 1.6;
-  color: $neutral800;
-  background-color: $white;
-  padding: 0.5rem 0.75rem; // 들여쓰기 8px 16px
   &:not(.os-textarea) {
     @include border(0.0625rem, solid, $gray400, all);
     @include borderRadius(0.125rem);
   }
 
-  &::placeholder {
-    color: $gray400;
-  }
+  &::placeholder { color: $gray400; }
 
   //readonly와 disabled일 때 placeholder감추기
   &:read-only::placeholder,
-  &:disabled::placeholder {
-    color: transparent;
-  }
+  &:disabled::placeholder { color: transparent; }
 
   &:not(:disabled),
   &:not(:read-only) {
     &:focus {
-      outline: 0;
       @include border(0.0625rem, solid, $blue600, all);
       @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      outline: 0;
     }
 
     &:hover {
-      outline: 0;
       @include border(0.0625rem, solid, $blue400, all);
+      outline: 0;
     }
 
     &:active {
-      outline: 0;
       @include border(0.0625rem, solid, $blue600, all);
+      outline: 0;
     }
   }
 
   &:read-only:not(:disabled):not(.os-host-textarea) {
-    background-color: transparent;
-    border: none !important;
     @include border(0.0625rem, solid, $gray300 !important, left);
     @include borderRadius(0);
+    border: none !important;
+    background-color: transparent;
     cursor: default;
     resize: none;
 
@@ -473,37 +431,30 @@ input, textarea, select {
   }
 
   &:disabled {
-    color: $gray400;
-    background-color: $neutral200;
     @include border(0.0625rem, solid, $gray300, all);
+    background-color: $neutral200;
+    color: $gray400;
     pointer-events: none;
     cursor: default;
   }
 
-  &.error {
-    @include border(0.0625rem, solid, $red500 !important, all);
-  }
-
-  &.success {
-    @include border(0.0625rem, solid, $green500 !important, all);
-  }
+  &.error { @include border(0.0625rem, solid, $red500 !important, all); }
+  &.success { @include border(0.0625rem, solid, $green500 !important, all); }
 }
 // os-div 작업
 div.z-textarea {
-  &-readonly {
-    border-color: transparent !important;
-  }
+  &-readonly { border-color: transparent !important; }
 }
 
 // switch
 .z-switch {
   @include relative();
   height: 1.75rem; //26px
+  color: $neutral800;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   line-height: 1.2;
-  color: $neutral800;
   outline: none;
 
   .z-label {
@@ -518,37 +469,35 @@ div.z-textarea {
     // 스위치 버튼
     + span {
       @include absolute(0, 0, 0, 0);
+      @include borderRadius(2.5rem); // 40px
+      @include transition(.4s);
       width: 2.5rem; // 40px
       height: 1.25rem; // 20px
       margin: 0;
       background-color: $gray400;
       cursor: pointer;
-      @include borderRadius(2.5rem); // 40px
-      @include transition(.4s);
       // 동그라미
       &::before {
-        content: '';
         @include absolute($top: 0.1rem, $left: 0.125rem); // 2px
+        @include borderRadius(50%);
+        content: '';
         width: 1rem; // 16px
         height: 1rem; // 16px
         background-color: $white;
-        @include borderRadius(50%);
       }
       &::after {
+        @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.25rem, 1.25rem, no-repeat, center); // 20px 20px
+        @include absolute($right: 0.125rem); // 2px
         content: '';
         background-color: $white;
         -webkit-mask-size: 1.5rem; // 24px
         mask-size: 1.5rem; // 24px
-        @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.25rem, 1.25rem, no-repeat, center); // 20px 20px
-        @include absolute($right: 0.125rem); // 2px
       }
     }
     &:checked {
       + span {
         background-color: $blue600;
-        &::before {
-          @include translate(1.25rem, 0); // 20px 0
-        }
+        &::before { @include translate(1.25rem, 0); } // 20px 0
         &::after {
           left: 0;
           -webkit-mask-size: 1.125rem; // 18px
@@ -566,17 +515,17 @@ div.z-textarea {
 
 // select
 select {
+  @include border(0.0625rem, solid, $gray400, all);
+  @include borderRadius(0.0625rem);
   width: inherit;
   height: 2.125rem; // 34px
+  padding: 0 0.75rem;
+  background-color: $white;
+  color: $neutral800;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   line-height: 1.2;
-  color: $neutral800;
-  background-color: $white;
-  @include border(0.0625rem, solid, $gray400, all);
-  @include borderRadius(0.0625rem);
-  padding: 0 0.75rem;
   vertical-align: middle;
   -moz-appearance: none; /* Firefox */
   -webkit-appearance: none; /* Safari and Chrome */
@@ -591,59 +540,52 @@ select {
      - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
 */
 .z-select {
-  display: inline-block;
   @include relative();
+  display: inline-block;
   width: 100%;
   height: 2.125rem; // 34px
   vertical-align: middle;
 
-  select.readonly {
-    visibility: hidden;
-  }
+  select.readonly { visibility: hidden; }
 
   // select 태그를 대신해서 보여지는 부분
   .z-select-box {
-    align-items: center;
     @include absolute(0, 0, 0, 0);
+    @include borderRadius(0.125rem); // 2px
+    @include border(0.0625rem, solid, $gray400, all);
+    @include ellipsis(block);
+    align-items: center;
     width: 100%;
     padding: 0.5rem 1.75rem 0.5rem 0.75rem; // 8px 28px 8px 12px
+    background-color: $white;
+    color: $neutral800;
     font-family: $font-family;
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     line-height: 1.2;
-    color: $neutral800;
-    background-color: $white;
     cursor: pointer;
-    @include borderRadius(0.125rem); // 2px
-    @include border(0.0625rem, solid, $gray400, all);
-    @include ellipsis(block);
 
     &:not(.readonly) {
-
       &:hover {
-        outline: 0;
         @include border(0.0625rem, solid, $blue400, all);
+        outline: 0;
       }
 
       &:focus {
-        outline: 0;
         @include border(0.0625rem, solid, $blue600, all);
         @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+        outline: 0;
       }
 
       &.active {
-        outline: 0;
         @include border(0.0625rem, solid, $blue600, all);
+        outline: 0;
         // 열렸을때 출력되는 화살표 아이콘
         .z-icon {
-          &.i-arrow-right {
-            @include rotate(-90);
-          }
+          &.i-arrow-right { @include rotate(-90); }
         }
 
-        + .z-select-options {
-          display: block;
-        }
+        + .z-select-options { display: block; }
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
@@ -652,79 +594,78 @@ select {
 
         &.i-arrow-right {
           @include absolute($right: 0.5rem); // 8px
+          @include rotate(90);
           margin-top: -0.1875rem; //3px
           background: $gray500;
-          @include rotate(90);
         }
       }
     }
 
     // readonly
     &.readonly {
-      background-color: transparent;
-      border: none;
       @include border(0.0625rem, solid, $gray300, bottom);
       @include borderRadius(0);
+      border: none;
+      background-color: transparent;
       cursor: default;
     }
 
     .z-select-box-label {
       height: auto;
       width: 100%;
-      background-color: transparent;
       padding: 0;
       border: none !important;
+      background-color: transparent;
       vertical-align: unset;
       pointer-events: none;
 
-      &:hover,
-      &:focus {
-        border: none;
+      &:hover, &:focus {
         @include resetBoxShadow();
+        border: none;
       }
     }
 
     // disabled
     &.disabled-select {
-      color: $gray400;
-      background-color: $neutral200;
       @include border(0.0625rem, solid, $gray300, all);
+      background-color: $neutral200;
+      color: $gray400;
       pointer-events: none;
       cursor: default;
 
       .z-select-box-label {
-        color: $gray400;
         background-color: $neutral200;
+        color: $gray400;
       }
     }
   }
 
   // z-select-box 클릭 시 보여지는 option 리스트 부분
   .z-select-options {
-    display: none;
-    list-style: none;
     @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
-    z-index: 5000;
-    padding: 0.25rem 0; // 4px
-    margin: 0;
     @include border(0.0625rem, solid, $gray400, all);
-    background-color: $white;
-    max-height: 25rem; // 400px
-    color: $neutral800;
-    outline: 0;
-    overflow: auto;
     @include borderRadius(0.125rem); // 2px
     @include boxShadow(0, 0, 0.125rem, 0, $gray300);
+    overflow: auto;
+    display: none;
+    max-height: 25rem; // 400px
+    margin: 0;
+    padding: 0.25rem 0; // 4px
+    background-color: $white;
+    color: $neutral800;
+    outline: 0;
+    list-style: none;
+    z-index: 5000;
     li {
-      padding: 0.5625rem 1.75rem 0.5625rem 0; // 9px 28px 9px 16px
-      margin: 0 0.3125rem; // 5px
-      text-indent: 0.4375rem; // 7px
+      @include ellipsis(block);
       align-items: center;
+      margin: 0 0.3125rem; // 5px
+      padding: 0.5625rem 1.75rem 0.5625rem 0; // 9px 28px 9px 16px
       font-family: inherit;
       font-size: $font-size-xs;
       font-weight: $font-weight-medium;
+      text-indent: 0.4375rem; // 7px
       line-height: 1.2;
-      @include ellipsis(block);
 
       &:hover { background: $blue100; }
 
@@ -736,11 +677,11 @@ select {
       // 선택된 옵션에 표시되는 체크 아이콘
       &:after {
         @include absolute($right: 0.9375rem); // 15px
+        @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center);
+        content: '';
         width: 0.625rem; // 10px
         height: 0.438rem; // 7px
         padding-top: 0.9375rem; //15px
-        @include backgroundImage($icon-folder-path + 'icon_select_check.svg', auto, no-repeat, center, center);
-        content: '';
       }
     }
   }
@@ -750,36 +691,36 @@ select {
 .z-slider {
   min-height: 1.375rem; // 22px
   .z-range {
-    --range-fill-color: #{$blue500};
-    --range-location: 100%;
-    -webkit-appearance: none;
-    appearance: none;
+    @include borderRadius(0.25rem); // 4px
     width : 75%;
     max-width: 15rem; // 240px
     height: 0.375rem; // 6px
     padding: 0;
-    @include borderRadius(0.25rem); // 4px
     background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $neutral200 var(--range-location), $neutral200 100%);
     outline: 0;
+    appearance: none;
+    --range-fill-color: #{$blue500};
+    --range-location: 100%;
+    -webkit-appearance: none;
 
     &:disabled {
-      --range-fill-color: #{$gray300};
       background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), $neutral200 var(--range-location), $neutral200 100%);
+      --range-fill-color: #{$gray300};
     }
 
     // Thumb (= round button)
     &::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
       @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
       @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
+      -webkit-appearance: none;
+      appearance: none;
       &:hover {
         border-color: $blue400;
         background-color: $blue100;
       }
       &:focus {
-        border-color: $blue600;
         @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+        border-color: $blue600;
       }
       &:active {
         border-color: $blue500;
@@ -800,8 +741,8 @@ select {
         background-color: $blue100;
       }
       &:focus {
-        border-color: $blue600;
         @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+        border-color: $blue600;
       }
       &:active {
         border-color: $blue500;
@@ -815,12 +756,12 @@ select {
   }
   .z-input {
     width: 23%;
-    text-align: center;
     margin-left: 2%;
+    text-align: center;
     &:read-only:not(:disabled) {
-      width: 23%;
       @include border(0.0625rem, solid, $gray400, all);
       @include borderRadius(0.125rem); // 2px
+      width: 23%;
     }
   }
 }
@@ -856,16 +797,14 @@ select {
 // checkbox
 .z-checkbox {
   margin-right: 0.5rem; // 8px
+  color: $neutral800;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   line-height: 1.2;
-  color: $neutral800;
   outline: none;
 
-  > span:first-of-type {
-    padding-right: 0.5rem; //8px
-  }
+  > span:first-of-type { padding-right: 0.5rem; } //8px
 
   input[type=checkbox] {
     display: none;
@@ -873,13 +812,13 @@ select {
     + span {
       @include relative();
       &::before {
+        @include border(0.0625rem, solid, $gray400, all);
+        @include borderRadius(0.125rem); // 2px
         content: '';
         display: inline-block;
         width: 1.125rem; // 18px;
         height: 1.125rem; // 18px;
         margin-bottom: 0.125rem; // 2px
-        @include border(0.0625rem, solid, $gray400, all);
-        @include borderRadius(0.125rem); // 2px
         background-color: $white;
         vertical-align: middle;
       }
@@ -888,14 +827,14 @@ select {
       + span {
         // 체크 기호
         &::after {
-          content: '';
           @include absolute($top: 0, $left: 0);
-          width: 0.75rem; // 12px
-          height: 0.375rem; // 6px
           @include border(0.125rem, solid, $blue500, bottom, top);
           @include border(0.125rem, solid, $blue500, left, right);
           @include borderRadius(0.125rem); // 2px
           @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
+          content: '';
+          width: 0.75rem; // 12px
+          height: 0.375rem; // 6px
         }
       }
     }
@@ -918,23 +857,15 @@ select {
     &:disabled,
     &.readonly {
       + span {
-        &::before {
-          background-color: $neutral200;
-        }
-        &::after {
-          border-color: $gray400;
-        }
+        &::before { background-color: $neutral200; }
+        &::after { border-color: $gray400; }
       }
-      ~ .z-label {
-        color: $gray400;
-      }
+      ~ .z-label { color: $gray400; }
     }
 
     &.error {
       + span {
-        &::before {
-          @include border(0.0625rem, solid, $red500 !important, all);
-        }
+        &::before { @include border(0.0625rem, solid, $red500 !important, all); }
       }
     }
   }
@@ -944,8 +875,8 @@ select {
     input[type=checkbox]:not(.readonly) {
       + span {
         &:before {
-          border-color: $blue600;
           @include boxShadow(0, 0, 0.0625rem, 0, $blue600);
+          border-color: $blue600;
         }
       }
     }
@@ -958,18 +889,13 @@ select {
           border-color: $blue600;
           background-color: $blue200;
         }
-        &:after {
-          border-color: $blue700;
-        }
+        &:after { border-color: $blue700; }
       }
     }
   }
 
   // readonly, disabled 클래스 설정시 라벨의 동작을 막음
-  &.readonly,
-  &.disabled {
-    pointer-events: none;
-  }
+  &.readonly, &.disabled { pointer-events: none; }
 }
 // 체크박스 목록
 // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
@@ -978,21 +904,17 @@ select {
   &-all { display: table-cell; }
   // 목록
   &-list {
-    height: 13.5rem; // 216px
     @include border(0.0625rem, solid, $gray400, all);
     @include borderRadius(0.0625rem); // 1px
+    height: 13.5rem; // 216px
     padding: 0.5rem 0.625rem; // 8px 10px
 
-    .right {
-      right: 0.25rem; // 4px
-    }
-    .padding {
-      padding: 0.1875rem 0 0.1875rem 0; // 3px
-    }
+    .right { right: 0.25rem; } // 4px
+    .padding { padding: 0.1875rem 0 0.1875rem 0; } // 3px
 
     li {
-      height: 1.5rem; // 24px
       @include ellipsis(list-item);
+      height: 1.5rem; // 24px
     }
   }
 }
@@ -1001,43 +923,40 @@ select {
 .z-radio {
   @include relative();
   margin-right: 0.5rem; // 8px
+  color: $neutral800;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   line-height: 1.6;
-  color: $neutral800;
   outline: none;
 
-  > span:first-of-type {
-    padding-right: 0.5rem; //8px
-  }
+  > span:first-of-type { padding-right: 0.5rem; } //8px
 
   input[type=radio] {
     display: none;
     // ⓞ 로 사용될 span
     + span {
       @include relative();
-
       &::before { // 테두리로 사용되는 큰 원
-        content: '';
         @include relative($top: -0.0625rem); // -1px
+        @include border(0.0625rem, solid, $gray400, all);
+        @include borderRadius(50%);
+        content: '';
         display: inline-block;
         width: 1.125rem; // 18px;
         height: 1.125rem; // 18px;
         background-color: $white;
-        @include border(0.0625rem, solid, $gray400, all);
-        @include borderRadius(50%);
-        vertical-align: middle;
         text-align: center;
+        vertical-align: middle;
       }
 
       &::after { // 선택시 작은 원
-        content: '';
         @include absolute($top: -0.35rem, $left: 0); // top: -5.6 px
+        @include borderRadius(50%);
+        content: '';
         width: 0.625rem; // 10px;
         height: 0.625rem; // 10px;
         background-color: transparent;
-        @include borderRadius(50%);
       }
     }
 
@@ -1048,12 +967,10 @@ select {
 
       &:checked {
         + span {
-          &::before {
-            border-color: $gray400;
-          }
+          &::before { border-color: $gray400; }
           &::after {
-            background-color: $blue500;
             @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
+            background-color: $blue500;
           }
         }
       }
@@ -1076,14 +993,12 @@ select {
           background-color: $neutral200;
         }
       }
-      ~ .z-label {
-        color: $gray400;
-      }
+      ~ .z-label { color: $gray400; }
       &:checked {
         + span {
           &::after {
-            background-color: $gray400;
             @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
+            background-color: $gray400;
           }
         }
       }
@@ -1091,9 +1006,7 @@ select {
 
     &.error {
       + span {
-        &::before {
-          @include border(0.0625rem, solid, $red500 !important, all);
-        }
+        &::before { @include border(0.0625rem, solid, $red500 !important, all); }
       }
     }
   }
@@ -1103,9 +1016,8 @@ select {
     input[type=radio]:not(.readonly) {
       + span {
         &:before {
-          border-color: $blue600;
-
           @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+          border-color: $blue600;
         }
       }
     }
@@ -1119,8 +1031,8 @@ select {
           background-color: $blue200;
         }
         &::after {
-          background-color: $blue700;
           @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
+          background-color: $blue700;
         }
       }
     }
@@ -1145,7 +1057,6 @@ $label-themes-default: (
   font-size: $font-size-xs;
   font-weight: $font-weight-bold;
   line-height: 1.0625rem; //17px
-
   // 기본 테마별 라벨
   @each $theme, $value in $label-themes-default {
     &.#{$theme} {
