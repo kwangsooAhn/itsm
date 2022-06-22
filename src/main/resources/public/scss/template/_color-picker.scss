@@ -41,9 +41,7 @@ $custom-color-plus: (
       width: 4.75rem; // 76px
       height: 1.5rem; // 24px
     }
-    .z-icon {
-      &.i-color-palette { background: $gray500; }
-    }
+    .z-icon.i-color-palette { background: $gray500; }
 
     &:focus, &:hover { outline: 0; }
 
@@ -165,13 +163,11 @@ $custom-color-plus: (
             line-height: 0.3125rem; // 5px
             visibility: hidden;
 
-            .z-icon {
-              &.i-remove {
-                width: 0.5rem; // 8px
-                height: 0.5rem; // 8px
-                background: $white;
-                pointer-events: none;
-              }
+            .z-icon.i-remove {
+              width: 0.5rem; // 8px
+              height: 0.5rem; // 8px
+              background: $white;
+              pointer-events: none;
             }
           }
 
@@ -191,12 +187,10 @@ $custom-color-plus: (
             box-shadow: map-get($custom-color-plus, 'default', 'shadow');
           }
 
-          .z-icon {
-            &.i-plus {
-              width: 0.625rem; // 10px
-              height: 0.625rem; // 10px
-              background: map-get($custom-color-plus, 'default', 'font');
-            }
+          .z-icon.i-plus {
+            width: 0.625rem; // 10px
+            height: 0.625rem; // 10px
+            background: map-get($custom-color-plus, 'default', 'font');
           }
 
           &:focus {
@@ -205,9 +199,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'focus', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'focus', 'shadow');
             }
-            .z-icon {
-              &.i-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
-            }
+            .z-icon.i-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
           }
 
           &:hover {
@@ -216,9 +208,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'hover', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'hover', 'shadow');
             }
-            .z-icon {
-              &.i-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
-            }
+            .z-icon.i-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
           }
 
           &:enabled:active,
@@ -228,9 +218,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'active', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'active', 'shadow');
             }
-            .z-icon {
-              &.i-plus { background: map-get($custom-color-plus, 'active', 'font'); }
-            }
+            .z-icon.i-plus { background: map-get($custom-color-plus, 'active', 'font'); }
           }
 
           &.on { display: inline-block; }
@@ -272,7 +260,6 @@ $custom-color-plus: (
               }
             }
           }
-
           .z-input { padding: 0 0.5rem; } // 0 8px
 
           // 문구

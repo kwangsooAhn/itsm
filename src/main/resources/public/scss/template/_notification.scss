@@ -12,9 +12,7 @@
   // notification icon 영역
   .z-icon-notification {
     height: 1.5rem; // 24px
-    &.active {
-      .notification-round {  fill: $blue500; }
-    }
+    &.active .notification-round {  fill: $blue500; }
     &:hover { cursor: pointer; }
   }
   // .notification hover 시 노출되는 영역 전반
@@ -54,11 +52,9 @@
       &.z-message { margin-left: 0.625rem; }  // 10px
 
       // 우측 상단 X 버튼
-      &.z-icon {
-        &.i-remove {
-          margin-left: auto;
-          background: $white;
-        }
+      &.z-icon.i-remove {
+        margin-left: auto;
+        background: $white;
       }
     }
   }
@@ -108,11 +104,9 @@
       }
     }
     // 제거 버튼 영역
-    .z-icon {
-      &.i-delete {
-        padding: 0;
-        background: $gray500;
-      }
+    .z-icon.i-delete {
+      padding: 0;
+      background: $gray500;
     }
     span {
       &.z-title {
@@ -125,11 +119,9 @@
         line-height: 1.2;
         &.z-confirm { opacity: 0.75; }
       }
-      &.z-title__link {
-        &:hover {
-          cursor: pointer;
-          text-decoration: underline;
-        }
+      &.z-title__link:hover {
+        cursor: pointer;
+        text-decoration: underline;
       }
       &.z-document-no {
         color: $gray500;

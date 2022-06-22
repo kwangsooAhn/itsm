@@ -41,14 +41,12 @@
 
     .z-button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
 
-    .z-icon {
-      &.i-remove {
-        @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
-        background: $gray500;
-        cursor: pointer;
-        // mouse over
-        &:hover { background: $blue400; }
-      }
+    .z-icon.i-remove {
+      @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
+      background: $gray500;
+      cursor: pointer;
+      // mouse over
+      &:hover { background: $blue400; }
     }
   }
   // YYYY-MM-DD HH:MM 표시
@@ -93,7 +91,6 @@
             display: table-cell;
             background: $gray500;
             cursor: pointer;
-
             &:hover { background: $blue400; }
           }
           &.z-date-prev { @include rotate(180); }
