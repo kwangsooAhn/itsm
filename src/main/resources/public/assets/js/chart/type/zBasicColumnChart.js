@@ -19,7 +19,7 @@ const DEFAULT_CHART_PROPERTY = {
         crosshair: true
     },
     yAxis : {
-        title: { text: {} },
+        title: { text: '' },
         gridLineWidth: 1,
         lineWidth: 0,
         stackLabels: {},
@@ -35,6 +35,9 @@ const DEFAULT_CHART_PROPERTY = {
     tooltip: {
         shared: true,
         crosshairs: false
+    },
+    legend: {
+        y: 30
     },
     series: []
 };

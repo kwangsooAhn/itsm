@@ -55,7 +55,7 @@ class ChartManagerService(
     }
 
     fun getLastTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
-        return wfTokenRepository.getLastTokenList(instanceIds)
+        return wfTokenRepository.getEndTokenList(instanceIds)
     }
 
     fun getTokenDataList(componentIds: Set<String>, tokenIds: Set<String>, componentTypeSet: Set<String>): List<ChartTokenData> {

@@ -26,7 +26,7 @@ class WfTokenRepositoryImpl : QuerydslRepositorySupport(WfTokenEntity::class.jav
             .fetch()
     }
 
-    override fun getLastTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
+    override fun getEndTokenList(instanceIds: Set<String>): List<WfTokenEntity> {
         val token = QWfTokenEntity.wfTokenEntity
         return from(token)
             .innerJoin(token.element).fetchJoin()
@@ -42,5 +42,19 @@ class WfTokenRepositoryImpl : QuerydslRepositorySupport(WfTokenEntity::class.jav
             .where(token.tokenStatus.`in`(WfTokenConstants.Status.RUNNING.code, WfTokenConstants.Status.WAITING.code))
             .where(token.instance.instanceId.`in`(instanceIds))
             .fetch()
+    }
+
+    override fun getLastToken(instanceId: String): WfTokenEntity {
+        val token = QWfTokenEntity.wfTokenEntity
+        val tokenMaxStartDt = QWfTokenEntity.wfTokenEntity
+
+        return from(token)
+            .where(token.tokenStartDt.eq(
+                from(tokenMaxStartDt)
+                    .select(tokenMaxStartDt.tokenStartDt.max())
+                    .where(tokenMaxStartDt.instance.instanceId.eq(instanceId))
+            ))
+            .where(token.instance.instanceId.eq(instanceId))
+            .fetchOne()
     }
 }
