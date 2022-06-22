@@ -15,5 +15,6 @@ class RestTemplateRequestDocumentDto(
     var documentId: String = "",
     var instanceId: String? = "",
     val form: RestTemplateFormDataDto,
+    val documentStatus: String,
     var actions: MutableList<RestTemplateActionDto>? = mutableListOf()
 ) : Serializable

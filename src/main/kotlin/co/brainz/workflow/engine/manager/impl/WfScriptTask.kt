@@ -61,7 +61,6 @@ class WfScriptTask(
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
         var scriptType = ""
         val element = wfTokenManagerService.getElement(createTokenDto.elementId)
-        val documentStatus = wfTokenManagerService.getInstance(createTokenDto.instanceId)?.document?.documentStatus
 
         run loop@{
             element.elementDataEntities.forEach { data ->
@@ -72,7 +71,7 @@ class WfScriptTask(
             }
         }
 
-        if (documentStatus == DocumentConstants.DocumentStatus.USE.value) {
+        if (createTokenDto.documentStatus == DocumentConstants.DocumentStatus.USE.value) {
             when (scriptType) {
                 WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
                     this.setDocumentAttachFile(createTokenDto, element)

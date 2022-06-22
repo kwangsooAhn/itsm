@@ -74,16 +74,18 @@ class TokenService(
     fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): ZResponse {
         restTemplateTokenDataUpdateDto.assigneeId = currentSessionUser.getUserKey()
 
-        val tokenDto = RestTemplateTokenDto(
-            assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
-            instanceId = restTemplateTokenDataUpdateDto.instanceId,
-            tokenId = restTemplateTokenDataUpdateDto.tokenId,
-            documentId = restTemplateTokenDataUpdateDto.documentId,
-            data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
-            instanceCreateUser = restTemplateTokenDataUpdateDto.assigneeId?.let { AliceUserEntity(userKey = it) },
-            action = restTemplateTokenDataUpdateDto.action,
-            instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
-        )
+        val tokenDto =
+            RestTemplateTokenDto(
+                assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
+                instanceId = restTemplateTokenDataUpdateDto.instanceId,
+                tokenId = restTemplateTokenDataUpdateDto.tokenId,
+                documentId = restTemplateTokenDataUpdateDto.documentId,
+                documentStatus = restTemplateTokenDataUpdateDto.documentStatus,
+                data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
+                instanceCreateUser = restTemplateTokenDataUpdateDto.assigneeId?.let { AliceUserEntity(userKey = it) },
+                action = restTemplateTokenDataUpdateDto.action,
+                instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
+            )
 
         // 특정 컴포넌트의 데이터 셋팅 (CI)
         if (restTemplateTokenDataUpdateDto.componentData != null) {
@@ -146,7 +148,7 @@ class TokenService(
             assigneeId = restTemplateTokenDataUpdateDto.assigneeId.toString(),
             tokenId = restTemplateTokenDataUpdateDto.tokenId,
             documentId = restTemplateTokenDataUpdateDto.documentId,
-            instanceId = restTemplateTokenDataUpdateDto.instanceId,
+            documentStatus = restTemplateTokenDataUpdateDto.documentStatus,
             data = restTemplateTokenDataUpdateDto.componentData as List<RestTemplateTokenDataDto>,
             action = restTemplateTokenDataUpdateDto.action,
             instancePlatform = WorkflowConstants.InstancePlatform.ITSM.code
