@@ -893,6 +893,7 @@ INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.view');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'system.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'portal.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'document.view');
+INSERT INTO awf_role_auth_map VALUES ('system.admin', 'sla.manage');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'workflow.expire');
@@ -1525,6 +1526,7 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 
+
 /**
  * URL별권한매핑
  */
@@ -2132,7 +2134,7 @@ COMMENT ON COLUMN portal_board.update_dt IS '수정일';
  * 게시판 댓글
  */
 DROP TABLE IF EXISTS portal_board_comment cascade;
-
+ 
 CREATE TABLE portal_board_comment
 (
 	board_comment_id varchar(128) NOT NULL,
@@ -9394,25 +9396,6 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
 
 /**
- * 컴포넌트 템플릿
- */
-DROP TABLE IF EXISTS wf_component_template cascade;
-
-CREATE TABLE wf_component_template
-(
-    template_id varchar(128) NOT NULL,
-    template_name varchar(128) NOT NULL,
-    component_type varchar(100) NOT NULL,
-    component_data text NOT NULL,
-    CONSTRAINT wf_component_template_pk PRIMARY KEY (template_id)
-);
-
-COMMENT ON TABLE wf_component_template IS '컴포넌트 템플릿';
-COMMENT ON COLUMN wf_component_template.template_id IS '컴포넌트 템플릿 아이디';
-COMMENT ON COLUMN wf_component_template.template_name IS '컴포넌트 템플릿 이름';
-COMMENT ON COLUMN wf_component_template.component_type IS '컴포넌트 타입';
-COMMENT ON COLUMN wf_component_template.component_data IS '컴포넌트 속성값';
-/**
   SLA 지표
  */
 DROP TABLE IF EXISTS sla_metric cascade;
@@ -9446,6 +9429,26 @@ COMMENT ON COLUMN sla_metric.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric.create_dt IS '등록일';
 COMMENT ON COLUMN sla_metric.update_user_key IS '수정자';
 COMMENT ON COLUMN sla_metric.update_dt IS '수정일';
+
+/**
+ * 컴포넌트 템플릿
+ */
+DROP TABLE IF EXISTS wf_component_template cascade;
+
+CREATE TABLE wf_component_template
+(
+    template_id varchar(128) NOT NULL,
+    template_name varchar(128) NOT NULL,
+    component_type varchar(100) NOT NULL,
+    component_data text NOT NULL,
+    CONSTRAINT wf_component_template_pk PRIMARY KEY (template_id)
+);
+
+COMMENT ON TABLE wf_component_template IS '컴포넌트 템플릿';
+COMMENT ON COLUMN wf_component_template.template_id IS '컴포넌트 템플릿 아이디';
+COMMENT ON COLUMN wf_component_template.template_name IS '컴포넌트 템플릿 이름';
+COMMENT ON COLUMN wf_component_template.component_type IS '컴포넌트 타입';
+COMMENT ON COLUMN wf_component_template.component_data IS '컴포넌트 속성값';
 
 /**
   SLA 연도별 지표
@@ -9508,3 +9511,4 @@ COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
 COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
 COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
+
