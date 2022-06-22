@@ -2071,6 +2071,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-create-template {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-no-image {
   width: 100%;
   height: 2.813rem;
@@ -2309,6 +2319,16 @@ input, button, select, optgroup, textarea {
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
   mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-componentTemplate {
+  width: 1rem;
+  height: 1rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -3307,7 +3327,7 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #222529;
   padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .z-itsm-container .z-main .view-sub-title {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;

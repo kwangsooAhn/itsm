@@ -35,7 +35,7 @@ class ZDocument {
                 this.domElement = document.getElementById('documentDrawingBoard');
                 // history.back 시 신청서 목록으로 이동
                 window.history.pushState(null, '', location.href);
-                window.onpopstate = function (e) {
+                window.onpopstate = function(e) {
                     location.reload();
                 };
             },
@@ -229,7 +229,7 @@ class ZDocument {
                 // row를 1개 이상 등록하라는 경고 후 포커싱
                 if (table.rows.length === 2 && table.querySelector('.no-data-found-list')) {
                     isValid = false;
-                    zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function () {
+                    zAlert.warning(i18n.msg('form.msg.failedAllColumnDelete'), function() {
                         table.focus();
                     });
                     break outer;
@@ -242,7 +242,7 @@ class ZDocument {
                 // 해당 text editor 내부에 입력된 텍스트가 있는지 확인 (공백 포함)
                 if (!requiredTextEditorElements[k].querySelector('p').textContent.length) {
                     isValid = false;
-                    zAlert.warning(i18n.msg('common.msg.requiredEnter'), function () {
+                    zAlert.warning(i18n.msg('common.msg.requiredEnter'), function() {
                         requiredTextEditorElements[k].focus();
                     });
                     break outer;
@@ -295,7 +295,7 @@ class ZDocument {
             for (let r = 0; r < requiredFileUploads.length; r++) {
                 if (!requiredFileUploads[r].querySelectorAll('.dz-preview').length) {
                     isValid = false;
-                    zAlert.warning(i18n.msg('document.msg.requiredFileupload'), function () {
+                    zAlert.warning(i18n.msg('document.msg.requiredFileupload'), function() {
                         requiredFileUploads[r].focus();
                     });
                     break outer;
@@ -341,7 +341,7 @@ class ZDocument {
         // 동적 버튼 blur
         event.target.blur();
         const actionMsg = (actionType === 'save') ? 'common.msg.save' : 'document.msg.process';
-        const finishAction = function () {
+        const finishAction = function() {
             const url = (saveData.tokenId === '') ? '/rest/tokens/data' : '/rest/tokens/' + saveData.tokenId + '/data';
             aliceJs.fetchJson(url, {
                 method: (saveData.tokenId === '') ? 'post' : 'put',
@@ -360,6 +360,9 @@ class ZDocument {
                         break;
                     case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    case aliceJs.response.processedToken:
+                        zAlert.danger(i18n.msg('document.msg.processedDocuments'));
                         break;
                     default:
                         break;
@@ -405,7 +408,7 @@ class ZDocument {
                     closable: false,
                 },
                 onCreate: () => {
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
                     let statusGroup = d3.select('#elementContainer')
                         .style('background-image', 'url(' + tokenStatus.imageData + ')')
                         .style('width', tokenStatus.width)

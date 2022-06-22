@@ -2071,6 +2071,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-create-template {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-no-image {
   width: 100%;
   height: 2.813rem;
@@ -2309,6 +2319,16 @@ input, button, select, optgroup, textarea {
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
   mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.z-icon.i-componentTemplate {
+  width: 1rem;
+  height: 1rem;
+  -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
+  mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -4702,7 +4722,7 @@ table td, table th {
   color: #757575;
 }
 .z-table .z-table-head {
-  border-bottom: 0.125rem solid #ABB0B5;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -4775,7 +4795,7 @@ table td, table th {
   font-weight: 500;
   color: #ABB0B5;
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: 0.125rem solid #ABB0B5;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
   background-color: #F5F5F5;
 }
 .z-option-table tr.z-option-table-row .z-checkbox, .z-option-table tr.z-option-table-row .z-radio {
@@ -6984,7 +7004,7 @@ select {
   font-weight: 500;
   color: #222529;
   padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .z-itsm-container .z-main .view-sub-title {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -7427,7 +7447,7 @@ body.modal-active {
   height: 40.625rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content {
-  height: 31.75rem;
+  height: calc(40.625rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set {
@@ -7456,7 +7476,7 @@ body.modal-active {
   height: 44.19rem;
 }
 .modal-dialog.tree .modal-content {
-  height: 35.315rem;
+  height: calc(44.19rem - 3.875rem - 5rem);
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-dialog.tree .modal-content div {
@@ -7473,7 +7493,7 @@ body.modal-active {
   height: 31.25rem;
 }
 .modal-dialog.form-import .modal-content, .modal-dialog.process-import .modal-content {
-  height: 22.375rem;
+  height: calc(31.25rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-import .modal-content .field-label, .modal-dialog.process-import .modal-content .field-label {
@@ -7485,7 +7505,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.form-edit .modal-content, .modal-dialog.process-edit .modal-content {
-  height: 13.625rem;
+  height: calc(22.5rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-edit .modal-content .field-label, .modal-dialog.process-edit .modal-content .field-label {
@@ -7497,12 +7517,12 @@ body.modal-active {
   height: 50.63rem;
 }
 .modal-dialog.document-edit .modal-content, .modal-dialog.workFlow-import .modal-content {
-  height: 41.755rem;
+  height: calc(50.63rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .workflow-content, .modal-dialog.workFlow-import .modal-content .workflow-content {
-  width: 37.5rem;
-  height: 39.255rem;
+  width: calc(40rem - 2.5rem);
+  height: calc(50.63rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .field-label, .modal-dialog.workFlow-import .modal-content .field-label {
@@ -7522,12 +7542,12 @@ body.modal-active {
   height: 42.188rem;
 }
 .modal-dialog.document-display .modal-content {
-  height: 33.313rem;
+  height: calc(42.188rem - 3.875rem - 5rem);
   padding: 1.25rem;
   overflow: hidden;
 }
 .modal-dialog.document-display .modal-content .document-display-content {
-  height: 30.813rem;
+  height: calc(42.188rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
   overflow-y: auto;
 }
@@ -7549,7 +7569,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content, .modal-dialog.target-user-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
@@ -7609,13 +7629,13 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.chart-edit-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 2.5rem 1.25rem;
   overflow: hidden;
 }
 .modal-dialog.chart-edit-modal .modal-content .chart-edit-content {
-  width: 60rem;
-  height: 41.0625rem;
+  width: calc(62.5rem - 2.5rem);
+  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
   padding: 0 1.25rem;
   overflow-y: auto;
 }
@@ -7674,7 +7694,7 @@ body.modal-active {
   height: 43.75rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
-  height: 34.875rem;
+  height: calc(43.75rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
@@ -7691,7 +7711,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-view-modal .modal-content .view-row {
@@ -7724,7 +7744,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.template-import .modal-content {
-  height: 13.625rem;
+  height: calc(22.5rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.template-import .modal-content .field-label {
@@ -7736,7 +7756,7 @@ body.modal-active {
   height: 20.625rem;
 }
 .modal-dialog.password-check .modal-content {
-  height: 11.75rem;
+  height: calc(20.625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.password-check .modal-content .field-label {
@@ -7749,7 +7769,7 @@ body.modal-active {
 }
 .modal-dialog.process-status-modal .modal-content {
   width: 100%;
-  height: 28.125rem;
+  height: calc(33.125rem - 5rem);
 }
 .modal-dialog.sla-metric-manual-modal {
   width: 30rem;
@@ -8322,7 +8342,7 @@ body.modal-active {
   font-weight: 500;
   color: #222529;
   padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
 }
 .itsm-popup .view-sub-title {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -8740,15 +8760,15 @@ body.modal-active {
   height: 0.5rem;
   fill: #F5F5F5;
   stroke-width: 0;
-  rx: 0.25rem;
-  ry: 0.25rem;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
 }
 .highcharts-scrollbar-thumb {
   height: 0.5rem;
   fill: #E0E0E0;
   stroke-width: 0;
-  rx: 0.25rem;
-  ry: 0.25rem;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
 }
 .highcharts-scrollbar-thumb:hover {
   fill: #CFD5D9;
@@ -9686,7 +9706,7 @@ body.modal-active {
   top: 7rem;
 }
 .modal-dialog.z-thumbnail-icon .modal-content {
-  height: 36.125rem;
+  height: calc(45rem - 3.875rem - 5rem);
 }
 .modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main {
   padding: 1.375rem;
@@ -10109,7 +10129,7 @@ body.modal-active {
   width: 118px;
 }
 .z-main-top .z-dropdown-item-btn {
-  width: calc(100% - 0.376rem);
+  width: calc(100% - (0.188rem * 2));
   padding-left: 0.875rem;
   margin: 0.188rem;
   line-height: 2;
@@ -10168,7 +10188,7 @@ ul.tree li {
 }
 ul.tree ul {
   position: relative;
-  margin: 0 0 0 2.0125rem;
+  margin: 0 0 0 calc(0.875rem * 2.3);
   padding: 0;
   list-style-type: none;
   -webkit-user-select: none;
@@ -10185,14 +10205,14 @@ ul.tree ul:before {
   border-left: 0.0625rem solid #CFD5D9;
 }
 ul.tree ul li {
-  padding-left: 1.6565rem;
+  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
 }
 ul.tree ul li:before {
   content: "";
   position: absolute;
   top: 0.9375rem;
   left: 0;
-  width: 1.6565rem;
+  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
   height: 0.0625rem;
   border-top: 0.0625rem solid #CFD5D9;
 }

@@ -383,3 +383,7 @@ insert into awf_url values ('/itsm/ssoLogin','post','SSO 로그인 처리', 'FAL
 insert into awf_url values ('/rest/documentStorage', 'post', '보관 문서 데이터 추가', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}', 'delete', '보관 문서 데이터 삭제', 'FALSE');
 insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '보관 문서 데이터 존재 여부 확인', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌트 템플릿 조회', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
+insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
+

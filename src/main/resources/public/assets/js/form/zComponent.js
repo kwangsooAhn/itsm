@@ -9,7 +9,7 @@
  */
 import { FORM, UNIT } from '../lib/zConstants.js';
 import * as mixin from '../lib/zMixins.js';
-import { UIDiv, UILabel, UISpan } from '../lib/zUI.js';
+import { UIDiv, UILabel, UILi, UISpan } from '../lib/zUI.js';
 import { checkBoxMixin } from './component/zCheckBox.js';
 import { ciMixin } from './component/zCI.js';
 import { customCodeMixin } from './component/zCustomCode.js';
@@ -31,6 +31,7 @@ import { dropdownCodeMixin } from './component/zDropdownCode.js';
 import { userSearchMixin } from './component/zUserSearch.js';
 import { organizationSearchMixin } from './component/zOrganizationSearch.js';
 import { modalButtonMixin } from './component/zModalButton.js';
+import { zValidation } from '../lib/zValidation.js';
 
 const DEFAULT_PROPERTY = {
     label: {
@@ -79,6 +80,7 @@ export default class ZComponent {
 
         this.init();
     }
+
     // 초기화
     init() {
         // 내부 property 초기화
@@ -102,6 +104,16 @@ export default class ZComponent {
         this.UIElement.addUI(this.UIElement.UIComponent);
         // 툴팁
         this.UIElement.UITooltipMenu = this.makeTooltip();
+
+        // 툴팁에 create template 버튼 추가
+        const tooltipUl = this.UIElement.UITooltipMenu.UIUl;
+        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('z-tooltip-menu-item')
+            .setUIAttribute('data-action', 'createTemplate')
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-create-template'))
+            // 컴포넌트 템플릿 등록 모달
+            .onUIClick(this.openCreateTemplateModal.bind(this));
+        tooltipUl.domElement.insertBefore(tooltipUl.UILiCreateTemplate.domElement, tooltipUl.domElement.firstChild);
+
         this.UIElement.addUI(this.UIElement.UITooltipMenu);
     }
 
@@ -410,6 +422,83 @@ export default class ZComponent {
     }
 
     /**
+     * component 객체 템플릿 등록 modal
+     */
+    openCreateTemplateModal() {
+        let _this = this;
+        const templateModal = new modal({
+            title: i18n.msg('form.label.registerTemplate'),
+            body: `<div class="flex-column">` +
+                `<label class="field-label" for="templateName">` +
+                `${i18n.msg('form.label.templateName')}<span class="required"></span>` +
+                `</label>` +
+                `<input type="text" id="templateName" class="z-input" maxlength="50">` +
+                `</div>`,
+            classes: 'create-template',
+            buttons: [{
+                content: i18n.msg('common.btn.register'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: function (modal) {
+                    if (zValidation.isEmpty(document.getElementById('templateName').value)) {
+                        zAlert.warning(i18n.msg('form.msg.templateNameRequired'));
+                        return false;
+                    }
+
+                    // 원본 컴포넌트 정보 (component id 제거)
+                    const orgData = _this.toJson();
+                    delete orgData.id;
+                    // component template data
+                    const templateData = {
+                        'templateName': document.getElementById('templateName').value,
+                        'type': _this.type,
+                        'data': JSON.stringify(orgData) // 선택된 컴포넌트의 실시간 설정 데이터
+                    };
+                    aliceJs.fetchJson('/rest/forms/component/template', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(templateData),
+                        showProgressbar: true
+                    }).then((response) => {
+                        switch (response.status) {
+                            case aliceJs.response.success:
+                                zAlert.success(i18n.msg('common.msg.register'), () => {
+                                    // 컴포넌트 팔레트 새로고침
+                                    zFormDesigner.initComponentTemplatePalette();
+                                    modal.hide();
+                                });
+                                break;
+                            case aliceJs.response.duplicate:
+                                zAlert.warning(i18n.msg('form.msg.duplicateTemplateName'));
+                                break;
+                            case aliceJs.response.error:
+                                zAlert.danger(i18n.msg('common.msg.fail'));
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function (modal) {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: function () {
+            }
+        });
+        templateModal.show();
+    }
+
+    /**
      * 현재 객체를 대상이 되는 객체로 변경 (복사) 하여 반환한다
      * @param source 대상 객체
      * @param flag 객체의 키가 되는 id도 복제할지 여부 (true이면 id도 복제됨)
@@ -426,7 +515,9 @@ export default class ZComponent {
         this._value = source.value;
         this._label = source.label;
         this._propertyName = source.propertyName;
-        if (flag) { this._id = source.id; }
+        if (flag) {
+            this._id = source.id;
+        }
 
         this.init();
 

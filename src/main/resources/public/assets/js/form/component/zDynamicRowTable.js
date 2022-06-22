@@ -54,7 +54,7 @@ const IGNORE_EVENT_KEYCODE = [8, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38,
 export const dynamicRowTableMixin = {
 
     // 전달 받은 데이터와 기본 property merge
-    initProperty: function () {
+    initProperty: function() {
         // 엘리먼트 property 초기화
         this._element = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.element, this.data.element);
         this._plugin = Object.assign({}, DEFAULT_COMPONENT_PROPERTY.plugin, this.data.plugin);
@@ -325,8 +325,9 @@ export const dynamicRowTableMixin = {
         }
         // 삭제 버튼
         const removeButton = new UIButton()
-            .setUIClass('z-button-icon')
-            .addUIClass('extra')
+            .setUIClass('z-button-icon-sm')
+            .addUIClass('mt-1')
+            .addUIClass('mb-1')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
         const td = new UICell(row)
