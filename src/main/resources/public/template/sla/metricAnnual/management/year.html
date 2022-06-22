@@ -91,7 +91,7 @@
                     <div class="z-edit-row">
                         <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
                         <input type="text" class="z-input" id="metricYearDesc" name="metricYearDesc"
-                               th:value="#{|${metric?.metricDesc}|}" maxlength="128" readonly />
+                               th:value="${metric?.metricDesc}" maxlength="128" readonly />
                     </div>
                 </div>
             </th:block>
