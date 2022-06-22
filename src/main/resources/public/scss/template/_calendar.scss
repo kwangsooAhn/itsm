@@ -21,11 +21,11 @@
 }
 
 .calendar {
-  margin: 1.875rem 3.75rem 0 3.75rem; //30px 60px 0 60px
+  margin: 1.875rem 3.75rem 0 3.75rem; // 30px 60px 0 60px
   // 메뉴
   &__menu {
     display: grid;
-    grid-template-columns: 24.063rem auto 24.063rem; //385px auto 385px
+    grid-template-columns: 25rem auto 25rem; // 400px auto 400px
     column-gap: 0.5rem; // 8px
     align-items: center;
     margin-bottom: 0.75rem; // 12px

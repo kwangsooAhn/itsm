@@ -744,6 +744,8 @@ Object.assign(zCalendar.prototype, {
             _y = guideBound.top - modalSize.h,
             w = window.innerWidth,
             h = window.innerHeight,
+            guideBoundCenterY = (guideBound.top + guideBound.bottom ) / 2,
+            centerY = guideBoundCenterY - ( h / 2 ),
             margin = 8;  // 3은 간격
 
         if (x >= w && _x > 0) {
@@ -751,11 +753,12 @@ Object.assign(zCalendar.prototype, {
         } else {
             modalDialog.style.left = guideBound.left + 'px';
         }
-
         if (y >= h && _y > 0) {
             modalDialog.style.top = guideBound.top - modalSize.h - margin + 'px';
+        } else if (y >= h) {
+            modalDialog.style.top = guideBound.top + 'px';
         } else {
-            modalDialog.style.top = guideBound.top + guideBound.height +  margin + 'px';
+            modalDialog.style.top = guideBound.top + guideBound.height + margin + 'px';
         }
     },
     /**
@@ -1074,8 +1077,9 @@ Object.assign(zCalendar.prototype, {
             default:
                 break;
         }
-        // 일정 보기일 경우 목록 변경
+        // 일정 리스트 보기일 경우 목록 변경
         if (this.options.viewType === 'task') {
+            this.isReload = true;
             this.setTaskView();
         }
 

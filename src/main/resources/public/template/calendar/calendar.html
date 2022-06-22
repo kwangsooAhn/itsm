@@ -199,7 +199,8 @@
     function onClickCalendarMenu(e) {
         myCalendar.onClickCalendarMenu(e.getAttribute('data-action'), (calendar) => {
             // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
-            if (luxon.DateTime.fromMillis(calendar.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate) {
+            if (luxon.DateTime.fromMillis(calendar.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate ||
+                myCalendar.isReload) {
                 setSchedules();
             }
         });

@@ -10250,7 +10250,7 @@ span.modal_node_selected label {
 }
 .calendar__menu {
   display: grid;
-  grid-template-columns: 24.063rem auto 24.063rem;
+  grid-template-columns: 25rem auto 25rem;
   column-gap: 0.5rem;
   align-items: center;
   margin-bottom: 0.75rem;
