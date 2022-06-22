@@ -77,6 +77,7 @@ common:
     done: "Executed. The results can be checked in the history."
     emptyValue: "There is an empty value"
     enterContents: "Please enter contents"
+    enterSearchValue: "Please enter search word."
     enterTitle: "Please enter a title."
     fail: "Failed."
     failedExport: "Failed to export {0}."
