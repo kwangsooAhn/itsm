@@ -38,21 +38,20 @@ h6 {
   font-weight: $font-weight-medium;
 }
 // a
-a { cursor: pointer; }
-a:link,
-a:visited,
-a:hover,
-a:active {
-  color: $neutral800;
-  text-decoration: none;
+a {
+  cursor: pointer;
+  &:link, &:visited, &:hover, &:active {
+    color: $neutral800;
+    text-decoration: none;
+  }
 }
 
 // table
 table {
   width: 100%;
-  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0; // 테이블 요소 사이의 간격을 제거
+  table-layout: fixed;
   line-height: 1.5;
 
   td, th {
@@ -73,7 +72,6 @@ table {
       padding: 0 0.9375rem;   // 0 15px
       &:first-child { padding-left: 1.25rem; } // 20px
     }
-
     a { color: $neutral800; }
   }
 
@@ -94,10 +92,8 @@ table {
     height: 100%;
     tr {
       height: 2.5625rem; // 41px
-
       // 마우스 오버시 배경 색상
       &:hover { background-color: $neutral200; }
-
       // 선택된 경우
       &.active {
         background-color: $blue100;
@@ -137,7 +133,6 @@ table {
     height: 2.5rem; // 40px
     border-left: none;
     border-right: none;
-
     th, td { padding: 0 0.5rem; }
 
     &.z-option-table-header {
@@ -209,12 +204,6 @@ label {
 }
 
 /////////////////////////////////////////////////// UI 컴포넌트 추가  ////////////////////////////////////////////////////
-
-// todo:
-//  1. 추후 bz-colors.scss를 사용하여 variable 수정 필요.
-//     참고를 위헤 이전 variables는 주석으로 남김.
-//  2. z-element 모두 구성된 후에 _element.scss로 overwrite 할 것.
-
 input, textarea, select {
   &:focus, &:hover { outline: 0; }
 }
@@ -240,8 +229,8 @@ input, textarea, select {
   &:not(:disabled),
   &:not(:read-only) {
     &:hover {
-      outline: 0;
       @include border(0.0625rem, solid, $blue400, all);
+      outline: 0;
     }
 
     &:focus {
@@ -428,9 +417,7 @@ input, textarea, select {
   &.success { @include border(0.0625rem, solid, $green500 !important, all); }
 }
 // os-div 작업
-div.z-textarea {
-  &-readonly { border-color: transparent !important; }
-}
+div.z-textarea-readonly { border-color: transparent !important; }
 
 // switch
 .z-switch {
@@ -493,9 +480,7 @@ div.z-textarea {
         }
       }
     }
-    &:disabled {
-      + span { background-color: $gray200; }
-    }
+    &:disabled + span { background-color: $gray200; }
   }
 }
 
@@ -568,14 +553,12 @@ select {
         outline: 0;
         // 열렸을때 출력되는 화살표 아이콘
         .z-icon.i-arrow-right { @include rotate(-90); }
-
         + .z-select-options { display: block; }
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
       .z-icon {
         pointer-events: none;
-
         &.i-arrow-right {
           @include absolute($right: 0.5rem); // 8px
           @include rotate(90);
@@ -785,7 +768,6 @@ select {
   font-weight: $font-weight-medium;
   line-height: 1.2;
   outline: none;
-
   > span:first-of-type { padding-right: 0.5rem; } //8px
 
   input[type=checkbox] {
@@ -806,18 +788,16 @@ select {
       }
     }
     &:checked {
-      + span {
-        // 체크 기호
-        &::after {
-          @include absolute($top: 0, $left: 0);
-          @include border(0.125rem, solid, $blue500, bottom, top);
-          @include border(0.125rem, solid, $blue500, left, right);
-          @include borderRadius(0.125rem); // 2px
-          @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
-          content: '';
-          width: 0.75rem; // 12px
-          height: 0.375rem; // 6px
-        }
+      // 체크 기호
+      + span::after {
+        @include absolute($top: 0, $left: 0);
+        @include border(0.125rem, solid, $blue500, bottom, top);
+        @include border(0.125rem, solid, $blue500, left, right);
+        @include borderRadius(0.125rem); // 2px
+        @include transform(translate(0.1875rem, 0.25rem) rotate(-45deg)); // 3px, 4px
+        content: '';
+        width: 0.75rem; // 12px
+        height: 0.375rem; // 6px
       }
     }
 
@@ -827,11 +807,9 @@ select {
       ~ .z-label { cursor: pointer; }
 
       &:hover {
-        + span {
-          &::before {
-            border-color: $blue400;
-            background-color: $blue100;
-          }
+        + span::before {
+          border-color: $blue400;
+          background-color: $blue100;
         }
       }
     }
@@ -853,11 +831,9 @@ select {
   &:focus {
     input[type=checkbox]:not(:disabled),
     input[type=checkbox]:not(.readonly) {
-      + span {
-        &:before {
-          @include boxShadow(0, 0, 0.0625rem, 0, $blue600);
-          border-color: $blue600;
-        }
+      + span::before {
+        @include boxShadow(0, 0, 0.0625rem, 0, $blue600);
+        border-color: $blue600;
       }
     }
   }
@@ -865,11 +841,11 @@ select {
     input[type=checkbox]:not(:disabled),
     input[type=checkbox]:not(.readonly) {
       + span {
-        &:before {
+        &::before {
           border-color: $blue600;
           background-color: $blue200;
         }
-        &:after { border-color: $blue700; }
+        &::after { border-color: $blue700; }
       }
     }
   }

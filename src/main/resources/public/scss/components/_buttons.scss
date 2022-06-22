@@ -112,8 +112,8 @@ $button-group: (
 .z-button-text {
   @include border(0rem, solid, transparent, all);
   @include borderRadius(0.25rem); // 4px
-  overflow:visible;
   display: inline-block;
+  overflow:visible;
   padding: 0.625rem 1.25rem; // 10px 20px
   background-color: transparent;
   font-family: $font-family;
@@ -134,8 +134,8 @@ $button-group: (
   // 기본 테마별 버튼
   @each $theme, $value in $button-themes-default {
     &.#{$theme} {
-      color: map-get($value, 'default', 'font');
       background-color: map-get($value, 'default', 'background');
+      color: map-get($value, 'default', 'font');
       @if map-get($value, 'default', 'border') != null {
         border-color: map-get($value, 'default', 'border');
       }
@@ -294,8 +294,8 @@ $button-group: (
 // 버튼 목록
 .z-button-list {
   display: inline-flex;
-  vertical-align: middle;
   position: relative;
+  vertical-align: middle;
 
   .z-button,
   .z-button-icon {
@@ -316,8 +316,8 @@ $button-group: (
   .z-button-toggle {
     @include border(0.0625rem, solid, map-get($button-group, 'default', 'border'), all);
     @include borderRadius(0.25rem); // 4px
-    overflow:visible;
     display: inline-block;
+    overflow:visible;
     flex: 1 1 auto;
     padding: 0.25rem 0.6875rem; // 4px 11px
     background-color: map-get($button-group, 'default', 'background');

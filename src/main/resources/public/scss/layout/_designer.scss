@@ -100,8 +100,7 @@ $layout-header-dropdown: (
   }
 
   &.active {
-    .z-icon { &.i-arrow-right { @include rotate(-90); }
-    }
+    .z-icon.i-arrow-right { @include rotate(-90); }
     + .z-dropdown-content {
       display: block;
       visibility: visible;
@@ -143,7 +142,7 @@ $layout-header-dropdown: (
     .z-process-name { font-size: $font-size-s; }
 
     .z-form-button-list,
-    .z-process-button-list{
+    .z-process-button-list {
       width: 19.06rem; // 305px
       .z-header-dropdown { @include relative(); }
     }
@@ -171,10 +170,10 @@ $layout-header-dropdown: (
   &-properties-panel,
   &-properties {
     @include fixed(calc(2.875rem + 2.5rem), 0, 0, null); // 40px
+    @include scrollbarHidden;
     overflow-x: hidden;
     overflow-y: auto;
     background-color: $white;
-    @include scrollbarHidden;
   }
 
 }
@@ -185,9 +184,9 @@ $layout-header-dropdown: (
   // 프로세스 다른이름으로 저장하기 모달
   &.save-as {
     .modal-content {
+      @include scrollbarHidden;
       height: calc(25.63rem - 3.875rem - 5rem); // 410px
       padding: 0.625rem 1.25rem; // 10px 20px
-      @include scrollbarHidden;
       .field-label {
         display: inline-block;
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
@@ -202,9 +201,9 @@ $layout-header-dropdown: (
   // 컴포넌트 템플릿 등록하기 모달
   &.create-template {
     .modal-content {
+      @include scrollbarHidden;
       height: calc(25.63rem - 3.875rem - 5rem); // 410px
       padding: 0.625rem 1.25rem; // 10px 20px
-      @include scrollbarHidden;
 
       .field-label {
         display: inline-block;
@@ -223,14 +222,13 @@ $layout-header-dropdown: (
 // formDesigner - 썸네일 모달
 // process - 파일 선택 모달
 .modal-dialog {
-  &.z-thumbnail-image, &.z-thumbnail-file {
+  &.z-thumbnail-image,
+  &.z-thumbnail-file {
     width: 1040px; // 1040px
     height: 48.44rem; // 775px
     .modal-content {
       height: calc(48.44rem - 3.875rem - 5rem); // 775px
-      .z-thumbnail-main {
-        .z-thumbnail { width: 14.375rem; } // 230px
-      }
+      .z-thumbnail-main .z-thumbnail { width: 14.375rem; } // 230px
     }
   }
 }
@@ -341,14 +339,10 @@ $layout-header-dropdown: (
 
 .z-button-icon {
   &.z-button-attach-file {
-    .z-icon {
-      &.i-folder { background: $gray500; }
-    }
+    .z-icon.i-folder { background: $gray500; }
   }
   &.z-button-code {
-    .z-icon {
-      &.i-search { background: $gray500; }
-    }
+    .z-icon.i-search { background: $gray500; }
   }
 }
 
@@ -368,11 +362,8 @@ $layout-header-dropdown: (
 
 .z-switch {
   input[type=checkbox] {
-    // 스위치 버튼
-    + span {
-      // 동그라미
-      &::before { top: 0.125rem; } // 2px
-    }
+    // 스위치 버튼 - 동그라미
+    + span::before { top: 0.125rem; } // 2px
   }
 }
 
@@ -391,9 +382,7 @@ $layout-header-dropdown: (
 .z-component {
   .z-radio {
     input[type=radio] {
-      + span {
-        &::after { top: 0.35rem; } // 5.6px
-      }
+      + span::after { top: 0.35rem; } // 5.6px
     }
   }
 }
@@ -453,13 +442,11 @@ $layout-header-dropdown: (
       opacity: 1;
     }
     // 화살표 아이콘
-    .z-icon {
-      &.i-arrow-right {
-        @include rotate(270);
-        display: table-cell;
-        background: $gray500;
-        opacity: 0;
-      }
+    .z-icon.i-arrow-right {
+      @include rotate(270);
+      display: table-cell;
+      background: $gray500;
+      opacity: 0;
     }
   }
   // 아코디언 사용중일 경우
@@ -467,9 +454,7 @@ $layout-header-dropdown: (
     // 체크박스 선택 = 아코디언 펼침
     .z-group-accordion-checkBox:checked {
       + .z-group-label {
-        .z-icon {
-          &.i-arrow-right { @include rotate(90); }
-        }
+        .z-icon.i-arrow-right { @include rotate(90); }
       }
       ~ .z-row-tooltip:not(.off) { display: block; }
     }
@@ -485,9 +470,7 @@ $layout-header-dropdown: (
 
       .z-group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
 
-      .z-icon {
-        &.i-arrow-right { opacity: 1; }
-      }
+      .z-icon.i-arrow-right { opacity: 1; }
     }
 
     // row
@@ -648,9 +631,7 @@ $layout-header-dropdown: (
     // filedownload 컴포넌트
     .z-fileDownload {
       cursor: pointer;
-      .z-icon {
-        &.i-download { background: $gray500; }
-      }
+      .z-icon.i-download { background: $gray500; }
       .z-file-text {
         font-size: $font-size-xs;
         font-weight: $font-weight-regular;
@@ -805,12 +786,10 @@ $layout-header-dropdown: (
   .z-dr-table-button-group { top: -0.25rem; }
   .z-group-tooltip { border: 0.0625rem solid #FFFFFF; }
   .z-row-tooltip { border: 0.0625rem solid #FFFFFF; }
-  .z-component {
-    &-tooltip {
-      margin: 0;
-      padding: 0;
-      border-color: transparent !important;
-    }
+  .z-component-tooltip {
+    margin: 0;
+    padding: 0;
+    border-color: transparent !important;
   }
 }
 
@@ -824,7 +803,7 @@ $component-icon: (
         'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
 );
 // 폼 양식
-.z-form, {
+.z-form {
   // header
   &-header { font-size: $font-size-s; }
 
@@ -879,12 +858,10 @@ $component-icon: (
       font-size: $font-size-s;
       font-weight: $font-weight-bold;
       cursor: pointer;
-      .z-icon {
-        &.i-arrow-right {
-          @include rotate(180);
-          @include transformOrigin(50% 50%);
-          background: $gray500;
-        }
+      .z-icon.i-arrow-right {
+        @include rotate(180);
+        @include transformOrigin(50% 50%);
+        background: $gray500;
       }
     }
     .z-accordion-content {
@@ -1093,15 +1070,13 @@ $component-icon: (
 
     input[type=radio]:checked {
       + .z-accordion-label {
-        .z-icon {
-          &.i-arrow-right { @include rotate(90); }
-        }
+        .z-icon.i-arrow-right { @include rotate(90); }
       }
       ~ .z-accordion-content {
+        @include scrollbarHidden;
         overflow-y: auto;
         height: calc(100vh - (40px * 4) - 2.875rem); // 40px
         border-bottom-color: $gray300;
-        @include scrollbarHidden;
       }
     }
   }
@@ -1389,9 +1364,7 @@ $component-icon: (
 
       .z-input-button {
         width: 100%;
-        .z-icon {
-          &.i-remove { right: 2.5rem; }
-        }
+        .z-icon.i-remove { right: 2.5rem; }
       }
 
       .z-picker-wrapper-date {
@@ -1944,13 +1917,11 @@ $element-icon-toggle: (
           color: $gray800;
           font-size: $font-size-m;
           font-weight: $font-weight-medium;
-          .z-icon {
-            &i-minus {
-              @include absolute($right: 1.125rem); // 17px
-              background: $gray500;
-              cursor: pointer;
-              &:hover { background: $blue500; }
-            }
+          .z-icon.i-minus {
+            @include absolute($right: 1.125rem); // 17px
+            background: $gray500;
+            cursor: pointer;
+            &:hover { background: $blue500; }
           }
         }
 

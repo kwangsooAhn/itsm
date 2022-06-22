@@ -9010,20 +9010,16 @@ h6 {
 a {
   cursor: pointer;
 }
-
-a:link,
-a:visited,
-a:hover,
-a:active {
+a:link, a:visited, a:hover, a:active {
   color: #424242;
   text-decoration: none;
 }
 
 table {
   width: 100%;
-  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
+  table-layout: fixed;
   line-height: 1.5;
 }
 table td, table th {
@@ -9218,8 +9214,8 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   color: transparent;
 }
 .z-input:not(:disabled):hover, .z-input:not(:read-only):hover {
-  outline: 0;
   border: 0.0625rem solid #619CDB;
+  outline: 0;
 }
 .z-input:not(:disabled):focus, .z-input:not(:read-only):focus {
   border: 0.0625rem solid #2559A8;
@@ -9934,20 +9930,20 @@ select {
 .z-checkbox input[type=checkbox].error + span::before {
   border: 0.0625rem solid #F52525 !important;
 }
-.z-checkbox:focus input[type=checkbox]:not(:disabled) + span:before,
-.z-checkbox:focus input[type=checkbox]:not(.readonly) + span:before {
+.z-checkbox:focus input[type=checkbox]:not(:disabled) + span::before,
+.z-checkbox:focus input[type=checkbox]:not(.readonly) + span::before {
   -webkit-box-shadow: 0 0 0.0625rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.0625rem 0 #2559A8;
   box-shadow: 0 0 0.0625rem 0 #2559A8;
   border-color: #2559A8;
 }
-.z-checkbox:active input[type=checkbox]:not(:disabled) + span:before,
-.z-checkbox:active input[type=checkbox]:not(.readonly) + span:before {
+.z-checkbox:active input[type=checkbox]:not(:disabled) + span::before,
+.z-checkbox:active input[type=checkbox]:not(.readonly) + span::before {
   border-color: #2559A8;
   background-color: #AFD9F9;
 }
-.z-checkbox:active input[type=checkbox]:not(:disabled) + span:after,
-.z-checkbox:active input[type=checkbox]:not(.readonly) + span:after {
+.z-checkbox:active input[type=checkbox]:not(:disabled) + span::after,
+.z-checkbox:active input[type=checkbox]:not(.readonly) + span::after {
   border-color: #19428D;
 }
 .z-checkbox.readonly, .z-checkbox.disabled {
@@ -10687,8 +10683,8 @@ body.modal-active {
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: auto;
   display: none;
+  overflow: auto;
   z-index: 1000;
 }
 .modal-wrapper.modal-active {
@@ -10757,8 +10753,8 @@ body.modal-active {
   margin-top: 2.188rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body {
-  overflow-y: auto;
   display: block;
+  overflow-y: auto;
   width: 60rem;
   height: 21.75rem;
   border: none;
@@ -10900,8 +10896,8 @@ body.modal-active {
 .modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-dialog.target-user-modal .modal-content .cmdb-class-attribute-list .table-set .z-table .z-table-body,
 .modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
 .modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body {
-  overflow-y: auto;
   display: block;
+  overflow-y: auto;
   width: 60rem;
   height: 35.313rem;
   border: none;
@@ -11270,7 +11266,7 @@ body.modal-active {
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
   min-width: 1.875rem;
 }
-.scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle::before {
+.scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
   position: absolute;
   top: -0.375rem;
   right: 0;
@@ -11286,7 +11282,7 @@ body.modal-active {
 .scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
   min-height: 1.875rem;
 }
-.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle::before {
+.scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
   position: absolute;
   top: 0;
   right: -0.125rem;
@@ -11308,7 +11304,13 @@ body.modal-active {
   background-position-y: 0;
 }
 .scrollbar > .os-scrollbar {
+  background: transparent;
   box-sizing: border-box;
+}
+.scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #CFD5D9;
+}
+.scrollbar > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
@@ -11325,12 +11327,6 @@ body.modal-active {
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
-}
-.scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CFD5D9;
-}
-.scrollbar > .os-scrollbar.os-scrollbar-unusable {
-  background: transparent;
 }
 
 .scrollbar.os-host-rtl > .os-scrollbar-horizontal {
@@ -11373,7 +11369,7 @@ body.modal-active {
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
   min-width: 1.875rem;
 }
-.inner-scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle::before {
+.inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
   position: absolute;
   top: -0.375rem;
   right: 0;
@@ -11389,7 +11385,7 @@ body.modal-active {
 .inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
   min-height: 1.875rem;
 }
-.inner-scrollbar > .os-scrollbar-vertical .os-scrollbar-handle::before {
+.inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
   position: absolute;
   top: 0;
   right: -0.125rem;
@@ -11407,6 +11403,12 @@ body.modal-active {
   box-sizing: border-box;
   background: transparent;
 }
+.inner-scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #CFD5D9;
+}
+.inner-scrollbar > .os-scrollbar.os-scrollbar-unusable {
+  background: transparent;
+}
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
@@ -11422,12 +11424,6 @@ body.modal-active {
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #CFD5D9;
 }
-.inner-scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CFD5D9;
-}
-.inner-scrollbar > .os-scrollbar.os-scrollbar-unusable {
-  background: transparent;
-}
 
 .inner-scrollbar-dark > .os-scrollbar-horizontal {
   right: 0.625rem;
@@ -11436,7 +11432,7 @@ body.modal-active {
 .inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
   min-width: 1.875rem;
 }
-.inner-scrollbar-dark > .os-scrollbar-horizontal .os-scrollbar-handle::before {
+.inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
   position: absolute;
   top: -0.375rem;
   right: 0;
@@ -11452,7 +11448,7 @@ body.modal-active {
 .inner-scrollbar-dark > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
   min-height: 1.875rem;
 }
-.inner-scrollbar-dark > .os-scrollbar-vertical .os-scrollbar-handle::before {
+.inner-scrollbar-dark > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
   position: absolute;
   top: 0;
   right: -0.125rem;
@@ -11470,6 +11466,12 @@ body.modal-active {
   box-sizing: border-box;
   background: transparent;
 }
+.inner-scrollbar-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #8B9094;
+}
+.inner-scrollbar-dark > .os-scrollbar.os-scrollbar-unusable {
+  background: transparent;
+}
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track {
   border-radius: 0.5rem;
   -webkit-border-radius: 0.5rem;
@@ -11484,12 +11486,6 @@ body.modal-active {
 }
 .inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: #8B9094;
-}
-.inner-scrollbar-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #8B9094;
-}
-.inner-scrollbar-dark > .os-scrollbar.os-scrollbar-unusable {
-  background: transparent;
 }
 
 .scrollbar.os-host-rtl > .os-scrollbar-horizontal {
@@ -11664,14 +11660,12 @@ body.modal-active {
   padding: 0;
 }
 .tagify.z-input > .tagify__input {
+  display: block;
   padding: 0 0.75rem;
   visibility: visible;
 }
 .tagify.z-input > .tagify__input:not(:first-child) {
   padding: 0.25rem;
-}
-.tagify.z-input > .tagify__input {
-  display: block;
 }
 .tagify.z-input .tagify__tag__removeBtn {
   display: inherit;
@@ -12327,7 +12321,8 @@ body.modal-active {
 .ql-wrapper-container .ql-container.error {
   border: 0.0625rem solid #F52525 !important;
 }
-.ql-wrapper-container.ql-border-disabled .ql-toolbar.ql-snow, .ql-wrapper-container.ql-border-disabled .ql-container.ql-snow {
+.ql-wrapper-container.ql-border-disabled .ql-toolbar.ql-snow,
+.ql-wrapper-container.ql-border-disabled .ql-container.ql-snow {
   border-color: transparent;
 }
 .ql-wrapper-container:hover:not(.ql-readonly) {
@@ -12371,8 +12366,8 @@ body.modal-active {
 }
 .z-thumbnail-main .z-thumbnail {
   border: 0.0625rem solid #CFD5D9;
-  overflow: hidden;
   display: inline-block;
+  overflow: hidden;
   width: 15rem;
   height: 18.13rem;
   margin: 0.625rem;
@@ -12391,17 +12386,15 @@ body.modal-active {
   box-shadow: 0 0 0.125rem 0 #2559A8;
   background-color: #FFFFFF;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-image, .z-thumbnail-main .z-thumbnail .z-thumbnail-file {
+.z-thumbnail-main .z-thumbnail .z-thumbnail-image,
+.z-thumbnail-main .z-thumbnail .z-thumbnail-file {
+  position: relative;
   display: inline-block;
   width: 100%;
   height: 9.063rem;
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center center;
-}
-.z-thumbnail-main .z-thumbnail .z-thumbnail-image,
-.z-thumbnail-main .z-thumbnail .z-thumbnail-file {
-  position: relative;
 }
 .z-thumbnail-main .z-thumbnail .z-thumbnail-image img,
 .z-thumbnail-main .z-thumbnail .z-thumbnail-file img {
@@ -12449,8 +12442,8 @@ body.modal-active {
 }
 .z-thumbnail-main .z-thumbnail-upload {
   border: 0.0625rem solid #CFD5D9;
-  overflow: hidden;
   display: inline-block;
+  overflow: hidden;
   width: 15rem;
   height: 18.13rem;
   margin: 0.625rem;

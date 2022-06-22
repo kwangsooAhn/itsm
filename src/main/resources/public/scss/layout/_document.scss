@@ -320,10 +320,11 @@
                   h6 { width: 27.5rem; }
                 }
               }
+
+              // 댓글 추가
+              &-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
             }
           }
-          // 댓글 추가
-          .z-comment-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
         }
 
         // 참조인

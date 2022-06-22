@@ -33,11 +33,9 @@
           font-weight: $font-weight-regular;
           text-align: center;
           // 아이콘
-          .z-icon {
-            &.i-avatar {
-              @include maskImage('#{$icon-folder-path}fileUploader/icon_avatar.svg', 100%, 5rem, no-repeat, center, 5rem, $gray300);
-              margin-bottom: 1.25rem; // 20px
-            }
+          .z-icon.i-avatar {
+            @include maskImage('#{$icon-folder-path}fileUploader/icon_avatar.svg', 100%, 5rem, no-repeat, center, 5rem, $gray300);
+            margin-bottom: 1.25rem; // 20px
           }
           // or brows 영역
           .add-file-button-wrap {
@@ -63,9 +61,9 @@
         border: 0;
 
         .dz-image {
-          position: relative;
           display: contents;
           overflow: hidden;
+          position: relative;
           z-index: 10 ;
           img { object-fit: cover; }
         }
@@ -141,13 +139,11 @@
         .dz-message {
           margin-top: 1.25rem; // 20px
           // 이미지 축소
-          .z-icon {
-            &.i-avatar {
-              height: 2.813rem; // 45px
-              margin-bottom: 0.9375rem; // 15px
-              -webkit-mask-size: 2.813rem;
-              mask-size: 2.813rem;
-            }
+          .z-icon.i-avatar {
+            height: 2.813rem; // 45px
+            margin-bottom: 0.9375rem; // 15px
+            -webkit-mask-size: 2.813rem;
+            mask-size: 2.813rem;
           }
 
           span { font-size: 0.8125rem; } // 13px

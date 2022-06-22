@@ -41,11 +41,11 @@
     padding: 0;
 
     > .tagify__input {
+      display: block;
       padding: 0 0.75rem;
       visibility: visible;
       &:not(:first-child) { padding: 0.25rem; }
     }
-    > .tagify__input { display: block; }
     .tagify__tag__removeBtn { display: inherit; }
 
     &:hover {

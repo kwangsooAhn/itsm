@@ -10,8 +10,8 @@ body.modal-active { overflow: hidden !important; }
 
 .modal-wrapper {
   @include resetPosition();
-  overflow:auto;
   display: none;
+  overflow:auto;
   z-index: 1000;
 
   &.modal-active { display: block; }
@@ -48,9 +48,7 @@ body.modal-active { overflow: hidden !important; }
       font-weight: $font-weight-medium;
       line-height: 1.2;
     }
-
     .modal-content { overflow: auto; }
-
     .modal-bottom {
       height: 5rem; // 80px
       padding: 1.25rem 1.25rem; // 20px
@@ -70,8 +68,8 @@ body.modal-active { overflow: hidden !important; }
         margin-top: 2.188rem; // 35px
         .z-table {
           .z-table-body {
-            overflow-y: auto;
             display: block;
+            overflow-y: auto;
             width: 60rem; // 960px
             height: 21.75rem; // 348px
             border: none;
@@ -221,8 +219,8 @@ body.modal-active { overflow: hidden !important; }
           margin-top: 1.875rem; // 30px
           .z-table {
             .z-table-body {
-              overflow-y: auto;
               display: block;
+              overflow-y: auto;
               width: 60rem; // 960px
               height: 35.313rem; // 565px
               border: none;
