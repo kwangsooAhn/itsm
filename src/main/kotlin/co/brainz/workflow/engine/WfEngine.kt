@@ -57,6 +57,7 @@ class WfEngine(
         tokenDto.instanceId = instance.instanceId
         tokenDto.elementType = element.elementType
         tokenDto.elementId = element.elementId
+        tokenDto.documentStatus = instance.document.documentStatus
 
         // 시작 이벤트 생성 및 완료 처리.
         val tokenManager = this.createTokenManager(tokenDto)
