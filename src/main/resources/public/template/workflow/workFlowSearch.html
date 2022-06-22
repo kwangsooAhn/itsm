@@ -47,11 +47,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    // Document status.
-    const STATUS_TEMPORARY = 'document.status.temporary';
-    const STATUS_USE = 'document.status.use';
-    const STATUS_DESTROY = 'document.status.destroy';
-
     // Document type.
     const DOCUMENT_TYPE_FORM = 'application-form';
     const DOCUMENT_TYPE_WORKFLOW = 'workflow';
@@ -196,8 +191,10 @@
             apiEnable: document.getElementById(prefix + 'ApiEnable').value,
             documentLinkUrl: null,
             documentColor: document.getElementById(prefix + 'DocumentColor').value,
-            documentGroup: (documentType === DOCUMENT_TYPE_FORM) ? document.getElementById(prefix + 'DocumentGroup').value : null,
-            documentIcon: (documentType === DOCUMENT_TYPE_FORM) ?  document.getElementById(prefix + 'DocumentIcon').value : null,
+            documentGroup: (documentType === DOCUMENT_TYPE_FORM)
+                ? document.getElementById(prefix + 'DocumentGroup').value : null,
+            documentIcon: (documentType === DOCUMENT_TYPE_FORM)
+                ?  document.getElementById(prefix + 'DocumentIcon').value : null,
             formName: document.getElementById('formName').value,
             formDesc: document.getElementById('formDesc').value,
             processName: document.getElementById('processName').value,
@@ -248,7 +245,7 @@
                     }
                 }],
                 close: { closable: false },
-                onCreate: function(modal) {
+                onCreate: function() {
                     const documentType = document.getElementById('documentType').value;
                     setDocumentType(documentType);
 
