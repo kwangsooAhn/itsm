@@ -1,6 +1,7 @@
 @charset "UTF-8";
 /*
- * template.scss
+ * itsm.scss
+ *
  *
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
@@ -1677,16 +1678,6 @@ input, button, select, optgroup, textarea {
 .z-icon.i-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_delete2.svg");
-  mask-image: url("../../assets/media/icons/icon_delete2.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-delete {
-  width: 1.25rem;
-  height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
   mask-image: url("../../assets/media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1697,8 +1688,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-list-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  mask-image: url("../../assets/media/icons/icon_list-delete.svg");
+  -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -1779,16 +1770,6 @@ input, button, select, optgroup, textarea {
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_copy.svg");
   mask-image: url("../../assets/media/icons/icon_copy.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-}
-.z-icon.i-copy {
-  width: 1.25rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
-  mask-image: url("../../assets/media/icons/designer/tooltip/icon_copy.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -4039,13 +4020,13 @@ input, button, select, optgroup, textarea {
   top: 5.375rem;
   right: 0;
   bottom: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: #FFFFFF;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #FFFFFF;
 }
 .z-form-properties-panel::-webkit-scrollbar, .z-form-properties::-webkit-scrollbar, .z-process-properties-panel::-webkit-scrollbar, .z-process-properties::-webkit-scrollbar {
   display: none;
@@ -4053,12 +4034,12 @@ input, button, select, optgroup, textarea {
 }
 
 .modal-dialog.save-as .modal-content {
-  height: 16.755rem;
-  padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+  height: 16.755rem;
+  padding: 0.625rem 1.25rem;
 }
 .modal-dialog.save-as .modal-content::-webkit-scrollbar {
   display: none;
@@ -4073,12 +4054,12 @@ input, button, select, optgroup, textarea {
   resize: none;
 }
 .modal-dialog.create-template .modal-content {
-  height: 16.755rem;
-  padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+  height: 16.755rem;
+  padding: 0.625rem 1.25rem;
 }
 .modal-dialog.create-template .modal-content::-webkit-scrollbar {
   display: none;
@@ -4965,13 +4946,13 @@ input, button, select, optgroup, textarea {
   transform: rotate(90deg);
 }
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked ~ .z-accordion-content {
-  overflow-y: auto;
-  height: calc(100vh - 160px - 2.875rem);
-  border-bottom-color: #CFD5D9;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+  overflow-y: auto;
+  height: calc(100vh - 160px - 2.875rem);
+  border-bottom-color: #CFD5D9;
 }
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked ~ .z-accordion-content::-webkit-scrollbar {
   display: none;
@@ -5838,13 +5819,13 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
 }
-.z-process-main .z-drawing-board .z-simulation-report-title .z-iconi-minus {
+.z-process-main .z-drawing-board .z-simulation-report-title .z-icon.i-minus {
   position: absolute;
   right: 1.125rem;
   background: #8B9094;
   cursor: pointer;
 }
-.z-process-main .z-drawing-board .z-simulation-report-title .z-iconi-minus:hover {
+.z-process-main .z-drawing-board .z-simulation-report-title .z-icon.i-minus:hover {
   background: #3373C4;
 }
 .z-process-main .z-drawing-board .z-simulation-report-contents {
@@ -6297,7 +6278,7 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-row-content h6 {
   width: 27.5rem;
 }
-.z-document-container .z-token-properties .z-token-panels .z-token-comment .z-comment-add {
+.z-document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-add {
   margin: 0.625rem 0 0 0;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-viewer-sub-title {
@@ -7782,9 +7763,9 @@ input, button, select, optgroup, textarea {
   border: 0;
 }
 .avatar-edit .avatar .dz-preview .dz-image {
-  position: relative;
   display: contents;
   overflow: hidden;
+  position: relative;
   z-index: 10;
 }
 .avatar-edit .avatar .dz-preview .dz-image img {
@@ -7920,8 +7901,8 @@ input, button, select, optgroup, textarea {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  overflow: visible;
   display: inline-block;
+  overflow: visible;
   padding: 0.625rem 1.25rem;
   background-color: transparent;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -7953,8 +7934,8 @@ input, button, select, optgroup, textarea {
 .z-button.primary,
 .z-button-icon.primary,
 .z-button-text.primary {
-  color: #FFFFFF;
   background-color: #19428D;
+  color: #FFFFFF;
   border-color: #19428D;
 }
 .z-button.primary .z-icon,
@@ -8024,8 +8005,8 @@ input, button, select, optgroup, textarea {
 .z-button.secondary,
 .z-button-icon.secondary,
 .z-button-text.secondary {
-  color: #505559;
   background-color: #E1E6EA;
+  color: #505559;
   border-color: #E1E6EA;
 }
 .z-button.secondary .z-icon,
@@ -8095,8 +8076,8 @@ input, button, select, optgroup, textarea {
 .z-button.danger,
 .z-button-icon.danger,
 .z-button-text.danger {
-  color: #FFFFFF;
   background-color: #F52525;
+  color: #FFFFFF;
   border-color: #F52525;
 }
 .z-button.danger .z-icon,
@@ -8166,8 +8147,8 @@ input, button, select, optgroup, textarea {
 .z-button.warning,
 .z-button-icon.warning,
 .z-button-text.warning {
-  color: #102E71;
   background-color: #FFAC47;
+  color: #102E71;
   border-color: #FFAC47;
 }
 .z-button.warning .z-icon,
@@ -8237,8 +8218,8 @@ input, button, select, optgroup, textarea {
 .z-button.extra,
 .z-button-icon.extra,
 .z-button-text.extra {
-  color: #3373C4;
   background-color: #FFFFFF;
+  color: #3373C4;
   border-color: #FFFFFF;
 }
 .z-button.extra .z-icon,
@@ -8308,8 +8289,8 @@ input, button, select, optgroup, textarea {
 .z-button.form,
 .z-button-icon.form,
 .z-button-text.form {
-  color: #424242;
   background-color: #E0E0E0;
+  color: #424242;
   border-color: #E0E0E0;
 }
 .z-button.form .z-icon,
@@ -8379,8 +8360,8 @@ input, button, select, optgroup, textarea {
 .z-button.default,
 .z-button-icon.default,
 .z-button-text.default {
-  color: #ABB0B5;
   background-color: transparent;
+  color: #ABB0B5;
   border-color: transparent;
 }
 .z-button.default .z-icon,
@@ -8393,8 +8374,8 @@ input, button, select, optgroup, textarea {
 .z-button.error,
 .z-button-icon.error,
 .z-button-text.error {
-  color: #FFFFFF;
   background-color: #F52525;
+  color: #FFFFFF;
   border-color: #F52525;
 }
 .z-button.error .z-icon,
@@ -8735,8 +8716,8 @@ input, button, select, optgroup, textarea {
 
 .z-button-list {
   display: inline-flex;
-  vertical-align: middle;
   position: relative;
+  vertical-align: middle;
 }
 .z-button-list .z-button:not(:last-child),
 .z-button-list .z-button-icon:not(:last-child) {
@@ -8757,8 +8738,8 @@ input, button, select, optgroup, textarea {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  overflow: visible;
   display: inline-block;
+  overflow: visible;
   flex: 1 1 auto;
   padding: 0.25rem 0.6875rem;
   background-color: #FFFFFF;
@@ -12913,6 +12894,12 @@ body.modal-active {
   background: #8B9094;
 }
 
+/*
+ * template.scss
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 /* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
