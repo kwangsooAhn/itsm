@@ -447,7 +447,6 @@ class WfInstanceRepositoryImpl(
         delete(folder).where(folder.instance.`in`(instances)).execute()
         delete(comment).where(comment.instance.`in`(instances)).execute()
         delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
-        delete(ciComponent).where(ciComponent.instanceId.`in`(instanceIds)).execute()
         delete(tag).where(tag.tagType.eq(AliceTagConstants.TagType.INSTANCE.code).and(tag.targetId.`in`(instanceIds)))
             .execute()
     }

@@ -14,6 +14,7 @@ import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.plugin.constants.PluginConstants
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
@@ -60,6 +61,8 @@ class WfScriptTask(
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
         var scriptType = ""
         val element = wfTokenManagerService.getElement(createTokenDto.elementId)
+        val documentStatus = wfTokenManagerService.getInstance(createTokenDto.instanceId)?.document?.documentStatus
+
         run loop@{
             element.elementDataEntities.forEach { data ->
                 if (data.attributeId == WfElementConstants.AttributeId.SCRIPT_TYPE.value) {
@@ -69,14 +72,16 @@ class WfScriptTask(
             }
         }
 
-        when (scriptType) {
-            WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
-                this.setDocumentAttachFile(createTokenDto, element)
-            WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
-                this.callCmdbAction(createTokenDto, element)
-            }
-            WfElementConstants.ScriptType.DOCUMENT_PLUGIN.value -> {
-                this.executePlugin(createTokenDto, element)
+        if (documentStatus == DocumentConstants.DocumentStatus.USE.value) {
+            when (scriptType) {
+                WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
+                    this.setDocumentAttachFile(createTokenDto, element)
+                WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
+                    this.callCmdbAction(createTokenDto, element)
+                }
+                WfElementConstants.ScriptType.DOCUMENT_PLUGIN.value -> {
+                    this.executePlugin(createTokenDto, element)
+                }
             }
         }
 
