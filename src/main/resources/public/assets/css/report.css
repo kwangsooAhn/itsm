@@ -1684,12 +1684,12 @@ input, button, select, optgroup, textarea {
 .z-icon.i-list-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
+  -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/icon_delete.svg");
+  -webkit-mask-repeat: round;
+  mask-repeat: round;
+  -webkit-mask-position: inherit;
+  mask-position: inherit;
 }
 .z-icon.i-edit {
   width: 1.25rem;
@@ -2064,8 +2064,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
-  mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
