@@ -255,13 +255,13 @@ input, textarea, select {
   }
 
   &:read-only:not(:disabled):not(.tagify) {
-    @include border(0.0625rem, solid, $gray300, bottom);
     @include borderRadius(0);
     width: 100%;
     border: none;
     background-color: transparent;
     background-image: none;
     cursor: default;
+    @include border(0.0625rem, solid, $gray300, bottom);
 
     &:hover, &:focus {
       @include border(0.0625rem, solid, $gray300, bottom);

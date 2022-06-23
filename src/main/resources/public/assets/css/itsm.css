@@ -4210,7 +4210,7 @@ input, button, select, optgroup, textarea {
   top: 0.125rem;
 }
 
-.z-form-container .z-picker-wrapper-date {
+.z-element .z-picker-wrapper-date {
   width: 100%;
 }
 
@@ -9237,7 +9237,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
 }
 .z-input:read-only:not(:disabled):not(.tagify) {
-  border-bottom: 0.0625rem solid #CFD5D9;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -9246,6 +9245,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background-color: transparent;
   background-image: none;
   cursor: default;
+  border-bottom: 0.0625rem solid #CFD5D9;
 }
 .z-input:read-only:not(:disabled):not(.tagify):hover, .z-input:read-only:not(:disabled):not(.tagify):focus {
   border-bottom: 0.0625rem solid #CFD5D9;
