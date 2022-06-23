@@ -263,7 +263,8 @@ $button-themes-social: (
               &-box { width:  68.13rem; } // 1090px
               &-title {
                 padding-bottom: 0.5rem; // 8px
-                a { color: $neutral800;
+                a {
+                  color: $neutral800;
                   .keyword { color: $blue500; }
                 }
               }
@@ -342,18 +343,13 @@ $button-themes-social: (
               // 그룹일 경우 summary의 화살표 숨김
               &::-webkit-details-marker { display: none; }
               .z-icon {
-                &.i-plus {
+                &.i-plus, &.i-minus {
                   @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
                   display: inline-block;
                   background: $gray500;
-                  opacity: 1;
                 }
-                &.i-minus {
-                  @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
-                  display: inline-block;
-                  background: $gray500;
-                  opacity: 0;
-                }
+                &.i-plus { opacity: 1; }
+                &.i-minus { opacity: 0; }
               }
             }
             &[open] {
@@ -489,7 +485,6 @@ $button-themes-social: (
               margin-right: 1rem; // 16px
               background: $gray300;
             }
-
             &::after {
               content: '';
               flex-grow: 1;

@@ -1,18 +1,16 @@
 /* _alerts.scss
  *
- * 파일 경로 : template/_alerts.scss
+ * 파일 경로 : components/_alerts.scss
  * @description 알림 모달
  * @author jy.lim
  * @version 1.0
  */
 .z-alert {
-  &-active {
-    overflow: hidden !important;
-  }
+  &-active { overflow: hidden !important; }
 
   &-wrapper {
-    display: none;
     @include fixed(0, 0, 0, 0);
+    display: none;
     overflow: auto;
 
     &.z-alert-active {
@@ -29,22 +27,22 @@
 
   &-dialog {
     width: 100%;
-    line-height: 1;
     padding: 1.5625rem; // 25px
+    line-height: 1;
   }
 
   &-title {
     padding: 1em;
     font-size: $font-size-s;
-    box-sizing: border-box;
     text-align: center;
+    box-sizing: border-box;
   }
 
   &-body {
+    overflow: auto;
     min-height: 3.4375rem;    //55px
     padding: 0 0 0 3.875rem;  // 0 0 0 62px
     box-sizing: border-box;
-    overflow: auto;
   }
 
   &-message {
@@ -57,16 +55,16 @@
   }
 
   &-buttons {
-    box-sizing: border-box;
     text-align: right;
+    box-sizing: border-box;
   }
 
   &-button {
-    font-size: $font-size-s;
-    font-weight: $font-weight-medium;
+    @include border(0.0625rem, solid, $gray300, all);
     margin: 0 0 0 0.3125rem;
     padding: 0.4375rem 1.5rem;
-    @include border(0.0625rem, solid, $gray300, all);
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
   }
 
   &-icon {
@@ -93,11 +91,11 @@
 
 @media only screen and (max-width:53em) {
   .gmodal-dialog {
-    width: auto;
-    margin: 0 auto 0.3125rem auto;  // 5px
     top: 0.3125rem;                 // 5px
     right: 0.3125rem;               // 5px
     left: 0.3125rem;                // 5px
+    width: auto;
+    margin: 0 auto 0.3125rem auto;  // 5px
   }
 }
 @media only screen and (max-width:32em) {

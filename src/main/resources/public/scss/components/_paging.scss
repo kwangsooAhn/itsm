@@ -1,25 +1,25 @@
 /* _paging.scss
  *
- * 파일 경로 : template/_paging.scss
+ * 파일 경로 : components/_paging.scss
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
 .z-page-paging {
   display: flex;
   flex-direction: row!important;
-  padding: 1.875rem 3.75rem; // 30px 60px
   justify-content:center;
+  padding: 1.875rem 3.75rem; // 30px 60px
   font-family: $font-family;
   font-size: $font-size-xs;
   line-height: 1.5rem;
 
   a.z-paging-arrow {
     @include border(0.0625rem, solid, $gray300, all); // 1px
-    &:not(:first-child) { border-left: 0; }
     cursor: text;
+    &:not(:first-child) { border-left: 0; }
     &.active {
-      span.z-icon { background: $blue700; }
       cursor: pointer;
+      span.z-icon { background: $blue700; }
     }
 
     .z-icon {
@@ -40,17 +40,17 @@
 
   .z-paging-numbers {
     a {
+      @include border(0.0625rem, solid, $gray300, all); // 1px
       display: inline-block;
       min-width: 1.5625rem; // 25px
       height: 100%;
+      border-left: 0;
       color: $gray800;
       font-weight: $font-weight-regular;
       text-align: center;
-      @include border(0.0625rem, solid, $gray300, all); // 1px
-      border-left: 0;
       &:hover {
-        color: $gray800;
         background-color: $blue100;
+        color: $gray800;
       }
       &.selected-page {
         background-color: $gray100;
@@ -75,8 +75,8 @@
   }
 
   #spanCurrentPageNum {
-    font-weight: $font-weight-medium;
-    color: $neutral600;
     @include absolute($right: 3.75rem);
+    color: $neutral600;
+    font-weight: $font-weight-medium;
   }
 }

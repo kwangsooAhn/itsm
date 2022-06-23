@@ -75,19 +75,14 @@
 
       // commonSearchTemplate
       @include commonSearchTemplate();
-
       // commonEdit
       @include commonEditTemplate();
-
       // pagingList
       @include pagingListTemplate();
-
       // treeEdit
       @include treeEditTemplate();
-
       // 카드
       @include defaultCardTemplate();
-
       // view
       @include commonViewTemplate();
 
@@ -124,7 +119,6 @@
 
     // edit, register
     @include defaultEditTemplate();
-
     // view
     @include defaultViewTemplate();
   }

@@ -1,14 +1,12 @@
 /* _modal.scss
  *
- * 파일 경로 : template/_modal.scss
+ * 파일 경로 : components/_modal.scss
  * @description 모달 디자인
  * @author wdj
  * @version 1.0
  */
 
-body.modal-active {
-  overflow: hidden !important;
-}
+body.modal-active { overflow: hidden !important; }
 
 .modal-wrapper {
   @include resetPosition();
@@ -20,20 +18,20 @@ body.modal-active {
 
   .modal-backdrop {
     @include resetPosition();
-    z-index: 5000;
     background-color: hexToRGBA($gray600, 0.6);
+    z-index: 5000;
   }
 
   .modal-dialog {
+    @include absolute(4em, 0, null, 0);
+    @include borderRadius(0.25rem); // 4px
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray600);
     width: 26.875rem; // 430px
     margin: 0 auto 2em auto;
     background-color: $white;
     opacity: 0;
     transition: 0.3s;
     z-index: 5000;
-    @include absolute(4em, 0, null, 0);
-    @include borderRadius(0.25rem); // 4px
-    @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray600);
 
     &.modal-active {
       transition: 0.3s;
@@ -41,20 +39,16 @@ body.modal-active {
     }
 
     .modal-header {
-      min-height: 3.875rem; // 62px
-      font-size: 1.5rem; // 24px;
-      font-weight: $font-weight-medium;
-      color: $gray800;
-      padding: 1.25rem; // 20px
-      line-height: 1.2;
       @include border(2px, solid, $gray100, bottom);
       @include borderRadius(0.25rem 0.25rem 0 0); // 4px
+      min-height: 3.875rem; // 62px
+      padding: 1.25rem; // 20px
+      color: $gray800;
+      font-size: 1.5rem; // 24px;
+      font-weight: $font-weight-medium;
+      line-height: 1.2;
     }
-
-    .modal-content {
-      overflow: auto;
-    }
-
+    .modal-content { overflow: auto; }
     .modal-bottom {
       height: 5rem; // 80px
       padding: 1.25rem 1.25rem; // 20px
@@ -75,9 +69,9 @@ body.modal-active {
         .z-table {
           .z-table-body {
             display: block;
+            overflow-y: auto;
             width: 60rem; // 960px
             height: 21.75rem; // 348px
-            overflow-y: auto;
             border: none;
             .list-row {
               display: table;
@@ -105,14 +99,8 @@ body.modal-active {
       padding: 1.125rem 0 0 1.25rem;
       div {
         height: 100%;
-        label {
-          font-weight: $font-weight-regular;
-        }
-        li {
-          &:last-child:before {
-            background-color: $white;
-          }
-        }
+        label { font-weight: $font-weight-regular; }
+        li:last-child:before { background-color: $white; }
       }
     }
   }
@@ -184,14 +172,14 @@ body.modal-active {
     height: 42.188rem; // 675px
 
     .modal-content {
+      overflow: hidden;
       height: calc(42.188rem - 3.875rem - 5rem); // 675px
       padding: 1.25rem; // 20px
-      overflow: hidden;
 
       .document-display-content {
+        overflow-y: auto;
         height: calc(42.188rem - 3.875rem - 5rem - 2.5rem); // 높이(675px)에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
-        overflow-y: auto;
 
         .z-table {
           width: auto;
@@ -202,8 +190,8 @@ body.modal-active {
           }
 
           th, td {
-            padding: 0 1.5rem 0.625rem 0; // 0 24px 10px 0
             overflow: initial; // selectbox 짤림 현상 방지
+            padding: 0 1.5rem 0.625rem 0; // 0 24px 10px 0
           }
         }
       }
@@ -232,9 +220,9 @@ body.modal-active {
           .z-table {
             .z-table-body {
               display: block;
+              overflow-y: auto;
               width: 60rem; // 960px
               height: 35.313rem; // 565px
-              overflow-y: auto;
               border: none;
               .attribute-list,
               .instance-list {
@@ -254,15 +242,15 @@ body.modal-active {
     width: 62.5rem; // 1000px
     height: 53.0625rem; // 849px
     .modal-content {
+      overflow: hidden;
       height: calc(53.0625rem - 3.875rem - 5rem); // 849px
       padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
-      overflow: hidden;
 
       .chart-edit-content {
+        overflow-y: auto;
         width: calc(62.5rem - 2.5rem); // 너비(1000px)에서 여백만큼 빼준다.
         height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem); // 높이(849px)에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
-        overflow-y: auto;
 
         label { margin: 0.625rem 0; } // 10px 0
       }
@@ -271,9 +259,7 @@ body.modal-active {
   // 사용자 정의 차트 미리보기
   &.chart-view-modal {
     min-width: 62.5rem; // 1000px
-    .modal-header {
-      @include border(0.0625rem, solid, transparent, bottom); // 1px
-    }
+    .modal-header { @include border(0.0625rem, solid, transparent, bottom); } // 1px
     .modal-content {
       width: auto;
       height: auto;
@@ -294,24 +280,24 @@ body.modal-active {
       padding: 0.625rem; // 10px
       border-color: $white;
       label {
-        color: $gray500;
         margin: 0.625rem 0;  // 10px 0
+        color: $gray500;
       }
       .i-logo {
         height: 2.5rem; // 40px
         margin-bottom: 1.875rem; //30px
       }
       .top-line {
-        color: $gray800;
+        padding-top: 0.625rem; //10px
         border-color: $white;
         border-width: 0.0625rem; //1px
         border-top-color: $gray500;
         border-style: ridge;
-        padding-top: 0.625rem; //10px
+        color: $gray800;
       }
       .product-href {
-        color: $blue500;
         margin: 0.625rem 0;
+        color: $blue500;
       }
     }
   }

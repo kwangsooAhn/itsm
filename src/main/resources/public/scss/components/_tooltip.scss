@@ -1,18 +1,14 @@
 /* _tooltip.scss 
  *
- * 파일 경로 : template/_tooltip.scss
+ * 파일 경로 : components/_tooltip.scss
  * @description 툴팁 디자인
  * @author jy.lim
  * @version 1.0
  */
 
 @include keyframe(fadeIn) {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .z-help-tooltip {
@@ -21,32 +17,30 @@
   margin-left: 0.3125rem;
   vertical-align: middle;
 
-  .z-icon {
-    &.i-tooltip {
-      cursor: pointer;
-      background: $gray500;
-    }
+  .z-icon.i-tooltip {
+    background: $gray500;
+    cursor: pointer;
   }
 
   .z-tooltip-contents {
     // 툴팁 표시 위치 기본은 우측 하단
     @include absolute($left: auto);
-    visibility: hidden;
-    background-color: $white;
-    font-family: $font-family;
-    font-size: $font-size-xs;
-    color: $blue500;
-    width: 28.125rem; // 450px
     @include border(0.125rem, solid, $blue500, all);
     @include borderRadius(0.125rem); // 2px
-    padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-    margin: 0.25rem 0 0 0;
-    z-index: 500;
     @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
+    width: 28.125rem; // 450px
+    margin: 0.25rem 0 0 0;
+    padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+    background-color: $white;
+    color: $blue500;
+    font-family: $font-family;
+    font-size: $font-size-xs;
+    z-index: 500;
+    visibility: hidden;
     span {
       color: $blue500;
-      word-break: keep-all;
       line-height: 1.5;
+      word-break: keep-all;
     }
     // 툴팁 표시 위치 조정 가능
     &.top {
@@ -69,15 +63,10 @@
 
   &:hover {
     .z-tooltip-contents {
-      visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
+      visibility: visible;
     }
-
-    .z-icon {
-      &.i-tooltip {
-        background: $blue500;
-      }
-    }
+    .z-icon.i-tooltip { background: $blue500; }
   }
 }
 
@@ -87,33 +76,33 @@
   .z-header-tooltip-contents {
     @include absolute($left: 50%);
     @include translate(-50%, 0);
-    visibility: hidden;
-    background-color: $white;
-    text-align: center;
     @include borderRadius(0.0625rem);
     @include border(0.0625rem, solid, $gray300, all);
     @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
-    padding: 0.4375rem; // 7px
     margin: 1rem 0 0 0;
+    padding: 0.4375rem; // 7px
+    background-color: $white;
+    text-align: center;
     z-index: 500;
+    visibility: hidden;
 
     &.last {
-      left: 0;
       @include translate(-70%, 0);
+      left: 0;
     }
 
     .z-header-tooltip-text {
+      color: $gray800;
       font-family: $font-family;
       font-size: $font-size-xs;
-      color: $gray800;
       font-weight: $font-weight-medium;
     }
   }
   // 마우스 오버
   &:hover {
     .z-header-tooltip-contents {
-      visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
+      visibility: visible;
     }
   }
 }
@@ -134,19 +123,19 @@
 
   .z-clipboard-tooltip-text {
     @include absolute($left: 50%, $bottom: 120%);
+    @include border(0.125rem, solid, $blue500, all);
+    @include borderRadius(0.0625rem);
+    @include transition(opacity 0.3s);
     width: 9.375rem; //150px
+    margin-left: -8.125rem; // -130px
+    padding: 0.313rem; // 5px
+    background-color: $white;
+    color: $blue500;
     font-family: $font-family;
     font-size: $font-size-xs;
     font-weight: $font-weight-regular;
-    color: $blue500;
-    background-color: $white;
-    @include border(0.125rem, solid, $blue500, all);
-    @include borderRadius(0.0625rem);
     text-align: center;
-    padding: 0.313rem; // 5px
-    margin-left: -8.125rem; // -130px
     opacity: 0;
-    @include transition(opacity 0.3s);
     visibility: hidden;
     z-index: 500;
 

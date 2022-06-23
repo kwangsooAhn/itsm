@@ -55,7 +55,6 @@
   ////////////////////////// layout //////////////////////////
   @include container;
 
-
   .z-document-main {
     @include fixed(0, 33.125rem, 0, 0); // 530px
     @include scrollbarHidden;
@@ -114,15 +113,11 @@
     background-color: $gray400;
     z-index: 500;
 
-    .z-icon {
-      &.i-arrow-double { background: $white; }
-    }
+    .z-icon.i-arrow-double { background: $white; }
 
     &.off {
       right: 0;
-      .z-icon {
-        &.i-arrow-double { @include rotate(180); }
-      }
+      .z-icon.i-arrow-double { @include rotate(180); }
 
       + form {
         .z-document-main {
@@ -168,8 +163,8 @@
 
     // 탭 내용
     .z-token-panels {
-      height: 100%;
       overflow-y: auto;
+      height: 100%;
 
       .z-token-panel {
         display: none;
@@ -177,9 +172,7 @@
         &.on { display: block; }
 
         // 아이콘
-        .z-icon {
-          &.i-delete { background: $gray500; }
-        }
+        .z-icon.i-delete { background: $gray500; }
       }
 
       .z-token {
@@ -296,9 +289,7 @@
             .z-button-icon {
               width: 100%;
               height: 100%;
-              .z-icon {
-                &.i-plus { background: $gray500; }
-              }
+              .z-icon.i-plus { background: $gray500; }
             }
           }
         }
@@ -329,10 +320,11 @@
                   h6 { width: 27.5rem; }
                 }
               }
+
+              // 댓글 추가
+              &-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
             }
           }
-          // 댓글 추가
-          .z-comment-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
         }
 
         // 참조인
@@ -351,9 +343,7 @@
               border: none;
               tr:hover { background-color: transparent; }
             }
-            .z-icon {
-              &.i-clear { background: $gray500; }
-            }
+            .z-icon.i-clear { background: $gray500; }
           }
         }
       }
@@ -456,7 +446,6 @@
         .cmdb-ci-content-view {
           height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem); // 부모 높이 - 50px
           .view-form { padding: 0 2.5rem; } // 40px
-
           .view-row {  margin-top: 0.625rem; } // 10px
           .field-label { margin: 0.625rem 0; } // 10px 0
 
@@ -533,9 +522,7 @@
         div {
           height: 100%;
           label { font-weight: $font-weight-regular; }
-          li {
-            &:last-child:before { background-color: $white; }
-          }
+          li:last-child:before { background-color: $white; }
         }
       }
     }
@@ -555,7 +542,6 @@
       }
 
       .input-search { padding-top: 1.875rem; } // 30px
-
       .custom-code-main { padding-top: 1.25rem; } // 20px
     }
 
