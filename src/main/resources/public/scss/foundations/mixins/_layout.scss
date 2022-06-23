@@ -15,12 +15,13 @@
   .grid {
     display: grid;
     flex: 1;
+    height: fit-content;
     align-content: start;
 
     &__row {
       display: grid;
       grid-template-columns: var(--data-columns-width);
-      grid-template-rows: 49px;
+      grid-template-rows: 2.5rem;
     }
 
     &__cell {
@@ -29,12 +30,13 @@
       align-items: center;
       font-weight: $font-weight-medium;
       color: $neutral800;
+      a { padding-bottom: 0.0625rem; }
     }
 
     &__head {
       .grid__row {
         color: $neutral600;
-        @include border(0.125rem, solid, $gray300, bottom);
+        @include border(0.125rem, solid, $gray400, bottom);
         .grid__cell:not([data-grid-sortable='false']) {
           cursor: pointer;
           > * { pointer-events: none; }
@@ -66,7 +68,6 @@
       .grid__row {
         color: $gray800;
         @include border(0.0625rem, solid, $gray300, bottom);
-        cursor: pointer;
         &.read-only { cursor: default; }
         &:hover { background-color: $neutral200; }
       }
