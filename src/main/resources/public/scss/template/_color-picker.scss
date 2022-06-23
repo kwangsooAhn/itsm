@@ -89,13 +89,15 @@ $custom-color-plus: (
           height: 1.75rem; // 28px;
           cursor: pointer;
 
-          &.material-color:not(.first) {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-          }
-          &.material-color:not(.last) {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
+          &.material-color {
+            &:not(.first) {
+              border-top-left-radius: 0;
+              border-top-right-radius: 0;
+            }
+            &:not(.last) {
+              border-bottom-left-radius: 0;
+              border-bottom-right-radius: 0;
+            }
           }
           // 하얀 색상은 테두리를 표기함
           &.border-inset { @include boxShadow(0, 0, 0, 0.0625rem, $gray300, true); }

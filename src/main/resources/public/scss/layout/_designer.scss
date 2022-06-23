@@ -256,8 +256,7 @@ $layout-header-dropdown: (
 .z-button-toggle-group {
   .z-button-switch,
   .z-button-toggle {
-    .z-text { pointer-events: none; }
-    .z-icon { pointer-events: none; }
+    .z-text, .z-icon { pointer-events: none; }
   }
 }
 
@@ -463,12 +462,12 @@ $layout-header-dropdown: (
       @include border(0.125rem, solid, $gray300, bottom);
       padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
       cursor: pointer;
+      .z-group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
+
       &.off {
         display: table;
         .z-group-label-text { opacity: 0; }
       }
-
-      .z-group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
 
       .z-icon.i-arrow-right { opacity: 1; }
     }
@@ -1668,6 +1667,19 @@ $element-icon-toggle: (
           fill: $white;
           opacity: 1;
           stroke-width: 1;
+          // 게이트웨이
+          &.gateway { stroke: $orange400; }
+          // 이벤트
+          &.event {
+            stroke: $pink500;
+            &.commonEnd,
+            &.messageEnd { stroke-width: 2; }
+          }
+
+          &.reject-element {
+            stroke: $red500 !important;
+            stroke-width: 2 !important;
+          }
         }
 
         .element-type.task,
@@ -1675,36 +1687,26 @@ $element-icon-toggle: (
           stroke-width: 1;
           stroke-dasharray: 0, 40, 40, 40;
         }
-        // userTask
-        .node.task.userTask,
-        .element-type.task.userTask { stroke: $cyan500; }
-        // manualTask
-        .node.task.manualTask,
-        .element-type.task.manualTask { stroke: $indigo500; }
-        // scriptTask
-        .node.task.scriptTask,
-        .element-type.task.scriptTask { stroke: $green500; }
-        // 서브 프로세스
-        .node.subprocess,
-        .element-type.subprocess { stroke: $violet500; }
-        // 게이트웨이
-        .node.gateway { stroke: $orange400; }
-        // 이벤트
-        .node.event { stroke: $pink500; }
 
-        .node.event.commonEnd,
-        .node.event.messageEnd { stroke-width: 2; }
+        .node,
+        .element-type {
+          &.task {
+            // userTask
+            &.userTask { stroke: $cyan500; }
+            // manualTask
+            &.manualTask { stroke: $indigo500; }
+            // scriptTask
+            &.scriptTask { stroke: $green500; }
+          }
+          // 서브 프로세스
+          &.subprocess { stroke: $violet500; }
+        }
 
         .node.selected {
           stroke: $blue500 !important;
           stroke-width: 2 !important;
 
           &.error { stroke: $red500 !important; }
-        }
-
-        .node.reject-element {
-          stroke: $red500 !important;
-          stroke-width: 2 !important;
         }
 
         .annotation {

@@ -120,11 +120,9 @@
                   &:not(.active) {
                     color: $gray200;
 
-                    .z-icon {
-                      &.i-gnb_sub_dot {
-                        background: $gray200;
-                        visibility: visible;
-                      }
+                    .z-icon.i-gnb_sub_dot {
+                      background: $gray200;
+                      visibility: visible;
                     }
                   }
                 }
@@ -132,11 +130,9 @@
                 &.active {
                   background-color: $gray900;
                   .z-menu-name { color: $white; }
-                  .z-icon {
-                    &.i-gnb_sub_dot {
-                      background: $blue500;
-                      visibility: visible;
-                    }
+                  .z-icon.i-gnb_sub_dot {
+                    background: $blue500;
+                    visibility: visible;
                   }
                 }
               }

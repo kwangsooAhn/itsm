@@ -11,11 +11,13 @@
     @include border(0.0625rem, solid, $gray300, bottom);  // 1px
     padding: 1.3125rem 1.25rem; // 21px 20px
     background-color: $neutral50;
-    .reply-input {
-      width: 100%;
-      margin: 0 0.3125rem; // 5px
+    .reply {
+      &-input {
+        width: 100%;
+        margin: 0 0.3125rem; // 5px
+      }
+      &-button { flex : none; }
     }
-    .reply-button { flex : none; }
   }
 
   &-list {

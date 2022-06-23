@@ -4105,15 +4105,12 @@ input, button, select, optgroup, textarea {
  * @description 폼 디자이너에서만 사용되는 scss
  * @version 1.0
  */
-.z-button-switch-group .z-button-switch .z-text,
+.z-button-switch-group .z-button-switch .z-text, .z-button-switch-group .z-button-switch .z-icon,
 .z-button-switch-group .z-button-toggle .z-text,
-.z-button-toggle-group .z-button-switch .z-text,
-.z-button-toggle-group .z-button-toggle .z-text {
-  pointer-events: none;
-}
-.z-button-switch-group .z-button-switch .z-icon,
 .z-button-switch-group .z-button-toggle .z-icon,
+.z-button-toggle-group .z-button-switch .z-text,
 .z-button-toggle-group .z-button-switch .z-icon,
+.z-button-toggle-group .z-button-toggle .z-text,
 .z-button-toggle-group .z-button-toggle .z-icon {
   pointer-events: none;
 }
@@ -4311,14 +4308,14 @@ input, button, select, optgroup, textarea {
   padding: 0 1.125rem 0 0.625rem;
   cursor: pointer;
 }
+.z-group.accordion .z-group-label .z-group-label-text {
+  padding: 0 0.625rem 0.625rem 0;
+}
 .z-group.accordion .z-group-label.off {
   display: table;
 }
 .z-group.accordion .z-group-label.off .z-group-label-text {
   opacity: 0;
-}
-.z-group.accordion .z-group-label .z-group-label-text {
-  padding: 0 0.625rem 0.625rem 0;
 }
 .z-group.accordion .z-group-label .z-icon.i-arrow-right {
   opacity: 1;
@@ -5575,6 +5572,19 @@ input, button, select, optgroup, textarea {
   opacity: 1;
   stroke-width: 1;
 }
+.z-process-container svg g.element-container g.element .node.gateway {
+  stroke: #FFAC47;
+}
+.z-process-container svg g.element-container g.element .node.event {
+  stroke: #F763C1;
+}
+.z-process-container svg g.element-container g.element .node.event.commonEnd, .z-process-container svg g.element-container g.element .node.event.messageEnd {
+  stroke-width: 2;
+}
+.z-process-container svg g.element-container g.element .node.reject-element {
+  stroke: #F52525 !important;
+  stroke-width: 2 !important;
+}
 .z-process-container svg g.element-container g.element .element-type.task,
 .z-process-container svg g.element-container g.element .element-type.subprocess {
   stroke-width: 1;
@@ -5596,26 +5606,12 @@ input, button, select, optgroup, textarea {
 .z-process-container svg g.element-container g.element .element-type.subprocess {
   stroke: #A95EEB;
 }
-.z-process-container svg g.element-container g.element .node.gateway {
-  stroke: #FFAC47;
-}
-.z-process-container svg g.element-container g.element .node.event {
-  stroke: #F763C1;
-}
-.z-process-container svg g.element-container g.element .node.event.commonEnd,
-.z-process-container svg g.element-container g.element .node.event.messageEnd {
-  stroke-width: 2;
-}
 .z-process-container svg g.element-container g.element .node.selected {
   stroke: #3373C4 !important;
   stroke-width: 2 !important;
 }
 .z-process-container svg g.element-container g.element .node.selected.error {
   stroke: #F52525 !important;
-}
-.z-process-container svg g.element-container g.element .node.reject-element {
-  stroke: #F52525 !important;
-  stroke-width: 2 !important;
 }
 .z-process-container svg g.element-container g.element .annotation {
   stroke: #000000;
@@ -6133,8 +6129,8 @@ input, button, select, optgroup, textarea {
   color: #222529;
 }
 .z-document-container .z-token-properties .z-token-panels {
-  height: 100%;
   overflow-y: auto;
+  height: 100%;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-panel {
   display: none;

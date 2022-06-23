@@ -263,7 +263,8 @@ $button-themes-social: (
               &-box { width:  68.13rem; } // 1090px
               &-title {
                 padding-bottom: 0.5rem; // 8px
-                a { color: $neutral800;
+                a {
+                  color: $neutral800;
                   .keyword { color: $blue500; }
                 }
               }
