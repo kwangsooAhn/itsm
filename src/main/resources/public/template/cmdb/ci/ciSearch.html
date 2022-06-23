@@ -541,7 +541,7 @@
          * 단일 CI 상세 정보 조회 (모달)
          */
         function openCIDetailModal(target) {
-            const ciId = target.querySelector('#ciId').value;
+            const ciId = target.parentElement.parentElement.querySelector('#ciId').value;
             aliceJs.fetchText('/cmdb/cis/' + ciId + '/view', {
                 method: 'GET',
                 showProgressbar: true
