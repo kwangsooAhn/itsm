@@ -6,6 +6,7 @@
     'use strict';
 
     let messages = {},
+        defaultYearFormat = 'yyyy',
         defaultDateTimeFormat = 'yyyy-MM-dd HH:mm', // ITSM 에서는 초 데이터(ss)를 쓸일이 없으니,  기본값 수정
         defaultDateFormat = 'yyyy-MM-dd',
         defaultTimeFormat = 'HH:mm', //HH = 24, hh = 12
@@ -26,6 +27,7 @@
             userInfo = JSON.stringify({});
         }
         const sessionInfo = JSON.parse(userInfo);
+        i18n.yearFormat = (typeof sessionInfo.yearFormat !== 'undefined') ? sessionInfo.yearFormat : defaultYearFormat;
         i18n.dateTimeFormat = (typeof sessionInfo.dateTimeFormat !== 'undefined') ? sessionInfo.dateTimeFormat :
             defaultDateTimeFormat;
         i18n.dateFormat = (typeof sessionInfo.dateFormat !== 'undefined') ? sessionInfo.dateFormat : defaultDateFormat;
@@ -46,34 +48,38 @@
      * @param {Object} offset 날짜시간 계산을 위한 조정 값.
      * @return {String} 사용자 타임존과 포맷이 반영된 날짜 데이터.
      */
-    function getDateTime(offset = {days: 0}, format = i18n.dateTimeFormat) {
+    function getYear(offset = { years : 0 }, format = i18n.yearFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
     }
 
-    function getDate(offset = {days: 0}, format = i18n.dateFormat) {
+    function getDateTime(offset = { days : 0 }, format = i18n.dateTimeFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
     }
 
-    function getTime(offset = {hours: 0}, format = i18n.timeFormat) {
+    function getDate(offset = { days : 0 }, format = i18n.dateFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
     }
 
-    function getStartOfDateTime(offset = {days: 0}, start, format = i18n.dateTimeFormat) {
+    function getTime(offset = { hours : 0 }, format = i18n.timeFormat) {
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(format);
+    }
+
+    function getStartOfDateTime(offset = { days : 0 }, start, format = i18n.dateTimeFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
             .startOf(start).toFormat(format);
     }
 
-    function getStartOfDate(offset = {days: 0}, start, format = i18n.dateFormat) {
+    function getStartOfDate(offset = { days : 0 }, start, format = i18n.dateFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
             .startOf(start).toFormat(format);
     }
 
-    function getEndOfDateTime(offset = {days: 0}, end, format = i18n.dateTimeFormat) {
+    function getEndOfDateTime(offset = { days : 0 }, end, format = i18n.dateTimeFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
             .endOf(end).toFormat(format);
     }
 
-    function getEndOfDate(offset = {days: 0}, end, format = i18n.dateFormat) {
+    function getEndOfDate(offset = { days : 0 }, end, format = i18n.dateFormat) {
         return luxon.DateTime.local().setZone(i18n.timezone).plus(offset)
             .endOf(end).toFormat(format);
     }
@@ -91,13 +97,26 @@
      * @param {{days: number}}  offset 더하고 싶은 날짜 수
      * @return {String} i18n.dateFormat 으로 반환한다.
      */
-    function makeUserDate(beforeUserDate, offset = {days: 0}) {
-        if (beforeUserDate === null || beforeUserDate === '') {
-            return '';
-        }
+    function makeUserDate(beforeUserDate, offset= { days : 0 }) {
+        if (beforeUserDate === null || beforeUserDate === '') { return ''; }
 
         return luxon.DateTime.fromFormat(beforeUserDate, i18n.dateFormat, {zone: i18n.timezone})
             .setZone(i18n.timezone).plus(offset).toFormat(i18n.dateFormat);
+    }
+
+    /**
+     * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
+     *
+     * @author Mo Hyung Nan
+     * @since 2022-05-25
+     * @param {String}  beforeUserYear 변환 대상 날짜.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToSystemYear(beforeUserYear, offset = { years : 0 }, format = i18n.yearFormat) {
+        if (beforeUserYear === null || beforeUserYear === '') { return ''; }
+
+        return luxon.DateTime.fromFormat(convertToUserYear(beforeUserYear), format, {zone: i18n.timezone})
+            .setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -108,10 +127,8 @@
      * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDateTime(beforeUserDateTime, offset = {days: 0}, format = i18n.dateTimeFormat) {
-        if (beforeUserDateTime === null || beforeUserDateTime === '') {
-            return '';
-        }
+    function convertToSystemDateTime(beforeUserDateTime, offset = { days : 0 }, format = i18n.dateTimeFormat) {
+        if (beforeUserDateTime === null || beforeUserDateTime === '') { return ''; }
 
         return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), format,
             {zone: i18n.timezone}).setZone('utc+0').plus(offset).toISO();
@@ -125,10 +142,8 @@
      * @param {String}  beforeUserDate 변환 대상 날짜.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDate(beforeUserDate, offset = {days: 0}, format = i18n.dateFormat) {
-        if (beforeUserDate === null || beforeUserDate === '') {
-            return '';
-        }
+    function convertToSystemDate(beforeUserDate, offset = { days : 0 }, format =  i18n.dateFormat) {
+        if (beforeUserDate === null || beforeUserDate === '') { return ''; }
 
         return luxon.DateTime.fromFormat(beforeUserDate, format, {zone: i18n.timezone})
             .setZone('utc+0').plus(offset).toISO();
@@ -144,9 +159,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToSystemTime(beforeUserTime, format = i18n.timeFormat) {
-        if (beforeUserTime === null || beforeUserTime === '') {
-            return '';
-        }
+        if (beforeUserTime === null || beforeUserTime === '') { return ''; }
 
         return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserTime), format).toFormat('HH:mm');
     }
@@ -173,15 +186,27 @@
     /**
      * 서버에서 받은 ISO 8601 포맷의 데이터를 사용자 포맷과 타임존으로 변경
      *
+     * @author Mo Hyung Nan
+     * @since 2022-05-25
+     * @param {String}  beforeSystemYear 변환 대상 날짜시간 데이터.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToUserYear(beforeSystemYear,  format = i18n.yearFormat) {
+        if (beforeSystemYear === null || beforeSystemYear === '') { return ''; }
+
+        return luxon.DateTime.fromISO(beforeSystemYear, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
+    }
+
+    /**
+     * 서버에서 받은 ISO 8601 포맷의 데이터를 사용자 포맷과 타임존으로 변경
+     *
      * @author Jung Hee chan
      * @since 2020-06-08
      * @param {String}  beforeSystemDateTime 변환 대상 날짜시간 데이터.
      * @return {String} 변환된 데이터.
      */
-    function convertToUserDateTime(beforeSystemDateTime, format = i18n.dateTimeFormat) {
-        if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
-            return '';
-        }
+    function convertToUserDateTime(beforeSystemDateTime,  format = i18n.dateTimeFormat) {
+        if (beforeSystemDateTime === null || beforeSystemDateTime === '') { return ''; }
 
         return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
     }
@@ -195,9 +220,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDate(beforeSystemDate, format = i18n.dateFormat) {
-        if (beforeSystemDate === null || beforeSystemDate === '') {
-            return '';
-        }
+        if (beforeSystemDate === null || beforeSystemDate === '') { return ''; }
 
         return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(i18n.timezone).toFormat(format);
     }
@@ -212,9 +235,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserTime(beforeSystemTime, format = i18n.timeFormat) {
-        if (beforeSystemTime === null || beforeSystemTime === '') {
-            return '';
-        }
+        if (beforeSystemTime === null || beforeSystemTime === '') { return ''; }
 
         return luxon.DateTime.fromISO(beforeSystemTime).toFormat(format);
     }
@@ -243,7 +264,6 @@
      * @param {String}  beforeTime 변환 대상 시간 데이터.
      * @return {String} 변환된 데이터.
      */
-
     /*function convertToUserHourType(beforeTime) {
         if (i18n.lang === 'ko') {
             if (beforeTime.indexOf('PM') !== -1) {
@@ -258,13 +278,26 @@
     /**
      * 최소 날짜시간이 최대 날짜시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
      *
+     * @author Mo Hyung Nan
+     * @param minUserYear
+     * @param minUserYear
+     * @returns {boolean}
+     */
+    function compareSystemYear(minUserYear, maxUserYear, format = i18n.yearFormat) {
+        return (luxon.DateTime.fromFormat(convertToSystemHourType(minUserYear), format).setZone('utc+0').toISO().valueOf() <
+            luxon.DateTime.fromFormat(convertToSystemHourType(maxUserYear), format).setZone('utc+0').toISO().valueOf());
+    }
+
+    /**
+     * 최소 날짜시간이 최대 날짜시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
+     *
      * @author Woo Da Jung
      * @param minUserDateTime
      * @param maxUserDateTime
      * @returns {boolean}
      */
     function compareSystemDateTime(minUserDateTime, maxUserDateTime, format = i18n.dateTimeFormat) {
-        return (luxon.DateTime.fromFormat(convertToSystemHourType(minUserDateTime), format).setZone('utc+0').toISO().valueOf() <=
+        return (luxon.DateTime.fromFormat(convertToSystemHourType(minUserDateTime), format).setZone('utc+0').toISO().valueOf() <
             luxon.DateTime.fromFormat(convertToSystemHourType(maxUserDateTime), format).setZone('utc+0').toISO().valueOf());
     }
 
@@ -277,7 +310,7 @@
      * @returns {boolean}
      */
     function compareSystemDate(minUserDate, maxUserDate, format = i18n.dateFormat) {
-        return luxon.DateTime.fromFormat(minUserDate, format).setZone('utc+0').toISO().valueOf() <=
+        return luxon.DateTime.fromFormat(minUserDate, format).setZone('utc+0').toISO().valueOf() <
             luxon.DateTime.fromFormat(maxUserDate, format).setZone('utc+0').toISO().valueOf();
     }
 
@@ -290,7 +323,7 @@
      * @returns {boolean}
      */
     function compareSystemTime(minUserTime, maxUserTime, format = i18n.timeFormat) {
-        return luxon.DateTime.fromFormat(convertToSystemHourType(minUserTime), format).setZone('utc+0').toISO().valueOf() <=
+        return luxon.DateTime.fromFormat(convertToSystemHourType(minUserTime), format).setZone('utc+0').toISO().valueOf() <
             luxon.DateTime.fromFormat(convertToSystemHourType(maxUserTime), format).setZone('utc+0').toISO().valueOf();
     }
 
@@ -345,22 +378,26 @@
     exports.init = init;
     exports.initMessages = addMessages;
 
+    exports.getYear = getYear;
+    exports.getDateTime = getDateTime;
     exports.getDate = getDate;
     exports.getTime = getTime;
-    exports.getDateTime = getDateTime;
     exports.getStartOfDate = getStartOfDate;
     exports.getStartOfDateTime = getStartOfDateTime;
     exports.getEndOfDate = getEndOfDate;
     exports.getEndOfDateTime = getEndOfDateTime;
     exports.getCustomDate = getCustomDate;
+    exports.systemYear = convertToSystemYear;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;
     exports.systemHourType = convertToSystemHourType;
+    exports.userYear = convertToUserYear;
     exports.userDateTime = convertToUserDateTime;
     exports.userDate = convertToUserDate;
     exports.userTime = convertToUserTime;
     exports.printFormat = convertToPrintFormat;
+    exports.compareSystemYear = compareSystemYear;
     exports.compareSystemDateTime = compareSystemDateTime;
     exports.compareSystemDate = compareSystemDate;
     exports.compareSystemTime = compareSystemTime;

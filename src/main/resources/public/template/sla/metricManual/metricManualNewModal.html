@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 수동지표관리 추가 모달 -->
+    <div class="flex-row">
+        <div class="flex-column col-2">
+            <label for="referenceDate" class="mt-2 mb-2" th:text="#{sla.metricManual.label.referenceDate}"></label>
+            <input type="text" class="z-input i-date-picker search-date col-pct-12" id="referenceDate" name="referenceDate"/>
+        </div>
+    </div>
+    <div class="flex-row mt-5">
+        <div class="flex-column col-2 mr-3">
+            <label for="targetMetric" class="mt-2 mb-2 required" th:text="#{sla.metricManual.label.targetMetric}"></label>
+            <select id="targetMetric" name="targetMetric">
+                <option value="" th:text="#{common.msg.select}" selected></option>
+            </select>
+        </div>
+        <div class="flex-column col-1">
+            <label for="metricValue" class="mt-2 mb-2">
+                <span th:text="#{sla.metricManual.label.metricValue}"></span>
+                <span class="required"></span>
+            </label>
+            <div class="flex-row">
+                <input type="text" id="metricValue" class="z-input col-pct-13 required" name="metricValue"
+                       onkeyup="this.value=this.value.replace(/[^0-9.]/g,'');"
+                       onchange="checkDecimalValue('metricValue','sla.metricYear.msg.checkValue')"/>
+                <span class="pl-1" id="metricUnitText"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
