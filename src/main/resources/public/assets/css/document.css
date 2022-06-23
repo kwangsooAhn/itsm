@@ -1991,6 +1991,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-gnb-calendar {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_calendar.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_calendar.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-gnb_sub_dot {
   width: 0.25rem;
   height: 0.25rem;
@@ -2715,6 +2725,9 @@ input, button, select, optgroup, textarea {
   display: flex;
   align-items: baseline !important;
   padding: 0 3.75rem 2rem 3.75rem;
+}
+.z-itsm-container .z-main-title--empty + .z-main-content {
+  height: calc(100vh - 3.5rem);
 }
 .z-itsm-container .z-main-content {
   height: calc(100vh - 8.5rem);
@@ -3934,6 +3947,23 @@ input, button, select, optgroup, textarea {
   background-color: transparent;
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-viewer-table .z-icon.i-clear {
+  background: #8B9094;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-calendar-sub-title {
+  display: block;
+  color: #8B9094;
+  margin: 2.5rem 0 0.3125rem 0;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-calendar-table td:nth-child(2), .z-document-container .z-token-properties .z-token-panels .z-token-calendar-table th:nth-child(2) {
+  color: #8B9094;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-calendar-table .z-table-body {
+  border: none;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-calendar-table .z-table-body tr:hover {
+  background-color: transparent;
+}
+.z-document-container .z-token-properties .z-token-panels .z-token-calendar-table .z-icon.i-clear {
   background: #8B9094;
 }
 
@@ -5597,7 +5627,7 @@ body.modal-active {
   /* Firefox */
 }
 .modal-dialog.sla-metric-manual-modal .modal-content {
-  height: 16.125rem;
+  height: calc(25rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
@@ -5608,7 +5638,7 @@ body.modal-active {
   width: 62.5rem;
 }
 .modal-dialog.sla-metric-yearly-copy-modal .modal-content {
-  height: 9.125rem;
+  height: calc(18rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal {
@@ -5623,7 +5653,7 @@ body.modal-active {
   /* Chrome, Safari, Opera*/
 }
 .modal-dialog.sla-zql-manual-modal .modal-content {
-  height: 41.755rem;
+  height: calc(50.63rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal .modal-content div {

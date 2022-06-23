@@ -8086,7 +8086,7 @@ body.modal-active {
   /* Firefox */
 }
 .modal-dialog.sla-metric-manual-modal .modal-content {
-  height: 16.125rem;
+  height: calc(25rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
@@ -8097,7 +8097,7 @@ body.modal-active {
   width: 62.5rem;
 }
 .modal-dialog.sla-metric-yearly-copy-modal .modal-content {
-  height: 9.125rem;
+  height: calc(18rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal {
@@ -8112,7 +8112,7 @@ body.modal-active {
   /* Chrome, Safari, Opera*/
 }
 .modal-dialog.sla-zql-manual-modal .modal-content {
-  height: 41.755rem;
+  height: calc(50.63rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal .modal-content div {

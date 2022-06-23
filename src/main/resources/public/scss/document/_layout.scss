@@ -386,7 +386,7 @@
         &-calendar {
           &-sub-title {
             display: block;
-            color: $token-tab-sub-title-color;
+            color: $gray500;
             margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
           }
 
@@ -407,7 +407,7 @@
 
             .z-icon {
               &.i-clear {
-                background: $element-icon-color;
+                background: $gray500;
               }
             }
           }
