@@ -204,3 +204,6 @@
   height: 100%;
   .grid__body { max-height: 36.25rem; } // 580px
 }
+
+// sla 연도별 SLA 현황 최종점수
+#resultScore { font-size: $font-size-xl; }

@@ -3866,6 +3866,10 @@ input, button, select, optgroup, textarea {
   max-height: 36.25rem;
 }
 
+#resultScore {
+  font-size: 2rem;
+}
+
 /* designer
  *
  *
@@ -7912,6 +7916,12 @@ input, button, select, optgroup, textarea {
   user-select: none;
   white-space: nowrap;
   cursor: pointer;
+  /*
+   * size
+   */
+  /*
+   * 테마
+   */
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
@@ -7926,6 +7936,12 @@ input, button, select, optgroup, textarea {
 .z-button-text:disabled,
 .z-button-text.disabled {
   cursor: default;
+}
+.z-button.small,
+.z-button-icon.small,
+.z-button-text.small {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.4375rem;
 }
 .z-button.primary,
 .z-button-icon.primary,
@@ -10106,7 +10122,7 @@ select {
   margin: 0;
 }
 
-/* _file-uploader.scss
+/* _file-uploader.scss 
  *
  * 파일 경로 : components/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -11066,6 +11082,64 @@ body.modal-active {
   width: 100%;
   height: 28.125rem;
 }
+.modal-dialog.sla-metric-manual-modal {
+  width: 30rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.sla-metric-manual-modal .modal-content {
+  height: 16.125rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.sla-metric-yearly-copy-modal {
+  width: 62.5rem;
+}
+.modal-dialog.sla-metric-yearly-copy-modal .modal-content {
+  height: 9.125rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.sla-zql-manual-modal {
+  width: 62.5rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.sla-zql-manual-modal::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.sla-zql-manual-modal .modal-content {
+  height: 41.755rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.sla-zql-manual-modal .modal-content div {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.modal-dialog.sla-chart-view-modal {
+  min-width: 68.75rem;
+}
+.modal-dialog.sla-chart-view-modal .modal-header {
+  border-bottom: 0.0625rem solid transparent;
+}
+.modal-dialog.sla-chart-view-modal .modal-content {
+  width: auto;
+  height: auto;
+}
+.modal-dialog.sla-chart-view-modal .modal-content .chart-edit-content {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin: 0 1.5rem;
+}
 
 /* _paging.scss
  *
@@ -11178,7 +11252,7 @@ body.modal-active {
   font-weight: 500;
 }
 
-/**
+/** 
  * 팝업 디자인
  * components/_popup.scss
  * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
@@ -11248,7 +11322,7 @@ body.modal-active {
   padding-bottom: 1.25rem;
 }
 
-/* _scrollbars.scss
+/* _scrollbars.scss 
  *
  * 파일 경로 : components/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -12061,7 +12135,7 @@ body.modal-active {
   color: #505559;
 }
 
-/* _text-editor.scss
+/* _text-editor.scss 
  *
  * 파일 경로 : components/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -12537,7 +12611,7 @@ body.modal-active {
   background-position: center center;
 }
 
-/* _tooltip.scss
+/* _tooltip.scss 
  *
  * 파일 경로 : components/_tooltip.scss
  * @description 툴팁 디자인
@@ -12889,7 +12963,7 @@ body.modal-active {
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _color-picker.scss
+/* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -13162,7 +13236,7 @@ body.modal-active {
   text-align: right;
 }
 
-/* _date-picker.scss
+/* _date-picker.scss 
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -13256,30 +13330,8 @@ body.modal-active {
 .z-picker-modal-content-date-months img {
   vertical-align: middle;
 }
-.z-picker-modal-content-date-months .z-icon.i-arrow-right {
-  display: table-cell;
-  background: #8B9094;
-  cursor: pointer;
-}
-.z-picker-modal-content-date-months .z-icon.i-arrow-right:hover {
-  background: #619CDB;
-}
-.z-picker-modal-content-date-months .z-icon.z-date-prev {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
 .z-picker-modal-content-date-months .date-text {
-  display: table-cell;
   width: 16.5rem;
-  margin: 0;
-  padding: 0;
-  color: #222529;
-  font-size: 1rem;
-  font-weight: 500;
-  vertical-align: middle;
 }
 .z-picker-modal-content-date-calendar {
   display: flex;
@@ -13335,6 +13387,7 @@ body.modal-active {
   width: 14.6875rem;
   min-height: 7.375rem;
   padding: 1rem 0 1rem 0;
+  justify-content: center;
 }
 .z-picker-modal-content-time.active {
   display: flex;
@@ -13423,6 +13476,82 @@ body.modal-active {
   color: #222529;
   font-size: 1.5rem;
   font-weight: 500;
+}
+.z-picker-modal-content-year {
+  display: none;
+  width: 14rem;
+  padding: 1rem 0 1rem 0;
+}
+.z-picker-modal-content-year.active {
+  display: block;
+}
+.z-picker-modal-content-year-period {
+  display: table;
+  height: 1.563rem;
+  margin: 0 auto;
+}
+.z-picker-modal-content-year-period img {
+  vertical-align: middle;
+}
+.z-picker-modal-content-year-period .date-text {
+  width: 7.5rem;
+}
+.z-picker-modal-content-year-period .date-text span:first-child {
+  position: relative;
+  padding-right: 0.625rem;
+}
+.z-picker-modal-content-year-period .date-text span:first-child::before {
+  content: "";
+  width: 0.3125rem;
+  height: 0.125rem;
+  background-color: #424242;
+  position: absolute;
+  top: 0.438rem;
+  right: 0.125rem;
+}
+.z-picker-modal-content-year-years {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.9375rem 0.9375rem 0 0.9375rem;
+  color: #424242;
+}
+.z-picker-modal-content-year-years .calendar-cell {
+  display: inline-block;
+  width: 2.75rem;
+  height: 1.5rem;
+  padding: 0;
+  margin: 0.25rem 0.4375rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.7;
+  cursor: pointer;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+}
+.z-picker-modal-content-year-years .calendar-cell:hover, .z-picker-modal-content-year-years .calendar-cell:active {
+  background-color: #E1E6EA;
+}
+.z-picker-modal-content-year-years .calendar-cell.selected {
+  position: relative;
+  color: #3373C4;
+}
+.z-picker-modal-content-year-years .calendar-cell.selected:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.125rem;
+  background-color: #3373C4;
+  position: absolute;
+  bottom: 0;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+}
+.z-picker-modal-content-year-years .calendar-cell:nth-child(n+4) {
+  margin-top: 0.875rem;
 }
 .z-picker-modal-button {
   float: right;
