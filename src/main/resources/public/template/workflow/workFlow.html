@@ -502,7 +502,7 @@
                     content: i18n.msg('common.btn.modify'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function() {
                         saveDocumentDisplay(documentId);
                     }
                 }, {
@@ -516,7 +516,7 @@
                 close: {
                     closable: false,
                 },
-                onCreate: function(modal) {
+                onCreate: function() {
                     aliceJs.initDesignedSelectTag();
 
                     OverlayScrollbars(document.querySelector('.document-display-content'), { className: 'scrollbar' });
