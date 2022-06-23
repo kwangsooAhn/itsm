@@ -305,6 +305,8 @@ calendar:
     weekOfMonth: "Every"
   msg:
     description: "View and manage user schedules."
+    enterEndDt: "Please enter a end date."
+    enterStartDt: "Please enter a start date."
     noticeImportFile: "Import only possible in excel file."
   tooltip:
     templateRule: "The following contents must be included in the file.<br/><br/>

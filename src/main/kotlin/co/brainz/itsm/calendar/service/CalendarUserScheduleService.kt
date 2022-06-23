@@ -113,7 +113,6 @@ class CalendarUserScheduleService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val userScheduleList = mutableListOf<CalendarUserScheduleEntity>()
         try {
-            val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
             multipartFiles.forEach { file ->
                 val workbook: Workbook = XSSFWorkbook(file.inputStream)
                 val sheet = workbook.getSheetAt(0)
@@ -122,11 +121,13 @@ class CalendarUserScheduleService(
                     val row = iterator.next()
                     if (row.rowNum > 0) { // 0 은 제목 라인
                         if (this.isValidCheck(row)) {
+                            println(row.getCell(0).dateCellValue)
+                            println(row.getCell(0).localDateTimeCellValue)
                             userScheduleList.add(
                                 CalendarUserScheduleEntity(
                                     allDayYn = false,
-                                    startDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(0).stringCellValue, format)),
-                                    endDt = this.getTimezoneToUTC(LocalDateTime.parse(row.getCell(1).stringCellValue, format)),
+                                    startDt = this.getTimezoneToUTC(row.getCell(0).localDateTimeCellValue),
+                                    endDt = this.getTimezoneToUTC(row.getCell(1).localDateTimeCellValue),
                                     scheduleTitle = row.getCell(2).stringCellValue,
                                     scheduleContents = row.getCell(3).stringCellValue,
                                     calendar = calendarUser,

@@ -305,6 +305,8 @@ calendar:
     weekOfMonth: "매주"
   msg:
     description: "일정을 추가하거나 조회 및 관리합니다."
+    enterEndDt: "종료일시를 입력하세요."
+    enterStartDt: "시작일시를 입력하세요."
     noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
   tooltip:
     templateRule: "파일에 아래와 같은 내용이 반드시 포함되어야 한다.<br/><br/>

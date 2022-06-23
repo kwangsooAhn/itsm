@@ -952,9 +952,9 @@ class ZFormTokenTab {
                 bindKey: false,
                 callback: (modal) => {
                     // 필수값 체크
-                    if (isEmpty('scheduleTitle', 'common.label.title')) return false;
-                    if (isEmpty('startDt', 'common.label.startDt')) return false;
-                    if (isEmpty('endDt', 'common.label.endDt')) return false;
+                    if (isEmpty('scheduleTitle', 'common.msg.enterTitle')) return false;
+                    if (isEmpty('startDt', 'calendar.msg.enterStartDt')) return false;
+                    if (isEmpty('endDt', 'calendar.msg.enterEndDt')) return false;
 
                     const isAllDay = document.getElementById('allDayYn').checked;
                     const startDt = document.getElementById('startDt').value;

@@ -221,6 +221,8 @@ function zCalendar(id, options) {
                     inheritedAttrs: 'class'
                 }
             });
+            OverlayScrollbars(document.querySelector('.calendar__modal--register .modal-content'),
+                { className: 'scrollbar' });
         },
         onShow: () => {},
         onHide: () => {}
@@ -435,7 +437,15 @@ function zCalendar(id, options) {
         // 편집 - drag & drop 시
         beforeUpdateSchedule: (e) => {
             const schedule = e.schedule;
+
+            // 변동사항이 없을 경우
+            if (!Object.prototype.hasOwnProperty.call(e, 'changes')) { return false; }
+
             const changes = e.changes;
+            // 시간 수정시, 시작 일자 데이터를 넣어서 전달한다.
+            if (!Object.prototype.hasOwnProperty.call(changes, 'start')) {
+                changes.start = schedule.start;
+            }
 
             // drap & drop 시 동일하면 변경 안함
             if (schedule.start.getTime() === changes.start.getTime() &&
@@ -1194,7 +1204,9 @@ Object.assign(zCalendar.prototype, {
      */
     saveSchedule: function (schedule) {
         // 스케쥴 필수값 저장
-        if (isEmpty('scheduleTitle', 'common.label.title')) return false;
+        if (isEmpty('scheduleTitle', 'common.msg.enterTitle')) return false;
+        if (isEmpty('startDt', 'calendar.msg.enterStartDt')) return false;
+        if (isEmpty('endDt', 'calendar.msg.enterEndDt')) return false;
 
         const method = (schedule.mode === 'register') ? 'POST' : 'PUT';
         const calendarId = this.createModal.wrapper.querySelector('#calendarId').value;

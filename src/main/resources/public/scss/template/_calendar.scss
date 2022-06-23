@@ -59,7 +59,7 @@
     }
     // tui 캘린더
     .tui-full-calendar {
-      //
+      // 월별 캘린더
       &-month {
         height: 48.75rem; // 780px
       }
@@ -311,6 +311,11 @@
       // 일별 보기
       &-time-date-schedule-block-wrap {
         margin-left: 10px;
+      }
+
+      // resize
+      &-time-guide-resize {
+        padding: 0 0.625rem; // 0 10px
       }
     }
 

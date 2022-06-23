@@ -10466,6 +10466,9 @@ span.modal_node_selected label {
 .calendar__view .tui-full-calendar-time-date-schedule-block-wrap {
   margin-left: 10px;
 }
+.calendar__view .tui-full-calendar-time-guide-resize {
+  padding: 0 0.625rem;
+}
 .calendar__view--task {
   border: 0.0625rem solid #CFD5D9;
   border-bottom: none;
