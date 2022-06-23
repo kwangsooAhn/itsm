@@ -328,7 +328,6 @@ class ZDocument {
         const saveData = {
             'documentId': this.data.documentId,
             'instanceId': this.data.instanceId,
-            'documentStatus': this.data.documentStatus,
             'tokenId': (zValidation.isDefined(this.data.tokenId) ? this.data.tokenId : ''),
             'isComplete': (actionType !== 'save'),
             'assigneeId': (actionType === 'save') ? ZSession.get('userKey') : '',

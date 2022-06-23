@@ -7,7 +7,6 @@ data class RestTemplateTokenDto(
     var tokenId: String = "",
     var documentId: String? = null,
     var documentName: String? = null,
-    var documentStatus: String? = null,
     var instanceId: String = "",
     var instanceCreateUser: AliceUserEntity? = null,
     var isComplete: Boolean = false,

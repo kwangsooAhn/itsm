@@ -190,7 +190,6 @@ class WfTokenService(
         return RestTemplateTokenViewDto(
             token = tokenData,
             instanceId = tokenEntity.get().instance.instanceId,
-            documentStatus = tokenEntity.get().instance.document.documentStatus!!,
             form = formData,
             actions = wfActionService.actions(tokenEntity.get().element.elementId, tokenEntity.get().instance.instanceId),
             stakeholders = this.getTokenStakeholders(tokenEntity.get())

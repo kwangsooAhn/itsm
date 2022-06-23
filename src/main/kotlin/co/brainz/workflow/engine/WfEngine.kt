@@ -154,7 +154,6 @@ class WfEngine(
         return WfTokenDto(
             tokenId = restTemplateTokenDto.tokenId,
             documentId = restTemplateTokenDto.documentId,
-            documentStatus = restTemplateTokenDto.documentStatus,
             instanceId = restTemplateTokenDto.instanceId,
             fileDataIds = restTemplateTokenDto.fileDataIds,
             assigneeId = restTemplateTokenDto.assigneeId,

@@ -182,7 +182,6 @@ class WfDocumentService(
         return RestTemplateRequestDocumentDto(
             documentId = documentId,
             instanceId = AliceUtil().getUUID(),
-            documentStatus = documentEntity.documentStatus!!,
             form = form,
             actions = wfActionService.actionInit(documentEntity.process.processId)
         )
