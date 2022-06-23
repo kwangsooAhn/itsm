@@ -1049,7 +1049,7 @@ input, button, select, optgroup, textarea {
   margin-bottom: 0.625rem;
   margin-top: 1.875rem;
 }
-.under-bar .bold {
+.under-bar .border-thick {
   border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 .under-bar label {
@@ -1122,13 +1122,6 @@ input, button, select, optgroup, textarea {
 
 .description {
   color: #8B9094;
-}
-
-.required::after {
-  content: "*";
-  margin-left: 0.1875rem;
-  color: #F52525;
-  font-weight: 700;
 }
 
 .text-clip {
@@ -12894,6 +12887,13 @@ body.modal-active {
  * @author jy.lim
  * @version 1.0
  */
+.required::after {
+  content: "*";
+  margin-left: 0.1875rem;
+  color: #F52525;
+  font-weight: 700;
+}
+
 .z-validation {
   display: inherit;
   height: 2rem;

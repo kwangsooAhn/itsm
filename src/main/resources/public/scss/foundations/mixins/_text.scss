@@ -54,15 +54,6 @@
 .underline { @include underline; }
 // 설명
 .description { color: $gray500; }
-// 필수 (*) 표시
-.required {
-  &::after {
-    content: '\002a'; // *
-    margin-left: 0.1875rem;
-    color: $red500;
-    font-weight: $font-weight-bold;
-  }
-}
 // 글자 자르기
 .text-clip { text-overflow: clip; }
 // 말줄임

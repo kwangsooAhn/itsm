@@ -14,7 +14,7 @@
 <div layout:fragment="pageEdit">
     <div class="z-edit-form flex-fill">
         <div class="flex-column z-edit-row">
-            <h3 class="sub-title under-bar bold" th:text="#{role.menu.common}"></h3>
+            <h3 class="sub-title under-bar border-thick" th:text="#{role.menu.common}"></h3>
         </div>
         <div class="flex-row">
             <div class="z-edit-row flex-column col-6 mr-4">
@@ -41,7 +41,7 @@
         </div>
         <div class="z-edit-row flex-column">
             <div class="flex-column z-edit-row">
-                <h3 th:classappend="${view} ? '' : 'required'" class="sub-title under-bar bold"
+                <h3 th:classappend="${view} ? '' : 'required'" class="sub-title under-bar border-thick"
                     th:text="#{role.menu.auth}"></h3>
                 <div class="z-switch-list">
                     <ul>

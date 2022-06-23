@@ -6,6 +6,16 @@
  * @version 1.0
  */
 
+// 필수 (*) 표시
+.required {
+  &::after {
+    content: '\002a'; // *
+    margin-left: 0.1875rem;
+    color: $red500;
+    font-weight: $font-weight-bold;
+  }
+}
+
 .z-validation {
   display: inherit;
   height: 2rem;
