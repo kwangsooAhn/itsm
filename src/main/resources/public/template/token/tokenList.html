@@ -34,14 +34,13 @@
         <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(tokenList)}">
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
-        <div class="grid__row" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}"
-             sec:authorize="hasAuthority('general')">
+        <div class="grid__row pointer" th:unless="${#arrays.isEmpty(tokenList)}" th:each="token: ${tokenList}"
+             sec:authorize="hasAuthority('general')" th:onclick="openTokenEdit([[${token.tokenId}]])">
             <div class="grid__cell pr-2 pl-4">
                 <span class="document-color-round" th:style="|background-color: ${token.documentColor}|"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <a class="text-ellipsis underline-grid" th:text="${token.documentNo}" th:title="${token.documentNo}"
-                   th:onclick="openTokenEdit([[${token.tokenId}]])"></a>
+                <span class="text-ellipsis" th:text="${token.documentNo}" th:title="${token.documentNo}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span th:if="${token.documentStatus} == 'document.status.temporary'"
