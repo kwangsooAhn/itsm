@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/itsmLayout}">
+<head>
+    <title th:text="#{calendar.label.calendar}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <link th:href="@{/assets/vendors/tuiCalendar/tui-date-picker.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/tuiCalendar/tui-time-picker.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/tuiCalendar/tui-calendar.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-code-snippet.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-date-picker.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-time-picker.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.min.js}"></script>
+    <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.custom.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle" class="z-main-title--empty">
+</div>
+<th:block layout:fragment="pageContent">
+    <div class="calendar">
+        <div class="calendar__menu" id="calendarMenu">
+            <div class="calendar__button-group">
+                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="prev"
+                        onclick="javascript:onClickCalendarMenu(this);">
+                    <span class="z-icon i-arrow-right move--prev"></span>
+                </button>
+                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="next"
+                        onclick="javascript:onClickCalendarMenu(this);">
+                    <span class="z-icon i-arrow-right move--next"></span>
+                </button>
+                <button type="button" class="z-button calendar__action secondary" th:text="#{calendar.label.today}"
+                        data-action="today" onclick="onClickCalendarMenu(this);"></button>
+                <div class="z-button-switch-group" id="calendarViewType">
+                    <button class="z-button-switch selected" type="button" data-action="month"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.month}"></span>
+                    </button>
+                    <button class="z-button-switch" type="button" data-action="week"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.week}"></span>
+                    </button>
+                    <button class="z-button-switch" type="button" data-action="day"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.day}"></span>
+                    </button>
+                    <button class="z-button-switch" type="button" data-action="task"
+                            onclick="javascript:onClickCalendarType(this);">
+                        <span class="z-text" th:text="#{calendar.label.task}"></span>
+                    </button>
+                </div>
+            </div>
+            <h3 class="calendar__render-range-text align-center"></h3>
+            <div class="ml-auto">
+                <button type="button" class="z-button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
+                <button type="button" class="z-button-icon secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
+                    <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
+                </button>
+            </div>
+        </div>
+        <div class="calendar__view on" id="calendarView" style="height: 800px;"></div>
+        <div class="calendar__view calendar__view--task" id="taskView"></div>
+    </div>
+</th:block>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    const calendarList = /*[[${calendarList}]]*/ '';
+    let myCalendar = null; // tui calendar 객체
+    let prevStandardDate = '';
+    let importFile;
+    window.onload = function() {
+        // 달력 초기화
+        myCalendar = new zCalendar('calendarView', {
+            viewType: 'month'
+        });
+        myCalendar.setRenderRangeText();
+        // 목록 초기화
+        myCalendar.setCalendars(calendarList);
+        // 일정 조회
+        setSchedules();
+
+        OverlayScrollbars(document.querySelector('.z-main-content'), { className: 'scrollbar' });
+    };
+
+    /**
+     * 일정 목록 조회
+     */
+    function setSchedules() {
+        // 기존 목록 삭제
+        myCalendar.clear();
+
+        // 데이터 재조회
+        const calendarIds = calendarList.reduce((acc, cur) => {
+            acc.push(cur.calendarId);
+            return acc;
+        }, []);
+        // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
+        // (버튼 클릭시 주, 일 반복 일정을 서버에서 계산하기 때문에 조회 수를 줄여서 부하를 낮추기 위함)
+        const viewType = 'month';
+        prevStandardDate = myCalendar.getDate().toFormat('yyyy-MM');
+        const searchData = {
+            viewType: viewType,
+            standard: myCalendar.getStandardDate(viewType, myCalendar.getDate()),
+            calendarIds: calendarIds
+        };
+        aliceJs.fetchJson('/rest/calendars', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchData)
+        }).then((response) => {
+            if (response.status === aliceJs.response.success) {
+                const schedules = [];
+                response.data.calendars.forEach((calendar) => {
+                    calendar.schedules.forEach((schedule) => {
+                        schedules.push({
+                            id: schedule.id,
+                            calendarId: calendar.id,
+                            title: schedule.title,
+                            body: schedule.contents,
+                            isAllDay: schedule.allDayYn,
+                            start: luxon.DateTime.fromISO(schedule.startDt, { zone: 'utc' }).setZone(i18n.timezone)
+                                .toJSDate(),
+                            end: luxon.DateTime.fromISO(schedule.endDt, { zone: 'utc' }).setZone(i18n.timezone)
+                                .toJSDate(),
+                            category: schedule.allDayYn ? 'allday' : 'time',
+                            raw: {
+                                calendarType: calendar.type,
+                                dataId: schedule.dataId,
+                                repeatId: '',
+                                repeatSeq: 1,
+                                repeatYn: schedule.repeatYn,
+                                repeatType: schedule.repeatType,
+                                repeatValue: schedule.repeatValue,
+                                repeatPeriod: schedule.repeatPeriod,
+                                ownerName: schedule.ownerName
+                            }
+                        });
+                    });
+                    calendar.repeats.forEach((repeat) => {
+                        schedules.push({
+                            id: repeat.dataId + repeat.index,
+                            calendarId: calendar.id,
+                            title: repeat.title,
+                            body: repeat.contents,
+                            isAllDay: repeat.allDayYn,
+                            start: luxon.DateTime.fromISO(repeat.startDt, { zone: 'utc' }).setZone(i18n.timezone)
+                                .toJSDate(),
+                            end: luxon.DateTime.fromISO(repeat.endDt, { zone: 'utc' }).setZone(i18n.timezone).toJSDate(),
+                            category: repeat.allDayYn ? 'allday' : 'time',
+                            raw: {
+                                calendarType: calendar.type,
+                                dataId: repeat.dataId,
+                                repeatId: repeat.id,
+                                repeatSeq: repeat.index,
+                                repeatYn: repeat.repeatYn,
+                                repeatType: repeat.repeatType,
+                                repeatValue: repeat.repeatValue,
+                                repeatPeriod: repeat.repeatPeriod,
+                                ownerName: repeat.ownerName
+                            }
+                        });
+                    });
+                });
+                myCalendar.addSchedule(viewType, schedules);
+            }
+        });
+    }
+
+    /**
+     * 월, 주, 일, 일정리스트 클릭
+     */
+    function onClickCalendarType(e) {
+        const viewType = e.getAttribute('data-action');
+        const buttonGroup = e.parentNode;
+        // 초기화
+        for (let i = 0, len = buttonGroup.children.length ; i< len; i++) {
+            let child = buttonGroup.children[i];
+            if (child.classList.contains('selected')) {
+                child.classList.remove('selected');
+            }
+        }
+        e.classList.add('selected');
+
+        myCalendar.setCalendarViewType(viewType, (calendar) => {
+            // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
+            if (luxon.DateTime.fromMillis(calendar.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate ||
+                myCalendar.isReload) {
+                setSchedules();
+            }
+        });
+    }
+
+    /**
+     * 상단 메뉴 이벤트 처리
+     * @param {e} 이벤트 객체
+     */
+    function onClickCalendarMenu(e) {
+        myCalendar.onClickCalendarMenu(e.getAttribute('data-action'), (calendar) => {
+            // 월 데이터가 변경되지 않는 다면 다시 데이터를 가져오지 않는다.
+            if (luxon.DateTime.fromMillis(calendar.getDate().getTime()).toFormat('yyyy-MM') !== prevStandardDate ||
+                myCalendar.isReload) {
+                setSchedules();
+            }
+        });
+    }
+
+    // 파일업로드 라이브러리로 파일 drag & drop시 callback으로 전달받는 파일을 저장한다.
+    function getImportFile(file) {
+        if (typeof file !== 'undefined') {
+            importFile = file;
+        }
+    }
+
+    /**
+     * 일괄 등록 모달 호출
+     */
+    function openTemplateUploadModal() {
+        const calendarOptionTemplate = calendarList.map((opt, idx) => {
+            if (opt.calendarType !== 'document') { // 문서함에서 등록된 일정은 편집 불가하다.
+                return `<option value="${opt.calendarId}" ${idx === 0 ? 'selected=\'true\'' : ''}>` +
+                    `${opt.calendarName}</option>`;
+            }
+        });
+
+        const templateUploadContent = function() {
+            return `<div class="import-main flex-column">
+                <div class="mt-1"><select id="calendarId">${calendarOptionTemplate}</select></div>
+                <div class="file-uploader-edit">
+                <label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}
+                    <span class="required"></span>
+                    <div class="z-help-tooltip">
+                        <span class="z-icon i-tooltip"></span>
+                        <div class="z-tooltip-contents">
+                            <span>${i18n.msg('calendar.tooltip.templateRule')}</span>
+                        </div>
+                    </div>
+                </label>
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+                </div>
+                <h6 class="description mt-1 pl-2">${i18n.msg('calendar.msg.noticeImportFile')}</h6>
+                </div>`.trim();
+        };
+        const importModal = new modal({
+            title: i18n.msg('calendar.btn.importTemplate'),
+            body: templateUploadContent(),
+            classes: 'calendar__template--import',
+            buttons: [
+                {
+                    content: i18n.msg('common.btn.import'),
+                    classes: 'z-button primary',
+                    bindKey: false,
+                    callback: function() {
+                        if (document.getElementById('dropZoneFileUpload') !== null &&
+                            document.getElementById('fileTemplate') === null) {
+                            zAlert.warning(i18n.msg('common.msg.selectImportFile'));
+                            return false;
+                        }
+                        const formData = new FormData();
+                        formData.append('files', importFile);
+                        const calendarId = document.querySelector('#calendarId').value;
+                        aliceJs.fetchJson(`/rest/calendars/${calendarId}/templateUpload`, {
+                            method: 'POST',
+                            body: formData,
+                            showProgressBar: true
+                        }).then((response) => {
+                            // 성공시 페이지 새로 고침
+                            if (response.status === aliceJs.response.success) {
+                                zAlert.success(i18n.msg('common.msg.save'), function() {
+                                    location.reload();
+                                    return true;
+                                });
+                            } else {
+                                zAlert.danger(i18n.msg('common.msg.fail'));
+                            }
+                        });
+                    }
+                }, {
+                    content: i18n.msg('common.btn.cancel'),
+                    classes: 'z-button secondary',
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }
+            ],
+            close: {
+                closable: false,
+            },
+            onCreate: function() {
+                // 파일 업로드 추가
+                zFileUploader.init({
+                    formId: 'importForm',
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles: '.xlsx,.xls',
+                    dropZoneUrl: '/fileupload?target=import',
+                    editor: true,
+                    userCallback: getImportFile
+                });
+                // 스크롤바 추가
+                OverlayScrollbars(document.querySelector('.calendar__template--import .modal-content'),
+                    { className: 'scrollbar' });
+                // selectbox 디자인
+                aliceJs.initDesignedSelectTag(document.querySelector('.calendar__template--import'));
+            }
+        });
+        importModal.show();
+    }
+
+    /**
+     * 일정 다운로드(엑셀)
+     */
+    function onExcelDownload() {
+        // 데이터 재조회
+        const calendarIds = calendarList.reduce((acc, cur) => {
+            acc.push(cur.calendarId);
+            return acc;
+        }, []);
+        const viewType = document.querySelector('#calendarViewType .z-button-switch.selected')
+            .getAttribute('data-action');
+        const searchData = {
+            viewType: viewType,
+            standard: myCalendar.getStandardDate(viewType, myCalendar.getDate()),
+            calendarIds: calendarIds
+        };
+        let excelFileName = i18n.msg('calendar.label.calendar') + '_' +
+            new Date().toISOString().substring(0, 10).replace(/-/g, '');
+        aliceJs.fetchBlob('/rest/calendars/excel?', {
+            method: 'POST',
+            showProgressBar: true,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchData)
+        }).then((blob) => {
+            if (typeof blob === 'object') {
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = excelFileName;
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            }
+        });
+    }
+</script>
+</body>
+</html>

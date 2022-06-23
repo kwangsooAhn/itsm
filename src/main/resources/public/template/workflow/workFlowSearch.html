@@ -167,7 +167,7 @@
         if (isEmpty('formName', 'form.msg.enterFormName')) { return false; }
         if (isEmpty('processName', 'process.msg.enterProcessName')) { return false; }
         if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-            zAlert.warning(i18n.msg('form.msg.selectImportFile'));
+            zAlert.warning(i18n.msg('common.msg.selectImportFile'));
             return false;
         }
         return true;

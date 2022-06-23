@@ -137,6 +137,16 @@ insert into awf_url values ('/rest/boards/articles/comments', 'post', '게시판
 insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '게시판 댓글 삭제', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/calendars/excel', 'post', '일정 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/template', 'get', '일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/templateUpload', 'post', '일괄 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
@@ -207,6 +217,9 @@ insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
 insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
 insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{id}/schedule', 'get', '문서 일정 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/schedule', 'post', '문서 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/schedule/{id}', 'delete', '문서 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
@@ -386,4 +399,4 @@ insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '
 insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌트 템플릿 조회', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
-
+insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');

@@ -52,6 +52,7 @@ common:
     export: "Export"
     fail: "Fail"
     group: "Group"
+    importFile: "IMPORT FILE"
     modify: "Modify"
     name: "Name"
     nameAsc: "Order by name"
@@ -100,6 +101,7 @@ common:
     selectBeforeDateTime: "Please select before {0}."
     selectBeforeTime: "Please select before {0} time."
     selectColor: "Please select a color."
+    selectImportFile: "Please select an import file."
     success: "Successful."
     update: "Changed."
   code:
@@ -253,6 +255,72 @@ board:
     searchDescription: "View and manage posts."
     viewDescription: "Inquire detailed information about the post."
     createCategory: "Please register the category."
+
+# Calendar
+calendar:
+  btn:
+    importTemplate: "Import Template"
+  label:
+    allDay: "All day"
+    calendar: "Calendar"
+    contentsPlaceholder: "Please enter your details"
+    day: "Daily"
+    dayOfMonth: "Monthly on the {0}"
+    dayOfMonthType:
+      first: "first"
+      second: "second"
+      third: "third"
+      fourth: "fourth"
+      last: "last"
+    days:
+      sunday: "Sunday"
+      monday: "Monday"
+      tuesday: "Tuesday"
+      wednesday: "Wednesday"
+      thursday: "Thursday"
+      friday: "Friday"
+      saturday: "Saturday"
+    default: "Default"
+    shortDays:
+      sun: "Sun"
+      mon: "Mon"
+      tue: "Tue"
+      wed: "Wed"
+      thu: "Thu"
+      fri: "Fri"
+      sat: "Sat"
+    month: "Monthly"
+    myCalendar: "My Calendar"
+    none: "No Repeat"
+    repeatModify: "Set up a repeat schedule"
+    repeatPeriod:
+      after: "This and following schedules"
+      all: "All schedules"
+      today: "This schedule"
+    repeatYn: "Repeat"
+    task: "List"
+    titlePlaceholder: "Please enter the subject."
+    today: "Today"
+    week: "Weekly"
+    weekAllDay: "All day"
+    weekOfMonth: "Every"
+  msg:
+    description: "View and manage user schedules."
+    enterEndDt: "Please enter a end date."
+    enterStartDt: "Please enter a start date."
+    noticeImportFile: "Import only possible in excel file."
+  tooltip:
+    templateRule: "The following contents must be included in the file.<br/><br/>
+         • startDt : start date Time<br/>
+         • endDt : end date Time<br/>
+         • title : subject<br/>
+         • contents : description"
+  excel:
+    type: Type
+    title: Title
+    contents: Contents
+    startDt: Start Date
+    endDt: End Date
 
 # Chart
 chart:
@@ -411,7 +479,6 @@ cmdb:
       relation: "CI Relation"
       targetCiName: "Target CI Name"
       whetherToInterlock: "Whether to Interlink"
-      importFile: "IMPORT FILE"
       interlock: "Interlink"
       nonInterlock: "Non Interlink"
     msg:
@@ -423,7 +490,6 @@ cmdb:
       failedDeleteCI: "Failed to delete asset information."
       searchDescription: "Add, view and manage CMDB CI."
       selectCI: "Please select a CI."
-      selectImportFile: "Please select an import file."
       noticeImportFile: "Import only possible in excel file"
       tag: "Please enter a tag."
       viewDescription: "Retrieve detailed information about a CI.."
@@ -756,7 +822,6 @@ form:
     exportTarget: "Form"
     form: "Form"
     import: "Form IMPORT"
-    importFile: "IMPORT File"
     lang: "Language"
     name: "Form Name"
     redo: "Redo"
@@ -796,7 +861,6 @@ form:
     required: "Please enter the required item."
     saveInfo: "Saved at {0}"
     searchDescription: "View and manage forms."
-    selectImportFile: "Please select an import file."
     selectTargetUser: "Please select Target User for search."
     targetTableRequired: "Please enter the target Table."
     templateNameRequired: "Please enter the template's name."
@@ -1036,6 +1100,8 @@ login:
 menu:
   board:
     parent: "Board"
+  calendar:
+    parent: "Calendar"
   config:
     auth: "Auth"
     boardAdmin: "Board config"
@@ -1191,7 +1257,6 @@ process:
     exportTarget: "Process"
     imageDownload: "Download as Image"
     import: "Process Import"
-    importFile: "Import File"
     name: "Process Name"
     process: "Process"
     redo: "Redo"
@@ -1213,7 +1278,6 @@ process:
     noticeImportFile: "Import only possible in XML file"
     startEventnMustOne: 'Only one start event is allowed.'
     searchDescription: "View and manage processes."
-    selectImportFile: "Please select an import file."
     sourceMappingId: "Mapping ID of the component to which the attachment is to be added.<br>※ The working target component may be a file upload component or an image component."
     targetFileMappingId: "Mapping ID of the component to which the working condition is to be applied.<br>Compare the input value of the component with the working conditions."
     targetCIMappingId: "Mapping ID of CI component to reflect CMDB changes"
@@ -1552,6 +1616,8 @@ token:
   label:
     all: "All Document"
     assignee: "Assignee"
+    calendar: "Calendar"
+    calendarAdd: "+ Calendar Add"
     completed: "Completed Documents"
     docNo: "Document No"
     documentGroup: "Document Type"
@@ -1616,7 +1682,6 @@ workflowAdmin:
     exportTarget: "Workflow"
     group: "Group"
     import: "WorkFlow IMPORT"
-    importFile: "IMPORT File"
     name: "Name"
     status: "Status"
     type: "Type"
