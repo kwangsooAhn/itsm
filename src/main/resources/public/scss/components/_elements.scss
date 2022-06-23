@@ -677,8 +677,13 @@ select {
 
     // Thumb (= round button)
     &::-webkit-slider-thumb {
-      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
       @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
+      width: 1.125rem; // 18px
+      height: 1.125rem; // 18px
+      border: 0.0625rem solid $gray300;
+      border-radius: 50%;
+      background: $white;
+      cursor: pointer;
       -webkit-appearance: none;
       appearance: none;
       &:hover {
@@ -701,8 +706,13 @@ select {
 
     // firefox
     &::-moz-range-thumb { // 동그라미
-      @include thumb(1.125rem, 1.125rem, 0.0625rem solid $gray300, 50%, $white); // 18px 18px
       @include boxShadow(0, 0, 0.125rem, 0, $gray500); // 2px
+      width: 1.125rem; // 18px
+      height: 1.125rem; // 18px
+      border: 0.0625rem solid $gray300;
+      border-radius: 50%;
+      background: $white;
+      cursor: pointer;
       &:hover {
         border-color: $blue400;
         background-color: $blue100;
