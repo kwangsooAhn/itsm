@@ -648,6 +648,7 @@ document:
     write: "WorkFlow register"
     workflowEdit: "WorkFlow Edit"
   msg:
+    adminEditDescription: "Register or Edit the workflows."
     adminSearchDescription: "View and manage workflow by combining process and document form."
     cancel: "If you cancel the document, the document will be deleted. Would you like to proceed though?"
     changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status will be deleted."

@@ -35,7 +35,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto" sec:authorize="hasAuthority('workflow.manage')">
-        <button type="button" class="z-button primary" onclick="openDocumentEdit();"
+        <button type="button" class="z-button primary" onclick="location.href='/workflows/new'"
                 th:text="#{common.btn.add}"></button>
         <button type="button" class="z-button secondary" onclick="openDocumentImport();"
                 th:text="#{common.btn.import}"></button>
@@ -47,11 +47,6 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    // Document status.
-    const STATUS_TEMPORARY = 'document.status.temporary';
-    const STATUS_USE = 'document.status.use';
-    const STATUS_DESTROY = 'document.status.destroy';
-
     // Document type.
     const DOCUMENT_TYPE_FORM = 'application-form';
     const DOCUMENT_TYPE_WORKFLOW = 'workflow';
@@ -86,118 +81,6 @@
                 return 'workflow';
             case DOCUMENT_TYPE_LINK:
                 return 'link';
-        }
-    }
-
-    // 신청서, 업무흐름 유효성 검증
-    function emptyValidationForDocumentOrWorkflow(prefix) { // 신청서/ 업무흐름일 경우 유효성 체크
-        if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
-        if (isEmpty(prefix + 'DocumentForm', 'document.msg.selectForm')) { return false; }
-        if (isEmpty(prefix + 'DocumentProcess', 'document.msg.selectProcess')) { return false; }
-        if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
-
-        return true;
-    }
-    // 신청서 링크 전용 유효성검사
-    function emptyValidationForDocumentLink(prefix) {
-        if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
-        if (isEmpty(prefix + 'Url', 'document.msg.enterDocumentLink')) { return false; }
-        if (!isUrl(prefix + 'Url', 'document.msg.checkUrlLink')) { return false; }
-
-        return true;
-    }
-
-    // 신청서 저장 / 수정
-    function saveDocument(method, documentId) {
-        const documentType = document.getElementById('documentType').value;
-        // 유효성 검증
-        const prefix = getPrefixForId(documentType);
-        if ((documentType === DOCUMENT_TYPE_LINK && !emptyValidationForDocumentLink(prefix)) ||
-            (documentType !== DOCUMENT_TYPE_LINK && !emptyValidationForDocumentOrWorkflow(prefix))) {
-            return false;
-        }
-
-        const documentGroup = document.getElementById(prefix + 'DocumentGroup');
-        const documentForm = document.getElementById(prefix + 'DocumentForm');
-        const documentProcess = document.getElementById(prefix + 'DocumentProcess');
-        const documentNumberingRule = document.getElementById(prefix + 'NumberingRule');
-        const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus');
-        const documentStatus = document.getElementById(prefix + 'DocumentStatus');
-        const apiEnable = document.getElementById(prefix + 'ApiEnable');
-        const documentLinkUrl = document.getElementById(prefix + 'Url');
-        const documentColor = document.getElementById(prefix + 'DocumentColor');
-        const documentIcon = document.getElementById(prefix + 'DocumentIcon');
-
-        let documentInfo = {
-            documentType: documentType,
-            documentName: document.getElementById('documentName').value,
-            documentDesc: document.getElementById('documentDesc').value,
-            formId: documentType === DOCUMENT_TYPE_LINK ? '' : documentForm.value,
-            processId: documentType === DOCUMENT_TYPE_LINK ? '' : documentProcess.value,
-            documentNumberingRuleId: documentType === DOCUMENT_TYPE_LINK ? '' : documentNumberingRule.value,
-            documentStatus: documentStatus.value,
-            apiEnable: documentType === DOCUMENT_TYPE_LINK ? 'false' : apiEnable.value,
-            documentLinkUrl: documentType === DOCUMENT_TYPE_LINK ? documentLinkUrl.value : null,
-            documentColor: documentColor.value,
-            documentGroup: documentType === DOCUMENT_TYPE_FORM ? documentGroup.value : null,
-            documentIcon: (documentIcon !== null && documentType !== DOCUMENT_TYPE_WORKFLOW) ?  documentIcon.value : null
-        };
-
-        let url = (documentType === DOCUMENT_TYPE_LINK) ? '/rest/workflows/workflowLink' : '/rest/workflows';
-        if (method === 'put' && documentId !== undefined) {
-            documentInfo.documentId = documentId;
-            url += '/' + documentId;
-        }
-
-        if (documentType !== DOCUMENT_TYPE_LINK && prevStatus.value === STATUS_TEMPORARY &&
-            documentInfo.documentStatus === STATUS_USE) { // 신청서/업무흐름 수정(신청서 링크 제외)
-            zAlert.confirm(i18n.msg('document.msg.changeStatusEnabled'), () => {
-                restSubmit(method, url + '?isDeleteData=true', documentInfo, (response) => {
-                    switch (response.status) {
-                        case aliceJs.response.success:
-                            zAlert.success(i18n.msg('common.msg.save'), function() {
-                                location.reload();
-                            });
-                            break;
-                        case aliceJs.response.duplicate:
-                            zAlert.warning(i18n.msg('document.msg.nameDuplication'));
-                            break;
-                        case aliceJs.response.error:
-                            zAlert.danger(i18n.msg('common.msg.fail'));
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            });
-        } else {
-            restSubmit(method, url, documentInfo, (response) => {
-                switch (response.status) {
-                    case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.save'), function() {
-                            if (documentId === undefined && documentType !== DOCUMENT_TYPE_LINK) {
-                                // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
-                                openDocumentDisplay(response.data);
-                            } else {
-                                location.reload();
-                            }
-                        });
-                        break;
-                    case aliceJs.response.duplicate:
-                        zAlert.warning(i18n.msg('document.msg.nameDuplication'));
-                        break;
-                    case aliceJs.response.error:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                    case aliceJs.response.duplicateWorkflow:
-                        zAlert.warning(i18n.msg('document.msg.checkDuplication'));
-                        break;
-                    default:
-                        break;
-                }
-            });
         }
     }
 
@@ -244,208 +127,6 @@
         if (document.querySelector('.hidden-control-content.on .z-color-box') == null) {
             new zColorPicker(document.getElementById(prefix + 'DocumentColor'), { type: 'fill' });
         }
-    }
-
-    // 업무흐름 등록 , 수정
-    function openDocumentEdit(documentId, isDocumentLink) {
-        let url = '';
-        if (isDocumentLink) url = (documentId !== undefined) ? '/workflows/workflowLink/' + documentId + '/edit' :
-            '/workflows/new'; //신청서 링크일경우
-        else url = (documentId !== undefined) ? '/workflows/' + documentId + '/edit' : '/workflows/new'; // 신청서, 업무흐름일경우
-
-        aliceJs.fetchText(url, {
-            method: 'GET'
-        }).then((htmlData) => {
-            let modalOptions = {
-                title: i18n.msg('document.label.write'),
-                body: htmlData,
-                classes: 'document-edit',
-                buttons: [{
-                    content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        let method = (documentId !== undefined) ? 'put' : 'post';
-                        saveDocument(method, documentId);
-                    }
-                }, {
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    const documentType = document.getElementById('documentType').value;
-                    setDocumentType(documentType);
-
-                    const prefix = getPrefixForId(documentType);
-                    const statusElem = document.getElementById(prefix + 'DocumentStatus');
-                    const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus').value;
-
-                    // 신청서 상태 초기화
-                    switch (prevStatus) {
-                        case STATUS_TEMPORARY:
-                            statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
-                            break;
-                        case STATUS_USE:
-                            statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                            break;
-                        case STATUS_DESTROY:
-                            statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                            statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
-                            break;
-                        default: // 신규 등록
-                    }
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.document-edit .modal-content'), { className: 'scrollbar' });
-                    OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
-                        className: 'inner-scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: 'class'
-                        }
-                    });
-                    aliceJs.initDesignedSelectTag();
-
-                    // 수정일 경우 타입에 따라 모달 제목 변경
-                    if (documentId !== undefined) document.querySelector('.modal-header').innerHTML =
-                        (documentType === 'workflow') ? i18n.msg('document.label.workFlowEdit') :
-                            i18n.msg('document.label.registerEdit');
-                }
-            };
-
-            // 수정일 경우 신청서 양식 편집 버튼 추가
-            if (documentId !== undefined && !isDocumentLink ) {
-                modalOptions.buttons.splice(1, 0, {
-                    content: i18n.msg('document.label.registerDisplay'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        openDocumentDisplay(documentId);
-                        modal.hide();
-                    }
-                });
-            }
-            // 모달 호출
-            const documentAdminModal = new modal(modalOptions);
-            documentAdminModal.show();
-        });
-
-    }
-
-    // 신청서 양식 편집 화면
-    function openDocumentDisplay(documentId) {
-        aliceJs.fetchText('/workflows/' + documentId + '/display', {
-            method: 'GET'
-        }).then((htmlData) => {
-            let modalOptions = {
-                title: i18n.msg('document.label.registerDisplay'),
-                body: htmlData,
-                classes: 'document-display',
-                buttons: [{
-                    content: i18n.msg('common.btn.modify'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        saveDocumentDisplay(documentId);
-                    }
-                }, {
-                    content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
-                    bindKey: false,
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    aliceJs.initDesignedSelectTag();
-
-                    OverlayScrollbars(document.querySelector('.document-display-content'), { className: 'scrollbar' });
-                }
-            };
-            const documentDisplayModal = new modal(modalOptions);
-            documentDisplayModal.show();
-        });
-    }
-
-    /* Display data save */
-    function saveDocumentDisplay(documentId) {
-        const arrDisplay = [];
-        Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
-            const objDisplay = {};
-            const strArr = item.id.split('_');
-            objDisplay.formGroupId = strArr[0];     // formGroupId
-            objDisplay.elementId = strArr[1];       // elementId
-            objDisplay.display = item.value;        // display
-            arrDisplay.push(objDisplay);
-        });
-
-        const saveData = {
-            documentId: documentId,
-            displays: arrDisplay
-        };
-
-        aliceJs.fetchJson('/rest/workflows/' + documentId + '/display', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(saveData)
-        }).then((response) => {
-            switch (response.status) {
-                case aliceJs.response.success:
-                    zAlert.success(i18n.msg('common.msg.save'), function() {
-                        location.reload();
-                    });
-                    break;
-                case aliceJs.response.error:
-                    zAlert.danger(i18n.msg('common.msg.fail'));
-                    break;
-                default:
-                    break;
-            }
-        });
-    }
-
-    function deleteDocument(documentId, isDocumentLink) {
-        let url = '';
-        if (isDocumentLink) url = '/rest/workflows/workflowLink/' + documentId;
-        else url = '/rest/workflows/' + documentId;
-
-        zAlert.confirm(i18n.msg('document.msg.deleteDocument'), () => {
-            aliceJs.fetchJson(url, {
-                method: 'DELETE'
-            }).then((response) => {
-                switch (response.status) {
-                    case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.delete'), function() {
-                            location.reload();
-                        });
-                        break;
-                    case aliceJs.response.exist:
-                        // 시작된 인스턴스가 있을 경우 삭제 불가능
-                        zAlert.warning(i18n.msg('document.msg.launchedInstance'));
-                        break;
-                    case aliceJs.response.error:
-                        zAlert.danger(i18n.msg('common.msg.fail'));
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-        });
     }
 
     function restSubmit(method, url, data, resultFunc, isShowProgressbar) {
@@ -510,8 +191,10 @@
             apiEnable: document.getElementById(prefix + 'ApiEnable').value,
             documentLinkUrl: null,
             documentColor: document.getElementById(prefix + 'DocumentColor').value,
-            documentGroup: (documentType === DOCUMENT_TYPE_FORM) ? document.getElementById(prefix + 'DocumentGroup').value : null,
-            documentIcon: (documentType === DOCUMENT_TYPE_FORM) ?  document.getElementById(prefix + 'DocumentIcon').value : null,
+            documentGroup: (documentType === DOCUMENT_TYPE_FORM)
+                ? document.getElementById(prefix + 'DocumentGroup').value : null,
+            documentIcon: (documentType === DOCUMENT_TYPE_FORM)
+                ?  document.getElementById(prefix + 'DocumentIcon').value : null,
             formName: document.getElementById('formName').value,
             formDesc: document.getElementById('formDesc').value,
             processName: document.getElementById('processName').value,
@@ -550,7 +233,7 @@
                     content: i18n.msg('common.btn.import'),
                     classes: 'z-button primary',
                     bindKey: false,
-                    callback: function(modal) {
+                    callback: function() {
                         importWorkFlow();
                     }
                 }, {
@@ -562,7 +245,7 @@
                     }
                 }],
                 close: { closable: false },
-                onCreate: function(modal) {
+                onCreate: function() {
                     const documentType = document.getElementById('documentType').value;
                     setDocumentType(documentType);
 
