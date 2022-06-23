@@ -9752,15 +9752,15 @@ select {
   --range-fill-color: #CFD5D9;
 }
 .z-slider .z-range::-webkit-slider-thumb {
+  -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
+  -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
+  box-shadow: 0 0 0.125rem 0 #8B9094;
   width: 1.125rem;
   height: 1.125rem;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 50%;
   background: #FFFFFF;
   cursor: pointer;
-  -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
-  -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
-  box-shadow: 0 0 0.125rem 0 #8B9094;
   -webkit-appearance: none;
   appearance: none;
 }
@@ -9783,15 +9783,15 @@ select {
   background-color: #EEEEEE;
 }
 .z-slider .z-range::-moz-range-thumb {
+  -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
+  -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
+  box-shadow: 0 0 0.125rem 0 #8B9094;
   width: 1.125rem;
   height: 1.125rem;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 50%;
   background: #FFFFFF;
   cursor: pointer;
-  -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
-  -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
-  box-shadow: 0 0 0.125rem 0 #8B9094;
 }
 .z-slider .z-range::-moz-range-thumb:hover {
   border-color: #619CDB;
