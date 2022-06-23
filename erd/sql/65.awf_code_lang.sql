@@ -95,3 +95,17 @@ insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office 
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
 insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
 insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
+/* SLA */
+insert into awf_code_lang values ('sla.metricType', 'Metric Type', 'en');
+insert into awf_code_lang values ('sla.metricType.auto', 'auto', 'en');
+insert into awf_code_lang values ('sla.metricType.manual', 'manual', 'en');
+insert into awf_code_lang values ('sla.metricUnit', 'Metric Unit', 'en');
+insert into awf_code_lang values ('sla.metricUnit.score', 'score', 'en');
+insert into awf_code_lang values ('sla.metricUnit.time', 'time', 'en');
+insert into awf_code_lang values ('sla.calculationType', 'Calculation Type', 'en');
+insert into awf_code_lang values ('sla.calculationType.sum', 'sum', 'en');
+insert into awf_code_lang values ('sla.calculationType.percentage', 'percentage', 'en');
+insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
+insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
+insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
+
