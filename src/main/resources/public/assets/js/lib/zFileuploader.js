@@ -361,7 +361,7 @@
                         method: 'GET',
                     }
                 ).then(files => {
-                    _this.isFileExist = files.length > 0;
+                    _this.isFileExist = files.data.length > 0;
                     // 파일이 존재하지 않으면
                     if (!_this.isFileExist && options.isView) {
                         const noFileStr = document.createElement('span');
@@ -370,7 +370,7 @@
                         dropZoneUploadedFiles.appendChild(noFileStr);
                     }
 
-                    files.forEach(function (fileMap, idx) {
+                    files.data.forEach(function (fileMap, idx) {
                         const fileTemplate = getPreviewUploadedTemplate(fileMap.fileLocDto, options);
 
                         if (options.isView) {
