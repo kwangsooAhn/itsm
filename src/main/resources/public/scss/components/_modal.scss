@@ -389,4 +389,52 @@ body.modal-active { overflow: hidden !important; }
       height: calc(33.125rem - 5rem);
     }
   }
+
+  // SLA 수동지표 데이터 추가 모달
+  &.sla-metric-manual-modal {
+    width: 30rem; // 480px
+    .modal-content {
+      height: calc(25rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem; // 10px 20px
+    }
+    @include scrollbarHidden;
+  }
+  // SLA 복사해오기 모달
+  &.sla-metric-yearly-copy-modal {
+    width: 62.5rem; // 1000px
+    .modal-content {
+      height: calc(18rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem; // 10px 20px
+    }
+  }
+  // SLA ZQL 사용법 모달
+  &.sla-zql-manual-modal {
+    width: 62.5rem; // 1000px
+    @include scrollbarHidden;
+
+    .modal-content {
+      height: calc(50.63rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem; // 10px 20px
+      div {
+        font-size: $font-size-l;
+        line-height: 1.5;
+      }
+    }
+  }
+  // 연도별지표현황
+  &.sla-chart-view-modal {
+    min-width: 68.75rem; // 1100px
+    .modal-header {
+      @include border(0.0625rem, solid, transparent, bottom); // 1px
+    }
+    .modal-content {
+      width: auto;
+      height: auto;
+      .chart-edit-content {
+        @include border(0.0625rem, solid, $gray300, all); // 1px
+        @include borderRadius(0.0625rem); // 1px
+        margin: 0 1.5rem; // 0 24px
+      }
+    }
+  }
 }

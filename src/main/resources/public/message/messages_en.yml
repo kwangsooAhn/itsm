@@ -34,6 +34,7 @@ common:
     blank: " "
     bracketOpen: "["
     bracketClose: "]"
+    calculationType: "Calculation Type"
     categoryAsc: "Order by category"
     comment: "Comment"
     contents: "Contents"
@@ -602,10 +603,12 @@ datepicker:
   btn:
     am: "AM"
     pm: "PM"
+    reset: "Reset"
   label:
     date: "Select Date"
     datetime: "Select Date and Time"
     hour: "Select Time"
+    year: "Select Year"
 
 # Department:
 department:
@@ -764,8 +767,8 @@ form:
     templateName: "Template Name"
     templatesList: "Templates List"
     title: "Form Designer"
-    undo: "Undo"
     update: "Update Form"
+    undo: "Undo"
   msg:
     checkPlugInButton: "Please click the {0} button for validation."
     dropdownCodeNotExist: "There is no Dropdown Code component matching the set mapping ID.</br>Check the mapping ID."
@@ -777,6 +780,7 @@ form:
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     failedImport: "Failed to import form."
     failedPlugInButton: "Processing failed because validation failed."
+    fileSelect: "Please select a file."
     information: "There are no common editable component detail attributes."
     label: "It must start and end with numbers and letters and can contain only numbers, letters, commas (.), underscores (_), and dashes (-)."
     max: "Please enter below {0}."
@@ -1051,6 +1055,15 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
+  setting:
+    editMyInfo: "Edit My Info"
+  sla:
+    manualMetric: "Manual Metric management"
+    metricStatus: "SLA status by metric"
+    parent: "Service-Level Agreement"
+    pool: "SLA Metric management"
+    year: "SLA Metric management by year"
+    yearStatus: "SLA status by year"
   statistic:
     basicChart: "Basic Chart"
     basicReport: "Basic Report Inquiry"
@@ -1060,8 +1073,6 @@ menu:
     customReportTemplate: "Report Template"
     dashboardTemplate: "Dashboard Template"
     parent: "Statistics/Report"
-  setting:
-    editMyInfo: "Edit My Info"
   token:
     parent: "My Document"
   workflow:
@@ -1283,40 +1294,6 @@ process:
       userTask: "User Task"
       withdraw: "Withdraw"
 
-# statistic
-statistic:
-  btn:
-    create: "Create"
-    pdf: "PDF"
-  label:
-    automatic: "Automatic generation"
-    chart: "Chart"
-    columnName: "Column Name"
-    currentSituation: "Current Situation"
-    description: "Description"
-    publishDate: "Publish Date"
-    customReport: "Custom Report"
-    reportName: "Report Name"
-    search: "Report Search"
-    searchPlaceholder: "Template name"
-    customReportTemplate: "custom Report Template"
-    templateEdit: "Template Edit"
-    templateName: "Template Name"
-    templateRegister: "Template Register"
-  msg:
-    configDescription: "Set up templates using custom charts."
-    createFail: "Failed to generate report"
-    createSucess: "Report has been generated."
-    duplicateChart: "Duplicate chart exists."
-    editDescription: "Register, modify, or delete templates."
-    emptyChart: "Chart does not exist."
-    searchDescription: "Search report that you generated."
-    templateNameUsed: "Duplicate template name exists."
-  template:
-    all: "All"
-  tooltip:
-    reportName: "When creating a report, set the name of the report to be displayed.<br/>If the report name is not entered, the template name is used as the report name."
-
 # Role
 role:
   btn:
@@ -1329,6 +1306,9 @@ role:
     name: "Role Name"
     referenceCount: "Reference Count"
     role: "Role"
+  menu:
+    auth: "권한 설정"
+    common: "일반 정보"
   msg:
     duplicateRoleId: "Duplicate role id! Please enter other role id."
     duplicateRoleName: "Duplicate role name! Please enter other role name."
@@ -1366,7 +1346,7 @@ scheduler:
     schedule: "Schedule"
     scheduler: "Scheduler"
     searchPlaceholder: "Schedule Name / Execution Type / Class / Task Type"
-    src: Src
+    src:
     status: "Status"
     taskType: "Task Type"
   msg:
@@ -1399,6 +1379,172 @@ scheduler:
     • The Fourth field: Defines Day of month and has an allowable range of 1 to 31.<br/><br/>
     • The Fifth field: Defines the month and has an allowable range of 1 to 12 or JAN to DEC.<br/><br/>
     • The Sixth field: Defines the day of the week and has an allowable range of 0 to 6 or SUN to SAT."
+
+# sla
+sla:
+  calculationType:
+    average: "average"
+    percentage: "percentage"
+    sum: "sum"
+  chart:
+    line: "Line Chart"
+    column: "Column Chart"
+  metric:
+    label:
+      all: "ALL"
+      comment: "Comment"
+      description: "description"
+      group: "Group"
+      groupName: "Group Name"
+      metricPool: "SLA Metric management"
+      metricStatus: "SLA status by metric"
+      maxValue: "Target value"
+      minValue: "Minimum value"
+      name: "Name"
+      owner: "Owner"
+      score: "Score"
+      searchPlaceholder: "Name"
+      selectMetricCalcType: "Select CalculationType"
+      selectMetricGroup: "Select Metric group"
+      selectMetricType: "Select Metric type"
+      selectMetricUnit: "Select Metric unit"
+      type: "Type"
+      unit: "Unit"
+      weightValue: "Weighted Value"
+    msg:
+      description: "Register, modify, or delete the contents of SLA metric management."
+      duplicateMetricName: "The same metric name exists. Please check the metric name."
+      enterMetricName: "Enter a metric name."
+      noMetric: "There are no registered metric for the target year."
+      useMetric: "This is the indicator in use."
+      viewDescription: "Inquire detailed information about SLA metric management."
+  metricManual:
+    btn:
+      addData: "Add Data"
+    label:
+      all: "ALL"
+      createDate: "Create Date"
+      createUser: "Create User"
+      metricManual: "Manual metric management"
+      metricName: "Metric Name"
+      metricValue: "Metric Value"
+      newMetricManual: "Add manual metric data"
+      referenceDate: "Reference Date"
+      targetMetric: "Target Metric"
+    msg:
+      enterMetricValue: " Enter the metric value."
+  metricType:
+    auto: "Auto"
+    manual: "Manual"
+  metricUnit:
+    percent: "%"
+    score: "Score"
+    time: "Time"
+  metricYear:
+    btn:
+      copy: "Copy"
+    label:
+      all: "전체"
+      comment: "Comment"
+      copy: "Copy Metric"
+      description: "Description"
+      group: "Group"
+      maxValue: "Max Value"
+      metricName: "Metric Name"
+      metricYear: "SLA metric management by year"
+      metricYearStatus: "SLA status by year"
+      minValue: "Min Value"
+      option:
+        score: "Score"
+        percent: "%"
+      owner: "Owner"
+      targetYear: "Target Year"
+      type: "Type"
+      result: "Result"
+      resultScore: "Result Score"
+      unit: "Unit"
+      weightValue: "Weight Value"
+      year: "Year"
+      zql: "ZQL"
+      zqlManual: "ZQL Manual"
+      zqlPlaceholder: "No ZQL applied."
+    msg:
+      checkValue: "You can enter up to fourth decimal places."
+      copy: "Copy the metric to the {0} year metric."
+      description: "Register, modify, or delete the contents of SLA metric management by year."
+      metricYearNotExist: "No metrics are available to copy."
+      noMetric: "There are no registered metric for the target year."
+      totalScore: "A normal score is calculated when the weights add up to 100%."
+      viewDescription: "Inquire detailed information about SLA metric management by year."
+      zqlAverageDescription: "The average calculation method takes the average of the results. The result of ZQl must be in numeric form."
+      zqlDescription: "You can use ZQL to set SLA subject documents and calculation methods."
+      zqlDescriptionCheck: "check the link on the left"
+      zqlPercentageDescription: "The ratio calculation method finds the ratio of documents that satisfy the conditions of ZQL. ZQL must be in a format that represents a condition."
+      zqlTotalDescription: "The total calculation method sums the results. The result of ZQL must be in numeric form."
+  zqlManual: "
+    Expression<br/>
+    &nbsp;&nbsp;&nbsp;- Date<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* It is expressed in the format yyyy-MM-dd hh:mm:ss between ‘’.<br/>
+    &nbsp;&nbsp;&nbsp;- Tag<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Tag is written in [tag] format.<br/><br/>
+    Calculation<br/>
+    &nbsp;&nbsp;&nbsp;- Date<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Date arithmetic is possible in the form plusYear(‘2022-05-18 00:00:00’, 1) , and the functions provided are plusYear, minusYear, plusMonths, minusMonths, plusDays, minusDays, plusHours, minusHours.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Date comparison operation can be used in the form equalsTo('2022-05-01 00:00:00', '2022-05-01 00:00:00') , and notEqualsTo, greaterThan, lessThan, greaterThanOrEuqalTo, lessThanOrEqualTo, etc. provides.<br/>
+    &nbsp;&nbsp;&nbsp;- Number<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* It provides +, -, *, /, %, and ^ functions, including arithmetic operations.<br/>
+    &nbsp;&nbsp;&nbsp;- Other Operators<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Provides relational operators <, >, ==, !=, <=, >=, lt, gt, eq, ne, le, ge.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Logical operators and, or, not, &&, ||, ! provides.<br/><br/>
+    예제<br/>
+    &nbsp;&nbsp;&nbsp;- When calculating the score for each disability level and obtaining the total.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* (([incident_level] == 3)? 10:0) + (([incident_level] == 2)? 20:0) + (([incident_level] == 1)? 10:0)<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• ZQL as above is when the tag 'indicent_level' is attached to the disability level item.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• If the value of the disability level is 3, it is scored as 10.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• If the above conditions are specified and the calculation method is selected as 'Sum', the final score is calculated by calculating the scores of all documents.<br/>
+    &nbsp;&nbsp;&nbsp;- In the case of finding the percentage of documents that complied with the desired completion date.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* greaterThanOrEqualTo( [Desired Completion Date], [Completion Date])<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• ZQL as above compares the value of the item tagged with the desired completion date and the value of the item tagged with the desired completion date of the document to find documents that were completed before or on the same day as the desired completion date.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• If the ZQL as above is applied to the 'rate' calculation method, the proportion of documents that satisfy the condition among all documents during the measurement period is obtained."
+
+
+
+
+
+
+# statistic
+statistic:
+  btn:
+    create: "Create"
+    pdf: "PDF"
+  label:
+    automatic: "Automatic generation"
+    chart: "Chart"
+    description: "Description"
+    publishDate: "Publish Date"
+    customReport: "Custom Report"
+    reportName: "Report Name"
+    search: "Report Search"
+    searchPlaceholder: "Template name"
+    customReportTemplate: "custom Report Template"
+    templateEdit: "Template Edit"
+    templateName: "Template Name"
+    templateRegister: "Template Register"
+    columnName: "Column Name"
+    currentSituation: "Current Situation"
+  msg:
+    configDescription: "Set up templates using custom charts."
+    createFail: "Failed to generate report"
+    createSucess: "Report has been generated."
+    duplicateChart: "Duplicate chart exists."
+    editDescription: "Register, modify, or delete templates."
+    emptyChart: "Chart does not exist."
+    searchDescription: "Search report that you generated."
+    templateNameUsed: "Duplicate template name exists."
+  template:
+    all: "All"
+  tooltip:
+    reportName: "When creating a report, set the name of the report to be displayed.<br/>If the report name is not entered, the template name is used as the report name."
 
 # Token
 token:

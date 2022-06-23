@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/itsm/pageType/pagingListLayout">
+<head>
+    <title th:text="#{sla.metric.label.metricPool}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{sla.metric.label.metricPool}"></h1>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="searchFrm">
+        <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue"
+               th:placeholder="#{sla.metric.label.searchPlaceholder}" maxlength="100"/>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button primary" onclick="location.href='/sla/metric-pools/new'"
+                sec:authorize="hasAuthority('sla.manage')" th:text="#{common.btn.add}"></button>
+    </div>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="metricPoolList"></div>
+</div>
+</body>
+<script layout:fragment="pageScript" th:inline="javascript">
+    window.onload = function() {
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
+        getList();
+    };
+
+    /**
+     * SLA 지표관리 검색
+     */
+    function getList(pageNum = 1) {
+        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&pageNum=' + pageNum;
+        aliceJs.fetchText('/sla/metric-pools?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            document.getElementById('metricPoolList').innerHTML = htmlData;
+        });
+    }
+</script>
+</html>

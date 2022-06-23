@@ -14,8 +14,8 @@
     "periodUnit": "M",
     "range": {
       "type": "chart.range.none",
-      "from": "",
-      "to": ""
+      "fromDateTime": "",
+      "toDateTime": ""
     }
   },
   "chartData": [{

@@ -25,6 +25,7 @@ import co.brainz.itsm.instance.entity.QWfInstanceViewerEntity
 import co.brainz.itsm.statistic.customChart.constants.ChartConstants
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.token.dto.TokenSearchCondition
+import co.brainz.itsm.zql.const.ZqlInstanceDateCriteria
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -33,6 +34,7 @@ import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.QWfElementDataEntity
 import co.brainz.workflow.element.entity.QWfElementEntity
 import co.brainz.workflow.form.constants.WfFormConstants
+import co.brainz.workflow.instance.constants.InstanceStatus
 import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
@@ -51,6 +53,7 @@ import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.CaseBuilder
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
@@ -79,6 +82,7 @@ class WfInstanceRepositoryImpl(
     val instanceViewer: QWfInstanceViewerEntity = QWfInstanceViewerEntity.wfInstanceViewerEntity
     val code: QCodeEntity = QCodeEntity.codeEntity
     val documentStorage: QDocumentStorageEntity = QDocumentStorageEntity.documentStorageEntity
+    val component: QWfComponentEntity = QWfComponentEntity.wfComponentEntity
 
     override fun findTodoInstances(
         status: List<String>?,
@@ -188,11 +192,13 @@ class WfInstanceRepositoryImpl(
                 JPAExpressions
                     .select(token.tokenId.max())
                     .from(token)
-                    .where(token.tokenStartDt.eq(
-                        from(startDtSubToken)
-                            .select(startDtSubToken.tokenStartDt.max())
-                            .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
-                    ))
+                    .where(
+                        token.tokenStartDt.eq(
+                            from(startDtSubToken)
+                                .select(startDtSubToken.tokenStartDt.max())
+                                .where(startDtSubToken.instance.instanceId.eq(instance.instanceId))
+                        )
+                    )
             )
         )
         builder.and(
@@ -224,7 +230,6 @@ class WfInstanceRepositoryImpl(
                 WfInstanceConstants.OrderColumn.DOCUMENT_NO.code -> instance.documentNo
                 else -> column
             }
-
         }
         query.orderBy(OrderSpecifier(direction, column))
         return query
@@ -314,7 +319,8 @@ class WfInstanceRepositoryImpl(
                     JPAExpressions
                         .select(tokenSub.instance.instanceId)
                         .from(tokenSub)
-                        .leftJoin(instanceViewer).on(tokenSub.instance.instanceId.eq(instanceViewer.instance.instanceId))
+                        .leftJoin(instanceViewer)
+                        .on(tokenSub.instance.instanceId.eq(instanceViewer.instance.instanceId))
                         .where(
                             tokenSub.assigneeId.eq(tokenSearchCondition.userKey)
                                 .or(
@@ -325,7 +331,7 @@ class WfInstanceRepositoryImpl(
             )
         }
         status?.forEach { statusValue ->
-            if (statusValue == WfInstanceConstants.Status.FINISH.code) {
+            if (statusValue == InstanceStatus.FINISH.code) {
                 builder.and(
                     token.tokenAction.notIn(WfTokenConstants.FinishAction.CANCEL.code)
                 )
@@ -720,24 +726,24 @@ class WfInstanceRepositoryImpl(
                         .innerJoin(token).on(instance.instanceId.eq(token.instance.instanceId))
                         .where(
                             token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code)
-                                .and(instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code))
+                                .and(instance.instanceStatus.eq(InstanceStatus.FINISH.code))
                         )
                 )
             )
         if (documentStatus == ChartConstants.DocumentStatus.EVEN_RUNNING.code) {
             query.where(
-                (instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
+                (instance.instanceStatus.eq(InstanceStatus.FINISH.code)
                     .and(instance.instanceStartDt.goe(range.fromDateTimeUTC))
                     .and(instance.instanceEndDt.loe(range.toDateTimeUTC)))
                     .or(
-                        (instance.instanceStatus.eq(WfInstanceConstants.Status.RUNNING.code)
+                        (instance.instanceStatus.eq(InstanceStatus.RUNNING.code)
                             .and(instance.instanceStartDt.goe(range.fromDateTimeUTC)))
                             .and(instance.instanceStartDt.loe(range.toDateTimeUTC))
                     )
             )
         } else {
             query.where(
-                instance.instanceStatus.eq(WfInstanceConstants.Status.FINISH.code)
+                instance.instanceStatus.eq(InstanceStatus.FINISH.code)
                     .and(
                         instance.instanceStartDt.goe(range.fromDateTimeUTC)
                             .and(instance.instanceEndDt.loe(range.toDateTimeUTC))
@@ -786,7 +792,6 @@ class WfInstanceRepositoryImpl(
         return count
     }
 
-
     override fun findTodoInstanceCount(
         status: List<String>?,
         tokenStatus: List<String>?,
@@ -794,5 +799,80 @@ class WfInstanceRepositoryImpl(
     ): Long {
         return findInstanceCount(tokenSearchCondition.tagArray)
             .where(todoInstanceSearchByBuilder(status, tokenStatus, tokenSearchCondition)).fetchOne()
+    }
+
+    override fun getDocumentIdsByTag(
+        tagValue: String
+    ): Set<String> {
+        return from(document)
+            .select(document.documentId)
+            .where(builderDocumentsByTag(tagValue))
+            .fetch().toSet()
+    }
+
+    private fun builderDocumentsByTag(tagValue: String): BooleanExpression {
+        return document.documentId.`in`(
+            JPAExpressions.select(document.documentId)
+                .from(document)
+                .where(
+                    document.form.formId.`in`(
+                        JPAExpressions.select(component.form.formId)
+                            .from(component)
+                            .where(
+                                component.componentId.`in`(
+                                    JPAExpressions.select(tag.targetId)
+                                        .from(tag)
+                                        .where(tag.tagValue.eq(tagValue))
+                                        .where(tag.tagType.eq(AliceTagConstants.TagType.COMPONENT.code))
+                                )
+                            )
+                            .where(component.form.formStatus.ne(WfFormConstants.FormStatus.EDIT.value))
+                    )
+                )
+                .where(document.documentStatus.ne(WfDocumentConstants.Status.TEMPORARY.code))
+        )
+    }
+
+    override fun getInstanceByZQL(
+        docIds: Set<String>,
+        from: LocalDateTime,
+        to: LocalDateTime,
+        status: InstanceStatus,
+        criteria: ZqlInstanceDateCriteria
+    ): Set<WfInstanceEntity> {
+        val query = from(instance)
+            .where(
+                instance.document.documentId.`in`(docIds)
+            )
+            .where(
+                instance.instanceId.notIn(
+                    JPAExpressions.select(instance.instanceId)
+                        .from(instance)
+                        .innerJoin(token).on(instance.instanceId.eq(token.instance.instanceId))
+                        .where(
+                            token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code)
+                                .and(instance.instanceStatus.eq(InstanceStatus.FINISH.code))
+                        )
+                )
+            )
+
+        val defaultWhere = instance.instanceStatus.eq(InstanceStatus.FINISH.code)
+        if (criteria == ZqlInstanceDateCriteria.START) {
+            defaultWhere.and(instance.instanceStartDt.goe(from))
+                .and(instance.instanceStartDt.loe(to))
+        } else {
+            defaultWhere.and(instance.instanceEndDt.goe(from))
+                .and(instance.instanceEndDt.loe(to))
+        }
+
+        if (status == InstanceStatus.RUNNING) {
+            defaultWhere.or(
+                (instance.instanceStatus.eq(InstanceStatus.RUNNING.code)
+                    .and(instance.instanceStartDt.goe(from)))
+                    .and(instance.instanceStartDt.loe(to))
+            )
+        }
+
+        return query.where(defaultWhere).fetch().toSet()
     }
 }

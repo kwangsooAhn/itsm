@@ -10106,7 +10106,7 @@ select {
   margin: 0;
 }
 
-/* _file-uploader.scss 
+/* _file-uploader.scss
  *
  * 파일 경로 : components/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -11178,7 +11178,7 @@ body.modal-active {
   font-weight: 500;
 }
 
-/** 
+/**
  * 팝업 디자인
  * components/_popup.scss
  * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
@@ -11248,7 +11248,7 @@ body.modal-active {
   padding-bottom: 1.25rem;
 }
 
-/* _scrollbars.scss 
+/* _scrollbars.scss
  *
  * 파일 경로 : components/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -12061,7 +12061,7 @@ body.modal-active {
   color: #505559;
 }
 
-/* _text-editor.scss 
+/* _text-editor.scss
  *
  * 파일 경로 : components/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -12537,7 +12537,7 @@ body.modal-active {
   background-position: center center;
 }
 
-/* _tooltip.scss 
+/* _tooltip.scss
  *
  * 파일 경로 : components/_tooltip.scss
  * @description 툴팁 디자인
@@ -12889,7 +12889,7 @@ body.modal-active {
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-/* _color-picker.scss 
+/* _color-picker.scss
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -13162,7 +13162,7 @@ body.modal-active {
   text-align: right;
 }
 
-/* _date-picker.scss 
+/* _date-picker.scss
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
