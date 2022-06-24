@@ -8,9 +8,12 @@ package co.brainz.workflow.instance.repository
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import co.brainz.itsm.token.dto.TokenSearchCondition
+import co.brainz.itsm.zql.const.ZqlInstanceDateCriteria
+import co.brainz.workflow.instance.constants.InstanceStatus
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
+import java.time.LocalDateTime
 
 interface WfInstanceRepositoryCustom {
 
@@ -47,4 +50,14 @@ interface WfInstanceRepositoryCustom {
         tokenStatus: List<String>?,
         tokenSearchCondition: TokenSearchCondition
     ): Long
+
+    fun getDocumentIdsByTag(tagValue: String): Set<String>
+
+    fun getInstanceByZQL(
+        docIds: Set<String>,
+        from: LocalDateTime,
+        to: LocalDateTime,
+        status: InstanceStatus,
+        criteria: ZqlInstanceDateCriteria
+    ): Set<WfInstanceEntity>
 }

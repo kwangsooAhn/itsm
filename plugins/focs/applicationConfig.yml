@@ -5,8 +5,8 @@ path: /api/public/v1/application/form
 ## application-form template
 template:
   applicationTemplate:
-    seq: 신청서 번호
-    title: 신청서 제목
+    seq: {"신청서 번호",0}
+    title: {"신청서 제목",0}
     applicantId: 신청자 아이디
     applicant: 신청자 이름
     applicantSign: true

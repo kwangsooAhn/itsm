@@ -27,7 +27,7 @@ class WorkFlowController(
 
     private val workFlowSearchPage: String = "workflow/workFlowSearch"
     private val workFlowListPage: String = "workflow/workFlowList"
-    private val workFlowEditModalPage: String = "workflow/workFlowEditModal"
+    private val workFlowEditPage: String = "workflow/workFlow"
     private val documentDisplayModalPage: String = "workflow/documentDisplayModal"
     private val workFlowImportModalPage: String = "workflow/workFlowImportModal"
 
@@ -66,13 +66,14 @@ class WorkFlowController(
      */
     @GetMapping("/new")
     fun getWorkFlowNew(model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
         model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
-        return workFlowEditModalPage
+        return workFlowEditPage
     }
 
     /**
@@ -84,6 +85,7 @@ class WorkFlowController(
      */
     @GetMapping("{documentId}/edit")
     fun getWorkFlowEdit(@PathVariable documentId: String, model: Model): String {
+        model.addAttribute("view", false)
         model.addAttribute("documentId", documentId)
         model.addAttribute("documentData", documentService.getDocumentAdmin(documentId))
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
@@ -92,7 +94,7 @@ class WorkFlowController(
         model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
-        return workFlowEditModalPage
+        return workFlowEditPage
     }
 
     /**
@@ -105,7 +107,7 @@ class WorkFlowController(
     fun getWorkFlowLinkEdit(@PathVariable documentId: String, model: Model): String {
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("documentData", documentService.getDocumentLinkAdmin(documentId))
-        return workFlowEditModalPage
+        return workFlowEditPage
     }
 
     /**

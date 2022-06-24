@@ -26,6 +26,7 @@ INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.view');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'system.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'portal.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'document.view');
+INSERT INTO awf_role_auth_map VALUES ('system.admin', 'sla.manage');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'workflow.expire');
@@ -51,4 +52,6 @@ INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'portal.manage');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'document.view');
-
+INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'general');
+INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'document.view');
+INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'sla.manage');

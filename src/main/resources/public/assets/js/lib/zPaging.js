@@ -35,7 +35,8 @@ export default class ZPaging {
      */
     update() {
         // 전체 검색건수, 저장된 데이터 전체 건수, 정렬 순서등을 출력
-        document.getElementById('spanTotalCount').innerText = i18n.msg('common.label.count', document.getElementById('totalCount').value);
+        document.getElementById('spanTotalCount').innerText =
+            i18n.msg('common.label.count', document.getElementById('totalCount').value);
         document.getElementById('spanTotalCountWithoutCondition').innerText =
             i18n.msg(
                 'common.label.totalCountWithoutCondition',

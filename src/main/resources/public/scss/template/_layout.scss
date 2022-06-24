@@ -51,6 +51,13 @@
       display: flex;
       align-items: baseline!important;
       padding: 0 3.75rem 2rem 3.75rem; // 0 60px 32px 60px
+
+      // 제목 없을 경우
+      &--empty {
+        + .z-main-content {
+          height: calc(100vh - 3.5rem);
+        }
+      }
     }
 
     &-content {
@@ -59,6 +66,12 @@
       .z-page-content {
         @include border(0.0625rem,solid,$gray300,top);
         flex: 1 1 auto;
+        // 특정 영역 hidden 처리
+        .hidden-control-content {
+          display: none;
+
+          &.on { display: block; }
+        }
       }
 
       .z-page-search {
@@ -443,3 +456,8 @@
     max-height: 36.25rem; // 580px
   }
 }
+
+
+// TODO: 공통으로 사용될 폰트 사이즈가 생성되면 제거
+// sla 연도별 SLA 현황 최종점수
+#resultScore { font-size: $font-size-xl; }

@@ -48,9 +48,9 @@
     window.onload = function() {
         document.getElementById('searchValue').focus();
         getList();
-    }
+    };
 
-    document.getElementById('searchProcessStatus').addEventListener('change', function () { getList(); });
+    document.getElementById('searchProcessStatus').addEventListener('change', function() { getList(); });
     document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getList()), false);
 
     // 프로세스 리스트 조회
@@ -77,13 +77,13 @@
 
         // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
         if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-            zAlert.warning(i18n.msg('process.msg.selectImportFile'));
+            zAlert.warning(i18n.msg('common.msg.selectImportFile'));
             return false;
         }
         return true;
     }
 
-     // 프로세스 등록/수정
+    // 프로세스 등록/수정
     function saveProcess(processId, isDestroy) {
         // 빈 값 체크
         if (!checkValidation()) { return false; }
@@ -148,7 +148,7 @@
             }).then((response) => {
                 switch (response.status) {
                     case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.delete'), function () {
+                        zAlert.success(i18n.msg('common.msg.delete'), function() {
                             location.reload();
                         });
                         break;
@@ -186,7 +186,7 @@
                 callback: function(modal) {
                     saveProcess();
                 }
-            },{
+            }, {
                 content: i18n.msg('common.btn.cancel'),
                 classes: 'z-button secondary',
                 bindKey: false,
@@ -199,7 +199,7 @@
             },
             onCreate: function(modal) {
                 // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
                 OverlayScrollbars(document.getElementById('process_description'), {
                     className: 'inner-scrollbar',
                     resize: 'vertical',
@@ -207,7 +207,7 @@
                     textarea: {
                         dynHeight: false,
                         dynWidth: false,
-                        inheritedAttrs: "class"
+                        inheritedAttrs: 'class'
                     }
                 });
             }
@@ -218,7 +218,7 @@
     // 프로세스 디자이너 편집화면 오픈
     function openProcessDesignerEdit(processId) {
         const _width = 1800,
-              _height = 920;
+            _height = 920;
         //중앙 배치
         const _left = Math.ceil((window.screen.width - _width) / 2);
         const _top = Math.ceil((window.screen.height - _height) / 4);
@@ -233,7 +233,7 @@
     // 프로세스 디자이너 상세화면 오픈
     function openProcessDesignerView(processId) {
         const _width = 1800,
-              _height = 920;
+            _height = 920;
         //중앙 배치
         const _left = Math.ceil((window.screen.width - _width) / 2);
         const _top = Math.ceil((window.screen.height - _height) / 4);
@@ -263,13 +263,13 @@
                 processDesc: document.getElementById('process_description').value
             };
 
-            ZWorkflowUtil.import(importFile, processInfo, 'process', function (response) {
+            ZWorkflowUtil.import(importFile, processInfo, 'process', function(response) {
                 switch (response.status) {
                     case aliceJs.response.duplicate:
                         zAlert.warning(i18n.msg('process.msg.duplicateName'));
                         break;
                     case aliceJs.response.success:
-                        zAlert.success(i18n.msg('common.msg.success'), function () {
+                        zAlert.success(i18n.msg('common.msg.success'), function() {
                             location.reload();
                             return true;
                         });
@@ -293,7 +293,7 @@
                    `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
                    `<textarea rows="3" class="z-textarea textarea-scroll-wrapper" id="process_description" maxlength="256"></textarea>` +
                    `<div class="file-uploader-edit">` +
-                       `<label class="file-uploader-title field-label">${i18n.msg('process.label.importFile')}<span class="required"></span></label>` +
+                       `<label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}<span class="required"></span></label>` +
                        `<div id="dropZoneFiles"></div>` +
                        `<div id="dropZoneUploadedFiles"></div>` +
                    `</div>` +
@@ -315,7 +315,7 @@
                     callback: function(modal) {
                         importProcess();
                     }
-                },{
+                }, {
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
@@ -338,7 +338,7 @@
                     userCallback: getImportFile
                 });
                 // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
                 OverlayScrollbars(document.getElementById('process_description'), {
                     className: 'inner-scrollbar',
                     resize: 'vertical',
@@ -346,7 +346,7 @@
                     textarea: {
                         dynHeight: false,
                         dynWidth: false,
-                        inheritedAttrs: "class"
+                        inheritedAttrs: 'class'
                     }
                 });
             }

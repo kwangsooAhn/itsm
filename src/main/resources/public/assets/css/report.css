@@ -1111,6 +1111,17 @@ input, button, select, optgroup, textarea {
 .underline:hover {
   text-decoration: underline;
 }
+.underline-grid {
+  position: relative;
+}
+.underline-grid::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0.0625rem;
+  background-color: #424242;
+}
 
 .description {
   color: #8B9094;
@@ -1394,6 +1405,10 @@ input, button, select, optgroup, textarea {
 
 .flex-fill {
   flex: 1 1 auto;
+}
+
+.none {
+  display: none;
 }
 
 .flex-col-1 {
@@ -1680,12 +1695,12 @@ input, button, select, optgroup, textarea {
 .z-icon.i-list-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
+  -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/icon_delete.svg");
+  -webkit-mask-repeat: round;
+  mask-repeat: round;
+  -webkit-mask-position: inherit;
+  mask-position: inherit;
 }
 .z-icon.i-edit {
   width: 1.25rem;
@@ -2060,8 +2075,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
-  mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2766,6 +2781,12 @@ input, button, select, optgroup, textarea {
   border-top: 0.0625rem solid #CFD5D9;
   flex: 1 1 auto;
 }
+.z-itsm-container .z-main-content .z-page-content .hidden-control-content {
+  display: none;
+}
+.z-itsm-container .z-main-content .z-page-content .hidden-control-content.on {
+  display: block;
+}
 .z-itsm-container .z-main-content .z-page-search {
   display: flex;
   flex-direction: row;
@@ -2890,12 +2911,13 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid {
   display: grid;
   flex: 1;
+  height: fit-content;
   align-content: start;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__row {
   display: grid;
   grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
+  grid-template-rows: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell {
   display: flex;
@@ -2904,9 +2926,12 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #424242;
 }
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row {
   color: #757575;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
@@ -2940,7 +2965,6 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row {
   color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
-  cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row.read-only {
   cursor: default;
@@ -3038,12 +3062,13 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-list .grid {
   display: grid;
   flex: 1;
+  height: fit-content;
   align-content: start;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__row {
   display: grid;
   grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
+  grid-template-rows: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__cell {
   display: flex;
@@ -3052,9 +3077,12 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #424242;
 }
+.z-itsm-container .z-main-content .z-page-list .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
   color: #757575;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
@@ -3088,7 +3116,6 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
   color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
-  cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row.read-only {
   cursor: default;
@@ -3680,6 +3707,10 @@ input, button, select, optgroup, textarea {
 }
 .cmdb-ci-content .grid__body {
   max-height: 36.25rem;
+}
+
+#resultScore {
+  font-size: 2rem;
 }
 
 .z-report-wrapper {

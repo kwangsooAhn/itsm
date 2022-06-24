@@ -56,6 +56,8 @@ insert into awf_auth values ('report.view', '보고서 조회', '보고서 내�
 insert into awf_auth values ('system.manage', '시스템 관리', '"사용자, 역할, 스케줄러, 게시판, 코드 관리 권한을 가집니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('portal.manage', '포털 관리', 'FAQ 등록, 게시판 생성, 공지사항 등록 등 포털과 관련된 설정이 가능합니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('document.view', '문서함 검색', '문서함 조회시 모든 문서를 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('sla.manage', 'SLA 관리', 'SLA 지표를 생성하고 관리할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_auth values ('sla.view', 'SLA 조회', '지표별, 연도별 SLA 현황을 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 
 /**
  * 아바타
@@ -307,15 +309,31 @@ insert into awf_code values ('instance', 'root', null, '인스턴스', null, tru
 insert into awf_code values ('instance.platform', 'instance', null, '인스턴스 플랫폼', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform.itsm', 'instance.platform', 'ITSM', 'ITSM', null, faLse, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('instance.platform.api', 'instance.platform', 'API', 'API', null, faLse, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values('form.template.changeControl', 'form.template', 'form.template.changeControl.app', '변경관리', '', true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app', 'form.template.changeControl', 'form.template.changeControl.app.relatedService', '어플리케이션 변경관리', '', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app.relatedService.homepage', 'form.template.changeControl.app.relatedService', 'homepage', '홈페이지', '', true, true, 6, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app.relatedService.DigitalAproval', 'form.template.changeControl.app.relatedService', 'digitalApproval', '전자결재시스템', '', true, true, 6, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app.relatedService.accessManage', 'form.template.changeControl.app.relatedService', 'accessManage', '출입관리시스템', '', true, true, 6, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app.relatedService.ERP', 'form.template.changeControl.app.relatedService', 'erp', 'ERP', '', true, true, 6, 4, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app.relatedService.itsm', 'form.template.changeControl.app.relatedService', 'itsm', 'ITSM', '', true, true, 6, 5, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app.relatedService.etc', 'form.template.changeControl.app.relatedService', 'etc', '기타', '', true, true, 6, 6, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-insert into awf_code values('form.template.changeControl.app.relatedService', 'form.template.changeControl.app', 'form.template.changeControl.app.relatedService', '관련 서비스', '어플리케이션 변경관리 관련서비스 ', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl', 'form.template', 'form.template.changeControl.app', '변경관리', '', true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app', 'form.template.changeControl', 'form.template.changeControl.app.relatedService', '어플리케이션 변경관리', '', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app.relatedService.homepage', 'form.template.changeControl.app.relatedService', 'homepage', '홈페이지', '', true, true, 6, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app.relatedService.DigitalAproval', 'form.template.changeControl.app.relatedService', 'digitalApproval', '전자결재시스템', '', true, true, 6, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app.relatedService.accessManage', 'form.template.changeControl.app.relatedService', 'accessManage', '출입관리시스템', '', true, true, 6, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app.relatedService.ERP', 'form.template.changeControl.app.relatedService', 'erp', 'ERP', '', true, true, 6, 4, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app.relatedService.itsm', 'form.template.changeControl.app.relatedService', 'itsm', 'ITSM', '', true, true, 6, 5, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app.relatedService.etc', 'form.template.changeControl.app.relatedService', 'etc', '기타', '', true, true, 6, 6, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('form.template.changeControl.app.relatedService', 'form.template.changeControl.app', 'form.template.changeControl.app.relatedService', '관련 서비스', '어플리케이션 변경관리 관련서비스 ', true, true, 5, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+/* SLA */
+insert into awf_code values ('sla', 'root', '', 'SLA', NULL, false, true, 1, 16, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricType', 'sla', 'metricType', '지표 타입', NULL, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricType.auto', 'sla.metricType', 'auto', '자동', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricType.manual', 'sla.metricType', 'manual', '수동', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricUnit', 'sla', 'metricUnit', '지표 단위', NULL, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricUnit.score', 'sla.metricUnit', 'score', '점', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricUnit.percent', 'sla.metricUnit', 'percent', '%', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricUnit.time', 'sla.metricUnit', 'time', '시간', NULL, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType', 'sla', 'calculationType', '계산 방식', NULL, true, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType.sum', 'sla.calculationType', 'sum', '합산', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType.percentage', 'sla.calculationType', 'percentage', '비율', NULL, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.calculationType.average', 'sla.calculationType', 'average', '평균', NULL, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricGroup', 'sla', 'metricGroup', '지표 그룹', NULL, true, true, 2, 4, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_code values ('sla.metricGroup.default', 'sla.metricGroup', 'default', '기본 그룹', NULL, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+
 
 /**
  * 사용자정의코드
@@ -594,8 +612,16 @@ insert into awf_menu values ('notice', 'menu', '/notices/search', 4, 'TRUE');
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5, 'TRUE');
 insert into awf_menu values ('archive', 'menu', '/archives/search', 6, 'TRUE');
 insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7, 'TRUE');
-insert into awf_menu values ('statistic', 'menu', '', 8, 'TRUE');
-insert into awf_menu values ('workflow', 'menu', '', 9, 'TRUE');
+insert into awf_menu values ('calendar', 'menu', '/calendars', 8, 'TRUE');
+insert into awf_menu values ('statistic', 'menu', '', 9, 'TRUE');
+insert into awf_menu values ('statistic.customReportTemplate', 'statistic', '/statistics/customReportTemplate/search', 1, 'TRUE');
+insert into awf_menu values ('statistic.customReport', 'statistic', '/statistics/customReport/search', 2, 'TRUE');
+insert into awf_menu values ('statistic.basicReport', 'statistic', '/statistics/basicReport/search', 3, 'FALSE');
+insert into awf_menu values ('statistic.customChart', 'statistic', '/statistics/customChart/search', 4, 'TRUE');
+insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistics/basicChart/search', 5, 'FALSE');
+insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistics/dashboardTemplate/search', 6, 'FALSE');
+insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
+insert into awf_menu values ('workflow', 'menu', '', 10, 'TRUE');
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1, 'TRUE');
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2, 'TRUE');
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3, 'TRUE');
@@ -603,12 +629,12 @@ insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/s
 insert into awf_menu values ('workflow.file', 'workflow', '/files', 5, 'TRUE');
 insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/search', 6, 'TRUE');
 insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRules/search', 7, 'TRUE');
-insert into awf_menu values ('cmdb', 'menu', '', 10, 'TRUE');
-insert into awf_menu values ('config', 'menu', '', 11, 'TRUE');
+insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
 insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
 insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('config', 'menu', '', 12, 'TRUE');
 insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
 insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
@@ -623,6 +649,12 @@ insert into awf_menu values ('statistic.customChart', 'statistic', '/statistics/
 insert into awf_menu values ('statistic.basicChart', 'statistic', '/statistics/basicChart/search', 5, 'FALSE');
 insert into awf_menu values ('statistic.dashboardTemplate', 'statistic', '/statistics/dashboardTemplate/search', 6, 'FALSE');
 insert into awf_menu values ('statistic.customDashboardTemplate', 'statistic', '/statistics/customDashboardTemplate/edit', 7, 'FALSE');
+insert into awf_menu values ('sla', 'menu', '', 11, 'TRUE');
+insert into awf_menu values ('sla.metricStatus', 'sla', '/sla/metric-status/search', 1, 'TRUE');
+insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/annual/search', 2, 'TRUE');
+insert into awf_menu values ('sla.manualMetric', 'sla', '/sla/metric-manuals/search', 3, 'TRUE');
+insert into awf_menu values ('sla.year', 'sla', '/sla/metrics/search', 4, 'TRUE');
+insert into awf_menu values ('sla.pool', 'sla', '/sla/metric-pools/search', 5, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -667,6 +699,18 @@ insert into awf_menu_auth_map values ('config.product', 'system.manage');
 insert into awf_menu_auth_map values ('config.role', 'system.manage');
 insert into awf_menu_auth_map values ('config.scheduler', 'system.manage');
 insert into awf_menu_auth_map values ('config.user', 'system.manage');
+insert into awf_menu_auth_map values ('sla', 'sla.manage');
+insert into awf_menu_auth_map values ('sla', 'sla.view');
+insert into awf_menu_auth_map values ('sla.metricStatus', 'sla.manage');
+insert into awf_menu_auth_map values ('sla.metricStatus', 'sla.view');
+insert into awf_menu_auth_map values ('sla.yearStatus', 'sla.manage');
+insert into awf_menu_auth_map values ('sla.yearStatus', 'sla.view');
+insert into awf_menu_auth_map values ('sla.manualMetric', 'sla.manage');
+insert into awf_menu_auth_map values ('sla.manualMetric', 'sla.view');
+insert into awf_menu_auth_map values ('sla.year', 'sla.manage');
+insert into awf_menu_auth_map values ('sla.year', 'sla.view');
+insert into awf_menu_auth_map values ('sla.pool', 'sla.manage');
+insert into awf_menu_auth_map values ('sla.pool', 'sla.view');
 insert into awf_menu_auth_map values ('statistic', 'report.manage');
 insert into awf_menu_auth_map values ('statistic', 'report.view');
 insert into awf_menu_auth_map values ('statistic.basicReport', 'report.view');
@@ -686,7 +730,7 @@ insert into awf_menu_auth_map values ('workflow.numberingPattern', 'workflow.man
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
-
+insert into awf_menu_auth_map values ('calendar', 'general');
 /**
  * 알림
  */
@@ -827,6 +871,7 @@ INSERT INTO awf_role VALUES ('general.user', '일반 사용자', '', '0509e09412
 INSERT INTO awf_role VALUES ('workflow.admin', '업무흐름 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('cmdb.admin', 'CMDB 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('portal.admin', '포털 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+INSERT INTO awf_role VALUES ('sla.admin', 'SLA 관리자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 
 /**
  * 역할권한매핑
@@ -856,6 +901,7 @@ INSERT INTO awf_role_auth_map VALUES ('system.admin', 'report.view');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'system.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'portal.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'document.view');
+INSERT INTO awf_role_auth_map VALUES ('system.admin', 'sla.manage');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'workflow.expire');
@@ -881,7 +927,9 @@ INSERT INTO awf_role_auth_map VALUES ('cmdb.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'portal.manage');
 INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'document.view');
-
+INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'general');
+INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'document.view');
+INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'sla.manage');
 
 /**
  * 문서번호패턴맵핑
@@ -1361,6 +1409,21 @@ insert into awf_url values ('/rest/schedulers', 'post', '스케줄러 등록', '
 insert into awf_url values ('/rest/schedulers/{id}', 'delete', '스케줄러 삭제', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}', 'put', '스케줄러 수정', 'TRUE');
 insert into awf_url values ('/rest/schedulers/{id}/execute', 'post', '스케줄러 실행', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics', 'get', '해당 년도에 저장된 지표 목록', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics', 'post', '년도별 지표 등록', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics', 'put', '년도별 지표 변경', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/{id}/{year}', 'delete', '년도별 지표 삭제', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/copy', 'post', '지표 데이터 복사', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/exist', 'get', '연도별 지표 존재 여부 확인', 'FALSE');
+insert into awf_url values ('/rest/sla/metric-manuals', 'post', '수동 지표 등록', 'TRUE');
+insert into awf_url values ('/rest/sla/metric-manuals/{id}', 'delete', '수동 지표 삭제', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/annual/excel', 'get', '년도별 현황 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/sla/metrics/{id}/preview', 'get', '년도별 현황 미리보기', 'TRUE');
+insert into awf_url values ('/rest/sla/metric-status', 'get', '지표별 현황 목록 화면', 'TRUE');
+insert into awf_url VALUES ('/rest/sla/metric-status/list', 'get', '년도별 지표 목록 불러오기 ', 'TRUE');
+insert into awf_url values ('/rest/sla/metric-pools', 'post', 'SLA 지표 등록', 'TRUE');
+insert into awf_url values ('/rest/sla/metric-pools/{id}', 'put', 'SLA 지표 변경', 'TRUE');
+insert into awf_url values ('/rest/sla/metric-pools/{id}', 'delete', 'SLA 지표 삭제', 'TRUE');
 insert into awf_url values ('/rest/statistics/customChart', 'post', '사용자 정의 차트 등록', 'TRUE');
 insert into awf_url values ('/rest/statistics/customChart/{id}', 'get', '사용자 정의 차트 미리보기');
 insert into awf_url values ('/rest/statistics/customChart/{id}', 'put', '사용자 정의 차트 수정', 'TRUE');
@@ -1398,6 +1461,24 @@ insert into awf_url values ('/schedulers/search', 'get', '스케줄러 리스트
 insert into awf_url values ('/schedulers/{id}/edit', 'get', '스케줄러 상세 수정 화면', 'TRUE');
 insert into awf_url values ('/schedulers/{id}/history', 'get', '스케줄러 이력 리스트 모달 화면', 'TRUE');
 insert into awf_url values ('/schedulers/{id}/view', 'get', '스케줄러 상세 조회 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/search', 'get', '년도별 지표관리 검색 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics', 'get', '년도별 지표관리 목록 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/new', 'get', '년도별 지표관리 등록 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/{id}/{year}/edit', 'get', '년도별 지표관리 편집 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/{id}/{year}/view', 'get', '년도별 지표관리 조회 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/copy', 'get', '연도별 지표 복사해오기 모달 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-manuals/search', 'get', '수동 지표관리 검색 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-manuals', 'get', '수동 지표관리 목록 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-manuals/new', 'get', '수동 지표 등록 모달 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-status', 'get', '지표별 현황 차트 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-status/search', 'get', '지표별 현황 검색 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/annual/search', 'get', '년도별 현황 검색 화면', 'TRUE');
+insert into awf_url values ('/sla/metrics/annual', 'get', '년도별 현황 목록 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-pools/search', 'get', 'SLA 지표관리 검색 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-pools', 'get', 'SLA 지표관리 목록 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-pools/new', 'get', 'SLA 지표관리 등록 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-pools/{id}/edit', 'get', 'SLA 지표관리 편집 화면', 'TRUE');
+insert into awf_url values ('/sla/metric-pools/{id}/view', 'get', 'SLA 지표관리 조회 화면', 'TRUE');
 insert into awf_url values ('/statistics/basicChart/search', 'get', '기본 차트 목록 조회 화면', 'TRUE');
 insert into awf_url values ('/statistics/basicReport/search', 'get', '기본 보고서 목록 조회 화면', 'TRUE');
 insert into awf_url values ('/statistics/customChart', 'get', '사용자 정의 차트 목록', 'TRUE');
@@ -1452,6 +1533,8 @@ insert into awf_url values ('/rest/documentStorage/{instanceId}/exist', 'get', '
 insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌트 템플릿 조회', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
+insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
+
 
 /**
  * URL별권한매핑
@@ -1602,6 +1685,16 @@ insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'gen
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/excel', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/template', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/templateUpload', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
@@ -1656,6 +1749,9 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.m
 insert into awf_url_auth_map values ('/rest/files', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}', 'delete', 'general');
@@ -1699,6 +1795,24 @@ insert into awf_url_auth_map values ('/rest/schedulers', 'post', 'system.manage'
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'put', 'system.manage');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}', 'delete', 'system.manage');
 insert into awf_url_auth_map values ('/rest/schedulers/{id}/execute', 'post', 'system.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics', 'post', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics', 'put', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/{year}', 'delete', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics/copy', 'post', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics/annual/excel', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics/annual/excel', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/preview', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metrics/{id}/preview', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/rest/sla/metric-manuals', 'post', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-manuals/{id}', 'delete', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-pools', 'post', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'put', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-pools/{id}', 'delete', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-status', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-status', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/rest/sla/metric-status/list', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/rest/sla/metric-status/list', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/rest/statistics/customChart', 'post', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.manage');
 insert into awf_url_auth_map values ('/rest/statistics/customChart/{id}', 'get', 'report.view');
@@ -1739,6 +1853,37 @@ insert into awf_url_auth_map values ('/schedulers/search', 'get', 'system.manage
 insert into awf_url_auth_map values ('/schedulers/{id}/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/schedulers/{id}/history', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/schedulers/{id}/view', 'get', 'system.manage');
+insert into awf_url_auth_map values ('/sla/metrics', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/search', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/search', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/new', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/edit', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/view', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/{id}/{year}/view', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/copy', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/copy', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/annual/search', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/annual/search', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metrics/annual', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metrics/annual', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-manuals/search', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-manuals/search', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-manuals', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-manuals', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-manuals/new', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-pools/search', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-pools/search', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-pools', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-pools', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-pools/new', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-pools/{id}/edit', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-pools/{id}/view', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-pools/{id}/view', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-status', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-status', 'get', 'sla.view');
+insert into awf_url_auth_map values ('/sla/metric-status/search', 'get', 'sla.manage');
+insert into awf_url_auth_map values ('/sla/metric-status/search', 'get', 'sla.view');
 insert into awf_url_auth_map values ('/statistics/basicChart/search', 'get', 'report.view');
 insert into awf_url_auth_map values ('/statistics/basicReport/search', 'get', 'report.view');
 insert into awf_url_auth_map values ('/statistics/customChart', 'get', 'report.manage');
@@ -1789,6 +1934,7 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','work
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/calendars', 'get', 'general');
 
 /**
  * 사용자정보
@@ -8676,6 +8822,20 @@ insert into awf_code_lang values ('customCode.sessionKey.officeNumber', 'Office 
 insert into awf_code_lang values ('customCode.sessionKey.mobileNumber', 'Mobile', 'en');
 insert into awf_code_lang values ('customCode.type.table', 'table', 'en');
 insert into awf_code_lang values ('customCode.type.code', 'code', 'en');
+/* SLA */
+insert into awf_code_lang values ('sla.metricType', 'Metric Type', 'en');
+insert into awf_code_lang values ('sla.metricType.auto', 'auto', 'en');
+insert into awf_code_lang values ('sla.metricType.manual', 'manual', 'en');
+insert into awf_code_lang values ('sla.metricUnit', 'Metric Unit', 'en');
+insert into awf_code_lang values ('sla.metricUnit.score', 'score', 'en');
+insert into awf_code_lang values ('sla.metricUnit.time', 'time', 'en');
+insert into awf_code_lang values ('sla.calculationType', 'Calculation Type', 'en');
+insert into awf_code_lang values ('sla.calculationType.sum', 'sum', 'en');
+insert into awf_code_lang values ('sla.calculationType.percentage', 'percentage', 'en');
+insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
+insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
+insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
+
 
 /**
  * 사용자 지정 테이블
@@ -9259,6 +9419,67 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
 
 /**
+  SLA 지표
+ */
+DROP TABLE IF EXISTS sla_metric cascade;
+
+CREATE TABLE sla_metric
+(
+    metric_id varchar(128) NOT NULL,
+    metric_name varchar(100) NOT NUll,
+    metric_desc text,
+    metric_group varchar(128),
+    metric_type varchar(128),
+    metric_unit varchar(128),
+    calculation_type varchar(128),
+    create_user_key varchar(128),
+    create_dt timestamp ,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT sla_metric_pk PRIMARY KEY (metric_id),
+    CONSTRAINT sla_metric_uk UNIQUE (metric_name)
+);
+
+COMMENT ON TABLE sla_metric IS 'SLA 지표';
+COMMENT ON COLUMN sla_metric.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric.metric_name IS '지표이름';
+COMMENT ON COLUMN sla_metric.metric_desc IS '지표설명';
+COMMENT ON COLUMN sla_metric.metric_group IS '지표그룹';
+COMMENT ON COLUMN sla_metric.metric_type IS '지표관리타입';
+COMMENT ON COLUMN sla_metric.metric_unit IS '지표단위';
+COMMENT ON COLUMN sla_metric.calculation_type IS '계산방식';
+COMMENT ON COLUMN sla_metric.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric.create_dt IS '등록일';
+COMMENT ON COLUMN sla_metric.update_user_key IS '수정자';
+COMMENT ON COLUMN sla_metric.update_dt IS '수정일';
+
+/**
+ * 캘린더
+ */
+DROP TABLE IF EXISTS awf_calendar cascade;
+
+CREATE TABLE awf_calendar
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_type varchar(100) NOT NULL,
+    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar IS '캘린더';
+COMMENT ON COLUMN awf_calendar.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar.calendar_type IS '캘린더구분';
+
+--기본 데이터
+insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', 'user');
+insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', 'user');
+insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', 'user');
+insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', 'user');
+insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', 'user');
+insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', 'user');
+insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', 'user');
+insert into awf_calendar values ('9c1320817c0d3112616d1df8df480002', 'document');
+
+/**
  * 컴포넌트 템플릿
  */
 DROP TABLE IF EXISTS wf_component_template cascade;
@@ -9277,3 +9498,272 @@ COMMENT ON COLUMN wf_component_template.template_id IS '컴포넌트 템플릿 �
 COMMENT ON COLUMN wf_component_template.template_name IS '컴포넌트 템플릿 이름';
 COMMENT ON COLUMN wf_component_template.component_type IS '컴포넌트 타입';
 COMMENT ON COLUMN wf_component_template.component_data IS '컴포넌트 속성값';
+
+/**
+ * 문서 캘린더
+ */
+DROP TABLE IF EXISTS awf_calendar_document cascade;
+
+CREATE TABLE awf_calendar_document
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_name varchar(100),
+    create_dt     timestamp,
+    CONSTRAINT awf_calendar_document_pk PRIMARY KEY (calendar_id),
+    CONSTRAINT awf_calendar_document_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id),
+    CONSTRAINT awf_calendar_document_uk UNIQUE (calendar_name)
+);
+
+COMMENT ON TABLE awf_calendar_document IS '문서 캘린더';
+COMMENT ON COLUMN awf_calendar_document.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_document.calendar_name IS '캘린더이름';
+COMMENT ON COLUMN awf_calendar_document.create_dt IS '등록일';
+
+--기본 데이터
+insert into awf_calendar_document values ('9c1320817c0d3112616d1df8df480002', '문서', now());
+
+/**
+ * 문서 캘린더 스케줄
+ */
+DROP TABLE IF EXISTS awf_calendar_document_schedule cascade;
+
+CREATE TABLE awf_calendar_document_schedule
+(
+    schedule_id       varchar(128) NOT NULL,
+    calendar_id       varchar(128) NOT NULL,
+    instance_id       varchar(128) NOT NULL,
+    schedule_title    varchar(200),
+    schedule_contents text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    create_dt         timestamp,
+    update_dt         timestamp,
+    CONSTRAINT awf_calendar_document_schedule_pk PRIMARY KEY (schedule_id),
+    CONSTRAINT awf_calendar_document_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar_document_schedule IS '문서 캘린더 스케줄';
+COMMENT ON COLUMN awf_calendar_document_schedule.schedule_id IS '스케줄아이디';
+COMMENT ON COLUMN awf_calendar_document_schedule.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_document_schedule.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN awf_calendar_document_schedule.schedule_title IS '제목';
+COMMENT ON COLUMN awf_calendar_document_schedule.schedule_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_document_schedule.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_document_schedule.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_document_schedule.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_document_schedule.create_dt IS '등록일';
+COMMENT ON COLUMN awf_calendar_document_schedule.update_dt IS '수정일';
+
+/**
+ * 사용자 캘린더
+ */
+DROP TABLE IF EXISTS awf_calendar_user cascade;
+
+CREATE TABLE awf_calendar_user
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_name varchar(100),
+    owner         varchar(128),
+    create_dt     timestamp,
+    CONSTRAINT awf_calendar_user_pk PRIMARY KEY (calendar_id),
+    CONSTRAINT awf_calendar_user_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id),
+    CONSTRAINT awf_calendar_user_uk UNIQUE (owner, calendar_name)
+);
+
+COMMENT ON TABLE awf_calendar_user IS '사용자 캘린더';
+COMMENT ON COLUMN awf_calendar_user.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_user.calendar_name IS '캘린더이름';
+COMMENT ON COLUMN awf_calendar_user.owner IS '사용자';
+COMMENT ON COLUMN awf_calendar_user.create_dt IS '등록일';
+
+--기본 데이터
+insert into awf_calendar_user values ('2b2380667b0c3133026d0de8df480001', '기본', '0509e09412534a6e98f04ca79abb6424', now());
+insert into awf_calendar_user values ('2c1120637b0d4123026d0de8df480005', '기본', '4028b21c7c4df297017c4e595fd90000', now());
+insert into awf_calendar_user values ('1a2380167a0c3161026d0de7df780203', '기본', '40288ad27c729b34017c729c2e370000', now());
+insert into awf_calendar_user values ('2c2183663b0c3133228d3ce8cf580015', '기본', '40288ada7cfd3301017cfd3a78580000', now());
+insert into awf_calendar_user values ('4a2388567c7b2113121d0de8bf110002', '기본', '2c9180867d0b3336017d0de8bf480001', now());
+insert into awf_calendar_user values ('3b2380627b1c3133625d1de9af233001', '기본', '2c91808e7c75dad2017c781635e22000', now());
+insert into awf_calendar_user values ('6d2381637b0d1233322d0fe8df471009', '기본', '2c91808e7c75dad2017c781635e20000', now());
+
+/**
+ * 사용자 캘린더 스케줄
+ */
+DROP TABLE IF EXISTS awf_calendar_user_schedule cascade;
+
+CREATE TABLE awf_calendar_user_schedule
+(
+    schedule_id       varchar(128) NOT NULL,
+    calendar_id       varchar(128) NOT NULL,
+    schedule_title    varchar(200),
+    schedule_contents text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    create_dt         timestamp,
+    update_dt         timestamp,
+    CONSTRAINT awf_calendar_user_schedule_pk PRIMARY KEY (schedule_id),
+    CONSTRAINT awf_calendar_user_schedule_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar_user_schedule IS '사용자 캘린더 스케줄';
+COMMENT ON COLUMN awf_calendar_user_schedule.schedule_id IS '스케줄아이디';
+COMMENT ON COLUMN awf_calendar_user_schedule.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar_user_schedule.schedule_title IS '제목';
+COMMENT ON COLUMN awf_calendar_user_schedule.schedule_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_user_schedule.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_user_schedule.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_user_schedule.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_user_schedule.create_dt IS '등록일';
+COMMENT ON COLUMN awf_calendar_user_schedule.update_dt IS '수정일';
+
+/**
+ * 사용자 캘린더 반복일정
+ */
+DROP TABLE IF EXISTS awf_calendar_user_repeat cascade;
+
+CREATE TABLE awf_calendar_user_repeat
+(
+    repeat_id   varchar(128) NOT NULL,
+    calendar_id varchar(128) NOT NULL,
+    CONSTRAINT awf_calendar_user_repeat_pk PRIMARY KEY (repeat_id),
+    CONSTRAINT awf_calendar_user_repeat_fk FOREIGN KEY (calendar_id) REFERENCES awf_calendar (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar_user_repeat IS '사용자 캘린더 반복일정';
+COMMENT ON COLUMN awf_calendar_user_repeat.repeat_id IS '반복일정아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat.calendar_id IS '캘린더아이디';
+
+/**
+ * 사용자 캘린더 반복일정 커스텀 상세정보
+ */
+DROP TABLE IF EXISTS awf_calendar_user_repeat_custom_data cascade;
+
+CREATE TABLE awf_calendar_user_repeat_custom_data
+(
+    custom_id         varchar(128) NOT NULL,
+    data_id           varchar(128) NOT NULL,
+    custom_type       varchar(64),
+    data_index        int,
+    custom_title      varchar(200),
+    custom_contents   text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    create_dt         timestamp,
+    CONSTRAINT awf_calendar_user_repeat_custom_data_pk PRIMARY KEY (custom_id),
+    CONSTRAINT awf_calendar_user_repeat_custom_data_fk FOREIGN KEY (data_id) REFERENCES awf_calendar_user_repeat_data (data_id)
+);
+
+COMMENT ON TABLE awf_calendar_user_repeat_custom_data IS '사용자 캘린더 반복일정 커스텀';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_id IS '커스텀아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_id IS '데이터아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_type IS '커스텀타입';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_index IS '데이터인덱스';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_title IS '제목';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
+
+/**
+ * 사용자 캘린더 반복일정 상세정보
+ */
+DROP TABLE IF EXISTS awf_calendar_user_repeat_data cascade;
+
+CREATE TABLE awf_calendar_user_repeat_data
+(
+    data_id           varchar(128) NOT NULL,
+    repeat_id         varchar(128) NOT NULL,
+    repeat_start_dt   timestamp,
+    repeat_end_dt     timestamp,
+    repeat_type       varchar(64),
+    repeat_value      varchar(64),
+    repeat_title      varchar(200),
+    repeat_contents   text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    create_dt         timestamp,
+    CONSTRAINT awf_calendar_user_repeat_data_pk PRIMARY KEY (data_id),
+    CONSTRAINT awf_calendar_user_repeat_data_fk FOREIGN KEY (repeat_id) REFERENCES awf_calendar_user_repeat (repeat_id)
+);
+
+COMMENT ON TABLE awf_calendar_user_repeat_data IS '사용자 캘린더 반복일정';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.data_id IS '데이터아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_id IS '반복일정아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_start_dt IS '반복일정시작일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_end_dt IS '반복일정종료일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_type IS '반복일정 타입';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_value IS '반복일정 설정 값';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_title IS '제목';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.repeat_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_user_repeat_data.create_dt IS '등록일';
+
+
+/**
+  SLA 연도별 지표
+ */
+DROP TABLE IF EXISTS sla_metric_year cascade;
+
+CREATE TABLE sla_metric_year
+(
+    metric_id varchar(128) NOT NULL,
+    metric_year varchar(128) NOT NULL,
+    min_value decimal,
+    max_value decimal,
+    weight_value decimal,
+    owner varchar(100),
+    comment text,
+    zql_string text,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT sla_metric_year_pk PRIMARY KEY (metric_id, metric_year),
+    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_metric_year IS 'SLA 연도별 지표';
+COMMENT ON COLUMN sla_metric_year.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_year.metric_year IS '지표관리년도';
+COMMENT ON COLUMN sla_metric_year.min_value IS '최소치';
+COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
+COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
+COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
+COMMENT ON COLUMN sla_metric_year.comment IS '비고';
+COMMENT ON COLUMN sla_metric_year.zql_string IS 'zql';
+COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
+COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';
+COMMENT ON COLUMN sla_metric_year.update_dt IS '수정일';
+
+/**
+  SLA 수동 지표
+ */
+DROP TABLE IF EXISTS sla_metric_manual cascade;
+
+CREATE TABLE sla_metric_manual
+(
+    metric_manual_id varchar(128) NOT NUll,
+    metric_id varchar(128) NOT NULL,
+    reference_dt timestamp,
+    metric_value decimal,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    CONSTRAINT sla_metric_manual_pk PRIMARY KEY (metric_manual_id),
+    CONSTRAINT sla_metric_manual_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_metric_manual IS 'SLA 수동 지표';
+COMMENT ON COLUMN sla_metric_manual.metric_manual_id IS '수동지표아이디';
+COMMENT ON COLUMN sla_metric_manual.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
+COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
+COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
+

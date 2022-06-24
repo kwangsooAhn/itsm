@@ -159,9 +159,9 @@ export  default class ZChart {
         this.data = JSON.parse(JSON.stringify(data));
         this.domElement = document.getElementById(container);
         this._type = this.data.chartType || CHART.TYPE.BASIC_LINE;
-        this._id = this.data.chartId || '';
-        this._name = this.data.chartName || '';
-        this._desc = this.data.chartDesc || '';
+        this._id = this.data.chartId || this.data.metricId ||'';
+        this._name = this.data.chartName || this.data.metricName || '';
+        this._desc = this.data.chartDesc || this.data.metricDesc || '';
         this._tags = this.data.tags || [];
         this._config = this.data.chartConfig;
         this._customOptions = customOptions;

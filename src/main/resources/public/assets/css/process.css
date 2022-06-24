@@ -1111,6 +1111,17 @@ input, button, select, optgroup, textarea {
 .underline:hover {
   text-decoration: underline;
 }
+.underline-grid {
+  position: relative;
+}
+.underline-grid::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0.0625rem;
+  background-color: #424242;
+}
 
 .description {
   color: #8B9094;
@@ -1394,6 +1405,10 @@ input, button, select, optgroup, textarea {
 
 .flex-fill {
   flex: 1 1 auto;
+}
+
+.none {
+  display: none;
 }
 
 .flex-col-1 {
@@ -1680,12 +1695,12 @@ input, button, select, optgroup, textarea {
 .z-icon.i-list-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  mask-image: url("../../assets/media/icons/icon_list-delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
+  -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/icon_delete.svg");
+  -webkit-mask-repeat: round;
+  mask-repeat: round;
+  -webkit-mask-position: inherit;
+  mask-position: inherit;
 }
 .z-icon.i-edit {
   width: 1.25rem;
@@ -1987,6 +2002,16 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-gnb-calendar {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_calendar.svg");
+  mask-image: url("../../assets/media/icons/gnb/icon_gnb_calendar.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
 .z-icon.i-gnb_sub_dot {
   width: 0.25rem;
   height: 0.25rem;
@@ -2060,8 +2085,8 @@ input, button, select, optgroup, textarea {
 .z-icon.i-delete {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
-  mask-image: url("../../assets/media/icons/designer/tooltip/icon_remove.svg");
+  -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_delete.svg");
+  mask-image: url("../../assets/media/icons/designer/tooltip/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -2712,12 +2737,21 @@ input, button, select, optgroup, textarea {
   align-items: baseline !important;
   padding: 0 3.75rem 2rem 3.75rem;
 }
+.z-itsm-container .z-main-title--empty + .z-main-content {
+  height: calc(100vh - 3.5rem);
+}
 .z-itsm-container .z-main-content {
   height: calc(100vh - 8.5rem);
 }
 .z-itsm-container .z-main-content .z-page-content {
   border-top: 0.0625rem solid #CFD5D9;
   flex: 1 1 auto;
+}
+.z-itsm-container .z-main-content .z-page-content .hidden-control-content {
+  display: none;
+}
+.z-itsm-container .z-main-content .z-page-content .hidden-control-content.on {
+  display: block;
 }
 .z-itsm-container .z-main-content .z-page-search {
   display: flex;
@@ -2843,12 +2877,13 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid {
   display: grid;
   flex: 1;
+  height: fit-content;
   align-content: start;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__row {
   display: grid;
   grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
+  grid-template-rows: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell {
   display: flex;
@@ -2857,9 +2892,12 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #424242;
 }
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row {
   color: #757575;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
@@ -2893,7 +2931,6 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row {
   color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
-  cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row.read-only {
   cursor: default;
@@ -2991,12 +3028,13 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-list .grid {
   display: grid;
   flex: 1;
+  height: fit-content;
   align-content: start;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__row {
   display: grid;
   grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
+  grid-template-rows: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__cell {
   display: flex;
@@ -3005,9 +3043,12 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   color: #424242;
 }
+.z-itsm-container .z-main-content .z-page-list .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
   color: #757575;
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
   cursor: pointer;
@@ -3041,7 +3082,6 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
   color: #222529;
   border-bottom: 0.0625rem solid #CFD5D9;
-  cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row.read-only {
   cursor: default;
@@ -3633,6 +3673,10 @@ input, button, select, optgroup, textarea {
 }
 .cmdb-ci-content .grid__body {
   max-height: 36.25rem;
+}
+
+#resultScore {
+  font-size: 2rem;
 }
 
 /* 프로세스 디자이너 팝업 layout
@@ -5307,6 +5351,12 @@ svg path.connector.hidden {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   padding: 0.625rem 1.25rem;
+  /*
+   * size
+   */
+  /*
+   * 테마
+   */
 }
 .z-button:focus, .z-button:hover,
 .z-button-icon:focus,
@@ -5321,6 +5371,12 @@ svg path.connector.hidden {
 .z-button-text:disabled,
 .z-button-text.disabled {
   cursor: default;
+}
+.z-button.small,
+.z-button-icon.small,
+.z-button-text.small {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.4375rem;
 }
 .z-button.primary,
 .z-button-icon.primary,
@@ -6144,7 +6200,7 @@ svg path.connector.hidden {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
-  padding: 0.25rem 0.6875rem;
+  padding: 0;
 }
 .z-button-switch-group .z-button-switch .z-icon,
 .z-button-switch-group .z-button-toggle .z-icon,
@@ -8044,6 +8100,64 @@ body.modal-active {
 .modal-dialog.process-status-modal .modal-content {
   width: 100%;
   height: calc(33.125rem - 5rem);
+}
+.modal-dialog.sla-metric-manual-modal {
+  width: 30rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.sla-metric-manual-modal .modal-content {
+  height: calc(25rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.sla-metric-yearly-copy-modal {
+  width: 62.5rem;
+}
+.modal-dialog.sla-metric-yearly-copy-modal .modal-content {
+  height: calc(18rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.sla-zql-manual-modal {
+  width: 62.5rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-dialog.sla-zql-manual-modal::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.sla-zql-manual-modal .modal-content {
+  height: calc(50.63rem - 3.875rem - 5rem);
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.sla-zql-manual-modal .modal-content div {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.modal-dialog.sla-chart-view-modal {
+  min-width: 68.75rem;
+}
+.modal-dialog.sla-chart-view-modal .modal-header {
+  border-bottom: 0.0625rem solid transparent;
+}
+.modal-dialog.sla-chart-view-modal .modal-content {
+  width: auto;
+  height: auto;
+}
+.modal-dialog.sla-chart-view-modal .modal-content .chart-edit-content {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  margin: 0 1.5rem;
 }
 
 .modal-dialog.save-as .modal-content {
