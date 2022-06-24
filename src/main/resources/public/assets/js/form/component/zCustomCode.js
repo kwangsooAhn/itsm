@@ -74,16 +74,13 @@ export const customCodeMixin = {
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
-        // customCode 값이 입력되면 remove 버튼 생성
-        const customData =element.UIInput.getUIAttribute('data-custom-data').split('|');
-        if (customData[1] !== FORM.CUSTOM.NONE) {
-            element.UIRemoveButton = new UIRemoveButton()
-                .addUIClass('z-button-icon-sm')
-                .onUIClick(this.removeValue.bind(this))
-                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
-            element.addUI(
-                element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
-        }
+        // remove 버튼 생성 (단, customCode 값이 입력되면 display)
+        element.UIRemoveButton = new UIRemoveButton()
+            .addUIClass('z-button-icon-sm')
+            .onUIClick(this.removeValue.bind(this))
+            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+        element.addUI(
+            element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
 
         this.setDefaultValue(element.UIInput);
         return element;
@@ -132,9 +129,8 @@ export const customCodeMixin = {
             }
         }
         // '${default}' 에서 실제 값이 빈 값일 때에 remove 버튼을 제거한다.
-        if (this.UIElement.UIComponent.UIElement.UIRemoveButton !== undefined && this.value === '') {
-            this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
-        }
+        const removeButton = this.UIElement.UIComponent.UIElement.UIRemoveButton;
+        removeButton.domElement.style.display = (this.value !== '') ? 'block' : 'none';
     },
     // set, get
     set elementColumnWidth(width) {
@@ -211,14 +207,9 @@ export const customCodeMixin = {
 
         const customData = e.target.getAttribute('data-custom-data').split('|');
 
-        // customCode 값이 입력되면 remove 버튼 생성
-        const element = this.UIElement.UIComponent;
-        if (customData[2].trim() !== '') {
-            element.UIElement.UIRemoveButton = new UIRemoveButton().addUIClass('z-button-icon-sm')
-                .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove')).onUIClick(this.removeValue.bind(this));
-            element.UIElement.addUI(element.UIElement.UIInputButton.addUI(element.UIElement.UIInput)
-                .addUI(element.UIElement.UIRemoveButton).addUI(element.UIElement.UIButton));
-        }
+        // 값이 입력되었을 경우 remove button display
+        const removeButton = this.UIElement.UIComponent.UIElement.UIRemoveButton;
+        removeButton.domElement.style.display = (customData[2].trim() !== '') ? 'block' : 'none';
 
         // 값이 입력되었을 경우 error 없애기
         if (zValidation.isRequired(customData)) {
@@ -233,7 +224,7 @@ export const customCodeMixin = {
         customData[2] = '';
         const dataCustomData = `${customData[0]}|${customData[1]}|${customData[2]}`;
         this.UIElement.UIComponent.UIElement.UIInput.setUIAttribute('data-custom-data', dataCustomData);
-        this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.remove();
+        this.UIElement.UIComponent.UIElement.UIRemoveButton.domElement.style.display = 'none'
         this.value = customData[2];
     },
     // 커스텀 코드 모달
