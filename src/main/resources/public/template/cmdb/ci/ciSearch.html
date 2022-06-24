@@ -31,6 +31,8 @@
                 <form id="searchFrm" onsubmit="return false">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
                            maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}"/>
+                    <input type="text" class="z-input i-search col-3 mr-2" id="tagSearch" name="tagSearch"
+                           maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
                     <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch"
                             name="btnDetailSearch"
                             onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
@@ -80,6 +82,16 @@
         let importFile;
         window.onload = function() {
             document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce(() => getList()), false);
+
+            new zTag(document.getElementById('tagSearch'), {
+                suggestion: true,
+                realtime: false,
+                tagType: 'ci',
+                targetId: '',
+                callback: function () {
+                    getList();
+                }
+            });
 
             getTree();
 
