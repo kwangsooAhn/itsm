@@ -863,19 +863,6 @@ class WfDocumentService(
             instances.forEach {
                 instanceIds.add(it.instanceId)
             }
-
-            ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
-                ciComponentDataList.forEach { ciComponentData ->
-                    val ciDto = CIDto(
-                        ciId = ciComponentData.ciId,
-                        typeId = "",
-                        ciName = "",
-                        ciStatus = "",
-                        interlink = false
-                    )
-                    ciService.deleteCI(ciDto)
-                }
-            }
             wfInstanceRepository.deleteInstances(instances)
         }
     }

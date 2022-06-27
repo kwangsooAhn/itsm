@@ -22,7 +22,7 @@
         <input id="userKey" name="userKey" th:value="${users?.userKey}" type="hidden"/>
         <input id="avatarUUID" name="avatarUUID" type="hidden" value=""/>
         <div class="flex-column z-edit-row">
-            <h3 class="sub-title under-bar bold" th:text="#{user.label.profile}"></h3>
+            <h3 class="sub-title under-bar border-thick" th:text="#{user.label.profile}"></h3>
         </div>
         <div class="flex-column z-edit-row">
             <div class="flex-row">
@@ -128,7 +128,7 @@
             </div>
         </div>
         <div class="flex-column z-edit-row">
-            <h3 class="sub-title under-bar bold" th:text="#{user.label.customSetting}"></h3>
+            <h3 class="sub-title under-bar border-thick" th:text="#{user.label.customSetting}"></h3>
         </div>
         <div class="flex-column z-edit-row">
             <div class="flex-row">
@@ -182,7 +182,7 @@
             </div>
         </div>
         <div class="flex-column z-edit-row">
-            <h3 th:classappend="${view} ? '':'required'" class="sub-title under-bar bold" th:text="#{user.label.role}"></h3>
+            <h3 th:classappend="${view} ? '':'required'" class="sub-title under-bar border-thick" th:text="#{user.label.role}"></h3>
         </div>
         <div class="flex-column z-edit-row">
             <div class="z-checkbox-list">
@@ -202,7 +202,7 @@
             </div>
         </div>
         <div th:if="${users?.userKey != null}" class="flex-column z-edit-row">
-            <h3 class="sub-title under-bar bold" th:text="#{user.label.userAbsence}"></h3>
+            <h3 class="sub-title under-bar border-thick" th:text="#{user.label.userAbsence}"></h3>
             <label class="z-switch" for="userAbsence">
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
@@ -252,7 +252,7 @@
             </div>
         </div>
         <div class="flex-column z-edit-row">
-            <h3 class="sub-title under-bar bold" th:text="#{user.label.usageStatus}"></h3>
+            <h3 class="sub-title under-bar border-thick" th:text="#{user.label.usageStatus}"></h3>
             <label class="z-switch">
                 <input id="usageStatus" name="usageStatus" th:checked="${users?.useYn == null || users?.useYn == true}"
                        th:disabled="${view}" type="checkbox">

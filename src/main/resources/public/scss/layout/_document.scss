@@ -1,0 +1,466 @@
+/* document
+ *
+ *
+ * 파일 경로 : layout/_document.scss
+ * @description document에서 사용되는 scss
+ * @version 1.0
+ */
+////////////////////////// element //////////////////////////
+.z-button-icon-sm {
+  .z-icon {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+}
+
+/* 신청서 / 처리할 문서 양식 layout */
+// z-document-container
+//                - z-document-main : 문서양식 메인
+//                             - z-document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+//                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
+//                - z-token-properties : 문서이력, 관련문서, 의견, 태그
+//
+// 신청서, 문서함 공통
+.z-document-container {
+  ////////////////////////// form //////////////////////////
+  $tooltip-type: (group, row, component);
+  @each $type in $tooltip-type {
+    .z-#{$type}-tooltip {
+      @include border(0.0625rem, solid, $white, all); // 1px
+    }
+  }
+  /* form, group, row, component 디자인 - document ver. */
+  // 툴팁 border 초기화
+  .z-component {
+    padding: 0 1rem;
+    &-tooltip {
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    span { word-break: break-all; }
+  }
+  .z-group {
+    &.accordion {
+      .z-group-accordion-checkBox:checked {
+        ~ .row-tooltip:not(.off):last-child {
+          @include border(0.0625rem, solid, $gray300, bottom); // 1px
+        }
+      }
+    }
+    .z-element { pointer-events: auto; }
+  }
+  .z-dr-table-button-group { top: -0.25rem !important; }
+
+  ////////////////////////// layout //////////////////////////
+  @include container;
+
+  .z-document-main {
+    @include fixed(0, 33.125rem, 0, 0); // 530px
+    @include scrollbarHidden;
+    overflow-y: auto;
+    background-color: $neutral50;
+
+    // 상단 영역
+    .z-document-main-header {
+      @include fixed(0, 33.125rem, null, 0); // 530px
+      padding: 0.75rem 1rem; // 12px
+      background: $blue500;
+      z-index: 100;
+
+      .z-action-button-top-area {
+        .z-button-list { width: 100%; }
+      }
+
+      .z-button-list {
+        .primary { border-color: $white; }
+        .secondary { border-color: $white;}
+      }
+    }
+
+    .z-document-main-content {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      // 문서 번호
+      .z-document-numbering {
+        margin: 6.25rem 0 0.625rem; // 100px 0 0 10px
+        font-family: $font-family;
+        font-size: $font-size-xs;
+        text-align: left;
+      }
+    }
+
+    // board 영역
+    .z-drawing-board { margin: 6.25rem 0 3rem; } // 100px 48px
+
+    // 하단 영역
+    .z-document-main-footer {
+      width: 100%;
+      padding: 0.75rem 0 4rem; // 12px 0 64px
+    }
+  }
+
+  // 속성 탭 toggle 버튼
+  .toggle--tab {
+    position: absolute;
+    top: 4.688rem; // 75px
+    right: 33.125rem; // 530px
+    padding: 0.25rem 0; // 4px 0
+    border-radius: 0;
+    border-top-left-radius: 0.3125rem; // 5px
+    border-bottom-left-radius: 0.3125rem; // 5px
+    background-color: $gray400;
+    z-index: 500;
+
+    .z-icon.i-arrow-double { background: $white; }
+
+    &.off {
+      right: 0;
+      .z-icon.i-arrow-double { @include rotate(180); }
+
+      + form {
+        .z-document-main {
+          right: 0;
+          .z-document-main-header { right: 0; }
+        }
+      }
+
+      ~ .z-token-properties { width: 0; }
+    }
+  }
+
+  // TODO: 문서함에서 문서속성 탭쪽 디자인
+  // 2021-06-26 Jung Hee Chan
+  // 신청서 디자인은 되었는데 문서함쪽은 고려가 안되어 있는 것 같아 일단 붙여 놓음.
+  // 디자인 적용 작업 시 신청서 + 문서함 부분과 나눠지는 부분에 대한 고려가 필요함.
+  .z-token-properties {
+    @include fixed(0, 0, 0, null);
+    @include border(0.0625rem, solid, $gray300, left);
+    @include transition(all 0.25s ease-out);
+    overflow: hidden;
+    width: 33.125rem; // 530px
+    background-color: $white;
+
+    .z-token-tabs {
+      display: flex;
+      margin-top: 2rem; // 32px
+      padding: 0 1.375rem; // 22px
+
+      .z-token-tab {
+        @include border(0.0625rem, solid, $gray300, bottom);
+        flex: 1;
+        padding: 0.625rem 0; // 10px 0
+        color: $gray400;
+
+        // 선택된 탭일 경우
+        &.active {
+          @include border(0.188rem, solid, $blue500, bottom); // 3px
+          color: $gray800;
+        }
+      }
+    }
+
+    // 탭 내용
+    .z-token-panels {
+      overflow-y: auto;
+      height: 100%;
+
+      .z-token-panel {
+        display: none;
+        padding: 0 1.375rem; // 22px
+        &.on { display: block; }
+
+        // 아이콘
+        .z-icon.i-delete { background: $gray500; }
+      }
+
+      .z-token {
+        // 태그
+        &-tag {
+          margin: 0.625rem 0 0 0; // 10px 0 0 0
+          padding-bottom: 1.25rem; // 20px
+        }
+
+        // 보관처리
+        &-storage {
+          margin: 1.75rem 0 0 0; // 28px 0 0 0
+          .z-icon-document-storage {
+            display:contents;
+            &.active {
+              .document-storage-star {
+                fill: $yellow500;
+                stroke: $yellow600;
+              }
+            }
+          }
+          .z-token-storage-label { margin-left: 0.25rem; } // 4px
+        }
+
+        // 처리 이력
+        &-history {
+          height: 100%;
+          &-sub-title {
+            display: block;
+            margin: 1.75rem 0 0.3125rem 0; // 28px 0 5px 0
+            color: $gray500;
+          }
+
+          &-table {
+            th, td { padding: 0 0.625rem; } // 0 10px
+            .z-table-head {
+              @include border(0.0625rem, solid, $gray300, top);
+              background-color: $neutral100;
+              tr {
+                height: 2rem; // 32px
+                th { color: $gray400; }
+              }
+            }
+
+            .z-table-body {
+              overflow-y: auto;
+              border: none;
+              tr {
+                @include border(0.0625rem, solid, $gray300, bottom);
+                width: 100%;
+              }
+            }
+          }
+        }
+
+        // 관련 문서
+        &-related {
+          &-sub-title {
+            display: block;
+            margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
+            color: $gray500;
+          }
+          &-item {
+            height: 9.75rem; // 156px
+            margin: 0.625rem 0 0 0; // 10px 0 0 0
+
+            // 추가된 관련 문서
+            .z-document {
+              &-color {
+                @include borderRadius(0.125rem);
+                width: 0.375rem; // 6px
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+              }
+
+              &-row {
+                @include border(0.0625rem, solid, $gray300, all);
+                @include borderRadius(0.125rem);
+                flex: 1;
+                padding: 1rem; // 16px
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                &-content {
+                  a {
+                    width: 100%;
+                    .z-document-title {
+                      @include wordWrap();
+                      h6 {
+                        &:first-child {
+                          color: $gray800;
+                          font-weight: $font-weight-bold;
+                        }
+                        &:last-child {
+                          margin-left: 0.5rem; //8px
+                          color: $gray500;
+                        }
+                      }
+                    }
+                  }
+                }
+
+                &-topic {
+                  height: 100%;
+                  h6 { width: 27.5rem; }
+                }
+              }
+            }
+          }
+
+          // 관련 문서 추가
+          .z-document-add {
+            @include border(0.0625rem, solid, $gray300, all);
+            background-color: $neutral50;
+            .z-button-icon {
+              width: 100%;
+              height: 100%;
+              .z-icon.i-plus { background: $gray500; }
+            }
+          }
+        }
+
+        // 댓글
+        &-comment {
+          &-item {
+            @include border(0.0625rem, solid, $gray300, all);
+            @include borderRadius(0.125rem);
+            margin: 0.625rem 0 0 0; // 10px 0 0 0
+            padding: 1rem; // 16px
+
+            .z-comment {
+              &-row {
+                &-info {
+                  .z-user-name {
+                    color: $gray800;
+                    font-weight: $font-weight-bold;
+                  }
+                  .z-comment-time {
+                    margin-left: 0.5rem; //8px
+                    color: $gray500;
+                  }
+                }
+                &-content {
+                  height: 100%;
+                  margin: 0.625rem 0 0 0; // 10px 0 0 0
+                  h6 { width: 27.5rem; }
+                }
+              }
+            }
+          }
+
+          // 댓글 추가
+          .z-comment-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
+        }
+
+        // 참조인
+        &-viewer {
+          &-sub-title {
+            display: block;
+            margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
+            color: $gray500;
+          }
+
+          &-table {
+            td, th {
+              &:nth-child(3) { color: $gray500; }
+            }
+            .z-table-body {
+              border: none;
+              tr:hover { background-color: transparent; }
+            }
+            .z-icon.i-clear { background: $gray500; }
+          }
+        }
+      }
+    }
+  }
+}
+
+////////////////////////// print //////////////////////////
+.z-print {
+  margin: 0 auto;
+
+  z-print-main > div { height: 0; }
+
+  &-main-footer {
+    padding: 5mm 0;
+    line-height: 1.2;
+  }
+
+  &-header-space,
+  &-footer-space { height: 0; }
+
+  &-main {
+    .z-drawing-board {
+      .z-form {
+        box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
+        border: none; // 인쇄시 테두리 제외
+        // 인쇄시 폼 내의 모든 컴포넌트 동작을 막음
+        * { pointer-events: none; }
+      }
+    }
+  }
+}
+
+@page {
+  size: A4;
+  margin: 0 20mm;
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+  .z-print {
+    width: 100%;
+    min-height: initial;
+    margin: 0;
+    padding: 0;
+    border: initial;
+    border-radius: initial;
+    background: initial;
+    box-shadow: initial;
+    page-break-before: auto;
+
+    &-main-header { margin: 5mm 0 0 0; }
+    &-header-space { height: 10mm; }
+    &-footer-space { height: 20mm; }
+
+    &-main {
+      margin: 0 auto;
+      .z-print-header-space { display: table-header-group; }
+      .z-drawing-board { display: table-row-group; }
+      .z-print-footer-space { display: table-footer-group; }
+
+      // 폼이 그려지는 영역
+      .z-drawing-board {
+        .z-form {
+          display: table-row;
+          .z-group-tooltip {
+            page-break-after: auto;
+            break-inside: avoid;
+          }
+          .z-row-tooltip {
+            break-inside: avoid;
+            .z-textarea {
+              width: inherit;
+              max-width: calc(210mm - 10mm);
+            }
+          }
+        }
+
+        // 일정
+        &-calendar {
+          &-sub-title {
+            display: block;
+            color: $gray500;
+            margin: 2.5rem 0 0.3125rem 0; // 40px 0 5px 0
+          }
+
+          &-table {
+            td, th {
+              &:nth-child(2) {
+                color: $gray500;
+              }
+            }
+
+            .z-table-body {
+              border: none;
+
+              tr:hover {
+                background-color: transparent;
+              }
+            }
+
+            .z-icon {
+              &.i-clear {
+                background: $gray500;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &-main-footer {
+      position: fixed;
+      bottom: 0;
+      width: 210mm;
+    }
+  }
+}
