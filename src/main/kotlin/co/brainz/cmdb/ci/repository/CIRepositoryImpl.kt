@@ -12,10 +12,12 @@ import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
+import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.framework.tag.entity.QAliceTagEntity
+import co.brainz.itsm.cmdb.ci.constants.CITemplateConstants
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.QCIComponentDataEntity
 import co.brainz.workflow.instance.constants.InstanceStatus
@@ -210,5 +212,61 @@ class CIRepositoryImpl : QuerydslRepositorySupport(CIEntity::class.java), CIRepo
             builder.and(!ci.ciId.eq(ciSearchCondition.relationSearch))
         }
         return builder
+    }
+    override fun findCIModalList(ciSearchCondition: CISearchCondition): PagingReturnDto {
+        val query = from(ci)
+            .select(
+                Projections.constructor(
+                    CIsDto::class.java,
+                    ci.ciId,
+                    ci.ciNo,
+                    ci.ciName,
+                    ci.ciStatus,
+                    cmdbType.typeId,
+                    cmdbType.typeName,
+                    cmdbClass.classId,
+                    cmdbClass.className,
+                    cmdbType.typeIcon,
+                    ci.ciDesc,
+                    ci.interlink,
+                    ci.createUser.userKey,
+                    ci.createDt,
+                    ci.updateUser.userKey,
+                    ci.updateDt
+                )
+            )
+            .innerJoin(cmdbType).on(cmdbType.typeId.eq(ci.ciTypeEntity.typeId))
+            .innerJoin(cmdbClass).on(cmdbClass.classId.eq(ci.ciTypeEntity.ciClass.classId))
+            .where(this.searchByBuilder(ciSearchCondition, ci, cmdbClass, cmdbTag, wfComponentCIData, wfInstance))
+            .fetch()
+
+        var list = mutableListOf<CIsDto>()
+        list.addAll(query)
+
+        val totalSize = list.size
+        if (list.isNotEmpty()) {
+            list.sortByDescending { portalDto -> portalDto.createDt }
+            var fromRow = ciSearchCondition.offset
+            var toRow = CITemplateConstants.COUNT
+            if (fromRow == 0) {
+                if (list.size < toRow) {
+                    toRow = list.size
+                }
+            } else {
+                if (list.size < fromRow) {
+                    fromRow = list.size
+                }
+                toRow = fromRow + CITemplateConstants.COUNT
+                if (list.size < toRow) {
+                    toRow = list.size
+                }
+            }
+            list = list.subList(fromRow, toRow)
+        }
+
+        return PagingReturnDto(
+            dataList = list,
+            totalCount = totalSize.toLong()
+        )
     }
 }

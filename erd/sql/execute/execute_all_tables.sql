@@ -1284,10 +1284,21 @@ insert into awf_url values ('/rest/boards/articles/comments', 'post', '게시판
 insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '게시판 댓글 삭제', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/calendars/excel', 'post', '일정 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/template', 'get', '일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/templateUpload', 'post', '일괄 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/cis/component/list', 'get', 'CI 모달 스크롤 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 - CI 컴포넌트 세부 정보 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
@@ -1354,6 +1365,9 @@ insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
 insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
 insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{id}/schedule', 'get', '문서 일정 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/schedule', 'post', '문서 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/schedule/{id}', 'delete', '문서 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
@@ -1534,7 +1548,6 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
-
 
 /**
  * URL별권한매핑
@@ -9419,6 +9432,32 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
 
 /**
+ * 캘린더
+ */
+DROP TABLE IF EXISTS awf_calendar cascade;
+
+CREATE TABLE awf_calendar
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_type varchar(100) NOT NULL,
+    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar IS '캘린더';
+COMMENT ON COLUMN awf_calendar.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar.calendar_type IS '캘린더구분';
+
+--기본 데이터
+insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', 'user');
+insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', 'user');
+insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', 'user');
+insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', 'user');
+insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', 'user');
+insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', 'user');
+insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', 'user');
+insert into awf_calendar values ('9c1320817c0d3112616d1df8df480002', 'document');
+
+/**
   SLA 지표
  */
 DROP TABLE IF EXISTS sla_metric cascade;
@@ -9452,32 +9491,6 @@ COMMENT ON COLUMN sla_metric.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric.create_dt IS '등록일';
 COMMENT ON COLUMN sla_metric.update_user_key IS '수정자';
 COMMENT ON COLUMN sla_metric.update_dt IS '수정일';
-
-/**
- * 캘린더
- */
-DROP TABLE IF EXISTS awf_calendar cascade;
-
-CREATE TABLE awf_calendar
-(
-    calendar_id   varchar(128) NOT NULL,
-    calendar_type varchar(100) NOT NULL,
-    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id)
-);
-
-COMMENT ON TABLE awf_calendar IS '캘린더';
-COMMENT ON COLUMN awf_calendar.calendar_id IS '캘린더아이디';
-COMMENT ON COLUMN awf_calendar.calendar_type IS '캘린더구분';
-
---기본 데이터
-insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', 'user');
-insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', 'user');
-insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', 'user');
-insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', 'user');
-insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', 'user');
-insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', 'user');
-insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', 'user');
-insert into awf_calendar values ('9c1320817c0d3112616d1df8df480002', 'document');
 
 /**
  * 컴포넌트 템플릿
@@ -9523,6 +9536,43 @@ COMMENT ON COLUMN awf_calendar_document.create_dt IS '등록일';
 insert into awf_calendar_document values ('9c1320817c0d3112616d1df8df480002', '문서', now());
 
 /**
+  SLA 연도별 지표
+ */
+DROP TABLE IF EXISTS sla_metric_year cascade;
+
+CREATE TABLE sla_metric_year
+(
+    metric_id varchar(128) NOT NULL,
+    metric_year varchar(128) NOT NULL,
+    min_value decimal,
+    max_value decimal,
+    weight_value decimal,
+    owner varchar(100),
+    comment text,
+    zql_string text,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT sla_metric_year_pk PRIMARY KEY (metric_id, metric_year),
+    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_metric_year IS 'SLA 연도별 지표';
+COMMENT ON COLUMN sla_metric_year.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_year.metric_year IS '지표관리년도';
+COMMENT ON COLUMN sla_metric_year.min_value IS '최소치';
+COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
+COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
+COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
+COMMENT ON COLUMN sla_metric_year.comment IS '비고';
+COMMENT ON COLUMN sla_metric_year.zql_string IS 'zql';
+COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
+COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';
+COMMENT ON COLUMN sla_metric_year.update_dt IS '수정일';
+
+/**
  * 문서 캘린더 스케줄
  */
 DROP TABLE IF EXISTS awf_calendar_document_schedule cascade;
@@ -9554,6 +9604,31 @@ COMMENT ON COLUMN awf_calendar_document_schedule.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_document_schedule.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_document_schedule.create_dt IS '등록일';
 COMMENT ON COLUMN awf_calendar_document_schedule.update_dt IS '수정일';
+
+/**
+  SLA 수동 지표
+ */
+DROP TABLE IF EXISTS sla_metric_manual cascade;
+
+CREATE TABLE sla_metric_manual
+(
+    metric_manual_id varchar(128) NOT NUll,
+    metric_id varchar(128) NOT NULL,
+    reference_dt timestamp,
+    metric_value decimal,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    CONSTRAINT sla_metric_manual_pk PRIMARY KEY (metric_manual_id),
+    CONSTRAINT sla_metric_manual_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_metric_manual IS 'SLA 수동 지표';
+COMMENT ON COLUMN sla_metric_manual.metric_manual_id IS '수동지표아이디';
+COMMENT ON COLUMN sla_metric_manual.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
+COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
+COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
 
 /**
  * 사용자 캘린더
@@ -9703,67 +9778,4 @@ COMMENT ON COLUMN awf_calendar_user_repeat_data.all_day_yn IS '종일여부';
 COMMENT ON COLUMN awf_calendar_user_repeat_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_user_repeat_data.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_user_repeat_data.create_dt IS '등록일';
-
-
-/**
-  SLA 연도별 지표
- */
-DROP TABLE IF EXISTS sla_metric_year cascade;
-
-CREATE TABLE sla_metric_year
-(
-    metric_id varchar(128) NOT NULL,
-    metric_year varchar(128) NOT NULL,
-    min_value decimal,
-    max_value decimal,
-    weight_value decimal,
-    owner varchar(100),
-    comment text,
-    zql_string text,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT sla_metric_year_pk PRIMARY KEY (metric_id, metric_year),
-    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
-);
-
-COMMENT ON TABLE sla_metric_year IS 'SLA 연도별 지표';
-COMMENT ON COLUMN sla_metric_year.metric_id IS '지표아이디';
-COMMENT ON COLUMN sla_metric_year.metric_year IS '지표관리년도';
-COMMENT ON COLUMN sla_metric_year.min_value IS '최소치';
-COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
-COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
-COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
-COMMENT ON COLUMN sla_metric_year.comment IS '비고';
-COMMENT ON COLUMN sla_metric_year.zql_string IS 'zql';
-COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
-COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
-COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';
-COMMENT ON COLUMN sla_metric_year.update_dt IS '수정일';
-
-/**
-  SLA 수동 지표
- */
-DROP TABLE IF EXISTS sla_metric_manual cascade;
-
-CREATE TABLE sla_metric_manual
-(
-    metric_manual_id varchar(128) NOT NUll,
-    metric_id varchar(128) NOT NULL,
-    reference_dt timestamp,
-    metric_value decimal,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    CONSTRAINT sla_metric_manual_pk PRIMARY KEY (metric_manual_id),
-    CONSTRAINT sla_metric_manual_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
-);
-
-COMMENT ON TABLE sla_metric_manual IS 'SLA 수동 지표';
-COMMENT ON COLUMN sla_metric_manual.metric_manual_id IS '수동지표아이디';
-COMMENT ON COLUMN sla_metric_manual.metric_id IS '지표아이디';
-COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
-COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
-COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
-COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
 

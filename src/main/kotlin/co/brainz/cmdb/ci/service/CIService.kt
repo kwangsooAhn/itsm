@@ -79,11 +79,8 @@ class CIService(
      * CI 목록 조회.
      */
     fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
-        val cis = ciRepository.findCIList(ciSearchCondition)
-        val ciList = mutableListOf<CIsDto>()
-        for (ci in cis.dataList as List<CIsDto>) {
-            ciList.add(ci)
-        }
+        val cis = ciRepository.findCIModalList(ciSearchCondition)
+        val ciList = cis.dataList as MutableList<CIsDto>
 
         return CIListReturnDto(
             data = this.getCIsListDto(ciList),

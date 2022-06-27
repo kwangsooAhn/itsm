@@ -36,6 +36,7 @@ data class CISearchCondition(
     var isPaging = pageNum > 0
     var isSearchType: Boolean = true // type 검색 사용유무 (모달 CI 검색: true, CI 조회: false)__CI 조회는 타입을 선택하기 때문
     var isExcel: Boolean = false
+    var offset: Int = 0
 
     private fun tagStrArray(): List<String> {
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())

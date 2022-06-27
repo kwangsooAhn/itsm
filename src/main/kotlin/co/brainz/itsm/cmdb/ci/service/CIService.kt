@@ -19,7 +19,7 @@ import co.brainz.cmdb.dto.CIDetailDto
 import co.brainz.cmdb.dto.CIDynamicListDto
 import co.brainz.cmdb.dto.CIDynamicReturnDto
 import co.brainz.cmdb.dto.CIHistoryDto
-import co.brainz.cmdb.dto.CIListReturnDto
+import co.brainz.cmdb.dto.CIModalReturnDto
 import co.brainz.cmdb.dto.CIRelationDto
 import co.brainz.cmdb.dto.CISearchItem
 import co.brainz.cmdb.dto.CIsDto
@@ -114,8 +114,12 @@ class CIService(
     /**
      * CMDB CI 목록 조회
      */
-    fun getCIs(ciSearchCondition: CISearchCondition): CIListReturnDto {
-        return ciService.getCIs(ciSearchCondition)
+    fun getCIs(ciSearchCondition: CISearchCondition): CIModalReturnDto {
+        val result = ciService.getCIs(ciSearchCondition)
+        return CIModalReturnDto(
+            data = result.data,
+            totalCount = result.paging.totalCount
+        )
     }
 
     /**
@@ -402,7 +406,8 @@ class CIService(
         result?.columnTitle?.forEachIndexed { index, title ->
             when (result.columnType[index]) {
                 CIAttributeConstants.Type.ICON.code,
-                CIAttributeConstants.Type.HIDDEN.code -> { }
+                CIAttributeConstants.Type.HIDDEN.code -> {
+                }
                 else -> {
                     titleRowVOList.add(
                         ExcelCellVO(
@@ -432,7 +437,8 @@ class CIService(
             content.value.forEachIndexed { index, value ->
                 when (result.columnType[index]) {
                     CIAttributeConstants.Type.ICON.code,
-                    CIAttributeConstants.Type.HIDDEN.code -> { }
+                    CIAttributeConstants.Type.HIDDEN.code -> {
+                    }
                     else -> {
                         excelCellVOList.add(ExcelCellVO(value = value))
                     }

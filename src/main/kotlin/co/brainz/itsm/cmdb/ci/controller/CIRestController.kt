@@ -134,4 +134,12 @@ class CIRestController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(ciTemplateService.uploadCIsTemplate(files))
     }
+
+    /**
+     * CI 스크롤 페이지 조회
+     */
+    @GetMapping("/component/list")
+    fun getCIComponentList(ciSearchCondition: CISearchCondition): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciService.getCIs(ciSearchCondition))
+    }
 }
