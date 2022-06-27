@@ -1119,6 +1119,17 @@ input, button, select, optgroup, textarea {
 .underline:hover {
   text-decoration: underline;
 }
+.underline-grid {
+  position: relative;
+}
+.underline-grid::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0.0625rem;
+  background-color: #424242;
+}
 
 .description {
   color: #8B9094;
@@ -2891,12 +2902,13 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid {
   display: grid;
   flex: 1;
+  height: fit-content;
   align-content: start;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__row {
   display: grid;
   grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
+  grid-template-rows: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell {
   display: flex;
@@ -2905,8 +2917,11 @@ input, button, select, optgroup, textarea {
   color: #424242;
   font-weight: 500;
 }
+.z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row {
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: 0.125rem solid #ABB0B5;
   color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
@@ -3039,12 +3054,13 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-list .grid {
   display: grid;
   flex: 1;
+  height: fit-content;
   align-content: start;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__row {
   display: grid;
   grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
+  grid-template-rows: 2.5rem;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__cell {
   display: flex;
@@ -3053,8 +3069,11 @@ input, button, select, optgroup, textarea {
   color: #424242;
   font-weight: 500;
 }
+.z-itsm-container .z-main-content .z-page-list .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row {
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: 0.125rem solid #ABB0B5;
   color: #757575;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
@@ -6411,6 +6430,23 @@ input, button, select, optgroup, textarea {
   .z-print-main .z-drawing-board .z-form .z-row-tooltip .z-textarea {
     width: inherit;
     max-width: 200mm;
+  }
+  .z-print-main .z-drawing-board-calendar-sub-title {
+    display: block;
+    color: #8B9094;
+    margin: 2.5rem 0 0.3125rem 0;
+  }
+  .z-print-main .z-drawing-board-calendar-table td:nth-child(2), .z-print-main .z-drawing-board-calendar-table th:nth-child(2) {
+    color: #8B9094;
+  }
+  .z-print-main .z-drawing-board-calendar-table .z-table-body {
+    border: none;
+  }
+  .z-print-main .z-drawing-board-calendar-table .z-table-body tr:hover {
+    background-color: transparent;
+  }
+  .z-print-main .z-drawing-board-calendar-table .z-icon.i-clear {
+    background: #8B9094;
   }
   .z-print-main-footer {
     position: fixed;
@@ -10433,12 +10469,13 @@ body.modal-active {
 .modal-dialog.modal-button-search-modal .modal-content .grid {
   display: grid;
   flex: 1;
+  height: fit-content;
   align-content: start;
 }
 .modal-dialog.modal-button-search-modal .modal-content .grid__row {
   display: grid;
   grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
+  grid-template-rows: 2.5rem;
 }
 .modal-dialog.modal-button-search-modal .modal-content .grid__cell {
   display: flex;
@@ -10447,8 +10484,11 @@ body.modal-active {
   color: #424242;
   font-weight: 500;
 }
+.modal-dialog.modal-button-search-modal .modal-content .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
 .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row {
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: 0.125rem solid #ABB0B5;
   color: #757575;
 }
 .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
