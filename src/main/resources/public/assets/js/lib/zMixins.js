@@ -127,16 +127,24 @@ export const toolTipMenuMixin = {
 
         // copy
         tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass('z-tooltip-menu-item')
+            .addUIClass('z-palette-tooltip')
             .setUIAttribute('data-action', 'copy')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-copy'))
-            .onUIClick(this.copyObject.bind(this));
+            .onUIClick(this.copyObject.bind(this))
+            .addUI(new UIDiv().setUIClass('z-palette-tooltip-contents')
+                .addUI(new UISpan().setUIClass('z-palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.copy')))
+            );
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiCopy);
 
         // remove
         tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass('z-tooltip-menu-item')
+            .addUIClass('z-palette-tooltip')
             .setUIAttribute('data-action', 'remove')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
-            .onUIClick(this.removeObject.bind(this));
+            .onUIClick(this.removeObject.bind(this))
+            .addUI(new UIDiv().setUIClass('z-palette-tooltip-contents')
+                .addUI(new UISpan().setUIClass('z-palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.delete')))
+            );
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiRemove);
 
         tooltipMenu.addUI(tooltipMenu.UIUl);

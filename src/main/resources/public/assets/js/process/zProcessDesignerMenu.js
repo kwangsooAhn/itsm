@@ -500,7 +500,9 @@
                     d3.select(this).style('fill', 'url(#' + d.parent + '-' + d.type + '-focus)');
                 }
                 d.action(elem);
-            });
+            })
+            .append('title')
+            .text(function(d) { return i18n.msg('tooltip.label.' + d.type); });
 
         const bbox = zProcessDesigner.utils.getBoundingBoxCenter(elem),
             gTransform = d3.zoomTransform(d3.select('g.element-container').node());

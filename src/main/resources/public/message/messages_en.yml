@@ -1358,7 +1358,6 @@ process:
       totalCount: "Total Count"
       userTask: "User Task"
       withdraw: "Withdraw"
-
 # Role
 role:
   btn:
@@ -1908,3 +1907,14 @@ product:
     technicalSupport: "TechnicalSupport : 02-2205-6031"
     productInquiry: "ProductInquiry : 02-2205-6009, 6015"
     copyright: "ⓒ 2020 Brainzcompany. All rights reserved."
+
+# Tooltip
+tooltip:
+  label:
+    template: "Set as Component Template"
+    copy: "Copy"
+    delete: "Delete"
+    edit: "Edit Attribute"
+    suggest: "Suggest Element"
+    simulation: "Simulation"
+    minimap: "Minimap"
