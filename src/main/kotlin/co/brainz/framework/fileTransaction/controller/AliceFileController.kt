@@ -7,11 +7,12 @@ package co.brainz.framework.fileTransaction.controller
 
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
-import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.response.ZAliceResponse
+import co.brainz.framework.response.dto.ZResponse
 import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -87,8 +88,8 @@ class AliceFileController(
      * @param fileDataId 문자열로 파일 목록을 가져오기 위한 값. ex) 111,22,33
      */
     @GetMapping("/filelist")
-    fun getFileList(@RequestParam ownId: String, @RequestParam fileDataId: String): List<AliceFileOwnMapDto> {
-        return aliceFileService.getList(ownId, fileDataId)
+    fun getFileList(@RequestParam ownId: String, @RequestParam fileDataId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(aliceFileService.getList(ownId, fileDataId))
     }
 
     /**

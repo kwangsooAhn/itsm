@@ -141,30 +141,32 @@
 
         this.show = function () {
             if (typeof this.wrapper !== 'undefined') {
-                addClass(this.wrapper, 'modal-active');
+                const _this = this;
+                const modalWrapper = _this.wrapper;
+                addClass(modalWrapper, 'modal-active');
                 addClass(document.body, 'modal-active');
-                const modalDialog = document.querySelector('.modal-dialog');
+                const modalDialog = modalWrapper.querySelector('.modal-dialog');
                 modalDialog.classList.remove('modal-active');
-                this.animation = setTimeout(function () {
-                    clearTimeout(this.animation);
+                _this.animation = setTimeout(function () {
+                    clearTimeout(_this.animation);
                     modalDialog.classList.add('modal-active');
+                    _this.options.onShow(_this);
+                    _this.display = true;
                 }, 30);
-                this.display = true;
-                this.options.onShow(this);
             }
         };
 
         this.hide = function () {
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
-                const modalWrapper = this.wrapper;
+                const modalWrapper = _this.wrapper;
                 modalWrapper.querySelector('.modal-dialog').classList.remove('modal-active');
                 setTimeout(function () {
                     removeClass(modalWrapper, 'modal-active');
                     removeClass(document.body, 'modal-active');
                     _this.options.onHide(_this);
+                    _this.display = false;
                 }, 150);
-                this.display = false;
             }
         };
 

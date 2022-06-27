@@ -32,13 +32,14 @@
             <div class="grid__cell"><span th:text="#{common.msg.noData}"></span></div>
         </div>
         <div class="grid__row" th:unless="${#arrays.isEmpty(chartList)}" th:each="chart: ${chartList}">
-            <div class="grid__cell pr-2 underline pointer">
-                <a class="text-ellipsis" sec:authorize="hasAuthority('report.manage')" th:text="${chart.chartName}"
-                   th:href="@{/statistics/customChart/{id}/edit(id=${chart?.chartId})}" th:title="${chart.chartName}">
+            <div class="grid__cell pr-2 pl-4">
+                <a class="text-ellipsis underline-grid" sec:authorize="hasAuthority('report.manage')"
+                   th:href="@{/statistics/customChart/{id}/edit(id=${chart?.chartId})}"
+                   th:text="${chart.chartName}" th:title="${chart.chartName}">
                 </a>
-                <a class="text-ellipsis" sec:authorize="!hasAuthority('report.manage') and hasAuthority('report.view')"
-                   th:text="${chart.chartName}"
-                   th:href="@{/statistics/customChart/{id}/view(id=${chart?.chartId})}" th:title="${chart.chartName}">
+                <a class="text-ellipsis underline-grid" sec:authorize="!hasAuthority('report.manage') and hasAuthority('report.view')"
+                   th:href="@{/statistics/customChart/{id}/view(id=${chart?.chartId})}"
+                   th:text="${chart.chartName}" th:title="${chart.chartName}">
                 </a>
             </div>
             <div class="grid__cell pr-2 pl-2">

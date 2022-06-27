@@ -52,6 +52,7 @@ common:
     export: "내보내기"
     fail: "실패"
     group: "그룹"
+    importFile: "IMPORT 파일"
     modify: "수정"
     name: "이름"
     nameAsc: "이름 순"
@@ -100,6 +101,7 @@ common:
     selectBeforeDateTime: "{0} 이전으로 선택하세요."
     selectBeforeTime: "{0} 시간 이전으로 선택하세요."
     selectColor: "색상을 선택하세요."
+    selectImportFile: "IMPORT 파일을 선택하세요."
     success: "성공하였습니다."
     update: "수정되었습니다."
   code:
@@ -253,6 +255,72 @@ board:
     searchDescription: "게시글을 조회 및 관리합니다."
     viewDescription: "게시글에 대한 상세 정보를 조회합니다."
     createCategory: "분류 항목을 추가해 주세요."
+
+# Calendar
+calendar:
+  btn:
+    importTemplate: "일괄등록"
+  label:
+    allDay: "종일"
+    calendar: "일정"
+    contentsPlaceholder: "내용을 입력해주세요."
+    day: "일간"
+    dayOfMonth: "매월 {0}"
+    dayOfMonthType:
+      first: "첫 번째"
+      second: "두 번째"
+      third: "세 번째"
+      fourth: "네 번째"
+      last: "마지막"
+    days:
+      sunday: "일요일"
+      monday: "월요일"
+      tuesday: "화요일"
+      wednesday: "수요일"
+      thursday: "목요일"
+      friday: "금요일"
+      saturday: "토요일"
+    default: "기본"
+    shortDays:
+      sun: "일"
+      mon: "월"
+      tue: "화"
+      wed: "수"
+      thu: "목"
+      fri: "금"
+      sat: "토"
+    month: "월간"
+    myCalendar: "내 캘린더"
+    none: "반복 안함"
+    repeatModify: "반복 일정 설정"
+    repeatPeriod:
+      after: "이 일정 및 향후 일정"
+      all: "모든 일정"
+      today: "이 일정"
+    repeatYn: "반복 여부"
+    task: "일정 리스트"
+    titlePlaceholder: "제목을 입력해주세요."
+    today: "오늘"
+    week: "주간"
+    weekAllDay: "종일 일정"
+    weekOfMonth: "매주"
+  msg:
+    description: "일정을 추가하거나 조회 및 관리합니다."
+    enterEndDt: "종료일시를 입력하세요."
+    enterStartDt: "시작일시를 입력하세요."
+    noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
+  tooltip:
+    templateRule: "파일에 아래와 같은 내용이 반드시 포함되어야 한다.<br/><br/>
+         • startDt : 시작 날짜<br/>
+         • endDt : 종료 날짜<br/>
+         • title : 제목<br/>
+         • contents : 내용"
+  excel:
+    type: 구분
+    title: 제목
+    contents: 내용
+    startDt: 시작일
+    endDt: 종료일
 
 # Chart
 chart:
@@ -411,7 +479,6 @@ cmdb:
       relation: "연관 관계"
       targetCiName: "대상 CI 이름"
       whetherToInterlink: "연동 여부"
-      importFile: "IMPORT 파일"
       interlink: "연동"
       nonInterlink: "비연동"
     msg:
@@ -423,7 +490,6 @@ cmdb:
       failedDeleteCI: "자산정보 삭제에 실패하였습니다."
       searchDescription: "CI를 조회 및 관리합니다."
       selectCI: "CI를 선택하세요."
-      selectImportFile: "IMPORT 파일을 선택하세요."
       noticeImportFile: ".xlsx,.xls 파일만 가능합니다."
       tag: "태그를 입력하세요."
       viewDescription: "CI에 대한 상세 정보를 조회합니다."
@@ -648,6 +714,7 @@ document:
     write: "업무흐름 등록"
     workflowEdit: "업무흐름 수정"
   msg:
+    adminEditDescription: "프로세스와 문서양식을 조합하여 업무흐름을 등록하거나 수정, 삭제합니다."
     adminSearchDescription: "프로세스와 문서양식을 조합하여 업무흐름을 조회 및 관리합니다."
     cancel: "해당 문서를 취소 시 문서가 삭제 됩니다.<br/>그래도 진행 하시겠습니까?"
     changeStatusEnabled: "상태를 사용으로 수정 하시겠습니까?<br/>임시 상태로 작성된 문서 모두 삭제 됩니다."
@@ -755,7 +822,6 @@ form:
     exportTarget: "문서 양식"
     form: "문서양식"
     import: "폼 IMPORT"
-    importFile: "IMPORT 파일"
     lang: "언어"
     name: "양식이름"
     redo: "작업 재실행"
@@ -795,7 +861,6 @@ form:
     required: "필수 항목을 입력하세요."
     saveInfo: "{0} 에 저장됨"
     searchDescription: "문서양식를 조회 및 관리합니다."
-    selectImportFile: "IMPORT 파일을 선택하세요."
     selectTargetUser: "사용자를 선택하세요."
     targetTableRequired: "조회 대상 테이블명을 입력하세요."
     templateNameRequired: "템플릿 이름을 입력하세요."
@@ -1035,6 +1100,8 @@ login:
 menu:
   board:
     parent: "게시판"
+  calendar:
+    parent: "일정"
   config:
     auth: "권한"
     boardAdmin: "게시판"
@@ -1190,7 +1257,6 @@ process:
     exportTarget: "프로세스"
     imageDownload: "이미지로 다운로드"
     import: "프로세스 IMPORT"
-    importFile: "IMPORT 파일"
     name: "프로세스 이름"
     process: "프로세스"
     redo: "작업재실행"
@@ -1212,7 +1278,6 @@ process:
     noticeImportFile: "IMPORT시, XML파일만 가능합니다."
     startElementMustOne: '시작 이벤트는 반드시 1개이어야만 합니다.'
     searchDescription: "프로세스를 조회 및 관리합니다."
-    selectImportFile: "IMPORT 파일을 선택하세요."
     sourceMappingId: "첨부파일을 추가할 컴포넌트의 매핑 ID.<br>※ 작업대상 컴포넌트는 파일 업로드 컴포넌트 혹은 이미지 컴포넌트만 가능합니다."
     targetFileMappingId: "작업 조건을 적용할 컴포넌트의 매핑 ID. 해당 컴포넌트의 입력값을 작업 조건과 비교합니다."
     targetCIMappingId: "CMDB 변경사항을 반영하고자 하는 CI 컴포넌트의 매핑 ID"
@@ -1551,6 +1616,8 @@ token:
   label:
     all: "전체 문서"
     assignee: "담당자"
+    calendar: "일정"
+    calendarAdd: "+ 일정 추가"
     completed: "처리 완료"
     docNo: "문서번호"
     documentGroup: "문서종류"
@@ -1615,7 +1682,6 @@ workflowAdmin:
     exportTarget: "업무흐름"
     group: "그룹"
     import: "업무흐름 IMPORT"
-    importFile: "IMPORT 파일"
     name: "이름"
     status: "상태"
     type: "타입"

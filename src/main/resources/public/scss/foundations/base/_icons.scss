@@ -19,7 +19,7 @@
 
 .z-icon {
   display: inline-block;
-  -webkit-print-color-adjust:exact;
+  -webkit-print-color-adjust: exact;
 
   // 검색 아이콘
   &.i-search { @include maskImage('#{$icon-folder-path}icon_search.svg', 1.25rem, 1.25rem, no-repeat, center); }

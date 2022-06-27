@@ -70,11 +70,12 @@ class ZFormTokenTab {
     reloadTab() {
         const history = this.reloadHistory();
         const viewer = this.reloadViewer();
+        const calendar = this.reloadCalendar();
         const relatedInstance = this.reloadRelatedInstance();
         const comment = this.reloadTokenComment();
         const tag = this.reloadTokenTag();
         const documentStorage = this.reloadDocumentStorage();
-        Promise.all([history, viewer, relatedInstance, comment, tag, documentStorage]).then(() => {
+        Promise.all([history, viewer, calendar, relatedInstance, comment, tag, documentStorage]).then(() => {
             // 날짜 표기 변경
             this.setDateTimeFormat();
         });
@@ -216,9 +217,9 @@ class ZFormTokenTab {
             `<img class="z-img i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
             `</td>` +
             `<td style="width: 25%;" class="align-left" title="${viewer.viewerName}">${viewer.viewerName}</td>` +
-            `<td style="width: 52%;" class="align-left" title="${viewer.organizationName}">` +
+            `<td style="width: 57%;" class="align-left" title="${viewer.organizationName}">` +
             `${viewer.organizationName}</td>` +
-            `<td style="width: 15%;" class="align-center">` +
+            `<td style="width: 10%;" class="align-center">` +
             (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
                 `<button type="button" class="z-button-icon-sm" tabindex="-1" ` +
                 `onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
@@ -880,6 +881,260 @@ class ZFormTokenTab {
                 switch (response.status) {
                     case aliceJs.response.success:
                         starIcon.classList.remove('active');
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger(i18n.msg('common.msg.fail'));
+                        break;
+                    default:
+                        break;
+                }
+            });
+        });
+    }
+
+    /**
+     * 일정 조회
+     */
+    reloadCalendar() {
+        const calendar = document.getElementById('calendar');
+        calendar.innerHTML = '';
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/schedule', {
+            method: 'GET'
+        }).then((response) => {
+            if (response.status === aliceJs.response.success && response.data.length > 0) {
+                response.data.forEach((schedule) => {
+                    calendar.insertAdjacentHTML('beforeend', this.makeCalendarFragment(schedule));
+                });
+            }
+        });
+    }
+
+    /**
+     * 일정 리스트 화면 조각
+     * @param schedule 조회한 스케쥴 데이터 객체
+     */
+    makeCalendarFragment(schedule) {
+        let rangeDateHtml = [];
+        if (schedule.allDayYn) {
+            rangeDateHtml.push(i18n.userDate(schedule.startDt));
+            rangeDateHtml.push(' ~  ');
+            rangeDateHtml.push(i18n.userDate(schedule.endDt));
+        } else {
+            rangeDateHtml.push(i18n.userDateTime(schedule.startDt));
+            rangeDateHtml.push(' ~  ');
+            rangeDateHtml.push(i18n.userDateTime(schedule.endDt));
+        }
+        return `<tr class="flex-row align-items-center" id="schedule${schedule.id}">` +
+            `<td style="width: 30%;" class="align-left" title="${schedule.title}">${schedule.title}</td>` +
+            `<td style="width: 60%;" class="align-left" title="${rangeDateHtml.join('')}">` +
+            `${rangeDateHtml.join('')}</td>` +
+            `<td style="width: 10%;" class="align-center">` +
+                `<button type="button" class="z-button-icon-sm" tabindex="-1" ` +
+                    `onclick="zFormTokenTab.removeSchedule('${schedule.id}')">` +
+                    `<span class="z-icon i-remove"></span>` +
+                `</button>` +
+            `</td>` +
+            `</tr>`;
+    }
+
+    /**
+     * 일정 등록/수정 모달 오픈
+     */
+    openCalendarModal() {
+        const calendarModalTemplate = document.getElementById('calendarModalTemplate');
+        const calendarRegisterModal = new modal({
+            title: i18n.msg('token.label.calendar'),
+            body: calendarModalTemplate.content.cloneNode(true),
+            classes: 'calendar__modal--register document',
+            buttons: [{
+                content: i18n.msg('common.btn.register'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    // 필수값 체크
+                    if (isEmpty('scheduleTitle', 'common.msg.enterTitle')) return false;
+                    if (isEmpty('startDt', 'calendar.msg.enterStartDt')) return false;
+                    if (isEmpty('endDt', 'calendar.msg.enterEndDt')) return false;
+
+                    const isAllDay = document.getElementById('allDayYn').checked;
+                    const startDt = document.getElementById('startDt').value;
+                    const endDt = document.getElementById('endDt').value;
+                    const saveData = {
+                        instanceId: this.instanceId,
+                        documentId: this.documentId,
+                        title: document.getElementById('scheduleTitle').value,
+                        contents: document.getElementById('scheduleContents').value,
+                        startDt: isAllDay ? i18n.systemDate(startDt) : i18n.systemDateTime(startDt),
+                        endDt: isAllDay ? i18n.systemDate(endDt) : i18n.systemDateTime(endDt),
+                        allDayYn: isAllDay
+                    };
+
+                    this.saveSchedule(saveData);
+                    modal.hide();
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => {
+                    modal.hide();
+                }
+            }],
+            close: {
+                closable: false,
+            },
+            onCreate: () => {
+                // 종일 여부 변경시 이벤트 추가
+                document.getElementById('allDayYn').addEventListener('change', this.onToggleAllDay.bind(this));
+
+                // 현재시간 설정
+                const standardDate = this.getCalendarStandardDate();
+                document.getElementById('startDt').value = standardDate.start.toFormat(i18n.dateFormat);
+                document.getElementById('endDt').value = standardDate.end.toFormat(i18n.dateFormat);
+                
+                // 이벤트 추가
+                zDateTimePicker.initDatePicker(document.getElementById('startDt'),
+                    this.onUpdateRangeDateTime.bind(this), { isHalf: true });
+                zDateTimePicker.initDatePicker(document.getElementById('endDt'),
+                    this.onUpdateRangeDateTime.bind(this), { isHalf: true });
+
+                // 스크롤바
+                OverlayScrollbars(document.getElementById('scheduleContents'), {
+                    className: 'inner-scrollbar',
+                    resize: 'vertical',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: 'class'
+                    }
+                });
+            }
+        });
+        calendarRegisterModal.show();
+    }
+
+    /**
+     * 캘린더 날짜 데이터 조회
+     */
+    getCalendarStandardDate() {
+        const now = luxon.DateTime.local().setZone(i18n.timezone);
+        const startDt = now.startOf('hour').plus({ hour: 1 });
+        return {
+            start: startDt,
+            end: startDt.plus({ hour: 1 })
+        };
+    }
+
+    /**
+     * 종일 여부 변경시 이벤트 추가
+     * @param e 대상 이벤트
+     */
+    onToggleAllDay(e) {
+        const format = e.target.checked ? i18n.dateFormat : i18n.dateTimeFormat; // 날짜 포맷
+        const rangeDate =  document.getElementById('rangeDate');
+
+        // 시작일시 , 종료일시 초기화
+        const standardDate = this.getCalendarStandardDate();
+        rangeDate.innerHTML = '';
+        const template = ` <input type="text" class="z-input i-datetime-picker schedule__date" id="startDt" 
+            value="${standardDate.start.toFormat(format)}"/>
+            ~
+            <input type="text" class="z-input i-datetime-picker schedule__date" id="endDt" 
+            value="${standardDate.end.toFormat(format)}"/>`.trim();
+
+        rangeDate.insertAdjacentHTML('beforeend', template);
+
+        // 종일 선택시, datePicker 를 사용하고 나머지는 dateTimePicker 사용
+        const newStartDt = rangeDate.querySelector('#startDt');
+        const newEndDt = rangeDate.querySelector('#endDt');
+
+        // 라이브러리 설정
+        if (e.target.checked) {
+            zDateTimePicker.initDatePicker(newStartDt, this.onUpdateRangeDateTime.bind(this));
+            zDateTimePicker.initDatePicker(newEndDt, this.onUpdateRangeDateTime.bind(this));
+        } else {
+            zDateTimePicker.initDateTimePicker(newStartDt, this.onUpdateRangeDateTime.bind(this), { isHalf: true });
+            zDateTimePicker.initDateTimePicker(newEndDt, this.onUpdateRangeDateTime.bind(this), { isHalf: true });
+        }
+    }
+
+    /**
+     * 시작, 종료일시 변경에 따른 처리
+     */
+    onUpdateRangeDateTime(e, picker) {
+        const isAllDay = document.getElementById('allDayYn').checked;
+        if (e.id === 'startDt') {
+            // 시작일시는 종료일시보다 크면 안된다.
+            const endDt = document.getElementById('endDt');
+            const isValidStartDt = isAllDay ? i18n.compareSystemDate(e.value, endDt.value)
+                : i18n.compareSystemDateTime(e.value, endDt.value);
+            if (!isValidStartDt) {
+                zAlert.warning(i18n.msg('common.msg.selectBeforeDateTime', endDt.value), () => {
+                    e.value = '';
+                    picker.open();
+                });
+                return false;
+            }
+        } else {
+            // 종료일시는 시작일시보다 작으면 안된다.
+            const startDt = document.getElementById('startDt');
+            const isValidEndDt = isAllDay ? i18n.compareSystemDate(startDt.value, e.value)
+                : i18n.compareSystemDateTime(startDt.value, e.value);
+            if (!isValidEndDt) {
+                zAlert.warning(i18n.msg('common.msg.selectAfterDateTime', startDt.value), () => {
+                    e.value = '';
+                    picker.open();
+                });
+                return false;
+            }
+        }
+    }
+
+    /**
+     * 일정 저장
+     * @param data 저장할 데이터 객체
+     */
+    saveSchedule(data) {
+        aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(i18n.msg('common.msg.save'), () => {
+                        this.reloadCalendar();
+                    });
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger(i18n.msg('common.msg.fail'));
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    /**
+     * 일정 삭제
+     * @param id 스케쥴ID
+     */
+    removeSchedule(id) {
+        zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
+            aliceJs.fetchJson('/rest/instances/' + this.instanceId + '/schedule/' + id, {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success(i18n.msg('common.msg.delete'), () => {
+                            // 테이블 삭제
+                            const parent = document.getElementById('calendar');
+                            const removeRow = document.getElementById('schedule' + id);
+                            parent.removeChild(removeRow);
+                        });
                         break;
                     case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));

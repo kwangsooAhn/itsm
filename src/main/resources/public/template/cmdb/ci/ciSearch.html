@@ -484,7 +484,7 @@
                 return `<div class="import-main flex-column">` +
                     `<div class="file-uploader-edit">` +
                     `<label class="file-uploader-title field-label">` +
-                    `${i18n.msg('cmdb.ci.label.importFile')}<span class="required"></span>` +
+                    `${i18n.msg('common.label.importFile')}<span class="required"></span>` +
                     `</label>` +
                     `<div id="dropZoneFiles"></div>` +
                     `<div id="dropZoneUploadedFiles"></div>` +
@@ -503,7 +503,7 @@
                         bindKey: false,
                         callback: function(modal) {
                             if (isNotNull('dropZoneFileUpload') && document.getElementById('fileTemplate') === null) {
-                                zAlert.warning(i18n.msg('cmdb.ci.msg.selectImportFile'));
+                                zAlert.warning(i18n.msg('common.msg.selectImportFile'));
                                 return false;
                             }
                             importTemplate();
@@ -541,7 +541,7 @@
          * 단일 CI 상세 정보 조회 (모달)
          */
         function openCIDetailModal(target) {
-            const ciId = target.querySelector('#ciId').value;
+            const ciId = target.parentElement.parentElement.querySelector('#ciId').value;
             aliceJs.fetchText('/cmdb/cis/' + ciId + '/view', {
                 method: 'GET',
                 showProgressbar: true

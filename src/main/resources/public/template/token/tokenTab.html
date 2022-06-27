@@ -46,6 +46,19 @@
                 <tbody class="z-table-body" id="viewer"></tbody>
             </table>
         </div>
+        <!-- 일정 등록 -->
+        <div class="z-token-calendar">
+            <div class="flex-row align-items-end justify-content-between mb-2">
+                <label class="z-token-calendar-sub-title" th:text="#{token.label.calendar}"></label>
+                <button type="button" class="z-button-text float-right mb-1"
+                        th:text="#{token.label.calendarAdd}"
+                        th:onclick="zFormTokenTab.openCalendarModal()">
+                </button>
+            </div>
+            <table class="z-table z-token-calendar-table">
+                <tbody class="z-table-body" id="calendar"></tbody>
+            </table>
+        </div>
         <!-- 관련문서 -->
         <div class="z-token-related" id="related">
             <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
@@ -88,5 +101,27 @@
                th:placeholder="#{user.label.userSearchPlaceholder}">
         <span id="spanTotalCount" class="search-count"></span>
         <div class="table-set" id="subUserList"></div>
+    </div>
+</template>
+<!-- 일정 등록 모달 -->
+<template id="calendarModalTemplate">
+    <div class="calendar__modal--register__main flex-column">
+        <input type="text" class="z-input schedule__title" id="scheduleTitle"
+               th:placeholder="#{calendar.label.titlePlaceholder}">
+        <div class="flex-row align-items-baseline" id="rangeDate">
+            <input type="text" class="z-input i-datetime-picker schedule__date" id="startDt"/>
+            ~
+            <input type="text" class="z-input i-datetime-picker schedule__date" id="endDt"/>
+        </div>
+        <div class="flex-row align-items-baseline">
+            <label class="z-checkbox">
+                <input type="checkbox" id="allDayYn" name="allDayYn" checked>
+                <span></span>
+                <span class="z-label" th:text="#{calendar.label.allDay}"></span>
+            </label>
+            <!-- 문서함 등록시 반복일정은 없음 -->
+        </div>
+        <textarea class="z-textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+                  th:placeholder="#{calendar.label.contentsPlaceholder}"></textarea>
     </div>
 </template>

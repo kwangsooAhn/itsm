@@ -15,12 +15,13 @@
   .grid {
     display: grid;
     flex: 1;
+    height: fit-content;
     align-content: start;
 
     &__row {
       display: grid;
       grid-template-columns: var(--data-columns-width);
-      grid-template-rows: 49px;
+      grid-template-rows: 2.5rem;
     }
 
     &__cell {
@@ -29,11 +30,12 @@
       height: 100%;
       color: $neutral800;
       font-weight: $font-weight-medium;
+      a { padding-bottom: 0.0625rem; }
     }
 
     &__head {
       .grid__row {
-        @include border(0.125rem, solid, $gray300, bottom);
+        @include border(0.125rem, solid, $gray400, bottom);
         color: $neutral600;
         .grid__cell:not([data-grid-sortable='false']) {
           cursor: pointer;

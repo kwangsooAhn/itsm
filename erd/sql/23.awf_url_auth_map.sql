@@ -147,6 +147,16 @@ insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'gen
 insert into awf_url_auth_map values ('/rest/boards/articles/reply', 'post', 'portal.manage');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/boards/articles/{id}', 'delete', 'portal.manage');
+insert into awf_url_auth_map values ('/rest/calendars', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/excel', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/template', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/templateUpload', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/repeat', 'delete', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'put', 'general');
+insert into awf_url_auth_map values ('/rest/calendars/{id}/schedule', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/attributes/{id}', 'delete', 'cmdb.manage');
@@ -201,6 +211,9 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.m
 insert into awf_url_auth_map values ('/rest/files', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files', 'post', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/files/{id}', 'delete', 'workflow.manage');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'get', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'post', 'general');
+insert into awf_url_auth_map values ('/rest/instances/{id}/schedule/{id}', 'delete', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/viewer/{userkey}', 'delete', 'general');
@@ -383,3 +396,4 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink','post','work
 insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
+insert into awf_url_auth_map values ('/calendars', 'get', 'general');

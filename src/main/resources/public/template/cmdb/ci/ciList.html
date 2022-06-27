@@ -18,14 +18,15 @@
         <div class="grid__row grid--noData read-only" th:if="${#arrays.isEmpty(ciData.contents)}">
             <div class="grid__cell justify-content-start ml-5"><span th:text="#{common.msg.noData}"></span></div>
         </div>
-        <div class="grid__row" th:unless="${#arrays.isEmpty(ciData.contents)}" th:each="ci: ${ciData.contents}"
-             th:onclick="openCIDetailModal(this);">
+        <div class="grid__row" th:unless="${#arrays.isEmpty(ciData.contents)}" th:each="ci: ${ciData.contents}">
             <th:block th:each="text,status: ${ci.value}">
                 <div class="grid__cell" th:classappend="${status.index != 0} ? 'pl-2' : ''">
                     <img class="z-img" th:if="${ciData.columnType[status.index] == 'icon'}" th:src="${text}" width="20" height="20">
                     <input type="hidden" th:if="${ciData.columnType[status.index] == 'hidden'}" th:id="${ciData.columnName[status.index]}" th:value="${text}">
                     <th:block th:if="${ciData.columnType[status.index] == 'inputbox' || ciData.columnType[status.index] == 'radio' || ciData.columnType[status.index] == 'checkbox' || ciData.columnType[status.index] == 'dropdown'}">
-                        <span class="text-ellipsis" th:text="${text}" th:title="${text}"></span>
+                        <a th:if="${status.index == 2}" class="text-ellipsis underline-grid"
+                           th:onclick="openCIDetailModal(this);" th:text="${text}" th:title="${text}"></a>
+                        <span th:unless="${status.index == 2}" class="text-ellipsis" th:text="${text}" th:title="${text}"></span>
                     </th:block>
                     <th:block th:if="${ciData.columnType[status.index] == 'datetime' || ciData.columnType[status.index] == 'time' || ciData.columnType[status.index] == 'date'}">
                         <span class="text-ellipsis" th:classappend="${ciData.columnType[status.index]}" th:text="${text}" th:title="${text}"></span>
