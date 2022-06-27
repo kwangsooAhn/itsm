@@ -12,7 +12,6 @@
     @include fixed(0, 0, 0, 0);
     display: none;
     overflow: auto;
-
     &.z-alert-active {
       display: block;
       z-index: 999999;

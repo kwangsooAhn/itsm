@@ -8760,6 +8760,21 @@ input, button, select, optgroup, textarea {
   white-space: nowrap;
   cursor: pointer;
 }
+.z-button-switch-group .z-button-switch:not(:first-child),
+.z-button-switch-group .z-button-toggle:not(:first-child),
+.z-button-toggle-group .z-button-switch:not(:first-child),
+.z-button-toggle-group .z-button-toggle:not(:first-child) {
+  margin-left: -0.0625rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.z-button-switch-group .z-button-switch:not(:last-of-type),
+.z-button-switch-group .z-button-toggle:not(:last-of-type),
+.z-button-toggle-group .z-button-switch:not(:last-of-type),
+.z-button-toggle-group .z-button-toggle:not(:last-of-type) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 .z-button-switch-group .z-button-switch:focus,
 .z-button-switch-group .z-button-toggle:focus,
 .z-button-toggle-group .z-button-switch:focus,
@@ -8862,21 +8877,6 @@ input, button, select, optgroup, textarea {
   background: #222529;
   vertical-align: middle;
   pointer-events: none;
-}
-.z-button-switch-group .z-button-switch:not(:first-child),
-.z-button-switch-group .z-button-toggle:not(:first-child),
-.z-button-toggle-group .z-button-switch:not(:first-child),
-.z-button-toggle-group .z-button-toggle:not(:first-child) {
-  margin-left: -0.0625rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.z-button-switch-group .z-button-switch:not(:last-of-type),
-.z-button-switch-group .z-button-toggle:not(:last-of-type),
-.z-button-toggle-group .z-button-switch:not(:last-of-type),
-.z-button-toggle-group .z-button-toggle:not(:last-of-type) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
 }
 .z-button-switch-group.vertical,
 .z-button-toggle-group.vertical {
@@ -9405,7 +9405,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   outline: 0;
 }
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
-  border-left: 0.0625rem solid #CFD5D9 !important;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -9413,6 +9412,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   background-color: transparent;
   cursor: default;
   resize: none;
+  border-left: 0.0625rem solid #CFD5D9 !important;
 }
 .z-textarea:read-only:not(:disabled):not(.os-host-textarea):hover, .z-textarea:read-only:not(:disabled):not(.os-host-textarea):focus {
   border: 0.0625rem solid #CFD5D9;
