@@ -775,6 +775,26 @@ export const ciMixin = {
             `</form>` +
             `<div class="table-set" id="ciList"></div>`;
     },
+    //모달오픈 시 메세지 출력
+    setEmptySearchValue() {
+        return `<table class="z-table">` +
+            `<thead class="z-table-head">` +
+            ` <tr>` +
+            `<th style="width: 5%;" class="align-center"></th>` +
+            `<th style="width: 25%;" class="align-left">` + i18n.msg('cmdb.ci.label.seqNum') + `</th>` +
+            `<th style="width: 15%;" class="align-left">` + i18n.msg('cmdb.ci.label.type') + `</th>` +
+            `<th style="width: 15%;" class="align-left">` + i18n.msg('cmdb.ci.label.name') + `</th>` +
+            `<th style="width: 25%;" class="align-left">` + i18n.msg('cmdb.ci.label.description') + `</th>` +
+            `<th style="width: 15%;" class="align-left">` + i18n.msg('cmdb.ci.label.tag') + `</th>` +
+            `</tr>` +
+            `</thead>` +
+            `<tbody class="z-table-body">` +
+            `<tr class="no-data-found-list flex-row align-items-center">` +
+            `<td style="width: 100%;" colspan="6" class="align-center">` + i18n.msg('common.msg.enterSearchValue') +
+            `</td>` +
+            `</tr>` +
+            `</tbody>`;
+    },
     // 기존 CI 조회 모달
     openSelectModal(e) {
         const selectModal = new modal({
@@ -851,42 +871,45 @@ export const ciMixin = {
     },
     // 기존 CI 조회 모달 검색
     selectModalSearchCI() {
-        const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&isSearchType=true';
-        aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
-            method: 'GET'
-        }).then((htmlData) => {
-            document.getElementById('ciList').innerHTML = htmlData;
-            // 카운트 변경
-            aliceJs.showTotalCount(document.querySelectorAll('.ci-list').length, 'ciListTotalCount');
-            // 태그 초기화
-            let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
-            let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
-            for (let i = 0; i < ciListTags.length; i++) {
-                new zTag(ciListTags[i], {
-                    suggestion: true,
-                    realtime: true,
-                    tagType: 'ci',
-                    targetId: ciIdList[i].value
-                });
-            }
-            // 스크롤바
-            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
-
-            // 이미 선택된 CI 들은 선택 불가능
-            if (Array.isArray(this.value) && this.value.length > 0) {
-                const ciChkElems = document.querySelectorAll('input[type=checkbox]');
-                ciChkElems.forEach((chkElem) => {
-                    this.value.forEach((CIData) => {
-                        if (chkElem.value === CIData.ciId) {
-                            chkElem.checked = true;
-                            chkElem.disabled = true;
-                        }
+        if (document.getElementById('searchValue').value !== "" || document.getElementById('tagSearch').value !== "") {
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&isSearchType=true';
+            aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
+                method: 'GET'
+            }).then((htmlData) => {
+                document.getElementById('ciList').innerHTML = htmlData;
+                // 카운트 변경
+                aliceJs.showTotalCount(document.querySelectorAll('.ci-list').length, 'ciListTotalCount');
+                // 태그 초기화
+                let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
+                let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
+                for (let i = 0; i < ciListTags.length; i++) {
+                    new zTag(ciListTags[i], {
+                        suggestion: true,
+                        realtime: true,
+                        tagType: 'ci',
+                        targetId: ciIdList[i].value
                     });
-                });
-            }
-        });
+                }
+                // 스크롤바
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
 
+                // 이미 선택된 CI 들은 선택 불가능
+                if (Array.isArray(this.value) && this.value.length > 0) {
+                    const ciChkElems = document.querySelectorAll('input[type=checkbox]');
+                    ciChkElems.forEach((chkElem) => {
+                        this.value.forEach((CIData) => {
+                            if (chkElem.value === CIData.ciId) {
+                                chkElem.checked = true;
+                                chkElem.disabled = true;
+                            }
+                        });
+                    });
+                }
+            });
+        } else {
+            document.getElementById('ciList').innerHTML = this.setEmptySearchValue();
+        }
     },
     // 연관 CI 선택 모달
     openRelationSelectModal(ciId) {
@@ -956,42 +979,45 @@ export const ciMixin = {
     },
     // 연관 CI 조회 모달 검색
     relationSelectModalSearchCI() {
-        const urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
-        aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
-            method: 'GET'
-        }).then((htmlData) => {
-            document.getElementById('ciList').innerHTML = htmlData;
-            // 카운트 변경
-            aliceJs.showTotalCount(document.querySelectorAll('.ci-list').length, 'ciListTotalCount');
-            // 태그 초기화
-            let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
-            let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
-            for (let i = 0; i < ciListTags.length; i++) {
-                new zTag(ciListTags[i], {
-                    suggestion: true,
-                    realtime: true,
-                    tagType: 'ci',
-                    targetId: ciIdList[i].value
-                });
-            }
-            // 스크롤바
-            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
-
-            // 연관 CI 정보 가져오기
-            // ciRelation 목록이 있는 경우, 현재 목록에 있는 ciId를 전달한다.
-            if (document.getElementById('ciRelation').hasChildNodes()) {
-                document.querySelectorAll('.target-ci-id').forEach( (ciId) => {
-                    const relCIChkElems = document.querySelectorAll('input[type=checkbox]');
-                    relCIChkElems.forEach((chkElem) => {
-                        if (chkElem.value === ciId.value) {
-                            chkElem.checked = true;
-                        }
+        if (document.getElementById('searchValue').value !== "" || document.getElementById('tagSearch').value !== "") {
+            const urlParam = aliceJs.serialize(document.getElementById('searchFrm'));
+            aliceJs.fetchText('/cmdb/cis/component/list?' + urlParam, {
+                method: 'GET'
+            }).then((htmlData) => {
+                document.getElementById('ciList').innerHTML = htmlData;
+                // 카운트 변경
+                aliceJs.showTotalCount(document.querySelectorAll('.ci-list').length, 'ciListTotalCount');
+                // 태그 초기화
+                let ciListTags = document.querySelectorAll('.cmdb-ci-list-modal input[name=ciListTags]');
+                let ciIdList = (document.querySelectorAll('.cmdb-ci-list-modal input[type=checkbox]'));
+                for (let i = 0; i < ciListTags.length; i++) {
+                    new zTag(ciListTags[i], {
+                        suggestion: true,
+                        realtime: true,
+                        tagType: 'ci',
+                        targetId: ciIdList[i].value
                     });
-                });
-            }
-        });
+                }
+                // 스크롤바
+                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                OverlayScrollbars(document.querySelector('#ciList .z-table-body'), {className: 'scrollbar'});
 
+                // 연관 CI 정보 가져오기
+                // ciRelation 목록이 있는 경우, 현재 목록에 있는 ciId를 전달한다.
+                if (document.getElementById('ciRelation').hasChildNodes()) {
+                    document.querySelectorAll('.target-ci-id').forEach((ciId) => {
+                        const relCIChkElems = document.querySelectorAll('input[type=checkbox]');
+                        relCIChkElems.forEach((chkElem) => {
+                            if (chkElem.value === ciId.value) {
+                                chkElem.checked = true;
+                            }
+                        });
+                    });
+                }
+            });
+        } else {
+            document.getElementById('ciList').innerHTML = this.setEmptySearchValue();
+        }
     },
     // 기존 CI 상세 조회 모달
     openViewModal(ciId) {
