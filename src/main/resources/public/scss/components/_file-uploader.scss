@@ -17,15 +17,9 @@
 }
 
 @include keyframe(pulse) {
-  0% {
-    transform: scale(1);
-  }
-  10% {
-    transform: scale(1.1);
-  }
-  20% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  10% { transform: scale(1.1); }
+  20% { transform: scale(1); }
 }
 
 @include horizontalBar(0.0625rem,  0.625rem 0, $gray400);
