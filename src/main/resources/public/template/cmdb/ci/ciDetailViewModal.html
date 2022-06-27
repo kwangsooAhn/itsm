@@ -69,13 +69,13 @@
             </div>
             <!-- 세부속성 -->
             <div class="flex-column view-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
+                <h3 class="sub-title under-bar border-thick mt-4" th:text="#{cmdb.attribute.label.details}"></h3>
             </div>
             <div id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'view');">
             </div>
             <!-- 변경 이력 -->
             <div class="flex-column view-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.ci.label.history}"></h3>
+                <h3 class="sub-title under-bar border-thick mt-4" th:text="#{cmdb.ci.label.history}"></h3>
             </div>
             <div class="ci-list" id="ciHistoryList">
                 <table class="z-table">
@@ -108,7 +108,7 @@
             </div>
             <!-- 연관 관계 -->
             <div class="flex-column view-row">
-                <h3 class="sub-title under-bar bold mt-4" th:text="#{cmdb.ci.label.relation}"></h3>
+                <h3 class="sub-title under-bar border-thick mt-4" th:text="#{cmdb.ci.label.relation}"></h3>
             </div>
             <div class="ci-list" id="ciRelationList">
                 <table class="z-table">

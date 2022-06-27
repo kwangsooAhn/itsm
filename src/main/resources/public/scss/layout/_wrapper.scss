@@ -1,0 +1,162 @@
+/* wrapper
+ *
+ *
+ * 파일 경로 : layout/_wrapper.scss
+ * @description wrapper, container에서 사용되는 scss
+ * @version 1.0
+ */
+.z-wrapper {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+// layout 이벤트
+@include keyframe (slideDown) {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@include keyframe (slideUp) {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+// z-itsm-container ----------------------------------------------------------------------------------------------------
+.z-itsm-container {
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+
+  .z-main {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 13.75rem); // 220px
+    height: 100vh;
+
+    &-title {
+      display: flex;
+      align-items: baseline!important;
+      padding: 0 3.75rem 2rem 3.75rem; // 0 60px 32px 60px
+
+      // 제목 없을 경우
+      &--empty {
+        + .z-main-content {
+          height: calc(100vh - 3.5rem);
+        }
+      }
+    }
+
+
+    &-content {
+      height: calc(100vh - 8.5rem);
+
+      .z-page-content {
+        @include border(0.0625rem,solid,$gray300,top);
+        flex: 1 1 auto;
+      }
+
+      .z-page-search {
+        display: flex;
+        flex-direction: row;
+        padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
+        .z-search-count {
+          color: $neutral600;
+          font-family: $font-family;
+          font-weight: $font-weight-medium;
+          font-size: 0.875rem;
+        }
+      }
+
+      // commonSearchTemplate
+      @include commonSearchTemplate();
+      // commonEdit
+      @include commonEditTemplate();
+      // pagingList
+      @include pagingListTemplate();
+      // treeEdit
+      @include treeEditTemplate();
+      // 카드
+      @include defaultCardTemplate();
+      // view
+      @include commonViewTemplate();
+
+      .z-page-view {
+        // CMDB CI
+        // 세부 속성
+        .attribute-group {
+          @include border(0.0625rem, solid, $gray300, all);
+          @include borderRadius(0.0625rem); // 1px
+          margin-bottom: 0.625rem; // 10px
+          padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
+          background-color: $neutral50;
+
+          // Group List일 경우, 하위 속성 존재함
+          .child-attribute-group {
+            @include relative();
+            padding-top: 0.625rem; // 10px
+
+            .z-button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
+
+            .child-attribute-row {
+              @include border(0.0625rem, solid, $gray300, all); // 1px
+              @include borderRadius(0.0625rem); // 1px
+              margin-top: 0.625rem; // 10px
+              padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
+              background-color: $white;
+
+              .z-button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
+            }
+          }
+        }
+      }
+    }
+
+    // edit, register
+    @include defaultEditTemplate();
+    // view
+    @include defaultViewTemplate();
+  }
+}
+
+// 슬라이드 효과
+.slide-down { @include animation(0s, 0.3s, slideDown, ease-out);}
+.slide-up { @include animation(0s, 0.3s, slideUp, ease-out); }
+
+// 사용자 아이콘
+.i-profile-photo {
+  @include borderRadius(50%);
+  background-color: transparent;
+}
+
+// 문서 색상
+.document-color-round {
+  @include borderRadius(50%);
+  width: 0.9375rem; // 15px
+  height: 0.9375rem; // 15px
+}
+
+//작성자 말줄임
+.user-name { @include ellipsis(inline-block, 8.75rem); } // 140px
+
+// 리스트 출력용 컬러 아이콘
+.document-color-circle {
+  @include borderRadius(50%);
+  display: inline-block;
+  width: 1rem; // 16px
+  height: 1rem; // 16px
+  margin-right: 0.625rem; // 10px
+}

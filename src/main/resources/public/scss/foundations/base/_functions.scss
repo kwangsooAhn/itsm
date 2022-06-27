@@ -1,4 +1,10 @@
-// 공통으로 사용하고자 하는 함수들을 정의합니다.
+/* _functions.scss
+ *
+ * 파일 경로 : foundations/base/_functions.scss
+ * @description 공통으로 사용하고자 하는 함수들을 정의합니다.
+ * @author jy.lim
+ * @version 1.0
+ */
 
 // 퍼센트 너비 반환
 @function getColumnPercentWidth($columns) {

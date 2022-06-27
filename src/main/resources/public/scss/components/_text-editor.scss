@@ -1,0 +1,261 @@
+/* _text-editor.scss 
+ *
+ * 파일 경로 : components/_text-editor.scss
+ * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
+ * @author wdj
+ * @version 1.0
+ */
+
+.ql-wrapper-container {
+  background-color: $white;
+  // 툴바
+  .ql-toolbar {
+    // 라이브러리 outline 디자인 해제
+    & *:focus { outline: none !important; }
+
+    &.ql-snow {
+      @include border(0.0625rem, solid, $gray400, all);
+      padding: 0;
+      font-family: $font-family;
+
+      .ql-picker { color: $neutral800; }
+
+      .ql-formats {
+        margin: 0;
+        padding: 0;
+        // picker inside item common
+        .ql-picker-label,
+        .ql-picker-item.ql-active { color: $gray800; }
+
+        // headings
+        .ql-header {
+          width: 7.5rem; // 120px
+          height: 2.25rem; // 36px
+
+          .ql-picker-label,
+          .ql-picker-item {
+            padding: 0.4375rem 0.75rem; // 7px 12px
+            // 화살표 아이콘
+            &:not(.ql-color-picker):not(.ql-icon-picker) svg {
+              right: 4%;
+              top: 40%;
+              margin: auto;
+            }
+
+            &:hover { background-color: $blue100; }
+            &:focus {
+              @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+              border-color: $blue600;
+              color: $blue700;
+            }
+          }
+
+          .ql-picker-options {
+            @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0 2px 12px 0
+            padding: 0;
+            // 상대 크기
+            .ql-picker-item[data-value='1']::before { font-size: 2em; }
+            .ql-picker-item[data-value='2']::before { font-size: 1.5em; }
+            .ql-picker-item[data-value='3']::before { font-size: 1.17em; }
+            .ql-picker-item[data-value='4']::before { font-size: 0.83em; }
+          }
+
+          &.ql-expanded {
+            .ql-picker-label {
+              border-color: transparent;
+              background-color: $blue200;
+              color: $blue700;
+
+              // 화살표 회전
+              svg {
+                @include rotate(180);
+                @include transformOrigin(50% 50%);
+              }
+            }
+            //  heading
+            .ql-picker-options {
+              margin-left: -0.0625rem; // -1px
+              border-color: $gray400;
+
+              // 선택된 item
+              .ql-picker-item.ql-selected { color: $blue500; }
+            }
+          }
+        }
+
+        // color picker
+        .ql-color-picker {
+          width: 2.25rem; // 36px
+          height: 2.25rem; // 36px
+
+          .ql-picker-label {
+            padding: 0.3125rem; // 5px
+            svg {
+              .ql-transparent { opacity: 1; }
+              .ql-label, .bg-line { fill: $neutral800; }
+              .bg { fill: $white; }
+            }
+
+            &.ql-active[data-value]:not([data-value='']) svg .ql-label { fill: $white; }
+
+            &:hover {
+              background-color: $blue100;
+              color: $gray800;
+            }
+            &:focus {
+              @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+              border-color: $blue600;
+              color: $blue600;
+            }
+          }
+
+          .ql-picker-item {
+            &:hover, &:focus { border-color: $blue500; }
+          }
+
+          .ql-picker-options { @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); } // 0 2px 12px 0
+
+          &.ql-expanded {
+            .ql-picker-label {
+              border-color: transparent;
+              background-color: $blue200;
+              color: $blue700;
+            }
+
+            .ql-picker-options {
+              border-color: $white;
+              .ql-picker-item.ql-selected { border-color: $blue500; }
+            }
+          }
+        }
+
+        // bold, underline, italic, align 등
+        button {
+          @include relative();
+          @include borderRadius(0);
+          width: 2.25rem; // 36px
+          height: 2.25rem; // 36px
+          margin: 0;
+          padding: 0;
+
+          svg { float: initial; }
+          // 동그라미
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: calc(50% - 0.25rem);
+            display: block;
+            width: 0.5rem; // 6px
+            height: 0.5rem; // 6px
+            border-radius: 100%;
+            background: transparent;
+          }
+
+          &:hover {
+            background-color: $blue100;
+            color: $gray800;
+          }
+
+          &:focus {
+            @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+            border-color: $blue600;
+            color: $blue600;
+            .ql-icon { fill : $blue600; }
+          }
+
+          &:enabled:active,
+          &:enabled.active {
+            background-color: $blue200;
+            color: $blue700;
+            .ql-icon { fill : $blue700; }
+          }
+
+          &.ql-active {
+            color: $blue500;
+            .ql-icon { fill : $blue500; }
+            &:after { background: $blue500; }
+          }
+        }
+      }
+    }
+  }
+  // 툴바 숨김
+  .ql-toolbar-hidden { display: none; }
+  // 툴바 readonly
+  .ql-toolbar-readonly {
+    .ql-picker { color: $gray400 !important; }
+
+    .ql-icon,
+    .ql-transparent { fill : $gray400 !important; }
+
+    .bg { opacity: 0; }
+
+    button {
+      &.ql-active {
+        color: $gray400 !important;
+        .ql-icon { fill : $gray400 !important; }
+        &:after { background: transparent !important; }
+      }
+    }
+  }
+  // 편집 영역
+  .ql-container {
+    height: 12.5rem; // 200px
+    &.ql-snow {
+      @include border(0.0625rem, solid, $gray400, all);
+      height: auto;
+      color: $neutral800;
+      font-family: $font-family;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      line-height: 1.2;
+      .ql-editor {
+        min-height: 7.5rem; // 120px
+        padding: 0.625rem; // 10px
+        // 내부 태그 재정의
+        &.ql-blank::before { content: attr(data-placeholder); }
+        h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
+        em { font-style: italic; }
+        strong { font-weight: bold; }
+      }
+    }
+    // disabled 및 readOnly일 때 placeholder감추기
+    &.ql-disabled, &ql-readonly {
+      .ql-blank::before { color: transparent; }
+    }
+    // 유효성 검증 실패시
+    &.error { @include border(0.0625rem, solid, $red500 !important, all); }
+  }
+
+  // 테두리 없음
+  &.ql-border-disabled {
+    .ql-toolbar,
+    .ql-container {
+      &.ql-snow { border-color: transparent; }
+    }
+  }
+
+  // hover
+  &:hover:not(.ql-readonly) {
+    outline: 0;
+    .ql-toolbar.ql-snow,
+    .ql-container.ql-snow:not(.ql-disabled) { border-color: $blue400; }
+  }
+  // focus
+  &:focus:not(.ql-readonly) {
+    @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+    outline: 0;
+    .ql-toolbar,
+    .ql-container {
+      &.ql-snow { border-color: $blue600; }
+    }
+  }
+
+  // 텍스트에디터는 readonly 속성이 없기 때문에 readonly일 경우 disabled 디자인과 동일하게 처리
+  &:not(.ql-border-disabled).ql-readonly {
+    background-color: $neutral200;
+    pointer-events: none;
+    .ql-container.ql-snow { color: $gray400 !important; }
+  }
+}

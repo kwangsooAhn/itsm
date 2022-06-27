@@ -5,9 +5,9 @@
  * @author jy.lim
  * @version 1.0
  */
-
 // font 설정 variables
 $font-folder-path:                            '../../assets/fonts';
+
 // font family
 $font-face-map: (
         'Pretendard-Thin.woff2':                    100,
@@ -45,5 +45,5 @@ $font-weight-bold:                            700 !default;
 $font-weight-extrabold:                       800 !default;
 $font-weight-black:                           900 !default;
 
-// 굵기
+// font style
 .font-bold { font-weight: $font-weight-bold; } // 700

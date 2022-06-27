@@ -1,0 +1,2004 @@
+/* designer
+ *
+ *
+ * 파일 경로 : layout/_designer.scss
+ * @description formDesigner + process 공통으로 사용되는 scss
+ * @version 1.0
+ */
+////////////////////////// button //////////////////////////
+// 열 속성 > tab button
+$button-tab: (
+        'default': ('font': $white, 'background': $white, 'border': $gray300),
+        'hover': ('font' : $blue100, 'background': $blue100, 'border': $gray300 ),
+        'focus': ('font': $white, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+        'active': ('font': $blue200, 'background': $blue200, 'border': $blue400),
+        'selected': ('font': $blue500, 'background': $blue500, 'border': $blue500),
+        'disabled': ('font': $neutral200, 'background': $neutral200, 'border': $neutral200)
+);
+// header > dropdown
+$layout-header-dropdown: (
+        'default': ('font': $gray800, 'background': $white, 'border': $white),
+        'hover': ('font' : $gray800, 'background': $blue50, 'border': $blue50),
+        'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+        'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
+);
+
+// header button
+.z-header-button {
+  &.z-button-icon {
+    .z-icon {
+      pointer-events: none;
+      &.i-arrow-right { @include rotate(90); }
+    }
+  }
+}
+// header dropdown button
+.z-header-button-dropdown {
+  width: 1.25rem; // 20px
+  padding: 0.5625rem 0.1875rem; // 9px 3px
+
+  .z-icon {
+    margin-left: -0.1875rem; // -3px
+    pointer-events: none;
+  }
+
+  + .z-dropdown-content {
+    @include absolute($right: 0);
+    @include border(0.0625rem, solid, $gray300, all); // 1px
+    @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
+    min-width: 9.625rem; // 154px
+    margin: 0.6875rem 0 0 0; // 11px
+    padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
+    background-color: $white;
+    z-index: 250;
+    visibility: hidden;
+
+    .z-dropdown-item {
+      padding: 0.25rem 0 0 0; // 4px 0 0 0
+
+      .z-button-dropdown {
+        width: 100%;
+        border-color: map-get($layout-header-dropdown, 'default', 'border');
+        background-color: map-get($layout-header-dropdown, 'default', 'background');
+        color: map-get($layout-header-dropdown, 'default', 'font');
+        font-weight: $font-weight-medium;
+        @if map-get($layout-header-dropdown, 'default', 'shadow') != null {
+          box-shadow: map-get($layout-header-dropdown, 'default', 'shadow');
+        }
+        &:focus {
+          border-color: map-get($layout-header-dropdown, 'focus', 'border');
+          background-color: map-get($layout-header-dropdown, 'focus', 'background');
+          color: map-get($layout-header-dropdown, 'focus', 'font');
+          outline: 0;
+          @if map-get($layout-header-dropdown, 'focus', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'focus', 'shadow');
+          }
+        }
+
+        &:hover {
+          border-color: map-get($layout-header-dropdown, 'hover', 'border');
+          background-color: map-get($layout-header-dropdown, 'hover', 'background');
+          color: map-get($layout-header-dropdown, 'hover', 'font');
+          outline: 0;
+          @if map-get($layout-header-dropdown, 'hover', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'hover', 'shadow');
+          }
+        }
+
+        &:enabled:active,
+        &:enabled.active {
+          border-color: map-get($layout-header-dropdown, 'active', 'border');
+          background-color: map-get($layout-header-dropdown, 'active', 'background');
+          color: map-get($layout-header-dropdown, 'active', 'font');
+          z-index: 25;
+          @if map-get($layout-header-dropdown, 'active', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'active', 'shadow');
+          }
+        }
+      }
+    }
+  }
+
+  &.active {
+    .z-icon.i-arrow-right { @include rotate(-90); }
+    + .z-dropdown-content {
+      display: block;
+      visibility: visible;
+    }
+  }
+}
+
+////////////////////////// layout //////////////////////////
+/* 폼 디자이너 & 프로세스 팝업 layout
+ * container - header : 상단
+ *           - component-palette : 컴포넌트 팔레트
+ *           - main : 폼 메인
+ *               - drawing-board : 실제 컴포넌트&엘리먼트들이 그려지는 영역
+ *           - properties-panel-header: 세부 속성 제목
+ *           - properties-panel : 세부속성
+ */
+// 폼 양식
+// 프로세스 양식
+.z-form, .z-process {
+  &-container { @include container; }
+  // header
+  &-header {
+    @include fixedHeader;
+    left: 0;
+    height: 2.875rem; // 46px;
+    background-color: $blue500;
+    color: $white;
+    font-family: $font-family;
+    font-weight: $font-weight-medium;
+    z-index: 100;
+
+    .i-form-designer,
+    .i-process-designer {
+      width: 12.5rem; // 200px
+      padding: 0 0.75rem; // 0 12px
+    }
+
+    .z-form-name,
+    .z-process-name { font-size: $font-size-s; }
+
+    .z-form-button-list,
+    .z-process-button-list {
+      width: 19.06rem; // 305px
+      .z-header-dropdown { @include relative(); }
+    }
+  }
+
+  // palette
+  &-component-palette,
+  &-element-palette {
+    @include fixed(2.875rem, null, 0, 0); // 46px
+    @include border(0.0625rem, solid, $gray300, right); // 1px
+    overflow: hidden;
+    background-color: $white;
+  }
+
+  // main
+  &-main { @include fixed(2.875rem, 18.75rem, 0, 0); }
+
+  // 세부 속성
+  &-properties-panel-header,
+  &-properties-header {
+    @include fixed($top: 2.875rem, $right: 0); // 46px
+    height: 2.5rem; // 40px
+    background-color: $white;
+  }
+  &-properties-panel,
+  &-properties {
+    @include fixed(calc(2.875rem + 2.5rem), 0, 0, null); // 40px
+    @include scrollbarHidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: $white;
+  }
+
+}
+
+////////////////////////// thumbnail //////////////////////////
+.z-thumbnail-main { padding: 0.625rem; } // 10px
+
+////////////////////////// tooltip //////////////////////////
+.z-help-tooltip { position: static; }
+.z-tooltip-contents {
+  left: 0;
+  width: 100%;
+}
+
+/* FormDesigner
+ *
+ *
+ * 파일 경로 : layout/_designer.scss
+ * @description 폼 디자이너에서만 사용되는 scss
+ * @version 1.0
+ */
+////////////////////////// button //////////////////////////
+// button group
+// (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
+// (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
+.z-button-switch-group,
+.z-button-toggle-group {
+  .z-button-switch,
+  .z-button-toggle {
+    .z-text, .z-icon { pointer-events: none; }
+  }
+}
+
+// 열속성 > tab 버튼
+.z-tab {
+  border-width: 0.0625rem; //1px
+  border-color: map-get($button-tab, 'default', 'border');
+  background-color: map-get($button-tab, 'default', 'background');
+  color: map-get($button-tab, 'default', 'font');
+  @if map-get($button-tab, 'default', 'shadow') != null {
+    box-shadow: map-get($button-tab, 'default', 'shadow');
+  }
+  .z-icon { background: map-get($button-tab, 'default', 'font'); }
+
+  &:focus {
+    border-color: map-get($button-tab, 'focus', 'border');
+    background-color: map-get($button-tab, 'focus', 'background');
+    color: map-get($button-tab, 'focus', 'font');
+    outline: 0;
+    @if map-get($button-tab, 'focus', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'focus', 'shadow');
+    }
+    .z-icon { background: map-get($button-tab, 'focus', 'font'); }
+  }
+
+  &:hover {
+    border-color: map-get($button-tab, 'hover', 'border');
+    background-color: map-get($button-tab, 'hover', 'background');
+    color: map-get($button-tab, 'hover', 'font');
+    outline: 0;
+    @if map-get($button-tab, 'hover', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'hover', 'shadow');
+    }
+    .z-icon { ackground: map-get($button-tab, 'hover', 'font'); }
+  }
+
+  &:enabled:active,
+  &:enabled.active {
+    border-color: map-get($button-tab, 'active', 'border');
+    background-color: map-get($button-tab, 'active', 'background');
+    color: map-get($button-tab, 'active', 'font');
+    z-index: 25;
+    @if map-get($button-tab, 'active', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'active', 'shadow');
+    }
+    .z-icon { background: map-get($button-tab, 'active', 'font'); }
+  }
+  // 선택된 경우
+  &.selected:not(:disabled),
+  &.selected:not(.disabled) {
+    border-color: map-get($button-tab, 'selected', 'border');
+    background-color: map-get($button-tab, 'selected', 'background');
+    color: map-get($button-tab, 'selected', 'font');
+    z-index: 25;
+    @if map-get($button-tab, 'selected', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'selected', 'shadow');
+    }
+    .z-icon { background: map-get($button-tab, 'selected', 'font'); }
+  }
+
+  &:disabled,
+  &.disabled {
+    border-color: map-get($button-tab, 'disabled', 'border');
+    background-color: map-get($button-tab, 'disabled', 'background');
+    color: map-get($button-tab, 'disabled', 'font');
+    cursor: default;
+    @if map-get($button-tab, 'disabled', 'shadow') != null {
+      box-shadow: map-get($button-tab, 'disabled', 'shadow');
+    }
+    .z-icon { background: map-get($button-tab, 'disabled', 'font'); }
+  }
+}
+
+.z-button,
+.z-button-icon,
+.z-button-icon-sm {
+  &:disabled, &.disabled { display: none; }
+}
+
+.z-button-icon {
+  &.z-button-attach-file {
+    .z-icon.i-folder { background: $gray500; }
+  }
+  &.z-button-code {
+    .z-icon.i-search { background: $gray500; }
+  }
+}
+
+.z-button.success--check {
+  position: relative;
+  border-color: $neutral200;
+  background-color: $neutral200;
+  color: $gray400;
+  &::before {
+    @include position(absolute, 0.313rem, null, null, -2rem); // 5px  32px;
+    @include backgroundImage('#{$icon-folder-path}alert/icon_alert_success.svg', 100%, no-repeat, 0, 0, null); // 5px
+    content: '';
+    width: 1.25rem; // 20px
+    height: 1.25rem; // 20px
+  }
+}
+
+.z-switch {
+  input[type=checkbox] {
+    // 스위치 버튼 - 동그라미
+    + span::before { top: 0.125rem; } // 2px
+  }
+}
+
+////////////////////////// date-picker //////////////////////////
+.z-element {
+  .z-picker-wrapper-date { width: 100%; }
+}
+
+////////////////////////// element //////////////////////////
+// input + button for custom code
+.z-input-button {
+  .z-button-icon-sm { -webkit-print-color-adjust:exact; }
+}
+
+// main
+.z-component {
+  .z-radio {
+    input[type=radio] + span::after { top: 0.35rem; } // 5.6px
+  }
+}
+
+////////////////////////// form //////////////////////////
+/* form, group, row, component 디자인 */
+:root {
+  --data-column: 12;
+  --data-row: 2;
+  --data-align: flex-start;
+}
+
+.z-form {
+  @include border(0.0625rem, solid, $gray300, all); // 1px
+  display: inline-block;
+  min-height: 56.25rem; // 900px
+  background-color: $white;
+  & *:focus { outline: none !important; }
+}
+// 그룹 툴팁
+.z-group-tooltip {
+  @include relative();
+  @include border(0.0625rem, solid, $gray300, all); // 1px
+  @include borderRadius(0.125rem); // 2px
+  padding: 0.9375rem; // 15px
+  background-color: $white;
+  &.selected {
+    @include border(0.0625rem, solid, $blue500, all); // 1px
+    background-color: $blue50;
+    > .z-tooltip-menu:not(.off) { visibility: visible; }
+  }
+  &.focus { background-color: $blue50; }
+  // displayType이 hidden일 경우
+  &[data-displaytype='document.displayType.hidden'] { display: none; }
+}
+// 그룹
+.z-group {
+  // 체크 박스
+  &-accordion-checkBox {
+    @include absolute();
+    opacity: 0;
+    z-index: -1;
+  }
+  // 라벨
+  &-label {
+    display: table;
+    width: 100%;
+    min-height: 2.5rem; // 40px
+    margin: 0 0 0.9375rem 0; // 0 0 15px 0
+    padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
+    font-weight: $font-weight-medium;
+    &.off { display: none; }
+    // 라벨 문구
+    .z-group-label-text {
+      display: table-cell;
+      vertical-align: middle;
+      opacity: 1;
+    }
+    // 화살표 아이콘
+    .z-icon.i-arrow-right {
+      @include rotate(270);
+      display: table-cell;
+      background: $gray500;
+      opacity: 0;
+    }
+  }
+  // 아코디언 사용중일 경우
+  &.accordion {
+    // 체크박스 선택 = 아코디언 펼침
+    .z-group-accordion-checkBox:checked {
+      + .z-group-label {
+        .z-icon.i-arrow-right { @include rotate(90); }
+      }
+      ~ .z-row-tooltip:not(.off) { display: block; }
+    }
+    // 라벨
+    .z-group-label {
+      @include border(0.125rem, solid, $gray300, bottom);
+      padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
+      cursor: pointer;
+      .z-group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
+
+      &.off {
+        display: table;
+        .z-group-label-text { opacity: 0; }
+      }
+
+      .z-icon.i-arrow-right { opacity: 1; }
+    }
+
+    // row
+    .z-row-tooltip {
+      @include transition(all 0.25s ease-out);
+      display: none;
+    }
+  }
+}
+// row 툴팁
+.z-row-tooltip {
+  @include border(0.0625rem, solid, $gray300, all); // 1px
+  @include borderRadius(0.125rem);
+  position: relative;
+  background-color: transparent;
+  &.selected {
+    @include border(0.0625rem, solid, $blue500, all); // 1px
+    background-color: $blue50;
+    > .z-tooltip-menu:not(.off) { visibility: visible; }
+  }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
+}
+
+// component 툴팁
+.z-component-tooltip {
+  @include border(0.0625rem, dashed, $gray300, all); // 1px
+  @include borderRadius(0.0625rem); // 2px
+  position: relative;
+  margin: 0.5rem; // 8px
+  padding: 0.375rem 0.5rem; // 6px 8px
+  background-color: transparent;
+  flex-basis: getFlexBasis(100%, 0px, 12, 0px);
+  // 1 row 1 component 일 경우 dashed border 제거
+  &:first-child:nth-last-child(1) { border-style: solid; }
+  // 컴포넌트 선택시
+  &.selected {
+    @include border(0.0625rem, solid, $blue500, all); // 1px
+    background-color: $blue50;
+    >.z-tooltip-menu:not(.off) { visibility: visible; }
+
+    // component
+    .z-component {
+      // element
+      .z-element {
+        // image 컴포넌트
+        .z-imagebox-placeholder { background-color: $white; }
+      }
+    }
+  }
+  // displayType이 hidden일 경우
+  &.off { display: none; }
+  // 컴포넌트 드래그시 마진 제거 (디자인팀 요청사항)
+  &.sortable-ghost { margin: 0; }
+}
+// component
+.z-component {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  // label
+  .z-component-label {
+    flex-basis: getFlexBasis(100%, 0px, 12, 0px);
+    justify-content: var(--data-align);
+    padding: 0;
+    font-weight: $font-weight-medium;
+    .z-component-label-text { line-height: 1; }
+
+    &.on { display: flex; }
+    &.off { display: none; }
+  }
+  // divider
+  &.divider { padding: 0; }
+  // element
+  .z-element[style="--data-column:12;"], .z-element[style="--data-column:0;"] { padding: 0.4375rem 0 0.4375rem 0; } // 7px 0  7px 0px
+
+  .z-element {
+    flex-basis: getFlexBasis(100%, 0px, 12, 0px);
+    padding: 0.4375rem 0 0.4375rem 0.938rem ; // 7px 0  7px 15px
+    pointer-events: none;
+
+    // inputBox
+    .input, .z-input:not(.z-select-box-label):not(:read-only) {
+      @include border(0.0625rem, solid, $gray400, all); // 1px
+      @include borderRadius(0.0625rem); // 2px
+      width: 100%;
+      &:hover {
+        @include border(0.0625rem, solid, $blue400, all);
+        outline: 0;
+      }
+      &:focus {
+        @include border(0.0625rem, solid, $blue600, all);
+        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+        outline: 0;
+      }
+      &:active {
+        @include border(0.0625rem, solid, $blue600, all);
+        outline: 0;
+      }
+    }
+
+    // textArea
+    .textArea, .z-textarea {
+      width: 100%;
+      height: calc(2.5rem * var(--data-row));
+    }
+
+    // text editor
+    .z-text-editor {
+      .ql-editor { height: calc(2.5rem * var(--data-row)); } // quill editor 높이 : 40 * row 갯수
+    }
+
+    // radio, checkbox
+    .z-radio, .z-checkbox {
+      &.vertical {
+        display: block;
+        margin-top: 0.625rem;
+        &:first-of-type { margin-top: 0; }
+      }
+      &.horizontal {
+        display: inline-block;
+        margin-right: 0.625rem;
+      }
+    }
+
+    // radio
+    .z-radio {
+      + span {
+        display: inline-block;
+        height: 2.25rem;
+        padding: 0.5rem 0.5rem 0.5em 0;
+        &::before { margin: 0.25rem 0; }
+      }
+    }
+
+    // image 컴포넌트
+    .z-imagebox-placeholder {
+      @include border(0.0625rem, solid, $gray400, all); // 1px
+      display: none;
+      height: 8.75rem; // 140p
+      padding: 1.875rem 0 0.625rem; // 30px 0 10px 0x
+      background-color: $neutral50;
+      color: $gray400;
+      font-size: $font-size-s;
+      font-weight: $font-weight-regular;
+      text-align: center;
+    }
+    .z-imagebox {
+      width: 100%;
+      height: 100%;
+      &[src=''] {
+        display: none;
+        + .z-imagebox-placeholder { display: grid; }
+      }
+    }
+
+    // filedownload 컴포넌트
+    .z-fileDownload {
+      cursor: pointer;
+      .z-icon.i-download { background: $gray500; }
+      .z-file-text {
+        font-size: $font-size-xs;
+        font-weight: $font-weight-regular;
+      }
+    }
+
+    // fileuploader 컴포넌트
+    .file-uploader-view { @include border(0.0625rem, solid, $gray400, left); }
+
+    // CI 컴포넌트
+    .z-ci-table {
+      background-color: $white;
+      tr td {
+        @include border(0.0625rem, solid, $gray300, all);
+        display: none;
+        padding: 0.5rem; // 8px
+        border-left: none;
+        border-right: none;
+        &.on { display: table-cell; }
+      }
+      .z-ci-table-row { color: $neutral800; }
+      // 데이터 없음
+      .no-data-found-list {
+        color: $gray400;
+        background-color: $white;
+        pointer-events: none;
+        td { vertical-align: middle; }
+      }
+    }
+
+    // time, date, datepicker 컴포넌트
+    .picker-wrapper-date {
+      .z-input { margin-right: 2rem; }
+      .datepicker { width: 100%; }
+    }
+
+    // DR 테이블 컴포넌트
+    .z-dr-table {
+      background-color: $white;
+      tr td {
+        @include border(0.0625rem, solid, $gray300, all);
+        overflow: initial;
+        padding: 0 0.3125rem 0 0; // 0 5px 0 0
+        border-left: none;
+        border-right: none;
+        line-height: 1;
+        &.on { display: table-cell; }
+      }
+      // 제목
+      .z-dr-table-header {
+        @include border(0.125rem, solid, $gray300, bottom);
+        td { padding: 0.6875rem 0 0.6875rem 0.3125rem; } // 11px 5px 11px 0
+        .z-dr-table-header-cell {
+          @include ellipsis();
+          padding: 0 0.5rem;
+        }
+      }
+
+      .z-dr-table-row {
+        .z-button-icon { padding: 0; }
+
+        .z-input:not(.z-select-box-label) {
+          padding: 0.4375rem 0;
+          margin: 0.25rem 0;
+          text-indent: 0.75rem;
+          &.picker-main { padding-right: 2.25rem; }
+        }
+
+        .z-input:read-only:not(:disabled):not(.tagify),
+        .z-select .z-select-box.readonly { border-bottom: none; }
+        span { line-height: 1.6; }
+
+        // 문서양식에서 설정한 컬럼에 대한 style을 상속 받음
+        .readonly input, input:read-only {
+          color: inherit;
+          font-size: inherit;
+          font-style: inherit;
+          font-weight: inherit;
+          text-align: inherit;
+        }
+        .z-select-box { padding: 0.5rem 0.75rem; };
+      }
+      // 데이터 없음
+      .no-data-found-list {
+        height: 2.5625rem; // 41px
+        color: $gray400;
+        background-color: $white;
+        pointer-events: none;
+        td { vertical-align: middle; }
+      }
+    }
+    .plugIn-check {
+      &.off { display: none; }
+    }
+
+    // custom code 컴포넌트
+    .z-custom-code {
+      > .z-input { @include borderRadius(0.125rem); } // 2px
+      > .z-button-icon { margin-left: 0.5rem; }
+    }
+
+    // 컴포넌트 내부 버튼 리스트
+    .z-button-list {
+      .z-button {
+        min-width: 3.25rem; // 52px
+        padding: 0.3125rem 0.625rem; //5px 10px
+        font-size: $font-size-xxs;
+      }
+    }
+  }
+}
+// label
+.z-component { // 필수값 숨김
+  .z-component-label {
+    .required {
+      &.off { display: none; }
+      &.on { display: inline; }
+    }
+  }
+}
+// tooptip
+.z-tooltip-menu {
+  @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
+  @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); // 1px
+  height: 2.5rem; // 40px;
+  background-color: $white;
+  z-index: 500;
+  visibility: hidden;
+  .z-tooltip-menu-items {
+    margin: 0 0.125rem; // 0 2px
+    padding: 0.5625rem 0 0; // 9px 0 0 0
+    .z-tooltip-menu-item {
+      display: inline-block;
+      margin: 0 0.25rem; // 0 4px
+      padding: 0 0.25rem; // 0 4px
+      cursor: pointer;
+      .z-icon {
+        display: inline-block;
+        background: $blue300;
+        vertical-align: middle;
+        pointer-events: none;
+      }
+      &:hover {
+        .z-icon { background: $blue500; }
+      }
+    }
+  }
+}
+
+// preview
+.preview {
+  .z-dr-table-button-group { top: -0.25rem; }
+  .z-group-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .z-row-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .z-component-tooltip {
+    margin: 0;
+    padding: 0;
+    border-color: transparent !important;
+  }
+}
+
+////////////////////////// layout //////////////////////////
+$component-icon: (
+        'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
+        'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
+        'focus': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+        'active': ('font': $blue700, 'icon': $blue700, 'background': $blue100, 'border': $blue400),
+        'drag': ('font': $gray800, 'icon': $blue500, 'background': $white, 'border': $gray300, 'shadow': 0 0 0.125rem $gray300),
+        'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
+);
+// 폼 양식
+.z-form {
+  // header
+  &-header { font-size: $font-size-s; }
+
+  // component palette
+  &-component-palette {
+    @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+    width: 12.5rem; // 200px
+  }
+
+  // main
+  &-main {
+    @include scrollbarHidden;
+    left: 12.5rem; // 200px
+    right: 20rem; // 320px
+    background-color: $neutral50;
+  }
+
+  // 세부 속성
+  &-properties-panel-header {
+    width: 20rem; // 320px
+    padding: 0.625rem 0.75rem; // 10px 12px;
+    color: $neutral800;
+    font-size: $font-size-l;
+    font-weight: $font-weight-semibold;
+  }
+  &-properties-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    width: 20rem; // 320px
+    &:not(:empty){ @include border(0.0625rem, solid, $gray300, top); }
+    & > .property { padding: 0 0.75rem; }
+  }
+}
+// 아코디언
+.z-component-accordion-box {
+  .z-component-accordion {
+    width: 100%;
+    input[type=radio] {
+      @include absolute();
+      opacity: 0;
+      z-index: -1;
+    }
+    .z-accordion-label {
+      @include border(0.0625rem, solid, $gray300, bottom); // 1px
+      height: 40px; // 40px
+      padding: 0 12px; // 0 12px
+      color: $gray800;
+      font-family: $font-family;
+      font-size: $font-size-s;
+      font-weight: $font-weight-bold;
+      cursor: pointer;
+      .z-icon.i-arrow-right {
+        @include rotate(180);
+        @include transformOrigin(50% 50%);
+        background: $gray500;
+      }
+    }
+    .z-accordion-content {
+      @include border(0.0625rem, solid, transparent, bottom); // 1px
+      @include transition(all 0.25s ease-out);
+      height: 0;
+      overflow: hidden;
+
+      .z-component-icon-box {
+        @include relative();
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
+        .z-component-icon {
+          @include border(0.0625rem, solid, map-get($component-icon, 'default', 'border'), all); // 1px
+          width: 6.188rem; // 99px
+          height: 5.625rem; // 90px
+          padding: 0.625rem 0; // 10px 0
+          border-top-color: transparent;
+          background-color: map-get($component-icon, 'default', 'background');
+          text-align: center;
+          cursor: move;
+          outline: none;
+          @if map-get($component-icon, 'default', 'shadow') != null {
+            box-shadow: map-get($component-icon, 'default', 'shadow');
+          }
+          // 홀수
+          &:nth-child(odd) {
+            @include absolute($top: calc(var(--data-row, 0) * 5.625rem), $left: 0.0625rem); // 90px 1px
+            border-left-color: transparent;
+          }
+          // 짝수
+          &:nth-child(even) {
+            @include absolute($top: calc(var(--data-row, 0) * 5.625rem), $right: 0); // 90px
+            border-left-color: transparent;
+            border-right-color: transparent;
+          }
+          &:hover {
+            background-color: map-get($component-icon, 'hover', 'background');
+            @if map-get($component-icon, 'hover', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'hover', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'hover', 'icon'); }
+            .z-component-name { color: map-get($component-icon, 'hover', 'font'); }
+          }
+          &:focus {
+            background-color: map-get($component-icon, 'focus', 'background');;
+            border-color: map-get($component-icon, 'focus', 'border');
+            z-index: 25;
+            @if map-get($component-icon, 'focus', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'focus', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'focus', 'icon'); }
+            .z-component-name { color: map-get($component-icon, 'focus', 'font'); }
+          }
+          // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          &.active {
+            border-color: map-get($component-icon, 'active', 'border');
+            background-color: map-get($component-icon, 'active', 'background');
+            z-index: 25;
+            @if map-get($component-icon, 'active', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'active', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'active', 'icon'); }
+            .z-component-name {
+              font-weight: $font-weight-bold;
+              color: map-get($component-icon, 'active', 'font');
+            }
+          }
+          // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          // 마우스 클릭시 drag 되는 item (마우스에 따라다니는 item)
+          &.drag {
+            border-color: map-get($component-icon, 'drag', 'border');
+            background-color: map-get($component-icon, 'drag', 'background');
+            @if map-get($component-icon, 'drag', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'drag', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'drag', 'icon'); }
+            .z-component-name {
+              color: map-get($component-icon, 'drag', 'font');
+              font-weight: $font-weight-bold;
+            }
+            .z-component-tooltip { display: none; }
+          }
+          // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
+          &.placeholder {
+            border-color: map-get($component-icon, 'placeholder', 'border');
+            background-color: map-get($component-icon, 'placeholder', 'background');
+            @if map-get($component-icon, 'placeholder', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'placeholder', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'placeholder', 'icon'); }
+            .z-component-name {
+              color: map-get($component-icon, 'placeholder', 'font');
+              font-weight: $font-weight-medium;
+            }
+          }
+
+          .z-icon { background: map-get($component-icon, 'default', 'icon'); }
+          .z-component-name {
+            display: block;
+            padding-top: 0.375rem; // 6px
+            color: map-get($component-icon, 'default', 'font');
+            font-family: $font-family;
+            font-size: $font-size-xs;
+            font-weight: $font-weight-medium;
+          }
+        }
+
+        .z-component-template-icon {
+          @include border(0.0625rem, solid, map-get($component-icon, 'default', 'border'), all); // 1px
+          display: inline-block;
+          width: 12.5rem; // 200px
+          height: 2.5rem; // 40px
+          padding: 0.75rem; // 12px
+          border-top-color: transparent;
+          border-right-color: transparent;
+          border-left-color: transparent;
+          background-color: map-get($component-icon, 'default', 'background');
+          cursor: move;
+          outline: none;
+          @if map-get($component-icon, 'default', 'shadow') != null {
+            box-shadow: map-get($component-icon, 'default', 'shadow');
+          }
+
+          .z-icon { background: map-get($component-icon, 'default', 'icon'); }
+
+          .z-component-name {
+            width: 8.125rem; // 130px
+            height: 1rem; // 16px
+            margin: 0 0.3125rem; // 5px
+            color: map-get($component-icon, 'default', 'font');
+            font-family: $font-family;
+            font-weight: $font-weight-medium;
+            font-size: 0.875rem;
+          }
+
+          &:hover {
+            background-color: map-get($component-icon, 'hover', 'background');
+            @if map-get($component-icon, 'hover', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'hover', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'hover', 'icon'); }
+            .z-component-name { color: map-get($component-icon, 'hover', 'font'); }
+          }
+          &:focus {
+            background-color: map-get($component-icon, 'focus', 'background');;
+            border-color: map-get($component-icon, 'focus', 'border');
+            z-index: 25;
+            @if map-get($component-icon, 'focus', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'focus', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'focus', 'icon'); }
+            .z-component-name { color: map-get($component-icon, 'focus', 'font');
+            }
+          }
+          // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          &.active {
+            border-color: map-get($component-icon, 'active', 'border');
+            background-color: map-get($component-icon, 'active', 'background');
+            z-index: 25;
+            @if map-get($component-icon, 'active', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'active', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'active', 'icon'); }
+            .z-component-name {
+              color: map-get($component-icon, 'active', 'font');
+              font-weight: $font-weight-bold;
+            }
+          }
+          // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+          // 마우스 클릭시 drag 되는 item (마우스에 따라다니는 item)
+          &.drag {
+            border-color: map-get($component-icon, 'drag', 'border');
+            background-color: map-get($component-icon, 'drag', 'background');
+            @if map-get($component-icon, 'drag', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'drag', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'drag', 'icon'); }
+            .z-component-name {
+              color: map-get($component-icon, 'drag', 'font');
+              font-weight: $font-weight-bold;
+            }
+            .z-component-tooltip { display: none; }
+          }
+          // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
+          &.placeholder {
+            border-color: map-get($component-icon, 'placeholder', 'border');
+            background-color: map-get($component-icon, 'placeholder', 'background');
+            @if map-get($component-icon, 'placeholder', 'shadow') != null {
+              box-shadow: map-get($component-icon, 'placeholder', 'shadow');
+            }
+            .z-icon { background: map-get($component-icon, 'placeholder', 'icon'); }
+            .z-component-name {
+              color: map-get($component-icon, 'placeholder', 'font');
+              font-weight: $font-weight-medium;
+            }
+          }
+        }
+      }
+    }
+
+    input[type=radio]:checked {
+      + .z-accordion-label {
+        .z-icon.i-arrow-right { @include rotate(90); }
+      }
+      ~ .z-accordion-content {
+        @include scrollbarHidden;
+        overflow-y: auto;
+        height: calc(100vh - (40px * 4) - 2.875rem); // 40px
+        border-bottom-color: $gray300;
+      }
+    }
+  }
+}
+
+// drawing board
+.z-drawing-board {
+  .z-drag-ghost { opacity: 0.5; }
+  .z-component-drag-in {
+    @include border(0.0625rem, dashed, $blue400, all); // 1px
+    background-color: $blue100;
+  }
+  // drag & drop (폼 내부에 나타나는 item)
+  .z-component-icon-drag-in {
+    @include border(0.0625rem, dashed, $blue400, all); // 1px
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    background-color: $blue100;
+    opacity: 0.5;
+
+    .z-icon { display: none; }
+    .z-component-name { display: none; }
+    .z-component-tooltip {
+      border-color: transparent;
+      .z-component {
+        // 드래그시 사용자 디자인보다 우선 적용
+        .z-component-label {
+          .z-component-label-text { color: $blue400 !important; }
+        }
+        .z-element {
+          .z-input,
+          .z-textarea,
+          .z-select-box {
+            border-color: $blue400 !important;
+            color: $blue400 !important;
+            &::placeholder { color: $blue400 !important; }
+            .z-icon { background: $blue400 !important; }
+            // 날짜 시간 컴포넌트
+            &.i-date-picker {
+              @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+            }
+            &.i-time-picker {
+              @include backgroundImage($icon-folder-path + 'designer/palette/icon_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+            }
+            &.i-datetime-picker {
+              @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
+            }
+          }
+          .z-radio,
+          .z-checkbox {
+            color: $blue400 !important;
+            input[type=radio] + span::before,
+            input[type=checkbox] + span::before { border-color: $blue400 !important; }
+          }
+          // 텍스트 에디터 컴포넌트
+          .ql-toolbar.ql-snow,
+          .ql-container.ql-snow {
+            border-color: $blue400 !important;
+            .ql-picker { color: $blue400 !important; }
+            .ql-icon, .ql-transparent, .ql-arrow { fill: $blue400 !important; }
+          }
+          // 파일 업로드 컴포넌트
+          .dropzone {
+            background-color: $white;
+            border-color: $blue400 !important;
+            .dz-message { color: $blue400 !important; }
+            .z-icon { background: $blue400 !important; }
+          }
+          // 커스텀 코드 컴포넌트
+          .z-input-button {
+            .z-button-clear { opacity: 0; }
+            .z-button-icon {
+              border-color: $blue400 !important;
+              background-color: $white;
+              color: $blue400 !important;
+              .z-icon { background: $blue400 !important; }
+            }
+          }
+          // DR 테이블 컴포넌트 , CI 컴포넌트
+          .z-button-list { opacity: 0; }
+          table {
+            tr td { border-color: $blue400 !important; }
+            .z-dr-table-header,
+            .z-ci-table-header {
+              background-color: $blue100 !important;
+              td { color: $blue400 !important; }
+            }
+            .no-data-found-list { color: $blue400 !important; }
+          }
+          // Divider
+          .z-divider {
+            border-top-style: solid;
+            border-top-color : $blue400 !important;
+          }
+          // 이미지 컴포넌트
+          .z-imagebox-placeholder {
+            background-color: $white;
+            border-color: $blue400 !important;
+            color: $blue400 !important;
+            .z-icon { background: $blue400 !important; }
+          }
+        }
+      }
+    }
+  }
+
+  // 문서 상태에 따라 편집을 막음
+  &.edit {
+    .z-group-label { pointer-events: none; }
+  }
+  // 폼 디자이너가 아닐 경우 컴포넌트 테두리 제거
+  &:not([data-display="ready"]) {
+    .z-component-tooltip { border-color: transparent !important; }
+  }
+}
+
+// 저장 정보
+.z-save-info {
+  min-height: 1.5625rem; // 25px
+  margin: 1.5625rem 0; // 25px 0
+  color: $gray500;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  line-height: 1.5;
+}
+
+////////////////////////// properties //////////////////////////
+/* 세부 속성 디자인 */
+.property-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.5625rem 0.75rem 0.625rem 0.75rem; // 25px 12px 10px 12px;
+  &:not(:last-child) { @include border(0.0625rem, solid, $gray300, bottom); } // 1px
+  &:first-child { @include border(0.0625rem, solid, $gray300, top); }
+
+  // 라벨
+  .property-group-label {
+    width: 100%;
+    color: $neutral600;
+    font-family: $font-family;
+    font-size: $font-size-m ; // 16px
+    font-weight: $font-weight-medium;
+  }
+}
+
+.property {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex-basis: getFlexBasis(100%, 44px, 12, 4px);
+  margin: 0.9375rem 0 0 0; // 15px 0 0 0
+  // 라벨
+  .property-label {
+    @include relative();
+    color: $neutral600;
+    font-size: $font-size-xs;
+
+    .property-label-text {
+      display: inline-block;
+      padding-bottom: 0.625rem; // 10px
+    }
+    // 옵션일 경우 버튼과 문구가 한 줄로 표시됨
+    &.horizontal {
+      display: table;
+      .property-label-text {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+    &.off { display: none; }
+  }
+  .property-value {
+    width: 2.813rem !important; // 45px
+    margin: 0 0.3125rem 0 0; // 0 5px 0 0
+  }
+  // margin / padding 박스 모델
+  .box-model {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .z-input { width: 4.375rem; } // 70px
+  }
+  // clipboard 엘리먼트
+  .z-clipboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .z-input { width: 100%; }
+  }
+  // input 엘리먼트
+  .z-input:not(.tagify) {
+    width: 100%;
+    font-size: $font-size-xs;
+
+    &.i-unit-search {
+      padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
+      background: url($icon-folder-path + "designer/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
+      background-color: $white;
+    }
+
+    &.i-unit-px {
+      padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
+      background: url($icon-folder-path + "designer/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
+      background-color: $white;
+      text-align: right;
+      &:not(:last-child) { margin-right: 0.25rem; } // 4px
+
+    }
+
+    &.off { display: none; }
+  }
+  // textarea 엘리먼트
+  .z-textarea {
+    min-height: 5.625rem; // 90px
+    line-height: 1.6;
+  }
+  // input + button
+  .input-button {
+    .z-button { height: 2.5rem; } // 40px
+  }
+  // column 너비 조정
+  .z-slider {
+    .z-range { width : 75%; }
+    .z-input {
+      width: 23%;
+      text-align: center;
+      margin-left: 2%;
+    }
+  }
+  // select box
+  .select { width: 100%; }
+  // inputBox 컴포넌트 - 기본값 속성
+  .default-type {
+    display: flex;
+    flex-direction: row;
+
+    .btn-switch { width: 3.75rem; } // 60px
+    .z-input {
+      display: block;
+      margin-left : 0.625rem; // 10px
+      &.off { display: none; }
+    }
+    .z-select {
+      display: block;
+      margin-left: 0.625rem; // 10px
+      &.off { display: none; }
+      .z-input {
+        display: inline-block;
+        margin-left: 0;
+      }
+    }
+  }
+  .picker-wrapper-date {
+    .datepicker,
+    .timepicker,
+    .datetimepicker { width: 100%; }
+  }
+  // time, date, datepicker - 기본값 속성
+  .default-type-radio {
+    @include relative();
+    display: block;
+
+    .radio-property-group {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 0.3125rem 0; // 5px 0
+
+      .z-radio { margin-right: 0; }
+
+      .radio-item {
+        .z-input {
+          width: 2.813rem; // 45px
+          margin-right: 0.3125rem; // 5px
+          padding: 0 0.5rem; // 0 8px
+          &:not(:first-child) { margin-left: 0.3125rem; } // 5px
+        }
+      }
+
+      .z-input-button {
+        width: 100%;
+        .z-icon.i-remove { right: 2.5rem; }
+      }
+
+      .z-picker-wrapper-date {
+        flex: 1;
+        .picker-main { width:inherit; }
+      }
+    }
+  }
+  // tab
+  .z-tab-panel {
+    .z-tabs {
+      .z-button-icon {
+        height: 2rem; // 32px
+        padding: 0.25rem 0.409rem; // 4px 6.5px
+
+        &:not(:first-child) { margin-left: 0.3125rem; } // 5px
+        // 추가 버튼
+        &:last-child { padding: 0.25rem 0; }
+        .z-icon {
+          width: 0.82rem;
+          pointer-events: none;
+        } // 15px
+        .i-plus {
+          -webkit-mask-size: 1.2rem;
+          mask-size: 1.2rem;
+        }
+        // 버튼 안보이게 처리
+        &.off { display: none; }
+      }
+    }
+    .z-panels {
+      .z-panel {
+        @include relative();
+        @include border(0.0625rem, solid, $gray300, all); // 1px
+        margin-top: 0.625rem;
+        padding-top: 0.625rem;
+
+        .z-panel-common {
+          .panel-name { padding: 0 0.75rem; } // 12px
+          .panel-delete-button { @include absolute($right: 0.625rem); } // 10px
+          & > .property { padding: 0 0.75rem; } // 12px
+        }
+
+        .z-button-icon:not(.z-button-code) {
+          padding: 0;
+          .z-icon {
+            display: inline-block;
+            background: $blue500;
+            pointer-events: none;
+            &.z-prev { @include rotate(180); }
+            &.z-clear { background: $gray500; }
+          }
+        }
+
+        .z-button-switch-group,
+        .z-button-toggle-group {
+          .z-button-switch,
+          .z-button-toggle { padding: 0.25rem  0.5625rem; } // 4px 9px
+        }
+
+        // individual panel 내부 중복 border 제거
+        .z-panel-individual > .property-group {
+          border: none;
+          &:last-child { @include border(0.0625rem, solid, $gray300, top); } // 1px
+        }
+      }
+    }
+  }
+  // 옵션
+  .z-option-table {
+    .z-option-table-row {
+      td { padding: 0; }
+    }
+  }
+}
+
+/* process
+ *
+ *
+ * 파일 경로 : layout/_designer.scss
+ * @description 프로세스에서만 사용되는 scss
+ * @version 1.0
+ */
+////////////////////////// button //////////////////////////
+$element-icon: (
+        'default': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $gray300),
+        'hover': ('font' : $gray600, 'icon': $gray600,  'background': $blue100, 'border': $gray300),
+        'focus': ('font': $gray600, 'icon': $gray500, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+        'active': ('font': $blue700, 'icon': $blue700, 'background': $blue100, 'border': $blue400),
+        'drag': ('font': $gray800, 'icon': $blue500, 'background': $white, 'border': $gray300, 'shadow': 0 0 0.125rem $gray300),
+        'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
+);
+// 엘리먼트 아이콘 - 연결선, 배경이동 (토글 버튼)
+$element-icon-toggle: (
+        'default': ('font': $gray800, 'background': $white, 'border': $gray300),
+        'hover': ('font' : $gray800, 'background': $blue100, 'border': $gray300),
+        'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+        'active': ('font': $blue700, 'background': $blue200, 'border': $blue400),
+        'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
+        'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
+);
+// element palette > element icon
+.z-element-icon {
+  @include border(0.0625rem, solid, map-get($element-icon, 'default', 'border'), all); // 1px
+  @include borderRadius(0.125rem); // 2px
+  overflow:visible;
+  display: inline-block;
+  width: 5.625rem; // 90px
+  height: 4.375rem; // 70px
+  margin: 0.313rem 0.313rem 0 0.313rem; // 5px
+  padding: 0;
+  background-color: map-get($element-icon, 'default', 'background');
+  color: map-get($element-icon, 'default', 'font');
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  text-decoration: none;
+  opacity: 1;
+  user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+  @if map-get($element-icon, 'default', 'shadow') != null {
+    box-shadow: map-get($element-icon, 'default', 'shadow');
+  }
+  &:disabled, &.disabled { cursor: default; }
+  &:focus {
+    border-color: map-get($element-icon, 'focus', 'border');
+    background-color: map-get($element-icon, 'focus', 'background');
+    outline: 0;
+    @if map-get($element-icon, 'focus', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'focus', 'shadow');
+    }
+    .z-element-icon-text { color: map-get($element-icon, 'focus', 'font'); }
+    .z-icon { background: map-get($element-icon, 'focus', 'icon'); }
+  }
+  &:hover {
+    border-color: map-get($element-icon, 'hover', 'border');
+    background-color: map-get($element-icon, 'hover', 'background');
+    outline: 0;
+    @if map-get($element-icon, 'hover', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'hover', 'shadow');
+    }
+    .z-element-icon-text { color: map-get($element-icon, 'hover', 'font'); }
+    .z-icon { background: map-get($element-icon, 'hover', 'icon'); }
+  }
+  // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
+  &.active {
+    border-color: map-get($element-icon, 'drag', 'border');
+    background-color: map-get($element-icon, 'drag', 'background');
+    z-index: 25;
+    @if map-get($element-icon, 'drag', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'drag', 'shadow');
+    }
+    .z-element-icon-text {
+      color: map-get($element-icon, 'drag', 'font');
+      font-weight: $font-weight-bold;
+    }
+    .z-icon { background: map-get($element-icon, 'drag', 'icon'); }
+  }
+  &.placeholder {
+    border-color: map-get($element-icon, 'placeholder', 'border');
+    background-color: map-get($element-icon, 'placeholder', 'background');
+    @if map-get($element-icon, 'placeholder', 'shadow') != null {
+      box-shadow: map-get($element-icon, 'placeholder', 'shadow');
+    }
+    .z-element-icon-text { color: map-get($element-icon, 'placeholder', 'font'); }
+    .z-icon { background: map-get($element-icon, 'placeholder', 'icon'); }
+  }
+
+  // 연결선, 배경이동
+  &.connector,
+  &.move-icon {
+    @include border(0.0625rem, solid, map-get($element-icon-toggle, 'default', 'border'), all);
+    background-color: map-get($element-icon-toggle, 'default', 'background');
+    color: map-get($element-icon-toggle, 'default', 'font');
+    @if map-get($element-icon-toggle, 'default', 'shadow') != null {
+      box-shadow: map-get($element-icon-toggle, 'default', 'shadow');
+    }
+    // 아이콘이 존재한다면
+    .z-icon { background: map-get($element-icon-toggle, 'default', 'font'); }
+    .z-element-icon-text { color: map-get($element-icon-toggle, 'default', 'font'); }
+
+    &:focus {
+      border-color: map-get($element-icon-toggle, 'focus', 'border');
+      background-color: map-get($element-icon-toggle, 'focus', 'background');
+      color: map-get($element-icon-toggle, 'focus', 'font');
+      outline: 0;
+      @if map-get($element-icon-toggle, 'focus', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'focus', 'shadow');
+      }
+      .z-icon { background: map-get($element-icon-toggle, 'focus', 'font'); }
+      .z-element-icon-text { color: map-get($element-icon-toggle, 'focus', 'font'); }
+    }
+
+    &:hover {
+      border-color: map-get($element-icon-toggle, 'hover', 'border');
+      background-color: map-get($element-icon-toggle, 'hover', 'background');
+      color: map-get($element-icon-toggle, 'hover', 'font');
+      outline: 0;
+      @if map-get($element-icon-toggle, 'hover', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'hover', 'shadow');
+      }
+      .z-icon { background: map-get($element-icon-toggle, 'hover', 'font'); }
+      .z-element-icon-text { color: map-get($element-icon-toggle, 'hover', 'font'); }
+    }
+
+    &:enabled:active,
+    &:enabled.active {
+      color: map-get($element-icon-toggle, 'active', 'font');
+      background-color: map-get($element-icon-toggle, 'active', 'background');
+      border-color: map-get($element-icon-toggle, 'active', 'border');
+      z-index: 25;
+      @if map-get($element-icon-toggle, 'active', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'active', 'shadow');
+      }
+      .z-icon { background: map-get($element-icon-toggle, 'active', 'font'); }
+      .z-element-icon-text { color: map-get($element-icon-toggle, 'active', 'font'); }
+    }
+    // 선택된 경우
+    &.selected:not(:disabled),
+    &.selected:not(.disabled) {
+      border-color: map-get($element-icon-toggle, 'selected', 'border');
+      background-color: map-get($element-icon-toggle, 'selected', 'background');
+      color: map-get($element-icon-toggle, 'selected', 'font');
+      z-index: 25;
+      @if map-get($element-icon-toggle, 'selected', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'selected', 'shadow');
+      }
+      .z-icon { background: map-get($element-icon-toggle, 'selected', 'font'); }
+      .z-element-icon-text { color: map-get($element-icon-toggle, 'selected', 'font'); }
+    }
+
+    &:disabled,
+    &.disabled {
+      border-color: map-get($element-icon-toggle, 'disabled', 'border');
+      background-color: map-get($element-icon-toggle, 'disabled', 'background');
+      color: map-get($element-icon-toggle, 'disabled', 'font');
+      cursor: default;
+      @if map-get($element-icon-toggle, 'disabled', 'shadow') != null {
+        box-shadow: map-get($element-icon-toggle, 'disabled', 'shadow');
+      }
+      .z-icon { background: map-get($element-icon-toggle, 'disabled', 'font'); }
+      .z-element-icon-text { color: map-get($element-icon-toggle, 'disabled', 'font'); }
+    }
+  }
+
+  // Connector
+  &.connector { @include absolute($bottom: 5rem); } // 80px
+  // Background
+  &.move-icon { @include absolute($bottom: 0.313rem); } //  5px
+
+  .z-element-icon-text {
+    display: block;
+    color: map-get($element-icon, 'default', 'font');
+    font-weight: $font-weight-medium;
+  }
+  .z-icon {
+    display: inline-block;
+    background: map-get($element-icon, 'default', 'icon');
+  }
+}
+
+.z-button-icon {
+  &.z-button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
+  &.z-button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
+  &.z-button-candidate-add {
+    margin-left: 0.3125rem; // 5px
+    .z-icon.i-plus { background: $gray500; }
+  }
+  &.z-button-attach-file {
+    .z-icon.i-folder { background: $gray500; }
+  }
+}
+
+////////////////////////// element //////////////////////////
+.z-process-container {
+  textarea {
+    min-height: 7.5rem; // 120px
+    resize: vertical;
+  }
+
+  label {
+    display: inline-block;
+    margin-top: 0.25rem;
+  }
+
+  input:not([type=checkbox]),
+  textarea,
+  table,
+  select { width: 100%; }
+
+  // for designed select
+  .select { width: 100%; }
+
+  svg {
+    // element 들이 그려지는 영역
+    g.element-container {
+      g.element {
+        .node {
+          fill: $white;
+          opacity: 1;
+          stroke-width: 1;
+          // 게이트웨이
+          &.gateway { stroke: $orange400; }
+          // 이벤트
+          &.event {
+            stroke: $pink500;
+            &.commonEnd,
+            &.messageEnd { stroke-width: 2; }
+          }
+
+          &.reject-element {
+            stroke: $red500 !important;
+            stroke-width: 2 !important;
+          }
+        }
+
+        .element-type.task,
+        .element-type.subprocess {
+          stroke-width: 1;
+          stroke-dasharray: 0, 40, 40, 40;
+        }
+
+        .node,
+        .element-type {
+          &.task {
+            // userTask
+            &.userTask { stroke: $cyan500; }
+            // manualTask
+            &.manualTask { stroke: $indigo500; }
+            // scriptTask
+            &.scriptTask { stroke: $green500; }
+          }
+          // 서브 프로세스
+          &.subprocess { stroke: $violet500; }
+        }
+
+        .node.selected {
+          stroke: $blue500 !important;
+          stroke-width: 2 !important;
+
+          &.error { stroke: $red500 !important; }
+        }
+
+        .annotation {
+          stroke: $black;
+          fill-opacity: 0;
+          stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+        }
+
+        text {
+          font-size: $font-size-s;
+          font-weight: $font-weight-medium;
+          fill: $gray600;
+          text-anchor: middle;
+          dominant-baseline: middle;
+          user-select: none;
+        }
+        // 선택시
+        &.selected {
+          .node,
+          .element-type.task,
+          .element-type.subprocess {
+            stroke: $blue500 !important;
+            stroke-width: 2 !important;
+          }
+
+          &.error { stroke: $red500 !important; }
+        }
+      }
+    }
+    // group
+    g.group-artifact-container {
+      g.element {
+        .group {
+          stroke: $black;
+          fill: $white;
+          fill-opacity: 1;
+          stroke-dasharray: 5, 5;
+        }
+
+        .node.selected {
+          stroke: $blue500 !important;
+          stroke-width: 2 !important;
+
+          &.error { stroke: $red500 !important; }
+        }
+
+        text {
+          font-size: $font-size-s;
+          font-weight: $font-weight-medium;
+          fill: $gray600;
+          text-anchor: middle;
+          dominant-baseline: middle;
+          user-select: none;
+        }
+      }
+    }
+    // 선
+    g.connector-container {
+      g.connector {
+        path.connector {
+          fill: none;
+          stroke: $gray600;
+          stroke-width: 1;
+          cursor: default;
+
+          &.selected {
+            stroke-dasharray: 10, 2;
+            stroke-width: 2;
+            &.error { stroke: $red500 !important; }
+          }
+
+          &.is-default { stroke-width: 3; }
+
+          &.hidden { stroke-width: 0; }
+        }
+
+        path.painted-connector {
+          fill: none;
+          stroke: none;
+          stroke-width: 20;
+          pointer-events: stroke;
+        }
+
+        text {
+          font-size: $font-size-s;
+          font-weight: $font-weight-medium;
+          fill: $gray600;
+          dominant-baseline: text-before-edge;
+          user-select: none;
+          &.selected { fill: $blue500; }
+        }
+
+        circle.pointer {
+          fill: $blue500;
+          cursor: move;
+          &.move { fill: $blue500; }
+        }
+      }
+    }
+
+    defs marker path { fill: $gray600; }
+    // 툴팁
+    g.alice-tooltip {
+      rect.tooltip-container {
+        fill: $white;
+        stroke: $gray300;
+        stroke-width: 1;
+      }
+
+      rect.action-tooltip-item:hover,
+      rect.element-tooltip-item:hover { cursor: pointer; }
+    }
+    // 가이드 라인
+    g.guides-container {
+      line.guides-line {
+        stroke: $gray400;
+        stroke-width: 0;
+      }
+    }
+    // 미연결 선
+    path.connector {
+      fill: none;
+      stroke: $gray600;
+      stroke-width: 1;
+      &.drag-line { pointer-events: none; }
+      &.hidden { stroke-width: 0; }
+    }
+  }
+}
+
+////////////////////////// layout //////////////////////////
+.z-process {
+  // header
+  &-header { font-size: $font-size-m; }
+
+  // element palette
+  &-element-palette {
+    @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
+    width: 6.25rem; // 100px
+  }
+
+  // main
+  &-main {
+    left: 6.25rem; // 100px
+    overflow: hidden;
+    .z-drawing-board {
+      @include absolute($top: 0, $left: 0); // 0 0
+      width: 100%;
+      height: 100%;
+      // 모눈 종이 : 내부 디자인 속성은 _elements.scss 참조
+      svg {
+        background-color: $neutral50;
+        // 선
+        g.grid {
+          path { display: none; }
+          line {
+            stroke: $gray200;
+            stroke-width: 1;
+            stroke-opacity: 1;
+            shape-rendering: crispEdges;
+          }
+        }
+      }
+      // 미니맵
+      .z-minimap {
+        @include absolute($right: 3.438rem, $bottom: 0.625rem); // 55px 10px
+        @include border(0.0625rem, solid, $gray300, all);
+        @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px
+        overflow: hidden;
+        display: inline-block;
+        width: 21.875rem; // 350px
+        height: 16.25rem; // 260px
+        border-radius: 0.0625rem; // 1px
+        background-color: $white;
+
+        svg {
+          @include absolute($top: 1.875rem, $left: 1.875rem); // 30px 30px
+          @include border(0.0625rem, solid, $gray300, all);
+          border-radius: 0.0625rem; // 1px
+          background-color: $neutral50;
+          // 미니맵 위치 변경시 표시되는 네모박스
+          rect.z-minimap-guide {
+            fill: $neutral400;
+            fill-opacity: 0.25;
+            stroke-width: 0;
+          }
+        }
+        // 닫음
+        &.closed { display: none; }
+      }
+      // 시뮬레이션
+      .z-simulation-report {
+        @include absolute(0, 0, 0, 0);
+        @include border(0.0625rem, solid, $gray300, all);
+        @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px
+        overflow: hidden;
+        display: block;
+        width: 63.75rem; // 1020px
+        height: 22.688rem; // 363px
+        margin: auto;
+        border-radius: 0.0625rem;
+        background-color: $white;
+        // 제목
+        &-title {
+          @include border(0.0625rem, solid, $gray300, bottm);
+          height: 3.375rem; // 54px
+          padding: 1.125rem; // 17px
+          color: $gray800;
+          font-size: $font-size-m;
+          font-weight: $font-weight-medium;
+          .z-icon.i-minus {
+            @include absolute($right: 1.125rem); // 17px
+            background: $gray500;
+            cursor: pointer;
+            &:hover { background: $blue500; }
+          }
+        }
+
+        &-contents {
+          padding: 0.3125rem; // 5px
+          // 스크롤 영역
+          &-main {
+            overflow-y: auto;
+            width: 100%;
+            height: 18.44rem; // 295px
+            // 결과
+            .result {
+              margin: 1.25rem 0.938rem; // 20px 15px
+              font-size: $font-size-m;
+              font-weight: $font-weight-medium;
+              &.success { color: $green600; }
+              &.failed { color: $red500; }
+            }
+            // 내용
+            .details {
+              margin: 0 0.938rem; // 0 15px
+              color: $gray800;
+              font-family: $font-family;
+              font-size: $font-size-xs;
+              font-weight: $font-weight-regular;
+              div {
+                margin: 0.625rem 0; // 10px 0
+                &.failed { color: $red500; }
+              }
+              &-result, &-element-info, &-failed-message { margin-left: 0.313rem; } // 5px
+            }
+          }
+        }
+        // 닫음
+        &.closed { display: none; }
+      }
+    }
+  }
+  // 세부 속성
+  &-properties-header {
+    @include border(0.0625rem, solid, $gray300, left);
+    @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
+    width: 18.75rem; // 300px
+    padding: 0.625rem 1.563rem; // 10px 25px;
+    color: $gray600;
+    font-size: $font-size-s;
+    font-weight: $font-weight-bold;
+  }
+  &-properties {
+    @include border(0.0625rem, solid, $gray300, left);
+    @include boxShadow(0, 0.125rem, 0.125rem, 0, $gray300); // 2px
+    width: 18.75rem; // 300px
+
+    // element 명
+    .properties-group-title {
+      margin: 1.563rem 1.563rem 0 1.563rem; // 25px 25px 0 25px
+      color: $gray800;
+      font-family: $font-family;
+      font-size: $font-size-s; // 16px;
+    }
+    // 세부 속성
+    .properties {
+      padding:  0.9375rem 1.563rem 0.4375rem 1.563rem; // 15px 25px 7.5px 25px
+      // 세부 속성명
+      &-title {
+        display: inline-block;
+        width: 100%;
+        color: $gray500;
+        font-size: $font-size-xs;
+      }
+      // 마지막 속성은 선 추가
+      &.last {
+        @include border(0.0625rem, solid, $gray300, bottom);
+        padding-bottom: 1.875rem; // 30px
+      }
+      // Id
+      .copy { width: 81% !important; }
+      // script task 파일 추가
+      .file-select-group {
+        .file {
+          width: 81% !important;
+          margin-right: 0.3125rem; // 5px;
+        }
+      }
+      // assinee 등록
+      .candidate-table,
+      .script-data {
+        margin-top: 0.9375rem; // 15px
+        button { padding: 0; }
+        tr {
+          th, td {
+            padding: 0 0.625rem; // 0 10px
+            border-color: $gray400;
+            text-align: center;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+    // connector 세부 속성
+    fieldset {
+      padding:  0 1.563rem; // 0 25px
+      legend, .properties { padding:  0.9375rem 0 0.4375rem 0; } // 15px 0 7.5px 0
+      .properties:last-child {
+        @include border(0.0625rem, solid, $gray300, bottom);
+        padding-bottom: 1.875rem; // 30px
+      }
+      &[name="condition"] {
+        @include border(0.0625rem, solid, $gray300, bottom);
+        .properties:last-child { border: none; }
+      }
+    }
+
+    //프로세스 개요
+    .process-info-main {
+      margin: 1.25rem 1.563rem; // 20px 25px
+      .process-info-title {
+        color: $gray800;
+        font-family: $font-family;
+        font-size: $font-size-s; // 16px;
+      }
+      // 엘리먼트 갯수
+      .process-info-dashboard {
+        margin-top: 1.25rem; // 20px
+        .total {
+          @include border(calc(0.0625rem * 2), solid, $gray300, bottom);
+          margin: 0;
+          padding: 0 0 0.625rem 0; // 0 0 10px 0
+          color: $gray500;
+        }
+        table tr td { padding: 0.625rem; } // 10px 들여쓰기
+      }
+    }
+  }
+}

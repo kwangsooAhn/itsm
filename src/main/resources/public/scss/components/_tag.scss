@@ -1,0 +1,354 @@
+/* 태그 기능 디자인
+ * components/_tag.scss
+ * @description 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
+ *              변수를 통해 중복되는 코드 제거 및 코드 컨벤션에 맞게 수정
+ * @author jy.lim
+ * @version 1.0
+ */
+// tag 동작 이벤트
+@include keyframe(tags--bump) {
+  30% { transform: scale(1.2); }
+}
+@include keyframe(rotateLoader) {
+  to { transform: rotate(1turn); }
+}
+
+.tagify {
+  @include relative();
+  @include transition(0.1s);
+  display: inline-flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 2.125rem; // 34px
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  cursor: text;
+  outline: 0;
+  --tag-hide-transition: 0.3s;
+
+  &:read-only {
+    border: none;
+    cursor: inherit;
+    > .tagify__input { display: none; }
+    .tagify__tag__removeBtn { display: none; }
+  }
+
+  &.z-input {
+    @include border(0.0625rem, solid, $gray400); // 1px
+    @include borderRadius(0.125rem); // 2px
+    height: max-content;
+    padding: 0;
+
+    > .tagify__input {
+      display: block;
+      padding: 0 0.75rem;
+      visibility: visible;
+      &:not(:first-child) { padding: 0.25rem; }
+    }
+    .tagify__tag__removeBtn { display: inherit; }
+
+    &:hover {
+      border-color: $blue400;
+      outline: 0;
+    }
+
+    &:focus {
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      border-color: $blue600;
+      outline: 0;
+    }
+
+    &:active {
+      border-color: $blue600;
+      outline: 0;
+    }
+
+  }
+
+  &:disabled {
+    border-color: $gray300;
+    background-color: transparent;
+    pointer-events: none;
+    cursor: default;
+
+    > .tagify__input {
+      width: 0;
+      visibility: hidden;
+    }
+
+    .tagify__tag > div {
+      pointer-events: none;
+      &::before {
+        background-color: $neutral400;
+        color: $gray500;
+        box-shadow: none;
+        pointer-events: none;
+      }
+    }
+  }
+
+  + input, + textarea { display: none !important; }
+
+  // editable tag design
+  &__tag {
+    @include relative();
+    @include borderRadius(0.25rem);
+    @include transition(0.13s ease-out);
+    display: inline-flex;
+    align-items: center;
+    margin: 0.1875rem 0 0.1875rem 0.1875rem; // 3px 0 3px 3px
+    z-index: 1;
+    outline: 0;
+    cursor: default;
+    // 태그 문구
+    > div {
+      @include borderRadius(0.25rem);
+      @include userSelect(none);
+      @include transition(0.13s ease-out);
+      max-width: 100%;
+      padding: 0.2813rem 0.5rem; // 4.5px 8px
+      color: $gray700;
+      line-height: 1.4;
+      vertical-align: top;
+      box-sizing: border-box;
+
+      > * {
+        @include ellipsis(inline-block, max-content);
+        @include transition(0.8s ease);
+        max-width: 15.625rem;
+        vertical-align: top;
+      }
+
+      > [contenteditable] {
+        @include userSelect(text);
+        max-width: 21.88rem; // 350px
+        margin: -0.125rem; // -2px
+        padding: 0.125rem; // 2px
+        outline: 0;
+        cursor: text;
+      }
+
+      &::before {
+        @include absolute(0, 0, 0, 0);
+        @include borderRadius(inherit);
+        @include transition(120ms ease);
+        @include animation(0s, 0.3s, tags--bump, ease-out, 1);
+        @include insideBorder(1.25rem, $gray100);
+        content: '';
+        z-index: -1;
+        pointer-events: none;
+      }
+    }
+
+    // 중복 태그 origin tag
+    &.tagify--mark {
+      @include border(0.0625rem, solid, $red500);
+      animation: none;
+    }
+
+    // 중복 태그 invalid tag
+    &.tagify--notAllowed {
+      &:not(.tagify__tag--editable) {
+        div {
+          color: $red500;
+          > span { opacity: 1; }
+          &::before {
+            @include insideBorder(1.25rem, $red100);
+            @include transition(0.2s);
+          }
+        }
+
+        // 삭제 버튼
+        .tagify__tag__removeBtn {
+          color: $red500;
+          pointer-events: none;
+        }
+
+        &:hover {
+          @include border(0.0625rem, solid, $red500, all); // 1px
+          .tagify__tag__removeBtn { background-color: transparent; }
+        }
+      }
+    }
+
+    // editable tag
+    &--editable {
+      > div {
+        color: black;
+        &::before { box-shadow: 0 0 0 0.125rem $gray100 inset !important; } // 2px
+      }
+      &.tagify--invalid > div::before { box-shadow: 0 0 0 0.125rem $red200 inset !important; } // 2px
+    }
+
+    // remove tag button
+    &__removeBtn {
+      @include transition(0.2s ease-out);
+      @include borderRadius(50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1rem; // 16px
+      height: 1rem; // 16px
+      margin: 0 0.25rem 0 0; // 0 4.66667px
+      background: 0 0;
+      color: $gray600;
+      font-family: $font-family;
+      font-size: 1.25rem; // 20px
+      font-weight: $font-weight-bold;
+      order: 5;
+      cursor: pointer;
+
+      &::after {
+        content: '\00D7';
+        height: 1.125rem; // 18px
+        line-height: 0.875rem; // 14px
+      }
+
+      &:hover {
+        background: $gray600;
+        color: $white;
+        + div {
+          > span { opacity: 1; } // 기존 0.5
+          &::before { @include transition(0.2s); }
+        }
+      }
+    }
+  }
+
+  // 태그를 입력하세요 input box
+  &__input {
+    @include relative();
+    flex: 1;
+    display: block;
+    min-width: 6.875rem; // 110px
+    padding: 0.25rem;
+    line-height: 1.5;
+    @include wordWrap(break-word);
+    // 미 입력시, placeholder 투명도 조정 가능
+    &:empty::before {
+      @include transition(0.2s ease-out);
+      width: auto;
+      opacity: 1; // 기존 0.5
+      transform: none;
+    }
+
+    &:focus {
+      outline: 0;
+      &::before {
+        @include transition(0.2s ease-out);
+        @include translate(6px, 0); // 6px
+        opacity: 0;
+      }
+
+      &:empty::before {
+        @include transition(0.2s ease-out);
+        opacity: 1; // 기존 0.3
+        transform: none;
+      }
+    }
+
+    &::before {
+      @include absolute($top: 0, $bottom: 0);
+      content: attr(data-placeholder);
+      display: inline-block;
+      width: 0;
+      height: 1em;
+      margin: auto 0;
+      color: $gray400;
+      line-height: 1em;
+      z-index: 1;
+      opacity: 0;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+
+    &::after {
+      content: attr(data-suggest);
+      display: inline-block;
+      max-width: 6.25rem; // 100px
+      color: $gray400;
+      opacity: 0; // 기존 0.3
+      white-space: pre;
+      pointer-events: none;
+    }
+
+    .tagify__tag {
+      margin: 0;
+      > div {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+// 태그 자동 완성
+.tagify__dropdown {
+  @include absolute();
+  overflow: hidden;
+  margin-top: 0.3125rem; // 5px
+  background: $white;
+  z-index: 9999;
+  transform: translateY(1px);
+
+  &[placement=top] {
+    @include translate(0, -2px);
+    margin-top: 0;
+    .tagify__dropdown__wrapper {
+      border-top-width: .0625rem; // 1px
+      border-bottom-width: 0;
+    }
+  }
+
+  // 자동 완성 wrapper
+  &__wrapper {
+    @include border(0.0625rem, solid, $gray300, all); // 1px
+    @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray300); // 0px 2px 12px
+    @include transition(0.25s cubic-bezier(0, 1, 0.5, 1));
+    overflow: hidden;
+    max-height: 18.75rem;
+    padding: 0.4375rem; // 7px
+
+    &:hover { overflow: auto; }
+  }
+
+  &__item {
+    @include relative();
+    @include borderRadius(0.125rem);
+    height: 1.75rem;
+    padding: 0.2813rem 0.5rem; // 4.5px, 8px
+    margin: 0.0625rem;
+    font-family: $font-family;
+    font-size: $font-size-xs;
+    box-sizing: inherit;
+    cursor: pointer;
+    outline: 0;
+
+    &--active {
+      background: $gray100;
+      color: $gray700;
+    }
+  }
+}
+
+// 테마
+.tags-look {
+  .tagify__dropdown__item {
+    @include borderRadius(0.25rem);
+    @include transition(0s);
+    display: inline-block;
+    margin: 0.5rem 0.25rem 0 0.25rem; // 8px 4px 0 4px
+    padding: 0.25rem 0.5rem; // 4px, 8px
+    background: $gray100;
+    color: $gray700;
+
+    &:hover {
+      background: $gray100;
+      color: $gray700;
+    }
+
+    &--active { color: $gray700; }
+  }
+}
