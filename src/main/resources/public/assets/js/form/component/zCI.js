@@ -33,7 +33,7 @@ const DEFAULT_COMPONENT_PROPERTY = {
     }
 };
 Object.freeze(DEFAULT_COMPONENT_PROPERTY);
-const SEARCH_DATA = 15;
+const SEARCH_DATA = 50;
 let offsetCount = 0;
 
 export const ciMixin = {

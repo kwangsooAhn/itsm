@@ -20,5 +20,5 @@ object CITemplateConstants {
     /**
      * 모달 스크롤 페이징 처리시 Limit 기본값
      */
-    const val COUNT = 15
+    const val COUNT = 50
 }
