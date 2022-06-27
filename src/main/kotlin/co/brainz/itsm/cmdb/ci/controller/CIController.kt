@@ -123,6 +123,7 @@ class CIController(
     fun getCIComponentList(ciSearchCondition: CISearchCondition, model: Model): String {
         val result = ciService.getCIs(ciSearchCondition)
         model.addAttribute("ciList", result.data)
+        model.addAttribute("totalCount", result.totalCount)
         return ciListModal
     }
 }

@@ -18,4 +18,5 @@ interface CIRepositoryCustom : AliceRepositoryCustom {
     fun findDuplicateCiNo(ciNo: String): Long
     fun getLastCiByCiNo(ciNoPrefix: String): CIEntity?
     fun countByTypeId(typeId: String): Long
+    fun findCIModalList(ciSearchCondition: CISearchCondition): PagingReturnDto
 }

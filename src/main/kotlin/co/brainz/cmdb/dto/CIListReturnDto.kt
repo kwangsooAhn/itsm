@@ -18,3 +18,8 @@ data class CIDynamicReturnDto(
     val data: CIDynamicListDto? = null,
     val paging: AlicePagingData
 ) : Serializable
+
+data class CIModalReturnDto(
+    val data: List<CIListDto> = emptyList(),
+    val totalCount: Long = 0L
+)
