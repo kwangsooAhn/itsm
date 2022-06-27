@@ -53,6 +53,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     fun nextTokenOptionProcessing(newTokenDto: WfTokenDto): WfTokenDto {
         this.assigneeId = newTokenDto.assigneeId.toString()
         this.tokenEntity = wfTokenManagerService.getToken(newTokenDto.tokenId)
+        newTokenDto.documentStatus = this.tokenEntity.instance.document.documentStatus
         this.createElementToken(newTokenDto)
         return newTokenDto
     }
