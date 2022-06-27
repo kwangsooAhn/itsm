@@ -516,7 +516,9 @@ body.modal-active { overflow: hidden !important; }
     }
   }
 
-  /* 스케줄러 */
+  /*
+   * 스케줄러
+   */
   &.scheduler-list-modal {
     width: 62.5rem; // 1000px
     height: 40.625rem; // 650px
