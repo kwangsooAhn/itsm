@@ -2791,6 +2791,9 @@ input, button, select, optgroup, textarea {
   align-items: baseline !important;
   padding: 0 3.75rem 2rem 3.75rem;
 }
+.z-itsm-container .z-main-title--empty + .z-main-content {
+  height: calc(100vh - 3.5rem);
+}
 .z-itsm-container .z-main-content {
   height: calc(100vh - 8.5rem);
 }
@@ -8500,7 +8503,7 @@ input, button, select, optgroup, textarea {
   display: inline-block;
   overflow: visible;
   flex: 1 1 auto;
-  padding: 0.25rem 0.6875rem;
+  padding: 0;
   background-color: #FFFFFF;
   color: #222529;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;

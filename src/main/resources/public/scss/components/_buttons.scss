@@ -330,7 +330,7 @@ $button-group: (
     display: inline-block;
     overflow:visible;
     flex: 1 1 auto;
-    padding: 0.25rem 0.6875rem; // 4px 11px
+    padding: 0;
     background-color: map-get($button-group, 'default', 'background');
     color: map-get($button-group, 'default', 'font');
     font-family: $font-family;
