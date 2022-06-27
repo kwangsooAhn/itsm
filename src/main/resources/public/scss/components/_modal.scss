@@ -57,36 +57,17 @@ body.modal-active { overflow: hidden !important; }
 }
 
 .modal-dialog {
-  &.scheduler-list-modal {
-    width: 62.5rem; // 1000px
-    height: 40.625rem; // 650px
+  // 버튼 모달 컴포넌트 모달
+  &.modal-button-search-modal{
+    --default-modal-width: 0;
+    --default-modal-height: 0;
+    width: var(--default-modal-width);
+    height: var(--default-modal-height);
     .modal-content {
-      height: calc(40.625rem - 3.875rem - 5rem); // 650px
-      padding: 1.25rem; // 20px
-
-      .table-set {
-        margin-top: 2.188rem; // 35px
-        .z-table {
-          .z-table-body {
-            display: block;
-            overflow-y: auto;
-            width: 60rem; // 960px
-            height: 21.75rem; // 348px
-            border: none;
-            .list-row {
-              display: table;
-              width: 100%;
-              height: 2.125rem; // 34px
-              line-height: 2.125rem; // 24px
-              & > td {
-                display: inline-block; // 말줄임 적용을 위해 추가
-                max-width: 22.5rem; // 360px 에러 메시지 말줄임
-                vertical-align: middle;
-              }
-            }
-          }
-        }
-      }
+      @include gridTemplate();
+      height: calc(var(--default-modal-height) - 3.875rem - 5rem - 1.25rem);
+      margin: 0.625rem 1.25rem 0 1.25rem; // 10px 20px 0 20px
+      .grid { width: fit-content; }
     }
   }
   // 트리 모달
@@ -104,6 +85,55 @@ body.modal-active { overflow: hidden !important; }
       }
     }
   }
+
+  /*
+   * 신청서 & 문서함
+   */
+  // 신청서 > 관련 문서 선택 모달
+  &.token-list {
+    width: 62.5rem; // 1000px
+    height: 53.0625rem; // 849px
+    .modal-content {
+      height: calc(53.0625rem - 3.875rem - 5rem); // 849px
+      padding: 0.625rem 1.25rem; // 10px 20px
+      // 관련문서 목록
+      .related-instance-list {
+        margin-top: 0.9375rem; // 15px
+        .table-set {
+          margin-top: 1.875rem; // 30px
+          .z-table {
+            .z-table-body {
+              overflow-y: auto;
+              display: block;
+              width: 60rem; // 960px
+              height: 35.313rem; // 565px
+              border: none;
+              .attribute-list,
+              .instance-list {
+                display: flex;
+                width: 100%;
+                height: 2.188rem; // 35px
+                line-height: 2.188rem; // 35px
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  // 문서함 프로세스 맵
+  &.process-status-modal {
+    width: 82.6rem !important;// 1320px
+    height: 33.125rem; // 530px;
+    .modal-content {
+      width: 100%;
+      height: calc(33.125rem - 5rem);
+    }
+  }
+
+  /*
+   * designer
+   */
   // 폼 / 프로세스 IMPORT 모달
   &.form-import, &.process-import {
     width: 37.5rem; // 600px
@@ -135,6 +165,59 @@ body.modal-active { overflow: hidden !important; }
       }
     }
   }
+  // 폼, 프로세스 다른이름으로 저장하기 모달
+  &.save-as {
+    .modal-content {
+      @include scrollbarHidden;
+      height: calc(25.63rem - 3.875rem - 5rem); // 410px
+      padding: 0.625rem 1.25rem; // 10px 20px
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+      .textarea-scroll-wrapper {
+        min-height: 7.5rem; // 120px
+        resize: none;
+      }
+    }
+  }
+  // 컴포넌트 템플릿 등록하기 모달
+  &.create-template {
+    .modal-content {
+      @include scrollbarHidden;
+      height: calc(25.63rem - 3.875rem - 5rem); // 410px
+      padding: 0.625rem 1.25rem; // 10px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+      .textarea-scroll-wrapper {
+        min-height: 7.5rem; // 120px
+        resize: none;
+      }
+    }
+  }
+
+  /*
+   * thumbnail
+   */
+  // formDesigner - 썸네일 모달
+  // process - 파일 선택 모달
+  &.z-thumbnail-image,
+  &.z-thumbnail-file {
+    width: 1040px; // 1040px
+    height: 48.44rem; // 775px
+    .modal-content {
+      height: calc(48.44rem - 3.875rem - 5rem); // 775px
+      .z-thumbnail-main .z-thumbnail { width: 14.375rem; } // 230px
+    }
+  }
+
+  /*
+   * 업무 흐름 모달
+   */
   // 업무 흐름 등록 / 수정 모달
   // 업무 흐름 가져오기 모달
   &.document-edit,
@@ -159,7 +242,6 @@ body.modal-active { overflow: hidden !important; }
 
       .hidden-control-content {
         display: none;
-
         &.on { display: block; }
       }
     }
@@ -197,6 +279,34 @@ body.modal-active { overflow: hidden !important; }
       }
     }
   }
+  &.document-modal-dialog {
+    // 신청서일 경우 우측 properties가 존재하지 않음
+    .z-document-main,
+    .z-document-main-header,
+    .z-document-main-footer { right: 0; }
+    .z-document-main-header { width: 100%; }
+  }
+  &.custom-code-list {
+    width: 40rem; // 640px
+    height: 46.875rem; // 750px
+
+    .modal-content {
+      height: calc(46.875rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem 0.625rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+    }
+
+    .input-search { padding-top: 1.875rem; } // 30px
+    .custom-code-main { padding-top: 1.25rem; } // 20px
+  }
+
+  /*
+   * CMDB
+   */
   // CMDB > Class > AttributeList 모달
   // 사용자 정보 수정 > 업무 대리인 모달
   &.cmdb-class-attribute-modal,
@@ -237,6 +347,110 @@ body.modal-active { overflow: hidden !important; }
       }
     }
   }
+  // CI 상세 검색 모달
+  &.cmdb-ci-detailSearch-modal {
+    width: 40.125rem; //642px
+    height: 43.75rem; //700px
+    .modal-content {
+      height: calc(43.75rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem; // 10px 20px
+
+      .flex-row {
+        margin: 1rem 0 0 0; // 16px
+        .field-label { flex-basis: 30%; }
+        .field-element { flex-basis: 70%; }
+      }
+    }
+  }
+  // CMDB 등록 / 수정 모달 / CI 상세 조회 / CI 조회 모달
+  &.cmdb-ci-register-modal,
+  &.cmdb-ci-update-modal,
+  &.cmdb-ci-view-modal,
+  &.cmdb-ci-list-modal {
+    width: 62.5rem; // 1000px
+    height: 53.0625rem; // 849px
+    .modal-content {
+      height: calc(53.0625rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem; // 10px 20px
+
+      .view-row {  margin-top: 0.625rem; } // 10px
+      .field-label { margin: 0.625rem 0; } // 10px 0
+      // 세부 속성
+      .attribute-group {
+        @include border(0.0625rem, solid, $gray300, all);
+        @include borderRadius(0.0625rem);
+        background-color: $neutral50;
+        padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
+
+        .child-attribute-group {
+          @include relative();
+          .child-attribute-row {
+            @include border(0.0625rem, solid, $gray300, all);
+            @include borderRadius(0.0625rem);
+            background-color: $white;
+            padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
+          }
+        }
+      }
+      // TODO: UX팀 디자인 작업 후 변경 예정
+      .cmdb-ci-content-edit,
+      .cmdb-ci-content-view {
+        height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem); // 부모 높이 - 50px
+        .edit-form { padding: 0 2.5rem; } // 40px
+        .edit-row {  margin-top: 0.625rem; } // 10px
+        .field-label { margin: 0.625rem 0; } // 10px 0
+
+        // 세부 속성
+        .attribute-group {
+          // Group List일 경우, 하위 속성 존재함
+          .child-attribute-group {
+            .z-button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
+            .child-attribute-row {
+              .z-button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
+            }
+          }
+        }
+      }
+      .cmdb-ci-content-edit {
+        // 세부 속성
+        .attribute-group {
+          margin-bottom: 0.625rem; // 10px
+          // Group List일 경우, 하위 속성 존재함
+          .child-attribute-group {
+            padding-top: 0.625rem; // 10px
+            .child-attribute-row { margin-top: 0.625rem; } // 10px
+          }
+        }
+        // 연관 관계
+        .z-relation-group {
+          .z-table-row {
+            @include border(0.0625rem, solid, $gray400, bottom);
+            height: 2.5rem;
+          }
+        }
+      }
+    }
+  }
+  // CI 템플릿 IMPORT 모달
+  &.template-import {
+    width: 37.5rem; // 600px
+    height: 22.5rem; // 360px
+
+    .modal-content {
+      height: calc(22.5rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+    }
+  }
+
+  /*
+   * report
+   */
   // 사용자 정의 차트 모달
   &.chart-edit-modal {
     width: 62.5rem; // 1000px
@@ -302,94 +516,43 @@ body.modal-active { overflow: hidden !important; }
     }
   }
 
-  // CI 상세 검색 모달
-  &.cmdb-ci-detailSearch-modal {
-    width: 40.125rem; //642px
-    height: 43.75rem; //700px
-    .modal-content {
-      height: calc(43.75rem - 3.875rem - 5rem);
-      padding: 0.625rem 1.25rem; // 10px 20px
-
-      .flex-row {
-        margin: 1rem 0 0 0; // 16px
-        .field-label { flex-basis: 30%; }
-        .field-element { flex-basis: 70%; }
-      }
-    }
-  }
-  // CI 상세 조회 모달
-  &.cmdb-ci-view-modal {
+  /* 스케줄러 */
+  &.scheduler-list-modal {
     width: 62.5rem; // 1000px
-    height: 53.0625rem; // 849px
-
+    height: 40.625rem; // 650px
     .modal-content {
-      height: calc(53.0625rem - 3.875rem - 5rem);
-      padding: 0.625rem 1.25rem; // 10px 20px
+      height: calc(40.625rem - 3.875rem - 5rem); // 650px
+      padding: 1.25rem; // 20px
 
-      .view-row {  margin-top: 0.625rem; } // 10px
-      .field-label { margin: 0.625rem 0; } // 10px 0
-      // 세부 속성
-      .attribute-group {
-        @include border(0.0625rem, solid, $gray300, all);
-        @include borderRadius(0.0625rem);
-        background-color: $neutral50;
-        padding: 0 1.25rem 1.25rem 1.25rem; // 0px 20px 20px 20px
-
-        .child-attribute-group {
-          @include relative();
-          .child-attribute-row {
-            @include border(0.0625rem, solid, $gray300, all);
-            @include borderRadius(0.0625rem);
-            background-color: $white;
-            padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
+      .table-set {
+        margin-top: 2.188rem; // 35px
+        .z-table {
+          .z-table-body {
+            display: block;
+            overflow-y: auto;
+            width: 60rem; // 960px
+            height: 21.75rem; // 348px
+            border: none;
+            .list-row {
+              display: table;
+              width: 100%;
+              height: 2.125rem; // 34px
+              line-height: 2.125rem; // 24px
+              & > td {
+                display: inline-block; // 말줄임 적용을 위해 추가
+                max-width: 22.5rem; // 360px 에러 메시지 말줄임
+                vertical-align: middle;
+              }
+            }
           }
         }
       }
     }
   }
-  // CI 템플릿 IMPORT 모달
-  &.template-import {
-    width: 37.5rem; // 600px
-    height: 22.5rem; // 360px
 
-    .modal-content {
-      height: calc(22.5rem - 3.875rem - 5rem);
-      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
-
-      .field-label {
-        display: inline-block;
-        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
-      }
-
-    }
-  }
-
-  // 비밀번호 확인 모달
-  &.password-check {
-    width: 34.38rem; // 550px
-    height: 20.625rem; // 330px
-
-    .modal-content {
-      height: calc(20.625rem - 3.875rem - 5rem);
-      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
-
-      .field-label {
-        display: inline-block;
-        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
-      }
-    }
-  }
-
-  // 문서함 프로세스 맵
-  &.process-status-modal {
-    width: 82.6rem !important;// 1320px
-    height: 33.125rem; // 530px;
-    .modal-content {
-      width: 100%;
-      height: calc(33.125rem - 5rem);
-    }
-  }
-
+  /*
+   * SLA
+   */
   // SLA 수동지표 데이터 추가 모달
   &.sla-metric-manual-modal {
     width: 30rem; // 480px
@@ -436,5 +599,42 @@ body.modal-active { overflow: hidden !important; }
         margin: 0 1.5rem; // 0 24px
       }
     }
+  }
+
+  /*
+   * login
+   */
+  // 비밀번호 확인 모달
+  &.password-check {
+    width: 34.38rem; // 550px
+    height: 20.625rem; // 330px
+
+    .modal-content {
+      height: calc(20.625rem - 3.875rem - 5rem);
+      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+    }
+  }
+
+  /*
+   * portal
+   */
+  // 폼 / 프로세스 등록 / 수정 모달
+  &.password-update-notice {
+    width: 50rem; //800px
+    height: 34.5rem; //552px
+    .modal-content {
+      height: calc(34.5rem - 3.875rem - 5rem); //552px
+      padding: 0.25rem 1.25rem 0.25rem 1.25rem; // 10px 20px 20px 20px
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+    }
+    .modal-bottom { height: 3.5rem }; //56px
   }
 }

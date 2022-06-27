@@ -589,21 +589,3 @@ $button-themes-social: (
 .notice-pinned { background-color: $blue100; }
 // 데이터 없을 때
 .no-data-found { background-color:$neutral200; }
-
-////////////////////////// modal //////////////////////////
-.modal-dialog {
-  // 폼 / 프로세스 등록 / 수정 모달
-  &.password-update-notice {
-    width: 50rem; //800px
-    height: 34.5rem; //552px
-    .modal-content {
-      height: calc(34.5rem - 3.875rem - 5rem); //552px
-      padding: 0.25rem 1.25rem 0.25rem 1.25rem; // 10px 20px 20px 20px
-      .field-label {
-        display: inline-block;
-        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
-      }
-    }
-    .modal-bottom { height: 3.5rem }; //56px
-  }
-}

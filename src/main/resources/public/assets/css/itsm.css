@@ -2541,6 +2541,107 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
+.z-icon.i-paging-start-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_start.svg");
+  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_start.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-icon.i-paging-prev-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_prev.svg");
+  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_prev.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-icon.i-paging-next-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_next.svg");
+  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_next.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+.z-icon.i-paging-end-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_end.svg");
+  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_end.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ABB0B5;
+}
+
+.z-input.i-search {
+  background-image: url("../../assets/media/icons/icon_search.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-date-picker {
+  background-image: url("../../assets/media/icons/dateTimePicker/icon_date_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-time-picker {
+  background-image: url("../../assets/media/icons/dateTimePicker/icon_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-datetime-picker {
+  background-image: url("../../assets/media/icons/dateTimePicker/icon_date_time_picker.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-user-search {
+  background-image: url("../../assets/media/icons/document/icon_user.svg");
+  background-size: 1.5rem 1.5rem;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-organization-search {
+  background-image: url("../../assets/media/icons/document/icon_organization.svg");
+  background-size: 1.5rem 1.5rem;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-px {
+  background-image: url("../../assets/media/icons/icon_px.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
+.z-input.i-mb {
+  background-image: url("../../assets/media/icons/icon_mb.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.4375rem);
+  background-position-y: 50%;
+}
 
 /*
  * layout.scss
@@ -3684,6 +3785,10 @@ input, button, select, optgroup, textarea {
   background-color: #FAFAFA;
 }
 
+#resultScore {
+  font-size: 2rem;
+}
+
 .z-document-content {
   padding: 0 0.9375rem 0 3.75rem;
   background-color: #FFFFFF;
@@ -3859,10 +3964,6 @@ input, button, select, optgroup, textarea {
   max-height: 36.25rem;
 }
 
-#resultScore {
-  font-size: 2rem;
-}
-
 /* designer
  *
  *
@@ -4028,58 +4129,6 @@ input, button, select, optgroup, textarea {
 .z-form-properties-panel::-webkit-scrollbar, .z-form-properties::-webkit-scrollbar, .z-process-properties-panel::-webkit-scrollbar, .z-process-properties::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
-}
-
-.modal-dialog.save-as .modal-content {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-  height: 16.755rem;
-  padding: 0.625rem 1.25rem;
-}
-.modal-dialog.save-as .modal-content::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-.modal-dialog.save-as .modal-content .field-label {
-  display: inline-block;
-  margin: 1rem 0 0.5rem 0;
-}
-.modal-dialog.save-as .modal-content .textarea-scroll-wrapper {
-  min-height: 7.5rem;
-  resize: none;
-}
-.modal-dialog.create-template .modal-content {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-  height: 16.755rem;
-  padding: 0.625rem 1.25rem;
-}
-.modal-dialog.create-template .modal-content::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-.modal-dialog.create-template .modal-content .field-label {
-  display: inline-block;
-  margin: 1rem 0 0.5rem 0;
-}
-.modal-dialog.create-template .modal-content .textarea-scroll-wrapper {
-  min-height: 7.5rem;
-  resize: none;
-}
-
-.modal-dialog.z-thumbnail-image, .modal-dialog.z-thumbnail-file {
-  width: 1040px;
-  height: 48.44rem;
-}
-.modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
-  height: 39.565rem;
-}
-.modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
-  width: 14.375rem;
 }
 
 .z-thumbnail-main {
@@ -5968,13 +6017,7 @@ input, button, select, optgroup, textarea {
   height: 0.5rem;
 }
 
-/* 신청서 / 처리할 문서 양식 layout
- * z-document-container
- *                - z-document-main : 문서양식 메인
- *                             - z-document-main-header : 문서 번호, 버튼 등이 그려지는 영역
- *                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
- *                - z-token-properties : 문서이력, 관련문서, 의견, 태그
- */
+/* 신청서 / 처리할 문서 양식 layout */
 .z-document-container {
   /* form, group, row, component 디자인 - document ver. */
   max-width: 120rem;
@@ -6290,335 +6333,6 @@ input, button, select, optgroup, textarea {
 }
 .z-document-container .z-token-properties .z-token-panels .z-token-viewer-table .z-icon.i-clear {
   background: #8B9094;
-}
-
-.modal-wrapper.modal-active {
-  display: block;
-  z-index: 1000;
-}
-.modal-wrapper .modal-dialog.token-list {
-  width: 62.5rem;
-  height: 53.0625rem;
-}
-.modal-wrapper .modal-dialog.token-list .modal-content {
-  height: 44.1875rem;
-  padding: 0.625rem 1.25rem;
-}
-.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list {
-  margin-top: 0.9375rem;
-}
-.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set {
-  margin-top: 1.875rem;
-}
-.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body {
-  overflow-y: auto;
-  display: block;
-  width: 60rem;
-  height: 35.313rem;
-  border: none;
-}
-.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
-.modal-wrapper .modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list {
-  display: flex;
-  width: 100%;
-  height: 2.188rem;
-  line-height: 2.188rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal, .modal-wrapper .modal-dialog.cmdb-ci-update-modal, .modal-wrapper .modal-dialog.cmdb-ci-view-modal, .modal-wrapper .modal-dialog.cmdb-ci-list-modal {
-  width: 62.5rem;
-  height: 53.0625rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content {
-  height: 44.1875rem;
-  padding: 1.25rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit {
-  height: 41.0625rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-form {
-  padding: 0 2.5rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-row {
-  margin-top: 0.625rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .field-label, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .field-label {
-  margin: 0.625rem 0;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  margin-bottom: 0.625rem;
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  background-color: #FAFAFA;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group {
-  position: relative;
-  padding-top: 0.625rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add {
-  position: absolute;
-  top: -1.875rem;
-  right: 0;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  margin-top: 0.625rem;
-  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
-  background-color: #FFFFFF;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete {
-  position: absolute;
-  right: 0.3125rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row {
-  border-bottom: 0.0625rem solid #ABB0B5;
-  height: 2.5rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
-  height: 41.0625rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-form, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .view-form {
-  padding: 0 2.5rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .view-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .view-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .view-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .view-row {
-  margin-top: 0.625rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .field-label, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .field-label, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .field-label, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .field-label {
-  margin: 0.625rem 0;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  background-color: #FAFAFA;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group {
-  position: relative;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add {
-  position: absolute;
-  top: -1.875rem;
-  right: 0;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
-  background-color: #FFFFFF;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete {
-  position: absolute;
-  right: 0.3125rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set {
-  margin-top: 2.188rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body {
-  overflow-y: auto;
-  display: block;
-  width: 60rem;
-  height: 34.6875rem;
-  border: none;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body .list-row, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body .list-row {
-  display: table;
-  width: 100%;
-  height: 2.188rem;
-  line-height: 2.188rem;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body .list-row > td, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td {
-  display: inline-block;
-  vertical-align: middle;
-}
-.modal-wrapper .modal-dialog.cmdb-ci-register-modal .modal-content .table-set .z-table .z-table-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-update-modal .modal-content .table-set .z-table .z-table-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-view-modal .modal-content .table-set .z-table .z-table-body .list-row > td .tag-group, .modal-wrapper .modal-dialog.cmdb-ci-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td .tag-group {
-  display: initial;
-  line-height: 1.2;
-}
-.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main,
-.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-header,
-.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-footer {
-  right: 0;
-}
-.modal-wrapper .modal-dialog.document-modal-dialog .z-document-main-header {
-  width: 100%;
-}
-.modal-wrapper .modal-dialog.tree {
-  width: 40rem;
-  height: 44.19rem;
-}
-.modal-wrapper .modal-dialog.tree .modal-content {
-  height: 35.315rem;
-  padding: 1.125rem 0 0 1.25rem;
-}
-.modal-wrapper .modal-dialog.tree .modal-content div {
-  height: 100%;
-}
-.modal-wrapper .modal-dialog.tree .modal-content div label {
-  font-weight: 400;
-}
-.modal-wrapper .modal-dialog.tree .modal-content div li:last-child:before {
-  background-color: #FFFFFF;
-}
-.modal-wrapper .modal-dialog.custom-code-list {
-  width: 40rem;
-  height: 46.875rem;
-}
-.modal-wrapper .modal-dialog.custom-code-list .modal-content {
-  height: 38rem;
-  padding: 0.625rem 1.25rem 0.625rem 1.25rem;
-}
-.modal-wrapper .modal-dialog.custom-code-list .modal-content .field-label {
-  display: inline-block;
-  margin: 1rem 0 0.5rem 0;
-}
-.modal-wrapper .modal-dialog.custom-code-list .input-search {
-  padding-top: 1.875rem;
-}
-.modal-wrapper .modal-dialog.custom-code-list .custom-code-main {
-  padding-top: 1.25rem;
-}
-.modal-wrapper .modal-dialog.sub-user-modal, .modal-wrapper .modal-dialog.target-user-modal {
-  width: 62.5rem;
-  height: 53.0625rem;
-}
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content, .modal-wrapper .modal-dialog.target-user-modal .modal-content {
-  height: 44.1875rem;
-  padding: 0.625rem 1.25rem;
-}
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list,
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list,
-.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list {
-  margin-top: 0.9375rem;
-}
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set,
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list .table-set, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list .table-set,
-.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list .table-set {
-  margin-top: 1.875rem;
-}
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
-.modal-wrapper .modal-dialog.sub-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body, .modal-wrapper .modal-dialog.target-user-modal .modal-content .sub-user-list .table-set .z-table .z-table-body,
-.modal-wrapper .modal-dialog.target-user-modal .modal-content .target-user-list .table-set .z-table .z-table-body {
-  overflow-y: auto;
-  display: block;
-  width: 60rem;
-  height: 35.313rem;
-  border: none;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal {
-  --default-modal-width: 0;
-  --default-modal-height: 0;
-  width: var(--default-modal-width);
-  height: var(--default-modal-height);
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content {
-  height: calc(var(--default-modal-height) - 3.875rem - 5rem - 1.25rem);
-  margin: 0.625rem 1.25rem 0 1.25rem;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid {
-  display: grid;
-  flex: 1;
-  align-content: start;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__row {
-  display: grid;
-  grid-template-columns: var(--data-columns-width);
-  grid-template-rows: 49px;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__cell {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  color: #424242;
-  font-weight: 500;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row {
-  border-bottom: 0.125rem solid #CFD5D9;
-  color: #757575;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
-  cursor: pointer;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
-  pointer-events: none;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-  background: #757575;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell {
-  color: #757575;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body {
-  overflow: hidden !important;
-  display: flex;
-  flex-direction: column;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  color: #222529;
-  cursor: pointer;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row.read-only {
-  cursor: default;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row:hover {
-  background-color: #EEEEEE;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid__body .sub-text {
-  color: #757575;
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid--noData .grid__cell {
-  grid-column: 1/-1;
-  justify-content: center;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon {
-  padding: 0;
-  border-color: transparent;
-  background-color: transparent;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:hover, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:focus, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:active, .modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled {
-  background-color: transparent;
-  border-color: transparent;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon .z-icon {
-  background-color: #63686C;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:hover .z-icon {
-  background-color: #ABB0B5;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:focus .z-icon {
-  background-color: #222529;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:active .z-icon {
-  background-color: #222529;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled .z-icon {
-  background-color: #CFD5D9;
-}
-.modal-wrapper .modal-dialog.modal-button-search-modal .modal-content .grid {
-  width: fit-content;
 }
 
 .z-print {
@@ -7454,22 +7168,6 @@ input, button, select, optgroup, textarea {
 
 .no-data-found {
   background-color: #EEEEEE;
-}
-
-.modal-dialog.password-update-notice {
-  width: 50rem;
-  height: 34.5rem;
-}
-.modal-dialog.password-update-notice .modal-content {
-  height: 25.625rem;
-  padding: 0.25rem 1.25rem 0.25rem 1.25rem;
-}
-.modal-dialog.password-update-notice .modal-content .field-label {
-  display: inline-block;
-  margin: 1rem 0 0.5rem 0;
-}
-.modal-dialog.password-update-notice .modal-bottom {
-  height: 3.5rem;
 }
 
 /* report
@@ -9275,62 +8973,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .z-input.success {
   border: 0.0625rem solid #76BD26 !important;
 }
-.z-input.i-search {
-  background-image: url("../../assets/media/icons/icon_search.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
-.z-input.i-date-picker {
-  background-image: url("../../assets/media/icons/dateTimePicker/icon_date_picker.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
-.z-input.i-time-picker {
-  background-image: url("../../assets/media/icons/dateTimePicker/icon_time_picker.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
-.z-input.i-datetime-picker {
-  background-image: url("../../assets/media/icons/dateTimePicker/icon_date_time_picker.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
-.z-input.i-user-search {
-  background-image: url("../../assets/media/icons/document/icon_user.svg");
-  background-size: 1.5rem 1.5rem;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
-.z-input.i-organization-search {
-  background-image: url("../../assets/media/icons/document/icon_organization.svg");
-  background-size: 1.5rem 1.5rem;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
-.z-input.i-px {
-  background-image: url("../../assets/media/icons/icon_px.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
-.z-input.i-mb {
-  background-image: url("../../assets/media/icons/icon_mb.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: calc(100% - 0.4375rem);
-  background-position-y: 50%;
-}
 .z-input-button {
   position: relative;
   height: 2.125rem;
@@ -10746,34 +10388,142 @@ body.modal-active {
   padding: 1.25rem 1.25rem;
 }
 
-.modal-dialog.scheduler-list-modal {
-  width: 62.5rem;
-  height: 40.625rem;
+.modal-dialog {
+  /*
+   * 신청서 & 문서함
+   */
+  /*
+   * designer
+   */
+  /*
+   * thumbnail
+   */
+  /*
+   * 업무 흐름 모달
+   */
+  /*
+   * CMDB
+   */
+  /*
+   * report
+   */
+  /* 스케줄러 */
+  /*
+   * SLA
+   */
+  /*
+   * login
+   */
+  /*
+   * portal
+   */
 }
-.modal-dialog.scheduler-list-modal .modal-content {
-  height: 31.75rem;
-  padding: 1.25rem;
+.modal-dialog.modal-button-search-modal {
+  --default-modal-width: 0;
+  --default-modal-height: 0;
+  width: var(--default-modal-width);
+  height: var(--default-modal-height);
 }
-.modal-dialog.scheduler-list-modal .modal-content .table-set {
-  margin-top: 2.188rem;
+.modal-dialog.modal-button-search-modal .modal-content {
+  height: calc(var(--default-modal-height) - 3.875rem - 5rem - 1.25rem);
+  margin: 0.625rem 1.25rem 0 1.25rem;
 }
-.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body {
-  display: block;
-  overflow-y: auto;
-  width: 60rem;
-  height: 21.75rem;
-  border: none;
+.modal-dialog.modal-button-search-modal .modal-content .grid {
+  display: grid;
+  flex: 1;
+  align-content: start;
 }
-.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row {
-  display: table;
-  width: 100%;
-  height: 2.125rem;
-  line-height: 2.125rem;
+.modal-dialog.modal-button-search-modal .modal-content .grid__row {
+  display: grid;
+  grid-template-columns: var(--data-columns-width);
+  grid-template-rows: 49px;
 }
-.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td {
-  display: inline-block;
-  max-width: 22.5rem;
-  vertical-align: middle;
+.modal-dialog.modal-button-search-modal .modal-content .grid__cell {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #424242;
+  font-weight: 500;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row {
+  border-bottom: 0.125rem solid #CFD5D9;
+  color: #757575;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
+  cursor: pointer;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .z-icon.i-sorting {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  background: #757575;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .z-icon.i-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__body {
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  color: #222529;
+  cursor: pointer;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row.read-only {
+  cursor: default;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row:hover {
+  background-color: #EEEEEE;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid__body .sub-text {
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid--noData .grid__cell {
+  grid-column: 1/-1;
+  justify-content: center;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon {
+  padding: 0;
+  border-color: transparent;
+  background-color: transparent;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:hover, .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:focus, .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:active, .modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon .z-icon {
+  background-color: #63686C;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:hover .z-icon {
+  background-color: #ABB0B5;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:focus .z-icon {
+  background-color: #222529;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:active .z-icon {
+  background-color: #222529;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid .z-button-icon:disabled .z-icon {
+  background-color: #CFD5D9;
+}
+.modal-dialog.modal-button-search-modal .modal-content .grid {
+  width: fit-content;
 }
 .modal-dialog.tree {
   width: 40rem;
@@ -10791,6 +10541,42 @@ body.modal-active {
 }
 .modal-dialog.tree .modal-content div li:last-child:before {
   background-color: #FFFFFF;
+}
+.modal-dialog.token-list {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-dialog.token-list .modal-content {
+  height: 44.1875rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.token-list .modal-content .related-instance-list {
+  margin-top: 0.9375rem;
+}
+.modal-dialog.token-list .modal-content .related-instance-list .table-set {
+  margin-top: 1.875rem;
+}
+.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body {
+  overflow-y: auto;
+  display: block;
+  width: 60rem;
+  height: 35.313rem;
+  border: none;
+}
+.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .attribute-list,
+.modal-dialog.token-list .modal-content .related-instance-list .table-set .z-table .z-table-body .instance-list {
+  display: flex;
+  width: 100%;
+  height: 2.188rem;
+  line-height: 2.188rem;
+}
+.modal-dialog.process-status-modal {
+  width: 82.6rem !important;
+  height: 33.125rem;
+}
+.modal-dialog.process-status-modal .modal-content {
+  width: 100%;
+  height: 28.125rem;
 }
 .modal-dialog.form-import, .modal-dialog.process-import {
   width: 37.5rem;
@@ -10815,6 +10601,56 @@ body.modal-active {
 .modal-dialog.form-edit .modal-content .field-label, .modal-dialog.process-edit .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.save-as .modal-content {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  height: 16.755rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.save-as .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.save-as .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.save-as .modal-content .textarea-scroll-wrapper {
+  min-height: 7.5rem;
+  resize: none;
+}
+.modal-dialog.create-template .modal-content {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  height: 16.755rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.create-template .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-dialog.create-template .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.create-template .modal-content .textarea-scroll-wrapper {
+  min-height: 7.5rem;
+  resize: none;
+}
+.modal-dialog.z-thumbnail-image, .modal-dialog.z-thumbnail-file {
+  width: 1040px;
+  height: 48.44rem;
+}
+.modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
+  height: 39.565rem;
+}
+.modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
+  width: 14.375rem;
 }
 .modal-dialog.document-edit, .modal-dialog.workFlow-import {
   width: 40rem;
@@ -10867,6 +10703,32 @@ body.modal-active {
 .modal-dialog.document-display .modal-content .document-display-content .z-table th, .modal-dialog.document-display .modal-content .document-display-content .z-table td {
   overflow: initial;
   padding: 0 1.5rem 0.625rem 0;
+}
+.modal-dialog.document-modal-dialog .z-document-main,
+.modal-dialog.document-modal-dialog .z-document-main-header,
+.modal-dialog.document-modal-dialog .z-document-main-footer {
+  right: 0;
+}
+.modal-dialog.document-modal-dialog .z-document-main-header {
+  width: 100%;
+}
+.modal-dialog.custom-code-list {
+  width: 40rem;
+  height: 46.875rem;
+}
+.modal-dialog.custom-code-list .modal-content {
+  height: 38rem;
+  padding: 0.625rem 1.25rem 0.625rem 1.25rem;
+}
+.modal-dialog.custom-code-list .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.custom-code-list .input-search {
+  padding-top: 1.875rem;
+}
+.modal-dialog.custom-code-list .custom-code-main {
+  padding-top: 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal, .modal-dialog.sub-user-modal, .modal-dialog.target-user-modal {
   width: 62.5rem;
@@ -10927,6 +10789,126 @@ body.modal-active {
   width: 100%;
   height: 2.188rem;
   line-height: 2.188rem;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal {
+  width: 40.125rem;
+  height: 43.75rem;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
+  height: 34.875rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
+  margin: 1rem 0 0 0;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-label {
+  flex-basis: 30%;
+}
+.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-element {
+  flex-basis: 70%;
+}
+.modal-dialog.cmdb-ci-register-modal, .modal-dialog.cmdb-ci-update-modal, .modal-dialog.cmdb-ci-view-modal, .modal-dialog.cmdb-ci-list-modal {
+  width: 62.5rem;
+  height: 53.0625rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content, .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-dialog.cmdb-ci-view-modal .modal-content, .modal-dialog.cmdb-ci-list-modal .modal-content {
+  height: 44.1875rem;
+  padding: 0.625rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .view-row, .modal-dialog.cmdb-ci-update-modal .modal-content .view-row, .modal-dialog.cmdb-ci-view-modal .modal-content .view-row, .modal-dialog.cmdb-ci-list-modal .modal-content .view-row {
+  margin-top: 0.625rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .field-label, .modal-dialog.cmdb-ci-update-modal .modal-content .field-label, .modal-dialog.cmdb-ci-view-modal .modal-content .field-label, .modal-dialog.cmdb-ci-list-modal .modal-content .field-label {
+  margin: 0.625rem 0;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .attribute-group, .modal-dialog.cmdb-ci-update-modal .modal-content .attribute-group, .modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group, .modal-dialog.cmdb-ci-list-modal .modal-content .attribute-group {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  background-color: #FAFAFA;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-update-modal .modal-content .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-list-modal .modal-content .attribute-group .child-attribute-group {
+  position: relative;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-update-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-list-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  background-color: #FFFFFF;
+  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit,
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit,
+.modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit,
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit,
+.modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
+  height: 41.0625rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form,
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .edit-form, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form,
+.modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .edit-form, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-form,
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .edit-form, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-form,
+.modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .edit-form {
+  padding: 0 2.5rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-row,
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .edit-row, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-row,
+.modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .edit-row, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .edit-row,
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .edit-row, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .edit-row,
+.modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .edit-row {
+  margin-top: 0.625rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .field-label,
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .field-label, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .field-label,
+.modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .field-label, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .field-label,
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .field-label, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .field-label,
+.modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .field-label {
+  margin: 0.625rem 0;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add,
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add,
+.modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add,
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .z-button-attribute-add,
+.modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .z-button-attribute-add {
+  position: absolute;
+  top: -1.875rem;
+  right: 0;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete,
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete,
+.modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete,
+.modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete,
+.modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .z-button-attribute-delete {
+  position: absolute;
+  right: 0.3125rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group {
+  margin-bottom: 0.625rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group {
+  padding-top: 0.625rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row {
+  margin-top: 0.625rem;
+}
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .z-table-row {
+  border-bottom: 0.0625rem solid #ABB0B5;
+  height: 2.5rem;
+}
+.modal-dialog.template-import {
+  width: 37.5rem;
+  height: 22.5rem;
+}
+.modal-dialog.template-import .modal-content {
+  height: 13.625rem;
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.template-import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
 }
 .modal-dialog.chart-edit-modal {
   width: 62.5rem;
@@ -10993,87 +10975,34 @@ body.modal-active {
   margin: 0.625rem 0;
   color: #3373C4;
 }
-.modal-dialog.cmdb-ci-detailSearch-modal {
-  width: 40.125rem;
-  height: 43.75rem;
-}
-.modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
-  height: 34.875rem;
-  padding: 0.625rem 1.25rem;
-}
-.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
-  margin: 1rem 0 0 0;
-}
-.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-label {
-  flex-basis: 30%;
-}
-.modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row .field-element {
-  flex-basis: 70%;
-}
-.modal-dialog.cmdb-ci-view-modal {
+.modal-dialog.scheduler-list-modal {
   width: 62.5rem;
-  height: 53.0625rem;
+  height: 40.625rem;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content {
-  height: 44.1875rem;
-  padding: 0.625rem 1.25rem;
+.modal-dialog.scheduler-list-modal .modal-content {
+  height: 31.75rem;
+  padding: 1.25rem;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .view-row {
-  margin-top: 0.625rem;
+.modal-dialog.scheduler-list-modal .modal-content .table-set {
+  margin-top: 2.188rem;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .field-label {
-  margin: 0.625rem 0;
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body {
+  display: block;
+  overflow-y: auto;
+  width: 60rem;
+  height: 21.75rem;
+  border: none;
 }
-.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  background-color: #FAFAFA;
-  padding: 0 1.25rem 1.25rem 1.25rem;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group {
-  position: relative;
-}
-.modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  background-color: #FFFFFF;
-  padding: 0.3125rem 1.25rem 1.25rem 1.25rem;
-}
-.modal-dialog.template-import {
-  width: 37.5rem;
-  height: 22.5rem;
-}
-.modal-dialog.template-import .modal-content {
-  height: 13.625rem;
-  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
-}
-.modal-dialog.template-import .modal-content .field-label {
-  display: inline-block;
-  margin: 1rem 0 0.5rem 0;
-}
-.modal-dialog.password-check {
-  width: 34.38rem;
-  height: 20.625rem;
-}
-.modal-dialog.password-check .modal-content {
-  height: 11.75rem;
-  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
-}
-.modal-dialog.password-check .modal-content .field-label {
-  display: inline-block;
-  margin: 1rem 0 0.5rem 0;
-}
-.modal-dialog.process-status-modal {
-  width: 82.6rem !important;
-  height: 33.125rem;
-}
-.modal-dialog.process-status-modal .modal-content {
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row {
+  display: table;
   width: 100%;
-  height: 28.125rem;
+  height: 2.125rem;
+  line-height: 2.125rem;
+}
+.modal-dialog.scheduler-list-modal .modal-content .table-set .z-table .z-table-body .list-row > td {
+  display: inline-block;
+  max-width: 22.5rem;
+  vertical-align: middle;
 }
 .modal-dialog.sla-metric-manual-modal {
   width: 30rem;
@@ -11133,6 +11062,33 @@ body.modal-active {
   -moz-border-radius: 0.0625rem;
   margin: 0 1.5rem;
 }
+.modal-dialog.password-check {
+  width: 34.38rem;
+  height: 20.625rem;
+}
+.modal-dialog.password-check .modal-content {
+  height: 11.75rem;
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-dialog.password-check .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.password-update-notice {
+  width: 50rem;
+  height: 34.5rem;
+}
+.modal-dialog.password-update-notice .modal-content {
+  height: 25.625rem;
+  padding: 0.25rem 1.25rem 0.25rem 1.25rem;
+}
+.modal-dialog.password-update-notice .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+.modal-dialog.password-update-notice .modal-bottom {
+  height: 3.5rem;
+}
 
 /* _paging.scss
  *
@@ -11161,50 +11117,6 @@ body.modal-active {
 }
 .z-page-paging a.z-paging-arrow.active span.z-icon {
   background: #19428D;
-}
-.z-page-paging a.z-paging-arrow .z-icon.i-paging-start-arrow {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_start.svg");
-  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_start.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #ABB0B5;
-}
-.z-page-paging a.z-paging-arrow .z-icon.i-paging-prev-arrow {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_prev.svg");
-  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_prev.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #ABB0B5;
-}
-.z-page-paging a.z-paging-arrow .z-icon.i-paging-next-arrow {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_next.svg");
-  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_next.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #ABB0B5;
-}
-.z-page-paging a.z-paging-arrow .z-icon.i-paging-end-arrow {
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_end.svg");
-  mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_end.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #ABB0B5;
 }
 .z-page-paging .z-paging-numbers a {
   border: 0.0625rem solid #CFD5D9;
@@ -13525,13 +13437,13 @@ body.modal-active {
   padding-right: 0.625rem;
 }
 .z-picker-modal-content-year-period .date-text span:first-child::before {
+  position: absolute;
+  top: 0.438rem;
+  right: 0.125rem;
   content: "";
   width: 0.3125rem;
   height: 0.125rem;
   background-color: #424242;
-  position: absolute;
-  top: 0.438rem;
-  right: 0.125rem;
 }
 .z-picker-modal-content-year-years {
   display: flex;
@@ -13542,6 +13454,9 @@ body.modal-active {
   color: #424242;
 }
 .z-picker-modal-content-year-years .calendar-cell {
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
   display: inline-block;
   width: 2.75rem;
   height: 1.5rem;
@@ -13551,9 +13466,6 @@ body.modal-active {
   text-align: center;
   line-height: 1.7;
   cursor: pointer;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
 }
 .z-picker-modal-content-year-years .calendar-cell:hover, .z-picker-modal-content-year-years .calendar-cell:active {
   background-color: #E1E6EA;
@@ -13563,16 +13475,16 @@ body.modal-active {
   color: #3373C4;
 }
 .z-picker-modal-content-year-years .calendar-cell.selected:before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 0.125rem;
-  background-color: #3373C4;
   position: absolute;
   bottom: 0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.125rem;
+  background-color: #3373C4;
 }
 .z-picker-modal-content-year-years .calendar-cell:nth-child(n+4) {
   margin-top: 0.875rem;

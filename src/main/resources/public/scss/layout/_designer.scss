@@ -178,60 +178,7 @@ $layout-header-dropdown: (
 
 }
 
-////////////////////////// modal //////////////////////////
-.modal-dialog {
-  // 폼 다른이름으로 저장하기 모달
-  // 프로세스 다른이름으로 저장하기 모달
-  &.save-as {
-    .modal-content {
-      @include scrollbarHidden;
-      height: calc(25.63rem - 3.875rem - 5rem); // 410px
-      padding: 0.625rem 1.25rem; // 10px 20px
-      .field-label {
-        display: inline-block;
-        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
-      }
-      .textarea-scroll-wrapper {
-        min-height: 7.5rem; // 120px
-        resize: none;
-      }
-    }
-  }
-
-  // 컴포넌트 템플릿 등록하기 모달
-  &.create-template {
-    .modal-content {
-      @include scrollbarHidden;
-      height: calc(25.63rem - 3.875rem - 5rem); // 410px
-      padding: 0.625rem 1.25rem; // 10px 20px
-
-      .field-label {
-        display: inline-block;
-        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
-      }
-
-      .textarea-scroll-wrapper {
-        min-height: 7.5rem; // 120px
-        resize: none;
-      }
-    }
-  }
-}
-
 ////////////////////////// thumbnail //////////////////////////
-// formDesigner - 썸네일 모달
-// process - 파일 선택 모달
-.modal-dialog {
-  &.z-thumbnail-image,
-  &.z-thumbnail-file {
-    width: 1040px; // 1040px
-    height: 48.44rem; // 775px
-    .modal-content {
-      height: calc(48.44rem - 3.875rem - 5rem); // 775px
-      .z-thumbnail-main .z-thumbnail { width: 14.375rem; } // 230px
-    }
-  }
-}
 .z-thumbnail-main { padding: 0.625rem; } // 10px
 
 ////////////////////////// tooltip //////////////////////////
@@ -380,9 +327,7 @@ $layout-header-dropdown: (
 // main
 .z-component {
   .z-radio {
-    input[type=radio] {
-      + span::after { top: 0.35rem; } // 5.6px
-    }
+    input[type=radio] + span::after { top: 0.35rem; } // 5.6px
   }
 }
 
@@ -1771,18 +1716,17 @@ $element-icon-toggle: (
           stroke: $gray600;
           stroke-width: 1;
           cursor: default;
+
+          &.selected {
+            stroke-dasharray: 10, 2;
+            stroke-width: 2;
+            &.error { stroke: $red500 !important; }
+          }
+
+          &.is-default { stroke-width: 3; }
+
+          &.hidden { stroke-width: 0; }
         }
-
-        path.connector.selected {
-          stroke-dasharray: 10, 2;
-          stroke-width: 2;
-
-          &.error { stroke: $red500 !important; }
-        }
-
-        path.connector.is-default { stroke-width: 3; }
-
-        path.connector.hidden { stroke-width: 0; }
 
         path.painted-connector {
           fill: none;
@@ -1797,7 +1741,6 @@ $element-icon-toggle: (
           fill: $gray600;
           dominant-baseline: text-before-edge;
           user-select: none;
-
           &.selected { fill: $blue500; }
         }
 

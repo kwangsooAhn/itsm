@@ -203,7 +203,7 @@ label {
   }
 }
 
-/////////////////////////////////////////////////// UI 컴포넌트 추가  ////////////////////////////////////////////////////
+//////////////////////////  UI 컴포넌트 추가  //////////////////////////
 input, textarea, select {
   &:focus, &:hover { outline: 0; }
 }
@@ -280,31 +280,6 @@ input, textarea, select {
   &.error { @include border(0.0625rem, solid, $red500 !important, all); }
   &.success { @include border(0.0625rem, solid, $green500 !important, all); }
 
-  // z-input with background img
-  &.i-search {
-    @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
-  }
-  &.i-date-picker {
-    @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
-  }
-  &.i-time-picker {
-    @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
-  }
-  &.i-datetime-picker {
-    @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
-  }
-  &.i-user-search {
-    @include backgroundImage($icon-folder-path + 'document/icon_user.svg', 1.5rem 1.5rem, no-repeat, calc(100% - 0.4375rem), 50%); //24px
-  }
-  &.i-organization-search {
-    @include backgroundImage($icon-folder-path + 'document/icon_organization.svg', 1.5rem 1.5rem, no-repeat, calc(100% - 0.4375rem), 50%); //24px
-  }
-  &.i-px {
-    @include backgroundImage($icon-folder-path + 'icon_px.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
-  }
-  &.i-mb {
-    @include backgroundImage($icon-folder-path + 'icon_mb.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
-  }
   &-button {
     @include relative();
     height: 2.125rem; // 34px
