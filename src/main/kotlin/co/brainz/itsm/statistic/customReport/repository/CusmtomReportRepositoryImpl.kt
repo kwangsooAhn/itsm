@@ -7,8 +7,8 @@
 package co.brainz.itsm.statistic.customReport.repository
 
 import co.brainz.framework.querydsl.dto.PagingReturnDto
-import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
 import co.brainz.itsm.statistic.customReport.dto.CustomReportListDto
+import co.brainz.itsm.statistic.customReport.dto.ReportCategoryDto
 import co.brainz.itsm.statistic.customReport.dto.ReportSearchCondition
 import co.brainz.itsm.statistic.customReport.entity.QReportEntity
 import co.brainz.itsm.statistic.customReport.entity.ReportEntity

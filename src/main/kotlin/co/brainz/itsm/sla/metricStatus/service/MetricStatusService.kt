@@ -87,7 +87,7 @@ class MetricStatusService(
         val from = LocalDateTime.of(metricStatusCondition.year.toInt(), 1, 1, 0, 0, 0)
         val to = LocalDateTime.of(metricStatusCondition.year.toInt(), 12, 31, 23, 59, 59)
         val chartData = mutableListOf<ChartData>()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         if (metric!!.metricType == MetricPoolConst.Type.MANUAL.code) {
             for (i in 1..12) {
                 val month = LocalDate.of(metricStatusCondition.year.toInt(), i, 1)

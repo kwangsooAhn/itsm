@@ -176,8 +176,8 @@ class Zql(
                         is Boolean -> expValue as Boolean
                         else -> false
                     }
-                }.size.toFloat()
-                / (if (it.zqlTokenList.size > 0) it.zqlTokenList.size else 1)) * 100
+                }.size.toFloat() /
+                (if (it.zqlTokenList.size > 0) it.zqlTokenList.size else 1)) * 100
             )
         }
     }

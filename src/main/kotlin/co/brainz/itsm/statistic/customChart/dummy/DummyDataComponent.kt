@@ -28,7 +28,7 @@ class DummyDataComponent(
 ) {
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-    //더미데이터로 차트확인
+    // 더미데이터로 차트확인
     fun getDummyDataList(aliceTagDto: List<AliceTagDto>): List<ChartTagInstanceDto> {
         val findDocument = wfDocumentRepository.findDocumentEntityByDocumentId("4028b21f7c90d996017c91ae7987004f")
         val user = aliceUserRepository.findAliceUserEntityByUserKey("0509e09412534a6e98f04ca79abb6424")

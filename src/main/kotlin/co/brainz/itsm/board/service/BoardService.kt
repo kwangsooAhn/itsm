@@ -20,11 +20,11 @@ import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.board.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.board.repository.BoardAdminRepository
 import co.brainz.itsm.board.repository.BoardCategoryRepository
+import co.brainz.itsm.board.repository.BoardRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.convertValue
-import co.brainz.itsm.board.repository.BoardRepository
 import javax.transaction.Transactional
 import kotlin.math.ceil
 import org.springframework.stereotype.Service

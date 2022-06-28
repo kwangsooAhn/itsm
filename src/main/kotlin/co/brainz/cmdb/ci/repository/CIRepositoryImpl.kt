@@ -12,7 +12,6 @@ import co.brainz.cmdb.ciClass.entity.QCIClassEntity
 import co.brainz.cmdb.ciType.constants.CITypeConstants
 import co.brainz.cmdb.ciType.entity.QCITypeEntity
 import co.brainz.cmdb.constants.RestTemplateConstants
-import co.brainz.cmdb.dto.CIListDto
 import co.brainz.cmdb.dto.CIsDto
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.framework.tag.constants.AliceTagConstants

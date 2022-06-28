@@ -292,7 +292,7 @@ class WfScriptTask(
     }
 
     private fun executePlugin(createTokenDto: WfTokenDto, element: WfElementEntity) {
-        //scriptTask 데이터에서 pluginId 추출
+        // scriptTask 데이터에서 pluginId 추출
         var scriptValue: Map<String, String> = emptyMap()
         element.elementScriptDataEntities.forEach {
             scriptValue = mapper.readValue(it.scriptValue, object : TypeReference<Map<String, Any>>() {})

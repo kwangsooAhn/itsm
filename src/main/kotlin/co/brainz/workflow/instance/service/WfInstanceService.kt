@@ -412,7 +412,12 @@ class WfInstanceService(
             instance.tokenId?.let { tokenIds.add(it) }
             val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
             if (tokenIds.isNotEmpty()) {
-                tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds, componentTypeForTopicDisplay))
+                tokenDataList.addAll(
+                    wfTokenDataRepository.findTokenDataByTokenIds(
+                        tokenIds,
+                        componentTypeForTopicDisplay
+                    )
+                )
             }
             val topics = mutableListOf<String>()
             tokenDataList.forEach { tokenData ->
@@ -486,7 +491,8 @@ class WfInstanceService(
                 if (tokenData.component.isTopic &&
                     componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
                 ) {
-                    if ((instance.tokenEntity.tokenId == tokenData.component.tokenId) && topicComponentIds.size == 0) { // 신청서의  첫번째 isTopic(제목)만 담음
+                    // 신청서의  첫번째 isTopic(제목)만 담음
+                    if ((instance.tokenEntity.tokenId == tokenData.component.tokenId) && topicComponentIds.size == 0) {
                         topicComponentIds.add(tokenData.component.componentId)
                         topics.add(tokenData.value.replace(WfInstanceConstants.TOKEN_DATA_DEFAULT, ""))
                     }

@@ -26,12 +26,12 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 
 @Service
 class CISearchService(
@@ -123,7 +123,7 @@ class CISearchService(
         columnTypeList.add(CIAttributeConstants.Type.ICON.code)
         columnTypeList.add(CIAttributeConstants.Type.HIDDEN.code)
         columnTypeList.add(CIAttributeConstants.Type.INPUT_BOX.code)
-        //columnTypeList.add(CIAttributeConstants.Type.INPUTBOX.code)
+        // columnTypeList.add(CIAttributeConstants.Type.INPUTBOX.code)
         columnTypeList.add(CIAttributeConstants.Type.INPUT_BOX.code)
         columnTypeList.add(CIAttributeConstants.Type.INPUT_BOX.code)
         return columnTypeList
@@ -168,7 +168,7 @@ class CISearchService(
             attributeList.forEach {
                 if (isExcel || it.ciAttribute.searchYn) {
                     dynamic.columnName.add(it.ciAttribute.attributeId)
-                    dynamic.columnTitle.add(it.ciAttribute.attributeText ?: "") //attributeName 대신 attributeText
+                    dynamic.columnTitle.add(it.ciAttribute.attributeText ?: "") // attributeName 대신 attributeText
                     dynamic.columnWidth.add(it.ciAttribute.searchWidth + CIAttributeConstants.UNIT_PX)
                     dynamic.columnType.add(
                         when (it.ciAttribute.attributeType) {
@@ -499,7 +499,7 @@ class CISearchService(
                             val attributeValue = it.value[index].toString()
                             if (attributeValue.isNotBlank()) {
                                 val localDateTime =
-                                    LocalDateTime.parse(attributeValue, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+                                    LocalDateTime.parse(attributeValue, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
                                 val ldtZoned: ZonedDateTime = localDateTime.atZone(ZoneId.of("UTC"))
                                 it.value[index] = ldtZoned.withZoneSameInstant(ZoneId.of(timezone)).toLocalDateTime()
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -514,7 +514,7 @@ class CISearchService(
                             val attributeValue = it.value[index].toString()
                             if (attributeValue.isNotBlank()) {
                                 val localDateTime =
-                                    LocalDateTime.parse(attributeValue, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+                                    LocalDateTime.parse(attributeValue, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
                                 val ldtZoned: ZonedDateTime = localDateTime.atZone(ZoneId.of("UTC"))
                                 it.value[index] = ldtZoned.withZoneSameInstant(ZoneId.of(timezone)).toLocalDateTime()
                                     .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))

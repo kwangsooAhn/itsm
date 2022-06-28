@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.statistic.customReport.repository
 
-import co.brainz.itsm.statistic.customReport.entity.QCustomReportDataEntity
 import co.brainz.itsm.statistic.customReport.entity.CustomReportDataEntity
+import co.brainz.itsm.statistic.customReport.entity.QCustomReportDataEntity
 import co.brainz.itsm.statistic.customReport.entity.ReportEntity
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
