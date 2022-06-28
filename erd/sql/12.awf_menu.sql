@@ -47,8 +47,9 @@ insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRu
 insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
-insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
-insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('cmdb.icon', 'cmdb', '/cmdb/icons', 3, 'TRUE');
+insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 4, 'TRUE');
+insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 5, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 12, 'TRUE');
 insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');

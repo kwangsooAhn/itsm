@@ -152,11 +152,7 @@ class AliceFileProvider(
         searchValue: String,
         currentOffset: Int = -1
     ): AliceFileDetailListReturnDto {
-        val dir = when (type) {
-            FileConstants.Type.ICON.code -> FileConstants.Path.ICON_DOCUMENT.path
-            FileConstants.Type.ICON_CI_TYPE.code -> FileConstants.Path.ICON_CI_TYPE.path
-            else -> FileConstants.Path.FILE.path
-        }
+        val dir = getExternalDir(type)
         val dirPath = super.getPath(dir)
         val fileList = this.getValidFileList(type, dirPath, searchValue)
         val dataList = mutableListOf<AliceFileDetailDto>()
@@ -207,6 +203,17 @@ class AliceFileProvider(
     }
 
     /**
+     * 외부 경로 조회
+     */
+    fun getExternalDir(type: String): String {
+        return when (type) {
+            FileConstants.Type.ICON.code -> FileConstants.Path.ICON_DOCUMENT.path
+            FileConstants.Type.ICON_CI_TYPE.code -> FileConstants.Path.ICON_CI_TYPE.path
+            else -> FileConstants.Path.FILE.path
+        }
+    }
+
+    /**
      * 외부경로의 이미지 파일을 데이터로 읽기.
      *
      * @param fileFullName 파일 경로와 파일명까지 포함된 전체 이름
@@ -221,7 +228,7 @@ class AliceFileProvider(
      *  - type: file 모든 파일
      *  - image, icon, cmdb-icon: filter 된 이미지 파일
      */
-    private fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<Path> {
+    fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<Path> {
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dirPath)) {
             val fileDirMap = Files.list(dirPath).collect(Collectors.partitioningBy { Files.isDirectory(it) })
@@ -267,7 +274,7 @@ class AliceFileProvider(
     /**
      * 파일 전체 건수
      */
-    private fun getFileTotalCount(dirPath: Path): Long {
+    fun getFileTotalCount(dirPath: Path): Long {
         var totalCount = 0L
         if (Files.isDirectory(dirPath)) {
             totalCount = Files.list(dirPath).count()
@@ -278,7 +285,7 @@ class AliceFileProvider(
     /**
      * 조회하는 이미지 리스트의 갯수를 계산
      */
-    private fun getImageListEndIndex(currentOffset: Int, maxSize: Int): Int {
+    fun getImageListEndIndex(currentOffset: Int, maxSize: Int): Int {
         var endIndex: Int
         // currentOffset 값이 현재 인덱스의 값을 나타내면서 전체 조회인지 여부까지 포함해서 이중적으로 사용되고 있음.
         if (currentOffset == -1) {

@@ -530,6 +530,15 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
+  icon:
+    label:
+      list: "CI Icon List"
+      name: "icon file name"
+      upload: "File Upload"
+    msg:
+      maxFileSize: "Attachment file size can be registered within 10KB."
+      notFoundInTable: "The file does not exist in the history table (cmdb_ci_icon). Add data to the history table (cmdb_ci_icon)."
+      searchDescription: "This is a menu to manage, such as adding, deleting, or inquiring icons used for each CI type."
   type:
     label:
       alias: "Alias"
@@ -1156,6 +1165,7 @@ menu:
     attribute: "Attribute"
     ci: "CI"
     class: "Class"
+    icon: "CI Icon"
     type: "Type"
 
 # Notice

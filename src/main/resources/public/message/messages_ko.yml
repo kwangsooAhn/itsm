@@ -530,6 +530,15 @@ cmdb:
     btn:
       import: "가져오기"
       export: "내보내기"
+  icon:
+    label:
+      list: "CI 아이콘 관리"
+      name: "아이콘 파일 이름"
+      upload: "파일 업로드"
+    msg:
+      maxFileSize: "첨부파일 사이즈는 10KB 이내로 등록 가능합니다."
+      notFoundInTable: "파일이 이력 테이블(cmdb_ci_icon)에 존재하지 않습니다. 이력 테이블(cmdb_ci_icon)에 데이터를 주가 바랍니다."
+      searchDescription: "CI 유형별 사용되는 아이콘을 추가하거나 삭제, 조회하는 등 관리하는 메뉴입니다."
   type:
     label:
       alias: "식별자"
@@ -1156,6 +1165,7 @@ menu:
     attribute: "CI 속성항목"
     ci: "CI 조회"
     class: "CI 속성그룹"
+    icon: "CI 아이콘"
     type: "CI 유형"
 
 # Notice
