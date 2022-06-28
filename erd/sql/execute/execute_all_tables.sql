@@ -5,7 +5,7 @@ DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
 DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
-
+DROP SEQUENCE IF EXISTS cmdb_ci_icon_file_seq cascade;
 
 /* Create Sequences */
 CREATE SEQUENCE awf_archive_seq INCREMENT 1 MINVALUE 1 START 1;
@@ -13,7 +13,7 @@ CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE schedule_history_seq INCREMENT 1 MINVALUE 1 START 1;
-
+CREATE SEQUENCE cmdb_ci_icon_file_seq INCREMENT 1 MINVALUE 1 START 16;
 /**
  * DB (Timezone) 설정
  */
@@ -632,8 +632,9 @@ insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRu
 insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
-insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
-insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('cmdb.icon', 'cmdb', '/cmdb/icons', 3, 'TRUE');
+insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 4, 'TRUE');
+insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 5, 'TRUE');
 insert into awf_menu values ('config', 'menu', '', 12, 'TRUE');
 insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
@@ -684,9 +685,10 @@ insert into awf_menu_auth_map values ('archive', 'general');
 insert into awf_menu_auth_map values ('token', 'general');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.icon', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
 insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
 insert into awf_menu_auth_map values ('config', 'system.manage');
@@ -1192,6 +1194,7 @@ insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute
 insert into awf_url values ('/cmdb/attributes/list-modal', 'get', 'CMDB Attribute 목록 모달 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
+insert into awf_url values ('/cmdb/icons', 'get', 'CMDB 아이콘 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis', 'post', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
@@ -1284,6 +1287,16 @@ insert into awf_url values ('/rest/boards/articles/comments', 'post', '게시판
 insert into awf_url values ('/rest/boards/articles/comments/{id}', 'delete', '게시판 댓글 삭제', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/reply', 'post', '게시판 답글 등록', 'TRUE');
 insert into awf_url values ('/rest/boards/articles/{id}', 'delete', '게시판 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars', 'post', '캘린더별 전체 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/calendars/excel', 'post', '일정 엑셀 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/template', 'get', '일괄 등록 템플릿 다운로드', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/templateUpload', 'post', '일괄 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'post', '반복 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'put', '반복 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/repeat', 'delete', '반복 일정 삭제', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'post', '일반 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'put', '일반 일정 수정', 'TRUE');
+insert into awf_url values ('/rest/calendars/{id}/schedule', 'delete', '일반 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes', 'get', 'CMDB Attribute 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
@@ -1301,6 +1314,10 @@ insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}/attributes', 'get', 'CI 컴포넌트 - CI CLASS에 따른 세부 속성 조회', 'FALSE');
+insert into awf_url values ('/rest/cmdb/icons', 'get', 'CMDB 아이콘 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/cmdb/icons', 'post', 'CMDB 아이콘 파일 업로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/icons', 'put', 'CMDB 아이콘 파일명 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/icons/{id}', 'delete', 'CMDB 아이콘 파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'post', 'CMDB Type 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
@@ -1354,6 +1371,9 @@ insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
 insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
 insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/instances/{id}/schedule', 'get', '문서 일정 조회', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/schedule', 'post', '문서 일정 등록', 'TRUE');
+insert into awf_url values ('/rest/instances/{id}/schedule/{id}', 'delete', '문서 일정 삭제', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'get', '참조인 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/', 'post', '참조인 등록(수정)', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/viewer/{userkey}', 'delete', '참조인 삭제', 'TRUE');
@@ -1535,7 +1555,6 @@ insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
 
-
 /**
  * URL별권한매핑
  */
@@ -1602,6 +1621,8 @@ insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/cmdb/icons', 'get', 'cmdb.manage');
+insert into awf_url_auth_map values ('/cmdb/icons', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/custom-codes', 'get', 'system.manage');
@@ -1711,6 +1732,9 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.man
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons', 'put', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons/{id}', 'delete', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'post', 'cmdb.manage');
@@ -9419,6 +9443,32 @@ COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_attribute_seq IS '자식속성순
 COMMENT ON COLUMN if_cmdb_ci_group_list_data.c_value IS '자식속성값';
 
 /**
+ * 캘린더
+ */
+DROP TABLE IF EXISTS awf_calendar cascade;
+
+CREATE TABLE awf_calendar
+(
+    calendar_id   varchar(128) NOT NULL,
+    calendar_type varchar(100) NOT NULL,
+    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id)
+);
+
+COMMENT ON TABLE awf_calendar IS '캘린더';
+COMMENT ON COLUMN awf_calendar.calendar_id IS '캘린더아이디';
+COMMENT ON COLUMN awf_calendar.calendar_type IS '캘린더구분';
+
+--기본 데이터
+insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', 'user');
+insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', 'user');
+insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', 'user');
+insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', 'user');
+insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', 'user');
+insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', 'user');
+insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', 'user');
+insert into awf_calendar values ('9c1320817c0d3112616d1df8df480002', 'document');
+
+/**
   SLA 지표
  */
 DROP TABLE IF EXISTS sla_metric cascade;
@@ -9452,32 +9502,6 @@ COMMENT ON COLUMN sla_metric.create_user_key IS '등록자';
 COMMENT ON COLUMN sla_metric.create_dt IS '등록일';
 COMMENT ON COLUMN sla_metric.update_user_key IS '수정자';
 COMMENT ON COLUMN sla_metric.update_dt IS '수정일';
-
-/**
- * 캘린더
- */
-DROP TABLE IF EXISTS awf_calendar cascade;
-
-CREATE TABLE awf_calendar
-(
-    calendar_id   varchar(128) NOT NULL,
-    calendar_type varchar(100) NOT NULL,
-    CONSTRAINT awf_calendar_pk PRIMARY KEY (calendar_id)
-);
-
-COMMENT ON TABLE awf_calendar IS '캘린더';
-COMMENT ON COLUMN awf_calendar.calendar_id IS '캘린더아이디';
-COMMENT ON COLUMN awf_calendar.calendar_type IS '캘린더구분';
-
---기본 데이터
-insert into awf_calendar values ('2b2380667b0c3133026d0de8df480001', 'user');
-insert into awf_calendar values ('2c1120637b0d4123026d0de8df480005', 'user');
-insert into awf_calendar values ('1a2380167a0c3161026d0de7df780203', 'user');
-insert into awf_calendar values ('2c2183663b0c3133228d3ce8cf580015', 'user');
-insert into awf_calendar values ('4a2388567c7b2113121d0de8bf110002', 'user');
-insert into awf_calendar values ('3b2380627b1c3133625d1de9af233001', 'user');
-insert into awf_calendar values ('6d2381637b0d1233322d0fe8df471009', 'user');
-insert into awf_calendar values ('9c1320817c0d3112616d1df8df480002', 'document');
 
 /**
  * 컴포넌트 템플릿
@@ -9523,6 +9547,43 @@ COMMENT ON COLUMN awf_calendar_document.create_dt IS '등록일';
 insert into awf_calendar_document values ('9c1320817c0d3112616d1df8df480002', '문서', now());
 
 /**
+  SLA 연도별 지표
+ */
+DROP TABLE IF EXISTS sla_metric_year cascade;
+
+CREATE TABLE sla_metric_year
+(
+    metric_id varchar(128) NOT NULL,
+    metric_year varchar(128) NOT NULL,
+    min_value decimal,
+    max_value decimal,
+    weight_value decimal,
+    owner varchar(100),
+    comment text,
+    zql_string text,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT sla_metric_year_pk PRIMARY KEY (metric_id, metric_year),
+    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_metric_year IS 'SLA 연도별 지표';
+COMMENT ON COLUMN sla_metric_year.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_year.metric_year IS '지표관리년도';
+COMMENT ON COLUMN sla_metric_year.min_value IS '최소치';
+COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
+COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
+COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
+COMMENT ON COLUMN sla_metric_year.comment IS '비고';
+COMMENT ON COLUMN sla_metric_year.zql_string IS 'zql';
+COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
+COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';
+COMMENT ON COLUMN sla_metric_year.update_dt IS '수정일';
+
+/**
  * 문서 캘린더 스케줄
  */
 DROP TABLE IF EXISTS awf_calendar_document_schedule cascade;
@@ -9554,6 +9615,31 @@ COMMENT ON COLUMN awf_calendar_document_schedule.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_document_schedule.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_document_schedule.create_dt IS '등록일';
 COMMENT ON COLUMN awf_calendar_document_schedule.update_dt IS '수정일';
+
+/**
+  SLA 수동 지표
+ */
+DROP TABLE IF EXISTS sla_metric_manual cascade;
+
+CREATE TABLE sla_metric_manual
+(
+    metric_manual_id varchar(128) NOT NUll,
+    metric_id varchar(128) NOT NULL,
+    reference_dt timestamp,
+    metric_value decimal,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    CONSTRAINT sla_metric_manual_pk PRIMARY KEY (metric_manual_id),
+    CONSTRAINT sla_metric_manual_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+);
+
+COMMENT ON TABLE sla_metric_manual IS 'SLA 수동 지표';
+COMMENT ON COLUMN sla_metric_manual.metric_manual_id IS '수동지표아이디';
+COMMENT ON COLUMN sla_metric_manual.metric_id IS '지표아이디';
+COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
+COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
+COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
+COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
 
 /**
  * 사용자 캘린더
@@ -9635,39 +9721,6 @@ COMMENT ON COLUMN awf_calendar_user_repeat.repeat_id IS '반복일정아이디';
 COMMENT ON COLUMN awf_calendar_user_repeat.calendar_id IS '캘린더아이디';
 
 /**
- * 사용자 캘린더 반복일정 커스텀 상세정보
- */
-DROP TABLE IF EXISTS awf_calendar_user_repeat_custom_data cascade;
-
-CREATE TABLE awf_calendar_user_repeat_custom_data
-(
-    custom_id         varchar(128) NOT NULL,
-    data_id           varchar(128) NOT NULL,
-    custom_type       varchar(64),
-    data_index        int,
-    custom_title      varchar(200),
-    custom_contents   text,
-    all_day_yn        boolean,
-    start_dt          timestamp,
-    end_dt            timestamp,
-    create_dt         timestamp,
-    CONSTRAINT awf_calendar_user_repeat_custom_data_pk PRIMARY KEY (custom_id),
-    CONSTRAINT awf_calendar_user_repeat_custom_data_fk FOREIGN KEY (data_id) REFERENCES awf_calendar_user_repeat_data (data_id)
-);
-
-COMMENT ON TABLE awf_calendar_user_repeat_custom_data IS '사용자 캘린더 반복일정 커스텀';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_id IS '커스텀아이디';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_id IS '데이터아이디';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_type IS '커스텀타입';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_index IS '데이터인덱스';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_title IS '제목';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_contents IS '내용';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.all_day_yn IS '종일여부';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
-COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
-
-/**
  * 사용자 캘린더 반복일정 상세정보
  */
 DROP TABLE IF EXISTS awf_calendar_user_repeat_data cascade;
@@ -9704,66 +9757,80 @@ COMMENT ON COLUMN awf_calendar_user_repeat_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_user_repeat_data.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_user_repeat_data.create_dt IS '등록일';
 
+/**
+ * 사용자 캘린더 반복일정 커스텀 상세정보
+ */
+DROP TABLE IF EXISTS awf_calendar_user_repeat_custom_data cascade;
+
+CREATE TABLE awf_calendar_user_repeat_custom_data
+(
+    custom_id         varchar(128) NOT NULL,
+    data_id           varchar(128) NOT NULL,
+    custom_type       varchar(64),
+    data_index        int,
+    custom_title      varchar(200),
+    custom_contents   text,
+    all_day_yn        boolean,
+    start_dt          timestamp,
+    end_dt            timestamp,
+    create_dt         timestamp,
+    CONSTRAINT awf_calendar_user_repeat_custom_data_pk PRIMARY KEY (custom_id),
+    CONSTRAINT awf_calendar_user_repeat_custom_data_fk FOREIGN KEY (data_id) REFERENCES awf_calendar_user_repeat_data (data_id)
+);
+
+COMMENT ON TABLE awf_calendar_user_repeat_custom_data IS '사용자 캘린더 반복일정 커스텀';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_id IS '커스텀아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_id IS '데이터아이디';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_type IS '커스텀타입';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.data_index IS '데이터인덱스';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_title IS '제목';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.custom_contents IS '내용';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.all_day_yn IS '종일여부';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
+COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
 
 /**
-  SLA 연도별 지표
+ * CMDB 아이콘 관리
  */
-DROP TABLE IF EXISTS sla_metric_year cascade;
+DROP TABLE IF EXISTS cmdb_ci_icon cascade;
 
-CREATE TABLE sla_metric_year
+CREATE TABLE cmdb_ci_icon
 (
-    metric_id varchar(128) NOT NULL,
-    metric_year varchar(128) NOT NULL,
-    min_value decimal,
-    max_value decimal,
-    weight_value decimal,
-    owner varchar(100),
-    comment text,
-    zql_string text,
+    file_seq bigint NOT null,
+    file_name varchar(512) NOT NULL,
+    file_name_extension varchar(128) NOT NULL,
+    editable boolean default true,
     create_user_key varchar(128),
     create_dt timestamp,
     update_user_key varchar(128),
     update_dt timestamp,
-    CONSTRAINT sla_metric_year_pk PRIMARY KEY (metric_id, metric_year),
-    CONSTRAINT sla_metric_year_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
+    CONSTRAINT cmdb_ci_icon_pk PRIMARY KEY (file_seq)
 );
 
-COMMENT ON TABLE sla_metric_year IS 'SLA 연도별 지표';
-COMMENT ON COLUMN sla_metric_year.metric_id IS '지표아이디';
-COMMENT ON COLUMN sla_metric_year.metric_year IS '지표관리년도';
-COMMENT ON COLUMN sla_metric_year.min_value IS '최소치';
-COMMENT ON COLUMN sla_metric_year.max_value IS '목표치';
-COMMENT ON COLUMN sla_metric_year.weight_value IS '가중치';
-COMMENT ON COLUMN sla_metric_year.owner IS '담당자';
-COMMENT ON COLUMN sla_metric_year.comment IS '비고';
-COMMENT ON COLUMN sla_metric_year.zql_string IS 'zql';
-COMMENT ON COLUMN sla_metric_year.create_user_key IS '등록자';
-COMMENT ON COLUMN sla_metric_year.create_dt IS '등록일';
-COMMENT ON COLUMN sla_metric_year.update_user_key IS '수정자';
-COMMENT ON COLUMN sla_metric_year.update_dt IS '수정일';
+COMMENT ON TABLE cmdb_ci_icon IS 'CMDB 아이콘 관리';
+COMMENT ON COLUMN cmdb_ci_icon.file_seq IS '아이콘파일관리번호';
+COMMENT ON COLUMN cmdb_ci_icon.file_name IS '아이콘파일명';
+COMMENT ON COLUMN cmdb_ci_icon.file_name_extension IS '아이콘파일확장자';
+COMMENT ON COLUMN cmdb_ci_icon.editable IS '수정가능여부';
+COMMENT ON COLUMN cmdb_ci_icon.create_user_key IS '등록자';
+COMMENT ON COLUMN cmdb_ci_icon.create_dt IS '등록일';
+COMMENT ON COLUMN cmdb_ci_icon.update_user_key IS '수정자';
+COMMENT ON COLUMN cmdb_ci_icon.update_dt IS '수정일';
 
-/**
-  SLA 수동 지표
- */
-DROP TABLE IF EXISTS sla_metric_manual cascade;
-
-CREATE TABLE sla_metric_manual
-(
-    metric_manual_id varchar(128) NOT NUll,
-    metric_id varchar(128) NOT NULL,
-    reference_dt timestamp,
-    metric_value decimal,
-    create_user_key varchar(128),
-    create_dt timestamp,
-    CONSTRAINT sla_metric_manual_pk PRIMARY KEY (metric_manual_id),
-    CONSTRAINT sla_metric_manual_fk FOREIGN KEY (metric_id) REFERENCES sla_metric (metric_id)
-);
-
-COMMENT ON TABLE sla_metric_manual IS 'SLA 수동 지표';
-COMMENT ON COLUMN sla_metric_manual.metric_manual_id IS '수동지표아이디';
-COMMENT ON COLUMN sla_metric_manual.metric_id IS '지표아이디';
-COMMENT ON COLUMN sla_metric_manual.reference_dt IS '기준일자';
-COMMENT ON COLUMN sla_metric_manual.metric_value IS '지표값';
-COMMENT ON COLUMN sla_metric_manual.create_user_key IS '등록자';
-COMMENT ON COLUMN sla_metric_manual.create_dt IS '등록일';
-
+-- 기본 아이콘
+INSERT INTO cmdb_ci_icon VALUES (1, 'image_assets', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (2, 'image_icmp', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (3, 'image_l4switch', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (4, 'image_linux', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (5, 'image_maintenance', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (6, 'image_mariadb', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (7, 'image_mssql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (8, 'image_mysql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (9, 'image_oracle', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (10, 'image_postresql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (11, 'image_server', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (12, 'image_snmp', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (13, 'image_software', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (14, 'image_storage', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (15, 'image_winnt', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
