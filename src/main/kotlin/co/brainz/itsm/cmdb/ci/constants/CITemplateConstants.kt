@@ -16,4 +16,9 @@ object CITemplateConstants {
         CI_NAME("CI 이름"),
         CI_DESC("CI 설명")
     }
+
+    /**
+     * 모달 스크롤 페이징 처리시 Limit 기본값
+     */
+    const val COUNT = 50
 }

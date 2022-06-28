@@ -79,6 +79,7 @@ common:
     done: "Executed. The results can be checked in the history."
     emptyValue: "There is an empty value"
     enterContents: "Please enter contents"
+    enterSearchValue: "Please enter search word."
     enterTitle: "Please enter a title."
     fail: "Failed."
     failedExport: "Failed to export {0}."
@@ -1368,7 +1369,6 @@ process:
       totalCount: "Total Count"
       userTask: "User Task"
       withdraw: "Withdraw"
-
 # Role
 role:
   btn:
@@ -1918,3 +1918,21 @@ product:
     technicalSupport: "TechnicalSupport : 02-2205-6031"
     productInquiry: "ProductInquiry : 02-2205-6009, 6015"
     copyright: "ⓒ 2020 Brainzcompany. All rights reserved."
+
+# Tooltip
+tooltip:
+  label:
+    template: "Set as Component Template"
+    copy: "Copy"
+    delete: "Delete"
+    edit: "Edit Attribute"
+    suggest: "Suggest Element"
+    simulation: "Simulation"
+    minimap: "Minimap"
+    commonStart: "Start Event"
+    timerStart: "Timer Event"
+    signalSend: "Signal Event"
+    commentEnd: "End Event"
+    userTask: "User Task"
+    manualTask: "Manual Task"
+    scriptTask: "Script Task"

@@ -14,6 +14,7 @@ import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.plugin.constants.PluginConstants
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.WfComponentEntity
@@ -60,6 +61,7 @@ class WfScriptTask(
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
         var scriptType = ""
         val element = wfTokenManagerService.getElement(createTokenDto.elementId)
+
         run loop@{
             element.elementDataEntities.forEach { data ->
                 if (data.attributeId == WfElementConstants.AttributeId.SCRIPT_TYPE.value) {
@@ -69,14 +71,16 @@ class WfScriptTask(
             }
         }
 
-        when (scriptType) {
-            WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
-                this.setDocumentAttachFile(createTokenDto, element)
-            WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
-                this.callCmdbAction(createTokenDto, element)
-            }
-            WfElementConstants.ScriptType.DOCUMENT_PLUGIN.value -> {
-                this.executePlugin(createTokenDto, element)
+        if (createTokenDto.documentStatus == DocumentConstants.DocumentStatus.USE.value) {
+            when (scriptType) {
+                WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->
+                    this.setDocumentAttachFile(createTokenDto, element)
+                WfElementConstants.ScriptType.DOCUMENT_CMDB.value -> {
+                    this.callCmdbAction(createTokenDto, element)
+                }
+                WfElementConstants.ScriptType.DOCUMENT_PLUGIN.value -> {
+                    this.executePlugin(createTokenDto, element)
+                }
             }
         }
 
@@ -288,7 +292,7 @@ class WfScriptTask(
     }
 
     private fun executePlugin(createTokenDto: WfTokenDto, element: WfElementEntity) {
-        //scriptTask 데이터에서 pluginId 추출
+        // scriptTask 데이터에서 pluginId 추출
         var scriptValue: Map<String, String> = emptyMap()
         element.elementScriptDataEntities.forEach {
             scriptValue = mapper.readValue(it.scriptValue, object : TypeReference<Map<String, Any>>() {})

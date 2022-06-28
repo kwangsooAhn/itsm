@@ -8,7 +8,7 @@
     let initialStatus = null;
     const i18nMsgPrefix = 'process.designer.attribute.';
     const data = {};
-    const iconDirectory = '/assets/media/icons/designer';
+    const iconDesignerDirectory = '/assets/media/icons/designer';
     const itemSize = 22;
     const itemMargin = 10;
     const assigneeTypeData = {
@@ -24,137 +24,137 @@
     const tooltipItems = [
         {
             type: 'delete', parent: 'action',
-            url: iconDirectory + '/tooltip/icon_tooltip_delete.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_delete.svg',
             action: function() {
                 deleteElements();
             }
         },
         {
             type: 'copy', parent: 'action',
-            url: iconDirectory + '/tooltip/icon_tooltip_copy.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_copy.svg',
             action: function(el) {
                 copyElement(el);
             }
         },
         {
             type: 'edit', parent: 'action',
-            url: iconDirectory + '/tooltip/icon_tooltip_edit.svg',
-            focusUrl: iconDirectory + '/tooltip/icon_tooltip_edit_focus.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_edit.svg',
+            focusUrl: iconDesignerDirectory + '/tooltip/icon_tooltip_edit_focus.svg',
             action: function(el) {
                 setElementCategoryItems(el);
             }
         },
         {
             type: 'suggest', parent: 'action',
-            url: iconDirectory + '/tooltip/icon_tooltip_suggest.svg',
-            focusUrl: iconDirectory + '/tooltip/icon_tooltip_suggest_focus.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_suggest.svg',
+            focusUrl: iconDesignerDirectory + '/tooltip/icon_tooltip_suggest_focus.svg',
             action: function(el) {
                 setSuggestElementItems(el);
             }
         },
         {
             type: 'userTask', parent: 'suggest',
-            url: iconDirectory + '/tooltip/icon_tooltip_user_task.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_user_task.svg',
             action: function(el) {
                 suggestElement(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'suggest',
-            url: iconDirectory + '/tooltip/icon_tooltip_manual_task.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_manual_task.svg',
             action: function(el) {
                 suggestElement(el, 'manualTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest',
-            url: iconDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
             action: function(el) {
                 suggestElement(el, 'exclusiveGateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest',
-            url: iconDirectory + '/tooltip/icon_tooltip_end.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_end.svg',
             action: function(el) {
                 suggestElement(el, 'commonEnd');
             }
         }, {
             type: 'commonStart', parent: 'event',
-            url: iconDirectory + '/tooltip/icon_tooltip_start.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_start.svg',
             action: function(el) {
                 editElementType(el, 'commonStart');
             }
         }, {
             type: 'timerStart', parent: 'event',
-            url: iconDirectory + '/tooltip/icon_tooltip_event_start_timer.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_event_start_timer.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_event_start_timer_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_event_start_timer.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_event_start_timer.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_event_start_timer_selected.svg',
             action: function(el) {
                 editElementType(el, 'timerStart');
             }
         }, {
             type: 'signalSend', parent: 'event',
-            url: iconDirectory + '/tooltip/icon_tooltip_event_signal.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_event_signal.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_event_signal_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_event_signal.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_event_signal.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_event_signal_selected.svg',
             action: function(el) {
                 editElementType(el, 'signalSend');
             }
         }, {
             type: 'commonEnd', parent: 'event',
-            url: iconDirectory + '/tooltip/icon_tooltip_end.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_end.svg',
             action: function(el) {
                 editElementType(el, 'commonEnd');
             }
         }, {
             type: 'userTask', parent: 'task',
-            url: iconDirectory + '/tooltip/icon_tooltip_user_task.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_user_task.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_user_task_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_user_task.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_user_task.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_user_task_selected.svg',
             action: function(el) {
                 editElementType(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'task',
-            url: iconDirectory + '/tooltip/icon_tooltip_manual_task.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_manual_task.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_manual_task_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_manual_task.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_manual_task.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_manual_task_selected.svg',
             action: function(el) {
                 editElementType(el, 'manualTask');
             }
         }, {
             type: 'scriptTask', parent: 'task',
-            url: iconDirectory + '/tooltip/icon_tooltip_script_task.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_script_task.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_script_task_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_script_task.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_script_task.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_script_task_selected.svg',
             action: function(el) {
                 editElementType(el, 'scriptTask');
             }
         }, {
             type: 'subprocess', parent: 'subprocess',
             url: '',
-            elementUrl: iconDirectory + '/element-type/icon_element_subprocess.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_subprocess_selected.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_subprocess.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_subprocess_selected.svg',
             action: function() {}
         }, {
             type: 'exclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_exclusive_gateway.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_exclusive_gateway_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_exclusive_gateway.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_exclusive_gateway_selected.svg',
             action: function(el) {
                 editElementType(el, 'exclusiveGateway');
             }
         }/*, {
             type: 'parallelGateway', parent: 'gateway',
-            url: iconDirectory + '/tooltip/icon_tooltip_parallel_gateway.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_parallel_gateway.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_parallel_gateway_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_parallel_gateway.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_parallel_gateway.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_parallel_gateway_selected.svg',
             action: function(el) {
                 editElementType(el, 'parallelGateway');
             }
         }, {
             type: 'inclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/tooltip/icon_tooltip_inclusive_gateway.svg',
-            elementUrl: iconDirectory + '/element-type/icon_element_inclusive_gateway.svg',
-            elementSelectedUrl: iconDirectory + '/element-type/icon_element_inclusive_gateway_selected.svg',
+            url: iconDesignerDirectory + '/tooltip/icon_tooltip_inclusive_gateway.svg',
+            elementUrl: iconDesignerDirectory + '/element-type/icon_element_inclusive_gateway.svg',
+            elementSelectedUrl: iconDesignerDirectory + '/element-type/icon_element_inclusive_gateway_selected.svg',
             action: function(el) {
                 editElementType(el, 'inclusiveGateway');
             }
@@ -500,7 +500,9 @@
                     d3.select(this).style('fill', 'url(#' + d.parent + '-' + d.type + '-focus)');
                 }
                 d.action(elem);
-            });
+            })
+            .append('title')
+            .text(function(d) { return i18n.msg('tooltip.label.' + d.type); });
 
         const bbox = zProcessDesigner.utils.getBoundingBoxCenter(elem),
             gTransform = d3.zoomTransform(d3.select('g.element-container').node());
@@ -865,7 +867,9 @@
             .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 d.action(elem);
-            });
+            })
+            .append('title')
+            .text(function(d) { return i18n.msg('tooltip.label.' + d.type); });
     }
 
     /**

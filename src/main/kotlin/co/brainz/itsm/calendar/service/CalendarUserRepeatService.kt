@@ -65,7 +65,7 @@ class CalendarUserRepeatService(
                     if (repeatStartDt <= range.to) {
                         if (repeatEndDt != null) {
                             if (repeatEndDt < startDt) { // 반복 종료가 존재할 경우 다음 생성을 종료 (해당일자부터 수정된 반복 일정이 존재)
-                                break;
+                                break
                             }
                         }
                         if ((startDt >= range.from && startDt <= range.to) || (endDt >= range.from && endDt <= range.to)) {

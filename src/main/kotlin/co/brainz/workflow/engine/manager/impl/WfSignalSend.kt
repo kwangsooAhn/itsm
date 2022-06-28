@@ -45,9 +45,6 @@ class WfSignalSend(
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
-        super.tokenEntity.assigneeId =
-            wfTokenManagerService.getCurrentAssigneeForChildProcess(completedToken.tokenId) ?: completedToken.assigneeId
-        wfTokenManagerService.saveToken(super.tokenEntity)
         return completedToken
     }
 }

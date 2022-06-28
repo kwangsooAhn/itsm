@@ -835,7 +835,7 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'z-button-icon secondary z-button-minimap';
+        minimapButton.className = 'z-button-icon secondary z-button-minimap z-palette-tooltip';
         minimapButton.addEventListener('click', function(e) {
             const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
             elem.classList.toggle('active');
@@ -844,7 +844,16 @@
 
         const minimapIcon = document.createElement('span');
         minimapIcon.className = 'z-icon i-minimap';
+
+        const minimapTooltip = document.createElement('div');
+        minimapTooltip.className = 'z-palette-tooltip-contents right-bottom'
+        const minimapTooltipText = document.createElement('span');
+        minimapTooltipText.className = 'z-palette-tooltip-text'
+        minimapTooltipText.textContent = i18n.msg('tooltip.label.minimap');
+
+        minimapTooltip.appendChild(minimapTooltipText);
         minimapButton.appendChild(minimapIcon);
+        minimapButton.appendChild(minimapTooltip);
         drawingBoard.appendChild(minimapButton);
 
         setProcessMinimap();
@@ -890,12 +899,21 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'z-button-icon secondary z-button-simulation-report';
+        simulationButton.className = 'z-button-icon secondary z-button-simulation-report z-palette-tooltip';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
         simulationIcon.className = 'z-icon i-simulation-report';
+
+        const simulationTooltip = document.createElement('div');
+        simulationTooltip.className = 'z-palette-tooltip-contents'
+        const simulationTooltipText = document.createElement('span');
+        simulationTooltipText.className = 'z-palette-tooltip-text'
+        simulationTooltipText.textContent = i18n.msg('tooltip.label.simulation');
+
+        simulationTooltip.appendChild(simulationTooltipText);
         simulationButton.appendChild(simulationIcon);
+        simulationButton.appendChild(simulationTooltip);
         drawingBoard.appendChild(simulationButton);
 
         // 시뮬레이션 레포트 화면 drag 설정

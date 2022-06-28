@@ -108,10 +108,14 @@ export default class ZComponent {
         // 툴팁에 create template 버튼 추가
         const tooltipUl = this.UIElement.UITooltipMenu.UIUl;
         tooltipUl.UILiCreateTemplate = new UILi().setUIClass('z-tooltip-menu-item')
+            .addUIClass('z-palette-tooltip')
             .setUIAttribute('data-action', 'createTemplate')
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-create-template'))
             // 컴포넌트 템플릿 등록 모달
-            .onUIClick(this.openCreateTemplateModal.bind(this));
+            .onUIClick(this.openCreateTemplateModal.bind(this))
+            .addUI(new UIDiv().setUIClass('z-palette-tooltip-contents')
+                .addUI(new UISpan().setUIClass('z-palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.template')))
+            );
         tooltipUl.domElement.insertBefore(tooltipUl.UILiCreateTemplate.domElement, tooltipUl.domElement.firstChild);
 
         this.UIElement.addUI(this.UIElement.UITooltipMenu);

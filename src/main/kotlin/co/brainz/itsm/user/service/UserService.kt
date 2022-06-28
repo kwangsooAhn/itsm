@@ -295,7 +295,7 @@ class UserService(
                         userEntity.userRoleMapEntities.forEach {
                             userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
                         }
-                        //부서의 role 제외
+                        // 부서의 role 제외
                         if (!targetEntity.department.isNullOrEmpty()) {
                             val organizationRoles =
                                 organizationRoleMapRepository.findRoleListByOrganizationId(targetEntity.department!!)
@@ -360,7 +360,7 @@ class UserService(
             }
         }
 
-        //사용자 부재 설정 후 권한 위임 체크시 이동
+        // 사용자 부재 설정 후 권한 위임 체크시 이동
         if (userUpdateDto.absence?.transferYN == true) code = this.executeUserProcessingDocumentAbsence(userUpdateDto.absence!!)
 
         return ZResponse(

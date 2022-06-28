@@ -51,7 +51,6 @@ class DocumentStorageService(
         return ZResponse(
             status = status.code
         )
-
     }
 
     @Transactional

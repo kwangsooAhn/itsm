@@ -29,7 +29,7 @@ class MetricStatusController(
     fun getMetricStatusSearch(request: HttpServletRequest, model: Model): String {
         val yearList = metricYearService.getYears()
         model.addAttribute("yearsList", yearList)
-        model.addAttribute("metricList", metricStatusService.getMetricList(yearList.firstOrNull()?: ""))
+        model.addAttribute("metricList", metricStatusService.getMetricList(yearList.firstOrNull() ?: ""))
         return metricStatusSearchPage
     }
 

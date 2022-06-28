@@ -134,5 +134,4 @@ class FormRestController(private val formService: FormService) {
     fun deleteComponentTemplate(@PathVariable templateId: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(formService.deleteComponentTemplate(templateId))
     }
-
 }

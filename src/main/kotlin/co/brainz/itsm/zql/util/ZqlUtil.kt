@@ -51,8 +51,7 @@ object ZqlUtil {
      * @author Jung Hee Chan
      */
     fun checkSpEL(exp: String): Any? {
-        return try { spELParser.parseExpression(exp).getValue(context) }
-        catch (e: Exception) { null }
+        return try { spELParser.parseExpression(exp).getValue(context) } catch (e: Exception) { null }
     }
 
     /**

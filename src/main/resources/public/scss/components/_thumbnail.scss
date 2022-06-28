@@ -1,0 +1,201 @@
+/* _thumbnail.scss
+ *
+ * 파일 경로 : components/_thumbnail.scss
+ * @description 썸네일 디자인
+ * @author Woo Da Jung <wdj@brainz.co.kr>
+ * @version 1.0
+ */
+
+// 레이아웃
+.z-thumbnail-main {
+  padding: 0;
+  color: $gray500;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+
+   // 썸네일
+  .z-thumbnail {
+    @include border(0.0625rem, solid, $gray300, all);
+    display: inline-block;
+    overflow: hidden;
+    width: 15rem; // 240px;
+    height: 18.13rem; // 290px;
+    margin: 0.625rem; // 10px
+    padding: 0;
+    background-color: $white;
+    cursor: pointer;
+
+    &:hover {
+      @include border(0.0625rem, solid, $blue500, all);
+      background-color: $white;
+    }
+
+    &.selected {
+      @include border(0.0625rem, solid, $blue600, all);
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+      background-color: $white;
+    }
+    // 썸네일 이미지
+    .z-thumbnail-image,
+    .z-thumbnail-file {
+      @include relative();
+      display: inline-block;
+      width: 100%;
+      height: 9.063rem; // 145px
+      background-size: auto;
+      background-repeat: no-repeat;
+      background-position: center center;
+      img {
+        @include absolute(0, 0, 0, 0);
+        margin: auto;
+      }
+    }
+    // 썸네일 정보
+    .z-thumbnail-info {
+      height: 6.563rem; // 105px
+      padding: 0.75rem 0.9375rem; // 12px 15px
+
+      .z-thumbnail-info-text {
+        height: 1.5rem; // 24px
+        line-height: 1.5rem; // 24px
+
+        label { display: block; }
+
+        &:first-child {
+          label {
+            color:  $gray800;
+            font-weight: $font-weight-bold;
+            cursor: pointer;
+          }
+          // 더블 클릭시 fileName 수정 가능
+          .z-input {
+            display: none;
+            height: 1.875rem; // 30px
+            float: left;
+          }
+        }
+      }
+    }
+    // 생성일, 삭제 버튼
+    .z-thumbnail-bottom {
+      @include border(0.0625rem, solid, $gray300, top);
+      height: 2.5rem; // 40px
+      padding: 0 0.625rem 0 0.9375rem; // 0 10px 0 15px
+      line-height: 2.5rem;
+
+      // 삭제 버튼
+      .z-button-icon {
+        padding: 0;
+        height: 2.5rem; // 40px
+        .z-icon.i-delete { background: $gray400; }
+      }
+    }
+  }
+  // 썸네일 파일 업로드
+  .z-thumbnail-upload {
+    @include border(0.0625rem, solid, $gray300, all);
+    display: inline-block;
+    overflow: hidden;
+    width: 15rem; // 240px;
+    height: 18.13rem; // 290px;
+    margin: 0.625rem; // 10px
+    padding: 5.313rem 0 0 0; // 85px
+    background-color: $neutral50;
+    box-shadow: none;
+    cursor: pointer;
+
+    .z-thumbnail-upload-text {
+      color: $blue500;
+      font-weight: $font-weight-bold;
+    }
+
+    &:hover {
+      @include border(0.0625rem, solid, $blue500, all);
+      background-color: $blue100;
+    }
+  }
+  // 아이콘
+  .z-icon.i-file-upload {
+    @include maskImage('#{$icon-folder-path}icon_file_upload.svg', 5rem, 5rem, no-repeat, center); // 80px 80px
+    background: $gray400;
+  }
+  // 데이터 없을 때
+  .z-thumbnail-nodata {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: $gray500;
+    font-family: $blue500;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+  }
+}
+
+// 썸네일 모달
+.modal-dialog {
+  // thumnbnail > modal(type: icon) 관련 템플릿
+  &.z-thumbnail-icon {
+    top: 7rem; // 112px
+    width: 47.81rem; // 765px
+    height: 45rem; // 720px
+
+    .modal-content {
+      height: calc(45rem - 3.875rem - 5rem); // 720px
+
+      .z-thumbnail-main {
+        height: auto;
+        padding: 1.375rem; // 22px
+        .z-thumbnail {
+          @include boxShadow(0, 0, 0, 0.0625rem, $gray300);
+          width: 10.31rem; // 165px
+          height: 10.31rem; // 165px
+          margin: 0.4375rem; // 7px
+
+          .z-thumbnail-icon {
+            width: 6.25rem; // 100px
+            height: 6.25rem; // 100px
+            margin: 2rem auto; // 32px auto
+          }
+        }
+      }
+    }
+  }
+  // CMDB > Type icon modal
+  &.z-thumbnail-cmdb-icon {
+    top: 15rem; // 240px
+
+    .z-thumbnail {
+      @include boxShadow(0, 0, 0, 0.0625rem, $gray300);
+      width: 2.5rem; // 40px
+      height: 2.5rem; // 40px
+      margin: 0.4375rem; // 7px
+
+      .z-thumbnail-icon {
+        width: 1.5rem; // 24px
+        height: 1.5rem; // 24px
+        margin: 0.4375rem; // 7px
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  // 파일 관리 > 미리보기 모달
+  &.z-thumbnail-preview {
+    width: 760px; // 760px
+    height: 645px; // 645px
+
+    .modal-header .z-thumbnail-preview-name { line-height: 1.2; }
+
+    .modal-content {
+      height: calc(645px - 3.875rem - 5rem);
+      padding: 30px; // 30px
+
+      .z-thumbnail-preview-file {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    }
+  }
+}

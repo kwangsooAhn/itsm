@@ -4,8 +4,8 @@
   .vertical-bar {
     width: $width;
     min-height: $height;
-    border-right: $border;
     margin: $margin;
+    border-right: $border;
     vertical-align: middle;
   }
 }
@@ -24,13 +24,11 @@
     padding-bottom: $distance;
     margin-bottom: $distance;
     margin-top: $distance*3;
-    .bold {
-      border-bottom: calc(#{$width} * 2) solid $color;
-    }
+    .border-thick { border-bottom: calc(#{$width} * 2) solid $color; }
     label {
+      color: $neutral600;
       font-size: $font-size-m;
       font-weight: $font-weight-medium;
-      color: $neutral600;
     }
   }
 }

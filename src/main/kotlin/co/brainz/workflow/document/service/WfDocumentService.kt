@@ -6,7 +6,6 @@
 package co.brainz.workflow.document.service
 
 import co.brainz.cmdb.ci.service.CIService
-import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.response.ZResponseConstants
@@ -749,7 +748,7 @@ class WfDocumentService(
      */
     private fun importForm(documentImportDto: DocumentImportDto): DocumentImportDto {
         documentImportDto.formData.id = ""
-        //신규로 Import된 폼은 문서가 '임시'일 경우 발행 상태이고 '사용'일 경우 사용 상태이다.
+        // 신규로 Import된 폼은 문서가 '임시'일 경우 발행 상태이고 '사용'일 경우 사용 상태이다.
         documentImportDto.formData.status = when (documentImportDto.documentData.documentStatus) {
             DocumentConstants.DocumentStatus.TEMPORARY.value -> WorkflowConstants.FormStatus.PUBLISH.value
             else -> WorkflowConstants.FormStatus.USE.value
@@ -862,19 +861,6 @@ class WfDocumentService(
         wfDocumentEntity.instance?.let { instances ->
             instances.forEach {
                 instanceIds.add(it.instanceId)
-            }
-
-            ciComponentDataRepository.findByInstanceIdIn(instanceIds)?.let { ciComponentDataList ->
-                ciComponentDataList.forEach { ciComponentData ->
-                    val ciDto = CIDto(
-                        ciId = ciComponentData.ciId,
-                        typeId = "",
-                        ciName = "",
-                        ciStatus = "",
-                        interlink = false
-                    )
-                    ciService.deleteCI(ciDto)
-                }
             }
             wfInstanceRepository.deleteInstances(instances)
         }

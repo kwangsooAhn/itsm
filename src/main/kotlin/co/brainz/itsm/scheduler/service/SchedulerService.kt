@@ -269,7 +269,7 @@ class SchedulerService(
      */
     fun immediateExecuteScheduler(schedulerDto: SchedulerDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        //var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
+        // var returnValue = SchedulerConstants.Status.STATUS_SUCCESS.code
         val taskInfo = getSchedulerDtoToEntity(schedulerDto)
         when (schedulerDto.taskType) {
             AliceConstants.ScheduleTaskType.QUERY.code -> {
@@ -289,11 +289,11 @@ class SchedulerService(
                         logger.error("Failed to load class. [{}]", schedulerDto.executeClass)
                         e.printStackTrace()
                         status = ZResponseConstants.STATUS.ERROR_FAIL
-                        //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
+                        // returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
                     status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
-                    //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
+                    // returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_CLASS_NOT_EXIST.code
                 }
             }
             AliceConstants.ScheduleTaskType.JAR.code -> {
@@ -310,11 +310,11 @@ class SchedulerService(
                         logger.error("Failed to load jar. [{}]", schedulerDto.executeCommand)
                         e.printStackTrace()
                         status = ZResponseConstants.STATUS.ERROR_FAIL
-                        //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
+                        // returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULER_EXECUTE.code
                     }
                 } else {
                     status = ZResponseConstants.STATUS.ERROR_NOT_EXIST_CLASS
-                    //returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
+                    // returnValue = SchedulerConstants.Status.STATUS_ERROR_SCHEDULE_JAR_NOT_EXIST.code
                 }
             }
         }
