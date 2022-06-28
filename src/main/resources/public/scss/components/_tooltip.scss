@@ -1,4 +1,4 @@
-/* _tooltip.scss 
+/* _tooltip.scss
  *
  * 파일 경로 : components/_tooltip.scss
  * @description 툴팁 디자인
@@ -76,6 +76,11 @@
   .z-header-tooltip-contents {
     @include absolute($left: 50%);
     @include translate(-50%, 0);
+    display: flex;
+    height: 1.875rem;
+    visibility: hidden;
+    background-color: $white;
+    text-align: center;
     @include borderRadius(0.0625rem);
     @include border(0.0625rem, solid, $gray300, all);
     @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
@@ -143,6 +148,47 @@
       @include absolute($top: 100%, $left: 50%);
       content: '';
       margin-left: -0.313rem; // -5px
+    }
+  }
+}
+
+// drawing palette tooltip
+.z-palette-tooltip {
+  @include relative();
+  .z-palette-tooltip-contents {
+    @include absolute($left: 50%);
+    @include translate(-50%, 0);
+    display: flex;
+    height: 1.875rem;
+    width: max-content;
+    visibility: hidden;
+    background-color: $white;
+    text-align: center;
+    @include borderRadius(0.0625rem);
+    @include border(0.0625rem, solid, $gray300, all);
+    @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
+    padding: 0.4375rem; // 7px
+    margin: 1rem 0 0 0;
+    z-index: 500;
+
+    &.right-bottom {
+      right: 0;
+      bottom: 0;
+      @include translate(-150%, -15%);
+    }
+
+    .z-palette-tooltip-text {
+      font-family: $font-family;
+      font-size: $font-size-xs;
+      color: $gray800;
+      font-weight: $font-weight-medium;
+    }
+  }
+  // 마우스 오버
+  &:hover {
+    .z-palette-tooltip-contents {
+      visibility: visible;
+      @include animation (0s, 0.3s, fadeIn, ease-out);
     }
   }
 }
