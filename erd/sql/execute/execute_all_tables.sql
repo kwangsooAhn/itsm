@@ -1,5 +1,4 @@
 /* Drop Sequences */
-
 DROP SEQUENCE IF EXISTS awf_archive_seq cascade;
 DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
