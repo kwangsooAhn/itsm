@@ -1,0 +1,78 @@
+/* report
+ *
+ *
+ * 파일 경로 : layout/_report.scss
+ * @description report에서 사용되는 scss
+ * @version 1.0
+ */
+////////////////////////// layout //////////////////////////
+.z-report-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 120rem;
+  margin: 0.5cm auto;
+}
+
+////////////////////////// preview //////////////////////////
+.z-report {
+  margin: 1cm auto;
+  .z-report-main {
+    .z-report-main-header {
+      line-height: 1.2;
+      margin: 0 0 10mm 0;
+      font-size: 2.25rem;
+      font-weight: bold;
+    }
+    .z-report-area {
+      .z-drawing-board {
+        width: 45.625rem; // 730px
+        margin: 0 auto;
+        .z-chart-content {
+          margin: 0 0 1.25rem 0; // 20px
+          .z-chart { padding: 0.75rem 0 0 0; } // 12px
+        }
+      }
+      .z-form {
+        box-shadow: none;
+        // 인쇄시 모든 동작을 막음
+        input, textarea, button, select,
+        .dropzone, .ql-toolbar,
+        label.radio, label.checkbox { pointer-events: none; }
+      }
+    }
+    .z-report-main-footer {
+      display: flex;
+      width: 45.625rem; // 730px
+      margin: 4mm auto 10mm;
+      line-height: 1.2;
+      .z-logo {
+        @include maskImage('#{$icon-folder-path}logo/icon_logo.svg', 9.5rem, 1.625rem, no-repeat, center); // 152px 26px
+        display: inline-block;
+        background-color: $black;
+      }
+    }
+  }
+}
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+  .z-report {
+    width: initial;
+    min-height: initial;
+    margin: 0;
+    padding: 0mm 20mm;
+    border: initial;
+    border-radius: initial;
+    background: initial;
+    box-shadow: initial;
+    page-break-after: always;
+    .z-report-main-header { margin: 0 0 10mm 0; }
+    .z-form { box-shadow: none; } // 인쇄 영역의 테두리엔 그림자 효과 제외
+  }
+}

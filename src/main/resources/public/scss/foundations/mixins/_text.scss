@@ -1,11 +1,11 @@
 // 말줄임
 // @include ellipsis(inline-block, 8.75rem);
 @mixin ellipsis($display: inline-block, $width: 100%) {
+  overflow: hidden;
   display: $display;
   max-width: $width;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   word-wrap: normal;
 }
 // 줄바꿈
@@ -68,15 +68,6 @@
 }
 // 설명
 .description { color: $gray500; }
-// 필수 (*) 표시
-.required {
-  &::after {
-    color: $red500;
-    content: '\002a'; // *
-    font-weight: $font-weight-bold;
-    margin-left: 0.1875rem;
-  }
-}
 // 글자 자르기
 .text-clip { text-overflow: clip; }
 // 말줄임

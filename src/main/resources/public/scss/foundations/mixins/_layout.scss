@@ -26,38 +26,34 @@
 
     &__cell {
       display: flex;
-      height: 100%;
       align-items: center;
-      font-weight: $font-weight-medium;
+      height: 100%;
       color: $neutral800;
+      font-weight: $font-weight-medium;
       a { padding-bottom: 0.0625rem; }
     }
 
     &__head {
       .grid__row {
-        color: $neutral600;
         @include border(0.125rem, solid, $gray400, bottom);
+        color: $neutral600;
         .grid__cell:not([data-grid-sortable='false']) {
           cursor: pointer;
           > * { pointer-events: none; }
 
           .z-icon {
             &.i-sorting {
-              background: $neutral600;
               @include rotate(180);
+              background: $neutral600;
             }
           }
           &[data-grid-sorting-type='desc'] {
             .z-icon {
-              &.i-sorting {
-                @include rotate(0);
-              }
+              &.i-sorting { @include rotate(0); }
             }
           }
         }
-        .grid__cell {
-          color: $neutral600;
-        }
+        .grid__cell { color: $neutral600; }
       }
     }
 
@@ -66,8 +62,9 @@
       display: flex;
       flex-direction: column;
       .grid__row {
-        color: $gray800;
         @include border(0.0625rem, solid, $gray300, bottom);
+        color: $gray800;
+        cursor: pointer;
         &.read-only { cursor: default; }
         &:hover { background-color: $neutral200; }
       }
@@ -89,8 +86,8 @@
     // icon button
     .z-button-icon {
       padding: 0;
-      background-color: transparent;
       border-color: transparent;
+      background-color: transparent;
       &:hover, &:focus, &:active, &:disabled {
         background-color: transparent;
         border-color: transparent;
@@ -116,30 +113,30 @@
   .view {
     // 제목
     &-title {
+      @include border(calc(0.0625rem * 2), solid, $gray300, bottom);
+      margin-bottom: 0.625rem; //10px
+      padding-bottom: 0.625rem; // 10px
+      color: $gray800;
       font-size: $font-size-m;
       font-weight: $font-weight-medium;
-      color: $gray800;
-      padding-bottom: 0.625rem; // 10px
-      margin-bottom: 0.625rem; //10px
-      @include border(calc(0.0625rem * 2), solid, $gray300, bottom);
     }
     // 등록일, 등록자
     &-sub-title {
+      padding: 0 1.25rem; // 0 20px
+      color: $gray500;
       font-family: $font-family;
       font-size: $font-size-xs;
       font-weight: $font-weight-regular;
-      color: $gray500;
-      padding: 0 1.25rem; // 0 20px
       line-height: 1.5;
     }
     // 내용
     &-content {
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+      color: $neutral800;
       font-size: $font-size-xs;
       font-weight: $font-weight-medium;
       line-height: 1.6;
-      color: $neutral800;
-      min-height: 13.4375rem; // 215px
-      padding: 0.3125rem 1.25rem; // 5px 20px
       // 줄바꿈
       pre { @include wordWrap(break-word); }
 
@@ -155,14 +152,12 @@
 // itsm 디자인
 @mixin defaultMainHeader {
   // 제목
-  .z-main-header-title {
-    padding: 0 0 1.563rem 0; // 0 0px 25px 0px
-  }
+  .z-main-header-title { padding: 0 0 1.563rem 0; } // 0 0px 25px 0px
   // 검색 영역
   .z-main-header-search {
+    padding: 0.3125rem 0px 1.25rem 0px; // 5px 0px 20px 0px
     font-family: $font-family;
     font-size: $font-size-xs;
-    padding: 0.3125rem 0px 1.25rem 0px; // 5px 0px 20px 0px
   }
 }
 // view
@@ -182,24 +177,22 @@
     .z-button-list { margin-top: 1.875rem; } // 30px
 
     &-sub-title {
+      padding: 0 1.25rem; // 0 20px
+      color: $gray500;
       font-family: $font-family;
       font-size: $font-size-xs;
       font-weight: $font-weight-regular;
-      color: $gray500;
-      padding: 0 1.25rem; // 0 20px
     }
     // 내용
     &-content {
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+      color: $neutral800;
       font-size: $font-size-xs;
       font-weight: $font-weight-medium;
       line-height: 1.6;
-      color: $neutral800;
-      min-height: 13.4375rem; // 215px
-      padding: 0.3125rem 1.25rem; // 5px 20px
-
       // 줄바꿈
       pre { @include wordWrap(break-word); }
-
       .view-text { margin: 0; }
     }
   }
@@ -216,32 +209,30 @@
     }
     // 제목
     &-title {
+      @include border(calc(0.0625rem * 2), solid, $gray300, bottom);
+      padding-bottom: 0.625rem; // 10px
+      color: $gray800;
       font-size: $font-size-m;
       font-weight: $font-weight-medium;
-      color: $gray800;
-      padding-bottom: 0.625rem; // 10px
-      @include border(calc(0.0625rem * 2), solid, $gray300, bottom);
     }
     // 등록일, 등록자
     &-sub-title {
+      padding: 0 1.25rem; // 0 20px
+      color: $gray500;
       font-family: $font-family;
       font-size: $font-size-xs;
       font-weight: $font-weight-regular;
-      color: $gray500;
-      padding: 0 1.25rem; // 0 20px
     }
     // 내용
     &-content {
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+      color: $neutral800;
       font-size: $font-size-xs;
       font-weight: $font-weight-medium;
       line-height: 1.6;
-      color: $neutral800;
-      min-height: 13.4375rem; // 215px
-      padding: 0.3125rem 1.25rem; // 5px 20px
-
       // 줄바꿈
       pre { @include wordWrap(break-word); }
-
       .view-text { margin: 0; }
     }
   }
@@ -256,9 +247,7 @@
     background-color: $white;
 
     // 문서함 > 우측 업무흐름 색상바
-    .z-document-color {
-      width: 0.75rem;  // 12px
-    }
+    .z-document-color { width: 0.75rem; }  // 12px
 
     // 문서함 > 제목 내용
     .z-document-row {
@@ -271,20 +260,19 @@
             color: $gray800;
             // 문서 번호
             .z-document-numbering {
+              color: $gray500;
               font-size: $font-size-s; // 16px
               font-weight: $font-weight-regular;
-              color: $gray500;
             }
           }
           &-topic {
             width: 39.38rem; //630px
             margin-top: 1.5625rem; // 25px
-
             .topic {
-              font-size: $font-size-s; // 16px
-              font-weight: $font-weight-regular;
               display: block;
               margin-bottom: 0.625rem;
+              font-size: $font-size-s; // 16px
+              font-weight: $font-weight-regular;
             }
           }
         }
@@ -307,31 +295,20 @@
       }
     }
     // 대시보드 > 소제목
-    .sub-title {
-      margin: 1.25rem 0; // 20px 0
-    }
+    .sub-title { margin: 1.25rem 0; } // 20px 0
     // 대시보드 > 업무 통계
     .statistic {
       &-box {
-        width: 23.75rem; // 380px
         @include border(0.0625rem, solid, $gray300, all); // 1px
         @include borderRadius(0.0625rem); // 1px
+        width: 23.75rem; // 380px
         padding: 1.5625rem; // 25px
       }
-      &-info {
-        margin-left: 1.5625rem; // 25px
-      }
-      &-count {
-        margin-bottom: 0.9375rem; // 15px
-      }
-
+      &-info { margin-left: 1.5625rem; } // 25px
+      &-count { margin-bottom: 0.9375rem; } // 15px
       &-header-type { color: $black; }
-
       &-type { color: $gray500; }
-
-      &-table {
-        width: 100%;
-      }
+      &-table { width: 100%; }
     }
     // 대시보드 > 처리할 문서
     .scroll-wrap {
@@ -352,9 +329,7 @@
         padding: 0.625rem 0.3125rem; // 10px 5px
         @include border(0.0625rem, solid, $gray300);
         // 부서별 업무 현황
-        &__req-organization {
-          width: 80rem; // 1280px
-        }
+        &__req-organization { width: 80rem; } // 1280px
         // 개인 요청 현황
         &__req-user {
           width: 15.625rem; // 250px
@@ -372,9 +347,7 @@
           border: none;
           overflow-x: hidden;
           @include gridTemplate();
-          .grid__body {
-            max-height: 16.375rem; // 262px;
-          }
+          .grid__body { max-height: 16.375rem; } // 262px;
         }
       }
     }
@@ -399,10 +372,7 @@
       border: none;
     }
 
-    .z-list-tree {
-      height: 37.88rem; // 606px
-    }
-
+    .z-list-tree { height: 37.88rem; } // 606px
 
     .no-data-text {
       width: 100%;
@@ -419,12 +389,8 @@
     flex: 1; // flex: 1 1 0;
     padding: 0 1.875rem; // 30px
     width: 50%;
-    &:first-child {
-      padding-left: 3.75rem; // 60PX
-    }
-    &:last-child {
-      padding-right: 3.75rem; // 60px
-    }
+    &:first-child { padding-left: 3.75rem; } // 60PX
+    &:last-child { padding-right: 3.75rem; } // 60px
     .z-page-tree {
       flex: 1;
       margin-top: 0.9375rem; // 15px
@@ -447,9 +413,7 @@
         padding: 0 2.5rem 0 2.5rem; // 0 40px 0 40px
         .z-edit-row {
           margin-top: 0.625rem; // 10px
-
           label { margin: 0.625rem 0; } // 10px 0
-
           .z-input {
             &:read-only { width: auto; }
             &.attribute { width: 100%; }
@@ -483,9 +447,7 @@
       &.off { display: none; }
     }
     label { margin: 0.625rem 0; } // 10px 0
-    .z-button-list {
-      margin: 1.875rem 0; // 30px
-    }
+    .z-button-list { margin: 1.875rem 0; } // 30px
   }
 }
 
@@ -496,23 +458,20 @@
     padding-bottom: 0.625rem; // 10px
 
     .card {
+      @include border(0.0625rem, solid, $gray300, all); // 1px
+      @include borderRadius(0.0625rem); // 1px
+      overflow: hidden;
       position: relative;
       min-width: 32.0625rem; // 513px
       width: 100%;
       min-height: 9.375rem; // 150px
       margin: 1.25rem 1.25rem 0 0; // 20px 20px 0 0
       padding: 0;
-      @include border(0.0625rem, solid, $gray300, all); // 1px
-      @include borderRadius(0.0625rem); // 1px
-      overflow: hidden;
       cursor: pointer;
       // 마우스 오버시
       &:hover { box-shadow: 0 0 0.625rem 0 $gray200; }
-
       .document-column {
-        h3 {
-          width: 28rem; // 448px
-        }
+        h3 { width: 28rem; } // 448px
       }
     }
 
@@ -532,10 +491,10 @@
 
       .i-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
       .no-data-text {
+        margin-left: 2.5rem; // 40px
+        color: $neutral400;
         font-size: $font-size-m; // 18px
         font-weight: $font-weight-medium;
-        color: $neutral400;
-        margin-left: 2.5rem; // 40px
       }
     }
   }
@@ -546,13 +505,10 @@
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
     .z-edit-row {
       margin: 0.625rem 0 0; // 10px 0 0 0
-
       label { margin: 0.625rem 0; } // 10px 0
-
       // 버튼 목록
       .z-button-list { margin-top: 1.875rem; } // 30px
     }
-
     .z-edit-column {
       .z-edit-row { margin: 0.625rem 0 0 0; } // 10px 0 0 0
     }

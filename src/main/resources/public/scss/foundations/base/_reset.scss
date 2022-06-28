@@ -1,6 +1,6 @@
 /* _reset.scss
  *
- * 파일 경로 : template/_reset.scss
+ * 파일 경로 : components/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
  * @author wdj
  * @version 1.0
@@ -35,21 +35,13 @@ time, mark, audio, video {
 }
 // HTML5 display-role reset for older browsers.
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
+footer, header, hgroup, menu, nav, section { display: block; }
 // Correct the line height in all browsers.
-body {
-  line-height: 1;
-}
+body { line-height: 1; }
 
-ol, ul {
-  list-style: none;
-}
+ol, ul { list-style: none; }
 
-blockquote, q {
-  quotes: none;
-}
+blockquote, q { quotes: none; }
 
 blockquote:before, blockquote:after,
 q:before, q:after {
@@ -62,18 +54,16 @@ table {
   border-spacing: 0;
 }
 // Add the correct display in IE 10+.
-template {
-  display: none;
-}
+template { display: none; }
 
 // Change the font styles in all browsers.
 // Remove the margin in Firefox and Safari.
 input, button, select, optgroup, textarea {
+  max-width: 100%;
+  margin: 0;
+  border: none;
+  background-color: #FFFFFF;
   font-family: inherit;
   font-size: 100%;
   line-height: 1.2;
-  margin: 0;
-  max-width: 100%;
-  background-color: #FFFFFF;
-  border: none;
 }
