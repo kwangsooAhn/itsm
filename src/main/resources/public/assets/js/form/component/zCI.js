@@ -835,7 +835,7 @@ export const ciMixin = {
 
                 new zTag(document.getElementById('tagSearch'), {
                     suggestion: true,
-                    realtime: true,
+                    realtime: false,
                     tagType: 'ci',
                     targetId: '',
                     callback: function() {
@@ -894,7 +894,7 @@ export const ciMixin = {
                 if (tags.length === 1) {
                     new zTag(ciListTags[i], {
                         suggestion: true,
-                        realtime: true,
+                        realtime: false,
                         tagType: 'ci',
                         targetId: ciIdList[i].value
                     });
@@ -1095,7 +1095,7 @@ export const ciMixin = {
 
                 new zTag(document.getElementById('tagSearch'), {
                     suggestion: true,
-                    realtime: true,
+                    realtime: false,
                     tagType: 'ci',
                     targetId: '',
                     callback: function() {
@@ -1153,7 +1153,7 @@ export const ciMixin = {
                 if (tags.length === 1) {
                     new zTag(ciListTags[i], {
                         suggestion: true,
-                        realtime: true,
+                        realtime: false,
                         tagType: 'ci',
                         targetId: ciIdList[i].value
                     });
