@@ -867,7 +867,9 @@
             .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 d.action(elem);
-            });
+            })
+            .append('title')
+            .text(function(d) { return i18n.msg('tooltip.label.' + d.type); });
     }
 
     /**
