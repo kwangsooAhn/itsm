@@ -3928,6 +3928,13 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 
+.z-workflow-content-edit .hidden-control-content {
+  display: none;
+}
+.z-workflow-content-edit .hidden-control-content.on {
+  display: block;
+}
+
 .z-file-content-edit {
   padding: 0 3.75rem;
   background-color: #FFFFFF;
