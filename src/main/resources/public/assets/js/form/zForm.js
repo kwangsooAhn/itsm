@@ -246,9 +246,10 @@ export default class ZForm {
     }
     // 세부 속성
     getProperty() {
+        let required = this.status === FORM.STATUS.EDIT ? true : false;
         // display 속성 - width
         const displayWidthProperty = new ZInputBoxProperty('displayWidth', 'display.width', this.displayWidth)
-            .setValidation(true, 'number', '0', '1920', '', '');
+            .setValidation(required, 'number', '0', '1920', '', '');
         displayWidthProperty.unit = UNIT.PX;
 
         // display 속성 - margin
@@ -263,7 +264,7 @@ export default class ZForm {
 
         return [
             new ZClipboardProperty('id', 'id', this.id),
-            new ZInputBoxProperty('name', 'name', this.name).setValidation(true, '', '', '', '', '128'),
+            new ZInputBoxProperty('name', 'name', this.name).setValidation(required, '', '', '', '', '128'),
             new ZTextAreaProperty('desc', 'desc', this.desc).setValidation(false, '', '', '', '', '512'),
             new ZDropdownProperty('status', 'status', this.status, [
                 { 'name': i18n.msg('form.status.edit'), 'value': 'form.status.edit' },

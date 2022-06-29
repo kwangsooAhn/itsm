@@ -184,6 +184,9 @@
                 txtClassName.readOnly = false;
                 txtClassDesc.readOnly = false;
                 txtClassSeq.readOnly = false;
+                txtClassName.previousElementSibling.classList.add('required');
+                txtClassSeq.previousElementSibling.classList.add('required');
+                attributeList.parentElement.firstElementChild.firstElementChild.classList.add('required');
             } else {
                 if (document.getElementById('btnUpdate') != null) {
                     document.getElementById('btnUpdate').disabled = true;
@@ -195,6 +198,9 @@
                 txtClassName.readOnly = true;
                 txtClassDesc.readOnly = true;
                 txtClassSeq.readOnly = true;
+                txtClassName.previousElementSibling.classList.remove('required');
+                txtClassSeq.previousElementSibling.classList.remove('required');
+                attributeList.parentElement.firstElementChild.firstElementChild.classList.remove('required');
             }
             while (extendsAttributeList.hasChildNodes()) {
                 extendsAttributeList.removeChild(extendsAttributeList.firstChild);
