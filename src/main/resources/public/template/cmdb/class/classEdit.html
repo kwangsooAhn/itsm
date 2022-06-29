@@ -351,7 +351,8 @@
 
             // 대상 미선택시
             const alarmTargetAttributeId = alarmNodeList[i].querySelector('#alarmTargetAttributeId');
-            const selectedAlarmTargetAttributeId = alarmTargetAttributeId.options[alarmTargetAttributeId.selectedIndex].value;
+            const selectedAlarmTargetAttributeId
+                = alarmTargetAttributeId.options[alarmTargetAttributeId.selectedIndex].value;
             if (alarmTargetAttributeId && selectedAlarmTargetAttributeId === '') {
                 isValid = false;
                 zAlert.warning(i18n.msg('cmdb.class.msg.selectAlertTarget'), function() {
@@ -540,7 +541,7 @@
             close: {
                 closable: false,
             },
-            onCreate: function(modal) {
+            onCreate: function() {
                 document.getElementById('attributeSearch').addEventListener('keyup', aliceJs.debounce ((e) => {
                     getAttributeList(e.target.value, false);
                 }), false);
@@ -552,7 +553,9 @@
 
     function createModalContent() {
         return `<div class="cmdb-class-attribute-list">` +
-            `<input class="z-input i-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/><span id="spanTotalCount" class="search-count"></span>` +
+            `<input class="z-input i-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
+                `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
+            `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
     }
@@ -621,7 +624,8 @@
     /**
      * + 버튼 클릭시 알림 설정 신규 추가
      */
-    function addAlarmCondition(data = { attributeId: '', condition: { period: '', unit: 'month', option: 'before' }, targetAttributeId: '' } ) {
+    function addAlarmCondition(
+        data = { attributeId: '', condition: { period: '', unit: 'month', option: 'before' }, targetAttributeId: '' } ) {
         const alarmConditionTemplate = document.getElementById('alarmConditionTemplate');
         const alarmList = document.getElementById('alarmList');
         const alarm =  alarmConditionTemplate.content.cloneNode(true);
