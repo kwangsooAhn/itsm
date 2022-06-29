@@ -38,6 +38,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import javax.transaction.Transactional
 import kotlin.math.ceil
+import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
@@ -186,7 +187,7 @@ class RoleService(
      * 전체 역할 목록 조회
      */
     fun getAllRoleList(): MutableList<RoleListDto> {
-        val allRoles = roleRepository.findAll()
+        val allRoles = roleRepository.findAll(Sort.by(Sort.Order.asc("roleName")))
         val roleList: MutableList<RoleListDto> = mutableListOf()
 
         allRoles.forEach { role ->
