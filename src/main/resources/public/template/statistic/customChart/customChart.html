@@ -42,9 +42,7 @@
                     </select>
                 </div>
                 <div class="flex-column z-edit-row col-6 pl-4">
-                    <label for="chartName">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.name}"></span>
-                    </label>
+                    <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.name}"></label>
                     <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
                            maxlength="100" th:readonly="${view}" />
                 </div>
@@ -67,9 +65,7 @@
                 </div>
                 <div class="flex-column z-edit-row col-3 pl-4" id="periodUnit">
                     <!--/* 간격 */-->
-                    <label for="periodUnitSelectBox">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.periodUnit}"></span>
-                    </label>
+                    <label id="periodUnitLabel" class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.periodUnit}"></label>
                     <select id="periodUnitSelectBox" name="periodUnitSelectBox" th:classappend="${view ? 'readonly' : ''}">
                         <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
                                 th:text="${unit.codeName}"
@@ -79,9 +75,7 @@
             </div>
             <div class="flex-column z-edit-row col-3" id="targetStatus">
                 <!--/* 대상 문서 상태 */-->
-                <label for="targetStatusSelectBox">
-                    <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.documentStatus}"></span>
-                </label>
+                <label id="targetStatusLabel" class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.documentStatus}"></label>
                 <select id="targetStatusSelectBox" name="targetStatusSelectBox" th:classappend="${view ? 'readonly' : ''}">
                     <option th:each="documentStatus:${code.documentStatus}" th:value="${documentStatus.codeValue}"
                             th:text="${documentStatus.codeName}"

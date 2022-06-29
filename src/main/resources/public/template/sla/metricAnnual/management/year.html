@@ -97,9 +97,7 @@
             </th:block>
             <div class="flex-row z-edit-row">
                 <div class="flex-column col-2">
-                    <label for="minValue">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metricYear.label.minValue}"></span>
-                    </label>
+                    <label th:text="#{sla.metricYear.label.minValue}" th:classappend="${view} ? '' : 'required'" for="minValue"></label>
                     <div class="flex-row">
                         <input type="text" id="minValue" name="minValue" class="z-input metric-value"
                                onchange="checkDecimalValue('minValue','sla.metricYear.msg.checkValue')"
@@ -112,9 +110,7 @@
                     </div>
                 </div>
                 <div class="flex-column col-2 ml-5">
-                    <label for="maxValue">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metricYear.label.maxValue}"></span>
-                    </label>
+                    <label th:text="#{sla.metricYear.label.maxValue}" th:classappend="${view} ? '' : 'required'" for="maxValue"></label>
                     <div class="flex-row">
                         <input type="text" id="maxValue" name="maxValue" class="z-input metric-value"
                                onchange="checkDecimalValue('maxValue','sla.metricYear.msg.checkValue')"
@@ -127,9 +123,7 @@
                     </div>
                 </div>
                 <div class="flex-column col-2 ml-5">
-                    <label for="maxValue">
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metricYear.label.weightValue}"></span>
-                    </label>
+                    <label th:text="#{sla.metricYear.label.weightValue}" th:classappend="${view} ? '' : 'required'" for="weightValue"></label>
                     <div class="flex-row">
                         <input type="text" id="weightValue" name="weightValue" class="z-input metric-value"
                                onchange="checkDecimalValue('weightValue','sla.metricYear.msg.checkValue')"
@@ -155,9 +149,7 @@
             <div id="zqlContainer">
                 <div class="z-edit-row flex-column flex-fill" id="zqlContents">
                     <div class="flex-row justify-content-between align-items-center">
-                        <label for="zqlString">
-                            <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metricYear.label.zql}"></span>
-                        </label>
+                        <label th:text="#{sla.metricYear.label.zql}" th:classappend="${view} ? '' : 'required'" for="zqlString"></label>
                         <p class="font-bold text-blue500" id="zqlDescription"></p>
                     </div>
                     <div class="horizontal-bar"></div>
