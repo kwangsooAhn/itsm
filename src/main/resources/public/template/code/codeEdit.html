@@ -211,6 +211,8 @@
                 document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
                 txtCodeDesc.readOnly = false;
                 document.getElementById('btnCodeLang').disabled = false;
+                txtCode.parentElement.previousElementSibling.classList.add('required');
+                pTxtCode.parentElement.previousElementSibling.classList.add('required');
             } else {
                 if (CODE_UPDATE) {
                     document.getElementById('btnUpdate').disabled = true;
@@ -222,6 +224,8 @@
                 document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
                 txtCodeDesc.readOnly = true;
                 document.getElementById('btnCodeLang').disabled = true;
+                txtCode.parentElement.previousElementSibling.classList.remove('required');
+                pTxtCode.parentElement.previousElementSibling.classList.remove('required');
             }
             // 편집 불가 처리
             const editInputElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text]');
