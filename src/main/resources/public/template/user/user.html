@@ -534,15 +534,10 @@
      */
     function setUserRole() {
         const allRoles = document.querySelectorAll('input[name=roles]');
-        let roleDivs = document.querySelectorAll('li[class=user-role-checkbox-wrap]');
-        const parent = roleDivs[0].parentNode;
         userRoles.forEach(function (userRole) {
-            allRoles.forEach(function (allRole, i) {
+            allRoles.forEach(function (allRole) {
                 if (userRole === allRole.value) {
                     allRole.checked = true;
-                }
-                if (allRole.checked) {
-                    parent.insertBefore(roleDivs[i], null);
                 }
             });
         });
