@@ -18,7 +18,9 @@
             <input type="hidden" id="metricId" name="metricId" th:value="${metricId}"/>
             <div class="flex-column z-edit-row">
                 <div class="flex-column z-edit-row">
-                    <label th:text="#{sla.metric.label.name}" for="metricName" class="required"></label>
+                    <label for="metricName">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.name}"></span>
+                    </label>
                     <input type="text" id="metricName" name="metricName" class="z-input" maxlength="128"
                            th:value="${metric?.metricName}" th:readonly="${view}"/>
                 </div>
