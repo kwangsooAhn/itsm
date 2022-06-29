@@ -42,7 +42,9 @@
                     </select>
                 </div>
                 <div class="flex-column z-edit-row col-6 pl-4">
-                    <label class="field-label required" th:text="#{chart.label.name}"></label>
+                    <label for="chartName">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.name}"></span>
+                    </label>
                     <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
                            maxlength="100" th:readonly="${view}" />
                 </div>
@@ -65,7 +67,9 @@
                 </div>
                 <div class="flex-column z-edit-row col-3 pl-4" id="periodUnit">
                     <!--/* 간격 */-->
-                    <label id="periodUnitLabel" class="field-label required" th:text="#{chart.label.periodUnit}"></label>
+                    <label for="periodUnitSelectBox">
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.periodUnit}"></span>
+                    </label>
                     <select id="periodUnitSelectBox" name="periodUnitSelectBox" th:classappend="${view ? 'readonly' : ''}">
                         <option th:each="unit:${code.unit}" th:value="${unit.codeValue}"
                                 th:text="${unit.codeName}"
@@ -75,7 +79,9 @@
             </div>
             <div class="flex-column z-edit-row col-3" id="targetStatus">
                 <!--/* 대상 문서 상태 */-->
-                <label id="targetStatusLabel" class="field-label required" th:text="#{chart.label.documentStatus}"></label>
+                <label for="targetStatusSelectBox">
+                    <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.documentStatus}"></span>
+                </label>
                 <select id="targetStatusSelectBox" name="targetStatusSelectBox" th:classappend="${view ? 'readonly' : ''}">
                     <option th:each="documentStatus:${code.documentStatus}" th:value="${documentStatus.codeValue}"
                             th:text="${documentStatus.codeName}"
@@ -87,7 +93,7 @@
                     <!--/* 기간 */-->
                     <div class="flex-column col-3">
                         <label>
-                            <span class="field-label required" th:text="#{chart.label.duration}"></span>
+                            <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.duration}"></span>
                             <div class="z-help-tooltip">
                                 <span class="z-icon i-tooltip"></span>
                                 <div class="z-tooltip-contents right">
@@ -106,14 +112,14 @@
                     <!--/* 기간 수동 설정 시 날짜 간격 입력 */-->
                     <div id="rangeDate" class="flex-row">
                         <div class="flex-column col-3 pl-4">
-                            <label class="field-label required" th:text="#{common.label.startDate}"></label>
+                            <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.startDate}"></span>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeFromDt"
                                        name="rangeFromDt" th:value="${chart?.chartConfig?.range?.fromDate}" th:readonly="${view}" />
                             </div>
                         </div>
                         <div class="flex-column col-3 pl-4">
-                            <label class="field-label required" th:text="#{common.label.endDate}"></label>
+                            <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.endDate}"></span>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeToDt"
                                        name="rangeToDt" th:value="${chart?.chartConfig?.range?.toDate}" th:readonly="${view}" />
@@ -126,7 +132,7 @@
                 <!--/* 차트 대상 태그 */-->
                 <div class="flex-column col-6">
                     <label>
-                        <span class="field-label required" th:text="#{chart.label.targetTags}"></span>
+                        <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.targetTags}"></span>
                         <div class="z-help-tooltip">
                             <span class="z-icon i-tooltip"></span>
                             <div class="z-tooltip-contents right">
