@@ -18,8 +18,7 @@
     <div class="z-edit-form flex-fill">
         <div class="flex-column z-edit-row">
             <label for="templateName">
-                <span th:text="#{statistic.label.templateName}"></span>
-                <span class="required"></span>
+                <span th:classappend="${view} ? '' : 'required'" th:text="#{statistic.label.templateName}"></span>
             </label>
             <input type="text" id="templateName" class="z-input text-ellipsis" required="true" maxlength="100"
                    th:attr="data-validation-required-name=#{statistic.label.templateName}"
@@ -56,9 +55,8 @@
         <div class="flex-column z-edit-row">
             <div class="under-bar">
                 <label>
-                    <span th:text="#{statistic.label.chart}"></span>
+                    <span th:classappend="${view} ? '' : 'required'" th:text="#{statistic.label.chart}"></span>
                 </label>
-                <span class="required"></span>
             </div>
             <div id="details" class="template">
                 <div class="flex-row justify-content-end">
