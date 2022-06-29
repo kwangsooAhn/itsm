@@ -51,8 +51,8 @@
         <div class="z-edit-row flex-column">
             <div class="flex-row justify-content-between">
                 <label th:text="#{cmdb.class.label.alarm}"></label>
-                <button type="button" class="z-button-icon extra float-right" onclick="addAlarmCondition()"
-                        sec:authorize="hasAuthority('cmdb.manage')">
+                <button type="button" class="z-button-icon extra float-right" name="alarmConditionButton"
+                        onclick="addAlarmCondition()" sec:authorize="hasAuthority('cmdb.manage')">
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
@@ -62,7 +62,7 @@
                     <label class="col-pct-3" th:text="#{cmdb.class.label.alertItem}"></label>
                     <label class="col-pct-4" th:text="#{cmdb.class.label.condition}"></label>
                     <label class="col-pct-3" th:text="#{cmdb.class.label.alertTarget}"></label>
-                    <label style="width: 34px;"><!-- 삭제 버튼 영역 너비는 고정됨 --></label>
+                    <label style="width: 34px;" id="alarmDelete"><!-- 삭제 버튼 영역 너비는 고정됨 --></label>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
             <div class="flex-row justify-content-between">
                 <label class="required" th:text="#{cmdb.class.label.attributeList}"></label>
                 <button type="button" sec:authorize="hasAuthority('cmdb.manage')"
-                        class="z-button-icon extra float-right" id="attribute-add"
+                        class="z-button-icon extra float-right" id="attribute-add" name="classAttributeButton"
                         onclick="openClassAttributeListModal()">
                     <span class="z-icon i-plus"></span>
                 </button>
@@ -111,7 +111,8 @@
             <select class="col-pct-3" id="alarmTargetAttributeId">
                 <option selected="selected" th:text="#{common.label.notSelect}" value=""></option>
             </select>
-            <button class="z-button-icon-sm ml-2 mr-2 mt-auto mb-auto" onclick="deleteAlarmCondition(event)">
+            <button class="z-button-icon-sm ml-2 mr-2 mt-auto mb-auto" name="alarmCondition"
+                    onclick="deleteAlarmCondition(event)">
                 <span class="z-icon i-remove"></span>
             </button>
         </div>
@@ -172,30 +173,7 @@
             // 정렬 순서
             const txtClassSeq = document.getElementById('txtClassSeq');
             txtClassSeq.value = response.data.classSeq;
-
-            if (response.data.editable) {
-                if (document.getElementById('btnUpdate') != null) {
-                    document.getElementById('btnUpdate').removeAttribute('disabled');
-                }
-                if (document.getElementById('btnDelete') != null) {
-                    document.getElementById('btnDelete').removeAttribute('disabled');
-                }
-                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
-                txtClassName.readOnly = false;
-                txtClassDesc.readOnly = false;
-                txtClassSeq.readOnly = false;
-            } else {
-                if (document.getElementById('btnUpdate') != null) {
-                    document.getElementById('btnUpdate').disabled = true;
-                }
-                if (document.getElementById('btnDelete') != null) {
-                    document.getElementById('btnDelete').disabled = true;
-                }
-                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
-                txtClassName.readOnly = true;
-                txtClassDesc.readOnly = true;
-                txtClassSeq.readOnly = true;
-            }
+            // 속성 목록
             while (extendsAttributeList.hasChildNodes()) {
                 extendsAttributeList.removeChild(extendsAttributeList.firstChild);
             }
@@ -219,6 +197,52 @@
                         value: data.attributeName
                     }, 'attribute', true);
                 });
+            }
+
+            if (response.data.editable) {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').removeAttribute('disabled');
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').removeAttribute('disabled');
+                    document.getElementById('alarmDelete').hidden = false; // 알림설정 header > 삭제 아이콘 영역 원복
+                }
+                if (document.querySelectorAll('button[name=alarmCondition]').length > 0) {
+                    document.querySelectorAll('button[name=alarmCondition]')
+                        .forEach((elem) => elem.removeAttribute('disabled'));
+                }
+                if (document.querySelector('button[name=alarmConditionButton]') != null) {
+                    document.querySelector('button[name=alarmConditionButton]').removeAttribute('disabled');
+                }
+                if (document.querySelectorAll('button[name=classAttributeButton]').length > 0) {
+                    document.querySelectorAll('button[name=classAttributeButton]')
+                        .forEach((elem) => elem.removeAttribute('disabled'));
+                }
+                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                txtClassName.readOnly = false;
+                txtClassDesc.readOnly = false;
+                txtClassSeq.readOnly = false;
+            } else {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = true;
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').disabled = true;
+                }
+                if (document.querySelector('button[name=alarmConditionButton]') != null) {
+                    document.querySelector('button[name=alarmConditionButton]').disabled = true;
+                    document.getElementById('alarmDelete').hidden = true; // 알림설정 header > 삭제 아이콘 영역 hidden
+                }
+                if (document.querySelectorAll('button[name=alarmCondition]').length > 0) {
+                    document.querySelectorAll('button[name=alarmCondition]').forEach((elem) => elem.disabled = true);
+                }
+                if (document.querySelectorAll('button[name=classAttributeButton]').length > 0) {
+                    document.querySelectorAll('button[name=classAttributeButton]').forEach((elem) => elem.disabled = true);
+                }
+                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                txtClassName.readOnly = true;
+                txtClassDesc.readOnly = true;
+                txtClassSeq.readOnly = true;
             }
             onEdit();
 
@@ -480,6 +504,7 @@
         if (document.getElementById('attribute-add') != null) {
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-auto mb-auto';
+            deleteBtn.name = 'classAttributeButton';
             const deleteIcon = document.createElement('span');
             deleteIcon.className = 'z-icon i-remove';
             deleteBtn.appendChild(deleteIcon);
