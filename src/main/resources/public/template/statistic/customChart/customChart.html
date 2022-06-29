@@ -87,7 +87,7 @@
                     <!--/* 기간 */-->
                     <div class="flex-column col-3">
                         <label>
-                            <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.duration}"></span>
+                            <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.duration}"></span>
                             <div class="z-help-tooltip">
                                 <span class="z-icon i-tooltip"></span>
                                 <div class="z-tooltip-contents right">
@@ -106,14 +106,14 @@
                     <!--/* 기간 수동 설정 시 날짜 간격 입력 */-->
                     <div id="rangeDate" class="flex-row">
                         <div class="flex-column col-3 pl-4">
-                            <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.startDate}"></span>
+                            <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.startDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeFromDt"
                                        name="rangeFromDt" th:value="${chart?.chartConfig?.range?.fromDate}" th:readonly="${view}" />
                             </div>
                         </div>
                         <div class="flex-column col-3 pl-4">
-                            <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.endDate}"></span>
+                            <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.endDate}"></label>
                             <div>
                                 <input type="text" class="z-input i-date-picker search-date" id="rangeToDt"
                                        name="rangeToDt" th:value="${chart?.chartConfig?.range?.toDate}" th:readonly="${view}" />
@@ -126,7 +126,7 @@
                 <!--/* 차트 대상 태그 */-->
                 <div class="flex-column col-6">
                     <label>
-                        <span th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.targetTags}"></span>
+                        <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.targetTags}"></span>
                         <div class="z-help-tooltip">
                             <span class="z-icon i-tooltip"></span>
                             <div class="z-tooltip-contents right">
