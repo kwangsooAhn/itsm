@@ -246,7 +246,7 @@ export default class ZForm {
     }
     // 세부 속성
     getProperty() {
-        let required = this.status === FORM.STATUS.EDIT ? true : false;
+        const required = this.status === FORM.STATUS.EDIT;
         // display 속성 - width
         const displayWidthProperty = new ZInputBoxProperty('displayWidth', 'display.width', this.displayWidth)
             .setValidation(required, 'number', '0', '1920', '', '');
