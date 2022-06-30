@@ -43,7 +43,7 @@ class AliceCertificationController(private val aliceCertificationService: AliceC
         @RequestParam(value = "uid", defaultValue = "") uid: String,
         model: Model
     ): String {
-        var validCode: Int = UserConstants.Status.ERROR.value
+        var validCode: Int = UserConstants.UserStatus.ERROR.value
         if (uid != "") {
             validCode = aliceCertificationService.valid(uid)
         }

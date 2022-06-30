@@ -60,8 +60,8 @@ class TokenController(
         val userKey = currentSessionUser.getUserKey()
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
         when (userDto.status) {
-            UserConstants.Status.SIGNUP.code,
-            UserConstants.Status.EDIT.code -> return statusPage
+            UserConstants.UserStatus.SIGNUP.code,
+            UserConstants.UserStatus.EDIT.code -> return statusPage
         }
         val documentSearchCondition = DocumentSearchCondition()
         val userRoles = roleService.getUserRoleList(userKey)

@@ -29,8 +29,8 @@ class LayoutController(
         // 사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val userKey = currentSessionUser.getUserKey()
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
-        return if (userDto.status == UserConstants.Status.SIGNUP.code ||
-            userDto.status == UserConstants.Status.EDIT.code
+        return if (userDto.status == UserConstants.UserStatus.SIGNUP.code ||
+            userDto.status == UserConstants.UserStatus.EDIT.code
         ) {
             statusPage
         } else {

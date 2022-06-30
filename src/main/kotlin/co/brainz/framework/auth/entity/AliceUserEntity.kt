@@ -63,7 +63,7 @@ data class AliceUserEntity(
     var mobileNumber: String? = "",
 
     @Column(name = "status", length = 100)
-    var status: String = UserConstants.Status.CERTIFIED.code,
+    var status: String = UserConstants.UserStatus.CERTIFIED.code,
 
     @Column(name = "certification_code", length = 128)
     var certificationCode: String? = null,

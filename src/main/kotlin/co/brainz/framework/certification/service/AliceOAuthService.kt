@@ -84,7 +84,7 @@ class OAuthService(
             userName = aliceOAuthDto.userName,
             email = aliceOAuthDto.email,
             expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod),
-            status = UserConstants.Status.CERTIFIED.code,
+            status = UserConstants.UserStatus.CERTIFIED.code,
             platform = aliceOAuthDto.platform,
             oauthKey = aliceOAuthDto.oauthKey,
             timezone = TimeZone.getDefault().id,

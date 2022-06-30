@@ -91,7 +91,7 @@ class CertificationTest {
         assertThat(userDto.email).isEqualTo(email)
 
         // User status init.
-        val status: String = UserConstants.Status.SIGNUP.code
+        val status: String = UserConstants.UserStatus.SIGNUP.code
         val certificationCode = ""
         val aliceCertificationDto = AliceCertificationDto(userId, email, certificationCode, status)
         aliceCertificationService.updateUser(aliceCertificationDto)
@@ -99,7 +99,7 @@ class CertificationTest {
         // Check user status init.
         mvc.perform(get("/certification/status"))
             .andExpect(status().isOk)
-            .andExpect(model().attribute("validCode", UserConstants.Status.SIGNUP.value))
+            .andExpect(model().attribute("validCode", UserConstants.UserStatus.SIGNUP.value))
     }
 
     // Send Mail
@@ -120,7 +120,7 @@ class CertificationTest {
             userId,
             email,
             certificationKey,
-            UserConstants.Status.SIGNUP.code
+            UserConstants.UserStatus.SIGNUP.code
         )
         aliceCertificationService.updateUser(aliceCertificationDto)
 
@@ -129,6 +129,6 @@ class CertificationTest {
         val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
             .andExpect(status().isOk)
-            .andExpect(model().attribute("validCode", UserConstants.Status.CERTIFIED.value))
+            .andExpect(model().attribute("validCode", UserConstants.UserStatus.CERTIFIED.value))
     }*/
 }

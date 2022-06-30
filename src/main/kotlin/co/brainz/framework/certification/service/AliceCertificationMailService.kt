@@ -39,15 +39,15 @@ class AliceCertificationMailService(
     fun sendMail(userId: String, email: String, target: String?, password: String?) {
         var certificationKey: String =
             AliceKeyGeneratorService().getKey(AliceConstants.EMAIL_CERTIFICATION_KEY_SIZE, false)
-        var statusCode = UserConstants.Status.SIGNUP.code
+        var statusCode = UserConstants.UserStatus.SIGNUP.code
         var classficationCode: String? = ""
 
         when (target) {
             UserConstants.SendMailStatus.CREATE_USER.code -> {
-                statusCode = UserConstants.Status.SIGNUP.code
+                statusCode = UserConstants.UserStatus.SIGNUP.code
             }
             UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> {
-                statusCode = UserConstants.Status.EDIT.code
+                statusCode = UserConstants.UserStatus.EDIT.code
             }
             UserConstants.SendMailStatus.UPDATE_USER.code,
             UserConstants.SendMailStatus.UPDATE_USER.code,
@@ -58,7 +58,7 @@ class AliceCertificationMailService(
                 } else if (target == UserConstants.SendMailStatus.CREATE_USER_ADMIN.code) {
                     classficationCode = UserConstants.SendMailStatus.CREATE_USER_ADMIN.code
                 }
-                statusCode = UserConstants.Status.CERTIFIED.code
+                statusCode = UserConstants.UserStatus.CERTIFIED.code
                 certificationKey = ""
             }
         }

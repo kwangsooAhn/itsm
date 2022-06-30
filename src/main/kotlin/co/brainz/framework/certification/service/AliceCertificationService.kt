@@ -126,11 +126,11 @@ class AliceCertificationService(
     fun status(): Int {
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = findByUserId(userId)
-        var validCode: Int = UserConstants.Status.SIGNUP.value
-        if (userDto.status == UserConstants.Status.CERTIFIED.code) {
-            validCode = UserConstants.Status.CERTIFIED.value
-        } else if (userDto.status == UserConstants.Status.EDIT.code) {
-            validCode = UserConstants.Status.EDIT.value
+        var validCode: Int = UserConstants.UserStatus.SIGNUP.value
+        if (userDto.status == UserConstants.UserStatus.CERTIFIED.code) {
+            validCode = UserConstants.UserStatus.CERTIFIED.value
+        } else if (userDto.status == UserConstants.UserStatus.EDIT.code) {
+            validCode = UserConstants.UserStatus.EDIT.value
         }
         return validCode
     }
@@ -140,28 +140,28 @@ class AliceCertificationService(
         val decryptUid: String = AliceEncryptionUtil().encryptDecoder(uid, AliceConstants.EncryptionAlgorithm.AES256.value)
         val values: List<String> = decryptUid.split(":".toRegex())
         val userDto: AliceUserEntity = findByUserId(values[1])
-        var validCode: Int = UserConstants.Status.SIGNUP.value
+        var validCode: Int = UserConstants.UserStatus.SIGNUP.value
 
         when (userDto.status) {
-            UserConstants.Status.SIGNUP.code, UserConstants.Status.EDIT.code -> {
+            UserConstants.UserStatus.SIGNUP.code, UserConstants.UserStatus.EDIT.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
                         val certificationDto = AliceCertificationDto(
                             userDto.userId,
                             userDto.email,
                             "",
-                            UserConstants.Status.CERTIFIED.code,
+                            UserConstants.UserStatus.CERTIFIED.code,
                             null
                         )
                         updateUser(certificationDto)
-                        UserConstants.Status.CERTIFIED.value
+                        UserConstants.UserStatus.CERTIFIED.value
                     }
                     else -> {
-                        UserConstants.Status.ERROR.value
+                        UserConstants.UserStatus.ERROR.value
                     }
                 }
             }
-            UserConstants.Status.CERTIFIED.code -> validCode = UserConstants.Status.OVER.value
+            UserConstants.UserStatus.CERTIFIED.code -> validCode = UserConstants.UserStatus.OVER.value
         }
         return validCode
     }
@@ -185,7 +185,7 @@ class AliceCertificationService(
             officeNumber = aliceSignUpDto.officeNumber,
             mobileNumber = aliceSignUpDto.mobileNumber,
             expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod),
-            status = UserConstants.Status.SIGNUP.code,
+            status = UserConstants.UserStatus.SIGNUP.code,
             oauthKey = "",
             lang = UserConstants.USER_LOCALE_LANG,
             timezone = TimeZone.getDefault().id,
@@ -196,7 +196,7 @@ class AliceCertificationService(
 
         when (target) {
             UserConstants.ADMIN_ID -> {
-                user.status = UserConstants.Status.CERTIFIED.code
+                user.status = UserConstants.UserStatus.CERTIFIED.code
                 user.timezone = aliceSignUpDto.timezone!!
                 user.lang = aliceSignUpDto.lang!!
                 user.theme = aliceSignUpDto.theme!!
