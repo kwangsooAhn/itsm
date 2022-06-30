@@ -188,6 +188,11 @@
                 typeDesc.readOnly = false;
                 typeAlias.readOnly = false;
                 typeSeq.readOnly = false;
+                typeName.previousElementSibling.classList.add('required');
+                typeAlias.previousElementSibling.classList.add('required');
+                typeSeq.previousElementSibling.classList.add('required');
+                document.querySelector('#parentTypeName').previousElementSibling.classList.add('required');
+                document.querySelector('#typeClass').parentElement.previousElementSibling.classList.add('required');
             } else {
                 if (document.querySelector('#btnUpdate') != null) {
                     document.getElementById('btnUpdate').disabled = true;
@@ -206,6 +211,11 @@
                 typeDesc.readOnly = true;
                 typeAlias.readOnly = true;
                 typeSeq.readOnly = true;
+                typeName.previousElementSibling.classList.remove('required');
+                typeAlias.previousElementSibling.classList.remove('required');
+                typeSeq.previousElementSibling.classList.remove('required');
+                document.querySelector('#parentTypeName').previousElementSibling.classList.remove('required');
+                document.querySelector('#typeClass').parentElement.previousElementSibling.classList.remove('required');
             }
             onEdit();
             observer.isChanged = false;

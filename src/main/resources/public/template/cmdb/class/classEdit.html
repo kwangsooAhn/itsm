@@ -173,6 +173,36 @@
             // 정렬 순서
             const txtClassSeq = document.getElementById('txtClassSeq');
             txtClassSeq.value = response.data.classSeq;
+
+            if (response.data.editable) {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').removeAttribute('disabled');
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').removeAttribute('disabled');
+                }
+                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                txtClassName.readOnly = false;
+                txtClassDesc.readOnly = false;
+                txtClassSeq.readOnly = false;
+                txtClassName.previousElementSibling.classList.add('required');
+                txtClassSeq.previousElementSibling.classList.add('required');
+                attributeList.parentElement.firstElementChild.firstElementChild.classList.add('required');
+            } else {
+                if (document.getElementById('btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = true;
+                }
+                if (document.getElementById('btnDelete') != null) {
+                    document.getElementById('btnDelete').disabled = true;
+                }
+                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                txtClassName.readOnly = true;
+                txtClassDesc.readOnly = true;
+                txtClassSeq.readOnly = true;
+                txtClassName.previousElementSibling.classList.remove('required');
+                txtClassSeq.previousElementSibling.classList.remove('required');
+                attributeList.parentElement.firstElementChild.firstElementChild.classList.remove('required');
+            }
             // 속성 목록
             while (extendsAttributeList.hasChildNodes()) {
                 extendsAttributeList.removeChild(extendsAttributeList.firstChild);
