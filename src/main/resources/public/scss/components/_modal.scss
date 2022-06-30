@@ -211,6 +211,10 @@ body.modal-active { overflow: hidden !important; }
     height: 48.44rem; // 775px
     .modal-content {
       height: calc(48.44rem - 3.875rem - 5rem); // 775px
+      // 검색창
+      .z-input { margin: 0.625rem; }
+      .z-search-count { visibility: hidden; }
+
       .z-thumbnail-main .z-thumbnail { width: 14.375rem; } // 230px
     }
   }

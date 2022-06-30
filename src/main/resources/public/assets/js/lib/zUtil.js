@@ -531,6 +531,7 @@ aliceJs.getFileExtensionIcon = function(extension) {
  * thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
  */
 aliceJs.thumbnail = function(options) {
+    let offsetCount = 0;
     /**
      * 썸네일 저장
      *
@@ -576,24 +577,95 @@ aliceJs.thumbnail = function(options) {
         }
     };
 
-    const getThumbnail = function(type, file) {
+    /**
+     * 썸네일 조회
+     * @param isScroll 스크롤여부
+     */
+    const getThumbnailFiles = function(isScroll) {
+        let urlParam = '&searchValue=' + document.getElementById('searchValue').value;
+
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.fileOffsetCount;
+            }
+        } else {
+            offsetCount = 0;
+        }
+
+        urlParam += '&offset=' + offsetCount;
+        aliceJs.fetchJson('/rest/files?type=' + options.type + urlParam, {
+        }).then((response) => {
+            if (response.status !== aliceJs.response.success) { return false; }
+
+            if (isScroll) {
+                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                    offsetCount = offsetCount + aliceJs.fileOffsetCount;
+                }
+            } else {
+                // 카운트
+                let count = JSON.stringify(response.data.totalCount);
+                aliceJs.showTotalCount(count, 'totalCount');
+                document.getElementById('totalCount').value = count;
+
+                // 전체 카운트
+                document.getElementById('spanTotalCountWithoutCondition').innerText =
+                    i18n.msg('common.label.totalCountWithoutCondition', response.data.totalCountWithoutCondition);
+            }
+
+            const container = document.getElementById('thumbnailMain');
+            if (response.data.data.length > 0) {
+                let thumbnailTemplate = ``;
+                response.data.data.forEach((file) => {
+                    thumbnailTemplate += getThumbnailTemplate(file);
+                });
+                container.insertAdjacentHTML('beforeend', thumbnailTemplate);
+
+                // 이벤트 등록
+                container.querySelectorAll('.z-thumbnail').forEach(thumbnail => {
+                    thumbnail.addEventListener('click', thumbnailSelect, false);
+                    if (options.thumbnailDoubleClickUse) {
+                        thumbnail.addEventListener('dblclick', function() {
+                            document.querySelector('.thumbnail-save').click();
+                        }, false);
+                    }
+                });
+            }
+            if (response.data.totalCountWithoutCondition === 0) {
+                // 썸네일이 존재하지 않을 경우 안내 문구 표시
+                const thumbnailNodataTemplate = `
+                    <div class="z-thumbnail-nodata align-center">
+                        <label>${i18n.msg('common.msg.noData')}</label>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
+            }
+        });
+    };
+
+    /**
+     * 파일 타입에 따른 템플릿
+     * @param type 타입
+     * @param file 파일
+     * @returns {string} 문자열
+     */
+    const getThumbnailTemplateByType = function(type, file) {
         let thumbnailTemplate = '';
         switch (type) {
             case 'image':
                 thumbnailTemplate = `<div class="z-thumbnail-image" ` +
-                    `style="background-image:url('data:image/${file.extension};base64,${file.data}');">` +
-                    `</div>`;
+                `style="background-image:url('data:image/${file.extension};base64,${file.data}');">` +
+                `</div>`;
                 break;
             case 'icon':
             case 'cmdb-icon':
-                thumbnailTemplate = `<div class="z-thumbnail-icon" ` +
-                    `style="background-image:url('data:image/${file.extension};base64,${file.data}');background-size:100%;">` +
-                    `</div>`;
+                thumbnailTemplate = `<div class="z-thumbnail-icon" style=` +
+                `"background-image:url('data:image/${file.extension};base64,${file.data}');background-size:100%;">` +
+                `</div>`;
                 break;
             case 'file':
                 thumbnailTemplate = `<div class="z-thumbnail-file">` +
-                    `<img src="${aliceJs.getFileExtensionIcon((file.extension).trim().toLowerCase())}"></div>` +
-                    `</div>`;
+                `<img src="${aliceJs.getFileExtensionIcon((file.extension).trim().toLowerCase())}"/>` +
+                `</div>`;
                 break;
             default:
                 break;
@@ -602,109 +674,94 @@ aliceJs.thumbnail = function(options) {
     };
 
     /**
-     * 썸네일 content.
-     *
-     * @param files 파일목록
-     * @return content html
+     * 썸네일 템플릿
+     * @param file 파일
+     * @returns {string} 문자열
      */
-    const createContent = function(response) {
-        const container = document.createElement('div');
-        container.className = 'z-thumbnail-main flex-row flex-wrap';
-        if (response.status === aliceJs.response.success && response.data.data.length > 0) {
-            for (let i = 0, len = response.data.data.length; i < len; i++) {
-                let file = response.data.data[i];
-                const fileExtension = (file.extension).trim().toLowerCase();
-                const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
-                const thumbnail = document.createElement('div');
-                thumbnail.className = 'z-thumbnail';
-                thumbnail.setAttribute('data-name', file.name);
+    const getThumbnailTemplate = function(file) {
+        const fileExtension = (file.extension).trim().toLowerCase();
+        const isImageFile = aliceJs.imageExtensions.includes(fileExtension);
+        const fileType = (options.type === 'file' && isImageFile) ? 'image' : options.type;
+        const isSelected = typeof options.selectedPath !== 'undefined' &&  options.selectedPath.indexOf(file.name) > -1;
+        const thumbnailText = (isImageFile) ? `${file.width} X ${file.height} (${file.size})` : `${file.size}`;
 
-                if (typeof options.selectedPath !== 'undefined' &&  options.selectedPath.indexOf(file.name) > -1) {
-                    thumbnail.classList.add('selected');
-                }
-                // 이벤트 등록
-                thumbnail.addEventListener('click', thumbnailSelect, false);
-                if (options.thumbnailDoubleClickUse) {
-                    thumbnail.addEventListener('dblclick', function() {
-                        document.querySelector('.thumbnail-save').click();
-                    }, false);
-                }
-
-                container.appendChild(thumbnail);
-                // 썸네일 조회
-                const fileType = (options.type === 'file' && isImageFile) ? 'image' : options.type;
-                thumbnail.insertAdjacentHTML('beforeend', getThumbnail(fileType, file));
-
-                if (options.isThumbnailInfo) {
-                    const thumbnailInfo = document.createElement('div');
-                    thumbnailInfo.className = 'z-thumbnail-info';
-                    thumbnail.appendChild(thumbnailInfo);
-
-                    const thumbnailName = document.createElement('p');
-                    thumbnailName.className = 'z-thumbnail-info-text';
-                    thumbnailName.innerHTML = `<label class="text-ellipsis" title="${file.name}">${file.name}</label>`;
-                    thumbnailInfo.appendChild(thumbnailName);
-
-                    const thumbnailText = (isImageFile) ? `${file.width} X ${file.height} (${file.size})` : `${file.size}`;
-                    const thumbnailSize = document.createElement('p');
-                    thumbnailSize.className = 'z-thumbnail-info-text';
-                    thumbnailSize.innerHTML = `<label class="text-ellipsis">${thumbnailText}</label>`;
-                    thumbnailInfo.appendChild(thumbnailSize);
-
-                    const thumbnailBottom = document.createElement('div');
-                    thumbnailBottom.className = 'z-thumbnail-bottom';
-                    thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
-                    thumbnail.appendChild(thumbnailBottom);
-                }
-            }
-        } else {
-            // 썸네일이 존재하지 않을 경우 안내 문구 표시
-            const thumbnailNodataTemplate = `
-                <div class="z-thumbnail-nodata align-center">
-                    <label>${i18n.msg('common.msg.noData')}</label>
+        let thumbnailInfoTemplate = ``;
+        if (options.isThumbnailInfo) {
+            thumbnailInfoTemplate = `<div class="z-thumbnail-info">
+                <p class="z-thumbnail-info-text">
+                    <label class="text-ellipsis" title="${file.name}">${file.name}</label>
+                </p>
+                <p class="z-thumbnail-info-text"><label class="text-ellipsis">${thumbnailText}</label></p>
                 </div>
-            `;
-            container.insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
+                <div class="z-thumbnail-bottom">
+                    <label>${i18n.userDateTime(file.updateDt)}</label>
+                </div>`.trim();
         }
-        return container;
+        return `<div class="z-thumbnail${isSelected ? ' selected' : ''}" data-name="${file.name}">
+            ${getThumbnailTemplateByType(fileType, file)}
+            ${thumbnailInfoTemplate}
+        </div>`.trim();
     };
 
-    // 이미지 파일 로드
-    aliceJs.fetchJson('/rest/files?type=' + options.type, {
-        method: 'GET'
-    }).then((response) => {
-        const modalOptions = {
-            title: options.title,
-            body: createContent(response),
-            classes: 'z-thumbnail-' + options.type,
-            buttons: [{
-                content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary thumbnail-save',
-                bindKey: false,
-                callback: function(modal) {
-                    if (saveThumbnail(options.targetId)) {
-                        modal.hide();
-                    }
-                }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
-                bindKey: false,
-                callback: function(modal) {
+    // 모달 호출
+    const thumbnailModalTemplate = `<div class="thumbnail">
+        <input class="z-input i-search col-5" type="text" id="searchValue" maxlength="100" 
+            placeholder="${i18n.msg('file.label.name')}">
+        <span id="totalCount" class="z-search-count"></span>
+        <span class="z-search-count">/</span>
+        <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+        <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
+        </div>`.trim();
+    const thumbnailModal = new modal({
+        title: options.title,
+        body: thumbnailModalTemplate,
+        classes: `z-thumbnail-${options.type}`,
+        buttons: [{
+            content: i18n.msg('common.btn.select'),
+            classes: 'z-button primary thumbnail-save',
+            bindKey: false,
+            callback: (modal) => {
+                if (saveThumbnail(options.targetId)) {
                     modal.hide();
                 }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: function(modal) {
-                OverlayScrollbars(document.querySelector('.z-thumbnail-main').closest('.modal-content'), { className: 'scrollbar' });
             }
-        };
+        }, {
+            content: i18n.msg('common.btn.cancel'),
+            classes: 'z-button secondary',
+            bindKey: false,
+            callback: (modal) => {
+                modal.hide();
+            }
+        }],
+        close: { closable: false },
+        onCreate: () => {
+            document.getElementById('searchValue').addEventListener('keyup', function() {
+                aliceJs.pressKeyForAction(event, 'Enter', function() {
+                    document.getElementById('thumbnailMain').innerHTML = '';
 
-        let thumbnailModal = new modal(modalOptions);
-        thumbnailModal.show();
+                    getThumbnailFiles(false);
+                });
+            });
+            getThumbnailFiles(false);
+
+            OverlayScrollbars(document.querySelector(`.z-thumbnail-${options.type} .modal-content`), {
+                className: 'scrollbar',
+                callbacks: {
+                    onScroll: function(e) {
+                        const scrollHeight = e.target.scrollHeight;
+                        const scrollTop = e.target.scrollTop;
+                        const clientHeight = e.target.clientHeight;
+                        if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                getThumbnailFiles(true);
+                            }
+                        }
+                    }
+                }
+            });
+        }
     });
+    thumbnailModal.show();
 };
 
 /**

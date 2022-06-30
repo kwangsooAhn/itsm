@@ -142,6 +142,9 @@
 
     .modal-content {
       height: calc(45rem - 3.875rem - 5rem); // 720px
+      // 검색창
+      .z-input { margin: 0.625rem 0.4375rem; }
+      .z-search-count { visibility: hidden; }
 
       .z-thumbnail-main {
         height: auto;
