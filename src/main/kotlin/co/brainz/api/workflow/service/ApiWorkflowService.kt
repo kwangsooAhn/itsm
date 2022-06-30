@@ -8,7 +8,6 @@ package co.brainz.api.workflow.service
 
 import co.brainz.api.dto.RequestCmdbDto
 import co.brainz.api.dto.RequestDto
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.response.ZResponseConstants
@@ -18,6 +17,7 @@ import co.brainz.itsm.cmdb.ci.service.CIService
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.itsm.token.service.TokenService
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.workflow.component.dto.WfCIComponentValueDto
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -159,7 +159,7 @@ class ApiWorkflowService(
             true -> {
                 val token = wfInstanceService.getInstanceLatestToken(instance.instanceId)
                 // 현재 토큰 처리자는 시스템으로 고정
-                token.assigneeId = AliceUserConstants.CREATE_USER_ID
+                token.assigneeId = UserConstants.CREATE_USER_ID
                 val tokenDto = WfTokenDto(
                     tokenId = token.tokenId,
                     documentId = instance.document.documentId,

@@ -5,7 +5,7 @@
 
 package co.brainz.framework.auth.entity
 
-import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.entity.UserCustomEntity
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -63,13 +63,13 @@ data class AliceUserEntity(
     var mobileNumber: String? = "",
 
     @Column(name = "status", length = 100)
-    var status: String = AliceUserConstants.Status.CERTIFIED.code,
+    var status: String = UserConstants.Status.CERTIFIED.code,
 
     @Column(name = "certification_code", length = 128)
     var certificationCode: String? = null,
 
     @Column(name = "platform", length = 100)
-    var platform: String = AliceUserConstants.Platform.ALICE.code,
+    var platform: String = UserConstants.Platform.ALICE.code,
 
     @Column(name = "expired_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -91,10 +91,10 @@ data class AliceUserEntity(
     var theme: String = "",
 
     @Column(name = "avatar_type", length = 100)
-    var avatarType: String = AliceUserConstants.AvatarType.FILE.code,
+    var avatarType: String = UserConstants.AvatarType.FILE.code,
 
     @Column(name = "avatar_value", length = 512)
-    var avatarValue: String = AliceUserConstants.AVATAR_BASIC_FILE_NAME,
+    var avatarValue: String = UserConstants.AVATAR_BASIC_FILE_NAME,
 
     @Column(name = "uploaded")
     var uploaded: Boolean = false,

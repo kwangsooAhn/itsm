@@ -16,7 +16,6 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
@@ -170,13 +169,13 @@ class UserService(
         val targetKeys = mutableSetOf<String>()
 
         when (userSearchCompCondition.targetCriteria) {
-            AliceUserConstants.UserSearchTarget.ORGANIZATION.code -> {
+            UserConstants.UserSearchTarget.ORGANIZATION.code -> {
                 val organization = organizationRepository.findByOrganizationId(userSearchCompCondition.searchKeys)
                 val organizationList = organizationRepository.findByOrganizationSearchList(OrganizationSearchCondition())
                 val organizationNameList = organizationService.getOrganizationChildren(organization, organizationList, mutableListOf())
                 organizationNameList.forEach { targetKeys.add(it) }
             }
-            AliceUserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
+            UserConstants.UserSearchTarget.CUSTOM.code -> userSearchCompCondition.searchKeys.split(" ").forEach { targetKeys.add(it) }
         }
 
         val userSearchCondition = UserSearchCondition(
@@ -194,7 +193,7 @@ class UserService(
      */
     fun selectUserList(userSearchCondition: UserSearchCondition): UserListReturnDto {
         val pagingResult = userRepository.findAliceUserEntityList(userSearchCondition)
-        val totalCount = userRepository.countByUserIdNot(AliceUserConstants.CREATE_USER_ID)
+        val totalCount = userRepository.countByUserIdNot(UserConstants.CREATE_USER_ID)
         val userList: List<UserListDataDto> = mapper.convertValue(pagingResult.dataList, object : TypeReference<List<UserListDataDto>>() {})
         userList.forEach { user ->
             val avatarPath = userDetailsService.makeAvatarPath(user)
@@ -266,7 +265,7 @@ class UserService(
     fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): ZResponse {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
-            AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
+            UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
                 val userEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey =
@@ -290,7 +289,7 @@ class UserService(
                     aliceFileAvatarService.avatarFileNameMod(targetEntity)
                 }
 
-                when (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
+                when (userEditType == UserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     true -> {
                         userEntity.userRoleMapEntities.forEach {
                             userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
@@ -319,9 +318,9 @@ class UserService(
                 code = when (targetEntity.email == userEntity.email) {
                     true -> {
                         when (userEditType) {
-                            AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code ->
+                            UserConstants.UserEditType.ADMIN_USER_EDIT.code ->
                                 ZResponseConstants.STATUS.SUCCESS_EDIT.code
-                            AliceUserConstants.UserEditType.SELF_USER_EDIT.code ->
+                            UserConstants.UserEditType.SELF_USER_EDIT.code ->
                                 ZResponseConstants.STATUS.SUCCESS.code
                             else -> ZResponseConstants.STATUS.SUCCESS.code
                         }
@@ -341,20 +340,20 @@ class UserService(
             }
         }
 
-        if (userEditType == AliceUserConstants.UserEditType.SELF_USER_EDIT.code) {
+        if (userEditType == UserConstants.UserEditType.SELF_USER_EDIT.code) {
             when (code) {
                 ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code -> {
                     aliceCertificationMailService.sendMail(
                         userUpdateDto.userId,
                         userUpdateDto.email!!,
-                        AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+                        UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
                         null
                     )
                 }
                 else -> aliceCertificationMailService.sendMail(
                     userUpdateDto.userId,
                     userUpdateDto.email!!,
-                    AliceUserConstants.SendMailStatus.UPDATE_USER.code,
+                    UserConstants.SendMailStatus.UPDATE_USER.code,
                     null
                 )
             }
@@ -376,17 +375,17 @@ class UserService(
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-        var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
+        var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
         when (true) {
             (targetEntity.userId != userUpdateDto.userId) -> {
                 if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
-                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+                    code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
                 }
             }
             (targetEntity.email != userUpdateDto.email) -> {
                 if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
-                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
+                    code = UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
             }
             !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
@@ -436,7 +435,7 @@ class UserService(
      * (selectbox 용으로 key, id, name 조회)
      */
     fun selectUserListOrderByName(): MutableList<UserSelectListDto> {
-        val userList = userRepository.findByUserIdNotOrderByUserNameAsc(AliceUserConstants.CREATE_USER_ID)
+        val userList = userRepository.findByUserIdNotOrderByUserNameAsc(UserConstants.CREATE_USER_ID)
         val userDtoList = mutableListOf<UserSelectListDto>()
         for (userEntity in userList) {
             userDtoList.add(
@@ -479,7 +478,7 @@ class UserService(
         aliceCertificationMailService.sendMail(
             targetEntity.userId,
             targetEntity.email,
-            AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
+            UserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
             password
         )
         return ZResponse(

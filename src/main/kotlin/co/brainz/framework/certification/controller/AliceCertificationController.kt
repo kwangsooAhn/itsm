@@ -7,7 +7,7 @@ package co.brainz.framework.certification.controller
 
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.user.constants.UserConstants
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -43,7 +43,7 @@ class AliceCertificationController(private val aliceCertificationService: AliceC
         @RequestParam(value = "uid", defaultValue = "") uid: String,
         model: Model
     ): String {
-        var validCode: Int = AliceUserConstants.Status.ERROR.value
+        var validCode: Int = UserConstants.Status.ERROR.value
         if (uid != "") {
             validCode = aliceCertificationService.valid(uid)
         }

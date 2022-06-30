@@ -13,7 +13,6 @@ import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
@@ -22,6 +21,7 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.calendar.service.CalendarService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.user.constants.UserConstants
 import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.util.TimeZone
@@ -71,7 +71,7 @@ class AliceCertificationService(
     fun createUser(aliceSignUpDto: AliceSignUpDto, target: String?): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         when (signUpValid(aliceSignUpDto)) {
-            AliceUserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
+            UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val user = aliceCertificationRepository.save(this.setUserEntity(aliceSignUpDto, target))
                 if (user.uploaded) {
                     this.avatarFileNameMod(user)
@@ -81,10 +81,10 @@ class AliceCertificationService(
                 this.calendarService.setCalendar(user)
                 logger.info("New user created : $1", user.userName)
             }
-            AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code -> {
+            UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code -> {
                 status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
-            AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code -> {
+            UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code -> {
                 status = ZResponseConstants.STATUS.ERROR_DUPLICATE_EMAIL
             }
         }
@@ -95,15 +95,15 @@ class AliceCertificationService(
 
     fun signUpValid(aliceSignUpDto: AliceSignUpDto): String {
         var isContinue = true
-        var code: String = AliceUserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
+        var code: String = UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
         if (aliceCertificationRepository.countByUserId(aliceSignUpDto.userId) > 0) {
-            code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+            code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
         when (isContinue) {
             true -> {
                 if (aliceCertificationRepository.countByEmail(aliceSignUpDto.email) > 0) {
-                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
+                    code = UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
             }
         }
@@ -126,11 +126,11 @@ class AliceCertificationService(
     fun status(): Int {
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = findByUserId(userId)
-        var validCode: Int = AliceUserConstants.Status.SIGNUP.value
-        if (userDto.status == AliceUserConstants.Status.CERTIFIED.code) {
-            validCode = AliceUserConstants.Status.CERTIFIED.value
-        } else if (userDto.status == AliceUserConstants.Status.EDIT.code) {
-            validCode = AliceUserConstants.Status.EDIT.value
+        var validCode: Int = UserConstants.Status.SIGNUP.value
+        if (userDto.status == UserConstants.Status.CERTIFIED.code) {
+            validCode = UserConstants.Status.CERTIFIED.value
+        } else if (userDto.status == UserConstants.Status.EDIT.code) {
+            validCode = UserConstants.Status.EDIT.value
         }
         return validCode
     }
@@ -140,28 +140,28 @@ class AliceCertificationService(
         val decryptUid: String = AliceEncryptionUtil().encryptDecoder(uid, AliceConstants.EncryptionAlgorithm.AES256.value)
         val values: List<String> = decryptUid.split(":".toRegex())
         val userDto: AliceUserEntity = findByUserId(values[1])
-        var validCode: Int = AliceUserConstants.Status.SIGNUP.value
+        var validCode: Int = UserConstants.Status.SIGNUP.value
 
         when (userDto.status) {
-            AliceUserConstants.Status.SIGNUP.code, AliceUserConstants.Status.EDIT.code -> {
+            UserConstants.Status.SIGNUP.code, UserConstants.Status.EDIT.code -> {
                 validCode = when (values[0]) {
                     userDto.certificationCode -> {
                         val certificationDto = AliceCertificationDto(
                             userDto.userId,
                             userDto.email,
                             "",
-                            AliceUserConstants.Status.CERTIFIED.code,
+                            UserConstants.Status.CERTIFIED.code,
                             null
                         )
                         updateUser(certificationDto)
-                        AliceUserConstants.Status.CERTIFIED.value
+                        UserConstants.Status.CERTIFIED.value
                     }
                     else -> {
-                        AliceUserConstants.Status.ERROR.value
+                        UserConstants.Status.ERROR.value
                     }
                 }
             }
-            AliceUserConstants.Status.CERTIFIED.code -> validCode = AliceUserConstants.Status.OVER.value
+            UserConstants.Status.CERTIFIED.code -> validCode = UserConstants.Status.OVER.value
         }
         return validCode
     }
@@ -185,18 +185,18 @@ class AliceCertificationService(
             officeNumber = aliceSignUpDto.officeNumber,
             mobileNumber = aliceSignUpDto.mobileNumber,
             expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod),
-            status = AliceUserConstants.Status.SIGNUP.code,
+            status = UserConstants.Status.SIGNUP.code,
             oauthKey = "",
-            lang = AliceUserConstants.USER_LOCALE_LANG,
+            lang = UserConstants.USER_LOCALE_LANG,
             timezone = TimeZone.getDefault().id,
-            timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-            theme = AliceUserConstants.USER_THEME,
-            createUser = AliceUserConstants.CREATE_USER_ID
+            timeFormat = UserConstants.USER_TIME_FORMAT,
+            theme = UserConstants.USER_THEME,
+            createUser = UserConstants.CREATE_USER_ID
         )
 
         when (target) {
-            AliceUserConstants.ADMIN_ID -> {
-                user.status = AliceUserConstants.Status.CERTIFIED.code
+            UserConstants.ADMIN_ID -> {
+                user.status = UserConstants.Status.CERTIFIED.code
                 user.timezone = aliceSignUpDto.timezone!!
                 user.lang = aliceSignUpDto.lang!!
                 user.theme = aliceSignUpDto.theme!!
@@ -214,12 +214,12 @@ class AliceCertificationService(
     @Transactional
     fun setUserDetail(aliceSignUpDto: AliceSignUpDto, user: AliceUserEntity, target: String?) {
         when (target) {
-            AliceUserConstants.USER_ID -> {
-                getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach { role ->
+            UserConstants.USER_ID -> {
+                getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach { role ->
                     userRoleMapRepository.save(AliceUserRoleMapEntity(user, role))
                 }
             }
-            AliceUserConstants.ADMIN_ID -> {
+            UserConstants.ADMIN_ID -> {
                 aliceSignUpDto.roles!!.forEach {
                     userRoleMapRepository.save(AliceUserRoleMapEntity(user, roleRepository.findByRoleId(it)))
                 }

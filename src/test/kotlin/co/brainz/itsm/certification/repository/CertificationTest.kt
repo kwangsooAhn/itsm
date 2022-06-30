@@ -12,7 +12,7 @@ import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.certification.service.AliceKeyGeneratorService
-import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import java.time.LocalDateTime
 import java.util.TimeZone
@@ -76,7 +76,7 @@ class CertificationTest {
             timezone = TimeZone.getDefault().id,
             lang = "en",
             timeFormat = "YYYY-MM-DD HH:MM",
-            theme = AliceUserConstants.USER_THEME,
+            theme = UserConstants.USER_THEME,
             avatarPath = ""
         )
         val usernamePasswordAuthenticationToken =
@@ -91,7 +91,7 @@ class CertificationTest {
         assertThat(userDto.email).isEqualTo(email)
 
         // User status init.
-        val status: String = AliceUserConstants.Status.SIGNUP.code
+        val status: String = UserConstants.Status.SIGNUP.code
         val certificationCode = ""
         val aliceCertificationDto = AliceCertificationDto(userId, email, certificationCode, status)
         aliceCertificationService.updateUser(aliceCertificationDto)
@@ -99,7 +99,7 @@ class CertificationTest {
         // Check user status init.
         mvc.perform(get("/certification/status"))
             .andExpect(status().isOk)
-            .andExpect(model().attribute("validCode", AliceUserConstants.Status.SIGNUP.value))
+            .andExpect(model().attribute("validCode", UserConstants.Status.SIGNUP.value))
     }
 
     // Send Mail
@@ -120,7 +120,7 @@ class CertificationTest {
             userId,
             email,
             certificationKey,
-            AliceUserConstants.Status.SIGNUP.code
+            UserConstants.Status.SIGNUP.code
         )
         aliceCertificationService.updateUser(aliceCertificationDto)
 
@@ -129,6 +129,6 @@ class CertificationTest {
         val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
             .andExpect(status().isOk)
-            .andExpect(model().attribute("validCode", AliceUserConstants.Status.CERTIFIED.value))
+            .andExpect(model().attribute("validCode", UserConstants.Status.CERTIFIED.value))
     }*/
 }

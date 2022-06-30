@@ -3,8 +3,8 @@ package co.brainz.framework.certification.service
 import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.dto.AliceMailDto
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceEncryptionUtil
+import co.brainz.itsm.user.constants.UserConstants
 import java.net.Inet4Address
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -39,26 +39,26 @@ class AliceCertificationMailService(
     fun sendMail(userId: String, email: String, target: String?, password: String?) {
         var certificationKey: String =
             AliceKeyGeneratorService().getKey(AliceConstants.EMAIL_CERTIFICATION_KEY_SIZE, false)
-        var statusCode = AliceUserConstants.Status.SIGNUP.code
+        var statusCode = UserConstants.Status.SIGNUP.code
         var classficationCode: String? = ""
 
         when (target) {
-            AliceUserConstants.SendMailStatus.CREATE_USER.code -> {
-                statusCode = AliceUserConstants.Status.SIGNUP.code
+            UserConstants.SendMailStatus.CREATE_USER.code -> {
+                statusCode = UserConstants.Status.SIGNUP.code
             }
-            AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> {
-                statusCode = AliceUserConstants.Status.EDIT.code
+            UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code -> {
+                statusCode = UserConstants.Status.EDIT.code
             }
-            AliceUserConstants.SendMailStatus.UPDATE_USER.code,
-            AliceUserConstants.SendMailStatus.UPDATE_USER.code,
-            AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
-            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
-                if (target == AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code) {
-                    classficationCode = AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code
-                } else if (target == AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code) {
-                    classficationCode = AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code
+            UserConstants.SendMailStatus.UPDATE_USER.code,
+            UserConstants.SendMailStatus.UPDATE_USER.code,
+            UserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
+            UserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
+                if (target == UserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code) {
+                    classficationCode = UserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code
+                } else if (target == UserConstants.SendMailStatus.CREATE_USER_ADMIN.code) {
+                    classficationCode = UserConstants.SendMailStatus.CREATE_USER_ADMIN.code
                 }
-                statusCode = AliceUserConstants.Status.CERTIFIED.code
+                statusCode = UserConstants.Status.CERTIFIED.code
                 certificationKey = ""
             }
         }
@@ -67,10 +67,10 @@ class AliceCertificationMailService(
             AliceCertificationDto(userId, email, certificationKey, statusCode, password, classficationCode)
         aliceCertificationService.updateUser(certificationDto)
         when (target) {
-            AliceUserConstants.SendMailStatus.CREATE_USER.code,
-            AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
-            AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
-            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> if (mailEnabled) this.sendCertificationMail(certificationDto)
+            UserConstants.SendMailStatus.CREATE_USER.code,
+            UserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+            UserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
+            UserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> if (mailEnabled) this.sendCertificationMail(certificationDto)
         }
     }
 
@@ -103,23 +103,23 @@ class AliceCertificationMailService(
     private fun makeContextValues(aliceCertificationDto: AliceCertificationDto): Map<String, Any> {
         val params: MutableMap<String, Any> = HashMap()
         when (aliceCertificationDto.classificationCode) {
-            AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
+            UserConstants.SendMailStatus.CREATE_USER_ADMIN.code -> {
                 params["intro"] = "사용자 계정이 생성되었습니다."
                 params["message"] = "로그인 아이디 : " + aliceCertificationDto.userId + "\n" +
-                        "임시 비밀번호 : " + aliceCertificationDto.password
+                    "임시 비밀번호 : " + aliceCertificationDto.password
                 params["link"] = "$senderProtocol://$host:$senderPort/portals/main"
                 params["text"] = "ITSM으로 바로가기"
             }
-            AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code -> {
+            UserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code -> {
                 params["intro"] = "사용자 비밀번호가 초기화되었습니다."
                 params["message"] = "비밀번호 :" + aliceCertificationDto.password
             }
             else -> {
                 params["intro"] = "안녕하세요.\n" +
-                        "Zenius ITSM에 가입해주셔서 감사합니다."
+                    "Zenius ITSM에 가입해주셔서 감사합니다."
                 params["message"] = "본 메일은 Zenius ITSM 가입을 완료하기 위한 인증메일입니다.\n" +
-                        "만약 인증 메일을 요청하신 적이 없다면 본 메일을 삭제해주시기 바랍니다.\n" +
-                        "이메일 인증을 위해 아래 버튼을 클릭해주세요."
+                    "만약 인증 메일을 요청하신 적이 없다면 본 메일을 삭제해주시기 바랍니다.\n" +
+                    "이메일 인증을 위해 아래 버튼을 클릭해주세요."
                 params["link"] = this.makeLinkUrl(aliceCertificationDto)
                 params["text"] = "이메일 인증"
             }

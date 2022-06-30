@@ -1,8 +1,8 @@
 package co.brainz.itsm.layout.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.service.UserService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,8 +29,8 @@ class LayoutController(
         // 사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val userKey = currentSessionUser.getUserKey()
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
-        return if (userDto.status == AliceUserConstants.Status.SIGNUP.code ||
-            userDto.status == AliceUserConstants.Status.EDIT.code
+        return if (userDto.status == UserConstants.Status.SIGNUP.code ||
+            userDto.status == UserConstants.Status.EDIT.code
         ) {
             statusPage
         } else {
