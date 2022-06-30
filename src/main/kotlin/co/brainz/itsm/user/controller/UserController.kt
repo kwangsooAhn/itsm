@@ -190,7 +190,7 @@ class UserController(
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         val allCodes = userService.getInitCodeList()
-        model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
+        model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
         model.addAttribute("allRoles", roleService.getAllRoleList())
         model.addAttribute("mailEnabled", mailEnabled)

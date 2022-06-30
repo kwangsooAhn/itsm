@@ -503,17 +503,17 @@ class UserService(
      */
     fun getInitCodeList(): LinkedHashMap<String, List<CodeDto>> {
         val codes = mutableListOf(
-            UserConstants.PTHEMECODE.value,
-            UserConstants.PLANGCODE.value,
-            UserConstants.PDATECODE.value,
-            UserConstants.PTIMECODE.value
+            UserConstants.UserPCode.P_THEME_CODE.code,
+            UserConstants.UserPCode.P_LANG_CODE.code,
+            UserConstants.UserPCode.P_DATE_CODE.code,
+            UserConstants.UserPCode.P_TIME_CODE.code
         )
         val codeList = codeService.selectCodeByParent(codes)
         val allCodes: LinkedHashMap<String, List<CodeDto>> = LinkedHashMap()
-        allCodes["themeList"] = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
-        allCodes["langList"] = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
-        allCodes["dateList"] = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
-        allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
+        allCodes["themeList"] = AliceUtil().getCodes(codeList, UserConstants.UserPCode.P_THEME_CODE.code)
+        allCodes["langList"] = AliceUtil().getCodes(codeList, UserConstants.UserPCode.P_LANG_CODE.code)
+        allCodes["dateList"] = AliceUtil().getCodes(codeList, UserConstants.UserPCode.P_DATE_CODE.code)
+        allCodes["timeList"] = AliceUtil().getCodes(codeList, UserConstants.UserPCode.P_TIME_CODE.code)
         return allCodes
     }
 
