@@ -71,7 +71,7 @@ class AliceCertificationService(
     fun createUser(aliceSignUpDto: AliceSignUpDto, target: String?): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         when (signUpValid(aliceSignUpDto)) {
-            UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
+            UserConstants.ResponseStatus.STATUS_VALID_SUCCESS.code -> {
                 val user = aliceCertificationRepository.save(this.setUserEntity(aliceSignUpDto, target))
                 if (user.uploaded) {
                     this.avatarFileNameMod(user)
@@ -81,10 +81,10 @@ class AliceCertificationService(
                 this.calendarService.setCalendar(user)
                 logger.info("New user created : $1", user.userName)
             }
-            UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code -> {
+            UserConstants.ResponseStatus.STATUS_ERROR_USER_ID_DUPLICATION.code -> {
                 status = ZResponseConstants.STATUS.ERROR_DUPLICATE
             }
-            UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code -> {
+            UserConstants.ResponseStatus.STATUS_ERROR_EMAIL_DUPLICATION.code -> {
                 status = ZResponseConstants.STATUS.ERROR_DUPLICATE_EMAIL
             }
         }
@@ -95,15 +95,15 @@ class AliceCertificationService(
 
     fun signUpValid(aliceSignUpDto: AliceSignUpDto): String {
         var isContinue = true
-        var code: String = UserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code
+        var code: String = UserConstants.ResponseStatus.STATUS_VALID_SUCCESS.code
         if (aliceCertificationRepository.countByUserId(aliceSignUpDto.userId) > 0) {
-            code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+            code = UserConstants.ResponseStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
             isContinue = false
         }
         when (isContinue) {
             true -> {
                 if (aliceCertificationRepository.countByEmail(aliceSignUpDto.email) > 0) {
-                    code = UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
+                    code = UserConstants.ResponseStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
             }
         }

@@ -145,21 +145,14 @@ object UserConstants {
     }
 
     /**
-     * 사용자 등록 상태.
+     * 사용자 등록, 수정 응답 상태
      */
-    enum class SignUpStatus(val code: String) {
+    enum class ResponseStatus(val code: String) {
         STATUS_VALID_SUCCESS("-1"),
         STATUS_SUCCESS("Z-0000"),
         STATUS_ERROR("E-0000"),
         STATUS_ERROR_USER_ID_DUPLICATION("E-0001"),
         STATUS_ERROR_EMAIL_DUPLICATION("E-0007")
-    }
-
-    /**
-     * 사용자 수정 상태
-     */
-    enum class UserEditStatus(val code: String) {
-        STATUS_VALID_SUCCESS("-1")
     }
 
     /**

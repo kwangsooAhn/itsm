@@ -265,7 +265,7 @@ class UserService(
     fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): ZResponse {
         var code: String = userEditValid(userUpdateDto)
         when (code) {
-            UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
+            UserConstants.ResponseStatus.STATUS_VALID_SUCCESS.code -> {
                 val userEntity = userDetailsService.selectUserKey(userUpdateDto.userKey)
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey =
@@ -375,17 +375,17 @@ class UserService(
         val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-        var code: String = UserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
+        var code: String = UserConstants.ResponseStatus.STATUS_VALID_SUCCESS.code
 
         when (true) {
             (targetEntity.userId != userUpdateDto.userId) -> {
                 if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
-                    code = UserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+                    code = UserConstants.ResponseStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
                 }
             }
             (targetEntity.email != userUpdateDto.email) -> {
                 if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
-                    code = UserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
+                    code = UserConstants.ResponseStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
             }
             !roleService.isExistSystemRoleByUser(userUpdateDto.userKey, userUpdateDto.roles) -> {
