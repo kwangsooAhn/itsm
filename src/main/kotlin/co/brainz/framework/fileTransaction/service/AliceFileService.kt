@@ -192,7 +192,7 @@ class AliceFileService(
             if (extSet.contains(file.extension.toUpperCase())) {
                 val oriFileNameWithoutExtension = file.nameWithoutExtension
                 var num = 1
-                var fileName = file.name
+                var fileName: String
                 while (file.exists()) { // 동일한 파일이 존재하는 경우
                     fileName = oriFileNameWithoutExtension + "(" + num++ + ")." + file.extension
 

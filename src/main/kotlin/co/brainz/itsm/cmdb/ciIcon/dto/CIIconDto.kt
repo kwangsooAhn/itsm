@@ -1,3 +1,8 @@
+/*
+ * Copyright 2022 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.cmdb.ciIcon.dto
 
 import java.io.Serializable
