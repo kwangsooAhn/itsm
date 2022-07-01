@@ -176,22 +176,29 @@ class AliceFileService(
 
     /**
      * 파일관리 파일 업로드.
+     * 신규 파일이 기존 파일과 이름이 동일 할 경우 파일명(1).jpg 와 같이 변경된다.
      */
     fun uploadFiles(multipartFiles: List<MultipartFile>): ZResponse {
-        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val dir = aliceFileProvider.getExternalDir("")
+        val dirPath = super.getPath(dir)
         val extSet = mutableSetOf<String>()
         aliceFileProvider.getFileNameExtension().forEach {
             extSet.add(it.fileNameExtension.toUpperCase())
         }
         multipartFiles.forEach {
-            val filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
-            val file = filePath.toFile()
+            var filePath = Paths.get(dirPath.toString() + File.separator + it.originalFilename)
+            var file = filePath.toFile()
+            // 확장자가 유효한지 체크
             if (extSet.contains(file.extension.toUpperCase())) {
+                val oriFileNameWithoutExtension = file.nameWithoutExtension
                 var num = 1
-                var fileName = file.name
-                while (file.exists()) {
-                    fileName = file.nameWithoutExtension + "(" + num++ + ")." + file.extension
-                    file.renameTo(File(dir.toFile(), fileName))
+                var fileName: String
+                while (file.exists()) { // 동일한 파일이 존재하는 경우
+                    fileName = oriFileNameWithoutExtension + "(" + num++ + ")." + file.extension
+
+                    // 현재 올라간 파일의 파일명을 변경한다.
+                    filePath = Paths.get(dirPath.toString() + File.separator + fileName)
+                    file = filePath.toFile()
                 }
                 it.transferTo(file)
             }

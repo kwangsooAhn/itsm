@@ -64,6 +64,8 @@ insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/cmdb/icons', 'get', 'cmdb.manage');
+insert into awf_url_auth_map values ('/cmdb/icons', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/custom-codes', 'get', 'system.manage');
@@ -173,6 +175,9 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.man
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons', 'put', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons/{id}', 'delete', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'post', 'cmdb.manage');

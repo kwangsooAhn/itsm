@@ -71,7 +71,6 @@
           // 더블 클릭시 fileName 수정 가능
           .z-input {
             display: none;
-            width: 12.19rem; // 195px
             height: 1.875rem; // 30px
             float: left;
           }
@@ -143,6 +142,9 @@
 
     .modal-content {
       height: calc(45rem - 3.875rem - 5rem); // 720px
+      // 검색창
+      .z-input { margin: 0.625rem 0.4375rem; }
+      .z-search-count { visibility: hidden; }
 
       .z-thumbnail-main {
         height: auto;

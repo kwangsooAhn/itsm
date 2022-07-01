@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/itsm/pageType/commonSearchLayout}">
+<head>
+    <title th:text="#{cmdb.icon.label.list}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{cmdb.icon.label.list}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{cmdb.icon.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <div>
+        <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{cmdb.icon.label.name}"/>
+        <span id="totalCount" class="z-search-count"></span>
+        <span class="z-search-count">/</span>
+        <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+    </div>
+</div>
+<div layout:fragment="pageSearchResult">
+    <div class="z-file-content-edit flex-fill">
+        <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
+    </div>
+</div>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const hasAuthority = /*[[${#authorization.expression('hasAuthority("cmdb.manage")')}]]*/'';
+    const acceptFileNameList = ['.png', '.jpg', '.jpeg', '.gif']; // 확장자
+    const maxFileSize = 10 * 1024; // 파일 사이즈 10KB 제한
+    let previewModal;
+    let offsetCount = 0;
+    window.onload = function() {
+        getFiles(false);
+        // 미리보기 모달 생성
+        previewModal = new modal({
+            title: `<span class="z-thumbnail-preview-name text-ellipsis"></span>`,
+            body: `<div class="z-thumbnail-preview-file"></div>`,
+            classes: 'z-thumbnail-preview',
+            buttons: [{
+                content: '[(#{common.btn.close})]',
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: function(modal) { modal.hide(); }
+            }],
+            close: { closable: false },
+            onHide: function() {
+                // 기존 선택된  클래스를 제거
+                document.querySelectorAll('.z-thumbnail.selected').forEach((thumbnail) => {
+                    thumbnail.classList.remove('selected');
+                });
+            }
+        });
+
+        // 썸네일 표시
+        document.getElementById('searchValue').focus();
+        document.getElementById('searchValue').addEventListener('keyup', function() {
+            aliceJs.pressKeyForAction(event, 'Enter', function() {
+                document.getElementById('thumbnailMain').innerHTML = '';
+
+                getFiles(false);
+            });
+        });
+
+        // 스크롤바 표시
+        OverlayScrollbars(document.querySelector('.z-page-content'), {
+            className: 'scrollbar',
+            callbacks: {
+                onScroll: function(e) {
+                    const scrollHeight = e.target.scrollHeight;
+                    const scrollTop = e.target.scrollTop;
+                    const clientHeight = e.target.clientHeight;
+                    if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight) &&
+                        aliceJs.isEnableScrollEvent(offsetCount)) {
+                        getFiles(true);
+                    }
+                }
+            }
+        });
+    };
+
+    /**
+     * 아이콘 파일 조회
+     * @param isScroll 스크롤여부
+     */
+    function getFiles(isScroll) {
+        let urlParam = 'searchValue=' + document.getElementById('searchValue').value;
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = aliceJs.fileOffsetCount;
+            }
+        } else {
+            offsetCount = 0;
+        }
+
+        urlParam += '&offset=' + offsetCount;
+        aliceJs.fetchJson('/rest/cmdb/icons?' + urlParam, {
+            method: 'GET',
+            showProgressbar: true
+        }).then((response) => {
+            if (response.status !== aliceJs.response.success) { return false; }
+
+            const container = document.getElementById('thumbnailMain');
+
+            // 권한이 존재할 경우 파일 업로드 영역 그려줌
+            if (hasAuthority && container.querySelector('.z-thumbnail-upload') === null) {
+                const uploadTemplate = getThumbnailUploadTemplate();
+                container.insertAdjacentHTML('beforeend', uploadTemplate);
+            }
+
+            if (isScroll) {
+                if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                    offsetCount = offsetCount + aliceJs.fileOffsetCount;
+                }
+            } else {
+                // 카운트
+                let count = JSON.stringify(response.data.totalCount);
+                aliceJs.showTotalCount(count, 'totalCount');
+                document.getElementById('totalCount').value = count;
+
+                // 전체 카운트
+                document.getElementById('spanTotalCountWithoutCondition').innerText =
+                    i18n.msg('common.label.totalCountWithoutCondition', response.data.totalCountWithoutCondition);
+            }
+
+            // 썸네일 그리기
+            let thumbnailTemplate = ``;
+            response.data.data.forEach((file) => {
+                thumbnailTemplate += getThumbnailTemplate(file);
+            });
+            container.insertAdjacentHTML('beforeend', thumbnailTemplate);
+        });
+    }
+
+    /**
+     *  썸네일 템플릿 반환
+     *  @param image 이미지 파일
+     */
+    function getThumbnailTemplate(image) {
+        const thumbnailText = `${image.width} X ${image.height} (${image.size})`;
+        return `<div class="z-thumbnail" tabindex="-1">
+                <div class="z-thumbnail-image" onclick="preview(this);"
+                    style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
+                <div class="z-thumbnail-info">
+                    <p class="z-thumbnail-info-text">
+                        <label id="updateLabel" class="z-thumbnail-image-name text-ellipsis" title="${image.name}"
+                            ${hasAuthority && image.editable ? ' ondblclick="renameFile(this);"' : ''}>${image.name}
+                        </label>
+                        <input type="text" class="z-input float-left" maxlength="128"/>
+                    </p>
+                    <p class="z-thumbnail-info-text">
+                        <label class="text-ellipsis">${thumbnailText}</label>
+                    </p>
+                </div>
+                <div class="z-thumbnail-bottom">
+                    <label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>
+                    ${hasAuthority && image.editable ? `<button type="button" class="z-button-icon float-right" ` +
+                    `data-name="${image.name}" onclick="removeFile(this);">` +
+                    `<span class="z-icon i-delete"></span></button>` : ``}
+                </div>
+            </div>`.trim();
+    }
+
+    /**
+     * 썸네일 업로드 템플릿 반환
+     */
+    function getThumbnailUploadTemplate() {
+        return `<div class="z-thumbnail-upload align-center"
+                    onclick="document.getElementById('uploadFile').click();" tabindex="-1">
+                    <span class="z-icon i-file-upload"></span>
+                    <p class="z-thumbnail-upload-text underline mt-2">[(#{cmdb.icon.label.upload})]</p>
+                    <input type="file" id="uploadFile" accept="${acceptFileNameList.join()}"
+                        multiple onchange="uploadFile(this);" style="display: none;"/>
+                </div>`.trim();
+    }
+
+    /**
+     * 파일 삭제
+     * @param image 이미지 파일
+     */
+    function removeFile(image) {
+        zAlert.confirm('[(#{common.msg.confirmDelete})]', () => {
+            aliceJs.fetchJson('/rest/cmdb/icons/' + image.dataset.name, {
+                method: 'DELETE'
+            }).then((response) => {
+                switch (response.status) {
+                    case aliceJs.response.success:
+                        zAlert.success('[(#{common.msg.delete})]', () => {
+                            document.getElementById('thumbnailMain').removeChild(image.parentNode.parentNode);
+
+                            // 카운트 변경
+                            const deleteAfterCount = Number(document.getElementById('totalCount').value) - 1;
+                            document.getElementById('totalCount').value = deleteAfterCount;
+                            aliceJs.showTotalCount(deleteAfterCount, 'totalCount');
+                            aliceJs.showTotalCount(deleteAfterCount, 'spanTotalCountWithoutCondition');
+                        });
+                        break;
+                    case aliceJs.response.error:
+                        zAlert.danger('[(#{common.msg.fail})]');
+                        break;
+                    case aliceJs.response.notFound:
+                        zAlert.warning('[(#{cmdb.icon.msg.notFoundInTable})]');
+                        break;
+                    default:
+                        break;
+                }
+            });
+        });
+    }
+
+    /**
+     * 파일명 변경시 이벤트 핸들러
+     * @param e 이벤트 객체
+     */
+    function renameEventHandler(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        e.target.removeEventListener('blur', renameEventHandler);
+        e.target.removeEventListener('keyup', renameEventHandler);
+
+        const labelElem = e.target.parentNode.querySelector('label');
+        e.target.style.display = 'none';
+        labelElem.style.display = 'block';
+
+        const name = labelElem.textContent.trim();
+        const extension = name.split('.').pop();
+
+        const value = e.target.value.trim();
+        // 유효성 검증
+        if (fileNameSpecialCharCheck(value)) { return false; }
+
+        const modifyName = (value !== '') ? value + '.' + extension : '';
+        if (name === modifyName) { return false; }
+
+        aliceJs.fetchJson('/rest/cmdb/icons', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ originName: name, modifyName: modifyName })
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    labelElem.textContent = modifyName;
+                    labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
+                    break;
+                case aliceJs.response.notExist:
+                    zAlert.warning('[(#{file.msg.failedRename})]');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger('[(#{common.msg.fail})]');
+                    break;
+                case aliceJs.response.notFound:
+                    zAlert.warning('[(#{cmdb.icon.msg.notFoundInTable})]');
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    /**
+     * 파일명 변경
+     * @param target 삭제 버튼 객체
+     */
+    function renameFile(target) {
+        const name = target.textContent.trim();
+        target.style.display = 'none';
+
+        let inputObj = target.parentNode.querySelector('input');
+        let extension = name.split('.').pop();
+        inputObj.value = name.split('.' + extension)[0];
+        inputObj.style.display = 'block';
+
+        inputObj.addEventListener('blur', renameEventHandler, false);
+        inputObj.addEventListener('keyup', function(e) {
+            if (e.keyCode === 13) {
+                e.target.blur();
+            }
+        }, false);
+        inputObj.focus();
+    }
+
+    /**
+     * 파일명 특수문자(/ \ % ;) 체크
+     */
+    function fileNameSpecialCharCheck(name) {
+        const regex = new RegExp('[./\\\\%]');
+
+        if (name.match(regex)) {
+            zAlert.warning('[(#{file.msg.unacceptableCharacters})]');
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 파일 업로드
+     * @param fileObj 파일 객체
+     */
+    function uploadFile(fileObj) {
+        const fileList = fileObj.files;
+
+        if (fileList.length === 0) { return false; }
+
+        // 첨부파일 사이즈 제한
+        const maxSizeFile = Array.from(fileList).find(file => file.size > maxFileSize);
+        if (maxSizeFile) {
+            zAlert.warning(i18n.msg('cmdb.icon.msg.maxFileSize'));
+            return false;
+        }
+        // 확장자 체크
+        const allowedExtensions = acceptFileNameList.map(extensionName => extensionName.replace('.', ''));
+        if (isAllowedExtensions(allowedExtensions, fileList)) {
+            saveFile(fileList);
+        } else {
+            zAlert.confirm('[(#{file.msg.existNotAllowedExtension})]', saveFile, () => {
+                document.getElementById('uploadFile').value = '';  // 취소시 file object 값 비움 처리
+            });
+        }
+    }
+
+    /**
+     * 파일 저장
+     * @param fileList 파일 목록
+     */
+    function saveFile(fileList) {
+        const xhr = new XMLHttpRequest(),
+            formData = new FormData();
+
+        Array.from(fileList).forEach((file) => {
+            formData.append('files', file);
+        });
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 썸네일 그리기
+                const responseFileList = JSON.parse(xhr.responseText);
+                let thumbnailTemplate = ``;
+                responseFileList.forEach((file) => {
+                    thumbnailTemplate += getThumbnailTemplate(file);
+                });
+                document.getElementById('thumbnailMain').insertAdjacentHTML('beforeend', thumbnailTemplate);
+            }
+        };
+        xhr.open('POST', '/rest/cmdb/icons', true);
+        xhr.send(formData);
+
+        // 성공시 file object 값 비움 처리
+        document.getElementById('uploadFile').value = '';
+        // 페이지 재로딩
+        location.reload();
+    }
+
+    /**
+     * 이미지 미리보기
+     * @param thumbnail 선택된 썸네일 객체
+     */
+    function preview(thumbnail) {
+        thumbnail.parentNode.classList.add('selected');
+
+        // 이미지 파일명 제목 표시
+        const previewModalHeader = previewModal.wrapper.querySelector('.z-thumbnail-preview-name');
+        if (previewModalHeader !== null) {
+            const imageName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+            previewModalHeader.textContent = imageName;
+            previewModalHeader.setAttribute('title', imageName);
+        }
+
+        // 내부 이미지 경로 변경
+        const previewModalContent = previewModal.wrapper.querySelector('.z-thumbnail-preview-file');
+        if (previewModalContent !== null) {
+            previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
+        }
+        // 모달 호출
+        previewModal.show();
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

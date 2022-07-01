@@ -10717,6 +10717,12 @@ body.modal-active {
 .modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
   height: calc(48.44rem - 3.875rem - 5rem);
 }
+.modal-dialog.z-thumbnail-image .modal-content .z-input, .modal-dialog.z-thumbnail-file .modal-content .z-input {
+  margin: 0.625rem;
+}
+.modal-dialog.z-thumbnail-image .modal-content .z-search-count, .modal-dialog.z-thumbnail-file .modal-content .z-search-count {
+  visibility: hidden;
+}
 .modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
   width: 14.375rem;
 }
@@ -12466,7 +12472,6 @@ body.modal-active {
 }
 .z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text:first-child .z-input {
   display: none;
-  width: 12.19rem;
   height: 1.875rem;
   float: left;
 }
@@ -12531,6 +12536,12 @@ body.modal-active {
 }
 .modal-dialog.z-thumbnail-icon .modal-content {
   height: calc(45rem - 3.875rem - 5rem);
+}
+.modal-dialog.z-thumbnail-icon .modal-content .z-input {
+  margin: 0.625rem 0.4375rem;
+}
+.modal-dialog.z-thumbnail-icon .modal-content .z-search-count {
+  visibility: hidden;
 }
 .modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main {
   height: auto;

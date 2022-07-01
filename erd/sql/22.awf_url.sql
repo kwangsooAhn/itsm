@@ -45,6 +45,7 @@ insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute
 insert into awf_url values ('/cmdb/attributes/list-modal', 'get', 'CMDB Attribute 목록 모달 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
+insert into awf_url values ('/cmdb/icons', 'get', 'CMDB 아이콘 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis', 'post', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
@@ -165,6 +166,10 @@ insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}/attributes', 'get', 'CI 컴포넌트 - CI CLASS에 따른 세부 속성 조회', 'FALSE');
+insert into awf_url values ('/rest/cmdb/icons', 'get', 'CMDB 아이콘 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/cmdb/icons', 'post', 'CMDB 아이콘 파일 업로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/icons', 'put', 'CMDB 아이콘 파일명 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/icons/{id}', 'delete', 'CMDB 아이콘 파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'post', 'CMDB Type 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
