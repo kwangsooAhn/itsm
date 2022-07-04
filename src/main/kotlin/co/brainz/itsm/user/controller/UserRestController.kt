@@ -10,13 +10,13 @@ import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.role.service.RoleService
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserUpdateDto
@@ -73,12 +73,12 @@ class UserRestController(
         val publicKey = aliceCryptoRsa.getPublicKey()
         aliceSignUpDto.password = password?.let { aliceCryptoRsa.encrypt(publicKey, it) }
 
-        val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
+        val result = aliceCertificationService.createUser(aliceSignUpDto, UserConstants.ADMIN_ID)
         if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
             aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
-                AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code,
+                UserConstants.SendMailStatus.CREATE_USER_ADMIN.code,
                 password
             )
         }
@@ -94,7 +94,7 @@ class UserRestController(
         request: HttpServletRequest,
         response: HttpServletResponse
     ): ResponseEntity<ZResponse> {
-        val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
+        val result = userService.updateUserEdit(user, UserConstants.UserEditType.ADMIN_USER_EDIT.code)
         if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
             result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
             result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||
@@ -123,7 +123,7 @@ class UserRestController(
         var result: ZResponse? = null
         val userSessionRoleCheck = userService.userSessionRoleCheck(user.userKey, setOf(AliceConstants.SYSTEM_ROLE))
         if (userSessionRoleCheck == ZResponseConstants.STATUS.SUCCESS.code) {
-            result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
+            result = userService.updateUserEdit(user, UserConstants.UserEditType.SELF_USER_EDIT.code)
             if (result.status == ZResponseConstants.STATUS.SUCCESS.code ||
                 result.status == ZResponseConstants.STATUS.SUCCESS_EDIT.code ||
                 result.status == ZResponseConstants.STATUS.SUCCESS_EDIT_EMAIL.code ||

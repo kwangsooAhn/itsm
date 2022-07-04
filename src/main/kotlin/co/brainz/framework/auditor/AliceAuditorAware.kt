@@ -3,7 +3,7 @@ package co.brainz.framework.auditor
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.user.constants.UserConstants
 import java.util.Optional
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.AuditorAware
@@ -24,7 +24,7 @@ open class AliceAuditorAware : AuditorAware<AliceUserEntity> {
         val securityContext = attr.request.getSession(false)
             ?.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY) as SecurityContext?
 
-        var aliceUserEntity = AliceUserEntity(userKey = AliceUserConstants.CREATE_USER_ID)
+        var aliceUserEntity = AliceUserEntity(userKey = UserConstants.CREATE_USER_ID)
 
         if (securityContext != null) {
             aliceUserEntity = userMapper.toAliceUserEntity(securityContext.authentication.details as AliceUserDto)
