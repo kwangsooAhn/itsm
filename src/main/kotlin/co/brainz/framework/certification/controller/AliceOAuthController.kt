@@ -4,7 +4,7 @@ import co.brainz.framework.certification.dto.AliceOAuthDto
 import co.brainz.framework.certification.service.AliceOAuthServiceGoogle
 import co.brainz.framework.certification.service.AliceOAuthServiceKakao
 import co.brainz.framework.certification.service.OAuthService
-import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.user.constants.UserConstants
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
@@ -32,10 +32,10 @@ class AliceOAuthController(
 
         var platformUrl: String = "redirect:/"
         when (platform) {
-            AliceUserConstants.Platform.GOOGLE.value -> {
+            UserConstants.Platform.GOOGLE.value -> {
                 platformUrl = oAuthServiceGoogle.platformUrl()
             }
-            AliceUserConstants.Platform.KAKAO.value -> {
+            UserConstants.Platform.KAKAO.value -> {
                 platformUrl = oAuthServiceKakao.platformUrl()
             }
         }
@@ -52,16 +52,16 @@ class AliceOAuthController(
 
         var oAuthDto = AliceOAuthDto()
         when (platform) {
-            AliceUserConstants.Platform.GOOGLE.value -> {
+            UserConstants.Platform.GOOGLE.value -> {
                 val parameters: MultiValueMap<String, String> = oAuthServiceGoogle.setParameters(code)
-                oAuthDto = oAuthServiceGoogle.callback(parameters, AliceUserConstants.Platform.GOOGLE.code)
+                oAuthDto = oAuthServiceGoogle.callback(parameters, UserConstants.Platform.GOOGLE.code)
             }
-            AliceUserConstants.Platform.KAKAO.value -> {
+            UserConstants.Platform.KAKAO.value -> {
                 val error = request.getParameter("error")
                 when (request.getParameter("error")) {
                     null -> {
                         val parameters: MultiValueMap<String, String> = oAuthServiceKakao.setParameters(code)
-                        oAuthDto = oAuthServiceKakao.callback(parameters, AliceUserConstants.Platform.KAKAO.code)
+                        oAuthDto = oAuthServiceKakao.callback(parameters, UserConstants.Platform.KAKAO.code)
                     }
                     else -> logger.error(error)
                 }

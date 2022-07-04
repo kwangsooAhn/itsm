@@ -13,8 +13,8 @@ import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceOAuthDto
 import co.brainz.framework.certification.repository.AliceCertificationRepository
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.time.LocalDateTime
@@ -63,14 +63,14 @@ class OAuthService(
             false -> {
                 logger.info("oAuth Save {}", aliceOAuthDto.oauthKey)
                 val user = oAuthSave(aliceOAuthDto)
-                oAuthDefaultOption(user, AliceUserConstants.USER_ID)
+                oAuthDefaultOption(user, UserConstants.USER_ID)
             }
         }
         oAuthLogin(aliceOAuthDto)
     }
 
     fun oAuthDefaultOption(user: AliceUserEntity, target: String) {
-        aliceCertificationService.getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code)
+        aliceCertificationService.getDefaultUserRoleList(UserConstants.DefaultRole.USER_DEFAULT_ROLE.code)
             .forEach { role ->
                 userRoleMapRepository.save(AliceUserRoleMapEntity(user, role))
             }
@@ -84,14 +84,14 @@ class OAuthService(
             userName = aliceOAuthDto.userName,
             email = aliceOAuthDto.email,
             expiredDt = LocalDateTime.now().plusDays(passwordExpiredPeriod),
-            status = AliceUserConstants.Status.CERTIFIED.code,
+            status = UserConstants.UserStatus.CERTIFIED.code,
             platform = aliceOAuthDto.platform,
             oauthKey = aliceOAuthDto.oauthKey,
             timezone = TimeZone.getDefault().id,
-            lang = AliceUserConstants.USER_LOCALE_LANG,
-            timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-            theme = AliceUserConstants.USER_THEME,
-            createUser = AliceUserConstants.CREATE_USER_ID
+            lang = UserConstants.USER_LOCALE_LANG,
+            timeFormat = UserConstants.USER_TIME_FORMAT,
+            theme = UserConstants.USER_THEME,
+            createUser = UserConstants.CREATE_USER_ID
         )
         return aliceCertificationRepository.save(userEntity)
     }

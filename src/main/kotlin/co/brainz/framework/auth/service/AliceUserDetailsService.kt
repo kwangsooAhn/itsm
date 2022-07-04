@@ -17,13 +17,13 @@ import co.brainz.framework.auth.repository.AliceUrlRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.repository.UserRepository
 import java.security.PrivateKey
@@ -120,13 +120,13 @@ class AliceUserDetailsService(
         }
 
         return when (avatarType) {
-            AliceUserConstants.AvatarType.FILE.code ->
+            UserConstants.AvatarType.FILE.code ->
                 if (uploaded) {
-                    resourcesUriPath + "/" + AliceUserConstants.AVATAR_IMAGE_DIR + "/" + avatarValue
+                    resourcesUriPath + "/" + UserConstants.AVATAR_IMAGE_DIR + "/" + avatarValue
                 } else {
-                    AliceUserConstants.AVATAR_BASIC_FILE_PATH + AliceUserConstants.AVATAR_BASIC_FILE_NAME
+                    UserConstants.AVATAR_BASIC_FILE_PATH + UserConstants.AVATAR_BASIC_FILE_NAME
                 }
-            AliceUserConstants.AvatarType.URL.code -> uploadedLocation
+            UserConstants.AvatarType.URL.code -> uploadedLocation
             else -> uploadedLocation
         }
     }

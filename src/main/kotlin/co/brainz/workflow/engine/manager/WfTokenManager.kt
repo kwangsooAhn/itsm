@@ -131,7 +131,8 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             }
 
             WfTokenConstants.AssigneeType.USERS.code,
-            WfTokenConstants.AssigneeType.GROUPS.code -> {}
+            WfTokenConstants.AssigneeType.GROUPS.code -> {
+            }
 
             else -> {
                 token.assigneeId = this.assigneeId

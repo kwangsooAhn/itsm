@@ -18,7 +18,6 @@ import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.itsm.auth.dto.AuthDto
@@ -28,6 +27,7 @@ import co.brainz.itsm.auth.dto.AuthSearchCondition
 import co.brainz.itsm.auth.dto.AuthUrlDto
 import co.brainz.itsm.auth.repository.AuthRepository
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.user.constants.UserConstants
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -243,7 +243,7 @@ class AuthService(
      */
     fun getDefaultUrlList(): List<AuthUrlDto> {
         val defaultUrlList = mutableListOf<AuthUrlDto>()
-        val defaultCodeList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code)
+        val defaultCodeList = codeService.selectCodeByParent(UserConstants.DefaultUrl.USER_DEFAULT_URL.code)
         defaultCodeList.forEach { defaultCode ->
             val methodCodeList = codeService.selectCodeByParent(defaultCode.code)
             methodCodeList.forEach { methodCode ->
