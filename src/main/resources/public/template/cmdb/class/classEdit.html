@@ -311,6 +311,12 @@
         txtClassSeq.value = '';
         txtClassSeq.readOnly = false;
 
+        txtClassName.previousElementSibling.classList.add('required');
+        txtClassSeq.previousElementSibling.classList.add('required');
+        attributeList.parentElement.firstElementChild.firstElementChild.classList.add('required');
+        document.querySelector('button[name=alarmConditionButton]').disabled = false;
+        document.querySelector('button[name=classAttributeButton]').disabled = false;
+
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {
             document.getElementById('txtPClassName').value = selectedNode.dataset.name;
