@@ -120,70 +120,65 @@ class AliceFileService(
 
     /**
      * 임시 경로에 업로드된 파일을 실제 경로에 업로드하고 파일관리테이블에 uploaded 상태를 true 변경하여 조회가 가능하도록 한다.
-     * 업로드 간 삭제할 파일이 있다면 동시에 같이 삭제한다.
      *
-     * @param aliceFileDto
+     * @param data
      */
-    fun upload(aliceFileDto: AliceFileDto) {
-        for (fileSeq in aliceFileDto.fileSeq.orEmpty()) {
-            val fileLocEntity = aliceFileLocRepository.getOne(fileSeq)
-            val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-            val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
-            Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+    fun upload(data: Any) {
+        var fileLocEntity: AliceFileLocEntity
+        when (data) {
+            is AliceFileDto -> {
+                for (fileSeq in data.fileSeq.orEmpty()) {
+                    fileLocEntity = aliceFileLocRepository.getOne(fileSeq)
+                    this.moveFile(fileLocEntity, false)
+                    fileLocEntity.uploaded = true
 
-            logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
-            logger.debug(
-                ">> 여기에 업로드 파일 {}({})",
-                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName,
-                fileLocEntity.randomName
-            )
+                    try {
+                        val fileOwnMapEntity = AliceFileOwnMapEntity(data.ownId, fileLocEntity)
+                        aliceFileOwnMapRepository.save(fileOwnMapEntity)
+                    } catch (e: Exception) {
+                        logger.error("{}", e.message)
+                        this.moveFile(fileLocEntity, true)
+                        throw AliceException(AliceErrorConstants.ERR, e.message)
+                    }
+                }
 
-            fileLocEntity.uploaded = true
-
-            try {
-                val fileOwnMapEntity = AliceFileOwnMapEntity(aliceFileDto.ownId, fileLocEntity)
-                aliceFileOwnMapRepository.save(fileOwnMapEntity)
-            } catch (e: Exception) {
-                logger.error("{}", e.message)
-                Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
-                throw AliceException(AliceErrorConstants.ERR, e.message)
+                for (delFileSeq in data.delFileSeq.orEmpty()) {
+                    this.delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(delFileSeq).fileLocEntity)
+                }
             }
-        }
-
-        for (delFileSeq in aliceFileDto.delFileSeq.orEmpty()) {
-            this.delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(delFileSeq).fileLocEntity)
-        }
-    }
-
-    /**
-     * 문서에서 사용한다.
-     * 임시 업로드된 파일을 업로드한다.
-     * 임시 업로드 경로에 업로드된 파일을 업로드하고 파일관리테이블에 uploaded 상태를 true 변경하여 조회가 가능하도록 한다.
-     *
-     * @param fileDataId
-     */
-    fun uploadFiles(fileDataId: String) {
-        val fileDataIds = fileDataId.split(',')
-
-        for (index in fileDataIds.indices) {
-            if (fileDataIds[index].isNotEmpty()) {
-                val fileLocEntity = aliceFileLocRepository.getOne(fileDataIds[index].toLong())
-                val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-                val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
-
-                if (Files.exists(tempPath)) {
-                    Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+            is String -> {
+                val fileDataIds = data.split(',')
+                fileDataIds.forEach { id ->
+                    fileLocEntity = aliceFileLocRepository.getOne(id.toLong())
+                    this.moveFile(fileLocEntity, false)
                     fileLocEntity.uploaded = true
 
                     try {
                         aliceFileLocRepository.save(fileLocEntity)
                     } catch (e: Exception) {
                         logger.error("{}", e.message)
-                        Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
+                        this.moveFile(fileLocEntity, true)
                         throw AliceException(AliceErrorConstants.ERR, e.message)
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * 파일을 특정 경로로 이동 및 복원한다.
+     *
+     * @param fileLocEntity
+     * @param isRollback
+     */
+    private fun moveFile(fileLocEntity: AliceFileLocEntity, isRollback: Boolean) {
+        val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
+        val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
+
+        if (isRollback) {
+            Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
+        } else {
+            Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
         }
     }
 
