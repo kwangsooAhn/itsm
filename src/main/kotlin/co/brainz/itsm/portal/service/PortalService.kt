@@ -16,7 +16,7 @@ import co.brainz.itsm.faq.repository.FaqRepository
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.portal.dto.PortalListReturnDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
-import co.brainz.itsm.portal.dto.PortalTopDto
+import co.brainz.itsm.portal.dto.PortalTopListDto
 import co.brainz.itsm.portal.repository.PortalRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -41,12 +41,12 @@ class PortalService(
         )
     }
 
-    fun getTopList(limit: Long): LinkedHashMap<String, List<PortalTopDto>> {
-        val top = LinkedHashMap<String, List<PortalTopDto>>()
-        top["notice"] = noticeRepository.findNoticeTopList(limit)
-        top["faq"] = faqRepository.findFaqTopList(limit)
-        top["archive"] = archiveRepository.findArchiveTopList(limit)
-        return top
+    fun getTopList(limit: Long): PortalTopListDto {
+        return PortalTopListDto(
+            notice = noticeRepository.findNoticeTopList(limit),
+            faq = faqRepository.findFaqTopList(limit),
+            archive = archiveRepository.findArchiveTopList(limit)
+        )
     }
 
     fun getFaqCategories(faqId: String?): LinkedHashMap<String, Any> {

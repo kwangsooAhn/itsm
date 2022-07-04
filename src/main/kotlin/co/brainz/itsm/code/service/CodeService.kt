@@ -92,18 +92,17 @@ class CodeService(
         when (search.isEmpty()) {
             true -> {
                 pagingResult = codeRepository.findByCodeAll()
-                val allList = pagingResult
                 val codeSearchList = mutableListOf<CodeEntity>()
                 if (pCode.isNotEmpty()) {
                     val codeList = mutableListOf<CodeEntity>()
-                    val pCodeEntity = allList.filter { it.code == pCode }[0]
+                    val pCodeEntity = pagingResult.filter { it.code == pCode }[0]
                     if (pCodeEntity !== null) {
                         codeList.add(pCodeEntity)
-                        getChildCode(allList, pCodeEntity, codeList)
+                        getChildCode(pagingResult, pCodeEntity, codeList)
                     }
                     codeSearchList.addAll(codeList)
                 } else {
-                    codeSearchList.addAll(allList)
+                    codeSearchList.addAll(pagingResult)
                 }
                 count = codeSearchList.size.toLong()
                 returnList = codeSearchList
