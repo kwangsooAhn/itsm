@@ -104,6 +104,20 @@ class AliceFileService(
         return aliceFileLocEntity
     }
 
+
+    /**
+     *  파일을 특정 경로에 업로드한다.
+     *
+     * @param multipartFile
+     * @param path
+     */
+    fun uploadDirect(multipartFile: MultipartFile, path: String) {
+        val dir = super.getPath(path)
+        val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
+
+        multipartFile.transferTo(filePath.toFile())
+    }
+
     /**
      * 임시 경로에 업로드된 파일을 실제 경로에 업로드하고 파일관리테이블에 uploaded 상태를 true 변경하여 조회가 가능하도록 한다.
      * 업로드 간 삭제할 파일이 있다면 동시에 같이 삭제한다.
@@ -171,18 +185,6 @@ class AliceFileService(
                 }
             }
         }
-    }
-
-    /**
-     * 프로세스 상태 표시를 위한 프로세스 XML 파일을 업로드한다.
-     *
-     * @param multipartFile
-     */
-    fun uploadProcessFile(multipartFile: MultipartFile) {
-        val dir = super.getPath(FileConstants.Path.PROCESSES.path)
-        val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
-
-        multipartFile.transferTo(filePath.toFile())
     }
 
     /**
