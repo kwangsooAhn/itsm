@@ -24,7 +24,6 @@ import co.brainz.itsm.scheduler.dto.SchedulerHistorySearchCondition
 import co.brainz.itsm.scheduler.dto.SchedulerListDto
 import co.brainz.itsm.scheduler.dto.SchedulerListReturnDto
 import co.brainz.itsm.scheduler.dto.SchedulerSearchCondition
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -62,8 +61,7 @@ class SchedulerService(
     fun getSchedulers(schedulerSearchCondition: SchedulerSearchCondition): SchedulerListReturnDto {
         val latelyHistory = aliceScheduleHistoryRepository.findScheduleLatelyHistory()
         val pagingResult = aliceScheduleTaskRepository.findByScheduleList(schedulerSearchCondition)
-        val pagingList: List<AliceScheduleTaskEntity> =
-            mapper.convertValue(pagingResult.dataList, object : TypeReference<List<AliceScheduleTaskEntity>>() {})
+        val pagingList: List<AliceScheduleTaskEntity> = pagingResult.dataList as List<AliceScheduleTaskEntity>
         val schedulerList = mutableListOf<SchedulerListDto>()
 
         for (scheduler in pagingList) {

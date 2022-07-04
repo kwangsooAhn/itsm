@@ -6,9 +6,8 @@
 
 package co.brainz.cmdb.ciClass.entity
 
-import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
-import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -46,22 +45,8 @@ data class CIClassEntity(
     var classLevel: Int? = null,
 
     @Column(name = "class_seq")
-    var classSeq: Int? = null,
-
-    @Column(name = "create_dt", nullable = false, updatable = false)
-    var createDt: LocalDateTime? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key")
-    var createUser: AliceUserEntity? = null,
-
-    @Column(name = "update_dt", insertable = false)
-    var updateDt: LocalDateTime? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
-    var updateUser: AliceUserEntity? = null
-) : Serializable {
+    var classSeq: Int? = null
+) : Serializable, AliceMetaEntity() {
     @OneToMany(mappedBy = "ciClass", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     val ciClassAttributeMapEntities = mutableListOf<CIClassAttributeMapEntity>()
 }
