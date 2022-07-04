@@ -2210,7 +2210,7 @@
         });
 
         // documents
-        const documentUrl = '/rest/documents?searchDocumentStatus=document.status.use';
+        const documentUrl = '/rest/documents?searchDocumentStatus=document.status.use&searchDocumentType=workflow';
         const loadDocuments = async () => await aliceJs.fetchJson(documentUrl, {
             method: 'GET'
         }).then((response) => {

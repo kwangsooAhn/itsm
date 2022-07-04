@@ -66,6 +66,7 @@ class WfDocumentRepositoryImpl :
                     }
                 } else {
                     super.eq(document.documentStatus, documentSearchCondition.searchDocumentStatus)
+                    super.eq(document.documentType, documentSearchCondition.searchDocumentType)
                 },
                 super.likeIgnoreCase(document.documentName, documentSearchCondition.searchDocuments)
                     ?.or(
