@@ -73,20 +73,13 @@ class AliceFileService(
         val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileName)
         val filePath = super.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
-        /*val metadata = Metadata()   // #11810 일감으로 주석처리함. (첨부파일 등록시 확장자만 검사하고, 파일내용까지는 검사하지말자)
-        metadata[Metadata.RESOURCE_NAME_KEY] = multipartFile.originalFilename
-        metadata[Metadata.CONTENT_TYPE] = multipartFile.contentType
-        val mediaType = Tika().detect(multipartFile.inputStream, metadata)*/
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
-        val fileExtensionEntity = aliceFileNameExtensionRepository.findByIdOrNull(fileNameExtension)
-        // if (fileExtensionEntity == null || fileExtensionEntity.fileContentType != mediaType) //#11810 일감으로 주석처리함. (첨부파일 등록시 확장자만 검사하고, 파일내용까지는 검사하지말자)
-        if (fileExtensionEntity == null) {
-            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension  is not allowed.")
-        }
+        aliceFileNameExtensionRepository.findByIdOrNull(fileNameExtension)
+            ?: throw AliceException(AliceErrorConstants.ERR_00001, "The file extension  is not allowed.")
 
         multipartFile.transferTo(tempPath.toFile())
 
@@ -117,13 +110,16 @@ class AliceFileService(
             val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
             val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
             Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+
             logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
             logger.debug(
                 ">> 여기에 업로드 파일 {}({})",
                 fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName,
                 fileLocEntity.randomName
             )
+
             fileLocEntity.uploaded = true
+
             try {
                 val fileOwnMapEntity = AliceFileOwnMapEntity(aliceFileDto.ownId, fileLocEntity)
                 aliceFileOwnMapRepository.save(fileOwnMapEntity)
@@ -133,6 +129,7 @@ class AliceFileService(
                 throw AliceException(AliceErrorConstants.ERR, e.message)
             }
         }
+
         for (delFileSeq in aliceFileDto.delFileSeq.orEmpty()) {
             this.delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(delFileSeq).fileLocEntity)
         }
@@ -145,14 +142,17 @@ class AliceFileService(
      */
     fun uploadFiles(fileDataId: String) {
         val fileDataIds = fileDataId.split(',')
+
         for (index in fileDataIds.indices) {
             if (fileDataIds[index].isNotEmpty()) {
                 val fileLocEntity = aliceFileLocRepository.getOne(fileDataIds[index].toLong())
                 val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
                 val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
+
                 if (Files.exists(tempPath)) {
                     Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
                     fileLocEntity.uploaded = true
+
                     try {
                         aliceFileLocRepository.save(fileLocEntity)
                     } catch (e: Exception) {
@@ -171,6 +171,7 @@ class AliceFileService(
     fun uploadProcessFile(multipartFile: MultipartFile) {
         val dir = super.getPath(FileConstants.Path.PROCESSES.path)
         val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
+
         multipartFile.transferTo(filePath.toFile())
     }
 
@@ -180,15 +181,18 @@ class AliceFileService(
     fun uploadFiles(multipartFiles: List<MultipartFile>): ZResponse {
         val dir = super.getPath(FileConstants.Path.FILE.path)
         val extSet = mutableSetOf<String>()
+
         aliceFileProvider.getFileNameExtension().forEach {
             extSet.add(it.fileNameExtension.toUpperCase())
         }
+
         multipartFiles.forEach {
             val filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
             val file = filePath.toFile()
             if (extSet.contains(file.extension.toUpperCase())) {
                 var num = 1
                 var fileName = file.name
+
                 while (file.exists()) {
                     fileName = file.nameWithoutExtension + "(" + num++ + ")." + file.extension
                     file.renameTo(File(dir.toFile(), fileName))
@@ -196,6 +200,7 @@ class AliceFileService(
                 it.transferTo(file)
             }
         }
+
         return ZResponse()
     }
 
@@ -207,14 +212,17 @@ class AliceFileService(
         val filePath = Paths.get(dir.toString() + File.separator + name)
         val file = filePath.toFile()
         var fileDetailDto: AliceFileDetailDto? = null
+
         if (file.exists()) {
             var width: Int? = null
             var height: Int? = null
+
             if (aliceFileProvider.getAllowedImageExtensions().indexOf(file.extension.toLowerCase()) > -1) {
                 val bufferedImage = ImageIO.read(file)
                 width = bufferedImage.width
                 height = bufferedImage.height
             }
+
             fileDetailDto = AliceFileDetailDto(
                 name = file.name,
                 extension = file.extension,
@@ -225,8 +233,10 @@ class AliceFileService(
                 size = super.humanReadableByteCount(file.length()),
                 updateDt = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault())
             )
+
             fileDetailDto.width = width
         }
+
         return fileDetailDto
     }
 
@@ -237,12 +247,14 @@ class AliceFileService(
         var status = ZResponseConstants.STATUS.SUCCESS
         val dir = super.getPath(FileConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
+
         try {
             Files.delete(filePath)
         } catch (e: IOException) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
             e.printStackTrace()
         }
+
         return ZResponse(
             status = status.code
         )
@@ -257,6 +269,7 @@ class AliceFileService(
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dir.toFile(), modifyName)
+
         if (file.exists() && !modifyFile.exists()) {
             try {
                 file.renameTo(modifyFile)
@@ -266,6 +279,7 @@ class AliceFileService(
         } else {
             status = ZResponseConstants.STATUS.ERROR_FAIL
         }
+
         return ZResponse(
             status = status.code
         )
@@ -276,9 +290,11 @@ class AliceFileService(
      */
     fun getList(ownId: String, fileDataId: String): List<AliceFileOwnMapDto> {
         val aliceFileOwnMapList: MutableList<AliceFileOwnMapDto> = mutableListOf()
-        if (ownId != "") {
+
+        if (ownId.isNotBlank()) {
             val fileOwnMapEntities =
                 aliceFileOwnMapRepository.findFileOwnIdAndFileLocUploaded(ownId, true)
+
             for (fileOwnMapEntity in fileOwnMapEntities) {
                 val fileLocEntity = fileOwnMapEntity.fileLocEntity
                 val fileLocDto = AliceFileLocDto(
@@ -295,10 +311,12 @@ class AliceFileService(
                     ownId = fileOwnMapEntity.ownId,
                     fileLocDto = fileLocDto
                 )
+
                 aliceFileOwnMapList.add(fileOwnMapDto)
             }
-        } else if (fileDataId != "") {
+        } else if (fileDataId.isNotBlank()) {
             val fileDataIds = fileDataId.split(',')
+
             for (index in fileDataIds.indices) {
                 val aliceFileLocEntity = aliceFileLocRepository.getOne(fileDataIds[index].toLong())
                 val fileLocDto = AliceFileLocDto(
@@ -318,6 +336,7 @@ class AliceFileService(
                 aliceFileOwnMapList.add(fileOwnMapDto)
             }
         }
+
         return aliceFileOwnMapList
     }
 
@@ -334,6 +353,7 @@ class AliceFileService(
      */
     fun delete(ownId: String) {
         val fileOwnMapEntityList = aliceFileOwnMapRepository.findAllByOwnId(ownId)
+
         for (fileOwnMapEntity in fileOwnMapEntityList) {
             this.delete(fileOwnMapEntity.fileLocEntity)
         }
@@ -345,9 +365,11 @@ class AliceFileService(
     fun download(fileName: String): ResponseEntity<InputStreamResource> {
         this.fileNameSpecialCheck(fileName)
         userService.userAccessAuthCheck("", AuthConstants.AuthType.WORKFLOW_MANAGE.value)
+
         val dir = super.getPath(FileConstants.Path.FILE.path)
         val resource =
             FileSystemResource(Paths.get(dir.toString() + File.separator + fileName))
+
         if (resource.exists() && fileName.isNotEmpty()) {
             return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
@@ -366,6 +388,7 @@ class AliceFileService(
         val fileLocEntity = aliceFileLocRepository.getOne(seq)
         val resource =
             FileSystemResource(Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName))
+
         if (resource.exists()) {
             return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(Tika().detect(resource.path)))
@@ -411,6 +434,7 @@ class AliceFileService(
      */
     private fun fileNameSpecialCheck(fileName: String) {
         val regexChar = "[/\\\\%]".toRegex()
+
         if (regexChar.containsMatchIn(fileName)) {
             throw AliceException(
                 AliceErrorConstants.ERR_00005,
