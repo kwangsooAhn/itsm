@@ -166,23 +166,6 @@ class AliceFileService(
     }
 
     /**
-     * 파일을 특정 경로로 이동 및 복원한다.
-     *
-     * @param fileLocEntity
-     * @param isRollback
-     */
-    private fun moveFile(fileLocEntity: AliceFileLocEntity, isRollback: Boolean) {
-        val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-        val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
-
-        if (isRollback) {
-            Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
-        } else {
-            Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
-        }
-    }
-
-    /**
      * 파일 목록을 가져온다.
      *
      * @param ownId
@@ -495,6 +478,23 @@ class AliceFileService(
                 AliceErrorConstants.ERR_00005,
                 AliceErrorConstants.ERR_00005.message + "Invalid file name :  $fileName"
             )
+        }
+    }
+
+    /**
+     * 파일을 특정 경로로 이동 및 복원한다.
+     *
+     * @param fileLocEntity
+     * @param isRollback
+     */
+    private fun moveFile(fileLocEntity: AliceFileLocEntity, isRollback: Boolean) {
+        val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
+        val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
+
+        if (isRollback) {
+            Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
+        } else {
+            Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
         }
     }
 }
