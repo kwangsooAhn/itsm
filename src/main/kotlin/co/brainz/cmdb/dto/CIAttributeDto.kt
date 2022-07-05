@@ -15,7 +15,7 @@ data class CIAttributeDto(
     val attributeDesc: String? = null,
     val attributeText: String = "",
     val attributeType: String? = null,
-    val attributeValue: String? = null,
+    val attributeValue: Any? = null,
     val searchYn: Boolean = false,
     val searchWidth: String? = null,
     val mappingId: String? = null,

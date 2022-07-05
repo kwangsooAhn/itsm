@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.board.controller
 
+import co.brainz.itsm.board.constants.BoardConstants
 import co.brainz.itsm.board.dto.BoardArticleSearchCondition
 import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.dto.BoardDto
@@ -217,7 +218,7 @@ class BoardController(
      */
     @GetMapping("/articles/{boardId}/reply/edit")
     fun getBoardArticleReplyEdit(@PathVariable boardId: String, model: Model): String {
-        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticleDetail(boardId, "reply")
+        val boardArticleDtoInfo: BoardArticleViewDto = boardArticleService.getBoardArticleDetail(boardId, BoardConstants.REPLY)
         if (boardArticleDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute(
                 "boardCategoryInfo",

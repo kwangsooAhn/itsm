@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.cmdb.ciAttribute.controller
 
+import co.brainz.cmdb.dto.CIAttributeDto
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ciAttribute.dto.CIAttributeSearchCondition
@@ -42,8 +43,8 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
      * CI Attribute 등록.
      */
     @PostMapping("")
-    fun createCIAttribute(@RequestBody attributeData: String): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(ciAttributeService.saveCIAttribute(attributeData))
+    fun createCIAttribute(@RequestBody ciAttributeDto: CIAttributeDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciAttributeService.saveCIAttribute(ciAttributeDto))
     }
 
     /**
@@ -52,10 +53,10 @@ class CIAttributeRestController(private val ciAttributeService: CIAttributeServi
     @PutMapping("/{attributeId}")
     fun updateCIAttribute(
         @PathVariable attributeId: String,
-        @RequestBody attributeData: String
+        @RequestBody ciAttributeDto: CIAttributeDto
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(
-            ciAttributeService.updateCIAttribute(attributeId, attributeData)
+            ciAttributeService.updateCIAttribute(attributeId, ciAttributeDto)
         )
     }
 
