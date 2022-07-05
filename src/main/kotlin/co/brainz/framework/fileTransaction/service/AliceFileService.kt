@@ -148,8 +148,8 @@ class AliceFileService(
             }
             is String -> {
                 val fileDataIds = data.split(',')
-                fileDataIds.forEach { id ->
-                    fileLocEntity = aliceFileLocRepository.getOne(id.toLong())
+                for (fileDataId in fileDataIds) {
+                    fileLocEntity = aliceFileLocRepository.getOne(fileDataId.toLong())
                     this.moveFile(fileLocEntity, false)
                     fileLocEntity.uploaded = true
 
