@@ -1155,11 +1155,11 @@ menu:
   workflow:
     customCode: "Custom Code"
     form: "Form"
-    file: "File"
     numberingPattern: "Pattern"
     numberingRule: "Document Number"
     parent: "Workflow"
     process: "Process"
+    resource: "Resource"
     workflowAdmin: "Workflow"
   cmdb:
     parent: "CMDB"
@@ -1846,9 +1846,13 @@ project:
 
 # uploader
 file:
+  btn:
+    folder: "+ Folder"
   label:
+    folderName: "Folder Name"
     list: "File Management"
     name: "File"
+    newFolder: "New Folder"
     or: "or"
     placeholder: "Select Your File"
     popupTitle: "Select File"

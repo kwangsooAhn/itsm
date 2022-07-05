@@ -1155,11 +1155,11 @@ menu:
   workflow:
     customCode: "커스텀 코드"
     form: "문서양식"
-    file: "파일 관리"
     numberingPattern: "패턴"
     numberingRule: "문서번호 규칙"
     parent: "업무흐름 관리"
     process: "프로세스"
+    resource: "리소스 관리"
     workflowAdmin: "업무흐름"
   cmdb:
     parent: "CMDB"
@@ -1847,9 +1847,13 @@ project:
 
 # uploader
 file:
+  btn:
+    folder: "+ 폴더"
   label:
+    folderName: "폴더 이름"
     list: "파일 관리"
     name: "파일 이름"
+    newFolder: "새 폴더"
     or: "또는"
     placeholder: "Select Your File"
     popupTitle: "파일 선택"
@@ -1937,3 +1941,15 @@ tooltip:
     userTask: "유저 태스크"
     manualTask: "매뉴얼 태스크"
     scriptTask: "스크립트 태스크"
+
+# Resource
+resource:
+  btn:
+    file: "파일 추가"
+    folder: "폴더 추가"
+  label:
+    folderName: "폴더 이름"
+    list: "리소스 관리"
+    searchPlaceholder: "폴더 이름 / 파일 이름"
+  msg:
+    searchDescription: "공유 폴더/파일을 추가하거나 삭제, 조회하는 등 관리하는 메뉴입니다. "

@@ -291,7 +291,7 @@ class AliceFileProvider(
         if (currentOffset == -1) {
             endIndex = maxSize // 전체 목록 조회인 경우
         } else {
-            endIndex = currentOffset + ItsmConstants.IMAGE_OFFSET_COUNT
+            endIndex = (currentOffset + ItsmConstants.IMAGE_OFFSET_COUNT).toInt()
             if (maxSize < endIndex) endIndex = maxSize
         }
         return endIndex

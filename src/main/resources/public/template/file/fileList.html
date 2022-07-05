@@ -12,11 +12,26 @@
 </div>
 <div layout:fragment="pageSearching">
     <div>
-        <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
+        <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{file.label.name}"/>
         <span id="totalCount" class="z-search-count"></span>
         <span class="z-search-count">/</span>
         <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+        <div class="ml-auto">
+            <button type="button" class="z-button secondary" id="calendarTemplateUpload"
+                    onclick="javascript:openAddFolderModal()" th:text="#{file.btn.folder}"></button>
+        </div>
     </div>
+    <!-- 폴더 추가 모달 -->
+    <template id="addFolderModalTemplate">
+        <div class="flex-column">
+            <label class="field-label" for="newFolderName">
+                <span th:text="#{file.label.folderName}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" class="z-input" id="newFolderName" data-validation-required="true">
+        </div>
+    </template>
 </div>
 <div layout:fragment="pageSearchResult">
     <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
@@ -34,11 +49,9 @@
     let previewModal;
     let acceptFileNameList;
     let offsetCount = 0;
-    window.onload = function () {
+    window.onload = function() {
         // 파일 허용 확장자 조회 (awf_file_name_extension 테이블)
-        acceptFileNameList = (/*[[${acceptFileNameList}]]*/'').map((fileName) => {
-            return '.' + (fileName.fileNameExtension).trim().toLowerCase();
-        });
+        acceptFileNameList = (/*[[${acceptFileNameList}]]*/'').map((fileName) => '.' + (fileName.fileNameExtension).trim().toLowerCase());
         getFiles(false);
         // 미리보기 모달 생성
         previewModal = new modal({
@@ -64,8 +77,8 @@
         });
         // 썸네일 표시
         document.getElementById('searchValue').focus();
-        document.getElementById('searchValue').addEventListener('keyup', function () {
-            aliceJs.pressKeyForAction(event, 'Enter', function () {
+        document.getElementById('searchValue').addEventListener('keyup', function() {
+            aliceJs.pressKeyForAction(event, 'Enter', function() {
                 document.getElementById('thumbnailMain').innerHTML = '';
                 getFiles(false);
             });
@@ -74,7 +87,7 @@
         OverlayScrollbars(document.querySelector('.z-page-content'), {
             className: 'scrollbar',
             callbacks: {
-                onScroll: function (e) {
+                onScroll: function(e) {
                     const scrollHeight = e.target.scrollHeight;
                     const scrollTop = e.target.scrollTop;
                     const clientHeight = e.target.clientHeight;
@@ -86,7 +99,8 @@
                 }
             }
         });
-    }
+    };
+
     function getFiles(isScroll) {
         let urlParam = 'type=file&searchValue=' + document.getElementById('searchValue').value;
         if (isScroll) {
@@ -110,7 +124,7 @@
             if (isScroll) {
                 if (aliceJs.isEnableScrollEvent(offsetCount)) {
                     offsetCount = offsetCount + aliceJs.fileOffsetCount;
-                    response.data.data.forEach(function (file) {
+                    response.data.data.forEach(function(file) {
                         addThumbnail(file);
                     });
                 }
@@ -118,7 +132,7 @@
                 let count = JSON.stringify(response.data.totalCount);
                 aliceJs.showTotalCount(count, 'totalCount');
                 document.getElementById('totalCount').value = count;
-                response.data.data.forEach(function (file) {
+                response.data.data.forEach(function(file) {
                     addThumbnail(file);
                 });
                 document.getElementById('spanTotalCountWithoutCondition').innerText =
@@ -128,14 +142,14 @@
                     );
             }
             if (updatable === 'false') {
-                document.querySelectorAll('label[name="updateLabel"]').forEach(function (updateLabel) {
-                    updateLabel.ondblclick = function () {
+                document.querySelectorAll('label[name="updateLabel"]').forEach(function(updateLabel) {
+                    updateLabel.ondblclick = function() {
                         return;
                     };
                 });
             }
             if (deletable === 'false') {
-                document.querySelectorAll('button[name="deleteBtn"]').forEach(function (deleteBtn) {
+                document.querySelectorAll('button[name="deleteBtn"]').forEach(function(deleteBtn) {
                     deleteBtn.style.display = 'none';
                 });
             }
@@ -262,7 +276,7 @@
         inputObj.style.display = 'block';
 
         inputObj.addEventListener('blur', renameEventHandler, false);
-        inputObj.addEventListener('keyup', function (e) {
+        inputObj.addEventListener('keyup', function(e) {
             if (e.keyCode === 13) {
                 e.target.blur();
             }
@@ -281,10 +295,8 @@
     function uploadFile(fileObj) {
         let fileList = fileObj.files;
         if (fileList.length > 0) {
-            const allowedExtensions = acceptFileNameList.map((extentionName) => {
-                return extentionName.replace('.', '');
-            });
-            const saveFile = function () {
+            const allowedExtensions = acceptFileNameList.map((extentionName) => extentionName.replace('.', ''));
+            const saveFile = function() {
                 let xhr = new XMLHttpRequest(),
                     formData = new FormData();
                 for (let i = 0, len = fileList.length; i < len; i++) {
@@ -297,11 +309,11 @@
                             addThumbnail(list[i]);
                         }
                     }
-                }
+                };
                 xhr.open('POST', '/rest/files', true);
                 xhr.send(formData);
                 document.getElementById('uploadFile').value = '';
-            }
+            };
 
             if (isAllowedExtensions(allowedExtensions, fileList)) {
                 saveFile();
@@ -357,6 +369,45 @@
         }
         // 모달 호출
         previewModal.show();
+    }
+
+    /**
+     * 폴더 추가 모달
+     */
+    function openAddFolderModal() {
+        const addFolderModalTemplate = document.getElementById('addFolderModalTemplate');
+        const addFolderModal = new modal({
+            title: '[(#{file.label.newFolder})]',
+            body: addFolderModalTemplate.content.cloneNode(true),
+            classes: '',
+            buttons: [{
+                content: i18n.msg('common.btn.register'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    addFolder(() => { modal.hide(); });
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => { modal.hide(); }
+            }],
+            close: { closable: false }
+        });
+        addFolderModal.show();
+    }
+
+    /**
+     * 폴더 추가
+     */
+    function addFolder(callback) {
+        if (isEmpty('newFolderName', 'file.msg.folderName')) return false;
+
+
+        if (typeof callback === 'function') {
+            callback();
+        }
     }
 
     /*]]>*/

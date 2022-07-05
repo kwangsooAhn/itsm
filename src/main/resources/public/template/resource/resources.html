@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
+<head>
+    <title th:text="#{resource.label.list}"></title>
+</head>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{resource.label.list}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{resource.msg.searchDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <form id="frmSearch">
+        <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+               th:placeholder="#{resource.label.searchPlaceholder}"/>
+        <span id="spanTotalCount" class="z-search-count"></span>
+        <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
+    </form>
+    <div class="ml-auto">
+        <button type="button" class="z-button secondary" th:text="#{resource.btn.folder}"
+                onclick="javascript:openAddFolderModal()"></button>
+        <button type="button" class="z-button secondary" th:text="#{resource.btn.file}"
+                onclick="javascript:addFile()"></button>
+        <div class="z-button-switch-group" id="pageType">
+            <button class="z-button-switch selected" type="button" data-action="thumbnail"
+                    onclick="javascript:onClickPageType(this);">
+                <span class="z-icon i-plus"><!--TODO: 아이콘 변경 --></span>
+            </button>
+            <button class="z-button-switch" type="button" data-action="list"
+                    onclick="javascript:onClickPageType(this);">
+                <span class="z-icon i-plus"><!--TODO: 아이콘 변경 --></span>
+            </button>
+        </div>
+    </div>
+    <!-- 폴더 추가 모달 -->
+    <template id="addFolderModalTemplate">
+        <div class="flex-column">
+            <label class="field-label" for="newFolderName">
+                <span th:text="#{file.label.folderName}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" class="z-input" id="newFolderName" data-validation-required="true">
+        </div>
+    </template>
+</div>
+<div layout:fragment="pageList">
+    <div class="z-list-content flex-row" id="resources">
+        <th:block th:fragment="list">
+            <!-- 리스트 보기 -->
+            <th:block th:if="${pageType == 'list'}">
+            <div class="grid" style="--data-columns-width: 5% 18% 18% 10% 18% 26% 5%">
+                <div class="grid__head">
+                    <div class="grid__row">
+                    </div>
+                </div>
+                <div class="grid__body">
+                </div>
+            </div>
+            </th:block>
+            <!-- 썸네일 보기 -->
+            <th:block th:unless="${pageType == 'list'}">
+
+            </th:block>
+        </th:block>
+    </div>
+</div>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    const hasAuthority = /*[[${#authorization.expression('hasAuthority("workflow.manage")')}]]*/'';
+
+    window.onload = function() {
+
+        getResources();
+
+        document.getElementById('searchValue').addEventListener('keyup', function() {
+            aliceJs.pressKeyForAction(event, 'Enter', function() {
+                getResources();
+            });
+        });
+    };
+
+    /**
+     * 리소스 조회(검색 포함)
+     * @param pageNum
+     */
+    function getResources(pageNum = 1) {
+        const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
+        const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
+        const pageType = document.querySelector('.z-button-switch.selected');
+
+        let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
+            + '&pageType=' + pageType.getAttribute('data-action')
+            + '&orderColName=' + orderColName
+            + '&orderDir=' + orderDir;
+        console.log(urlParam);
+        aliceJs.fetchText('/resources?' + urlParam, {
+            method: 'GET'
+        }).then((htmlData) => {
+            console.log(htmlData);
+            //document.getElementById('resources').innerHTML = htmlData;
+        });
+    }
+
+    /**
+     * 폴더 추가 모달
+     */
+    function openAddFolderModal() {
+        const addFolderModalTemplate = document.getElementById('addFolderModalTemplate');
+        const addFolderModal = new modal({
+            title: '[(#{file.label.newFolder})]',
+            body: addFolderModalTemplate.content.cloneNode(true),
+            classes: '',
+            buttons: [{
+                content: i18n.msg('common.btn.register'),
+                classes: 'z-button primary',
+                bindKey: false,
+                callback: (modal) => {
+                    addFolder(() => { modal.hide(); });
+                }
+            }, {
+                content: i18n.msg('common.btn.cancel'),
+                classes: 'z-button secondary',
+                bindKey: false,
+                callback: (modal) => { modal.hide(); }
+            }],
+            close: { closable: false }
+        });
+        addFolderModal.show();
+    }
+
+    /**
+     * 폴더 추가
+     */
+    function addFolder(callback) {
+        if (isEmpty('newFolderName', 'file.msg.folderName')) return false;
+
+
+        if (typeof callback === 'function') {
+            callback();
+        }
+    }
+
+    /**
+     * 파일 추가
+     */
+    function addFile() {
+
+    }
+
+    /**
+     * 리스트 보기 | 썸네일 보기
+     */
+    function onClickPageType(e) {
+        const buttonGroup = e.parentNode;
+        // 초기화
+        for (let i = 0, len = buttonGroup.children.length ; i< len; i++) {
+            let child = buttonGroup.children[i];
+            if (child.classList.contains('selected')) {
+                child.classList.remove('selected');
+            }
+        }
+        e.classList.add('selected');
+
+        // 초회
+        getResources();
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>
