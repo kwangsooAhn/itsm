@@ -262,6 +262,12 @@
         typeAlias.readOnly = false;
         typeSeq.readOnly = false;
 
+        typeName.previousElementSibling.classList.add('required');
+        typeAlias.previousElementSibling.classList.add('required');
+        typeSeq.previousElementSibling.classList.add('required');
+        document.querySelector('#parentTypeName').previousElementSibling.classList.add('required');
+        document.querySelector('#typeClass').parentElement.previousElementSibling.classList.add('required');
+
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {
             document.querySelector('#parentTypeName').value = selectedNode.dataset.name;
