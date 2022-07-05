@@ -18,7 +18,6 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
-import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.util.AliceFileUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
@@ -78,7 +77,6 @@ class WfTokenManagerService(
     private val viewerRepository: ViewerRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val pluginService: PluginService,
-    private val aliceTagRepository: AliceTagRepository,
     environment: Environment
 ) : AliceFileUtil(environment) {
 

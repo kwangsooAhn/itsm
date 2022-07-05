@@ -5,6 +5,7 @@
 
 package co.brainz.framework.fileTransaction.controller
 
+import co.brainz.framework.fileTransaction.constants.FileConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
@@ -61,7 +62,7 @@ class AliceFileController(
                     fileName
                 )
             }
-            UserConstants.PROCESS_ID -> map["file"] = aliceFileService.uploadProcessFile(multipartFile)
+            UserConstants.PROCESS_ID -> map["file"] = aliceFileService.uploadDirect(multipartFile, FileConstants.Path.PROCESSES.path)
             null -> map["file"] = aliceFileService.uploadTemp(multipartFile)
         }
 

@@ -92,7 +92,7 @@ class TokenService(
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
-                true -> this.aliceFileService.uploadFiles(it.value)
+                true -> this.aliceFileService.upload(it.value)
             }
         }
         val isSuccess = wfEngine.startWorkflow(wfEngine.toTokenDto(tokenDto))
@@ -111,14 +111,20 @@ class TokenService(
         val components = wfComponentService.getComponents(componentData.map(RestTemplateTokenDataDto::componentId).toSet())
 
         componentData.forEach { data ->
-            if (data.value.isEmpty()) { return@forEach }
+            if (data.value.isEmpty()) {
+                return@forEach
+            }
             val component = components.first { it.componentId == data.componentId }
             when (component.componentType) {
                 WfComponentConstants.ComponentType.CI.code -> {
-                    if (data.value.isEmpty()) { return@forEach }
+                    if (data.value.isEmpty()) {
+                        return@forEach
+                    }
                     val dataValueList: List<WfCIComponentValueDto> =
-                        mapper.readValue(data.value,
-                            TypeFactory.defaultInstance().constructCollectionType(List::class.java, WfCIComponentValueDto::class.java))
+                        mapper.readValue(
+                            data.value,
+                            TypeFactory.defaultInstance().constructCollectionType(List::class.java, WfCIComponentValueDto::class.java)
+                        )
 
                     dataValueList.forEach { dataValue ->
                         val ciType = ciTypeService.getCIType(dataValue.typeId)
@@ -154,7 +160,7 @@ class TokenService(
 
         restTemplateTokenDataUpdateDto.componentData!!.forEach {
             when (this.isFileUploadComponent(it.componentId) && it.value.isNotEmpty()) {
-                true -> this.aliceFileService.uploadFiles(it.value)
+                true -> this.aliceFileService.upload(it.value)
             }
         }
         val statusCode = wfEngine.progressWorkflow(wfEngine.toTokenDto(tokenDto))
@@ -270,8 +276,9 @@ class TokenService(
                         ExcelCellVO(value = if (result.assigneeUserName != null) result.assigneeUserName else ""),
                         ExcelCellVO(value = result.elementName),
                         ExcelCellVO(value = result.instanceCreateUser),
-                        ExcelCellVO(value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                            .format(AliceUtil().changeTimeBasedTimezone(result.instanceStartDt, currentSessionUser.getTimezone()))
+                        ExcelCellVO(
+                            value = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                .format(AliceUtil().changeTimeBasedTimezone(result.instanceStartDt, currentSessionUser.getTimezone()))
                         )
                     )
                 )
