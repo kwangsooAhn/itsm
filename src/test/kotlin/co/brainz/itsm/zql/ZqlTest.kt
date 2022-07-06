@@ -184,13 +184,15 @@ class ZqlTest {
         method.trySetAccessible()
 
         var result = method.invoke(zql, token1.tokenId)
-        var expected = "[ZqlComponentValue(tagValue=incident_level1, componentValue=1), ZqlComponentValue(tagValue=incident_level2, componentValue=1)]"
+        var expected =
+            "[ZqlComponentValue(tagValue=incident_level1, componentValue=1), ZqlComponentValue(tagValue=incident_level2, componentValue=1)]"
         println("expected : $expected")
         println("result : $result")
         Assertions.assertEquals(expected, result.toString())
 
         result = method.invoke(zql, token2.tokenId)
-        expected = "[ZqlComponentValue(tagValue=incident_level1, componentValue=2), ZqlComponentValue(tagValue=incident_level2, componentValue=2)]"
+        expected =
+            "[ZqlComponentValue(tagValue=incident_level1, componentValue=2), ZqlComponentValue(tagValue=incident_level2, componentValue=2)]"
         println("expected : $expected")
         println("result : $result")
         Assertions.assertEquals(expected, result.toString())
@@ -378,7 +380,7 @@ class ZqlTest {
         val token2 = createToken(document, InstanceStatus.FINISH, startDt, endDt) // 조건에 맞지 않는 토큰
 
         // 비율을 위해서 사용할 컴포넌트의 값을 각각 시간으로 설정
-        createTokenData(token1, this.comp, "2022-04-07T02:17:00.000Z")  // 완료일
+        createTokenData(token1, this.comp, "2022-04-07T02:17:00.000Z") // 완료일
         createTokenData(token1, comp2, "2022-04-07T05:58:00.000Z") // 완료 희망일
         createTokenData(token2, this.comp, "2022-04-07T05:58:00.000Z")
         createTokenData(token2, comp2, "2022-04-07T02:17:00.000Z")
