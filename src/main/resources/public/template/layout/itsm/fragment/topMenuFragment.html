@@ -201,7 +201,7 @@
                 buttons: [{
                     content: i18n.msg('common.btn.check'),
                     classes: 'z-button primary',
-                    bindKey: false,
+                    bindKey: 13,
                     callback: function(modal) {
                         passwordEncryptAndConfirm(userKey, manageAuth);
                         modal.hide();
@@ -219,6 +219,7 @@
                 }
             });
             passwordConfirmModal.show();
+            document.getElementById('modalPassword').focus();
         }
 
         // 입력받은 패스워드 암호화
