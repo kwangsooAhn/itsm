@@ -16,7 +16,6 @@
             <div class="flex-column view-row">
                 <label class="field-label" for="typeName">
                     <span th:text="#{cmdb.ci.label.type}"></span>
-                    <span class="required"></span>
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
@@ -37,7 +36,6 @@
             <div class="flex-column view-row">
                 <label class="field-label" for="ciName">
                     <span th:text="#{cmdb.ci.label.name}"></span>
-                    <span class="required"></span>
                 </label>
                 <input type="text" id="ciName" class="z-input" maxlength="100" th:value="${ciData?.ciName}"
                        th:attr="data-validation-required-name=#{cmdb.ci.label.name}" readonly required="true"/>
@@ -54,7 +52,6 @@
             <div class="flex-column view-row">
                 <label class="field-label" for="className">
                     <span th:text="#{cmdb.type.label.class}"></span>
-                    <span class="required"></span>
                 </label>
                 <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
                 <input type="text" id="className" class="z-input" maxlength="100" th:value="${ciData?.className}"

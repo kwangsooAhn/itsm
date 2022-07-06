@@ -17,7 +17,7 @@ interface RoleRepository : JpaRepository<AliceRoleEntity, String>,
     /**
      * 역할 전체 목록을 조회한다.
      */
-    override fun findAll(): MutableList<AliceRoleEntity>
+    fun findAllByOrderByRoleNameAsc(): MutableList<AliceRoleEntity>
 
     /**
      * 역할별 상세 내용 조회

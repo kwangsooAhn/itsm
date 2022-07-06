@@ -51,8 +51,7 @@ class CIClassService(
      */
     fun createCIClass(ciClassDto: CIClassDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        ciClassDto.createDt = LocalDateTime.now()
-        ciClassDto.createUserKey = currentSessionUser.getUserKey()
+
         if (!ciClassService.createCIClass(ciClassDto)) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
         }

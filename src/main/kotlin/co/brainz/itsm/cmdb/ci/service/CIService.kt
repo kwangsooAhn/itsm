@@ -37,6 +37,7 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
+import co.brainz.itsm.cmdb.ci.dto.CIComponentInfo
 import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
@@ -166,10 +167,10 @@ class CIService(
     /**
      * CI 컴포넌트 - CI 데이터 조회
      */
-    fun getCIData(parameter: LinkedHashMap<String, String>, modifyCIData: String): CIDetailDto {
+    fun getCIData(parameter: CIComponentInfo, modifyCIData: String): CIDetailDto {
         var ciDetailDto = CIDetailDto(
-            ciId = parameter["ciId"] as String,
-            interlink = parameter["interlink"]?.toBoolean()
+            ciId = parameter.ciId,
+            interlink = parameter.interlink.toBoolean()
         )
         // 전달된 데이터로 변경
         val map = mapper.readValue(modifyCIData, LinkedHashMap::class.java)
@@ -196,16 +197,16 @@ class CIService(
 
             // CI 데이터 추출
             val ciClasses = ciClassService.getCIClassAttributes(
-                parameter["ciId"] as String,
+                parameter.ciId,
                 map["classId"] as String
             )
 
             // 임시 테이블 데이터 조회
             val ciComponentData =
                 ciComponentDataRepository.findByComponentIdAndCiIdAndInstanceId(
-                    parameter["componentId"] as String,
-                    parameter["ciId"] as String,
-                    parameter["instanceId"] as String
+                    parameter.componentId,
+                    parameter.ciId,
+                    parameter.instanceId
                 )
             if (ciComponentData != null) {
                 val ciComponentDataValue: Map<String, Any> =
@@ -218,9 +219,9 @@ class CIService(
             }
             ciDetailDto.classes = ciClasses
             ciDetailDto.ciTags =
-                aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CI.code, parameter["ciId"] as String)
+                aliceTagManager.getTagsByTargetId(AliceTagConstants.TagType.CI.code, parameter.ciId)
         } else { // 삭제, 조회시 DB에 저장된 CI 데이터 조회
-            ciDetailDto = getCI(parameter["ciId"] as String)
+            ciDetailDto = getCI(parameter.ciId)
         }
 
         return ciDetailDto

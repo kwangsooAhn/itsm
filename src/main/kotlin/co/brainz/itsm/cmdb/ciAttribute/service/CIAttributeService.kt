@@ -48,8 +48,7 @@ class CIAttributeService(
     /**
      * Attribute 등록.
      */
-    fun saveCIAttribute(attributeData: String): ZResponse {
-        val ciAttributeDto = makeCIAttributeDto(attributeData)
+    fun saveCIAttribute(ciAttributeDto: CIAttributeDto): ZResponse {
         ciAttributeDto.createDt = LocalDateTime.now()
         ciAttributeDto.createUserKey = currentSessionUser.getUserKey()
         return ciAttributeService.createCIAttribute(ciAttributeDto)
@@ -58,8 +57,7 @@ class CIAttributeService(
     /**
      * Attribute 수정.
      */
-    fun updateCIAttribute(attributeId: String, attributeData: String): ZResponse {
-        val ciAttributeDto = makeCIAttributeDto(attributeData)
+    fun updateCIAttribute(attributeId: String, ciAttributeDto: CIAttributeDto): ZResponse {
         ciAttributeDto.updateDt = LocalDateTime.now()
         ciAttributeDto.updateUserKey = currentSessionUser.getUserKey()
         return ciAttributeService.updateCIAttribute(ciAttributeDto)
@@ -75,24 +73,6 @@ class CIAttributeService(
         }
         return ZResponse(
             status = status.code
-        )
-    }
-
-    /**
-     * Attribute 데이터 파싱.
-     */
-    private fun makeCIAttributeDto(attributeData: String): CIAttributeDto {
-        val map = mapper.readValue(attributeData, LinkedHashMap::class.java)
-        return CIAttributeDto(
-            attributeId = map["attributeId"] as String,
-            attributeName = map["attributeName"] as String,
-            attributeType = map["attributeType"] as String,
-            attributeText = map["attributeText"] as String,
-            attributeDesc = map["attributeDesc"] as String,
-            searchYn = map["searchYn"] as Boolean,
-            searchWidth = map["searchWidth"] as String?,
-            mappingId = map["mappingId"] as String?,
-            attributeValue = mapper.writeValueAsString(map["attributeValue"])
         )
     }
 

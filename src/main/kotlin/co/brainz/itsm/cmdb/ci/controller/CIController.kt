@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ci.controller
 
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.cmdb.ci.dto.CIComponentInfo
 import co.brainz.itsm.cmdb.ci.dto.CISearch
 import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.service.CIService
@@ -85,11 +86,12 @@ class CIController(
     @PostMapping("/component/edit")
     fun getCIComponentEdit(request: HttpServletRequest, @RequestBody modifyCIData: String, model: Model): String {
         // TODO: 세션 정보를 화면에서 처리하도록 수정
-        val parameter = LinkedHashMap<String, String>()
-        parameter["ciId"] = request.getParameter("ciId")
-        parameter["componentId"] = request.getParameter("componentId")
-        parameter["instanceId"] = request.getParameter("instanceId")
-        parameter["interlink"] = request.getParameter("interlink")
+        val parameter = CIComponentInfo(
+            ciId = request.getParameter("ciId").toString(),
+            componentId = request.getParameter("componentId").toString(),
+            instanceId = request.getParameter("instanceId").toString(),
+            interlink = request.getParameter("interlink").toString()
+        )
         model.addAttribute(
             "ciData", ciService.getCIData(
                 parameter,
