@@ -2979,7 +2979,6 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row {
   border-bottom: 0.0625rem solid #CFD5D9;
   color: #222529;
-  cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-result .component .contents__req-status .grid__body .grid__row.read-only {
   cursor: default;
@@ -3131,7 +3130,6 @@ input, button, select, optgroup, textarea {
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row {
   border-bottom: 0.0625rem solid #CFD5D9;
   color: #222529;
-  cursor: pointer;
 }
 .z-itsm-container .z-main-content .z-page-list .grid__body .grid__row.read-only {
   cursor: default;
@@ -10549,7 +10547,6 @@ body.modal-active {
 .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row {
   border-bottom: 0.0625rem solid #CFD5D9;
   color: #222529;
-  cursor: pointer;
 }
 .modal-dialog.modal-button-search-modal .modal-content .grid__body .grid__row.read-only {
   cursor: default;
@@ -14099,7 +14096,7 @@ body.modal-active {
   position: relative;
   bottom: 0;
   left: 70.8rem;
-  border: 0.0625rem solid #EEEEEE all transparent;
+  border: 0.0625rem solid hsl(0, 0%, 93%) all transparent;
   -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
   -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
   box-shadow: 0 0 0.3125rem 0 #EEEEEE;

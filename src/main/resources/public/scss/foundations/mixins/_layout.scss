@@ -64,7 +64,6 @@
       .grid__row {
         @include border(0.0625rem, solid, $gray300, bottom);
         color: $gray800;
-        cursor: pointer;
         &.read-only { cursor: default; }
         &:hover { background-color: $neutral200; }
       }
@@ -155,7 +154,7 @@
   .z-main-header-title { padding: 0 0 1.563rem 0; } // 0 0px 25px 0px
   // 검색 영역
   .z-main-header-search {
-    padding: 0.3125rem 0px 1.25rem 0px; // 5px 0px 20px 0px
+    padding: 0.3125rem 0 1.25rem 0; // 5px 0px 20px 0px
     font-family: $font-family;
     font-size: $font-size-xs;
   }
