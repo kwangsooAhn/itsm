@@ -462,7 +462,9 @@ class WfTokenManagerService(
         if (!makeDocumentTokenDto.data.isNullOrEmpty()) {
             makeDocumentTokenDto.data!!.forEach { wfTokenData ->
                 val component = wfComponentRepository.findByComponentId(wfTokenData.componentId)
-                if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank()) {
+                if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank() &&
+                    wfTokenData.value.isNotEmpty()
+                ) {
                     val data: Array<Map<String, String>> =
                         mapper.readValue(wfTokenData.value, object : TypeReference<Array<Map<String, String>>>() {})
                     data.forEach {
