@@ -579,10 +579,8 @@ Object.assign(zColorPicker.prototype, {
         }).then((response) => {
             switch (response.status) {
                 case aliceJs.response.success:
-                    if (response.data) {
-                        this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
-                        this.closeCustomColorControl();
-                    }
+                    this.savedCustomColors = JSON.parse(JSON.stringify(this.customColors));
+                    this.closeCustomColorControl();
                     break;
                 case aliceJs.response.error:
                     zAlert.danger(i18n.msg('common.msg.fail'));
@@ -683,6 +681,7 @@ Object.assign(zColorPicker.prototype, {
         });
 
         // hex 유효성 검증
+        if (e.target.value !== '' && e.target.value.charAt(0) !== '#') { e.target.value = '#'.concat(e.target.value); }
         if (!this.options.hexReg.test(e.target.value)) { return false; }
 
         // rgb 입력
