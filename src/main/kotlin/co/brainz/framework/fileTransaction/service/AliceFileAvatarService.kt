@@ -57,16 +57,15 @@ class AliceFileAvatarService(
      * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
      */
     fun uploadAvatarFile(userEntity: AliceUserEntity, avatarUUID: String) {
-        val tempDir = super.getPath(UserConstants.AVATAR_IMAGE_TEMP_DIR)
-        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
-        val isTempFileExist = File(tempPath.toString()).exists()
-
-        val avatarDir = super.getPath(UserConstants.AVATAR_IMAGE_DIR)
-        val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
-
         when (avatarUUID.isNotBlank()) {
             true -> {
-                if (isTempFileExist) {
+                val tempDir = super.getPath(UserConstants.AVATAR_IMAGE_TEMP_DIR)
+                val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
+
+                val avatarDir = super.getPath(UserConstants.AVATAR_IMAGE_DIR)
+                val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
+
+                if (File(tempPath.toString()).exists()) {
                     Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
                     userEntity.avatarValue = avatarUUID
                     userEntity.uploaded = true
