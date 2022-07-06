@@ -1690,7 +1690,7 @@
                 if (property.display === 'none') {
                     labelObject.style.display = 'none';
                 }
-                if (property.required === 'Y') {
+                if (property.required === 'Y' && !zProcessDesigner.isView) {
                     // property required
                     labelObject.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                 }

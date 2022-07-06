@@ -5,7 +5,6 @@
 
 package co.brainz.itsm.code.service
 
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.download.excel.ExcelComponent
 import co.brainz.framework.download.excel.dto.ExcelCellVO
 import co.brainz.framework.download.excel.dto.ExcelRowVO
@@ -23,6 +22,7 @@ import co.brainz.itsm.code.entity.CodeLangEntity
 import co.brainz.itsm.code.entity.CodeLangEntityPk
 import co.brainz.itsm.code.repository.CodeLangRepository
 import co.brainz.itsm.code.repository.CodeRepository
+import co.brainz.itsm.user.constants.UserConstants
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -58,7 +58,7 @@ class CodeService(
             }
         }
         val lang = if (SecurityContextHolder.getContext().authentication.principal == "anonymousUser") {
-            AliceUserConstants.USER_LOCALE_LANG
+            UserConstants.USER_LOCALE_LANG
         } else {
             currentSessionUser.getUserDto()?.lang
         }
@@ -92,18 +92,17 @@ class CodeService(
         when (search.isEmpty()) {
             true -> {
                 pagingResult = codeRepository.findByCodeAll()
-                val allList = pagingResult
                 val codeSearchList = mutableListOf<CodeEntity>()
                 if (pCode.isNotEmpty()) {
                     val codeList = mutableListOf<CodeEntity>()
-                    val pCodeEntity = allList.filter { it.code == pCode }[0]
+                    val pCodeEntity = pagingResult.filter { it.code == pCode }[0]
                     if (pCodeEntity !== null) {
                         codeList.add(pCodeEntity)
-                        getChildCode(allList, pCodeEntity, codeList)
+                        getChildCode(pagingResult, pCodeEntity, codeList)
                     }
                     codeSearchList.addAll(codeList)
                 } else {
-                    codeSearchList.addAll(allList)
+                    codeSearchList.addAll(pagingResult)
                 }
                 count = codeSearchList.size.toLong()
                 returnList = codeSearchList

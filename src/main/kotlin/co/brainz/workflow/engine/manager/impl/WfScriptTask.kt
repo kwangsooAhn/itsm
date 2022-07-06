@@ -71,6 +71,7 @@ class WfScriptTask(
             }
         }
 
+        // 업무흐름(문서) 상태가 사용일 경우에만 ScriptTask 수행
         if (createTokenDto.documentStatus == DocumentConstants.DocumentStatus.USE.value) {
             when (scriptType) {
                 WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value ->

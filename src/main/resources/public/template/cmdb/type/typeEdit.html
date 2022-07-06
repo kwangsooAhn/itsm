@@ -58,11 +58,12 @@
             <label th:text="#{cmdb.type.label.icon}"></label>
             <div class="flex-row z-input-button">
                 <input class="z-input" id="typeIcon" name="typeIcon" type="text" readonly>
-                <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                <button type="button" class="z-button-icon-sm" name="typeIconButton"
+                        onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="z-icon i-remove"></span>
                 </button>
                 <button sec:authorize="hasAuthority('cmdb.manage')" class="z-button-search z-button form"
-                        name="typeIconSelector" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
+                        name="typeIconButton" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="z-edit-row flex-column">
@@ -70,11 +71,12 @@
             <div class="flex-row z-input-button">
                 <input class="z-input" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
-                <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                <button type="button" class="z-button-icon-sm" name="typeClassButton"
+                        onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="z-icon i-remove"></span>
                 </button>
                 <button sec:authorize="hasAuthority('cmdb.manage')" class="z-button-search z-button form"
-                        name="typeClassSelector" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
+                        name="typeClassButton" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="flex-row justify-content-end">
@@ -84,7 +86,8 @@
                 <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
+                        th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -174,17 +177,22 @@
                 if (document.querySelector('#btnDelete') != null) {
                     document.querySelector('#btnDelete').removeAttribute('disabled');
                 }
-                if (document.querySelector('button[name=typeIconSelector]') != null) {
-                    document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+                if (document.querySelectorAll('button[name=typeIconButton]').length > 0) {
+                    document.querySelectorAll('button[name=typeIconButton]').forEach((elem) => elem.removeAttribute('disabled'));
                 }
-                if (document.querySelector('button[name=typeClassSelector]') != null) {
-                    document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+                if (document.querySelectorAll('button[name=typeClassButton]').length > 0) {
+                    document.querySelectorAll('button[name=typeClassButton]').forEach((elem) => elem.removeAttribute('disabled'));
                 }
                 document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
                 typeName.readOnly = false;
                 typeDesc.readOnly = false;
                 typeAlias.readOnly = false;
                 typeSeq.readOnly = false;
+                typeName.previousElementSibling.classList.add('required');
+                typeAlias.previousElementSibling.classList.add('required');
+                typeSeq.previousElementSibling.classList.add('required');
+                document.querySelector('#parentTypeName').previousElementSibling.classList.add('required');
+                document.querySelector('#typeClass').parentElement.previousElementSibling.classList.add('required');
             } else {
                 if (document.querySelector('#btnUpdate') != null) {
                     document.getElementById('btnUpdate').disabled = true;
@@ -192,17 +200,22 @@
                 if (document.querySelector('#btnDelete') != null) {
                     document.getElementById('btnDelete').disabled = true;
                 }
-                if (document.querySelector('button[name=typeIconSelector]') != null) {
-                    document.querySelector('button[name=typeIconSelector]').disabled = true;
+                if (document.querySelectorAll('button[name=typeIconButton]').length > 0) {
+                    document.querySelectorAll('button[name=typeIconButton]').forEach((elem) => elem.disabled = true);
                 }
-                if (document.querySelector('button[name=typeClassSelector]') != null) {
-                    document.querySelector('button[name=typeClassSelector]').disabled = true;
+                if (document.querySelectorAll('button[name=typeClassButton]').length > 0) {
+                    document.querySelectorAll('button[name=typeClassButton]').forEach((elem) => elem.disabled = true);
                 }
                 document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
                 typeName.readOnly = true;
                 typeDesc.readOnly = true;
                 typeAlias.readOnly = true;
                 typeSeq.readOnly = true;
+                typeName.previousElementSibling.classList.remove('required');
+                typeAlias.previousElementSibling.classList.remove('required');
+                typeSeq.previousElementSibling.classList.remove('required');
+                document.querySelector('#parentTypeName').previousElementSibling.classList.remove('required');
+                document.querySelector('#typeClass').parentElement.previousElementSibling.classList.remove('required');
             }
             onEdit();
             observer.isChanged = false;
@@ -223,11 +236,11 @@
         if (document.querySelector('#btnRegist') != null) {
             document.querySelector('#btnRegist').style.display = 'block';
         }
-        if (document.querySelector('button[name=typeIconSelector]') != null) {
-            document.querySelector('button[name=typeIconSelector]').removeAttribute('disabled');
+        if (document.querySelectorAll('button[name=typeIconButton]').length > 0) {
+            document.querySelectorAll('button[name=typeIconButton]').forEach((elem) => elem.removeAttribute('disabled'));
         }
-        if (document.querySelector('button[name=typeClassSelector]') != null) {
-            document.querySelector('button[name=typeClassSelector]').removeAttribute('disabled');
+        if (document.querySelectorAll('button[name=typeClassButton]').length > 0) {
+            document.querySelectorAll('button[name=typeClassButton]').forEach((elem) => elem.removeAttribute('disabled'));
         }
         document.querySelectorAll('input[type=text]').forEach(function(object){
             object.value = '';
@@ -248,6 +261,12 @@
         typeDesc.readOnly = false;
         typeAlias.readOnly = false;
         typeSeq.readOnly = false;
+
+        typeName.previousElementSibling.classList.add('required');
+        typeAlias.previousElementSibling.classList.add('required');
+        typeSeq.previousElementSibling.classList.add('required');
+        document.querySelector('#parentTypeName').previousElementSibling.classList.add('required');
+        document.querySelector('#typeClass').parentElement.previousElementSibling.classList.add('required');
 
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {

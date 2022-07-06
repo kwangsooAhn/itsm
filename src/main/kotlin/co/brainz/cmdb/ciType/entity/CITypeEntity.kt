@@ -7,9 +7,8 @@
 package co.brainz.cmdb.ciType.entity
 
 import co.brainz.cmdb.ciClass.entity.CIClassEntity
-import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
-import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -55,19 +54,5 @@ data class CITypeEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id", referencedColumnName = "class_id")
-    var ciClass: CIClassEntity,
-
-    @Column(name = "create_dt", nullable = false, updatable = false)
-    var createDt: LocalDateTime? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_user_key", referencedColumnName = "user_key", nullable = false, updatable = false)
-    var createUser: AliceUserEntity? = null,
-
-    @Column(name = "update_dt", insertable = false)
-    var updateDt: LocalDateTime? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "update_user_key", referencedColumnName = "user_key")
-    var updateUser: AliceUserEntity? = null
-) : Serializable
+    var ciClass: CIClassEntity
+) : Serializable, AliceMetaEntity()

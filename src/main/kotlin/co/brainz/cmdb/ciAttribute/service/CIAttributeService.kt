@@ -82,7 +82,7 @@ class CIAttributeService(
                     attributeDesc = ciAttributeDto.attributeDesc,
                     attributeText = ciAttributeDto.attributeText,
                     attributeType = ciAttributeDto.attributeType,
-                    attributeValue = ciAttributeDto.attributeValue,
+                    attributeValue = mapper.writeValueAsString(ciAttributeDto.attributeValue),
                     searchYn = ciAttributeDto.searchYn,
                     searchWidth = ciAttributeDto.searchWidth,
                     mappingId = ciAttributeDto.mappingId,
@@ -120,7 +120,7 @@ class CIAttributeService(
                     attributeEntity.attributeDesc = ciAttributeDto.attributeDesc
                     attributeEntity.attributeText = ciAttributeDto.attributeText
                     attributeEntity.attributeType = ciAttributeDto.attributeType
-                    attributeEntity.attributeValue = ciAttributeDto.attributeValue
+                    attributeEntity.attributeValue = mapper.writeValueAsString(ciAttributeDto.attributeValue)
                     attributeEntity.searchYn = ciAttributeDto.searchYn
                     attributeEntity.searchWidth = ciAttributeDto.searchWidth
                     attributeEntity.mappingId = ciAttributeDto.mappingId

@@ -6,6 +6,7 @@
 
 package co.brainz.framework.scheduling.entity
 
+import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -32,4 +33,4 @@ data class AliceScheduleTaskEntity(
     var cronExpression: String?,
     var args: String?,
     var src: String?
-) : Serializable
+) : Serializable, AliceMetaEntity()

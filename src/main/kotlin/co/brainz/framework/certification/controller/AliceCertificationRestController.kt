@@ -8,12 +8,12 @@ package co.brainz.framework.certification.controller
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
+import co.brainz.itsm.user.constants.UserConstants
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
@@ -40,12 +40,12 @@ class AliceCertificationRestController(
 
     @PostMapping("")
     fun setUser(@RequestBody aliceSignUpDto: AliceSignUpDto): ResponseEntity<ZResponse> {
-        val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.USER_ID)
+        val result = aliceCertificationService.createUser(aliceSignUpDto, UserConstants.USER_ID)
         if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
             aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
-                AliceUserConstants.SendMailStatus.CREATE_USER.code,
+                UserConstants.SendMailStatus.CREATE_USER.code,
                 null
             )
         }
@@ -57,7 +57,7 @@ class AliceCertificationRestController(
         aliceCertificationMailService.sendMail(
             currentSessionUser.getUserId(),
             currentSessionUser.getEmail(),
-            AliceUserConstants.SendMailStatus.CREATE_USER.code,
+            UserConstants.SendMailStatus.CREATE_USER.code,
             null
         )
     }

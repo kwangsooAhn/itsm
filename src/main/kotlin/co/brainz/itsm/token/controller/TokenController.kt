@@ -6,7 +6,6 @@
 package co.brainz.itsm.token.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentSearchCondition
@@ -16,6 +15,7 @@ import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.token.dto.TokenSearchCondition
 import co.brainz.itsm.token.service.TokenService
+import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
@@ -60,14 +60,14 @@ class TokenController(
         val userKey = currentSessionUser.getUserKey()
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
         when (userDto.status) {
-            AliceUserConstants.Status.SIGNUP.code,
-            AliceUserConstants.Status.EDIT.code -> return statusPage
+            UserConstants.UserStatus.SIGNUP.code,
+            UserConstants.UserStatus.EDIT.code -> return statusPage
         }
         val documentSearchCondition = DocumentSearchCondition()
         val userRoles = roleService.getUserRoleList(userKey)
         run loop@{
             userRoles.forEach { role ->
-                if (role.roleId == AliceUserConstants.ADMIN_ID) {
+                if (role.roleId == UserConstants.ADMIN_ID) {
                     documentSearchCondition.viewType = DocumentConstants.DocumentViewType.ADMIN.value
                     return@loop
                 }
@@ -146,8 +146,10 @@ class TokenController(
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         model: Model
     ): String {
-        model.addAttribute("instanceList",
-            instanceService.findAllInstanceListByRelatedCheck(instanceId, searchValue))
+        model.addAttribute(
+            "instanceList",
+            instanceService.findAllInstanceListByRelatedCheck(instanceId, searchValue)
+        )
         return tokenInstanceListPage
     }
 

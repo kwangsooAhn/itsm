@@ -186,7 +186,7 @@ class RoleService(
      * 전체 역할 목록 조회
      */
     fun getAllRoleList(): MutableList<RoleListDto> {
-        val allRoles = roleRepository.findAll()
+        val allRoles = roleRepository.findAllByOrderByRoleNameAsc()
         val roleList: MutableList<RoleListDto> = mutableListOf()
 
         allRoles.forEach { role ->

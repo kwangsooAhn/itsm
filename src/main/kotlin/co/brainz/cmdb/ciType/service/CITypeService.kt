@@ -175,11 +175,6 @@ class CITypeService(
             typeLevel = typeLevel
         )
 
-        ciTypeEntity.createUser = ciTypeDto.createUserKey?.let {
-            aliceUserRepository.findAliceUserEntityByUserKey(it)
-        }
-        ciTypeEntity.createDt = ciTypeDto.createDt
-
         ciTypeRepository.save(ciTypeEntity)
         return true
     }
@@ -201,10 +196,7 @@ class CITypeService(
             typeIcon = ciTypeDto.typeIcon,
             ciClass = ciClassRepository.getOne(ciTypeDto.classId)
         )
-        ciTypeEntity.updateUser = ciTypeDto.updateUserKey?.let {
-            aliceUserRepository.findAliceUserEntityByUserKey(it)
-        }
-        ciTypeEntity.updateDt = ciTypeDto.updateDt
+
         ciTypeRepository.save(ciTypeEntity)
         return true
     }
