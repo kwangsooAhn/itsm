@@ -59,18 +59,21 @@ class AliceFileAvatarService(
     fun uploadAvatarFile(userEntity: AliceUserEntity, avatarUUID: String) {
         val tempDir = super.getPath(UserConstants.AVATAR_IMAGE_TEMP_DIR)
         val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
-        val tempFile = File(tempPath.toString())
+        val isTempFileExist = File(tempPath.toString()).exists()
 
         val avatarDir = super.getPath(UserConstants.AVATAR_IMAGE_DIR)
         val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
 
-        if (avatarUUID !== "" && tempFile.exists()) {
-            Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
-            userEntity.avatarValue = avatarUUID
-            userEntity.uploaded = true
-            userEntity.uploadedLocation = avatarFilePath.toString()
-        } else {
-            if (avatarUUID == "" || !userEntity.uploaded) {
+        when (avatarUUID.isNotBlank()) {
+            true -> {
+                if (isTempFileExist) {
+                    Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
+                    userEntity.avatarValue = avatarUUID
+                    userEntity.uploaded = true
+                    userEntity.uploadedLocation = avatarFilePath.toString()
+                }
+            }
+            false -> {
                 val uploadedFile = Paths.get(userEntity.uploadedLocation)
                 if (uploadedFile.toFile().exists()) {
                     Files.delete(uploadedFile)
@@ -90,7 +93,7 @@ class AliceFileAvatarService(
      */
     fun avatarFileNameMod(userEntity: AliceUserEntity) {
         if (userEntity.avatarType == UserConstants.AvatarType.FILE.code &&
-            userEntity.uploaded && userEntity.userKey != userEntity.avatarValue
+            userEntity.userKey != userEntity.avatarValue
         ) {
             val avatarDir = super.getPath(UserConstants.AVATAR_IMAGE_DIR)
             val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.avatarValue)
