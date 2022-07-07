@@ -44,3 +44,12 @@ $i: 1;
 .align-self-baseline { align-self: baseline !important; }
 
 .flex-fill { flex: 1 1 auto; }
+
+////////////////////////// grid //////////////////////////
+
+// gap-1 ~ gap-12
+@for $i from 1 through 12 {
+  .gap-#{$i} {
+    gap: 0.5rem * $i !important;// 8px
+  }
+}

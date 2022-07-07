@@ -13,6 +13,8 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="frmSearch">
+        <input type="hidden" id="type" name="type" value="file"/>
+        <input type="hidden" id="searchPath" name="searchPath" th:value="${basePath}"/>
         <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{resource.label.searchPlaceholder}"/>
         <span id="spanTotalCount" class="z-search-count"></span>
@@ -34,6 +36,15 @@
             </button>
         </div>
     </div>
+    <!-- 브레드 크럼 -->
+    <input type="hidden" id="basePath" name="basePath" th:value="${basePath}"/>
+    <input type="hidden" id="fileSeparator" name="fileSeparator" th:value="${fileSeparator}"/>
+    <ol class="breadcrumb">
+        <li class="breadcrumb__item">
+            <a href="javascript:goFolder(this);" th:text="#{resource.label.sharedFolder}"
+               th:data-path="${basePath}"></a>
+        </li>
+    </ol>
     <!-- 폴더 추가 모달 -->
     <template id="addFolderModalTemplate">
         <div class="flex-column">
@@ -41,31 +52,108 @@
                 <span th:text="#{file.label.folderName}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" class="z-input" id="newFolderName" data-validation-required="true">
+            <input type="text" class="z-input" id="newFolderName" data-validation-required="true" />
         </div>
     </template>
 </div>
 <div layout:fragment="pageList">
     <div class="z-list-content flex-row" id="resources">
-        <th:block th:fragment="list">
-            <!-- 리스트 보기 -->
-            <th:block th:if="${pageType == 'list'}">
-            <div class="grid" style="--data-columns-width: 5% 18% 18% 10% 18% 26% 5%">
-                <div class="grid__head">
-                    <div class="grid__row">
+    <th:block th:fragment="list">
+        <!-- 리스트 보기 -->
+        <th:block th:if="${pageType == 'list'}">
+        <div class="grid" th:style="|--data-columns-width:${isSearch ? '5% 22% 18% 10% 18% 22% 5%;' : '5% 34% 22% 12% 22% 5%;'}|">
+            <div class="grid__head">
+                <div class="grid__row">
+                    <div class="grid__cell" data-grid-sortable="false"></div>
+                    <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="name">
+                        <span class="text-ellipsis" th:text="#{resource.label.name}"></span>
                     </div>
-                </div>
-                <div class="grid__body">
+                    <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="updateDt">
+                        <span class="text-ellipsis" th:text="#{common.label.updateDate}"></span>
+                    </div>
+                    <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="extension">
+                        <span class="text-ellipsis" th:text="#{resource.label.extension}"></span>
+                    </div>
+                    <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="size">
+                        <span class="text-ellipsis" th:text="#{resource.label.size}"></span>
+                    </div>
+                    <div th:if="${isSearch}" class="grid__cell pr-2 pl-2" data-grid-sortable="false"
+                         data-grid-column="fullPath">
+                        <span class="text-ellipsis" th:text="#{resource.label.fullPath}"></span>
+                    </div>
+                    <div class="grid__cell" data-grid-sortable="false"></div>
                 </div>
             </div>
-            </th:block>
-            <!-- 썸네일 보기 -->
-            <th:block th:unless="${pageType == 'list'}">
-
-            </th:block>
+            <div class="grid__body">
+            </div>
+        </div>
         </th:block>
+        <!-- 썸네일 보기 -->
+        <th:block th:unless="${pageType == 'list'}">
+            <div class="grid grid--noData" th:if="${#arrays.isEmpty(resources)}" style="--data-columns-width: 15.625rem;">
+                <!-- 데이터 없을떄 -->
+            </div>
+            <div class="grid" th:unless="${#arrays.isEmpty(resources)}"
+                 style="--data-columns-width: repeat(auto-fill, minmax(15.625rem, auto));">
+                <div class="grid__row gap-2">
+                    <div class="grid__thumbnail" tabindex="-1" th:each="resource: ${resources}">
+                        <th:block th:if="${resource.imageFileYn}">
+                            <div class="thumbnail__image" onclick="openPreviewModal(this);"
+                                 th:style="|background-image:url('data:image/${resource.extension};base64,${resource.data}');|">
+                            </div>
+                        </th:block>
+                        <th:block th:unless="${resource.imageFileYn}">
+                            <div class="thumbnail__image" onclick="downLoadFile(this);">
+                                <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}"/>
+                            </div>
+                        </th:block>
+                        <div class="thumbnail__caption">
+                            <p>
+                                <label class="thumbnail__caption--title text-ellipsis"
+                                       th:ondblclick="(${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}) ? 'renameFile();': ''"
+                                       th:title="${resource.name}" th:text="${resource.name}">
+                                </label>
+                                <input type="text" class="z-input thumbnail__caption--rename" maxlength="128"/>
+                            </p>
+                            <p>
+                                <label class="thumbnail__caption--description text-ellipsis" th:if="${resource.imageFileYn}"
+                                       th:text="|${resource.size} (${resource.width} X ${resource.height})|"></label>
+                                <label class="thumbnail__caption--description text-ellipsis"
+                                       th:unless="${resource.imageFileYn}" th:text="|${resource.size}|"></label>
+                            </p>
+                        </div>
+                        <div class="thumbnail__footer">
+                            <label class="thumbnail__footer--description text-ellipsis date-time" th:text="${resource.updateDt}"></label>
+                            <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}">
+                                <div class="dropdown-menu" th:if="${resource.directoryYn}">
+                                    <button type="button" class="z-button-icon dropdown__toggle">
+                                        <span class="z-icon i-meatballs"></span>
+                                    </button>
+                                    <ul class="dropdown__content">
+                                        <li class="dropdown__item" tabindex="-1">
+                                            <button type="button" class="z-button align-left" data-actionType="renameFolder"
+                                                    onclick="onDropdownClickHandler(this);" th:text="#{common.btn.save}" tabindex="0">이름 변경</button>
+                                        </li>
+                                        <li class="dropdown__item" tabindex="-1">
+                                            <button type="button" class="z-button align-left"  data-actionType="removeFolder"
+                                                    onclick="onDropdownClickHandler(this);" th:text="#{common.btn.saveAs}" tabindex="0">삭제</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button type="button" class="z-button-icon" th:unless="${resource.directoryYn}"
+                                        th:data-name="${resource.name}" onclick="removeFile(this);">
+                                    <span class="z-icon i-delete"></span>
+                                </button>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </th:block>
     </div>
 </div>
+<th:block th:insert="layout/itsm/fragment/totalCountFragment :: totalCountDataFragment"></th:block>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     const hasAuthority = /*[[${#authorization.expression('hasAuthority("workflow.manage")')}]]*/'';
@@ -94,14 +182,30 @@
             + '&pageType=' + pageType.getAttribute('data-action')
             + '&orderColName=' + orderColName
             + '&orderDir=' + orderDir;
-        console.log(urlParam);
         aliceJs.fetchText('/resources?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
-            console.log(htmlData);
-            //document.getElementById('resources').innerHTML = htmlData;
+            document.getElementById('resources').innerHTML = '';
+            document.getElementById('resources').insertAdjacentHTML('beforeend', htmlData);
         });
     }
+
+    /**
+     * 특정 폴더로 이동
+     * @param target 대상 엘리먼트
+     */
+    function goFolder(target) {
+        document.getElementById('searchPath').value = target.getAttribute('data-path');
+        getResources();
+    }
+
+    /**
+     * 브레드 크럼 경로 추가
+     */
+    function addBreadCrumb() {
+        // 5depth 이상일 경우 ... 표기
+    }
+
 
     /**
      * 폴더 추가 모달
@@ -163,8 +267,22 @@
         }
         e.classList.add('selected');
 
-        // 초회
+        // 조회
         getResources();
+    }
+
+    /**
+     * ... 아이콘 클릭시 메뉴 오픈
+     */
+    function toggleFolderContext() {
+
+    }
+
+    /**
+     * 미리보기 모달
+     */
+    function openPreviewModal() {
+
     }
 
     /*]]>*/

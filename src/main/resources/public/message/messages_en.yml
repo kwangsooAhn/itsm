@@ -1940,3 +1940,20 @@ tooltip:
     userTask: "User Task"
     manualTask: "Manual Task"
     scriptTask: "Script Task"
+
+# Resource
+resource:
+  btn:
+    file: "New File"
+    folder: "New Folder"
+  label:
+    extension: "Type"
+    folderName: "Folder Name"
+    fullPath: "Path"
+    list: "Resource Management"
+    name: "Name"
+    sharedFolder: "Shared Folder"
+    searchPlaceholder: "Folder / File Name"
+    size: "Size"
+  msg:
+    searchDescription: "This is a menu to manage, such as adding, deleting, or viewing shared folders/files."

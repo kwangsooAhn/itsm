@@ -166,6 +166,7 @@
             `${isImageFile ?
                 `<div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>` :
                 `<div class="z-thumbnail-image" onclick="downLoadFile(this);"><img src="${aliceJs.getFileExtensionIcon(fileExtension)}"></div>`}` +
+
                 `<div class="z-thumbnail-info">` +
                     `<p class="z-thumbnail-info-text">` +
                         `<label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameFile(this);" title="${image.name}">${image.name}</label>` +

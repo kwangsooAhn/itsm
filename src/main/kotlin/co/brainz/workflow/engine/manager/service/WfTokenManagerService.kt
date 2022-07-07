@@ -11,7 +11,7 @@ import co.brainz.cmdb.dto.CIDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
-import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.constants.ResourceConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
@@ -198,7 +198,7 @@ class WfTokenManagerService(
      * 프로세스 파일 경로.
      */
     fun getProcessFilePath(attachFileName: String): Path {
-        return Paths.get(super.getPath(FileConstants.Path.FILE.path).toString() + File.separator + attachFileName)
+        return Paths.get(super.getPath(ResourceConstants.Path.FILE.path).toString() + File.separator + attachFileName)
     }
 
     /**

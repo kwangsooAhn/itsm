@@ -5,7 +5,7 @@
 
 package co.brainz.framework.util
 
-import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.constants.ResourceConstants
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -29,6 +29,7 @@ open class AliceFileUtil(
     @Value("\${file.upload.dir}")
     lateinit var basePath: String
 
+    private val imageExtensions = listOf("png", "gif", "jpg", "jpeg")
     private val thumbnailImageWidth = 700
     private val thumbnailIconWidth = 100
 
@@ -90,7 +91,7 @@ open class AliceFileUtil(
         var scaledWidth: Int
         var scaledHeight: Int
         when (type) {
-            FileConstants.Type.ICON.code -> {
+            ResourceConstants.FileType.ICON.code -> {
                 scaledWidth = this.thumbnailIconWidth
                 if (image.width < scaledWidth) {
                     scaledWidth = image.width
@@ -123,19 +124,6 @@ open class AliceFileUtil(
         g2d.drawImage(image, 0, 0, scaledWidth, scaledHeight, null)
         g2d.dispose()
         return bufferedImage
-    }
-
-    /**
-     * 경로 구하기 (Root)
-     * @param root
-     */
-    fun getPath(root: String): Path {
-        if (this.basePath == "") {
-            this.basePath = environment.getProperty("catalina.base").toString()
-        }
-        var dir: Path = Paths.get(basePath + File.separator + root)
-        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
-        return dir
     }
 
     /**
@@ -172,5 +160,64 @@ open class AliceFileUtil(
             ""
         }
         return imageData
+    }
+
+    //////////////////////////////// 여기서 부터 우다정이 만든거 ///////////////////////
+    /**
+     * 경로 구하기 (Root)
+     * @param path 하위경로
+     */
+    fun getPath(path: String): Path {
+        if (this.basePath == "") {
+            this.basePath = environment.getProperty("catalina.base").toString()
+        }
+        var dir: Path = Paths.get(basePath + File.separator + path)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+        return dir
+    }
+
+    /**
+     * 외부 경로 조회
+     * @param type 타입
+     */
+    fun getExternalPath(type: String): Path {
+        val dir = when (type) {
+            ResourceConstants.FileType.ICON.code -> ResourceConstants.Path.ICON_DOCUMENT.path
+            ResourceConstants.FileType.CI_ICON.code -> ResourceConstants.Path.ICON_CI_TYPE.path
+            else -> ResourceConstants.Path.FILE.path
+        }
+        return getPath(dir)
+    }
+
+    /**
+     * 타입에 따라 이미지 파일만 가져올지 여부를 판단
+     * @param type 타입
+     */
+    fun isAllowedOnlyImageByType(type: String): Boolean {
+        return when(type) {
+            ResourceConstants.FileType.ICON.code,
+            ResourceConstants.FileType.CI_ICON.code,
+            ResourceConstants.FileType.IMAGE.code -> true
+            else -> false
+        }
+    }
+
+    /**
+     * 이미지 파일 여부
+     * @param extension 확장자
+     */
+    fun isImage(extension: String): Boolean {
+        return imageExtensions.indexOf(extension.toLowerCase()) > -1
+    }
+
+    /**
+     * 파일명 | 폴더명이 검색 조건에 부합하는지 여부
+     * @param name 파일명 | 폴더명
+     * @param matchValue 검색어
+     */
+    fun isMatchedInSearch(name: String, matchValue: String): Boolean {
+        if (matchValue.isEmpty())  { return true }
+
+        return name.toLowerCase().matches(".*${matchValue.toLowerCase()}.*".toRegex())
     }
 }

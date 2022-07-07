@@ -1948,8 +1948,13 @@ resource:
     file: "파일 추가"
     folder: "폴더 추가"
   label:
+    extension: "유형"
     folderName: "폴더 이름"
+    fullPath: "경로"
     list: "리소스 관리"
+    name: "이름"
+    sharedFolder: "공유 문서함"
     searchPlaceholder: "폴더 이름 / 파일 이름"
+    size: "크기"
   msg:
-    searchDescription: "공유 폴더/파일을 추가하거나 삭제, 조회하는 등 관리하는 메뉴입니다. "
+    searchDescription: "공유 폴더/파일을 추가하거나 삭제, 조회하는 등 관리하는 메뉴입니다."

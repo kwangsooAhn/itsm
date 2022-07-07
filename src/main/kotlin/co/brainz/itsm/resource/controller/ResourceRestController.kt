@@ -1,7 +1,6 @@
 
 package co.brainz.itsm.resource.controller
 
-import co.brainz.framework.fileTransaction.provider.AliceResourceProvider
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import org.springframework.http.ResponseEntity
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/resources")
-class ResourceRestController(
-    private val resourceProvider: AliceResourceProvider
-) {
+class ResourceRestController() {
     /**
      * 전체 목록 가져오기.
      */

@@ -21,7 +21,7 @@
     &__row {
       display: grid;
       grid-template-columns: var(--data-columns-width);
-      grid-template-rows: 2.5rem;
+      grid-template-rows: minmax(2.5rem, auto);
     }
 
     &__cell {

@@ -516,7 +516,7 @@ function dateFormatFromNow(date) {
  * @returns icon path 파일명
  */
 aliceJs.getFileExtensionIcon = function(extension) {
-    return '/assets/media/icons/fileUploader/icon_document_' + extension + '.svg';
+    return '/assets/media/icons/fileUploader/icon_document_' + extension.toLowerCase() + '.svg';
 };
 
 /**
