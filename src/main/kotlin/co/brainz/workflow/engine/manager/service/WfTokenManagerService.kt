@@ -459,20 +459,20 @@ class WfTokenManagerService(
         }
 
         // 서브 업무흐름의 문서양식으로 맵핑된 데이터 중에서 CI와 관련된 데이터 수집
-        if (!makeDocumentTokenDto.data.isNullOrEmpty()) {
-            makeDocumentTokenDto.data!!.forEach { wfTokenData ->
+        makeDocumentTokenDto.data?.let { wfTokenDataDtoList ->
+            wfTokenDataDtoList.forEach { wfTokenData ->
                 val component = wfComponentRepository.findByComponentId(wfTokenData.componentId)
-                if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank() &&
-                    wfTokenData.value.isNotEmpty()
-                ) {
-                    val data: Array<Map<String, String>> =
-                        mapper.readValue(wfTokenData.value, object : TypeReference<Array<Map<String, String>>>() {})
-                    data.forEach {
-                        val ciCopyDataDto = CICopyDataDto(
-                            ciId = it["ciId"] as String,
-                            componentId = wfTokenData.componentId
-                        )
-                        subCIComponentList.add(ciCopyDataDto)
+                if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank()) {
+                    if (wfTokenData.value.isNotBlank()) {
+                        val data: Array<Map<String, String>> =
+                            mapper.readValue(wfTokenData.value, object : TypeReference<Array<Map<String, String>>>() {})
+                        data.forEach {
+                            val ciCopyDataDto = CICopyDataDto(
+                                ciId = it["ciId"] as String,
+                                componentId = wfTokenData.componentId
+                            )
+                            subCIComponentList.add(ciCopyDataDto)
+                        }
                     }
                 }
             }
