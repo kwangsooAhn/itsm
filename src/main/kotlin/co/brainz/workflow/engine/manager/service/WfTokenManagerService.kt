@@ -136,6 +136,13 @@ class WfTokenManagerService(
     }
 
     /**
+     * Get component entities from componentIds and componentType.
+     */
+    fun getComponentList(componentIds: Set<String>, componentType: String): List<WfComponentEntity> {
+        return wfComponentRepository.findByComponentIdsAndComponentType(componentIds, componentType)
+    }
+
+    /**
      * Create instance.
      */
     fun createInstance(wfTokenDto: WfTokenDto): WfInstanceEntity {
