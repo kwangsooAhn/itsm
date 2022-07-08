@@ -5,6 +5,9 @@
         select user_key_client as userKey
         , user_id_client as userId
         , user_name_client as userName
+        , mobile_number_client as mobileNumber
+        , organization_client as organization
+        , use_yn_client as useYn
         from awf_user_client
     </node>
 
@@ -13,6 +16,9 @@
         select user_key as userKey
         , user_id as userId
         , user_name as userName
+        , mobile_number as mobileNumber
+        , organization
+        , use_yn as useYn
         from if_awf_user_test
     </node>
 
@@ -21,14 +27,17 @@
         insert into if_awf_user_test (
         user_key,
         user_id,
-        user_name
-        ) values (?, ?, ?)
+        user_name,
+        mobile_number,
+        organization,
+        use_yn
+        ) values (?, ?, ?, ?, ?, ?)
     </node>
 
     <!-- ITSM IF 사용자 테이블 데이터 수정 -->
     <node id="updateIFUser">
         update if_awf_user_test
-        set user_id = ?, user_name = ?
+        set user_id = ?, user_name = ?, mobile_number = ?, organization = ?, use_yn = ?
         where user_key = ?
     </node>
 
@@ -43,6 +52,9 @@
         select user_key as userKey
         , user_id as userId
         , user_name as userName
+        , mobile_number as mobileNumber
+        , organization
+        , use_yn as useYn
         from awf_user_test
     </node>
 
@@ -51,14 +63,17 @@
         insert into awf_user_test (
         user_key,
         user_id,
-        user_name
-        ) values (?, ?, ?)
+        user_name,
+        mobile_number,
+        organization,
+        use_yn
+        ) values (?, ?, ?, ?, ?, ?)
     </node>
 
     <!-- ITSM 사용자 테이블 데이터 수정 -->
     <node id="updateUser">
         update awf_user_test
-        set user_id = ?, user_name = ?
+        set user_id = ?, user_name = ?, mobile_number = ?, organization = ?, use_yn = ?
         where user_key = ?
     </node>
 
@@ -75,9 +90,12 @@
         user_key,
         user_id,
         user_name,
+        mobile_number,
+        organization,
+        use_yn,
         create_dt
         )
-        values (nextval('if_awf_user_history_seq'), ?, ?, ?, ?)
+        values (nextval('if_awf_user_history_seq'), ?, ?, ?, ?, ?, ?, ?)
     </node>
 
     <!-- ITSM 사용자 역할 추가 -->
@@ -89,10 +107,5 @@
         values (?, 'general.user')
     </node>
 
-    <!-- POST QUERY -->
-    <node id="postQuery">
-        update if_awf_user_test
-        set user_name = 'postQuery'
-        where user_key = '0509e09412534a6e98f04ca79abb6424'
-    </node>
+    <node id="postQuery"></node>
 </query>
