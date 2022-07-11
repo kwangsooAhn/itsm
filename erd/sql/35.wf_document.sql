@@ -58,15 +58,15 @@ INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca06bde520058','IT서비스 
 /* 서비스데스크 - 서비스요청 - 만족도 */
 INSERT INTO wf_document VALUES ('4028b21f7c9ff7c8017ca04d16830000','만족도 평가 - 서비스요청','','4028b21f7c9cc269017c9cc76a5e0000','4028b21f7c90d996017c914e27340030','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','document.group.service',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 */
-INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form','document.group.develop','img_document_03.png',true,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc7a779d70523','CMDB 변경 요청서','','2c9180837c94c0f3017c977775530001','2c9180867cc31a25017cc7a069e301a5','document.status.use','40125c91714df6c325714e053c890125','#64BBF6','application-form-workflow','document.group.develop','img_document_03.png',true,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 서비스데스크 - 구성관리 - 만족도 */
 INSERT INTO wf_document VALUES ('2c9180867cc31a25017cc5ca1a9f0145','만족도 평가 - 구성관리','','2c9180867cc31a25017cc5c08e2f0120','2c9180867cc31a25017cc5c7268f0122','document.status.use','40288ab7772dae0301772dbca28a0004','#BDBDBD','workflow','document.group.develop',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 인프라 변경관리 */
-INSERT INTO wf_document VALUES ('4028b8817cbfc7a7017cc0e65b260bdf','인프라 변경관리','','4028b8817cbfc7a7017cc0db1a8c0bc3','4028b8817cbfc7a7017cc08f7b0b0763','document.status.use','4028b25d7886e2d801788704dd8e0002','#76BD26','workflow','document.group.service',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+INSERT INTO wf_document VALUES ('4028b8817cbfc7a7017cc0e65b260bdf','인프라 변경관리','','4028b8817cbfc7a7017cc0db1a8c0bc3','4028b8817cbfc7a7017cc08f7b0b0763','document.status.use','4028b25d7886e2d801788704dd8e0002','#76BD26','application-form-workflow','document.group.service',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 구성관리 */
 INSERT INTO wf_document VALUES ('4028b8817cc50161017cc53233c206b0','구성관리','','4028b8817cc50161017cc5079e850000','4028b8817cc50161017cc5082b460002','document.status.use','40288ab777f04ed90177f05e5ad7000a','#A95EEB','workflow','document.group.develop',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 어플리케이션 변경관리 */
-INSERT INTO wf_document VALUES ('4028b22f7cc55c1a017cc5775d10026b','어플리케이션 변경관리','','4028b22f7cba6866017cbb63a53c08f8','4028b22f7c9c4aee017c9c4e15870000','document.status.use','4028b25d7886e2d801788704dd8e0002','#76BD26','workflow','document.group.service',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
+INSERT INTO wf_document VALUES ('4028b22f7cc55c1a017cc5775d10026b','어플리케이션 변경관리','','4028b22f7cba6866017cbb63a53c08f8','4028b22f7c9c4aee017c9c4e15870000','document.status.use','4028b25d7886e2d801788704dd8e0002','#76BD26','application-form-workflow','document.group.service',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 문제관리 */
 INSERT INTO wf_document VALUES ('4028b21c7cdffb67017ce0b4d3e30872','문제관리','','4028b21c7cdffb67017ce0b33f5e07b6','4028b21c7cdffb67017ce0b3fce307b7','document.status.use','4028b88178c01b660178c0cc91310004','#76BD26','workflow','document.group.incident',NULL,false,'0509e09412534a6e98f04ca79abb6424','2021-11-09 13:00:41.226803',NULL,NULL);
 /* 장애관리 */

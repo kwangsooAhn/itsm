@@ -13,6 +13,15 @@ class WfDocumentConstants {
     }
 
     /**
+     * Document Type.
+     *
+     */
+    enum class WorkflowType(val value: String) {
+        WORKFLOW("workflow"),
+        APPLICATION_FORM_WORKFLOW("application-form-workflow")
+    }
+
+    /**
      * Display Type.
      *
      */

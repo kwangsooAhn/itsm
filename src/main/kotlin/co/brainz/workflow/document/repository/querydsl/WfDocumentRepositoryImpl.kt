@@ -64,8 +64,10 @@ class WfDocumentRepositoryImpl :
                         super.eq(document.documentStatus, WfDocumentConstants.Status.USE.code)
                     }
                 } else {
-                    super.eq(document.documentStatus, documentSearchCondition.searchDocumentStatus)
-                    super.eq(document.documentType, documentSearchCondition.searchDocumentType)
+                    document.documentType.`in`(
+                        WfDocumentConstants.WorkflowType.WORKFLOW.value,
+                        WfDocumentConstants.WorkflowType.APPLICATION_FORM_WORKFLOW.value
+                    )
                 },
                 super.likeIgnoreCase(document.documentName, documentSearchCondition.searchDocuments)
                     ?.or(
