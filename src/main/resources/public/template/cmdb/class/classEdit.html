@@ -189,6 +189,15 @@
                 });
             }
             classAttributeMap.clear();
+            if (response.data.attributes !== null) {
+                response.data.attributes.forEach(function(data) {
+                    classAttributeMap.set(data.attributeId, data.attributeName);
+                    drawAttribute({
+                        key: data.attributeId,
+                        value: data.attributeName
+                    }, 'attribute', true);
+                });
+            }
 
             if (response.data.editable) {
                 if (document.getElementById('btnUpdate') != null) {
