@@ -18,7 +18,7 @@
             <h1 id="counter" class="z-session-count-txt"></h1>
             <h1 th:text="#{login.msg.redirectedLoginPage}"></h1>
         </div>
-        <a class="z-button primary session-return" href="/login" id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}"></a>
+        <a class="z-button primary session-return" id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}"></a>
     </div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 </th:block>
@@ -31,42 +31,42 @@
 
     setCounter(count);
     document.querySelector('#gotoLoginPage').addEventListener('click', gotoLoginPage);
-        const counting = function () {
-            clearTimeout(timer);
-            if (count !== 1) {
-                count -= 1;
-                setCounter(count);
-                timer = setTimeout(counting, 1000);
-            } else {
-                gotoLoginPage();
-            }
-        };
-        timer = setTimeout(counting, 1000);
-
-        function setCounter(count) {
-            document.querySelector('#counter').textContent = count;
+    const counting = function () {
+        clearTimeout(timer);
+        if (count !== 1) {
+            count -= 1;
+            setCounter(count);
+            timer = setTimeout(counting, 1000);
+        } else {
+            gotoLoginPage();
         }
+    };
+    timer = setTimeout(counting, 1000);
 
-        function gotoLoginPage() {
-            clearTimeout(timer);
-            const logoutForm = document.getElementById('logoutForm');
-            if (!window.opener && '[[${redirectUrl}]]' !== '') {
+    function setCounter(count) {
+        document.querySelector('#counter').textContent = count;
+    }
+
+    function gotoLoginPage() {
+        clearTimeout(timer);
+        const logoutForm = document.getElementById('logoutForm');
+        if (!window.opener && '[[${redirectUrl}]]' !== '') {
             let prev = document.createElement('input');
                 prev.setAttribute('type', 'hidden');
                 prev.setAttribute('name', 'redirectUrl');
                 prev.setAttribute('value', [[${redirectUrl}]]);
                 logoutForm.appendChild(prev);
-            }
-            if (window.opener) {
-                window.opener.name = 'alice_web';
-                logoutForm.target = window.opener.name;
-            }
-            logoutForm.submit();
+        }
+        if (window.opener) {
+            window.opener.name = 'alice_web';
+            logoutForm.target = window.opener.name;
+        }
+        logoutForm.submit();
             if (window.opener) {
                 window.close();
             }
         }
-    };
+    }
     /*]]>*/
 </script>
 </html>
