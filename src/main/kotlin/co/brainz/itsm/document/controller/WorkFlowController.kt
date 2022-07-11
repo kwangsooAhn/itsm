@@ -11,6 +11,7 @@ import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
+import co.brainz.itsm.role.service.RoleService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class WorkFlowController(
     private val documentService: DocumentService,
     private val codeService: CodeService,
+    private val roleService: RoleService,
     private val numberingRuleService: NumberingRuleService
 ) {
 
@@ -51,6 +53,7 @@ class WorkFlowController(
      */
     @GetMapping("")
     fun getWorkFlowList(documentSearchCondition: DocumentSearchCondition, model: Model): String {
+        model.addAttribute("typeList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_TYPE_P_CODE))
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
         val result = documentService.getDocumentList(documentSearchCondition)
         model.addAttribute("documentList", result.data)
@@ -71,7 +74,9 @@ class WorkFlowController(
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
         model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
+        model.addAttribute("typeList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_TYPE_P_CODE))
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
+        model.addAttribute("allRoles", roleService.getAllRoleList())
 
         return workFlowEditPage
     }
@@ -85,14 +90,18 @@ class WorkFlowController(
      */
     @GetMapping("{documentId}/edit")
     fun getWorkFlowEdit(@PathVariable documentId: String, model: Model): String {
+        val documentData = documentService.getDocumentAdmin(documentId)
         model.addAttribute("view", false)
         model.addAttribute("documentId", documentId)
-        model.addAttribute("documentData", documentService.getDocumentAdmin(documentId))
+        model.addAttribute("documentData", documentData)
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
         model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
+        model.addAttribute("typeList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_TYPE_P_CODE))
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
+        model.addAttribute("allRoles", roleService.getAllRoleList())
+        model.addAttribute("documentRoles", roleService.getDocumentRoleList(documentData))
 
         return workFlowEditPage
     }
@@ -107,6 +116,10 @@ class WorkFlowController(
     fun getWorkFlowLinkEdit(@PathVariable documentId: String, model: Model): String {
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("documentData", documentService.getDocumentLinkAdmin(documentId))
+        model.addAttribute("typeList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_TYPE_P_CODE))
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
+        model.addAttribute("allRoles", roleService.getAllRoleList())
+        model.addAttribute("documentRoles", roleService.getDocumentLinkRoleList(documentId))
         return workFlowEditPage
     }
 

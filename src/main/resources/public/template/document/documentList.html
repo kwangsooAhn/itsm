@@ -23,9 +23,6 @@
                         <span th:text="${document.documentName}" class="text-ellipsis document-name" th:title="${document.documentName}"></span>
                     </div>
                     <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
-                    <div class="document-icon">
-                        <img class="z-img i-document-icon" th:src="${document.documentIcon}"/>
-                    </div>
                 </div>
             </a>
             <div th:unless="${document.documentType == 'application-form-link'}" class="document-column"  th:onclick="zDocument.openDocumentPopup([[${document.documentId}]])">
@@ -37,9 +34,6 @@
                     <span th:text="${document.documentName}" class="text-ellipsis document-name" th:title="${document.documentName}"></span>
                 </div>
                 <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
-                <div class="document-icon">
-                    <img class="z-img i-document-icon" th:src="${document.documentIcon}"/>
-                </div>
             </div>
         </div>
     </th:block>

@@ -707,6 +707,7 @@ document:
     register: "신청서 작성"
     registerDisplay: "신청서 양식 편집"
     registerEdit: "신청서 수정"
+    role: "조회 대상 역할"
     searchPlaceholder: "문서 이름 / 문서 설명"
     status: "신청서 상태"
     tempDocument: "임시 신청서"
@@ -733,6 +734,8 @@ document:
     process: "처리되었습니다."
     requiredFileupload: "파일을 업로드하세요."
     searchDescription: "신청서를 조회 및 신청합니다."
+    selectGroup: "그룹을 선택하세요."
+    selectRole: "조회 대상 역할을 선택하세요."
     selectForm: "문서양식을 선택하세요."
     selectProcess: "프로세스를 선택하세요."
     selectNumberingRule: "문서번호 규칙을 선택하세요."
@@ -748,9 +751,9 @@ document:
     temporary: "임시"
     use: "사용"
   type:
-    applicationForm: "신청서"
+    applicationForm: "신청서만 사용"
     applicationFormLink: "신청서 링크"
-    workflow: "업무흐름"
+    workflow: "신청서 및 업무 이관"
   btn:
     draftSave: "임시저장"
 

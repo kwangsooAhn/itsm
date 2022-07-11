@@ -45,8 +45,7 @@ class WfDocumentRepositoryImpl :
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
-                    document.updateDt,
-                    document.documentIcon
+                    document.updateDt
                 )
             )
             .join(document.process)
@@ -107,8 +106,7 @@ class WfDocumentRepositoryImpl :
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
-                    document.updateDt,
-                    document.documentIcon
+                    document.updateDt
                 )
             )
             .where(

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Brainzcompany Co., Ltd.
+ * Copyright 2020 BrainzCompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 
@@ -24,6 +24,5 @@ data class DocumentDto(
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
-    var updateDt: LocalDateTime? = null,
-    var documentIcon: String? = null
+    var updateDt: LocalDateTime? = null
 ) : Serializable
