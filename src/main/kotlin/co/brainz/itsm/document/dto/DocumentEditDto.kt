@@ -18,7 +18,7 @@ data class DocumentEditDto(
     var formId: String = "",
     val documentNumberingRuleId: String = "",
     val documentColor: String? = "",
-    var documentGroup: String? = null,
+    var documentGroup: String = "",
     var documentRoles: MutableSet<String>? = null,
     var apiEnable: Boolean = false,
     var documentLinkUrl: String? = "",

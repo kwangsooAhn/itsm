@@ -145,7 +145,9 @@ class WorkFlowController(
     fun getWorkFlowImport(model: Model): String {
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("numberingRuleList", numberingRuleService.getNumberingRules())
+        model.addAttribute("typeList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_TYPE_P_CODE))
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
+        model.addAttribute("allRoles", roleService.getAllRoleList())
         return workFlowImportModalPage
     }
 }

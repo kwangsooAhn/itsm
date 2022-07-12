@@ -667,6 +667,7 @@ class WfDocumentService(
     @Transactional
     fun importDocument(documentImportDto: DocumentImportDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
+        var newDocumentId = ""
         var message = ""
         var importDto: DocumentImportDto
         // 폼 중복 체크
@@ -702,7 +703,7 @@ class WfDocumentService(
             val newProcessId = importDto.processData.process?.id!!
 
             // 신청서 저장
-            val newDocumentId = wfDocumentRepository.save(
+            newDocumentId = wfDocumentRepository.save(
                 WfDocumentEntity(
                     documentId = "",
                     documentType = importDto.documentData.documentType,
@@ -736,6 +737,7 @@ class WfDocumentService(
         }
         return ZResponse(
             status = status.code,
+            data = newDocumentId,
             message = message
         )
     }

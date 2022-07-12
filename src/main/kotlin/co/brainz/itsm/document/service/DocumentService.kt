@@ -348,7 +348,15 @@ class DocumentService(
      * 신청서 Import.
      */
     fun importDocumentData(documentImportDto: DocumentImportDto): ZResponse {
-        return wfDocumentService.importDocument(documentImportDto)
+        val result = wfDocumentService.importDocument(documentImportDto)
+        val documentEditDto = documentImportDto.documentData
+
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
+            documentEditDto.documentId = result.data.toString()
+            updateDocumentRoleMapping(documentEditDto)
+        }
+
+        return result
     }
 
     /**

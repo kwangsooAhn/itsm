@@ -67,8 +67,7 @@
                             <input class="document-role-checkbox" name="roles"
                                    th:disabled="${view}"
                                    th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox"
-                                   th:is
-                                   onclick="checkDocumentRole(this)">
+                                   th:onclick="checkDocumentRole(this)">
                             <span></span>
                             <span class="z-label" th:text="*{allRole.roleName}"></span>
                         </label>
@@ -360,7 +359,7 @@
     function emptyValidationForDocumentOrWorkflow(prefix) { // 신청서/ 업무흐름일 경우 유효성 체크
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
         if (isEmpty('documentGroup', 'document.msg.selectGroup')) { return false; }
-        if (!isChecked('roles', 'user.msg.selectRole')) { return false; }
+        if (!isChecked('roles', 'document.msg.selectRole')) { return false; }
         if (isEmpty(prefix + 'DocumentForm', 'document.msg.selectForm')) { return false; }
         if (isEmpty(prefix + 'DocumentProcess', 'document.msg.selectProcess')) { return false; }
         if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
@@ -372,7 +371,7 @@
     function emptyValidationForDocumentLink(prefix) {
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
         if (isEmpty('documentGroup', 'document.msg.selectGroup')) { return false; }
-        if (!isChecked('roles', 'user.msg.selectRole')) { return false; }
+        if (!isChecked('roles', 'document.msg.selectRole')) { return false; }
         if (isEmpty(prefix + 'Url', 'document.msg.enterDocumentLink')) { return false; }
         if (!isUrl(prefix + 'Url', 'document.msg.checkUrlLink')) { return false; }
         if (isEmpty('documentColor', 'document.msg.enterWorkFlowColor')) { return false; }
