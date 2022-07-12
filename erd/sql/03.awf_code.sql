@@ -72,7 +72,7 @@ insert into awf_code values ('document.group.service', 'document.group', '서비
 insert into awf_code values ('document.group.pc', 'document.group', 'PC 및 주변기기', 'PC 및 주변기기', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group.incident', 'document.group', '장애 신고', '장애 신고', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group.develop', 'document.group', '개발 요청', '개발 요청', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.group.report', 'document.group', '내부보고', '내부보고', null, true, true, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.report', 'document.group', '내부 보고', '내부 보고', null, true, true, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status', 'document', null, '신청서 상태', null, false, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', '임시', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
