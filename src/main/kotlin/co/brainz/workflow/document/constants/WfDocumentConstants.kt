@@ -18,14 +18,6 @@ class WfDocumentConstants {
     enum class DocumentViewType(val value: String) {
         SUBPROCESS("subProcess")
     }
-    /**
-     * Document Type.
-     *
-     */
-    enum class WorkflowType(val value: String) {
-        WORKFLOW("workflow"),
-        APPLICATION_FORM_WORKFLOW("application-form-workflow")
-    }
 
     /**
      * Display Type.

@@ -45,6 +45,7 @@ class WfDocumentLinkRepositoryImpl :
                     documentLink.updateDt
                 )
             ).where(
+                super.eq(documentLink.documentGroup, documentSearchCondition.searchGroupName),
                 if (documentSearchCondition.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
                     if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                         documentLink.documentStatus.`in`(

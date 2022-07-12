@@ -53,7 +53,14 @@ class WfDocumentRepositoryImpl :
             .join(document.numberingRule)
             .where(
                 super.eq(document.documentGroup, documentSearchCondition.searchGroupName),
-                super.eq(document.documentType, documentSearchCondition.searchDocumentType),
+                if (documentSearchCondition.searchDocumentType == WfDocumentConstants.DocumentViewType.SUBPROCESS.value) {
+                    document.documentType.`in`(
+                        DocumentConstants.DocumentType.WORKFLOW.value,
+                        DocumentConstants.DocumentType.APPLICATION_FORM_WORKFLOW.value
+                    )
+                } else {
+                    super.eq(document.documentType, documentSearchCondition.searchDocumentType)
+                },
                 if (documentSearchCondition.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
                     if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                         document.documentStatus.`in`(
@@ -64,12 +71,6 @@ class WfDocumentRepositoryImpl :
                         super.eq(document.documentStatus, WfDocumentConstants.Status.USE.code)
                     }
                 } else {
-                    if (documentSearchCondition.searchDocumentType.equals(WfDocumentConstants.DocumentViewType.SUBPROCESS.value)) {
-                        document.documentType.`in`(
-                            WfDocumentConstants.WorkflowType.WORKFLOW.value,
-                            WfDocumentConstants.WorkflowType.APPLICATION_FORM_WORKFLOW.value
-                        )
-                    }
                     super.eq(document.documentStatus, documentSearchCondition.searchDocumentStatus)
                 },
                 super.likeIgnoreCase(document.documentName, documentSearchCondition.searchDocuments)
@@ -84,7 +85,8 @@ class WfDocumentRepositoryImpl :
                     documentSearchCondition.searchProcessName
                 ),
                 super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
-            ).orderBy(document.documentName.asc())
+            )
+            documentQuery.orderBy(document.documentName.asc())
 
         return documentQuery.fetch()
     }

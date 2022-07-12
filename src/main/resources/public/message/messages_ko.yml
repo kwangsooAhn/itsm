@@ -1351,7 +1351,7 @@ process:
       start-id: "시작 엘리먼트 아이디"
       start-name: "시작 엘리먼트 이름"
       status: "상태"
-      sub-document-id: "서브 업무흐름 아이디"
+      sub-document-id: "서브 업무흐름"
       subprocess: "서브프로세스"
       target-document-list: "대상 업무흐름"
       targetMappingId: "작업대상 매핑 ID"
