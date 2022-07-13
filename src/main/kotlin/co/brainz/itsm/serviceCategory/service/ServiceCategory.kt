@@ -66,4 +66,8 @@ class ServiceCategory(
             )
         )
     }
+
+    fun getServiceDetail(serviceCode: String): ServiceCategoryDto {
+        return serviceCategoryRepo.findService(serviceCode)
+    }
 }
