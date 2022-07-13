@@ -247,48 +247,22 @@ class WfScriptTask(
     }
 
     /**
-     * 1. ScriptTask Element 의 MappingId 찾기
-     * 2. MappingId 로 연결된 Component 찾은 후 Component Type 이 CI 인지 검증
-     * 3. 검증 완료 시, token Data 에서 CI 목록 조회
-     * 4. CI 목록 Loop 실행하면서 생성, 변경, 삭제 List<CIDto> 생성 (CMDB Rest Api 호출용 데이터 작성)
-     * 4-1. attributes, tags 와 같은 세부 데이터 내용을 임시테이블에서 조회하여 추가
-     * 5. 생성된 List<CIDto> 를 각각의 URL로 CMDB 호출
+     * 1. 해당 Token 의 Component 목록 중 ci 컴포넌트만 조회
+     * 2. 조회된 CI Component 목록을 순차적으로 실행하면서 CI 처리
      */
     private fun callCmdbAction(createTokenDto: WfTokenDto, element: WfElementEntity) {
-        // 1. ScripTask MappingId 조회
-        val targetMappingId = this.getScriptTaskMappingId(element)
-        var componentEntity: WfComponentEntity? = null
-
-        // 2. tokenData 에서 mappingId와 동일한 컴포넌트 찾기
-        if (!targetMappingId.isNullOrBlank()) {
-            componentEntity = this.getMappingComponent(createTokenDto, targetMappingId)
-        }
-
-        // 3. 컴포넌트가 CI 컴포넌트인 경우 진행
-        if (componentEntity != null && componentEntity.componentType == WfComponentConstants.ComponentType.CI.code) {
-            // 3-1. componentId, instanceId, ci_id(ciList) 찾기
-            val componentId = componentEntity.componentId
-            val instanceId = createTokenDto.instanceId
-            // 3-2. 데이터에서 ci 목록 추출
-            val ciList = this.getCiList(createTokenDto, componentEntity)
-            // 3-3. ci 목록을 전송할 형태로 데이터 변경
-            val createCiList =
-                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.REGISTER.code)
-            val modifyCiList =
-                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.MODIFY.code)
-            val deleteCiList =
-                this.getCiDtoList(ciList, componentId, instanceId, RestTemplateConstants.ActionType.DELETE.code)
-
-            // 4. 전송
-            createCiList.forEach { ci ->
-                wfTokenManagerService.createCI(ci)
-            }
-            modifyCiList.forEach { ci ->
-                wfTokenManagerService.updateCI(ci)
-            }
-            deleteCiList.forEach { ci ->
-                wfTokenManagerService.deleteCI(ci)
-            }
+        val ciComponents = this.getCIComponents(createTokenDto)
+        for (ciComponent in ciComponents) {
+            val ciList = this.getCiList(createTokenDto, ciComponent)
+            this.getCiDtoList(
+                ciList, ciComponent.componentId, createTokenDto.instanceId, RestTemplateConstants.ActionType.REGISTER.code
+            ).forEach { wfTokenManagerService.createCI(it) }
+            this.getCiDtoList(
+                ciList, ciComponent.componentId, createTokenDto.instanceId, RestTemplateConstants.ActionType.MODIFY.code
+            ).forEach { wfTokenManagerService.updateCI(it) }
+            this.getCiDtoList(
+                ciList, ciComponent.componentId, createTokenDto.instanceId, RestTemplateConstants.ActionType.DELETE.code
+            ).forEach { wfTokenManagerService.deleteCI(it) }
         }
     }
 
@@ -321,19 +295,11 @@ class WfScriptTask(
     }
 
     /**
-     * CI Component 의 매핑아이디 조회.
+     * Component 중 CI 목록 조회
      */
-    private fun getScriptTaskMappingId(element: WfElementEntity): String? {
-        var targetMappingId: String? = null
-        for (scriptData in element.elementScriptDataEntities) {
-            if (!scriptData.scriptValue.isNullOrEmpty()) {
-                val scriptMap: Map<String, Any> =
-                    mapper.readValue(scriptData.scriptValue, object : TypeReference<Map<String, Any>>() {})
-                targetMappingId = scriptMap[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
-                targetMappingId = if (targetMappingId == "null") null else targetMappingId
-            }
-        }
-        return targetMappingId
+    private fun getCIComponents(createTokenDto: WfTokenDto): List<WfComponentEntity> {
+        val componentIds = createTokenDto.data?.map { it.componentId } ?: emptyList()
+        return wfTokenManagerService.getComponentList(componentIds.toSet(), WfComponentConstants.ComponentType.CI.code)
     }
 
     /**

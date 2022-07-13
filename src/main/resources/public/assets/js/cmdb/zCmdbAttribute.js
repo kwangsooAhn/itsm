@@ -455,7 +455,7 @@
         // required
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
         // custom-code
-        const customCodeOptions = customCodeList.map(function(option) {
+        const customCodeOptions = customCodeList.data.map(function(option) {
             return `<option value='${option.customCodeId}' ` +
                 `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.customCodeName)}</option>`;

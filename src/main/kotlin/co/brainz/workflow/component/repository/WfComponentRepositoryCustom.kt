@@ -10,4 +10,5 @@ import co.brainz.workflow.component.entity.WfComponentEntity
 
 interface WfComponentRepositoryCustom : AliceRepositoryCustom {
     fun findByFormIds(formIds: Set<String>): List<WfComponentEntity>
+    fun findByComponentIdsAndComponentType(componentIds: Set<String>, componentType: String): List<WfComponentEntity>
 }

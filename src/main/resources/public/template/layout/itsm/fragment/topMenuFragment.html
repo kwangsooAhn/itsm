@@ -41,9 +41,9 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
         let notificationDiv = null;
-        window.addEventListener('DOMContentLoaded', function () {
+        window.addEventListener('DOMContentLoaded', function() {
             const userInfo = document.querySelector('.z-user-info');
-            document.querySelector('.z-user-info').addEventListener('click', function (e) {
+            document.querySelector('.z-user-info').addEventListener('click', function(e) {
                 e.preventDefault();
                 if (this.classList.contains('active')) {
                     this.classList.remove('active');
@@ -51,11 +51,11 @@
                     this.classList.add('active');
                 }
             });
-            document.addEventListener('click', function (e) {
+            document.addEventListener('click', function(e) {
                 if (e.target != null && !e.target.classList.contains('z-user')) {
                     userInfo.classList.remove('active');
                 }
-            })
+            });
             aliceJs.loadSvg();
             notificationDiv = document.getElementById('notification-panel');
             hiddenProgressBar();
@@ -103,7 +103,8 @@
             }).then((htmlData) => {
                 notificationDiv.innerHTML = htmlData;
                 const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
-                if (noConfirmNotification.length !== 0 && !document.querySelector('.z-icon-notification').classList.contains('active')) {
+                if (noConfirmNotification.length !== 0 &&
+                    !document.querySelector('.z-icon-notification').classList.contains('active')) {
                     document.querySelector('.z-icon-notification').classList.add('active');
                 }
                 document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
@@ -115,7 +116,7 @@
 
                 if (isShow) {
                     const noDisplayNotification = notificationDiv.querySelectorAll('div[is-display=false]');
-                    noDisplayNotification.forEach(function (element) {
+                    noDisplayNotification.forEach(function(element) {
                         showNotification({
                             notificationId: element.id,
                             notificationType: element.getAttribute('notification-type'),
@@ -127,7 +128,7 @@
                     });
                 }
 
-                OverlayScrollbars(document.querySelectorAll('.z-notification-body'), {className: 'inner-scrollbar'});
+                OverlayScrollbars(document.querySelectorAll('.z-notification-body'), { className: 'inner-scrollbar' });
             });
         }
 
@@ -146,10 +147,10 @@
                 position: 'right',
                 stopOnFocus: true,
                 className: 'alice-toastify toast-content',
-                onShow: function () {
+                onShow: function() {
                     updateNotification(param.notificationId, 'display');
                 },
-                onClick: function () {
+                onClick: function() {
                     // 문서 알림일 경우만 팝업 호출
                     if (param.notificationType === 'document') {
                         openTokenPage(param.notificationId, param.tokenId);
@@ -162,8 +163,8 @@
 
         // Open token page.
         function openTokenPage(notificationId, tokenId) {
-            const url = "/tokens/" + tokenId + "/edit"
-            window.open(url, null, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150))
+            const url = '/tokens/' + tokenId + '/edit';
+            window.open(url, null, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
             updateNotification(notificationId, 'confirm');
         }
 
@@ -188,7 +189,8 @@
         // 패스워드 인증 모달 오픈
         function openPasswordConfirmModal(userKey, manageAuth) {
             const passwordAuthModalTemplate = `<div class="flex-column">` +
-                `<label class="field-label" for="password">${i18n.msg('user.label.password')}<span class="required"></span></label>` +
+                `<label class="field-label" for="password">${i18n.msg('user.label.password')}<span class="required">` +
+                `</span></label>` +
                 `<input type="password" id="modalPassword" name="modalPassword" class="z-input" maxlength="50" value="">` +
                 `</div>`;
 
@@ -199,8 +201,8 @@
                 buttons: [{
                     content: i18n.msg('common.btn.check'),
                     classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function (modal) {
+                    bindKey: 13,
+                    callback: function(modal) {
                         passwordEncryptAndConfirm(userKey, manageAuth);
                         modal.hide();
                     }
@@ -208,15 +210,16 @@
                     content: i18n.msg('common.btn.cancel'),
                     classes: 'z-button secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         modal.hide();
                     }
                 }],
                 close: {
                     closable: false,
                 }
-            })
+            });
             passwordConfirmModal.show();
+            document.getElementById('modalPassword').focus();
         }
 
         // 입력받은 패스워드 암호화
@@ -236,7 +239,7 @@
                 data.password = rsa.encrypt(password);
 
                 passwordConfirm(data, userKey, manageAuth);
-            })
+            });
         }
 
         // 입력받은 패스워드 확인 처리
