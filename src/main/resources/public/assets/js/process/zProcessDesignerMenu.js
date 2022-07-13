@@ -808,9 +808,12 @@
             zProcessDesigner.removeElementSelected();
 
             const connectorElementId = ZWorkflowUtil.generateUUID();
-            zProcessDesigner.elements.links.push(
-                { id: connectorElementId, sourceId: elem.node().id, targetId: node.nodeElement.node().id, isDefault: 'N' }
-            );
+            zProcessDesigner.elements.links.push({
+                id: connectorElementId,
+                sourceId: elem.node().id,
+                targetId: node.nodeElement.node().id,
+                isDefault: 'N'
+            });
             zProcessDesigner.setConnectors();
 
             const connectorElementData = zProcessDesigner.data.elements.filter(function(elem) {
@@ -2210,7 +2213,7 @@
         });
 
         // documents
-        const documentUrl = '/rest/documents?searchDocumentStatus=document.status.use';
+        const documentUrl = '/rest/documents?searchDocumentStatus=document.status.use&searchDocumentType=subProcess';
         const loadDocuments = async () => await aliceJs.fetchJson(documentUrl, {
             method: 'GET'
         }).then((response) => {

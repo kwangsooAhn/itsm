@@ -45,8 +45,7 @@ class WfDocumentRepositoryImpl :
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
-                    document.updateDt,
-                    document.documentIcon
+                    document.updateDt
                 )
             )
             .join(document.process)
@@ -54,7 +53,14 @@ class WfDocumentRepositoryImpl :
             .join(document.numberingRule)
             .where(
                 super.eq(document.documentGroup, documentSearchCondition.searchGroupName),
-                super.eq(document.documentType, documentSearchCondition.searchDocumentType),
+                if (documentSearchCondition.searchDocumentType == WfDocumentConstants.DocumentViewType.SUBPROCESS.value) {
+                    document.documentType.`in`(
+                        DocumentConstants.DocumentType.WORKFLOW.value,
+                        DocumentConstants.DocumentType.APPLICATION_FORM_WORKFLOW.value
+                    )
+                } else {
+                    super.eq(document.documentType, documentSearchCondition.searchDocumentType)
+                },
                 if (documentSearchCondition.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
                     if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                         document.documentStatus.`in`(
@@ -79,7 +85,8 @@ class WfDocumentRepositoryImpl :
                     documentSearchCondition.searchProcessName
                 ),
                 super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
-            ).orderBy(document.documentName.asc())
+            )
+            documentQuery.orderBy(document.documentName.asc())
 
         return documentQuery.fetch()
     }
@@ -106,8 +113,7 @@ class WfDocumentRepositoryImpl :
                     document.createUserKey,
                     document.createDt,
                     document.updateUserKey,
-                    document.updateDt,
-                    document.documentIcon
+                    document.updateDt
                 )
             )
             .where(

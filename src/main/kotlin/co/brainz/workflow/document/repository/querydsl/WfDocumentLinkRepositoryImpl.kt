@@ -36,16 +36,16 @@ class WfDocumentLinkRepositoryImpl :
                     constant(""),
                     constant(""),
                     documentLink.documentColor,
-                    constant(""),
+                    documentLink.documentGroup,
                     constant(false),
                     documentLink.documentLinkUrl,
                     documentLink.createUserKey,
                     documentLink.createDt,
                     documentLink.updateUserKey,
-                    documentLink.updateDt,
-                    documentLink.documentIcon
+                    documentLink.updateDt
                 )
             ).where(
+                super.eq(documentLink.documentGroup, documentSearchCondition.searchGroupName),
                 if (documentSearchCondition.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
                     if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                         documentLink.documentStatus.`in`(

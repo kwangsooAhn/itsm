@@ -13,6 +13,11 @@ object DocumentConstants {
     const val DOCUMENT_GROUP_P_CODE = "document.group"
 
     /**
+     * document type p_code.
+     */
+    const val DOCUMENT_TYPE_P_CODE = "document.type"
+
+    /**
      * default document icon.
      */
     const val DEFAULT_DOCUMENT_ICON = "img_document_01.png"
@@ -25,6 +30,7 @@ object DocumentConstants {
     enum class DocumentType(val value: String) {
         APPLICATION_FORM("application-form"),
         WORKFLOW("workflow"),
+        APPLICATION_FORM_WORKFLOW("application-form-workflow"),
         APPLICATION_FORM_LINK("application-form-link")
     }
 

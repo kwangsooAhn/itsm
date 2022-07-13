@@ -23,9 +23,11 @@ insert into awf_code_lang values ('document.status.use', 'use', 'en');
 insert into awf_code_lang values ('document.displayType.editable', 'Editable', 'en');
 insert into awf_code_lang values ('document.displayType.readonly', 'Readonly', 'en');
 insert into awf_code_lang values ('document.displayType.hidden', 'Hidden', 'en');
-insert into awf_code_lang values ('document.group.incident', 'Disability Inquiry', 'en');
-insert into awf_code_lang values ('document.group.inquiry', 'Simple Inquiry', 'en');
-insert into awf_code_lang values ('document.group.request', 'Service Request', 'en');
+insert into awf_code_lang values ('document.group.service', 'Service Request', 'en');
+insert into awf_code_lang values ('document.group.pc', 'PC and Peripherals', 'en');
+insert into awf_code_lang values ('document.group.incident', 'Report Disability', 'en');
+insert into awf_code_lang values ('document.group.develop', 'Develop Request', 'en');
+insert into awf_code_lang values ('document.group.report', 'Internal Report', 'en');
 insert into awf_code_lang values ('form.template', 'Template', 'en');
 /* 단순문의 */
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry', 'ServiceDesk - Simple Inquiry', 'en');

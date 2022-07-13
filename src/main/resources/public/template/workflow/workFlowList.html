@@ -33,11 +33,13 @@
                 </th:block>
                 <span sec:authorize="!hasAuthority('workflow.manage')" th:text="${document.documentName}" th:title="${document.documentName}"></span>
             </td>
-            <th:block th:switch="${document.documentType}">
-                <td style="width: 10%;" class="align-left" th:case = "application-form" th:text="#{document.type.applicationForm}" th:title="#{document.type.applicationForm}"></td>
-                <td style="width: 10%;" class="align-left" th:case = "workflow" th:text="#{document.type.workflow}" th:title="#{document.type.workflow}"></td>
-                <td style="width: 10%;" class="align-left" th:case = "application-form-link" th:text="#{document.type.applicationFormLink}" th:title="#{document.type.applicationFormLink}"></td>
-            </th:block>
+            <td style="width: 10%;" class="align-left">
+                <th:block th:if="${document.documentType != null && document.documentType != ''}">
+                    <th:block th:each="type, index : ${typeList}">
+                        <label th:if="${type.code} == ${document.documentType}" th:text="${type.codeValue}" th:title="${type.codeValue}"></label>
+                    </th:block>
+                </th:block>
+            </td>
              <td style="width: 15%;" class="align-left">
                 <th:block th:if="${document.documentGroup != null && document.documentGroup != ''}">
                     <th:block th:each="group, index : ${groupList}">

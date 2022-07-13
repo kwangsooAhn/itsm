@@ -47,10 +47,12 @@
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
-    // Document type.
-    const DOCUMENT_TYPE_FORM = 'application-form';
-    const DOCUMENT_TYPE_WORKFLOW = 'workflow';
-    const DOCUMENT_TYPE_LINK = 'application-form-link';
+
+    // Selected Role List.
+    let documentRoles = [];
+    /*[# th:each="documentRole : ${documentRoles}"]*/
+    documentRoles.push(/*[[${documentRole.roleId}]]*/);
+    /*[/]*/
 
     let importFile;
     window.onload = function() {
@@ -72,60 +74,14 @@
         });
     }
 
-    // ID 검색을 위한 prefix 반환
-    function getPrefixForId(type) {
-        switch (type) {
-            case DOCUMENT_TYPE_FORM:
-                return 'application';
-            case DOCUMENT_TYPE_WORKFLOW:
-                return 'workflow';
-            case DOCUMENT_TYPE_LINK:
-                return 'link';
-        }
-    }
-
-    // 신청서 아이콘 선택 팝업
-    function openIcon() {
-        const documentType = document.getElementById('documentType');
-        const prefix = getPrefixForId(documentType.value);
-        aliceJs.thumbnail({
-            title: i18n.msg('document.label.icon'),
-            targetId: prefix + 'DocumentIcon',
-            type: 'icon',
-            isThumbnailInfo: false,
-            isFilePrefix: false,
-            thumbnailDoubleClickUse: true,
-            selectedPath: document.getElementById(prefix + 'DocumentIcon').value,
-        });
-    }
-
-    // 업무흐름 구분 변경
-    function setDocumentType(type) {
-        const applicationForm = document.getElementById('applicationFormGroup');
-        const workflow = document.getElementById('workflowGroup');
-        const applicationFormLink = document.getElementById('applicationFormLinkGroup');
-        const prefix = getPrefixForId(type);
-
-        switch (type) {
-            case DOCUMENT_TYPE_FORM:
-                applicationForm.classList.add('on');
-                workflow.classList.remove('on');
-                applicationFormLink.classList.remove('on');
-                break;
-            case DOCUMENT_TYPE_WORKFLOW:
-                workflow.classList.add('on');
-                applicationForm.classList.remove('on');
-                applicationFormLink.classList.remove('on');
-                break;
-            case DOCUMENT_TYPE_LINK:
-                applicationFormLink.classList.add('on');
-                workflow.classList.remove('on');
-                applicationForm.classList.remove('on');
-                break;
-            default:
-        }
-        if (document.querySelector('.hidden-control-content.on .z-color-box') == null) {
-            new zColorPicker(document.getElementById(prefix + 'DocumentColor'), { type: 'fill' });
+    // Role 선택 event
+    function checkDocumentRole(roleObject) {
+        if (roleObject.checked) {
+            if (!documentRoles.includes(roleObject.value)) {
+                documentRoles.push(roleObject.value);
+            }
+        } else {
+            documentRoles = documentRoles.filter((element) => element !== roleObject.value);
         }
     }
 
@@ -160,10 +116,12 @@
      * 업무흐름 import 유효성 검증
      * @param prefix 구분자
      */
-    function checkValidationForImportWorkflow(prefix) {
+    function checkValidationForImportWorkflow() {
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
-        if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
+        if (isEmpty('documentGroup', 'document.msg.selectGroup')) { return false; }
+        if (!isChecked('roles', 'document.msg.selectRole')) { return false; }
+        if (isEmpty('numberingRule', 'document.msg.selectNumberingRule')) { return false; }
+        if (isEmpty('documentColor', 'document.msg.enterWorkFlowColor')) { return false; }
         if (isEmpty('formName', 'form.msg.enterFormName')) { return false; }
         if (isEmpty('processName', 'process.msg.enterProcessName')) { return false; }
         if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
@@ -176,30 +134,33 @@
      * 업무흐름 import
      */
     function importWorkFlow() {
-        const documentType = document.getElementById('documentType').value;
-        const prefix = getPrefixForId(documentType);
-        if (importFile === null || !checkValidationForImportWorkflow(prefix)) { return false; }
+        if (importFile === null || !checkValidationForImportWorkflow()) { return false; }
+
+        // 조회 대상 역할
+        const checkedRoles = document.querySelectorAll('input[name=roles]:checked');
+        let arrRoleValue = [];
+        checkedRoles.forEach(function(item) {
+            arrRoleValue.push(item.value);
+        });
 
         const importData = {
-            documentType: documentType,
+            documentType: document.getElementById('documentType').value,
             documentName: document.getElementById('documentName').value,
             documentDesc: document.getElementById('documentDesc').value,
             formId: '',
             processId: '',
-            documentNumberingRuleId: document.getElementById(prefix + 'NumberingRule').value,
-            documentStatus: document.getElementById(prefix + 'DocumentStatus').value,
-            apiEnable: document.getElementById(prefix + 'ApiEnable').value,
-            documentLinkUrl: null,
-            documentColor: document.getElementById(prefix + 'DocumentColor').value,
-            documentGroup: (documentType === DOCUMENT_TYPE_FORM)
-                ? document.getElementById(prefix + 'DocumentGroup').value : null,
-            documentIcon: (documentType === DOCUMENT_TYPE_FORM)
-                ?  document.getElementById(prefix + 'DocumentIcon').value : null,
+            documentNumberingRuleId: document.getElementById('numberingRule').value,
+            documentStatus: document.getElementById('documentStatus').value,
+            apiEnable: document.getElementById('apiEnable').value,
+            documentColor: document.getElementById('documentColor').value,
+            documentRoles: arrRoleValue,
+            documentGroup: document.getElementById('documentGroup').value,
             formName: document.getElementById('formName').value,
             formDesc: document.getElementById('formDesc').value,
             processName: document.getElementById('processName').value,
             processDesc: document.getElementById('processDesc').value,
         };
+
         ZWorkflowUtil.import(importFile, importData, 'workflow', function(response) {
             switch (response.status) {
                 case aliceJs.response.duplicate:
@@ -246,9 +207,6 @@
                 }],
                 close: { closable: false },
                 onCreate: function() {
-                    const documentType = document.getElementById('documentType').value;
-                    setDocumentType(documentType);
-
                     // 파일 업로드 추가
                     zFileUploader.init({
                         formId: 'importWorkFlow',
@@ -273,6 +231,11 @@
                             }
                         });
                     });
+
+                    if (document.querySelector('.z-color-box') == null) {
+                        new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
+                    }
+
                     // select 디자인
                     aliceJs.initDesignedSelectTag();
                 }
