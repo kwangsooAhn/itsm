@@ -58,6 +58,8 @@ insert into awf_auth values ('portal.manage', '포털 관리', 'FAQ 등록, 게�
 insert into awf_auth values ('document.view', '문서함 검색', '문서함 조회시 모든 문서를 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('sla.manage', 'SLA 관리', 'SLA 지표를 생성하고 관리할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 insert into awf_auth values ('sla.view', 'SLA 조회', '지표별, 연도별 SLA 현황을 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_auth values ('service.manage', '서비스 카테고리 관리', '서비스 카테고리를 생성하고 관리할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+insert into awf_auth values ('service.view', '서비스 카테고리 조회', '서비스 카테고리를 조회할 수 있습니다.', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 
 /**
  * 아바타
@@ -648,6 +650,7 @@ insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('service', 'menu', '/services/edit', 14, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -724,6 +727,9 @@ insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
 insert into awf_menu_auth_map values ('calendar', 'general');
+insert into awf_menu_auth_map values ('service', 'service.manage');
+insert into awf_menu_auth_map values ('service', 'service.view');
+
 /**
  * 알림
  */
@@ -895,6 +901,7 @@ INSERT INTO awf_role_auth_map VALUES ('system.admin', 'system.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'portal.manage');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('system.admin', 'sla.manage');
+INSERT INTO awf_role_auth_map VALUES ('system.admin', 'service.manage');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'cmdb.view');
 INSERT INTO awf_role_auth_map VALUES ('service.admin', 'workflow.expire');
@@ -1541,6 +1548,11 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
+insert into awf_url values ('/services/edit', 'get', '서비스 카테고리 편집 화면', 'TRUE');
+insert into awf_url values ('/rest/services', 'get', '서비스 카테고리 전체 조회', 'TRUE');
+insert into awf_url values ('/rest/services/{id}', 'get', '서비스 카테고리 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/services', 'post', '서비스 카테고리 등록', 'TRUE');
+insert into awf_url values ('/rest/services/{id}', 'put', '서비스 카테고리 수정', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1941,6 +1953,14 @@ insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get',
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
+insert into awf_url_auth_map values ('/services/edit', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/services/edit', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/services', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/rest/services', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/services/{id}', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/rest/services/{id}', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/services', 'post', 'service.manage');
+insert into awf_url_auth_map values ('/rest/services/{id}', 'put', 'service.manage');
 
 /**
  * 사용자정보
@@ -9772,3 +9792,46 @@ COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
 
+/**
+ * 서비스 카테고리 정보
+ */
+DROP TABLE IF EXISTS service_category cascade;
+
+CREATE TABLE service_category
+(
+    service_code varchar(100) NOT NULL,
+    p_service_code varchar(100),
+    service_name varchar(100) NOT NULL,
+    service_desc text,
+    availability_goal text,
+    start_date timestamp,
+    end_date timestamp,
+    editable boolean default true,
+    use_yn boolean default true,
+    level integer,
+    seq_num integer,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT service_pk PRIMARY KEY (service_code)
+);
+
+COMMENT ON TABLE service_category IS '서비스카테고리정보';
+COMMENT ON COLUMN service_category.service_code IS '서비스코드';
+COMMENT ON COLUMN service_category.p_service_code IS '부모서비스코드';
+COMMENT ON COLUMN service_category.service_name IS '서비스이름';
+COMMENT ON COLUMN service_category.service_desc IS '서비스설명';
+COMMENT ON COLUMN service_category.availability_goal IS '가용목표';
+COMMENT ON COLUMN service_category.start_date IS '서비스시작일자';
+COMMENT ON COLUMN service_category.end_date IS '서비스종료일자';
+COMMENT ON COLUMN service_category.editable IS '수정가능여부';
+COMMENT ON COLUMN service_category.use_yn IS '사용여부';
+COMMENT ON COLUMN service_category.level IS '레벨';
+COMMENT ON COLUMN service_category.seq_num IS '출력순서';
+COMMENT ON COLUMN service_category.create_user_key IS '등록자';
+COMMENT ON COLUMN service_category.create_dt IS '등록일';
+COMMENT ON COLUMN service_category.update_user_key IS '수정자';
+COMMENT ON COLUMN service_category.update_dt IS '수정일';
+
+insert into service_category values ('service', null, 'IT서비스', null, null, null, null, false, true, 0, 0, '0509e09412534a6e98f04ca79abb6424', now(), null, null);

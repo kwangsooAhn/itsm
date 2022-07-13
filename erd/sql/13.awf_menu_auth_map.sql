@@ -73,3 +73,5 @@ insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
 insert into awf_menu_auth_map values ('calendar', 'general');
+insert into awf_menu_auth_map values ('service', 'service.manage');
+insert into awf_menu_auth_map values ('service', 'service.view');
