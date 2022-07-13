@@ -67,6 +67,9 @@ class ServiceCategory(
         )
     }
 
+    /**
+     * 서비스 카테고리 상세 조회
+     */
     fun getServiceDetail(serviceCode: String): ServiceCategoryDto {
         return serviceCategoryRepo.findService(serviceCode)
     }
