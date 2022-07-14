@@ -107,5 +107,11 @@
         values (?, 'general.user')
     </node>
 
+    <!-- ITSM 사용자 역할 삭제 -->
+    <node id="deleteUserRole">
+        delete from awf_user_role_test
+        where user_key = ?
+    </node>
+
     <node id="postQuery"></node>
 </query>
