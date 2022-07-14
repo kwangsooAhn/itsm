@@ -10,4 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ServiceCategoryRepo : JpaRepository<ServiceCategoryEntity, String>, ServiceCategoryRepoCustom
+interface ServiceCategoryRepo : JpaRepository<ServiceCategoryEntity, String>, ServiceCategoryRepoCustom {
+
+    fun existsByServiceCodeOrServiceName(serviceCode: String, serviceName: String) : Boolean
+}

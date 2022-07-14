@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.serviceCategory.service
 
+import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.serviceCategory.dto.ServiceCategoryDto
 import co.brainz.itsm.serviceCategory.dto.ServiceCategoryReturnDto
@@ -72,5 +73,42 @@ class ServiceCategory(
      */
     fun getServiceDetail(serviceCode: String): ServiceCategoryDto {
         return serviceCategoryRepo.findService(serviceCode)
+    }
+
+
+    /**
+     * 서비스 카테고리 신규 등록
+     */
+    fun createService(serviceCategoryDto: ServiceCategoryDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
+        when (serviceCategoryRepo.existsByServiceCodeOrServiceName(serviceCategoryDto.serviceCode, serviceCategoryDto.serviceName)) {
+            true -> status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            false -> {
+                val serviceEntity = ServiceCategoryEntity(
+                    serviceCode = serviceCategoryDto.serviceCode,
+                    pServiceCode = serviceCategoryDto.pServiceCode?.let {
+                        serviceCategoryRepo.findById(it).orElse(ServiceCategoryEntity(serviceCode = serviceCategoryDto.pServiceCode))
+                    },
+                    serviceName = serviceCategoryDto.serviceName,
+                    serviceDesc = serviceCategoryDto.serviceDesc,
+                    avaGoal = serviceCategoryDto.avaGoal,
+                    startDate = serviceCategoryDto.startDate,
+                    endDate = serviceCategoryDto.endDate,
+                    useYn = serviceCategoryDto.useYn,
+                    seqNum = serviceCategoryDto.seqNum
+                )
+                if (serviceCategoryDto.pServiceCode.isNullOrEmpty()) {
+                    serviceEntity.level = 0
+                } else {
+                    val pServiceEntity = serviceCategoryRepo.findById(serviceCategoryDto.pServiceCode)
+                    serviceEntity.level = pServiceEntity.get().level?.plus(1)
+                }
+                serviceCategoryRepo.save(serviceEntity)
+            }
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 }
