@@ -75,7 +75,6 @@ class ServiceCategory(
         return serviceCategoryRepo.findService(serviceCode)
     }
 
-
     /**
      * 서비스 카테고리 신규 등록
      */
