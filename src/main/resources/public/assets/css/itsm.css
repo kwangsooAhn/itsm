@@ -2674,12 +2674,6 @@ input, button, select, optgroup, textarea {
   background-position-y: 50%;
 }
 
-/*
- * layout.scss
- *
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- */
 /* wrapper
  *
  *
@@ -3360,7 +3354,7 @@ input, button, select, optgroup, textarea {
   margin-top: 1.875rem;
 }
 .z-itsm-container .z-main .view-title {
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: 0.125rem solid #CFD5D9;
   padding-bottom: 0.625rem;
   color: #222529;
   font-size: 1.125rem;
@@ -3773,7 +3767,7 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  width: calc(100% - (0.188rem * 2));
+  width: calc(100% - 0.376rem);
   margin: 0.188rem;
   padding-left: 0.875rem;
   background-color: #FFFFFF;
@@ -4162,7 +4156,7 @@ input, button, select, optgroup, textarea {
 }
 .z-form-properties-panel, .z-form-properties, .z-process-properties-panel, .z-process-properties {
   position: fixed;
-  top: calc(2.875rem + 2.5rem);
+  top: 5.375rem;
   right: 0;
   bottom: 0;
   -ms-overflow-style: none;
@@ -4450,7 +4444,8 @@ input, button, select, optgroup, textarea {
   margin: 0.5rem;
   padding: 0.375rem 0.5rem;
   background-color: transparent;
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
+          + (var(--data-column) - 1) * 0px);
 }
 .z-component-tooltip:first-child:nth-last-child(1) {
   border-style: solid;
@@ -4479,7 +4474,8 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 .z-component .z-component-label {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
+          + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   padding: 0;
   font-weight: 500;
@@ -4500,7 +4496,8 @@ input, button, select, optgroup, textarea {
   padding: 0.4375rem 0 0.4375rem 0;
 }
 .z-component .z-element {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
+          + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
@@ -5038,7 +5035,7 @@ input, button, select, optgroup, textarea {
   scrollbar-width: none;
   /* Firefox */
   overflow-y: auto;
-  height: calc(100vh - (40px * 4) - 2.875rem);
+  height: calc(100vh - 160px - 2.875rem);
   border-bottom-color: #CFD5D9;
 }
 .z-component-accordion-box .z-component-accordion input[type=radio]:checked ~ .z-accordion-content::-webkit-scrollbar {
@@ -5234,7 +5231,8 @@ input, button, select, optgroup, textarea {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 4px);
+  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12
+          + (var(--data-column) - 1) * 4px);
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
@@ -6039,7 +6037,7 @@ input, button, select, optgroup, textarea {
   margin-top: 1.25rem;
 }
 .z-process-properties .process-info-main .process-info-dashboard .total {
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: 0.125rem solid #CFD5D9;
   margin: 0;
   padding: 0 0 0.625rem 0;
   color: #8B9094;
@@ -6453,7 +6451,7 @@ input, button, select, optgroup, textarea {
   }
   .z-print-main .z-drawing-board .z-form .z-row-tooltip .z-textarea {
     width: inherit;
-    max-width: calc(210mm - 10mm);
+    max-width: 200mm;
   }
   .z-print-main .z-drawing-board-calendar-sub-title {
     display: block;
@@ -6764,7 +6762,7 @@ input, button, select, optgroup, textarea {
   background-color: #FAFAFA;
 }
 .z-portal-container .z-main .z-main-content .z-main-search.slide-up + .z-main-card .z-card-list {
-  height: calc(8.75rem + 40.438rem);
+  height: 49.188rem;
 }
 .z-portal-container .z-main .z-main-content .z-main-search.slide-down + .z-main-card .z-card-list {
   height: 40.438rem;
@@ -6942,7 +6940,7 @@ input, button, select, optgroup, textarea {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
 .z-portal-container .z-main .z-main-content .z-main-view .view-title {
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: 0.125rem solid #CFD5D9;
   margin-bottom: 0.625rem;
   padding-bottom: 0.625rem;
   color: #222529;
@@ -7318,12 +7316,6 @@ input, button, select, optgroup, textarea {
     box-shadow: none;
   }
 }
-/*
- * components.scss
- *
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- */
 /* _alerts.scss
  *
  * 파일 경로 : components/_alerts.scss
@@ -8674,6 +8666,448 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 
+/*
+ *
+ *
+ * @description tui-calendar 라이브러리 재디자인
+ * @author wdj
+ * @version 1.0
+ */
+:root {
+  --data-modal-width: 450;
+  --data-modal-height: 375;
+}
+
+.z-button-switch .z-text {
+  display: inline-block;
+  padding: 0.5625rem 0.875rem;
+  pointer-events: none;
+}
+
+.calendar {
+  margin: 1.875rem 3.75rem 0 3.75rem;
+}
+.calendar__menu {
+  display: grid;
+  grid-template-columns: 25rem auto 25rem;
+  column-gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.calendar__menu .calendar__move {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.calendar__menu .calendar__move .i-arrow-right {
+  background: #8B9094;
+}
+.calendar__menu .calendar__move .i-arrow-right:hover {
+  background: #619CDB;
+}
+.calendar__menu .calendar__move .move--prev {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.calendar__menu .calendar__render-range-text {
+  font-size: 1.625rem;
+  font-weight: 600;
+}
+.calendar__view {
+  display: none;
+}
+.calendar__view.on {
+  display: block;
+}
+.calendar__view .tui-full-calendar-month {
+  height: 48.75rem;
+}
+.calendar__view .tui-full-calendar-month-dayname {
+  border-right: 0.063rem solid #CFD5D9;
+  border-left: 0.063rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-dayname-name {
+  color: #757575;
+  font-weight: 500;
+}
+.calendar__view .tui-full-calendar-month-week-item {
+  border-right: 0.063rem solid #CFD5D9;
+  border-left: 0.063rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-week-item:last-of-type {
+  border-bottom: 0.125rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-grid-line.tui-full-calendar-extra-date {
+  background-color: #FAFAFA !important;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-header .tui-full-calendar-weekday-grid-date {
+  font-weight: 600;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-header .tui-full-calendar-weekday-grid-more-schedules {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #757575;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-schedules .tui-full-calendar-weekday-schedule-title {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-schedules .tui-full-calendar-weekday-schedule-time {
+  color: #424242;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-schedules .tui-full-calendar-weekday-schedule-time.prev {
+  color: #9E9E9E;
+}
+.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-today .tui-full-calendar-weekday-grid-date-decorator {
+  font-weight: 600;
+  background: transparent;
+  color: inherit;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+}
+.calendar__view .tui-full-calendar-month-more {
+  width: 226px;
+  min-width: 226px;
+  margin: 40px 0 0 4px;
+}
+.calendar__view .tui-full-calendar-month-more-title {
+  text-align: center;
+}
+.calendar__view .tui-full-calendar-month-more-title .tui-full-calendar-month-more-title-day-label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
+  margin-bottom: 4px;
+}
+.calendar__view .tui-full-calendar-month-more-title .tui-full-calendar-month-more-title-day {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #424242;
+}
+.calendar__view .tui-full-calendar-month-more-list {
+  border-bottom: 0.063rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-month-more-close {
+  line-height: inherit;
+  font-weight: 600;
+  padding: 0.625rem 0.875rem;
+}
+.calendar__view .tui-full-calendar-dayname-container {
+  border-right: 1px solid #CFD5D9;
+  border-left: 1px solid #CFD5D9;
+  overflow-y: hidden;
+}
+.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname {
+  line-height: inherit !important;
+}
+.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname .tui-full-calendar-dayname-date-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0.5rem 0;
+}
+.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname .tui-full-calendar-dayname-date-area .tui-full-calendar-dayname-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
+}
+.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname .tui-full-calendar-dayname-date-area .tui-full-calendar-dayname-date {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.calendar__view .tui-full-calendar-vlayout-area {
+  border-right: 0.0625rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-daygrid-layout {
+  border-left: 0.0625rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container {
+  scrollbar-width: thin;
+  scrollbar-color: #E0E0E0 #F5F5F5;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar {
+  width: 0.5rem;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-track,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-track,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb {
+  background-color: #E0E0E0;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb:hover,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb:hover,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb:hover {
+  background-color: #CFD5D9;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb:active,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb:active,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb:active {
+  background-color: #CFD5D9;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-track, .calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-track,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-track,
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-center-content {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedule {
+  margin: 0 10px 0 10px;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedule .tui-full-calendar-weekday-schedule-title {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-time-schedule {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-timezone {
+  border-left: 0.0625rem solid #CFD5D9;
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-timezone .tui-full-calendar-timegrid-hour span {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
+}
+.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-timezone .tui-full-calendar-timegrid-hourmarker-time {
+  text-align: center;
+  padding-right: 10px;
+}
+.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-right {
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.calendar__view .tui-full-calendar-time-date-schedule-block-wrap {
+  margin-left: 10px;
+}
+.calendar__view .tui-full-calendar-time-guide-resize {
+  padding: 0 0.625rem;
+}
+.calendar__view--task {
+  border: 0.0625rem solid #CFD5D9;
+  border-bottom: none;
+}
+.calendar__view--task .calendar__rowGroup {
+  display: grid;
+  grid-template-rows: minmax(2.5rem, auto);
+  grid-template-columns: 8.75rem auto;
+  border-bottom: 0.0625rem solid #CFD5D9;
+}
+.calendar__view--task .calendar__rowGroup .calendar__rowHead {
+  padding: 0.75rem 0.625rem;
+}
+.calendar__view--task .calendar__rowGroup .calendar__rowHead .calendar__day {
+  display: inline-block;
+  width: 2.375rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.calendar__view--task .calendar__rowGroup .calendar__rowHead .calendar__weekDay {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
+}
+.calendar__view--task .calendar__rowGroup .calendar__row {
+  display: grid;
+  row-gap: 0.5rem;
+  padding: 0.75rem 0.625rem 0.75rem 0;
+}
+.calendar__view--task .calendar__rowGroup .calendar__row .calendar__cell {
+  display: grid;
+  grid-template-columns: 0.5rem 9.063rem auto;
+  grid-template-rows: 1rem;
+  column-gap: 0.375rem;
+  font-weight: 400;
+  padding: 0 0.5rem;
+  border-radius: 1rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  cursor: pointer;
+}
+.calendar__view--task .calendar__rowGroup .calendar__row .calendar__cell:hover {
+  background-color: #EEEEEE;
+}
+.calendar__view--task .calendar__rowGroup.today .calendar__day {
+  color: #3373C4;
+}
+.calendar__view--task .calendar__rowGroup.prev .calendar__cell {
+  color: #9E9E9E;
+}
+.calendar__color--round {
+  flex-shrink: 0;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.modal-wrapper .modal-dialog.calendar__modal--register {
+  width: calc(var(--data-modal-width) * 0.063rem);
+  height: calc(var(--data-modal-height) * 0.063rem);
+  margin: 0;
+  border-top: 0.188rem solid #2559A8;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register.document {
+  margin: auto;
+  border-top-color: transparent;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register.document .modal-content {
+  height: calc(var(--data-modal-height) * 0.063rem - 3.75rem - 4.375rem);
+  padding: 1.25rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content {
+  height: calc(var(--data-modal-height) * 0.063rem - 3.75rem);
+  padding: 1.25rem 1.25rem 0 1.25rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  border-bottom: 0.063rem solid #CFD5D9;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main {
+  gap: 0.5rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .flex-row {
+  gap: 0.313rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__title {
+  height: 3rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__date {
+  width: 12.188rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__contents {
+  line-height: 1.4;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__repeat {
+  width: 21.125rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--register .modal-bottom {
+  height: 3.75rem;
+  padding: 0.75rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--repeat {
+  width: 26.875rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--repeat .modal-content {
+  padding: 1.25rem 1.25rem 0 1.25rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.modal-wrapper .modal-dialog.calendar__modal--repeat .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-wrapper .modal-dialog.calendar__modal--repeat .modal-content .calendar__modal--repeat__main {
+  gap: 0.5rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail {
+  width: calc(var(--data-modal-width) * 0.063rem);
+  height: calc(var(--data-modal-height) * 0.063rem);
+  margin: 0;
+  border-top: 0.188rem solid #2559A8;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content {
+  height: calc(var(--data-modal-height) * 0.063rem - 3.75rem);
+  padding: 1.25rem 1.25rem 0 1.25rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  border-bottom: 1px solid #CFD5D9;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main {
+  gap: 0.5rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .flex-row {
+  gap: 0.5rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .flex-column {
+  gap: 1rem;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .z-button-list {
+  margin-left: auto;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #424242;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__date {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #757575;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__contents {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #424242;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__repeat {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #424242;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__owner {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #757575;
+}
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-bottom {
+  height: 3.75rem;
+  padding: 0.75rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.calendar__template--import {
+  width: 37.5rem;
+  height: 25.625rem;
+}
+.modal-wrapper .modal-dialog.calendar__template--import .modal-content {
+  height: 16.75rem;
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+.modal-wrapper .modal-dialog.calendar__template--import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+
 /* _charts.scss
  *
  * 파일 경로 : components/_charts.scss
@@ -8719,6 +9153,625 @@ input, button, select, optgroup, textarea {
 .highcharts-total-count {
   color: #222529;
   font-size: 3.25rem;
+}
+
+/* _color-picker.scss 
+ *
+ * 파일 경로 : template/_color-picker.scss
+ * @description 컬러 피커 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+:root {
+  --data-color: "";
+}
+
+.z-color-picker-wrapper {
+  color: #8B9094;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.z-color-picker-wrapper .z-color-input {
+  display: none;
+}
+.z-color-picker-wrapper .z-color-picker {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  width: 7.5rem;
+  padding: 0.3125rem;
+  box-shadow: none;
+  cursor: pointer;
+  outline: none;
+}
+.z-color-picker-wrapper .z-color-picker .z-color-box {
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  border: 0.25rem solid transparent;
+  display: inline-block;
+  width: 4.75rem;
+  height: 1.5rem;
+}
+.z-color-picker-wrapper .z-color-picker .z-icon.i-color-palette {
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker:focus, .z-color-picker-wrapper .z-color-picker:hover {
+  outline: 0;
+}
+.z-color-picker-wrapper .z-color-picker:hover:not(.readonly) {
+  border-color: #619CDB;
+}
+.z-color-picker-wrapper .z-color-picker:focus:not(.readonly) {
+  -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
+  -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
+  box-shadow: 0 0 0.125rem 0 #2559A8;
+  border-color: #2559A8;
+}
+.z-color-picker-wrapper .z-color-picker-modal {
+  position: fixed;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
+  box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
+  display: none;
+  min-width: 23.5rem;
+  background-color: #FFFFFF;
+  z-index: 1000;
+}
+.z-color-picker-wrapper .z-color-picker-modal.active {
+  display: block;
+  z-index: 1000;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container {
+  min-height: 12.5rem;
+  padding: 0.75rem;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row:first-child {
+  margin-bottom: 0.5rem;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item {
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  cursor: pointer;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.material-color:not(.first) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.material-color:not(.last) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.border-inset {
+  -webkit-box-shadow: inset 0 0 0 0.0625rem #CFD5D9;
+  -moz-box-shadow: inset 0 0 0 0.0625rem #CFD5D9;
+  box-shadow: inset 0 0 0 0.0625rem #CFD5D9;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item .z-palette-item-inner {
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.selected {
+  -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
+  -moz-box-shadow: inset 0 0 0 0.0625rem #3373C4;
+  box-shadow: inset 0 0 0 0.0625rem #3373C4;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container {
+  position: relative;
+  border-top: 0.0625rem solid #CFD5D9;
+  min-height: 4.875rem;
+  padding: 0.75rem;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-edit {
+  position: absolute;
+  top: 0.125rem;
+  right: 0.75rem;
+  visibility: hidden;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-edit.on {
+  visibility: visible;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list {
+  display: flex;
+  flex-direction: row;
+  margin: 0.75rem 0 0.5rem 0;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list > *:not(:first-child) {
+  margin: 0 0 0 8px;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item {
+  position: relative;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  cursor: pointer;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-inner {
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  background-color: #F52525;
+  line-height: 0.3125rem;
+  visibility: hidden;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear .z-icon.i-remove {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #FFFFFF;
+  pointer-events: none;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item.selected {
+  -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
+  -moz-box-shadow: inset 0 0 0 0.0625rem #3373C4;
+  box-shadow: inset 0 0 0 0.0625rem #3373C4;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  display: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.0625rem;
+  background-color: #FFFFFF;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus .z-icon.i-plus {
+  width: 0.625rem;
+  height: 0.625rem;
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:focus {
+  border-color: #2559A8;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0.125rem #2559A8;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:focus .z-icon.i-plus {
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:hover {
+  background-color: #D6EDFC;
+  border-color: #CFD5D9;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:hover .z-icon.i-plus {
+  background: #8B9094;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled:active, .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled.active {
+  background-color: #AFD9F9;
+  border-color: #619CDB;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled:active .z-icon.i-plus, .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled.active .z-icon.i-plus {
+  background: #19428D;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus.on {
+  display: inline-block;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list.editable .z-custom-color-palette-item .z-custom-color-palette-item-clear {
+  visibility: visible;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container {
+  display: none;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container.active {
+  display: block;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control {
+  display: grid;
+  grid-template-columns: 1.75rem 5rem 3rem 3rem 3rem 3.75rem;
+  grid-template-rows: 2.25rem 2.25rem;
+  gap: 0 0.5rem;
+  font-weight: 500;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop .water-drop-outer {
+  fill-opacity: 1;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop .water-drop-inner {
+  fill-opacity: 0;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.on .water-drop-outer {
+  fill-opacity: 0;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.on .water-drop-inner {
+  fill: var(--data-color, #8B9094);
+  fill-opacity: 1;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-input {
+  padding: 0 0.5rem;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-color-text {
+  text-align: center;
+}
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-button-list {
+  width: 100%;
+  text-align: right;
+}
+
+/* _date-picker.scss 
+ *
+ * 파일 경로 : template/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.z-picker-wrapper-date {
+  display: inline-block;
+}
+.z-picker-wrapper-date .picker-main {
+  padding-right: 2.25rem;
+}
+
+.z-picker-modal {
+  position: fixed;
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.0625rem;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.3125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.3125rem 0 #CFD5D9;
+  display: none;
+  min-width: 12.5rem;
+  background-color: #FFFFFF;
+  color: #222529;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+  z-index: 1000;
+}
+.z-picker-modal.active {
+  display: block;
+  z-index: 1000;
+}
+.z-picker-modal-title {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding: 0.75rem 0;
+  color: #8B9094;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.z-picker-modal-title .z-button-icon {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.5rem;
+}
+.z-picker-modal-title .z-icon.i-remove {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #8B9094;
+  cursor: pointer;
+}
+.z-picker-modal-title .z-icon.i-remove:hover {
+  background: #619CDB;
+}
+.z-picker-modal-sub-title {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding: 0.625rem 0;
+  background-color: #FAFAFA;
+  color: #222529;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.z-picker-modal-content {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.z-picker-modal-content .date-text {
+  display: table-cell;
+  width: 7.5rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #424242;
+  vertical-align: middle;
+}
+.z-picker-modal-content .z-icon.i-arrow-right {
+  display: table-cell;
+  cursor: pointer;
+  background: #ABB0B5;
+}
+.z-picker-modal-content .z-icon.i-arrow-right:hover {
+  background: #619CDB;
+}
+.z-picker-modal-content .z-icon.z-date-prev {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.z-picker-modal-content-date {
+  display: none;
+  width: 19rem;
+  padding: 1rem 0 1rem 0;
+}
+.z-picker-modal-content-date.active {
+  display: inline-block;
+}
+.z-picker-modal-content-date.active + div.active {
+  border-left: 0.0625rem solid #CFD5D9;
+  height: 18.5rem;
+}
+.z-picker-modal-content-date-months {
+  display: table;
+  height: 1.563rem;
+  margin: 0 2.813rem;
+}
+.z-picker-modal-content-date-months img {
+  vertical-align: middle;
+}
+.z-picker-modal-content-date-months .date-text {
+  width: 16.5rem;
+}
+.z-picker-modal-content-date-calendar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0.9375rem 0.9375rem 0 0.9375rem;
+  color: #ABB0B5;
+}
+.z-picker-modal-content-date-calendar .calendar-cell {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.25rem 0.4375rem;
+  padding: 0;
+  text-align: center;
+  line-height: 1.7;
+}
+.z-picker-modal-content-date-calendar .calendar-cell.calendar-title {
+  color: #8B9094;
+  pointer-events: none;
+}
+.z-picker-modal-content-date-calendar .calendar-cell:not(.calendar-title) {
+  border: 0.0625rem solid #FFFFFF;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  cursor: pointer;
+}
+.z-picker-modal-content-date-calendar .calendar-cell:not(.calendar-title):hover {
+  border-color: #D6EDFC;
+  background-color: #D6EDFC;
+}
+.z-picker-modal-content-date-calendar .calendar-cell:not(.calendar-title):active {
+  -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
+  -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
+  box-shadow: 0 0 0.125rem 0 #2559A8;
+  border-color: #2559A8;
+}
+.z-picker-modal-content-date-calendar .calendar-cell.active {
+  color: #222529;
+}
+.z-picker-modal-content-date-calendar .calendar-cell.selected {
+  border: 0.0625rem solid #3373C4;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  background-color: #FFFFFF;
+  color: #3373C4;
+}
+.z-picker-modal-content-time {
+  display: none;
+  width: 14.6875rem;
+  min-height: 7.375rem;
+  padding: 1rem 0 1rem 0;
+  justify-content: center;
+}
+.z-picker-modal-content-time.active {
+  display: flex;
+}
+.z-picker-modal-content-time .hour-group,
+.z-picker-modal-content-time .minute-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.z-picker-modal-content-time .hour-group .z-icon.i-arrow-right,
+.z-picker-modal-content-time .minute-group .z-icon.i-arrow-right {
+  margin: 0;
+  background: #8B9094;
+  cursor: pointer;
+}
+.z-picker-modal-content-time .hour-group .z-icon.i-arrow-right:hover,
+.z-picker-modal-content-time .minute-group .z-icon.i-arrow-right:hover {
+  background: #619CDB;
+}
+.z-picker-modal-content-time .hour-group .z-icon.z-hour-up, .z-picker-modal-content-time .hour-group .z-icon.z-minute-up,
+.z-picker-modal-content-time .minute-group .z-icon.z-hour-up,
+.z-picker-modal-content-time .minute-group .z-icon.z-minute-up {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.z-picker-modal-content-time .hour-group .z-icon.z-hour-down, .z-picker-modal-content-time .hour-group .z-icon.z-minute-down,
+.z-picker-modal-content-time .minute-group .z-icon.z-hour-down,
+.z-picker-modal-content-time .minute-group .z-icon.z-minute-down {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.z-picker-modal-content-time .hour-group .digit,
+.z-picker-modal-content-time .minute-group .digit {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  width: 3.75rem !important;
+  height: 3.5rem;
+  margin: 0.8125rem 0;
+  padding: 0;
+  color: #222529;
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+}
+.z-picker-modal-content-time .hour-group .digit:hover, .z-picker-modal-content-time .hour-group .digit:focus, .z-picker-modal-content-time .hour-group .digit:active,
+.z-picker-modal-content-time .minute-group .digit:hover,
+.z-picker-modal-content-time .minute-group .digit:focus,
+.z-picker-modal-content-time .minute-group .digit:active {
+  outline: 0;
+}
+.z-picker-modal-content-time .hour-group > .digit {
+  border-right: 0.0625rem solid transparent;
+  border-radius: 0.125rem 0 0 0.125rem;
+  -webkit-border-radius: 0.125rem 0 0 0.125rem;
+  -moz-border-radius: 0.125rem 0 0 0.125rem;
+}
+.z-picker-modal-content-time .minute-group > .digit {
+  border-left: 0.0625rem solid transparent;
+  border-radius: 0 0.125rem 0.125rem 0;
+  -webkit-border-radius: 0 0.125rem 0.125rem 0;
+  -moz-border-radius: 0 0.125rem 0.125rem 0;
+}
+.z-picker-modal-content-time .z-button-toggle-group {
+  padding-left: 0.5rem;
+}
+.z-picker-modal-content-time .separator {
+  border-top: 0.0625rem solid #ABB0B5;
+  border-bottom: 0.0625rem solid #ABB0B5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 0.375rem;
+  height: 3.5rem;
+  margin: auto 0;
+  color: #222529;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.z-picker-modal-content-year {
+  display: none;
+  width: 14rem;
+  padding: 1rem 0 1rem 0;
+}
+.z-picker-modal-content-year.active {
+  display: block;
+}
+.z-picker-modal-content-year-period {
+  display: table;
+  height: 1.563rem;
+  margin: 0 auto;
+}
+.z-picker-modal-content-year-period img {
+  vertical-align: middle;
+}
+.z-picker-modal-content-year-period .date-text {
+  width: 7.5rem;
+}
+.z-picker-modal-content-year-period .date-text span:first-child {
+  position: relative;
+  padding-right: 0.625rem;
+}
+.z-picker-modal-content-year-period .date-text span:first-child::before {
+  position: absolute;
+  top: 0.438rem;
+  right: 0.125rem;
+  content: "";
+  width: 0.3125rem;
+  height: 0.125rem;
+  background-color: #424242;
+}
+.z-picker-modal-content-year-years {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.9375rem 0.9375rem 0 0.9375rem;
+  color: #424242;
+}
+.z-picker-modal-content-year-years .calendar-cell {
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  display: inline-block;
+  width: 2.75rem;
+  height: 1.5rem;
+  padding: 0;
+  margin: 0.25rem 0.4375rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.7;
+  cursor: pointer;
+}
+.z-picker-modal-content-year-years .calendar-cell:hover, .z-picker-modal-content-year-years .calendar-cell:active {
+  background-color: #E1E6EA;
+}
+.z-picker-modal-content-year-years .calendar-cell.selected {
+  position: relative;
+  color: #3373C4;
+}
+.z-picker-modal-content-year-years .calendar-cell.selected:before {
+  position: absolute;
+  bottom: 0;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.125rem;
+  background-color: #3373C4;
+}
+.z-picker-modal-content-year-years .calendar-cell:nth-child(n+4) {
+  margin-top: 0.875rem;
+}
+.z-picker-modal-button {
+  float: right;
+  margin: 0.75rem 0.6875rem 0.75rem 0 !important;
 }
 
 /* _elements.scss
@@ -8819,7 +9872,7 @@ table td, table th {
   font-weight: 500;
 }
 .z-table .z-table-head {
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
 }
 .z-table .z-table-head tr {
   height: 2.5rem;
@@ -8887,7 +9940,7 @@ table td, table th {
 }
 .z-option-table tr.z-option-table-header {
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
+  border-bottom: 0.125rem solid #ABB0B5;
   height: 2rem;
   background-color: #F5F5F5;
   color: #ABB0B5;
@@ -10598,7 +11651,7 @@ body.modal-active {
   height: 44.19rem;
 }
 .modal-dialog.tree .modal-content {
-  height: calc(44.19rem - 3.875rem - 5rem);
+  height: 35.315rem;
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-dialog.tree .modal-content div {
@@ -10615,7 +11668,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.token-list .modal-content {
-  height: calc(53.0625rem - 3.875rem - 5rem);
+  height: 44.1875rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.token-list .modal-content .related-instance-list {
@@ -10644,14 +11697,14 @@ body.modal-active {
 }
 .modal-dialog.process-status-modal .modal-content {
   width: 100%;
-  height: calc(33.125rem - 5rem);
+  height: 28.125rem;
 }
 .modal-dialog.form-import, .modal-dialog.process-import {
   width: 37.5rem;
   height: 31.25rem;
 }
 .modal-dialog.form-import .modal-content, .modal-dialog.process-import .modal-content {
-  height: calc(31.25rem - 3.875rem - 5rem);
+  height: 22.375rem;
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-import .modal-content .field-label, .modal-dialog.process-import .modal-content .field-label {
@@ -10663,7 +11716,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.form-edit .modal-content, .modal-dialog.process-edit .modal-content {
-  height: calc(22.5rem - 3.875rem - 5rem);
+  height: 13.625rem;
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-edit .modal-content .field-label, .modal-dialog.process-edit .modal-content .field-label {
@@ -10675,7 +11728,7 @@ body.modal-active {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
-  height: calc(25.63rem - 3.875rem - 5rem);
+  height: 16.755rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.save-as .modal-content::-webkit-scrollbar {
@@ -10695,7 +11748,7 @@ body.modal-active {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
-  height: calc(25.63rem - 3.875rem - 5rem);
+  height: 16.755rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.create-template .modal-content::-webkit-scrollbar {
@@ -10715,7 +11768,7 @@ body.modal-active {
   height: 48.44rem;
 }
 .modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
-  height: calc(48.44rem - 3.875rem - 5rem);
+  height: 39.565rem;
 }
 .modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
   width: 14.375rem;
@@ -10725,12 +11778,12 @@ body.modal-active {
   height: 50.63rem;
 }
 .modal-dialog.document-edit .modal-content, .modal-dialog.workFlow-import .modal-content {
-  height: calc(50.63rem - 3.875rem - 5rem);
+  height: 41.755rem;
   padding: 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .workflow-content, .modal-dialog.workFlow-import .modal-content .workflow-content {
-  width: calc(40rem - 2.5rem);
-  height: calc(50.63rem - 3.875rem - 5rem - 2.5rem);
+  width: 37.5rem;
+  height: 39.255rem;
   padding: 0 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .field-label, .modal-dialog.workFlow-import .modal-content .field-label {
@@ -10751,12 +11804,12 @@ body.modal-active {
 }
 .modal-dialog.document-display .modal-content {
   overflow: hidden;
-  height: calc(42.188rem - 3.875rem - 5rem);
+  height: 33.313rem;
   padding: 1.25rem;
 }
 .modal-dialog.document-display .modal-content .document-display-content {
   overflow-y: auto;
-  height: calc(42.188rem - 3.875rem - 5rem - 2.5rem);
+  height: 30.813rem;
   padding: 0 1.25rem;
 }
 .modal-dialog.document-display .modal-content .document-display-content .z-table {
@@ -10785,7 +11838,7 @@ body.modal-active {
   height: 46.875rem;
 }
 .modal-dialog.custom-code-list .modal-content {
-  height: calc(46.875rem - 3.875rem - 5rem);
+  height: 38rem;
   padding: 0.625rem 1.25rem 0.625rem 1.25rem;
 }
 .modal-dialog.custom-code-list .modal-content .field-label {
@@ -10803,7 +11856,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content, .modal-dialog.target-user-modal .modal-content {
-  height: calc(53.0625rem - 3.875rem - 5rem);
+  height: 44.1875rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
@@ -10863,7 +11916,7 @@ body.modal-active {
   height: 43.75rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
-  height: calc(43.75rem - 3.875rem - 5rem);
+  height: 34.875rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
@@ -10880,7 +11933,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-dialog.cmdb-ci-view-modal .modal-content, .modal-dialog.cmdb-ci-list-modal .modal-content {
-  height: calc(53.0625rem - 3.875rem - 5rem);
+  height: 44.1875rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content .view-row, .modal-dialog.cmdb-ci-update-modal .modal-content .view-row, .modal-dialog.cmdb-ci-view-modal .modal-content .view-row, .modal-dialog.cmdb-ci-list-modal .modal-content .view-row {
@@ -10913,7 +11966,7 @@ body.modal-active {
 .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit,
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit,
 .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
-  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
+  height: 41.0625rem;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form,
 .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .edit-form, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form,
@@ -10971,7 +12024,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.template-import .modal-content {
-  height: calc(22.5rem - 3.875rem - 5rem);
+  height: 13.625rem;
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.template-import .modal-content .field-label {
@@ -10984,13 +12037,13 @@ body.modal-active {
 }
 .modal-dialog.chart-edit-modal .modal-content {
   overflow: hidden;
-  height: calc(53.0625rem - 3.875rem - 5rem);
+  height: 44.1875rem;
   padding: 0.625rem 1.25rem 2.5rem 1.25rem;
 }
 .modal-dialog.chart-edit-modal .modal-content .chart-edit-content {
   overflow-y: auto;
-  width: calc(62.5rem - 2.5rem);
-  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
+  width: 60rem;
+  height: 41.0625rem;
   padding: 0 1.25rem;
 }
 .modal-dialog.chart-edit-modal .modal-content .chart-edit-content label {
@@ -11048,7 +12101,7 @@ body.modal-active {
   height: 40.625rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content {
-  height: calc(40.625rem - 3.875rem - 5rem);
+  height: 31.75rem;
   padding: 1.25rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set {
@@ -11080,7 +12133,7 @@ body.modal-active {
   /* Firefox */
 }
 .modal-dialog.sla-metric-manual-modal .modal-content {
-  height: calc(25rem - 3.875rem - 5rem);
+  height: 16.125rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
@@ -11091,7 +12144,7 @@ body.modal-active {
   width: 62.5rem;
 }
 .modal-dialog.sla-metric-yearly-copy-modal .modal-content {
-  height: calc(18rem - 3.875rem - 5rem);
+  height: 9.125rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal {
@@ -11106,7 +12159,7 @@ body.modal-active {
   /* Chrome, Safari, Opera*/
 }
 .modal-dialog.sla-zql-manual-modal .modal-content {
-  height: calc(50.63rem - 3.875rem - 5rem);
+  height: 41.755rem;
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal .modal-content div {
@@ -11135,7 +12188,7 @@ body.modal-active {
   height: 20.625rem;
 }
 .modal-dialog.password-check .modal-content {
-  height: calc(20.625rem - 3.875rem - 5rem);
+  height: 11.75rem;
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.password-check .modal-content .field-label {
@@ -11147,7 +12200,7 @@ body.modal-active {
   height: 34.5rem;
 }
 .modal-dialog.password-update-notice .modal-content {
-  height: calc(34.5rem - 3.875rem - 5rem);
+  height: 25.625rem;
   padding: 0.25rem 1.25rem 0.25rem 1.25rem;
 }
 .modal-dialog.password-update-notice .modal-content .field-label {
@@ -11156,6 +12209,232 @@ body.modal-active {
 }
 .modal-dialog.password-update-notice .modal-bottom {
   height: 3.5rem;
+}
+
+.z-notification .z-icon-notification {
+  height: 1.5rem;
+}
+.z-notification .z-icon-notification.active .notification-round {
+  fill: #3373C4;
+}
+.z-notification .z-icon-notification:hover {
+  cursor: pointer;
+}
+.z-notification-panel {
+  position: relative;
+  bottom: 0;
+  left: 70.8rem;
+  border: 0.0625rem solid #EEEEEE;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  box-shadow: 0 0 0.3125rem 0 #EEEEEE;
+  display: none;
+  width: 26.25rem;
+  background-color: #FFFFFF;
+  color: #222529;
+  z-index: 25;
+}
+.z-notification-panel.on {
+  display: block;
+}
+.z-notification-header {
+  display: flex;
+  align-items: baseline;
+  height: 2.5rem;
+  padding: 0 0.938rem;
+  background-color: #3373C4;
+}
+.z-notification-header span {
+  display: inline-block;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-weight: 400;
+}
+.z-notification-header span.z-title {
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-weight: 500;
+}
+.z-notification-header span.z-total {
+  margin: auto 0.3125rem;
+}
+.z-notification-header span.z-message {
+  margin-left: 0.625rem;
+}
+.z-notification-header span.z-icon.i-remove {
+  margin-left: auto;
+  background: #FFFFFF;
+}
+.z-notification-body {
+  overflow-y: auto;
+  max-height: 20.63rem;
+}
+.z-notification-body .z-noData {
+  height: 6.875rem;
+  padding: 3rem;
+}
+.z-notification-content {
+  border-bottom: 0.063rem solid #EEEEEE;
+  height: 6.875rem;
+  padding: 0.938rem;
+}
+.z-notification-content:hover {
+  background-color: rgba(131, 187, 237, 0.1);
+}
+.z-notification-content .z-notification-checked {
+  display: flex;
+  margin: 0;
+  background-color: #FFFFFF;
+}
+.z-notification-content .z-notification-checked input[type=checkbox] {
+  position: relative;
+  border: 0.063rem solid #3373C4;
+  border-radius: 0.063rem;
+  -webkit-border-radius: 0.063rem;
+  -moz-border-radius: 0.063rem;
+  display: inline-block;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  padding: 0.313rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+.z-notification-content .z-notification-checked input[type=checkbox]:checked {
+  border: 0.063rem solid #EEEEEE;
+  color: #CFD5D9;
+  cursor: unset;
+}
+.z-notification-content .z-notification-checked input[type=checkbox]:checked::after {
+  position: absolute;
+  top: -0.063rem;
+  left: 0.063rem;
+  content: "✔";
+  color: #CFD5D9;
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.z-notification-content .z-icon.i-delete {
+  padding: 0;
+  background: #8B9094;
+}
+.z-notification-content span.z-title {
+  max-width: 18.13rem;
+  margin-left: 0.625rem;
+  color: #222529;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  line-height: 1.2;
+}
+.z-notification-content span.z-title.z-confirm {
+  opacity: 0.75;
+}
+.z-notification-content span.z-title__link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.z-notification-content span.z-document-no {
+  color: #8B9094;
+  font-size: 0.875rem;
+}
+.z-notification-content span.z-message {
+  display: block;
+  max-width: 22.5rem;
+  min-height: 2.5rem;
+  margin-left: 1.75rem;
+  color: #222529;
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.z-notification-content span.z-message.z-confirm {
+  color: #ABB0B5;
+}
+.z-notification-content span.z-date {
+  margin-left: 1.75rem;
+  color: #8B9094;
+  font-weight: 400;
+  font-size: 0.875rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+
+.alice-toastify {
+  border-radius: 0.0625rem !important;
+  -webkit-border-radius: 0.0625rem !important;
+  -moz-border-radius: 0.0625rem !important;
+  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
+  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
+  box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
+  height: 6.25rem;
+  padding: 0 !important;
+  background: #FFFFFF !important;
+}
+.alice-toastify.toastify-right {
+  right: 0.625rem;
+}
+.alice-toastify.toast-content .icon {
+  background-image: url("../media/images/notification/img_notification_logo.png");
+  background-size: 6.25rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  width: 6.25rem;
+  height: 6.25rem;
+}
+.alice-toastify.toast-content .content {
+  border: 0.0625rem solid #EEEEEE !important;
+  width: 23.13rem;
+  height: 100%;
+  padding: 0.938rem;
+}
+.alice-toastify.toast-content .content div.title {
+  padding-bottom: 0.625rem;
+}
+.alice-toastify.toast-content .content div.title label, .alice-toastify.toast-content .content div.title button {
+  display: none;
+}
+.alice-toastify.toast-content .content div.message {
+  padding-bottom: 0.625rem;
+}
+.alice-toastify.toast-content .content div.date {
+  color: #8B9094;
+}
+.alice-toastify.toast-content .content div span.z-title {
+  max-width: 18.13rem;
+  color: #222529;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.alice-toastify.toast-content .content div span.z-message {
+  max-width: 22.5rem;
+  color: #222529;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.alice-toastify.toast-content .content div span.z-date {
+  color: #8B9094;
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.alice-toastify .toast-close {
+  position: absolute;
+  top: 0.688rem;
+  right: 0.688rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
+  mask-image: url("../../assets/media/icons/icon_clear.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #8B9094;
+  padding: 0;
 }
 
 /* _paging.scss
@@ -11246,7 +12525,7 @@ body.modal-active {
   margin-top: 1.875rem;
 }
 .itsm-popup .view-title {
-  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
+  border-bottom: 0.125rem solid #CFD5D9;
   padding-bottom: 0.625rem;
   color: #222529;
   font-size: 1.125rem;
@@ -11293,6 +12572,78 @@ body.modal-active {
 }
 .itsm-popup .notice-content-popup.view .view-row .z-checkbox {
   padding-bottom: 1.25rem;
+}
+
+/** 
+ * 댓글 디자인
+ * template/_reply.scss
+ * 화면 : 게시판
+ */
+.reply-body {
+  margin-top: 2.5rem;
+}
+.reply-input-row {
+  border-top: 0.0625rem solid #CFD5D9;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding: 1.3125rem 1.25rem;
+  background-color: #FAFAFA;
+}
+.reply-input-row .reply-input {
+  width: 100%;
+  margin: 0 0.3125rem;
+}
+.reply-input-row .reply-button {
+  flex: none;
+}
+.reply-list {
+  padding: 0 0;
+  margin-top: 0.0625rem;
+}
+.reply-list .vertical-bar {
+  width: 1.25rem;
+  min-height: 1.25rem;
+  margin: 0.0625rem 0.9375rem 0.0625rem 0;
+  border-right: 0.0625rem solid #CFD5D9;
+  vertical-align: middle;
+}
+.reply-list:empty {
+  border-color: transparent;
+}
+.reply-list .reply-info {
+  align-items: center;
+}
+.reply-list .reply-user-name {
+  font-weight: 400;
+}
+.reply-list .reply-create-date {
+  color: #ABB0B5;
+  font-weight: 400;
+}
+.reply-list .reply-row {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding-top: 1.875rem;
+  padding-bottom: 1.875rem;
+}
+.reply-list .reply-edit, .reply-list .reply-delete {
+  padding: 0 1.25rem 0 0;
+}
+.reply-list .reply-comment {
+  display: flex;
+  margin-top: 0.9375rem;
+  margin-left: 3rem;
+  word-break: break-all;
+}
+.reply-list .reply-comment input {
+  width: 100%;
+  margin: 0 0.3125rem;
+}
+.reply .i-profile-photo {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  flex: none;
+  margin: auto 0.9376rem auto 0;
+  background-color: transparent;
 }
 
 /* _scrollbars.scss 
@@ -11596,15 +12947,15 @@ body.modal-active {
   height: 0.5rem;
   fill: #F5F5F5;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb {
   height: 0.5rem;
   fill: #E0E0E0;
   stroke-width: 0;
-  rx: calc(0.5rem / 2);
-  ry: calc(0.5rem / 2);
+  rx: 0.25rem;
+  ry: 0.25rem;
 }
 .highcharts-scrollbar-thumb:hover {
   fill: #CFD5D9;
@@ -12530,7 +13881,7 @@ body.modal-active {
   height: 45rem;
 }
 .modal-dialog.z-thumbnail-icon .modal-content {
-  height: calc(45rem - 3.875rem - 5rem);
+  height: 36.125rem;
 }
 .modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main {
   height: auto;
@@ -12942,1448 +14293,6 @@ body.modal-active {
   animation-direction: normal;
 }
 
-/* _validations.scss
- *
- * 파일 경로 : components/_validations.scss
- * @description validation message
- * @author jy.lim
- * @version 1.0
- */
-.required::after {
-  content: "*";
-  margin-left: 0.1875rem;
-  color: #F52525;
-  font-weight: 700;
-}
-
-.z-validation {
-  display: inherit;
-  height: 2rem;
-  margin: 0.25rem 0;
-  padding: 0.375rem 0.375rem 0.375rem 2.5rem;
-}
-.z-validation.default {
-  border: 0.0625rem solid #ABB0B5;
-  background-image: url("../../assets/media/icons/validation/icon_default.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 1rem;
-  background-position-y: center;
-  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  background-color: #FFFFFF;
-  color: #424242;
-}
-.z-validation.info {
-  border: 0.0625rem solid #D6EDFC;
-  background-image: url("../../assets/media/icons/validation/icon_info.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 1rem;
-  background-position-y: center;
-  background-color: #D6EDFC;
-  color: #3373C4;
-}
-.z-validation.info .z-icon.i-remove {
-  background: #3373C4;
-}
-.z-validation.error {
-  border: 0.0625rem solid #FEF2EB !important;
-  background-image: url("../../assets/media/icons/validation/icon_error.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 1rem;
-  background-position-y: center;
-  background-color: #FEF2EB;
-  color: #F52525;
-}
-.z-validation.error .z-icon.i-remove {
-  background: #F52525;
-}
-.z-validation.success {
-  border: 0.0625rem solid #F6FCE0;
-  background-image: url("../../assets/media/icons/validation/icon_success.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 1rem;
-  background-position-y: center;
-  background-color: #F6FCE0;
-  color: #5CA21B;
-}
-.z-validation.success .z-icon.i-remove {
-  background: #5CA21B;
-}
-.z-validation .z-icon.i-remove {
-  padding-right: 0.9375rem;
-  background: #8B9094;
-}
-
-/*
- * template.scss
- *
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- */
-/*
- *
- *
- * @description tui-calendar 라이브러리 재디자인
- * @author wdj
- * @version 1.0
- */
-:root {
-  --data-modal-width: 450;
-  --data-modal-height: 375;
-}
-
-.z-button-switch .z-text {
-  display: inline-block;
-  padding: 0.5625rem 0.875rem;
-  pointer-events: none;
-}
-
-.calendar {
-  margin: 1.875rem 3.75rem 0 3.75rem;
-}
-.calendar__menu {
-  display: grid;
-  grid-template-columns: 25rem auto 25rem;
-  column-gap: 0.5rem;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-.calendar__menu .calendar__move {
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-}
-.calendar__menu .calendar__move .i-arrow-right {
-  background: #8B9094;
-}
-.calendar__menu .calendar__move .i-arrow-right:hover {
-  background: #619CDB;
-}
-.calendar__menu .calendar__move .move--prev {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-.calendar__menu .calendar__render-range-text {
-  font-size: 1.625rem;
-  font-weight: 600;
-}
-.calendar__view {
-  display: none;
-}
-.calendar__view.on {
-  display: block;
-}
-.calendar__view .tui-full-calendar-month {
-  height: 48.75rem;
-}
-.calendar__view .tui-full-calendar-month-dayname {
-  border-right: 0.063rem solid #CFD5D9;
-  border-left: 0.063rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-month-dayname-name {
-  color: #757575;
-  font-weight: 500;
-}
-.calendar__view .tui-full-calendar-month-week-item {
-  border-right: 0.063rem solid #CFD5D9;
-  border-left: 0.063rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-month-week-item:last-of-type {
-  border-bottom: 0.125rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-grid-line.tui-full-calendar-extra-date {
-  background-color: #FAFAFA !important;
-}
-.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-header .tui-full-calendar-weekday-grid-date {
-  font-weight: 600;
-}
-.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-header .tui-full-calendar-weekday-grid-more-schedules {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #757575;
-}
-.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-schedules .tui-full-calendar-weekday-schedule-title {
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-schedules .tui-full-calendar-weekday-schedule-time {
-  color: #424242;
-}
-.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-weekday-schedules .tui-full-calendar-weekday-schedule-time.prev {
-  color: #9E9E9E;
-}
-.calendar__view .tui-full-calendar-month-week-item .tui-full-calendar-today .tui-full-calendar-weekday-grid-date-decorator {
-  font-weight: 600;
-  background: transparent;
-  color: inherit;
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-}
-.calendar__view .tui-full-calendar-month-more {
-  width: 226px;
-  min-width: 226px;
-  margin: 40px 0 0 4px;
-}
-.calendar__view .tui-full-calendar-month-more-title {
-  text-align: center;
-}
-.calendar__view .tui-full-calendar-month-more-title .tui-full-calendar-month-more-title-day-label {
-  display: inline-block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #757575;
-  margin-bottom: 4px;
-}
-.calendar__view .tui-full-calendar-month-more-title .tui-full-calendar-month-more-title-day {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #424242;
-}
-.calendar__view .tui-full-calendar-month-more-list {
-  border-bottom: 0.063rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-month-more-close {
-  line-height: inherit;
-  font-weight: 600;
-  padding: 0.625rem 0.875rem;
-}
-.calendar__view .tui-full-calendar-dayname-container {
-  border-right: 1px solid #CFD5D9;
-  border-left: 1px solid #CFD5D9;
-  overflow-y: hidden;
-}
-.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname {
-  line-height: inherit !important;
-}
-.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname .tui-full-calendar-dayname-date-area {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 0.5rem 0;
-}
-.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname .tui-full-calendar-dayname-date-area .tui-full-calendar-dayname-name {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #757575;
-}
-.calendar__view .tui-full-calendar-dayname-container .tui-full-calendar-dayname .tui-full-calendar-dayname-date-area .tui-full-calendar-dayname-date {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-.calendar__view .tui-full-calendar-vlayout-area {
-  border-right: 0.0625rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-daygrid-layout {
-  border-left: 0.0625rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container {
-  scrollbar-width: thin;
-  scrollbar-color: #E0E0E0 #F5F5F5;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar {
-  width: 0.5rem;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-track,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-track,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-track {
-  background-color: #F5F5F5;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb {
-  background-color: #E0E0E0;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb:hover,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb:hover,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb:hover {
-  background-color: #CFD5D9;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb:active,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb:active,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb:active {
-  background-color: #CFD5D9;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-track, .calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-grid::-webkit-scrollbar-thumb,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-track,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedules::-webkit-scrollbar-thumb,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-track,
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-timegrid-container::-webkit-scrollbar-thumb {
-  border-radius: 0.5rem;
-  -webkit-border-radius: 0.5rem;
-  -moz-border-radius: 0.5rem;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-center-content {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #757575;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedule {
-  margin: 0 10px 0 10px;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-weekday-schedule .tui-full-calendar-weekday-schedule-title {
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-.calendar__view .tui-full-calendar-vlayout-area .tui-full-calendar-time-schedule {
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-timezone {
-  border-left: 0.0625rem solid #CFD5D9;
-  border-bottom: 0.0625rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-timezone .tui-full-calendar-timegrid-hour span {
-  text-align: center;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #757575;
-}
-.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-timezone .tui-full-calendar-timegrid-hourmarker-time {
-  text-align: center;
-  padding-right: 10px;
-}
-.calendar__view .tui-full-calendar-timegrid-container .tui-full-calendar-timegrid-right {
-  border-bottom: 0.0625rem solid #CFD5D9;
-}
-.calendar__view .tui-full-calendar-time-date-schedule-block-wrap {
-  margin-left: 10px;
-}
-.calendar__view .tui-full-calendar-time-guide-resize {
-  padding: 0 0.625rem;
-}
-.calendar__view--task {
-  border: 0.0625rem solid #CFD5D9;
-  border-bottom: none;
-}
-.calendar__view--task .calendar__rowGroup {
-  display: grid;
-  grid-template-rows: minmax(2.5rem, auto);
-  grid-template-columns: 8.75rem auto;
-  border-bottom: 0.0625rem solid #CFD5D9;
-}
-.calendar__view--task .calendar__rowGroup .calendar__rowHead {
-  padding: 0.75rem 0.625rem;
-}
-.calendar__view--task .calendar__rowGroup .calendar__rowHead .calendar__day {
-  display: inline-block;
-  width: 2.375rem;
-  font-size: 1rem;
-  font-weight: 600;
-}
-.calendar__view--task .calendar__rowGroup .calendar__rowHead .calendar__weekDay {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #757575;
-}
-.calendar__view--task .calendar__rowGroup .calendar__row {
-  display: grid;
-  row-gap: 0.5rem;
-  padding: 0.75rem 0.625rem 0.75rem 0;
-}
-.calendar__view--task .calendar__rowGroup .calendar__row .calendar__cell {
-  display: grid;
-  grid-template-columns: 0.5rem 9.063rem auto;
-  grid-template-rows: 1rem;
-  column-gap: 0.375rem;
-  font-weight: 400;
-  padding: 0 0.5rem;
-  border-radius: 1rem;
-  -webkit-border-radius: 1rem;
-  -moz-border-radius: 1rem;
-  cursor: pointer;
-}
-.calendar__view--task .calendar__rowGroup .calendar__row .calendar__cell:hover {
-  background-color: #EEEEEE;
-}
-.calendar__view--task .calendar__rowGroup.today .calendar__day {
-  color: #3373C4;
-}
-.calendar__view--task .calendar__rowGroup.prev .calendar__cell {
-  color: #9E9E9E;
-}
-.calendar__color--round {
-  flex-shrink: 0;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-}
-
-.modal-wrapper .modal-dialog.calendar__modal--register {
-  width: calc(var(--data-modal-width) * 0.063rem);
-  height: calc(var(--data-modal-height) * 0.063rem);
-  margin: 0;
-  border-top: 0.188rem solid #2559A8;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register.document {
-  margin: auto;
-  border-top-color: transparent;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register.document .modal-content {
-  height: calc(var(--data-modal-height) * 0.063rem - 3.75rem - 4.375rem);
-  padding: 1.25rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content {
-  height: calc(var(--data-modal-height) * 0.063rem - 3.75rem);
-  padding: 1.25rem 1.25rem 0 1.25rem;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-  border-bottom: 0.063rem solid #CFD5D9;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main {
-  gap: 0.5rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .flex-row {
-  gap: 0.313rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__title {
-  height: 3rem;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__date {
-  width: 12.188rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__contents {
-  line-height: 1.4;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-content .calendar__modal--register__main .schedule__repeat {
-  width: 21.125rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--register .modal-bottom {
-  height: 3.75rem;
-  padding: 0.75rem 1.25rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--repeat {
-  width: 26.875rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--repeat .modal-content {
-  padding: 1.25rem 1.25rem 0 1.25rem;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-.modal-wrapper .modal-dialog.calendar__modal--repeat .modal-content::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-.modal-wrapper .modal-dialog.calendar__modal--repeat .modal-content .calendar__modal--repeat__main {
-  gap: 0.5rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail {
-  width: calc(var(--data-modal-width) * 0.063rem);
-  height: calc(var(--data-modal-height) * 0.063rem);
-  margin: 0;
-  border-top: 0.188rem solid #2559A8;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content {
-  height: calc(var(--data-modal-height) * 0.063rem - 3.75rem);
-  padding: 1.25rem 1.25rem 0 1.25rem;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-  border-bottom: 1px solid #CFD5D9;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main {
-  gap: 0.5rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .flex-row {
-  gap: 0.5rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .flex-column {
-  gap: 1rem;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .z-button-list {
-  margin-left: auto;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #424242;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__date {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #757575;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__contents {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #424242;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__repeat {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #424242;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__owner {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #757575;
-}
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-bottom {
-  height: 3.75rem;
-  padding: 0.75rem 1.25rem;
-}
-.modal-wrapper .modal-dialog.calendar__template--import {
-  width: 37.5rem;
-  height: 25.625rem;
-}
-.modal-wrapper .modal-dialog.calendar__template--import .modal-content {
-  height: calc(25.625rem - 3.875rem - 5rem);
-  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
-}
-.modal-wrapper .modal-dialog.calendar__template--import .modal-content .field-label {
-  display: inline-block;
-  margin: 1rem 0 0.5rem 0;
-}
-
-/* _color-picker.scss 
- *
- * 파일 경로 : template/_color-picker.scss
- * @description 컬러 피커 디자인
- * @author jy.lim
- * @version 1.0
- */
-:root {
-  --data-color: "";
-}
-
-.z-color-picker-wrapper {
-  color: #8B9094;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 700;
-}
-.z-color-picker-wrapper .z-color-input {
-  display: none;
-}
-.z-color-picker-wrapper .z-color-picker {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  width: 7.5rem;
-  padding: 0.3125rem;
-  box-shadow: none;
-  cursor: pointer;
-  outline: none;
-}
-.z-color-picker-wrapper .z-color-picker .z-color-box {
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  border: 0.25rem solid transparent;
-  display: inline-block;
-  width: 4.75rem;
-  height: 1.5rem;
-}
-.z-color-picker-wrapper .z-color-picker .z-icon.i-color-palette {
-  background: #8B9094;
-}
-.z-color-picker-wrapper .z-color-picker:focus, .z-color-picker-wrapper .z-color-picker:hover {
-  outline: 0;
-}
-.z-color-picker-wrapper .z-color-picker:hover:not(.readonly) {
-  border-color: #619CDB;
-}
-.z-color-picker-wrapper .z-color-picker:focus:not(.readonly) {
-  -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
-  -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
-  box-shadow: 0 0 0.125rem 0 #2559A8;
-  border-color: #2559A8;
-}
-.z-color-picker-wrapper .z-color-picker-modal {
-  position: fixed;
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  -webkit-box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
-  box-shadow: 0 0.125rem 0.75rem 0 #CFD5D9;
-  display: none;
-  min-width: 23.5rem;
-  background-color: #FFFFFF;
-  z-index: 1000;
-}
-.z-color-picker-wrapper .z-color-picker-modal.active {
-  display: block;
-  z-index: 1000;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container {
-  min-height: 12.5rem;
-  padding: 0.75rem;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row:first-child {
-  margin-bottom: 0.5rem;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item {
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  cursor: pointer;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.material-color:not(.first) {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.material-color:not(.last) {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.border-inset {
-  -webkit-box-shadow: inset 0 0 0 0.0625rem #CFD5D9;
-  -moz-box-shadow: inset 0 0 0 0.0625rem #CFD5D9;
-  box-shadow: inset 0 0 0 0.0625rem #CFD5D9;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item .z-palette-item-inner {
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  width: 1.25rem;
-  height: 1.25rem;
-  pointer-events: none;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-palette-container .z-palette-row .z-palette-item.selected {
-  -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
-  -moz-box-shadow: inset 0 0 0 0.0625rem #3373C4;
-  box-shadow: inset 0 0 0 0.0625rem #3373C4;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container {
-  position: relative;
-  border-top: 0.0625rem solid #CFD5D9;
-  min-height: 4.875rem;
-  padding: 0.75rem;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-edit {
-  position: absolute;
-  top: 0.125rem;
-  right: 0.75rem;
-  visibility: hidden;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-edit.on {
-  visibility: visible;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list {
-  display: flex;
-  flex-direction: row;
-  margin: 0.75rem 0 0.5rem 0;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list > *:not(:first-child) {
-  margin: 0 0 0 8px;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item {
-  position: relative;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  cursor: pointer;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-inner {
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  width: 1.25rem;
-  height: 1.25rem;
-  pointer-events: none;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear {
-  position: absolute;
-  top: -0.25rem;
-  right: -0.25rem;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
-  padding: 0;
-  background-color: #F52525;
-  line-height: 0.3125rem;
-  visibility: hidden;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item .z-custom-color-palette-item-clear .z-icon.i-remove {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: #FFFFFF;
-  pointer-events: none;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-palette-item.selected {
-  -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
-  -moz-box-shadow: inset 0 0 0 0.0625rem #3373C4;
-  box-shadow: inset 0 0 0 0.0625rem #3373C4;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  display: none;
-  width: 1.75rem;
-  height: 1.75rem;
-  padding: 0 0.0625rem;
-  background-color: #FFFFFF;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus .z-icon.i-plus {
-  width: 0.625rem;
-  height: 0.625rem;
-  background: #8B9094;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:focus {
-  border-color: #2559A8;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 0.125rem #2559A8;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:focus .z-icon.i-plus {
-  background: #8B9094;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:hover {
-  background-color: #D6EDFC;
-  border-color: #CFD5D9;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:hover .z-icon.i-plus {
-  background: #8B9094;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled:active, .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled.active {
-  background-color: #AFD9F9;
-  border-color: #619CDB;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled:active .z-icon.i-plus, .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus:enabled.active .z-icon.i-plus {
-  background: #19428D;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list .z-custom-color-plus.on {
-  display: inline-block;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-list.editable .z-custom-color-palette-item .z-custom-color-palette-item-clear {
-  visibility: visible;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container {
-  display: none;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container.active {
-  display: block;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control {
-  display: grid;
-  grid-template-columns: 1.75rem 5rem 3rem 3rem 3rem 3.75rem;
-  grid-template-rows: 2.25rem 2.25rem;
-  gap: 0 0.5rem;
-  font-weight: 500;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop .water-drop-outer {
-  fill-opacity: 1;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop .water-drop-inner {
-  fill-opacity: 0;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.on .water-drop-outer {
-  fill-opacity: 0;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.on .water-drop-inner {
-  fill: var(--data-color, #8B9094);
-  fill-opacity: 1;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-input {
-  padding: 0 0.5rem;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-color-text {
-  text-align: center;
-}
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-button-list {
-  width: 100%;
-  text-align: right;
-}
-
-/* _date-picker.scss 
- *
- * 파일 경로 : template/_date-picker.scss
- * @description Date/Time picker 관련 디자인
- * @author wdj
- * @version 1.0
- */
-.z-picker-wrapper-date {
-  display: inline-block;
-}
-.z-picker-wrapper-date .picker-main {
-  padding-right: 2.25rem;
-}
-
-.z-picker-modal {
-  position: fixed;
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0 0.3125rem 0 #CFD5D9;
-  box-shadow: 0 0 0.3125rem 0 #CFD5D9;
-  display: none;
-  min-width: 12.5rem;
-  background-color: #FFFFFF;
-  color: #222529;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.2;
-  text-align: center;
-  z-index: 1000;
-}
-.z-picker-modal.active {
-  display: block;
-  z-index: 1000;
-}
-.z-picker-modal-title {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding: 0.75rem 0;
-  color: #8B9094;
-  font-size: 0.875rem;
-  font-weight: 700;
-}
-.z-picker-modal-title .z-button-icon {
-  position: absolute;
-  top: 0.25rem;
-  left: 0.5rem;
-}
-.z-picker-modal-title .z-icon.i-remove {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: #8B9094;
-  cursor: pointer;
-}
-.z-picker-modal-title .z-icon.i-remove:hover {
-  background: #619CDB;
-}
-.z-picker-modal-sub-title {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding: 0.625rem 0;
-  background-color: #FAFAFA;
-  color: #222529;
-  font-size: 0.875rem;
-  font-weight: 400;
-}
-.z-picker-modal-content {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-.z-picker-modal-content .date-text {
-  display: table-cell;
-  width: 7.5rem;
-  margin: 0;
-  padding: 0;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #424242;
-  vertical-align: middle;
-}
-.z-picker-modal-content .z-icon.i-arrow-right {
-  display: table-cell;
-  cursor: pointer;
-  background: #ABB0B5;
-}
-.z-picker-modal-content .z-icon.i-arrow-right:hover {
-  background: #619CDB;
-}
-.z-picker-modal-content .z-icon.z-date-prev {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-.z-picker-modal-content-date {
-  display: none;
-  width: 19rem;
-  padding: 1rem 0 1rem 0;
-}
-.z-picker-modal-content-date.active {
-  display: inline-block;
-}
-.z-picker-modal-content-date.active + div.active {
-  border-left: 0.0625rem solid #CFD5D9;
-  height: 18.5rem;
-}
-.z-picker-modal-content-date-months {
-  display: table;
-  height: 1.563rem;
-  margin: 0 2.813rem;
-}
-.z-picker-modal-content-date-months img {
-  vertical-align: middle;
-}
-.z-picker-modal-content-date-months .date-text {
-  width: 16.5rem;
-}
-.z-picker-modal-content-date-calendar {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 0.9375rem 0.9375rem 0 0.9375rem;
-  color: #ABB0B5;
-}
-.z-picker-modal-content-date-calendar .calendar-cell {
-  display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: 0.25rem 0.4375rem;
-  padding: 0;
-  text-align: center;
-  line-height: 1.7;
-}
-.z-picker-modal-content-date-calendar .calendar-cell.calendar-title {
-  color: #8B9094;
-  pointer-events: none;
-}
-.z-picker-modal-content-date-calendar .calendar-cell:not(.calendar-title) {
-  border: 0.0625rem solid #FFFFFF;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  cursor: pointer;
-}
-.z-picker-modal-content-date-calendar .calendar-cell:not(.calendar-title):hover {
-  border-color: #D6EDFC;
-  background-color: #D6EDFC;
-}
-.z-picker-modal-content-date-calendar .calendar-cell:not(.calendar-title):active {
-  -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
-  -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
-  box-shadow: 0 0 0.125rem 0 #2559A8;
-  border-color: #2559A8;
-}
-.z-picker-modal-content-date-calendar .calendar-cell.active {
-  color: #222529;
-}
-.z-picker-modal-content-date-calendar .calendar-cell.selected {
-  border: 0.0625rem solid #3373C4;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  background-color: #FFFFFF;
-  color: #3373C4;
-}
-.z-picker-modal-content-time {
-  display: none;
-  width: 14.6875rem;
-  min-height: 7.375rem;
-  padding: 1rem 0 1rem 0;
-  justify-content: center;
-}
-.z-picker-modal-content-time.active {
-  display: flex;
-}
-.z-picker-modal-content-time .hour-group,
-.z-picker-modal-content-time .minute-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.z-picker-modal-content-time .hour-group .z-icon.i-arrow-right,
-.z-picker-modal-content-time .minute-group .z-icon.i-arrow-right {
-  margin: 0;
-  background: #8B9094;
-  cursor: pointer;
-}
-.z-picker-modal-content-time .hour-group .z-icon.i-arrow-right:hover,
-.z-picker-modal-content-time .minute-group .z-icon.i-arrow-right:hover {
-  background: #619CDB;
-}
-.z-picker-modal-content-time .hour-group .z-icon.z-hour-up, .z-picker-modal-content-time .hour-group .z-icon.z-minute-up,
-.z-picker-modal-content-time .minute-group .z-icon.z-hour-up,
-.z-picker-modal-content-time .minute-group .z-icon.z-minute-up {
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-}
-.z-picker-modal-content-time .hour-group .z-icon.z-hour-down, .z-picker-modal-content-time .hour-group .z-icon.z-minute-down,
-.z-picker-modal-content-time .minute-group .z-icon.z-hour-down,
-.z-picker-modal-content-time .minute-group .z-icon.z-minute-down {
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-.z-picker-modal-content-time .hour-group .digit,
-.z-picker-modal-content-time .minute-group .digit {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  width: 3.75rem !important;
-  height: 3.5rem;
-  margin: 0.8125rem 0;
-  padding: 0;
-  color: #222529;
-  font-size: 1.5rem;
-  font-weight: 500;
-  text-align: center;
-}
-.z-picker-modal-content-time .hour-group .digit:hover, .z-picker-modal-content-time .hour-group .digit:focus, .z-picker-modal-content-time .hour-group .digit:active,
-.z-picker-modal-content-time .minute-group .digit:hover,
-.z-picker-modal-content-time .minute-group .digit:focus,
-.z-picker-modal-content-time .minute-group .digit:active {
-  outline: 0;
-}
-.z-picker-modal-content-time .hour-group > .digit {
-  border-right: 0.0625rem solid transparent;
-  border-radius: 0.125rem 0 0 0.125rem;
-  -webkit-border-radius: 0.125rem 0 0 0.125rem;
-  -moz-border-radius: 0.125rem 0 0 0.125rem;
-}
-.z-picker-modal-content-time .minute-group > .digit {
-  border-left: 0.0625rem solid transparent;
-  border-radius: 0 0.125rem 0.125rem 0;
-  -webkit-border-radius: 0 0.125rem 0.125rem 0;
-  -moz-border-radius: 0 0.125rem 0.125rem 0;
-}
-.z-picker-modal-content-time .z-button-toggle-group {
-  padding-left: 0.5rem;
-}
-.z-picker-modal-content-time .separator {
-  border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: 0.0625rem solid #ABB0B5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 0.375rem;
-  height: 3.5rem;
-  margin: auto 0;
-  color: #222529;
-  font-size: 1.5rem;
-  font-weight: 500;
-}
-.z-picker-modal-content-year {
-  display: none;
-  width: 14rem;
-  padding: 1rem 0 1rem 0;
-}
-.z-picker-modal-content-year.active {
-  display: block;
-}
-.z-picker-modal-content-year-period {
-  display: table;
-  height: 1.563rem;
-  margin: 0 auto;
-}
-.z-picker-modal-content-year-period img {
-  vertical-align: middle;
-}
-.z-picker-modal-content-year-period .date-text {
-  width: 7.5rem;
-}
-.z-picker-modal-content-year-period .date-text span:first-child {
-  position: relative;
-  padding-right: 0.625rem;
-}
-.z-picker-modal-content-year-period .date-text span:first-child::before {
-  position: absolute;
-  top: 0.438rem;
-  right: 0.125rem;
-  content: "";
-  width: 0.3125rem;
-  height: 0.125rem;
-  background-color: #424242;
-}
-.z-picker-modal-content-year-years {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 0.9375rem 0.9375rem 0 0.9375rem;
-  color: #424242;
-}
-.z-picker-modal-content-year-years .calendar-cell {
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  display: inline-block;
-  width: 2.75rem;
-  height: 1.5rem;
-  padding: 0;
-  margin: 0.25rem 0.4375rem;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.7;
-  cursor: pointer;
-}
-.z-picker-modal-content-year-years .calendar-cell:hover, .z-picker-modal-content-year-years .calendar-cell:active {
-  background-color: #E1E6EA;
-}
-.z-picker-modal-content-year-years .calendar-cell.selected {
-  position: relative;
-  color: #3373C4;
-}
-.z-picker-modal-content-year-years .calendar-cell.selected:before {
-  position: absolute;
-  bottom: 0;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  content: "";
-  display: block;
-  width: 100%;
-  height: 0.125rem;
-  background-color: #3373C4;
-}
-.z-picker-modal-content-year-years .calendar-cell:nth-child(n+4) {
-  margin-top: 0.875rem;
-}
-.z-picker-modal-button {
-  float: right;
-  margin: 0.75rem 0.6875rem 0.75rem 0 !important;
-}
-
-.z-notification .z-icon-notification {
-  height: 1.5rem;
-}
-.z-notification .z-icon-notification.active .notification-round {
-  fill: #3373C4;
-}
-.z-notification .z-icon-notification:hover {
-  cursor: pointer;
-}
-.z-notification-panel {
-  position: relative;
-  bottom: 0;
-  left: 70.8rem;
-  border: 0.0625rem solid hsl(0, 0%, 93%) all transparent;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE;
-  box-shadow: 0 0 0.3125rem 0 #EEEEEE;
-  display: none;
-  width: 26.25rem;
-  background-color: #FFFFFF;
-  color: #222529;
-  z-index: 25;
-}
-.z-notification-panel.on {
-  display: block;
-}
-.z-notification-header {
-  display: flex;
-  align-items: baseline;
-  height: 2.5rem;
-  padding: 0 0.938rem;
-  background-color: #3373C4;
-}
-.z-notification-header span {
-  display: inline-block;
-  color: #FFFFFF;
-  font-size: 0.875rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 400;
-}
-.z-notification-header span.z-title {
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 500;
-}
-.z-notification-header span.z-total {
-  margin: auto 0.3125rem;
-}
-.z-notification-header span.z-message {
-  margin-left: 0.625rem;
-}
-.z-notification-header span.z-icon.i-remove {
-  margin-left: auto;
-  background: #FFFFFF;
-}
-.z-notification-body {
-  overflow-y: auto;
-  max-height: 20.63rem;
-}
-.z-notification-body .z-noData {
-  height: 6.875rem;
-  padding: 3rem;
-}
-.z-notification-content {
-  border-bottom: 0.063rem solid #EEEEEE;
-  height: 6.875rem;
-  padding: 0.938rem;
-}
-.z-notification-content:hover {
-  background-color: rgba(131, 187, 237, 0.1);
-}
-.z-notification-content .z-notification-checked {
-  display: flex;
-  margin: 0;
-  background-color: #FFFFFF;
-}
-.z-notification-content .z-notification-checked input[type=checkbox] {
-  position: relative;
-  border: 0.063rem solid #3373C4;
-  border-radius: 0.063rem;
-  -webkit-border-radius: 0.063rem;
-  -moz-border-radius: 0.063rem;
-  display: inline-block;
-  width: 1.125rem;
-  height: 1.125rem;
-  margin: 0;
-  padding: 0.313rem;
-  cursor: pointer;
-  -webkit-appearance: none;
-}
-.z-notification-content .z-notification-checked input[type=checkbox]:checked {
-  border: 0.063rem solid #EEEEEE;
-  color: #CFD5D9;
-  cursor: unset;
-}
-.z-notification-content .z-notification-checked input[type=checkbox]:checked::after {
-  position: absolute;
-  top: -0.063rem;
-  left: 0.063rem;
-  content: "✔";
-  color: #CFD5D9;
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.z-notification-content .z-icon.i-delete {
-  padding: 0;
-  background: #8B9094;
-}
-.z-notification-content span.z-title {
-  max-width: 18.13rem;
-  margin-left: 0.625rem;
-  color: #222529;
-  font-weight: 500;
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  line-height: 1.2;
-}
-.z-notification-content span.z-title.z-confirm {
-  opacity: 0.75;
-}
-.z-notification-content span.z-title__link:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.z-notification-content span.z-document-no {
-  color: #8B9094;
-  font-size: 0.875rem;
-}
-.z-notification-content span.z-message {
-  display: block;
-  max-width: 22.5rem;
-  min-height: 2.5rem;
-  margin-left: 1.75rem;
-  color: #222529;
-  font-weight: 400;
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.z-notification-content span.z-message.z-confirm {
-  color: #ABB0B5;
-}
-.z-notification-content span.z-date {
-  margin-left: 1.75rem;
-  color: #8B9094;
-  font-font: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-}
-
-.alice-toastify {
-  border-radius: 0.0625rem !important;
-  -webkit-border-radius: 0.0625rem !important;
-  -moz-border-radius: 0.0625rem !important;
-  -webkit-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
-  -moz-box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
-  box-shadow: 0 0 0.3125rem 0 #EEEEEE !important;
-  height: 6.25rem;
-  padding: 0 !important;
-  background: #FFFFFF !important;
-}
-.alice-toastify.toastify-right {
-  right: 0.625rem;
-}
-.alice-toastify.toast-content .icon {
-  background-image: url("../media/images/notification/img_notification_logo.png");
-  background-size: 6.25rem;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  width: 6.25rem;
-  height: 6.25rem;
-}
-.alice-toastify.toast-content .content {
-  border: 0.0625rem solid #EEEEEE !important;
-  width: 23.13rem;
-  height: 100%;
-  padding: 0.938rem;
-}
-.alice-toastify.toast-content .content div.title {
-  padding-bottom: 0.625rem;
-}
-.alice-toastify.toast-content .content div.title label, .alice-toastify.toast-content .content div.title button {
-  display: none;
-}
-.alice-toastify.toast-content .content div.message {
-  padding-bottom: 0.625rem;
-}
-.alice-toastify.toast-content .content div.date {
-  color: #8B9094;
-}
-.alice-toastify.toast-content .content div span.z-title {
-  max-width: 18.13rem;
-  color: #222529;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.alice-toastify.toast-content .content div span.z-message {
-  max-width: 22.5rem;
-  color: #222529;
-  font-size: 1rem;
-  font-weight: 400;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.alice-toastify.toast-content .content div span.z-date {
-  color: #8B9094;
-  font-size: 0.875rem;
-  font-weight: 400;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.alice-toastify .toast-close {
-  position: absolute;
-  top: 0.688rem;
-  right: 0.688rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
-  mask-image: url("../../assets/media/icons/icon_clear.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #8B9094;
-  padding: 0;
-}
-
-/** 
- * 댓글 디자인
- * template/_reply.scss
- * 화면 : 게시판
- */
-.reply-body {
-  margin-top: 2.5rem;
-}
-.reply-input-row {
-  border-top: 0.0625rem solid #CFD5D9;
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding: 1.3125rem 1.25rem;
-  background-color: #FAFAFA;
-}
-.reply-input-row .reply-input {
-  width: 100%;
-  margin: 0 0.3125rem;
-}
-.reply-input-row .reply-button {
-  flex: none;
-}
-.reply-list {
-  padding: 0 0;
-  margin-top: 0.0625rem;
-}
-.reply-list .vertical-bar {
-  width: 1.25rem;
-  min-height: 1.25rem;
-  margin: 0.0625rem 0.9375rem 0.0625rem 0;
-  border-right: 0.0625rem solid #CFD5D9;
-  vertical-align: middle;
-}
-.reply-list:empty {
-  border-color: transparent;
-}
-.reply-list .reply-info {
-  align-items: center;
-}
-.reply-list .reply-user-name {
-  font-weight: 400;
-}
-.reply-list .reply-create-date {
-  color: #ABB0B5;
-  font-weight: 400;
-}
-.reply-list .reply-row {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding-top: 1.875rem;
-  padding-bottom: 1.875rem;
-}
-.reply-list .reply-edit, .reply-list .reply-delete {
-  padding: 0 1.25rem 0 0;
-}
-.reply-list .reply-comment {
-  display: flex;
-  margin-top: 0.9375rem;
-  margin-left: 3rem;
-  word-break: break-all;
-}
-.reply-list .reply-comment input {
-  width: 100%;
-  margin: 0 0.3125rem;
-}
-.reply .i-profile-photo {
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  flex: none;
-  margin: auto 0.9376rem auto 0;
-  background-color: transparent;
-}
-
 /* _tree.scss
  *
  * 파일 경로 : template/_tree.scss
@@ -14423,7 +14332,7 @@ ul.tree ul {
   -o-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  margin: 0 0 0 calc(0.875rem * 2.3);
+  margin: 0 0 0 2.0125rem;
   padding: 0;
   list-style-type: none;
 }
@@ -14435,7 +14344,7 @@ ul.tree ul:before {
   content: "";
 }
 ul.tree ul li {
-  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
+  padding-left: 1.6565rem;
 }
 ul.tree ul li:before {
   position: absolute;
@@ -14443,7 +14352,7 @@ ul.tree ul li:before {
   left: 0;
   border-top: 0.0625rem solid #CFD5D9;
   content: "";
-  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
+  width: 1.6565rem;
   height: 0.0625rem;
 }
 ul.tree ul li:last-child:before {
@@ -14529,4 +14438,81 @@ span.modal_node_selected label {
   text-align: center;
   font-size: 0.875rem;
   font-weight: 500;
+}
+
+/* _validations.scss
+ *
+ * 파일 경로 : components/_validations.scss
+ * @description validation message
+ * @author jy.lim
+ * @version 1.0
+ */
+.required::after {
+  content: "*";
+  margin-left: 0.1875rem;
+  color: #F52525;
+  font-weight: 700;
+}
+
+.z-validation {
+  display: inherit;
+  height: 2rem;
+  margin: 0.25rem 0;
+  padding: 0.375rem 0.375rem 0.375rem 2.5rem;
+}
+.z-validation.default {
+  border: 0.0625rem solid #ABB0B5;
+  background-image: url("../../assets/media/icons/validation/icon_default.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 1rem;
+  background-position-y: center;
+  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  background-color: #FFFFFF;
+  color: #424242;
+}
+.z-validation.info {
+  border: 0.0625rem solid #D6EDFC;
+  background-image: url("../../assets/media/icons/validation/icon_info.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 1rem;
+  background-position-y: center;
+  background-color: #D6EDFC;
+  color: #3373C4;
+}
+.z-validation.info .z-icon.i-remove {
+  background: #3373C4;
+}
+.z-validation.error {
+  border: 0.0625rem solid #FEF2EB !important;
+  background-image: url("../../assets/media/icons/validation/icon_error.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 1rem;
+  background-position-y: center;
+  background-color: #FEF2EB;
+  color: #F52525;
+}
+.z-validation.error .z-icon.i-remove {
+  background: #F52525;
+}
+.z-validation.success {
+  border: 0.0625rem solid #F6FCE0;
+  background-image: url("../../assets/media/icons/validation/icon_success.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 1rem;
+  background-position-y: center;
+  background-color: #F6FCE0;
+  color: #5CA21B;
+}
+.z-validation.success .z-icon.i-remove {
+  background: #5CA21B;
+}
+.z-validation .z-icon.i-remove {
+  padding-right: 0.9375rem;
+  background: #8B9094;
 }
