@@ -26,7 +26,11 @@ class AliceInvalidSessionStrategy : InvalidSessionStrategy {
                 response.sendRedirect(request.contextPath + "/sessionInValid")
             }
         } else {
-            response.sendRedirect(request.contextPath + "/sessionInValid")
+            if (request.requestURI == "/login") {
+                response.sendRedirect(request.contextPath + request.requestURI)
+            } else {
+                response.sendRedirect(request.contextPath + "/sessionInValid")
+            }
         }
     }
 }
