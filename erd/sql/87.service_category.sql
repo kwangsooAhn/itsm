@@ -9,7 +9,7 @@ CREATE TABLE service_category
     p_service_code varchar(100),
     service_name varchar(100) NOT NULL,
     service_desc text,
-    availability_goal text,
+    ava_goal text,
     start_date timestamp,
     end_date timestamp,
     editable boolean default true,
@@ -29,7 +29,7 @@ COMMENT ON COLUMN service_category.service_code IS '서비스코드';
 COMMENT ON COLUMN service_category.p_service_code IS '부모서비스코드';
 COMMENT ON COLUMN service_category.service_name IS '서비스이름';
 COMMENT ON COLUMN service_category.service_desc IS '서비스설명';
-COMMENT ON COLUMN service_category.availability_goal IS '가용목표';
+COMMENT ON COLUMN service_category.ava_goal IS '가용목표';
 COMMENT ON COLUMN service_category.start_date IS '서비스시작일자';
 COMMENT ON COLUMN service_category.end_date IS '서비스종료일자';
 COMMENT ON COLUMN service_category.editable IS '수정가능여부';

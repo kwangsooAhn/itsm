@@ -650,7 +650,7 @@ insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4,
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
-insert into awf_menu values ('service', 'menu', '/services/edit', 14, 'TRUE');
+insert into awf_menu values ('service', 'menu', '/service-category/edit', 14, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -1548,11 +1548,11 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
-insert into awf_url values ('/services/edit', 'get', '서비스 카테고리 편집 화면', 'TRUE');
-insert into awf_url values ('/rest/services', 'get', '서비스 카테고리 전체 조회', 'TRUE');
-insert into awf_url values ('/rest/services/{id}', 'get', '서비스 카테고리 상세 조회', 'TRUE');
-insert into awf_url values ('/rest/services', 'post', '서비스 카테고리 등록', 'TRUE');
-insert into awf_url values ('/rest/services/{id}', 'put', '서비스 카테고리 수정', 'TRUE');
+insert into awf_url values ('/service-category/edit', 'get', '서비스 카테고리 편집 화면', 'TRUE');
+insert into awf_url values ('/rest/service-category', 'get', '서비스 카테고리 전체 조회', 'TRUE');
+insert into awf_url values ('/rest/service-category/{id}', 'get', '서비스 카테고리 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/service-category', 'post', '서비스 카테고리 등록', 'TRUE');
+insert into awf_url values ('/rest/service-category/{id}', 'put', '서비스 카테고리 수정', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1953,14 +1953,14 @@ insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get',
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
-insert into awf_url_auth_map values ('/services/edit', 'get', 'service.manage');
-insert into awf_url_auth_map values ('/services/edit', 'get', 'service.view');
-insert into awf_url_auth_map values ('/rest/services', 'get', 'service.manage');
-insert into awf_url_auth_map values ('/rest/services', 'get', 'service.view');
-insert into awf_url_auth_map values ('/rest/services/{id}', 'get', 'service.manage');
-insert into awf_url_auth_map values ('/rest/services/{id}', 'get', 'service.view');
-insert into awf_url_auth_map values ('/rest/services', 'post', 'service.manage');
-insert into awf_url_auth_map values ('/rest/services/{id}', 'put', 'service.manage');
+insert into awf_url_auth_map values ('/service-category/edit', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/service-category/edit', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/service-category', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/rest/service-category', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/service-category/{id}', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/rest/service-category/{id}', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/service-category', 'post', 'service.manage');
+insert into awf_url_auth_map values ('/rest/service-category/{id}', 'put', 'service.manage');
 
 /**
  * 사용자정보
@@ -9803,7 +9803,7 @@ CREATE TABLE service_category
     p_service_code varchar(100),
     service_name varchar(100) NOT NULL,
     service_desc text,
-    availability_goal text,
+    ava_goal text,
     start_date timestamp,
     end_date timestamp,
     editable boolean default true,
@@ -9823,7 +9823,7 @@ COMMENT ON COLUMN service_category.service_code IS '서비스코드';
 COMMENT ON COLUMN service_category.p_service_code IS '부모서비스코드';
 COMMENT ON COLUMN service_category.service_name IS '서비스이름';
 COMMENT ON COLUMN service_category.service_desc IS '서비스설명';
-COMMENT ON COLUMN service_category.availability_goal IS '가용목표';
+COMMENT ON COLUMN service_category.ava_goal IS '가용목표';
 COMMENT ON COLUMN service_category.start_date IS '서비스시작일자';
 COMMENT ON COLUMN service_category.end_date IS '서비스종료일자';
 COMMENT ON COLUMN service_category.editable IS '수정가능여부';
