@@ -7,10 +7,66 @@
  */
 @charset "utf-8";
 
-@import 'foundations/foundations.scss';
-@import 'layout/layout.scss';
-@import 'components/components.scss';
-@import 'template/template.scss';
+// 최상위 선언
+@import 'foundations/base/_reset.scss';
+@import 'foundations/base/_colors.scss';
+@import 'foundations/base/_functions.scss';
+@import 'foundations/base/_font.scss';
+
+// mixins
+@import 'foundations/mixins/_animation.scss';
+@import 'foundations/mixins/_border.scss';
+@import 'foundations/mixins/_divider.scss';
+@import 'foundations/mixins/_font.scss';
+@import 'foundations/mixins/_image.scss';
+@import 'foundations/mixins/_layout.scss';
+@import 'foundations/mixins/_position.scss';
+@import 'foundations/mixins/_scroll.scss';
+@import 'foundations/mixins/_text.scss';
+
+// utilities
+@import 'foundations/utilities/_alignments.scss';
+@import 'foundations/utilities/_columns.scss';
+@import 'foundations/utilities/_display.scss';
+@import 'foundations/utilities/_spacing.scss';
+
+// base
+@import 'foundations/base/_icons.scss';
+
+// layout
+@import 'layout/_wrapper.scss';
+@import 'layout/_navigation.scss';
+@import 'layout/_header.scss';
+@import 'layout/_content.scss';
+
+// page
+@import 'layout/_designer.scss';
+@import 'layout/_document.scss';
+@import 'layout/_portal.scss';
+@import 'layout/_report.scss';
+
+// components
+@import 'components/_alerts.scss';
+@import 'components/_avatar.scss';
+@import 'components/_buttons.scss';
+@import 'components/_calendar.scss';
+@import 'components/_charts.scss';
+@import 'components/_color-picker.scss';
+@import 'components/_date-picker.scss';
+@import 'components/_elements.scss';
+@import 'components/_file-uploader.scss';
+@import 'components/_modal.scss';
+@import 'components/_notification.scss';
+@import 'components/_paging.scss';
+@import 'components/_popup.scss';
+@import 'components/_reply.scss';
+@import 'components/_scrollbars.scss';
+@import 'components/_tag.scss';
+@import 'components/_text-editor.scss';
+@import 'components/_thumbnail.scss';
+@import 'components/_tooltip.scss';
+@import 'components/_tree.scss';
+@import 'components/_validations.scss';
 
 // dark mode
 @import 'foundations/dark.scss';
