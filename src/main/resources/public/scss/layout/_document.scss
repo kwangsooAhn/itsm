@@ -169,7 +169,6 @@
       .z-token-panel {
         display: none;
         padding: 0 1.375rem; // 22px
-        &.on { display: block; }
 
         // 아이콘
         .z-icon.i-delete { background: $gray500; }

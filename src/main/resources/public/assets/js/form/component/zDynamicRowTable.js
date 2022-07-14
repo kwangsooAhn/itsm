@@ -272,7 +272,7 @@ export const dynamicRowTableMixin = {
         const row = new UIRow(targetTable).setUIClass('no-data-found-list');
         targetTable.addUIRow(row);
 
-        const td = new UICell(row).setUIClass('on align-center first-column last-column')
+        const td = new UICell(row).setUIClass('table-cell align-center first-column last-column')
             .setColspan(this.elementColumns.length + 1)
             .setUITextContent(i18n.msg('common.msg.noData'));
         row.addUICell(td);

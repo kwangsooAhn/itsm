@@ -181,7 +181,7 @@ export const ciMixin = {
 
         this.getCITableData().forEach((option) => {
             const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
-            const tdClassName = (option.type === 'hidden' ? '' : 'on') + ' ' + option.class;
+            const tdClassName = (option.type === 'hidden' ? '' : 'table-cell') + ' ' + option.class;
             const td = new UICell(row).setUIClass(tdClassName)
                 .setUICSSText(`width:${tdWidth}%;`)
                 .setUITextContent((option.name !== '' ? i18n.msg(option.name) : ''));

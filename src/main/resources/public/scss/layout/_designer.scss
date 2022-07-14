@@ -483,9 +483,6 @@ $layout-header-dropdown: (
     padding: 0;
     font-weight: $font-weight-medium;
     .z-component-label-text { line-height: 1; }
-
-    &.on { display: flex; }
-    &.off { display: none; }
   }
   // divider
   &.divider { padding: 0; }
@@ -594,7 +591,6 @@ $layout-header-dropdown: (
         padding: 0.5rem; // 8px
         border-left: none;
         border-right: none;
-        &.on { display: table-cell; }
       }
       .z-ci-table-row { color: $neutral800; }
       // 데이터 없음
@@ -622,7 +618,6 @@ $layout-header-dropdown: (
         border-left: none;
         border-right: none;
         line-height: 1;
-        &.on { display: table-cell; }
       }
       // 제목
       .z-dr-table-header {
@@ -684,15 +679,6 @@ $layout-header-dropdown: (
         padding: 0.3125rem 0.625rem; //5px 10px
         font-size: $font-size-xxs;
       }
-    }
-  }
-}
-// label
-.z-component { // 필수값 숨김
-  .z-component-label {
-    .required {
-      &.off { display: none; }
-      &.on { display: inline; }
     }
   }
 }
