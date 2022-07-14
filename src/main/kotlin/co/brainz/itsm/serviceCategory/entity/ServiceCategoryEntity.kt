@@ -36,8 +36,8 @@ data class ServiceCategoryEntity(
     @Column(name = "service_desc")
     var serviceDesc: String? = null,
 
-    @Column(name = "availability_goal")
-    var availabilityGoal: String? = null,
+    @Column(name = "ava_goal")
+    var avaGoal: String? = null,
 
     @Column(name = "start_date")
     var startDate: LocalDate? = null,

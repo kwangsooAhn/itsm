@@ -49,7 +49,7 @@ class ServiceCategory(
                     pServiceCode = service.pServiceCode?.serviceCode,
                     serviceName = service.serviceName,
                     serviceDesc = service.serviceDesc,
-                    availabilityGoal = service.availabilityGoal,
+                    avaGoal = service.avaGoal,
                     startDate = service.startDate,
                     endDate = service.endDate,
                     editable = service.editable,

@@ -13,7 +13,7 @@ data class ServiceCategoryDto(
     val pServiceCode: String? = null,
     val serviceName: String = "",
     val serviceDesc: String? = null,
-    val availabilityGoal: String? = null,
+    val avaGoal: String? = null,
     val startDate: LocalDate? = null,
     val endDate: LocalDate? = null,
     val editable: Boolean? = true,

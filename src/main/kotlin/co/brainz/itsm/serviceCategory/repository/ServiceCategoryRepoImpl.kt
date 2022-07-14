@@ -38,7 +38,7 @@ class ServiceCategoryRepoImpl : QuerydslRepositorySupport(ServiceCategoryEntity:
                     service.pServiceCode.serviceCode,
                     service.serviceName,
                     service.serviceDesc,
-                    service.availabilityGoal,
+                    service.avaGoal,
                     service.startDate,
                     service.endDate,
                     service.editable,
