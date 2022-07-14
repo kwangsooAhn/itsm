@@ -397,3 +397,11 @@ insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get',
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
+insert into awf_url_auth_map values ('/service-category/edit', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/service-category/edit', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/service-category', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/rest/service-category', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/service-category/{id}', 'get', 'service.manage');
+insert into awf_url_auth_map values ('/rest/service-category/{id}', 'get', 'service.view');
+insert into awf_url_auth_map values ('/rest/service-category', 'post', 'service.manage');
+insert into awf_url_auth_map values ('/rest/service-category/{id}', 'put', 'service.manage');
