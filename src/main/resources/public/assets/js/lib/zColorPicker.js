@@ -276,7 +276,7 @@ Object.assign(zColorPicker.prototype, {
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'z-button-icon extra z-custom-color-edit on';
+        editButton.className = 'z-button-icon extra z-custom-color-edit visible';
         editButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
@@ -306,7 +306,7 @@ Object.assign(zColorPicker.prototype, {
         const addButton = document.createElement('button');
         addButton.type = 'button';
         addButton.className = 'z-button-icon z-custom-color-plus' +
-            (isMaxCustomColor ? '' : ' on');
+            (isMaxCustomColor ? '' : ' inline-block');
         addButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         this.addButtonEl = addButton;
@@ -473,7 +473,7 @@ Object.assign(zColorPicker.prototype, {
             this.isCustomColorControlOpen = true;
 
             // edit 버튼 숨기기
-            this.editButtonEl.classList.remove('on');
+            this.editButtonEl.classList.remove('visible');
 
             // 사용자 색상 삭제(x) 아이콘 표시
             this.customColorListEl.classList.add('editable');
@@ -489,7 +489,7 @@ Object.assign(zColorPicker.prototype, {
             this.isCustomColorControlOpen = false;
 
             // edit 버튼 표시
-            this.editButtonEl.classList.add('on');
+            this.editButtonEl.classList.add('visible');
 
             // 사용자 색상 삭제(x) 아이콘 삭제
             this.customColorListEl.classList.remove('editable');
@@ -515,7 +515,7 @@ Object.assign(zColorPicker.prototype, {
         this.customColors.push(this.hexEl.value);
         // 최대 색상은 10개만 추가 가능하다.
         if (this.customColors.length === this.options.maxCustomColor) {
-            this.addButtonEl.classList.remove('on');
+            this.addButtonEl.classList.remove('inline-block');
             this.addCustomColorButtonEl.disabled = true;
         }
 
@@ -553,8 +553,8 @@ Object.assign(zColorPicker.prototype, {
         }
 
         // 최대 색상은 10개만 추가 가능하다.
-        if (!this.addButtonEl.classList.contains('on')) {
-            this.addButtonEl.classList.add('on');
+        if (!this.addButtonEl.classList.contains('inline-block')) {
+            this.addButtonEl.classList.add('inline-block');
             this.addCustomColorButtonEl.disabled = false;
         }
 
@@ -637,13 +637,13 @@ Object.assign(zColorPicker.prototype, {
         this.inputEl.value = this.value;
 
         // 최대 색상인데 추가 버튼이 활성화 되어 있다면 비활성화 한다.
-        if (this.savedCustomColors.length === this.options.maxCustomColor && this.addButtonEl.classList.contains('on')) {
-            this.addButtonEl.classList.remove('on');
+        if (this.savedCustomColors.length === this.options.maxCustomColor && this.addButtonEl.classList.contains('inline-block')) {
+            this.addButtonEl.classList.remove('inline-block');
             this.addCustomColorButtonEl.disabled = true;
         }
         // 최대 색상이 아니지만 추가 버튼이 비활성화 되어 있다면 활성화 한다.
-        if (this.savedCustomColors.length !== this.options.maxCustomColor && !this.addButtonEl.classList.contains('on')) {
-            this.addButtonEl.classList.add('on');
+        if (this.savedCustomColors.length !== this.options.maxCustomColor && !this.addButtonEl.classList.contains('inline-block')) {
+            this.addButtonEl.classList.add('inline-block');
             this.addCustomColorButtonEl.disabled = false;
         }
 
