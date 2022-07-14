@@ -9814,7 +9814,8 @@ CREATE TABLE service_category
     create_dt timestamp,
     update_user_key varchar(128),
     update_dt timestamp,
-    CONSTRAINT service_pk PRIMARY KEY (service_code)
+    CONSTRAINT service_category_pk PRIMARY KEY (service_code),
+    CONSTRAINT service_category_uk UNIQUE (service_name)
 );
 
 COMMENT ON TABLE service_category IS '서비스카테고리정보';
