@@ -111,4 +111,30 @@ class ServiceCategory(
             status = status.code
         )
     }
+
+    /**
+     * 서비스 카테고리 수정
+     */
+    fun updateService(serviceCategoryDto: ServiceCategoryDto): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+
+        when (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)) {
+            true -> status = ZResponseConstants.STATUS.ERROR_DUPLICATE
+            false -> {
+                val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCategoryDto.serviceCode)
+                serviceEntity.serviceName = serviceCategoryDto.serviceName
+                serviceEntity.serviceDesc = serviceCategoryDto.serviceDesc
+                serviceEntity.avaGoal = serviceCategoryDto.avaGoal
+                serviceEntity.startDate = serviceCategoryDto.startDate
+                serviceEntity.endDate = serviceCategoryDto.endDate
+                serviceEntity.useYn = serviceCategoryDto.useYn
+                serviceEntity.seqNum = serviceCategoryDto.seqNum
+
+                serviceCategoryRepo.save(serviceEntity)
+            }
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
 }

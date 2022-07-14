@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -55,5 +56,15 @@ class ServiceCategoryRestController(
         @RequestBody serviceCategoryDto: ServiceCategoryDto
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(serviceCategory.createService(serviceCategoryDto))
+    }
+
+    /**
+     * 서비스 카테고리 수정
+     */
+    @PutMapping("/{serviceCode}")
+    fun updateService(
+        @RequestBody serviceCategoryDto: ServiceCategoryDto
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(serviceCategory.updateService(serviceCategoryDto))
     }
 }
