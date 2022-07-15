@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ServiceCategoryRepo : JpaRepository<ServiceCategoryEntity, String>, ServiceCategoryRepoCustom {
 
-    fun existsByServiceCodeOrServiceName(serviceCode: String, serviceName: String): Boolean
-
     fun existsByServiceName(serviceName: String): Boolean
 
     fun findByServiceCode(serviceCode: String): ServiceCategoryEntity
