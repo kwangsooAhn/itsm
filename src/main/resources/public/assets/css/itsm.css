@@ -4483,25 +4483,25 @@ input, button, select, optgroup, textarea {
   padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
-.z-component .z-element .input, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only) {
+.z-component .z-element .input, .z-component .z-element .z-input:not(.select-box-label):not(:read-only) {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
   width: 100%;
 }
-.z-component .z-element .input:hover, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only):hover {
+.z-component .z-element .input:hover, .z-component .z-element .z-input:not(.select-box-label):not(:read-only):hover {
   border: 0.0625rem solid #619CDB;
   outline: 0;
 }
-.z-component .z-element .input:focus, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only):focus {
+.z-component .z-element .input:focus, .z-component .z-element .z-input:not(.select-box-label):not(:read-only):focus {
   border: 0.0625rem solid #2559A8;
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   outline: 0;
 }
-.z-component .z-element .input:active, .z-component .z-element .z-input:not(.z-select-box-label):not(:read-only):active {
+.z-component .z-element .input:active, .z-component .z-element .z-input:not(.select-box-label):not(:read-only):active {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
@@ -4627,16 +4627,16 @@ input, button, select, optgroup, textarea {
 .z-component .z-element .z-dr-table .z-dr-table-row .button-icon {
   padding: 0;
 }
-.z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.z-select-box-label) {
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.select-box-label) {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
   text-indent: 0.75rem;
 }
-.z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.z-select-box-label).picker-main {
+.z-component .z-element .z-dr-table .z-dr-table-row .z-input:not(.select-box-label).picker-main {
   padding-right: 2.25rem;
 }
 .z-component .z-element .z-dr-table .z-dr-table-row .z-input:read-only:not(:disabled):not(.tagify),
-.z-component .z-element .z-dr-table .z-dr-table-row .z-select .z-select-box.readonly {
+.z-component .z-element .z-dr-table .z-dr-table-row .select .select-box.readonly {
   border-bottom: none;
 }
 .z-component .z-element .z-dr-table .z-dr-table-row span {
@@ -4649,7 +4649,7 @@ input, button, select, optgroup, textarea {
   font-weight: inherit;
   text-align: inherit;
 }
-.z-component .z-element .z-dr-table .z-dr-table-row .z-select-box {
+.z-component .z-element .z-dr-table .z-dr-table-row .select-box {
   padding: 0.5rem 0.75rem;
 }
 .z-component .z-element .z-dr-table .no-data-found-list {
@@ -5054,23 +5054,23 @@ input, button, select, optgroup, textarea {
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box {
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input::placeholder,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea::placeholder,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box::placeholder {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box::placeholder {
   color: #619CDB !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input .icon,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea .icon,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box .icon {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box .icon {
   background: #619CDB !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-date-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-date-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-date-picker {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -5079,7 +5079,7 @@ input, button, select, optgroup, textarea {
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-time-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-time-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-time-picker {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -5088,7 +5088,7 @@ input, button, select, optgroup, textarea {
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-datetime-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-datetime-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-datetime-picker {
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -5309,14 +5309,14 @@ input, button, select, optgroup, textarea {
 .property .default-type .z-input.off {
   display: none;
 }
-.property .default-type .z-select {
+.property .default-type .select {
   display: block;
   margin-left: 0.625rem;
 }
-.property .default-type .z-select.off {
+.property .default-type .select.off {
   display: none;
 }
-.property .default-type .z-select .z-input {
+.property .default-type .select .z-input {
   display: inline-block;
   margin-left: 0;
 }
@@ -10291,22 +10291,22 @@ select {
 /**
  Designed select
    1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
-   2) z-select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
+   2) select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
    3) 내부에는 2개의 영역으로 구성되며 아래와 같은 클래스명으로 구분된다.
-     - z-select-box : select 태그를 대신해서 보여지는 부분
-     - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
+     - select-box : select 태그를 대신해서 보여지는 부분
+     - select-options : select-box 클릭 시 보여지는 option 리스트 부분
 */
-.z-select {
+.select {
   position: relative;
   display: inline-block;
   width: 100%;
   height: 2.125rem;
   vertical-align: middle;
 }
-.z-select select.readonly {
+.select select.readonly {
   visibility: hidden;
 }
-.z-select .z-select-box {
+.select .select-box {
   position: absolute;
   top: 0;
   right: 0;
@@ -10333,35 +10333,35 @@ select {
   line-height: 1.2;
   cursor: pointer;
 }
-.z-select .z-select-box:not(.readonly):hover {
+.select .select-box:not(.readonly):hover {
   border: 0.0625rem solid #619CDB;
   outline: 0;
 }
-.z-select .z-select-box:not(.readonly):focus {
+.select .select-box:not(.readonly):focus {
   border: 0.0625rem solid #2559A8;
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   outline: 0;
 }
-.z-select .z-select-box:not(.readonly).active {
+.select .select-box:not(.readonly).active {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.z-select .z-select-box:not(.readonly).active .icon.i-arrow-right {
+.select .select-box:not(.readonly).active .icon.i-arrow-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.z-select .z-select-box:not(.readonly).active + .z-select-options {
+.select .select-box:not(.readonly).active + .select-options {
   display: block;
 }
-.z-select .z-select-box:not(.readonly) .icon {
+.select .select-box:not(.readonly) .icon {
   pointer-events: none;
 }
-.z-select .z-select-box:not(.readonly) .icon.i-arrow-right {
+.select .select-box:not(.readonly) .icon.i-arrow-right {
   position: absolute;
   right: 0.5rem;
   -webkit-transform: rotate(90deg);
@@ -10372,7 +10372,7 @@ select {
   margin-top: -0.1875rem;
   background: #8B9094;
 }
-.z-select .z-select-box.readonly {
+.select .select-box.readonly {
   border-bottom: 0.0625rem solid #CFD5D9;
   border-radius: 0;
   -webkit-border-radius: 0;
@@ -10381,7 +10381,7 @@ select {
   background-color: transparent;
   cursor: default;
 }
-.z-select .z-select-box .z-select-box-label {
+.select .select-box .select-box-label {
   height: auto;
   width: 100%;
   padding: 0;
@@ -10390,24 +10390,24 @@ select {
   vertical-align: unset;
   pointer-events: none;
 }
-.z-select .z-select-box .z-select-box-label:hover, .z-select .z-select-box .z-select-box-label:focus {
+.select .select-box .select-box-label:hover, .select .select-box .select-box-label:focus {
   webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   border: none;
 }
-.z-select .z-select-box.disabled-select {
+.select .select-box.disabled-select {
   border: 0.0625rem solid #CFD5D9;
   background-color: #EEEEEE;
   color: #ABB0B5;
   pointer-events: none;
   cursor: default;
 }
-.z-select .z-select-box.disabled-select .z-select-box-label {
+.select .select-box.disabled-select .select-box-label {
   background-color: #EEEEEE;
   color: #ABB0B5;
 }
-.z-select .z-select-options {
+.select .select-options {
   position: absolute;
   top: calc(100% + 0.25rem);
   right: 0;
@@ -10430,7 +10430,7 @@ select {
   list-style: none;
   z-index: 5000;
 }
-.z-select .z-select-options li {
+.select .select-options li {
   overflow: hidden;
   display: block;
   max-width: 100%;
@@ -10446,16 +10446,16 @@ select {
   text-indent: 0.4375rem;
   line-height: 1.2;
 }
-.z-select .z-select-options li:hover {
+.select .select-options li:hover {
   background: #D6EDFC;
 }
-.z-select .z-select-options li[rel=hide] {
+.select .select-options li[rel=hide] {
   display: none;
 }
-.z-select .z-select-options .selected {
+.select .select-options .selected {
   color: #3373C4;
 }
-.z-select .z-select-options .selected:after {
+.select .select-options .selected:after {
   position: absolute;
   right: 0.9375rem;
   background-image: url("../../assets/media/icons/icon_select_check.svg");

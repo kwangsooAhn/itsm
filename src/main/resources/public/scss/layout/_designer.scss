@@ -498,7 +498,7 @@ $layout-header-dropdown: (
     pointer-events: none;
 
     // inputBox
-    .input, .z-input:not(.z-select-box-label):not(:read-only) {
+    .input, .z-input:not(.select-box-label):not(:read-only) {
       @include border(0.0625rem, solid, $gray400, all); // 1px
       @include borderRadius(0.0625rem); // 2px
       width: 100%;
@@ -637,7 +637,7 @@ $layout-header-dropdown: (
       .z-dr-table-row {
         .button-icon { padding: 0; }
 
-        .z-input:not(.z-select-box-label) {
+        .z-input:not(.select-box-label) {
           padding: 0.4375rem 0;
           margin: 0.25rem 0;
           text-indent: 0.75rem;
@@ -645,7 +645,7 @@ $layout-header-dropdown: (
         }
 
         .z-input:read-only:not(:disabled):not(.tagify),
-        .z-select .z-select-box.readonly { border-bottom: none; }
+        .select .select-box.readonly { border-bottom: none; }
         span { line-height: 1.6; }
 
         // 문서양식에서 설정한 컬럼에 대한 style을 상속 받음
@@ -656,7 +656,7 @@ $layout-header-dropdown: (
           font-weight: inherit;
           text-align: inherit;
         }
-        .z-select-box { padding: 0.5rem 0.75rem; };
+        .select-box { padding: 0.5rem 0.75rem; };
       }
       // 데이터 없음
       .no-data-found-list {
@@ -1054,7 +1054,7 @@ $component-icon: (
         .z-element {
           .z-input,
           .textarea,
-          .z-select-box {
+          .select-box {
             border-color: $blue400 !important;
             color: $blue400 !important;
             &::placeholder { color: $blue400 !important; }
@@ -1268,7 +1268,7 @@ $component-icon: (
       margin-left : 0.625rem; // 10px
       &.off { display: none; }
     }
-    .z-select {
+    .select {
       display: block;
       margin-left: 0.625rem; // 10px
       &.off { display: none; }
