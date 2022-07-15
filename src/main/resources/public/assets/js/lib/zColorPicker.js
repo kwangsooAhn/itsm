@@ -533,7 +533,7 @@ Object.assign(zColorPicker.prototype, {
         this.selectedEl = colorItem;
 
         // 기존 색상 초기화
-        this.waterDropEl.classList.remove('on');
+        this.waterDropEl.classList.remove('active');
         this.hexEl.value = '';
         ['r', 'g', 'b'].forEach((str) => {
             this[str + 'El'].value = '';
@@ -651,7 +651,7 @@ Object.assign(zColorPicker.prototype, {
     // Rgb 입력시 호출
     setRgb() {
         // 초기화
-        this.waterDropEl.classList.remove('on');
+        this.waterDropEl.classList.remove('active');
         this.hexEl.value = '';
 
         // rgb 유효성 검증
@@ -668,14 +668,14 @@ Object.assign(zColorPicker.prototype, {
 
         // 물방울 변경
         this.waterDropEl.style.setProperty('--data-color', hexColor);
-        if (!this.waterDropEl.classList.contains('on')) {
-            this.waterDropEl.classList.add('on');
+        if (!this.waterDropEl.classList.contains('active')) {
+            this.waterDropEl.classList.add('active');
         }
     },
     // Hex 입력시 호출
     setHex(e) {
         // 초기화
-        this.waterDropEl.classList.remove('on');
+        this.waterDropEl.classList.remove('active');
         ['r', 'g', 'b'].forEach((str) => {
             this[str + 'El'].value = '';
         });
@@ -692,8 +692,8 @@ Object.assign(zColorPicker.prototype, {
 
         // 물방울 변경
         this.waterDropEl.style.setProperty('--data-color', e.target.value);
-        if (!this.waterDropEl.classList.contains('on')) {
-            this.waterDropEl.classList.add('on');
+        if (!this.waterDropEl.classList.contains('active')) {
+            this.waterDropEl.classList.add('active');
         }
     },
     // Force a hex value to have 2 characters

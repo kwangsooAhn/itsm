@@ -9408,10 +9408,10 @@ input, button, select, optgroup, textarea {
 .z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop .water-drop-inner {
   fill-opacity: 0;
 }
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.on .water-drop-outer {
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.active .water-drop-outer {
   fill-opacity: 0;
 }
-.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.on .water-drop-inner {
+.z-color-picker-wrapper .z-color-picker-modal .z-custom-color-palette-container .z-custom-color-control-container .z-custom-color-control .z-icon.i-water-drop.active .water-drop-inner {
   fill: var(--data-color, #8B9094);
   fill-opacity: 1;
 }

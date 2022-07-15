@@ -250,7 +250,7 @@ $custom-color-plus: (
             &.i-water-drop {
               .water-drop-outer { fill-opacity: 1; }
               .water-drop-inner { fill-opacity: 0; }
-              &.on {
+              &.active {
                 .water-drop-outer { fill-opacity: 0; }
                 .water-drop-inner {
                   fill: var(--data-color, $gray500);
