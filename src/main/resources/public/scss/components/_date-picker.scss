@@ -6,12 +6,12 @@
  * @version 1.0
  */
 // input box
-.z-picker-wrapper-date {
+.picker-wrapper-date {
   display: inline-block;
   .picker-main { padding-right: 2.25rem; }
 }
 // modal
-.z-picker-modal {
+.picker-modal {
   @include fixed();
   @include border(0.0625rem, solid, $gray300, all);
   @include borderRadius(0.0625rem); // 1px

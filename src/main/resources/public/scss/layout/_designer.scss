@@ -315,7 +315,7 @@ $layout-header-dropdown: (
 
 ////////////////////////// date-picker //////////////////////////
 .z-element {
-  .z-picker-wrapper-date { width: 100%; }
+  .picker-wrapper-date { width: 100%; }
 }
 
 ////////////////////////// element //////////////////////////
@@ -1311,7 +1311,7 @@ $component-icon: (
         .icon.i-remove { right: 2.5rem; }
       }
 
-      .z-picker-wrapper-date {
+      .picker-wrapper-date {
         flex: 1;
         .picker-main { width:inherit; }
       }
