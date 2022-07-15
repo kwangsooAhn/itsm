@@ -177,10 +177,9 @@
         });
     }
     window.onkeydown = function() {
-        const uid = document.activeElement === document.getElementById('uid');
-        const upasswd = document.activeElement === document.getElementById('upasswd');
-        const sendLogin = document.activeElement === document.getElementById('sendLogin');
-        if ((uid || upasswd || sendLogin) && (event.keyCode === 13)) {
+        let keyEventElementId = ['uid', 'upasswd', 'sendLogin'];
+        let keyEventElement = keyEventElementId.includes(document.activeElement.id)
+        if (keyEventElement && (event.keyCode === 13)) {
             onLogin();
         }
     };
