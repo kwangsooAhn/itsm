@@ -50,7 +50,7 @@
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
         <div class="edit-row flex-column">
-            <label class="z-switch">
+            <label class="switch">
                 <span class="z-label" th:text="#{organization.label.useYn}"></span>
                 <input type="checkbox" id="useYn" name="useYn"
                        th:checked="${data?.useYn == null || data?.useYn == true}">

@@ -392,7 +392,7 @@ input, textarea, select {
 div.textarea-readonly { border-color: transparent !important; }
 
 // switch
-.z-switch {
+.switch {
   @include relative();
   height: 1.75rem; //26px
   color: $neutral800;
@@ -717,7 +717,7 @@ select {
 
 // 스위치 목록
 // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
-.z-switch {
+.switch {
   display: inline-block;
   width: 100%;
   margin: 0 !important;
@@ -734,7 +734,7 @@ select {
       height: 2.5rem; // 40px
       padding-right: 0.2rem;
     }
-    .z-switch {
+    .switch {
       .z-label { margin-left: 0; }
       input[type=checkbox] + span { left: inherit }
     }
@@ -970,7 +970,7 @@ select {
   &.readonly, &.disabled { pointer-events: none; }
 }
 
-.z-view-hover { pointer-events: none; }
+.view-hover { pointer-events: none; }
 
 // 기본 라벨 테마
 $label-themes-default: (
@@ -996,4 +996,4 @@ $label-themes-default: (
 
 }
 
-.z-divider { margin: 0; }
+.divider { margin: 0; }

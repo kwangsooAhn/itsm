@@ -36,7 +36,7 @@
                        disabled/>
             </div>
             <div class="flex-column edit-row">
-                <label class="z-switch">
+                <label class="switch">
                     <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
                            th:checked="${notice?.popYn == true}">
                     <span></span>
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="flex-column edit-row">
-                <label class="z-switch">
+                <label class="switch">
                     <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
                            th:checked="${notice?.topNoticeYn == true}">
                     <span></span>

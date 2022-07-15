@@ -306,7 +306,7 @@ $layout-header-dropdown: (
   }
 }
 
-.z-switch {
+.switch {
   input[type=checkbox] {
     // 스위치 버튼 - 동그라미
     + span::before { top: 0.125rem; } // 2px
@@ -1112,7 +1112,7 @@ $component-icon: (
             .no-data-found-list { color: $blue400 !important; }
           }
           // Divider
-          .z-divider {
+          .divider {
             border-top-style: solid;
             border-top-color : $blue400 !important;
           }

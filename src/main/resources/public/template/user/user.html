@@ -203,7 +203,7 @@
         </div>
         <div th:if="${users?.userKey != null}" class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.userAbsence}"></h3>
-            <label class="z-switch" for="userAbsence">
+            <label class="switch" for="userAbsence">
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
@@ -253,7 +253,7 @@
         </div>
         <div class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.usageStatus}"></h3>
-            <label class="z-switch">
+            <label class="switch">
                 <input id="usageStatus" name="usageStatus" th:checked="${users?.useYn == null || users?.useYn == true}"
                        th:disabled="${view}" type="checkbox">
                 <span></span>

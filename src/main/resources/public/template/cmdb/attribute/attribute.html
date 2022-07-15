@@ -47,7 +47,7 @@
                    th:value="${attribute?.mappingId}" type="text"/>
         </div>
         <div class="flex-column edit-row pt-5 pb-3" id="searchYnGroup">
-            <label class="z-switch">
+            <label class="switch">
                 <input type="checkbox" id="searchYn" name="searchYn" th:disabled="${view}"
                        th:checked="${attribute?.searchYn == true}" onchange="setSearchWidthRequired(this);">
                 <span></span>

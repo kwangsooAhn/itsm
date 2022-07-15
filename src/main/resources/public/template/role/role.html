@@ -43,10 +43,10 @@
             <div class="flex-column edit-row">
                 <h3 th:classappend="${view} ? '' : 'required'" class="sub-title under-bar border-thick"
                     th:text="#{role.menu.auth}"></h3>
-                <div class="z-switch-list">
+                <div class="switch-list">
                     <ul>
                         <li class="text-ellipsis" th:each="auth : ${authList}">
-                            <label class="z-switch" tabindex="0" th:for="${auth?.authId}">
+                            <label class="switch" tabindex="0" th:for="${auth?.authId}">
                                 <input type="checkbox" th:id="${auth?.authId}" name="roleAuth"
                                        th:value="${auth?.authName}" th:disabled="${view}"
                                        th:checked="${auth?.authDesc == 'checked'}">
@@ -86,7 +86,7 @@
     window.onload = function () {
         OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.role-content-edit'), { className: 'scrollbar' });
-        Array.prototype.forEach.call(document.querySelectorAll('.z-switch-list'), function (target) {
+        Array.prototype.forEach.call(document.querySelectorAll('.switch-list'), function (target) {
             OverlayScrollbars(target, { className: 'inner-scrollbar' });
         });
         const roleId = document.getElementById('txtRoleId');
@@ -108,12 +108,12 @@
                     }
                 });
                 disabledButton(response.data.userRoleMapCount);
-                Array.prototype.forEach.call(document.querySelectorAll('.z-switch-list'), function (target) {
+                Array.prototype.forEach.call(document.querySelectorAll('.switch-list'), function (target) {
                     OverlayScrollbars(target, {
                         className: 'inner-scrollbar',
                         callbacks: {
                             onInitialized: function () {
-                                const scrollTrack = document.querySelector('.z-switch-list> .os-scrollbar-vertical');
+                                const scrollTrack = document.querySelector('.switch-list> .os-scrollbar-vertical');
                                 scrollTrack.classList.add('right', 'padding');
                             }
                         }
