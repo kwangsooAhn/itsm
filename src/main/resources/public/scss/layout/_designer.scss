@@ -408,8 +408,7 @@ $layout-header-dropdown: (
       cursor: pointer;
       .z-group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
 
-      &.off {
-        display: table;
+      &.table {
         .z-group-label-text { opacity: 0; }
       }
 
@@ -1308,8 +1307,6 @@ $component-icon: (
           -webkit-mask-size: 1.2rem;
           mask-size: 1.2rem;
         }
-        // 버튼 안보이게 처리
-        &.off { display: none; }
       }
     }
     .z-panels {

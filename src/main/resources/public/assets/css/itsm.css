@@ -4425,10 +4425,7 @@ input, button, select, optgroup, textarea {
 .z-group.accordion .z-group-label .z-group-label-text {
   padding: 0 0.625rem 0.625rem 0;
 }
-.z-group.accordion .z-group-label.off {
-  display: table;
-}
-.z-group.accordion .z-group-label.off .z-group-label-text {
+.z-group.accordion .z-group-label.table .z-group-label-text {
   opacity: 0;
 }
 .z-group.accordion .z-group-label .z-icon.i-arrow-right {
@@ -5381,9 +5378,6 @@ input, button, select, optgroup, textarea {
 .property .z-tab-panel .z-tabs .z-button-icon .i-plus {
   -webkit-mask-size: 1.2rem;
   mask-size: 1.2rem;
-}
-.property .z-tab-panel .z-tabs .z-button-icon.off {
-  display: none;
 }
 .property .z-tab-panel .z-panels .z-panel {
   position: relative;
