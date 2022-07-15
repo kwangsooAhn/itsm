@@ -18,7 +18,6 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
-import co.brainz.framework.tag.repository.AliceTagRepository
 import co.brainz.framework.util.AliceFileUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
@@ -78,7 +77,6 @@ class WfTokenManagerService(
     private val viewerRepository: ViewerRepository,
     private val currentSessionUser: CurrentSessionUser,
     private val pluginService: PluginService,
-    private val aliceTagRepository: AliceTagRepository,
     environment: Environment
 ) : AliceFileUtil(environment) {
 
@@ -135,6 +133,13 @@ class WfTokenManagerService(
      */
     fun getComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity {
         return wfComponentRepository.findByComponentIdInAndMappingId(componentIds, mappingId)
+    }
+
+    /**
+     * Get component entities from componentIds and componentType.
+     */
+    fun getComponentList(componentIds: Set<String>, componentType: String): List<WfComponentEntity> {
+        return wfComponentRepository.findByComponentIdsAndComponentType(componentIds, componentType)
     }
 
     /**
@@ -461,18 +466,20 @@ class WfTokenManagerService(
         }
 
         // 서브 업무흐름의 문서양식으로 맵핑된 데이터 중에서 CI와 관련된 데이터 수집
-        if (!makeDocumentTokenDto.data.isNullOrEmpty()) {
-            makeDocumentTokenDto.data!!.forEach { wfTokenData ->
+        makeDocumentTokenDto.data?.let { wfTokenDataDtoList ->
+            wfTokenDataDtoList.forEach { wfTokenData ->
                 val component = wfComponentRepository.findByComponentId(wfTokenData.componentId)
                 if (component.componentType == WfComponentConstants.ComponentTypeCode.CI.code && component.mappingId.isNotBlank()) {
-                    val data: Array<Map<String, String>> =
-                        mapper.readValue(wfTokenData.value, object : TypeReference<Array<Map<String, String>>>() {})
-                    data.forEach {
-                        val ciCopyDataDto = CICopyDataDto(
-                            ciId = it["ciId"] as String,
-                            componentId = wfTokenData.componentId
-                        )
-                        subCIComponentList.add(ciCopyDataDto)
+                    if (wfTokenData.value.isNotBlank()) {
+                        val data: Array<Map<String, String>> =
+                            mapper.readValue(wfTokenData.value, object : TypeReference<Array<Map<String, String>>>() {})
+                        data.forEach {
+                            val ciCopyDataDto = CICopyDataDto(
+                                ciId = it["ciId"] as String,
+                                componentId = wfTokenData.componentId
+                            )
+                            subCIComponentList.add(ciCopyDataDto)
+                        }
                     }
                 }
             }

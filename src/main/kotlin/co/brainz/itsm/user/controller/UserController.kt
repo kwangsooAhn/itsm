@@ -9,7 +9,6 @@ package co.brainz.itsm.user.controller
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.organization.service.OrganizationService
@@ -66,7 +65,7 @@ class UserController(
      */
     @GetMapping("/search")
     fun getUserSearch(model: Model): String {
-        model.addAttribute("categoryList", codeService.selectCodeByParent(AliceUserConstants.PLATFORM_CATEGORY_P_CODE))
+        model.addAttribute("categoryList", codeService.selectCodeByParent(UserConstants.UserPCode.PLATFORM_CATEGORY_P_CODE.code))
         model.addAttribute("userRegisterEnabled", userRegisterEnabled)
         return userSearchPage
     }
@@ -190,7 +189,7 @@ class UserController(
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
         val allCodes = userService.getInitCodeList()
-        model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
+        model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
         model.addAttribute("allRoles", roleService.getAllRoleList())
         model.addAttribute("mailEnabled", mailEnabled)

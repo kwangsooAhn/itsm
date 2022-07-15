@@ -1186,52 +1186,6 @@
                     sourceMappingInput.value = data[1];
                 }
             }
-        } else if (scriptType === 'script.type.cmdb') {
-            // 작업대상 매핑ID
-            let targetMappingProperties = document.createElement('div');
-            targetMappingProperties.className = 'properties';
-
-            let targetMappingLabel = document.createElement('label');
-            targetMappingLabel.className = 'properties-title mb-2';
-            targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
-            targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
-
-            let targetMappingTooltip = document.createElement('div');
-            targetMappingTooltip.className = 'z-help-tooltip';
-            let targetMappingTooltipIcon = document.createElement('span');
-            targetMappingTooltipIcon.className = 'z-icon i-tooltip';
-            let targetMappingTooltipContents = document.createElement('div');
-            targetMappingTooltipContents.className = 'z-tooltip-contents';
-            let targetMappingTooltipText = document.createElement('span');
-            targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetCIMappingId');
-            targetMappingTooltipContents.appendChild(targetMappingTooltipText);
-            targetMappingTooltip.appendChild(targetMappingTooltipIcon);
-            targetMappingTooltip.appendChild(targetMappingTooltipContents);
-            targetMappingLabel.appendChild(targetMappingTooltip);
-
-            let targetMappingInput = document.createElement('input');
-            targetMappingInput.className = 'z-input';
-            targetMappingInput.id = 'target-mapping-id';
-            targetMappingInput.name = 'target-mapping-id';
-            targetMappingInput.required = true;
-
-            targetMappingProperties.appendChild(targetMappingLabel);
-            targetMappingProperties.appendChild(targetMappingInput);
-
-            let keyupHandler = function() {
-                inputObject.value = targetMappingInput.value;
-                const evt = document.createEvent('HTMLEvents');
-                evt.initEvent('change', false, true);
-                inputObject.dispatchEvent(evt);
-            };
-
-            targetMappingInput.addEventListener('keyup', keyupHandler);
-
-            subContainer.appendChild(targetMappingProperties);
-
-            if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
-                targetMappingInput.value = (valueAttr[0] !== '') ? valueAttr[0] : '';
-            }
         } else if (scriptType === 'script.type.plugin') {
             // 대상 플러그인
             const targetPlugInProperties = document.createElement('div');

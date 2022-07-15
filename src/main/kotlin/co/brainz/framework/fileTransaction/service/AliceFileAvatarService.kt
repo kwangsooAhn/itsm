@@ -7,11 +7,11 @@ package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.util.AliceFileUtil
+import co.brainz.itsm.user.constants.UserConstants
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -30,11 +30,14 @@ class AliceFileAvatarService(
 
     /**
      * 회원 가입 시 아바타 파일[multipartFile]를 받아서 임시 폴더에[avatar/temp/]저장 한다.
+     *
+     * @param multipartFile
+     * @param fileName
      */
     fun uploadTempAvatarFile(multipartFile: MultipartFile, fileName: String?) {
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val filePath: Path
-        var dir = super.getPath(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
+        var dir = super.getPath(UserConstants.AVATAR_IMAGE_TEMP_DIR)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
 
         filePath = when (fileName) {
@@ -55,29 +58,38 @@ class AliceFileAvatarService(
 
     /**
      * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
+     *
+     * @param userEntity
+     * @param avatarUUID
      */
     fun uploadAvatarFile(userEntity: AliceUserEntity, avatarUUID: String) {
-        val tempDir = super.getPath(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
-        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
-        val tempFile = File(tempPath.toString())
+        when (avatarUUID.isNotBlank()) {
+            true -> {
+                val tempDir = super.getPath(UserConstants.AVATAR_IMAGE_TEMP_DIR)
+                val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
+                val isTempFileExist = File(tempPath.toString()).exists()
 
-        val avatarDir = super.getPath(AliceUserConstants.AVATAR_IMAGE_DIR)
-        val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
+                val avatarDir = super.getPath(UserConstants.AVATAR_IMAGE_DIR)
+                val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
 
-        if (avatarUUID !== "" && tempFile.exists()) {
-            Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
-            userEntity.avatarValue = avatarUUID
-            userEntity.uploaded = true
-            userEntity.uploadedLocation = avatarFilePath.toString()
-        } else {
-            if (avatarUUID == "" || !userEntity.uploaded) {
+                if (isTempFileExist) {
+                    Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
+                    userEntity.avatarValue = avatarUUID
+                    userEntity.uploaded = true
+                    userEntity.uploadedLocation = avatarFilePath.toString()
+                }
+            }
+            false -> {
                 val uploadedFile = Paths.get(userEntity.uploadedLocation)
-                if (uploadedFile.toFile().exists()) {
+                val isUploadedFileExist = uploadedFile.toFile().exists()
+
+                if (isUploadedFileExist) {
                     Files.delete(uploadedFile)
                 }
-                userEntity.avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
+
+                userEntity.avatarValue = UserConstants.AVATAR_BASIC_FILE_NAME
                 userEntity.uploaded = false
-                userEntity.uploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
+                userEntity.uploadedLocation = UserConstants.AVATAR_BASIC_FILE_PATH
             }
         }
     }
@@ -87,12 +99,14 @@ class AliceFileAvatarService(
      * 신규 사용자 등록 시 avatar_id, user_key 를 구할 수가 없기 때문에
      * 임시적으로 생성한 avatar_uuid 로 파일명을 만든다. avatar_uuid 가 고유 값을 보장 하지 못하기 때문에
      * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
+     *
+     * @param userEntity
      */
     fun avatarFileNameMod(userEntity: AliceUserEntity) {
-        if (userEntity.avatarType == AliceUserConstants.AvatarType.FILE.code &&
-            userEntity.uploaded && userEntity.userKey != userEntity.avatarValue
+        if (userEntity.avatarType == UserConstants.AvatarType.FILE.code &&
+            userEntity.userKey != userEntity.avatarValue
         ) {
-            val avatarDir = super.getPath(AliceUserConstants.AVATAR_IMAGE_DIR)
+            val avatarDir = super.getPath(UserConstants.AVATAR_IMAGE_DIR)
             val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.avatarValue)
             val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.userKey)
             val avatarUploadFile = File(avatarFilePath.toString())

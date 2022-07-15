@@ -261,6 +261,8 @@
         document.getElementById('codeUseYn').disabled = false;
         document.getElementById('btnCodeLang').disabled = false;
         document.getElementById('codeLang').innerHTML = '';
+        document.getElementById('txtCode').parentElement.previousElementSibling.classList.add('required');
+        document.getElementById('txtPCode').parentElement.previousElementSibling.classList.add('required');
 
         let selectedNode = tree.getTreeSelectNode();
         if (selectedNode !== null) {

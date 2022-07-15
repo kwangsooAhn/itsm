@@ -5,11 +5,10 @@
 
 package co.brainz.itsm.file.controller
 
-import co.brainz.framework.fileTransaction.provider.AliceFileProvider
-import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.file.dto.FileRenameDto
+import co.brainz.itsm.file.service.FileService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.ResponseEntity
@@ -28,8 +27,7 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/rest/files")
 class FileRestController(
-    private val fileService: AliceFileService,
-    private val fileProvider: AliceFileProvider
+    private val fileService: FileService
 ) {
 
     @Value("\${file.drag.enabled}")
@@ -81,15 +79,18 @@ class FileRestController(
         @RequestParam(value = "offset", defaultValue = "-1") offset: String
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(
-            fileProvider.getExternalFileList(type, searchValue, offset.toInt())
+            fileService.getExternalFileList(type, searchValue, offset.toInt())
         )
     }
 
+    /**
+     * 파일 다운로드
+     */
     @GetMapping("/download")
     fun download(
         @RequestParam(value = "fileName", defaultValue = "") fileName: String
     ): ResponseEntity<InputStreamResource> {
-        return fileService.download(fileName)
+        return fileService.downloadFile(fileName)
     }
 
     /**

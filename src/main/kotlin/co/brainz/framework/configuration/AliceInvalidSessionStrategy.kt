@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.configuration
 
 import co.brainz.framework.util.AliceUtil
@@ -6,7 +11,6 @@ import javax.servlet.http.HttpServletResponse
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache
 import org.springframework.security.web.session.InvalidSessionStrategy
 import org.springframework.stereotype.Component
-import org.springframework.util.StringUtils
 
 @Component
 class AliceInvalidSessionStrategy : InvalidSessionStrategy {
@@ -22,12 +26,11 @@ class AliceInvalidSessionStrategy : InvalidSessionStrategy {
                 response.sendRedirect(request.contextPath + "/sessionInValid")
             }
         } else {
-            val requestURL = request.requestURL
-            val queryString = request.queryString
-            if (StringUtils.hasText(queryString)) {
-                requestURL.append("?").append(queryString)
+            if (request.requestURI == "/login") {
+                response.sendRedirect(request.contextPath + request.requestURI)
+            } else {
+                response.sendRedirect(request.contextPath + "/sessionInValid")
             }
-            response.sendRedirect(requestURL.toString())
         }
     }
 }

@@ -85,14 +85,14 @@ class AliceFileProvider(
                         val fileName = path.fileName.toString()
 
                         Files.isRegularFile(path) && // 파일 타입만 조회
-                                // 허용 확장자 체크
-                                (allowedImageExtensions.indexOf(
-                                    fileName.substring(
-                                        (fileName.lastIndexOf(".") + 1),
-                                        fileName.length
-                                    ).toLowerCase()
-                                ) > -1) &&
-                                fileName.matches(".*$searchValue.*".toRegex()) // 검색조건 적용
+                            // 허용 확장자 체크
+                            (allowedImageExtensions.indexOf(
+                                fileName.substring(
+                                    (fileName.lastIndexOf(".") + 1),
+                                    fileName.length
+                                ).toLowerCase()
+                            ) > -1) &&
+                            fileName.matches(".*$searchValue.*".toRegex()) // 검색조건 적용
                     }
                     .collect(Collectors.toList())
             }

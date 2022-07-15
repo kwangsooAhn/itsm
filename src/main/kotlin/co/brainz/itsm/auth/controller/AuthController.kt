@@ -5,10 +5,10 @@
 
 package co.brainz.itsm.auth.controller
 
-import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.auth.dto.AuthSearchCondition
 import co.brainz.itsm.auth.service.AuthService
 import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.user.constants.UserConstants
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -65,7 +65,7 @@ class AuthController(
     @GetMapping("/{authId}/edit")
     fun getRoleList(@PathVariable authId: String, model: Model): String {
         model.addAttribute("auth", authService.getAuthDetail(authId))
-        model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
+        model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(UserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
         model.addAttribute("defaultUserUrlList", authService.getDefaultUrlList())
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())
@@ -79,7 +79,7 @@ class AuthController(
     @GetMapping("/{authId}/view")
     fun getRoleView(@PathVariable authId: String, model: Model): String {
         model.addAttribute("auth", authService.getAuthDetail(authId))
-        model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
+        model.addAttribute("defaultUserMenuList", codeService.selectCodeByParent(UserConstants.DefaultMenu.USER_DEFAULT_MENU.code))
         model.addAttribute("defaultUserUrlList", authService.getDefaultUrlList())
         model.addAttribute("menuList", authService.getMenuList())
         model.addAttribute("urlList", authService.getUrlList())

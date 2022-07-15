@@ -18,7 +18,7 @@
   // .notification hover 시 노출되는 영역 전반
   &-panel {
     @include relative($left: 70.8rem, $bottom: 0); // 좌측 간격 1132.8px
-    @include border(0.0625rem solid $neutral200, all); // 1px
+    @include border(0.0625rem, solid, $neutral200, all); // 1px
     @include boxShadow(0, 0, 0.3125rem, 0, $neutral200); // 5px
     display: none;
     width: 26.25rem; // 420px
@@ -141,9 +141,9 @@
       &.z-date {
         margin-left: 1.75rem; // 28px
         color: $gray500;
-        font-font: $font-family;
         font-weight: $font-weight-regular;
         font-size: $font-size-xs;
+        font-family: $font-family;
       }
     }
   }
