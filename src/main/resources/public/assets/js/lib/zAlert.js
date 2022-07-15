@@ -79,11 +79,6 @@ zAlert.danger = function (message, callbackFunc) {
  * @param cancelCallbackFunc cancel 시 callback function
  */
 zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
-    if (event) {
-        const target = event.target;
-        target.blur();
-    }
-
     const myModal = new modal({
         message: message,
         body: `<div class="z-alert-dialog"><div class="z-alert-body z-alert-icon-confirm">
@@ -116,6 +111,11 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
         ],
         close: {
             closable: false,
+        },
+        onCreate: () => {
+            setTimeout(function(){
+                document.querySelector('.z-alert-button:last-child').focus();
+            },100);
         }
     });
     myModal.show();
