@@ -7,11 +7,11 @@ const zAlert = {};
 
 zAlert.makeAlertModal = function (alertType, message, callbackFunc) {
     return new modal({
-        body: `<div class="z-alert-dialog"><div class="z-alert-body z-alert-icon-` + alertType + `">`
-            + `<div class="z-alert-message">` + message + `</div></div></div>`,
+        body: `<div class="alert-dialog"><div class="alert-body alert-icon-` + alertType + `">`
+            + `<div class="alert-message">` + message + `</div></div></div>`,
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'z-alert-button button secondary',
+            classes: 'alert-button button secondary',
             bindKey: 13, /* Enter */
             callback: function (modal) {
                 if (typeof callbackFunc === 'function') {
@@ -86,12 +86,12 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
 
     const myModal = new modal({
         message: message,
-        body: `<div class="z-alert-dialog"><div class="z-alert-body z-alert-icon-confirm">
-            <div class="z-alert-message">` + message + `</div></div></div>`,
+        body: `<div class="alert-dialog"><div class="alert-body alert-icon-confirm">
+            <div class="alert-message">` + message + `</div></div></div>`,
         buttons: [
             {
                 content: i18n.msg('common.btn.check'),
-                classes: 'z-alert-button button secondary',
+                classes: 'alert-button button secondary',
                 bindKey: false, /* no key! */
                 callback: function (modal) {
                     if (typeof okCallbackFunc === 'function') {
@@ -103,7 +103,7 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
             },
             {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-alert-button button secondary',
+                classes: 'alert-button button secondary',
                 bindKey: false, /* no key! */
                 callback: function (modal) {
                     if (typeof cancelCallbackFunc === 'function') {

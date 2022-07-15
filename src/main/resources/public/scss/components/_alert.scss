@@ -5,14 +5,14 @@
  * @author jy.lim
  * @version 1.0
  */
-.z-alert {
+.alert {
   &-active { overflow: hidden !important; }
 
   &-wrapper {
     @include fixed(0, 0, 0, 0);
     display: none;
     overflow: auto;
-    &.z-alert-active {
+    &.alert-active {
       display: block;
       z-index: 999999;
     }

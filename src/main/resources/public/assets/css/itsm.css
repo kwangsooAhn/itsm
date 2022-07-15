@@ -7305,10 +7305,10 @@ input, button, select, optgroup, textarea {
  * @author jy.lim
  * @version 1.0
  */
-.z-alert-active {
+.alert-active {
   overflow: hidden !important;
 }
-.z-alert-wrapper {
+.alert-wrapper {
   position: fixed;
   top: 0;
   right: 0;
@@ -7317,11 +7317,11 @@ input, button, select, optgroup, textarea {
   display: none;
   overflow: auto;
 }
-.z-alert-wrapper.z-alert-active {
+.alert-wrapper.alert-active {
   display: block;
   z-index: 999999;
 }
-.z-alert-backdrop {
+.alert-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -7330,24 +7330,24 @@ input, button, select, optgroup, textarea {
   background: rgba(139, 144, 148, 0.5);
   z-index: 999999;
 }
-.z-alert-dialog {
+.alert-dialog {
   width: 100%;
   padding: 1.5625rem;
   line-height: 1;
 }
-.z-alert-title {
+.alert-title {
   padding: 1em;
   font-size: 1rem;
   text-align: center;
   box-sizing: border-box;
 }
-.z-alert-body {
+.alert-body {
   overflow: auto;
   min-height: 3.4375rem;
   padding: 0 0 0 3.875rem;
   box-sizing: border-box;
 }
-.z-alert-message {
+.alert-message {
   display: flex;
   align-items: center;
   min-height: 3.5rem;
@@ -7355,53 +7355,53 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   line-height: 1.7143;
 }
-.z-alert-buttons {
+.alert-buttons {
   text-align: right;
   box-sizing: border-box;
 }
-.z-alert-button {
+.alert-button {
   border: 0.0625rem solid #CFD5D9;
   margin: 0 0 0 0.3125rem;
   padding: 0.4375rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
 }
-.z-alert-icon-success {
+.alert-icon-success {
   background-image: url("../../assets/media/icons/alert/icon_alert_success.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.z-alert-icon-info {
+.alert-icon-info {
   background-image: url("../../assets/media/icons/alert/icon_alert_info.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.z-alert-icon-warning {
+.alert-icon-warning {
   background-image: url("../../assets/media/icons/alert/icon_alert_warning.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.z-alert-icon-danger {
+.alert-icon-danger {
   background-image: url("../../assets/media/icons/alert/icon_alert_danger.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.z-alert-icon-confirm {
+.alert-icon-confirm {
   background-image: url("../../assets/media/icons/alert/icon_alert_confirm.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
-.z-alert-icon-email {
+.alert-icon-email {
   background-image: url("../../assets/media/icons/alert/icon_alert_email.svg");
   background-size: auto;
   background-repeat: no-repeat;
