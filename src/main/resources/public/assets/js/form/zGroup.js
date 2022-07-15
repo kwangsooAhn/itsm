@@ -71,7 +71,7 @@ export default class ZGroup {
             .setUIClass('z-group-accordion-checkBox');
         // 라벨
         groupTooltip.UIGroup.UILabel.setUIFor('chk-' + accordionId)
-            .addUIClass((this.labelVisibility ? 'on' : 'off')) // 라벨 사용여부: 라벨 숨김 또는 보임
+            .addUIClass((this.labelVisibility === 'table')) // 라벨 사용여부: 라벨 숨김 또는 보임
             .setUICSSText(`text-align: ${this.labelAlign};`);
         // 라벨 텍스트
         const groupLabelCssText = `color:${this.labelFontColor};` +
@@ -221,9 +221,9 @@ export default class ZGroup {
     set labelVisibility(boolean) {
         this._label.visibility = boolean;
         if (boolean) {
-            this.UIElement.UIGroup.UILabel.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIGroup.UILabel.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIGroup.UILabel.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIGroup.UILabel.removeUIClass('on').addUIClass('none');
         }
     }
 

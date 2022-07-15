@@ -54,9 +54,6 @@
   // 캘린더
   &__view {
     display: none;
-    &.on {
-      display: block;
-    }
     // tui 캘린더
     .tui-full-calendar {
       // 월별 캘린더

@@ -22,7 +22,6 @@
                 <span class="required"></span>
             </label>
             <select id="documentType" onchange="setDocumentType(this.value)" th:disabled="${documentData?.documentId != undefined}">
-                cons
                 <option th:each="type:${typeList}" th:value="${type.code}"
                         th:text="${type.codeValue}" th:selected="${documentData?.documentType} == ${type.code}"></option>
             </select>

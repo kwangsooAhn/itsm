@@ -77,7 +77,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
 
         // input
         this.UIElement.UIGroup.UIInput = new UIInput().setUIId(this.key)
-            .addUIClass((defaultTypeValueArray[0] === 'input') ? 'on' : 'off')
+            .addUIClass((defaultTypeValueArray[0] === 'input') ? 'on' : 'none')
             .setUIValue((defaultTypeValueArray[0] === 'input') ? defaultTypeValueArray[1] : '')
             .setUIAttribute('data-validation-min-length', this.validation.minLength)
             .setUIAttribute('data-validation-max-length', this.validation.maxLength)
@@ -96,7 +96,7 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         }, []);
 
         this.UIElement.UIGroup.UISelect = new UISelect().setUIId(this.key)
-            .addUIClass((defaultTypeValueArray[0] === 'select') ? 'on' : 'off')
+            .addUIClass((defaultTypeValueArray[0] === 'select') ? 'on' : 'none')
             .setUIOptions(selectOption).setUIValue(selectOptionValue)
             .onUIChange(this.updateProperty.bind(this));
         this.UIElement.UIGroup.addUI(this.UIElement.UIGroup.UISelect);
@@ -157,12 +157,12 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
                 const input = defaultTypeGroup.querySelector('input[type=text]');
                 const select = defaultTypeGroup.querySelector('select');
                 if (element.getAttribute('data-type') === 'input') { // input 활성화
-                    input.classList.remove('off');
-                    select.classList.add('off');
+                    input.classList.remove('none');
+                    select.classList.add('none');
                     return 'input|';
                 } else { // select 활성화
-                    select.classList.remove('off');
-                    input.classList.add('off');
+                    select.classList.remove('none');
+                    input.classList.add('none');
                     select.selectedIndex = 0;
                     return 'select|' + select.options[0].value;
                 }

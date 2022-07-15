@@ -531,7 +531,7 @@ class ZFormDesigner {
                 addObject.UIElement.UIGroup.addUIClass('list-group');
 
                 if (!this.isEditable) {
-                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                    addObject.UIElement.UITooltipMenu.addUIClass('none');
                     break;
                 }
                 // drag & drop 이벤트 추가
@@ -628,7 +628,7 @@ class ZFormDesigner {
                 addObject.UIElement.UIRow.addUIClass('list-group');
 
                 if (!this.isEditable) {
-                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                    addObject.UIElement.UITooltipMenu.addUIClass('none');
                     break;
                 }
                 // drag & drop 이벤트 추가
@@ -746,7 +746,7 @@ class ZFormDesigner {
                 addObject = new ZComponent(data);
                 addObject.UIElement.addUIClass('list-group-item');
                 if (!this.isEditable) {
-                    addObject.UIElement.UITooltipMenu.addUIClass('off');
+                    addObject.UIElement.UITooltipMenu.addUIClass('none');
                 }
                 break;
             default:
