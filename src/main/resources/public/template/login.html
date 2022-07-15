@@ -178,8 +178,7 @@
     }
     window.onkeydown = function() {
         let keyEventElementId = ['uid', 'upasswd', 'sendLogin'];
-        let keyEventElement = keyEventElementId.includes(document.activeElement.id)
-        if ((event.keyCode === 13) && keyEventElement) {
+        if ((event.keyCode === 13) && keyEventElementId.includes(document.activeElement.id)) {
             onLogin();
         }
     };
