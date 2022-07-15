@@ -99,7 +99,7 @@ export default class ZUserSearchProperty extends ZProperty {
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     targetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                        .setUIClass('z-icon')
+                        .setUIClass('icon')
                         .addUIClass('i-remove');
                     targetGroup.UIInputButton.UIIconButton.addUI(targetGroup.UIInputButton.UIIconButton.UIIcon);
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIIconButton);
@@ -108,7 +108,7 @@ export default class ZUserSearchProperty extends ZProperty {
                         .setUIClass('button-icon')
                         .addUIClass('button-code')
                         // .setUIAttribute('data-value', '')
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
+                        .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
                         .onUIClick(this.openOrganizationData.bind(this));
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIButton);
                 }
@@ -125,7 +125,7 @@ export default class ZUserSearchProperty extends ZProperty {
                     .setUIDisabled(!this.isEditable)
                     // 사용자 검색 모달
                     .onUIClick(this.openUserListModal.bind(this));
-                targetGroup.UIButton.addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'));
+                targetGroup.UIButton.addUI(new UISpan().addUIClass('icon').addUIClass('i-plus'));
                 targetGroup.UILabel.addUI(targetGroup.UIButton);
                 targetGroup.addUI(targetGroup.UILabel);
 
@@ -295,7 +295,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 .setUIClass('button-icon')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.removeRow.bind(this));
-            addedRemoveTD.removeButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            addedRemoveTD.removeButton.addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));
             addedRemoveTD.addUI(addedRemoveTD.removeButton);
             optionRow.addUICell(addedNameTD);
             optionRow.addUICell(addedRemoveTD);

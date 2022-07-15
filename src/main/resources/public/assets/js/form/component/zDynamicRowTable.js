@@ -329,7 +329,7 @@ export const dynamicRowTableMixin = {
             .addUIClass('mt-1')
             .addUIClass('mb-1')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            .addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));
         const td = new UICell(row)
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX)

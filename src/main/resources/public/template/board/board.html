@@ -99,7 +99,7 @@
                             <td class="col-1 align-center">
                                 <th:block th:if="${category.boardCount == 0}">
                                     <button class="button-icon-sm mt-2 mb-2" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])" type="button">
-                                        <span class="z-icon i-remove" ></span>
+                                        <span class="icon i-remove" ></span>
                                     </button>
                                 </th:block>
                             </td>
@@ -345,7 +345,7 @@
             deleteBtn.classList.add('button-icon');
             deleteBtn.classList.add('extra');
             const deleteIcon = document.createElement('span');
-            deleteIcon.classList.add('z-icon');
+            deleteIcon.classList.add('icon');
             deleteIcon.classList.add('i-delete');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {

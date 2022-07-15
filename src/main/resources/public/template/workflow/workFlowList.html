@@ -50,7 +50,7 @@
             <td style="width: 3%;" class="align-center">
                 <button type="button" class="button-icon form" th:if="${document.documentType} != 'application-form-link'"
                         sec:authorize="hasAuthority('workflow.manage')" th:onclick="onXMLDownload([[${document.documentId}]])">
-                    <span class="z-icon i-list-download"></span>
+                    <span class="icon i-list-download"></span>
                 </button>
             </td>
         </tr>

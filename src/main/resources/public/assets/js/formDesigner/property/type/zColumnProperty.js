@@ -175,7 +175,7 @@ export default class ZColumnProperty extends ZProperty {
             .setUIClass('button-icon')
             .addUIClass('extra')
             .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
-            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'))
+            .addUI(new UISpan().addUIClass('icon').addUIClass('i-plus'))
             .setUIDisabled(!this.isEditable  || this.isFixedColumn)
             .onUIClick(this.addColumn.bind(this, (this.isDefault) ? { columnType: 'input' } : '', -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
@@ -243,12 +243,12 @@ export default class ZColumnProperty extends ZProperty {
         const columnCommonGroup = new UIDiv().setUIClass('z-panel-common');
         // 순서 변경 < > 버튼 추가
         const arrowLeftButton = new UIButton().setUIClass('button-icon')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
+            .addUI(new UISpan().setUIClass('icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
             .setUIAttribute('data-swap-direction', '-1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
         const arrowRightButton = new UIButton().setUIClass('button-icon')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-next'))
+            .addUI(new UISpan().setUIClass('icon').addUIClass('i-arrow-right').addUIClass('z-next'))
             .setUIAttribute('data-swap-direction', '1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
@@ -262,7 +262,7 @@ export default class ZColumnProperty extends ZProperty {
         );
         // 패널 삭제 버튼 추가
         const deleteButton = new UIButton().setUIClass('button-icon').addUIClass('panel-delete-button')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
+            .addUI(new UISpan().setUIClass('icon').addUIClass('i-delete'))
             .setUIDisabled(!this.isEditable || this.isFixedColumn)
             .onUIClick(this.removeColumn.bind(this));
         columnCommonGroup.addUI(deleteButton);

@@ -49,7 +49,7 @@ export default class ZFileProperty extends ZProperty {
             .setUIId('fileUploadPopUp')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.openThumbnailModal.bind(this));
-        this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
+        this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('icon').addUIClass('i-folder'));
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIButton);
 
         this.UIElement.addUI(this.UIElement.UIDiv);

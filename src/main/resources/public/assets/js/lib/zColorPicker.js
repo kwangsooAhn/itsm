@@ -79,7 +79,7 @@ function zColorPicker(targetElement, options) {
 
     // 컬러 팔레트 아이콘
     const paletteIcon = document.createElement('span');
-    paletteIcon.className = 'z-icon i-color-palette ml-1';
+    paletteIcon.className = 'icon i-color-palette ml-1';
     colorPicker.appendChild(paletteIcon);
 
     // color picker modal
@@ -277,7 +277,7 @@ Object.assign(zColorPicker.prototype, {
         const editButton = document.createElement('button');
         editButton.type = 'button';
         editButton.className = 'button-icon extra z-custom-color-edit on';
-        editButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-edit"></span>`);
+        editButton.insertAdjacentHTML('beforeend', `<span class="icon i-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
         this.editButtonEl = editButton;
@@ -307,7 +307,7 @@ Object.assign(zColorPicker.prototype, {
         addButton.type = 'button';
         addButton.className = 'button-icon z-custom-color-plus' +
             (isMaxCustomColor ? '' : ' on');
-        addButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
+        addButton.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         this.addButtonEl = addButton;
         customColorList.appendChild(addButton);
@@ -329,7 +329,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 물방울
         const waterDrop = document.createElement('span');
-        waterDrop.className = 'z-icon i-water-drop';
+        waterDrop.className = 'icon i-water-drop';
         waterDrop.style.setProperty('--data-color', '#8B9094');
         waterDrop.insertAdjacentHTML('beforeend', this.getWaterDropSvg());
         customColorControl.appendChild(waterDrop);
@@ -501,7 +501,7 @@ Object.assign(zColorPicker.prototype, {
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
             `<sapn class="z-custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
             `<button type="button" class="button-icon z-custom-color-palette-item-clear">` +
-            `<span class="z-icon i-remove"></span>` +
+            `<span class="icon i-remove"></span>` +
             `</button>` +
             `</span>`;
     },

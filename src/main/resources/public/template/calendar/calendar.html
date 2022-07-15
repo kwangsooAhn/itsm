@@ -24,11 +24,11 @@
             <div class="calendar__button-group">
                 <button type="button" class="button-icon calendar__action calendar__move" data-action="prev"
                         onclick="javascript:onClickCalendarMenu(this);">
-                    <span class="z-icon i-arrow-right move--prev"></span>
+                    <span class="icon i-arrow-right move--prev"></span>
                 </button>
                 <button type="button" class="button-icon calendar__action calendar__move" data-action="next"
                         onclick="javascript:onClickCalendarMenu(this);">
-                    <span class="z-icon i-arrow-right move--next"></span>
+                    <span class="icon i-arrow-right move--next"></span>
                 </button>
                 <button type="button" class="button calendar__action secondary" th:text="#{calendar.label.today}"
                         data-action="today" onclick="onClickCalendarMenu(this);"></button>
@@ -231,7 +231,7 @@
                 <label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}
                     <span class="required"></span>
                     <div class="z-help-tooltip">
-                        <span class="z-icon i-tooltip"></span>
+                        <span class="icon i-tooltip"></span>
                         <div class="z-tooltip-contents">
                             <span>${i18n.msg('calendar.tooltip.templateRule')}</span>
                         </div>

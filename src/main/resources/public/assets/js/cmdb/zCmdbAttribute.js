@@ -227,7 +227,7 @@
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-                `<span class="z-icon i-plus"></span></button>` +
+                `<span class="icon i-plus"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -282,7 +282,7 @@
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<span class="icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -321,7 +321,7 @@
         this.template =
             `<div class="float-right" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-            `<span class="z-icon i-plus"></span>` +
+            `<span class="icon i-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -349,7 +349,7 @@
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<span class="icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -384,7 +384,7 @@
         this.template =
             `<div class="float-right" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-            `<span class="z-icon i-plus"></span>` +
+            `<span class="icon i-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -419,7 +419,7 @@
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<span class="icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -524,7 +524,7 @@
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
             `<button class="button-icon button-code" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-                `<span class="z-icon i-search"></span></button>` +
+                `<span class="icon i-search"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -617,7 +617,7 @@
         this.template =
             `<div class="float-right" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-            `<span class="z-icon i-plus"></span>` +
+            `<span class="icon i-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -688,7 +688,7 @@
             `</div>` +
             `<div class="flex-column">` +
             `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-            `<span class="z-icon i-remove"></span>` +
+            `<span class="icon i-remove"></span>` +
             `</button>` +
             `</div>` +
             `</div>`;
@@ -903,7 +903,7 @@
             const organizationTemplate = `<div class="flex-row z-input-button">
                 <input type="text" class="z-input" readonly="true" id="searchTarget" required="true" data-value="">
                 <button class="button-icon button-code" type="button" id="searchOrganization">` +
-                `<span class="z-icon i-search"></span></button>
+                `<span class="icon i-search"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
 
@@ -1086,7 +1086,7 @@
                 `</div>` +
                 `<div class="flex-column">` +
                     `<button type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2 extra user-search-delete-btn"` +
-                        ` data-user-id="${data.id}"><span class="z-icon i-remove"></span>` +
+                        ` data-user-id="${data.id}"><span class="icon i-remove"></span>` +
                     `</button>` +
                 `</div>` +
             `</div>`;
@@ -1211,7 +1211,7 @@
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
                         <button class="button-icon button-code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
-                            <span class="z-icon i-search"></span>
+                            <span class="icon i-search"></span>
                         </button>
                     </div>
                 </div>
@@ -1819,7 +1819,7 @@
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
 
                 const customSpanElem = document.createElement('span');
-                customSpanElem.className = 'z-icon i-search';
+                customSpanElem.className = 'icon i-search';
                 customBtnElem.appendChild(customSpanElem);
                 elem.appendChild(customBtnElem);
 
@@ -1875,7 +1875,7 @@
                         const addBtn = document.createElement('button');
                         addBtn.type = 'button';
                         addBtn.className = 'button-icon secondary button-attribute-add';
-                        addBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
+                        addBtn.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
                         addBtn.addEventListener('click', addCIAttributeChild, false);
                         elem.appendChild(addBtn);
                     }
@@ -1891,7 +1891,7 @@
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
                     removeBtn.className = 'button-icon-sm ml-2 mr-2 mt-2 mb-2 button-attribute-delete';
-                    removeBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-remove"></span>`);
+                    removeBtn.insertAdjacentHTML('beforeend', `<span class="icon i-remove"></span>`);
                     removeBtn.addEventListener('click', removeCIAttributeChild, false);
                     elem.appendChild(removeBtn);
                 }

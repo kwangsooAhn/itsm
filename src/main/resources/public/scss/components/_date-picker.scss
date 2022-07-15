@@ -41,7 +41,7 @@
 
     .button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
 
-    .z-icon.i-remove {
+    .icon.i-remove {
       @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
       background: $gray500;
       cursor: pointer;
@@ -76,7 +76,7 @@
       vertical-align: middle;
     }
 
-    .z-icon {
+    .icon {
       &.i-arrow-right {
         display: table-cell;
         cursor: pointer;
@@ -165,7 +165,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        .z-icon {
+        .icon {
           &.i-arrow-right {
             margin: 0;
             background: $gray500;

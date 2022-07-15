@@ -40,7 +40,7 @@
                     <div id="editCommand">
                         <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="undo" data-targetId="editCommand"
                                 onclick="zProcessDesigner.onDropdownClickHandler(this);">
-                            <span class="z-icon i-undo"></span>
+                            <span class="icon i-undo"></span>
                             <div class="z-header-tooltip-contents">
                                 <span class="z-header-tooltip-text" th:text="#{process.label.undo}"></span>
                             </div>
@@ -49,7 +49,7 @@
                     <!--undo, redo (드롭다운)-->
                     <div class="z-header-dropdown">
                         <button type="button" class="z-header-button button-icon z-header-button-dropdown light-extra">
-                            <span class="z-icon i-arrow-right"></span>
+                            <span class="icon i-arrow-right"></span>
                         </button>
                         <ul class="z-dropdown-content">
                             <li class="z-dropdown-item" tabindex="-1">
@@ -66,14 +66,14 @@
                 <div class="ml-auto">
                     <!-- 시뮬레이션 -->
                     <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.simulationProcess();">
-                        <span class="z-icon i-simulation"></span>
+                        <span class="icon i-simulation"></span>
                         <div class="z-header-tooltip-contents">
                             <span class="z-header-tooltip-text" th:text="#{process.label.simulation}"></span>
                         </div>
                     </button>
                     <!-- 이미지로 다운로드 -->
                     <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.downloadProcessImage();">
-                        <span class="z-icon i-image-download"></span>
+                        <span class="icon i-image-download"></span>
                         <div class="z-header-tooltip-contents">
                             <span class="z-header-tooltip-text" th:text="#{process.label.imageDownload}"></span>
                         </div>
@@ -84,7 +84,7 @@
                     <div id="fileCommand">
                         <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand"
                                 onclick="zProcessDesigner.saveProcess();">
-                            <span class="z-icon i-save"></span>
+                            <span class="icon i-save"></span>
                             <div class="z-header-tooltip-contents">
                                 <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
                             </div>
@@ -93,7 +93,7 @@
                     <!--저장하기(드롭다운)-->
                     <div class="z-header-dropdown">
                         <button type="button" class="z-header-button button-icon z-header-button-dropdown light-extra">
-                            <span class="z-icon i-arrow-right"></span>
+                            <span class="icon i-arrow-right"></span>
                         </button>
                         <ul class="z-dropdown-content">
                             <li class="z-dropdown-item" tabindex="-1">
@@ -110,7 +110,7 @@
                 <!--프로세스가 사용일때 다른이름으로 저장하기 만 가능-->
                 <th:block th:unless="${#strings.isEmpty(isView)}">
                     <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.saveAsProcess();">
-                        <span class="z-icon i-save-as"></span>
+                        <span class="icon i-save-as"></span>
                         <div class="z-header-tooltip-contents last">
                             <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
                         </div>
@@ -120,35 +120,35 @@
         </div>
         <div class="z-process-element-palette">
             <button type="button" class="z-element-icon shape event">
-                <span class="z-icon i-event"></span>
+                <span class="icon i-event"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.event}"></label>
             </button>
             <button type="button" class="z-element-icon shape task">
-                <span class="z-icon i-task"></span>
+                <span class="icon i-task"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.task}"></label>
             </button>
             <button type="button" class="z-element-icon shape subprocess">
-                <span class="z-icon i-subprocess"></span>
+                <span class="icon i-subprocess"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.subprocess}"></label>
             </button>
             <button type="button" class="z-element-icon shape gateway">
-                <span class="z-icon i-gateway"></span>
+                <span class="icon i-gateway"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.gateway}"></label>
             </button>
             <button type="button" class="z-element-icon shape group">
-                <span class="z-icon i-group"></span>
+                <span class="icon i-group"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.group}"></label>
             </button>
             <button type="button" class="z-element-icon shape annotation">
-                <span class="z-icon i-annotation"></span>
+                <span class="icon i-annotation"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.annotation}"></label>
             </button>
             <button type="button" class="z-element-icon connector">
-                <span class="z-icon i-connector"></span>
+                <span class="icon i-connector"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.connector}"></label>
             </button>
             <button type="button" class="z-element-icon move-icon" id="moveDrawingboard">
-                <span class="z-icon i-background"></span>
+                <span class="icon i-background"></span>
                 <label class="z-element-icon-text" th:text="#{process.designer.element.background}"></label>
             </button>
         </div>
@@ -163,7 +163,7 @@
     <!-- dropdown button 템플릿 -->
     <template id="undoButtonTemplate">
         <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="undo" data-targetId="editCommand">
-            <span class="z-icon i-undo"></span>
+            <span class="icon i-undo"></span>
             <div class="z-header-tooltip-contents">
                 <span class="z-header-tooltip-text" th:text="#{process.label.undo}"></span>
             </div>
@@ -171,7 +171,7 @@
     </template>
     <template id="redoButtonTemplate">
         <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="redo" data-targetId="editCommand">
-            <span class="z-icon i-redo"></span>
+            <span class="icon i-redo"></span>
             <div class="z-header-tooltip-contents">
                 <span class="z-header-tooltip-text" th:text="#{process.label.redo}"></span>
             </div>
@@ -179,7 +179,7 @@
     </template>
     <template id="saveButtonTemplate">
         <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand">
-            <span class="z-icon i-save"></span>
+            <span class="icon i-save"></span>
             <div class="z-header-tooltip-contents">
                 <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
             </div>
@@ -187,7 +187,7 @@
     </template>
     <template id="saveAsButtonTemplate">
         <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="saveAs" data-targetId="fileCommand">
-            <span class="z-icon i-save-as"></span>
+            <span class="icon i-save-as"></span>
             <div class="z-header-tooltip-contents last">
                 <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
             </div>

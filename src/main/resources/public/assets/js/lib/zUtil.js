@@ -1286,7 +1286,7 @@ aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
 
     // set clear button
     let clearSpan = document.createElement('span');
-    clearSpan.className = 'z-icon i-remove ml-auto';
+    clearSpan.className = 'icon i-remove ml-auto';
     clearSpan.onclick = function() {
         aliceJs.removeTarget(this);
     };

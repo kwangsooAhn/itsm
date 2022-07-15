@@ -111,7 +111,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                        .setUIClass('z-icon')
+                        .setUIClass('icon')
                         .addUIClass('i-remove');
                     radioGroup.UIInputButton.UIIconButton.addUI(radioGroup.UIInputButton.UIIconButton.UIIcon);
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
@@ -119,7 +119,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     radioGroup.UIInputButton.UIButton = new UIButton()
                         .setUIClass('button-icon')
                         .addUIClass('button-code')
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
+                        .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
                         .onUIClick(this.openDataSelect.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                 }

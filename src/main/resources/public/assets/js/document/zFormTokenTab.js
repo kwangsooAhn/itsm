@@ -223,7 +223,7 @@ class ZFormTokenTab {
             (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
                 `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                 `onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<span class="icon i-remove"></span>` +
                 `</button>`) +
             `</td>` +
             `</tr>`;
@@ -636,7 +636,7 @@ class ZFormTokenTab {
             `</a>` +
             `<button type="button" class="button-icon"` +
             `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
-            `<span class="z-icon i-delete"></span>` +
+            `<span class="icon i-delete"></span>` +
             `</button>` +
             `</div>` +
             `<div class="z-document-row-topic">`;
@@ -768,7 +768,7 @@ class ZFormTokenTab {
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
                 `<button class="button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
-                `<span class="z-icon i-delete"></span>` +
+                `<span class="icon i-delete"></span>` +
                 `</button>`;
         }
         htmlString +=
@@ -931,7 +931,7 @@ class ZFormTokenTab {
             `<td style="width: 10%;" class="align-center">` +
                 `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                     `onclick="zFormTokenTab.removeSchedule('${schedule.id}')">` +
-                    `<span class="z-icon i-remove"></span>` +
+                    `<span class="icon i-remove"></span>` +
                 `</button>` +
             `</td>` +
             `</tr>`;

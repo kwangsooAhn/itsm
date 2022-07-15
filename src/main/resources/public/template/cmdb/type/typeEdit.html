@@ -60,7 +60,7 @@
                 <input class="z-input" id="typeIcon" name="typeIcon" type="text" readonly>
                 <button type="button" class="button-icon-sm" name="typeIconButton"
                         onclick="aliceJs.clearText(this);" tabindex="-1">
-                    <span class="z-icon i-remove"></span>
+                    <span class="icon i-remove"></span>
                 </button>
                 <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button form"
                         name="typeIconButton" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
@@ -73,7 +73,7 @@
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
                 <button type="button" class="button-icon-sm" name="typeClassButton"
                         onclick="aliceJs.clearText(this);" tabindex="-1">
-                    <span class="z-icon i-remove"></span>
+                    <span class="icon i-remove"></span>
                 </button>
                 <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button form"
                         name="typeClassButton" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>

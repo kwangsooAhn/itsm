@@ -259,7 +259,7 @@ export const ciMixin = {
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
+                        .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
@@ -270,7 +270,7 @@ export const ciMixin = {
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass(
+                        .addUI(new UISpan().setUIClass('icon').addUIClass(
                             (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) ? 'i-edit' : 'i-search')
                         );
 
@@ -284,7 +284,7 @@ export const ciMixin = {
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
-                    .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
+                    .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -295,7 +295,7 @@ export const ciMixin = {
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
-                    .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'));
+                    .addUI(new UISpan().setUIClass('icon').addUIClass('i-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -1336,7 +1336,7 @@ export const ciMixin = {
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'button-icon extra';
         const deleteIcon = document.createElement('span');
-        deleteIcon.className = 'z-icon i-delete';
+        deleteIcon.className = 'icon i-delete';
         deleteBtn.addEventListener('click', function () {
             deleteBtn.parentElement.parentElement.remove();
         });

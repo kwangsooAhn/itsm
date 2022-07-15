@@ -77,7 +77,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             } else {
                 // z-select-box - 아이콘
                 let designedSelectBoxIcon = document.createElement('span');
-                designedSelectBoxIcon.className = 'z-icon i-arrow-right';
+                designedSelectBoxIcon.className = 'icon i-arrow-right';
                 designedSelectBox.appendChild(designedSelectBoxIcon);
 
                 // z-select-option : 옵션 리스트용 박스 만들기

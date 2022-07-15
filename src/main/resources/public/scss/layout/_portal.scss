@@ -342,7 +342,7 @@ $button-themes-social: (
               font-weight: $font-weight-medium;
               // 그룹일 경우 summary의 화살표 숨김
               &::-webkit-details-marker { display: none; }
-              .z-icon {
+              .icon {
                 &.i-plus, &.i-minus {
                   @include absolute($top: 0.9375rem, $right: 0.9375rem); // 15px 15px
                   display: inline-block;
@@ -357,7 +357,7 @@ $button-themes-social: (
               .z-faq-group-title {
                 border-bottom-color: $blue500;
                 color: $blue500;
-                .z-icon {
+                .icon {
                   &.i-plus { opacity: 0; }
                   &.i-minus {
                     background: $blue500;

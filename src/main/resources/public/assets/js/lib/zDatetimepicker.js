@@ -118,13 +118,13 @@
         let buttonRemove = document.createElement('button');
         buttonRemove.type = 'button';
         buttonRemove.className = 'button-icon extra';
-        buttonRemove.insertAdjacentHTML('beforeend', `<span class="z-icon i-delete"></span>`);
+        buttonRemove.insertAdjacentHTML('beforeend', `<span class="icon i-delete"></span>`);
         buttonRemove.addEventListener('click', this.removeTarget, false);
         pickerTitle.appendChild(buttonRemove);
 
         // create title > close icon
         const spanClose = document.createElement('span');
-        spanClose.className = 'z-icon i-remove';
+        spanClose.className = 'icon i-remove';
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
 
@@ -277,7 +277,7 @@
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
+            prevArrow.className = 'icon i-arrow-right z-date-prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
@@ -290,7 +290,7 @@
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'z-icon i-arrow-right z-date-next';
+            nextArrow.className = 'icon i-arrow-right z-date-next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
@@ -374,7 +374,7 @@
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.className = 'z-icon i-arrow-right z-hour-up';
+            hourArrowUp.className = 'icon i-arrow-right z-hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, {hours: 1}), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
@@ -388,7 +388,7 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.className = 'z-icon i-arrow-right z-hour-down';
+            hourArrowDown.className = 'icon i-arrow-right z-hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, {hours: -1}), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
@@ -405,7 +405,7 @@
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.className = 'z-icon i-arrow-right z-minute-up';
+            minuteArrowUp.className = 'icon i-arrow-right z-minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? 30 : 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
@@ -420,7 +420,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.className = 'z-icon i-arrow-right z-minute-down';
+            minuteArrowDown.className = 'icon i-arrow-right z-minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? -30 : -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
@@ -504,7 +504,7 @@
 
             // prev year
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
+            prevArrow.className = 'icon i-arrow-right z-date-prev';
             prevArrow.addEventListener('click', _this.prevYear, false);
             periodPanel.appendChild(prevArrow);
 
@@ -525,7 +525,7 @@
 
             // next year
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'z-icon i-arrow-right z-date-next';
+            nextArrow.className = 'icon i-arrow-right z-date-next';
             nextArrow.addEventListener('click', _this.nextYear, false);
             periodPanel.appendChild(nextArrow);
 

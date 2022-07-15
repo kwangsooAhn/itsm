@@ -10,7 +10,7 @@
 
 .z-notification {
   // notification icon 영역
-  .z-icon-notification {
+  .icon-notification {
     height: 1.5rem; // 24px
     &.active .notification-round {  fill: $blue500; }
     &:hover { cursor: pointer; }
@@ -52,7 +52,7 @@
       &.z-message { margin-left: 0.625rem; }  // 10px
 
       // 우측 상단 X 버튼
-      &.z-icon.i-remove {
+      &.icon.i-remove {
         margin-left: auto;
         background: $white;
       }
@@ -104,7 +104,7 @@
       }
     }
     // 제거 버튼 영역
-    .z-icon.i-delete {
+    .icon.i-delete {
       padding: 0;
       background: $gray500;
     }

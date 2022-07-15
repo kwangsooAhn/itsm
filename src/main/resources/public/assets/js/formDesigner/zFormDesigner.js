@@ -268,14 +268,14 @@ class ZFormDesigner {
                 const templateItem =
                     `<div class="z-component-template-icon list-group-item" id="templateComponent" ` +
                     `data-value="${data.templateId}">` +
-                    `<span class="z-icon i-componentTemplate"></span>` +
+                    `<span class="icon i-componentTemplate"></span>` +
                     `<span class="z-component-name text-ellipsis" ` +
                     `title="${aliceJs.filterXSS(data.templateName)}">` +
                     `${aliceJs.filterXSS(data.templateName)}` +
                     `</span>` +
                     `<button type="button" class="button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
                     `onclick="zFormDesigner.deleteTemplate(this);">` +
-                    `<span class="z-icon i-remove"></span>` +
+                    `<span class="icon i-remove"></span>` +
                     `</button>` +
                     `</div>`;
                 templateList.insertAdjacentHTML('beforeend', templateItem);

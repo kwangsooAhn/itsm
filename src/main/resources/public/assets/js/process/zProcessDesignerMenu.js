@@ -1114,7 +1114,7 @@
             let targetMappingTooltip = document.createElement('div');
             targetMappingTooltip.className = 'z-help-tooltip';
             let targetMappingTooltipIcon = document.createElement('span');
-            targetMappingTooltipIcon.className = 'z-icon i-tooltip';
+            targetMappingTooltipIcon.className = 'icon i-tooltip';
             let targetMappingTooltipContents = document.createElement('div');
             targetMappingTooltipContents.className = 'z-tooltip-contents';
             let targetMappingTooltipText = document.createElement('span');
@@ -1144,7 +1144,7 @@
             let sourceMappingTooltip = document.createElement('div');
             sourceMappingTooltip.className = 'z-help-tooltip';
             let sourceMappingTooltipIcon = document.createElement('span');
-            sourceMappingTooltipIcon.className = 'z-icon i-tooltip';
+            sourceMappingTooltipIcon.className = 'icon i-tooltip';
             let sourceMappingTooltipContents = document.createElement('div');
             sourceMappingTooltipContents.className = 'z-tooltip-contents';
             let sourceMappingTooltipText = document.createElement('span');
@@ -1262,7 +1262,7 @@
             let conditionTooltip = document.createElement('div');
             conditionTooltip.className = 'z-help-tooltip';
             let conditionTooltipIcon = document.createElement('span');
-            conditionTooltipIcon.className = 'z-icon i-tooltip';
+            conditionTooltipIcon.className = 'icon i-tooltip';
             let conditionTooltipContents = document.createElement('div');
             conditionTooltipContents.className = 'z-tooltip-contents';
             let conditionTooltipText = document.createElement('span');
@@ -1291,7 +1291,7 @@
             let fileBtn = document.createElement('button');
             fileBtn.className = 'button-icon button-attach-file';
             let fileIcon = document.createElement('span');
-            fileIcon.className = 'z-icon i-folder';
+            fileIcon.className = 'icon i-folder';
             fileBtn.addEventListener('click', function() {
                 aliceJs.thumbnail({
                     title: i18n.msg('common.label.attachFile'),
@@ -1386,7 +1386,7 @@
                 btnDel.className = 'button-icon-sm mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
-                btnIcon.className = 'z-icon i-remove';
+                btnIcon.className = 'icon i-remove';
                 btnDel.appendChild(btnIcon);
 
                 btnDel.addEventListener('click', function() {
@@ -1474,7 +1474,7 @@
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
         btnAdd.className = 'button-icon form button-candidate-add';
-        btnAdd.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
+        btnAdd.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
 
         const saveData = function() {
             let dataBody = inputObject.parentNode.querySelector('tbody');
@@ -1513,7 +1513,7 @@
             btnDel.className = 'button-icon-sm mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
-            btnIcon.className = 'z-icon i-remove';
+            btnIcon.className = 'icon i-remove';
             btnDel.appendChild(btnIcon);
 
             btnDel.addEventListener('click', function() {
@@ -1893,7 +1893,7 @@
 
                 let copyBtn = document.createElement('button');
                 copyBtn.className = 'button-icon secondary btn-clipboard-tooltip';
-                copyBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-clipboard"></span>`);
+                copyBtn.insertAdjacentHTML('beforeend', `<span class="icon i-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();
                     elementObject.setSelectionRange(0, 99999);

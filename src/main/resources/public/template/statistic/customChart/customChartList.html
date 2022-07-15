@@ -20,7 +20,7 @@
             <div class="grid__cell pl-2" data-grid-sortable="true" data-grid-column="createDt"
                  data-grid-sorting-type="desc">
                 <span class="text-ellipsis" th:text="#{common.label.createDate}"></span>
-                <span class="z-icon i-sorting"></span>
+                <span class="icon i-sorting"></span>
             </div>
             <div class="grid__cell pr-2 pl-2" data-grid-sortable="false">
                 <span class="text-ellipsis"></span>
@@ -58,7 +58,7 @@
             <div class="grid__cell pr-2 pl-2">
                 <button type="button" class="button-icon form" sec:authorize="hasAuthority('report.view')"
                         th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]], [[${chart.chartName}]])">
-                    <span class="z-icon i-popup"></span>
+                    <span class="icon i-popup"></span>
                 </button>
             </div>
         </div>

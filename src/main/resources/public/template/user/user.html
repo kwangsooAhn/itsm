@@ -32,7 +32,7 @@
                         <label for="userId">
                             <span th:classappend="${view} ? '':'required'" th:text="#{user.label.id}"></span>
                             <div class="z-help-tooltip">
-                                <span class="z-icon i-tooltip"></span>
+                                <span class="icon i-tooltip"></span>
                                 <div class="z-tooltip-contents">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
@@ -53,7 +53,7 @@
                             <label for="password">
                                 <span th:classappend="${users?.userKey != null} ? '':'required'" th:text="#{user.label.password}"></span>
                                 <div class="z-help-tooltip">
-                                    <span class="z-icon i-tooltip"></span>
+                                    <span class="icon i-tooltip"></span>
                                     <div class="z-tooltip-contents">
                                         <span th:utext="#{user.tooltip.pwRule}"></span>
                                     </div>
@@ -98,7 +98,7 @@
                                    th:value="${organizationDetail?.organizationName}" type="text">
                             <button type="button" class="button-icon-sm" onclick="clearOrganization(this);"
                                     th:if="!${view}" tabindex="-1">
-                                <span class="z-icon i-remove"></span>
+                                <span class="icon i-remove"></span>
                             </button>
                             <button class="button-search button form" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
@@ -233,7 +233,7 @@
                                    readonly>
                             <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
                                     tabindex="-1">
-                                <span class="z-icon i-remove"></span>
+                                <span class="icon i-remove"></span>
                             </button>
                             <button type="button" class="button-search button form" onclick="openUserListPopup();"
                                     th:text="#{common.btn.select}"></button>

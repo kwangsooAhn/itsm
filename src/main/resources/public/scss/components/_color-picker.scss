@@ -41,7 +41,7 @@ $custom-color-plus: (
       width: 4.75rem; // 76px
       height: 1.5rem; // 24px
     }
-    .z-icon.i-color-palette { background: $gray500; }
+    .icon.i-color-palette { background: $gray500; }
 
     &:focus, &:hover { outline: 0; }
 
@@ -165,7 +165,7 @@ $custom-color-plus: (
             line-height: 0.3125rem; // 5px
             visibility: hidden;
 
-            .z-icon.i-remove {
+            .icon.i-remove {
               width: 0.5rem; // 8px
               height: 0.5rem; // 8px
               background: $white;
@@ -189,7 +189,7 @@ $custom-color-plus: (
             box-shadow: map-get($custom-color-plus, 'default', 'shadow');
           }
 
-          .z-icon.i-plus {
+          .icon.i-plus {
             width: 0.625rem; // 10px
             height: 0.625rem; // 10px
             background: map-get($custom-color-plus, 'default', 'font');
@@ -201,7 +201,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'focus', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'focus', 'shadow');
             }
-            .z-icon.i-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
+            .icon.i-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
           }
 
           &:hover {
@@ -210,7 +210,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'hover', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'hover', 'shadow');
             }
-            .z-icon.i-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
+            .icon.i-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
           }
 
           &:enabled:active,
@@ -220,7 +220,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'active', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'active', 'shadow');
             }
-            .z-icon.i-plus { background: map-get($custom-color-plus, 'active', 'font'); }
+            .icon.i-plus { background: map-get($custom-color-plus, 'active', 'font'); }
           }
 
           &.on { display: inline-block; }
@@ -249,7 +249,7 @@ $custom-color-plus: (
           font-weight: $font-weight-medium;
 
           // 물방울 아이콘
-          .z-icon {
+          .icon {
             &.i-water-drop {
               .water-drop-outer { fill-opacity: 1; }
               .water-drop-inner { fill-opacity: 0; }

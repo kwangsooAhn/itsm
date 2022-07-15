@@ -53,7 +53,7 @@
                 <label th:text="#{cmdb.class.label.alarm}"></label>
                 <button type="button" class="button-icon extra float-right" name="alarmConditionButton"
                         onclick="addAlarmCondition()" sec:authorize="hasAuthority('cmdb.manage')">
-                    <span class="z-icon i-plus"></span>
+                    <span class="icon i-plus"></span>
                 </button>
             </div>
             <div class="horizontal-bar"></div>
@@ -72,7 +72,7 @@
                 <button type="button" sec:authorize="hasAuthority('cmdb.manage')"
                         class="button-icon extra float-right" id="attribute-add" name="classAttributeButton"
                         onclick="openClassAttributeListModal()">
-                    <span class="z-icon i-plus"></span>
+                    <span class="icon i-plus"></span>
                 </button>
             </div>
             <div class="horizontal-bar"></div>
@@ -113,7 +113,7 @@
             </select>
             <button class="button-icon-sm ml-2 mr-2 mt-auto mb-auto" name="alarmCondition"
                     onclick="deleteAlarmCondition(event)">
-                <span class="z-icon i-remove"></span>
+                <span class="icon i-remove"></span>
             </button>
         </div>
     </template>
@@ -518,7 +518,7 @@
             deleteBtn.className = 'button-icon-sm ml-2 mr-2 mt-auto mb-auto';
             deleteBtn.name = 'classAttributeButton';
             const deleteIcon = document.createElement('span');
-            deleteIcon.className = 'z-icon i-remove';
+            deleteIcon.className = 'icon i-remove';
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function() {
                 zAlert.confirm(i18n.msg('cmdb.class.msg.confirmDeleteAttribute'), () => {

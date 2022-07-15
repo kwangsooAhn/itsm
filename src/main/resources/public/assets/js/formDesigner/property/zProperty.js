@@ -143,7 +143,7 @@ export default class ZProperty {
         const helpText = help || this.help;
         if (!zValidation.isEmpty(helpText)) {
             label.UITooltip = new UIDiv().setUIClass('z-help-tooltip');
-            label.UITooltip.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-tooltip'));
+            label.UITooltip.addUI(new UISpan().setUIClass('icon').addUIClass('i-tooltip'));
             label.UITooltip.UIContent = new UIDiv().setUIClass('z-tooltip-contents');
             label.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(helpText)));
             label.UITooltip.addUI(label.UITooltip.UIContent);

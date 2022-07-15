@@ -27,9 +27,9 @@
                         <a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);"
                            th:data-menugroup="${topMenu.menuId}" class="z-gnb-link flex-row"
                            th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
-                            <span th:class="'z-icon i-gnb-' + ${topMenu.menuId}"></span>
+                            <span th:class="'icon i-gnb-' + ${topMenu.menuId}"></span>
                             <span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-                            <span class="z-icon i-arrow-right"></span>
+                            <span class="icon i-arrow-right"></span>
                         </a>
                         <ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="z-snb-group">
                             <li th:id="${subMenu.menuId}" class="z-snb-area"
@@ -40,7 +40,7 @@
                                    th:class="'z-snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}"
                                    onclick="showProgressBar()"
                                    th:classappend="${subMenu.url} == ${session.active_url} ? active">
-                                    <span class="z-icon i-gnb_sub_dot"></span>
+                                    <span class="icon i-gnb_sub_dot"></span>
                                     <span class="z-menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
                                 </a>
                             </li>
@@ -49,7 +49,7 @@
                         <a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}"
                            class="z-gnb-link flex-row"
                            th:classappend="${topMenu.url} == ${session.active_url} ? active">
-                            <span th:class="'z-icon i-gnb-' + ${topMenu.menuId}"></span>
+                            <span th:class="'icon i-gnb-' + ${topMenu.menuId}"></span>
                             <span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
                             <span th:if="${topMenu.menuId == 'token'}" class="z-token-count align-center"
                                   id="tokenCount">-</span>

@@ -5,7 +5,7 @@
 <div class="z-main-top">
     <div class="flex-row justify-content-end">
                 <span class="z-notification">
-                    <span class="z-icon-notification" onclick="toggleNotificationContainer();">
+                    <span class="icon-notification" onclick="toggleNotificationContainer();">
                         <img class="load-svg"
                              th:src="@{/assets/media/icons/gnb/icon_gnb_notification.svg}"
                              width="25" height="27">
@@ -16,7 +16,7 @@
             <img class="z-img i-user-profile z-user"
                  th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
             <span class="z-user z-user-name text-ellipsis" sec:authentication="details.userName"></span>
-            <span class="z-user z-icon i-arrow-right"></span>
+            <span class="z-user icon i-arrow-right"></span>
         </button>
         <ul class="z-dropdown-content">
             <li class="z-dropdown-item" tabindex="-1">
@@ -97,8 +97,8 @@
         restSubmitNotification('get', '/notifications', function (result) {
             notificationDiv.innerHTML = result;
             const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
-            if (noConfirmNotification.length !== 0 && !document.querySelector('.z-icon-notification').classList.contains('active')) {
-                document.querySelector('.z-icon-notification').classList.add('active');
+            if (noConfirmNotification.length !== 0 && !document.querySelector('.icon-notification').classList.contains('active')) {
+                document.querySelector('.icon-notification').classList.add('active');
             }
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                 notificationDiv.querySelectorAll('div[is-display=true]').length + ')';

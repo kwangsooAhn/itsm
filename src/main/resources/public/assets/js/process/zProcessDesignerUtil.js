@@ -843,7 +843,7 @@
         }, false);
 
         const minimapIcon = document.createElement('span');
-        minimapIcon.className = 'z-icon i-minimap';
+        minimapIcon.className = 'icon i-minimap';
 
         const minimapTooltip = document.createElement('div');
         minimapTooltip.className = 'z-palette-tooltip-contents right-bottom'
@@ -873,7 +873,7 @@
         simulationTitle.textContent = i18n.msg('process.btn.simulationCheckResult');
 
         const simulationClose = document.createElement('span');
-        simulationClose.className = 'z-icon i-minus';
+        simulationClose.className = 'icon i-minus';
         simulationTitle.appendChild(simulationClose);
         simulationClose.addEventListener('click', simulationToggleEvent, false);
         simulationContainer.appendChild(simulationTitle);
@@ -903,7 +903,7 @@
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
-        simulationIcon.className = 'z-icon i-simulation-report';
+        simulationIcon.className = 'icon i-simulation-report';
 
         const simulationTooltip = document.createElement('div');
         simulationTooltip.className = 'z-palette-tooltip-contents'

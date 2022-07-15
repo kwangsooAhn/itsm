@@ -36,13 +36,13 @@
             <td width="15%" class="align-left date-time" th:text="${form.createDt}" th:title="${form.createDt}"></td>
             <td width="4%" class="align-center">
                 <button type="button" class="button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${form.id}]])">
-                    <span class="z-icon i-list-download"></span>
+                    <span class="icon i-list-download"></span>
                 </button>
             </td>
             <td width="4%" class="align-center">
                 <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${form.editable == true}">
                     <button type="button" class="button-icon form" th:onclick="deleteForm([[${form.id}]])">
-                        <span class="z-icon i-list-delete"></span>
+                        <span class="icon i-list-delete"></span>
                     </button>
                 </th:block>
             </td>

@@ -41,14 +41,14 @@
           cursor: pointer;
           > * { pointer-events: none; }
 
-          .z-icon {
+          .icon {
             &.i-sorting {
               @include rotate(180);
               background: $neutral600;
             }
           }
           &[data-grid-sorting-type='desc'] {
-            .z-icon {
+            .icon {
               &.i-sorting { @include rotate(0); }
             }
           }
@@ -91,18 +91,18 @@
         background-color: transparent;
         border-color: transparent;
       }
-      .z-icon { background-color: $gray600; }
+      .icon { background-color: $gray600; }
       &:hover {
-        .z-icon { background-color: $gray400; }
+        .icon { background-color: $gray400; }
       }
       &:focus {
-        .z-icon { background-color: $gray800; }
+        .icon { background-color: $gray800; }
       }
       &:active {
-        .z-icon { background-color: $gray800; }
+        .icon { background-color: $gray800; }
       }
       &:disabled {
-        .z-icon { background-color: $gray300; }
+        .icon { background-color: $gray300; }
       }
     }
   }

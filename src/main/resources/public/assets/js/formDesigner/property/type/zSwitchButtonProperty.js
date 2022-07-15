@@ -47,7 +47,7 @@ export default class ZSwitchButtonProperty extends ZProperty {
                 .setUIClass('button-switch')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass('z-icon').addUIClass(item.name));
+                .addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
 
             if (!this.isEditable) {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('disabled');

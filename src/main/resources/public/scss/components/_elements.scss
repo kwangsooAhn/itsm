@@ -112,11 +112,11 @@ table {
         background-color: transparent;
         border-color: transparent;
       }
-      .z-icon { background-color: $gray600; }
-      &:hover .z-icon { background-color: $gray400; }
-      &:focus .z-icon { background-color: $gray800; }
-      &:active .z-icon { background-color: $gray800; }
-      &:disabled .z-icon { background-color: $gray300; }
+      .icon { background-color: $gray600; }
+      &:hover .icon { background-color: $gray400; }
+      &:focus .icon { background-color: $gray800; }
+      &:active .icon { background-color: $gray800; }
+      &:disabled .icon { background-color: $gray300; }
     }
   }
 }
@@ -159,13 +159,13 @@ table {
       }
 
       .button-icon {
-        .z-icon {
+        .icon {
           display: block;
           margin: 0 auto;
           background: $gray400;
           pointer-events: none;
         }
-        &:hover .z-icon { background: $blue500; }
+        &:hover .icon { background: $blue500; }
       }
     }
   }
@@ -524,12 +524,12 @@ select {
         @include border(0.0625rem, solid, $blue600, all);
         outline: 0;
         // 열렸을때 출력되는 화살표 아이콘
-        .z-icon.i-arrow-right { @include rotate(-90); }
+        .icon.i-arrow-right { @include rotate(-90); }
         + .z-select-options { display: block; }
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
-      .z-icon {
+      .icon {
         pointer-events: none;
         &.i-arrow-right {
           @include absolute($right: 0.5rem); // 8px
