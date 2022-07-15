@@ -107,7 +107,7 @@
             <label for="sessionKey">
                 <span th:text="#{customCode.label.sessionKey}"></span>
             </label>
-            <select class="z-select" id="sessionKey" th:classappend="${view} ? 'readonly'">
+            <select class="select" id="sessionKey" th:classappend="${view} ? 'readonly'">
                 <option selected="selected" th:text="#{customCode.label.notSelect}" value=""></option>
                 <option th:each="code: ${sessionKeyList}" th:selected="${code.codeValue} == ${customCode?.sessionKey}"
                         th:text="${code.codeName}"
