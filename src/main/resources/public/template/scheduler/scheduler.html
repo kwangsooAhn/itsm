@@ -24,8 +24,8 @@
             <label for="taskDesc">
                 <span th:text="#{scheduler.label.description}"></span>
             </label>
-            <textarea class="z-textarea textarea-scroll-wrapper" id="taskDesc" maxlength="250" name="taskDesc"
-                      rows="5" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'"
+            <textarea class="textarea textarea-scroll-wrapper" id="taskDesc" maxlength="250" name="taskDesc"
+                      rows="5" th:readonly="${view}" th:classappend="${view} ? 'textarea-readonly'"
                       th:disabled="${schedule != null && !schedule.editable}" th:text="${schedule?.taskDesc}"></textarea>
         </div>
         <div class="flex-column edit-row">
@@ -96,7 +96,7 @@
                 <label for="executeQuery">
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.query}"></span>
                 </label>
-                <textarea class="z-textarea textarea-scroll-wrapper" id="executeQuery" maxlength="5000" th:classappend="${view} ? 'z-textarea-readonly'"
+                <textarea class="textarea textarea-scroll-wrapper" id="executeQuery" maxlength="5000" th:classappend="${view} ? 'textarea-readonly'"
                           name="executeQuery" required="required" rows="10"
                           th:disabled="${schedule != null && !schedule.editable}"
                           th:readonly="${view}" th:text="${schedule?.executeQuery}"></textarea>

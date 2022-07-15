@@ -518,7 +518,7 @@ $layout-header-dropdown: (
     }
 
     // textArea
-    .textArea, .z-textarea {
+    .textArea, .textarea {
       width: 100%;
       height: calc(2.5rem * var(--data-row));
     }
@@ -1053,7 +1053,7 @@ $component-icon: (
         }
         .z-element {
           .z-input,
-          .z-textarea,
+          .textarea,
           .z-select-box {
             border-color: $blue400 !important;
             color: $blue400 !important;
@@ -1238,7 +1238,7 @@ $component-icon: (
     &.off { display: none; }
   }
   // textarea 엘리먼트
-  .z-textarea {
+  .textarea {
     min-height: 5.625rem; // 90px
     line-height: 1.6;
   }

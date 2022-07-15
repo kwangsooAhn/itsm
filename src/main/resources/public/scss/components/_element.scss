@@ -325,7 +325,7 @@ input, textarea, select {
 // textarea
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
-.z-textarea {
+.textarea {
   padding: 0.5rem 0.75rem; // 들여쓰기 8px 16px
   background-color: $white;
   color: $neutral800;
@@ -389,7 +389,7 @@ input, textarea, select {
   &.success { @include border(0.0625rem, solid, $green500 !important, all); }
 }
 // os-div 작업
-div.z-textarea-readonly { border-color: transparent !important; }
+div.textarea-readonly { border-color: transparent !important; }
 
 // switch
 .z-switch {

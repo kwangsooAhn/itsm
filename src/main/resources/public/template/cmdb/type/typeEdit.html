@@ -47,7 +47,7 @@
         <div class="edit-row flex-column">
             <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
             <textarea id="typeDesc" name="typeDesc" th:maxlength="200" th:rows="7"
-                      class="z-textarea textarea-scroll-wrapper" text=""></textarea>
+                      class="textarea textarea-scroll-wrapper" text=""></textarea>
         </div>
         <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.seq}" for="typeSeq"></label>
@@ -183,7 +183,7 @@
                 if (document.querySelectorAll('button[name=typeClassButton]').length > 0) {
                     document.querySelectorAll('button[name=typeClassButton]').forEach((elem) => elem.removeAttribute('disabled'));
                 }
-                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                document.querySelector('.textarea').classList.remove('textarea-readonly');
                 typeName.readOnly = false;
                 typeDesc.readOnly = false;
                 typeAlias.readOnly = false;
@@ -206,7 +206,7 @@
                 if (document.querySelectorAll('button[name=typeClassButton]').length > 0) {
                     document.querySelectorAll('button[name=typeClassButton]').forEach((elem) => elem.disabled = true);
                 }
-                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                document.querySelector('.textarea').classList.add('textarea-readonly');
                 typeName.readOnly = true;
                 typeDesc.readOnly = true;
                 typeAlias.readOnly = true;
@@ -255,7 +255,7 @@
         // 정렬 순서
         const typeSeq = document.getElementById('typeSeq');
 
-        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+        document.querySelector('.textarea').classList.remove('textarea-readonly');
         document.querySelector('textarea').value = '';
         typeName.readOnly = false;
         typeDesc.readOnly = false;

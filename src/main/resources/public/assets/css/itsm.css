@@ -4505,7 +4505,7 @@ input, button, select, optgroup, textarea {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.z-component .z-element .textArea, .z-component .z-element .z-textarea {
+.z-component .z-element .textArea, .z-component .z-element .textarea {
   width: 100%;
   height: calc(2.5rem * var(--data-row));
 }
@@ -5053,23 +5053,23 @@ input, button, select, optgroup, textarea {
   color: #619CDB !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box {
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input::placeholder,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea::placeholder,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea::placeholder,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box::placeholder {
   color: #619CDB !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input .icon,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea .icon,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea .icon,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box .icon {
   background: #619CDB !important;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-date-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-date-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-date-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
@@ -5078,7 +5078,7 @@ input, button, select, optgroup, textarea {
   background-position-y: 50%;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-time-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-time-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-time-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
@@ -5087,7 +5087,7 @@ input, button, select, optgroup, textarea {
   background-position-y: 50%;
 }
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-input.i-datetime-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-textarea.i-datetime-picker,
+.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-datetime-picker,
 .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-select-box.i-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
@@ -5277,7 +5277,7 @@ input, button, select, optgroup, textarea {
 .property .z-input:not(.tagify).off {
   display: none;
 }
-.property .z-textarea {
+.property .textarea {
   min-height: 5.625rem;
   line-height: 1.6;
 }
@@ -6431,7 +6431,7 @@ input, button, select, optgroup, textarea {
   .z-print-main .z-drawing-board .z-form .z-row-tooltip {
     break-inside: avoid;
   }
-  .z-print-main .z-drawing-board .z-form .z-row-tooltip .z-textarea {
+  .z-print-main .z-drawing-board .z-form .z-row-tooltip .textarea {
     width: inherit;
     max-width: 200mm;
   }
@@ -10108,7 +10108,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   -moz-appearance: textfield;
 }
 
-.z-textarea {
+.textarea {
   padding: 0.5rem 0.75rem;
   background-color: #FFFFFF;
   color: #424242;
@@ -10117,34 +10117,34 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   font-weight: 500;
   line-height: 1.6;
 }
-.z-textarea:not(.os-textarea) {
+.textarea:not(.os-textarea) {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
 }
-.z-textarea::placeholder {
+.textarea::placeholder {
   color: #ABB0B5;
 }
-.z-textarea:read-only::placeholder, .z-textarea:disabled::placeholder {
+.textarea:read-only::placeholder, .textarea:disabled::placeholder {
   color: transparent;
 }
-.z-textarea:not(:disabled):focus, .z-textarea:not(:read-only):focus {
+.textarea:not(:disabled):focus, .textarea:not(:read-only):focus {
   border: 0.0625rem solid #2559A8;
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   outline: 0;
 }
-.z-textarea:not(:disabled):hover, .z-textarea:not(:read-only):hover {
+.textarea:not(:disabled):hover, .textarea:not(:read-only):hover {
   border: 0.0625rem solid #619CDB;
   outline: 0;
 }
-.z-textarea:not(:disabled):active, .z-textarea:not(:read-only):active {
+.textarea:not(:disabled):active, .textarea:not(:read-only):active {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.z-textarea:read-only:not(:disabled):not(.os-host-textarea) {
+.textarea:read-only:not(:disabled):not(.os-host-textarea) {
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -10154,27 +10154,27 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   resize: none;
   border-left: 0.0625rem solid #CFD5D9 !important;
 }
-.z-textarea:read-only:not(:disabled):not(.os-host-textarea):hover, .z-textarea:read-only:not(:disabled):not(.os-host-textarea):focus {
+.textarea:read-only:not(:disabled):not(.os-host-textarea):hover, .textarea:read-only:not(:disabled):not(.os-host-textarea):focus {
   border: 0.0625rem solid #CFD5D9;
   webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-.z-textarea:disabled {
+.textarea:disabled {
   border: 0.0625rem solid #CFD5D9;
   background-color: #EEEEEE;
   color: #ABB0B5;
   pointer-events: none;
   cursor: default;
 }
-.z-textarea.error {
+.textarea.error {
   border: 0.0625rem solid #F52525 !important;
 }
-.z-textarea.success {
+.textarea.success {
   border: 0.0625rem solid #76BD26 !important;
 }
 
-div.z-textarea-readonly {
+div.textarea-readonly {
   border-color: transparent !important;
 }
 

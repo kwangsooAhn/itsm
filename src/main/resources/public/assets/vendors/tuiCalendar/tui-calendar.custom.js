@@ -908,7 +908,7 @@ Object.assign(zCalendar.prototype, {
                     <select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>
                 </div>
             </div>
-            <textarea class="z-textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+            <textarea class="textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
                       placeholder="${i18n.msg('calendar.label.contentsPlaceholder')}"></textarea>
             <div class="flex-row" id="calendarList"></div>
         </div>`.trim();

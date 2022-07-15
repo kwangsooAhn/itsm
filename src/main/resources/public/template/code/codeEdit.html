@@ -76,7 +76,7 @@
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
             <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
-                      class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
+                      class="textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
         </div>
         <div class="edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
@@ -208,7 +208,7 @@
                 if (CODE_DELETE) {
                     document.getElementById('btnDelete').disabled = false;
                 }
-                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                document.querySelector('.textarea').classList.remove('textarea-readonly');
                 txtCodeDesc.readOnly = false;
                 document.getElementById('btnCodeLang').disabled = false;
                 txtCode.parentElement.previousElementSibling.classList.add('required');
@@ -221,7 +221,7 @@
                 if (CODE_DELETE) {
                     document.getElementById('btnDelete').disabled = true;
                 }
-                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                document.querySelector('.textarea').classList.add('textarea-readonly');
                 txtCodeDesc.readOnly = true;
                 document.getElementById('btnCodeLang').disabled = true;
                 txtCode.parentElement.previousElementSibling.classList.remove('required');
@@ -256,7 +256,7 @@
             elem.readOnly = false;
             elem.value = '';
         });
-        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+        document.querySelector('.textarea').classList.remove('textarea-readonly');
         document.getElementById('txtCode').disabled = false;
         document.getElementById('codeUseYn').disabled = false;
         document.getElementById('btnCodeLang').disabled = false;

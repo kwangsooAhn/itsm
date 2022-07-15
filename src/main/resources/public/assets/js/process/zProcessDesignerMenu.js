@@ -1672,7 +1672,7 @@
                         elementObject.readOnly = true;
                         elementObject.classList.add('readonly');
                         elementObject.parentElement.parentElement.parentElement.parentElement.classList
-                            .add('z-textarea-readonly');
+                            .add('textarea-readonly');
                     }
 
                     // change 이벤트 설정
@@ -1918,7 +1918,7 @@
             }
             case 'textarea': {
                 elementObject = document.createElement('textarea');
-                elementObject.className = 'z-textarea';
+                elementObject.className = 'textarea';
                 elementObject.style.resize = 'none';
                 elementObject.maxLength = 256;
                 propertyContainer.appendChild(elementObject);
