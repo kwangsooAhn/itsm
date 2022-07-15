@@ -17,15 +17,15 @@ $custom-color-plus: (
   'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
 );
 
-.z-color-picker-wrapper {
+.color-picker-wrapper {
   color: $gray500;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-bold;
 
-  .z-color-input { display: none; }
+  .color-input { display: none; }
   // color picker
-  .z-color-picker {
+  .color-picker {
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include borderRadius(0.125rem); // 2px
     width: 7.5rem; // 120px
@@ -34,7 +34,7 @@ $custom-color-plus: (
     cursor: pointer;
     outline: none;
 
-    .z-color-box {
+    .color-box {
       @include borderRadius(0.0625rem);
       @include border(0.25rem, solid, transparent, all); // 4px
       display: inline-block;
@@ -53,7 +53,7 @@ $custom-color-plus: (
     }
   }
   // 모달
-  .z-color-picker-modal {
+  .color-picker-modal {
     @include fixed();
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include borderRadius(0.125rem); // 2px
@@ -265,7 +265,7 @@ $custom-color-plus: (
           .z-input { padding: 0 0.5rem; } // 0 8px
 
           // 문구
-          .z-color-text { text-align: center; }
+          .color-text { text-align: center; }
         }
 
        .button-list {

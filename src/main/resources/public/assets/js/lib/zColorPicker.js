@@ -36,7 +36,7 @@ function zColorPicker(targetElement, options) {
     this.isCustomColorControlOpen = false; // 사용자 색상 편집 중인지 여부
 
     // input box
-    targetElement.classList.add('z-color-input');
+    targetElement.classList.add('color-input');
     this.inputEl = targetElement;
     // 기존 저장된 색상 : 사용자가 색상을 변경하더라도, 사용자 색상을 저장하지 않고 color picker를 닫으면 원래 색상으로 변경되어야 한다.
     this.savedValue = targetElement.value.toUpperCase();
@@ -54,7 +54,7 @@ function zColorPicker(targetElement, options) {
 
     // wrapper
     const wrapperContainer = document.createElement('div');
-    wrapperContainer.className = 'z-color-picker-wrapper';
+    wrapperContainer.className = 'color-picker-wrapper';
     targetElement.parentElement.insertBefore(wrapperContainer, targetElement.nextSibling);
     targetElement.parentElement.removeChild(targetElement);
     wrapperContainer.appendChild(targetElement);
@@ -62,7 +62,7 @@ function zColorPicker(targetElement, options) {
 
     // color picker
     const colorPicker = document.createElement('div');
-    colorPicker.className = 'z-color-picker';
+    colorPicker.className = 'color-picker';
     colorPicker.tabIndex = 0;
     wrapperContainer.appendChild(colorPicker);
 
@@ -73,7 +73,7 @@ function zColorPicker(targetElement, options) {
 
     // color box
     const colorBox = document.createElement('div');
-    colorBox.className = 'z-color-box';
+    colorBox.className = 'color-box';
     colorPicker.appendChild(colorBox);
     this.colorEl = colorBox;
 
@@ -85,7 +85,7 @@ function zColorPicker(targetElement, options) {
     // color picker modal
     let pickerModal = document.createElement('div');
     pickerModal.id = targetElement.id + 'Picker';
-    pickerModal.className = 'z-color-picker-modal';
+    pickerModal.className = 'color-picker-modal';
     wrapperContainer.appendChild(pickerModal);
     this.modalEl = pickerModal;
 
@@ -173,8 +173,8 @@ Object.assign(zColorPicker.prototype, {
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
     autoClose: function (e) {
-        if (!aliceJs.clickInsideElement(e, 'z-color-picker-modal') &&
-            !aliceJs.clickInsideElement(e, 'z-color-picker') &&
+        if (!aliceJs.clickInsideElement(e, 'color-picker-modal') &&
+            !aliceJs.clickInsideElement(e, 'color-picker') &&
             !aliceJs.clickInsideElement(e, 'modal-active')) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
@@ -338,7 +338,7 @@ Object.assign(zColorPicker.prototype, {
         // hex
         const hexInput = document.createElement('input');
         hexInput.type = 'text';
-        hexInput.className = 'z-input z-color-hex';
+        hexInput.className = 'z-input color-hex';
         hexInput.placeholder = '#FFFFFF';
         hexInput.setAttribute('maxlength', '7');
         hexInput.addEventListener('keyup', this.setHex.bind(this), false);
@@ -349,7 +349,7 @@ Object.assign(zColorPicker.prototype, {
         ['r', 'g', 'b'].forEach((str) => {
             const rgbInput = document.createElement('input');
             rgbInput.type = 'text';
-            rgbInput.className = 'z-input z-color-' + str;
+            rgbInput.className = 'z-input color-' + str;
             rgbInput.placeholder = '255';
             rgbInput.setAttribute('maxlength', '3');
             rgbInput.addEventListener('keyup', this.setRgb.bind(this), false);
@@ -370,7 +370,7 @@ Object.assign(zColorPicker.prototype, {
         // Hex, R,G,B 문구 추가
         ['', 'Hex', 'R', 'G', 'B'].forEach((str) => {
             const colorText = document.createElement('span');
-            colorText.className = 'z-color-text';
+            colorText.className = 'color-text';
             colorText.textContent = str;
             customColorControl.appendChild(colorText);
         });
