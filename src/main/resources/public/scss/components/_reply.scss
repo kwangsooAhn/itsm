@@ -1,0 +1,63 @@
+/** 
+ * 댓글 디자인
+ * template/_reply.scss
+ * 화면 : 게시판
+ */
+.reply {
+  &-body { margin-top: 2.5rem; } // 40px
+
+  &-input-row {
+    @include border(0.0625rem, solid, $gray300, top);  // 1px
+    @include border(0.0625rem, solid, $gray300, bottom);  // 1px
+    padding: 1.3125rem 1.25rem; // 21px 20px
+    background-color: $neutral50;
+    .reply {
+      &-input {
+        width: 100%;
+        margin: 0 0.3125rem; // 5px
+      }
+      &-button { flex : none; }
+    }
+  }
+
+  &-list {
+    @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $gray300, 0.0625rem 0.9375rem 0.0625rem 0);
+    padding: 0 0;
+    margin-top: 0.0625rem; // -1px
+    // 댓글이 없으면 라인 생략
+    &:empty { border-color: transparent; }
+    .reply {
+      &-info { align-items: center; }
+      &-user-name { font-weight: $font-weight-regular; }
+      &-create-date {
+        color: $gray400;
+        font-weight: $font-weight-regular;
+      }
+      &-row {
+        @include border(0.0625rem, solid, $gray300, bottom);
+        padding-top : 1.875rem; // 30px
+        padding-bottom: 1.875rem; // 30px
+      }
+      &-edit,
+      &-delete { padding: 0 1.25rem 0 0; } // 0 20px 0 0
+
+      &-comment {
+        display: flex;
+        margin-top: 0.9375rem; // 5px
+        margin-left: 3rem; // 48px
+        word-break: break-all;
+        input {
+          width: 100%;
+          margin: 0 0.3125rem; // 5px
+        }
+      }
+    }
+  }
+  // 사용자 아이콘
+  .i-profile-photo {
+    @include borderRadius(50%);
+    flex : none;
+    margin: auto 0.9376rem auto 0; // 15px
+    background-color: transparent;
+  }
+}
