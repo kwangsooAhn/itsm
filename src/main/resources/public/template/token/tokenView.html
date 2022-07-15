@@ -41,10 +41,10 @@
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script th:inline="javascript" type="text/javascript">
         function onToggleTabHandler(target) {
-            if (target.classList.contains('off')) {
-                target.classList.remove('off');
+            if (target.classList.contains('none')) {
+                target.classList.remove('none');
             } else {
-                target.classList.add('off');
+                target.classList.add('none');
             }
         }
     </script>

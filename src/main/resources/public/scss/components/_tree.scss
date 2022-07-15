@@ -72,8 +72,6 @@ img {
     width: 1rem; // 16px
     cursor: pointer;
   }
-  &.on { display: inline-block; }
-  &.off { display: none; }
   // 폴더 아이콘
   &.icon_tree {
     margin-top: -0.188rem; // 3px

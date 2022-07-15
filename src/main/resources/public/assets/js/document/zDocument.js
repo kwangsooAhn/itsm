@@ -79,7 +79,7 @@ class ZDocument {
         if (Number(formWidth) > 1400) {
             const toggleTabBtn = document.querySelector('.toggle--tab');
             if (toggleTabBtn !== null) {
-                toggleTabBtn.classList.add('off');
+                toggleTabBtn.classList.add('none');
             }
         }
     }
@@ -263,7 +263,7 @@ class ZDocument {
 
             // 6. plugin 유효성 검증 체크
             const requiredPlugInElements =
-                parentElements[i].querySelectorAll('.plugIn-check[data-validation-required="true"]:not(.off)');
+                parentElements[i].querySelectorAll('.plugIn-check[data-validation-required="true"]:not(.none)');
             for (let p = 0; p < requiredPlugInElements.length; p++) {
                 const requiredElement = requiredPlugInElements[p];
                 // 미검증

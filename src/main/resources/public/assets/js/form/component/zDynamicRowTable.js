@@ -86,7 +86,7 @@ export const dynamicRowTableMixin = {
             .addUIClass('plugIn-check')
             .addUIClass('primary')
             .addUIClass('mr-2')
-            .addUIClass(this.pluginUseYn ? 'on' : 'off')
+            .addUIClass(this.pluginUseYn === 'none')
             .setUIAttribute('data-validation-required', this.pluginRequired)
             .setUIAttribute('data-validation-type', this.pluginScriptType)
             .onUIClick(this.pluginCheck.bind(this));
@@ -143,7 +143,7 @@ export const dynamicRowTableMixin = {
             }
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
     },
     // set, get
@@ -179,9 +179,9 @@ export const dynamicRowTableMixin = {
     set pluginUseYn(boolean) {
         this._plugin.useYn = boolean;
         if (boolean) {
-            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('on').addUIClass('none');
         }
     },
     get pluginUseYn() {
@@ -218,9 +218,9 @@ export const dynamicRowTableMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -272,7 +272,7 @@ export const dynamicRowTableMixin = {
         const row = new UIRow(targetTable).setUIClass('no-data-found-list');
         targetTable.addUIRow(row);
 
-        const td = new UICell(row).setUIClass('on align-center first-column last-column')
+        const td = new UICell(row).setUIClass('table-cell align-center first-column last-column')
             .setColspan(this.elementColumns.length + 1)
             .setUITextContent(i18n.msg('common.msg.noData'));
         row.addUICell(td);

@@ -99,9 +99,9 @@ class ZFormTokenTab {
             Array.prototype.filter.call(selectedTab.parentNode.children, function(child) {
                 return child !== selectedTab;
             }).forEach((siblingElement) => {
-                siblingElement.classList.remove('on');
+                siblingElement.classList.remove('block');
             });
-            selectedTab.classList.add('on');
+            selectedTab.classList.add('block');
         }
 
         // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함

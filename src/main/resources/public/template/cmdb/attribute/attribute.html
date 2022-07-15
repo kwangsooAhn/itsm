@@ -165,11 +165,11 @@
         const searchYnGroup = document.getElementById('searchYnGroup');
         const searchWidthGroup = document.getElementById('searchWidthGroup');
         if (SEARCH_YN_USED.includes(object.value)) {
-            searchYnGroup.classList.remove('off');
-            searchWidthGroup.classList.remove('off');
+            searchYnGroup.classList.remove('none');
+            searchWidthGroup.classList.remove('none');
         } else {
-            searchYnGroup.classList.add('off');
-            searchWidthGroup.classList.add('off');
+            searchYnGroup.classList.add('none');
+            searchWidthGroup.classList.add('none');
             document.getElementById('searchYn').checked = false;
             document.getElementById('searchWidth').value = '200';
         }
