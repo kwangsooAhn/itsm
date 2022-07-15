@@ -4154,7 +4154,7 @@ input, button, select, optgroup, textarea {
   /* Chrome, Safari, Opera*/
 }
 
-.z-thumbnail-main {
+.thumbnail-main {
   padding: 0.625rem;
 }
 
@@ -11745,14 +11745,14 @@ body.modal-active {
   min-height: 7.5rem;
   resize: none;
 }
-.modal-dialog.z-thumbnail-image, .modal-dialog.z-thumbnail-file {
+.modal-dialog.thumbnail-image, .modal-dialog.thumbnail-file {
   width: 1040px;
   height: 48.44rem;
 }
-.modal-dialog.z-thumbnail-image .modal-content, .modal-dialog.z-thumbnail-file .modal-content {
+.modal-dialog.thumbnail-image .modal-content, .modal-dialog.thumbnail-file .modal-content {
   height: 39.565rem;
 }
-.modal-dialog.z-thumbnail-image .modal-content .z-thumbnail-main .z-thumbnail, .modal-dialog.z-thumbnail-file .modal-content .z-thumbnail-main .z-thumbnail {
+.modal-dialog.thumbnail-image .modal-content .thumbnail-main .thumbnail, .modal-dialog.thumbnail-file .modal-content .thumbnail-main .thumbnail {
   width: 14.375rem;
 }
 .modal-dialog.document-edit, .modal-dialog.workFlow-import {
@@ -13733,14 +13733,14 @@ body.modal-active {
  * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  */
-.z-thumbnail-main {
+.thumbnail-main {
   padding: 0;
   color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
 }
-.z-thumbnail-main .z-thumbnail {
+.thumbnail-main .thumbnail {
   border: 0.0625rem solid #CFD5D9;
   display: inline-block;
   overflow: hidden;
@@ -13751,19 +13751,19 @@ body.modal-active {
   background-color: #FFFFFF;
   cursor: pointer;
 }
-.z-thumbnail-main .z-thumbnail:hover {
+.thumbnail-main .thumbnail:hover {
   border: 0.0625rem solid #3373C4;
   background-color: #FFFFFF;
 }
-.z-thumbnail-main .z-thumbnail.selected {
+.thumbnail-main .thumbnail.selected {
   border: 0.0625rem solid #2559A8;
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   background-color: #FFFFFF;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-image,
-.z-thumbnail-main .z-thumbnail .z-thumbnail-file {
+.thumbnail-main .thumbnail .thumbnail-image,
+.thumbnail-main .thumbnail .thumbnail-file {
   position: relative;
   display: inline-block;
   width: 100%;
@@ -13772,8 +13772,8 @@ body.modal-active {
   background-repeat: no-repeat;
   background-position: center center;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-image img,
-.z-thumbnail-main .z-thumbnail .z-thumbnail-file img {
+.thumbnail-main .thumbnail .thumbnail-image img,
+.thumbnail-main .thumbnail .thumbnail-file img {
   position: absolute;
   top: 0;
   right: 0;
@@ -13781,42 +13781,42 @@ body.modal-active {
   left: 0;
   margin: auto;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-info {
+.thumbnail-main .thumbnail .thumbnail-info {
   height: 6.563rem;
   padding: 0.75rem 0.9375rem;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text {
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text {
   height: 1.5rem;
   line-height: 1.5rem;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text label {
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
   display: block;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text:first-child label {
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child label {
   color: #222529;
   font-weight: 700;
   cursor: pointer;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-info .z-thumbnail-info-text:first-child .z-input {
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child .z-input {
   display: none;
   width: 12.19rem;
   height: 1.875rem;
   float: left;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-bottom {
+.thumbnail-main .thumbnail .thumbnail-bottom {
   border-top: 0.0625rem solid #CFD5D9;
   height: 2.5rem;
   padding: 0 0.625rem 0 0.9375rem;
   line-height: 2.5rem;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-bottom .button-icon {
+.thumbnail-main .thumbnail .thumbnail-bottom .button-icon {
   padding: 0;
   height: 2.5rem;
 }
-.z-thumbnail-main .z-thumbnail .z-thumbnail-bottom .button-icon .icon.i-delete {
+.thumbnail-main .thumbnail .thumbnail-bottom .button-icon .icon.i-delete {
   background: #ABB0B5;
 }
-.z-thumbnail-main .z-thumbnail-upload {
+.thumbnail-main .thumbnail-upload {
   border: 0.0625rem solid #CFD5D9;
   display: inline-block;
   overflow: hidden;
@@ -13828,15 +13828,15 @@ body.modal-active {
   box-shadow: none;
   cursor: pointer;
 }
-.z-thumbnail-main .z-thumbnail-upload .z-thumbnail-upload-text {
+.thumbnail-main .thumbnail-upload .thumbnail-upload-text {
   color: #3373C4;
   font-weight: 700;
 }
-.z-thumbnail-main .z-thumbnail-upload:hover {
+.thumbnail-main .thumbnail-upload:hover {
   border: 0.0625rem solid #3373C4;
   background-color: #D6EDFC;
 }
-.z-thumbnail-main .icon.i-file-upload {
+.thumbnail-main .icon.i-file-upload {
   width: 5rem;
   height: 5rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_file_upload.svg");
@@ -13847,7 +13847,7 @@ body.modal-active {
   mask-position: center;
   background: #ABB0B5;
 }
-.z-thumbnail-main .z-thumbnail-nodata {
+.thumbnail-main .thumbnail-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -13857,19 +13857,19 @@ body.modal-active {
   font-weight: 700;
 }
 
-.modal-dialog.z-thumbnail-icon {
+.modal-dialog.thumbnail-icon {
   top: 7rem;
   width: 47.81rem;
   height: 45rem;
 }
-.modal-dialog.z-thumbnail-icon .modal-content {
+.modal-dialog.thumbnail-icon .modal-content {
   height: 36.125rem;
 }
-.modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main {
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main {
   height: auto;
   padding: 1.375rem;
 }
-.modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main .z-thumbnail {
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main .thumbnail {
   -webkit-box-shadow: 0 0 0 0.0625rem #CFD5D9;
   -moz-box-shadow: 0 0 0 0.0625rem #CFD5D9;
   box-shadow: 0 0 0 0.0625rem #CFD5D9;
@@ -13877,15 +13877,15 @@ body.modal-active {
   height: 10.31rem;
   margin: 0.4375rem;
 }
-.modal-dialog.z-thumbnail-icon .modal-content .z-thumbnail-main .z-thumbnail .z-thumbnail-icon {
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main .thumbnail .thumbnail-icon {
   width: 6.25rem;
   height: 6.25rem;
   margin: 2rem auto;
 }
-.modal-dialog.z-thumbnail-cmdb-icon {
+.modal-dialog.thumbnail-cmdb-icon {
   top: 15rem;
 }
-.modal-dialog.z-thumbnail-cmdb-icon .z-thumbnail {
+.modal-dialog.thumbnail-cmdb-icon .thumbnail {
   -webkit-box-shadow: 0 0 0 0.0625rem #CFD5D9;
   -moz-box-shadow: 0 0 0 0.0625rem #CFD5D9;
   box-shadow: 0 0 0 0.0625rem #CFD5D9;
@@ -13893,24 +13893,24 @@ body.modal-active {
   height: 2.5rem;
   margin: 0.4375rem;
 }
-.modal-dialog.z-thumbnail-cmdb-icon .z-thumbnail .z-thumbnail-icon {
+.modal-dialog.thumbnail-cmdb-icon .thumbnail .thumbnail-icon {
   width: 1.5rem;
   height: 1.5rem;
   margin: 0.4375rem;
   background-repeat: no-repeat;
 }
-.modal-dialog.z-thumbnail-preview {
+.modal-dialog.thumbnail-preview {
   width: 760px;
   height: 645px;
 }
-.modal-dialog.z-thumbnail-preview .modal-header .z-thumbnail-preview-name {
+.modal-dialog.thumbnail-preview .modal-header .thumbnail-preview-name {
   line-height: 1.2;
 }
-.modal-dialog.z-thumbnail-preview .modal-content {
+.modal-dialog.thumbnail-preview .modal-content {
   height: calc(645px - 3.875rem - 5rem);
   padding: 30px;
 }
-.modal-dialog.z-thumbnail-preview .modal-content .z-thumbnail-preview-file {
+.modal-dialog.thumbnail-preview .modal-content .thumbnail-preview-file {
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;

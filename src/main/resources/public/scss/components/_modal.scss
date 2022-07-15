@@ -205,13 +205,13 @@ body.modal-active { overflow: hidden !important; }
    */
   // formDesigner - 썸네일 모달
   // process - 파일 선택 모달
-  &.z-thumbnail-image,
-  &.z-thumbnail-file {
+  &.thumbnail-image,
+  &.thumbnail-file {
     width: 1040px; // 1040px
     height: 48.44rem; // 775px
     .modal-content {
       height: calc(48.44rem - 3.875rem - 5rem); // 775px
-      .z-thumbnail-main .z-thumbnail { width: 14.375rem; } // 230px
+      .thumbnail-main .thumbnail { width: 14.375rem; } // 230px
     }
   }
 
