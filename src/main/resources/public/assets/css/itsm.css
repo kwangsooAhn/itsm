@@ -12193,16 +12193,16 @@ body.modal-active {
   height: 3.5rem;
 }
 
-.z-notification .icon-notification {
+.notification .icon-notification {
   height: 1.5rem;
 }
-.z-notification .icon-notification.active .notification-round {
+.notification .icon-notification.active .notification-round {
   fill: #3373C4;
 }
-.z-notification .icon-notification:hover {
+.notification .icon-notification:hover {
   cursor: pointer;
 }
-.z-notification-panel {
+.notification-panel {
   position: relative;
   bottom: 0;
   left: 70.8rem;
@@ -12216,60 +12216,60 @@ body.modal-active {
   color: #222529;
   z-index: 25;
 }
-.z-notification-panel.on {
+.notification-panel.on {
   display: block;
 }
-.z-notification-header {
+.notification-header {
   display: flex;
   align-items: baseline;
   height: 2.5rem;
   padding: 0 0.938rem;
   background-color: #3373C4;
 }
-.z-notification-header span {
+.notification-header span {
   display: inline-block;
   color: #FFFFFF;
   font-size: 0.875rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 400;
 }
-.z-notification-header span.z-title {
+.notification-header span.z-title {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
 }
-.z-notification-header span.z-total {
+.notification-header span.z-total {
   margin: auto 0.3125rem;
 }
-.z-notification-header span.z-message {
+.notification-header span.z-message {
   margin-left: 0.625rem;
 }
-.z-notification-header span.icon.i-remove {
+.notification-header span.icon.i-remove {
   margin-left: auto;
   background: #FFFFFF;
 }
-.z-notification-body {
+.notification-body {
   overflow-y: auto;
   max-height: 20.63rem;
 }
-.z-notification-body .z-noData {
+.notification-body .z-noData {
   height: 6.875rem;
   padding: 3rem;
 }
-.z-notification-content {
+.notification-content {
   border-bottom: 0.063rem solid #EEEEEE;
   height: 6.875rem;
   padding: 0.938rem;
 }
-.z-notification-content:hover {
+.notification-content:hover {
   background-color: rgba(131, 187, 237, 0.1);
 }
-.z-notification-content .z-notification-checked {
+.notification-content .notification-checked {
   display: flex;
   margin: 0;
   background-color: #FFFFFF;
 }
-.z-notification-content .z-notification-checked input[type=checkbox] {
+.notification-content .notification-checked input[type=checkbox] {
   position: relative;
   border: 0.063rem solid #3373C4;
   border-radius: 0.063rem;
@@ -12283,12 +12283,12 @@ body.modal-active {
   cursor: pointer;
   -webkit-appearance: none;
 }
-.z-notification-content .z-notification-checked input[type=checkbox]:checked {
+.notification-content .notification-checked input[type=checkbox]:checked {
   border: 0.063rem solid #EEEEEE;
   color: #CFD5D9;
   cursor: unset;
 }
-.z-notification-content .z-notification-checked input[type=checkbox]:checked::after {
+.notification-content .notification-checked input[type=checkbox]:checked::after {
   position: absolute;
   top: -0.063rem;
   left: 0.063rem;
@@ -12297,11 +12297,11 @@ body.modal-active {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.z-notification-content .icon.i-delete {
+.notification-content .icon.i-delete {
   padding: 0;
   background: #8B9094;
 }
-.z-notification-content span.z-title {
+.notification-content span.z-title {
   max-width: 18.13rem;
   margin-left: 0.625rem;
   color: #222529;
@@ -12310,18 +12310,18 @@ body.modal-active {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   line-height: 1.2;
 }
-.z-notification-content span.z-title.z-confirm {
+.notification-content span.z-title.z-confirm {
   opacity: 0.75;
 }
-.z-notification-content span.z-title__link:hover {
+.notification-content span.z-title__link:hover {
   cursor: pointer;
   text-decoration: underline;
 }
-.z-notification-content span.z-document-no {
+.notification-content span.z-document-no {
   color: #8B9094;
   font-size: 0.875rem;
 }
-.z-notification-content span.z-message {
+.notification-content span.z-message {
   display: block;
   max-width: 22.5rem;
   min-height: 2.5rem;
@@ -12331,10 +12331,10 @@ body.modal-active {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.z-notification-content span.z-message.z-confirm {
+.notification-content span.z-message.z-confirm {
   color: #ABB0B5;
 }
-.z-notification-content span.z-date {
+.notification-content span.z-date {
   margin-left: 1.75rem;
   color: #8B9094;
   font-weight: 400;
