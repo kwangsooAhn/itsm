@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<table class="z-table">
-    <thead class="z-table-head">
+<table class="table">
+    <thead class="table-head">
         <tr class="flex-row align-items-center">
             <th style="width:30%;" class="align-left" th:text="#{common.label.title}"></th>
             <th style="width:10%;" class="align-center" th:text="#{common.label.createUser}"></th>
@@ -13,7 +13,7 @@
             <th style="width:5%;" class="align-center"></th>
         </tr>
     </thead>
-    <tbody class="z-table-body">
+    <tbody class="table-body">
         <tr class="flex-row align-items-center notice-pinned " th:each="topNotice: ${topNoticeList}">
             <td style="width:30%;" class="align-left underline">
                 <a sec:authorize="hasAuthority('portal.manage')" th:text="${topNotice.noticeTitle}"

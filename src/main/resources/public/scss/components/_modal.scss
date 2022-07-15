@@ -101,8 +101,8 @@ body.modal-active { overflow: hidden !important; }
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px
-          .z-table {
-            .z-table-body {
+          .table {
+            .table-body {
               overflow-y: auto;
               display: block;
               width: 60rem; // 960px
@@ -263,10 +263,10 @@ body.modal-active { overflow: hidden !important; }
         height: calc(42.188rem - 3.875rem - 5rem - 2.5rem); // 높이(675px)에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
 
-        .z-table {
+        .table {
           width: auto;
 
-          .z-table-body {
+          .table-body {
             border: none;
             tr:hover { background-color: transparent; }
           }
@@ -327,8 +327,8 @@ body.modal-active { overflow: hidden !important; }
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px
-          .z-table {
-            .z-table-body {
+          .table {
+            .table-body {
               display: block;
               overflow-y: auto;
               width: 60rem; // 960px
@@ -423,7 +423,7 @@ body.modal-active { overflow: hidden !important; }
         }
         // 연관 관계
         .z-relation-group {
-          .z-table-row {
+          .table-row {
             @include border(0.0625rem, solid, $gray400, bottom);
             height: 2.5rem;
           }
@@ -528,8 +528,8 @@ body.modal-active { overflow: hidden !important; }
 
       .table-set {
         margin-top: 2.188rem; // 35px
-        .z-table {
-          .z-table-body {
+        .table {
+          .table-body {
             display: block;
             overflow-y: auto;
             width: 60rem; // 960px

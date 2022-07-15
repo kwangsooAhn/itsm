@@ -96,7 +96,7 @@ export const dynamicRowTableMixin = {
 
         // 테이블
         element.UITable = new UITable()
-            .setUIClass('z-option-table')
+            .setUIClass('option-table')
             .addUIClass('z-dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
@@ -234,7 +234,7 @@ export const dynamicRowTableMixin = {
     },
     makeTable(table) {
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('z-option-table-header').addUIClass('z-dr-table-header');
+        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('z-dr-table-header');
         table.addUIRow(row);
 
         this.elementColumns.forEach((column) => {
@@ -682,7 +682,7 @@ export const dynamicRowTableMixin = {
                 method: 'GET'
             }).then((htmlData) => {
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (!userListElem.querySelectorAll('.z-table-row').length) {
+                if (!userListElem.querySelectorAll('.table-row').length) {
                     defaultValue = '';
                 }
             });
@@ -951,9 +951,9 @@ export const dynamicRowTableMixin = {
         }).then((htmlData) => {
             const searchUserList = document.getElementById('searchUserList');
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {

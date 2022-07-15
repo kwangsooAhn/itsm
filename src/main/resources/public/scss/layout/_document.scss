@@ -208,7 +208,7 @@
 
           &-table {
             th, td { padding: 0 0.625rem; } // 0 10px
-            .z-table-head {
+            .table-head {
               @include border(0.0625rem, solid, $gray300, top);
               background-color: $neutral100;
               tr {
@@ -217,7 +217,7 @@
               }
             }
 
-            .z-table-body {
+            .table-body {
               overflow-y: auto;
               border: none;
               tr {
@@ -339,7 +339,7 @@
             td, th {
               &:nth-child(3) { color: $gray500; }
             }
-            .z-table-body {
+            .table-body {
               border: none;
               tr:hover { background-color: transparent; }
             }
@@ -439,7 +439,7 @@
               }
             }
 
-            .z-table-body {
+            .table-body {
               border: none;
 
               tr:hover {

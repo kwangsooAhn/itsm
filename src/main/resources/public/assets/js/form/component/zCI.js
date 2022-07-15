@@ -168,7 +168,7 @@ export const ciMixin = {
     makeCITable() {
         // 테이블
         const table = new UITable()
-            .setUIClass('z-option-table')
+            .setUIClass('option-table')
             .addUIClass('z-ci-table')
             .addUIClass('mt-2')
             .setUIId('ciTable' + this.id)
@@ -176,7 +176,7 @@ export const ciMixin = {
             .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('z-option-table-header').addUIClass('z-ci-table-header');
+        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('z-ci-table-header');
         table.addUIRow(row);
 
         this.getCITableData().forEach((option) => {
@@ -902,7 +902,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;
@@ -936,7 +936,7 @@ export const ciMixin = {
 
     },
     getDataTemplate(data, index) {
-        const div = document.querySelector('.z-table-body .os-content');
+        const div = document.querySelector('.table-body .os-content');
         const tr = document.createElement('tr');
         tr.className = 'list-row ci-list';
         tr.id = 'ciRow' + data.ciId;
@@ -1161,7 +1161,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;
@@ -1301,7 +1301,7 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addCIRelation(ciRelations, isChecked) {
         const trRow = document.createElement('tr');
-        trRow.className = 'z-table-row z-relation-data';
+        trRow.className = 'table-row z-relation-data';
 
         const targetIcon = document.createElement('td');
         targetIcon.className = 'col-1 align-center';

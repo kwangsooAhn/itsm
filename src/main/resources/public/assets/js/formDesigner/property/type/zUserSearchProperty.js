@@ -130,8 +130,8 @@ export default class ZUserSearchProperty extends ZProperty {
                 targetGroup.addUI(targetGroup.UILabel);
 
                 // 사용자 목록
-                const userTable = new UITable().setUIClass('z-option-table');
-                const header = new UIRow(userTable).setUIClass('z-option-table-header');
+                const userTable = new UITable().setUIClass('option-table');
+                const header = new UIRow(userTable).setUIClass('option-table-header');
                 userTable.addUIRow(header);
 
                 const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.userName'));
@@ -248,9 +248,9 @@ export default class ZUserSearchProperty extends ZProperty {
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
             targetUserList.innerHTML = htmlData;
-            OverlayScrollbars(targetUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(targetUserList.querySelector('.table-body'), {className: 'scrollbar'});
             // 갯수 가운트
-            aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트
             targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
                 element.addEventListener('change', () => {
@@ -277,7 +277,7 @@ export default class ZUserSearchProperty extends ZProperty {
         // 테이블 초기화
         const userListTable = this.UIElement.UIGroup.userTable;
         userListTable.clearUIRow().clearUI();
-        const header = new UIRow(userListTable).setUIClass('z-option-table-header');
+        const header = new UIRow(userListTable).setUIClass('option-table-header');
         userListTable.addUIRow(header);
         const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.userName'));
         const removeTD = new UICell(header).setUICSSText('width: 15%;');
@@ -285,7 +285,7 @@ export default class ZUserSearchProperty extends ZProperty {
         header.addUICell(removeTD);
 
         targetList.forEach((target) => {
-            const optionRow = new UIRow(userListTable).setUIClass('z-option-table-row');
+            const optionRow = new UIRow(userListTable).setUIClass('option-table-row');
             const addedNameTD = new UICell(optionRow)
                 .setUIId('targetUser')
                 .setUIAttribute('data-value', target.id)

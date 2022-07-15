@@ -274,9 +274,9 @@ export const userSearchMixin = {
             // 사용자 선택 모달 생성
             if (!zValidation.isEmpty(searchUserList)) {
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
                 // 갯수 가운트
-                aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
                 // 체크 이벤트
                 searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                     element.addEventListener('change', () => {
@@ -301,7 +301,7 @@ export const userSearchMixin = {
             } else {
                 // 기본값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (!userListElem.querySelectorAll('.z-table-row').length) {
+                if (!userListElem.querySelectorAll('.table-row').length) {
                     this.UIElement.UIComponent.UIElement.UIInput.setUIValue('')
                         .setUIAttribute('data-user-id', '')
                         .setUIAttribute('data-user-search', '');

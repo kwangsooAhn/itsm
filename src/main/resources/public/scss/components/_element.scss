@@ -59,7 +59,7 @@ table {
     vertical-align: middle;
   }
 }
-.z-table {
+.table {
   border: none;
   background-color: transparent;
   color: $neutral800;
@@ -82,12 +82,12 @@ table {
     font-weight: $font-weight-medium;
   }
 
-  .z-table-head {
+  .table-head {
     @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
     tr { height: 2.5rem; } // 42px
   }
 
-  .z-table-body {
+  .table-body {
     width: 100%;
     height: 100%;
     tr {
@@ -120,7 +120,7 @@ table {
     }
   }
 }
-.z-option-table {
+.option-table {
   border: none;
   background-color: transparent;
   color: $gray400;
@@ -135,7 +135,7 @@ table {
     border-right: none;
     th, td { padding: 0 0.5rem; }
 
-    &.z-option-table-header {
+    &.option-table-header {
       @include border(0.0625rem, solid, $gray400, top);
       @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
       height: 2rem; // 32px
@@ -146,7 +146,7 @@ table {
       font-weight: $font-weight-medium;
     }
 
-    &.z-option-table-row {
+    &.option-table-row {
       .z-checkbox,
       .z-radio { margin: 0 0 0 0.75rem; } // 12px
 

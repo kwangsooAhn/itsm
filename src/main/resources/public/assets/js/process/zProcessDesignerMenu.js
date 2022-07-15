@@ -1370,7 +1370,7 @@
             const addDataRow = function(conditionValue, fileValue) {
                 let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
                 let row = document.createElement('tr');
-                row.className = 'z-option-table-row';
+                row.className = 'option-table-row';
                 let conditionColumn = document.createElement('td');
                 conditionColumn.className = 'condition-txt';
                 conditionColumn.textContent = conditionValue;
@@ -1412,10 +1412,10 @@
 
             // table
             let dataTable = document.createElement('table');
-            dataTable.className = 'z-option-table script-data';
+            dataTable.className = 'option-table script-data';
             let thead = document.createElement('thead');
             let headRow = document.createElement('tr');
-            headRow.className = 'z-option-table-header';
+            headRow.className = 'option-table-header';
             let headValueColumn = document.createElement('th');
             headValueColumn.style.width = '40%';
             let headReturnColumn = document.createElement('th');
@@ -1497,7 +1497,7 @@
         const addDataRow = function(dataVal, dataText) {
             let dataBody = inputObject.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
-            row.className = 'z-option-table-row';
+            row.className = 'option-table-row';
             let nameColumn = document.createElement('td');
             nameColumn.textContent = dataText;
             let hiddenInput = document.createElement('input');
@@ -1555,10 +1555,10 @@
         propertiesDiv.appendChild(selectRow);
 
         let dataTable = document.createElement('table');
-        dataTable.className = 'z-option-table candidate-table';
+        dataTable.className = 'option-table candidate-table';
         let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
-        headRow.className = 'z-option-table-header';
+        headRow.className = 'option-table-header';
         let headNameColumn = document.createElement('th');
         headNameColumn.textContent = i18n.msg('common.label.name');
         headNameColumn.style.width = '82%';

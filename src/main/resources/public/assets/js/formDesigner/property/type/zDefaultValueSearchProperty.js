@@ -230,9 +230,9 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
             const searchUserList = document.getElementById('searchUserList');
             // 사용자 선택 리스트 생성
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(searchUserList.querySelector('.table-body'), {className: 'scrollbar'});
             // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {

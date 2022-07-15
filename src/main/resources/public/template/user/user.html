@@ -654,10 +654,10 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.table-body'), {className: 'scrollbar'});
             // 갯수 가운트
             const substituteUserList = document.getElementById('userList');
-            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.table-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
                 // 체크 이벤트
                 radio.addEventListener('change', () => {

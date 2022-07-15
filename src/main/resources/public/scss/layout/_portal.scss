@@ -119,8 +119,8 @@ $button-themes-social: (
     &:focus { outline: none; }
   }
 
-  .z-table {
-    .z-table-body {
+  .table {
+    .table-body {
       display: block;
       height: 35rem; // 560px
       tr {
@@ -309,7 +309,7 @@ $button-themes-social: (
         height: 40.438rem; // 647px
         padding: 1.5rem 13.75rem 0 13.75rem; // 24px 220px
 
-        .z-table {
+        .table {
           @include relative();
           border: none;
         }

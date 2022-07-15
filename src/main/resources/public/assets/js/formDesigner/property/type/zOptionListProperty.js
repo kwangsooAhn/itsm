@@ -64,9 +64,9 @@ export default class ZOptionListProperty extends ZProperty {
 
         // 옵션 리스트
         const optionTable = new UITable()
-            .setUIClass('z-option-table');
+            .setUIClass('option-table');
 
-        const header = new UIRow(optionTable).setUIClass('z-option-table-header');
+        const header = new UIRow(optionTable).setUIClass('option-table-header');
         optionTable.addUIRow(header);
 
         const checkedTD = new UICell(header).setUICSSText('width: 15%');
@@ -82,7 +82,7 @@ export default class ZOptionListProperty extends ZProperty {
         header.addUICell(removeTD);
 
         this.value.forEach((option) => {
-            const optionRow = new UIRow(optionTable).setUIClass('z-option-table-row');
+            const optionRow = new UIRow(optionTable).setUIClass('option-table-row');
             optionTable.addUIRow(this.makeRow(optionRow, option));
         });
 
@@ -126,7 +126,7 @@ export default class ZOptionListProperty extends ZProperty {
             checkedTD.labelGroup.addUIClass('z-radio');
             checkedTD.labelGroup.radio = new UIRadioButton(option.checked || false)
                 .setUIId(checkedId)
-                .setUIAttribute('name', 'z-option-radio')
+                .setUIAttribute('name', 'option-radio')
                 .onUIChange(this.updateProperty.bind(this));
             checkedTD.labelGroup.addUI(checkedTD.labelGroup.radio);
 
@@ -223,7 +223,7 @@ export default class ZOptionListProperty extends ZProperty {
             optionTable.removeUIRow(optionTable.rows[1]);
         }
 
-        const optionRow = new UIRow(optionTable).setUIClass('z-option-table-row');
+        const optionRow = new UIRow(optionTable).setUIClass('option-table-row');
         optionTable.addUIRow(this.makeRow(optionRow, FORM.DEFAULT_OPTION_ROW));
 
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));
