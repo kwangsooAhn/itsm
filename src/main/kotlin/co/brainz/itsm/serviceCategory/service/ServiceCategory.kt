@@ -11,6 +11,7 @@ import co.brainz.itsm.serviceCategory.dto.ServiceCategoryDto
 import co.brainz.itsm.serviceCategory.dto.ServiceCategoryReturnDto
 import co.brainz.itsm.serviceCategory.entity.ServiceCategoryEntity
 import co.brainz.itsm.serviceCategory.repository.ServiceCategoryRepo
+import javax.transaction.Transactional
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -78,6 +79,7 @@ class ServiceCategory(
     /**
      * 서비스 카테고리 신규 등록
      */
+    @Transactional
     fun createService(serviceCategoryDto: ServiceCategoryDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
 
@@ -115,6 +117,7 @@ class ServiceCategory(
     /**
      * 서비스 카테고리 수정
      */
+    @Transactional
     fun updateService(serviceCategoryDto: ServiceCategoryDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
 
