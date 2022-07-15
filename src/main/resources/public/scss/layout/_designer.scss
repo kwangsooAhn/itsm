@@ -1247,8 +1247,8 @@ $component-icon: (
     .button { height: 2.5rem; } // 40px
   }
   // column 너비 조정
-  .z-slider {
-    .z-range { width : 75%; }
+  .slider {
+    .range { width : 75%; }
     .z-input {
       width: 23%;
       text-align: center;

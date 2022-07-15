@@ -5284,10 +5284,10 @@ input, button, select, optgroup, textarea {
 .property .input-button .button {
   height: 2.5rem;
 }
-.property .z-slider .z-range {
+.property .slider .range {
   width: 75%;
 }
-.property .z-slider .z-input {
+.property .slider .z-input {
   width: 23%;
   text-align: center;
   margin-left: 2%;
@@ -10469,10 +10469,10 @@ select {
   padding-top: 0.9375rem;
 }
 
-.z-slider {
+.slider {
   min-height: 1.375rem;
 }
-.z-slider .z-range {
+.slider .range {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -10487,11 +10487,11 @@ select {
   --range-location: 100%;
   -webkit-appearance: none;
 }
-.z-slider .z-range:disabled {
+.slider .range:disabled {
   background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), #EEEEEE var(--range-location), #EEEEEE 100%);
   --range-fill-color: #CFD5D9;
 }
-.z-slider .z-range::-webkit-slider-thumb {
+.slider .range::-webkit-slider-thumb {
   -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
   -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
   box-shadow: 0 0 0.125rem 0 #8B9094;
@@ -10504,25 +10504,25 @@ select {
   -webkit-appearance: none;
   appearance: none;
 }
-.z-slider .z-range::-webkit-slider-thumb:hover {
+.slider .range::-webkit-slider-thumb:hover {
   border-color: #619CDB;
   background-color: #D6EDFC;
 }
-.z-slider .z-range::-webkit-slider-thumb:focus {
+.slider .range::-webkit-slider-thumb:focus {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
 }
-.z-slider .z-range::-webkit-slider-thumb:active {
+.slider .range::-webkit-slider-thumb:active {
   border-color: #3373C4;
   background-color: #AFD9F9;
 }
-.z-slider .z-range::-webkit-slider-thumb:disabled {
+.slider .range::-webkit-slider-thumb:disabled {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.z-slider .z-range::-moz-range-thumb {
+.slider .range::-moz-range-thumb {
   -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
   -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
   box-shadow: 0 0 0.125rem 0 #8B9094;
@@ -10533,30 +10533,30 @@ select {
   background: #FFFFFF;
   cursor: pointer;
 }
-.z-slider .z-range::-moz-range-thumb:hover {
+.slider .range::-moz-range-thumb:hover {
   border-color: #619CDB;
   background-color: #D6EDFC;
 }
-.z-slider .z-range::-moz-range-thumb:focus {
+.slider .range::-moz-range-thumb:focus {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
 }
-.z-slider .z-range::-moz-range-thumb:active {
+.slider .range::-moz-range-thumb:active {
   border-color: #3373C4;
   background-color: #AFD9F9;
 }
-.z-slider .z-range::-moz-range-thumb:disabled {
+.slider .range::-moz-range-thumb:disabled {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.z-slider .z-input {
+.slider .z-input {
   width: 23%;
   margin-left: 2%;
   text-align: center;
 }
-.z-slider .z-input:read-only:not(:disabled) {
+.slider .z-input:read-only:not(:disabled) {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
