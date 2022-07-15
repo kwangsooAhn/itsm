@@ -14,7 +14,7 @@
  * @author wdj
  * @version 1.0
  */
-// <a class='z-button'></a>  or <button class='z-button'>
+// <a class='button'></a>  or <button class='button'>
 
 $button-themes-default: (
         'primary': (
@@ -107,9 +107,9 @@ $button-group: (
         'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
         'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
-.z-button,
-.z-button-icon,
-.z-button-text {
+.button,
+.button-icon,
+.button-text {
   @include border(0rem, solid, transparent, all);
   @include borderRadius(0.25rem); // 4px
   display: inline-block;
@@ -269,7 +269,7 @@ $button-group: (
   }
 }
 
-.z-button-icon {
+.button-icon {
   padding: 0.4375rem; // 7px (버튼 기본 너비 높이 : 34px 34px)
   line-height: 0;
   &-sm {
@@ -290,7 +290,7 @@ $button-group: (
   }
 }
 
-.z-button-text {
+.button-text {
   padding: 0;
   color: $gray600;
   line-height: 1.25rem; // 20px
@@ -308,8 +308,8 @@ $button-group: (
   position: relative;
   vertical-align: middle;
 
-  .z-button,
-  .z-button-icon {
+  .button,
+  .button-icon {
     &:not(:last-child) { margin-right: 0.5rem; } // 8px
   }
 }
@@ -317,14 +317,14 @@ $button-group: (
 // button group
 // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
 // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
-.z-button-switch-group,
-.z-button-toggle-group {
+.button-switch-group,
+.button-toggle-group {
   display: inline-flex;
   flex-direction: row;
   vertical-align: middle;
 
-  .z-button-switch,
-  .z-button-toggle {
+  .button-switch,
+  .button-toggle {
     @include border(0.0625rem, solid, map-get($button-group, 'default', 'border'), all);
     @include borderRadius(0.25rem); // 4px
     display: inline-block;
@@ -427,8 +427,8 @@ $button-group: (
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    .z-button-switch,
-    .z-button-toggle {
+    .button-switch,
+    .button-toggle {
       @include borderRadius(0.25rem); // 4px
       flex: 0 1 auto;
       width: 100%;
@@ -448,7 +448,7 @@ $button-group: (
   }
 }
 
-.z-button-code {
+.button-code {
   .z-icon.i-search {
       background: $gray500;
       pointer-events: none;

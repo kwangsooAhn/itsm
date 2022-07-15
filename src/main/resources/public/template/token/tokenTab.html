@@ -37,7 +37,7 @@
         <div class="z-token-viewer">
             <div class="flex-row align-items-end justify-content-between mb-2">
                 <label class="z-token-viewer-sub-title" th:text="#{token.label.viewer}"></label>
-                <button type="button" class="z-button-text float-right mb-1"
+                <button type="button" class="button-text float-right mb-1"
                         th:text="#{token.label.viewerAdd}"
                         th:onclick="zFormTokenTab.openViewerModal()">
                 </button>
@@ -50,7 +50,7 @@
         <div class="z-token-calendar">
             <div class="flex-row align-items-end justify-content-between mb-2">
                 <label class="z-token-calendar-sub-title" th:text="#{token.label.calendar}"></label>
-                <button type="button" class="z-button-text float-right mb-1"
+                <button type="button" class="button-text float-right mb-1"
                         th:text="#{token.label.calendarAdd}"
                         th:onclick="zFormTokenTab.openCalendarModal()">
                 </button>
@@ -63,7 +63,7 @@
         <div class="z-token-related" id="related">
             <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
             <div class="z-token-related-item flex-row justify-content-center align-items-center z-document-add">
-                <button class="z-button-icon" th:onclick="zFormTokenTab.openRelatedDocModal()">
+                <button class="button-icon" th:onclick="zFormTokenTab.openRelatedDocModal()">
                     <span class="z-icon i-plus"></span>
                 </button>
             </div>
@@ -74,7 +74,7 @@
         <div class="z-comment-add flex-row align-items-start">
             <textarea id="commentValue" class="z-textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200"
                       rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
-            <button class="z-button secondary" th:onclick="zFormTokenTab.saveComments()"
+            <button class="button secondary" th:onclick="zFormTokenTab.saveComments()"
                     th:text="#{common.btn.register}"></button>
         </div>
     </div>

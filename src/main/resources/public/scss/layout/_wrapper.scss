@@ -109,7 +109,7 @@
             @include relative();
             padding-top: 0.625rem; // 10px
 
-            .z-button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
+            .button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
 
             .child-attribute-row {
               @include border(0.0625rem, solid, $gray300, all); // 1px
@@ -118,7 +118,7 @@
               padding: 0.3125rem 1.25rem 1.25rem 1.25rem; // 5px 20px 20px 20px
               background-color: $white;
 
-              .z-button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
+              .button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
             }
           }
         }

@@ -164,17 +164,17 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="button-list">
-                    <a class="z-button secondary" href="/sla/metrics/search" th:text="#{common.btn.list}"></a>
+                    <a class="button secondary" href="/sla/metrics/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
-                            class="z-button primary" onclick="onSave('POST')" th:text="#{common.btn.register}">
+                            class="button primary" onclick="onSave('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="update"
-                            class="z-button primary" onclick="onSave('PUT')" th:text="#{common.btn.modify}">
+                            class="button primary" onclick="onSave('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="delete"
-                            class="z-button danger" onclick="onDelete()" th:text="#{common.btn.delete}">
+                            class="button danger" onclick="onDelete()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>
@@ -349,7 +349,7 @@
             classes: 'sla-zql-manual-modal',
             buttons: [{
                 content: i18n.msg('common.btn.close'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();

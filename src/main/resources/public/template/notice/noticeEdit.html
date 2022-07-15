@@ -93,17 +93,17 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="button-list">
-                    <a class="z-button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+                    <a class="button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
                     <button  th:if="!${notice?.noticeNo}" type="button" id="insert"
-                            class="z-button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
+                            class="button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${notice?.noticeNo}" type="button" id="update"
-                            class="z-button primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
+                            class="button primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${notice?.noticeNo}" type="button" id="delete"
-                            class="z-button danger" onclick="deleteNotice()" th:text="#{common.btn.delete}">
+                            class="button danger" onclick="deleteNotice()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>

@@ -21,14 +21,14 @@
         classes: '', // modal class
         /*buttons: [{
             content: "Accept",
-            classes: "z-button primary",
+            classes: "button primary",
             bindKey: 13, //Enter. See https://keycode.info/
             callback: function(modal) {
                 modal.hide();
             }
         }, {
             content: "Cancel",
-            classes: "z-button secondary",
+            classes: "button secondary",
             bindKey: false,
             callback: function(modal) {
                 modal.hide();

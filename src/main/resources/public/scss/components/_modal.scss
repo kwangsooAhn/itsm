@@ -404,9 +404,9 @@ body.modal-active { overflow: hidden !important; }
         .attribute-group {
           // Group List일 경우, 하위 속성 존재함
           .child-attribute-group {
-            .z-button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
+            .button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
             .child-attribute-row {
-              .z-button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
+              .button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
             }
           }
         }

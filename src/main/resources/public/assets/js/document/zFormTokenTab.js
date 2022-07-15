@@ -221,7 +221,7 @@ class ZFormTokenTab {
             `${viewer.organizationName}</td>` +
             `<td style="width: 10%;" class="align-center">` +
             (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
-                `<button type="button" class="z-button-icon-sm" tabindex="-1" ` +
+                `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                 `onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
                 `<span class="z-icon i-remove"></span>` +
                 `</button>`) +
@@ -240,7 +240,7 @@ class ZFormTokenTab {
             classes: 'sub-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.viewerList.length) {
@@ -301,7 +301,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -440,7 +440,7 @@ class ZFormTokenTab {
             classes: 'token-list',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.relatedDocList.length) {
@@ -452,7 +452,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -634,7 +634,7 @@ class ZFormTokenTab {
             `<h6>` + instance.documentNo + `</h6>` +
             `</div>` +
             `</a>` +
-            `<button type="button" class="z-button-icon"` +
+            `<button type="button" class="button-icon"` +
             `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
             `<span class="z-icon i-delete"></span>` +
             `</button>` +
@@ -767,7 +767,7 @@ class ZFormTokenTab {
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
-                `<button class="z-button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
+                `<button class="button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
                 `<span class="z-icon i-delete"></span>` +
                 `</button>`;
         }
@@ -929,7 +929,7 @@ class ZFormTokenTab {
             `<td style="width: 60%;" class="align-left" title="${rangeDateHtml.join('')}">` +
             `${rangeDateHtml.join('')}</td>` +
             `<td style="width: 10%;" class="align-center">` +
-                `<button type="button" class="z-button-icon-sm" tabindex="-1" ` +
+                `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                     `onclick="zFormTokenTab.removeSchedule('${schedule.id}')">` +
                     `<span class="z-icon i-remove"></span>` +
                 `</button>` +
@@ -948,7 +948,7 @@ class ZFormTokenTab {
             classes: 'calendar__modal--register document',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 필수값 체크
@@ -974,7 +974,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

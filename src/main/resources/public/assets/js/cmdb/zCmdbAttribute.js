@@ -226,7 +226,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
                 `<span class="z-icon i-plus"></span></button>` +
             `</div>` +
             `</div>` +
@@ -281,7 +281,7 @@
                     `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
                 `<span class="z-icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
@@ -320,7 +320,7 @@
         const objectId = attributeTypeList[2].type; // radio
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
             `<span class="z-icon i-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -348,7 +348,7 @@
                 `</div>` +
                 `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
                 `<span class="z-icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
@@ -383,7 +383,7 @@
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
             `<span class="z-icon i-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -418,7 +418,7 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
                 `<span class="z-icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
@@ -522,7 +522,7 @@
                 `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
                 `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" ` +
+            `<button class="button-icon button-code" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
                 `<span class="z-icon i-search"></span></button>` +
             `</div>` +
@@ -616,7 +616,7 @@
         const objectId = attributeTypeList[5].type; // group-list
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
             `<span class="z-icon i-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -687,7 +687,7 @@
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
             `<div class="flex-column">` +
-            `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+            `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
             `<span class="z-icon i-remove"></span>` +
             `</button>` +
             `</div>` +
@@ -902,7 +902,7 @@
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row z-input-button">
                 <input type="text" class="z-input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="z-button-icon z-button-code" type="button" id="searchOrganization">` +
+                <button class="button-icon button-code" type="button" id="searchOrganization">` +
                 `<span class="z-icon i-search"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
@@ -911,7 +911,7 @@
             searchOrganization.addEventListener('click', openOrganizationTreeModal, false);
         } else {
             const customTemplate = `<div class="align-right">
-                <button type="button" class="z-button secondary" id="searchUserList">`   +
+                <button type="button" class="button secondary" id="searchUserList">`   +
                     `${i18n.msg('common.btn.add')}</button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', customTemplate);
@@ -968,7 +968,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!targetArray.length) {
@@ -989,7 +989,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1085,7 +1085,7 @@
                     `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                    `<button type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2 extra user-search-delete-btn"` +
+                    `<button type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2 extra user-search-delete-btn"` +
                         ` data-user-id="${data.id}"><span class="z-icon i-remove"></span>` +
                     `</button>` +
                 `</div>` +
@@ -1209,7 +1209,7 @@
                         <input class="z-input" type="text" readonly="true" id="${id}-default-custom-text" 
                             value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
-                        <button class="z-button-icon z-button-code" type="button" id="${id}-default-custom" 
+                        <button class="button-icon button-code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
                             <span class="z-icon i-search"></span>
                         </button>
@@ -1240,7 +1240,7 @@
             classes: 'cmdb-class-attribute-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: function(modal) {
                     attributeMap.length = 0;
@@ -1257,7 +1257,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -1814,7 +1814,7 @@
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'z-button z-button-icon secondary';
+                customBtnElem.className = 'button button-icon secondary';
                 customBtnElem.disabled = (displayMode === 'view');
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
 
@@ -1874,7 +1874,7 @@
                     if (displayMode === 'edit') {
                         const addBtn = document.createElement('button');
                         addBtn.type = 'button';
-                        addBtn.className = 'z-button-icon secondary z-button-attribute-add';
+                        addBtn.className = 'button-icon secondary button-attribute-add';
                         addBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
                         addBtn.addEventListener('click', addCIAttributeChild, false);
                         elem.appendChild(addBtn);
@@ -1890,7 +1890,7 @@
                 if (parent.children.length > 1 && displayMode === 'edit') {
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
-                    removeBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-2 mb-2 z-button-attribute-delete';
+                    removeBtn.className = 'button-icon-sm ml-2 mr-2 mt-2 mb-2 button-attribute-delete';
                     removeBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-remove"></span>`);
                     removeBtn.addEventListener('click', removeCIAttributeChild, false);
                     elem.appendChild(removeBtn);
@@ -2170,7 +2170,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -2188,7 +2188,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

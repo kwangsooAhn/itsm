@@ -396,7 +396,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -405,7 +405,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -498,7 +498,7 @@
             }
 
             if (document.querySelector('.z-simulation-report').classList.contains('closed')) {
-                document.querySelector('.z-button-simulation-report').click();
+                document.querySelector('.button-simulation-report').click();
             }
             // 스크롤바 생성
             OverlayScrollbars(document.querySelector('.z-simulation-report-contents-main'), { className: 'scrollbar' });
@@ -835,9 +835,9 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'z-button-icon secondary z-button-minimap z-palette-tooltip';
+        minimapButton.className = 'button-icon secondary button-minimap z-palette-tooltip';
         minimapButton.addEventListener('click', function(e) {
-            const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
+            const elem = aliceJs.clickInsideElement(e, 'button-minimap');
             elem.classList.toggle('active');
             document.querySelector('div.z-minimap').classList.toggle('closed');
         }, false);
@@ -861,7 +861,7 @@
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
         const simulationToggleEvent = function() {
             document.querySelector('.z-simulation-report').classList.toggle('closed');
-            document.querySelector('.z-button-simulation-report').classList.toggle('active');
+            document.querySelector('.button-simulation-report').classList.toggle('active');
         };
 
         // 시뮬레이션 레포트 초기화 설정
@@ -899,7 +899,7 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'z-button-icon secondary z-button-simulation-report z-palette-tooltip';
+        simulationButton.className = 'button-icon secondary button-simulation-report z-palette-tooltip';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');

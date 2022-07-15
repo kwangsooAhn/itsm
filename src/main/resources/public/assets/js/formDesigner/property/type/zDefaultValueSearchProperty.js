@@ -107,7 +107,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                 if (this.isEditable) {
                     // small icon button
                     radioGroup.UIInputButton.UIIconButton = new UIButton()
-                        .setUIClass('z-button-icon-sm')
+                        .setUIClass('button-icon-sm')
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
@@ -117,8 +117,8 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                     // button
                     radioGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('z-button-icon')
-                        .addUIClass('z-button-code')
+                        .setUIClass('button-icon')
+                        .addUIClass('button-code')
                         .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
                         .onUIClick(this.openDataSelect.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
@@ -155,7 +155,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     classes: 'target-user-modal',
                     buttons: [{
                         content: i18n.msg('common.btn.select'),
-                        classes: 'z-button primary',
+                        classes: 'button primary',
                         bindKey: false,
                         callback: (modal) => {
                             // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -174,7 +174,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         }
                     }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: 'z-button secondary',
+                        classes: 'button secondary',
                         bindKey: false,
                         callback: (modal) => {
                             // 임시값 제거

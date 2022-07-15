@@ -127,10 +127,10 @@
                 <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
                 <div class="flex-row z-input-button">
                     <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                    <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                    <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="z-icon i-remove"></span>
                     </button>
-                    <button type="button" class="z-button-search z-button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                    <button type="button" class="button-search button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
         </div>
@@ -241,29 +241,29 @@
                 <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
                 <div class="flex-row z-input-button">
                     <input type="text" id="linkDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                    <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                    <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="z-icon i-remove"></span>
                     </button>
-                    <button type="button" class="z-button-search z-button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                    <button type="button" class="button-search button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="z-button secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
+                <a class="button secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="z-button primary" onclick="saveDocument('POST')"
+                <button type="button" class="button primary" onclick="saveDocument('POST')"
                         th:if="${documentId == null}" th:text="#{common.btn.register}">
                 </button>
-                <button type="button" class="z-button primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
+                <button type="button" class="button primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
                         th:unless="${documentId == null}" th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="z-button secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
+                <button type="button" class="button secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
                         th:if="${documentId} and ${documentData?.documentType != 'application-form-link'}"
                         th:text="#{document.label.registerDisplay}">
                 </button>
-                <button type="button" class="z-button danger"
+                <button type="button" class="button danger"
                         th:onclick="deleteDocument([[${documentId}]], [[${documentData?.documentType} == 'application-form-link']])"
                         th:if="${documentId}" th:text="#{common.btn.delete}">
                 </button>
@@ -500,14 +500,14 @@
                 classes: 'document-display',
                 buttons: [{
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: function() {
                         saveDocumentDisplay(documentId);
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

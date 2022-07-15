@@ -61,7 +61,7 @@ export const modalButtonMixin = {
             .addUIClass('align-right')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIButton = new UIButton()
-            .setUIClass('z-button')
+            .setUIClass('button')
             .addUIClass('z-modal-button')
             .addUIClass('secondary')
             .onUIClick(this.openModal.bind(this));
@@ -219,7 +219,7 @@ export const modalButtonMixin = {
                 classes: 'modal-button-search-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],

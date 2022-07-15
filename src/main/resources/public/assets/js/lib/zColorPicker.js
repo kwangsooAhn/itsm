@@ -276,7 +276,7 @@ Object.assign(zColorPicker.prototype, {
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'z-button-icon extra z-custom-color-edit on';
+        editButton.className = 'button-icon extra z-custom-color-edit on';
         editButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
@@ -305,7 +305,7 @@ Object.assign(zColorPicker.prototype, {
         const isMaxCustomColor =  (this.savedCustomColors.length === this.options.maxCustomColor);
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'z-button-icon z-custom-color-plus' +
+        addButton.className = 'button-icon z-custom-color-plus' +
             (isMaxCustomColor ? '' : ' on');
         addButton.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
@@ -360,7 +360,7 @@ Object.assign(zColorPicker.prototype, {
         // 추가 버튼
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'z-button secondary';
+        addButton.className = 'button secondary';
         addButton.textContent = i18n.msg('common.btn.add');
         addButton.disabled = (this.savedCustomColors.length === this.options.maxCustomColor);
         addButton.addEventListener('click', this.addCustomColor.bind(this), false);
@@ -383,7 +383,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 저장 버튼
         const saveButton = document.createElement('button');
         saveButton.type = 'button';
-        saveButton.className = 'z-button primary';
+        saveButton.className = 'button primary';
         saveButton.textContent = i18n.msg('common.btn.save');
         saveButton.addEventListener('click', this.saveCustomColor.bind(this), false);
         bottomButtonList.appendChild(saveButton);
@@ -391,7 +391,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 취소 버튼
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
-        cancelButton.className = 'z-button extra';
+        cancelButton.className = 'button extra';
         cancelButton.textContent = i18n.msg('common.btn.cancel');
         cancelButton.addEventListener('click', () => {
             // 알림창 - 사용자 색상이 아직 저장되지 않았습니다.
@@ -500,7 +500,7 @@ Object.assign(zColorPicker.prototype, {
         return `<span class="z-custom-color-palette-item custom-color${isSelected ? ' selected' : ''}"`+
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
             `<sapn class="z-custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
-            `<button type="button" class="z-button-icon z-custom-color-palette-item-clear">` +
+            `<button type="button" class="button-icon z-custom-color-palette-item-clear">` +
             `<span class="z-icon i-remove"></span>` +
             `</button>` +
             `</span>`;

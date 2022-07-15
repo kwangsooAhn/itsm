@@ -18,7 +18,7 @@
             <h1 id="counter" class="z-session-count-txt"></h1>
             <h1 th:text="#{login.msg.redirectedLoginPage}"></h1>
         </div>
-        <a class="z-button primary session-return" id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}"></a>
+        <a class="button primary session-return" id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}"></a>
     </div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 </th:block>

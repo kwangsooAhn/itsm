@@ -117,7 +117,7 @@
         // create title > remove button
         let buttonRemove = document.createElement('button');
         buttonRemove.type = 'button';
-        buttonRemove.className = 'z-button-icon extra';
+        buttonRemove.className = 'button-icon extra';
         buttonRemove.insertAdjacentHTML('beforeend', `<span class="z-icon i-delete"></span>`);
         buttonRemove.addEventListener('click', this.removeTarget, false);
         pickerTitle.appendChild(buttonRemove);
@@ -159,7 +159,7 @@
             // create button > confirm
             let buttonConfirm = document.createElement('button');
             buttonConfirm.type = 'button';
-            buttonConfirm.className = 'z-button secondary';
+            buttonConfirm.className = 'button secondary';
             buttonConfirm.innerText = i18n.msg('common.btn.select');
             buttonConfirm.addEventListener('click', this.changeTarget, false);
             pickerButton.appendChild(buttonConfirm);
@@ -167,7 +167,7 @@
             // create button > cancel
             let buttonCancel = document.createElement('button');
             buttonCancel.type = 'button';
-            buttonCancel.className = 'z-button extra';
+            buttonCancel.className = 'button extra';
             buttonCancel.innerText = i18n.msg('common.btn.cancel');
             buttonCancel.addEventListener('click', this.close, false);
             pickerButton.appendChild(buttonCancel);
@@ -191,7 +191,7 @@
             // create button > reset
             let buttonReset = document.createElement('button');
             buttonReset.type = 'button';
-            buttonReset.className = 'z-button extra small';
+            buttonReset.className = 'button extra small';
             buttonReset.innerText = i18n.msg('datepicker.btn.reset');
             buttonReset.addEventListener('click', this.removeTarget, false);
             pickerButton.appendChild(buttonReset);
@@ -432,12 +432,12 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'z-button-toggle-group vertical';
+                hourType.className = 'button-toggle-group vertical';
                 pickerTime.appendChild(hourType);
 
                 // create button > am
                 let buttonAM = document.createElement('button');
-                buttonAM.className = 'z-button-toggle';
+                buttonAM.className = 'button-toggle';
                 if (curHourType === 'AM') {
                     buttonAM.classList.add('selected');
                     _this.meridiem = 'AM';
@@ -465,7 +465,7 @@
 
                 // create button > pm
                 let buttonPM = document.createElement('button');
-                buttonPM.className = 'z-button-toggle';
+                buttonPM.className = 'button-toggle';
                 if (curHourType === 'PM') {
                     buttonPM.classList.add('selected');
                     _this.meridiem = 'PM';

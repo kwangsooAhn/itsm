@@ -39,7 +39,7 @@
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
 
-    .z-button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
+    .button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
 
     .z-icon.i-remove {
       @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
@@ -199,7 +199,7 @@
         @include borderRadius(0 0.125rem 0.125rem 0);
       }
       // AM, PM
-      .z-button-toggle-group { padding-left: 0.5rem; } // 8px
+      .button-toggle-group { padding-left: 0.5rem; } // 8px
 
       // 구분자 :
       .separator {

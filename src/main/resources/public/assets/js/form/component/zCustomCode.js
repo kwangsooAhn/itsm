@@ -66,9 +66,9 @@ export const customCodeMixin = {
             .onUIChange(this.updateValue.bind(this))
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIButton = new UIButton()
-            .setUIClass('z-button')
+            .setUIClass('button')
             .setUIClass('secondary')
-            .addUIClass('z-button-icon')
+            .addUIClass('button-icon')
             .onUIClick(this.openCustomCodeModal.bind(this))
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
 
@@ -76,7 +76,7 @@ export const customCodeMixin = {
 
         // remove 버튼 생성 (단, customCode 값이 입력되면 display)
         element.UIRemoveButton = new UIRemoveButton()
-            .addUIClass('z-button-icon-sm')
+            .addUIClass('button-icon-sm')
             .onUIClick(this.removeValue.bind(this))
             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
         element.addUI(

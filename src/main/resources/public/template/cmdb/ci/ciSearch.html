@@ -33,20 +33,20 @@
                            maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}"/>
                     <input type="text" class="z-input i-search col-3 mr-2" id="tagSearch" name="tagSearch"
                            maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
-                    <button type="button" class="z-button secondary mr-1 ml-1" id="btnDetailSearch"
+                    <button type="button" class="button secondary mr-1 ml-1" id="btnDetailSearch"
                             name="btnDetailSearch"
                             onclick="onDetailSearch()" th:text="#{cmdb.ci.btn.detailSearch}"></button>
                     <input type="hidden" id="flag" name="flag" value="itsm"/>
                     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
                 </form>
                 <div class="ml-auto">
-                    <button type="button" class="z-button secondary" id="btnTemplateDownload" name="btnTemplateDownload"
+                    <button type="button" class="button secondary" id="btnTemplateDownload" name="btnTemplateDownload"
                             sec:authorize="hasAuthority('cmdb.manage')" th:text="#{cmdb.ci.btn.exportTemplate}"
                             th:onclick="|javascript:onTemplateDownload()|"></button>
-                    <button type="button" class="z-button secondary" id="btnTemplateUpload" name="btnTemplateUpload"
+                    <button type="button" class="button secondary" id="btnTemplateUpload" name="btnTemplateUpload"
                             sec:authorize="hasAuthority('cmdb.manage')" th:text="#{cmdb.ci.btn.importTemplate}"
                             th:onclick="|javascript:openTemplateUploadModal()|"></button>
-                    <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+                    <button type="button" class="button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                             th:onclick="|javascript:onExcelDownload();|" th:title="#{common.btn.export}"
                             sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')">
                         <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}"/>
@@ -300,7 +300,7 @@
                 classes: 'cmdb-ci-detailSearch-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.search'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: function(modal) {
                         searchData = tempSearchData;
@@ -314,7 +314,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.initialization'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         const btnDetailSearch = document.getElementById('btnDetailSearch');
@@ -332,7 +332,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         tempSearchData = searchData;
@@ -511,7 +511,7 @@
                 buttons: [
                     {
                         content: i18n.msg('cmdb.ci.btn.import'),
-                        classes: 'z-button primary',
+                        classes: 'button primary',
                         bindKey: false,
                         callback: function(modal) {
                             if (isNotNull('dropZoneFileUpload') && document.getElementById('fileTemplate') === null) {
@@ -522,7 +522,7 @@
                         }
                     }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: 'z-button secondary',
+                        classes: 'button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
@@ -564,7 +564,7 @@
                     classes: 'cmdb-ci-view-modal',
                     buttons: [{
                         content: i18n.msg('common.btn.close'),
-                        classes: 'z-button secondary',
+                        classes: 'button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
@@ -610,7 +610,7 @@
                 classes: 'target-user-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: (modal) => {
                         // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -628,7 +628,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

@@ -1289,7 +1289,7 @@
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
-            fileBtn.className = 'z-button-icon z-button-attach-file';
+            fileBtn.className = 'button-icon button-attach-file';
             let fileIcon = document.createElement('span');
             fileIcon.className = 'z-icon i-folder';
             fileBtn.addEventListener('click', function() {
@@ -1308,7 +1308,7 @@
             // button
             let btnAdd = document.createElement('button');
             btnAdd.type = 'button';
-            btnAdd.className = 'z-button form mt-3';
+            btnAdd.className = 'button form mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
             const saveData = function() {
@@ -1383,7 +1383,7 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
-                btnDel.className = 'z-button-icon-sm mt-2 mb-2';
+                btnDel.className = 'button-icon-sm mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
                 btnIcon.className = 'z-icon i-remove';
@@ -1473,7 +1473,7 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'z-button-icon form z-button-candidate-add';
+        btnAdd.className = 'button-icon form button-candidate-add';
         btnAdd.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
 
         const saveData = function() {
@@ -1510,7 +1510,7 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
-            btnDel.className = 'z-button-icon-sm mt-2 mb-2';
+            btnDel.className = 'button-icon-sm mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
             btnIcon.className = 'z-icon i-remove';
@@ -1892,7 +1892,7 @@
                 copyBtnContainer.className = 'z-clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
-                copyBtn.className = 'z-button-icon secondary btn-clipboard-tooltip';
+                copyBtn.className = 'button-icon secondary btn-clipboard-tooltip';
                 copyBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();

@@ -386,7 +386,7 @@ class UIClipboard extends UIElement {
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass('z-button-icon').addUIClass('secondary');
+        this.UITooltip.UIButton = new UIButton().setUIClass('button-icon').addUIClass('secondary');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);
@@ -414,7 +414,7 @@ class UIClipboard extends UIElement {
 class UIRemoveButton extends UIElement {
     constructor() {
         super(document.createElement('button'));
-        this.domElement.className = 'z-button-icon-sm';
+        this.domElement.className = 'button-icon-sm';
         this.domElement.type = 'button';
         this.domElement.addEventListener('click', function () {
             aliceJs.clearText(this);
@@ -482,7 +482,7 @@ class UIHorizontalRule extends UIElement {
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElement.className = 'z-button';
+        this.domElement.className = 'button';
         this.domElement.type = 'button';
         this.domElement.textContent = value;
     }

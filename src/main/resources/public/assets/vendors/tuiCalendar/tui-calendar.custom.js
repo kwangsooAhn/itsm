@@ -179,14 +179,14 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--register',
         buttons: [{
             content: i18n.msg('common.btn.register'),
-            classes: 'z-button primary',
+            classes: 'button primary',
             bindKey: false,
             callback: (modal) => {
                 this.saveSchedule(modal.customOptions);
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'z-button secondary',
+            classes: 'button secondary',
             bindKey: false,
             callback: (modal) => {
                 if (modal.customOptions.guide) {
@@ -235,7 +235,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--detail',
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'z-button secondary',
+            classes: 'button secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -269,7 +269,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--repeat',
         buttons: [{
             content: i18n.msg('common.btn.check'),
-            classes: 'z-button primary',
+            classes: 'button primary',
             bindKey: false,
             callback: (modal) => {
                 modal.saveData.repeatPeriod = document.querySelector('input[name="repeatPeriod"]:checked').value;
@@ -277,7 +277,7 @@ function zCalendar(id, options) {
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'z-button secondary',
+            classes: 'button secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -404,7 +404,7 @@ function zCalendar(id, options) {
 
             // 삭제 버튼 위치 조정
             const closeButton = e.target.querySelector('.tui-full-calendar-month-more-close');
-            closeButton.classList.add('z-button', 'secondary');
+            closeButton.classList.add('button', 'secondary');
             closeButton.style.top = moreModalGuide.height - 47 + 'px'; // 47 = button 높이 + 하단 여백
             closeButton.style.right = 13 + 'px'; // 우측 여백
 
@@ -921,10 +921,10 @@ Object.assign(zCalendar.prototype, {
             <div class="flex-row">
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
                 <div class="button-list flex-row float-right align-items-end">
-                    <button type="button" class="z-button-icon secondary" id="scheduleEdit">
+                    <button type="button" class="button-icon secondary" id="scheduleEdit">
                         <span class="z-icon i-edit"></span>
                     </button>
-                    <button type="button" class="z-button-icon secondary" id="scheduleDelete">
+                    <button type="button" class="button-icon secondary" id="scheduleDelete">
                         <span class="z-icon i-delete"></span>
                     </button>
                 </div>
@@ -1194,7 +1194,7 @@ Object.assign(zCalendar.prototype, {
      * 상세보기 모달에서 삭제 버튼 클릭시 처리
      */
     onClickScheduleDelete: function (e) {
-        if (aliceJs.clickInsideElement(e, 'z-button-icon')) {
+        if (aliceJs.clickInsideElement(e, 'button-icon')) {
             this.deleteSchedule(this.detailModal.customOptions.schedule);
         }
     },
@@ -1379,7 +1379,7 @@ Object.assign(zCalendar.prototype, {
                         }
                         // 데이터를 새로 가져옴
                         this.isReload = true;
-                        const menu = document.querySelector('#calendarViewType .z-button-switch.selected');
+                        const menu = document.querySelector('#calendarViewType .button-switch.selected');
                         if (menu) {
                             menu.dispatchEvent(new Event('click'))
                         }

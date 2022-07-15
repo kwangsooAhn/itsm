@@ -679,7 +679,7 @@ aliceJs.thumbnail = function(options) {
             classes: 'z-thumbnail-' + options.type,
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary thumbnail-save',
+                classes: 'button primary thumbnail-save',
                 bindKey: false,
                 callback: function(modal) {
                     if (saveThumbnail(options.targetId)) {
@@ -688,7 +688,7 @@ aliceJs.thumbnail = function(options) {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();

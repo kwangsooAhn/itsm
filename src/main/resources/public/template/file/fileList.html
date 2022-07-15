@@ -47,7 +47,7 @@
             classes: 'z-thumbnail-preview',
             buttons: [{
                 content: i18n.msg('common.btn.close'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -163,7 +163,7 @@
                 `</div>` +
                 `<div class="z-thumbnail-bottom">` +
                     `<label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>` +
-                    `<button name="deleteBtn" type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeFile(this);">` +
+                    `<button name="deleteBtn" type="button" class="button-icon float-right" data-name="${image.name}" onclick="removeFile(this);">` +
                         `<span class="z-icon i-delete"></span>` +
                     `</button>` +
                 `</div>` +

@@ -61,17 +61,17 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="z-button secondary" href="/roles/search" th:text="#{common.btn.list}"></a>
+                <a class="button secondary" href="/roles/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
-                <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
+                <button type="button" class="button primary" id="btnRegist" name="btnRegist"
                         th:if="!${role?.roleId}" th:text="#{common.btn.register}"
                         th:onclick="|javascript:onSave('POST')|"></button>
-                <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="button primary" id="btnUpdate" name="btnUpdate"
                         th:if="${role?.roleId}" th:text="#{common.btn.modify}"
                         th:onclick="|javascript:onSave('PUT')|"
                 ></button>
-                <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
+                <button type="button" class="button danger" id="btnDelete" name="btnDelete"
                         th:if="${role?.roleId}" th:text="#{common.btn.delete}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"></button>
             </div>

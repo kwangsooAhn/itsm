@@ -29,7 +29,7 @@
             <div class="edit-row flex-column">
                 <div class="under-bar">
                     <label th:classappend="${view} ? '' : 'required'" th:text="#{pattern.label.pattern}"></label>
-                    <button class="z-button-icon extra float-right" onclick="addPattern()" th:if="!${view}"
+                    <button class="button-icon extra float-right" onclick="addPattern()" th:if="!${view}"
                             type="button">
                         <span class="z-icon i-plus"></span>
                     </button>
@@ -43,7 +43,7 @@
                                     th:text="${pattern.patternName}" th:value="${pattern.patternId}">
                             </option>
                         </select>
-                        <button class="z-button-icon extra ml-1" style="visibility:hidden" th:if="!${view}"
+                        <button class="button-icon extra ml-1" style="visibility:hidden" th:if="!${view}"
                                 type="button">
                             <span class="z-icon i-delete"></span>
                         </button>
@@ -59,7 +59,7 @@
                                         th:value="${pattern.patternId}">
                                 </option>
                             </select>
-                            <button class="z-button-icon extra ml-1" onclick="deletePattern(this)"
+                            <button class="button-icon extra ml-1" onclick="deletePattern(this)"
                                     th:if="!${view}" th:style="(${iterStat.index} > 0)? '':'visibility:hidden'"
                                     type="button">
                                 <span class="z-icon i-delete"></span>
@@ -71,16 +71,16 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="z-button secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
+                <a class="button secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button class="z-button primary" id="btnAdd" name="btnAdd"
+                <button class="button primary" id="btnAdd" name="btnAdd"
                         th:if="!${rule?.numberingId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
-                <button class="z-button primary" id="btnUpdate" name="btnUpdate"
+                <button class="button primary" id="btnUpdate" name="btnUpdate"
                         th:if="${rule?.numberingId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
-                <button class="z-button danger" id="btnDelete" name="btnDelete"
+                <button class="button danger" id="btnDelete" name="btnDelete"
                         th:if="${rule?.numberingId}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"
@@ -95,7 +95,7 @@
                         th:text="${pattern.patternName}" th:value="${pattern.patternId}">
                 </option>
             </select>
-            <button class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2" onclick="deletePattern(this)" type="button">
+            <button class="button-icon-sm ml-2 mr-2 mt-2 mb-2" onclick="deletePattern(this)" type="button">
                 <span class="z-icon i-remove"></span>
             </button>
         </div>

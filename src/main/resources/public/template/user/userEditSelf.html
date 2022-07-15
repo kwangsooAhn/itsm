@@ -95,11 +95,11 @@
                                    th:value="${organizationDetail?.organizationId}"/>
                             <input type="text" class="z-input col-5" id="organization" name="organization"
                                    th:value="${organizationDetail?.organizationName}" readonly>
-                            <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);"
+                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
                                     tabindex="-1" th:if="!${view}">
                                 <span class="z-icon i-remove"></span>
                             </button>
-                            <button type="button" class="z-button-search z-button form" onclick="deptPopUp();"
+                            <button type="button" class="button-search button form" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -213,10 +213,10 @@
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="z-input col-2" id="substituteUser" name="substituteUser"
                                     readonly>
-                            <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);">
+                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);">
                                 <span class="z-icon i-remove"></span>
                             </button>
-                            <button type="button" class="z-button-search z-button form" onclick="openSubUserModal();"
+                            <button type="button" class="button-search button form" onclick="openSubUserModal();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -233,7 +233,7 @@
         </div>
         <div class="flex-row justify-content-end edit-row">
             <div class="button-list">
-                <button class="z-button primary" type="button" th:text="#{common.btn.modify}"
+                <button class="button primary" type="button" th:text="#{common.btn.modify}"
                         th:onclick="preSubmitCheck([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>
         </div>
@@ -471,7 +471,7 @@
                 classes: 'sub-user-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: (modal) => {
                         // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -486,7 +486,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

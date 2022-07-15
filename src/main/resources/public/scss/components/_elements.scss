@@ -104,7 +104,7 @@ table {
     .no-data-found-list { pointer-events: none; }
 
     // icon button
-    .z-button-icon {
+    .button-icon {
       padding: 0;
       background-color: transparent;
       border-color: transparent;
@@ -158,7 +158,7 @@ table {
         &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
       }
 
-      .z-button-icon {
+      .button-icon {
         .z-icon {
           display: block;
           margin: 0 auto;
@@ -286,13 +286,13 @@ input, textarea, select {
 
     .z-input { flex-basis: 100%; }
 
-    .z-button-search {
+    .button-search {
       @include borderRadius(0.25rem);
       margin-left: 1rem; // 16px
       &:focus, &:hover, &:active { z-index: 25; }
     }
 
-    .z-button-icon-sm {
+    .button-icon-sm {
       position: relative;
       margin-top: 0.625rem; // 10px
       -webkit-print-color-adjust:exact;

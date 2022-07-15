@@ -53,7 +53,7 @@ export default class ZOptionListProperty extends ZProperty {
 
         // 옵션 추가 버튼
         this.UIElement.UIButton = new UIButton()
-            .setUIClass('z-button-icon')
+            .setUIClass('button-icon')
             .addUIClass('extra')
             .addUIClass('float-right')
             .setUIDisabled(!this.isEditable)
@@ -164,7 +164,7 @@ export default class ZOptionListProperty extends ZProperty {
 
         const removeTD = new UICell(optionRow);
         removeTD.removeButton = new UIButton()
-            .setUIClass('z-button-icon')
+            .setUIClass('button-icon')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.removeRow.bind(this));
         removeTD.removeButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));

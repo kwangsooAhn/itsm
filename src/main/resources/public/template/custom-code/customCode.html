@@ -84,7 +84,7 @@
                     <label id="conditionLabel">
                         <span th:text="#{customCode.label.condition}"></span>
                     </label>
-                    <button class="z-button-icon extra float-right" onclick="addCondition()" th:unless="${view}"
+                    <button class="button-icon extra float-right" onclick="addCondition()" th:unless="${view}"
                             type="button">
                         <span class="z-icon i-plus"></span>
                     </button>
@@ -116,15 +116,15 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+                <a class="button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="z-button primary" onclick="saveCustomCode('POST')"
+                <button type="button" class="button primary" onclick="saveCustomCode('POST')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" onclick="saveCustomCode('PUT')"
+                <button type="button" class="button primary" onclick="saveCustomCode('PUT')"
                         th:if="${customCode?.customCodeId}" th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="z-button danger" onclick="deleteCustomCode('DELETE')"
+                <button type="button" class="button danger" onclick="deleteCustomCode('DELETE')"
                         th:if="${customCode?.customCodeId}" th:text="#{common.btn.delete}">
                 </button>
             </div>
@@ -267,7 +267,7 @@
 
         if (!isView) {
             const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-2 mb-2';
+            deleteBtn.className = 'button-icon-sm ml-2 mr-2 mt-2 mb-2';
             const deleteIcon = document.createElement('span');
             deleteIcon.className = 'z-icon i-remove';
             deleteBtn.appendChild(deleteIcon);

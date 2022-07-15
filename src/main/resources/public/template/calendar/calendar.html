@@ -22,30 +22,30 @@
     <div class="calendar">
         <div class="calendar__menu" id="calendarMenu">
             <div class="calendar__button-group">
-                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="prev"
+                <button type="button" class="button-icon calendar__action calendar__move" data-action="prev"
                         onclick="javascript:onClickCalendarMenu(this);">
                     <span class="z-icon i-arrow-right move--prev"></span>
                 </button>
-                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="next"
+                <button type="button" class="button-icon calendar__action calendar__move" data-action="next"
                         onclick="javascript:onClickCalendarMenu(this);">
                     <span class="z-icon i-arrow-right move--next"></span>
                 </button>
-                <button type="button" class="z-button calendar__action secondary" th:text="#{calendar.label.today}"
+                <button type="button" class="button calendar__action secondary" th:text="#{calendar.label.today}"
                         data-action="today" onclick="onClickCalendarMenu(this);"></button>
-                <div class="z-button-switch-group" id="calendarViewType">
-                    <button class="z-button-switch selected" type="button" data-action="month"
+                <div class="button-switch-group" id="calendarViewType">
+                    <button class="button-switch selected" type="button" data-action="month"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="z-text" th:text="#{calendar.label.month}"></span>
                     </button>
-                    <button class="z-button-switch" type="button" data-action="week"
+                    <button class="button-switch" type="button" data-action="week"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="z-text" th:text="#{calendar.label.week}"></span>
                     </button>
-                    <button class="z-button-switch" type="button" data-action="day"
+                    <button class="button-switch" type="button" data-action="day"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="z-text" th:text="#{calendar.label.day}"></span>
                     </button>
-                    <button class="z-button-switch" type="button" data-action="task"
+                    <button class="button-switch" type="button" data-action="task"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="z-text" th:text="#{calendar.label.task}"></span>
                     </button>
@@ -53,8 +53,8 @@
             </div>
             <h3 class="calendar__render-range-text align-center"></h3>
             <div class="ml-auto">
-                <button type="button" class="z-button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
-                <button type="button" class="z-button-icon secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
+                <button type="button" class="button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
+                <button type="button" class="button-icon secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
                     <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
                 </button>
             </div>
@@ -250,7 +250,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.import'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: function() {
                         if (document.getElementById('dropZoneFileUpload') !== null &&
@@ -279,7 +279,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -318,7 +318,7 @@
             acc.push(cur.calendarId);
             return acc;
         }, []);
-        const viewType = document.querySelector('#calendarViewType .z-button-switch.selected')
+        const viewType = document.querySelector('#calendarViewType .button-switch.selected')
             .getAttribute('data-action');
         const searchData = {
             viewType: viewType,

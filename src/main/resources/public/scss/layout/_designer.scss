@@ -25,7 +25,7 @@ $layout-header-dropdown: (
 
 // header button
 .z-header-button {
-  &.z-button-icon {
+  &.button-icon {
     .z-icon {
       pointer-events: none;
       &.i-arrow-right { @include rotate(90); }
@@ -56,7 +56,7 @@ $layout-header-dropdown: (
     .z-dropdown-item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0
 
-      .z-button-dropdown {
+      .button-dropdown {
         width: 100%;
         border-color: map-get($layout-header-dropdown, 'default', 'border');
         background-color: map-get($layout-header-dropdown, 'default', 'background');
@@ -199,10 +199,10 @@ $layout-header-dropdown: (
 // button group
 // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
 // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
-.z-button-switch-group,
-.z-button-toggle-group {
-  .z-button-switch,
-  .z-button-toggle {
+.button-switch-group,
+.button-toggle-group {
+  .button-switch,
+  .button-toggle {
     .z-text, .z-icon { pointer-events: none; }
   }
 }
@@ -277,22 +277,22 @@ $layout-header-dropdown: (
   }
 }
 
-.z-button,
-.z-button-icon,
-.z-button-icon-sm {
+.button,
+.button-icon,
+.button-icon-sm {
   &:disabled, &.disabled { display: none; }
 }
 
-.z-button-icon {
-  &.z-button-attach-file {
+.button-icon {
+  &.button-attach-file {
     .z-icon.i-folder { background: $gray500; }
   }
-  &.z-button-code {
+  &.button-code {
     .z-icon.i-search { background: $gray500; }
   }
 }
 
-.z-button.success--check {
+.button.success--check {
   position: relative;
   border-color: $neutral200;
   background-color: $neutral200;
@@ -321,7 +321,7 @@ $layout-header-dropdown: (
 ////////////////////////// element //////////////////////////
 // input + button for custom code
 .z-input-button {
-  .z-button-icon-sm { -webkit-print-color-adjust:exact; }
+  .button-icon-sm { -webkit-print-color-adjust:exact; }
 }
 
 // main
@@ -635,7 +635,7 @@ $layout-header-dropdown: (
       }
 
       .z-dr-table-row {
-        .z-button-icon { padding: 0; }
+        .button-icon { padding: 0; }
 
         .z-input:not(.z-select-box-label) {
           padding: 0.4375rem 0;
@@ -674,12 +674,12 @@ $layout-header-dropdown: (
     // custom code 컴포넌트
     .z-custom-code {
       > .z-input { @include borderRadius(0.125rem); } // 2px
-      > .z-button-icon { margin-left: 0.5rem; }
+      > .button-icon { margin-left: 0.5rem; }
     }
 
     // 컴포넌트 내부 버튼 리스트
     .button-list {
-      .z-button {
+      .button {
         min-width: 3.25rem; // 52px
         padding: 0.3125rem 0.625rem; //5px 10px
         font-size: $font-size-xxs;
@@ -1092,8 +1092,8 @@ $component-icon: (
           }
           // 커스텀 코드 컴포넌트
           .z-input-button {
-            .z-button-clear { opacity: 0; }
-            .z-button-icon {
+            .button-clear { opacity: 0; }
+            .button-icon {
               border-color: $blue400 !important;
               background-color: $white;
               color: $blue400 !important;
@@ -1244,7 +1244,7 @@ $component-icon: (
   }
   // input + button
   .input-button {
-    .z-button { height: 2.5rem; } // 40px
+    .button { height: 2.5rem; } // 40px
   }
   // column 너비 조정
   .z-slider {
@@ -1320,7 +1320,7 @@ $component-icon: (
   // tab
   .z-tab-panel {
     .z-tabs {
-      .z-button-icon {
+      .button-icon {
         height: 2rem; // 32px
         padding: 0.25rem 0.409rem; // 4px 6.5px
 
@@ -1352,7 +1352,7 @@ $component-icon: (
           & > .property { padding: 0 0.75rem; } // 12px
         }
 
-        .z-button-icon:not(.z-button-code) {
+        .button-icon:not(.button-code) {
           padding: 0;
           .z-icon {
             display: inline-block;
@@ -1363,10 +1363,10 @@ $component-icon: (
           }
         }
 
-        .z-button-switch-group,
-        .z-button-toggle-group {
-          .z-button-switch,
-          .z-button-toggle { padding: 0.25rem  0.5625rem; } // 4px 9px
+        .button-switch-group,
+        .button-toggle-group {
+          .button-switch,
+          .button-toggle { padding: 0.25rem  0.5625rem; } // 4px 9px
         }
 
         // individual panel 내부 중복 border 제거
@@ -1572,14 +1572,14 @@ $element-icon-toggle: (
   }
 }
 
-.z-button-icon {
-  &.z-button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
-  &.z-button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
-  &.z-button-candidate-add {
+.button-icon {
+  &.button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
+  &.button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
+  &.button-candidate-add {
     margin-left: 0.3125rem; // 5px
     .z-icon.i-plus { background: $gray500; }
   }
-  &.z-button-attach-file {
+  &.button-attach-file {
     .z-icon.i-folder { background: $gray500; }
   }
 }

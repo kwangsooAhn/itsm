@@ -137,7 +137,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     if (this.isEditable) {
                         // small icon button
                         radioGroup.UIInputButton.UIIconButton = new UIButton()
-                            .setUIClass('z-button-icon-sm')
+                            .setUIClass('button-icon-sm')
                             .setUIAttribute('tabindex', '-1')
                             .onUIClick(this.clearText.bind(this));
                         radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
@@ -147,8 +147,8 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                         radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                         // button
                         radioGroup.UIInputButton.UIButton = new UIButton()
-                            .setUIClass('z-button-icon')
-                            .addUIClass('z-button-code')
+                            .setUIClass('button-icon')
+                            .addUIClass('button-code')
                             .setUIAttribute('data-value', defaultCustomCodeValues[0])
                             .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
                             .onUIClick(this.openCustomCodeData.bind(this));

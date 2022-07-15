@@ -6,7 +6,7 @@
  * @version 1.0
  */
 ////////////////////////// element //////////////////////////
-.z-button-icon-sm {
+.button-icon-sm {
   .z-icon {
     width: 0.5rem;
     height: 0.5rem;
@@ -286,7 +286,7 @@
           .z-document-add {
             @include border(0.0625rem, solid, $gray300, all);
             background-color: $neutral50;
-            .z-button-icon {
+            .button-icon {
               width: 100%;
               height: 100%;
               .z-icon.i-plus { background: $gray500; }

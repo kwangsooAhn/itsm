@@ -40,15 +40,15 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="z-button secondary" href="/archives/search" th:text="#{common.btn.list}"></a>
+                <a class="button secondary" href="/archives/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
                 <button th:if="${archive?.archiveId}" onclick="saveArchive('PUT')"
-                        class="z-button primary" th:text="#{common.btn.modify}"></button>
+                        class="button primary" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${archive?.archiveId}" onclick="saveArchive('POST')"
-                        class="z-button primary" th:text="#{common.btn.register}"></button>
+                        class="button primary" th:text="#{common.btn.register}"></button>
                 <button th:if="${archive?.archiveId}" onclick="deleteArchive()"
-                        class="z-button danger" th:text="#{common.btn.delete}"></button>
+                        class="button danger" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>

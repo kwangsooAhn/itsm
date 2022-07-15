@@ -398,7 +398,7 @@ class ZDocument {
                 classes: 'process-status-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

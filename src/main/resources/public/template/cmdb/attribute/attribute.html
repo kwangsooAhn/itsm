@@ -90,14 +90,14 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
+                <a class="button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('cmdb.manage')">
-                <button type="button" class="z-button primary" onclick="saveAttribute('POST')"
+                <button type="button" class="button primary" onclick="saveAttribute('POST')"
                         th:if="${attribute == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" onclick="saveAttribute('PUT')"
+                <button type="button" class="button primary" onclick="saveAttribute('PUT')"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="z-button danger" onclick="deleteAttribute()"
+                <button type="button" class="button danger" onclick="deleteAttribute()"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
