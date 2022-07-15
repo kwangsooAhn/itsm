@@ -1801,7 +1801,7 @@ $element-icon-toggle: (
       @include absolute($top: 0, $left: 0); // 0 0
       width: 100%;
       height: 100%;
-      // 모눈 종이 : 내부 디자인 속성은 _elements.scss 참조
+      // 모눈 종이 : 내부 디자인 속성은 _element.scss 참조
       svg {
         background-color: $neutral50;
         // 선

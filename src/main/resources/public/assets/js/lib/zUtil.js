@@ -1275,12 +1275,12 @@ aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
 
     // set validate message element
     let validateMsg = '';
-    if (target.parentElement.querySelectorAll('.z-validation').length > 0) {
-        validateMsg = target.parentElement.querySelector('.z-validation');
+    if (target.parentElement.querySelectorAll('.validation').length > 0) {
+        validateMsg = target.parentElement.querySelector('.validation');
         validateMsg.textContent = i18n.msg(message);
     } else {
         validateMsg = document.createElement('div');
-        validateMsg.className = 'z-validation ' + type;
+        validateMsg.className = 'validation ' + type;
         validateMsg.textContent = i18n.msg(message);
     }
 

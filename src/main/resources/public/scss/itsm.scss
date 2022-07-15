@@ -48,12 +48,12 @@
 // components
 @import 'components/alert.scss';
 @import 'components/_avatar.scss';
-@import 'components/_buttons.scss';
+@import 'components/button.scss';
 @import 'components/_calendar.scss';
-@import 'components/_charts.scss';
+@import 'components/_chart.scss';
 @import 'components/_color-picker.scss';
 @import 'components/_date-picker.scss';
-@import 'components/_elements.scss';
+@import 'components/_element.scss';
 @import 'components/_file-uploader.scss';
 @import 'components/_modal.scss';
 @import 'components/_notification.scss';
@@ -66,7 +66,7 @@
 @import 'components/_thumbnail.scss';
 @import 'components/_tooltip.scss';
 @import 'components/_tree.scss';
-@import 'components/_validations.scss';
+@import 'components/_validation.scss';
 
 // dark mode
 @import 'foundations/dark.scss';
