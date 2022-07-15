@@ -12,7 +12,7 @@ import { PAGING } from './zConstants.js';
 const PAGING_DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
-    pageNumSelector : 'div.z-paging-numbers a', // 페이지 번호 목록 셀렉터
+    pageNumSelector : 'div.paging-numbers a', // 페이지 번호 목록 셀렉터
     selectedPage : 'selected-page' // 선택된 페이지 번호용 클래스 이름
 };
 export default class ZPaging {
@@ -63,9 +63,9 @@ export default class ZPaging {
 
         // 전체 페이지가 1페이지이면 페이징 표시는 숨김.
         if (totalPageNum === 1) {
-            document.querySelector('.z-page-paging').style.visibility = 'hidden';
+            document.querySelector('.page-paging').style.visibility = 'hidden';
         } else {
-            document.querySelector('.z-page-paging').style.visibility = 'visible';
+            document.querySelector('.page-paging').style.visibility = 'visible';
         }
         // 현재 출력되어 있는 페이징 번호 목록
         let currentPageList = [];
@@ -101,7 +101,7 @@ export default class ZPaging {
             let newAnchor = document.createElement('a');
             newAnchor.setAttribute('href', 'javascript:getList(' + i + ')');
             newAnchor.innerText = '' + i;
-            document.querySelector('div.z-paging-numbers').appendChild(newAnchor);
+            document.querySelector('div.paging-numbers').appendChild(newAnchor);
             // 현재 페이지면 클래스 추가
             if (currentPageNum === i) {
                 newAnchor.classList.add(this.options.selectedPage);
@@ -109,7 +109,7 @@ export default class ZPaging {
         }
 
         // 화살표 처리
-        document.querySelectorAll('a.z-paging-arrow').forEach( arrow => {
+        document.querySelectorAll('a.paging-arrow').forEach( arrow => {
             arrow.classList.remove(this.options.activeArrowClass);
             arrow.removeAttribute('href');
         });

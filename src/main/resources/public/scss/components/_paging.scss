@@ -4,7 +4,7 @@
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-.z-page-paging {
+.page-paging {
   display: flex;
   flex-direction: row!important;
   justify-content:center;
@@ -13,7 +13,7 @@
   font-size: $font-size-xs;
   line-height: 1.5rem;
 
-  a.z-paging-arrow {
+  a.paging-arrow {
     @include border(0.0625rem, solid, $gray300, all); // 1px
     cursor: text;
     &:not(:first-child) { border-left: 0; }
@@ -23,7 +23,7 @@
     }
   }
 
-  .z-paging-numbers {
+  .paging-numbers {
     a {
       @include border(0.0625rem, solid, $gray300, all); // 1px
       display: inline-block;

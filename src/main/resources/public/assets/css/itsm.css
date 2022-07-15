@@ -6833,10 +6833,10 @@ input, button, select, optgroup, textarea {
   position: relative;
   border: none;
 }
-.z-portal-container .z-main .z-main-content .list-content + .z-page-paging {
+.z-portal-container .z-main .z-main-content .list-content + .page-paging {
   padding: 0 13.75rem 1.875rem 13.75rem;
 }
-.z-portal-container .z-main .z-main-content .list-content + .z-page-paging #spanCurrentPageNum {
+.z-portal-container .z-main .z-main-content .list-content + .page-paging #spanCurrentPageNum {
   position: absolute;
   right: 13.75rem;
 }
@@ -12425,7 +12425,7 @@ body.modal-active {
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-.z-page-paging {
+.page-paging {
   display: flex;
   flex-direction: row !important;
   justify-content: center;
@@ -12434,20 +12434,20 @@ body.modal-active {
   font-size: 0.875rem;
   line-height: 1.5rem;
 }
-.z-page-paging a.z-paging-arrow {
+.page-paging a.paging-arrow {
   border: 0.0625rem solid #CFD5D9;
   cursor: text;
 }
-.z-page-paging a.z-paging-arrow:not(:first-child) {
+.page-paging a.paging-arrow:not(:first-child) {
   border-left: 0;
 }
-.z-page-paging a.z-paging-arrow.active {
+.page-paging a.paging-arrow.active {
   cursor: pointer;
 }
-.z-page-paging a.z-paging-arrow.active span.icon {
+.page-paging a.paging-arrow.active span.icon {
   background: #19428D;
 }
-.z-page-paging .z-paging-numbers a {
+.page-paging .paging-numbers a {
   border: 0.0625rem solid #CFD5D9;
   display: inline-block;
   min-width: 1.5625rem;
@@ -12457,29 +12457,29 @@ body.modal-active {
   font-weight: 400;
   text-align: center;
 }
-.z-page-paging .z-paging-numbers a:hover {
+.page-paging .paging-numbers a:hover {
   background-color: #D6EDFC;
   color: #222529;
 }
-.z-page-paging .z-paging-numbers a.selected-page {
+.page-paging .paging-numbers a.selected-page {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;
 }
-.z-page-paging .z-paging-numbers a:active {
+.page-paging .paging-numbers a:active {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;
 }
-.z-page-paging #pagingStartArrow {
+.page-paging #pagingStartArrow {
   border-top-left-radius: 0.15rem;
   border-bottom-left-radius: 0.15rem;
 }
-.z-page-paging #pagingEndArrow {
+.page-paging #pagingEndArrow {
   border-top-right-radius: 0.15rem;
   border-bottom-right-radius: 0.15rem;
 }
-.z-page-paging #spanCurrentPageNum {
+.page-paging #spanCurrentPageNum {
   position: absolute;
   right: 3.75rem;
   color: #757575;
