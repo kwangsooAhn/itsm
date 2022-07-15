@@ -147,8 +147,8 @@ table {
     }
 
     &.option-table-row {
-      .z-checkbox,
-      .z-radio { margin: 0 0 0 0.75rem; } // 12px
+      .checkbox,
+      .radio { margin: 0 0 0 0.75rem; } // 12px
 
       .z-input {
         width: 85%;
@@ -742,7 +742,7 @@ select {
 }
 
 // checkbox
-.z-checkbox {
+.checkbox {
   margin-right: 0.5rem; // 8px
   color: $neutral800;
   font-family: $font-family;
@@ -837,7 +837,7 @@ select {
 }
 // 체크박스 목록
 // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
-.z-checkbox {
+.checkbox {
   // 전체 선택
   &-all { display: table-cell; }
   // 목록
@@ -858,7 +858,7 @@ select {
 }
 
 // radio button
-.z-radio {
+.radio {
   @include relative();
   margin-right: 0.5rem; // 8px
   color: $neutral800;

@@ -326,7 +326,7 @@ $layout-header-dropdown: (
 
 // main
 .z-component {
-  .z-radio {
+  .radio {
     input[type=radio] + span::after { top: 0.35rem; } // 5.6px
   }
 }
@@ -529,7 +529,7 @@ $layout-header-dropdown: (
     }
 
     // radio, checkbox
-    .z-radio, .z-checkbox {
+    .radio, .checkbox {
       &.vertical {
         display: block;
         margin-top: 0.625rem;
@@ -542,7 +542,7 @@ $layout-header-dropdown: (
     }
 
     // radio
-    .z-radio {
+    .radio {
       + span {
         display: inline-block;
         height: 2.25rem;
@@ -1070,8 +1070,8 @@ $component-icon: (
               @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
           }
-          .z-radio,
-          .z-checkbox {
+          .radio,
+          .checkbox {
             color: $blue400 !important;
             input[type=radio] + span::before,
             input[type=checkbox] + span::before { border-color: $blue400 !important; }
@@ -1295,7 +1295,7 @@ $component-icon: (
       flex-wrap: wrap;
       margin: 0.3125rem 0; // 5px 0
 
-      .z-radio { margin-right: 0; }
+      .radio { margin-right: 0; }
 
       .radio-item {
         .z-input {

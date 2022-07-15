@@ -35,10 +35,10 @@
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{auth.label.urlList}"></label>
-            <div class="z-checkbox-list">
+            <div class="checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="url : ${urlList}">
-                        <label class="z-checkbox" tabindex="0" th:for="|${url?.method}_${url?.url}|">
+                        <label class="checkbox" tabindex="0" th:for="|${url?.method}_${url?.url}|">
                             <input name="authUrl" th:disabled="${view}" th:id="|${url?.method}_${url?.url}|" th:value="${url?.url}" type="checkbox">
                             <span></span>
                             <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
@@ -49,10 +49,10 @@
         </div>
         <div class="edit-row flex-column">
             <label class="auth-list" th:text="#{auth.label.menuList}"></label>
-            <div class="z-checkbox-list">
+            <div class="checkbox-list">
                 <ul id='menuList'>
                     <li class="text-ellipsis" th:each="menu : ${menuList}">
-                        <label class="z-checkbox" tabindex="0" th:for="${'auth.'+menu?.menuId}">
+                        <label class="checkbox" tabindex="0" th:for="${'auth.'+menu?.menuId}">
                             <input name="authMenu" th:disabled="${view}" th:id="${'auth.'+menu?.menuId}" th:value="${menu?.menuId}" type="checkbox">
                             <span></span>
                             <span class="z-label" th:text="${menu.pMenuId == 'menu'} ? #{|menu.${menu.menuId}.parent|} : #{|menu.${menu.menuId}|}"></span>
@@ -99,7 +99,7 @@
 
     window.onload = function() {
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), {
+        OverlayScrollbars(document.querySelectorAll('.checkbox-list'), {
             className: 'inner-scrollbar'
         });
 

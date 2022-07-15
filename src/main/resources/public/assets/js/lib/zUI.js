@@ -332,7 +332,7 @@ class UISelect extends UIElement {
 class UICheckbox extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className =  'z-checkbox';
+        this.domElement.className =  'checkbox';
         this.domElement.type = 'checkbox';
         this.setUIValue(boolean);
     }
@@ -353,7 +353,7 @@ class UICheckbox extends UIElement {
 class UIRadioButton extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className = 'z-radio';
+        this.domElement.className = 'radio';
         this.domElement.type = 'radio';
         this.setUIValue(boolean);
     }

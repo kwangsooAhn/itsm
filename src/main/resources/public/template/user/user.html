@@ -185,10 +185,10 @@
             <h3 th:classappend="${view} ? '':'required'" class="sub-title under-bar border-thick" th:text="#{user.label.role}"></h3>
         </div>
         <div class="flex-column edit-row">
-            <div class="z-checkbox-list">
+            <div class="checkbox-list">
                 <ul>
                     <li class="user-role-checkbox-wrap" th:each="allRole : ${allRoles}">
-                        <label class="z-checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
+                        <label class="checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
                                th:title="*{allRole.roleName}">
                             <input class="user-role-checkbox" name="roles"
                                     th:disabled="${view}"
@@ -241,7 +241,7 @@
                     </div>
                     <div class="flex-column col-2 ml-2">
                         <label class="field-label"></label>
-                        <label class="z-checkbox align-center">
+                        <label class="checkbox align-center">
                             <input type="checkbox" id="transferYN" th:checked="${users?.absence.transferYN}">
                             <span></span>
                             <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
@@ -301,7 +301,7 @@
         });
 
         OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.z-checkbox-list'), {className: 'inner-scrollbar'});
+        OverlayScrollbars(document.querySelector('.checkbox-list'), {className: 'inner-scrollbar'});
 
         if (document.getElementById('organizationId').value !== '') {
             setOrganizationRole();

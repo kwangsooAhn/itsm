@@ -165,7 +165,7 @@ export const radioMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(radioId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-radio')
+                .addUIClass('radio')
                 .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)

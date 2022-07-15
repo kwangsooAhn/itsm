@@ -225,14 +225,14 @@
                 }
                 case 'radio': {
                     const radioTemplate = attributeValue.option.map(function(opt, idx) {
-                        return `<label for="${data.attributeId}_${idx}" class="z-radio horizontal" tabindex="-1">` +
-                            `<input class="z-radio" type="radio" id="${data.attributeId}_${idx}" ` +
+                        return `<label for="${data.attributeId}_${idx}" class="radio horizontal" tabindex="-1">` +
+                            `<input class="radio" type="radio" id="${data.attributeId}_${idx}" ` +
                             `value="${opt.value}" name="${data.attributeId}" data-attributeType="${data.attributeType}" ` +
                             `${opt.value === data.searchValue ? 'checked=\'true\'' : ''} onclick="changeSearchDetail(this)">` +
                             `<span></span><span>${opt.text}</span>` +
                             `</label>`;
                     }).join('');
-                    return `<div class="z-radio-group field-element">${radioTemplate}</div>`;
+                    return `<div class="radio-group field-element">${radioTemplate}</div>`;
                 }
                 case 'date': {
                     return `<input type="text" class="z-input field-element i-date-picker search-date" ` +

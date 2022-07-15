@@ -59,7 +59,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                 ZWorkflowUtil.generateUUID();
             // 라벨
             radioGroup.UILabel = new UILabel()
-                .setUIClass('z-radio')
+                .setUIClass('radio')
                 .addUIClass('mb-1')
                 .setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);

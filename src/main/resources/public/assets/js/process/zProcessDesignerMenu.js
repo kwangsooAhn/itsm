@@ -1637,7 +1637,7 @@
                 labelObject.className = 'properties-title mb-2';
                 labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
-                    labelObject.classList.add('z-checkbox');
+                    labelObject.classList.add('checkbox');
                     labelObject.tabindex = 0;
                 }
                 labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
@@ -1827,7 +1827,7 @@
         const legend = document.createElement('legend');
         // label
         const radioGroup = document.createElement('label');
-        radioGroup.className = 'z-radio';
+        radioGroup.className = 'radio';
         radioGroup.tabindex = 0;
         radioGroup.htmlFor = 'fieldset_' + property.id;
         // radio
@@ -1934,7 +1934,7 @@
                 const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
                 const labelText = labelElem.textContent;
                 labelElem.textContent = '';
-                labelElem.className = 'z-checkbox';
+                labelElem.className = 'checkbox';
                 elementObject = document.createElement('input');
                 elementObject.type = 'checkbox';
                 if (elemData[property.id] && elemData[property.id] === 'Y') {

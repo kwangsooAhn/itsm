@@ -28,7 +28,7 @@
             <select id="statusMetricName" class="flex-column col-2 mr-3"></select>
             <div class="flex-column">
                 <div class="flex-row">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input type="radio" id="slaChartLine" name="chartType" th:value="'chart.basicLine'"
                                th:checked="true"
                                th:classappend="${view} ? 'readonly'"
@@ -37,7 +37,7 @@
                         <span></span>
                         <span class="z-label  mr-4" th:text="#{sla.chart.line}"></span>
                     </label>
-                    <label class="z-radio">
+                    <label class="radio">
                         <input type="radio" id="slaChartColumn" name="chartType" th:value="chart.basicColumn"
                                th:classappend="${view} ? 'readonly'"
                                th:disabled="${view}"

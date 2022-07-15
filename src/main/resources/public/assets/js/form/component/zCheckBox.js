@@ -157,7 +157,7 @@ export const checkBoxMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(checkboxId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-checkbox')
+                .addUIClass('checkbox')
                 .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UICheckbox = new UICheckbox(checkedYn)
                 .setUIId(checkboxId)

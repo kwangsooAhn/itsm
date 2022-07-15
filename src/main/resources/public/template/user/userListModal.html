@@ -20,7 +20,7 @@
             </tr>
             <tr class="flex-row align-items-center table-row" th:each="user : ${userList}">
                 <td style="width: 5%;" class="align-center text-clip">
-                    <label class="z-checkbox" th:for="${user.userKey}" tabindex="0" th:if="${multiSelect}" >
+                    <label class="checkbox" th:for="${user.userKey}" tabindex="0" th:if="${multiSelect}" >
                         <input type="checkbox" th:id="${user.userKey}" th:value="${user.userName}"
                                name="userName" th:title="${user.userName}"
                                th:data-user-id="${user.userId}"
@@ -28,7 +28,7 @@
                                th:data-organizationName="${user?.groupName}">
                         <span></span>
                     </label>
-                    <label class="z-radio" th:for="${user.userKey}" tabindex="0" th:unless="${multiSelect}" >
+                    <label class="radio" th:for="${user.userKey}" tabindex="0" th:unless="${multiSelect}" >
                         <input type="radio" th:id="${user.userKey}" th:value="${user.userName}"
                                name="userName" th:title="${user.userName}"
                                th:data-user-id="${user.userId}"

@@ -24,7 +24,7 @@
         </tr>
         <tr class="list-row ci-list" th:unless="${#arrays.isEmpty(ciList)}" th:id="|ciRow${ciData.ciId}|" th:each="ciData, index: ${ciList}">
             <td style="width: 5%;" class="align-center text-clip" id="ciId">
-                <label class="z-checkbox" th:for="${index.index}" tabindex="0">
+                <label class="checkbox" th:for="${index.index}" tabindex="0">
                     <input type="checkbox" th:name="${ciData.ciName}" th:id="${index.index}" th:value="${ciData.ciId}"/>
                     <span></span>
                 </label>

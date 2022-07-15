@@ -64,10 +64,10 @@
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{organization.label.role}"></label>
-            <div class="z-checkbox-list">
+            <div class="checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="role : ${roleList}">
-                        <label class="z-checkbox" tabindex="0" th:for="${role?.roleId}">
+                        <label class="checkbox" tabindex="0" th:for="${role?.roleId}">
                             <input type="checkbox" name="organizationRole"
                                    th:disabled="${view}" th:id="${role?.roleId}" th:value="${role?.roleName}">
                             <span></span>
@@ -101,7 +101,7 @@
         OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('organizationDesc'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), { className: 'inner-scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar' });
 
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getOrganizationList()), false);

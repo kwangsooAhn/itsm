@@ -20,7 +20,7 @@
     </tr>
     <tr class="attribute-list" th:each="attribute, index : ${attributeList.data}">
         <td style="width: 5%;" class="align-center text-clip">
-            <label class="z-checkbox" th:for="${index.index}" tabindex="0">
+            <label class="checkbox" th:for="${index.index}" tabindex="0">
                 <input type="checkbox" th:name="${attribute.attributeName}" th:id="${index.index}"
                        th:data-attribute-type="${attribute.attributeType}" th:value="${attribute.attributeId}">
                 <span></span>

@@ -112,7 +112,7 @@ export default class ZOptionListProperty extends ZProperty {
         }
 
         if (this.multipleSelect) {
-            checkedTD.labelGroup.addUIClass('z-checkbox');
+            checkedTD.labelGroup.addUIClass('checkbox');
             checkedTD.labelGroup.checbox = new UICheckbox(option.checked || false)
                 .setUIId(checkedId)
                 .setUIAttribute('value', option.value)
@@ -123,7 +123,7 @@ export default class ZOptionListProperty extends ZProperty {
                 checkedTD.labelGroup.checbox.addUIClass('readonly');
             }
         } else {
-            checkedTD.labelGroup.addUIClass('z-radio');
+            checkedTD.labelGroup.addUIClass('radio');
             checkedTD.labelGroup.radio = new UIRadioButton(option.checked || false)
                 .setUIId(checkedId)
                 .setUIAttribute('name', 'option-radio')

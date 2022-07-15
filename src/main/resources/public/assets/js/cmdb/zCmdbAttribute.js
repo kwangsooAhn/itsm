@@ -412,7 +412,7 @@
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label>` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
-                `<label class="z-checkbox">` +
+                `<label class="checkbox">` +
                 `<input type="checkbox">` +
                 `<span></span>` +
                 `</label>` +
@@ -486,7 +486,7 @@
             `<label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-1">` +
-            `<label class="z-radio">` +
+            `<label class="radio">` +
             `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ` +
                 `${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
@@ -498,7 +498,7 @@
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1">` +
-            `<label class="z-radio">` +
+            `<label class="radio">` +
             `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ` +
                 `${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
@@ -511,7 +511,7 @@
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input type="radio" name="${objectId}-default" ` +
+            `<div class="flex-column col-1"><label class="radio"><input type="radio" name="${objectId}-default" ` +
                 `id="${objectId}-code" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}>` +
                 `<span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span>` +
                 `</label></div>` +
@@ -1175,7 +1175,7 @@
                     </label>
                 </div>
                 <div class="flex-column col-9">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input name="${id}-default" id="${id}-none" type="radio" value="none" 
                             ${defaultType === 'none' ? 'checked=\'true\'' : ''}>
                         <span></span>
@@ -1186,7 +1186,7 @@
             <div class="flex-row mt-2">
                 <div class="flex-column col-2 mr-4"><label><span></span></label></div>
                 <div class="flex-column col-9">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input name="${id}-default" id="${id}-session" type="radio" value="session" 
                             ${defaultType === 'session' ? 'checked=\'true\'' : ''}>
                         <span></span>
@@ -1197,7 +1197,7 @@
             <div class="flex-row mt-2">
                 <div class="flex-column col-2 mr-4"><label><span></span></label></div>
                 <div class="flex-column col-2">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input name="${id}-default" id="${id}-custom" type="radio" value="custom" 
                             ${defaultType === 'custom' ? 'checked=\'true\'' : ''}>
                         <span></span>
@@ -1714,7 +1714,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const radioGroup = document.createElement('label');
-                        radioGroup.className = 'z-radio' + (opt > 0 ? ' mt-1' : '');
+                        radioGroup.className = 'radio' + (opt > 0 ? ' mt-1' : '');
                         radioGroup.tabindex = 0;
                         radioGroup.htmlFor = radioId + '-' + opt;
                         if (displayMode === 'view') {
@@ -1753,7 +1753,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const chkGroup = document.createElement('label');
-                        chkGroup.className = 'z-checkbox';
+                        chkGroup.className = 'checkbox';
                         chkGroup.tabindex = 0;
                         chkGroup.htmlFor = checkboxId + '-' + opt;
                         if (displayMode === 'view') {

@@ -91,7 +91,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
             const radioId = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
             // 라벨
             radioGroup.UILabel = new UILabel()
-                .setUIClass('z-radio')
+                .setUIClass('radio')
                 .addUIClass('mb-1')
                 .setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);

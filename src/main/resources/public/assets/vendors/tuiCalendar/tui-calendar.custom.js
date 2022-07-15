@@ -899,7 +899,7 @@ Object.assign(zCalendar.prototype, {
                 <input type="text" class="z-input i-datetime-picker schedule__date" id="endDt"/> 
             </div>
             <div class="flex-row align-items-baseline">
-                <label class="z-checkbox">
+                <label class="checkbox">
                     <input type="checkbox" id="allDayYn" name="allDayYn">
                     <span></span>
                     <span class="z-label">${i18n.msg('calendar.label.allDay')}</span>
@@ -939,17 +939,17 @@ Object.assign(zCalendar.prototype, {
      */
     getRepeatModalTemplate: function () {
         return `<div class="calendar__modal--repeat__main flex-column">
-            <label class="z-radio" for="repeatPeriodToday" tabindex="0">
+            <label class="radio" for="repeatPeriodToday" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodToday" value="today" checked="true"/>
                 <span></span>
                 <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.today')}</span>
             </label>
-            <label class="z-radio" for="repeatPeriodAfter" tabindex="0">
+            <label class="radio" for="repeatPeriodAfter" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodAfter" value="after"/>
                 <span></span>
                 <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.after')}</span>
             </label>
-            <label class="z-radio" for="repeatPeriodAll" tabindex="0">
+            <label class="radio" for="repeatPeriodAll" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodAll" value="all"/>
                 <span></span>
                 <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.all')}</span>
