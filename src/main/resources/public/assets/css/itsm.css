@@ -1476,6 +1476,10 @@ input, button, select, optgroup, textarea {
   display: inline-block !important;
 }
 
+.table {
+  display: table !important;
+}
+
 .table-cell {
   display: table-cell !important;
 }
@@ -3067,9 +3071,6 @@ input, button, select, optgroup, textarea {
   margin: 0.625rem 0;
   height: 1rem;
 }
-.z-itsm-container .z-main-content .z-page-edit .z-edit-row.off {
-  display: none;
-}
 .z-itsm-container .z-main-content .z-page-edit label {
   margin: 0.625rem 0;
 }
@@ -4368,7 +4369,7 @@ input, button, select, optgroup, textarea {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.z-group-tooltip.selected > .z-tooltip-menu:not(.off) {
+.z-group-tooltip.selected > .z-tooltip-menu:not(.none) {
   visibility: visible;
 }
 .z-group-tooltip.focus {
@@ -4390,9 +4391,6 @@ input, button, select, optgroup, textarea {
   margin: 0 0 0.9375rem 0;
   padding: 0 0.625rem 0 0.625rem;
   font-weight: 500;
-}
-.z-group-label.off {
-  display: none;
 }
 .z-group-label .z-group-label-text {
   display: table-cell;
@@ -4416,7 +4414,7 @@ input, button, select, optgroup, textarea {
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-.z-group.accordion .z-group-accordion-checkBox:checked ~ .z-row-tooltip:not(.off) {
+.z-group.accordion .z-group-accordion-checkBox:checked ~ .z-row-tooltip:not(.none) {
   display: block;
 }
 .z-group.accordion .z-group-label {
@@ -4457,11 +4455,8 @@ input, button, select, optgroup, textarea {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.z-row-tooltip.selected > .z-tooltip-menu:not(.off) {
+.z-row-tooltip.selected > .z-tooltip-menu:not(.none) {
   visibility: visible;
-}
-.z-row-tooltip.off {
-  display: none;
 }
 
 .z-component-tooltip {
@@ -4483,14 +4478,11 @@ input, button, select, optgroup, textarea {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.z-component-tooltip.selected > .z-tooltip-menu:not(.off) {
+.z-component-tooltip.selected > .z-tooltip-menu:not(.none) {
   visibility: visible;
 }
 .z-component-tooltip.selected .z-component .z-element .z-imagebox-placeholder {
   background-color: #FFFFFF;
-}
-.z-component-tooltip.off {
-  display: none;
 }
 .z-component-tooltip.sortable-ghost {
   margin: 0;
@@ -4695,9 +4687,6 @@ input, button, select, optgroup, textarea {
 }
 .z-component .z-element .z-dr-table .no-data-found-list td {
   vertical-align: middle;
-}
-.z-component .z-element .plugIn-check.off {
-  display: none;
 }
 .z-component .z-element .z-custom-code > .z-input {
   border-radius: 0.125rem;
@@ -5261,9 +5250,6 @@ input, button, select, optgroup, textarea {
   display: table-cell;
   vertical-align: middle;
 }
-.property .property-label.off {
-  display: none;
-}
 .property .property-value {
   width: 2.813rem !important;
   margin: 0 0.3125rem 0 0;
@@ -5302,9 +5288,6 @@ input, button, select, optgroup, textarea {
 .property .z-input:not(.tagify).i-unit-px:not(:last-child) {
   margin-right: 0.25rem;
 }
-.property .z-input:not(.tagify).off {
-  display: none;
-}
 .property .z-textarea {
   min-height: 5.625rem;
   line-height: 1.6;
@@ -5334,15 +5317,9 @@ input, button, select, optgroup, textarea {
   display: block;
   margin-left: 0.625rem;
 }
-.property .default-type .z-input.off {
-  display: none;
-}
 .property .default-type .z-select {
   display: block;
   margin-left: 0.625rem;
-}
-.property .default-type .z-select.off {
-  display: none;
 }
 .property .default-type .z-select .z-input {
   display: inline-block;
@@ -6094,7 +6071,7 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-component span {
   word-break: break-all;
 }
-.z-document-container .z-group.accordion .z-group-accordion-checkBox:checked ~ .row-tooltip:not(.off):last-child {
+.z-document-container .z-group.accordion .z-group-accordion-checkBox:checked ~ .row-tooltip:not(.none):last-child {
   border-bottom: 0.0625rem solid #CFD5D9;
 }
 .z-document-container .z-group .z-element {
@@ -6170,23 +6147,23 @@ input, button, select, optgroup, textarea {
 .z-document-container .toggle--tab .z-icon.i-arrow-double {
   background: #FFFFFF;
 }
-.z-document-container .toggle--tab.off {
+.z-document-container .toggle--tab.hide {
   right: 0;
 }
-.z-document-container .toggle--tab.off .z-icon.i-arrow-double {
+.z-document-container .toggle--tab.hide .z-icon.i-arrow-double {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-.z-document-container .toggle--tab.off + form .z-document-main {
+.z-document-container .toggle--tab.hide + form .z-document-main {
   right: 0;
 }
-.z-document-container .toggle--tab.off + form .z-document-main .z-document-main-header {
+.z-document-container .toggle--tab.hide + form .z-document-main .z-document-main-header {
   right: 0;
 }
-.z-document-container .toggle--tab.off ~ .z-token-properties {
+.z-document-container .toggle--tab.hide ~ .z-token-properties {
   width: 0;
 }
 .z-document-container .z-token-properties {

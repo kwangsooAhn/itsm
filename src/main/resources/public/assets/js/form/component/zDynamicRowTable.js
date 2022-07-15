@@ -86,7 +86,7 @@ export const dynamicRowTableMixin = {
             .addUIClass('plugIn-check')
             .addUIClass('primary')
             .addUIClass('mr-2')
-            .addUIClass(this.pluginUseYn ? 'on' : 'off')
+            .addUIClass(this.pluginUseYn ? 'on' : 'none')
             .setUIAttribute('data-validation-required', this.pluginRequired)
             .setUIAttribute('data-validation-type', this.pluginScriptType)
             .onUIClick(this.pluginCheck.bind(this));

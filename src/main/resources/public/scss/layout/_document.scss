@@ -43,7 +43,7 @@
   .z-group {
     &.accordion {
       .z-group-accordion-checkBox:checked {
-        ~ .row-tooltip:not(.off):last-child {
+        ~ .row-tooltip:not(.none):last-child {
           @include border(0.0625rem, solid, $gray300, bottom); // 1px
         }
       }
@@ -115,7 +115,7 @@
 
     .z-icon.i-arrow-double { background: $white; }
 
-    &.off {
+    &.hide {
       right: 0;
       .z-icon.i-arrow-double { @include rotate(180); }
 
