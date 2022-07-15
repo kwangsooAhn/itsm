@@ -13,11 +13,11 @@
         th:text="${view} ? #{sla.metricYear.msg.viewDescription} : #{sla.metricYear.msg.description}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form">
+    <div class="edit-form">
         <form id="frm" method="post">
             <!-- 등록 페이지 -->
             <th:block th:if="${#strings.isEmpty(edit) && #strings.isEmpty(view)}">
-                <div class="flex-row z-edit-row">
+                <div class="flex-row edit-row">
                     <div class="flex-column col-2">
                         <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
                         <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="metricYear" name="metricYear"/>
@@ -45,8 +45,8 @@
                         <input type="text" class="z-input" id="metricYearCalcType" name="metricYearCalcType" maxlength="128" readonly>
                     </div>
                 </div>
-                <div class="z-edit-form z-edit-row">
-                    <div class="z-edit-row">
+                <div class="edit-form edit-row">
+                    <div class="edit-row">
                         <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
                         <input type="text" class="z-input" id="metricYearDesc" name="metricYearDesc" maxlength="128" readonly>
                     </div>
@@ -54,7 +54,7 @@
             </th:block>
             <!-- 편집, 조회 페이지 -->
             <th:block th:if="!${#strings.isEmpty(edit) && #strings.isEmpty(view)}">
-                <div class="flex-row z-edit-row">
+                <div class="flex-row edit-row">
                     <div class="flex-column col-2">
                         <label for="metricYearInput" th:text="#{sla.metricYear.label.targetYear}"></label>
                         <input type="text" class="z-input" id="metricYearInput" name="metricYearInput"
@@ -87,15 +87,15 @@
                                th:value="#{|${metric?.calculationType}|}" maxlength="128" readonly />
                     </div>
                 </div>
-                <div class="z-edit-form z-edit-row">
-                    <div class="z-edit-row">
+                <div class="edit-form edit-row">
+                    <div class="edit-row">
                         <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
                         <input type="text" class="z-input" id="metricYearDesc" name="metricYearDesc"
                                th:value="${metric?.metricDesc}" maxlength="128" readonly />
                     </div>
                 </div>
             </th:block>
-            <div class="flex-row z-edit-row">
+            <div class="flex-row edit-row">
                 <div class="flex-column col-2">
                     <label th:text="#{sla.metricYear.label.minValue}" th:classappend="${view} ? '' : 'required'" for="minValue"></label>
                     <div class="flex-row">
@@ -139,7 +139,7 @@
                            th:value="${metric?.owner}" th:readonly="${view}"/>
                 </div>
             </div>
-            <div class="z-edit-form z-edit-row">
+            <div class="edit-form edit-row">
                 <div class="flex-column">
                     <label th:text="#{sla.metricYear.label.comment}" for="comment"></label>
                     <input type="text" class="z-input" id="comment" name="comment" maxlength="128"
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div id="zqlContainer">
-                <div class="z-edit-row flex-column flex-fill" id="zqlContents">
+                <div class="edit-row flex-column flex-fill" id="zqlContents">
                     <div class="flex-row justify-content-between align-items-center">
                         <label th:text="#{sla.metricYear.label.zql}" th:classappend="${view} ? '' : 'required'" for="zqlString"></label>
                         <p class="font-bold text-blue500" id="zqlDescription"></p>
@@ -162,11 +162,11 @@
                            th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
                 </div>
             </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
+            <div class="flex-row justify-content-between edit-row">
+                <div class="button-list">
                     <a class="z-button secondary" href="/sla/metrics/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
+                <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
                             class="z-button primary" onclick="onSave('POST')" th:text="#{common.btn.register}">
                     </button>
@@ -310,7 +310,7 @@
     }
 
     function createZqlContent() {
-        return `<div class="z-edit-row flex-column flex-fill" id="zqlContents">` +
+        return `<div class="edit-row flex-column flex-fill" id="zqlContents">` +
             `<div class="flex-row justify-content-between align-items-center">` +
             `<label class="required" for="zqlString">${i18n.msg('sla.metricYear.label.zql')}</label>` +
             `<p class="font-bold text-blue500" id="zqlDescription"></p>` +

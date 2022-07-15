@@ -48,7 +48,7 @@ class ZFormButton {
         this.defaultButtonElement.innerHTML = '';
         
         // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass('z-button-list');
+        const UIButtonGroup = new UIDiv().setUIClass('button-list');
 
         // 닫기 버튼
         const UICloseButton = new UIButton(i18n.msg('common.btn.close')).addUIClass('secondary')
@@ -76,7 +76,7 @@ class ZFormButton {
         this.returnButtonElement.innerHTML = '';
 
         // 버튼 목록 생성
-        const UIButtonGroup = new UIDiv().setUIClass('z-button-list');
+        const UIButtonGroup = new UIDiv().setUIClass('button-list');
 
         // 돌아가기 버튼
         const UIReturnButton = new UIButton(i18n.msg('common.btn.return')).addUIClass('secondary')
@@ -98,7 +98,7 @@ class ZFormButton {
         this.actionButtonTopElement.innerHTML = '';
 
         // 버튼 목록 생성
-        const UIButtonTopGroup = new UIDiv().setUIClass('z-button-list').addUIClass('justify-content-end');
+        const UIButtonTopGroup = new UIDiv().setUIClass('button-list').addUIClass('justify-content-end');
         // 동적 버튼
         actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }

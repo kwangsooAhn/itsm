@@ -14,9 +14,9 @@
     <h6 class="description ml-2 pl-2" th:text="#{document.msg.adminEditDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form z-workflow-content-edit flex-fill">
+    <div class="edit-form z-workflow-content-edit flex-fill">
         <!-- 업무흐름 구분 -->
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="documentType">
                 <span th:text="#{document.label.type}"></span>
                 <span class="required"></span>
@@ -28,7 +28,7 @@
             </select>
         </div>
         <!-- 신청서 이름 -->
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="documentName">
                 <span th:text="#{document.label.name}"></span>
                 <span class="required"></span>
@@ -36,7 +36,7 @@
             <input type="text" class="z-input" id="documentName" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
         </div>
         <!-- 설명 -->
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label th:text="#{document.label.description}" for="documentDesc"></label>
             <textarea id="documentDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"
                       th:text="${documentData?.documentDesc}"></textarea>
@@ -44,7 +44,7 @@
         <!-- 업무흐름 구분 :  신청서 -->
         <div id= "applicationFormGroup" class="hidden-control-content">
             <!-- 그룹 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{common.label.group}" for="applicationDocumentGroup"></label>
                 <select id="applicationDocumentGroup">
                     <option value="" th:text="#{document.label.notSelect}" selected></option>
@@ -53,7 +53,7 @@
                 </select>
             </div>
             <!-- 문서양식 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="applicationDocumentForm">
                     <span th:text="#{document.label.form}"></span>
                     <span class="required"></span>
@@ -68,7 +68,7 @@
                 </select>
             </div>
             <!-- 프로세스 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="applicationDocumentProcess">
                     <span th:text="#{document.label.process}"></span>
                     <span class="required"></span>
@@ -83,7 +83,7 @@
                 </select>
             </div>
             <!-- 문서번호 규칙 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="applicationNumberingRule">
                     <span th:text="#{document.label.numberingRule}"></span>
                     <span class="required"></span>
@@ -98,7 +98,7 @@
                 </select>
             </div>
             <!-- 신청서 상태 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{document.label.status}" for="applicationDocumentStatus"></label>
                 <input type="hidden" id="applicationPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
                 <select id="applicationDocumentStatus">
@@ -107,7 +107,7 @@
                 </select>
             </div>
             <!-- API 활성화 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{document.label.apiEnable}" for="applicationApiEnable"></label>
                 <select id="applicationApiEnable" required="required">
                     <option value="true" th:text="#{document.label.enable}" th:selected="${documentData?.apiEnable == true}"></option>
@@ -115,7 +115,7 @@
                 </select>
             </div>
             <!-- 업무 흐름 색상 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="applicationDocumentColor">
                     <span th:text="#{document.label.workFlowColor}"></span>
                     <span class="required"></span>
@@ -123,7 +123,7 @@
                 <input type="text" id="applicationDocumentColor" th:value="${documentData?.documentColor}"/>
             </div>
             <!-- 신청서 아이콘 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
                 <div class="flex-row z-input-button">
                     <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
@@ -137,7 +137,7 @@
         <!-- 업무흐름 구분 :  업무흐름 -->
         <div id="workflowGroup" class="hidden-control-content">
             <!-- 문서양식 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="workflowDocumentForm">
                     <span th:text="#{document.label.form}"></span>
                     <span class="required"></span>
@@ -152,7 +152,7 @@
                 </select>
             </div>
             <!-- 프로세스 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="workflowDocumentProcess">
                     <span th:text="#{document.label.process}"></span>
                     <span class="required"></span>
@@ -167,7 +167,7 @@
                 </select>
             </div>
             <!-- 문서번호 규칙 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="workflowNumberingRule">
                     <span th:text="#{document.label.numberingRule}"></span>
                     <span class="required"></span>
@@ -182,7 +182,7 @@
                 </select>
             </div>
             <!-- 신청서 상태 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{document.label.status}" for="workflowDocumentStatus"></label>
                 <input type="hidden" id="workflowPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
                 <select id="workflowDocumentStatus">
@@ -191,7 +191,7 @@
                 </select>
             </div>
             <!-- API 활성화 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{document.label.apiEnable}" for="workflowApiEnable"></label>
                 <select id="workflowApiEnable" required="required">
                     <option value="true" th:text="#{document.label.enable}" th:selected="${documentData?.apiEnable == true}"></option>
@@ -199,7 +199,7 @@
                 </select>
             </div>
             <!-- 업무 흐름 색상 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="workflowDocumentColor">
                     <span th:text="#{document.label.workFlowColor}"></span>
                     <span class="required"></span>
@@ -210,7 +210,7 @@
         <!-- 업무흐름 구분 :  링크 -->
         <div id="applicationFormLinkGroup" class="hidden-control-content">
             <!-- 신청서 상태 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{document.label.status}" for="linkDocumentStatus"></label>
                 <input type="hidden" id="linkPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
                 <select id="linkDocumentStatus">
@@ -219,7 +219,7 @@
                 </select>
             </div>
             <!-- url 링크 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="linkUrl">
                     <span th:text="#{document.label.link}"></span>
                     <span class="required"></span>
@@ -229,7 +229,7 @@
                 </div>
             </div>
             <!-- 업무 흐름 색상 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="linkDocumentColor">
                     <span th:text="#{document.label.workFlowColor}"></span>
                     <span class="required"></span>
@@ -237,7 +237,7 @@
                 <input type="text" id="linkDocumentColor" th:value="${documentData?.documentColor}"/>
             </div>
             <!-- 신청서 아이콘 -->
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
                 <div class="flex-row z-input-button">
                     <input type="text" id="linkDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
@@ -249,10 +249,10 @@
             </div>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="z-button-list">
+            <div class="button-list">
                 <a class="z-button secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
                 <button type="button" class="z-button primary" onclick="saveDocument('POST')"
                         th:if="${documentId == null}" th:text="#{common.btn.register}">
                 </button>

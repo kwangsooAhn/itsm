@@ -28,8 +28,8 @@
     <div id="treeList"></div>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-row">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <input type="hidden" id="organizationId" th:value="${data?.organizationId}"/>
                 <label class="required" th:text="#{organization.label.name}" for="organizationName"></label>
@@ -44,12 +44,12 @@
                 </span>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{organization.label.seqNum}" for="seqNum"></label>
             <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="z-switch">
                 <span class="z-label" th:text="#{organization.label.useYn}"></span>
                 <input type="checkbox" id="useYn" name="useYn"
@@ -57,12 +57,12 @@
                 <span></span>
             </label>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{organization.label.description}" for="organizationDesc"></label>
             <textarea id="organizationDesc" th:maxlength="200" th:rows="7"
                       class="z-textarea textarea-scroll-wrapper" th:text="${data?.organizationDesc}"></textarea>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{organization.label.role}"></label>
             <div class="z-checkbox-list">
                 <ul>
@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list" sec:authorize="hasAuthority('system.manage')">
+            <div class="button-list" sec:authorize="hasAuthority('system.manage')">
                 <button class="z-button primary" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
@@ -98,8 +98,8 @@
     window.onload = function () {
         observer.set();
 
-        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('organizationDesc'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), { className: 'inner-scrollbar' });
 

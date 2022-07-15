@@ -13,9 +13,9 @@
         th:text="${view} ? #{cmdb.attribute.msg.viewDescription} : #{cmdb.attribute.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
+    <div class="edit-form flex-fill">
         <input id="attributeId" name="attributeId" th:value="${attribute?.attributeId}" type="hidden"/>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeName">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.name}"></span>
             </label>
@@ -23,7 +23,7 @@
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
                    th:readonly="${view}" th:value="${attribute?.attributeName}" type="text"/>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeDesc">
                 <span th:text="#{cmdb.attribute.label.description}"></span>
             </label>
@@ -31,7 +31,7 @@
                       name="attributeDesc" rows="5" th:readonly="${view}"
                       th:text="${attribute?.attributeDesc}"></textarea>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeText">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.label}"></span>
             </label>
@@ -39,14 +39,14 @@
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.label}"
                    th:readonly="${view}" th:value="${attribute?.attributeText}" type="text"/>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="mappingId">
                 <span th:text="#{cmdb.attribute.label.mappingId}"></span>
             </label>
             <input class="z-input" id="mappingId" maxlength="100" th:readonly="${view}"
                    th:value="${attribute?.mappingId}" type="text"/>
         </div>
-        <div class="flex-column z-edit-row pt-5 pb-3" id="searchYnGroup">
+        <div class="flex-column edit-row pt-5 pb-3" id="searchYnGroup">
             <label class="z-switch">
                 <input type="checkbox" id="searchYn" name="searchYn" th:disabled="${view}"
                        th:checked="${attribute?.searchYn == true}" onchange="setSearchWidthRequired(this);">
@@ -55,7 +55,7 @@
                 <span class="z-label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
             </label>
         </div>
-        <div class="flex-column z-edit-row" id="searchWidthGroup">
+        <div class="flex-column edit-row" id="searchWidthGroup">
             <label id="searchWidthLabel" for="searchWidth">
                 <span th:text="#{cmdb.attribute.label.searchWidth}"></span>
                 <th:block th:if="${attribute?.searchYn == true}">
@@ -73,14 +73,14 @@
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.searchWidth}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"/>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeType">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.type}"></span>
             </label>
             <select id="attributeType" onchange="changeType(this)" th:classappend="${view} ? 'readonly' : ''">
             </select>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <div class="under-bar">
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.details}"></span>
@@ -88,11 +88,11 @@
             </div>
             <div class="attribute" id="details"></div>
         </div>
-        <div class="flex-row justify-content-between z-edit-row">
-            <div class="z-button-list">
+        <div class="flex-row justify-content-between edit-row">
+            <div class="button-list">
                 <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('cmdb.manage')">
+            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('cmdb.manage')">
                 <button type="button" class="z-button primary" onclick="saveAttribute('POST')"
                         th:if="${attribute == null}" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" onclick="saveAttribute('PUT')"

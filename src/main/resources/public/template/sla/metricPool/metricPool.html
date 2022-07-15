@@ -13,22 +13,22 @@
         th:text="${view} ? #{sla.metric.msg.viewDescription} : #{sla.metric.msg.description}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
+    <div class="edit-form flex-fill">
         <form id="frm" method="post">
             <input type="hidden" id="metricId" name="metricId" th:value="${metricId}"/>
-            <div class="flex-column z-edit-row">
-                <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
+                <div class="flex-column edit-row">
                     <label th:text="#{sla.metric.label.name}" th:classappend="${view} ? '' : 'required'" for="metricName"></label>
                     <input type="text" id="metricName" name="metricName" class="z-input" maxlength="128"
                            th:value="${metric?.metricName}" th:readonly="${view}"/>
                 </div>
             </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{sla.metric.label.description}" for="metricDesc"></label>
                 <input type="text" id="metricDesc" name="metricDesc" class="z-input" maxlength="128"
                        th:value="${metric?.metricDesc}" th:readonly="${view}"/>
             </div>
-            <div class="flex-row z-edit-row">
+            <div class="flex-row edit-row">
                 <div class="flex-column col-4">
                     <label for="metricGroup">
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.group}"></span>
@@ -97,11 +97,11 @@
                     </div>
                 </th:block>
             </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
+            <div class="flex-row justify-content-between edit-row">
+                <div class="button-list">
                     <a class="z-button secondary" href="/sla/metric-pools/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
+                <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
                              class="z-button primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
                     </button>

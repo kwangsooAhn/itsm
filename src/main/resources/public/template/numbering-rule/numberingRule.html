@@ -12,21 +12,21 @@
     <h6 class="description ml-2 pl-2" th:text="#{rule.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-column">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-column">
             <label th:classappend="${view} ? '' : 'required'" th:text="#{rule.label.name}"></label>
             <input id="txtRuleId" name="txtRuleId" th:value="${rule?.numberingId}" type="hidden"/>
             <input class="z-input" id="txtRuleName" maxlength="100" name="txtRuleName" th:readonly="${view}"
                    th:value="${rule?.numberingName}" type="text"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{rule.label.desc}"></label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="txtRuleDesc" maxlength="200" name="txtRuleDesc"
                       rows="7" th:readonly="${view}"
                       th:text="${rule?.numberingDesc}"></textarea>
         </div>
-        <div class="z-edit-row" id="type-select-pattern">
-            <div class="z-edit-row flex-column">
+        <div class="edit-row" id="type-select-pattern">
+            <div class="edit-row flex-column">
                 <div class="under-bar">
                     <label th:classappend="${view} ? '' : 'required'" th:text="#{pattern.label.pattern}"></label>
                     <button class="z-button-icon extra float-right" onclick="addPattern()" th:if="!${view}"
@@ -35,9 +35,9 @@
                     </button>
                 </div>
             </div>
-            <div class="z-edit-row flex-column" id="patternList">
+            <div class="edit-row flex-column" id="patternList">
                 <th:block th:if="${#arrays.isEmpty(rule?.patternList)}">
-                    <div class="flex-row z-edit-row">
+                    <div class="flex-row edit-row">
                         <select class="mr-1" name="pattern" th:classappend="${view} ? 'readonly' : ''">
                             <option th:each="pattern: ${patternList}" th:name="${pattern.patternType}"
                                     th:text="${pattern.patternName}" th:value="${pattern.patternId}">
@@ -51,7 +51,7 @@
                 </th:block>
                 <th:block th:unless="${#arrays.isEmpty(rule)}">
                     <th:block th:each="patternData, iterStat : ${#lists.sort(rule?.patternList, byPatternOrder)}">
-                        <div class="flex-row z-edit-row">
+                        <div class="flex-row edit-row">
                             <select class="mr-1" name="pattern" th:classappend="${view} ? 'readonly' : ''">
                                 <option th:each="pattern: ${patternList}" th:name="${pattern.patternType}"
                                         th:selected="${patternData.patternName} == ${pattern.patternName}"
@@ -69,11 +69,11 @@
                 </th:block>
             </div>
         </div>
-        <div class="flex-row justify-content-between z-edit-row">
-            <div class="z-button-list">
+        <div class="flex-row justify-content-between edit-row">
+            <div class="button-list">
                 <a class="z-button secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
                 <button class="z-button primary" id="btnAdd" name="btnAdd"
                         th:if="!${rule?.numberingId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
@@ -89,7 +89,7 @@
         </div>
     </div>
     <template id="patternRowTemplate">
-        <div class="flex-row z-edit-row">
+        <div class="flex-row edit-row">
             <select class="mr-1" name="pattern">
                 <option th:each="pattern: ${patternList}" th:name="${pattern.patternType}"
                         th:text="${pattern.patternName}" th:value="${pattern.patternId}">
@@ -143,7 +143,7 @@
         let patternList = [];
         let patternTypeList = [];
 
-        document.querySelectorAll('#patternList div.z-edit-row.flex-row select[name="pattern"]').forEach(function (pattern) {
+        document.querySelectorAll('#patternList div.edit-row.flex-row select[name="pattern"]').forEach(function (pattern) {
             patternList.push(pattern.value);
         });
 
@@ -215,7 +215,7 @@
     }
 
     function addPattern() {
-        let validPatternList = document.querySelectorAll('#patternList div.z-edit-row.flex-row');
+        let validPatternList = document.querySelectorAll('#patternList div.edit-row.flex-row');
         if (validPatternList.length >= maxCount) {
             zAlert.warning(i18n.msg('rule.msg.addPattern', maxCount));
             return;

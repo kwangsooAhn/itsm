@@ -13,8 +13,8 @@
     <h6 class="description ml-2 pl-2" th:text="#{archive.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="flex-column z-edit-row">
+    <div class="edit-form flex-fill">
+        <div class="flex-column edit-row">
             <label for="archiveCategory">
                 <span th:text="#{archive.label.category}"></span>
                 <span class="required"></span>
@@ -26,23 +26,23 @@
                         th:selected="${category.code} == ${archive?.archiveCategory}"></option>
             </select>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="archiveTitle">
                 <span th:text="#{common.label.title}"></span>
                 <span class="required"></span>
             </label>
             <input type="text" id="archiveTitle" class="z-input" maxlength="100" th:value="${archive?.archiveTitle}"></td>
         </div>
-        <div class="flex-column z-edit-row file-uploader-edit">
+        <div class="flex-column edit-row file-uploader-edit">
             <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
             <div id="dropZoneFiles"></div>
             <div id="dropZoneUploadedFiles"></div>
         </div>
-        <div class="flex-row justify-content-between z-edit-row">
-            <div class="z-button-list">
+        <div class="flex-row justify-content-between edit-row">
+            <div class="button-list">
                 <a class="z-button secondary" href="/archives/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" sec:authorize="hasAuthority('portal.manage')">
+            <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
                 <button th:if="${archive?.archiveId}" onclick="saveArchive('PUT')"
                         class="z-button primary" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${archive?.archiveId}" onclick="saveArchive('POST')"

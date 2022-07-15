@@ -31,8 +31,8 @@
     <div id="treeList"></div>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-row">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
                 <span id="tooltipCode" th:title="${codeDetail?.code}">
@@ -48,7 +48,7 @@
                 </span>
             </div>
         </div>
-        <div class="z-edit-row flex-row">
+        <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
                 <input id="txtCodeName" name="txtCodeName" class="z-input text-ellipsis" type="text"
@@ -60,12 +60,12 @@
                        th:value="${codeDetail?.codeValue}" maxlength="100"/>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
             <input id="txtSeqNum" name="txtSeqNum" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.seqNum}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="z-switch">
                 <span class="z-label" th:text="#{code.label.useYn}"></span>
                 <input type="checkbox" id="codeUseYn" name="codeUseYn"
@@ -73,12 +73,12 @@
                 <span></span>
             </label>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
             <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
                       class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
         </div>
-        <div class="z-edit-row flex-column flex-fill">
+        <div class="edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label th:text="#{code.label.codeLang}"></label>
                 <button sec:authorize="hasAuthority('system.manage')" type="button"
@@ -90,7 +90,7 @@
             <div id="codeLang"></div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list" sec:authorize="hasAuthority('system.manage')">
+            <div class="button-list" sec:authorize="hasAuthority('system.manage')">
                 <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
@@ -102,7 +102,7 @@
         </div>
     </div>
     <template id="langCodeRowTemplate">
-        <div class="z-edit-row flex-row align-items-center">
+        <div class="edit-row flex-row align-items-center">
             <label class="required" th:text="#{'code.label.lang'}"></label>
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.name}"></label>
@@ -128,8 +128,8 @@
         if (document.getElementById('btnCodeLang') !== null) {
             document.getElementById('btnCodeLang').addEventListener('click', drawCodeLang);
         }
-        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('txtCodeDesc'), { className: 'scrollbar' });
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getCodeList()), false);
 
@@ -228,7 +228,7 @@
                 pTxtCode.parentElement.previousElementSibling.classList.remove('required');
             }
             // 편집 불가 처리
-            const editInputElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text]');
+            const editInputElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
             editInputElems.forEach((elem) => {
                 elem.readOnly = !response.data.editable;
             });
@@ -251,7 +251,7 @@
             document.getElementById('btnDelete').style.display = 'none';
         }
 
-        const editElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text], textarea');
+        const editElems = document.querySelector('.page-edit').querySelectorAll('input[type=text], textarea');
         editElems.forEach((elem) => {
             elem.readOnly = false;
             elem.value = '';

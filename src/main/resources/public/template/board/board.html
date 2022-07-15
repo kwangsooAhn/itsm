@@ -12,14 +12,14 @@
     <h6 class="description ml-2 pl-2" th:text="${view} ? #{board.msg.adminViewDescription} : #{board.msg.adminEditDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label for="boardAdminTitle">
             <span th:classappend="${view} ? '' : 'required'" th:text="#{board.label.name}"></span>
         </label>
         <input class="z-input text-ellipsis" id="boardAdminTitle" maxlength="70" required="required"
                th:readonly="${view}" th:value="${boardAdmin?.boardAdminTitle}" type="text"/>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.useYn}"></span>
             <input id="boardUseYn" name="boardUseYn" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}"
@@ -27,18 +27,18 @@
             <span></span>
         </label>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label for="boardAdminSort" th:text="#{board.label.order}"></label>
         <input class="z-input text-ellipsis col-6" id="boardAdminSort" maxlength="2" name="boardAdminSort"
                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'" th:readonly="${view}"
                th:value="${boardAdmin?.boardAdminSort}" type="text"/>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label for="boardAdminDesc" th:text="#{board.label.desc}"></label>
         <textarea class="z-textarea textarea-scroll-wrapper" id="boardAdminDesc" maxlength="2048"
                   name="boardAdminDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.replyYn}"></span>
             <input id="replyYn" name="replyYn" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}"
@@ -46,7 +46,7 @@
             <span></span>
         </label>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.commentYn}"></span>
             <input id="commentYn" name="commentYn" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}"
@@ -54,7 +54,7 @@
             <span></span>
         </label>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.category}"></span>
             <input id="categoryYn" name="categoryYn" onchange="setDisplay('category-detail', this.checked)"
@@ -110,7 +110,7 @@
             </div>
         </div>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label class="z-switch">
             <span class="z-label" th:text="#{board.label.attachFileYn}"></span>
             <input id="attachYn" name="attachYn" onchange="setDisplay('attachFileSize', this.checked)"
@@ -119,7 +119,7 @@
             <span></span>
         </label>
     </div>
-    <div class="flex-column z-edit-row">
+    <div class="flex-column edit-row">
         <label for="attachFileSize">
             <span th:classappend="${view} ? '' : 'required'" th:text="#{board.label.attachFileSize}"></span>
         </label>
@@ -127,11 +127,11 @@
                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
                th:value="${boardAdmin?.attachFileSize}" th:readonly="${view}" type="text"/>
     </div>
-    <div class="flex-row justify-content-between z-edit-row">
-        <div class="z-button-list">
+    <div class="flex-row justify-content-between edit-row">
+        <div class="button-list">
             <a class="z-button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')">
+        <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')">
             <button type="button" class="z-button primary" th:unless="${boardAdmin?.boardAdminId}"
                     th:text="#{common.btn.register}" onclick="saveBoardAdmin('POST')"></button>
             <button type="button"class="z-button primary" th:if="${boardAdmin?.boardAdminId}"

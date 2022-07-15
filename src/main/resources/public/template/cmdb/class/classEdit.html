@@ -27,28 +27,28 @@
     <div id="treeList"></div>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
+    <div class="edit-form flex-fill">
         <input type="hidden" id="txtClassId" name="txtClassId"/>
         <input type="hidden" id="txtPClassId" name="txtPClassId"/>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="form-title" th:text="#{cmdb.class.label.pClassName}" for="txtPClassName"></label>
             <input type="text" class="z-input text-ellipsis" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
             <input type="text" class="z-input" id="txtClassName" name="txtClassName" maxlength="100"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
             <textarea id="txtClassDesc" name="txtClassDesc" th:maxlength="500" th:rows="7"
                       class="z-textarea textarea-scroll-wrapper"></textarea>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.class.label.seq}" for="txtClassSeq"></label>
             <input type="text" class="z-input" id="txtClassSeq" name="txtClassSeq" maxlength="4"
                    onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <div class="flex-row justify-content-between">
                 <label th:text="#{cmdb.class.label.alarm}"></label>
                 <button type="button" class="z-button-icon extra float-right" name="alarmConditionButton"
@@ -58,7 +58,7 @@
             </div>
             <div class="horizontal-bar"></div>
             <div id="alarmList" tabindex="-1">
-                <div class="flex-row z-edit-row justify-content-between">
+                <div class="flex-row edit-row justify-content-between">
                     <label class="col-pct-3" th:text="#{cmdb.class.label.alertItem}"></label>
                     <label class="col-pct-4" th:text="#{cmdb.class.label.condition}"></label>
                     <label class="col-pct-3" th:text="#{cmdb.class.label.alertTarget}"></label>
@@ -66,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="z-edit-row flex-column flex-fill">
+        <div class="edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label class="required" th:text="#{cmdb.class.label.attributeList}"></label>
                 <button type="button" sec:authorize="hasAuthority('cmdb.manage')"
@@ -80,7 +80,7 @@
             <div id="attributeList"></div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list" sec:authorize="hasAuthority('cmdb.manage')">
+            <div class="button-list" sec:authorize="hasAuthority('cmdb.manage')">
                 <button type="button" class="z-button primary" id="btnRegister" name="btnRegister"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
@@ -92,7 +92,7 @@
         </div>
     </div>
     <template id="alarmConditionTemplate">
-        <div class="flex-row z-edit-row justify-content-between alarm">
+        <div class="flex-row edit-row justify-content-between alarm">
             <select class="col-pct-3" id="alarmAttributeId">
                 <option selected="selected" th:text="#{common.label.notSelect}" value=""></option>
             </select>
@@ -134,8 +134,8 @@
         getCIClassList();
         document.getElementById('search').addEventListener('keyup', aliceJs.debounce (() => getCIClassList()), false);
 
-        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('txtClassDesc'), {
             className: 'scrollbar',
             resize: 'vertical',

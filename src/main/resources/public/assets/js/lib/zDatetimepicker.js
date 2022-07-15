@@ -153,7 +153,7 @@
         if (this.type === 'DATEHOUR' || this.type === 'HOUR') {
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'z-button-list z-picker-modal-button';
+            pickerButton.className = 'button-list z-picker-modal-button';
             this.el.appendChild(pickerButton);
 
             // create button > confirm
@@ -185,7 +185,7 @@
 
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'z-button-list z-picker-modal-button';
+            pickerButton.className = 'button-list z-picker-modal-button';
             this.el.appendChild(pickerButton);
 
             // create button > reset

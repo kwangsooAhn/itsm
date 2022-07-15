@@ -12,35 +12,35 @@
     <h6 class="description ml-2 pl-2" th:text="#{role.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="flex-column z-edit-row">
+    <div class="edit-form flex-fill">
+        <div class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{role.menu.common}"></h3>
         </div>
         <div class="flex-row">
-            <div class="z-edit-row flex-column col-6 mr-4">
+            <div class="edit-row flex-column col-6 mr-4">
                 <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.id}"></label>
                 <input class="z-input" id="txtRoleId" maxlength="100" name="txtRoleId" th:readonly="${view}"
                        th:value="${role?.roleId}" type="text"/>
             </div>
-            <div class="z-edit-row flex-column col-6">
+            <div class="edit-row flex-column col-6">
                 <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.name}"></label>
                 <input class="z-input" id="txtRoleName" maxlength="100" name="txtRoleName" th:readonly="${view}"
                        th:value="${role?.roleName}" type="text"/>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{role.label.desc}"></label>
             <textarea class="z-textarea textarea-scroll-wrapper" id="txtRoleDesc" maxlength="200" name="txtRoleDesc"
                       rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'"
                       th:text="${role?.roleDesc}"></textarea>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{role.label.referenceCount}"></label>
             <input class="z-input" id="userRoleMapCount" name="userRoleMapCount"
                    readonly th:value="${role?.userRoleMapCount}" type="text"/>
         </div>
-        <div class="z-edit-row flex-column">
-            <div class="flex-column z-edit-row">
+        <div class="edit-row flex-column">
+            <div class="flex-column edit-row">
                 <h3 th:classappend="${view} ? '' : 'required'" class="sub-title under-bar border-thick"
                     th:text="#{role.menu.auth}"></h3>
                 <div class="z-switch-list">
@@ -59,11 +59,11 @@
                 </div>
             </div>
         </div>
-        <div class="flex-row justify-content-between z-edit-row">
-            <div class="z-button-list">
+        <div class="flex-row justify-content-between edit-row">
+            <div class="button-list">
                 <a class="z-button secondary" href="/roles/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
                 <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
                         th:if="!${role?.roleId}" th:text="#{common.btn.register}"
                         th:onclick="|javascript:onSave('POST')|"></button>

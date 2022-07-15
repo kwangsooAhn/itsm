@@ -377,7 +377,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 버튼 그룹
         let bottomButtonList = document.createElement('div');
-        bottomButtonList.className = 'z-button-list justify-content-end';
+        bottomButtonList.className = 'button-list justify-content-end';
         this.customColorControlContainerEl.appendChild(bottomButtonList);
 
         // 버튼 그룹 > 저장 버튼

@@ -74,7 +74,7 @@ export const dynamicRowTableMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 버튼 목록
-        element.UIDiv = new UIDiv().setUIClass('z-button-list');
+        element.UIDiv = new UIDiv().setUIClass('button-list');
         element.addUI(element.UIDiv);
 
         // 추가 버튼

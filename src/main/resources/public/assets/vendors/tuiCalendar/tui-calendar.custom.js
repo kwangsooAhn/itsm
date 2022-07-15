@@ -920,7 +920,7 @@ Object.assign(zCalendar.prototype, {
         return `<div class="calendar__modal--detail__main flex-column">
             <div class="flex-row">
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
-                <div class="z-button-list flex-row float-right align-items-end">
+                <div class="button-list flex-row float-right align-items-end">
                     <button type="button" class="z-button-icon secondary" id="scheduleEdit">
                         <span class="z-icon i-edit"></span>
                     </button>

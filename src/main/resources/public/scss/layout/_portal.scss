@@ -294,7 +294,7 @@ $button-themes-social: (
         background-color: $neutral50;
 
         .z-page-title { padding: 2.5rem 0; }  // 40px 0
-        .z-page-search {
+        .page-search {
           .z-search-count {
             color: $neutral600;
             font-family: $font-family;
@@ -305,7 +305,7 @@ $button-themes-social: (
       }
 
       // 페이징
-      .z-list-content {
+      .list-content {
         height: 40.438rem; // 647px
         padding: 1.5rem 13.75rem 0 13.75rem; // 24px 220px
 

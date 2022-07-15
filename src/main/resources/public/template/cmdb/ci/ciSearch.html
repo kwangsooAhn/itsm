@@ -18,16 +18,16 @@
 <th:block layout:fragment="pageContent">
     <div class="cmdb-ci-content flex-row flex-fill pb-5">
         <!-- 트리 화면 -->
-        <div class="z-page-column-item flex-column flex-col-3">
+        <div class="page-column-item flex-column flex-col-3">
             <input type="hidden" id="treeTypeId" value="root"/>
             <input type="hidden" id="treeTypeName" th:value="#{cmdb.ci.label.all}"/>
-            <div class="z-page-tree">
+            <div class="page-tree">
                 <div id="treeList"></div>
             </div>
         </div>
         <!-- 목록 화면 -->
-        <div class="z-page-column-item flex-column flex-col-9">
-            <div class="z-page-search">
+        <div class="page-column-item flex-column flex-col-9">
+            <div class="page-search">
                 <form id="searchFrm" onsubmit="return false">
                     <input type="text" class="z-input text-ellipsis i-search col-5" id="searchValue" name="searchValue"
                            maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}"/>
@@ -53,8 +53,8 @@
                     </button>
                 </div>
             </div>
-            <div class="z-page-list p-0">
-                <div class="z-list-content flex-row" id="ciList">
+            <div class="page-list p-0">
+                <div class="list-content flex-row" id="ciList">
                     <div class="no-data-text"><span th:text="#{common.msg.noData}"></span></div>
                 </div>
             </div>
@@ -95,8 +95,8 @@
 
             getTree();
 
-            OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('.z-page-list'), {
+            OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.page-list'), {
                 className: 'scrollbar',
                 overflowBehavior: {
                     y: 'hidden'

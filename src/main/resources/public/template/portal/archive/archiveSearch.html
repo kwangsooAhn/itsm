@@ -12,7 +12,7 @@
             <h1 th:text="#{archive.label.archive}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{archive.msg.portalDescription}"></h6>
         </div>
-        <div class="z-page-search pb-4">
+        <div class="page-search pb-4">
             <form id="searchFrm">
                 <select id="category" name="category" class="col-3">
                     <option th:each="category: ${categoryList}" th:value="${category.code}"
@@ -34,7 +34,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="archiveList"></div>
+    <div class="list-content flex-row" id="archiveList"></div>
 </th:block>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">

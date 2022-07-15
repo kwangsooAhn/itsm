@@ -69,10 +69,10 @@
       z-index: 100;
 
       .z-action-button-top-area {
-        .z-button-list { width: 100%; }
+        .button-list { width: 100%; }
       }
 
-      .z-button-list {
+      .button-list {
         .primary { border-color: $white; }
         .secondary { border-color: $white;}
       }
