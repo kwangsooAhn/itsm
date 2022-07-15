@@ -16,7 +16,7 @@
         <div class="edit-row flex-column">
             <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.name}"></label>
             <input id="txtPatternId" name="txtPatternId" th:value="${pattern?.patternId}" type="hidden"/>
-            <input class="z-input" id="txtPatternName" maxlength="100" name="txtPatternName"
+            <input class="input" id="txtPatternName" maxlength="100" name="txtPatternName"
                    th:readonly="${view}" th:value="${pattern?.patternName}" type="text"/>
         </div>
         <div class="edit-row flex-column">
@@ -61,7 +61,7 @@
              id="type-input-pattern"
              th:style="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text' || pattern?.patternType == 'numbering.pattern.sequence' ? '' : 'display: none'}">
             <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.value}"></label>
-            <input class="z-input" id="txtPatternValue" maxlength="100" name="txtPatternValue"
+            <input class="input" id="txtPatternValue" maxlength="100" name="txtPatternValue"
                    th:readonly="${view}"
                    th:value="${pattern?.patternValue}" type="text">
         </div>

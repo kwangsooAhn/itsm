@@ -55,11 +55,11 @@ export const customCodeMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
             .setUIClass('z-custom-code')
-            .addUIClass('flex-row').addUIClass('z-input-button')
+            .addUIClass('flex-row').addUIClass('input-button')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIInput = new UIInput()
-            .setUIClass('z-input')
+            .setUIClass('input')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', (this.value === '${default}') ?
                 this.elementDefaultValueCustomCode : this.value)

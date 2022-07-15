@@ -201,7 +201,7 @@ class UIInput extends UIElement {
     constructor(text = '') {
         super(document.createElement('input'));
         this.domElement.type = 'text';
-        this.domElement.className = 'z-input';
+        this.domElement.className = 'input';
 
         this.domElement.addEventListener(
             'keydown',
@@ -501,7 +501,7 @@ class UISlider extends UIElement {
         this.addUI(this.UIRange);
         // input
         this.UIInput = new UIInput(value).setUIReadOnly(true)
-            .setUIClass('z-input');
+            .setUIClass('input');
         this.addUI(this.UIInput);
 
         const scope = this;

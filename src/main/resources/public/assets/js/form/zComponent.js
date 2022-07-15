@@ -436,7 +436,7 @@ export default class ZComponent {
                 `<label class="field-label" for="templateName">` +
                 `${i18n.msg('form.label.templateName')}<span class="required"></span>` +
                 `</label>` +
-                `<input type="text" id="templateName" class="z-input" maxlength="50">` +
+                `<input type="text" id="templateName" class="input" maxlength="50">` +
                 `</div>`,
             classes: 'create-template',
             buttons: [{

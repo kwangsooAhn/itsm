@@ -16,7 +16,7 @@
         <div class="edit-row flex-column">
             <label th:classappend="${view} ? '' : 'required'" th:text="#{rule.label.name}"></label>
             <input id="txtRuleId" name="txtRuleId" th:value="${rule?.numberingId}" type="hidden"/>
-            <input class="z-input" id="txtRuleName" maxlength="100" name="txtRuleName" th:readonly="${view}"
+            <input class="input" id="txtRuleName" maxlength="100" name="txtRuleName" th:readonly="${view}"
                    th:value="${rule?.numberingName}" type="text"/>
         </div>
         <div class="edit-row flex-column">

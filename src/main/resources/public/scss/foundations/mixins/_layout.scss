@@ -400,7 +400,7 @@
         .edit-row {
           margin-top: 0.625rem; // 10px
           label { margin: 0.625rem 0; } // 10px 0
-          .z-input {
+          .input {
             &:read-only { width: auto; }
             &.attribute { width: 100%; }
           }

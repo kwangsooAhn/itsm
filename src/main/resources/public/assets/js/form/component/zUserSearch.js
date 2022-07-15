@@ -62,7 +62,7 @@ export const userSearchMixin = {
         const element = new UIDiv().setUIClass('z-element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
-            .setUIClass('z-input i-user-search text-ellipsis')
+            .setUIClass('input i-user-search text-ellipsis')
             .setUIId('userSearch' + this.id)
             .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)
@@ -203,7 +203,7 @@ export const userSearchMixin = {
         this.userSearch = new modal({
             title: this.labelText,
             body: `<div class="target-user-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="searchUserList"></div>` +

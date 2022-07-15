@@ -43,7 +43,7 @@
                 </div>
                 <div class="flex-column edit-row col-6 pl-4">
                     <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.name}"></label>
-                    <input type="text" id="chartName" name="chartName" class="z-input" th:value="${chart?.chartName}"
+                    <input type="text" id="chartName" name="chartName" class="input" th:value="${chart?.chartName}"
                            maxlength="100" th:readonly="${view}" />
                 </div>
             </div>
@@ -108,14 +108,14 @@
                         <div class="flex-column col-3 pl-4">
                             <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.startDate}"></label>
                             <div>
-                                <input type="text" class="z-input i-date-picker search-date" id="rangeFromDt"
+                                <input type="text" class="input i-date-picker search-date" id="rangeFromDt"
                                        name="rangeFromDt" th:value="${chart?.chartConfig?.range?.fromDate}" th:readonly="${view}" />
                             </div>
                         </div>
                         <div class="flex-column col-3 pl-4">
                             <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.endDate}"></label>
                             <div>
-                                <input type="text" class="z-input i-date-picker search-date" id="rangeToDt"
+                                <input type="text" class="input i-date-picker search-date" id="rangeToDt"
                                        name="rangeToDt" th:value="${chart?.chartConfig?.range?.toDate}" th:readonly="${view}" />
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                         </div>
                     </label>
                     <input type="text" id="targetTags" name="targetTags" class="col-pct-12"
-                           th:value="${chart?.tags}" th:readonly="${view}" th:classappend="${view}?'':'z-input'">
+                           th:value="${chart?.tags}" th:readonly="${view}" th:classappend="${view}?'':'input'">
                 </div>
                 <!--/* 차트 조건식 */-->
                 <div class="flex-column col-6">
@@ -148,7 +148,7 @@
                             </div>
                         </div>
                     </label>
-                    <input type="text" id="condition" name="condition" class="z-input col-pct-12"
+                    <input type="text" id="condition" name="condition" class="input col-pct-12"
                            th:value="${chart?.chartConfig?.condition}" th:readonly="${view}">
                 </div>
             </div>

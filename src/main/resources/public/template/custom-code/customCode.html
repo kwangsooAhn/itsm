@@ -21,7 +21,7 @@
                 <span th:text="#{customCode.label.name}"></span>
                 <span class="required" th:unless="${view}"></span>
             </label>
-            <input class="z-input" id="customCodeName" maxlength="110" required="required" th:readonly="${view}"
+            <input class="input" id="customCodeName" maxlength="110" required="required" th:readonly="${view}"
                    th:value="${customCode?.customCodeName}" type="text">
         </div>
         <div class="flex-column edit-row">
@@ -99,7 +99,7 @@
                     <span th:text="#{customCode.label.pCode}"></span>
                     <span class="required" th:unless="${view}"></span>
                 </label>
-                <input class="z-input" id="pCode" maxlength="100" th:readonly="${customCode?.pCode != null || view}"
+                <input class="input" id="pCode" maxlength="100" th:readonly="${customCode?.pCode != null || view}"
                        th:value="${customCode?.pCode}" type="text">
             </div>
         </div>
@@ -254,7 +254,7 @@
         }
 
         const valueInput = document.createElement('input');
-        valueInput.classList.add('z-input', 'condition', 'col-5');
+        valueInput.classList.add('input', 'condition', 'col-5');
         valueInput.type = 'text';
         valueInput.name = 'conditionValue';
         valueInput.maxLength = 100;

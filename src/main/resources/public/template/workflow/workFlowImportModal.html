@@ -18,7 +18,7 @@
             <span th:text="#{document.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" class="z-input" id="documentName" maxlength="50" required="required"/>
+        <input type="text" class="input" id="documentName" maxlength="50" required="required"/>
         <!-- 설명 -->
         <label class="field-label" th:text="#{document.label.description}" for="documentDesc"></label>
         <textarea id="documentDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
@@ -62,8 +62,8 @@
             <input type="text" id="applicationDocumentColor"/>
             <!-- 신청서 아이콘 -->
             <label class="field-label" for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
-            <div class="flex-row z-input-button">
-                <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+            <div class="flex-row input-button">
+                <input type="text" id="applicationDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                 <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="icon i-remove"></span>
                 </button>
@@ -111,7 +111,7 @@
             <span th:text="#{form.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="formName" class="z-input" maxlength="50" required="required">
+        <input type="text" id="formName" class="input" maxlength="50" required="required">
         <!-- 문서양식 설명 -->
         <label class="field-label" th:text="#{'form.label.description'}" for="formDesc"></label>
         <textarea id="formDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
@@ -120,7 +120,7 @@
             <span th:text="#{process.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="processName" class="z-input" maxlength="50" required="required">
+        <input type="text" id="processName" class="input" maxlength="50" required="required">
         <!-- 프로세스 설명 -->
         <label class="field-label" th:text="#{'process.label.description'}" for="processDesc"></label>
         <textarea id="processDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>

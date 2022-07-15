@@ -10,7 +10,7 @@
                 <label class="field-label" for="ciNo">
                     <span th:text="#{cmdb.ci.label.seqNum}"></span>
                 </label>
-                <input type="text" id="ciNo" class="z-input" th:value="${ciData?.ciNo}" maxlength="100" readonly />
+                <input type="text" id="ciNo" class="input" th:value="${ciData?.ciNo}" maxlength="100" readonly />
             </div>
             <!-- CI 타입 -->
             <div class="flex-column view-row">
@@ -19,7 +19,7 @@
                 </label>
                 <div class="flex-row input-button">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
-                    <input type="text" id="typeName" class="z-input col-pct-12 inherit" th:value="${ciData?.typeName}"
+                    <input type="text" id="typeName" class="input col-pct-12 inherit" th:value="${ciData?.typeName}"
                            readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <span th:text="#{cmdb.type.label.icon}"></span>
                 </label>
                 <div class="flex-row input-button">
-                    <input type="text" id="typeIcon" class="z-input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
+                    <input type="text" id="typeIcon" class="input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
                 </div>
             </div>
             <!-- CI 이름 -->
@@ -37,7 +37,7 @@
                 <label class="field-label" for="ciName">
                     <span th:text="#{cmdb.ci.label.name}"></span>
                 </label>
-                <input type="text" id="ciName" class="z-input" maxlength="100" th:value="${ciData?.ciName}"
+                <input type="text" id="ciName" class="input" maxlength="100" th:value="${ciData?.ciName}"
                        th:attr="data-validation-required-name=#{cmdb.ci.label.name}" readonly required="true"/>
             </div>
             <!--CI 설명 -->
@@ -54,7 +54,7 @@
                     <span th:text="#{cmdb.type.label.class}"></span>
                 </label>
                 <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
-                <input type="text" id="className" class="z-input" maxlength="100" th:value="${ciData?.className}"
+                <input type="text" id="className" class="input" maxlength="100" th:value="${ciData?.className}"
                        th:attr="data-validation-required-name=#{cmdb.type.label.class}" readonly required="true"/>
             </div>
             <!-- CI 태그 -->

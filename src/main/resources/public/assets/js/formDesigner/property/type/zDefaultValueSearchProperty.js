@@ -87,7 +87,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     this.data[idx] = (this.defaultType === item.value) ? elem : '';
                 });
                 radioGroup.UIInputButton = new UIDiv()
-                    .setUIClass('flex-row z-input-button');
+                    .setUIClass('flex-row input-button');
                 radioGroup.addUI(radioGroup.UIInputButton);
                 // input
                 radioGroup.UIInputButton.UIInput = new UIInput()
@@ -143,7 +143,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
         switch (this.targetComponent) {
             case FORM.SEARCH_COMPONENT.USER_SEARCH:
                 const userModalTemplate = `<div class="target-user-list">` +
-                    `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                    `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                     `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                     `<span id="spanTotalCount" class="search-count"></span>` +
                     `<div class="table-set" id="searchUserList"></div>` +

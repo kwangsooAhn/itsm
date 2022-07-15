@@ -1269,7 +1269,7 @@ aliceJs.drawSlider = function(target) {
  */
 aliceJs.drawValidateMsg = function(target, message, type, isAbsolute) {
     // reset attributes
-    document.querySelectorAll('.z-input').forEach(elem => {
+    document.querySelectorAll('.input').forEach(elem => {
         elem.addEventListener('input', () => el.removeAttribute('data-' + type));
     });
 

@@ -320,7 +320,7 @@ $layout-header-dropdown: (
 
 ////////////////////////// element //////////////////////////
 // input + button for custom code
-.z-input-button {
+.input-button {
   .button-icon-sm { -webkit-print-color-adjust:exact; }
 }
 
@@ -498,7 +498,7 @@ $layout-header-dropdown: (
     pointer-events: none;
 
     // inputBox
-    .input, .z-input:not(.select-box-label):not(:read-only) {
+    .input, .input:not(.select-box-label):not(:read-only) {
       @include border(0.0625rem, solid, $gray400, all); // 1px
       @include borderRadius(0.0625rem); // 2px
       width: 100%;
@@ -608,7 +608,7 @@ $layout-header-dropdown: (
 
     // time, date, datepicker 컴포넌트
     .picker-wrapper-date {
-      .z-input { margin-right: 2rem; }
+      .input { margin-right: 2rem; }
       .datepicker { width: 100%; }
     }
 
@@ -637,14 +637,14 @@ $layout-header-dropdown: (
       .z-dr-table-row {
         .button-icon { padding: 0; }
 
-        .z-input:not(.select-box-label) {
+        .input:not(.select-box-label) {
           padding: 0.4375rem 0;
           margin: 0.25rem 0;
           text-indent: 0.75rem;
           &.picker-main { padding-right: 2.25rem; }
         }
 
-        .z-input:read-only:not(:disabled):not(.tagify),
+        .input:read-only:not(:disabled):not(.tagify),
         .select .select-box.readonly { border-bottom: none; }
         span { line-height: 1.6; }
 
@@ -673,7 +673,7 @@ $layout-header-dropdown: (
 
     // custom code 컴포넌트
     .z-custom-code {
-      > .z-input { @include borderRadius(0.125rem); } // 2px
+      > .input { @include borderRadius(0.125rem); } // 2px
       > .button-icon { margin-left: 0.5rem; }
     }
 
@@ -1052,7 +1052,7 @@ $component-icon: (
           .z-component-label-text { color: $blue400 !important; }
         }
         .z-element {
-          .z-input,
+          .input,
           .textarea,
           .select-box {
             border-color: $blue400 !important;
@@ -1091,7 +1091,7 @@ $component-icon: (
             .icon { background: $blue400 !important; }
           }
           // 커스텀 코드 컴포넌트
-          .z-input-button {
+          .input-button {
             .button-clear { opacity: 0; }
             .button-icon {
               border-color: $blue400 !important;
@@ -1206,17 +1206,17 @@ $component-icon: (
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .z-input { width: 4.375rem; } // 70px
+    .input { width: 4.375rem; } // 70px
   }
   // clipboard 엘리먼트
   .z-clipboard {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .z-input { width: 100%; }
+    .input { width: 100%; }
   }
   // input 엘리먼트
-  .z-input:not(.tagify) {
+  .input:not(.tagify) {
     width: 100%;
     font-size: $font-size-xs;
 
@@ -1249,7 +1249,7 @@ $component-icon: (
   // column 너비 조정
   .slider {
     .range { width : 75%; }
-    .z-input {
+    .input {
       width: 23%;
       text-align: center;
       margin-left: 2%;
@@ -1263,7 +1263,7 @@ $component-icon: (
     flex-direction: row;
 
     .btn-switch { width: 3.75rem; } // 60px
-    .z-input {
+    .input {
       display: block;
       margin-left : 0.625rem; // 10px
       &.off { display: none; }
@@ -1272,7 +1272,7 @@ $component-icon: (
       display: block;
       margin-left: 0.625rem; // 10px
       &.off { display: none; }
-      .z-input {
+      .input {
         display: inline-block;
         margin-left: 0;
       }
@@ -1298,7 +1298,7 @@ $component-icon: (
       .radio { margin-right: 0; }
 
       .radio-item {
-        .z-input {
+        .input {
           width: 2.813rem; // 45px
           margin-right: 0.3125rem; // 5px
           padding: 0 0.5rem; // 0 8px
@@ -1306,7 +1306,7 @@ $component-icon: (
         }
       }
 
-      .z-input-button {
+      .input-button {
         width: 100%;
         .icon.i-remove { right: 2.5rem; }
       }

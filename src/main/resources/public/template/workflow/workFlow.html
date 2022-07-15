@@ -33,7 +33,7 @@
                 <span th:text="#{document.label.name}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" class="z-input" id="documentName" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
+            <input type="text" class="input" id="documentName" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
         </div>
         <!-- 설명 -->
         <div class="flex-column edit-row">
@@ -125,8 +125,8 @@
             <!-- 신청서 아이콘 -->
             <div class="flex-column edit-row">
                 <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row z-input-button">
-                    <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+                <div class="flex-row input-button">
+                    <input type="text" id="applicationDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                     <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="icon i-remove"></span>
                     </button>
@@ -225,7 +225,7 @@
                     <span class="required"></span>
                 </label>
                 <div class="flex-column">
-                    <input type="text" class="z-input" id="linkUrl" th:value="${documentData?.documentLinkUrl}" maxlength="512"/>
+                    <input type="text" class="input" id="linkUrl" th:value="${documentData?.documentLinkUrl}" maxlength="512"/>
                 </div>
             </div>
             <!-- 업무 흐름 색상 -->
@@ -239,8 +239,8 @@
             <!-- 신청서 아이콘 -->
             <div class="flex-column edit-row">
                 <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row z-input-button">
-                    <input type="text" id="linkDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+                <div class="flex-row input-button">
+                    <input type="text" id="linkDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                     <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="icon i-remove"></span>
                     </button>

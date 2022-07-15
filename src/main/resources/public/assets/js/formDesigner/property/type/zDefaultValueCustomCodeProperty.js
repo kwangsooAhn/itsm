@@ -122,7 +122,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                     break;
                 case FORM.CUSTOM.CODE:
                     radioGroup.UIInputButton = new UIDiv()
-                        .setUIClass('flex-row z-input-button');
+                        .setUIClass('flex-row input-button');
                     radioGroup.addUI(radioGroup.UIInputButton);
                     // input
                     const customCodeId = (defaultCustomCodeValues[1] === item.value) ? defaultCustomCodeValues[2] : '';

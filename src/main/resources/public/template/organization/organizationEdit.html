@@ -15,7 +15,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{organization.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+    <input type="text" class="input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
            maxlength="100" th:placeholder="#{organization.label.searchPlaceholder}"/>
     <span id="totalCount" class="z-search-count"></span>
     <div class="ml-auto">
@@ -33,20 +33,20 @@
             <div class="flex-column flex-fill mr-4">
                 <input type="hidden" id="organizationId" th:value="${data?.organizationId}"/>
                 <label class="required" th:text="#{organization.label.name}" for="organizationName"></label>
-                <input type="text" id="organizationName" class="z-input text-ellipsis"
+                <input type="text" id="organizationName" class="input text-ellipsis"
                        th:value="${data?.organizationName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <input type="hidden" id="pOrganizationId" th:value="${data?.pOrganizationId}"/>
                 <label class="required" th:text="#{organization.label.pOrganizationName}" for="pOrganizationName"></label>
-                <input type="text" id="pOrganizationName" class="z-input text-ellipsis col-pct-12"
+                <input type="text" id="pOrganizationName" class="input text-ellipsis col-pct-12"
                        th:value="${data?.pOrganizationName}" maxlength="100"/>
                 </span>
             </div>
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{organization.label.seqNum}" for="seqNum"></label>
-            <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
+            <input type="text" id="seqNum" class="input text-ellipsis" th:value="${data?.seqNum}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
         <div class="edit-row flex-column">

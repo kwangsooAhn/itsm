@@ -397,7 +397,7 @@ export const dynamicRowTableMixin = {
     getDateForColumn(column, cellValue, index) {
         let dateWrapper = new UIDiv().setUIClass('z-picker-wrapper-dummy');
         let dateColumn = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('z-input i-date-picker text-ellipsis')
+            .setUIClass('input i-date-picker text-ellipsis')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
@@ -415,7 +415,7 @@ export const dynamicRowTableMixin = {
         let timeWrapper = new UIDiv().setUIClass('z-element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('z-input i-time-picker text-ellipsis')
+            .setUIClass('input i-time-picker text-ellipsis')
             .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'time' + index)
             .setUIValue(this.getDefaultValueForTime(column, cellValue))
@@ -433,7 +433,7 @@ export const dynamicRowTableMixin = {
         let dateTimeWrapper = new UIDiv().setUIClass('z-element');
 
         let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass('z-input i-datetime-picker text-ellipsis')
+            .setUIClass('input i-datetime-picker text-ellipsis')
             .setUIId('datetime' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'datetime' + index)
             .setUIValue(this.getDefaultValueForDateTime(column, cellValue))
@@ -460,7 +460,7 @@ export const dynamicRowTableMixin = {
     // column Type - userSearch
     getUserSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('z-input i-user-search text-ellipsis')
+        const element = new UIInput().setUIClass('input i-user-search text-ellipsis')
             .setUIId('userSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -484,7 +484,7 @@ export const dynamicRowTableMixin = {
     // column Type - OrganizationSearch
     getOrganizationSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('z-input i-organization-search text-ellipsis')
+        const element = new UIInput().setUIClass('input i-organization-search text-ellipsis')
             .setUIId('organizationSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -879,7 +879,7 @@ export const dynamicRowTableMixin = {
         const userSearchModal = new modal({
             title: e.target.getAttribute('data-modal-title'),
             body: `<div class="target-user-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="searchUserList"></div>` +

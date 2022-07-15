@@ -150,7 +150,7 @@ table {
       .checkbox,
       .radio { margin: 0 0 0 0.75rem; } // 12px
 
-      .z-input {
+      .input {
         width: 85%;
         padding: 0.75rem;
         margin: 0.25rem; // 4px
@@ -207,7 +207,7 @@ label {
 input, textarea, select {
   &:focus, &:hover { outline: 0; }
 }
-.z-input {
+.input {
   @include border(0.0625rem, solid, $gray400, all);
   @include borderRadius(0.125rem); // 2px
   height: 2.125rem; // 34px
@@ -284,7 +284,7 @@ input, textarea, select {
     @include relative();
     height: 2.125rem; // 34px
 
-    .z-input { flex-basis: 100%; }
+    .input { flex-basis: 100%; }
 
     .button-search {
       @include borderRadius(0.25rem);
@@ -703,7 +703,7 @@ select {
       }
     }
   }
-  .z-input {
+  .input {
     width: 23%;
     margin-left: 2%;
     text-align: center;
@@ -721,7 +721,7 @@ select {
   display: inline-block;
   width: 100%;
   margin: 0 !important;
-  .z-label-name { width: 12.5rem; } //200px
+  .label-name { width: 12.5rem; } //200px
   // 목록
   &-list {
     height: 22.5rem; // 360px

@@ -73,7 +73,7 @@
         <div class="flex-row align-items-center reply-input-row">
             <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}"
                  width="32" height="32"/>
-            <input type="text" class="z-input reply-input" id="boardComments" name="boardComments" maxlength="500"
+            <input type="text" class="input reply-input" id="boardComments" name="boardComments" maxlength="500"
                    th:placeholder="#{comment.msg.enterComments}"/>
             <button class="button form" onclick="saveBoardComment('POST')"
                     th:text="#{common.btn.save}"></button>
@@ -192,7 +192,7 @@
                 });
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
-                document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='z-input' id='editComments' name='editComments' value='" + context + "'/>" +
+                document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='input' id='editComments' name='editComments' value='" + context + "'/>" +
                     "<button class='button form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }

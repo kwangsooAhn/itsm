@@ -166,8 +166,8 @@
 }
 
 ////////////////////////// UI 컴포넌트 추가 //////////////////////////
-.z-input {
-  // z-input with background img
+.input {
+  // input with background img
   &.i-search { @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }
   &.i-date-picker { @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }
   &.i-time-picker { @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }

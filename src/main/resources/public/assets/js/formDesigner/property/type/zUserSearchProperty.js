@@ -78,7 +78,7 @@ export default class ZUserSearchProperty extends ZProperty {
             case 'organization':
                 targetGroup.UILabel = this.makeLabelProperty('form.properties.element.searchTarget');
                 targetGroup.addUI(targetGroup.UILabel);
-                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row z-input-button');
+                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row input-button');
                 targetGroup.addUI(targetGroup.UIInputButton);
                 targetGroup.UIInputButton.UIInput = new UIInput()
                     .setUIReadOnly(true)
@@ -190,7 +190,7 @@ export default class ZUserSearchProperty extends ZProperty {
         const targetUserModal = new modal({
             title: i18n.msg('form.properties.userList'),
             body: `<div class="target-user-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +

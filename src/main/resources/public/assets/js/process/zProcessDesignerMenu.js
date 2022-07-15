@@ -1125,7 +1125,7 @@
             targetMappingLabel.appendChild(targetMappingTooltip);
 
             let targetMappingInput = document.createElement('input');
-            targetMappingInput.className = 'z-input';
+            targetMappingInput.className = 'input';
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
             targetMappingInput.maxLength = 150;
@@ -1154,7 +1154,7 @@
             sourceMappingTooltip.appendChild(sourceMappingTooltipContents);
             sourceMappingLabel.appendChild(sourceMappingTooltip);
             let sourceMappingInput = document.createElement('input');
-            sourceMappingInput.className = 'z-input';
+            sourceMappingInput.className = 'input';
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
             sourceMappingInput.maxLength = 150;
@@ -1273,7 +1273,7 @@
             conditionLabel.appendChild(conditionTooltip);
 
             let conditionInput = document.createElement('input');
-            conditionInput.className = 'z-input';
+            conditionInput.className = 'input';
             conditionInput.maxLength = 150;
             actionContainer.appendChild(conditionInput);
 
@@ -1285,7 +1285,7 @@
 
             let fileInput = document.createElement('input');
             fileInput.id = 'script-file';
-            fileInput.className = 'z-input file';
+            fileInput.className = 'input file';
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
@@ -1868,7 +1868,7 @@
         switch (property.type) {
             case 'inputbox': {
                 elementObject = document.createElement('input');
-                elementObject.className = 'z-input';
+                elementObject.className = 'input';
                 elementObject.maxLength = 70;
                 propertyContainer.appendChild(elementObject);
                 break;
@@ -1876,7 +1876,7 @@
             case 'inputbox-readonly': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
-                elementObject.className = 'z-input';
+                elementObject.className = 'input';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
                 break;
@@ -1884,7 +1884,7 @@
             case 'inputbox-copy': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
-                elementObject.className = 'z-input copy';
+                elementObject.className = 'input copy';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
 
