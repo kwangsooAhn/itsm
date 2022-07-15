@@ -835,7 +835,7 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'button-icon secondary button-minimap z-palette-tooltip';
+        minimapButton.className = 'button-icon secondary button-minimap palette-tooltip';
         minimapButton.addEventListener('click', function(e) {
             const elem = aliceJs.clickInsideElement(e, 'button-minimap');
             elem.classList.toggle('active');
@@ -846,9 +846,9 @@
         minimapIcon.className = 'icon i-minimap';
 
         const minimapTooltip = document.createElement('div');
-        minimapTooltip.className = 'z-palette-tooltip-contents right-bottom'
+        minimapTooltip.className = 'palette-tooltip-contents right-bottom'
         const minimapTooltipText = document.createElement('span');
-        minimapTooltipText.className = 'z-palette-tooltip-text'
+        minimapTooltipText.className = 'palette-tooltip-text'
         minimapTooltipText.textContent = i18n.msg('tooltip.label.minimap');
 
         minimapTooltip.appendChild(minimapTooltipText);
@@ -899,16 +899,16 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'button-icon secondary button-simulation-report z-palette-tooltip';
+        simulationButton.className = 'button-icon secondary button-simulation-report palette-tooltip';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
         simulationIcon.className = 'icon i-simulation-report';
 
         const simulationTooltip = document.createElement('div');
-        simulationTooltip.className = 'z-palette-tooltip-contents'
+        simulationTooltip.className = 'palette-tooltip-contents'
         const simulationTooltipText = document.createElement('span');
-        simulationTooltipText.className = 'z-palette-tooltip-text'
+        simulationTooltipText.className = 'palette-tooltip-text'
         simulationTooltipText.textContent = i18n.msg('tooltip.label.simulation');
 
         simulationTooltip.appendChild(simulationTooltipText);

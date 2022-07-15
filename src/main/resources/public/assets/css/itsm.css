@@ -4158,11 +4158,11 @@ input, button, select, optgroup, textarea {
   padding: 0.625rem;
 }
 
-.z-help-tooltip {
+.help-tooltip {
   position: static;
 }
 
-.z-tooltip-contents {
+.tooltip-contents {
   left: 0;
   width: 100%;
 }
@@ -13956,17 +13956,17 @@ body.modal-active {
     opacity: 1;
   }
 }
-.z-help-tooltip {
+.help-tooltip {
   position: relative;
   display: inline-block;
   margin-left: 0.3125rem;
   vertical-align: middle;
 }
-.z-help-tooltip .icon.i-tooltip {
+.help-tooltip .icon.i-tooltip {
   background: #8B9094;
   cursor: pointer;
 }
-.z-help-tooltip .z-tooltip-contents {
+.help-tooltip .tooltip-contents {
   position: absolute;
   left: auto;
   border: 0.125rem solid #3373C4;
@@ -13986,12 +13986,12 @@ body.modal-active {
   z-index: 500;
   visibility: hidden;
 }
-.z-help-tooltip .z-tooltip-contents span {
+.help-tooltip .tooltip-contents span {
   color: #3373C4;
   line-height: 1.5;
   word-break: keep-all;
 }
-.z-help-tooltip .z-tooltip-contents.top {
+.help-tooltip .tooltip-contents.top {
   position: absolute;
   top: 0;
   right: auto;
@@ -14003,7 +14003,7 @@ body.modal-active {
   -ms-transform: translate(-50%, calc(-100% - 0.625rem));
   transform: translate(-50%, calc(-100% - 0.625rem));
 }
-.z-help-tooltip .z-tooltip-contents.right {
+.help-tooltip .tooltip-contents.right {
   position: absolute;
   top: 0;
   right: 0;
@@ -14015,7 +14015,7 @@ body.modal-active {
   -ms-transform: translate(calc(100% + 0.625rem), -50%);
   transform: translate(calc(100% + 0.625rem), -50%);
 }
-.z-help-tooltip .z-tooltip-contents.bottom {
+.help-tooltip .tooltip-contents.bottom {
   position: absolute;
   top: auto;
   right: auto;
@@ -14027,7 +14027,7 @@ body.modal-active {
   -ms-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
 }
-.z-help-tooltip .z-tooltip-contents.left {
+.help-tooltip .tooltip-contents.left {
   position: absolute;
   top: 0;
   right: auto;
@@ -14039,7 +14039,7 @@ body.modal-active {
   -ms-transform: translate(calc(-100% - 0.625rem), -50%);
   transform: translate(calc(-100% - 0.625rem), -50%);
 }
-.z-help-tooltip:hover .z-tooltip-contents {
+.help-tooltip:hover .tooltip-contents {
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;
   -webkit-animation-name: fadeIn;
@@ -14072,14 +14072,14 @@ body.modal-active {
   animation-direction: normal;
   visibility: visible;
 }
-.z-help-tooltip:hover .icon.i-tooltip {
+.help-tooltip:hover .icon.i-tooltip {
   background: #3373C4;
 }
 
-.z-header-tooltip {
+.header-tooltip {
   position: relative;
 }
-.z-header-tooltip .z-header-tooltip-contents {
+.header-tooltip .header-tooltip-contents {
   position: absolute;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
@@ -14106,7 +14106,7 @@ body.modal-active {
   z-index: 500;
   visibility: hidden;
 }
-.z-header-tooltip .z-header-tooltip-contents.last {
+.header-tooltip .header-tooltip-contents.last {
   -webkit-transform: translate(-70%, 0);
   -moz-transform: translate(-70%, 0);
   -o-transform: translate(-70%, 0);
@@ -14114,13 +14114,13 @@ body.modal-active {
   transform: translate(-70%, 0);
   left: 0;
 }
-.z-header-tooltip .z-header-tooltip-contents .z-header-tooltip-text {
+.header-tooltip .header-tooltip-contents .header-tooltip-text {
   color: #222529;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
 }
-.z-header-tooltip:hover .z-header-tooltip-contents {
+.header-tooltip:hover .header-tooltip-contents {
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;
   -webkit-animation-name: fadeIn;
@@ -14154,17 +14154,17 @@ body.modal-active {
   visibility: visible;
 }
 
-.z-clipboard-tooltip {
+.clipboard-tooltip {
   position: relative;
   display: inline-block;
   margin-left: 0.3125rem;
   cursor: pointer;
 }
-.z-clipboard-tooltip:hover .z-clipboard-tooltip-text {
+.clipboard-tooltip:hover .clipboard-tooltip-text {
   visibility: visible;
   opacity: 1;
 }
-.z-clipboard-tooltip .z-clipboard-tooltip-text {
+.clipboard-tooltip .clipboard-tooltip-text {
   position: absolute;
   bottom: 120%;
   left: 50%;
@@ -14190,7 +14190,7 @@ body.modal-active {
   visibility: hidden;
   z-index: 500;
 }
-.z-clipboard-tooltip .z-clipboard-tooltip-text::after {
+.clipboard-tooltip .clipboard-tooltip-text::after {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -14198,10 +14198,10 @@ body.modal-active {
   margin-left: -0.313rem;
 }
 
-.z-palette-tooltip {
+.palette-tooltip {
   position: relative;
 }
-.z-palette-tooltip .z-palette-tooltip-contents {
+.palette-tooltip .palette-tooltip-contents {
   position: absolute;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
@@ -14226,7 +14226,7 @@ body.modal-active {
   margin: 1rem 0 0 0;
   z-index: 500;
 }
-.z-palette-tooltip .z-palette-tooltip-contents.right-bottom {
+.palette-tooltip .palette-tooltip-contents.right-bottom {
   right: 0;
   bottom: 0;
   -webkit-transform: translate(-150%, -15%);
@@ -14235,13 +14235,13 @@ body.modal-active {
   -ms-transform: translate(-150%, -15%);
   transform: translate(-150%, -15%);
 }
-.z-palette-tooltip .z-palette-tooltip-contents .z-palette-tooltip-text {
+.palette-tooltip .palette-tooltip-contents .palette-tooltip-text {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #222529;
   font-weight: 500;
 }
-.z-palette-tooltip:hover .z-palette-tooltip-contents {
+.palette-tooltip:hover .palette-tooltip-contents {
   visibility: visible;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;

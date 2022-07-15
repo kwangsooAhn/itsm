@@ -182,8 +182,8 @@ $layout-header-dropdown: (
 .thumbnail-main { padding: 0.625rem; } // 10px
 
 ////////////////////////// tooltip //////////////////////////
-.z-help-tooltip { position: static; }
-.z-tooltip-contents {
+.help-tooltip { position: static; }
+.tooltip-contents {
   left: 0;
   width: 100%;
 }

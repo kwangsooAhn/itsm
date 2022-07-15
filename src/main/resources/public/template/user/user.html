@@ -31,9 +31,9 @@
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="userId">
                             <span th:classappend="${view} ? '':'required'" th:text="#{user.label.id}"></span>
-                            <div class="z-help-tooltip">
+                            <div class="help-tooltip">
                                 <span class="icon i-tooltip"></span>
-                                <div class="z-tooltip-contents">
+                                <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
                             </div>
@@ -52,9 +52,9 @@
                         <div class="flex-column edit-row">
                             <label for="password">
                                 <span th:classappend="${users?.userKey != null} ? '':'required'" th:text="#{user.label.password}"></span>
-                                <div class="z-help-tooltip">
+                                <div class="help-tooltip">
                                     <span class="icon i-tooltip"></span>
-                                    <div class="z-tooltip-contents">
+                                    <div class="tooltip-contents">
                                         <span th:utext="#{user.tooltip.pwRule}"></span>
                                     </div>
                                 </div>

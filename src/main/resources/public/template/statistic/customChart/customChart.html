@@ -88,9 +88,9 @@
                     <div class="flex-column col-3">
                         <label>
                             <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.duration}"></span>
-                            <div class="z-help-tooltip">
+                            <div class="help-tooltip">
                                 <span class="icon i-tooltip"></span>
-                                <div class="z-tooltip-contents right">
+                                <div class="tooltip-contents right">
                                     <span th:utext="#{chart.tooltip.timezoneInfo(${chartTimezone})}"></span>
                                 </div>
                             </div>
@@ -127,9 +127,9 @@
                 <div class="flex-column col-6">
                     <label>
                         <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.targetTags}"></span>
-                        <div class="z-help-tooltip">
+                        <div class="help-tooltip">
                             <span class="icon i-tooltip"></span>
-                            <div class="z-tooltip-contents right">
+                            <div class="tooltip-contents right">
                                 <span th:utext="#{chart.tooltip.targetTags}"></span>
                             </div>
                         </div>
@@ -141,9 +141,9 @@
                 <div class="flex-column col-6">
                     <label>
                         <span class="field-label" th:text="#{chart.label.condition}"></span>
-                        <div class="z-help-tooltip">
+                        <div class="help-tooltip">
                             <span class="icon i-tooltip"></span>
-                            <div class="z-tooltip-contents right">
+                            <div class="tooltip-contents right">
                                 <span th:utext="#{chart.tooltip.condition}"></span>
                             </div>
                         </div>

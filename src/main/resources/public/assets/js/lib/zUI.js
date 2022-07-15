@@ -381,7 +381,7 @@ class UIClipboard extends UIElement {
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass('z-clipboard-tooltip');
+        this.UITooltip = new UIDiv().setUIClass('clipboard-tooltip');
         this.addUI(this.UITooltip);
 
         // copy button
@@ -404,7 +404,7 @@ class UIClipboard extends UIElement {
         this.UITooltip.UIButton.addUI(UIButtonIcon);
 
         // tooltip text
-        this.UITooltip.UITooptipText = new UISpan().setUIClass('z-clipboard-tooltip-text')
+        this.UITooltip.UITooptipText = new UISpan().setUIClass('clipboard-tooltip-text')
             .setUITextContent('Copy to clipboard');
         this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
     }

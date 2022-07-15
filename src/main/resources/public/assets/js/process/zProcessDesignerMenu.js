@@ -1112,11 +1112,11 @@
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let targetMappingTooltip = document.createElement('div');
-            targetMappingTooltip.className = 'z-help-tooltip';
+            targetMappingTooltip.className = 'help-tooltip';
             let targetMappingTooltipIcon = document.createElement('span');
             targetMappingTooltipIcon.className = 'icon i-tooltip';
             let targetMappingTooltipContents = document.createElement('div');
-            targetMappingTooltipContents.className = 'z-tooltip-contents';
+            targetMappingTooltipContents.className = 'tooltip-contents';
             let targetMappingTooltipText = document.createElement('span');
             targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetFileMappingId');
             targetMappingTooltipContents.appendChild(targetMappingTooltipText);
@@ -1142,11 +1142,11 @@
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
 
             let sourceMappingTooltip = document.createElement('div');
-            sourceMappingTooltip.className = 'z-help-tooltip';
+            sourceMappingTooltip.className = 'help-tooltip';
             let sourceMappingTooltipIcon = document.createElement('span');
             sourceMappingTooltipIcon.className = 'icon i-tooltip';
             let sourceMappingTooltipContents = document.createElement('div');
-            sourceMappingTooltipContents.className = 'z-tooltip-contents';
+            sourceMappingTooltipContents.className = 'tooltip-contents';
             let sourceMappingTooltipText = document.createElement('span');
             sourceMappingTooltipText.innerHTML = i18n.msg('process.msg.sourceMappingId');
             sourceMappingTooltipContents.appendChild(sourceMappingTooltipText);
@@ -1260,11 +1260,11 @@
             actionContainer.appendChild(conditionLabel);
 
             let conditionTooltip = document.createElement('div');
-            conditionTooltip.className = 'z-help-tooltip';
+            conditionTooltip.className = 'help-tooltip';
             let conditionTooltipIcon = document.createElement('span');
             conditionTooltipIcon.className = 'icon i-tooltip';
             let conditionTooltipContents = document.createElement('div');
-            conditionTooltipContents.className = 'z-tooltip-contents';
+            conditionTooltipContents.className = 'tooltip-contents';
             let conditionTooltipText = document.createElement('span');
             conditionTooltipText.innerHTML = i18n.msg('process.msg.condition');
             conditionTooltipContents.appendChild(conditionTooltipText);
@@ -1889,7 +1889,7 @@
                 propertyContainer.appendChild(elementObject);
 
                 let copyBtnContainer = document.createElement('div');
-                copyBtnContainer.className = 'z-clipboard-tooltip';
+                copyBtnContainer.className = 'clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
                 copyBtn.className = 'button-icon secondary btn-clipboard-tooltip';
@@ -1908,7 +1908,7 @@
                 });
                 let tooltip = document.createElement('span');
                 tooltip.id = 'clipboardTooltipText';
-                tooltip.className = 'z-clipboard-tooltip-text';
+                tooltip.className = 'clipboard-tooltip-text';
                 tooltip.textContent = 'Copy to clipboard';
                 copyBtn.appendChild(tooltip);
                 copyBtnContainer.appendChild(copyBtn);

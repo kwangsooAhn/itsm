@@ -111,12 +111,12 @@
                     <!--undo-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
                         <div id="editCommand">
-                            <button type="button" class="z-header-button button-icon light-extra z-header-tooltip"
+                            <button type="button" class="z-header-button button-icon light-extra header-tooltip"
                                     data-actionType="undo" data-targetId="editCommand"
                                     onclick="zFormDesigner.onDropdownClickHandler(this);">
                                 <span class="icon i-undo"></span>
-                                <div class="z-header-tooltip-contents">
-                                    <span class="z-header-tooltip-text" th:text="#{form.label.undo}"></span>
+                                <div class="header-tooltip-contents">
+                                    <span class="header-tooltip-text" th:text="#{form.label.undo}"></span>
                                 </div>
                             </button>
                         </div>
@@ -143,22 +143,22 @@
                         </div>
                     </th:block>
                     <!--미리보기-->
-                    <button type="button" class="z-header-button button-icon light-extra z-header-tooltip ml-auto"
+                    <button type="button" class="z-header-button button-icon light-extra header-tooltip ml-auto"
                             onclick="zFormDesigner.preview();">
                         <span class="icon i-preview"></span>
-                        <div class="z-header-tooltip-contents">
-                            <span class="z-header-tooltip-text" th:text="#{common.label.preview}"></span>
+                        <div class="header-tooltip-contents">
+                            <span class="header-tooltip-text" th:text="#{common.label.preview}"></span>
                         </div>
                     </button>
                     <!--저장하기-->
                     <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('workflow.manage')">
                         <div id="fileCommand">
-                            <button type="button" class="z-header-button button-icon light-extra z-header-tooltip"
+                            <button type="button" class="z-header-button button-icon light-extra header-tooltip"
                                     data-actionType="save" data-targetId="fileCommand"
                                     onclick="zFormDesigner.saveForm(false);">
                                 <span class="icon i-save"></span>
-                                <div class="z-header-tooltip-contents">
-                                    <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+                                <div class="header-tooltip-contents">
+                                    <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
                                 </div>
                             </button>
                         </div>
@@ -186,11 +186,11 @@
                     </th:block>
                     <!--문서에 연결된 업무흐름이 있을 땐 다른이름으로 저장하기 만 가능-->
                     <th:block th:unless="${!createdWorkFlow}" sec:authorize="hasAuthority('workflow.manage')">
-                        <button type="button" class="z-header-button button-icon light-extra z-header-tooltip"
+                        <button type="button" class="z-header-button button-icon light-extra header-tooltip"
                                 onclick="zFormDesigner.openSaveAsModal();">
                             <span class="icon i-save-as"></span>
-                            <div class="z-header-tooltip-contents last">
-                                <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+                            <div class="header-tooltip-contents last">
+                                <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
                             </div>
                         </button>
                     </th:block>
@@ -370,38 +370,38 @@
 </div>
 <!-- dropdown button 템플릿 -->
 <template id="undoButtonTemplate">
-    <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="undo"
+    <button type="button" class="z-header-button button-icon light-extra header-tooltip" data-actionType="undo"
             data-targetId="editCommand">
         <span class="icon i-undo"></span>
-        <div class="z-header-tooltip-contents">
-            <span class="z-header-tooltip-text" th:text="#{form.label.undo}"></span>
+        <div class="header-tooltip-contents">
+            <span class="header-tooltip-text" th:text="#{form.label.undo}"></span>
         </div>
     </button>
 </template>
 <template id="redoButtonTemplate">
-    <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="redo"
+    <button type="button" class="z-header-button button-icon light-extra header-tooltip" data-actionType="redo"
             data-targetId="editCommand">
         <span class="icon i-redo"></span>
-        <div class="z-header-tooltip-contents">
-            <span class="z-header-tooltip-text" th:text="#{form.label.redo}"></span>
+        <div class="header-tooltip-contents">
+            <span class="header-tooltip-text" th:text="#{form.label.redo}"></span>
         </div>
     </button>
 </template>
 <template id="saveButtonTemplate">
-    <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="save"
+    <button type="button" class="z-header-button button-icon light-extra header-tooltip" data-actionType="save"
             data-targetId="fileCommand">
         <span class="icon i-save"></span>
-        <div class="z-header-tooltip-contents">
-            <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+        <div class="header-tooltip-contents">
+            <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
         </div>
     </button>
 </template>
 <template id="saveAsButtonTemplate">
-    <button type="button" class="z-header-button button-icon light-extra z-header-tooltip" data-actionType="saveAs"
+    <button type="button" class="z-header-button button-icon light-extra header-tooltip" data-actionType="saveAs"
             data-targetId="fileCommand">
         <span class="icon i-save-as"></span>
-        <div class="z-header-tooltip-contents last">
-            <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+        <div class="header-tooltip-contents last">
+            <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
         </div>
     </button>
 </template>
