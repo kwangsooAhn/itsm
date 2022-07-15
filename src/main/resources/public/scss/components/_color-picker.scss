@@ -68,18 +68,18 @@ $custom-color-plus: (
       z-index: 1000;
     }
     // color palette
-    .z-palette-container {
+    .palette-container {
       min-height: 12.5rem; // 200px
       padding:  0.75rem; // 12px
 
-      .z-palette-row {
+      .palette-row {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
 
         &:first-child { margin-bottom: 0.5rem; } // 8px
         // color palette item
-        .z-palette-item {
+        .palette-item {
           @include borderRadius(0.125rem);
           display: flex;
           flex-direction: row;
@@ -102,7 +102,7 @@ $custom-color-plus: (
           // 하얀 색상은 테두리를 표기함
           &.border-inset { @include boxShadow(0, 0, 0, 0.0625rem, $gray300, true); }
 
-          .z-palette-item-inner {
+          .palette-item-inner {
             @include borderRadius(0.0625rem);
             width: 1.25rem; // 20px
             height: 1.25rem; // 20px
@@ -114,21 +114,21 @@ $custom-color-plus: (
       }
     }
     // 사용자 색상
-    .z-custom-color-palette-container {
+    .custom-color-palette-container {
       @include relative();
       @include border(0.0625rem, solid, $gray300, top); // 1px
       min-height: 4.875rem; // 78px
       padding:  0.75rem; // 12px
 
       // 편집 버튼
-      .z-custom-color-edit {
+      .custom-color-edit {
         @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
         visibility: hidden;
         &.on { visibility: visible; }
       }
 
       // 사용자 색상 목록 영역
-      .z-custom-color-list {
+      .custom-color-list {
         display: flex;
         flex-direction: row;
         margin: 0.75rem 0 0.5rem 0; // 12px 0 8px 0
@@ -136,7 +136,7 @@ $custom-color-plus: (
         > *:not(:first-child) { margin: 0 0 0 8px; } // 0 0 0 8px
 
         // custom color palette item
-        .z-custom-color-palette-item {
+        .custom-color-palette-item {
           @include relative();
           @include borderRadius(0.125rem);
           display: flex;
@@ -147,7 +147,7 @@ $custom-color-plus: (
           height: 1.75rem; // 28px;
           cursor: pointer;
 
-          .z-custom-color-palette-item-inner {
+          .custom-color-palette-item-inner {
             @include borderRadius(0.0625rem);
             width: 1.25rem; // 20px
             height: 1.25rem; // 20px
@@ -155,7 +155,7 @@ $custom-color-plus: (
           }
 
           // X 버튼
-          .z-custom-color-palette-item-clear {
+          .custom-color-palette-item-clear {
             @include absolute($top: -0.25rem,$right: -0.25rem); // -4px -4px
             @include borderRadius(50%);
             width: 1rem; // 16px
@@ -177,7 +177,7 @@ $custom-color-plus: (
         }
 
         // [+] 버튼
-        .z-custom-color-plus {
+        .custom-color-plus {
           @include border(0.0625rem, solid, map-get($custom-color-plus, 'default', 'border'), all);
           @include borderRadius(0.125rem); // 2px
           display: none;
@@ -228,20 +228,20 @@ $custom-color-plus: (
 
         // 편집 가능시 사용자 색상 삭제 버튼 show
         &.editable {
-          .z-custom-color-palette-item {
+          .custom-color-palette-item {
             // X 버튼
-            .z-custom-color-palette-item-clear { visibility: visible; }
+            .custom-color-palette-item-clear { visibility: visible; }
           }
         }
       }
 
       // 물방울, hex, rgb, 추가 버튼 영역
-      .z-custom-color-control-container {
+      .custom-color-control-container {
         display: none;
         // control open
         &.active { display: block; }
 
-        .z-custom-color-control {
+        .custom-color-control {
           display: grid;
           grid-template-columns:  1.75rem 5rem 3rem 3rem 3rem 3.75rem; // 28px 80px 48px 48px 48px 60px
           grid-template-rows: 2.25rem 2.25rem; // 36px 36px
