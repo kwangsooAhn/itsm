@@ -83,7 +83,7 @@
         background: $gray400;
         &:hover { background: $blue400; }
       }
-      &.z-date-prev { @include rotate(180); }
+      &.date-prev { @include rotate(180); }
     }
 
     &-date {

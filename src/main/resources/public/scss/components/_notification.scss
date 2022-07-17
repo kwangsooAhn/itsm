@@ -43,13 +43,12 @@
       font-weight: $font-weight-regular;
 
       // header 내부 컨텐츠
-      &.z-title {
+      &.title {
         font-size: $font-size-s;
         font-family: $font-family;
         font-weight: $font-weight-medium;
       }
-      &.z-total { margin: auto 0.3125rem; } //5px
-      &.z-message { margin-left: 0.625rem; }  // 10px
+      &.message { margin-left: 0.625rem; }  // 10px
 
       // 우측 상단 X 버튼
       &.icon.i-remove {
@@ -63,7 +62,7 @@
   &-body {
     overflow-y: auto;
     max-height: 20.63rem;    // 330px
-    .z-noData {
+    .noData {
       height: 6.875rem;  // 110px
       padding: 3rem; // 48px
     }
@@ -109,7 +108,7 @@
       background: $gray500;
     }
     span {
-      &.z-title {
+      &.title {
         max-width: 18.13rem; // 290px
         margin-left: 0.625rem; // 10px
         color: $gray800;
@@ -119,15 +118,15 @@
         line-height: 1.2;
         &.z-confirm { opacity: 0.75; }
       }
-      &.z-title__link:hover {
+      &.title__link:hover {
         cursor: pointer;
         text-decoration: underline;
       }
-      &.z-document-no {
+      &.document-no {
         color: $gray500;
         font-size: $font-size-xs;
       }
-      &.z-message {
+      &.message {
         display: block;
         max-width: 22.5rem; // 360px
         min-height: 2.5rem; // 40px
@@ -138,7 +137,7 @@
         font-family: $font-family;
         &.z-confirm { color: $gray400; }
       }
-      &.z-date {
+      &.date {
         margin-left: 1.75rem; // 28px
         color: $gray500;
         font-weight: $font-weight-regular;
@@ -178,21 +177,21 @@
         &.message { padding-bottom: 0.625rem; } // 10px
         &.date { color: $gray500; }
         span {
-          &.z-title {
+          &.title {
             max-width: 18.13rem; // 290px
             color: $gray800;
             font-size: $font-size-s;
             font-weight: $font-weight-medium;
             font-family: $font-family;
           }
-          &.z-message {
+          &.message {
             max-width: 22.5rem; // 360px
             color: $gray800;
             font-size: $font-size-s;
             font-weight: $font-weight-regular;
             font-family: $font-family;
           }
-          &.z-date {
+          &.date {
             color: $gray500;
             font-size: $font-size-xs;
             font-weight: $font-weight-regular;

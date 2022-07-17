@@ -9502,7 +9502,7 @@ input, button, select, optgroup, textarea {
 .picker-modal-content .icon.i-arrow-right:hover {
   background: #619CDB;
 }
-.picker-modal-content .icon.z-date-prev {
+.picker-modal-content .icon.date-prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -12233,15 +12233,12 @@ body.modal-active {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 400;
 }
-.notification-header span.z-title {
+.notification-header span.title {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
 }
-.notification-header span.z-total {
-  margin: auto 0.3125rem;
-}
-.notification-header span.z-message {
+.notification-header span.message {
   margin-left: 0.625rem;
 }
 .notification-header span.icon.i-remove {
@@ -12252,7 +12249,7 @@ body.modal-active {
   overflow-y: auto;
   max-height: 20.63rem;
 }
-.notification-body .z-noData {
+.notification-body .noData {
   height: 6.875rem;
   padding: 3rem;
 }
@@ -12301,7 +12298,7 @@ body.modal-active {
   padding: 0;
   background: #8B9094;
 }
-.notification-content span.z-title {
+.notification-content span.title {
   max-width: 18.13rem;
   margin-left: 0.625rem;
   color: #222529;
@@ -12310,18 +12307,18 @@ body.modal-active {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   line-height: 1.2;
 }
-.notification-content span.z-title.z-confirm {
+.notification-content span.title.z-confirm {
   opacity: 0.75;
 }
-.notification-content span.z-title__link:hover {
+.notification-content span.title__link:hover {
   cursor: pointer;
   text-decoration: underline;
 }
-.notification-content span.z-document-no {
+.notification-content span.document-no {
   color: #8B9094;
   font-size: 0.875rem;
 }
-.notification-content span.z-message {
+.notification-content span.message {
   display: block;
   max-width: 22.5rem;
   min-height: 2.5rem;
@@ -12331,10 +12328,10 @@ body.modal-active {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.notification-content span.z-message.z-confirm {
+.notification-content span.message.z-confirm {
   color: #ABB0B5;
 }
-.notification-content span.z-date {
+.notification-content span.date {
   margin-left: 1.75rem;
   color: #8B9094;
   font-weight: 400;
@@ -12383,21 +12380,21 @@ body.modal-active {
 .alice-toastify.toast-content .content div.date {
   color: #8B9094;
 }
-.alice-toastify.toast-content .content div span.z-title {
+.alice-toastify.toast-content .content div span.title {
   max-width: 18.13rem;
   color: #222529;
   font-size: 1rem;
   font-weight: 500;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.alice-toastify.toast-content .content div span.z-message {
+.alice-toastify.toast-content .content div span.message {
   max-width: 22.5rem;
   color: #222529;
   font-size: 1rem;
   font-weight: 400;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.alice-toastify.toast-content .content div span.z-date {
+.alice-toastify.toast-content .content div span.date {
   color: #8B9094;
   font-size: 0.875rem;
   font-weight: 400;

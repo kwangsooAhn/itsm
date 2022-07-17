@@ -110,7 +110,7 @@
                 document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                     notificationDiv.querySelectorAll('div[is-display=true]').length + ')';
 
-                document.querySelectorAll('span.z-date').forEach((element) => {
+                document.querySelectorAll('span.date').forEach((element) => {
                     element.textContent = i18n.userDateTime(element.textContent);
                 });
 
@@ -121,9 +121,9 @@
                             notificationId: element.id,
                             notificationType: element.getAttribute('notification-type'),
                             tokenId: element.getAttribute('token-id'),
-                            title: element.querySelector('.z-title').innerHTML,
-                            date: element.querySelector('.z-date').textContent,
-                            message: element.querySelector('.z-message').innerHTML
+                            title: element.querySelector('.title').innerHTML,
+                            date: element.querySelector('.date').textContent,
+                            message: element.querySelector('.message').innerHTML
                         });
                     });
                 }
