@@ -51,7 +51,7 @@ export const customCodeMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
             .setUIClass('z-custom-code')

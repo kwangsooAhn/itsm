@@ -37,19 +37,19 @@ class ZFormTokenTab {
         }).then((htmlData) => {
             this.propertiesElement.innerHTML = htmlData;
             // 탭 이벤트
-            document.querySelectorAll('.z-token-tab').forEach((tab) => {
+            document.querySelectorAll('.token-tab').forEach((tab) => {
                 tab.addEventListener('click', this.selectTokenTab, false);
             });
 
             const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
                 sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
-            document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
+            document.querySelector('.token-tab[data-target-contents="' + selectedTabId + '"]').click();
             // 아이콘 추가
             aliceJs.loadSvg();
 
             this.reloadTab();
 
-            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.token-panels'), { className: 'scrollbar' });
             OverlayScrollbars(document.getElementById('commentValue'), {
                 className: 'scrollbar',
                 resize: 'vertical',
@@ -599,7 +599,7 @@ class ZFormTokenTab {
      * 관련문서 재로딩
      */
     reloadRelatedInstance() {
-        document.querySelectorAll('#related .z-token-related-item:not(.document-add)').forEach((aTag) => {
+        document.querySelectorAll('#related .token-related-item:not(.document-add)').forEach((aTag) => {
             aTag.remove();  // 관련문서 clear
         });
 
@@ -624,7 +624,7 @@ class ZFormTokenTab {
      */
     makeRelatedInstanceFragment(instance) {
         let htmlString =
-            `<div class="z-token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
+            `<div class="token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
             `<div class="document-color" style="background-color: ` + instance.documentColor + `"></div>` +
             `<div class="document-row flex-column">` +
             `<div class="document-row-content flex-row justify-content-between">` +
@@ -733,7 +733,7 @@ class ZFormTokenTab {
      * 댓글 재로딩
      */
     reloadTokenComment() {
-        document.querySelectorAll('#tokenComments .z-token-comment-item').forEach((comment) => {
+        document.querySelectorAll('#tokenComments .token-comment-item').forEach((comment) => {
             comment.remove();  // 댓글 clear
         });
 
@@ -757,13 +757,13 @@ class ZFormTokenTab {
      */
     makeCommentsFragment(comment) {
         let htmlString =
-            `<div class="z-token-comment-item flex-column" id="comment` + comment.commentId + `">` +
-            `<div class="z-comment-row-info flex-row align-items-center">` +
+            `<div class="token-comment-item flex-column" id="comment` + comment.commentId + `">` +
+            `<div class="comment-row-info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
             `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="user-name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
-            `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
+            `<h6 class="comment-time date-time">` + comment.createDt + `</h6>` +
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
@@ -774,7 +774,7 @@ class ZFormTokenTab {
         htmlString +=
             `</div>` +
             `</div>` +
-            `<div class="z-comment-row-content">` +
+            `<div class="comment-row-content">` +
             `<h6 class="text-wordWrap">` +
             `${aliceJs.filterXSS(comment.content)}` +
             `</h6>` +

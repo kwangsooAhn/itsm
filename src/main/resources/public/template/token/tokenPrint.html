@@ -6,13 +6,13 @@
     <title th:text="#{token.label.print}"></title>
 </head>
 <th:block layout:fragment="content">
-    <div class="z-print">
-        <div class="z-print-main flex-column align-items-center">
-            <div class="z-print-header-space"> </div>
+    <div class="print">
+        <div class="print-main flex-column align-items-center">
+            <div class="print-header-space"> </div>
             <div class="drawing-board" id="documentDrawingBoard" data-display="print"></div>
-            <div class="z-print-footer-space"> </div>
+            <div class="print-footer-space"> </div>
         </div>
-        <div class="z-print-main-footer">
+        <div class="print-main-footer">
             <img class="z-img i-logo-print" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26">
             <span class="float-right align-right" id="print-information"></span>
         </div>

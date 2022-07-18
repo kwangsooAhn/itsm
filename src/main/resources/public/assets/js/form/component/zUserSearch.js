@@ -59,7 +59,7 @@ export const userSearchMixin = {
         const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data))
             ? this.elementDefaultValue.data.split('|') : ['', '', ''];
 
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
             .setUIClass('input i-user-search text-ellipsis')

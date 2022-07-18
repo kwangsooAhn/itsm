@@ -70,7 +70,7 @@ export const dynamicRowTableMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 버튼 목록
@@ -412,7 +412,7 @@ export const dynamicRowTableMixin = {
         return dateWrapper;
     },
     getTimeForColumn(column, cellValue, index) {
-        let timeWrapper = new UIDiv().setUIClass('z-element');
+        let timeWrapper = new UIDiv().setUIClass('element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
             .setUIClass('input i-time-picker text-ellipsis')
@@ -430,7 +430,7 @@ export const dynamicRowTableMixin = {
         return timeWrapper;
     },
     getDateTimeForColumn(column, cellValue, index) {
-        let dateTimeWrapper = new UIDiv().setUIClass('z-element');
+        let dateTimeWrapper = new UIDiv().setUIClass('element');
 
         let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
             .setUIClass('input i-datetime-picker text-ellipsis')

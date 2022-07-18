@@ -209,7 +209,7 @@ class ZDocument {
         let isValid = true;
         // 1. displayType 이 편집 가능일 경우
         const parentElements =
-            document.querySelectorAll('.z-group-tooltip[data-displaytype="document.displayType.editable"]');
+            document.querySelectorAll('.group-tooltip[data-displaytype="document.displayType.editable"]');
         outer : for (let i = 0; i < parentElements.length; i++) {
             // 2. 필수값 검증
             const requiredElements = parentElements[i]
@@ -251,7 +251,7 @@ class ZDocument {
 
             // 5. 라디오 / 체크박스 필수 체크
             const requiredCheckedElements =
-                parentElements[i].querySelectorAll('.z-element[data-validation-required="true"]');
+                parentElements[i].querySelectorAll('.element[data-validation-required="true"]');
             for (let l = 0; l < requiredCheckedElements.length; l++) {
                 // 필수값 체크가 필요한 체크박스 또는 라디오
                 const requiredElement = requiredCheckedElements[l].querySelector('input[type=checkbox], input[type=radio]');

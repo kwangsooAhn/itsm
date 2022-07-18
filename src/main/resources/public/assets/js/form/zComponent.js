@@ -107,7 +107,7 @@ export default class ZComponent {
 
         // 툴팁에 create template 버튼 추가
         const tooltipUl = this.UIElement.UITooltipMenu.UIUl;
-        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('z-tooltip-menu-item')
+        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('tooltip-menu-item')
             .addUIClass('palette-tooltip')
             .setUIAttribute('data-action', 'createTemplate')
             .addUI(new UISpan().setUIClass('icon').addUIClass('i-create-template'))
@@ -373,7 +373,7 @@ export default class ZComponent {
      * 라벨 DOM 객체 생성
      */
     makeLabel() {
-        const label = new UILabel().setUIClass('z-component-label')
+        const label = new UILabel().setUIClass('component-label')
             .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
             .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
@@ -385,7 +385,7 @@ export default class ZComponent {
             `${this.labelFontOptionItalic ? 'font-style:italic;' : ''}` +
             `${this.labelFontOptionItalic ? 'text-decoration:underline;' : ''}`;
 
-        label.UILabelText = new UISpan().setUIClass('z-component-label-text')
+        label.UILabelText = new UISpan().setUIClass('component-label-text')
             .setUICSSText(labelCssText)
             .setUITextContent(this.labelText);
         label.addUI(label.UILabelText);
@@ -532,14 +532,14 @@ export default class ZComponent {
 export class UIComponentTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-component-tooltip';
+        this.domElement.className = 'component-tooltip';
     }
 }
 
 export class UIComponent extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-component';
+        this.domElement.className = 'component';
         this.domElement.tabIndex = 0;
     }
 }

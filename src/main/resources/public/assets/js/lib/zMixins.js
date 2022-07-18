@@ -122,11 +122,11 @@ export const toolTipMenuMixin = {
      * 툴팁 DOM 객체 생성
      */
     makeTooltip() {
-        const tooltipMenu = new UIDiv().setUIClass('z-tooltip-menu');
-        tooltipMenu.UIUl = new UIUl().setUIClass('z-tooltip-menu-items');
+        const tooltipMenu = new UIDiv().setUIClass('tooltip-menu');
+        tooltipMenu.UIUl = new UIUl().setUIClass('tooltip-menu-items');
 
         // copy
-        tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass('z-tooltip-menu-item')
+        tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass('tooltip-menu-item')
             .addUIClass('palette-tooltip')
             .setUIAttribute('data-action', 'copy')
             .addUI(new UISpan().setUIClass('icon').addUIClass('i-copy'))
@@ -137,7 +137,7 @@ export const toolTipMenuMixin = {
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiCopy);
 
         // remove
-        tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass('z-tooltip-menu-item')
+        tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass('tooltip-menu-item')
             .addUIClass('palette-tooltip')
             .setUIAttribute('data-action', 'remove')
             .addUI(new UISpan().setUIClass('icon').addUIClass('i-delete'))

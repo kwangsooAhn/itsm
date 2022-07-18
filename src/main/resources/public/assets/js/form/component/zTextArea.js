@@ -49,7 +49,7 @@ export const textAreaMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         element.UITextArea = new UITextArea().addUIClass('textarea-scroll-wrapper')

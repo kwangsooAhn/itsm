@@ -1,27 +1,27 @@
-<div class="z-token-tabs">
-    <h5 class="z-token-tab align-center pointer active" data-target-contents="tokenInformation"
+<div class="token-tabs">
+    <h5 class="token-tab align-center pointer active" data-target-contents="tokenInformation"
         th:text="#{token.label.information}"></h5>
-    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenComments"
+    <h5 class="token-tab align-center pointer" data-target-contents="tokenComments"
         th:text="#{common.label.comment}"></h5>
-    <h5 class="z-token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
+    <h5 class="token-tab align-center pointer" data-target-contents="tokenTag" th:text="#{common.label.tag}"></h5>
 </div>
-<div class="z-token-panels">
-    <div class="z-token-panel on" id="tokenInformation">
+<div class="token-panels">
+    <div class="token-panel on" id="tokenInformation">
         <!-- 문서 보관함 -->
-        <span class="z-token-storage inline-flex align-items-center pointer">
+        <span class="token-storage inline-flex align-items-center pointer">
             <span class="icon-document-storage" id="documentStorage"
                   onclick="zFormTokenTab.toggleDocumentStorage(this);">
                 <img class="load-svg" th:src="@{/assets/media/icons/document/icon_document_storage.svg}" width="20"
                      height="20">
-                <label class="z-token-storage-label pointer" for="documentStorage">
+                <label class="token-storage-label pointer" for="documentStorage">
                     <span th:text="#{token.label.storage}"></span>
                 </label>
             </span>
         </span>
         <!-- 문서이력 -->
-        <div class="z-token-history">
-            <label class="z-token-history-sub-title" th:text="#{token.label.history}"></label>
-            <table class="table z-token-history-table">
+        <div class="token-history">
+            <label class="token-history-sub-title" th:text="#{token.label.history}"></label>
+            <table class="table token-history-table">
                 <thead class="table-head">
                 <tr class="flex-row align-items-center">
                     <th style="width: 30%;" class="align-center" th:text="#{token.label.startDt}"></th>
@@ -34,35 +34,35 @@
             </table>
         </div>
         <!-- 참조인 -->
-        <div class="z-token-viewer">
+        <div class="token-viewer">
             <div class="flex-row align-items-end justify-content-between mb-2">
-                <label class="z-token-viewer-sub-title" th:text="#{token.label.viewer}"></label>
+                <label class="token-viewer-sub-title" th:text="#{token.label.viewer}"></label>
                 <button type="button" class="button-text float-right mb-1"
                         th:text="#{token.label.viewerAdd}"
                         th:onclick="zFormTokenTab.openViewerModal()">
                 </button>
             </div>
-            <table class="table z-token-viewer-table">
+            <table class="table token-viewer-table">
                 <tbody class="table-body" id="viewer"></tbody>
             </table>
         </div>
         <!-- 일정 등록 -->
-        <div class="z-token-calendar">
+        <div class="token-calendar">
             <div class="flex-row align-items-end justify-content-between mb-2">
-                <label class="z-token-calendar-sub-title" th:text="#{token.label.calendar}"></label>
+                <label class="token-calendar-sub-title" th:text="#{token.label.calendar}"></label>
                 <button type="button" class="button-text float-right mb-1"
                         th:text="#{token.label.calendarAdd}"
                         th:onclick="zFormTokenTab.openCalendarModal()">
                 </button>
             </div>
-            <table class="table z-token-calendar-table">
+            <table class="table token-calendar-table">
                 <tbody class="table-body" id="calendar"></tbody>
             </table>
         </div>
         <!-- 관련문서 -->
-        <div class="z-token-related" id="related">
-            <label class="z-token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
-            <div class="z-token-related-item flex-row justify-content-center align-items-center document-add">
+        <div class="token-related" id="related">
+            <label class="token-related-sub-title" th:text="#{token.label.relatedInstance}"></label>
+            <div class="token-related-item flex-row justify-content-center align-items-center document-add">
                 <button class="button-icon" th:onclick="zFormTokenTab.openRelatedDocModal()">
                     <span class="icon i-plus"></span>
                 </button>
@@ -70,8 +70,8 @@
         </div>
     </div>
     <!-- 댓글 -->
-    <div class="z-token-panel z-token-comment" id="tokenComments">
-        <div class="z-comment-add flex-row align-items-start">
+    <div class="token-panel token-comment" id="tokenComments">
+        <div class="comment-add flex-row align-items-start">
             <textarea id="commentValue" class="textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200"
                       rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
             <button class="button secondary" th:onclick="zFormTokenTab.saveComments()"
@@ -79,7 +79,7 @@
         </div>
     </div>
     <!-- 태그 -->
-    <div class="z-token-panel z-token-tag" id="tokenTag">
+    <div class="token-panel token-tag" id="tokenTag">
         <div class="tag-input">
             <input type="text" class="input" id="tokenTags" th:value="${tagList}"/>
         </div>

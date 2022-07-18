@@ -47,7 +47,7 @@ export const dropdownCodeMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         // 초기값은 '선택하세요.' 이며, 발행/사용 중일 경우 즉 더이상 수정 불가능할때, 실제 서버 데이터를 조회한다.
         element.UIDropdown = new UISelect()

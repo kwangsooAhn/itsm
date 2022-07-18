@@ -57,7 +57,7 @@ export const modalButtonMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv()
-            .setUIClass('z-element')
+            .setUIClass('element')
             .addUIClass('align-right')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIButton = new UIButton()

@@ -55,7 +55,7 @@ export const organizationSearchMixin = {
         // 컴포넌트에 설정된 기본 값
         const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data))
             ? this.elementDefaultValue.data.split('|') : ['', ''];
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
             .setUIClass('input i-organization-search text-ellipsis')
