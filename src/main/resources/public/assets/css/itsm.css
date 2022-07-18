@@ -3623,44 +3623,15 @@ input, button, select, optgroup, textarea {
  * @description header에서 사용되는 scss
  * @version 1.0
  */
-.faq-header,
-.z-download-header,
-.z-board-header,
-.z-user-header,
-.z-board-admin-header,
-.document-admin-header,
-.z-custom-code-header,
-.z-auth-header,
-.z-role-header,
-.z-code-header,
-.z-numbering-pattern-header,
-.z-numbering-rule-header,
-.chart-header,
-.z-cmdb-attribute-header,
-.z-cmdb-class-header,
-.z-cmdb-type-header,
-.z-cmdb-ci-header,
-.z-scheduler-header,
-.report-template-header {
-  padding: 0 3.75rem 0 3.75rem;
-}
-
-.document-header,
-.z-token-header,
-.z-image-header {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding: 0 3.75rem 0 3.75rem;
-}
-
 .main-top {
   height: 3.5rem;
 }
-.main-top .z-divide {
+.main-top .divide {
   padding: 0 0.75rem 0 1.25rem;
   height: 1.25rem;
   color: #CFD5D9;
 }
-.main-top .z-user-info {
+.main-top .user-info {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -3668,7 +3639,7 @@ input, button, select, optgroup, textarea {
   margin: 0.313rem 0.5rem 0.313rem 0;
   padding: 0 0.5rem 0 0.5rem;
 }
-.main-top .z-user-info .z-user-name {
+.main-top .user-info .user-name {
   display: inline-block;
   min-width: 2.75rem;
   max-width: 12.5rem;
@@ -3678,7 +3649,7 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   line-height: 1.688rem;
 }
-.main-top .z-user-info .i-user-profile {
+.main-top .user-info .i-user-profile {
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -3687,7 +3658,7 @@ input, button, select, optgroup, textarea {
   height: 1.875rem;
   vertical-align: middle;
 }
-.main-top .z-user-info .i-arrow-right {
+.main-top .user-info .i-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -3697,38 +3668,38 @@ input, button, select, optgroup, textarea {
   margin-left: auto;
   background-color: #8B9094;
 }
-.main-top .z-user-info:hover {
+.main-top .user-info:hover {
   background-color: #EBF1F5;
   outline: 0;
   cursor: pointer;
 }
-.main-top .z-user-info:focus {
+.main-top .user-info:focus {
   box-shadow: 0 0 0 0.125rem #102E71;
   outline: 0;
 }
-.main-top .z-user-info:active {
+.main-top .user-info:active {
   background-color: #FFFFFF;
   border-color: #CFD5D9;
   box-shadow: 0 0 0 0.125rem #102E71;
 }
-.main-top .z-user-info:active .i-arrow-right {
+.main-top .user-info:active .i-arrow-right {
   background-color: #222529;
 }
-.main-top .z-user-info.active {
+.main-top .user-info.active {
   border-color: #CFD5D9;
   background-color: #FFFFFF;
 }
-.main-top .z-user-info.active + .z-dropdown-content {
+.main-top .user-info.active + .dropdown-content {
   visibility: visible;
 }
-.main-top .z-user-info.active .i-arrow-right {
+.main-top .user-info.active .i-arrow-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.main-top .z-dropdown-content {
+.main-top .dropdown-content {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
@@ -3741,10 +3712,10 @@ input, button, select, optgroup, textarea {
   z-index: 100;
   visibility: hidden;
 }
-.main-top .z-dropdown-item {
+.main-top .dropdown-item {
   width: 118px;
 }
-.main-top .z-dropdown-item-btn {
+.main-top .dropdown-item-btn {
   border: 0.0625rem solid #FFFFFF;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -3756,16 +3727,16 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   line-height: 2;
 }
-.main-top .z-dropdown-item-btn:hover {
+.main-top .dropdown-item-btn:hover {
   background-color: #E0F3FF;
   outline: 0;
   cursor: pointer;
 }
-.main-top .z-dropdown-item-btn:focus {
+.main-top .dropdown-item-btn:focus {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.main-top .z-dropdown-item-btn:active {
+.main-top .dropdown-item-btn:active {
   background-color: #D6EDFC;
   color: #19428D;
 }
@@ -3867,7 +3838,7 @@ input, button, select, optgroup, textarea {
   margin-left: -0.1875rem;
   pointer-events: none;
 }
-.header-button-dropdown + .z-dropdown-content {
+.header-button-dropdown + .dropdown-content {
   position: absolute;
   right: 0;
   border: 0.0625rem solid #CFD5D9;
@@ -3881,30 +3852,30 @@ input, button, select, optgroup, textarea {
   z-index: 250;
   visibility: hidden;
 }
-.header-button-dropdown + .z-dropdown-content .z-dropdown-item {
+.header-button-dropdown + .dropdown-content .dropdown-item {
   padding: 0.25rem 0 0 0;
 }
-.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown {
+.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown {
   width: 100%;
   border-color: #FFFFFF;
   background-color: #FFFFFF;
   color: #222529;
   font-weight: 500;
 }
-.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:focus {
+.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   color: #222529;
   outline: 0;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:hover {
+.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:hover {
   border-color: #E0F3FF;
   background-color: #E0F3FF;
   color: #222529;
   outline: 0;
 }
-.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:enabled:active, .header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:enabled.active {
+.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:enabled:active, .header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:enabled.active {
   border-color: #D6EDFC;
   background-color: #D6EDFC;
   color: #19428D;
@@ -3917,7 +3888,7 @@ input, button, select, optgroup, textarea {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.header-button-dropdown.active + .z-dropdown-content {
+.header-button-dropdown.active + .dropdown-content {
   display: block;
   visibility: visible;
 }
@@ -6189,7 +6160,7 @@ input, button, select, optgroup, textarea {
   margin: 0.625rem 0 0 0;
   padding: 1rem;
 }
-.document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-row-info .z-user-name {
+.document-container .z-token-properties .z-token-panels .z-token-comment-item .z-comment-row-info .user-name {
   color: #222529;
   font-weight: 700;
 }
