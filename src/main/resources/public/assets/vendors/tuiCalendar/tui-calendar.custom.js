@@ -526,14 +526,14 @@ Object.assign(zCalendar.prototype, {
         this.options.viewType = type;
 
         if (type === 'task') {
-            this.el.classList.remove('on');
-            this.taskView.classList.add('on');
+            this.el.classList.remove('block');
+            this.taskView.classList.add('block');
             this.calendar.changeView('month', true);
             this.setTaskView();
             this.isReload = true;
         } else {
-            this.el.classList.add('on');
-            this.taskView.classList.remove('on');
+            this.el.classList.add('block');
+            this.taskView.classList.remove('block');
             this.calendar.changeView(type, true);
         }
         this.setRenderRangeText();

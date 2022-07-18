@@ -81,13 +81,13 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty('form.properties.element.defaultCodeValue')
             .addUIClass('mt-3')
             .addUIClass('default-code-label')
-            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'off'));
+            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'none'));
         this.UIElement.addUI(this.UIElement.UILabel);
         this.UIElement.UILabel.domElement.removeChild(this.UIElement.UILabel.domElement.children[1]);
 
         // 기본값 코드 input
         this.UIElement.UIInput = new UIInput().setUIId(this.key)
-            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'off'))
+            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'none'))
             .setUIAttribute('data-type', FORM.DROPDOWN_CODE.DEFAULT_CODE)
             .setUIValue(this.value[FORM.DROPDOWN_CODE.DEFAULT_CODE])
             .setUIAttribute('data-validation-min-length', this.validation.minLength)
@@ -162,15 +162,15 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
                 if (elementDataType === FORM.DROPDOWN_CODE.CODE) {
                     tempValue[FORM.DROPDOWN_CODE.DEFAULT_CODE] = ''; // 초기값 할당
                     
-                    defaultCodeLabel.classList.remove('off');
-                    defaultCode.classList.remove('off');
+                    defaultCodeLabel.classList.remove('none');
+                    defaultCode.classList.remove('none');
                     defaultCodeLabel.classList.add('on');
                     defaultCode.classList.add('on');
                 } else {
                     defaultCodeLabel.classList.remove('on');
                     defaultCode.classList.remove('on');
-                    defaultCodeLabel.classList.add('off');
-                    defaultCode.classList.add('off');
+                    defaultCodeLabel.classList.add('none');
+                    defaultCode.classList.add('none');
                 }
                 break;
             default:
