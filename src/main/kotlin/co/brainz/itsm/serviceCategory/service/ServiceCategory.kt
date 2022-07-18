@@ -118,13 +118,13 @@ class ServiceCategory(
      * 서비스 카테고리 수정
      */
     @Transactional
-    fun updateService(serviceCategoryDto: ServiceCategoryDto): ZResponse {
+    fun updateService(serviceCode: String, serviceCategoryDto: ServiceCategoryDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
 
         when (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)) {
             true -> status = ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
             false -> {
-                val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCategoryDto.serviceCode)
+                val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCode)
                 serviceEntity.serviceName = serviceCategoryDto.serviceName
                 serviceEntity.serviceDesc = serviceCategoryDto.serviceDesc
                 serviceEntity.avaGoal = serviceCategoryDto.avaGoal
