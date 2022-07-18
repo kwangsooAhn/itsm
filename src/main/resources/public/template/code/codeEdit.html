@@ -83,7 +83,7 @@
                 <label th:text="#{code.label.codeLang}"></label>
                 <button sec:authorize="hasAuthority('system.manage')" type="button"
                         class="button-icon extra float-right" id="btnCodeLang">
-                    <span class="icon i-plus"></span>
+                    <span class="ic-plus"></span>
                 </button>
             </div>
             <div class="horizontal-bar"></div>
@@ -108,7 +108,7 @@
             <label class="required" th:text="#{code.label.name}"></label>
             <input class="input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
             <button type="button" sec:authorize="hasAuthority('system.manage')" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">
-                <span class="icon i-remove"></span>
+                <span class="ic-remove"></span>
             </button>
         </div>
     </template>

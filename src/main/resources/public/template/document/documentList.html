@@ -7,7 +7,7 @@
 <div class="card-list flex-row justify-content-start align-itmes-start">
     <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
     <div class="card flex-row justify-content-center no-data-found" th:if="${#arrays.isEmpty(documentList)}">
-        <img class="img i-no-card" />
+        <img class="img ic-no-card" />
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <th:block th:fragment="list">
@@ -24,7 +24,7 @@
                     </div>
                     <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
                     <div class="document-icon">
-                        <img class="img i-document-icon" th:src="${document.documentIcon}"/>
+                        <img th:src="${document.documentIcon}"/>
                     </div>
                 </div>
             </a>
@@ -38,7 +38,7 @@
                 </div>
                 <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
                 <div class="document-icon">
-                    <img class="img i-document-icon" th:src="${document.documentIcon}"/>
+                    <img th:src="${document.documentIcon}"/>
                 </div>
             </div>
         </div>

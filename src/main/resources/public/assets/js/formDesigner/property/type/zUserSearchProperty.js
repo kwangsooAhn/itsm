@@ -125,7 +125,7 @@ export default class ZUserSearchProperty extends ZProperty {
                     .setUIDisabled(!this.isEditable)
                     // 사용자 검색 모달
                     .onUIClick(this.openUserListModal.bind(this));
-                targetGroup.UIButton.addUI(new UISpan().addUIClass('icon').addUIClass('i-plus'));
+                targetGroup.UIButton.addUI(new UISpan().addUIClass('i-plus'));
                 targetGroup.UILabel.addUI(targetGroup.UIButton);
                 targetGroup.addUI(targetGroup.UILabel);
 

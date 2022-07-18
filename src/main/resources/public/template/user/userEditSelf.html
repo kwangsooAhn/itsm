@@ -32,7 +32,7 @@
                             <span th:text="#{user.label.id}"></span>
                             <span class="required"></span>
                             <div class="help-tooltip">
-                                <span class="icon i-tooltip"></span>
+                                <span class="ic-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
@@ -47,7 +47,7 @@
                             <span th:text="#{user.label.password}"></span>
                             <span class="required"></span>
                             <div class="help-tooltip">
-                                <span class="icon i-tooltip"></span>
+                                <span class="ic-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.pwRule}"></span>
                                 </div>
@@ -97,7 +97,7 @@
                                    th:value="${organizationDetail?.organizationName}" readonly>
                             <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
                                     tabindex="-1" th:if="!${view}">
-                                <span class="icon i-remove"></span>
+                                <span class="ic-remove"></span>
                             </button>
                             <button type="button" class="button-search button form" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
@@ -214,7 +214,7 @@
                             <input type="text" class="input col-2" id="substituteUser" name="substituteUser"
                                     readonly>
                             <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);">
-                                <span class="icon i-remove"></span>
+                                <span class="ic-remove"></span>
                             </button>
                             <button type="button" class="button-search button form" onclick="openSubUserModal();"
                                     th:text="#{common.btn.select}"></button>

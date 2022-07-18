@@ -922,10 +922,10 @@ Object.assign(zCalendar.prototype, {
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
                 <div class="button-list flex-row float-right align-items-end">
                     <button type="button" class="button-icon secondary" id="scheduleEdit">
-                        <span class="icon i-edit"></span>
+                        <span class="ic-edit"></span>
                     </button>
                     <button type="button" class="button-icon secondary" id="scheduleDelete">
-                        <span class="icon i-delete"></span>
+                        <span class="ic-delete"></span>
                     </button>
                 </div>
             </div>

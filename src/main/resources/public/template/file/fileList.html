@@ -164,7 +164,7 @@
                 `<div class="thumbnail-bottom">` +
                     `<label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>` +
                     `<button name="deleteBtn" type="button" class="button-icon float-right" data-name="${image.name}" onclick="removeFile(this);">` +
-                        `<span class="icon i-delete"></span>` +
+                        `<span class="ic-delete"></span>` +
                     `</button>` +
                 `</div>` +
             `</div>`;
@@ -176,7 +176,7 @@
         if (thumbnailCnt === 0) {
             let thumbnailUploadTemplate = `
                 <div class="thumbnail-upload align-center" onclick="document.getElementById('uploadFile').click();" tabindex="-1">
-                    <span class="icon i-file-upload"></span>
+                    <span class="ic-file-upload"></span>
                     <p class="thumbnail-upload-text underline mt-2">${i18n.msg('file.label.upload')}</p>
                     <input type="file" id="uploadFile" accept="${acceptFileNameList.join()}" multiple onchange="uploadFile(this);" style="display: none;"/>
                 </div>

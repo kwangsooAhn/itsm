@@ -68,7 +68,7 @@ export const ciMixin = {
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             // 모든 버튼을 disabled 처리
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
-                elem.disabled = !elem.querySelector('span.i-search');
+                elem.disabled = !elem.querySelector('span.ic-search');
             });
             // 테이블의 상단 여백 제거
             this.UIElement.UIComponent.UIElement.UITable.removeUIClass('mt-2');
@@ -259,7 +259,7 @@ export const ciMixin = {
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
-                        .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
+                        .addUI(new UISpan().setUIClass('icon').addUIClass('ic-search'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
@@ -271,7 +271,7 @@ export const ciMixin = {
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
                         .addUI(new UISpan().setUIClass('icon').addUIClass(
-                            (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) ? 'i-edit' : 'i-search')
+                            (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) ? 'ic-edit' : 'ic-search')
                         );
 
                     return new UICell(row).setUIClass(tdClassName)
@@ -284,7 +284,7 @@ export const ciMixin = {
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
-                    .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
+                    .addUI(new UISpan().setUIClass('icon').addUIClass('ic-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -295,7 +295,7 @@ export const ciMixin = {
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
-                    .addUI(new UISpan().setUIClass('icon').addUIClass('i-delete'));
+                    .addUI(new UISpan().setUIClass('icon').addUIClass('ic-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -1336,7 +1336,7 @@ export const ciMixin = {
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'button-icon extra';
         const deleteIcon = document.createElement('span');
-        deleteIcon.className = 'icon i-delete';
+        deleteIcon.className = 'ic-delete';
         deleteBtn.addEventListener('click', function () {
             deleteBtn.parentElement.parentElement.remove();
         });

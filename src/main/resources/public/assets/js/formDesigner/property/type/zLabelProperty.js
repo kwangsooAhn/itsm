@@ -33,16 +33,16 @@ export default class ZLabelProperty {
 
         // label - position
         const labelPositionProperty = new ZSwitchButtonProperty('labelPosition', 'label.position', this.target.labelPosition, [
-            { 'name': 'i-position-left', 'value': 'left' },
-            { 'name': 'i-position-top', 'value': 'top' },
-            { 'name': 'i-position-hidden', 'value': 'hidden' }
+            { 'name': 'ic-position-left', 'value': 'left' },
+            { 'name': 'ic-position-top', 'value': 'top' },
+            { 'name': 'ic-position-hidden', 'value': 'hidden' }
         ]);
 
         // label - align
         const labelAlignProperty = new ZSwitchButtonProperty('labelAlign', 'label.align', this.target.labelAlign, [
-            { 'name': 'i-align-left', 'value': 'left' },
-            { 'name': 'i-align-center', 'value': 'center' },
-            { 'name': 'i-align-right', 'value': 'right' }
+            { 'name': 'ic-align-left', 'value': 'left' },
+            { 'name': 'ic-align-center', 'value': 'center' },
+            { 'name': 'ic-align-right', 'value': 'right' }
         ]);
         labelAlignProperty.columnWidth = '6';
 

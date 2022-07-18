@@ -58,7 +58,7 @@ export default class ZOptionListProperty extends ZProperty {
             .addUIClass('float-right')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.addRow.bind(this));
-        this.UIElement.UIButton.addUI(new UISpan().addUIClass('icon').addUIClass('i-plus'));
+        this.UIElement.UIButton.addUI(new UISpan().addUIClass('ic-plus'));
         this.UIElement.UILabel.addUI(this.UIElement.UIButton);
         this.UIElement.addUI(this.UIElement.UILabel);
 
@@ -167,7 +167,7 @@ export default class ZOptionListProperty extends ZProperty {
             .setUIClass('button-icon')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.removeRow.bind(this));
-        removeTD.removeButton.addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));
+        removeTD.removeButton.addUI(new UISpan().addUIClass('ic-remove'));
         removeTD.addUI(removeTD.removeButton);
 
         optionRow.addUICell(checkedTD);

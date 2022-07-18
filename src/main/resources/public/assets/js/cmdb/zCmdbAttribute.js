@@ -227,7 +227,7 @@
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-                `<span class="icon i-plus"></span></button>` +
+                `<span class="ic-plus"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -282,7 +282,7 @@
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="icon i-remove"></span>` +
+                `<span class="ic-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -321,7 +321,7 @@
         this.template =
             `<div class="float-right" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-            `<span class="icon i-plus"></span>` +
+            `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -349,7 +349,7 @@
                 `<div class="flex-column col-5"><input type="text" class="input" maxlength="50"></div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="icon i-remove"></span>` +
+                `<span class="ic-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -384,7 +384,7 @@
         this.template =
             `<div class="float-right" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-            `<span class="icon i-plus"></span>` +
+            `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -419,7 +419,7 @@
                 `</div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="icon i-remove"></span>` +
+                `<span class="ic-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -524,7 +524,7 @@
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
             `<button class="button-icon button-code" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-                `<span class="icon i-search"></span></button>` +
+                `<span class="ic-search"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -617,7 +617,7 @@
         this.template =
             `<div class="float-right" id="button_add">` +
             `<button id="${objectId}_add" type="button" class="button-icon extra">` +
-            `<span class="icon i-plus"></span>` +
+            `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -688,7 +688,7 @@
             `</div>` +
             `<div class="flex-column">` +
             `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-            `<span class="icon i-remove"></span>` +
+            `<span class="ic-remove"></span>` +
             `</button>` +
             `</div>` +
             `</div>`;
@@ -733,7 +733,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-minDate" id="${objectId}-minDate" 
-                        class="input i-date-picker search-date col-3 mr-2" 
+                        class="input ic-date-picker search-date col-3 mr-2" 
                         value="${minDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>` +
@@ -745,7 +745,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-maxDate" id="${objectId}-maxDate" 
-                        class="input i-date-picker search-date col-3 mr-2" 
+                        class="input ic-date-picker search-date col-3 mr-2" 
                         value="${maxDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>`;
@@ -778,7 +778,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-minDateTime" id="${objectId}-minDateTime" 
-                        class="input i-datetime-picker search-datetime col-3 mr-2" 
+                        class="input ic-datetime-picker search-datetime col-3 mr-2" 
                         value="${minDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>` +
@@ -790,7 +790,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-maxDateTime" id="${objectId}-maxDateTime" 
-                        class="input i-datetime-picker search-datetime col-3 mr-2" 
+                        class="input ic-datetime-picker search-datetime col-3 mr-2" 
                         value="${maxDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>`;
@@ -903,7 +903,7 @@
             const organizationTemplate = `<div class="flex-row input-button">
                 <input type="text" class="input" readonly="true" id="searchTarget" required="true" data-value="">
                 <button class="button-icon button-code" type="button" id="searchOrganization">` +
-                `<span class="icon i-search"></span></button>
+                `<span class="ic-search"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
 
@@ -951,7 +951,7 @@
      */
     function openUserListModal(e) {
         const targetUserModalTemplate = `<div class="target-user-list">` +
-                `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +
@@ -1086,7 +1086,7 @@
                 `</div>` +
                 `<div class="flex-column">` +
                     `<button type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2 extra user-search-delete-btn"` +
-                        ` data-user-id="${data.id}"><span class="icon i-remove"></span>` +
+                        ` data-user-id="${data.id}"><span class="ic-remove"></span>` +
                     `</button>` +
                 `</div>` +
             `</div>`;
@@ -1211,7 +1211,7 @@
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
                         <button class="button-icon button-code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
-                            <span class="icon i-search"></span>
+                            <span class="ic-search"></span>
                         </button>
                     </div>
                 </div>
@@ -1228,7 +1228,7 @@
 
         // 모달 내부 template
         const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
-            `<input class="input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
+            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
             `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
@@ -1819,7 +1819,7 @@
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
 
                 const customSpanElem = document.createElement('span');
-                customSpanElem.className = 'icon i-search';
+                customSpanElem.className = 'ic-search';
                 customBtnElem.appendChild(customSpanElem);
                 elem.appendChild(customBtnElem);
 
@@ -1875,7 +1875,7 @@
                         const addBtn = document.createElement('button');
                         addBtn.type = 'button';
                         addBtn.className = 'button-icon secondary button-attribute-add';
-                        addBtn.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
+                        addBtn.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
                         addBtn.addEventListener('click', addCIAttributeChild, false);
                         elem.appendChild(addBtn);
                     }
@@ -1891,7 +1891,7 @@
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
                     removeBtn.className = 'button-icon-sm ml-2 mr-2 mt-2 mb-2 button-attribute-delete';
-                    removeBtn.insertAdjacentHTML('beforeend', `<span class="icon i-remove"></span>`);
+                    removeBtn.insertAdjacentHTML('beforeend', `<span class="ic-remove"></span>`);
                     removeBtn.addEventListener('click', removeCIAttributeChild, false);
                     elem.appendChild(removeBtn);
                 }

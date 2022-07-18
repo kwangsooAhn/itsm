@@ -4,8 +4,7 @@
 <div class="navigation">
     <div class="gnb">
         <div class="logo">
-            <img class="img i-navigation-logo"
-                 th:src="@{/assets/media/icons/} + 'icon_navigation_logo.svg'"
+            <img th:src="@{/assets/media/icons/} + 'icon_navigation_logo.svg'"
                  width="152" height="26" alt="Zenius ITSM">
         </div>
         <div class="menu">
@@ -18,9 +17,9 @@
                         <a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);"
                            th:data-menugroup="${topMenu.menuId}" class="gnb-link flex-row"
                            th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
-                            <span th:class="'icon i-gnb-' + ${topMenu.menuId}"></span>
+                            <span th:class="'ic-gnb-' + ${topMenu.menuId}"></span>
                             <span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-                            <span class="icon i-arrow-right"></span>
+                            <span class="ic-arrow-right"></span>
                         </a>
                         <ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-group">
                             <li th:id="${subMenu.menuId}" class="snb-area"
@@ -31,7 +30,7 @@
                                    th:class="snb-link"
                                    onclick="showProgressBar()"
                                    th:classappend="${subMenu.url} == ${session.active_url} ? active">
-                                    <span class="icon i-gnb_sub_dot"></span>
+                                    <span class="ic-gnb_sub_dot"></span>
                                     <span class="menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
                                 </a>
                             </li>
@@ -40,7 +39,7 @@
                         <a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}"
                            class="gnb-link flex-row"
                            th:classappend="${topMenu.url} == ${session.active_url} ? active">
-                            <span th:class="'icon i-gnb-' + ${topMenu.menuId}"></span>
+                            <span th:class="'ic-gnb-' + ${topMenu.menuId}"></span>
                             <span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
                             <span th:if="${topMenu.menuId == 'token'}" class="token-count align-center"
                                   id="tokenCount">-</span>

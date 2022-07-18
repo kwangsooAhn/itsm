@@ -26,10 +26,8 @@ $layout-header-dropdown: (
 // header button
 .header-button {
   &.button-icon {
-    .icon {
-      pointer-events: none;
-      &.i-arrow-right { @include rotate(90); }
-    }
+    [class*="ic-"] { pointer-events: none; }
+    .ic-arrow-right { @include rotate(90); }
   }
 }
 // header dropdown button
@@ -37,7 +35,7 @@ $layout-header-dropdown: (
   width: 1.25rem; // 20px
   padding: 0.5625rem 0.1875rem; // 9px 3px
 
-  .icon {
+  [class*="ic-"] {
     margin-left: -0.1875rem; // -3px
     pointer-events: none;
   }
@@ -100,7 +98,7 @@ $layout-header-dropdown: (
   }
 
   &.active {
-    .icon.i-arrow-right { @include rotate(-90); }
+    .ic-arrow-right { @include rotate(-90); }
     + .dropdown-content {
       display: block;
       visibility: visible;
@@ -132,8 +130,8 @@ $layout-header-dropdown: (
     font-weight: $font-weight-medium;
     z-index: 100;
 
-    .i-form-designer,
-    .i-process-designer {
+    .ic-form-designer,
+    .ic-process-designer {
       width: 12.5rem; // 200px
       padding: 0 0.75rem; // 0 12px
     }
@@ -203,7 +201,7 @@ $layout-header-dropdown: (
 .button-toggle-group {
   .button-switch,
   .button-toggle {
-    .text, .icon { pointer-events: none; }
+    .text, [class*="ic-"] { pointer-events: none; }
   }
 }
 
@@ -216,7 +214,7 @@ $layout-header-dropdown: (
   @if map-get($button-tab, 'default', 'shadow') != null {
     box-shadow: map-get($button-tab, 'default', 'shadow');
   }
-  .icon { background: map-get($button-tab, 'default', 'font'); }
+  [class*="ic-"] { background: map-get($button-tab, 'default', 'font'); }
 
   &:focus {
     border-color: map-get($button-tab, 'focus', 'border');
@@ -226,7 +224,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'focus', 'shadow') != null {
       box-shadow: map-get($button-tab, 'focus', 'shadow');
     }
-    .icon { background: map-get($button-tab, 'focus', 'font'); }
+    [class*="ic-"] { background: map-get($button-tab, 'focus', 'font'); }
   }
 
   &:hover {
@@ -237,7 +235,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'hover', 'shadow') != null {
       box-shadow: map-get($button-tab, 'hover', 'shadow');
     }
-    .icon { ackground: map-get($button-tab, 'hover', 'font'); }
+    [class*="ic-"] { ackground: map-get($button-tab, 'hover', 'font'); }
   }
 
   &:enabled:active,
@@ -249,7 +247,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'active', 'shadow') != null {
       box-shadow: map-get($button-tab, 'active', 'shadow');
     }
-    .icon { background: map-get($button-tab, 'active', 'font'); }
+    [class*="ic-"] { background: map-get($button-tab, 'active', 'font'); }
   }
   // 선택된 경우
   &.selected:not(:disabled),
@@ -261,7 +259,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'selected', 'shadow') != null {
       box-shadow: map-get($button-tab, 'selected', 'shadow');
     }
-    .icon { background: map-get($button-tab, 'selected', 'font'); }
+    [class*="ic-"] { background: map-get($button-tab, 'selected', 'font'); }
   }
 
   &:disabled,
@@ -273,7 +271,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'disabled', 'shadow') != null {
       box-shadow: map-get($button-tab, 'disabled', 'shadow');
     }
-    .icon { background: map-get($button-tab, 'disabled', 'font'); }
+    [class*="ic-"] { background: map-get($button-tab, 'disabled', 'font'); }
   }
 }
 
@@ -285,10 +283,10 @@ $layout-header-dropdown: (
 
 .button-icon {
   &.button-attach-file {
-    .icon.i-folder { background: $gray500; }
+    .ic-folder { background: $gray500; }
   }
   &.button-code {
-    .icon.i-search { background: $gray500; }
+    .ic-search { background: $gray500; }
   }
 }
 
@@ -385,7 +383,7 @@ $layout-header-dropdown: (
       opacity: 1;
     }
     // 화살표 아이콘
-    .icon.i-arrow-right {
+    .ic-arrow-right {
       @include rotate(270);
       display: table-cell;
       background: $gray500;
@@ -397,7 +395,7 @@ $layout-header-dropdown: (
     // 체크박스 선택 = 아코디언 펼침
     .group-accordion-checkBox:checked {
       + .group-label {
-        .icon.i-arrow-right { @include rotate(90); }
+        .ic-arrow-right { @include rotate(90); }
       }
       ~ .row-tooltip:not(.none) { display: block; }
     }
@@ -412,7 +410,7 @@ $layout-header-dropdown: (
         .group-label-text { opacity: 0; }
       }
 
-      .icon.i-arrow-right { opacity: 1; }
+      .ic-arrow-right { opacity: 1; }
     }
 
     // row
@@ -566,7 +564,7 @@ $layout-header-dropdown: (
     // filedownload 컴포넌트
     .fileDownload {
       cursor: pointer;
-      .icon.i-download { background: $gray500; }
+      .ic-download { background: $gray500; }
       .file-text {
         font-size: $font-size-xs;
         font-weight: $font-weight-regular;
@@ -698,14 +696,14 @@ $layout-header-dropdown: (
       margin: 0 0.25rem; // 0 4px
       padding: 0 0.25rem; // 0 4px
       cursor: pointer;
-      .icon {
+      [class*="ic-"] {
         display: inline-block;
         background: $blue300;
         vertical-align: middle;
         pointer-events: none;
       }
       &:hover {
-        .icon { background: $blue500; }
+        [class*="ic-"] { background: $blue500; }
       }
     }
   }
@@ -787,7 +785,7 @@ $component-icon: (
       font-size: $font-size-s;
       font-weight: $font-weight-bold;
       cursor: pointer;
-      .icon.i-arrow-right {
+      .ic-arrow-right {
         @include rotate(180);
         @include transformOrigin(50% 50%);
         background: $gray500;
@@ -837,7 +835,7 @@ $component-icon: (
             @if map-get($component-icon, 'hover', 'shadow') != null {
               box-shadow: map-get($component-icon, 'hover', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'hover', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'hover', 'icon'); }
             .component-name { color: map-get($component-icon, 'hover', 'font'); }
           }
           &:focus {
@@ -847,7 +845,7 @@ $component-icon: (
             @if map-get($component-icon, 'focus', 'shadow') != null {
               box-shadow: map-get($component-icon, 'focus', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'focus', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'focus', 'icon'); }
             .component-name { color: map-get($component-icon, 'focus', 'font'); }
           }
           // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
@@ -858,7 +856,7 @@ $component-icon: (
             @if map-get($component-icon, 'active', 'shadow') != null {
               box-shadow: map-get($component-icon, 'active', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'active', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'active', 'icon'); }
             .component-name {
               font-weight: $font-weight-bold;
               color: map-get($component-icon, 'active', 'font');
@@ -872,7 +870,7 @@ $component-icon: (
             @if map-get($component-icon, 'drag', 'shadow') != null {
               box-shadow: map-get($component-icon, 'drag', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'drag', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'drag', 'icon'); }
             .component-name {
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
@@ -886,14 +884,14 @@ $component-icon: (
             @if map-get($component-icon, 'placeholder', 'shadow') != null {
               box-shadow: map-get($component-icon, 'placeholder', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'placeholder', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'placeholder', 'icon'); }
             .component-name {
               color: map-get($component-icon, 'placeholder', 'font');
               font-weight: $font-weight-medium;
             }
           }
 
-          .icon { background: map-get($component-icon, 'default', 'icon'); }
+          [class*="ic-"] { background: map-get($component-icon, 'default', 'icon'); }
           .component-name {
             display: block;
             padding-top: 0.375rem; // 6px
@@ -920,7 +918,7 @@ $component-icon: (
             box-shadow: map-get($component-icon, 'default', 'shadow');
           }
 
-          .icon { background: map-get($component-icon, 'default', 'icon'); }
+          [class*="ic-"] { background: map-get($component-icon, 'default', 'icon'); }
 
           .component-name {
             width: 8.125rem; // 130px
@@ -937,7 +935,7 @@ $component-icon: (
             @if map-get($component-icon, 'hover', 'shadow') != null {
               box-shadow: map-get($component-icon, 'hover', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'hover', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'hover', 'icon'); }
             .component-name { color: map-get($component-icon, 'hover', 'font'); }
           }
           &:focus {
@@ -947,7 +945,7 @@ $component-icon: (
             @if map-get($component-icon, 'focus', 'shadow') != null {
               box-shadow: map-get($component-icon, 'focus', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'focus', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'focus', 'icon'); }
             .component-name { color: map-get($component-icon, 'focus', 'font');
             }
           }
@@ -959,7 +957,7 @@ $component-icon: (
             @if map-get($component-icon, 'active', 'shadow') != null {
               box-shadow: map-get($component-icon, 'active', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'active', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'active', 'icon'); }
             .component-name {
               color: map-get($component-icon, 'active', 'font');
               font-weight: $font-weight-bold;
@@ -973,7 +971,7 @@ $component-icon: (
             @if map-get($component-icon, 'drag', 'shadow') != null {
               box-shadow: map-get($component-icon, 'drag', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'drag', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'drag', 'icon'); }
             .component-name {
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
@@ -987,7 +985,7 @@ $component-icon: (
             @if map-get($component-icon, 'placeholder', 'shadow') != null {
               box-shadow: map-get($component-icon, 'placeholder', 'shadow');
             }
-            .icon { background: map-get($component-icon, 'placeholder', 'icon'); }
+            [class*="ic-"] { background: map-get($component-icon, 'placeholder', 'icon'); }
             .component-name {
               color: map-get($component-icon, 'placeholder', 'font');
               font-weight: $font-weight-medium;
@@ -999,7 +997,7 @@ $component-icon: (
 
     input[type=radio]:checked {
       + .accordion-label {
-        .icon.i-arrow-right { @include rotate(90); }
+        .ic-arrow-right { @include rotate(90); }
       }
       ~ .accordion-content {
         @include scrollbarHidden;
@@ -1026,7 +1024,7 @@ $component-icon: (
     background-color: $blue100;
     opacity: 0.5;
 
-    .icon { display: none; }
+    [class*="ic-"] { display: none; }
     .component-name { display: none; }
     .component-tooltip {
       border-color: transparent;
@@ -1042,15 +1040,15 @@ $component-icon: (
             border-color: $blue400 !important;
             color: $blue400 !important;
             &::placeholder { color: $blue400 !important; }
-            .icon { background: $blue400 !important; }
+            [class*="ic-"] { background: $blue400 !important; }
             // 날짜 시간 컴포넌트
-            &.i-date-picker {
+            &.ic-date-picker {
               @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
-            &.i-time-picker {
+            &.ic-time-picker {
               @include backgroundImage($icon-folder-path + 'designer/palette/icon_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
-            &.i-datetime-picker {
+            &.ic-datetime-picker {
               @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
           }
@@ -1072,7 +1070,7 @@ $component-icon: (
             background-color: $white;
             border-color: $blue400 !important;
             .dz-message { color: $blue400 !important; }
-            .icon { background: $blue400 !important; }
+            [class*="ic-"] { background: $blue400 !important; }
           }
           // 커스텀 코드 컴포넌트
           .input-button {
@@ -1081,7 +1079,7 @@ $component-icon: (
               border-color: $blue400 !important;
               background-color: $white;
               color: $blue400 !important;
-              .icon { background: $blue400 !important; }
+              [class*="ic-"] { background: $blue400 !important; }
             }
           }
           // DR 테이블 컴포넌트 , CI 컴포넌트
@@ -1105,7 +1103,7 @@ $component-icon: (
             background-color: $white;
             border-color: $blue400 !important;
             color: $blue400 !important;
-            .icon { background: $blue400 !important; }
+            [class*="ic-"] { background: $blue400 !important; }
           }
         }
       }
@@ -1203,13 +1201,13 @@ $component-icon: (
     width: 100%;
     font-size: $font-size-xs;
 
-    &.i-unit-search {
+    &.ic-unit-search {
       padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
       background: url($icon-folder-path + "designer/unit/icon_unit_search.svg") no-repeat 100%-3 50%;
       background-color: $white;
     }
 
-    &.i-unit-px {
+    &.ic-unit-px {
       padding: 0 1.875rem 0 0.5rem; // 0 30px 0 8px
       background: url($icon-folder-path + "designer/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
       background-color: $white;
@@ -1287,7 +1285,7 @@ $component-icon: (
 
       .input-button {
         width: 100%;
-        .icon.i-remove { right: 2.5rem; }
+        .ic-remove { right: 2.5rem; }
       }
 
       .picker-wrapper-date {
@@ -1306,11 +1304,11 @@ $component-icon: (
         &:not(:first-child) { margin-left: 0.3125rem; } // 5px
         // 추가 버튼
         &:last-child { padding: 0.25rem 0; }
-        .icon {
+        [class*="ic-"] {
           width: 0.82rem;
           pointer-events: none;
         } // 15px
-        .i-plus {
+        .ic-plus {
           -webkit-mask-size: 1.2rem;
           mask-size: 1.2rem;
         }
@@ -1331,12 +1329,12 @@ $component-icon: (
 
         .button-icon:not(.button-code) {
           padding: 0;
-          .icon {
+          [class*="ic-"] {
             display: inline-block;
             background: $blue500;
             pointer-events: none;
-            &.prev { @include rotate(180); }
           }
+          .prev { @include rotate(180); }
         }
 
         .button-switch-group,
@@ -1419,7 +1417,7 @@ $element-icon-toggle: (
       box-shadow: map-get($element-icon, 'focus', 'shadow');
     }
     .element-icon-text { color: map-get($element-icon, 'focus', 'font'); }
-    .icon { background: map-get($element-icon, 'focus', 'icon'); }
+    [class*="ic-"] { background: map-get($element-icon, 'focus', 'icon'); }
   }
   &:hover {
     border-color: map-get($element-icon, 'hover', 'border');
@@ -1429,7 +1427,7 @@ $element-icon-toggle: (
       box-shadow: map-get($element-icon, 'hover', 'shadow');
     }
     .element-icon-text { color: map-get($element-icon, 'hover', 'font'); }
-    .icon { background: map-get($element-icon, 'hover', 'icon'); }
+    [class*="ic-"] { background: map-get($element-icon, 'hover', 'icon'); }
   }
   // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
   &.active {
@@ -1443,7 +1441,7 @@ $element-icon-toggle: (
       color: map-get($element-icon, 'drag', 'font');
       font-weight: $font-weight-bold;
     }
-    .icon { background: map-get($element-icon, 'drag', 'icon'); }
+    [class*="ic-"] { background: map-get($element-icon, 'drag', 'icon'); }
   }
   &.placeholder {
     border-color: map-get($element-icon, 'placeholder', 'border');
@@ -1452,7 +1450,7 @@ $element-icon-toggle: (
       box-shadow: map-get($element-icon, 'placeholder', 'shadow');
     }
     .element-icon-text { color: map-get($element-icon, 'placeholder', 'font'); }
-    .icon { background: map-get($element-icon, 'placeholder', 'icon'); }
+    [class*="ic-"] { background: map-get($element-icon, 'placeholder', 'icon'); }
   }
 
   // 연결선, 배경이동
@@ -1465,7 +1463,7 @@ $element-icon-toggle: (
       box-shadow: map-get($element-icon-toggle, 'default', 'shadow');
     }
     // 아이콘이 존재한다면
-    .icon { background: map-get($element-icon-toggle, 'default', 'font'); }
+    [class*="ic-"] { background: map-get($element-icon-toggle, 'default', 'font'); }
     .element-icon-text { color: map-get($element-icon-toggle, 'default', 'font'); }
 
     &:focus {
@@ -1476,7 +1474,7 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'focus', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'focus', 'shadow');
       }
-      .icon { background: map-get($element-icon-toggle, 'focus', 'font'); }
+      [class*="ic-"] { background: map-get($element-icon-toggle, 'focus', 'font'); }
       .element-icon-text { color: map-get($element-icon-toggle, 'focus', 'font'); }
     }
 
@@ -1488,7 +1486,7 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'hover', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'hover', 'shadow');
       }
-      .icon { background: map-get($element-icon-toggle, 'hover', 'font'); }
+      [class*="ic-"] { background: map-get($element-icon-toggle, 'hover', 'font'); }
       .element-icon-text { color: map-get($element-icon-toggle, 'hover', 'font'); }
     }
 
@@ -1501,7 +1499,7 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'active', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'active', 'shadow');
       }
-      .icon { background: map-get($element-icon-toggle, 'active', 'font'); }
+      [class*="ic-"] { background: map-get($element-icon-toggle, 'active', 'font'); }
       .element-icon-text { color: map-get($element-icon-toggle, 'active', 'font'); }
     }
     // 선택된 경우
@@ -1514,7 +1512,7 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'selected', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'selected', 'shadow');
       }
-      .icon { background: map-get($element-icon-toggle, 'selected', 'font'); }
+      [class*="ic-"] { background: map-get($element-icon-toggle, 'selected', 'font'); }
       .element-icon-text { color: map-get($element-icon-toggle, 'selected', 'font'); }
     }
 
@@ -1527,7 +1525,7 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'disabled', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'disabled', 'shadow');
       }
-      .icon { background: map-get($element-icon-toggle, 'disabled', 'font'); }
+      [class*="ic-"] { background: map-get($element-icon-toggle, 'disabled', 'font'); }
       .element-icon-text { color: map-get($element-icon-toggle, 'disabled', 'font'); }
     }
   }
@@ -1542,7 +1540,7 @@ $element-icon-toggle: (
     color: map-get($element-icon, 'default', 'font');
     font-weight: $font-weight-medium;
   }
-  .icon {
+  [class*="ic-"] {
     display: inline-block;
     background: map-get($element-icon, 'default', 'icon');
   }
@@ -1553,10 +1551,10 @@ $element-icon-toggle: (
   &.button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
   &.button-candidate-add {
     margin-left: 0.3125rem; // 5px
-    .icon.i-plus { background: $gray500; }
+    .ic-plus { background: $gray500; }
   }
   &.button-attach-file {
-    .icon.i-folder { background: $gray500; }
+    .ic-folder { background: $gray500; }
   }
 }
 
@@ -1838,7 +1836,7 @@ $element-icon-toggle: (
           color: $gray800;
           font-size: $font-size-m;
           font-weight: $font-weight-medium;
-          .icon.i-minus {
+          .ic-minus {
             @include absolute($right: 1.125rem); // 17px
             background: $gray500;
             cursor: pointer;

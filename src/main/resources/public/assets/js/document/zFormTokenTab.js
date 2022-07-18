@@ -223,7 +223,7 @@ class ZFormTokenTab {
             (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
                 `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                 `onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
-                `<span class="icon i-remove"></span>` +
+                `<span class="ic-remove"></span>` +
                 `</button>`) +
             `</td>` +
             `</tr>`;
@@ -636,7 +636,7 @@ class ZFormTokenTab {
             `</a>` +
             `<button type="button" class="button-icon"` +
             `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
-            `<span class="icon i-delete"></span>` +
+            `<span class="ic-delete"></span>` +
             `</button>` +
             `</div>` +
             `<div class="document-row-topic">`;
@@ -768,7 +768,7 @@ class ZFormTokenTab {
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
                 `<button class="button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
-                `<span class="icon i-delete"></span>` +
+                `<span class="ic-delete"></span>` +
                 `</button>`;
         }
         htmlString +=
@@ -931,7 +931,7 @@ class ZFormTokenTab {
             `<td style="width: 10%;" class="align-center">` +
                 `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                     `onclick="zFormTokenTab.removeSchedule('${schedule.id}')">` +
-                    `<span class="icon i-remove"></span>` +
+                    `<span class="ic-remove"></span>` +
                 `</button>` +
             `</td>` +
             `</tr>`;
@@ -1037,10 +1037,10 @@ class ZFormTokenTab {
         // 시작일시 , 종료일시 초기화
         const standardDate = this.getCalendarStandardDate();
         rangeDate.innerHTML = '';
-        const template = ` <input type="text" class="input i-datetime-picker schedule__date" id="startDt" 
+        const template = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
             value="${standardDate.start.toFormat(format)}"/>
             ~
-            <input type="text" class="input i-datetime-picker schedule__date" id="endDt" 
+            <input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
             value="${standardDate.end.toFormat(format)}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend', template);

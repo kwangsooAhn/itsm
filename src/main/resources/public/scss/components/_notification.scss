@@ -50,7 +50,7 @@
       &.message { margin-left: 0.625rem; }  // 10px
 
       // 우측 상단 X 버튼
-      &.icon.i-remove {
+      &.ic-remove {
         margin-left: auto;
         background: $white;
       }
@@ -102,7 +102,7 @@
       }
     }
     // 제거 버튼 영역
-    .icon.i-delete {
+    .ic-delete {
       padding: 0;
       background: $gray500;
     }
@@ -156,7 +156,7 @@
   background: $white !important;
   &.toastify-right { right: 0.625rem; } // 10px
   &.toast-content {
-    .icon {
+    [class*="ic-"] {
       @include backgroundImage('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem, null, null, null, null); // 100px
       width: 6.25rem; // 100px
       height: 6.25rem; // 100px

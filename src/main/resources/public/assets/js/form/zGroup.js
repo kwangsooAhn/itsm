@@ -328,17 +328,17 @@ export default class ZGroup {
 
         // label - align
         const labelAlignProperty = new ZSwitchButtonProperty('labelAlign', 'label.align', this.labelAlign, [
-            { 'name': 'i-align-left', 'value': 'left' },
-            { 'name': 'i-align-center', 'value': 'center' },
-            { 'name': 'i-align-right', 'value': 'right' }
+            { 'name': 'ic-align-left', 'value': 'left' },
+            { 'name': 'ic-align-center', 'value': 'center' },
+            { 'name': 'ic-align-right', 'value': 'right' }
         ]);
         labelAlignProperty.columnWidth = '6';
 
         // label - fontOption
         const labelFontOption = [
-            { 'name': 'i-bold', 'value': 'bold'},
-            { 'name': 'i-italic', 'value': 'italic' },
-            { 'name': 'i-underline', 'value': 'underline' }
+            { 'name': 'ic-bold', 'value': 'bold'},
+            { 'name': 'ic-italic', 'value': 'italic' },
+            { 'name': 'ic-underline', 'value': 'underline' }
         ];
         const labelFontValue = labelFontOption.map((item) => {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);
@@ -441,7 +441,7 @@ export class UIGroup extends UIDiv {
 
         this.UILabel = new UILabel().setUIClass('group-label');
         this.UILabel.UILabelText = new UISpan().setUIClass('group-label-text');
-        this.UILabel.UIIcon = new UISpan().setUIClass('icon').addUIClass('i-arrow-right');
+        this.UILabel.UIIcon = new UISpan().setUIClass('icon').addUIClass('ic-arrow-right');
         this.UILabel.addUI(this.UILabel.UILabelText).addUI(this.UILabel.UIIcon);
         this.addUI(this.UILabel);
     }

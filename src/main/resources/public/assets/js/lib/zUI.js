@@ -400,7 +400,7 @@ class UIClipboard extends UIElement {
         this.UITooltip.addUI(this.UITooltip.UIButton);
 
         // copy button icon
-        const UIButtonIcon = new UISpan().setUIClass('icon').addUIClass('i-clipboard');
+        const UIButtonIcon = new UISpan().setUIClass('icon').addUIClass('ic-clipboard');
         this.UITooltip.UIButton.addUI(UIButtonIcon);
 
         // tooltip text
