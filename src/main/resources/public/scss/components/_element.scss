@@ -402,7 +402,7 @@ div.textarea-readonly { border-color: transparent !important; }
   line-height: 1.2;
   outline: none;
 
-  .z-label {
+  .label {
     display: inline-block;
     height: 1.125rem; // 18px
     margin-left: 3rem; // 48px
@@ -735,7 +735,7 @@ select {
       padding-right: 0.2rem;
     }
     .switch {
-      .z-label { margin-left: 0; }
+      .label { margin-left: 0; }
       input[type=checkbox] + span { left: inherit }
     }
   }
@@ -786,7 +786,7 @@ select {
     &:not(:disabled),
     &:not(.readonly) {
       + span { cursor: pointer; }
-      ~ .z-label { cursor: pointer; }
+      ~ .label { cursor: pointer; }
 
       &:hover {
         + span::before {
@@ -802,7 +802,7 @@ select {
         &::before { background-color: $neutral200; }
         &::after { border-color: $gray400; }
       }
-      ~ .z-label { color: $gray400; }
+      ~ .label { color: $gray400; }
     }
 
     &.error {
@@ -901,7 +901,7 @@ select {
     &:not(:disabled),
     &:not(.readonly) {
       + span { cursor: pointer; }
-      ~ .z-label { cursor: pointer; }
+      ~ .label { cursor: pointer; }
 
       &:checked {
         + span {
@@ -927,7 +927,7 @@ select {
         border-color: $gray300;
         background-color: $neutral200;
       }
-      ~ .z-label { color: $gray400; }
+      ~ .label { color: $gray400; }
       &:checked {
         + span::after {
           @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
@@ -972,28 +972,11 @@ select {
 
 .view-hover { pointer-events: none; }
 
-// 기본 라벨 테마
-$label-themes-default: (
-        'normal': (
-                'default': ('font': $blue700, 'background': $blue300, 'border': $blue300)
-        )
-);
-// label default
 .label {
   @include borderRadius(0.125rem); // 2px
   padding: 0.375rem; // 6px
   font-size: $font-size-xs;
-  font-weight: $font-weight-bold;
   line-height: 1.0625rem; //17px
-  // 기본 테마별 라벨
-  @each $theme, $value in $label-themes-default {
-    &.#{$theme} {
-      border-color: map-get($value, 'default', 'border');
-      background-color: map-get($value, 'default', 'background');
-      color: map-get($value, 'default', 'font');
-    }
-  }
-
 }
 
 .divider { margin: 0; }
