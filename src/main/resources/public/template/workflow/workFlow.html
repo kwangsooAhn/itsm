@@ -139,71 +139,6 @@
                 </select>
             </div>
         </div>
-        <!-- 업무흐름 구분 :  업무흐름 -->
-        <div id="workflowGroup" class="hidden-control-content">
-            <!-- 문서양식 -->
-            <div class="flex-column z-edit-row">
-                <label for="workflowDocumentForm">
-                    <span th:text="#{document.label.form}"></span>
-                    <span class="required"></span>
-                </label>
-                <select id="workflowDocumentForm" th:disabled="${documentId}">
-                    <option value="" th:text="#{common.msg.select}" selected></option>
-                    <option th:each="form:${formList}"
-                            th:id="${form?.id}"
-                            th:value="${form?.id}"
-                            th:text="${form?.name}"
-                            th:selected="${documentData?.formId} == ${form?.id}"></option>
-                </select>
-            </div>
-            <!-- 프로세스 -->
-            <div class="flex-column z-edit-row">
-                <label for="workflowDocumentProcess">
-                    <span th:text="#{document.label.process}"></span>
-                    <span class="required"></span>
-                </label>
-                <select id="workflowDocumentProcess" th:disabled="${documentId}">
-                    <option value="" th:text="#{common.msg.select}" selected></option>
-                    <option th:each="process:${processList}"
-                            th:id="${process?.id}"
-                            th:value="${process?.id}"
-                            th:text="${process?.name}"
-                            th:selected="${documentData?.processId} == ${process?.id}"></option>
-                </select>
-            </div>
-            <!-- 문서번호 규칙 -->
-            <div class="flex-column z-edit-row">
-                <label for="workflowNumberingRule">
-                    <span th:text="#{document.label.numberingRule}"></span>
-                    <span class="required"></span>
-                </label>
-                <select id="workflowNumberingRule"th:disabled="${documentId}">
-                    <option value="" th:text="#{common.msg.select}" selected></option>
-                    <option th:each="numberingRule:${numberingRuleList}"
-                            th:id="${numberingRule.numberingId}"
-                            th:value="${numberingRule.numberingId}"
-                            th:text="${numberingRule.numberingName}"
-                            th:selected="${documentData?.documentNumberingRuleId} == ${numberingRule.numberingId}"></option>
-                </select>
-            </div>
-            <!-- 신청서 상태 -->
-            <div class="flex-column z-edit-row">
-                <label th:text="#{document.label.status}" for="workflowDocumentStatus"></label>
-                <input type="hidden" id="workflowPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
-                <select id="workflowDocumentStatus">
-                    <option th:each="status:${statusList}" th:value="${status.code}"
-                            th:text="${status.codeName}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
-                </select>
-            </div>
-            <!-- API 활성화 -->
-            <div class="flex-column z-edit-row">
-                <label th:text="#{document.label.apiEnable}" for="workflowApiEnable"></label>
-                <select id="workflowApiEnable" required="required">
-                    <option value="true" th:text="#{document.label.enable}" th:selected="${documentData?.apiEnable == true}"></option>
-                    <option value="false" th:text="#{document.label.disable}" th:selected="${documentData?.apiEnable == false}"></option>
-                </select>
-            </div>
-        </div>
         <!-- 업무흐름 구분 :  링크 -->
         <div id="applicationFormLinkGroup" class="hidden-control-content">
             <!-- 신청서 상태 -->
@@ -484,12 +419,12 @@
             case TYPE_APPLICATION:
             case TYPE_WORKFLOW:
             case TYPE_APPLICATION_WORKFLOW:
-                formGroup.classList.add('on');
-                linkGroup.classList.remove('on');
+                formGroup.classList.add('block');
+                linkGroup.classList.remove('block');
                 break;
             case TYPE_LINK:
-                linkGroup.classList.add('on');
-                formGroup.classList.remove('on');
+                linkGroup.classList.add('block');
+                formGroup.classList.remove('block');
                 break;
             default:
         }
