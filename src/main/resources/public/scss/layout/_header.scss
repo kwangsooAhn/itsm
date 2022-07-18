@@ -22,7 +22,7 @@
 .z-board-header,
 .z-user-header,
 .z-board-admin-header,
-.z-document-admin-header,
+.document-admin-header,
 .z-custom-code-header,
 .z-auth-header,
 .z-role-header,
@@ -43,7 +43,7 @@
 // 신청서
 // 대시보드
 // 업무흐름 관리 > 파일 관리
-.z-document-header,
+.document-header,
 .z-token-header,
 .z-image-header {
   @include border(0.0625rem, solid, $gray300, bottom);
