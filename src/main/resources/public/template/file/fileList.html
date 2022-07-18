@@ -13,9 +13,9 @@
 <div layout:fragment="pageSearching">
     <div>
         <input type="text" class="input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
-        <span id="totalCount" class="z-search-count"></span>
-        <span class="z-search-count">/</span>
-        <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+        <span id="totalCount" class="search-count"></span>
+        <span class="search-count">/</span>
+        <span id="spanTotalCountWithoutCondition" class="search-count"></span>
     </div>
 </div>
 <div layout:fragment="pageSearchResult">
@@ -71,7 +71,7 @@
             });
         });
         // 스크롤바 표시
-        OverlayScrollbars(document.querySelector('.z-page-content'), {
+        OverlayScrollbars(document.querySelector('.page-content'), {
             className: 'scrollbar',
             callbacks: {
                 onScroll: function (e) {

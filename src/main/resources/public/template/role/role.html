@@ -84,7 +84,7 @@
     const specialCharInRoleId = /[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자 포함 (. 제외)
 
     window.onload = function () {
-        OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-content'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.role-content-edit'), { className: 'scrollbar' });
         Array.prototype.forEach.call(document.querySelectorAll('.switch-list'), function (target) {
             OverlayScrollbars(target, { className: 'inner-scrollbar' });

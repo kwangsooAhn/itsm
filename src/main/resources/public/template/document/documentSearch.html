@@ -70,10 +70,10 @@
                     if (aliceJs.isEnableScrollEvent(offsetCount)) {
                         offsetCount = offsetCount + aliceJs.searchDataCount;
                     }
-                    document.querySelector('.z-document-content .card-list').insertAdjacentHTML('beforeend', htmlData);
+                    document.querySelector('.document-content .card-list').insertAdjacentHTML('beforeend', htmlData);
                 } else {
                     document.getElementById('documentList').innerHTML = htmlData;
-                    OverlayScrollbars(document.querySelector('.z-page-content'), {
+                    OverlayScrollbars(document.querySelector('.page-content'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function(e) {
@@ -111,7 +111,7 @@
     </form>
 </div>
 <div layout:fragment="pageSearchResult">
-    <div class="z-document-content flex-fill">
+    <div class="document-content flex-fill">
         <div id="documentList"></div>
     </div>
     <template id="documentModalTemplate">

@@ -25,14 +25,14 @@
 }
 
 /* 신청서 / 처리할 문서 양식 layout */
-// z-document-container
+// document-container
 //                - document-main : 문서양식 메인
 //                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
 //                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
 //                - z-token-properties : 문서이력, 관련문서, 의견, 태그
 //
 // 신청서, 문서함 공통
-.z-document-container {
+.document-container {
   ////////////////////////// form //////////////////////////
   $tooltip-type: (group, row, component);
   @each $type in $tooltip-type {
@@ -94,7 +94,7 @@
       width: 100%;
       text-align: center;
       // 문서 번호
-      .z-document-numbering {
+      .document-numbering {
         margin: 6.25rem 0 0.625rem; // 100px 0 0 10px
         font-family: $font-family;
         font-size: $font-size-xs;
@@ -251,7 +251,7 @@
             margin: 0.625rem 0 0 0; // 10px 0 0 0
 
             // 추가된 관련 문서
-            .z-document {
+            .document {
               &-color {
                 @include borderRadius(0.125rem);
                 width: 0.375rem; // 6px
@@ -269,7 +269,7 @@
                 &-content {
                   a {
                     width: 100%;
-                    .z-document-title {
+                    .document-title {
                       @include wordWrap();
                       h6 {
                         &:first-child {
@@ -294,7 +294,7 @@
           }
 
           // 관련 문서 추가
-          .z-document-add {
+          .document-add {
             @include border(0.0625rem, solid, $gray300, all);
             background-color: $neutral50;
             .button-icon {

@@ -55,7 +55,7 @@ export default class ZPaging {
         // 스크롤바는 paging이 아니지만 옵져버가 새로 계산할 때마다 필요하기 때문에 임시로 이 곳에 작성.
         // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
         OverlayScrollbars(document.querySelector('.table-body'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.z-main'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.main'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.grid__body'), {className: 'scrollbar'});
 
         // 전체 페이지 개수 확인 (데이터가 아예 없으면 전체 페이지가 0인 것도 감안)

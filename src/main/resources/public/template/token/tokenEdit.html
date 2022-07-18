@@ -7,7 +7,7 @@
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
 </head>
 <th:block layout:fragment="content">
-    <div class="z-document-container">
+    <div class="document-container">
         <!-- 탭 toggle 버튼 -->
         <button type="button" class="button-icon toggle--tab" onclick="onToggleTabHandler(this);">
             <span class="icon i-arrow-double"></span>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="document-main-content">
                     <div class="flex-row justify-content-center">
-                        <p id="documentNumber" class="z-document-numbering"
+                        <p id="documentNumber" class="document-numbering"
                            th:attr="document-no=${documentNo}"
                            th:text="|#{document.label.docNo} : ${documentNo}|"></p>
                     </div>

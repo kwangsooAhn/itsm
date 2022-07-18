@@ -5,7 +5,7 @@
  * @description wrapper, container에서 사용되는 scss
  * @version 1.0
  */
-.z-wrapper {
+.wrapper {
   display: flex;
   max-width: 120rem;
   margin: 0 auto;
@@ -33,15 +33,15 @@
     transform: translateY(0);
   }
 }
-// z-itsm-container ----------------------------------------------------------------------------------------------------
-.z-itsm-container {
+// itsm-container ----------------------------------------------------------------------------------------------------
+.itsm-container {
   overflow: auto;
   display: flex;
   flex-direction: row;
   width: 100vw;
   height: 100vh;
 
-  .z-main {
+  .main {
     display: flex;
     flex-direction: column;
     width: calc(100% - 13.75rem); // 220px
@@ -54,7 +54,7 @@
 
       // 제목 없을 경우
       &--empty {
-        + .z-main-content {
+        + .main-content {
           height: calc(100vh - 3.5rem);
         }
       }
@@ -64,7 +64,7 @@
     &-content {
       height: calc(100vh - 8.5rem);
 
-      .z-page-content {
+      .page-content {
         @include border(0.0625rem,solid,$gray300,top);
         flex: 1 1 auto;
       }
@@ -73,7 +73,7 @@
         display: flex;
         flex-direction: row;
         padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
-        .z-search-count {
+        .search-count {
           color: $neutral600;
           font-family: $font-family;
           font-weight: $font-weight-medium;

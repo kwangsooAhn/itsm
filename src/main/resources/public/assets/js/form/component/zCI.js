@@ -773,7 +773,7 @@ export const ciMixin = {
             `<input type="text" class="input i-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
             `<input type="hidden" name="flag" id="flag" value="${flag}"/>` +
             `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
-            `<span id="ciListTotalCount" class="z-search-count"></span>` +
+            `<span id="ciListTotalCount" class="search-count"></span>` +
             `</form>` +
             `<div class="table-set" id="ciList"></div>`;
     },

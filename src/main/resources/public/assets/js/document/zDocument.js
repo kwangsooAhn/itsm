@@ -28,7 +28,7 @@ class ZDocument {
         this.documentModal = new modal({
             title: '',
             body: documentModalTemplate.content.cloneNode(true),
-            classes: 'document-modal-dialog z-document-container',
+            classes: 'document-modal-dialog document-container',
             buttons: [],
             close: { closable: false },
             onCreate: () => {

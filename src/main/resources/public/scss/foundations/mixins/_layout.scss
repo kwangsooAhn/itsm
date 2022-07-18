@@ -235,19 +235,19 @@
     background-color: $white;
 
     // 문서함 > 우측 업무흐름 색상바
-    .z-document-color { width: 0.75rem; }  // 12px
+    .document-color { width: 0.75rem; }  // 12px
 
     // 문서함 > 제목 내용
-    .z-document-row {
+    .document-row {
       padding: 1.875rem 3rem; // 30px 48px
 
       &-content {
         // 문서 제목
-        .z-document {
+        .document {
           &-title {
             color: $gray800;
             // 문서 번호
-            .z-document-numbering {
+            .document-numbering {
               color: $gray500;
               font-size: $font-size-s; // 16px
               font-weight: $font-weight-regular;
@@ -266,7 +266,7 @@
         }
       }
       &-info {
-        .z-document {
+        .document {
           &-detail {
             .user-name,
             .create-dt,

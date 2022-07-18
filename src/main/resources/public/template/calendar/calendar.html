@@ -16,7 +16,7 @@
     <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.custom.js}"></script>
 </th:block>
 <body>
-<div layout:fragment="pageTitle" class="z-main-title--empty">
+<div layout:fragment="pageTitle" class="main-title--empty">
 </div>
 <th:block layout:fragment="pageContent">
     <div class="calendar">
@@ -79,7 +79,7 @@
         // 일정 조회
         setSchedules();
 
-        OverlayScrollbars(document.querySelector('.z-main-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.main-content'), { className: 'scrollbar' });
     };
 
     /**

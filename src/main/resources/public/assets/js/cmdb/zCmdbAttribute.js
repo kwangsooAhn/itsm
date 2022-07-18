@@ -1230,7 +1230,7 @@
         const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
             `<input class="input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
             `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
-            `<span id="spanTotalCount" class="z-search-count"></span>` +
+            `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
 

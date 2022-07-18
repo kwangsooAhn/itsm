@@ -17,7 +17,7 @@
 <div layout:fragment="pageSearching">
     <input type="text" class="input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
            maxlength="100" th:placeholder="#{organization.label.searchPlaceholder}"/>
-    <span id="totalCount" class="z-search-count"></span>
+    <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
         <button type="button" class="button primary" id="btnCreate" name="btnCreate"
                 sec:authorize="hasAuthority('system.manage')" th:text="#{common.btn.add}"

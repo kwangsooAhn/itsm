@@ -599,7 +599,7 @@ class ZFormTokenTab {
      * 관련문서 재로딩
      */
     reloadRelatedInstance() {
-        document.querySelectorAll('#related .z-token-related-item:not(.z-document-add)').forEach((aTag) => {
+        document.querySelectorAll('#related .z-token-related-item:not(.document-add)').forEach((aTag) => {
             aTag.remove();  // 관련문서 clear
         });
 
@@ -625,11 +625,11 @@ class ZFormTokenTab {
     makeRelatedInstanceFragment(instance) {
         let htmlString =
             `<div class="z-token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
-            `<div class="z-document-color" style="background-color: ` + instance.documentColor + `"></div>` +
-            `<div class="z-document-row flex-column">` +
-            `<div class="z-document-row-content flex-row justify-content-between">` +
+            `<div class="document-color" style="background-color: ` + instance.documentColor + `"></div>` +
+            `<div class="document-row flex-column">` +
+            `<div class="document-row-content flex-row justify-content-between">` +
             `<a onclick="zFormTokenTab.openTokenEditPop('` + instance.tokenId + `')">` +
-            `<div class="z-document-title flex-row align-items-center">` +
+            `<div class="document-title flex-row align-items-center">` +
             `<h6>` + instance.documentName + `</h6>` +
             `<h6>` + instance.documentNo + `</h6>` +
             `</div>` +
@@ -639,13 +639,13 @@ class ZFormTokenTab {
             `<span class="icon i-delete"></span>` +
             `</button>` +
             `</div>` +
-            `<div class="z-document-row-topic">`;
+            `<div class="document-row-topic">`;
         if (!zValidation.isEmpty(instance.topics)) {
             htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
         }
         htmlString +=
             `</div>` +
-            `<div class="z-document-row-info flex-row align-items-center">` +
+            `<div class="document-row-info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
             `<img class="z-img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="pl-2">` + instance.instanceCreateUserName + `</h6>` +

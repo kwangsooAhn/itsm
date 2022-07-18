@@ -186,25 +186,25 @@ $button-themes-social: (
       font-size: 1.125rem; // 18px
     }
     // 상단이 존재하면
-    + .z-main { top: 3.125rem }; // 50px
+    + .main { top: 3.125rem }; // 50px
   }
   // 포탈 메인
-  .z-main {
+  .main {
     @include fixed(0, 0, 0, 0);
     overflow-y: auto;
     max-width: 120rem;
     margin: 0 auto;
     @include scrollbarHidden;
 
-    .z-main-content {
+    .main-content {
       height: 100%;
-      .z-main-banner {
+      .main-banner {
         height: 8.75rem; // 140px
         background-color: $neutral50;
         .title { padding: 3.75rem 0 1.875rem 0; } // 60px 0px 30px 0px
       }
 
-      .z-main-search {
+      .main-search {
         @include border(0.0625rem, solid, $gray300 ,bottom);
         height: 6.25rem; // 100px
         padding: 1.875rem 0; // 30px 0
@@ -212,15 +212,15 @@ $button-themes-social: (
 
         // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
         &.slide-up {
-          + .z-main-card .z-card-list { height: calc(8.75rem + 40.438rem); }// 140px 647px
+          + .main-card .z-card-list { height: calc(8.75rem + 40.438rem); }// 140px 647px
         }
         &.slide-down {
-          + .z-main-card .z-card-list { height: 40.438rem; } // 647px
+          + .main-card .z-card-list { height: 40.438rem; } // 647px
         }
       }
 
       // 카드 형태 (포탈 메인)
-      .z-main-card {
+      .main-card {
         // 포탈 메인 검색 전 화면
         .z-card-group {
           padding: 3.4375rem 13.75rem 0 13.75rem; // 55px 220px 0 220px
@@ -288,14 +288,14 @@ $button-themes-social: (
       }
 
       // 검색 영역
-      .z-main-header {
+      .main-header {
         @include border(0.0625rem, solid, $gray300, bottom); // 1px
         padding: 0 13.75rem 0 13.75rem; // 220px
         background-color: $neutral50;
 
         .z-page-title { padding: 2.5rem 0; }  // 40px 0
         .page-search {
-          .z-search-count {
+          .search-count {
             color: $neutral600;
             font-family: $font-family;
             font-weight: $font-weight-medium;
@@ -321,7 +321,7 @@ $button-themes-social: (
       }
 
       // 아코디언
-      .z-main-accordion {
+      .main-accordion {
         margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
         // FAQ
         .z-faq {
@@ -393,7 +393,7 @@ $button-themes-social: (
       }
 
       // 보기 화면 : 자료실, 공지사항
-      .z-main-view {
+      .main-view {
         @include portalViewTemplate();
         margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
       }
