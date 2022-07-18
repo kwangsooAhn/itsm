@@ -52,7 +52,7 @@
                 <span class="text-ellipsis" th:text="${token.documentName}" th:title="${token.documentName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <img th:if="${token.assigneeUserAvatarPath != null}" class="img i-profile-photo mr-2" alt="profile pic"
+                <img th:if="${token.assigneeUserAvatarPath != null}" class="i-profile-photo mr-2" alt="profile pic"
                      th:src="${token.assigneeUserAvatarPath}" width="30" height="30">
                 <span class="text-ellipsis font-bold mr-2" th:text="${token.assigneeUserName}"></span>
                 <span class="text-ellipsis sub-text" th:text="${token.assigneeUserId}"></span>
@@ -61,7 +61,7 @@
                 <span class="text-ellipsis font-bold" th:text="${token.elementName}" th:title="${token.elementName}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <img class="img i-profile-photo mr-2" alt="profile pic" th:src="${token.createUserAvatarPath}"
+                <img class="i-profile-photo mr-2" alt="profile pic" th:src="${token.createUserAvatarPath}"
                      width="30" height="30">
                 <span class="text-ellipsis" th:text="${token.createUserName}"></span>
             </div>

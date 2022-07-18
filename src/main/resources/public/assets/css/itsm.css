@@ -7925,75 +7925,75 @@ input, button, select, optgroup, textarea {
 .button-text.extra.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.form,
-.button-icon.form,
-.button-text.form {
+.button.btn--form,
+.button-icon.btn--form,
+.button-text.btn--form {
   background-color: #E0E0E0;
   color: #424242;
   border-color: #E0E0E0;
 }
-.button.form [class*=ic-],
-.button-icon.form [class*=ic-],
-.button-text.form [class*=ic-] {
+.button.btn--form [class*=ic-],
+.button-icon.btn--form [class*=ic-],
+.button-text.btn--form [class*=ic-] {
   display: block;
   background: #424242;
   pointer-events: none;
 }
-.button.form:focus,
-.button-icon.form:focus,
-.button-text.form:focus {
+.button.btn--form:focus,
+.button-icon.btn--form:focus,
+.button-text.btn--form:focus {
   background-color: #E0E0E0;
   color: #424242;
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.form:focus [class*=ic-],
-.button-icon.form:focus [class*=ic-],
-.button-text.form:focus [class*=ic-] {
+.button.btn--form:focus [class*=ic-],
+.button-icon.btn--form:focus [class*=ic-],
+.button-text.btn--form:focus [class*=ic-] {
   background: #424242;
 }
-.button.form:hover,
-.button-icon.form:hover,
-.button-text.form:hover {
+.button.btn--form:hover,
+.button-icon.btn--form:hover,
+.button-text.btn--form:hover {
   color: #424242;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.form:hover [class*=ic-],
-.button-icon.form:hover [class*=ic-],
-.button-text.form:hover [class*=ic-] {
+.button.btn--form:hover [class*=ic-],
+.button-icon.btn--form:hover [class*=ic-],
+.button-text.btn--form:hover [class*=ic-] {
   background: #424242;
 }
-.button.form:enabled:active, .button.form:enabled.active,
-.button-icon.form:enabled:active,
-.button-icon.form:enabled.active,
-.button-text.form:enabled:active,
-.button-text.form:enabled.active {
+.button.btn--form:enabled:active, .button.btn--form:enabled.active,
+.button-icon.btn--form:enabled:active,
+.button-icon.btn--form:enabled.active,
+.button-text.btn--form:enabled:active,
+.button-text.btn--form:enabled.active {
   background-color: #E0E0E0;
   color: #424242;
   border-color: #BDBDBD;
 }
-.button.form:enabled:active [class*=ic-], .button.form:enabled.active [class*=ic-],
-.button-icon.form:enabled:active [class*=ic-],
-.button-icon.form:enabled.active [class*=ic-],
-.button-text.form:enabled:active [class*=ic-],
-.button-text.form:enabled.active [class*=ic-] {
+.button.btn--form:enabled:active [class*=ic-], .button.btn--form:enabled.active [class*=ic-],
+.button-icon.btn--form:enabled:active [class*=ic-],
+.button-icon.btn--form:enabled.active [class*=ic-],
+.button-text.btn--form:enabled:active [class*=ic-],
+.button-text.btn--form:enabled.active [class*=ic-] {
   background: #424242;
 }
-.button.form:disabled, .button.form.disabled,
-.button-icon.form:disabled,
-.button-icon.form.disabled,
-.button-text.form:disabled,
-.button-text.form.disabled {
+.button.btn--form:disabled, .button.btn--form.disabled,
+.button-icon.btn--form:disabled,
+.button-icon.btn--form.disabled,
+.button-text.btn--form:disabled,
+.button-text.btn--form.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.form:disabled [class*=ic-], .button.form.disabled [class*=ic-],
-.button-icon.form:disabled [class*=ic-],
-.button-icon.form.disabled [class*=ic-],
-.button-text.form:disabled [class*=ic-],
-.button-text.form.disabled [class*=ic-] {
+.button.btn--form:disabled [class*=ic-], .button.btn--form.disabled [class*=ic-],
+.button-icon.btn--form:disabled [class*=ic-],
+.button-icon.btn--form.disabled [class*=ic-],
+.button-text.btn--form:disabled [class*=ic-],
+.button-text.btn--form.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .button.default,

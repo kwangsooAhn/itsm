@@ -19,7 +19,7 @@
         </span>
         <span class="divide">|</span>
         <button class="user user-info flex-row align-items-center" tabindex="0">
-            <img class="img i-user-profile user"
+            <img class="i-user-profile user"
                  th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
             <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
             <span class="user ic-arrow-right"></span>
