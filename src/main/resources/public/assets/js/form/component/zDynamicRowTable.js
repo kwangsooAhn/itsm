@@ -395,7 +395,7 @@ export const dynamicRowTableMixin = {
         return selectbox;
     },
     getDateForColumn(column, cellValue, index) {
-        let dateWrapper = new UIDiv().setUIClass('z-picker-wrapper-dummy');
+        let dateWrapper = new UIDiv().setUIClass('picker-wrapper-dummy');
         let dateColumn = new UIInput().setUIPlaceholder(i18n.dateFormat)
             .setUIClass('input i-date-picker text-ellipsis')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())

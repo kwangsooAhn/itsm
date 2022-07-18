@@ -62,12 +62,12 @@ export const modalButtonMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIButton = new UIButton()
             .setUIClass('button')
-            .addUIClass('z-modal-button')
+            .addUIClass('modal-button')
             .addUIClass('secondary')
             .onUIClick(this.openModal.bind(this));
         element.UIButton.UIText = new UISpan()
             .setUIId('elementText')
-            .addUIClass('z-modal-button-text')
+            .addUIClass('modal-button-text')
             .addUIClass('text-ellipsis')
             .setUITextContent(this.elementText);
         element.UIButton.addUI(element.UIButton.UIText);

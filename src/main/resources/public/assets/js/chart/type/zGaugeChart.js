@@ -116,7 +116,7 @@ export const zGaugeChartMixin = {
 
         for (let i = 0; i < this.tags.length; i++) {
             const multipleContainer = document.createElement('div');
-            multipleContainer.className = 'z-multiple';
+            multipleContainer.className = 'multiple';
             multipleContainer.style.flexBasis = this.getChartWidth();
             this.domElement.append(multipleContainer);
 

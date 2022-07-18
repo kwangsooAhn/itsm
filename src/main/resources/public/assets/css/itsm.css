@@ -5631,7 +5631,7 @@ input, button, select, optgroup, textarea {
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
-.process-main .drawing-board .z-minimap {
+.process-main .drawing-board .minimap {
   position: absolute;
   right: 3.438rem;
   bottom: 0.625rem;
@@ -5646,7 +5646,7 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   background-color: #FFFFFF;
 }
-.process-main .drawing-board .z-minimap svg {
+.process-main .drawing-board .minimap svg {
   position: absolute;
   top: 1.875rem;
   left: 1.875rem;
@@ -5654,15 +5654,15 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   background-color: #FAFAFA;
 }
-.process-main .drawing-board .z-minimap svg rect.z-minimap-guide {
+.process-main .drawing-board .minimap svg rect.minimap-guide {
   fill: #BDBDBD;
   fill-opacity: 0.25;
   stroke-width: 0;
 }
-.process-main .drawing-board .z-minimap.closed {
+.process-main .drawing-board .minimap.closed {
   display: none;
 }
-.process-main .drawing-board .z-simulation-report {
+.process-main .drawing-board .simulation-report {
   position: absolute;
   top: 0;
   right: 0;
@@ -5680,7 +5680,7 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   background-color: #FFFFFF;
 }
-.process-main .drawing-board .z-simulation-report-title {
+.process-main .drawing-board .simulation-report-title {
   border-bottm: 0.0625rem solid #CFD5D9;
   height: 3.375rem;
   padding: 1.125rem;
@@ -5688,51 +5688,51 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
 }
-.process-main .drawing-board .z-simulation-report-title .icon.i-minus {
+.process-main .drawing-board .simulation-report-title .icon.i-minus {
   position: absolute;
   right: 1.125rem;
   background: #8B9094;
   cursor: pointer;
 }
-.process-main .drawing-board .z-simulation-report-title .icon.i-minus:hover {
+.process-main .drawing-board .simulation-report-title .icon.i-minus:hover {
   background: #3373C4;
 }
-.process-main .drawing-board .z-simulation-report-contents {
+.process-main .drawing-board .simulation-report-contents {
   padding: 0.3125rem;
 }
-.process-main .drawing-board .z-simulation-report-contents-main {
+.process-main .drawing-board .simulation-report-contents-main {
   overflow-y: auto;
   width: 100%;
   height: 18.44rem;
 }
-.process-main .drawing-board .z-simulation-report-contents-main .result {
+.process-main .drawing-board .simulation-report-contents-main .result {
   margin: 1.25rem 0.938rem;
   font-size: 1.125rem;
   font-weight: 500;
 }
-.process-main .drawing-board .z-simulation-report-contents-main .result.success {
+.process-main .drawing-board .simulation-report-contents-main .result.success {
   color: #5CA21B;
 }
-.process-main .drawing-board .z-simulation-report-contents-main .result.failed {
+.process-main .drawing-board .simulation-report-contents-main .result.failed {
   color: #F52525;
 }
-.process-main .drawing-board .z-simulation-report-contents-main .details {
+.process-main .drawing-board .simulation-report-contents-main .details {
   margin: 0 0.938rem;
   color: #222529;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
-.process-main .drawing-board .z-simulation-report-contents-main .details div {
+.process-main .drawing-board .simulation-report-contents-main .details div {
   margin: 0.625rem 0;
 }
-.process-main .drawing-board .z-simulation-report-contents-main .details div.failed {
+.process-main .drawing-board .simulation-report-contents-main .details div.failed {
   color: #F52525;
 }
-.process-main .drawing-board .z-simulation-report-contents-main .details-result, .process-main .drawing-board .z-simulation-report-contents-main .details-element-info, .process-main .drawing-board .z-simulation-report-contents-main .details-failed-message {
+.process-main .drawing-board .simulation-report-contents-main .details-result, .process-main .drawing-board .simulation-report-contents-main .details-element-info, .process-main .drawing-board .simulation-report-contents-main .details-failed-message {
   margin-left: 0.313rem;
 }
-.process-main .drawing-board .z-simulation-report.closed {
+.process-main .drawing-board .simulation-report.closed {
   display: none;
 }
 .process-properties-header {

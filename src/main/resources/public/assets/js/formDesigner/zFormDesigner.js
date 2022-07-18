@@ -359,7 +359,7 @@ class ZFormDesigner {
                 });
                 // group 선택
                 group.UIElement.domElement.dispatchEvent(new Event('click'));
-            } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.GROUP)) {
+            } else if (evt.to.classList.contains(FORM.LAYOUT.GROUP)) {
                 // 신규 row / component 추가
                 const row
                     = editor.addObjectByType(FORM.LAYOUT.ROW, {}, parentObject, evt.newDraggableIndex);
@@ -378,7 +378,7 @@ class ZFormDesigner {
                 });
                 // row 선택
                 row.UIElement.domElement.dispatchEvent(new Event('click'));
-            } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.ROW)) {
+            } else if (evt.to.classList.contains(FORM.LAYOUT.ROW)) {
                 // 신규 component 추가
                 const component = editor.addObjectByType(
                     FORM.LAYOUT.COMPONENT,
@@ -580,7 +580,7 @@ class ZFormDesigner {
                                 to: { id: '', clone: null }
                             });
 
-                            if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
+                            if (evt.to.classList.contains(FORM.LAYOUT.FORM)) {
                             // form 내에 신규 group 추가
                                 const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject,
                                     evt.newDraggableIndex);
@@ -693,7 +693,7 @@ class ZFormDesigner {
                                     true, { type: sortObject.type }).toJson() },
                                 to: { id: '', clone: null }
                             });
-                            if (evt.to.classList.contains('z-' + FORM.LAYOUT.FORM)) {
+                            if (evt.to.classList.contains(FORM.LAYOUT.FORM)) {
                             // 신규 group, row 추가 후 component 이동
                                 const group = editor.addObjectByType(FORM.LAYOUT.GROUP, {}, toObject,
                                     evt.newDraggableIndex);
@@ -707,7 +707,7 @@ class ZFormDesigner {
                                 });
                                 // group 선택
                                 group.UIElement.domElement.dispatchEvent(new Event('click'));
-                            } else if (evt.to.classList.contains('z-' + FORM.LAYOUT.GROUP)) {
+                            } else if (evt.to.classList.contains(FORM.LAYOUT.GROUP)) {
                             // 신규 row 추가 후 component 이동
                                 const row = editor.addObjectByType(FORM.LAYOUT.ROW, {}, toObject,
                                     evt.newDraggableIndex);

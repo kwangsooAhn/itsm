@@ -1792,7 +1792,7 @@ $element-icon-toggle: (
         }
       }
       // 미니맵
-      .z-minimap {
+      .minimap {
         @include absolute($right: 3.438rem, $bottom: 0.625rem); // 55px 10px
         @include border(0.0625rem, solid, $gray300, all);
         @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px
@@ -1809,7 +1809,7 @@ $element-icon-toggle: (
           border-radius: 0.0625rem; // 1px
           background-color: $neutral50;
           // 미니맵 위치 변경시 표시되는 네모박스
-          rect.z-minimap-guide {
+          rect.minimap-guide {
             fill: $neutral400;
             fill-opacity: 0.25;
             stroke-width: 0;
@@ -1819,7 +1819,7 @@ $element-icon-toggle: (
         &.closed { display: none; }
       }
       // 시뮬레이션
-      .z-simulation-report {
+      .simulation-report {
         @include absolute(0, 0, 0, 0);
         @include border(0.0625rem, solid, $gray300, all);
         @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px

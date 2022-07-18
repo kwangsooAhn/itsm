@@ -248,7 +248,7 @@ export default class ZColumnProperty extends ZProperty {
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
         const arrowRightButton = new UIButton().setUIClass('button-icon')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('i-arrow-right').addUIClass('z-next'))
+            .addUI(new UISpan().setUIClass('icon').addUIClass('i-arrow-right').addUIClass('next'))
             .setUIAttribute('data-swap-direction', '1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));

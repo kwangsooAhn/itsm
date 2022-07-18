@@ -18,7 +18,7 @@
 <body>
 <th:block layout:fragment="pageLeft">
     <div class="vertical-split-left signup-background">
-        <img class="z-img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
+        <img class="img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
         <div class="signup-login-face float-right">
             <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
             <a class="button light-secondary signup-return" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
@@ -28,7 +28,7 @@
 <th:block layout:fragment="pageRight">
     <div class="vertical-split-right signup-form">
         <h1 class="mb-2 align-center" th:text="#{login.label.userSignUp}"></h1>
-        <div class="z-signup-base">
+        <div class="signup-base">
             <form id="signUpForm" method="post" onsubmit="return false">
                 <div class="signup-base-form flex-column">
                     <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>

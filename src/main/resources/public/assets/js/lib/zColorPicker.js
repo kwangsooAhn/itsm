@@ -284,7 +284,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 사용자 색상 목록
         const customColorList = document.createElement('div');
-        customColorList.className = 'z-custom-color-list';
+        customColorList.className = 'custom-color-list';
         paletteContainer.appendChild(customColorList);
         this.customColorListEl = customColorList;
 

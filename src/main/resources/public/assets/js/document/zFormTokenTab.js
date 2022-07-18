@@ -214,7 +214,7 @@ class ZFormTokenTab {
     makeViewerFragment(viewer) {
         return `<tr class="flex-row align-items-center" id="viewer${viewer.viewerKey}">` +
             `<td style="width: 8%;" class="align-left p-0">` +
-            `<img class="z-img i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
+            `<img class="img i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
             `</td>` +
             `<td style="width: 25%;" class="align-left" title="${viewer.viewerName}">${viewer.viewerName}</td>` +
             `<td style="width: 57%;" class="align-left" title="${viewer.organizationName}">` +
@@ -647,7 +647,7 @@ class ZFormTokenTab {
             `</div>` +
             `<div class="document-row-info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
-            `<img class="z-img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
+            `<img class="img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="pl-2">` + instance.instanceCreateUserName + `</h6>` +
             `</div>` +
             `<span class="vertical-bar"></span>` +
@@ -760,7 +760,7 @@ class ZFormTokenTab {
             `<div class="token-comment-item flex-column" id="comment` + comment.commentId + `">` +
             `<div class="comment-row-info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
-            `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
+            `<img class="img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="user-name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
             `<h6 class="comment-time date-time">` + comment.createDt + `</h6>` +

@@ -45,7 +45,7 @@ export const fileUploadMixin = {
         const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIFileUpload = new UIDiv().setUIClass('z-fileupload')
+        element.UIFileUpload = new UIDiv().setUIClass('fileupload')
             .addUIClass('file-uploader-edit')
             .setUIId('fileupload' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
@@ -77,7 +77,7 @@ export const fileUploadMixin = {
         // 읽기 전용일 경우
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.clearUI();
-            const UIViewFileUpload = new UIDiv().setUIClass('z-fileupload')
+            const UIViewFileUpload = new UIDiv().setUIClass('fileupload')
                 .addUIClass('file-uploader-view')
                 .setUIId('fileupload' + this.id);
             // 파일 목록

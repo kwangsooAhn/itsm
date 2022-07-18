@@ -5,7 +5,7 @@
 <div class="card-list">
     <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
     <div class="card-row flex-row align-items-center" th:each="portalList : ${portalList}">
-        <img class="z-img mr-3" th:src="@{|/assets/media/images/portal/img_portal_${portalList.tableName}.png|}" width="30" height="30">
+        <img class="img mr-3" th:src="@{|/assets/media/images/portal/img_portal_${portalList.tableName}.png|}" width="30" height="30">
         <div class="card-item-box">
             <h5 class="card-item-title underline text-ellipsis" th:switch="${portalList.tableName}">
                 <a th:case="#{'notice'}" th:href="@{/portals/notices/{id}/view(id=${portalList.portalId})}"
