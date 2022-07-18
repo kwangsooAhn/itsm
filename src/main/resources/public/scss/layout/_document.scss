@@ -369,7 +369,7 @@
 
   &-main {
     .drawing-board {
-      .z-form {
+      .form {
         box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
         border: none; // 인쇄시 테두리 제외
         // 인쇄시 폼 내의 모든 컴포넌트 동작을 막음
@@ -411,7 +411,7 @@
 
       // 폼이 그려지는 영역
       .drawing-board {
-        .z-form {
+        .form {
           display: table-row;
           .group-tooltip {
             page-break-after: auto;

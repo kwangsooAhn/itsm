@@ -339,7 +339,7 @@ $layout-header-dropdown: (
   --data-align: flex-start;
 }
 
-.z-form {
+.form {
   @include border(0.0625rem, solid, $gray300, all); // 1px
   display: inline-block;
   min-height: 56.25rem; // 900px

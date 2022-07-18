@@ -4153,13 +4153,13 @@ input, button, select, optgroup, textarea {
   --data-align: flex-start;
 }
 
-.z-form {
+.form {
   border: 0.0625rem solid #CFD5D9;
   display: inline-block;
   min-height: 56.25rem;
   background-color: #FFFFFF;
 }
-.z-form *:focus {
+.form *:focus {
   outline: none !important;
 }
 
@@ -6179,11 +6179,11 @@ input, button, select, optgroup, textarea {
 .print-header-space, .print-footer-space {
   height: 0;
 }
-.print-main .drawing-board .z-form {
+.print-main .drawing-board .form {
   box-shadow: none;
   border: none;
 }
-.print-main .drawing-board .z-form * {
+.print-main .drawing-board .form * {
   pointer-events: none;
 }
 
@@ -6229,17 +6229,17 @@ input, button, select, optgroup, textarea {
   .print-main .print-footer-space {
     display: table-footer-group;
   }
-  .print-main .drawing-board .z-form {
+  .print-main .drawing-board .form {
     display: table-row;
   }
-  .print-main .drawing-board .z-form .group-tooltip {
+  .print-main .drawing-board .form .group-tooltip {
     page-break-after: auto;
     break-inside: avoid;
   }
-  .print-main .drawing-board .z-form .row-tooltip {
+  .print-main .drawing-board .form .row-tooltip {
     break-inside: avoid;
   }
-  .print-main .drawing-board .z-form .row-tooltip .textarea {
+  .print-main .drawing-board .form .row-tooltip .textarea {
     width: inherit;
     max-width: 200mm;
   }
@@ -7051,12 +7051,12 @@ input, button, select, optgroup, textarea {
 .report .report-main .report-area .drawing-board .chart-content .chart {
   padding: 0.75rem 0 0 0;
 }
-.report .report-main .report-area .z-form {
+.report .report-main .report-area .form {
   box-shadow: none;
 }
-.report .report-main .report-area .z-form input, .report .report-main .report-area .z-form textarea, .report .report-main .report-area .z-form button, .report .report-main .report-area .z-form select,
-.report .report-main .report-area .z-form .dropzone, .report .report-main .report-area .z-form .ql-toolbar,
-.report .report-main .report-area .z-form label.radio, .report .report-main .report-area .z-form label.checkbox {
+.report .report-main .report-area .form input, .report .report-main .report-area .form textarea, .report .report-main .report-area .form button, .report .report-main .report-area .form select,
+.report .report-main .report-area .form .dropzone, .report .report-main .report-area .form .ql-toolbar,
+.report .report-main .report-area .form label.radio, .report .report-main .report-area .form label.checkbox {
   pointer-events: none;
 }
 .report .report-main .report-main-footer {
@@ -7107,7 +7107,7 @@ input, button, select, optgroup, textarea {
   .report .report-main-header {
     margin: 0 0 10mm 0;
   }
-  .report .z-form {
+  .report .form {
     box-shadow: none;
   }
 }

@@ -28,7 +28,7 @@
                                 th:order-data="${subMenu.sort}"
                                 th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
                                 <a th:href="${subMenu.url}"
-                                   th:class="'snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}"
+                                   th:class="snb-link"
                                    onclick="showProgressBar()"
                                    th:classappend="${subMenu.url} == ${session.active_url} ? active">
                                     <span class="icon i-gnb_sub_dot"></span>
