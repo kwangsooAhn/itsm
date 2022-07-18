@@ -28,22 +28,22 @@
             <select id="statusMetricName" class="flex-column col-2 mr-3"></select>
             <div class="flex-column">
                 <div class="flex-row">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input type="radio" id="slaChartLine" name="chartType" th:value="'chart.basicLine'"
                                th:checked="true"
                                th:classappend="${view} ? 'readonly'"
                                th:disabled="${view}"
                                th:readonly="${view}">
                         <span></span>
-                        <span class="z-label  mr-4" th:text="#{sla.chart.line}"></span>
+                        <span class="label  mr-4" th:text="#{sla.chart.line}"></span>
                     </label>
-                    <label class="z-radio">
+                    <label class="radio">
                         <input type="radio" id="slaChartColumn" name="chartType" th:value="chart.basicColumn"
                                th:classappend="${view} ? 'readonly'"
                                th:disabled="${view}"
                                th:readonly="${view}">
                         <span></span>
-                        <span class="z-label mr-4" th:text="#{sla.chart.column}"></span>
+                        <span class="label mr-4" th:text="#{sla.chart.column}"></span>
                     </label>
                 </div>
             </div>
@@ -51,7 +51,7 @@
     </form>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content" id="metricStatusChart">
+    <div class="list-content" id="metricStatusChart">
         <div id="container"></div>
     </div>
 </div>

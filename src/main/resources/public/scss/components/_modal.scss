@@ -101,8 +101,8 @@ body.modal-active { overflow: hidden !important; }
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px
-          .z-table {
-            .z-table-body {
+          .table {
+            .table-body {
               overflow-y: auto;
               display: block;
               width: 60rem; // 960px
@@ -205,13 +205,13 @@ body.modal-active { overflow: hidden !important; }
    */
   // formDesigner - 썸네일 모달
   // process - 파일 선택 모달
-  &.z-thumbnail-image,
-  &.z-thumbnail-file {
+  &.thumbnail-image,
+  &.thumbnail-file {
     width: 1040px; // 1040px
     height: 48.44rem; // 775px
     .modal-content {
       height: calc(48.44rem - 3.875rem - 5rem); // 775px
-      .z-thumbnail-main .z-thumbnail { width: 14.375rem; } // 230px
+      .thumbnail-main .thumbnail { width: 14.375rem; } // 230px
     }
   }
 
@@ -262,10 +262,10 @@ body.modal-active { overflow: hidden !important; }
         height: calc(42.188rem - 3.875rem - 5rem - 2.5rem); // 높이(675px)에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
 
-        .z-table {
+        .table {
           width: auto;
 
-          .z-table-body {
+          .table-body {
             border: none;
             tr:hover { background-color: transparent; }
           }
@@ -280,10 +280,10 @@ body.modal-active { overflow: hidden !important; }
   }
   &.document-modal-dialog {
     // 신청서일 경우 우측 properties가 존재하지 않음
-    .z-document-main,
-    .z-document-main-header,
-    .z-document-main-footer { right: 0; }
-    .z-document-main-header { width: 100%; }
+    .document-main,
+    .document-main-header,
+    .document-main-footer { right: 0; }
+    .document-main-header { width: 100%; }
   }
   &.custom-code-list {
     width: 40rem; // 640px
@@ -326,8 +326,8 @@ body.modal-active { overflow: hidden !important; }
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px
-          .z-table {
-            .z-table-body {
+          .table {
+            .table-body {
               display: block;
               overflow-y: auto;
               width: 60rem; // 960px
@@ -403,9 +403,9 @@ body.modal-active { overflow: hidden !important; }
         .attribute-group {
           // Group List일 경우, 하위 속성 존재함
           .child-attribute-group {
-            .z-button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
+            .button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
             .child-attribute-row {
-              .z-button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
+              .button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
             }
           }
         }
@@ -421,8 +421,8 @@ body.modal-active { overflow: hidden !important; }
           }
         }
         // 연관 관계
-        .z-relation-group {
-          .z-table-row {
+        .relation-group {
+          .table-row {
             @include border(0.0625rem, solid, $gray400, bottom);
             height: 2.5rem;
           }
@@ -527,8 +527,8 @@ body.modal-active { overflow: hidden !important; }
 
       .table-set {
         margin-top: 2.188rem; // 35px
-        .z-table {
-          .z-table-body {
+        .table {
+          .table-body {
             display: block;
             overflow-y: auto;
             width: 60rem; // 960px

@@ -17,64 +17,64 @@
 </head>
 <body>
 <th:block layout:fragment="pageLeft">
-    <div class="z-vertical-split-left z-signup-background">
-        <img class="z-img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
-        <div class="z-signup-login-face float-right">
-            <span class="z-signup-login-note" th:text="#{login.label.loginNote}"></span>
-            <a class="z-button light-secondary signup-return" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
+    <div class="vertical-split-left signup-background">
+        <img class="img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
+        <div class="signup-login-face float-right">
+            <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
+            <a class="button light-secondary signup-return" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
         </div>
     </div>
 </th:block>
 <th:block layout:fragment="pageRight">
-    <div class="z-vertical-split-right z-signup-form">
+    <div class="vertical-split-right signup-form">
         <h1 class="mb-2 align-center" th:text="#{login.label.userSignUp}"></h1>
-        <div class="z-signup-base">
+        <div class="signup-base">
             <form id="signUpForm" method="post" onsubmit="return false">
-                <div class="z-signup-base-form flex-column">
+                <div class="signup-base-form flex-column">
                     <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
                     <div>
                         <label>
                             <span th:text="#{user.label.id}"></span>
                             <span class="required"></span>
                         </label>
-                        <div class="z-help-tooltip">
-                            <span class="z-icon i-tooltip"></span>
-                            <div class="z-tooltip-contents">
+                        <div class="help-tooltip">
+                            <span class="icon i-tooltip"></span>
+                            <div class="tooltip-contents">
                                 <span th:utext="#{user.tooltip.idRule}"></span>
                             </div>
                         </div>
                     </div>
-                    <input type="text" id="userId" name="userId" class="z-input" maxlength="100" required="required">
+                    <input type="text" id="userId" name="userId" class="input" maxlength="100" required="required">
                     <div>
                         <label href="#password-guide" tabindex="-1">
                             <span th:text="#{user.label.password}"></span>
                             <span class="required"></span>
                         </label>
-                        <div class="z-help-tooltip">
-                            <span class="z-icon i-tooltip"></span>
-                            <div class="z-tooltip-contents">
+                        <div class="help-tooltip">
+                            <span class="icon i-tooltip"></span>
+                            <div class="tooltip-contents">
                                 <span th:utext="#{user.tooltip.pwRule}"></span>
                             </div>
                         </div>
                     </div>
-                    <input type="password" id="password" name="password" class="z-input" maxlength="100" required="required">
+                    <input type="password" id="password" name="password" class="input" maxlength="100" required="required">
                     <label href="#password-guide" tabindex="-1">
                         <span th:text="#{user.label.rePassword}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="password" id="rePassword" name="rePassword" class="z-input" maxlength="100" required="required">
+                    <input type="password" id="rePassword" name="rePassword" class="input" maxlength="100" required="required">
                     <label>
                         <span th:text="#{user.label.name}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="text" id="userName" name="userName" class="z-input" maxlength="100" required="required">
+                    <input type="text" id="userName" name="userName" class="input" maxlength="100" required="required">
                     <label>
                         <span th:text="#{user.label.email}"></span>
                         <span class="required"></span>
                     </label>
-                    <input type="text" id="email" name="email" class="z-input" maxlength="100" required="required">
+                    <input type="text" id="email" name="email" class="input" maxlength="100" required="required">
                     <label th:text="#{user.label.mobileNumber}"></label>
-                    <input id="mobileNumber" name="mobileNumber" class="z-input" maxlength="100">
+                    <input id="mobileNumber" name="mobileNumber" class="input" maxlength="100">
                     <label th:text="#{user.label.avatar}"></label>
                     <div class="flex-column avatar-edit">
                         <div class="avatar-sm">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </form>
-            <button class="z-button primary col-pct-12" id="userSignUp" th:text="#{login.btn.doSignUp}"
+            <button class="button primary col-pct-12" id="userSignUp" th:text="#{login.btn.doSignUp}"
                     onclick="userRegister()"></button>
         </div>
     </div>

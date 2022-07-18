@@ -78,7 +78,7 @@ export default class ZUserSearchProperty extends ZProperty {
             case 'organization':
                 targetGroup.UILabel = this.makeLabelProperty('form.properties.element.searchTarget');
                 targetGroup.addUI(targetGroup.UILabel);
-                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row z-input-button');
+                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row input-button');
                 targetGroup.addUI(targetGroup.UIInputButton);
                 targetGroup.UIInputButton.UIInput = new UIInput()
                     .setUIReadOnly(true)
@@ -95,20 +95,20 @@ export default class ZUserSearchProperty extends ZProperty {
                 if (this.isEditable) {
                     // small icon button
                     targetGroup.UIInputButton.UIIconButton = new UIButton()
-                        .setUIClass('z-button-icon-sm')
+                        .setUIClass('button-icon-sm')
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     targetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                        .setUIClass('z-icon')
+                        .setUIClass('icon')
                         .addUIClass('i-remove');
                     targetGroup.UIInputButton.UIIconButton.addUI(targetGroup.UIInputButton.UIIconButton.UIIcon);
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIIconButton);
                     // button
                     targetGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('z-button-icon')
-                        .addUIClass('z-button-code')
+                        .setUIClass('button-icon')
+                        .addUIClass('button-code')
                         // .setUIAttribute('data-value', '')
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
+                        .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
                         .onUIClick(this.openOrganizationData.bind(this));
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIButton);
                 }
@@ -119,19 +119,19 @@ export default class ZUserSearchProperty extends ZProperty {
                 targetGroup.UILabel.domElement.firstChild.classList.add('pt-2');
                 // 사용자 목록 추가 버튼
                 targetGroup.UIButton = new UIButton()
-                    .setUIClass('z-button-icon')
+                    .setUIClass('button-icon')
                     .addUIClass('extra')
                     .addUIClass('float-right')
                     .setUIDisabled(!this.isEditable)
                     // 사용자 검색 모달
                     .onUIClick(this.openUserListModal.bind(this));
-                targetGroup.UIButton.addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'));
+                targetGroup.UIButton.addUI(new UISpan().addUIClass('icon').addUIClass('i-plus'));
                 targetGroup.UILabel.addUI(targetGroup.UIButton);
                 targetGroup.addUI(targetGroup.UILabel);
 
                 // 사용자 목록
-                const userTable = new UITable().setUIClass('z-option-table');
-                const header = new UIRow(userTable).setUIClass('z-option-table-header');
+                const userTable = new UITable().setUIClass('option-table');
+                const header = new UIRow(userTable).setUIClass('option-table-header');
                 userTable.addUIRow(header);
 
                 const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.userName'));
@@ -190,7 +190,7 @@ export default class ZUserSearchProperty extends ZProperty {
         const targetUserModal = new modal({
             title: i18n.msg('form.properties.userList'),
             body: `<div class="target-user-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +
@@ -198,7 +198,7 @@ export default class ZUserSearchProperty extends ZProperty {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (zValidation.isEmpty(targetUserArray)) {
@@ -211,7 +211,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -248,9 +248,9 @@ export default class ZUserSearchProperty extends ZProperty {
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
             targetUserList.innerHTML = htmlData;
-            OverlayScrollbars(targetUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(targetUserList.querySelector('.table-body'), {className: 'scrollbar'});
             // 갯수 가운트
-            aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트
             targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
                 element.addEventListener('change', () => {
@@ -277,7 +277,7 @@ export default class ZUserSearchProperty extends ZProperty {
         // 테이블 초기화
         const userListTable = this.UIElement.UIGroup.userTable;
         userListTable.clearUIRow().clearUI();
-        const header = new UIRow(userListTable).setUIClass('z-option-table-header');
+        const header = new UIRow(userListTable).setUIClass('option-table-header');
         userListTable.addUIRow(header);
         const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.userName'));
         const removeTD = new UICell(header).setUICSSText('width: 15%;');
@@ -285,17 +285,17 @@ export default class ZUserSearchProperty extends ZProperty {
         header.addUICell(removeTD);
 
         targetList.forEach((target) => {
-            const optionRow = new UIRow(userListTable).setUIClass('z-option-table-row');
+            const optionRow = new UIRow(userListTable).setUIClass('option-table-row');
             const addedNameTD = new UICell(optionRow)
                 .setUIId('targetUser')
                 .setUIAttribute('data-value', target.id)
                 .setUITextContent(target.value);
             const addedRemoveTD = new UICell(optionRow).setUICSSText('width: 15%;');
             addedRemoveTD.removeButton = new UIButton()
-                .setUIClass('z-button-icon')
+                .setUIClass('button-icon')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.removeRow.bind(this));
-            addedRemoveTD.removeButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            addedRemoveTD.removeButton.addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));
             addedRemoveTD.addUI(addedRemoveTD.removeButton);
             optionRow.addUICell(addedNameTD);
             optionRow.addUICell(addedRemoveTD);

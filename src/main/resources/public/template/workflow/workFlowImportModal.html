@@ -18,10 +18,10 @@
             <span th:text="#{document.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" class="z-input" id="documentName" maxlength="50" required="required"/>
+        <input type="text" class="input" id="documentName" maxlength="50" required="required"/>
         <!-- 설명 -->
         <label class="field-label" th:text="#{document.label.description}" for="documentDesc"></label>
-        <textarea id="documentDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="documentDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
         <!-- 그룹 -->
         <label class="field-label" for="documentGroup">
             <span th:text="#{common.label.group}"></span>
@@ -36,17 +36,17 @@
             <span th:text="#{document.label.role}"></span>
             <span class="required"></span>
         </label>
-        <div class="z-checkbox-list" id="documentRole">
+        <div class="checkbox-list" id="documentRole">
             <ul>
                 <li class="document-role-checkbox-wrap" th:each="allRole : ${allRoles}">
-                    <label class="z-checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
+                    <label class="checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
                            th:title="*{allRole.roleName}">
                         <input class="document-role-checkbox" name="roles"
                                th:disabled="${view}"
                                th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox"
                                th:onclick="checkDocumentRole(this)">
                         <span></span>
-                        <span class="z-label" th:text="*{allRole.roleName}"></span>
+                        <span class="label" th:text="*{allRole.roleName}"></span>
                     </label>
                 </li>
             </ul>
@@ -86,19 +86,19 @@
             <span th:text="#{form.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="formName" class="z-input" maxlength="50" required="required">
+        <input type="text" id="formName" class="input" maxlength="50" required="required">
         <!-- 문서양식 설명 -->
         <label class="field-label" th:text="#{'form.label.description'}" for="formDesc"></label>
-        <textarea id="formDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="formDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
         <!-- 프로세스 이름 -->
         <label class="field-label" for="processName">
             <span th:text="#{process.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="processName" class="z-input" maxlength="50" required="required">
+        <input type="text" id="processName" class="input" maxlength="50" required="required">
         <!-- 프로세스 설명 -->
         <label class="field-label" th:text="#{'process.label.description'}" for="processDesc"></label>
-        <textarea id="processDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="processDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
         <!-- XML 파일 -->
         <div class="file-uploader-edit">
             <label class="file-uploader-title field-label">

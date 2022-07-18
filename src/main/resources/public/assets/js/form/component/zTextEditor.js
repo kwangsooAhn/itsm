@@ -49,11 +49,11 @@ export const textEditorMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIDiv = new UIDiv().setUIClass('z-text-editor').setUIId('editorContainer')
+        element.UIDiv = new UIDiv().setUIClass('text-editor').setUIId('editorContainer')
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 

@@ -42,16 +42,16 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // switch button
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('z-button-switch-group').setUICSSText(`width:30%;`);
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('button-switch-group').setUICSSText(`width:30%;`);
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
-                .setUIClass('z-button-switch')
+                .setUIClass('button-switch')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass('z-text').setUITextContent(i18n.msg(item.name)));
+                .addUI(new UISpan().setUIClass('text').setUITextContent(i18n.msg(item.name)));
 
             if (!this.isEditable) {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('disabled');
@@ -129,9 +129,9 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
     getPropertyValue(evtType, element) {
         const property = (evtType === 'click') ? element.parentNode.parentNode : element.parentNode;
         const selectedButton = property.querySelector('.selected');
-        const firstInput = property.querySelector('.z-input');
+        const firstInput = property.querySelector('.input');
         const defaultCodeLabel = property.querySelector('.default-code-label');
-        const defaultCode = property.querySelector('.z-input[data-type="'+ FORM.DROPDOWN_CODE.DEFAULT_CODE +'"]');
+        const defaultCode = property.querySelector('.input[data-type="'+ FORM.DROPDOWN_CODE.DEFAULT_CODE +'"]');
         let elementDataType = selectedButton.getAttribute('data-type');
         let tempValue = {};
         switch (evtType) {

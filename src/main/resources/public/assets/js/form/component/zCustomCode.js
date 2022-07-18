@@ -51,34 +51,34 @@ export const customCodeMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
-            .setUIClass('z-custom-code')
-            .addUIClass('flex-row').addUIClass('z-input-button')
+            .setUIClass('custom-code')
+            .addUIClass('flex-row').addUIClass('input-button')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIInput = new UIInput()
-            .setUIClass('z-input')
+            .setUIClass('input')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', (this.value === '${default}') ?
                 this.elementDefaultValueCustomCode : this.value)
             .onUIChange(this.updateValue.bind(this))
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIButton = new UIButton()
-            .setUIClass('z-button')
+            .setUIClass('button')
             .setUIClass('secondary')
-            .addUIClass('z-button-icon')
+            .addUIClass('button-icon')
             .onUIClick(this.openCustomCodeModal.bind(this))
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
+            .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
         // remove 버튼 생성 (단, customCode 값이 입력되면 display)
         element.UIRemoveButton = new UIRemoveButton()
-            .addUIClass('z-button-icon-sm')
+            .addUIClass('button-icon-sm')
             .onUIClick(this.removeValue.bind(this))
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            .addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));
         element.addUI(
             element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
 
