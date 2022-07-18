@@ -63,7 +63,8 @@ class ServiceCategoryRestController(
      */
     @PutMapping("/{serviceCode}")
     fun updateService(
-        @PathVariable serviceCode: String, @RequestBody serviceCategoryDto: ServiceCategoryDto
+        @PathVariable serviceCode: String,
+        @RequestBody serviceCategoryDto: ServiceCategoryDto
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(serviceCategory.updateService(serviceCode, serviceCategoryDto))
     }
