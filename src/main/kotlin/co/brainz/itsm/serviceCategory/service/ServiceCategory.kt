@@ -81,13 +81,17 @@ class ServiceCategory(
      */
     @Transactional
     fun createService(serviceCategoryDto: ServiceCategoryDto): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
 
-        if (serviceCategoryRepo.existsById(serviceCategoryDto.serviceCode)) {
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_CODE
-        } else if (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)){
-            status = ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
-        } else {
+        val status = when {
+            (serviceCategoryRepo.existsById(serviceCategoryDto.serviceCode)) -> {
+                ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_CODE
+            }
+            (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)) -> {
+                ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
+            }
+            else -> ZResponseConstants.STATUS.SUCCESS
+        }
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             val serviceEntity = ServiceCategoryEntity(
                 serviceCode = serviceCategoryDto.serviceCode,
                 pServiceCode = serviceCategoryDto.pServiceCode?.let {
@@ -119,22 +123,23 @@ class ServiceCategory(
      */
     @Transactional
     fun updateService(serviceCode: String, serviceCategoryDto: ServiceCategoryDto): ZResponse {
-        var status = ZResponseConstants.STATUS.SUCCESS
 
-        when (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)) {
-            true -> status = ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
-            false -> {
-                val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCode)
-                serviceEntity.serviceName = serviceCategoryDto.serviceName
-                serviceEntity.serviceDesc = serviceCategoryDto.serviceDesc
-                serviceEntity.avaGoal = serviceCategoryDto.avaGoal
-                serviceEntity.startDate = serviceCategoryDto.startDate
-                serviceEntity.endDate = serviceCategoryDto.endDate
-                serviceEntity.useYn = serviceCategoryDto.useYn
-                serviceEntity.seqNum = serviceCategoryDto.seqNum
+        val status = if ((serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName))) {
+            ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
+        } else {
+            ZResponseConstants.STATUS.SUCCESS
+        }
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCode)
+            serviceEntity.serviceName = serviceCategoryDto.serviceName
+            serviceEntity.serviceDesc = serviceCategoryDto.serviceDesc
+            serviceEntity.avaGoal = serviceCategoryDto.avaGoal
+            serviceEntity.startDate = serviceCategoryDto.startDate
+            serviceEntity.endDate = serviceCategoryDto.endDate
+            serviceEntity.useYn = serviceCategoryDto.useYn
+            serviceEntity.seqNum = serviceCategoryDto.seqNum
 
-                serviceCategoryRepo.save(serviceEntity)
-            }
+            serviceCategoryRepo.save(serviceEntity)
         }
         return ZResponse(
             status = status.code
