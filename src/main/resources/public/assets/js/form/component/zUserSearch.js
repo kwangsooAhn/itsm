@@ -95,7 +95,7 @@ export const userSearchMixin = {
             `${ZSession.get('userName')}|${ZSession.get('userId')}`;
                 this.elementDefaultValue = newElementDefaultValue;
             }
-            if (zValidation.isEmpty(document.querySelector('.z-form-main'))) {
+            if (zValidation.isEmpty(document.querySelector('.form-main'))) {
                 this.getUserList(this.elementDefaultValue.data.split('|')[2], false);
             }
         }

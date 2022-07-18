@@ -97,7 +97,7 @@ export const dynamicRowTableMixin = {
         // 테이블
         element.UITable = new UITable()
             .setUIClass('option-table')
-            .addUIClass('z-dr-table')
+            .addUIClass('dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
             .setUIAttribute('tabindex', '-1')
@@ -234,7 +234,7 @@ export const dynamicRowTableMixin = {
     },
     makeTable(table) {
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('z-dr-table-header');
+        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('dr-table-header');
         table.addUIRow(row);
 
         this.elementColumns.forEach((column) => {
@@ -248,7 +248,7 @@ export const dynamicRowTableMixin = {
             const td = new UICell(row)
                 .addUIClass('align-' + column.columnHead.align)
                 .setUICSSText(tdCssText)
-                .addUI(new UISpan().addUIClass('z-dr-table-header-cell').setUIInnerHTML(column.columnName));
+                .addUI(new UISpan().addUIClass('dr-table-header-cell').setUIInnerHTML(column.columnName));
             row.addUICell(td);
         });
         // row 삭제 버튼 영역
@@ -293,7 +293,7 @@ export const dynamicRowTableMixin = {
             this.value.push(columnHeadData);
         }
         // row 추가
-        const row = new UIRow(targetTable).setUIClass('z-dr-table-row');
+        const row = new UIRow(targetTable).setUIClass('dr-table-row');
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {

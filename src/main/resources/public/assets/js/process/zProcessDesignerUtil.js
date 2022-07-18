@@ -735,7 +735,7 @@
      * focus properties panel.
      */
     function focusPropertiesPanel() {
-        let panel = document.querySelector('.z-process-properties');
+        let panel = document.querySelector('.process-properties');
         let items = panel.querySelectorAll('input:not([readonly]), select');
         if (!items.length) {
             return false;

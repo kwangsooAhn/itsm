@@ -297,7 +297,7 @@ Object.assign(zColorPicker.prototype, {
                 this.selectedEl = colorItem;
             }
             colorItem.addEventListener('click', this.selectColor.bind(this), false);
-            colorItem.querySelector('.z-custom-color-palette-item-clear')
+            colorItem.querySelector('.custom-color-palette-item-clear')
                 .addEventListener('click', this.removeCustomColor.bind(this), false);
         });
 

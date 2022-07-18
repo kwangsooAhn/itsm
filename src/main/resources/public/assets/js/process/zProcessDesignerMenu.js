@@ -970,7 +970,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.z-process-properties'),
+        const container = document.querySelector('.process-properties'),
             propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === zProcessDesigner.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(zProcessDesigner.data.process));
@@ -1228,7 +1228,7 @@
 
             subContainer.appendChild(targetPlugInProperties);
         }
-        const propertiesPanel = document.querySelector('.z-process-properties');
+        const propertiesPanel = document.querySelector('.process-properties');
         if (propertiesPanel !== null) {
             let propertyContainer = propertiesPanel.querySelector('#script-type').parentNode;
             if (!propertyContainer.classList.contains('properties')) {
@@ -1592,7 +1592,7 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const elementContainer = document.querySelector('.z-process-properties');
+        const elementContainer = document.querySelector('.process-properties');
         elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
         let propertiesPanelTitle = i18n.msg(i18nMsgPrefix + 'process');
@@ -1757,7 +1757,7 @@
      * @param elemData element data
      */
     function addSpecialProperties(id, elemData) {
-        const elementContainer = document.querySelector('.z-process-properties');
+        const elementContainer = document.querySelector('.process-properties');
         const selectedElement = d3.select(document.getElementById(id));
 
         if (selectedElement.classed('userTask')) {

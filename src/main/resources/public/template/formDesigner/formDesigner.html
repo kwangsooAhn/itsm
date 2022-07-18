@@ -99,15 +99,15 @@
 <body>
 <div class="wrapper">
     <form id="frm" name="frm">
-        <div class="z-form-container">
+        <div class="form-container">
             <!-- 상단 네비게이션 -->
-            <div class="z-form-header flex-row align-items-center" id="menuBar">
+            <div class="form-header flex-row align-items-center" id="menuBar">
                 <img class="z-img i-form-designer"
                      th:src="@{/assets/media/icons/designer/topmenu/icon_form_designer.svg}" width="169" height="25"
                      alt="Form Designer"/>
-                <span class="z-form-name ml-auto mr-auto" id="formName"></span>
+                <span class="form-name ml-auto mr-auto" id="formName"></span>
                 <!--버튼 영역-->
-                <div class="z-form-button-list flex-row mr-3" id="formButtonGroup">
+                <div class="form-button-list flex-row mr-3" id="formButtonGroup">
                     <!--undo-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
                         <div id="editCommand">
@@ -197,16 +197,16 @@
                 </div>
             </div>
             <!-- 컴포넌트 팔레트 -->
-            <div class="z-form-component-palette" id="componentPalette">
+            <div class="form-component-palette" id="componentPalette">
                 <div class="component-accordion-box" id="componentList">
                     <!-- inputs: 일반적인 입력 항목 -->
                     <div class="component-accordion">
                         <input type="radio" id="inputs" name="accordion-type" checked="true">
-                        <label class="flex-row justify-content-between z-accordion-label" for="inputs">
+                        <label class="flex-row justify-content-between accordion-label" for="inputs">
                             <span class="z-accordion-name">Inputs</span>
                             <span class="icon i-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content">
+                        <div class="accordion-content">
                             <!-- sortablejs 라이브러리에서 사용하니 list-group, list-group-item 은 삭제하지 마세요. -->
                             <div class="component-icon-box list-group" data-type="component">
                                 <div class="component-icon inputBox flex-column align-items-center list-group-item"
@@ -306,11 +306,11 @@
                     <!-- format:가로선, 이미지, 라벨 등 꾸미기 항목 -->
                     <div class="component-accordion">
                         <input type="radio" id="format" name="accordion-type">
-                        <label class="flex-row justify-content-between z-accordion-label" for="format">
+                        <label class="flex-row justify-content-between accordion-label" for="format">
                             <span class="z-accordion-name">Format</span>
                             <span class="icon i-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content">
+                        <div class="accordion-content">
                             <div class="component-icon-box list-group" data-type="component">
                                 <div class="component-icon label flex-column align-items-center list-group-item"
                                      id="label" tabindex="0" style="--data-row:0;">
@@ -333,11 +333,11 @@
                     <!-- visual: video, html, map, chart 등 추후 구현 -->
                     <div class="component-accordion">
                         <input type="radio" id="visual" name="accordion-type">
-                        <label class="flex-row justify-content-between z-accordion-label" for="visual">
+                        <label class="flex-row justify-content-between accordion-label" for="visual">
                             <span class="z-accordion-name">Visual</span>
                             <span class="icon i-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content">
+                        <div class="accordion-content">
                             <div class="component-icon-box list-group" data-type="component">
                             </div>
                         </div>
@@ -345,26 +345,26 @@
                     <!-- template: 사용자 정의 컴포넌트 -->
                     <div class="component-accordion">
                         <input type="radio" id="template" name="accordion-type">
-                        <label class="flex-row justify-content-between z-accordion-label" for="template">
+                        <label class="flex-row justify-content-between accordion-label" for="template">
                             <span class="z-accordion-name">Template</span>
                             <span class="icon i-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content" id="customComponentList">
+                        <div class="accordion-content" id="customComponentList">
                             <div class="component-icon-box list-group" data-type="template"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 폼 -->
-            <div class="z-form-main" id="formMain">
-                <div id="saveInfo" class="z-save-info align-center"></div>
+            <div class="form-main" id="formMain">
+                <div id="saveInfo" class="save-info align-center"></div>
                 <div class="drawing-board align-center" id="formDrawingBoard" data-display="ready"></div>
             </div>
             <!-- 속성 패널 -->
-            <div class="z-form-properties-panel-header breadcrumb">
+            <div class="form-properties-panel-header breadcrumb">
                 <span id="propertyName"></span>
             </div>
-            <div class="z-form-properties-panel" id="propertyPanel"></div>
+            <div class="form-properties-panel" id="propertyPanel"></div>
         </div>
     </form>
 </div>

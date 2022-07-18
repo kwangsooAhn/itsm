@@ -54,7 +54,7 @@ export const customCodeMixin = {
         const element = new UIDiv().setUIClass('element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInputButton = new UIDiv()
-            .setUIClass('z-custom-code')
+            .setUIClass('custom-code')
             .addUIClass('flex-row').addUIClass('input-button')
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);

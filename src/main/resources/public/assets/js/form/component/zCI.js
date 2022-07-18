@@ -169,14 +169,14 @@ export const ciMixin = {
         // 테이블
         const table = new UITable()
             .setUIClass('option-table')
-            .addUIClass('z-ci-table')
+            .addUIClass('ci-table')
             .addUIClass('mt-2')
             .setUIId('ciTable' + this.id)
             .setUIAttribute('tabindex', '-1')
             .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('z-ci-table-header');
+        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('ci-table-header');
         table.addUIRow(row);
 
         this.getCITableData().forEach((option) => {
@@ -313,7 +313,7 @@ export const ciMixin = {
             this.removeCITableRow(targetTable, 1);
         }
         // row 추가
-        const row = new UIRow(targetTable).setUIClass('z-ci-table-row');
+        const row = new UIRow(targetTable).setUIClass('ci-table-row');
         targetTable.addUIRow(row);
         // td 추가
         this.getCITableData().forEach((option) => {
@@ -323,7 +323,7 @@ export const ciMixin = {
     // CI 테이블 row 변경
     updateCITableRow(targetTable, rowIndex, data) {
         // row 추가
-        const row = new UIRow(targetTable).setUIClass('z-ci-table-row');
+        const row = new UIRow(targetTable).setUIClass('ci-table-row');
         targetTable.updateUIRow(rowIndex, row);
         // td 추가
         this.getCITableData().forEach((option) => {

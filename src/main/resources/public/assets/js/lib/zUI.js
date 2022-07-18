@@ -375,7 +375,7 @@ class UIRadioButton extends UIElement {
 class UIClipboard extends UIElement {
     constructor() {
         super(document.createElement('div'));
-        this.domElement.className = 'z-clipboard';
+        this.domElement.className = 'clipboard';
         // input
         this.UIInput = new UIInput().addUIClass('copy').setUIReadOnly(true);
         this.addUI(this.UIInput);

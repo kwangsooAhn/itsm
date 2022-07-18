@@ -29,12 +29,12 @@
 </head>
 <body>
 <div class="wrapper">
-    <div class="z-process-container">
-        <div class="z-process-header flex-row align-items-center">
+    <div class="process-container">
+        <div class="process-header flex-row align-items-center">
             <img class="z-img i-process-designer"  th:src="@{/assets/media/icons/designer/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
-            <span class="z-process-name ml-auto mr-auto" id="processName"></span>
+            <span class="process-name ml-auto mr-auto" id="processName"></span>
             <!-- 버튼 영역 -->
-            <div class="z-process-button-list flex-row mr-3">
+            <div class="process-button-list flex-row mr-3">
                 <!--undo-->
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <div id="editCommand">
@@ -118,7 +118,7 @@
                 </th:block>
             </div>
         </div>
-        <div class="z-process-element-palette">
+        <div class="process-element-palette">
             <button type="button" class="element-icon shape event">
                 <span class="icon i-event"></span>
                 <label class="element-icon-text" th:text="#{process.designer.element.event}"></label>
@@ -152,13 +152,13 @@
                 <label class="element-icon-text" th:text="#{process.designer.element.background}"></label>
             </button>
         </div>
-        <div class="z-process-main">
+        <div class="process-main">
             <div class="drawing-board" id="processDrawingBoard"></div>
         </div>
-        <div class="z-process-properties-header">
+        <div class="process-properties-header">
             <span id="properties-name"></span>
         </div>
-        <div class="z-process-properties"></div>
+        <div class="process-properties"></div>
     </div>
     <!-- dropdown button 템플릿 -->
     <template id="undoButtonTemplate">

@@ -1803,7 +1803,7 @@
                 elem = document.createElement('div');
                 elem.id = customCodeId;
                 elem.setAttribute('data-attributeId', data.attributeId);
-                elem.className = 'z-custom-code flex-row';
+                elem.className = 'custom-code flex-row';
 
                 const customInputElem = document.createElement('input');
                 customInputElem.type = 'text';

@@ -53,7 +53,7 @@ export const textEditorMixin = {
             .addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIDiv = new UIDiv().setUIClass('z-text-editor').setUIId('editorContainer')
+        element.UIDiv = new UIDiv().setUIClass('text-editor').setUIId('editorContainer')
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 

@@ -53,14 +53,14 @@ export const imageMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth)
             .setUITextAlign(this.elementAlign);
 
-        element.UIImg = new UIImg().setUIClass('z-imagebox').setUIId('imagebox' + this.id)
+        element.UIImg = new UIImg().setUIClass('imagebox').setUIId('imagebox' + this.id)
             .setUIAttribute('data-path', aliceJs.filterXSS(this.elementPath))
             .setUIWidth(this.elementWidth + UNIT.PX)
             .setUIHeight(this.elementHeight + UNIT.PX);
         element.addUI(element.UIImg);
 
         // placeholder
-        element.UIDiv = new UIDiv().setUIClass('z-imagebox-placeholder')
+        element.UIDiv = new UIDiv().setUIClass('imagebox-placeholder')
             .addUI(new UISpan().setUIClass('icon').addUIClass('i-no-image'))
             .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('file.label.placeholder')));
         element.addUI(element.UIDiv);

@@ -237,7 +237,7 @@ class ZDocument {
             }
             // 4. 텍스트에디터 필수 체크
             const requiredTextEditorElements =
-                parentElements[i].querySelectorAll('.z-text-editor[data-validation-required="true"]');
+                parentElements[i].querySelectorAll('.text-editor[data-validation-required="true"]');
             for (let k = 0; k < requiredTextEditorElements.length; k++) {
                 // 해당 text editor 내부에 입력된 텍스트가 있는지 확인 (공백 포함)
                 if (!requiredTextEditorElements[k].querySelector('p').textContent.length) {

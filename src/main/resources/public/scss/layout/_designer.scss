@@ -119,7 +119,7 @@ $layout-header-dropdown: (
  */
 // 폼 양식
 // 프로세스 양식
-.z-form, .z-process {
+.form, .process {
   &-container { @include container; }
   // header
   &-header {
@@ -138,11 +138,11 @@ $layout-header-dropdown: (
       padding: 0 0.75rem; // 0 12px
     }
 
-    .z-form-name,
-    .z-process-name { font-size: $font-size-s; }
+    .form-name,
+    .process-name { font-size: $font-size-s; }
 
-    .z-form-button-list,
-    .z-process-button-list {
+    .form-button-list,
+    .process-button-list {
       width: 19.06rem; // 305px
       .header-dropdown { @include relative(); }
     }
@@ -208,7 +208,7 @@ $layout-header-dropdown: (
 }
 
 // 열속성 > tab 버튼
-.z-tab {
+.tab {
   border-width: 0.0625rem; //1px
   border-color: map-get($button-tab, 'default', 'border');
   background-color: map-get($button-tab, 'default', 'background');
@@ -457,7 +457,7 @@ $layout-header-dropdown: (
       // element
       .element {
         // image 컴포넌트
-        .z-imagebox-placeholder { background-color: $white; }
+        .imagebox-placeholder { background-color: $white; }
       }
     }
   }
@@ -515,7 +515,7 @@ $layout-header-dropdown: (
     }
 
     // text editor
-    .z-text-editor {
+    .text-editor {
       .ql-editor { height: calc(2.5rem * var(--data-row)); } // quill editor 높이 : 40 * row 갯수
     }
 
@@ -543,7 +543,7 @@ $layout-header-dropdown: (
     }
 
     // image 컴포넌트
-    .z-imagebox-placeholder {
+    .imagebox-placeholder {
       @include border(0.0625rem, solid, $gray400, all); // 1px
       display: none;
       height: 8.75rem; // 140p
@@ -554,20 +554,20 @@ $layout-header-dropdown: (
       font-weight: $font-weight-regular;
       text-align: center;
     }
-    .z-imagebox {
+    .imagebox {
       width: 100%;
       height: 100%;
       &[src=''] {
         display: none;
-        + .z-imagebox-placeholder { display: grid; }
+        + .imagebox-placeholder { display: grid; }
       }
     }
 
     // filedownload 컴포넌트
-    .z-fileDownload {
+    .fileDownload {
       cursor: pointer;
       .icon.i-download { background: $gray500; }
-      .z-file-text {
+      .file-text {
         font-size: $font-size-xs;
         font-weight: $font-weight-regular;
       }
@@ -577,7 +577,7 @@ $layout-header-dropdown: (
     .file-uploader-view { @include border(0.0625rem, solid, $gray400, left); }
 
     // CI 컴포넌트
-    .z-ci-table {
+    .ci-table {
       background-color: $white;
       tr td {
         @include border(0.0625rem, solid, $gray300, all);
@@ -586,7 +586,7 @@ $layout-header-dropdown: (
         border-left: none;
         border-right: none;
       }
-      .z-ci-table-row { color: $neutral800; }
+      .ci-table-row { color: $neutral800; }
       // 데이터 없음
       .no-data-found-list {
         color: $gray400;
@@ -603,7 +603,7 @@ $layout-header-dropdown: (
     }
 
     // DR 테이블 컴포넌트
-    .z-dr-table {
+    .dr-table {
       background-color: $white;
       tr td {
         @include border(0.0625rem, solid, $gray300, all);
@@ -614,16 +614,16 @@ $layout-header-dropdown: (
         line-height: 1;
       }
       // 제목
-      .z-dr-table-header {
+      .dr-table-header {
         @include border(0.125rem, solid, $gray300, bottom);
         td { padding: 0.6875rem 0 0.6875rem 0.3125rem; } // 11px 5px 11px 0
-        .z-dr-table-header-cell {
+        .dr-table-header-cell {
           @include ellipsis();
           padding: 0 0.5rem;
         }
       }
 
-      .z-dr-table-row {
+      .dr-table-row {
         .button-icon { padding: 0; }
 
         .input:not(.select-box-label) {
@@ -658,7 +658,7 @@ $layout-header-dropdown: (
     }
 
     // custom code 컴포넌트
-    .z-custom-code {
+    .custom-code {
       > .input { @include borderRadius(0.125rem); } // 2px
       > .button-icon { margin-left: 0.5rem; }
     }
@@ -732,7 +732,7 @@ $component-icon: (
         'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
 );
 // 폼 양식
-.z-form {
+.form {
   // header
   &-header { font-size: $font-size-s; }
 
@@ -778,7 +778,7 @@ $component-icon: (
       opacity: 0;
       z-index: -1;
     }
-    .z-accordion-label {
+    .accordion-label {
       @include border(0.0625rem, solid, $gray300, bottom); // 1px
       height: 40px; // 40px
       padding: 0 12px; // 0 12px
@@ -793,7 +793,7 @@ $component-icon: (
         background: $gray500;
       }
     }
-    .z-accordion-content {
+    .accordion-content {
       @include border(0.0625rem, solid, transparent, bottom); // 1px
       @include transition(all 0.25s ease-out);
       height: 0;
@@ -998,10 +998,10 @@ $component-icon: (
     }
 
     input[type=radio]:checked {
-      + .z-accordion-label {
+      + .accordion-label {
         .icon.i-arrow-right { @include rotate(90); }
       }
-      ~ .z-accordion-content {
+      ~ .accordion-content {
         @include scrollbarHidden;
         overflow-y: auto;
         height: calc(100vh - (40px * 4) - 2.875rem); // 40px
@@ -1013,7 +1013,6 @@ $component-icon: (
 
 // drawing board
 .drawing-board {
-  .z-drag-ghost { opacity: 0.5; }
   .component-drag-in {
     @include border(0.0625rem, dashed, $blue400, all); // 1px
     background-color: $blue100;
@@ -1089,8 +1088,8 @@ $component-icon: (
           .button-list { opacity: 0; }
           table {
             tr td { border-color: $blue400 !important; }
-            .z-dr-table-header,
-            .z-ci-table-header {
+            .dr-table-header,
+            .ci-table-header {
               background-color: $blue100 !important;
               td { color: $blue400 !important; }
             }
@@ -1102,7 +1101,7 @@ $component-icon: (
             border-top-color : $blue400 !important;
           }
           // 이미지 컴포넌트
-          .z-imagebox-placeholder {
+          .imagebox-placeholder {
             background-color: $white;
             border-color: $blue400 !important;
             color: $blue400 !important;
@@ -1124,7 +1123,7 @@ $component-icon: (
 }
 
 // 저장 정보
-.z-save-info {
+.save-info {
   min-height: 1.5625rem; // 25px
   margin: 1.5625rem 0; // 25px 0
   color: $gray500;
@@ -1193,7 +1192,7 @@ $component-icon: (
     .input { width: 4.375rem; } // 70px
   }
   // clipboard 엘리먼트
-  .z-clipboard {
+  .clipboard {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -1298,8 +1297,8 @@ $component-icon: (
     }
   }
   // tab
-  .z-tab-panel {
-    .z-tabs {
+  .tab-panel {
+    .tabs {
       .button-icon {
         height: 2rem; // 32px
         padding: 0.25rem 0.409rem; // 4px 6.5px
@@ -1317,14 +1316,14 @@ $component-icon: (
         }
       }
     }
-    .z-panels {
-      .z-panel {
+    .panels {
+      .panel {
         @include relative();
         @include border(0.0625rem, solid, $gray300, all); // 1px
         margin-top: 0.625rem;
         padding-top: 0.625rem;
 
-        .z-panel-common {
+        .panel-common {
           .panel-name { padding: 0 0.75rem; } // 12px
           .panel-delete-button { @include absolute($right: 0.625rem); } // 10px
           & > .property { padding: 0 0.75rem; } // 12px
@@ -1336,8 +1335,7 @@ $component-icon: (
             display: inline-block;
             background: $blue500;
             pointer-events: none;
-            &.z-prev { @include rotate(180); }
-            &.z-clear { background: $gray500; }
+            &.prev { @include rotate(180); }
           }
         }
 
@@ -1348,7 +1346,7 @@ $component-icon: (
         }
 
         // individual panel 내부 중복 border 제거
-        .z-panel-individual > .property-group {
+        .panel-individual > .property-group {
           border: none;
           &:last-child { @include border(0.0625rem, solid, $gray300, top); } // 1px
         }
@@ -1563,7 +1561,7 @@ $element-icon-toggle: (
 }
 
 ////////////////////////// element //////////////////////////
-.z-process-container {
+.process-container {
   textarea {
     min-height: 7.5rem; // 120px
     resize: vertical;
@@ -1761,7 +1759,7 @@ $element-icon-toggle: (
 }
 
 ////////////////////////// layout //////////////////////////
-.z-process {
+.process {
   // header
   &-header { font-size: $font-size-m; }
 

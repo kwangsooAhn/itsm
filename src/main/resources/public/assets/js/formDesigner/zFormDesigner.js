@@ -1173,8 +1173,8 @@ class ZFormDesigner {
             });
         }
         // 폼 내부를 선택한게 아니라면, 기존 선택된 항목을 초기화한다.
-        if (aliceJs.clickInsideElement(e, 'z-form-properties-panel-header') ||
-            aliceJs.clickInsideElement(e, 'z-form-properties-panel')) {
+        if (aliceJs.clickInsideElement(e, 'form-properties-panel-header') ||
+            aliceJs.clickInsideElement(e, 'form-properties-panel')) {
             return false;
         }
     }
