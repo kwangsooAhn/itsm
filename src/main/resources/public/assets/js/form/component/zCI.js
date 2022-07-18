@@ -74,7 +74,7 @@ export const ciMixin = {
             this.UIElement.UIComponent.UIElement.UITable.removeUIClass('mt-2');
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
     },
     // set, get
@@ -117,9 +117,9 @@ export const ciMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -181,7 +181,7 @@ export const ciMixin = {
 
         this.getCITableData().forEach((option) => {
             const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
-            const tdClassName = (option.type === 'hidden' ? '' : 'on') + ' ' + option.class;
+            const tdClassName = (option.type === 'hidden' ? '' : 'table-cell') + ' ' + option.class;
             const td = new UICell(row).setUIClass(tdClassName)
                 .setUICSSText(`width:${tdWidth}%;`)
                 .setUITextContent((option.name !== '' ? i18n.msg(option.name) : ''));

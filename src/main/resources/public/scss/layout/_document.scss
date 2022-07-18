@@ -54,7 +54,7 @@
   .group {
     &.accordion {
       .group-accordion-checkBox:checked {
-        ~ .row-tooltip:not(.off):last-child {
+        ~ .row-tooltip:not(.none):last-child {
           @include border(0.0625rem, solid, $gray300, bottom); // 1px
         }
       }
@@ -125,7 +125,7 @@
 
     .icon.i-arrow-double { background: $white; }
 
-    &.off {
+    &.hide {
       right: 0;
       .icon.i-arrow-double { @include rotate(180); }
 
@@ -179,7 +179,6 @@
       .token-panel {
         display: none;
         padding: 0 1.375rem; // 22px
-        &.on { display: block; }
 
         // 아이콘
         .icon.i-delete { background: $gray500; }

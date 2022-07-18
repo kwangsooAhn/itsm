@@ -468,19 +468,19 @@
 
         switch (type) {
             case DOCUMENT_TYPE_FORM:
-                applicationForm.classList.add('on');
-                workflow.classList.remove('on');
-                applicationFormLink.classList.remove('on');
+                applicationForm.classList.add('block');
+                workflow.classList.remove('block');
+                applicationFormLink.classList.remove('block');
                 break;
             case DOCUMENT_TYPE_WORKFLOW:
-                workflow.classList.add('on');
-                applicationForm.classList.remove('on');
-                applicationFormLink.classList.remove('on');
+                workflow.classList.add('block');
+                applicationForm.classList.remove('block');
+                applicationFormLink.classList.remove('block');
                 break;
             case DOCUMENT_TYPE_LINK:
-                applicationFormLink.classList.add('on');
-                workflow.classList.remove('on');
-                applicationForm.classList.remove('on');
+                applicationFormLink.classList.add('block');
+                workflow.classList.remove('block');
+                applicationForm.classList.remove('block');
                 break;
             default:
         }

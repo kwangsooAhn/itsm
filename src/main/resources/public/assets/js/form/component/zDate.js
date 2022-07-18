@@ -55,7 +55,7 @@ export const dateMixin = {
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())
-            .setUIAttribute('autocomplete', 'off')
+            .setUIAttribute('autocomplete', 'none')
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIAttribute('data-validation-max-date', this.validationMaxDate)
             .setUIAttribute('data-validation-min-date', this.validationMinDate);
@@ -79,7 +79,7 @@ export const dateMixin = {
             this.UIElement.UIComponent.UIElement.UIDate.setUIReadOnly(true);
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         } else {
             // datePicker 초기화
             zDateTimePicker.initDatePicker(this.UIElement.UIComponent.UIElement.UIDate.domElement,
@@ -121,9 +121,9 @@ export const dateMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIDate.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {

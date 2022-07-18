@@ -23,6 +23,7 @@ $i: 1;
   $i: $i + 1;
 }
 
+.flex { display: flex !important; }
 .inline-flex { display: inline-flex !important; }
 .flex-nowrap { flex-wrap: nowrap !important; }
 .flex-wrap { flex-wrap: wrap; }
@@ -44,3 +45,15 @@ $i: 1;
 .align-self-baseline { align-self: baseline !important; }
 
 .flex-fill { flex: 1 1 auto; }
+
+////////////////////////// display //////////////////////////
+.none { display: none !important; }
+.block { display: block !important; }
+.inline { display: inline !important; }
+.inline-block { display: inline-block !important; }
+.table { display: table !important; }
+.table-cell { display: table-cell !important; }
+
+////////////////////////// visibility //////////////////////////
+.visible { visibility: visible !important; }
+.hidden { visibility: hidden !important; }

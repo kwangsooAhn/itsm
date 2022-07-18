@@ -356,7 +356,7 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .tooltip-menu:not(.off) { visibility: visible; }
+    > .tooltip-menu:not(.none) { visibility: visible; }
   }
   &.focus { background-color: $blue50; }
   // displayType이 hidden일 경우
@@ -378,7 +378,6 @@ $layout-header-dropdown: (
     margin: 0 0 0.9375rem 0; // 0 0 15px 0
     padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
     font-weight: $font-weight-medium;
-    &.off { display: none; }
     // 라벨 문구
     .group-label-text {
       display: table-cell;
@@ -400,7 +399,7 @@ $layout-header-dropdown: (
       + .group-label {
         .icon.i-arrow-right { @include rotate(90); }
       }
-      ~ .row-tooltip:not(.off) { display: block; }
+      ~ .row-tooltip:not(.none) { display: block; }
     }
     // 라벨
     .group-label {
@@ -409,8 +408,7 @@ $layout-header-dropdown: (
       cursor: pointer;
       .group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
 
-      &.off {
-        display: table;
+      &.table {
         .group-label-text { opacity: 0; }
       }
 
@@ -433,10 +431,8 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .tooltip-menu:not(.off) { visibility: visible; }
+    > .tooltip-menu:not(.none) { visibility: visible; }
   }
-  // displayType이 hidden일 경우
-  &.off { display: none; }
 }
 
 // component 툴팁
@@ -454,7 +450,7 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    >.tooltip-menu:not(.off) { visibility: visible; }
+    >.tooltip-menu:not(.none) { visibility: visible; }
 
     // component
     .component {
@@ -465,8 +461,6 @@ $layout-header-dropdown: (
       }
     }
   }
-  // displayType이 hidden일 경우
-  &.off { display: none; }
   // 컴포넌트 드래그시 마진 제거 (디자인팀 요청사항)
   &.sortable-ghost { margin: 0; }
 }
@@ -483,9 +477,6 @@ $layout-header-dropdown: (
     padding: 0;
     font-weight: $font-weight-medium;
     .component-label-text { line-height: 1; }
-
-    &.on { display: flex; }
-    &.off { display: none; }
   }
   // divider
   &.divider { padding: 0; }
@@ -594,7 +585,6 @@ $layout-header-dropdown: (
         padding: 0.5rem; // 8px
         border-left: none;
         border-right: none;
-        &.on { display: table-cell; }
       }
       .z-ci-table-row { color: $neutral800; }
       // 데이터 없음
@@ -622,7 +612,6 @@ $layout-header-dropdown: (
         border-left: none;
         border-right: none;
         line-height: 1;
-        &.on { display: table-cell; }
       }
       // 제목
       .z-dr-table-header {
@@ -666,9 +655,6 @@ $layout-header-dropdown: (
         pointer-events: none;
         td { vertical-align: middle; }
       }
-    }
-    .plugIn-check {
-      &.off { display: none; }
     }
 
     // custom code 컴포넌트
@@ -1194,7 +1180,6 @@ $component-icon: (
         vertical-align: middle;
       }
     }
-    &.off { display: none; }
   }
   .property-value {
     width: 2.813rem !important; // 45px
@@ -1233,8 +1218,6 @@ $component-icon: (
       &:not(:last-child) { margin-right: 0.25rem; } // 4px
 
     }
-
-    &.off { display: none; }
   }
   // textarea 엘리먼트
   .textarea {
@@ -1265,12 +1248,10 @@ $component-icon: (
     .input {
       display: block;
       margin-left : 0.625rem; // 10px
-      &.off { display: none; }
     }
     .select {
       display: block;
       margin-left: 0.625rem; // 10px
-      &.off { display: none; }
       .input {
         display: inline-block;
         margin-left: 0;
@@ -1334,8 +1315,6 @@ $component-icon: (
           -webkit-mask-size: 1.2rem;
           mask-size: 1.2rem;
         }
-        // 버튼 안보이게 처리
-        &.off { display: none; }
       }
     }
     .z-panels {

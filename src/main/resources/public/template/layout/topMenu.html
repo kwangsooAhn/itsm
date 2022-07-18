@@ -73,10 +73,10 @@
 
     function toggleNotificationContainer() {
         if (notificationDiv !== null) {
-            if (notificationDiv.classList.contains('on')) {
-                notificationDiv.classList.remove('on');
+            if (notificationDiv.classList.contains('block')) {
+                notificationDiv.classList.remove('block');
             } else {
-                notificationDiv.classList.add('on');
+                notificationDiv.classList.add('block');
             }
         }
     }
@@ -87,8 +87,8 @@
             return false;
         }
 
-        if (notificationDiv && notificationDiv.classList.contains('on')) {
-            notificationDiv.classList.remove('on');
+        if (notificationDiv && notificationDiv.classList.contains('block')) {
+            notificationDiv.classList.remove('block');
         }
     }
 

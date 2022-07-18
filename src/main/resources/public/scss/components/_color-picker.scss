@@ -124,7 +124,6 @@ $custom-color-plus: (
       .custom-color-edit {
         @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
         visibility: hidden;
-        &.on { visibility: visible; }
       }
 
       // 사용자 색상 목록 영역
@@ -222,8 +221,6 @@ $custom-color-plus: (
             }
             .icon.i-plus { background: map-get($custom-color-plus, 'active', 'font'); }
           }
-
-          &.on { display: inline-block; }
         }
 
         // 편집 가능시 사용자 색상 삭제 버튼 show
@@ -253,7 +250,7 @@ $custom-color-plus: (
             &.i-water-drop {
               .water-drop-outer { fill-opacity: 1; }
               .water-drop-inner { fill-opacity: 0; }
-              &.on {
+              &.active {
                 .water-drop-outer { fill-opacity: 0; }
                 .water-drop-inner {
                   fill: var(--data-color, $gray500);

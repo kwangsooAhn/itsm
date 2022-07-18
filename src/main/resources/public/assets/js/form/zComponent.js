@@ -279,9 +279,9 @@ export default class ZComponent {
     set labelPosition(value) {
         this._label.position = value;
         if (value === FORM.LABEL.POSITION.HIDDEN) {
-            this.UIElement.UIComponent.UILabel.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.removeUIClass('flex').addUIClass('none');
         } else {
-            this.UIElement.UIComponent.UILabel.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.removeUIClass('none').addUIClass('flex');
         }
         this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(value));
     }
@@ -374,7 +374,7 @@ export default class ZComponent {
      */
     makeLabel() {
         const label = new UILabel().setUIClass('component-label')
-            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'none' : 'flex'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
             .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
@@ -391,7 +391,7 @@ export default class ZComponent {
         label.addUI(label.UILabelText);
         // 필수 여부
         label.UIRequiredText = new UISpan().setUIClass('required')
-            .addUIClass((this.validationRequired ? 'on' : 'off'));
+            .addUIClass((this.validationRequired ? 'inline' : 'none'));
         label.addUI(label.UIRequiredText);
 
         return label;

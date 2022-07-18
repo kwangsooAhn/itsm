@@ -174,7 +174,7 @@ export default class ZColumnProperty extends ZProperty {
         this.UITabPanel.tabGroup.addButton = new UIButton()
             .setUIClass('button-icon')
             .addUIClass('extra')
-            .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
+            .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'none' : 'on'))
             .addUI(new UISpan().addUIClass('icon').addUIClass('i-plus'))
             .setUIDisabled(!this.isEditable  || this.isFixedColumn)
             .onUIClick(this.addColumn.bind(this, (this.isDefault) ? { columnType: 'input' } : '', -1));
@@ -232,7 +232,7 @@ export default class ZColumnProperty extends ZProperty {
             aliceJs.swapNode(this.UITabPanel.tabGroup.addButton.domElement, this.tabs[index].domElement);
             // 최대값을 넘어가는 순간 추가 버튼을 숨긴다.
             if ((index + 1 ) === FORM.MAX_COLUMN_IN_TABLE) {
-                this.UITabPanel.tabGroup.addButton.removeUIClass('on').addUIClass('off');
+                this.UITabPanel.tabGroup.addButton.removeUIClass('on').addUIClass('none');
             }
             this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
         }
@@ -359,8 +359,8 @@ export default class ZColumnProperty extends ZProperty {
             this.panels.splice(index, 1);
 
             this.value.splice(index, 1);
-            if (this.UITabPanel.tabGroup.addButton.hasUIClass('off')) {
-                this.UITabPanel.tabGroup.addButton.removeUIClass('off').addUIClass('on');
+            if (this.UITabPanel.tabGroup.addButton.hasUIClass('none')) {
+                this.UITabPanel.tabGroup.addButton.removeUIClass('none').addUIClass('on');
             }
             // 선택 컬럼 변경
             for (let i = index; i < this.panels.length; i++) {
