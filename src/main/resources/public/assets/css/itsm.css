@@ -3777,30 +3777,6 @@ input, button, select, optgroup, textarea {
  * @description content에서 사용되는 scss
  * @version 1.0
  */
-.faq-content,
-.z-download-content,
-.z-board-content,
-.z-user-content,
-.z-board-admin-content,
-.z-process-content,
-.z-form-content,
-.document-admin-content,
-.z-custom-code-content,
-.z-auth-content,
-.z-role-content,
-.z-code-content,
-.z-numbering-pattern-content,
-.z-numbering-rule-content,
-.chart-content,
-.z-cmdb-attribute-content,
-.z-cmdb-type-content,
-.z-cmdb-class-content,
-.z-cmdb-ci-content,
-.report-template-content {
-  padding: 0.9375rem 3.75rem;
-  background-color: #FAFAFA;
-}
-
 #resultScore {
   font-size: 2rem;
 }
@@ -3835,137 +3811,15 @@ input, button, select, optgroup, textarea {
   font-weight: 400;
 }
 
-.z-token-content,
-.z-dashboard-content {
-  padding: 0 1.875rem 0 3.75rem;
-  background-color: #FFFFFF;
-}
-
-.z-notice-content-edit,
-.faq-content-edit,
-.z-download-content-edit,
-.z-board-content-edit {
-  border-top: 0.0625rem solid #CFD5D9;
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  background-color: #FFFFFF;
-}
-
-.z-auth-content-edit {
-  height: 41.25rem;
-  margin: 0 0 1.875rem 0;
-}
-.z-auth-content-edit .edit-form {
-  padding: 0 1.875rem 0 4.0625rem;
-}
-.z-auth-content-edit .edit-form .edit-row {
-  margin-top: 0.625rem;
-}
-
-.z-user-content-edit {
-  border-top: 0.0625rem solid #CFD5D9;
-  padding: 0 23.13rem 3.125rem 23.13rem;
-  background-color: #FFFFFF;
-}
-.z-user-content-edit .sub-title {
-  margin-top: 2.5rem;
-}
-.z-user-content-edit .select-date-time {
-  width: calc(100% - 10.0005rem);
-}
-.z-user-content-edit .hour-select {
-  width: 9.688rem;
-}
-
-.z-board-admin-content-edit {
-  border-top: 0.0625rem solid #CFD5D9;
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  background-color: #FFFFFF;
-}
-.z-board-admin-content-edit .edit-table {
-  margin: 1.25rem 0 0 0;
-}
-.z-board-admin-content-edit .edit-table tr {
-  height: 2.5rem;
-  line-height: 2.5rem;
-}
-.z-board-admin-content-edit .edit-table tr th, .z-board-admin-content-edit .edit-table tr td {
-  border-bottom: 0.0625rem solid #ABB0B5;
-}
-.z-board-admin-content-edit .edit-table tr td {
-  padding: 0 0.9375rem;
-}
-.z-board-admin-content-edit .edit-table .tbody tr:hover {
-  background-color: #EEEEEE;
-}
-.z-board-admin-content-edit .edit-table .tbody .no-data-found-list {
-  background-color: #FAFAFA;
-  pointer-events: none;
-}
-
-.z-workflow-content-edit .hidden-control-content {
+.workflow-content-edit .hidden-control-content {
   display: none;
 }
-.z-workflow-content-edit .hidden-control-content.on {
+.workflow-content-edit .hidden-control-content.on {
   display: block;
 }
 
-.z-file-content-edit {
+.file-content-edit {
   padding: 0 3.75rem;
-  background-color: #FFFFFF;
-}
-
-.z-custom-code-content-edit,
-.z-cmdb-attribute-content-edit,
-.z-scheduler-content-edit {
-  border-top: 0.0625rem solid #CFD5D9;
-  height: 100%;
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  background-color: #FFFFFF;
-}
-.z-custom-code-content-edit .under-bar,
-.z-cmdb-attribute-content-edit .under-bar,
-.z-scheduler-content-edit .under-bar {
-  margin-top: 0.625rem;
-}
-.z-custom-code-content-edit .condition,
-.z-cmdb-attribute-content-edit .condition,
-.z-scheduler-content-edit .condition {
-  width: 28.31rem;
-}
-.z-custom-code-content-edit .attribute,
-.z-cmdb-attribute-content-edit .attribute,
-.z-scheduler-content-edit .attribute {
-  margin-left: 4rem;
-}
-
-.z-cmdb-class-content-edit {
-  height: 41.25rem;
-  margin: 0 0 1.875rem 0;
-}
-.z-cmdb-class-content-edit .edit-form {
-  padding: 0 1.875rem 0 4.0625rem;
-}
-.z-cmdb-class-content-edit .edit-form .edit-row {
-  margin-top: 0.625rem;
-}
-.z-cmdb-class-content-edit .attribute {
-  width: 27.94rem;
-}
-
-.report-template-content-edit {
-  border-top: 0.0625rem solid #CFD5D9;
-  height: 100%;
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
-  background-color: #FFFFFF;
-}
-
-.z-notice-content-view,
-.faq-content-view,
-.z-download-content-view,
-.z-board-content-view,
-.z-cmdb-attribute-content-view {
-  border-top: 0.0625rem solid #CFD5D9;
-  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   background-color: #FFFFFF;
 }
 
@@ -7281,6 +7135,11 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   display: inline-block;
   background-color: #000000;
+}
+
+.chart-content {
+  padding: 0.9375rem 3.75rem;
+  background-color: #FAFAFA;
 }
 
 @page {

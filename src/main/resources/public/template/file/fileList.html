@@ -22,7 +22,7 @@
     <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
     <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
-    <div class="z-file-content-edit flex-fill">
+    <div class="file-content-edit flex-fill">
         <div class="thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
     </div>
 </div>

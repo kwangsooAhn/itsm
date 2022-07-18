@@ -53,6 +53,13 @@
     }
   }
 }
+
+////////////////////////// content //////////////////////////
+.chart-content {
+  padding: 0.9375rem 3.75rem; // 15px 60px
+  background-color: $neutral50;
+}
+
 @page {
   size: A4;
   margin: 0;
