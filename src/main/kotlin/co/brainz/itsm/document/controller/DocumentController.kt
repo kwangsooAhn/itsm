@@ -6,6 +6,8 @@
 
 package co.brainz.itsm.document.controller
 
+import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentSearchCondition
 import co.brainz.itsm.document.service.DocumentService
 import org.springframework.stereotype.Controller
@@ -17,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/documents")
 class DocumentController(
-    private val documentService: DocumentService
+    private val documentService: DocumentService,
+    private val codeService: CodeService
 ) {
 
     private val documentSearchPage: String = "document/documentSearch"
@@ -43,6 +46,7 @@ class DocumentController(
     @GetMapping("")
     fun getDocumentList(documentSearchCondition: DocumentSearchCondition, model: Model): String {
         val result = documentService.getDocumentList(documentSearchCondition)
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
         model.addAttribute("documentList", result.data)
         model.addAttribute("paging", result.paging)
         return documentListPage

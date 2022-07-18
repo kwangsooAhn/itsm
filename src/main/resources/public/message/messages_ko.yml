@@ -710,7 +710,7 @@ document:
     role: "조회 대상 역할"
     searchPlaceholder: "문서 이름 / 문서 설명"
     status: "신청서 상태"
-    tempDocument: "임시 신청서"
+    tempDocument: "임시신청서"
     type: "업무흐름 구분"
     useYn: "신청서 사용여부"
     write: "업무흐름 등록"

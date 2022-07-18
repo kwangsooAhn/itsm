@@ -40,12 +40,12 @@
         zDocument.initDocumentModal();
 
         let offsetCount = 0;
-        window.addEventListener('load', (e) => {
+        window.addEventListener('load', () => {
             document.getElementById('searchDocuments').focus();
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', aliceJs.debounce (() => documentSearches()), false);
             });
-            documentSearches(false);
+            documentSearches();
 
             OverlayScrollbars(document.querySelectorAll('.document-main'), { className: 'scrollbar' });
         });
@@ -53,42 +53,20 @@
          * 신청서 목록 검색
          * @param isScroll
          */
-        function documentSearches(isScroll) {
+        function documentSearches() {
             let urlParam = '';
-            if (isScroll) {
-                if (offsetCount === 0) {
-                    offsetCount = aliceJs.searchDataCount;
-                }
-            } else {
-                offsetCount = 0;
-            }
-            urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount  + '&isScroll=' + isScroll;
+            offsetCount = 0;
+            urlParam = aliceJs.serialize(
+                document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
             aliceJs.fetchText('/documents?' + urlParam, {
                 method: 'GET'
             }).then((htmlData) => {
-                if (isScroll) {
-                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                        offsetCount = offsetCount + aliceJs.searchDataCount;
-                    }
-                    document.querySelector('.document-content .card-list').insertAdjacentHTML('beforeend', htmlData);
-                } else {
-                    document.getElementById('documentList').innerHTML = htmlData;
-                    OverlayScrollbars(document.querySelector('.page-content'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollHeight = e.target.scrollHeight;
-                                const scrollTop = e.target.scrollTop;
-                                const clientHeight = e.target.clientHeight;
-                                if (isScrollbarBottom(scrollHeight, scrollTop, clientHeight)) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        documentSearches(true);
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
+                // common 영역인 z-page-content의 border 속성 제거
+                document.getElementById('documentList').innerHTML = htmlData;
+                document.querySelectorAll('div[name=documentGroup]').forEach((elem) => {
+                    elem.classList.add((elem.querySelectorAll('.card__document').length > 0) ? 'block' : 'none');
+                });
+                OverlayScrollbars(document.querySelector('.page-content'), { className: 'scrollbar' });
             });
         }
     </script>

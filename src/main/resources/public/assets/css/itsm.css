@@ -1148,6 +1148,16 @@ input, button, select, optgroup, textarea {
   word-wrap: normal;
 }
 
+.text-ellipsis-multi {
+  overflow: hidden;
+  display: -webkit-box !important;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
 .text-wordWrap {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -2652,6 +2662,61 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #ABB0B5;
 }
+.icon.i-document-service {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/document/icon_document_service.svg");
+  mask-image: url("../../assets/media/icons/document/icon_document_service.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #3373C4;
+}
+.icon.i-document-pc {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/document/icon_document_pc.svg");
+  mask-image: url("../../assets/media/icons/document/icon_document_pc.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #3373C4;
+}
+.icon.i-document-incident {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/document/icon_document_incident.svg");
+  mask-image: url("../../assets/media/icons/document/icon_document_incident.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #3373C4;
+}
+.icon.i-document-develop {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/document/icon_document_develop.svg");
+  mask-image: url("../../assets/media/icons/document/icon_document_develop.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #3373C4;
+}
+.icon.i-document-report {
+  width: 2rem;
+  height: 2rem;
+  -webkit-mask-image: url("../../assets/media/icons/document/icon_document_report.svg");
+  mask-image: url("../../assets/media/icons/document/icon_document_report.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #3373C4;
+}
 
 .input.i-search {
   background-image: url("../../assets/media/icons/icon_search.svg");
@@ -2828,7 +2893,6 @@ input, button, select, optgroup, textarea {
   height: calc(100vh - 8.5rem);
 }
 .itsm-container .main-content .page-content {
-  border-top: 0.0625rem solid #CFD5D9;
   flex: 1 1 auto;
 }
 .itsm-container .main-content .page-search {
@@ -3244,13 +3308,12 @@ input, button, select, optgroup, textarea {
 }
 .itsm-container .main-content .card-list {
   flex-wrap: wrap;
-  padding-bottom: 0.625rem;
 }
 .itsm-container .main-content .card-list .card {
   border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
   overflow: hidden;
   position: relative;
   min-width: 32.0625rem;
@@ -3261,16 +3324,23 @@ input, button, select, optgroup, textarea {
   cursor: pointer;
 }
 .itsm-container .main-content .card-list .card:hover {
-  box-shadow: 0 0 0.625rem 0 #E1E6EA;
+  color: #3373C4;
+  border-color: #3373C4;
+  background-color: #D6EDFC;
 }
-.itsm-container .main-content .card-list .card .document-column h3 {
-  width: 28rem;
+.itsm-container .main-content .card-list .card:active {
+  color: #2559A8;
+  border-color: #3373C4;
+  background-color: #AFD9F9;
 }
-.itsm-container .main-content .card-list .document-card {
+.itsm-container .main-content .card-list .card__document {
   min-width: auto;
-  width: 28.5rem;
-  min-height: 11.5625rem;
-  margin-right: 2.8125rem;
+  width: 23.75rem;
+  min-height: 6.5625rem;
+  margin: 0.9375rem 0.9375rem 0 0;
+}
+.itsm-container .main-content .card-list .card__document:nth-child(4n+1) {
+  margin-right: 0;
 }
 .itsm-container .main-content .card-list .no-data-found {
   width: 100%;
@@ -3786,33 +3856,37 @@ input, button, select, optgroup, textarea {
 }
 
 .document-content {
-  padding: 0 0.9375rem 0 3.75rem;
   background-color: #FFFFFF;
 }
-.document-content .document-column {
+.document-content .document__group {
+  width: 100%;
+}
+.document-content .document__group:not(:first-child) {
+  margin-top: 2.5rem;
+}
+.document-content .document__group .document__label {
+  min-height: 2rem;
+}
+.document-content .document__group .document__label--text {
+  font-size: 1.125rem;
+}
+.document-content .document__group .document__item {
   width: 100%;
   height: 100%;
-  padding: 1.5625rem;
+  padding: 1.25rem;
 }
-.document-content .document-column .document-name {
-  width: 17.5rem;
-  color: #424242;
-  font-size: 1.5625rem;
+.document-content .document__group .document__item--title {
+  max-width: 100%;
+  font-size: 1.125rem;
   font-weight: 600;
 }
-.document-content .document-column .document-icon {
-  position: absolute;
-  top: 3rem;
-  right: -1rem;
-  overflow: hidden;
+.document-content .document__group .document__item--title.temp {
+  max-width: 16.25rem;
 }
-.document-content .document-column .document-description {
+.document-content .document__group .document__item--desc {
   display: block;
-  width: 17.5rem;
-  margin-top: 0.625rem;
-  color: #8B9094;
-  font-size: 1rem;
-  font-weight: 400;
+  width: 100%;
+  cursor: inherit;
 }
 
 .workflow-content-edit .hidden-control-content {
@@ -5840,17 +5914,17 @@ input, button, select, optgroup, textarea {
   height: 0.5rem;
 }
 
-.label--document {
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  padding: 0.375rem;
-  border-color: #83BBED;
-  background-color: #83BBED;
-  color: #19428D;
-  font-size: 0.875rem;
-  font-weight: 700;
-  line-height: 1.0625rem;
+.label__document--temp {
+  position: absolute;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-color: #D6EDFC;
+  background-color: #D6EDFC;
+  color: #3373C4;
+  font-size: 0.625rem;
+  font-weight: 500;
 }
 
 /* 신청서 / 처리할 문서 양식 layout */

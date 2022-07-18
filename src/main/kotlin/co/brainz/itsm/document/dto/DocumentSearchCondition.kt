@@ -14,6 +14,7 @@ data class DocumentSearchCondition(
     val searchProcessName: String? = "",
     val searchFormName: String? = "",
     var viewType: String? = "",
+    var viewAsGroup: Boolean? = false,
     val pageNum: Long = 0L,
     val contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable {
