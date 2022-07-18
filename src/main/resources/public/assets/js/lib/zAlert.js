@@ -114,7 +114,7 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
         },
         onCreate: () => {
             setTimeout(function(){
-                document.querySelector('.z-alert-button:last-child').focus();
+                document.querySelector('.alert-button:last-child').focus();
             },100);
         }
     });

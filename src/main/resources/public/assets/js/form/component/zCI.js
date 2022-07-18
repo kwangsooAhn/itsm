@@ -423,7 +423,7 @@ export const ciMixin = {
                 saveData.values.ciAttributes.push(ciAttribute);
             }
         });
-        document.querySelectorAll('.z-relation-data').forEach((el) => {
+        document.querySelectorAll('.relation-data').forEach((el) => {
             let data = {};
             data.targetCIIconData = el.childNodes[0].childNodes[0].src;
             data.targetCIIcon = el.childNodes[0].childNodes[1].value;
@@ -1301,7 +1301,7 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addCIRelation(ciRelations, isChecked) {
         const trRow = document.createElement('tr');
-        trRow.className = 'table-row z-relation-data';
+        trRow.className = 'table-row relation-data';
 
         const targetIcon = document.createElement('td');
         targetIcon.className = 'col-1 align-center';

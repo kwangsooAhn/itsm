@@ -291,7 +291,7 @@ class ZDocument {
             }
             // 8. 파일업로드 유효성 검증
             const requiredFileUploads = parentElements[i].querySelectorAll(
-                '.z-fileupload[data-validation-required="true"]');
+                '.fileupload[data-validation-required="true"]');
             for (let r = 0; r < requiredFileUploads.length; r++) {
                 if (!requiredFileUploads[r].querySelectorAll('.dz-preview').length) {
                     isValid = false;
