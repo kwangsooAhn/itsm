@@ -19,44 +19,44 @@
 </th:block>
 <th:block layout:fragment="pageCard">
     <div id="mainCard" class="main-card">
-        <ul class="z-card-group flex-row justify-content-between">
-            <li class="z-card flex-column">
-                <div class="z-card-header align-center">
-                    <div class="z-card-icon pb-4">
+        <ul class="card-group flex-row justify-content-between">
+            <li class="card flex-column">
+                <div class="card-header align-center">
+                    <div class="card-icon pb-4">
                         <a href="/portals/notices/search">
                             <img class="z-img i-portal-notice pointer" th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
                         </a>
                     </div>
                     <h3 th:text="#{menu.notice.parent}"></h3>
                 </div>
-                <div class="z-card-list-summary">
-                    <table class="table z-card-table" id="notice"></table>
+                <div class="card-list-summary">
+                    <table class="table card-table" id="notice"></table>
                 </div>
             </li>
-            <li class="z-card flex-column">
-                <div class="z-card-header align-center">
-                    <div class="z-card-icon pb-4">
+            <li class="card flex-column">
+                <div class="card-header align-center">
+                    <div class="card-icon pb-4">
                         <a href="/portals/faqs/ /view">
                             <img class="z-img i-portal-faq pointer" th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
                         </a>
                     </div>
                     <h3 th:text="#{menu.faq.parent}"></h3>
                 </div>
-                <div class="z-card-list-summary">
-                    <table class="table z-card-table" id="faq"></table>
+                <div class="card-list-summary">
+                    <table class="table card-table" id="faq"></table>
                 </div>
             </li>
-            <li class="z-card flex-column">
-                <div class="z-card-header align-center">
-                    <div class="z-card-icon pb-4">
+            <li class="card flex-column">
+                <div class="card-header align-center">
+                    <div class="card-icon pb-4">
                         <a href="/portals/archives/search">
                             <img class="z-img i-portal-archive pointer" th:src="@{/assets/media/images/portal/img_portal_archive.png}" width="120" height="120" alt="Download">
                         </a>
                     </div>
                     <h3 th:text="#{menu.archive.parent}"></h3>
                 </div>
-                <div class="z-card-list-summary">
-                    <table class="table z-card-table" id="archive"></table>
+                <div class="card-list-summary">
+                    <table class="table card-table" id="archive"></table>
                 </div>
             </li>
         </ul>
@@ -174,16 +174,16 @@
                      * 포탈 검색 시, 검색한 내용 색상 변경
                      */
                     if (isNotEmpty('searchValue')) {
-                        document.querySelectorAll('.z-card-item-title > a').forEach((data) => {
+                        document.querySelectorAll('.card-item-title > a').forEach((data) => {
                             regExpSearch(data);
                         });
-                        document.querySelectorAll('.z-card-item-content > .text-ellipsis').forEach((data) => {
+                        document.querySelectorAll('.card-item-content > .text-ellipsis').forEach((data) => {
                             regExpSearch(data);
                         });
                     }
                 }
                 // 검색 조회 결과 화면 스크롤바
-                OverlayScrollbars(document.querySelector('.z-card-list'), {
+                OverlayScrollbars(document.querySelector('.card-list'), {
                     className: 'scrollbar',
                     callbacks: {
                         onScroll: function(e) {
@@ -225,9 +225,9 @@
         }
 
         function getDataTemplate(data) {
-            const div = document.querySelector('.z-card-list .os-content');
+            const div = document.querySelector('.card-list .os-content');
             const divRow = document.createElement('div');
-            divRow.className = 'z-card-row flex-row align-items-center';
+            divRow.className = 'card-row flex-row align-items-center';
             // 이미지
             const typeImage = document.createElement('img');
             typeImage.className = 'z-img mr-3';
@@ -237,10 +237,10 @@
             divRow.appendChild(typeImage);
             // 내용
             const divContentBox = document.createElement('div');
-            divContentBox.className = 'z-card-item-box';
+            divContentBox.className = 'card-item-box';
 
             const divTitle = document.createElement('h5');
-            divTitle.className = 'z-card-item-title underline text-ellipsis';
+            divTitle.className = 'card-item-title underline text-ellipsis';
             const aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
                 aTitle.href = '/portals/notices/' + data.portalId + '/view';
@@ -254,7 +254,7 @@
             divContentBox.appendChild(divTitle);
 
             const divContentWrapper = document.createElement('div');
-            divContentWrapper.className = 'z-card-item-content';
+            divContentWrapper.className = 'card-item-content';
             const divContent = document.createElement('div');
             divContent.className = 'text-ellipsis';
             if (data.tableName === 'archive') {

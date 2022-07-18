@@ -1165,8 +1165,8 @@ class ZFormDesigner {
      */
     onLeftClickHandler(e) {
         // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
-        if (e.target != null && !e.target.classList.contains('z-header-button-dropdown')) {
-            document.querySelectorAll('.' + 'z-header-button-dropdown').forEach(function(dropdown) {
+        if (e.target != null && !e.target.classList.contains('header-button-dropdown')) {
+            document.querySelectorAll('.' + 'header-button-dropdown').forEach(function(dropdown) {
                 if (dropdown.classList.contains('active')) {
                     dropdown.classList.remove('active');
                 }

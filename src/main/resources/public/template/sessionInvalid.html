@@ -7,15 +7,15 @@
 </head>
 <body>
 <th:block layout:fragment="pageLeft">
-    <div class="z-vertical-split-left z-session-background float-left">
+    <div class="vertical-split-left session-background float-left">
         <img class="z-img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
     </div>
 </th:block>
 <th:block layout:fragment="pageRight">
-    <div class="z-vertical-split-right z-session-form float-right">
+    <div class="vertical-split-right session-form float-right">
         <h1 th:text="#{login.msg.sessionExpired}"></h1>
         <div class="flex-row">
-            <h1 id="counter" class="z-session-count-txt"></h1>
+            <h1 id="counter" class="session-count-txt"></h1>
             <h1 th:text="#{login.msg.redirectedLoginPage}"></h1>
         </div>
         <a class="button primary session-return" id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}"></a>

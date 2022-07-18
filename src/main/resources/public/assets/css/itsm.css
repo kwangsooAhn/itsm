@@ -3623,7 +3623,7 @@ input, button, select, optgroup, textarea {
  * @description header에서 사용되는 scss
  * @version 1.0
  */
-.z-faq-header,
+.faq-header,
 .z-download-header,
 .z-board-header,
 .z-user-header,
@@ -3777,7 +3777,7 @@ input, button, select, optgroup, textarea {
  * @description content에서 사용되는 scss
  * @version 1.0
  */
-.z-faq-content,
+.faq-content,
 .z-download-content,
 .z-board-content,
 .z-user-content,
@@ -3842,7 +3842,7 @@ input, button, select, optgroup, textarea {
 }
 
 .z-notice-content-edit,
-.z-faq-content-edit,
+.faq-content-edit,
 .z-download-content-edit,
 .z-board-content-edit {
   border-top: 0.0625rem solid #CFD5D9;
@@ -3960,7 +3960,7 @@ input, button, select, optgroup, textarea {
 }
 
 .z-notice-content-view,
-.z-faq-content-view,
+.faq-content-view,
 .z-download-content-view,
 .z-board-content-view,
 .z-cmdb-attribute-content-view {
@@ -3994,10 +3994,10 @@ input, button, select, optgroup, textarea {
  * @description formDesigner + process 공통으로 사용되는 scss
  * @version 1.0
  */
-.z-header-button.button-icon .icon {
+.header-button.button-icon .icon {
   pointer-events: none;
 }
-.z-header-button.button-icon .icon.i-arrow-right {
+.header-button.button-icon .icon.i-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -4005,15 +4005,15 @@ input, button, select, optgroup, textarea {
   transform: rotate(90deg);
 }
 
-.z-header-button-dropdown {
+.header-button-dropdown {
   width: 1.25rem;
   padding: 0.5625rem 0.1875rem;
 }
-.z-header-button-dropdown .icon {
+.header-button-dropdown .icon {
   margin-left: -0.1875rem;
   pointer-events: none;
 }
-.z-header-button-dropdown + .z-dropdown-content {
+.header-button-dropdown + .z-dropdown-content {
   position: absolute;
   right: 0;
   border: 0.0625rem solid #CFD5D9;
@@ -4027,43 +4027,43 @@ input, button, select, optgroup, textarea {
   z-index: 250;
   visibility: hidden;
 }
-.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item {
+.header-button-dropdown + .z-dropdown-content .z-dropdown-item {
   padding: 0.25rem 0 0 0;
 }
-.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown {
+.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown {
   width: 100%;
   border-color: #FFFFFF;
   background-color: #FFFFFF;
   color: #222529;
   font-weight: 500;
 }
-.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:focus {
+.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   color: #222529;
   outline: 0;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:hover {
+.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:hover {
   border-color: #E0F3FF;
   background-color: #E0F3FF;
   color: #222529;
   outline: 0;
 }
-.z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:enabled:active, .z-header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:enabled.active {
+.header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:enabled:active, .header-button-dropdown + .z-dropdown-content .z-dropdown-item .button-dropdown:enabled.active {
   border-color: #D6EDFC;
   background-color: #D6EDFC;
   color: #19428D;
   z-index: 25;
 }
-.z-header-button-dropdown.active .icon.i-arrow-right {
+.header-button-dropdown.active .icon.i-arrow-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.z-header-button-dropdown.active + .z-dropdown-content {
+.header-button-dropdown.active + .z-dropdown-content {
   display: block;
   visibility: visible;
 }
@@ -4108,9 +4108,9 @@ input, button, select, optgroup, textarea {
 .z-process-header .z-process-button-list {
   width: 19.06rem;
 }
-.z-form-header .z-form-button-list .z-header-dropdown,
-.z-form-header .z-process-button-list .z-header-dropdown, .z-process-header .z-form-button-list .z-header-dropdown,
-.z-process-header .z-process-button-list .z-header-dropdown {
+.z-form-header .z-form-button-list .header-dropdown,
+.z-form-header .z-process-button-list .header-dropdown, .z-process-header .z-form-button-list .header-dropdown,
+.z-process-header .z-process-button-list .header-dropdown {
   position: relative;
 }
 .z-form-component-palette, .z-form-element-palette, .z-process-component-palette, .z-process-element-palette {
@@ -6478,14 +6478,14 @@ input, button, select, optgroup, textarea {
  * @description portal에서 사용되는 scss
  * @version 1.0
  */
-.z-browser-guide-main {
+.browser-guide-main {
   height: 100%;
   background-color: #FAFAFA;
 }
-.z-browser-guide-main h1 {
+.browser-guide-main h1 {
   margin: 14.81rem 19.063rem 3.75rem 19.063rem;
 }
-.z-browser-guide-main .z-browser-box {
+.browser-guide-main .browser-box {
   border: 0.0625rem solid #CFD5D9;
   display: inline-block;
   width: 22.5rem;
@@ -6493,12 +6493,12 @@ input, button, select, optgroup, textarea {
   margin-left: 0.8125rem;
   background-color: #FFFFFF;
 }
-.z-browser-guide-main .z-browser-box img {
+.browser-guide-main .browser-box img {
   width: 11.25rem;
   height: 11.25rem;
   margin-top: 3.875rem;
 }
-.z-browser-guide-main .z-browser-box:hover {
+.browser-guide-main .browser-box:hover {
   -webkit-box-shadow: inset 0 0 0.9375rem 0 #ABB0B5;
   -moz-box-shadow: inset 0 0 0.9375rem 0 #ABB0B5;
   box-shadow: inset 0 0 0.9375rem 0 #ABB0B5;
@@ -6583,27 +6583,27 @@ input, button, select, optgroup, textarea {
   margin-top: 6.25rem;
 }
 
-.z-portal-container label {
+.portal-container label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.z-portal-container summary {
+.portal-container summary {
   cursor: pointer;
 }
-.z-portal-container summary:focus {
+.portal-container summary:focus {
   outline: none;
 }
-.z-portal-container .table .table-body {
+.portal-container .table .table-body {
   display: block;
   height: 35rem;
 }
-.z-portal-container .table .table-body tr {
+.portal-container .table .table-body tr {
   display: table;
   width: 100%;
   height: 2.688rem;
   table-layout: fixed;
 }
-.z-portal-container .table.z-card-table tr {
+.portal-container .table.card-table tr {
   height: 2.5rem;
 }
 
@@ -6695,14 +6695,14 @@ input, button, select, optgroup, textarea {
     transform: translateY(0);
   }
 }
-.z-portal-container {
+.portal-container {
   max-width: 120rem;
   margin: 0 auto;
   overflow: auto;
   width: 100vw;
   height: 100vh;
 }
-.z-portal-container .z-header {
+.portal-container .header {
   position: fixed;
   top: 0;
   width: 100%;
@@ -6715,14 +6715,14 @@ input, button, select, optgroup, textarea {
   font-size: 1rem;
   font-weight: 500;
 }
-.z-portal-container .z-header .z-name {
+.portal-container .header .name {
   padding: 0 0.9375rem;
   font-size: 1.125rem;
 }
-.z-portal-container .z-header + .main {
+.portal-container .header + .main {
   top: 3.125rem;
 }
-.z-portal-container .main {
+.portal-container .main {
   position: fixed;
   top: 0;
   right: 0;
@@ -6736,127 +6736,127 @@ input, button, select, optgroup, textarea {
   scrollbar-width: none;
   /* Firefox */
 }
-.z-portal-container .main::-webkit-scrollbar {
+.portal-container .main::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.z-portal-container .main .main-content {
+.portal-container .main .main-content {
   height: 100%;
 }
-.z-portal-container .main .main-content .main-banner {
+.portal-container .main .main-content .main-banner {
   height: 8.75rem;
   background-color: #FAFAFA;
 }
-.z-portal-container .main .main-content .main-banner .title {
+.portal-container .main .main-content .main-banner .title {
   padding: 3.75rem 0 1.875rem 0;
 }
-.z-portal-container .main .main-content .main-search {
+.portal-container .main .main-content .main-search {
   border-bottom: 0.0625rem solid #CFD5D9;
   height: 6.25rem;
   padding: 1.875rem 0;
   background-color: #FAFAFA;
 }
-.z-portal-container .main .main-content .main-search.slide-up + .main-card .z-card-list {
+.portal-container .main .main-content .main-search.slide-up + .main-card .card-list {
   height: 49.188rem;
 }
-.z-portal-container .main .main-content .main-search.slide-down + .main-card .z-card-list {
+.portal-container .main .main-content .main-search.slide-down + .main-card .card-list {
   height: 40.438rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-group {
+.portal-container .main .main-content .main-card .card-group {
   padding: 3.4375rem 13.75rem 0 13.75rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-group .z-card {
+.portal-container .main .main-content .main-card .card-group .card {
   border: 0.0625rem solid #CFD5D9;
   width: 30rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-group .z-card-header {
+.portal-container .main .main-content .main-card .card-group .card-header {
   padding-top: 3.4375rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-group .z-card-list-summary {
+.portal-container .main .main-content .main-card .card-group .card-list-summary {
   padding: 2.188rem 1.875rem 2.813rem 1.875rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-group .z-card-list-summary table th, .z-portal-container .main .main-content .main-card .z-card-group .z-card-list-summary table td {
+.portal-container .main .main-content .main-card .card-group .card-list-summary table th, .portal-container .main .main-content .main-card .card-group .card-list-summary table td {
   padding: 0 1.25rem 0 1.25rem;
   vertical-align: middle;
 }
-.z-portal-container .main .main-content .main-card .z-card-group .z-card-list-summary table th:hover, .z-portal-container .main .main-content .main-card .z-card-group .z-card-list-summary table td:hover {
+.portal-container .main .main-content .main-card .card-group .card-list-summary table th:hover, .portal-container .main .main-content .main-card .card-group .card-list-summary table td:hover {
   background-color: #EEEEEE;
 }
-.z-portal-container .main .main-content .main-card .z-card-group .z-card-list-summary table th a, .z-portal-container .main .main-content .main-card .z-card-group .z-card-list-summary table td a {
+.portal-container .main .main-content .main-card .card-group .card-list-summary table th a, .portal-container .main .main-content .main-card .card-group .card-list-summary table td a {
   color: #63686C;
 }
-.z-portal-container .main .main-content .main-card .z-card-list {
+.portal-container .main .main-content .main-card .card-list {
   height: 40.438rem;
   padding: 2.625rem 22.5rem 0 22.5rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row {
+.portal-container .main .main-content .main-card .card-list .card-row {
   border-bottom: 0.0625rem solid #CFD5D9;
   width: 100%;
   padding: 0.8125rem 0;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row:last-child {
+.portal-container .main .main-content .main-card .card-list .card-row:last-child {
   margin: 0 0 3.125rem 0;
   border-bottom: none;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row .z-card-item-box {
+.portal-container .main .main-content .main-card .card-list .card-row .card-item-box {
   width: 68.13rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row .z-card-item-title {
+.portal-container .main .main-content .main-card .card-list .card-row .card-item-title {
   padding-bottom: 0.5rem;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row .z-card-item-title a {
+.portal-container .main .main-content .main-card .card-list .card-row .card-item-title a {
   color: #424242;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row .z-card-item-title a .keyword {
+.portal-container .main .main-content .main-card .card-list .card-row .card-item-title a .keyword {
   color: #3373C4;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row .z-card-item-content {
+.portal-container .main .main-content .main-card .card-list .card-row .card-item-content {
   color: #63686C;
   font-size: 1rem;
   font-weight: 400;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row .z-card-item-content .keyword {
+.portal-container .main .main-content .main-card .card-list .card-row .card-item-content .keyword {
   color: #3373C4;
 }
-.z-portal-container .main .main-content .main-card .z-card-list .z-card-row .no-data {
+.portal-container .main .main-content .main-card .card-list .card-row .no-data {
   width: 100%;
   height: 100%;
   margin: 4.375rem 0 0 0;
   color: #ABB0B5;
 }
-.z-portal-container .main .main-content .main-header {
+.portal-container .main .main-content .main-header {
   border-bottom: 0.0625rem solid #CFD5D9;
   padding: 0 13.75rem 0 13.75rem;
   background-color: #FAFAFA;
 }
-.z-portal-container .main .main-content .main-header .z-page-title {
+.portal-container .main .main-content .main-header .page-title {
   padding: 2.5rem 0;
 }
-.z-portal-container .main .main-content .main-header .page-search .search-count {
+.portal-container .main .main-content .main-header .page-search .search-count {
   color: #757575;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
 }
-.z-portal-container .main .main-content .list-content {
+.portal-container .main .main-content .list-content {
   height: 40.438rem;
   padding: 1.5rem 13.75rem 0 13.75rem;
 }
-.z-portal-container .main .main-content .list-content .table {
+.portal-container .main .main-content .list-content .table {
   position: relative;
   border: none;
 }
-.z-portal-container .main .main-content .list-content + .page-paging {
+.portal-container .main .main-content .list-content + .page-paging {
   padding: 0 13.75rem 1.875rem 13.75rem;
 }
-.z-portal-container .main .main-content .list-content + .page-paging #spanCurrentPageNum {
+.portal-container .main .main-content .list-content + .page-paging #spanCurrentPageNum {
   position: absolute;
   right: 13.75rem;
 }
-.z-portal-container .main .main-content .main-accordion {
+.portal-container .main .main-content .main-accordion {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group {
+.portal-container .main .main-content .main-accordion .faq-group {
   position: relative;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
@@ -6865,7 +6865,7 @@ input, button, select, optgroup, textarea {
   min-height: 3.438rem;
   margin-bottom: 0.625rem;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group-title {
+.portal-container .main .main-content .main-accordion .faq-group-title {
   border-bottom: 0.0625rem solid transparent;
   height: 3.438rem;
   padding: 1.25rem 0.9375rem;
@@ -6873,68 +6873,68 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group-title::-webkit-details-marker {
+.portal-container .main .main-content .main-accordion .faq-group-title::-webkit-details-marker {
   display: none;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group-title .icon.i-plus, .z-portal-container .main .main-content .main-accordion .z-faq-group-title .icon.i-minus {
+.portal-container .main .main-content .main-accordion .faq-group-title .icon.i-plus, .portal-container .main .main-content .main-accordion .faq-group-title .icon.i-minus {
   position: absolute;
   top: 0.9375rem;
   right: 0.9375rem;
   display: inline-block;
   background: #8B9094;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group-title .icon.i-plus {
+.portal-container .main .main-content .main-accordion .faq-group-title .icon.i-plus {
   opacity: 1;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group-title .icon.i-minus {
+.portal-container .main .main-content .main-accordion .faq-group-title .icon.i-minus {
   opacity: 0;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group[open] {
+.portal-container .main .main-content .main-accordion .faq-group[open] {
   border: 0.0625rem solid #3373C4;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group[open] .z-faq-group-title {
+.portal-container .main .main-content .main-accordion .faq-group[open] .faq-group-title {
   border-bottom-color: #3373C4;
   color: #3373C4;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group[open] .z-faq-group-title .icon.i-plus {
+.portal-container .main .main-content .main-accordion .faq-group[open] .faq-group-title .icon.i-plus {
   opacity: 0;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group[open] .z-faq-group-title .icon.i-minus {
+.portal-container .main .main-content .main-accordion .faq-group[open] .faq-group-title .icon.i-minus {
   background: #3373C4;
   opacity: 1;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-group[open] .z-faq-row {
+.portal-container .main .main-content .main-accordion .faq-group[open] .faq-row {
   background-color: #D6EDFC;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-row {
+.portal-container .main .main-content .main-accordion .faq-row {
   padding: 1.25rem 1.875rem 0 1.875rem;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-row:first-of-type {
+.portal-container .main .main-content .main-accordion .faq-row:first-of-type {
   padding-top: 2.188rem;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-row:last-of-type {
+.portal-container .main .main-content .main-accordion .faq-row:last-of-type {
   padding-bottom: 2.188rem;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-row-title {
+.portal-container .main .main-content .main-accordion .faq-row-title {
   color: #63686C;
   font-size: 1rem;
   font-weight: 500;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-row[open] .horizontal-bar {
+.portal-container .main .main-content .main-accordion .faq-row[open] .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
   background-color: #3373C4;
 }
-.z-portal-container .main .main-content .main-accordion .z-faq-row-content {
+.portal-container .main .main-content .main-accordion .faq-row-content {
   margin: 1.25rem 1.063rem 0 0;
   color: #222529;
   font-size: 1rem;
   font-weight: 400;
 }
-.z-portal-container .main .main-content .main-view {
+.portal-container .main .main-content .main-view {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
-.z-portal-container .main .main-content .main-view .view-title {
+.portal-container .main .main-content .main-view .view-title {
   border-bottom: 0.125rem solid #CFD5D9;
   margin-bottom: 0.625rem;
   padding-bottom: 0.625rem;
@@ -6942,7 +6942,7 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
 }
-.z-portal-container .main .main-content .main-view .view-sub-title {
+.portal-container .main .main-content .main-view .view-sub-title {
   padding: 0 1.25rem;
   color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -6950,7 +6950,7 @@ input, button, select, optgroup, textarea {
   font-weight: 400;
   line-height: 1.5;
 }
-.z-portal-container .main .main-content .main-view .view-content {
+.portal-container .main .main-content .main-view .view-content {
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
   color: #424242;
@@ -6958,7 +6958,7 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   line-height: 1.6;
 }
-.z-portal-container .main .main-content .main-view .view-content pre {
+.portal-container .main .main-content .main-view .view-content pre {
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -6966,23 +6966,23 @@ input, button, select, optgroup, textarea {
   white-space: -moz-pre-wrap;
   word-break: break-all;
 }
-.z-portal-container .main .main-content .main-view .view-content .view-text {
+.portal-container .main .main-content .main-view .view-content .view-text {
   margin: 0;
 }
-.z-portal-container .main .main-content .main-view .view-btn-content {
+.portal-container .main .main-content .main-view .view-btn-content {
   padding: 0.625rem 0 0 0;
 }
-.z-portal-container .main .main-content .z-vertical-split-left .i-logo-white {
+.portal-container .main .main-content .vertical-split-left .i-logo-white {
   position: relative;
   top: 5rem;
   left: 5rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-left .i-logo {
+.portal-container .main .main-content .vertical-split-left .i-logo {
   position: relative;
   top: -59.1875rem;
   margin: 5rem 0 0 5rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-left.z-login-background {
+.portal-container .main .main-content .vertical-split-left.login-background {
   background-image: url("../media/images/login/img_login_main.png");
   background-size: auto;
   background-repeat: no-repeat;
@@ -6993,7 +6993,7 @@ input, button, select, optgroup, textarea {
   width: calc(100vw - 38.13rem);
   height: 100%;
 }
-.z-portal-container .main .main-content .z-vertical-split-left.z-signup-background {
+.portal-container .main .main-content .vertical-split-left.signup-background {
   background-image: url("../media/images/signup/img_signup_main.png");
   background-size: auto;
   background-repeat: no-repeat;
@@ -7004,16 +7004,16 @@ input, button, select, optgroup, textarea {
   width: calc(100vw - 38.13rem);
   height: 100%;
 }
-.z-portal-container .main .main-content .z-vertical-split-left.z-signup-background .z-signup-login-face {
+.portal-container .main .main-content .vertical-split-left.signup-background .signup-login-face {
   top: 5rem;
   margin: 5rem 5rem 0 0;
 }
-.z-portal-container .main .main-content .z-vertical-split-left.z-signup-background .z-signup-login-face .z-signup-login-note {
+.portal-container .main .main-content .vertical-split-left.signup-background .signup-login-face .signup-login-note {
   color: #FFFFFF;
   font-weight: 500;
   vertical-align: middle;
 }
-.z-portal-container .main .main-content .z-vertical-split-left.z-session-background {
+.portal-container .main .main-content .vertical-split-left.session-background {
   background-image: url("../media/images/session/img_session_main.png");
   background-size: auto;
   background-repeat: no-repeat;
@@ -7024,7 +7024,7 @@ input, button, select, optgroup, textarea {
   width: 50vw;
   height: 100vh;
 }
-.z-portal-container .main .main-content .z-vertical-split-left.z-error-background {
+.portal-container .main .main-content .vertical-split-left.error-background {
   background-image: url("../media/images/error/img_error_caution.png");
   background-size: auto;
   background-repeat: no-repeat;
@@ -7035,115 +7035,115 @@ input, button, select, optgroup, textarea {
   width: 50vw;
   height: 100vh;
 }
-.z-portal-container .main .main-content .z-vertical-split-left.z-email-certificate-background {
+.portal-container .main .main-content .vertical-split-left.email-certificate-background {
   overflow: hidden;
   width: 50vw;
   height: 100vh;
   background-color: #FAFAFA;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form {
+.portal-container .main .main-content .vertical-split-right.login-form {
   width: 38.13rem;
   padding: 8.5rem 4.0625rem 0 4.0625rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form h1 {
+.portal-container .main .main-content .vertical-split-right.login-form h1 {
   height: 2.313rem;
   margin-bottom: 3.75rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .login-base-form {
+.portal-container .main .main-content .vertical-split-right.login-form .login-base-form {
   margin-bottom: 1rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-divide {
+.portal-container .main .main-content .vertical-split-right.login-form .login-divide {
   flex-basis: 100%;
   margin: 4rem 0 4rem 0;
   color: #ABB0B5;
   font-size: 1rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-divide::before {
+.portal-container .main .main-content .vertical-split-right.login-form .login-divide::before {
   content: "";
   flex-grow: 1;
   height: 0.063rem;
   margin-right: 1rem;
   background: #CFD5D9;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-divide::after {
+.portal-container .main .main-content .vertical-split-right.login-form .login-divide::after {
   content: "";
   flex-grow: 1;
   height: 0.063rem;
   margin-left: 1rem;
   background: #CFD5D9;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-platform .button {
+.portal-container .main .main-content .vertical-split-right.login-form .login-platform .button {
   margin-bottom: 1rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-platform .button:last-child {
+.portal-container .main .main-content .vertical-split-right.login-form .login-platform .button:last-child {
   margin: 0;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-other {
+.portal-container .main .main-content .vertical-split-right.login-form .login-other {
   height: 1.063rem;
   margin-top: 6.188rem;
   color: #222529;
   font-size: 1rem;
   font-weight: 400;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-other .vertical-bar {
+.portal-container .main .main-content .vertical-split-right.login-form .login-other .vertical-bar {
   width: 1.25rem;
   min-height: 2.5rem;
   margin: 0 1.875rem 0 0;
   border-right: 0.0625rem solid #CFD5D9;
   vertical-align: middle;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-other a {
+.portal-container .main .main-content .vertical-split-right.login-form .login-other a {
   color: #222529;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-other-signUp, .z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-other-findPwd, .z-portal-container .main .main-content .z-vertical-split-right.z-login-form .z-login-other-findId {
+.portal-container .main .main-content .vertical-split-right.login-form .login-other-signUp, .portal-container .main .main-content .vertical-split-right.login-form .login-other-findPwd, .portal-container .main .main-content .vertical-split-right.login-form .login-other-findId {
   flex: 1 0 auto;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-signup-form {
+.portal-container .main .main-content .vertical-split-right.signup-form {
   width: 38.13rem;
   padding: 5.6875rem 4.0625rem 0 4.0625rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-signup-form .z-signup-base-form {
+.portal-container .main .main-content .vertical-split-right.signup-form .signup-base-form {
   position: relative;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-session-form {
+.portal-container .main .main-content .vertical-split-right.session-form {
   border-left: 0.0625rem solid #CFD5D9;
   width: 50vw;
   padding: 21.5625rem 6.25rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-session-form h1 {
+.portal-container .main .main-content .vertical-split-right.session-form h1 {
   color: #222529;
   line-height: 1.7;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-session-form .z-session-count-txt {
+.portal-container .main .main-content .vertical-split-right.session-form .session-count-txt {
   color: #3373C4;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-error-form {
+.portal-container .main .main-content .vertical-split-right.error-form {
   border-left: 0.0625rem solid #CFD5D9;
   width: 50vw;
   padding: 16.875rem 5.625rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-error-form h1 {
+.portal-container .main .main-content .vertical-split-right.error-form h1 {
   color: #222529;
   line-height: 1.7;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-error-form .z-error-code-txt {
+.portal-container .main .main-content .vertical-split-right.error-form .error-code-txt {
   margin: 1.25rem 0;
   color: #3373C4;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-error-form .z-error-bottom-txt {
+.portal-container .main .main-content .vertical-split-right.error-form .error-bottom-txt {
   margin: 5rem 0;
   color: #63686C;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-email-certificate-form {
+.portal-container .main .main-content .vertical-split-right.email-certificate-form {
   border-left: 0.0625rem solid #CFD5D9;
   width: 50vw;
   padding: 21.5625rem 6.25rem;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-email-certificate-form h1 {
+.portal-container .main .main-content .vertical-split-right.email-certificate-form h1 {
   color: #222529;
   line-height: 1.7;
 }
-.z-portal-container .main .main-content .z-vertical-split-right.z-email-certificate-form h3 {
+.portal-container .main .main-content .vertical-split-right.email-certificate-form h3 {
   color: #63686C;
   margin: 1.25rem 0 5rem 0;
 }

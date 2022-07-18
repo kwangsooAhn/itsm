@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="pageLeft">
-    <div class="z-vertical-split-left z-email-certificate-background float-left">
+    <div class="vertical-split-left email-certificate-background float-left">
         <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
             <img class="z-img i-email-certificate-check" th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
         </th:block>
@@ -19,7 +19,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="pageRight">
-    <div class="z-vertical-split-right z-email-certificate-form float-right">
+    <div class="vertical-split-right email-certificate-form float-right">
         <!-- 인증 없이 로그인 시도 -->
         <th:block th:if="${validCode == 0 || validCode == 4}">
             <h1 th:text="#{authentication.msg.beforeEmailCheck}"></h1>

@@ -18,7 +18,7 @@
 // CMDB > Type
 // CMDB > Class
 // CMDB > Ci
-.z-faq-content,
+.faq-content,
 .z-download-content,
 .z-board-content,
 .z-user-content,
@@ -90,7 +90,7 @@
 ////////////////////////// EDIT //////////////////////////
 // 공지사항, FAQ, 자료실, 게시판
 .z-notice-content-edit,
-.z-faq-content-edit,
+.faq-content-edit,
 .z-download-content-edit,
 .z-board-content-edit {
   @include border(0.0625rem, solid, $gray300, top);  // 1px
@@ -191,7 +191,7 @@
 ////////////////////////// VIEW //////////////////////////
 // 공지사항, FAQ, 자료실, CMDB Attribute
 .z-notice-content-view,
-.z-faq-content-view,
+.faq-content-view,
 .z-download-content-view,
 .z-board-content-view,
 .z-cmdb-attribute-content-view {

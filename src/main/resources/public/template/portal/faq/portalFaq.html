@@ -8,7 +8,7 @@
 <body>
 <th:block layout:fragment="pageSearching">
     <div class="main-header">
-        <div class="z-page-title flex-row align-items-baseline">
+        <div class="page-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{faq.msg.portalDescription}"></h6>
         </div>
@@ -46,21 +46,21 @@
             method: 'GET'
         }).then((htmlData) => {
             document.querySelector('.main-accordion').innerHTML = htmlData;
-            const faqGroup = document.getElementsByClassName('z-faq-group')[0];
+            const faqGroup = document.getElementsByClassName('faq-group')[0];
             if (typeof faqGroup !== 'undefined') {
                 faqGroup.open = true;
             }
-            const faqRow = document.getElementsByClassName('z-faq-row')[0];
+            const faqRow = document.getElementsByClassName('faq-row')[0];
             if (typeof faqRow !== 'undefined') {
                 faqRow.open = true;
             }
-            aliceJs.showTotalCount(document.getElementsByClassName('z-faq-row').length);
+            aliceJs.showTotalCount(document.getElementsByClassName('faq-row').length);
 
             let selectedGroup = document.getElementById('selected-group').value;
             let selectedId = document.getElementById('selected-id').value;
             if (selectedId !== '') {
-                let group = document.getElementsByClassName('z-faq-group');
-                let row = document.getElementsByClassName('z-faq-row');
+                let group = document.getElementsByClassName('faq-group');
+                let row = document.getElementsByClassName('faq-row');
                 for (let i = 0; i < group.length; i++) {
                     if (group[i].id === selectedGroup) {
                         faqGroup.open = false;

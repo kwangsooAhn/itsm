@@ -24,7 +24,7 @@ $layout-header-dropdown: (
 );
 
 // header button
-.z-header-button {
+.header-button {
   &.button-icon {
     .icon {
       pointer-events: none;
@@ -33,7 +33,7 @@ $layout-header-dropdown: (
   }
 }
 // header dropdown button
-.z-header-button-dropdown {
+.header-button-dropdown {
   width: 1.25rem; // 20px
   padding: 0.5625rem 0.1875rem; // 9px 3px
 
@@ -144,7 +144,7 @@ $layout-header-dropdown: (
     .z-form-button-list,
     .z-process-button-list {
       width: 19.06rem; // 305px
-      .z-header-dropdown { @include relative(); }
+      .header-dropdown { @include relative(); }
     }
   }
 
