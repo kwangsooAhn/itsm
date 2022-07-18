@@ -55,10 +55,10 @@ export const organizationSearchMixin = {
         // 컴포넌트에 설정된 기본 값
         const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data))
             ? this.elementDefaultValue.data.split('|') : ['', ''];
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
-            .setUIClass('z-input i-organization-search text-ellipsis')
+            .setUIClass('input i-organization-search text-ellipsis')
             .setUIId('organizationSearch' + this.id)
             .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)

@@ -1595,10 +1595,10 @@
      * element 에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.z-process-element-palette, .z-drawing-board')
+        d3.selectAll('.process-element-palette, .drawing-board')
             .on('dragover', function () {d3.event.preventDefault();});
 
-        d3.select('.z-process-element-palette').select('.connector')
+        d3.select('.process-element-palette').select('.connector')
             .on('click', function () {
                 isDrawConnector = !d3.select(this).classed('selected');
                 d3.select(this).classed('selected', isDrawConnector);
@@ -1608,7 +1608,7 @@
                 zProcessDesigner.setElementMenu();
             });
 
-        d3.select('.z-process-element-palette').selectAll('button.shape')
+        d3.select('.process-element-palette').selectAll('button.shape')
             .attr('draggable', 'true')
             .on('mousedown', function () {
                 let _this = d3.select(this);
@@ -1745,8 +1745,8 @@
     function initProcessEdit() {
         document.addEventListener('click', function (e) {
             // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
-            if (e.target != null && !e.target.classList.contains('z-header-button-dropdown')) {
-                document.querySelectorAll('.z-header-button-dropdown').forEach(function (dropdown) {
+            if (e.target != null && !e.target.classList.contains('header-button-dropdown')) {
+                document.querySelectorAll('.header-button-dropdown').forEach(function (dropdown) {
                     if (dropdown.classList.contains('active')) {
                         dropdown.classList.remove('active');
                     }
@@ -1761,7 +1761,7 @@
         const drawingBoard = document.getElementById('processDrawingBoard');
 
         // add svg and svg event
-        svg = d3.select('.z-drawing-board').append('svg')
+        svg = d3.select('.drawing-board').append('svg')
             .attr('width', drawingBoard.offsetWidth)
             .attr('height', drawingBoard.offsetHeight)
             .on('mousedown', function () {
@@ -1809,13 +1809,13 @@
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
 
-            let nodes = d3.select('div.z-minimap').selectAll('g.element, g.connector').nodes();
+            let nodes = d3.select('div.minimap').selectAll('g.element, g.connector').nodes();
             let minimapTranslate = '';
             if (nodes.length > 0) {
                 let transform = d3.zoomTransform(d3.select(drawingBoard).select('.element-container').node());
                 minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
             }
-            d3.select('rect.z-minimap-guide')
+            d3.select('rect.minimap-guide')
                 .attr('width', drawingBoardWidth)
                 .attr('height', drawingBoardHeight)
                 .attr('transform', minimapTranslate);
@@ -1888,12 +1888,12 @@
                 svg.select('g.guides-container')
                     .attr('transform', d3.event.transform);
 
-                let nodes = d3.select('div.z-minimap').selectAll('g.element, g.connector').nodes();
+                let nodes = d3.select('div.minimap').selectAll('g.element, g.connector').nodes();
                 let minimapTranslate = '';
                 if (nodes.length > 0) {
                     minimapTranslate = 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')';
                 }
-                d3.select('rect.z-minimap-guide').attr('transform', minimapTranslate);
+                d3.select('rect.minimap-guide').attr('transform', minimapTranslate);
             })
             .on('end', function () {
                 svg.style('cursor', 'default');

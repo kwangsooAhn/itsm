@@ -18,22 +18,22 @@
                     th:text="#{${boardAdmin.boardAdminTitle}}"
                     th:selected="${boardAdmin.boardAdminId == boardAdminId}"></option>
         </select>
-        <input type="text" class="z-input i-search text-ellipsis col-3" id="searchValue" name="searchValue"
+        <input type="text" class="input i-search text-ellipsis col-3" id="searchValue" name="searchValue"
                maxlength="100"
                th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-        <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
+        <input type="text" class="input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
         <span>~</span>
-        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+        <input type="text" class="input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
         <input type="hidden" class="search-date" id="toDt" name="toDt"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" onclick="openBoardAdd()" th:text="#{common.btn.add}"
+        <button type="button" class="button primary" onclick="openBoardAdd()" th:text="#{common.btn.add}"
                 sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="boardList"></div>
+    <div class="list-content flex-row" id="boardList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">

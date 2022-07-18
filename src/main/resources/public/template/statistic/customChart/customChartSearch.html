@@ -26,17 +26,17 @@
             <option value="" th:text="#{chart.label.all}" selected></option>
             <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
         </select>
-        <input type="text" class="z-input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
+        <input type="text" class="input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{chart.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" sec:authorize="hasAuthority('report.manage')"
+        <button type="button" class="button primary" sec:authorize="hasAuthority('report.manage')"
                 th:text="#{common.btn.add}" onclick="location.href='/statistics/customChart/new'"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="chartList"></div>
+    <div class="list-content flex-row" id="chartList"></div>
 </div>
 </body>
 <th:block layout:fragment="pageScript">
@@ -89,7 +89,7 @@
                 classes: 'chart-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function (modal) {
                         zChartManager.destroy();
@@ -111,8 +111,8 @@
         function createModalContent() {
             return `<div class="chart-edit-content">` +
                 `<div class="flex-column" id="getChart">` +
-                    `<div class="flex-column z-edit-row mt-2 mr-5 mb-5 ml-5">` +
-                        `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
+                    `<div class="flex-column edit-row mt-2 mr-5 mb-5 ml-5">` +
+                        `<div id="container" class="flex-row flex-wrap chart-content-view"/>` +
                         `</div>` +
                     `</div>` +
                 `</div>`;

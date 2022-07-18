@@ -8,8 +8,8 @@
  * @version 1.0
  *
  * <선언 방법>
- * <span class="z-icon i-delete"></span>
- ** z-icon : 공통 아이콘 클래스
+ * <span class="icon i-delete"></span>
+ ** icon : 공통 아이콘 클래스
  ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
  */
 // icon size
@@ -17,7 +17,7 @@
 // 1.5rem, 1.5rem     // 24xp 24px
 // 2rem, 2rem         // 32px 32px
 
-.z-icon {
+.icon {
   display: inline-block;
   -webkit-print-color-adjust: exact;
 
@@ -166,8 +166,8 @@
 }
 
 ////////////////////////// UI 컴포넌트 추가 //////////////////////////
-.z-input {
-  // z-input with background img
+.input {
+  // input with background img
   &.i-search { @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }
   &.i-date-picker { @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }
   &.i-time-picker { @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_time_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }

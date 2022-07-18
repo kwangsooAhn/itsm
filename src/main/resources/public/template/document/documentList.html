@@ -7,7 +7,7 @@
 <div class="card-list flex-row justify-content-start align-itmes-start">
     <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
     <div class="card flex-row justify-content-center no-data-found" th:if="${#arrays.isEmpty(documentList)}">
-        <img class="z-img i-no-card" />
+        <img class="img i-no-card" />
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <th:block th:fragment="list">
@@ -17,28 +17,28 @@
                 <div class="document-column">
                     <div class="flex-row align-items-center mb-2">
                           <span th:if="${document.documentStatus} == 'document.status.temporary'"
-                                th:text="#{document.label.tempDocument}" class="label normal document-temp-status"></span>
+                                th:text="#{document.label.tempDocument}" class="label--document document-temp-status"></span>
                     </div>
                     <div class="flex-row align-items-center">
                         <span th:text="${document.documentName}" class="text-ellipsis document-name" th:title="${document.documentName}"></span>
                     </div>
                     <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
                     <div class="document-icon">
-                        <img class="z-img i-document-icon" th:src="${document.documentIcon}"/>
+                        <img class="img i-document-icon" th:src="${document.documentIcon}"/>
                     </div>
                 </div>
             </a>
             <div th:unless="${document.documentType == 'application-form-link'}" class="document-column"  th:onclick="zDocument.openDocumentPopup([[${document.documentId}]])">
                 <div class="flex-row align-items-center mb-2">
                 <span th:if="${document.documentStatus} == 'document.status.temporary'"
-                      th:text="#{document.label.tempDocument}" class="label normal document-temp-status"></span>
+                      th:text="#{document.label.tempDocument}" class="label--document document-temp-status"></span>
                 </div>
                 <div class="flex-row align-items-center">
                     <span th:text="${document.documentName}" class="text-ellipsis document-name" th:title="${document.documentName}"></span>
                 </div>
                 <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
                 <div class="document-icon">
-                    <img class="z-img i-document-icon" th:src="${document.documentIcon}"/>
+                    <img class="img i-document-icon" th:src="${document.documentIcon}"/>
                 </div>
             </div>
         </div>

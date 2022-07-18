@@ -12,7 +12,7 @@ import { PAGING } from './zConstants.js';
 const PAGING_DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
-    pageNumSelector : 'div.z-paging-numbers a', // 페이지 번호 목록 셀렉터
+    pageNumSelector : 'div.paging-numbers a', // 페이지 번호 목록 셀렉터
     selectedPage : 'selected-page' // 선택된 페이지 번호용 클래스 이름
 };
 export default class ZPaging {
@@ -21,7 +21,7 @@ export default class ZPaging {
         // 리스트 목록에 옵져버 설정. 조회되어 리스트가 변하면 자동으로 페이징 처리
         const config = {childList: true, subtree: false};
         const observer = new MutationObserver(this.update.bind(this));
-        observer.observe(document.querySelector('.z-list-content'), config);
+        observer.observe(document.querySelector('.list-content'), config);
     }
 
     /**
@@ -54,8 +54,8 @@ export default class ZPaging {
 
         // 스크롤바는 paging이 아니지만 옵져버가 새로 계산할 때마다 필요하기 때문에 임시로 이 곳에 작성.
         // 팀장님께서 다시 정리하신다고 하셨음.! by.mo
-        OverlayScrollbars(document.querySelector('.z-table-body'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelector('.z-main'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.table-body'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.main'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelector('.grid__body'), {className: 'scrollbar'});
 
         // 전체 페이지 개수 확인 (데이터가 아예 없으면 전체 페이지가 0인 것도 감안)
@@ -63,9 +63,9 @@ export default class ZPaging {
 
         // 전체 페이지가 1페이지이면 페이징 표시는 숨김.
         if (totalPageNum === 1) {
-            document.querySelector('.z-page-paging').style.visibility = 'hidden';
+            document.querySelector('.page-paging').style.visibility = 'hidden';
         } else {
-            document.querySelector('.z-page-paging').style.visibility = 'visible';
+            document.querySelector('.page-paging').style.visibility = 'visible';
         }
         // 현재 출력되어 있는 페이징 번호 목록
         let currentPageList = [];
@@ -101,7 +101,7 @@ export default class ZPaging {
             let newAnchor = document.createElement('a');
             newAnchor.setAttribute('href', 'javascript:getList(' + i + ')');
             newAnchor.innerText = '' + i;
-            document.querySelector('div.z-paging-numbers').appendChild(newAnchor);
+            document.querySelector('div.paging-numbers').appendChild(newAnchor);
             // 현재 페이지면 클래스 추가
             if (currentPageNum === i) {
                 newAnchor.classList.add(this.options.selectedPage);
@@ -109,7 +109,7 @@ export default class ZPaging {
         }
 
         // 화살표 처리
-        document.querySelectorAll('a.z-paging-arrow').forEach( arrow => {
+        document.querySelectorAll('a.paging-arrow').forEach( arrow => {
             arrow.classList.remove(this.options.activeArrowClass);
             arrow.removeAttribute('href');
         });
@@ -180,7 +180,7 @@ export default class ZPaging {
         const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
         if (sortColElem) {
             sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
-            sortColElem.insertAdjacentHTML('beforeend', `<span class="z-icon i-sorting"></span>`);
+            sortColElem.insertAdjacentHTML('beforeend', `<span class="icon i-sorting"></span>`);
         }
     }
 }

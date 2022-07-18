@@ -33,7 +33,7 @@
           font-weight: $font-weight-regular;
           text-align: center;
           // 아이콘
-          .z-icon.i-avatar {
+          .icon.i-avatar {
             @include maskImage('#{$icon-folder-path}fileUploader/icon_avatar.svg', 100%, 5rem, no-repeat, center, 5rem, $gray300);
             margin-bottom: 1.25rem; // 20px
           }
@@ -139,7 +139,7 @@
         .dz-message {
           margin-top: 1.25rem; // 20px
           // 이미지 축소
-          .z-icon.i-avatar {
+          .icon.i-avatar {
             height: 2.813rem; // 45px
             margin-bottom: 0.9375rem; // 15px
             -webkit-mask-size: 2.813rem;
