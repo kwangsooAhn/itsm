@@ -52,7 +52,7 @@ $button-themes-default: (
                 'active': ('font': $blue700, 'background': $blue200, 'border': $blue200),
                 'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
         ),
-        'form': (
+        'btn--form': (
                 'default': ('font': $neutral800, 'background': $neutral300, 'border': $neutral300),
                 'hover': ('font' : $neutral800, 'background': $neutral200, 'border': $neutral200),
                 'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
