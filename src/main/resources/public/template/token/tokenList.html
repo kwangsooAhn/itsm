@@ -44,7 +44,7 @@
             </div>
             <div class="grid__cell pr-2 pl-2">
                 <span th:if="${token.documentStatus} == 'document.status.temporary'"
-                      th:text="#{document.label.tempDocument}" class="label normal mr-2"></span>
+                      th:text="#{document.label.tempDocument}" class="label--document mr-2"></span>
                 <span class="text-ellipsis font-bold" th:if="${#arrays.length(token.topics)} > 0"
                       th:text="${token.topics[0]}" th:title="${token.topics[0]}"></span>
             </div>

@@ -1781,7 +1781,7 @@
                         chkGroup.appendChild(chkSpan);
 
                         const chkLabel = document.createElement('span');
-                        chkLabel.className = 'z-label';
+                        chkLabel.className = 'label';
                         chkLabel.textContent = attributeOption.text;
                         chkGroup.appendChild(chkLabel);
                         parent.appendChild(chkGroup);

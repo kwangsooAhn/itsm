@@ -79,7 +79,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
             }
 
             if (!zValidation.isEmpty(item.name)) {
-                radioGroup.UILabel.addUI(new UISpan().setUIClass('z-label').setUIInnerHTML(i18n.msg(item.name)));
+                radioGroup.UILabel.addUI(new UISpan().setUIClass('label').setUIInnerHTML(i18n.msg(item.name)));
             }
             // 기본값 - 지정 타입 추가 설정 (inputButton)
             if (item.value === FORM.DEFAULT_VALUE_TYPE.CUSTOM) {

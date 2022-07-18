@@ -6040,6 +6040,19 @@ input, button, select, optgroup, textarea {
   height: 0.5rem;
 }
 
+.label--document {
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  padding: 0.375rem;
+  border-color: #83BBED;
+  background-color: #83BBED;
+  color: #19428D;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.0625rem;
+}
+
 /* 신청서 / 처리할 문서 양식 layout */
 .z-document-container {
   /* form, group, row, component 디자인 - document ver. */
@@ -10188,7 +10201,7 @@ div.textarea-readonly {
   line-height: 1.2;
   outline: none;
 }
-.switch .z-label {
+.switch .label {
   display: inline-block;
   height: 1.125rem;
   margin-left: 3rem;
@@ -10595,7 +10608,7 @@ select {
   height: 2.5rem;
   padding-right: 0.2rem;
 }
-.switch-list .switch .z-label {
+.switch-list .switch .label {
   margin-left: 0;
 }
 .switch-list .switch input[type=checkbox] + span {
@@ -10656,7 +10669,7 @@ select {
 .checkbox input[type=checkbox]:not(:disabled) + span, .checkbox input[type=checkbox]:not(.readonly) + span {
   cursor: pointer;
 }
-.checkbox input[type=checkbox]:not(:disabled) ~ .z-label, .checkbox input[type=checkbox]:not(.readonly) ~ .z-label {
+.checkbox input[type=checkbox]:not(:disabled) ~ .label, .checkbox input[type=checkbox]:not(.readonly) ~ .label {
   cursor: pointer;
 }
 .checkbox input[type=checkbox]:not(:disabled):hover + span::before, .checkbox input[type=checkbox]:not(.readonly):hover + span::before {
@@ -10669,7 +10682,7 @@ select {
 .checkbox input[type=checkbox]:disabled + span::after, .checkbox input[type=checkbox].readonly + span::after {
   border-color: #ABB0B5;
 }
-.checkbox input[type=checkbox]:disabled ~ .z-label, .checkbox input[type=checkbox].readonly ~ .z-label {
+.checkbox input[type=checkbox]:disabled ~ .label, .checkbox input[type=checkbox].readonly ~ .label {
   color: #ABB0B5;
 }
 .checkbox input[type=checkbox].error + span::before {
@@ -10771,7 +10784,7 @@ select {
 .radio input[type=radio]:not(:disabled) + span, .radio input[type=radio]:not(.readonly) + span {
   cursor: pointer;
 }
-.radio input[type=radio]:not(:disabled) ~ .z-label, .radio input[type=radio]:not(.readonly) ~ .z-label {
+.radio input[type=radio]:not(:disabled) ~ .label, .radio input[type=radio]:not(.readonly) ~ .label {
   cursor: pointer;
 }
 .radio input[type=radio]:not(:disabled):checked + span::before, .radio input[type=radio]:not(.readonly):checked + span::before {
@@ -10793,7 +10806,7 @@ select {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.radio input[type=radio]:disabled ~ .z-label, .radio input[type=radio].readonly ~ .z-label {
+.radio input[type=radio]:disabled ~ .label, .radio input[type=radio].readonly ~ .label {
   color: #ABB0B5;
 }
 .radio input[type=radio]:disabled:checked + span::after, .radio input[type=radio].readonly:checked + span::after {
@@ -10842,13 +10855,7 @@ select {
   -moz-border-radius: 0.125rem;
   padding: 0.375rem;
   font-size: 0.875rem;
-  font-weight: 700;
   line-height: 1.0625rem;
-}
-.label.normal {
-  border-color: #83BBED;
-  background-color: #83BBED;
-  color: #19428D;
 }
 
 .divider {

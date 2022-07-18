@@ -1843,7 +1843,7 @@
         radioGroup.appendChild(radioSpan);
         // radio label
         const radioLabel = document.createElement('span');
-        radioLabel.className = 'z-label';
+        radioLabel.className = 'label';
         radioLabel.textContent = property.fieldset;
         radioGroup.appendChild(radioLabel);
 
@@ -1944,7 +1944,7 @@
                 labelElem.appendChild(document.createElement('span'));
 
                 const spanElem = document.createElement('span');
-                spanElem.className = 'z-label';
+                spanElem.className = 'label';
                 spanElem.textContent = labelText;
                 labelElem.appendChild(spanElem);
                 break;

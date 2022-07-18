@@ -37,7 +37,7 @@
                            th:disabled="${view}"
                            th:onclick="${view} ? '' : 'changeContainer(\'table\')'" th:readonly="${view}" type="radio">
                     <span></span>
-                    <span class="z-label mr-4" th:text="#{customCode.label.table}"></span>
+                    <span class="label mr-4" th:text="#{customCode.label.table}"></span>
                 </label>
                 <label class="radio" for="code" tabindex="0">
                     <input id="code" name="type" th:checked="${customCode?.type == 'code'}"
@@ -45,7 +45,7 @@
                            th:disabled="${view}"
                            th:onclick="${view} ? '' : 'changeContainer(\'code\')'" th:readonly="${view}" type="radio">
                     <span></span>
-                    <span class="z-label" th:text="#{customCode.label.code}"></span>
+                    <span class="label" th:text="#{customCode.label.code}"></span>
                 </label>
             </div>
         </div>

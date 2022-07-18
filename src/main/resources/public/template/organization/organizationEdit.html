@@ -51,7 +51,7 @@
         </div>
         <div class="edit-row flex-column">
             <label class="switch">
-                <span class="z-label" th:text="#{organization.label.useYn}"></span>
+                <span class="label" th:text="#{organization.label.useYn}"></span>
                 <input type="checkbox" id="useYn" name="useYn"
                        th:checked="${data?.useYn == null || data?.useYn == true}">
                 <span></span>
@@ -71,7 +71,7 @@
                             <input type="checkbox" name="organizationRole"
                                    th:disabled="${view}" th:id="${role?.roleId}" th:value="${role?.roleName}">
                             <span></span>
-                            <span class="z-label" th:text="${role?.roleName}"></span>
+                            <span class="label" th:text="${role?.roleName}"></span>
                         </label>
                     </li>
                 </ul>

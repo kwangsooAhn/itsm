@@ -195,7 +195,7 @@
                                    th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox"
                                    onclick="checkUserRole(this)">
                             <span></span>
-                            <span class="z-label" th:text="*{allRole.roleName}"></span>
+                            <span class="label" th:text="*{allRole.roleName}"></span>
                         </label>
                     </li>
                 </ul>
@@ -207,7 +207,7 @@
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
-                <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
+                <span class="label" th:text="#{user.msg.userAbsence}"></span>
             </label>
             <div id="absenceData" class="flex-column edit-row">
                 <div class="flex-row">
@@ -244,7 +244,7 @@
                         <label class="checkbox align-center">
                             <input type="checkbox" id="transferYN" th:checked="${users?.absence.transferYN}">
                             <span></span>
-                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                            <span class="label" th:text="#{user.label.executeCurrentAbsence}"></span>
                         </label>
                         </div>
                     </div>
@@ -257,7 +257,7 @@
                 <input id="usageStatus" name="usageStatus" th:checked="${users?.useYn == null || users?.useYn == true}"
                        th:disabled="${view}" type="checkbox">
                 <span></span>
-                <span class="z-label" th:text="#{user.msg.usageStatus}"></span>
+                <span class="label" th:text="#{user.msg.usageStatus}"></span>
             </label>
         </div>
         <div class="flex-row justify-content-between edit-row">

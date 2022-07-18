@@ -21,7 +21,7 @@
     </div>
     <div class="flex-column edit-row">
         <label class="switch">
-            <span class="z-label" th:text="#{board.label.useYn}"></span>
+            <span class="label" th:text="#{board.label.useYn}"></span>
             <input id="boardUseYn" name="boardUseYn" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
@@ -40,7 +40,7 @@
     </div>
     <div class="flex-column edit-row">
         <label class="switch">
-            <span class="z-label" th:text="#{board.label.replyYn}"></span>
+            <span class="label" th:text="#{board.label.replyYn}"></span>
             <input id="replyYn" name="replyYn" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
@@ -48,7 +48,7 @@
     </div>
     <div class="flex-column edit-row">
         <label class="switch">
-            <span class="z-label" th:text="#{board.label.commentYn}"></span>
+            <span class="label" th:text="#{board.label.commentYn}"></span>
             <input id="commentYn" name="commentYn" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
@@ -56,7 +56,7 @@
     </div>
     <div class="flex-column edit-row">
         <label class="switch">
-            <span class="z-label" th:text="#{board.label.category}"></span>
+            <span class="label" th:text="#{board.label.category}"></span>
             <input id="categoryYn" name="categoryYn" onchange="setDisplay('category-detail', this.checked)"
                    th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}"
                    th:disabled="${view}" type="checkbox">
@@ -112,7 +112,7 @@
     </div>
     <div class="flex-column edit-row">
         <label class="switch">
-            <span class="z-label" th:text="#{board.label.attachFileYn}"></span>
+            <span class="label" th:text="#{board.label.attachFileYn}"></span>
             <input id="attachYn" name="attachYn" onchange="setDisplay('attachFileSize', this.checked)"
                    th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
                    th:disabled="${view}" type="checkbox">

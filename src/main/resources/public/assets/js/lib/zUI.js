@@ -433,7 +433,7 @@ class UISwitch extends UIElement {
         this.addUI(new UISpan());
 
         // label
-        this.UISpan = new UISpan().setUIClass('z-label');
+        this.UISpan = new UISpan().setUIClass('label');
         this.addUI(this.UISpan);
     }
 

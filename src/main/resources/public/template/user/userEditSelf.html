@@ -189,7 +189,7 @@
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
-                <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
+                <span class="label" th:text="#{user.msg.userAbsence}"></span>
             </label>
             <div id="absenceData" class="flex-column edit-row">
                 <div class="flex-row">
@@ -225,7 +225,7 @@
                         <label class="checkbox align-center">
                             <input type="checkbox" id="transferYN" th:checked="${users?.absence.transferYN}">
                             <span></span>
-                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                            <span class="label" th:text="#{user.label.executeCurrentAbsence}"></span>
                         </label>
                     </div>
                 </div>

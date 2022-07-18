@@ -68,7 +68,7 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
             }
             
             if (!zValidation.isEmpty(item.name)) {
-                radioGroup.UILabel.addUI(new UISpan().setUIClass('z-label').setUIInnerHTML(i18n.msg(item.name)));
+                radioGroup.UILabel.addUI(new UISpan().setUIClass('label').setUIInnerHTML(i18n.msg(item.name)));
             }
 
             switch (item.value) {

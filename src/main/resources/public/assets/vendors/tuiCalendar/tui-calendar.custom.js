@@ -902,7 +902,7 @@ Object.assign(zCalendar.prototype, {
                 <label class="checkbox">
                     <input type="checkbox" id="allDayYn" name="allDayYn">
                     <span></span>
-                    <span class="z-label">${i18n.msg('calendar.label.allDay')}</span>
+                    <span class="label">${i18n.msg('calendar.label.allDay')}</span>
                 </label>
                 <div id="repeatDetail">
                     <select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>
@@ -942,17 +942,17 @@ Object.assign(zCalendar.prototype, {
             <label class="radio" for="repeatPeriodToday" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodToday" value="today" checked="true"/>
                 <span></span>
-                <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.today')}</span>
+                <span class="label">${i18n.msg('calendar.label.repeatPeriod.today')}</span>
             </label>
             <label class="radio" for="repeatPeriodAfter" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodAfter" value="after"/>
                 <span></span>
-                <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.after')}</span>
+                <span class="label">${i18n.msg('calendar.label.repeatPeriod.after')}</span>
             </label>
             <label class="radio" for="repeatPeriodAll" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodAll" value="all"/>
                 <span></span>
-                <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.all')}</span>
+                <span class="label">${i18n.msg('calendar.label.repeatPeriod.all')}</span>
             </label>
         </div>`.trim();
     },

@@ -41,7 +41,7 @@
                         <label class="checkbox" tabindex="0" th:for="|${url?.method}_${url?.url}|">
                             <input name="authUrl" th:disabled="${view}" th:id="|${url?.method}_${url?.url}|" th:value="${url?.url}" type="checkbox">
                             <span></span>
-                            <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
+                            <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
                         </label>
                     </li>
                 </ul>
@@ -55,7 +55,7 @@
                         <label class="checkbox" tabindex="0" th:for="${'auth.'+menu?.menuId}">
                             <input name="authMenu" th:disabled="${view}" th:id="${'auth.'+menu?.menuId}" th:value="${menu?.menuId}" type="checkbox">
                             <span></span>
-                            <span class="z-label" th:text="${menu.pMenuId == 'menu'} ? #{|menu.${menu.menuId}.parent|} : #{|menu.${menu.menuId}|}"></span>
+                            <span class="label" th:text="${menu.pMenuId == 'menu'} ? #{|menu.${menu.menuId}.parent|} : #{|menu.${menu.menuId}|}"></span>
                         </label>
                     </li>
                 </ul>
