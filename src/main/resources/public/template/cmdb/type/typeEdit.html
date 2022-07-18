@@ -62,7 +62,7 @@
                         onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="ic-remove"></span>
                 </button>
-                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button form"
+                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button btn--form"
                         name="typeIconButton" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
@@ -75,7 +75,7 @@
                         onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="ic-remove"></span>
                 </button>
-                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button form"
+                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button btn--form"
                         name="typeClassButton" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
