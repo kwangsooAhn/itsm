@@ -243,12 +243,12 @@ export default class ZColumnProperty extends ZProperty {
         const columnCommonGroup = new UIDiv().setUIClass('panel-common');
         // 순서 변경 < > 버튼 추가
         const arrowLeftButton = new UIButton().setUIClass('button-icon')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('ic-arrow-right').addUIClass('prev'))
+            .addUI(new UISpan().setUIClass('ic-arrow-right').addUIClass('prev'))
             .setUIAttribute('data-swap-direction', '-1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
         const arrowRightButton = new UIButton().setUIClass('button-icon')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('ic-arrow-right').addUIClass('next'))
+            .addUI(new UISpan().setUIClass('ic-arrow-right').addUIClass('next'))
             .setUIAttribute('data-swap-direction', '1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
@@ -262,7 +262,7 @@ export default class ZColumnProperty extends ZProperty {
         );
         // 패널 삭제 버튼 추가
         const deleteButton = new UIButton().setUIClass('button-icon').addUIClass('panel-delete-button')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('ic-delete'))
+            .addUI(new UISpan().setUIClass('ic-delete'))
             .setUIDisabled(!this.isEditable || this.isFixedColumn)
             .onUIClick(this.removeColumn.bind(this));
         columnCommonGroup.addUI(deleteButton);

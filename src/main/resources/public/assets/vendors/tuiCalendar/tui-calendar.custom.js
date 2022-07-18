@@ -894,9 +894,9 @@ Object.assign(zCalendar.prototype, {
             <input type="text" class="input schedule__title" id="scheduleTitle" 
                 placeholder="${i18n.msg('calendar.label.titlePlaceholder')}">
             <div class="flex-row align-items-baseline" id="rangeDate">
-                <input type="text" class="input i-datetime-picker schedule__date" id="startDt"/> 
+                <input type="text" class="input ic-datetime-picker schedule__date" id="startDt"/> 
                 ~
-                <input type="text" class="input i-datetime-picker schedule__date" id="endDt"/> 
+                <input type="text" class="input ic-datetime-picker schedule__date" id="endDt"/> 
             </div>
             <div class="flex-row align-items-baseline">
                 <label class="checkbox">
@@ -1113,8 +1113,8 @@ Object.assign(zCalendar.prototype, {
 
         // 시작일시 , 종료일시 초기화
         rangeDate.innerHTML = '';
-        const dateTemplate = ` <input type="text" class="input i-datetime-picker schedule__date" id="startDt" 
-            value="${newStart}"/>~<input type="text" class="input i-datetime-picker schedule__date" id="endDt" 
+        const dateTemplate = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
+            value="${newStart}"/>~<input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
             value="${newEnd}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend',dateTemplate);

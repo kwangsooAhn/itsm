@@ -108,14 +108,14 @@
                         <div class="flex-column col-3 pl-4">
                             <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.startDate}"></label>
                             <div>
-                                <input type="text" class="input i-date-picker search-date" id="rangeFromDt"
+                                <input type="text" class="input ic-date-picker search-date" id="rangeFromDt"
                                        name="rangeFromDt" th:value="${chart?.chartConfig?.range?.fromDate}" th:readonly="${view}" />
                             </div>
                         </div>
                         <div class="flex-column col-3 pl-4">
                             <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.endDate}"></label>
                             <div>
-                                <input type="text" class="input i-date-picker search-date" id="rangeToDt"
+                                <input type="text" class="input ic-date-picker search-date" id="rangeToDt"
                                        name="rangeToDt" th:value="${chart?.chartConfig?.range?.toDate}" th:readonly="${view}" />
                             </div>
                         </div>

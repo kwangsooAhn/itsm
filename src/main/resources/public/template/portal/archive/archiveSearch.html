@@ -18,13 +18,13 @@
                     <option th:each="category: ${categoryList}" th:value="${category.code}"
                             th:text="${category.codeName}"></option>
                 </select>
-                <input type="text" id="searchValue" name="searchValue" class="input i-search text-ellipsis col-5"
+                <input type="text" id="searchValue" name="searchValue" class="input ic-search text-ellipsis col-5"
                        maxlength="100"
                        th:placeholder="#{archive.label.searchPlaceholder}"/>
-                <input type="text" id="fromDt" name="fromDt" class="input i-date-picker search-date col-3"/>
+                <input type="text" id="fromDt" name="fromDt" class="input ic-date-picker search-date col-3"/>
                 <span>~</span>
                 <input type="text" id="searchToDt" name="searchToDt"
-                       class="input i-date-picker search-date col-3 mr-2"/>
+                       class="input ic-date-picker search-date col-3 mr-2"/>
                 <input type="hidden" id="toDt" name="toDt" readonly="readonly" class="search-date"/>
                 <!-- 리스트 검색 갯수 : 포탈 화면 고려해서 13개로 처리함 -->
                 <input type="hidden" id="contentNumPerPage" name="contentNumPerPage" readonly="readonly" value="13"/>

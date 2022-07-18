@@ -56,7 +56,7 @@ export default class ZBoxModelProperty extends ZProperty {
                 .onUIChange(this.updateProperty.bind(this));
             // 단위 추가
             if (this.unit !== '') {
-                this.UIElement.UIBox['UIInput' + item].addUIClass('i-unit-' + this.unit);
+                this.UIElement.UIBox['UIInput' + item].addUIClass('ic-unit-' + this.unit);
             }
             this.UIElement.UIBox.addUI(this.UIElement.UIBox['UIInput' + item]);
         });

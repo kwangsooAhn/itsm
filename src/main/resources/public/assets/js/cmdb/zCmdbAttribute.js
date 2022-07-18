@@ -1901,7 +1901,7 @@
             case 'date': {
                 elem = document.createElement('div');
                 const dateElem = document.createElement('input');
-                dateElem.className = 'input i-date-picker search-date col-3';
+                dateElem.className = 'input ic-date-picker search-date col-3';
                 dateElem.id = ZWorkflowUtil.generateUUID();
                 dateElem.setAttribute('data-attributeId', data.attributeId);
                 dateElem.value = i18n.userDate(data.value);
@@ -1927,7 +1927,7 @@
             case 'datetime': {
                 elem = document.createElement('div');
                 const dateTimeElem = document.createElement('input');
-                dateTimeElem.className = 'input i-datetime-picker search-datetime col-3';
+                dateTimeElem.className = 'input ic-datetime-picker search-datetime col-3';
                 dateTimeElem.id = ZWorkflowUtil.generateUUID();
                 dateTimeElem.setAttribute('data-attributeId', data.attributeId);
                 dateTimeElem.setAttribute('type', type);
@@ -1953,7 +1953,7 @@
             case 'userSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
-                elem.className = 'input i-user-search text-ellipsis';
+                elem.className = 'input ic-user-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-attributeValue', data.attributeValue);
@@ -2005,7 +2005,7 @@
             case 'organizationSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
-                elem.className = 'input i-organization-search text-ellipsis';
+                elem.className = 'input ic-organization-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-modalTitle', data.attributeText);
@@ -2158,7 +2158,7 @@
     function openUserSearchModal(e) {
         const target = e.target || e;
         const targetUserModalTemplate = `<div class="target-user-list">` +
-            `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
             `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="searchUserList"></div>` +

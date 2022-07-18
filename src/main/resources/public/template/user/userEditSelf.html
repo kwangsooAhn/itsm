@@ -196,14 +196,14 @@
                     <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{common.label.startDate}"></label>
                         <div>
-                            <input type="text" class="input i-date-picker search-date"
+                            <input type="text" class="input ic-date-picker search-date"
                                    id="absenceStartDt" name="absenceStartDt" th:readonly="${view}">
                         </div>
                     </div>
                     <div class="flex-column col-3 ml-2">
                         <label class="field-label required" th:text="#{common.label.endDate}"></label>
                         <div>
-                            <input type="text" class="input i-date-picker search-date"
+                            <input type="text" class="input ic-date-picker search-date"
                                    id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
                         </div>
                     </div>
@@ -509,7 +509,7 @@
 
     function createModalContent() {
         return `<div class="sub-user-list">` +
-            `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
+            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="subUserList"></div>` +
             `</div>`;

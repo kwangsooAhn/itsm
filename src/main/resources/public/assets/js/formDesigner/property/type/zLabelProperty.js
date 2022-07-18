@@ -48,9 +48,9 @@ export default class ZLabelProperty {
 
         // label - fontOption
         const labelFontOption = [
-            { 'name': 'i-bold', 'value': 'bold'},
-            { 'name': 'i-italic', 'value': 'italic' },
-            { 'name': 'i-underline', 'value': 'underline' }
+            { 'name': 'ic-bold', 'value': 'bold'},
+            { 'name': 'ic-italic', 'value': 'italic' },
+            { 'name': 'ic-underline', 'value': 'underline' }
         ];
         const labelFontValue = labelFontOption.map((item) => {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);

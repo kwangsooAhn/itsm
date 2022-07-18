@@ -18,11 +18,11 @@
             <option th:each="category: ${categoryList}" th:value="${category.code}"
                     th:text="${category.codeName}"></option>
         </select>
-        <input type="text" class="input text-ellipsis i-search col-3" id="searchValue" name="searchValue"
+        <input type="text" class="input text-ellipsis ic-search col-3" id="searchValue" name="searchValue"
                maxlength="100" th:placeholder="#{archive.label.searchPlaceholder}"/>
-        <input type="text" class="input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
+        <input type="text" class="input ic-date-picker search-date col-3" id="fromDt" name="fromDt"/>
         <span>~</span>
-        <input type="text" class="input i-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+        <input type="text" class="input ic-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
         <input type="hidden" class="search-date" id="toDt" name="toDt"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>

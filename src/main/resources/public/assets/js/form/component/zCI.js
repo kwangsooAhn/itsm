@@ -259,7 +259,7 @@ export const ciMixin = {
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
-                        .addUI(new UISpan().setUIClass('icon').addUIClass('ic-search'));
+                        .addUI(new UISpan().setUIClass('ic-search'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
@@ -270,7 +270,7 @@ export const ciMixin = {
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                        .addUI(new UISpan().setUIClass('icon').addUIClass(
+                        .addUI(new UISpan().setUIClass(
                             (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) ? 'ic-edit' : 'ic-search')
                         );
 
@@ -284,7 +284,7 @@ export const ciMixin = {
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
-                    .addUI(new UISpan().setUIClass('icon').addUIClass('ic-search'));
+                    .addUI(new UISpan().setUIClass('ic-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -295,7 +295,7 @@ export const ciMixin = {
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
-                    .addUI(new UISpan().setUIClass('icon').addUIClass('ic-delete'));
+                    .addUI(new UISpan().setUIClass('ic-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -769,8 +769,8 @@ export const ciMixin = {
     // 기존 CI 조회 모달 Template 조회
     getSelectModalContent(flag, ciId) {
         return `<form id="searchFrm">` +
-            `<input type="text" class="input i-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
-            `<input type="text" class="input i-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
+            `<input type="text" class="input ic-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
+            `<input type="text" class="input ic-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
             `<input type="hidden" name="flag" id="flag" value="${flag}"/>` +
             `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
             `<span id="ciListTotalCount" class="search-count"></span>` +
