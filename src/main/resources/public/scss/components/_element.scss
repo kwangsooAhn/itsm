@@ -185,23 +185,6 @@ label {
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
 }
-// input box + button
-.input-button {
-  @include relative();
-
-  input[type='text'] {
-    margin: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    &:focus, &:hover { z-index: 25; }
-  }
-  button {
-    margin-left: -0.0625rem;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    &:focus, &:hover, &:active { z-index: 25; }
-  }
-}
 
 //////////////////////////  UI 컴포넌트 추가  //////////////////////////
 input, textarea, select {

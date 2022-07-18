@@ -52,13 +52,6 @@
     span { word-break: break-all; }
   }
   .group {
-    &.accordion {
-      .group-accordion-checkBox:checked {
-        ~ .row-tooltip:not(.none):last-child {
-          @include border(0.0625rem, solid, $gray300, bottom); // 1px
-        }
-      }
-    }
     .element { pointer-events: auto; }
   }
 

@@ -5883,9 +5883,6 @@ input, button, select, optgroup, textarea {
 .document-container .component span {
   word-break: break-all;
 }
-.document-container .group.accordion .group-accordion-checkBox:checked ~ .row-tooltip:not(.none):last-child {
-  border-bottom: 0.0625rem solid #CFD5D9;
-}
 .document-container .group .element {
   pointer-events: auto;
 }
@@ -9769,26 +9766,6 @@ label {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
-}
-
-.input-button {
-  position: relative;
-}
-.input-button input[type=text] {
-  margin: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.input-button input[type=text]:focus, .input-button input[type=text]:hover {
-  z-index: 25;
-}
-.input-button button {
-  margin-left: -0.0625rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.input-button button:focus, .input-button button:hover, .input-button button:active {
-  z-index: 25;
 }
 
 input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:hover {
