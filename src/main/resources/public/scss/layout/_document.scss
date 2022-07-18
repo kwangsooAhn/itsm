@@ -28,7 +28,7 @@
 // document-container
 //                - document-main : 문서양식 메인
 //                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
-//                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
+//                             - drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
 //                - z-token-properties : 문서이력, 관련문서, 의견, 태그
 //
 // 신청서, 문서함 공통
@@ -103,7 +103,7 @@
     }
 
     // board 영역
-    .z-drawing-board { margin: 6.25rem 0 3rem; } // 100px 48px
+    .drawing-board { margin: 6.25rem 0 3rem; } // 100px 48px
 
     // 하단 영역
     .document-main-footer {
@@ -377,7 +377,7 @@
   &-footer-space { height: 0; }
 
   &-main {
-    .z-drawing-board {
+    .drawing-board {
       .z-form {
         box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
         border: none; // 인쇄시 테두리 제외
@@ -415,11 +415,11 @@
     &-main {
       margin: 0 auto;
       .z-print-header-space { display: table-header-group; }
-      .z-drawing-board { display: table-row-group; }
+      .drawing-board { display: table-row-group; }
       .z-print-footer-space { display: table-footer-group; }
 
       // 폼이 그려지는 영역
-      .z-drawing-board {
+      .drawing-board {
         .z-form {
           display: table-row;
           .z-group-tooltip {

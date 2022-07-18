@@ -1595,7 +1595,7 @@
      * element 에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.z-process-element-palette, .z-drawing-board')
+        d3.selectAll('.z-process-element-palette, .drawing-board')
             .on('dragover', function () {d3.event.preventDefault();});
 
         d3.select('.z-process-element-palette').select('.connector')
@@ -1761,7 +1761,7 @@
         const drawingBoard = document.getElementById('processDrawingBoard');
 
         // add svg and svg event
-        svg = d3.select('.z-drawing-board').append('svg')
+        svg = d3.select('.drawing-board').append('svg')
             .attr('width', drawingBoard.offsetWidth)
             .attr('height', drawingBoard.offsetHeight)
             .on('mousedown', function () {

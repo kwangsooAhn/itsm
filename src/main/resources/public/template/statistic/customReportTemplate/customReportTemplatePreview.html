@@ -7,15 +7,15 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="z-report">
-        <div class="z-report-main">
-            <div class="z-report-main-header align-center" id="reportName"></div>
-            <div class="z-report-area">
-                <div class="z-drawing-board" id="reportContents">
+    <div class="report">
+        <div class="report-main">
+            <div class="report-main-header align-center" id="reportName"></div>
+            <div class="report-area">
+                <div class="drawing-board" id="reportContents">
                 </div>
             </div>
-            <div class="z-report-main-footer flex-row justify-content-between">
-                <div class="z-logo"></div>
+            <div class="report-main-footer flex-row justify-content-between">
+                <div class="logo"></div>
                 <div class="z-paging"></div>
                 <div class="z-info float-right align-right" id="report-information"></div>
             </div>
@@ -85,9 +85,9 @@
         function addChartContent(data) {
             let chartTarget = document.querySelector('#reportContents');
             let element =
-                `<div class="z-chart-content">` +
+                `<div class="chart-content">` +
                 `<div class="title align-left">${data.chartName}</div>` +
-                `<div class="z-chart" id="${data.chartId}_chart"></div>` +
+                `<div class="chart" id="${data.chartId}_chart"></div>` +
                 `</div>`;
             chartTarget.insertAdjacentHTML('beforeend', element);
 

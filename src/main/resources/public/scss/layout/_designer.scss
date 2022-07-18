@@ -1027,7 +1027,7 @@ $component-icon: (
 }
 
 // drawing board
-.z-drawing-board {
+.drawing-board {
   .z-drag-ghost { opacity: 0.5; }
   .z-component-drag-in {
     @include border(0.0625rem, dashed, $blue400, all); // 1px
@@ -1797,7 +1797,7 @@ $element-icon-toggle: (
   &-main {
     left: 6.25rem; // 100px
     overflow: hidden;
-    .z-drawing-board {
+    .drawing-board {
       @include absolute($top: 0, $left: 0); // 0 0
       width: 100%;
       height: 100%;

@@ -109,7 +109,7 @@ export const zGaugeChartMixin = {
     setMultiple() {
         // 제목 표시
         const chartTitle = document.createElement('div');
-        chartTitle.className = 'z-chart-content-title align-center mb-2';
+        chartTitle.className = 'chart-content-title align-center mb-2';
         chartTitle.style.flexBasis = '100%';
         chartTitle.textContent = this.name;
         this.domElement.append(chartTitle);

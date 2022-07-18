@@ -32,12 +32,12 @@
 .z-code-content,
 .z-numbering-pattern-content,
 .z-numbering-rule-content,
-.z-chart-content,
+.chart-content,
 .z-cmdb-attribute-content,
 .z-cmdb-type-content,
 .z-cmdb-class-content,
 .z-cmdb-ci-content,
-.z-report-template-content {
+.report-template-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $neutral50;
 }
@@ -181,7 +181,7 @@
   .attribute { width: 27.94rem; } // 447px;
 }
 // Report > Template
-.z-report-template-content-edit {
+.report-template-content-edit {
   @include border(0.0625rem, solid, $gray300, top); // 1px
   height: 100%;
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
@@ -200,8 +200,8 @@
   background-color: $white;
 }
 
-.z-chart-content-view {
-  .z-chart-content-title {
+.chart-content-view {
+  .chart-content-title {
     color: $gray800;
     font-family: $font-family;
     font-size: $font-size-m;

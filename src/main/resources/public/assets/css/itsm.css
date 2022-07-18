@@ -3472,7 +3472,7 @@ input, button, select, optgroup, textarea {
 .z-navigation .z-gnb {
   width: 13.75rem;
 }
-.z-navigation .z-gnb .z-logo {
+.z-navigation .z-gnb .logo {
   position: fixed;
   width: 13.75rem;
   height: 3.375rem;
@@ -3635,13 +3635,13 @@ input, button, select, optgroup, textarea {
 .z-code-header,
 .z-numbering-pattern-header,
 .z-numbering-rule-header,
-.z-chart-header,
+.chart-header,
 .z-cmdb-attribute-header,
 .z-cmdb-class-header,
 .z-cmdb-type-header,
 .z-cmdb-ci-header,
 .z-scheduler-header,
-.z-report-template-header {
+.report-template-header {
   padding: 0 3.75rem 0 3.75rem;
 }
 
@@ -3791,12 +3791,12 @@ input, button, select, optgroup, textarea {
 .z-code-content,
 .z-numbering-pattern-content,
 .z-numbering-rule-content,
-.z-chart-content,
+.chart-content,
 .z-cmdb-attribute-content,
 .z-cmdb-type-content,
 .z-cmdb-class-content,
 .z-cmdb-ci-content,
-.z-report-template-content {
+.report-template-content {
   padding: 0.9375rem 3.75rem;
   background-color: #FAFAFA;
 }
@@ -3952,7 +3952,7 @@ input, button, select, optgroup, textarea {
   width: 27.94rem;
 }
 
-.z-report-template-content-edit {
+.report-template-content-edit {
   border-top: 0.0625rem solid #CFD5D9;
   height: 100%;
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
@@ -3969,7 +3969,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
 }
 
-.z-chart-content-view .z-chart-content-title {
+.chart-content-view .chart-content-title {
   color: #222529;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 1.125rem;
@@ -5025,14 +5025,14 @@ input, button, select, optgroup, textarea {
   /* Chrome, Safari, Opera*/
 }
 
-.z-drawing-board .z-drag-ghost {
+.drawing-board .z-drag-ghost {
   opacity: 0.5;
 }
-.z-drawing-board .z-component-drag-in {
+.drawing-board .z-component-drag-in {
   border: 0.0625rem dashed #619CDB;
   background-color: #D6EDFC;
 }
-.z-drawing-board .z-component-icon-drag-in {
+.drawing-board .z-component-icon-drag-in {
   border: 0.0625rem dashed #619CDB;
   display: inline-block;
   width: 100%;
@@ -5040,139 +5040,139 @@ input, button, select, optgroup, textarea {
   background-color: #D6EDFC;
   opacity: 0.5;
 }
-.z-drawing-board .z-component-icon-drag-in .icon {
+.drawing-board .z-component-icon-drag-in .icon {
   display: none;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-name {
+.drawing-board .z-component-icon-drag-in .z-component-name {
   display: none;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip {
   border-color: transparent;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-component-label .z-component-label-text {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-component-label .z-component-label-text {
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box {
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input::placeholder,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea::placeholder,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box::placeholder {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input::placeholder,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea::placeholder,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box::placeholder {
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input .icon,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea .icon,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box .icon {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input .icon,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea .icon,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box .icon {
   background: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input.i-date-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-date-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-date-picker {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input.i-date-picker,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-date-picker,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input.i-time-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-time-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-time-picker {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input.i-time-picker,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-time-picker,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input.i-datetime-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-datetime-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-datetime-picker {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input.i-datetime-picker,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .textarea.i-datetime-picker,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .select-box.i-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .radio,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .checkbox {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .radio,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .checkbox {
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .radio input[type=radio] + span::before,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .radio input[type=checkbox] + span::before,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .checkbox input[type=radio] + span::before,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .checkbox input[type=checkbox] + span::before {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .radio input[type=radio] + span::before,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .radio input[type=checkbox] + span::before,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .checkbox input[type=radio] + span::before,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .checkbox input[type=checkbox] + span::before {
   border-color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow {
   border-color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-picker,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-picker {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-picker,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-picker {
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-icon, .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-transparent, .z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-arrow,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-icon,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-transparent,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-arrow {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-icon, .drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-transparent, .drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-toolbar.ql-snow .ql-arrow,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-icon,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-transparent,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .ql-container.ql-snow .ql-arrow {
   fill: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone {
   background-color: #FFFFFF;
   border-color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone .dz-message {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone .dz-message {
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone .icon {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .dropzone .icon {
   background: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input-button .button-clear {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input-button .button-clear {
   opacity: 0;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input-button .button-icon {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input-button .button-icon {
   border-color: #619CDB !important;
   background-color: #FFFFFF;
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input-button .button-icon .icon {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .input-button .button-icon .icon {
   background: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .button-list {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .button-list {
   opacity: 0;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table tr td {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table tr td {
   border-color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-dr-table-header,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-ci-table-header {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-dr-table-header,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-ci-table-header {
   background-color: #D6EDFC !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-dr-table-header td,
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-ci-table-header td {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-dr-table-header td,
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .z-ci-table-header td {
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .no-data-found-list {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element table .no-data-found-list {
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .divider {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .divider {
   border-top-style: solid;
   border-top-color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-imagebox-placeholder {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-imagebox-placeholder {
   background-color: #FFFFFF;
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
-.z-drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-imagebox-placeholder .icon {
+.drawing-board .z-component-icon-drag-in .z-component-tooltip .z-component .z-element .z-imagebox-placeholder .icon {
   background: #619CDB !important;
 }
-.z-drawing-board.edit .z-group-label {
+.drawing-board.edit .z-group-label {
   pointer-events: none;
 }
-.z-drawing-board:not([data-display=ready]) .z-component-tooltip {
+.drawing-board:not([data-display=ready]) .z-component-tooltip {
   border-color: transparent !important;
 }
 
@@ -5808,26 +5808,26 @@ input, button, select, optgroup, textarea {
   left: 6.25rem;
   overflow: hidden;
 }
-.z-process-main .z-drawing-board {
+.z-process-main .drawing-board {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.z-process-main .z-drawing-board svg {
+.z-process-main .drawing-board svg {
   background-color: #FAFAFA;
 }
-.z-process-main .z-drawing-board svg g.grid path {
+.z-process-main .drawing-board svg g.grid path {
   display: none;
 }
-.z-process-main .z-drawing-board svg g.grid line {
+.z-process-main .drawing-board svg g.grid line {
   stroke: #E1E6EA;
   stroke-width: 1;
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
-.z-process-main .z-drawing-board .z-minimap {
+.z-process-main .drawing-board .z-minimap {
   position: absolute;
   right: 3.438rem;
   bottom: 0.625rem;
@@ -5842,7 +5842,7 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   background-color: #FFFFFF;
 }
-.z-process-main .z-drawing-board .z-minimap svg {
+.z-process-main .drawing-board .z-minimap svg {
   position: absolute;
   top: 1.875rem;
   left: 1.875rem;
@@ -5850,15 +5850,15 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   background-color: #FAFAFA;
 }
-.z-process-main .z-drawing-board .z-minimap svg rect.z-minimap-guide {
+.z-process-main .drawing-board .z-minimap svg rect.z-minimap-guide {
   fill: #BDBDBD;
   fill-opacity: 0.25;
   stroke-width: 0;
 }
-.z-process-main .z-drawing-board .z-minimap.closed {
+.z-process-main .drawing-board .z-minimap.closed {
   display: none;
 }
-.z-process-main .z-drawing-board .z-simulation-report {
+.z-process-main .drawing-board .z-simulation-report {
   position: absolute;
   top: 0;
   right: 0;
@@ -5876,7 +5876,7 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   background-color: #FFFFFF;
 }
-.z-process-main .z-drawing-board .z-simulation-report-title {
+.z-process-main .drawing-board .z-simulation-report-title {
   border-bottm: 0.0625rem solid #CFD5D9;
   height: 3.375rem;
   padding: 1.125rem;
@@ -5884,51 +5884,51 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
 }
-.z-process-main .z-drawing-board .z-simulation-report-title .icon.i-minus {
+.z-process-main .drawing-board .z-simulation-report-title .icon.i-minus {
   position: absolute;
   right: 1.125rem;
   background: #8B9094;
   cursor: pointer;
 }
-.z-process-main .z-drawing-board .z-simulation-report-title .icon.i-minus:hover {
+.z-process-main .drawing-board .z-simulation-report-title .icon.i-minus:hover {
   background: #3373C4;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents {
+.z-process-main .drawing-board .z-simulation-report-contents {
   padding: 0.3125rem;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main {
+.z-process-main .drawing-board .z-simulation-report-contents-main {
   overflow-y: auto;
   width: 100%;
   height: 18.44rem;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main .result {
+.z-process-main .drawing-board .z-simulation-report-contents-main .result {
   margin: 1.25rem 0.938rem;
   font-size: 1.125rem;
   font-weight: 500;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main .result.success {
+.z-process-main .drawing-board .z-simulation-report-contents-main .result.success {
   color: #5CA21B;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main .result.failed {
+.z-process-main .drawing-board .z-simulation-report-contents-main .result.failed {
   color: #F52525;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main .details {
+.z-process-main .drawing-board .z-simulation-report-contents-main .details {
   margin: 0 0.938rem;
   color: #222529;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main .details div {
+.z-process-main .drawing-board .z-simulation-report-contents-main .details div {
   margin: 0.625rem 0;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main .details div.failed {
+.z-process-main .drawing-board .z-simulation-report-contents-main .details div.failed {
   color: #F52525;
 }
-.z-process-main .z-drawing-board .z-simulation-report-contents-main .details-result, .z-process-main .z-drawing-board .z-simulation-report-contents-main .details-element-info, .z-process-main .z-drawing-board .z-simulation-report-contents-main .details-failed-message {
+.z-process-main .drawing-board .z-simulation-report-contents-main .details-result, .z-process-main .drawing-board .z-simulation-report-contents-main .details-element-info, .z-process-main .drawing-board .z-simulation-report-contents-main .details-failed-message {
   margin-left: 0.313rem;
 }
-.z-process-main .z-drawing-board .z-simulation-report.closed {
+.z-process-main .drawing-board .z-simulation-report.closed {
   display: none;
 }
 .z-process-properties-header {
@@ -6134,7 +6134,7 @@ input, button, select, optgroup, textarea {
   font-size: 0.875rem;
   text-align: left;
 }
-.document-container .document-main .z-drawing-board {
+.document-container .document-main .drawing-board {
   margin: 6.25rem 0 3rem;
 }
 .document-container .document-main .document-main-footer {
@@ -6384,11 +6384,11 @@ input, button, select, optgroup, textarea {
 .z-print-header-space, .z-print-footer-space {
   height: 0;
 }
-.z-print-main .z-drawing-board .z-form {
+.z-print-main .drawing-board .z-form {
   box-shadow: none;
   border: none;
 }
-.z-print-main .z-drawing-board .z-form * {
+.z-print-main .drawing-board .z-form * {
   pointer-events: none;
 }
 
@@ -6428,41 +6428,41 @@ input, button, select, optgroup, textarea {
   .z-print-main .z-print-header-space {
     display: table-header-group;
   }
-  .z-print-main .z-drawing-board {
+  .z-print-main .drawing-board {
     display: table-row-group;
   }
   .z-print-main .z-print-footer-space {
     display: table-footer-group;
   }
-  .z-print-main .z-drawing-board .z-form {
+  .z-print-main .drawing-board .z-form {
     display: table-row;
   }
-  .z-print-main .z-drawing-board .z-form .z-group-tooltip {
+  .z-print-main .drawing-board .z-form .z-group-tooltip {
     page-break-after: auto;
     break-inside: avoid;
   }
-  .z-print-main .z-drawing-board .z-form .z-row-tooltip {
+  .z-print-main .drawing-board .z-form .z-row-tooltip {
     break-inside: avoid;
   }
-  .z-print-main .z-drawing-board .z-form .z-row-tooltip .textarea {
+  .z-print-main .drawing-board .z-form .z-row-tooltip .textarea {
     width: inherit;
     max-width: 200mm;
   }
-  .z-print-main .z-drawing-board-calendar-sub-title {
+  .z-print-main .drawing-board-calendar-sub-title {
     display: block;
     color: #8B9094;
     margin: 2.5rem 0 0.3125rem 0;
   }
-  .z-print-main .z-drawing-board-calendar-table td:nth-child(2), .z-print-main .z-drawing-board-calendar-table th:nth-child(2) {
+  .z-print-main .drawing-board-calendar-table td:nth-child(2), .z-print-main .drawing-board-calendar-table th:nth-child(2) {
     color: #8B9094;
   }
-  .z-print-main .z-drawing-board-calendar-table .table-body {
+  .z-print-main .drawing-board-calendar-table .table-body {
     border: none;
   }
-  .z-print-main .z-drawing-board-calendar-table .table-body tr:hover {
+  .z-print-main .drawing-board-calendar-table .table-body tr:hover {
     background-color: transparent;
   }
-  .z-print-main .z-drawing-board-calendar-table .icon.i-clear {
+  .z-print-main .drawing-board-calendar-table .icon.i-clear {
     background: #8B9094;
   }
   .z-print-main-footer {
@@ -7230,47 +7230,47 @@ input, button, select, optgroup, textarea {
  * @description report에서 사용되는 scss
  * @version 1.0
  */
-.z-report-wrapper {
+.report-wrapper {
   display: flex;
   flex-direction: column;
   max-width: 120rem;
   margin: 0.5cm auto;
 }
 
-.z-report {
+.report {
   margin: 1cm auto;
 }
-.z-report .z-report-main .z-report-main-header {
+.report .report-main .report-main-header {
   line-height: 1.2;
   margin: 0 0 10mm 0;
   font-size: 2.25rem;
   font-weight: bold;
 }
-.z-report .z-report-main .z-report-area .z-drawing-board {
+.report .report-main .report-area .drawing-board {
   width: 45.625rem;
   margin: 0 auto;
 }
-.z-report .z-report-main .z-report-area .z-drawing-board .z-chart-content {
+.report .report-main .report-area .drawing-board .chart-content {
   margin: 0 0 1.25rem 0;
 }
-.z-report .z-report-main .z-report-area .z-drawing-board .z-chart-content .z-chart {
+.report .report-main .report-area .drawing-board .chart-content .chart {
   padding: 0.75rem 0 0 0;
 }
-.z-report .z-report-main .z-report-area .z-form {
+.report .report-main .report-area .z-form {
   box-shadow: none;
 }
-.z-report .z-report-main .z-report-area .z-form input, .z-report .z-report-main .z-report-area .z-form textarea, .z-report .z-report-main .z-report-area .z-form button, .z-report .z-report-main .z-report-area .z-form select,
-.z-report .z-report-main .z-report-area .z-form .dropzone, .z-report .z-report-main .z-report-area .z-form .ql-toolbar,
-.z-report .z-report-main .z-report-area .z-form label.radio, .z-report .z-report-main .z-report-area .z-form label.checkbox {
+.report .report-main .report-area .z-form input, .report .report-main .report-area .z-form textarea, .report .report-main .report-area .z-form button, .report .report-main .report-area .z-form select,
+.report .report-main .report-area .z-form .dropzone, .report .report-main .report-area .z-form .ql-toolbar,
+.report .report-main .report-area .z-form label.radio, .report .report-main .report-area .z-form label.checkbox {
   pointer-events: none;
 }
-.z-report .z-report-main .z-report-main-footer {
+.report .report-main .report-main-footer {
   display: flex;
   width: 45.625rem;
   margin: 4mm auto 10mm;
   line-height: 1.2;
 }
-.z-report .z-report-main .z-report-main-footer .z-logo {
+.report .report-main .report-main-footer .logo {
   width: 9.5rem;
   height: 1.625rem;
   -webkit-mask-image: url("../../assets/media/icons/logo/icon_logo.svg");
@@ -7293,7 +7293,7 @@ input, button, select, optgroup, textarea {
     height: 297mm;
   }
 
-  .z-report {
+  .report {
     width: initial;
     min-height: initial;
     margin: 0;
@@ -7304,10 +7304,10 @@ input, button, select, optgroup, textarea {
     box-shadow: initial;
     page-break-after: always;
   }
-  .z-report .z-report-main-header {
+  .report .report-main-header {
     margin: 0 0 10mm 0;
   }
-  .z-report .z-form {
+  .report .z-form {
     box-shadow: none;
   }
 }

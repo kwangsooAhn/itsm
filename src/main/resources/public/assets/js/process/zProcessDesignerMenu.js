@@ -461,7 +461,7 @@
             }
         }
 
-        const tooltipItemContainer = d3.select('.z-drawing-board').select('svg').append('g')
+        const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,

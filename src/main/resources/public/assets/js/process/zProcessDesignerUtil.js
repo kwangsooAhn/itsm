@@ -624,11 +624,11 @@
      * @return {Promise<unknown[]>}
      */
     function loadProcessImage(viewBox, svgNode) {
-        let svg = d3.select(svgNode).html(d3.select('.z-drawing-board > svg').html());
+        let svg = d3.select(svgNode).html(d3.select('.drawing-board > svg').html());
         svg.attr('width', viewBox[2])
             .attr('height', viewBox[3])
             .attr('viewBox', viewBox.join(' '))
-            .classed('z-drawing-board', true);
+            .classed('drawing-board', true);
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
@@ -747,7 +747,7 @@
      * 미니맵을 표시한다.
      */
     function setProcessMinimap() {
-        const drawingboardContainer = document.querySelector('.z-drawing-board');
+        const drawingboardContainer = document.querySelector('.drawing-board');
         let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
         const minimapSvg = d3.select('div.z-minimap').select('svg');
@@ -791,7 +791,7 @@
         if (isMinimapClosed) {
             d3.select('div.z-minimap').classed('closed', false);
         }
-        const drawingBoard = d3.select(document.querySelector('.z-drawing-board'));
+        const drawingBoard = d3.select(document.querySelector('.drawing-board'));
         const minimapSvg = d3.select('div.z-minimap').select('svg');
         const nodeTopArray = [],
             nodeRightArray = [],
@@ -825,7 +825,7 @@
      * 드로잉보드 오른쪽 하단 버튼 기능 추가
      */
     function initializeButtonOnDrawingBoard() {
-        const drawingBoard = document.querySelector('.z-drawing-board');
+        const drawingBoard = document.querySelector('.drawing-board');
 
         // 미니맵 초기화 설정
         const minimapContainer = document.createElement('div');
