@@ -116,7 +116,6 @@
         font-size: $font-size-s;
         font-family: $font-family;
         line-height: 1.2;
-        &.z-confirm { opacity: 0.75; }
       }
       &.title__link:hover {
         cursor: pointer;
@@ -135,7 +134,6 @@
         font-weight: $font-weight-regular;
         font-size: $font-size-s;
         font-family: $font-family;
-        &.z-confirm { color: $gray400; }
       }
       &.date {
         margin-left: 1.75rem; // 28px

@@ -374,7 +374,7 @@
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.className = 'icon i-arrow-right z-hour-up';
+            hourArrowUp.className = 'icon i-arrow-right hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, {hours: 1}), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
@@ -388,7 +388,7 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.className = 'icon i-arrow-right z-hour-down';
+            hourArrowDown.className = 'icon i-arrow-right hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, {hours: -1}), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
@@ -405,7 +405,7 @@
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.className = 'icon i-arrow-right z-minute-up';
+            minuteArrowUp.className = 'icon i-arrow-right minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? 30 : 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
@@ -420,7 +420,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.className = 'icon i-arrow-right z-minute-down';
+            minuteArrowDown.className = 'icon i-arrow-right minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? -30 : -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);

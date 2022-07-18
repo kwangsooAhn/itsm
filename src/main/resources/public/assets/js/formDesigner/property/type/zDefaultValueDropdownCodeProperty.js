@@ -51,7 +51,7 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
                 .setUIClass('button-switch')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass('z-text').setUITextContent(i18n.msg(item.name)));
+                .addUI(new UISpan().setUIClass('text').setUITextContent(i18n.msg(item.name)));
 
             if (!this.isEditable) {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('disabled');

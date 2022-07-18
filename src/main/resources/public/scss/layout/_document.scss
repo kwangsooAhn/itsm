@@ -15,8 +15,8 @@
 
 /* 신청서 / 처리할 문서 양식 layout */
 // z-document-container
-//                - z-document-main : 문서양식 메인
-//                             - z-document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+//                - document-main : 문서양식 메인
+//                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
 //                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
 //                - z-token-properties : 문서이력, 관련문서, 의견, 태그
 //
@@ -55,14 +55,14 @@
   ////////////////////////// layout //////////////////////////
   @include container;
 
-  .z-document-main {
+  .document-main {
     @include fixed(0, 33.125rem, 0, 0); // 530px
     @include scrollbarHidden;
     overflow-y: auto;
     background-color: $neutral50;
 
     // 상단 영역
-    .z-document-main-header {
+    .document-main-header {
       @include fixed(0, 33.125rem, null, 0); // 530px
       padding: 0.75rem 1rem; // 12px
       background: $blue500;
@@ -78,7 +78,7 @@
       }
     }
 
-    .z-document-main-content {
+    .document-main-content {
       display: inline-block;
       width: 100%;
       text-align: center;
@@ -95,7 +95,7 @@
     .z-drawing-board { margin: 6.25rem 0 3rem; } // 100px 48px
 
     // 하단 영역
-    .z-document-main-footer {
+    .document-main-footer {
       width: 100%;
       padding: 0.75rem 0 4rem; // 12px 0 64px
     }
@@ -120,9 +120,9 @@
       .icon.i-arrow-double { @include rotate(180); }
 
       + form {
-        .z-document-main {
+        .document-main {
           right: 0;
-          .z-document-main-header { right: 0; }
+          .document-main-header { right: 0; }
         }
       }
 

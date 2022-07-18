@@ -281,10 +281,10 @@ body.modal-active { overflow: hidden !important; }
   }
   &.document-modal-dialog {
     // 신청서일 경우 우측 properties가 존재하지 않음
-    .z-document-main,
-    .z-document-main-header,
-    .z-document-main-footer { right: 0; }
-    .z-document-main-header { width: 100%; }
+    .document-main,
+    .document-main-header,
+    .document-main-footer { right: 0; }
+    .document-main-header { width: 100%; }
   }
   &.custom-code-list {
     width: 40rem; // 640px
@@ -422,7 +422,7 @@ body.modal-active { overflow: hidden !important; }
           }
         }
         // 연관 관계
-        .z-relation-group {
+        .relation-group {
           .table-row {
             @include border(0.0625rem, solid, $gray400, bottom);
             height: 2.5rem;

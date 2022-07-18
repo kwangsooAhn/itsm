@@ -13,15 +13,15 @@
             <span class="icon i-arrow-double"></span>
         </button>
         <form id="frm" name="frm">
-            <div class="z-document-main flex-column align-items-center">
+            <div class="document-main flex-column align-items-center">
                 <input type="hidden" id="instanceId" />
                 <input type="hidden" id="tokenId" th:value="${tokenId}" />
                 <input type="hidden" id="folderId" th:value="${folderId}"/>
-                <div class="z-document-main-header flex-row justify-content-between align-items-center">
+                <div class="document-main-header flex-row justify-content-between align-items-center">
                     <div id="defaultButtonArea"></div>
                     <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
-                <div class="z-document-main-content">
+                <div class="document-main-content">
                     <div class="flex-row justify-content-center">
                         <p id="documentNumber" class="z-document-numbering"
                            th:attr="document-no=${documentNo}"
@@ -76,7 +76,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', function() {
-            OverlayScrollbars(document.querySelectorAll('.z-document-main'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.document-main'), { className: 'scrollbar' });
         });
 
         // 문서 생성

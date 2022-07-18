@@ -203,7 +203,7 @@ $layout-header-dropdown: (
 .button-toggle-group {
   .button-switch,
   .button-toggle {
-    .z-text, .icon { pointer-events: none; }
+    .text, .icon { pointer-events: none; }
   }
 }
 

@@ -4174,12 +4174,12 @@ input, button, select, optgroup, textarea {
  * @description 폼 디자이너에서만 사용되는 scss
  * @version 1.0
  */
-.button-switch-group .button-switch .z-text, .button-switch-group .button-switch .icon,
-.button-switch-group .button-toggle .z-text,
+.button-switch-group .button-switch .text, .button-switch-group .button-switch .icon,
+.button-switch-group .button-toggle .text,
 .button-switch-group .button-toggle .icon,
-.button-toggle-group .button-switch .z-text,
+.button-toggle-group .button-switch .text,
 .button-toggle-group .button-switch .icon,
-.button-toggle-group .button-toggle .z-text,
+.button-toggle-group .button-toggle .text,
 .button-toggle-group .button-toggle .icon {
   pointer-events: none;
 }
@@ -6075,7 +6075,7 @@ input, button, select, optgroup, textarea {
 .z-document-container .z-dr-table-button-group {
   top: -0.25rem !important;
 }
-.z-document-container .z-document-main {
+.z-document-container .document-main {
   position: fixed;
   top: 0;
   right: 33.125rem;
@@ -6088,11 +6088,11 @@ input, button, select, optgroup, textarea {
   overflow-y: auto;
   background-color: #FAFAFA;
 }
-.z-document-container .z-document-main::-webkit-scrollbar {
+.z-document-container .document-main::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.z-document-container .z-document-main .z-document-main-header {
+.z-document-container .document-main .document-main-header {
   position: fixed;
   top: 0;
   right: 33.125rem;
@@ -6101,30 +6101,30 @@ input, button, select, optgroup, textarea {
   background: #3373C4;
   z-index: 100;
 }
-.z-document-container .z-document-main .z-document-main-header .z-action-button-top-area .button-list {
+.z-document-container .document-main .document-main-header .z-action-button-top-area .button-list {
   width: 100%;
 }
-.z-document-container .z-document-main .z-document-main-header .button-list .primary {
+.z-document-container .document-main .document-main-header .button-list .primary {
   border-color: #FFFFFF;
 }
-.z-document-container .z-document-main .z-document-main-header .button-list .secondary {
+.z-document-container .document-main .document-main-header .button-list .secondary {
   border-color: #FFFFFF;
 }
-.z-document-container .z-document-main .z-document-main-content {
+.z-document-container .document-main .document-main-content {
   display: inline-block;
   width: 100%;
   text-align: center;
 }
-.z-document-container .z-document-main .z-document-main-content .z-document-numbering {
+.z-document-container .document-main .document-main-content .z-document-numbering {
   margin: 6.25rem 0 0.625rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   text-align: left;
 }
-.z-document-container .z-document-main .z-drawing-board {
+.z-document-container .document-main .z-drawing-board {
   margin: 6.25rem 0 3rem;
 }
-.z-document-container .z-document-main .z-document-main-footer {
+.z-document-container .document-main .document-main-footer {
   width: 100%;
   padding: 0.75rem 0 4rem;
 }
@@ -6152,10 +6152,10 @@ input, button, select, optgroup, textarea {
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-.z-document-container .toggle--tab.off + form .z-document-main {
+.z-document-container .toggle--tab.off + form .document-main {
   right: 0;
 }
-.z-document-container .toggle--tab.off + form .z-document-main .z-document-main-header {
+.z-document-container .toggle--tab.off + form .document-main .document-main-header {
   right: 0;
 }
 .z-document-container .toggle--tab.off ~ .z-token-properties {
@@ -8660,7 +8660,7 @@ input, button, select, optgroup, textarea {
   --data-modal-height: 375;
 }
 
-.button-switch .z-text {
+.button-switch .text {
   display: inline-block;
   padding: 0.5625rem 0.875rem;
   pointer-events: none;
@@ -9607,18 +9607,18 @@ input, button, select, optgroup, textarea {
 .picker-modal-content-time .minute-group .icon.i-arrow-right:hover {
   background: #619CDB;
 }
-.picker-modal-content-time .hour-group .icon.z-hour-up, .picker-modal-content-time .hour-group .icon.z-minute-up,
-.picker-modal-content-time .minute-group .icon.z-hour-up,
-.picker-modal-content-time .minute-group .icon.z-minute-up {
+.picker-modal-content-time .hour-group .icon.hour-up, .picker-modal-content-time .hour-group .icon.minute-up,
+.picker-modal-content-time .minute-group .icon.hour-up,
+.picker-modal-content-time .minute-group .icon.minute-up {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.picker-modal-content-time .hour-group .icon.z-hour-down, .picker-modal-content-time .hour-group .icon.z-minute-down,
-.picker-modal-content-time .minute-group .icon.z-hour-down,
-.picker-modal-content-time .minute-group .icon.z-minute-down {
+.picker-modal-content-time .hour-group .icon.hour-down, .picker-modal-content-time .hour-group .icon.minute-down,
+.picker-modal-content-time .minute-group .icon.hour-down,
+.picker-modal-content-time .minute-group .icon.minute-down {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -11807,12 +11807,12 @@ body.modal-active {
   overflow: initial;
   padding: 0 1.5rem 0.625rem 0;
 }
-.modal-dialog.document-modal-dialog .z-document-main,
-.modal-dialog.document-modal-dialog .z-document-main-header,
-.modal-dialog.document-modal-dialog .z-document-main-footer {
+.modal-dialog.document-modal-dialog .document-main,
+.modal-dialog.document-modal-dialog .document-main-header,
+.modal-dialog.document-modal-dialog .document-main-footer {
   right: 0;
 }
-.modal-dialog.document-modal-dialog .z-document-main-header {
+.modal-dialog.document-modal-dialog .document-main-header {
   width: 100%;
 }
 .modal-dialog.custom-code-list {
@@ -11997,7 +11997,7 @@ body.modal-active {
 .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row {
   margin-top: 0.625rem;
 }
-.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .z-relation-group .table-row, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .z-relation-group .table-row, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .z-relation-group .table-row, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .z-relation-group .table-row {
+.modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .relation-group .table-row, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .relation-group .table-row, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .relation-group .table-row, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .relation-group .table-row {
   border-bottom: 0.0625rem solid #ABB0B5;
   height: 2.5rem;
 }
@@ -12307,9 +12307,6 @@ body.modal-active {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   line-height: 1.2;
 }
-.notification-content span.title.z-confirm {
-  opacity: 0.75;
-}
 .notification-content span.title__link:hover {
   cursor: pointer;
   text-decoration: underline;
@@ -12327,9 +12324,6 @@ body.modal-active {
   font-weight: 400;
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.notification-content span.message.z-confirm {
-  color: #ABB0B5;
 }
 .notification-content span.date {
   margin-left: 1.75rem;

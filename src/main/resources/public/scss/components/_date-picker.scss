@@ -172,8 +172,8 @@
             cursor: pointer;
             &:hover { background: $blue400; }
           }
-          &.z-hour-up, &.z-minute-up { @include rotate(-90); }
-          &.z-hour-down,&.z-minute-down { @include rotate(90); }
+          &.hour-up, &.minute-up { @include rotate(-90); }
+          &.hour-down,&.minute-down { @include rotate(90); }
         }
 
         .digit {
