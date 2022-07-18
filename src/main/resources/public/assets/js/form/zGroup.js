@@ -68,7 +68,7 @@ export default class ZGroup {
         // 아코디언용 체크박스
         const accordionId = ZWorkflowUtil.generateUUID(); // 미리보기에서도 동작하도록 key를 동적으로 만듬
         groupTooltip.UIGroup.UICheckbox.setUIId('chk-' + accordionId)
-            .setUIClass('z-group-accordion-checkBox');
+            .setUIClass('group-accordion-checkBox');
         // 라벨
         groupTooltip.UIGroup.UILabel.setUIFor('chk-' + accordionId)
             .addUIClass((this.labelVisibility === 'table')) // 라벨 사용여부: 라벨 숨김 또는 보임
@@ -423,14 +423,14 @@ export default class ZGroup {
 export class UIGroupTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-group-tooltip';
+        this.domElement.className = 'group-tooltip';
     }
 }
 
 export class UIGroup extends UIDiv {
     constructor(boolean) {
         super();
-        this.domElement.className = 'z-' + FORM.LAYOUT.GROUP;
+        this.domElement.className = FORM.LAYOUT.GROUP;
 
         if (boolean) {
             this.addUIClass('accordion');
@@ -439,9 +439,9 @@ export class UIGroup extends UIDiv {
         this.UICheckbox = new UICheckbox(true);
         this.addUI(this.UICheckbox);
 
-        this.UILabel = new UILabel().setUIClass('z-group-label');
-        this.UILabel.UILabelText = new UISpan().setUIClass('z-group-label-text');
-        this.UILabel.UIIcon = new UISpan().setUIClass('z-' + 'icon').addUIClass('i-arrow-right');
+        this.UILabel = new UILabel().setUIClass('group-label');
+        this.UILabel.UILabelText = new UISpan().setUIClass('group-label-text');
+        this.UILabel.UIIcon = new UISpan().setUIClass('icon').addUIClass('i-arrow-right');
         this.UILabel.addUI(this.UILabel.UILabelText).addUI(this.UILabel.UIIcon);
         this.addUI(this.UILabel);
     }

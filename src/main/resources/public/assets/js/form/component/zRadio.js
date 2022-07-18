@@ -50,7 +50,7 @@ export const radioMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv()
-            .setUIClass('z-element')
+            .setUIClass('element')
             .addUIClass('align-left')
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIProperty('--data-column', this.elementColumnWidth);
@@ -165,7 +165,7 @@ export const radioMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(radioId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-radio')
+                .addUIClass('radio')
                 .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)

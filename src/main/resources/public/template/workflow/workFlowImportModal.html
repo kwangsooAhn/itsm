@@ -18,10 +18,10 @@
             <span th:text="#{document.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" class="z-input" id="documentName" maxlength="50" required="required"/>
+        <input type="text" class="input" id="documentName" maxlength="50" required="required"/>
         <!-- 설명 -->
         <label class="field-label" th:text="#{document.label.description}" for="documentDesc"></label>
-        <textarea id="documentDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="documentDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
         <!-- 업무흐름 구분 :  신청서 -->
         <div id= "applicationFormGroup" class="hidden-control-content">
             <!-- 그룹 -->
@@ -62,12 +62,12 @@
             <input type="text" id="applicationDocumentColor"/>
             <!-- 신청서 아이콘 -->
             <label class="field-label" for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
-            <div class="flex-row z-input-button">
-                <input type="text" id="applicationDocumentIcon" class="z-input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
-                    <span class="z-icon i-remove"></span>
+            <div class="flex-row input-button">
+                <input type="text" id="applicationDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+                <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                    <span class="icon i-remove"></span>
                 </button>
-                <button type="button" class="z-button-search z-button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                <button type="button" class="button-search button form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <!-- 업무흐름 구분 :  업무흐름 -->
@@ -111,19 +111,19 @@
             <span th:text="#{form.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="formName" class="z-input" maxlength="50" required="required">
+        <input type="text" id="formName" class="input" maxlength="50" required="required">
         <!-- 문서양식 설명 -->
         <label class="field-label" th:text="#{'form.label.description'}" for="formDesc"></label>
-        <textarea id="formDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="formDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
         <!-- 프로세스 이름 -->
         <label class="field-label" for="processName">
             <span th:text="#{process.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="processName" class="z-input" maxlength="50" required="required">
+        <input type="text" id="processName" class="input" maxlength="50" required="required">
         <!-- 프로세스 설명 -->
         <label class="field-label" th:text="#{'process.label.description'}" for="processDesc"></label>
-        <textarea id="processDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="processDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
         <!-- XML 파일 -->
         <div class="file-uploader-edit">
             <label class="file-uploader-title field-label">

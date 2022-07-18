@@ -11,10 +11,10 @@
     <h6 class="description ml-2 pl-2" th:text="#{faq.msg.viewDescription}"></h6>
 </div>
 <div layout:fragment="pageView">
-    <div class="flex-column z-view-row">
+    <div class="flex-column view-row">
         <div class="view-title text-wordWrap" th:text="${faq?.faqTitle}"></div>
     </div>
-    <div class="flex-column z-view-row">
+    <div class="flex-column view-row">
         <div class="view-sub-title flex-row justify-content-end">
             <span class="text-wordWrap" th:text="${faq?.createUserName}"></span>
             <span class="vertical-bar"></span>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="horizontal-bar"></div>
-    <div class="flex-column z-view-row">
+    <div class="flex-column view-row">
         <div class="view-content">
             <pre>
                 <span class="view-text" th:text="${faq?.faqContent}"/>
@@ -30,9 +30,9 @@
         </div>
     </div>
     <div class="horizontal-bar"></div>
-    <div class="flex-row justify-content-start z-view-row">
-        <div class="z-button-list">
-            <a class="z-button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
+    <div class="flex-row justify-content-start view-row">
+        <div class="button-list">
+            <a class="button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
         </div>
     </div>
 </div>
@@ -50,7 +50,7 @@
             });
             return;
         }
-        OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelectorAll('.page-content'), {className: 'scrollbar'});
     }
     /*]]>*/
 </script>

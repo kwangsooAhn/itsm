@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <table class="z-table">
-        <thead class="z-table-head">
+    <table class="table">
+        <thead class="table-head">
             <tr>
                 <th style="width:5%;" class="align-center"></th>
                 <th style="width:4%;"></th>
@@ -14,13 +14,13 @@
                 <th style="width:63%;" class="align-left" th:text="#{user.label.department}"></th>
             </tr>
         </thead>
-        <tbody id="userList" class="z-table-body">
+        <tbody id="userList" class="table-body">
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
                 <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr class="flex-row align-items-center z-table-row" th:each="user : ${userList}">
+            <tr class="flex-row align-items-center table-row" th:each="user : ${userList}">
                 <td style="width: 5%;" class="align-center text-clip">
-                    <label class="z-checkbox" th:for="${user.userKey}" tabindex="0" th:if="${multiSelect}" >
+                    <label class="checkbox" th:for="${user.userKey}" tabindex="0" th:if="${multiSelect}" >
                         <input type="checkbox" th:id="${user.userKey}" th:value="${user.userName}"
                                name="userName" th:title="${user.userName}"
                                th:data-user-id="${user.userId}"
@@ -28,7 +28,7 @@
                                th:data-organizationName="${user?.groupName}">
                         <span></span>
                     </label>
-                    <label class="z-radio" th:for="${user.userKey}" tabindex="0" th:unless="${multiSelect}" >
+                    <label class="radio" th:for="${user.userKey}" tabindex="0" th:unless="${multiSelect}" >
                         <input type="radio" th:id="${user.userKey}" th:value="${user.userName}"
                                name="userName" th:title="${user.userName}"
                                th:data-user-id="${user.userId}"
@@ -38,7 +38,7 @@
                     </label>
                 </td>
                 <td style="width:4%;" class="align-center p-0 text-clip">
-                    <img class="z-img i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
+                    <img class="img i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
                 </td>
                 <td style="width:14%;" class="align-left" th:text="${user.userName}" th:title="${user.userName}"></td>
                 <td style="width:14%;" class="align-left" th:text="${user.userId}" th:title="${user.userId}"></td>

@@ -1,17 +1,17 @@
 /* _date-picker.scss 
  *
- * 파일 경로 : template/_date-picker.scss
+ * 파일 경로 : componenets/_date-picker.scss
  * @description Date/Time picker 관련 디자인
  * @author wdj
  * @version 1.0
  */
 // input box
-.z-picker-wrapper-date {
+.picker-wrapper-date {
   display: inline-block;
   .picker-main { padding-right: 2.25rem; }
 }
 // modal
-.z-picker-modal {
+.picker-modal {
   @include fixed();
   @include border(0.0625rem, solid, $gray300, all);
   @include borderRadius(0.0625rem); // 1px
@@ -39,9 +39,9 @@
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
 
-    .z-button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
+    .button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
 
-    .z-icon.i-remove {
+    .icon.i-remove {
       @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
       background: $gray500;
       cursor: pointer;
@@ -76,14 +76,14 @@
       vertical-align: middle;
     }
 
-    .z-icon {
+    .icon {
       &.i-arrow-right {
         display: table-cell;
         cursor: pointer;
         background: $gray400;
         &:hover { background: $blue400; }
       }
-      &.z-date-prev { @include rotate(180); }
+      &.date-prev { @include rotate(180); }
     }
 
     &-date {
@@ -165,15 +165,15 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        .z-icon {
+        .icon {
           &.i-arrow-right {
             margin: 0;
             background: $gray500;
             cursor: pointer;
             &:hover { background: $blue400; }
           }
-          &.z-hour-up, &.z-minute-up { @include rotate(-90); }
-          &.z-hour-down,&.z-minute-down { @include rotate(90); }
+          &.hour-up, &.minute-up { @include rotate(-90); }
+          &.hour-down,&.minute-down { @include rotate(90); }
         }
 
         .digit {
@@ -199,7 +199,7 @@
         @include borderRadius(0 0.125rem 0.125rem 0);
       }
       // AM, PM
-      .z-button-toggle-group { padding-left: 0.5rem; } // 8px
+      .button-toggle-group { padding-left: 0.5rem; } // 8px
 
       // 구분자 :
       .separator {
@@ -287,7 +287,7 @@
     }
   }
 
-  // 버튼 : .z-itsm-container 하위 요소와 충돌하지 않도록 !important 설정
+  // 버튼 : .itsm-container 하위 요소와 충돌하지 않도록 !important 설정
   &-button {
     float: right;
     margin: 0.75rem 0.6875rem 0.75rem 0 !important; // 12px 11px 12px 0

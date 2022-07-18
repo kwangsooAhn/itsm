@@ -24,25 +24,25 @@ $layout-header-dropdown: (
 );
 
 // header button
-.z-header-button {
-  &.z-button-icon {
-    .z-icon {
+.header-button {
+  &.button-icon {
+    .icon {
       pointer-events: none;
       &.i-arrow-right { @include rotate(90); }
     }
   }
 }
 // header dropdown button
-.z-header-button-dropdown {
+.header-button-dropdown {
   width: 1.25rem; // 20px
   padding: 0.5625rem 0.1875rem; // 9px 3px
 
-  .z-icon {
+  .icon {
     margin-left: -0.1875rem; // -3px
     pointer-events: none;
   }
 
-  + .z-dropdown-content {
+  + .dropdown-content {
     @include absolute($right: 0);
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
@@ -53,10 +53,10 @@ $layout-header-dropdown: (
     z-index: 250;
     visibility: hidden;
 
-    .z-dropdown-item {
+    .dropdown-item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0
 
-      .z-button-dropdown {
+      .button-dropdown {
         width: 100%;
         border-color: map-get($layout-header-dropdown, 'default', 'border');
         background-color: map-get($layout-header-dropdown, 'default', 'background');
@@ -100,8 +100,8 @@ $layout-header-dropdown: (
   }
 
   &.active {
-    .z-icon.i-arrow-right { @include rotate(-90); }
-    + .z-dropdown-content {
+    .icon.i-arrow-right { @include rotate(-90); }
+    + .dropdown-content {
       display: block;
       visibility: visible;
     }
@@ -119,7 +119,7 @@ $layout-header-dropdown: (
  */
 // 폼 양식
 // 프로세스 양식
-.z-form, .z-process {
+.form, .process {
   &-container { @include container; }
   // header
   &-header {
@@ -138,13 +138,13 @@ $layout-header-dropdown: (
       padding: 0 0.75rem; // 0 12px
     }
 
-    .z-form-name,
-    .z-process-name { font-size: $font-size-s; }
+    .form-name,
+    .process-name { font-size: $font-size-s; }
 
-    .z-form-button-list,
-    .z-process-button-list {
+    .form-button-list,
+    .process-button-list {
       width: 19.06rem; // 305px
-      .z-header-dropdown { @include relative(); }
+      .header-dropdown { @include relative(); }
     }
   }
 
@@ -179,11 +179,11 @@ $layout-header-dropdown: (
 }
 
 ////////////////////////// thumbnail //////////////////////////
-.z-thumbnail-main { padding: 0.625rem; } // 10px
+.thumbnail-main { padding: 0.625rem; } // 10px
 
 ////////////////////////// tooltip //////////////////////////
-.z-help-tooltip { position: static; }
-.z-tooltip-contents {
+.help-tooltip { position: static; }
+.tooltip-contents {
   left: 0;
   width: 100%;
 }
@@ -199,16 +199,16 @@ $layout-header-dropdown: (
 // button group
 // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
 // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
-.z-button-switch-group,
-.z-button-toggle-group {
-  .z-button-switch,
-  .z-button-toggle {
-    .z-text, .z-icon { pointer-events: none; }
+.button-switch-group,
+.button-toggle-group {
+  .button-switch,
+  .button-toggle {
+    .text, .icon { pointer-events: none; }
   }
 }
 
 // 열속성 > tab 버튼
-.z-tab {
+.tab {
   border-width: 0.0625rem; //1px
   border-color: map-get($button-tab, 'default', 'border');
   background-color: map-get($button-tab, 'default', 'background');
@@ -216,7 +216,7 @@ $layout-header-dropdown: (
   @if map-get($button-tab, 'default', 'shadow') != null {
     box-shadow: map-get($button-tab, 'default', 'shadow');
   }
-  .z-icon { background: map-get($button-tab, 'default', 'font'); }
+  .icon { background: map-get($button-tab, 'default', 'font'); }
 
   &:focus {
     border-color: map-get($button-tab, 'focus', 'border');
@@ -226,7 +226,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'focus', 'shadow') != null {
       box-shadow: map-get($button-tab, 'focus', 'shadow');
     }
-    .z-icon { background: map-get($button-tab, 'focus', 'font'); }
+    .icon { background: map-get($button-tab, 'focus', 'font'); }
   }
 
   &:hover {
@@ -237,7 +237,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'hover', 'shadow') != null {
       box-shadow: map-get($button-tab, 'hover', 'shadow');
     }
-    .z-icon { ackground: map-get($button-tab, 'hover', 'font'); }
+    .icon { ackground: map-get($button-tab, 'hover', 'font'); }
   }
 
   &:enabled:active,
@@ -249,7 +249,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'active', 'shadow') != null {
       box-shadow: map-get($button-tab, 'active', 'shadow');
     }
-    .z-icon { background: map-get($button-tab, 'active', 'font'); }
+    .icon { background: map-get($button-tab, 'active', 'font'); }
   }
   // 선택된 경우
   &.selected:not(:disabled),
@@ -261,7 +261,7 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'selected', 'shadow') != null {
       box-shadow: map-get($button-tab, 'selected', 'shadow');
     }
-    .z-icon { background: map-get($button-tab, 'selected', 'font'); }
+    .icon { background: map-get($button-tab, 'selected', 'font'); }
   }
 
   &:disabled,
@@ -273,26 +273,26 @@ $layout-header-dropdown: (
     @if map-get($button-tab, 'disabled', 'shadow') != null {
       box-shadow: map-get($button-tab, 'disabled', 'shadow');
     }
-    .z-icon { background: map-get($button-tab, 'disabled', 'font'); }
+    .icon { background: map-get($button-tab, 'disabled', 'font'); }
   }
 }
 
-.z-button,
-.z-button-icon,
-.z-button-icon-sm {
+.button,
+.button-icon,
+.button-icon-sm {
   &:disabled, &.disabled { display: none; }
 }
 
-.z-button-icon {
-  &.z-button-attach-file {
-    .z-icon.i-folder { background: $gray500; }
+.button-icon {
+  &.button-attach-file {
+    .icon.i-folder { background: $gray500; }
   }
-  &.z-button-code {
-    .z-icon.i-search { background: $gray500; }
+  &.button-code {
+    .icon.i-search { background: $gray500; }
   }
 }
 
-.z-button.success--check {
+.button.success--check {
   position: relative;
   border-color: $neutral200;
   background-color: $neutral200;
@@ -306,7 +306,7 @@ $layout-header-dropdown: (
   }
 }
 
-.z-switch {
+.switch {
   input[type=checkbox] {
     // 스위치 버튼 - 동그라미
     + span::before { top: 0.125rem; } // 2px
@@ -314,19 +314,19 @@ $layout-header-dropdown: (
 }
 
 ////////////////////////// date-picker //////////////////////////
-.z-element {
-  .z-picker-wrapper-date { width: 100%; }
+.element {
+  .picker-wrapper-date { width: 100%; }
 }
 
 ////////////////////////// element //////////////////////////
 // input + button for custom code
-.z-input-button {
-  .z-button-icon-sm { -webkit-print-color-adjust:exact; }
+.input-button {
+  .button-icon-sm { -webkit-print-color-adjust:exact; }
 }
 
 // main
-.z-component {
-  .z-radio {
+.component {
+  .radio {
     input[type=radio] + span::after { top: 0.35rem; } // 5.6px
   }
 }
@@ -339,7 +339,7 @@ $layout-header-dropdown: (
   --data-align: flex-start;
 }
 
-.z-form {
+.form {
   @include border(0.0625rem, solid, $gray300, all); // 1px
   display: inline-block;
   min-height: 56.25rem; // 900px
@@ -347,7 +347,7 @@ $layout-header-dropdown: (
   & *:focus { outline: none !important; }
 }
 // 그룹 툴팁
-.z-group-tooltip {
+.group-tooltip {
   @include relative();
   @include border(0.0625rem, solid, $gray300, all); // 1px
   @include borderRadius(0.125rem); // 2px
@@ -356,14 +356,14 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .z-tooltip-menu:not(.none) { visibility: visible; }
+    > .tooltip-menu:not(.none) { visibility: visible; }
   }
   &.focus { background-color: $blue50; }
   // displayType이 hidden일 경우
   &[data-displaytype='document.displayType.hidden'] { display: none; }
 }
 // 그룹
-.z-group {
+.group {
   // 체크 박스
   &-accordion-checkBox {
     @include absolute();
@@ -379,13 +379,13 @@ $layout-header-dropdown: (
     padding: 0 0.625rem 0 0.625rem; // 0 10px 0 10px
     font-weight: $font-weight-medium;
     // 라벨 문구
-    .z-group-label-text {
+    .group-label-text {
       display: table-cell;
       vertical-align: middle;
       opacity: 1;
     }
     // 화살표 아이콘
-    .z-icon.i-arrow-right {
+    .icon.i-arrow-right {
       @include rotate(270);
       display: table-cell;
       background: $gray500;
@@ -395,35 +395,35 @@ $layout-header-dropdown: (
   // 아코디언 사용중일 경우
   &.accordion {
     // 체크박스 선택 = 아코디언 펼침
-    .z-group-accordion-checkBox:checked {
-      + .z-group-label {
-        .z-icon.i-arrow-right { @include rotate(90); }
+    .group-accordion-checkBox:checked {
+      + .group-label {
+        .icon.i-arrow-right { @include rotate(90); }
       }
-      ~ .z-row-tooltip:not(.none) { display: block; }
+      ~ .row-tooltip:not(.none) { display: block; }
     }
     // 라벨
-    .z-group-label {
+    .group-label {
       @include border(0.125rem, solid, $gray300, bottom);
       padding: 0 1.125rem 0 0.625rem; // 0 18px 0 10px
       cursor: pointer;
-      .z-group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
+      .group-label-text { padding: 0 0.625rem 0.625rem 0; } // 0 10px 10px 0
 
       &.table {
-        .z-group-label-text { opacity: 0; }
+        .group-label-text { opacity: 0; }
       }
 
-      .z-icon.i-arrow-right { opacity: 1; }
+      .icon.i-arrow-right { opacity: 1; }
     }
 
     // row
-    .z-row-tooltip {
+    .row-tooltip {
       @include transition(all 0.25s ease-out);
       display: none;
     }
   }
 }
 // row 툴팁
-.z-row-tooltip {
+.row-tooltip {
   @include border(0.0625rem, solid, $gray300, all); // 1px
   @include borderRadius(0.125rem);
   position: relative;
@@ -431,12 +431,12 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .z-tooltip-menu:not(.none) { visibility: visible; }
+    > .tooltip-menu:not(.none) { visibility: visible; }
   }
 }
 
 // component 툴팁
-.z-component-tooltip {
+.component-tooltip {
   @include border(0.0625rem, dashed, $gray300, all); // 1px
   @include borderRadius(0.0625rem); // 2px
   position: relative;
@@ -450,14 +450,14 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    >.z-tooltip-menu:not(.none) { visibility: visible; }
+    >.tooltip-menu:not(.none) { visibility: visible; }
 
     // component
-    .z-component {
+    .component {
       // element
-      .z-element {
+      .element {
         // image 컴포넌트
-        .z-imagebox-placeholder { background-color: $white; }
+        .imagebox-placeholder { background-color: $white; }
       }
     }
   }
@@ -465,31 +465,31 @@ $layout-header-dropdown: (
   &.sortable-ghost { margin: 0; }
 }
 // component
-.z-component {
+.component {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
   // label
-  .z-component-label {
+  .component-label {
     flex-basis: getFlexBasis(100%, 0px, 12, 0px);
     justify-content: var(--data-align);
     padding: 0;
     font-weight: $font-weight-medium;
-    .z-component-label-text { line-height: 1; }
+    .component-label-text { line-height: 1; }
   }
   // divider
   &.divider { padding: 0; }
   // element
-  .z-element[style="--data-column:12;"], .z-element[style="--data-column:0;"] { padding: 0.4375rem 0 0.4375rem 0; } // 7px 0  7px 0px
+  .element[style="--data-column:12;"], .element[style="--data-column:0;"] { padding: 0.4375rem 0 0.4375rem 0; } // 7px 0  7px 0px
 
-  .z-element {
+  .element {
     flex-basis: getFlexBasis(100%, 0px, 12, 0px);
     padding: 0.4375rem 0 0.4375rem 0.938rem ; // 7px 0  7px 15px
     pointer-events: none;
 
     // inputBox
-    .input, .z-input:not(.z-select-box-label):not(:read-only) {
+    .input, .input:not(.select-box-label):not(:read-only) {
       @include border(0.0625rem, solid, $gray400, all); // 1px
       @include borderRadius(0.0625rem); // 2px
       width: 100%;
@@ -509,18 +509,18 @@ $layout-header-dropdown: (
     }
 
     // textArea
-    .textArea, .z-textarea {
+    .textArea, .textarea {
       width: 100%;
       height: calc(2.5rem * var(--data-row));
     }
 
     // text editor
-    .z-text-editor {
+    .text-editor {
       .ql-editor { height: calc(2.5rem * var(--data-row)); } // quill editor 높이 : 40 * row 갯수
     }
 
     // radio, checkbox
-    .z-radio, .z-checkbox {
+    .radio, .checkbox {
       &.vertical {
         display: block;
         margin-top: 0.625rem;
@@ -533,7 +533,7 @@ $layout-header-dropdown: (
     }
 
     // radio
-    .z-radio {
+    .radio {
       + span {
         display: inline-block;
         height: 2.25rem;
@@ -543,7 +543,7 @@ $layout-header-dropdown: (
     }
 
     // image 컴포넌트
-    .z-imagebox-placeholder {
+    .imagebox-placeholder {
       @include border(0.0625rem, solid, $gray400, all); // 1px
       display: none;
       height: 8.75rem; // 140p
@@ -554,20 +554,20 @@ $layout-header-dropdown: (
       font-weight: $font-weight-regular;
       text-align: center;
     }
-    .z-imagebox {
+    .imagebox {
       width: 100%;
       height: 100%;
       &[src=''] {
         display: none;
-        + .z-imagebox-placeholder { display: grid; }
+        + .imagebox-placeholder { display: grid; }
       }
     }
 
     // filedownload 컴포넌트
-    .z-fileDownload {
+    .fileDownload {
       cursor: pointer;
-      .z-icon.i-download { background: $gray500; }
-      .z-file-text {
+      .icon.i-download { background: $gray500; }
+      .file-text {
         font-size: $font-size-xs;
         font-weight: $font-weight-regular;
       }
@@ -577,7 +577,7 @@ $layout-header-dropdown: (
     .file-uploader-view { @include border(0.0625rem, solid, $gray400, left); }
 
     // CI 컴포넌트
-    .z-ci-table {
+    .ci-table {
       background-color: $white;
       tr td {
         @include border(0.0625rem, solid, $gray300, all);
@@ -586,7 +586,7 @@ $layout-header-dropdown: (
         border-left: none;
         border-right: none;
       }
-      .z-ci-table-row { color: $neutral800; }
+      .ci-table-row { color: $neutral800; }
       // 데이터 없음
       .no-data-found-list {
         color: $gray400;
@@ -598,12 +598,12 @@ $layout-header-dropdown: (
 
     // time, date, datepicker 컴포넌트
     .picker-wrapper-date {
-      .z-input { margin-right: 2rem; }
+      .input { margin-right: 2rem; }
       .datepicker { width: 100%; }
     }
 
     // DR 테이블 컴포넌트
-    .z-dr-table {
+    .dr-table {
       background-color: $white;
       tr td {
         @include border(0.0625rem, solid, $gray300, all);
@@ -614,27 +614,27 @@ $layout-header-dropdown: (
         line-height: 1;
       }
       // 제목
-      .z-dr-table-header {
+      .dr-table-header {
         @include border(0.125rem, solid, $gray300, bottom);
         td { padding: 0.6875rem 0 0.6875rem 0.3125rem; } // 11px 5px 11px 0
-        .z-dr-table-header-cell {
+        .dr-table-header-cell {
           @include ellipsis();
           padding: 0 0.5rem;
         }
       }
 
-      .z-dr-table-row {
-        .z-button-icon { padding: 0; }
+      .dr-table-row {
+        .button-icon { padding: 0; }
 
-        .z-input:not(.z-select-box-label) {
+        .input:not(.select-box-label) {
           padding: 0.4375rem 0;
           margin: 0.25rem 0;
           text-indent: 0.75rem;
           &.picker-main { padding-right: 2.25rem; }
         }
 
-        .z-input:read-only:not(:disabled):not(.tagify),
-        .z-select .z-select-box.readonly { border-bottom: none; }
+        .input:read-only:not(:disabled):not(.tagify),
+        .select .select-box.readonly { border-bottom: none; }
         span { line-height: 1.6; }
 
         // 문서양식에서 설정한 컬럼에 대한 style을 상속 받음
@@ -645,7 +645,7 @@ $layout-header-dropdown: (
           font-weight: inherit;
           text-align: inherit;
         }
-        .z-select-box { padding: 0.5rem 0.75rem; };
+        .select-box { padding: 0.5rem 0.75rem; };
       }
       // 데이터 없음
       .no-data-found-list {
@@ -658,14 +658,14 @@ $layout-header-dropdown: (
     }
 
     // custom code 컴포넌트
-    .z-custom-code {
-      > .z-input { @include borderRadius(0.125rem); } // 2px
-      > .z-button-icon { margin-left: 0.5rem; }
+    .custom-code {
+      > .input { @include borderRadius(0.125rem); } // 2px
+      > .button-icon { margin-left: 0.5rem; }
     }
 
     // 컴포넌트 내부 버튼 리스트
-    .z-button-list {
-      .z-button {
+    .button-list {
+      .button {
         min-width: 3.25rem; // 52px
         padding: 0.3125rem 0.625rem; //5px 10px
         font-size: $font-size-xxs;
@@ -673,30 +673,39 @@ $layout-header-dropdown: (
     }
   }
 }
+// label
+.component { // 필수값 숨김
+  .component-label {
+    .required {
+      &.off { display: none; }
+      &.on { display: inline; }
+    }
+  }
+}
 // tooptip
-.z-tooltip-menu {
+.tooltip-menu {
   @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
   @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); // 1px
   height: 2.5rem; // 40px;
   background-color: $white;
   z-index: 500;
   visibility: hidden;
-  .z-tooltip-menu-items {
+  .tooltip-menu-items {
     margin: 0 0.125rem; // 0 2px
     padding: 0.5625rem 0 0; // 9px 0 0 0
-    .z-tooltip-menu-item {
+    .tooltip-menu-item {
       display: inline-block;
       margin: 0 0.25rem; // 0 4px
       padding: 0 0.25rem; // 0 4px
       cursor: pointer;
-      .z-icon {
+      .icon {
         display: inline-block;
         background: $blue300;
         vertical-align: middle;
         pointer-events: none;
       }
       &:hover {
-        .z-icon { background: $blue500; }
+        .icon { background: $blue500; }
       }
     }
   }
@@ -704,10 +713,9 @@ $layout-header-dropdown: (
 
 // preview
 .preview {
-  .z-dr-table-button-group { top: -0.25rem; }
-  .z-group-tooltip { border: 0.0625rem solid #FFFFFF; }
-  .z-row-tooltip { border: 0.0625rem solid #FFFFFF; }
-  .z-component-tooltip {
+  .group-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .row-tooltip { border: 0.0625rem solid #FFFFFF; }
+  .component-tooltip {
     margin: 0;
     padding: 0;
     border-color: transparent !important;
@@ -724,7 +732,7 @@ $component-icon: (
         'placeholder': ('font': $gray400, 'icon': $gray400, 'background': $neutral200, 'border': $gray300)
 );
 // 폼 양식
-.z-form {
+.form {
   // header
   &-header { font-size: $font-size-s; }
 
@@ -762,15 +770,15 @@ $component-icon: (
   }
 }
 // 아코디언
-.z-component-accordion-box {
-  .z-component-accordion {
+.component-accordion-box {
+  .component-accordion {
     width: 100%;
     input[type=radio] {
       @include absolute();
       opacity: 0;
       z-index: -1;
     }
-    .z-accordion-label {
+    .accordion-label {
       @include border(0.0625rem, solid, $gray300, bottom); // 1px
       height: 40px; // 40px
       padding: 0 12px; // 0 12px
@@ -779,19 +787,19 @@ $component-icon: (
       font-size: $font-size-s;
       font-weight: $font-weight-bold;
       cursor: pointer;
-      .z-icon.i-arrow-right {
+      .icon.i-arrow-right {
         @include rotate(180);
         @include transformOrigin(50% 50%);
         background: $gray500;
       }
     }
-    .z-accordion-content {
+    .accordion-content {
       @include border(0.0625rem, solid, transparent, bottom); // 1px
       @include transition(all 0.25s ease-out);
       height: 0;
       overflow: hidden;
 
-      .z-component-icon-box {
+      .component-icon-box {
         @include relative();
         display: flex;
         flex-direction: row;
@@ -800,7 +808,7 @@ $component-icon: (
         margin: 0;
         padding: 0;
 
-        .z-component-icon {
+        .component-icon {
           @include border(0.0625rem, solid, map-get($component-icon, 'default', 'border'), all); // 1px
           width: 6.188rem; // 99px
           height: 5.625rem; // 90px
@@ -829,8 +837,8 @@ $component-icon: (
             @if map-get($component-icon, 'hover', 'shadow') != null {
               box-shadow: map-get($component-icon, 'hover', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'hover', 'icon'); }
-            .z-component-name { color: map-get($component-icon, 'hover', 'font'); }
+            .icon { background: map-get($component-icon, 'hover', 'icon'); }
+            .component-name { color: map-get($component-icon, 'hover', 'font'); }
           }
           &:focus {
             background-color: map-get($component-icon, 'focus', 'background');;
@@ -839,8 +847,8 @@ $component-icon: (
             @if map-get($component-icon, 'focus', 'shadow') != null {
               box-shadow: map-get($component-icon, 'focus', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'focus', 'icon'); }
-            .z-component-name { color: map-get($component-icon, 'focus', 'font'); }
+            .icon { background: map-get($component-icon, 'focus', 'icon'); }
+            .component-name { color: map-get($component-icon, 'focus', 'font'); }
           }
           // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
           &.active {
@@ -850,8 +858,8 @@ $component-icon: (
             @if map-get($component-icon, 'active', 'shadow') != null {
               box-shadow: map-get($component-icon, 'active', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'active', 'icon'); }
-            .z-component-name {
+            .icon { background: map-get($component-icon, 'active', 'icon'); }
+            .component-name {
               font-weight: $font-weight-bold;
               color: map-get($component-icon, 'active', 'font');
             }
@@ -864,12 +872,12 @@ $component-icon: (
             @if map-get($component-icon, 'drag', 'shadow') != null {
               box-shadow: map-get($component-icon, 'drag', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'drag', 'icon'); }
-            .z-component-name {
+            .icon { background: map-get($component-icon, 'drag', 'icon'); }
+            .component-name {
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
             }
-            .z-component-tooltip { display: none; }
+            .component-tooltip { display: none; }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.placeholder {
@@ -878,15 +886,15 @@ $component-icon: (
             @if map-get($component-icon, 'placeholder', 'shadow') != null {
               box-shadow: map-get($component-icon, 'placeholder', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'placeholder', 'icon'); }
-            .z-component-name {
+            .icon { background: map-get($component-icon, 'placeholder', 'icon'); }
+            .component-name {
               color: map-get($component-icon, 'placeholder', 'font');
               font-weight: $font-weight-medium;
             }
           }
 
-          .z-icon { background: map-get($component-icon, 'default', 'icon'); }
-          .z-component-name {
+          .icon { background: map-get($component-icon, 'default', 'icon'); }
+          .component-name {
             display: block;
             padding-top: 0.375rem; // 6px
             color: map-get($component-icon, 'default', 'font');
@@ -896,7 +904,7 @@ $component-icon: (
           }
         }
 
-        .z-component-template-icon {
+        .component-template-icon {
           @include border(0.0625rem, solid, map-get($component-icon, 'default', 'border'), all); // 1px
           display: inline-block;
           width: 12.5rem; // 200px
@@ -912,9 +920,9 @@ $component-icon: (
             box-shadow: map-get($component-icon, 'default', 'shadow');
           }
 
-          .z-icon { background: map-get($component-icon, 'default', 'icon'); }
+          .icon { background: map-get($component-icon, 'default', 'icon'); }
 
-          .z-component-name {
+          .component-name {
             width: 8.125rem; // 130px
             height: 1rem; // 16px
             margin: 0 0.3125rem; // 5px
@@ -929,8 +937,8 @@ $component-icon: (
             @if map-get($component-icon, 'hover', 'shadow') != null {
               box-shadow: map-get($component-icon, 'hover', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'hover', 'icon'); }
-            .z-component-name { color: map-get($component-icon, 'hover', 'font'); }
+            .icon { background: map-get($component-icon, 'hover', 'icon'); }
+            .component-name { color: map-get($component-icon, 'hover', 'font'); }
           }
           &:focus {
             background-color: map-get($component-icon, 'focus', 'background');;
@@ -939,8 +947,8 @@ $component-icon: (
             @if map-get($component-icon, 'focus', 'shadow') != null {
               box-shadow: map-get($component-icon, 'focus', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'focus', 'icon'); }
-            .z-component-name { color: map-get($component-icon, 'focus', 'font');
+            .icon { background: map-get($component-icon, 'focus', 'icon'); }
+            .component-name { color: map-get($component-icon, 'focus', 'font');
             }
           }
           // 사용되지 않음 : html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
@@ -951,8 +959,8 @@ $component-icon: (
             @if map-get($component-icon, 'active', 'shadow') != null {
               box-shadow: map-get($component-icon, 'active', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'active', 'icon'); }
-            .z-component-name {
+            .icon { background: map-get($component-icon, 'active', 'icon'); }
+            .component-name {
               color: map-get($component-icon, 'active', 'font');
               font-weight: $font-weight-bold;
             }
@@ -965,12 +973,12 @@ $component-icon: (
             @if map-get($component-icon, 'drag', 'shadow') != null {
               box-shadow: map-get($component-icon, 'drag', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'drag', 'icon'); }
-            .z-component-name {
+            .icon { background: map-get($component-icon, 'drag', 'icon'); }
+            .component-name {
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
             }
-            .z-component-tooltip { display: none; }
+            .component-tooltip { display: none; }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.placeholder {
@@ -979,8 +987,8 @@ $component-icon: (
             @if map-get($component-icon, 'placeholder', 'shadow') != null {
               box-shadow: map-get($component-icon, 'placeholder', 'shadow');
             }
-            .z-icon { background: map-get($component-icon, 'placeholder', 'icon'); }
-            .z-component-name {
+            .icon { background: map-get($component-icon, 'placeholder', 'icon'); }
+            .component-name {
               color: map-get($component-icon, 'placeholder', 'font');
               font-weight: $font-weight-medium;
             }
@@ -990,10 +998,10 @@ $component-icon: (
     }
 
     input[type=radio]:checked {
-      + .z-accordion-label {
-        .z-icon.i-arrow-right { @include rotate(90); }
+      + .accordion-label {
+        .icon.i-arrow-right { @include rotate(90); }
       }
-      ~ .z-accordion-content {
+      ~ .accordion-content {
         @include scrollbarHidden;
         overflow-y: auto;
         height: calc(100vh - (40px * 4) - 2.875rem); // 40px
@@ -1004,14 +1012,13 @@ $component-icon: (
 }
 
 // drawing board
-.z-drawing-board {
-  .z-drag-ghost { opacity: 0.5; }
-  .z-component-drag-in {
+.drawing-board {
+  .component-drag-in {
     @include border(0.0625rem, dashed, $blue400, all); // 1px
     background-color: $blue100;
   }
   // drag & drop (폼 내부에 나타나는 item)
-  .z-component-icon-drag-in {
+  .component-icon-drag-in {
     @include border(0.0625rem, dashed, $blue400, all); // 1px
     display: inline-block;
     width: 100%;
@@ -1019,23 +1026,23 @@ $component-icon: (
     background-color: $blue100;
     opacity: 0.5;
 
-    .z-icon { display: none; }
-    .z-component-name { display: none; }
-    .z-component-tooltip {
+    .icon { display: none; }
+    .component-name { display: none; }
+    .component-tooltip {
       border-color: transparent;
-      .z-component {
+      .component {
         // 드래그시 사용자 디자인보다 우선 적용
-        .z-component-label {
-          .z-component-label-text { color: $blue400 !important; }
+        .component-label {
+          .component-label-text { color: $blue400 !important; }
         }
-        .z-element {
-          .z-input,
-          .z-textarea,
-          .z-select-box {
+        .element {
+          .input,
+          .textarea,
+          .select-box {
             border-color: $blue400 !important;
             color: $blue400 !important;
             &::placeholder { color: $blue400 !important; }
-            .z-icon { background: $blue400 !important; }
+            .icon { background: $blue400 !important; }
             // 날짜 시간 컴포넌트
             &.i-date-picker {
               @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
@@ -1047,8 +1054,8 @@ $component-icon: (
               @include backgroundImage($icon-folder-path + 'designer/palette/icon_date_time_picker_drag.svg', null, no-repeat, calc(100% - 0.4375rem), 50%);
             }
           }
-          .z-radio,
-          .z-checkbox {
+          .radio,
+          .checkbox {
             color: $blue400 !important;
             input[type=radio] + span::before,
             input[type=checkbox] + span::before { border-color: $blue400 !important; }
@@ -1065,40 +1072,40 @@ $component-icon: (
             background-color: $white;
             border-color: $blue400 !important;
             .dz-message { color: $blue400 !important; }
-            .z-icon { background: $blue400 !important; }
+            .icon { background: $blue400 !important; }
           }
           // 커스텀 코드 컴포넌트
-          .z-input-button {
-            .z-button-clear { opacity: 0; }
-            .z-button-icon {
+          .input-button {
+            .button-clear { opacity: 0; }
+            .button-icon {
               border-color: $blue400 !important;
               background-color: $white;
               color: $blue400 !important;
-              .z-icon { background: $blue400 !important; }
+              .icon { background: $blue400 !important; }
             }
           }
           // DR 테이블 컴포넌트 , CI 컴포넌트
-          .z-button-list { opacity: 0; }
+          .button-list { opacity: 0; }
           table {
             tr td { border-color: $blue400 !important; }
-            .z-dr-table-header,
-            .z-ci-table-header {
+            .dr-table-header,
+            .ci-table-header {
               background-color: $blue100 !important;
               td { color: $blue400 !important; }
             }
             .no-data-found-list { color: $blue400 !important; }
           }
           // Divider
-          .z-divider {
+          .divider {
             border-top-style: solid;
             border-top-color : $blue400 !important;
           }
           // 이미지 컴포넌트
-          .z-imagebox-placeholder {
+          .imagebox-placeholder {
             background-color: $white;
             border-color: $blue400 !important;
             color: $blue400 !important;
-            .z-icon { background: $blue400 !important; }
+            .icon { background: $blue400 !important; }
           }
         }
       }
@@ -1107,16 +1114,16 @@ $component-icon: (
 
   // 문서 상태에 따라 편집을 막음
   &.edit {
-    .z-group-label { pointer-events: none; }
+    .group-label { pointer-events: none; }
   }
   // 폼 디자이너가 아닐 경우 컴포넌트 테두리 제거
   &:not([data-display="ready"]) {
-    .z-component-tooltip { border-color: transparent !important; }
+    .component-tooltip { border-color: transparent !important; }
   }
 }
 
 // 저장 정보
-.z-save-info {
+.save-info {
   min-height: 1.5625rem; // 25px
   margin: 1.5625rem 0; // 25px 0
   color: $gray500;
@@ -1182,17 +1189,17 @@ $component-icon: (
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .z-input { width: 4.375rem; } // 70px
+    .input { width: 4.375rem; } // 70px
   }
   // clipboard 엘리먼트
-  .z-clipboard {
+  .clipboard {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .z-input { width: 100%; }
+    .input { width: 100%; }
   }
   // input 엘리먼트
-  .z-input:not(.tagify) {
+  .input:not(.tagify) {
     width: 100%;
     font-size: $font-size-xs;
 
@@ -1212,18 +1219,18 @@ $component-icon: (
     }
   }
   // textarea 엘리먼트
-  .z-textarea {
+  .textarea {
     min-height: 5.625rem; // 90px
     line-height: 1.6;
   }
   // input + button
   .input-button {
-    .z-button { height: 2.5rem; } // 40px
+    .button { height: 2.5rem; } // 40px
   }
   // column 너비 조정
-  .z-slider {
-    .z-range { width : 75%; }
-    .z-input {
+  .slider {
+    .range { width : 75%; }
+    .input {
       width: 23%;
       text-align: center;
       margin-left: 2%;
@@ -1237,14 +1244,14 @@ $component-icon: (
     flex-direction: row;
 
     .btn-switch { width: 3.75rem; } // 60px
-    .z-input {
+    .input {
       display: block;
       margin-left : 0.625rem; // 10px
     }
-    .z-select {
+    .select {
       display: block;
       margin-left: 0.625rem; // 10px
-      .z-input {
+      .input {
         display: inline-block;
         margin-left: 0;
       }
@@ -1267,10 +1274,10 @@ $component-icon: (
       flex-wrap: wrap;
       margin: 0.3125rem 0; // 5px 0
 
-      .z-radio { margin-right: 0; }
+      .radio { margin-right: 0; }
 
       .radio-item {
-        .z-input {
+        .input {
           width: 2.813rem; // 45px
           margin-right: 0.3125rem; // 5px
           padding: 0 0.5rem; // 0 8px
@@ -1278,28 +1285,28 @@ $component-icon: (
         }
       }
 
-      .z-input-button {
+      .input-button {
         width: 100%;
-        .z-icon.i-remove { right: 2.5rem; }
+        .icon.i-remove { right: 2.5rem; }
       }
 
-      .z-picker-wrapper-date {
+      .picker-wrapper-date {
         flex: 1;
         .picker-main { width:inherit; }
       }
     }
   }
   // tab
-  .z-tab-panel {
-    .z-tabs {
-      .z-button-icon {
+  .tab-panel {
+    .tabs {
+      .button-icon {
         height: 2rem; // 32px
         padding: 0.25rem 0.409rem; // 4px 6.5px
 
         &:not(:first-child) { margin-left: 0.3125rem; } // 5px
         // 추가 버튼
         &:last-child { padding: 0.25rem 0; }
-        .z-icon {
+        .icon {
           width: 0.82rem;
           pointer-events: none;
         } // 15px
@@ -1309,38 +1316,37 @@ $component-icon: (
         }
       }
     }
-    .z-panels {
-      .z-panel {
+    .panels {
+      .panel {
         @include relative();
         @include border(0.0625rem, solid, $gray300, all); // 1px
         margin-top: 0.625rem;
         padding-top: 0.625rem;
 
-        .z-panel-common {
+        .panel-common {
           .panel-name { padding: 0 0.75rem; } // 12px
           .panel-delete-button { @include absolute($right: 0.625rem); } // 10px
           & > .property { padding: 0 0.75rem; } // 12px
         }
 
-        .z-button-icon:not(.z-button-code) {
+        .button-icon:not(.button-code) {
           padding: 0;
-          .z-icon {
+          .icon {
             display: inline-block;
             background: $blue500;
             pointer-events: none;
-            &.z-prev { @include rotate(180); }
-            &.z-clear { background: $gray500; }
+            &.prev { @include rotate(180); }
           }
         }
 
-        .z-button-switch-group,
-        .z-button-toggle-group {
-          .z-button-switch,
-          .z-button-toggle { padding: 0.25rem  0.5625rem; } // 4px 9px
+        .button-switch-group,
+        .button-toggle-group {
+          .button-switch,
+          .button-toggle { padding: 0.25rem  0.5625rem; } // 4px 9px
         }
 
         // individual panel 내부 중복 border 제거
-        .z-panel-individual > .property-group {
+        .panel-individual > .property-group {
           border: none;
           &:last-child { @include border(0.0625rem, solid, $gray300, top); } // 1px
         }
@@ -1348,8 +1354,8 @@ $component-icon: (
     }
   }
   // 옵션
-  .z-option-table {
-    .z-option-table-row {
+  .option-table {
+    .option-table-row {
       td { padding: 0; }
     }
   }
@@ -1381,7 +1387,7 @@ $element-icon-toggle: (
         'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
 // element palette > element icon
-.z-element-icon {
+.element-icon {
   @include border(0.0625rem, solid, map-get($element-icon, 'default', 'border'), all); // 1px
   @include borderRadius(0.125rem); // 2px
   overflow:visible;
@@ -1412,8 +1418,8 @@ $element-icon-toggle: (
     @if map-get($element-icon, 'focus', 'shadow') != null {
       box-shadow: map-get($element-icon, 'focus', 'shadow');
     }
-    .z-element-icon-text { color: map-get($element-icon, 'focus', 'font'); }
-    .z-icon { background: map-get($element-icon, 'focus', 'icon'); }
+    .element-icon-text { color: map-get($element-icon, 'focus', 'font'); }
+    .icon { background: map-get($element-icon, 'focus', 'icon'); }
   }
   &:hover {
     border-color: map-get($element-icon, 'hover', 'border');
@@ -1422,8 +1428,8 @@ $element-icon-toggle: (
     @if map-get($element-icon, 'hover', 'shadow') != null {
       box-shadow: map-get($element-icon, 'hover', 'shadow');
     }
-    .z-element-icon-text { color: map-get($element-icon, 'hover', 'font'); }
-    .z-icon { background: map-get($element-icon, 'hover', 'icon'); }
+    .element-icon-text { color: map-get($element-icon, 'hover', 'font'); }
+    .icon { background: map-get($element-icon, 'hover', 'icon'); }
   }
   // html5 drag 는 드래그 시작시 active 상태의 디자인을 복사하기 때문에 drag 디자인을 입힘
   &.active {
@@ -1433,11 +1439,11 @@ $element-icon-toggle: (
     @if map-get($element-icon, 'drag', 'shadow') != null {
       box-shadow: map-get($element-icon, 'drag', 'shadow');
     }
-    .z-element-icon-text {
+    .element-icon-text {
       color: map-get($element-icon, 'drag', 'font');
       font-weight: $font-weight-bold;
     }
-    .z-icon { background: map-get($element-icon, 'drag', 'icon'); }
+    .icon { background: map-get($element-icon, 'drag', 'icon'); }
   }
   &.placeholder {
     border-color: map-get($element-icon, 'placeholder', 'border');
@@ -1445,8 +1451,8 @@ $element-icon-toggle: (
     @if map-get($element-icon, 'placeholder', 'shadow') != null {
       box-shadow: map-get($element-icon, 'placeholder', 'shadow');
     }
-    .z-element-icon-text { color: map-get($element-icon, 'placeholder', 'font'); }
-    .z-icon { background: map-get($element-icon, 'placeholder', 'icon'); }
+    .element-icon-text { color: map-get($element-icon, 'placeholder', 'font'); }
+    .icon { background: map-get($element-icon, 'placeholder', 'icon'); }
   }
 
   // 연결선, 배경이동
@@ -1459,8 +1465,8 @@ $element-icon-toggle: (
       box-shadow: map-get($element-icon-toggle, 'default', 'shadow');
     }
     // 아이콘이 존재한다면
-    .z-icon { background: map-get($element-icon-toggle, 'default', 'font'); }
-    .z-element-icon-text { color: map-get($element-icon-toggle, 'default', 'font'); }
+    .icon { background: map-get($element-icon-toggle, 'default', 'font'); }
+    .element-icon-text { color: map-get($element-icon-toggle, 'default', 'font'); }
 
     &:focus {
       border-color: map-get($element-icon-toggle, 'focus', 'border');
@@ -1470,8 +1476,8 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'focus', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'focus', 'shadow');
       }
-      .z-icon { background: map-get($element-icon-toggle, 'focus', 'font'); }
-      .z-element-icon-text { color: map-get($element-icon-toggle, 'focus', 'font'); }
+      .icon { background: map-get($element-icon-toggle, 'focus', 'font'); }
+      .element-icon-text { color: map-get($element-icon-toggle, 'focus', 'font'); }
     }
 
     &:hover {
@@ -1482,8 +1488,8 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'hover', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'hover', 'shadow');
       }
-      .z-icon { background: map-get($element-icon-toggle, 'hover', 'font'); }
-      .z-element-icon-text { color: map-get($element-icon-toggle, 'hover', 'font'); }
+      .icon { background: map-get($element-icon-toggle, 'hover', 'font'); }
+      .element-icon-text { color: map-get($element-icon-toggle, 'hover', 'font'); }
     }
 
     &:enabled:active,
@@ -1495,8 +1501,8 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'active', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'active', 'shadow');
       }
-      .z-icon { background: map-get($element-icon-toggle, 'active', 'font'); }
-      .z-element-icon-text { color: map-get($element-icon-toggle, 'active', 'font'); }
+      .icon { background: map-get($element-icon-toggle, 'active', 'font'); }
+      .element-icon-text { color: map-get($element-icon-toggle, 'active', 'font'); }
     }
     // 선택된 경우
     &.selected:not(:disabled),
@@ -1508,8 +1514,8 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'selected', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'selected', 'shadow');
       }
-      .z-icon { background: map-get($element-icon-toggle, 'selected', 'font'); }
-      .z-element-icon-text { color: map-get($element-icon-toggle, 'selected', 'font'); }
+      .icon { background: map-get($element-icon-toggle, 'selected', 'font'); }
+      .element-icon-text { color: map-get($element-icon-toggle, 'selected', 'font'); }
     }
 
     &:disabled,
@@ -1521,8 +1527,8 @@ $element-icon-toggle: (
       @if map-get($element-icon-toggle, 'disabled', 'shadow') != null {
         box-shadow: map-get($element-icon-toggle, 'disabled', 'shadow');
       }
-      .z-icon { background: map-get($element-icon-toggle, 'disabled', 'font'); }
-      .z-element-icon-text { color: map-get($element-icon-toggle, 'disabled', 'font'); }
+      .icon { background: map-get($element-icon-toggle, 'disabled', 'font'); }
+      .element-icon-text { color: map-get($element-icon-toggle, 'disabled', 'font'); }
     }
   }
 
@@ -1531,31 +1537,31 @@ $element-icon-toggle: (
   // Background
   &.move-icon { @include absolute($bottom: 0.313rem); } //  5px
 
-  .z-element-icon-text {
+  .element-icon-text {
     display: block;
     color: map-get($element-icon, 'default', 'font');
     font-weight: $font-weight-medium;
   }
-  .z-icon {
+  .icon {
     display: inline-block;
     background: map-get($element-icon, 'default', 'icon');
   }
 }
 
-.z-button-icon {
-  &.z-button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
-  &.z-button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
-  &.z-button-candidate-add {
+.button-icon {
+  &.button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
+  &.button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
+  &.button-candidate-add {
     margin-left: 0.3125rem; // 5px
-    .z-icon.i-plus { background: $gray500; }
+    .icon.i-plus { background: $gray500; }
   }
-  &.z-button-attach-file {
-    .z-icon.i-folder { background: $gray500; }
+  &.button-attach-file {
+    .icon.i-folder { background: $gray500; }
   }
 }
 
 ////////////////////////// element //////////////////////////
-.z-process-container {
+.process-container {
   textarea {
     min-height: 7.5rem; // 120px
     resize: vertical;
@@ -1753,7 +1759,7 @@ $element-icon-toggle: (
 }
 
 ////////////////////////// layout //////////////////////////
-.z-process {
+.process {
   // header
   &-header { font-size: $font-size-m; }
 
@@ -1767,11 +1773,11 @@ $element-icon-toggle: (
   &-main {
     left: 6.25rem; // 100px
     overflow: hidden;
-    .z-drawing-board {
+    .drawing-board {
       @include absolute($top: 0, $left: 0); // 0 0
       width: 100%;
       height: 100%;
-      // 모눈 종이 : 내부 디자인 속성은 _elements.scss 참조
+      // 모눈 종이 : 내부 디자인 속성은 _element.scss 참조
       svg {
         background-color: $neutral50;
         // 선
@@ -1786,7 +1792,7 @@ $element-icon-toggle: (
         }
       }
       // 미니맵
-      .z-minimap {
+      .minimap {
         @include absolute($right: 3.438rem, $bottom: 0.625rem); // 55px 10px
         @include border(0.0625rem, solid, $gray300, all);
         @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px
@@ -1803,7 +1809,7 @@ $element-icon-toggle: (
           border-radius: 0.0625rem; // 1px
           background-color: $neutral50;
           // 미니맵 위치 변경시 표시되는 네모박스
-          rect.z-minimap-guide {
+          rect.minimap-guide {
             fill: $neutral400;
             fill-opacity: 0.25;
             stroke-width: 0;
@@ -1813,7 +1819,7 @@ $element-icon-toggle: (
         &.closed { display: none; }
       }
       // 시뮬레이션
-      .z-simulation-report {
+      .simulation-report {
         @include absolute(0, 0, 0, 0);
         @include border(0.0625rem, solid, $gray300, all);
         @include boxShadow(0, 0, 0.3125rem, 0, $gray300); // 5px
@@ -1832,7 +1838,7 @@ $element-icon-toggle: (
           color: $gray800;
           font-size: $font-size-m;
           font-weight: $font-weight-medium;
-          .z-icon.i-minus {
+          .icon.i-minus {
             @include absolute($right: 1.125rem); // 17px
             background: $gray500;
             cursor: pointer;

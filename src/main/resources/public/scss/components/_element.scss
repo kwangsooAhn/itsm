@@ -1,6 +1,6 @@
-/* _elements.scss
+/* _element.scss
  *
- * 파일 경로 : components/_elements.scss
+ * 파일 경로 : components/_element.scss
  * @description HTML element 디자인
  * @author wdj
  * @version 1.0
@@ -59,7 +59,7 @@ table {
     vertical-align: middle;
   }
 }
-.z-table {
+.table {
   border: none;
   background-color: transparent;
   color: $neutral800;
@@ -82,12 +82,12 @@ table {
     font-weight: $font-weight-medium;
   }
 
-  .z-table-head {
+  .table-head {
     @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
     tr { height: 2.5rem; } // 42px
   }
 
-  .z-table-body {
+  .table-body {
     width: 100%;
     height: 100%;
     tr {
@@ -104,7 +104,7 @@ table {
     .no-data-found-list { pointer-events: none; }
 
     // icon button
-    .z-button-icon {
+    .button-icon {
       padding: 0;
       background-color: transparent;
       border-color: transparent;
@@ -112,15 +112,15 @@ table {
         background-color: transparent;
         border-color: transparent;
       }
-      .z-icon { background-color: $gray600; }
-      &:hover .z-icon { background-color: $gray400; }
-      &:focus .z-icon { background-color: $gray800; }
-      &:active .z-icon { background-color: $gray800; }
-      &:disabled .z-icon { background-color: $gray300; }
+      .icon { background-color: $gray600; }
+      &:hover .icon { background-color: $gray400; }
+      &:focus .icon { background-color: $gray800; }
+      &:active .icon { background-color: $gray800; }
+      &:disabled .icon { background-color: $gray300; }
     }
   }
 }
-.z-option-table {
+.option-table {
   border: none;
   background-color: transparent;
   color: $gray400;
@@ -135,7 +135,7 @@ table {
     border-right: none;
     th, td { padding: 0 0.5rem; }
 
-    &.z-option-table-header {
+    &.option-table-header {
       @include border(0.0625rem, solid, $gray400, top);
       @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
       height: 2rem; // 32px
@@ -146,11 +146,11 @@ table {
       font-weight: $font-weight-medium;
     }
 
-    &.z-option-table-row {
-      .z-checkbox,
-      .z-radio { margin: 0 0 0 0.75rem; } // 12px
+    &.option-table-row {
+      .checkbox,
+      .radio { margin: 0 0 0 0.75rem; } // 12px
 
-      .z-input {
+      .input {
         width: 85%;
         padding: 0.75rem;
         margin: 0.25rem; // 4px
@@ -158,14 +158,14 @@ table {
         &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
       }
 
-      .z-button-icon {
-        .z-icon {
+      .button-icon {
+        .icon {
           display: block;
           margin: 0 auto;
           background: $gray400;
           pointer-events: none;
         }
-        &:hover .z-icon { background: $blue500; }
+        &:hover .icon { background: $blue500; }
       }
     }
   }
@@ -185,29 +185,12 @@ label {
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
 }
-// input box + button
-.input-button {
-  @include relative();
-
-  input[type='text'] {
-    margin: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    &:focus, &:hover { z-index: 25; }
-  }
-  button {
-    margin-left: -0.0625rem;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    &:focus, &:hover, &:active { z-index: 25; }
-  }
-}
 
 //////////////////////////  UI 컴포넌트 추가  //////////////////////////
 input, textarea, select {
   &:focus, &:hover { outline: 0; }
 }
-.z-input {
+.input {
   @include border(0.0625rem, solid, $gray400, all);
   @include borderRadius(0.125rem); // 2px
   height: 2.125rem; // 34px
@@ -284,15 +267,15 @@ input, textarea, select {
     @include relative();
     height: 2.125rem; // 34px
 
-    .z-input { flex-basis: 100%; }
+    .input { flex-basis: 100%; }
 
-    .z-button-search {
+    .button-search {
       @include borderRadius(0.25rem);
       margin-left: 1rem; // 16px
       &:focus, &:hover, &:active { z-index: 25; }
     }
 
-    .z-button-icon-sm {
+    .button-icon-sm {
       position: relative;
       margin-top: 0.625rem; // 10px
       -webkit-print-color-adjust:exact;
@@ -325,7 +308,7 @@ input, textarea, select {
 // textarea
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
-.z-textarea {
+.textarea {
   padding: 0.5rem 0.75rem; // 들여쓰기 8px 16px
   background-color: $white;
   color: $neutral800;
@@ -389,10 +372,10 @@ input, textarea, select {
   &.success { @include border(0.0625rem, solid, $green500 !important, all); }
 }
 // os-div 작업
-div.z-textarea-readonly { border-color: transparent !important; }
+div.textarea-readonly { border-color: transparent !important; }
 
 // switch
-.z-switch {
+.switch {
   @include relative();
   height: 1.75rem; //26px
   color: $neutral800;
@@ -402,7 +385,7 @@ div.z-textarea-readonly { border-color: transparent !important; }
   line-height: 1.2;
   outline: none;
 
-  .z-label {
+  .label {
     display: inline-block;
     height: 1.125rem; // 18px
     margin-left: 3rem; // 48px
@@ -477,12 +460,12 @@ select {
 /**
  Designed select
    1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
-   2) z-select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
+   2) select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
    3) 내부에는 2개의 영역으로 구성되며 아래와 같은 클래스명으로 구분된다.
-     - z-select-box : select 태그를 대신해서 보여지는 부분
-     - z-select-options : z-select-box 클릭 시 보여지는 option 리스트 부분
+     - select-box : select 태그를 대신해서 보여지는 부분
+     - select-options : select-box 클릭 시 보여지는 option 리스트 부분
 */
-.z-select {
+.select {
   @include relative();
   display: inline-block;
   width: 100%;
@@ -492,7 +475,7 @@ select {
   select.readonly { visibility: hidden; }
 
   // select 태그를 대신해서 보여지는 부분
-  .z-select-box {
+  .select-box {
     @include absolute(0, 0, 0, 0);
     @include borderRadius(0.125rem); // 2px
     @include border(0.0625rem, solid, $gray400, all);
@@ -524,12 +507,12 @@ select {
         @include border(0.0625rem, solid, $blue600, all);
         outline: 0;
         // 열렸을때 출력되는 화살표 아이콘
-        .z-icon.i-arrow-right { @include rotate(-90); }
-        + .z-select-options { display: block; }
+        .icon.i-arrow-right { @include rotate(-90); }
+        + .select-options { display: block; }
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
-      .z-icon {
+      .icon {
         pointer-events: none;
         &.i-arrow-right {
           @include absolute($right: 0.5rem); // 8px
@@ -549,7 +532,7 @@ select {
       cursor: default;
     }
 
-    .z-select-box-label {
+    .select-box-label {
       height: auto;
       width: 100%;
       padding: 0;
@@ -572,15 +555,15 @@ select {
       pointer-events: none;
       cursor: default;
 
-      .z-select-box-label {
+      .select-box-label {
         background-color: $neutral200;
         color: $gray400;
       }
     }
   }
 
-  // z-select-box 클릭 시 보여지는 option 리스트 부분
-  .z-select-options {
+  // select-box 클릭 시 보여지는 option 리스트 부분
+  .select-options {
     @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
     @include border(0.0625rem, solid, $gray400, all);
     @include borderRadius(0.125rem); // 2px
@@ -627,9 +610,9 @@ select {
 }
 
 // slider
-.z-slider {
+.slider {
   min-height: 1.375rem; // 22px
-  .z-range {
+  .range {
     @include borderRadius(0.25rem); // 4px
     width : 75%;
     max-width: 15rem; // 240px
@@ -703,7 +686,7 @@ select {
       }
     }
   }
-  .z-input {
+  .input {
     width: 23%;
     margin-left: 2%;
     text-align: center;
@@ -717,11 +700,11 @@ select {
 
 // 스위치 목록
 // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
-.z-switch {
+.switch {
   display: inline-block;
   width: 100%;
   margin: 0 !important;
-  .z-label-name { width: 12.5rem; } //200px
+  .label-name { width: 12.5rem; } //200px
   // 목록
   &-list {
     height: 22.5rem; // 360px
@@ -734,15 +717,15 @@ select {
       height: 2.5rem; // 40px
       padding-right: 0.2rem;
     }
-    .z-switch {
-      .z-label { margin-left: 0; }
+    .switch {
+      .label { margin-left: 0; }
       input[type=checkbox] + span { left: inherit }
     }
   }
 }
 
 // checkbox
-.z-checkbox {
+.checkbox {
   margin-right: 0.5rem; // 8px
   color: $neutral800;
   font-family: $font-family;
@@ -786,7 +769,7 @@ select {
     &:not(:disabled),
     &:not(.readonly) {
       + span { cursor: pointer; }
-      ~ .z-label { cursor: pointer; }
+      ~ .label { cursor: pointer; }
 
       &:hover {
         + span::before {
@@ -802,7 +785,7 @@ select {
         &::before { background-color: $neutral200; }
         &::after { border-color: $gray400; }
       }
-      ~ .z-label { color: $gray400; }
+      ~ .label { color: $gray400; }
     }
 
     &.error {
@@ -837,7 +820,7 @@ select {
 }
 // 체크박스 목록
 // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
-.z-checkbox {
+.checkbox {
   // 전체 선택
   &-all { display: table-cell; }
   // 목록
@@ -858,7 +841,7 @@ select {
 }
 
 // radio button
-.z-radio {
+.radio {
   @include relative();
   margin-right: 0.5rem; // 8px
   color: $neutral800;
@@ -901,7 +884,7 @@ select {
     &:not(:disabled),
     &:not(.readonly) {
       + span { cursor: pointer; }
-      ~ .z-label { cursor: pointer; }
+      ~ .label { cursor: pointer; }
 
       &:checked {
         + span {
@@ -927,7 +910,7 @@ select {
         border-color: $gray300;
         background-color: $neutral200;
       }
-      ~ .z-label { color: $gray400; }
+      ~ .label { color: $gray400; }
       &:checked {
         + span::after {
           @include transform(translate(4px, 9px) scale(1)); // 4px, 9px
@@ -970,30 +953,13 @@ select {
   &.readonly, &.disabled { pointer-events: none; }
 }
 
-.z-view-hover { pointer-events: none; }
+.view-hover { pointer-events: none; }
 
-// 기본 라벨 테마
-$label-themes-default: (
-        'normal': (
-                'default': ('font': $blue700, 'background': $blue300, 'border': $blue300)
-        )
-);
-// label default
 .label {
   @include borderRadius(0.125rem); // 2px
   padding: 0.375rem; // 6px
   font-size: $font-size-xs;
-  font-weight: $font-weight-bold;
   line-height: 1.0625rem; //17px
-  // 기본 테마별 라벨
-  @each $theme, $value in $label-themes-default {
-    &.#{$theme} {
-      border-color: map-get($value, 'default', 'border');
-      background-color: map-get($value, 'default', 'background');
-      color: map-get($value, 'default', 'font');
-    }
-  }
-
 }
 
-.z-divider { margin: 0; }
+.divider { margin: 0; }

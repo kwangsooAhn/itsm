@@ -15,13 +15,13 @@
     <h6 class="description ml-2 pl-2" th:text="#{code.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+    <input type="text" class="input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
            maxlength="100" th:placeholder="#{code.label.searchPlaceholder}"/>
-    <span id="totalCount" class="z-search-count"></span>
+    <span id="totalCount" class="search-count"></span>
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
-        <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
+        <button type="button" class="button primary" id="btnCreate" name="btnCreate"
                 th:text="#{common.btn.add}" th:onclick="|javascript:onCreate()|"></button>
-        <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:title="#{common.btn.export}" th:onclick="|javascript:onExcelDownload()|">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
         </button>
@@ -31,84 +31,84 @@
     <div id="treeList"></div>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-row">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
                 <span id="tooltipCode" th:title="${codeDetail?.code}">
-                <input id="txtCode" name="txtCode" class="z-input text-ellipsis col-pct-12" type="text"
+                <input id="txtCode" name="txtCode" class="input text-ellipsis col-pct-12" type="text"
                        th:value="${codeDetail?.code}" maxlength="100"/>
                 </span>
             </div>
             <div class="flex-column flex-fill">
                 <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
                 <span id="tooltipPcode" th:title="${codeDetail?.pCode}">
-                <input id="txtPCode" name="txtPCode" class="z-input text-ellipsis col-pct-12" type="text"
+                <input id="txtPCode" name="txtPCode" class="input text-ellipsis col-pct-12" type="text"
                        th:value="${codeDetail?.pCode}" maxlength="100"/>
                 </span>
             </div>
         </div>
-        <div class="z-edit-row flex-row">
+        <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                <input id="txtCodeName" name="txtCodeName" class="z-input text-ellipsis" type="text"
+                <input id="txtCodeName" name="txtCodeName" class="input text-ellipsis" type="text"
                        th:value="${codeDetail?.codeName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
-                <input id="txtCodeValue" name="txtCodeValue" class="z-input text-ellipsis" type="text"
+                <input id="txtCodeValue" name="txtCodeValue" class="input text-ellipsis" type="text"
                        th:value="${codeDetail?.codeValue}" maxlength="100"/>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
-            <input id="txtSeqNum" name="txtSeqNum" class="z-input text-ellipsis" type="text" th:value="${codeDetail?.seqNum}"
+            <input id="txtSeqNum" name="txtSeqNum" class="input text-ellipsis" type="text" th:value="${codeDetail?.seqNum}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
-        <div class="z-edit-row flex-column">
-            <label class="z-switch">
-                <span class="z-label" th:text="#{code.label.useYn}"></span>
+        <div class="edit-row flex-column">
+            <label class="switch">
+                <span class="label" th:text="#{code.label.useYn}"></span>
                 <input type="checkbox" id="codeUseYn" name="codeUseYn"
                        th:checked="${codeDetail?.useYn == null || codeDetail?.useYn == true}">
                 <span></span>
             </label>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
             <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
-                      class="z-textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
+                      class="textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
         </div>
-        <div class="z-edit-row flex-column flex-fill">
+        <div class="edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
                 <label th:text="#{code.label.codeLang}"></label>
                 <button sec:authorize="hasAuthority('system.manage')" type="button"
-                        class="z-button-icon extra float-right" id="btnCodeLang">
-                    <span class="z-icon i-plus"></span>
+                        class="button-icon extra float-right" id="btnCodeLang">
+                    <span class="icon i-plus"></span>
                 </button>
             </div>
             <div class="horizontal-bar"></div>
             <div id="codeLang"></div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list" sec:authorize="hasAuthority('system.manage')">
-                <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
+            <div class="button-list" sec:authorize="hasAuthority('system.manage')">
+                <button type="button" class="button primary" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="button primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
+                <button type="button" class="button danger" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
     <template id="langCodeRowTemplate">
-        <div class="z-edit-row flex-row align-items-center">
+        <div class="edit-row flex-row align-items-center">
             <label class="required" th:text="#{'code.label.lang'}"></label>
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.name}"></label>
-            <input class="z-input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
-            <button type="button" sec:authorize="hasAuthority('system.manage')" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">
-                <span class="z-icon i-remove"></span>
+            <input class="input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
+            <button type="button" sec:authorize="hasAuthority('system.manage')" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">
+                <span class="icon i-remove"></span>
             </button>
         </div>
     </template>
@@ -128,8 +128,8 @@
         if (document.getElementById('btnCodeLang') !== null) {
             document.getElementById('btnCodeLang').addEventListener('click', drawCodeLang);
         }
-        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('txtCodeDesc'), { className: 'scrollbar' });
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getCodeList()), false);
 
@@ -208,7 +208,7 @@
                 if (CODE_DELETE) {
                     document.getElementById('btnDelete').disabled = false;
                 }
-                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                document.querySelector('.textarea').classList.remove('textarea-readonly');
                 txtCodeDesc.readOnly = false;
                 document.getElementById('btnCodeLang').disabled = false;
                 txtCode.parentElement.previousElementSibling.classList.add('required');
@@ -221,14 +221,14 @@
                 if (CODE_DELETE) {
                     document.getElementById('btnDelete').disabled = true;
                 }
-                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                document.querySelector('.textarea').classList.add('textarea-readonly');
                 txtCodeDesc.readOnly = true;
                 document.getElementById('btnCodeLang').disabled = true;
                 txtCode.parentElement.previousElementSibling.classList.remove('required');
                 pTxtCode.parentElement.previousElementSibling.classList.remove('required');
             }
             // 편집 불가 처리
-            const editInputElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text]');
+            const editInputElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
             editInputElems.forEach((elem) => {
                 elem.readOnly = !response.data.editable;
             });
@@ -251,12 +251,12 @@
             document.getElementById('btnDelete').style.display = 'none';
         }
 
-        const editElems = document.querySelector('.z-page-edit').querySelectorAll('input[type=text], textarea');
+        const editElems = document.querySelector('.page-edit').querySelectorAll('input[type=text], textarea');
         editElems.forEach((elem) => {
             elem.readOnly = false;
             elem.value = '';
         });
-        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+        document.querySelector('.textarea').classList.remove('textarea-readonly');
         document.getElementById('txtCode').disabled = false;
         document.getElementById('codeUseYn').disabled = false;
         document.getElementById('btnCodeLang').disabled = false;
@@ -414,7 +414,7 @@
         }
 
         langCodeRow.querySelector('input').value = (typeof param.codeLangValue !== 'undefined') ? param.codeLangValue : '';
-        const deleteBtn = langCodeRow.querySelector('button.z-button-icon');
+        const deleteBtn = langCodeRow.querySelector('button.button-icon');
         if (deleteBtn !== null) {
             deleteBtn.addEventListener('click', function() {
                 const row = deleteBtn.parentNode;

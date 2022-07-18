@@ -110,32 +110,32 @@
 
         // create title
         let pickerTitle = document.createElement('div');
-        pickerTitle.className = 'z-picker-modal-title';
+        pickerTitle.className = 'picker-modal-title';
         pickerTitle.textContent = i18n.msg(options.title);
         this.el.appendChild(pickerTitle);
 
         // create title > remove button
         let buttonRemove = document.createElement('button');
         buttonRemove.type = 'button';
-        buttonRemove.className = 'z-button-icon extra';
-        buttonRemove.insertAdjacentHTML('beforeend', `<span class="z-icon i-delete"></span>`);
+        buttonRemove.className = 'button-icon extra';
+        buttonRemove.insertAdjacentHTML('beforeend', `<span class="icon i-delete"></span>`);
         buttonRemove.addEventListener('click', this.removeTarget, false);
         pickerTitle.appendChild(buttonRemove);
 
         // create title > close icon
         const spanClose = document.createElement('span');
-        spanClose.className = 'z-icon i-remove';
+        spanClose.className = 'icon i-remove';
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
 
         // create content
         let pickerContent = document.createElement('div');
-        pickerContent.className = 'z-picker-modal-content';
+        pickerContent.className = 'picker-modal-content';
         this.el.appendChild(pickerContent);
 
         // create content > date
         let pickerContentDate = document.createElement('div');
-        pickerContentDate.className = 'z-picker-modal-content-date';
+        pickerContentDate.className = 'picker-modal-content-date';
         if (this.type === 'DATE' || this.type === 'DATEHOUR') {
             pickerContentDate.classList.add('active');
         }
@@ -145,7 +145,7 @@
         // create content > time
         if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
             let pickerContentTime = document.createElement('div');
-            pickerContentTime.className = 'z-picker-modal-content-time';
+            pickerContentTime.className = 'picker-modal-content-time';
             pickerContentTime.classList.add('active');
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
@@ -153,13 +153,13 @@
         if (this.type === 'DATEHOUR' || this.type === 'HOUR') {
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'z-button-list z-picker-modal-button';
+            pickerButton.className = 'button-list picker-modal-button';
             this.el.appendChild(pickerButton);
 
             // create button > confirm
             let buttonConfirm = document.createElement('button');
             buttonConfirm.type = 'button';
-            buttonConfirm.className = 'z-button secondary';
+            buttonConfirm.className = 'button secondary';
             buttonConfirm.innerText = i18n.msg('common.btn.select');
             buttonConfirm.addEventListener('click', this.changeTarget, false);
             pickerButton.appendChild(buttonConfirm);
@@ -167,7 +167,7 @@
             // create button > cancel
             let buttonCancel = document.createElement('button');
             buttonCancel.type = 'button';
-            buttonCancel.className = 'z-button extra';
+            buttonCancel.className = 'button extra';
             buttonCancel.innerText = i18n.msg('common.btn.cancel');
             buttonCancel.addEventListener('click', this.close, false);
             pickerButton.appendChild(buttonCancel);
@@ -176,7 +176,7 @@
         // create content > year
         if (this.type === 'YEAR') {
             let pickerContentYear = document.createElement('div');
-            pickerContentYear.className = 'z-picker-modal-content-year';
+            pickerContentYear.className = 'picker-modal-content-year';
             pickerContentYear.classList.add('active');
             pickerContent.appendChild(pickerContentYear);
             spanClose.remove();
@@ -185,13 +185,13 @@
 
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'z-button-list z-picker-modal-button';
+            pickerButton.className = 'button-list picker-modal-button';
             this.el.appendChild(pickerButton);
 
             // create button > reset
             let buttonReset = document.createElement('button');
             buttonReset.type = 'button';
-            buttonReset.className = 'z-button extra small';
+            buttonReset.className = 'button extra small';
             buttonReset.innerText = i18n.msg('datepicker.btn.reset');
             buttonReset.addEventListener('click', this.removeTarget, false);
             pickerButton.appendChild(buttonReset);
@@ -268,16 +268,16 @@
         // Date picker 생성 및 초기화 처리.
         drawDate: function() {
             let _this = this;
-            const pickerDate = _this.el.querySelector('.z-picker-modal-content-date');
+            const pickerDate = _this.el.querySelector('.picker-modal-content-date');
             pickerDate.innerHTML = '';
             // create month panel
             const monthPanel = document.createElement('div');
-            monthPanel.className = 'z-picker-modal-content-date-months';
+            monthPanel.className = 'picker-modal-content-date-months';
             pickerDate.appendChild(monthPanel);
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
+            prevArrow.className = 'icon i-arrow-right date-prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
@@ -290,13 +290,13 @@
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'z-icon i-arrow-right z-date-next';
+            nextArrow.className = 'icon i-arrow-right date-next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
             // create calendar
             const calendarPanel = document.createElement('div');
-            calendarPanel.className = 'z-picker-modal-content-date-calendar';
+            calendarPanel.className = 'picker-modal-content-date-calendar';
             pickerDate.appendChild(calendarPanel);
 
             // Sun ~ Sat
@@ -360,7 +360,7 @@
         // Time picker 생성 및 초기화 처리.
         drawTime: function() {
             let _this = this;
-            const pickerTime = _this.el.querySelector('.z-picker-modal-content-time');
+            const pickerTime = _this.el.querySelector('.picker-modal-content-time');
             pickerTime.innerHTML = '';
 
             const hourFormatArr = i18n.timeFormat.split(':');
@@ -374,7 +374,7 @@
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.className = 'z-icon i-arrow-right z-hour-up';
+            hourArrowUp.className = 'icon i-arrow-right hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, {hours: 1}), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
@@ -388,7 +388,7 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.className = 'z-icon i-arrow-right z-hour-down';
+            hourArrowDown.className = 'icon i-arrow-right hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, {hours: -1}), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
@@ -405,7 +405,7 @@
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.className = 'z-icon i-arrow-right z-minute-up';
+            minuteArrowUp.className = 'icon i-arrow-right minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? 30 : 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
@@ -420,7 +420,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.className = 'z-icon i-arrow-right z-minute-down';
+            minuteArrowDown.className = 'icon i-arrow-right minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? -30 : -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
@@ -432,12 +432,12 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'z-button-toggle-group vertical';
+                hourType.className = 'button-toggle-group vertical';
                 pickerTime.appendChild(hourType);
 
                 // create button > am
                 let buttonAM = document.createElement('button');
-                buttonAM.className = 'z-button-toggle';
+                buttonAM.className = 'button-toggle';
                 if (curHourType === 'AM') {
                     buttonAM.classList.add('selected');
                     _this.meridiem = 'AM';
@@ -465,7 +465,7 @@
 
                 // create button > pm
                 let buttonPM = document.createElement('button');
-                buttonPM.className = 'z-button-toggle';
+                buttonPM.className = 'button-toggle';
                 if (curHourType === 'PM') {
                     buttonPM.classList.add('selected');
                     _this.meridiem = 'PM';
@@ -495,16 +495,16 @@
         // Year picker 생성 및 초기화 처리.
         drawYear: function () {
             let _this = this;
-            const pickerYear = _this.el.querySelector('.z-picker-modal-content-year');
+            const pickerYear = _this.el.querySelector('.picker-modal-content-year');
             pickerYear.innerHTML = '';
             // [create year panel]
             const periodPanel = document.createElement('div');
-            periodPanel.className = 'z-picker-modal-content-year-period';
+            periodPanel.className = 'picker-modal-content-year-period';
             pickerYear.appendChild(periodPanel);
 
             // prev year
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'z-icon i-arrow-right z-date-prev';
+            prevArrow.className = 'icon i-arrow-right date-prev';
             prevArrow.addEventListener('click', _this.prevYear, false);
             periodPanel.appendChild(prevArrow);
 
@@ -525,13 +525,13 @@
 
             // next year
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'z-icon i-arrow-right z-date-next';
+            nextArrow.className = 'icon i-arrow-right date-next';
             nextArrow.addEventListener('click', _this.nextYear, false);
             periodPanel.appendChild(nextArrow);
 
             // [create calendar]
             const yearPanel = document.createElement('div');
-            yearPanel.className = 'z-picker-modal-content-year-years';
+            yearPanel.className = 'picker-modal-content-year-years';
             pickerYear.appendChild(yearPanel);
 
             let firstYearOfDate = _this.selectLuxon.set();
@@ -723,7 +723,7 @@
         },
         // Picker 가 오픈된 상태로 Picker 외부를 선택할 경우 닫음.
         clickWindow: function(e) {
-            if (!util.clickInsideElement(e, 'z-picker-modal')) {
+            if (!util.clickInsideElement(e, 'picker-modal')) {
                 this.close();
             }
         }
@@ -751,14 +751,14 @@
         // 공지사항 수정화면처럼 date-picker를 dispay:none으로 했다가 풀어야 하는 경우에
         // 보통 onload에 초기화를 하면서
         // pciker-wrapper-date가 중복으로 계속 쌓여서 동작 오류가 발생하므로 부모 wrapper도 삭제.
-        if (targetElement.parentElement.className === 'z-picker-wrapper-date') {
+        if (targetElement.parentElement.className === 'picker-wrapper-date') {
             let wrapElement = targetElement.parentElement;
             wrapElement.parentElement.insertBefore(targetElement, wrapElement.nextSibling);
             wrapElement.parentElement.removeChild(wrapElement);
         }
 
         let targetContainer = document.createElement('div');
-        targetContainer.className = 'z-picker-wrapper-date';
+        targetContainer.className = 'picker-wrapper-date';
         targetElement.parentElement.insertBefore(targetContainer, targetElement.nextSibling);
         targetElement.parentElement.removeChild(targetElement);
         targetContainer.appendChild(targetElement);
@@ -771,7 +771,7 @@
         options.id = pickerId;
         let pickerContainer = document.createElement('div');
         pickerContainer.id = pickerId;
-        pickerContainer.className = 'z-picker-modal';
+        pickerContainer.className = 'picker-modal';
         targetContainer.appendChild(pickerContainer);
         options.el = pickerContainer;
 

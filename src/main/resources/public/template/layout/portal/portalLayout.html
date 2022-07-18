@@ -9,14 +9,14 @@
     <th:block layout:fragment="scriptLink"></th:block>
 </head>
 <body>
-<div class="z-wrapper">
-    <div class="z-portal-container">
+<div class="wrapper">
+    <div class="portal-container">
         <!-- 상단 메뉴 -->
         <th:block layout:fragment="pageHeader">
             <div th:replace="layout/portal/fragment/headFragment">head</div>
         </th:block>
         <!-- 메인 -->
-        <div class="z-main">
+        <div class="main">
             <!--/* 페이지별로 달라지는 메인 컨텐츠 */-->
             <th:block layout:fragment="pageContent"></th:block>
         </div>

@@ -1,6 +1,6 @@
-/* _validations.scss
+/* _validation.scss
  *
- * 파일 경로 : components/_validations.scss
+ * 파일 경로 : components/_validation.scss
  * @description validation message
  * @author jy.lim
  * @version 1.0
@@ -16,7 +16,7 @@
   }
 }
 
-.z-validation {
+.validation {
   display: inherit;
   height: 2rem;
   margin: 0.25rem 0; // 4px 0px
@@ -34,24 +34,24 @@
     @include backgroundImage('#{$icon-folder-path}validation/icon_info.svg', null, no-repeat, 1rem, center, null);
     background-color: $blue100;
     color: $blue500;
-    .z-icon.i-remove { background: $blue500; }
+    .icon.i-remove { background: $blue500; }
   }
   &.error {
     @include border(0.0625rem, solid, $red50 !important, all);
     @include backgroundImage('#{$icon-folder-path}validation/icon_error.svg', null, no-repeat, 1rem, center, null);
     background-color: $red50;
     color: $red500;
-    .z-icon.i-remove { background: $red500; }
+    .icon.i-remove { background: $red500; }
   }
   &.success {
     @include border(0.0625rem, solid, $green100, all);
     @include backgroundImage('#{$icon-folder-path}validation/icon_success.svg', null, no-repeat, 1rem, center, null);
     background-color: $green100;
     color: $green600;
-    .z-icon.i-remove { background: $green600; }
+    .icon.i-remove { background: $green600; }
   }
 
-  .z-icon.i-remove {
+  .icon.i-remove {
     padding-right: 0.9375rem; // 15px
     background: $gray500;
   }
