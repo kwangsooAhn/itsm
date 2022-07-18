@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<table class="z-table flex-column">
-    <thead class="z-table-head">
+<table class="table flex-column">
+    <thead class="table-head">
         <tr class="flex-row">
             <th width="75%" class="align-left" th:text="#{common.label.title}"></th>
             <th width="10%" class="align-center" th:text="#{common.label.createUser}"></th>
             <th width="15%" class="align-center" th:text="#{common.label.createDate}"></th>
         </tr>
     </thead>
-    <tbody class="z-table-body">
+    <tbody class="table-body">
         <tr class="notice-pinned" th:each="topNotice: ${topNoticeList}">
             <td width="75%" class="align-left underline">
                 <a th:text="${topNotice.noticeTitle}"

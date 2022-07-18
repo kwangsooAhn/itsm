@@ -49,7 +49,7 @@ export const checkBoxMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv()
-            .setUIClass('z-element')
+            .setUIClass('element')
             .addUIClass('align-left')
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIProperty('--data-column', this.elementColumnWidth);
@@ -157,7 +157,7 @@ export const checkBoxMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(checkboxId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-checkbox')
+                .addUIClass('checkbox')
                 .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UICheckbox = new UICheckbox(checkedYn)
                 .setUIId(checkboxId)

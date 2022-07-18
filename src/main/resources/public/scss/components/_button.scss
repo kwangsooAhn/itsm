@@ -1,4 +1,4 @@
-/* _buttons.scss
+/* _button.scss
  *
  * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
  * (1) 버튼 1개인 경우 : Secondary
@@ -9,12 +9,12 @@
  *  - (4-2) 제출 외의 옵션이 있는 경우: (2)번 혹은 (3)번과 동일
  * (5) 버튼 외에 클릭하는 옵션이 그 옵션을 클릭함으로써 버튼을 클릭하지 않아도 되는 (혹은 클릭하지 못하는) 상황이 되는 경우: Secondary (아마 이 경우에는 버튼이 하나 뿐일 겁니다.)
  *
- * 파일 경로 : components/_buttons.scss
+ * 파일 경로 : components/_button.scss
  * @description 버튼 디자인
  * @author wdj
  * @version 1.0
  */
-// <a class='z-button'></a>  or <button class='z-button'>
+// <a class='button'></a>  or <button class='button'>
 
 $button-themes-default: (
         'primary': (
@@ -107,9 +107,9 @@ $button-group: (
         'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
         'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
-.z-button,
-.z-button-icon,
-.z-button-text {
+.button,
+.button-icon,
+.button-text {
   @include border(0rem, solid, transparent, all);
   @include borderRadius(0.25rem); // 4px
   display: inline-block;
@@ -154,7 +154,7 @@ $button-group: (
         box-shadow: map-get($value, 'default', 'shadow');
       }
       // 아이콘이 존재한다면
-      .z-icon {
+      .icon {
         display: block;
         background: map-get($value, 'default', 'font');
         pointer-events: none;
@@ -169,7 +169,7 @@ $button-group: (
         @if map-get($value, 'focus', 'shadow') != null {
           box-shadow: map-get($value, 'focus', 'shadow');
         }
-        .z-icon { background: map-get($value, 'focus', 'font'); }
+        .icon { background: map-get($value, 'focus', 'font'); }
       }
 
       &:hover {
@@ -181,7 +181,7 @@ $button-group: (
         @if map-get($value, 'hover', 'shadow') != null {
           box-shadow: map-get($value, 'hover', 'shadow');
         }
-        .z-icon { background: map-get($value, 'hover', 'font'); }
+        .icon { background: map-get($value, 'hover', 'font'); }
       }
 
       &:enabled:active, &:enabled.active {
@@ -193,7 +193,7 @@ $button-group: (
         @if map-get($value, 'active', 'shadow') != null {
           box-shadow: map-get($value, 'active', 'shadow');
         }
-        .z-icon { background: map-get($value, 'active', 'font'); }
+        .icon { background: map-get($value, 'active', 'font'); }
       }
 
       &:disabled, &.disabled {
@@ -205,7 +205,7 @@ $button-group: (
         @if map-get($value, 'disabled', 'shadow') != null {
           box-shadow: map-get($value, 'disabled', 'shadow');
         }
-        .z-icon { background: map-get($value, 'disabled', 'font'); }
+        .icon { background: map-get($value, 'disabled', 'font'); }
       }
     }
   }
@@ -220,7 +220,7 @@ $button-group: (
         box-shadow: map-get($value, 'default', 'shadow');
       }
       // 아이콘이 존재한다면
-      .z-icon {
+      .icon {
         display: inline-block;
         background: map-get($value, 'default', 'font');
         pointer-events: none;
@@ -233,7 +233,7 @@ $button-group: (
         @if map-get($value, 'focus', 'shadow') != null {
           box-shadow: map-get($value, 'focus', 'shadow');
         }
-        .z-icon { background: map-get($value, 'focus', 'font'); }
+        .icon { background: map-get($value, 'focus', 'font'); }
       }
 
       &:hover {
@@ -243,7 +243,7 @@ $button-group: (
         @if map-get($value, 'hover', 'shadow') != null {
           box-shadow: map-get($value, 'hover', 'shadow');
         }
-        .z-icon { background: map-get($value, 'hover', 'font'); }
+        .icon { background: map-get($value, 'hover', 'font'); }
       }
 
       &:enabled:active, &:enabled.active {
@@ -253,7 +253,7 @@ $button-group: (
         @if map-get($value, 'active', 'shadow') != null {
           box-shadow: map-get($value, 'active', 'shadow');
         }
-        .z-icon { background: map-get($value, 'active', 'font'); }
+        .icon { background: map-get($value, 'active', 'font'); }
       }
 
       &:disabled, &.disabled {
@@ -263,13 +263,13 @@ $button-group: (
         @if map-get($value, 'disabled', 'shadow') != null {
           box-shadow: map-get($value, 'disabled', 'shadow');
         }
-        .z-icon { background: map-get($value, 'disabled', 'font'); }
+        .icon { background: map-get($value, 'disabled', 'font'); }
       }
     }
   }
 }
 
-.z-button-icon {
+.button-icon {
   padding: 0.4375rem; // 7px (버튼 기본 너비 높이 : 34px 34px)
   line-height: 0;
   &-sm {
@@ -280,7 +280,7 @@ $button-group: (
     border: none;
     background-color: $neutral300;
     cursor: pointer;
-    .z-icon {
+    .icon {
       width: 0.5rem;
       height: 0.5rem;
       margin: 0.25rem;
@@ -290,7 +290,7 @@ $button-group: (
   }
 }
 
-.z-button-text {
+.button-text {
   padding: 0;
   color: $gray600;
   line-height: 1.25rem; // 20px
@@ -303,13 +303,13 @@ $button-group: (
 }
 
 // 버튼 목록
-.z-button-list {
+.button-list {
   display: inline-flex;
   position: relative;
   vertical-align: middle;
 
-  .z-button,
-  .z-button-icon {
+  .button,
+  .button-icon {
     &:not(:last-child) { margin-right: 0.5rem; } // 8px
   }
 }
@@ -317,14 +317,14 @@ $button-group: (
 // button group
 // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
 // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
-.z-button-switch-group,
-.z-button-toggle-group {
+.button-switch-group,
+.button-toggle-group {
   display: inline-flex;
   flex-direction: row;
   vertical-align: middle;
 
-  .z-button-switch,
-  .z-button-toggle {
+  .button-switch,
+  .button-toggle {
     @include border(0.0625rem, solid, map-get($button-group, 'default', 'border'), all);
     @include borderRadius(0.25rem); // 4px
     display: inline-block;
@@ -366,7 +366,7 @@ $button-group: (
       @if map-get($button-group, 'focus', 'shadow') != null {
         box-shadow: map-get($button-group, 'focus', 'shadow');
       }
-      .z-icon { background: map-get($button-group, 'focus', 'font'); }
+      .icon { background: map-get($button-group, 'focus', 'font'); }
     }
 
     &:hover {
@@ -377,7 +377,7 @@ $button-group: (
       @if map-get($button-group, 'hover', 'shadow') != null {
         box-shadow: map-get($button-group, 'hover', 'shadow');
       }
-      .z-icon { background: map-get($button-group, 'hover', 'font'); }
+      .icon { background: map-get($button-group, 'hover', 'font'); }
     }
 
     &:enabled:active, &:enabled.active {
@@ -388,7 +388,7 @@ $button-group: (
       @if map-get($button-group, 'active', 'shadow') != null {
         box-shadow: map-get($button-group, 'active', 'shadow');
       }
-      .z-icon { background: map-get($button-group, 'active', 'font'); }
+      .icon { background: map-get($button-group, 'active', 'font'); }
     }
 
     &:disabled, &.disabled {
@@ -399,7 +399,7 @@ $button-group: (
       @if map-get($button-group, 'disabled', 'shadow') != null {
         box-shadow: map-get($button-group, 'disabled', 'shadow');
       }
-      .z-icon { background: map-get($button-group, 'disabled', 'font'); }
+      .icon { background: map-get($button-group, 'disabled', 'font'); }
     }
     // 선택된 경우
     &.selected:not(:disabled), &.selected:not(.disabled) {
@@ -410,11 +410,11 @@ $button-group: (
       @if map-get($button-group, 'selected', 'shadow') != null {
         box-shadow: map-get($button-group, 'selected', 'shadow');
       }
-      .z-icon { background: map-get($button-group, 'selected', 'font'); }
+      .icon { background: map-get($button-group, 'selected', 'font'); }
     }
 
     // 아이콘이 존재한다면
-    .z-icon {
+    .icon {
       display: inline-block;
       background: map-get($button-group, 'default', 'font');
       vertical-align: middle;
@@ -427,8 +427,8 @@ $button-group: (
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    .z-button-switch,
-    .z-button-toggle {
+    .button-switch,
+    .button-toggle {
       @include borderRadius(0.25rem); // 4px
       flex: 0 1 auto;
       width: 100%;
@@ -448,8 +448,8 @@ $button-group: (
   }
 }
 
-.z-button-code {
-  .z-icon.i-search {
+.button-code {
+  .icon.i-search {
       background: $gray500;
       pointer-events: none;
   }

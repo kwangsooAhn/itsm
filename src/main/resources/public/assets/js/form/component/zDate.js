@@ -48,10 +48,10 @@ export const dateMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('z-input i-date-picker text-ellipsis')
+            .setUIClass('input i-date-picker text-ellipsis')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())

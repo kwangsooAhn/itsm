@@ -6,15 +6,15 @@
 <body>
 <th:block layout:fragment="pageContent">
     <div class="flex-row flex-fill pb-5">
-        <div class="z-page-column-item flex-column">
+        <div class="page-column-item flex-column">
             <!--/* 페이지별 검색 */-->
-            <div layout:fragment="pageSearching" class="z-page-search"></div>
+            <div layout:fragment="pageSearching" class="page-search"></div>
             <!--/* 페이지별 트리 */-->
-            <div layout:fragment="pageTree" class="z-page-tree"></div>
+            <div layout:fragment="pageTree" class="page-tree"></div>
         </div>
-        <div class="z-page-column-item flex-column">
+        <div class="page-column-item flex-column">
             <!--/* 편집 영역 */-->
-            <div layout:fragment="pageEdit" class="z-page-edit"></div>
+            <div layout:fragment="pageEdit" class="page-edit"></div>
         </div>
     </div>
 </th:block>

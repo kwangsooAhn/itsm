@@ -335,6 +335,6 @@ export default class ZForm {
 export class UIForm extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-' + FORM.LAYOUT.FORM;
+        this.domElement.className = FORM.LAYOUT.FORM;
     }
 }

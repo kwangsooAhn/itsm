@@ -8,18 +8,18 @@
 </head>
 <th:block layout:fragment="pageHead"></th:block>
 <body>
-<div class="z-wrapper">
-	<div class="z-itsm-container">
+<div class="wrapper">
+	<div class="itsm-container">
 		<!--/* 왼쪽 메뉴 */-->
 		<div th:replace="layout/itsm/fragment/navigationFragment"></div>
 		<!--/* 오른쪽 메인 */-->
-		<div class="z-main">
+		<div class="main">
 			<!--/* 상단 메뉴 */-->
 			<div th:replace="layout/itsm/fragment/topMenuFragment">topMenu</div>
 			<!--/* 페이지별 타이틀 */-->
-			<div layout:fragment="pageTitle" class="z-main-title"></div>
+			<div layout:fragment="pageTitle" class="main-title"></div>
 			<!--/* 페이지별로 달라지는 메인 컨텐츠 */-->
-			<div class="z-main-content flex-column">
+			<div class="main-content flex-column">
 				<th:block layout:fragment="pageContent"></th:block>
 			</div>
 		</div>

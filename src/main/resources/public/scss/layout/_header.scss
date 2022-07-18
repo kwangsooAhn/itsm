@@ -6,64 +6,20 @@
  * @version 1.0
  */
 
-// 공지사항, FAQ, 자료실, 게시판, 사용자 정의 차트
-// 시스템관리 > 사용자, 게시판
-// 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
-// 업무흐름 관리 > 역할, 권한
-// 업무흐름 관리 > 코드
-// 업무흐름 관리 > 패턴
-// 업무흐름 관리 > 문서번호
-// CMDB > Attribute
-// CMDB > Class
-// CMDB > Type
-// CMDB > Ci
-.z-faq-header,
-.z-download-header,
-.z-board-header,
-.z-user-header,
-.z-board-admin-header,
-.z-document-admin-header,
-.z-custom-code-header,
-.z-auth-header,
-.z-role-header,
-.z-code-header,
-.z-numbering-pattern-header,
-.z-numbering-rule-header,
-.z-chart-header,
-.z-cmdb-attribute-header,
-.z-cmdb-class-header,
-.z-cmdb-type-header,
-.z-cmdb-ci-header,
-.z-scheduler-header,
-.z-report-template-header {
-  padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
-}
-
-// 문서함
-// 신청서
-// 대시보드
-// 업무흐름 관리 > 파일 관리
-.z-document-header,
-.z-token-header,
-.z-image-header {
-  @include border(0.0625rem, solid, $gray300, bottom);
-  padding: 0 3.75rem 0 3.75rem; // 0px 60px 0px 60px
-}
-
 ////////////////////////// Top 메뉴 //////////////////////////
-.z-main-top {
+.main-top {
   height: 3.5rem; // 56px
-  .z-divide {
+  .divide {
     padding: 0 0.75rem 0 1.25rem; // 0 12px 0 20px
     height: 1.25rem; // 20px
     color: $gray300;
   }
-  .z-user-info {
+  .user-info {
     @include borderRadius(0.25rem); // 4px
     height: 2.5rem; // 40px
     margin: 0.313rem 0.5rem 0.313rem 0; // 5px 8px 5px 0
     padding: 0 0.5rem 0 0.5rem; // 0 8px 0 8px
-    .z-user-name {
+    .user-name {
       display: inline-block;
       min-width: 2.75rem; // 44px
       max-width: 12.5rem; // 200px
@@ -104,11 +60,11 @@
     &.active {
       border-color: $gray300;
       background-color: $white;
-      + .z-dropdown-content { visibility: visible; }
+      + .dropdown-content { visibility: visible; }
       .i-arrow-right { @include rotate(-90); }
     }
   }
-  .z-dropdown {
+  .dropdown {
     &-content {
       @include border(0.0625rem, solid, $gray300, all); // 1px
       @include borderRadius(0.25rem); // 4px

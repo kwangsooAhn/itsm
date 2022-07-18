@@ -173,8 +173,8 @@
             `</div>` +
             `<div class="dz-size" id="loadedFileSize"><span>${convertedFileSize}</span></div>` +
             `${options.isView ? `` :
-                `<div class="dz-remove"><span class="z-icon i-delete"></span></div>`}` +
-            `<div class="dz-download"><span class="z-icon i-download"></span></div>` +
+                `<div class="dz-remove"><span class="icon i-delete"></span></div>`}` +
+            `<div class="dz-download"><span class="icon i-download"></span></div>` +
             `<input type="hidden" name="loadedFileSeq" value="${file.fileSeq}" />` +
             `</div>` +
             `</div>`;
@@ -399,7 +399,7 @@
                     const dropzoneMessage = _this.element.querySelector('.dz-message');
                     // 아이콘 추가
                     const dropzoneIcon = document.createElement('span');
-                    dropzoneIcon.className = 'z-icon i-upload';
+                    dropzoneIcon.className = 'icon i-upload';
                     dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
                     // browse 버튼 추가
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
@@ -414,7 +414,7 @@
                         file.previewElement.querySelector('.dz-file-type').src = aliceJs.getFileExtensionIcon(getExtension(file.name));
                         // 삭제 아이콘 추가
                         const removeIcon = document.createElement('span');
-                        removeIcon.className = 'z-icon i-delete';
+                        removeIcon.className = 'icon i-delete';
                         const removeButton = file.previewElement.querySelector('.dz-remove');
                         removeButton.className = 'dz-remove added';
                         removeButton.appendChild(removeIcon);
@@ -521,7 +521,7 @@
                 const dropzoneMessage = _this.element.querySelector('.dz-message');
                 // 아이콘 추가
                 const dropzoneIcon = document.createElement('span');
-                dropzoneIcon.className = 'z-icon i-avatar';
+                dropzoneIcon.className = 'icon i-avatar';
                 dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
                 // browse 버튼 추가
                 const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);

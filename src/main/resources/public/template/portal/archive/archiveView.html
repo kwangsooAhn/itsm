@@ -7,13 +7,13 @@
 </head>
 <body>
 <th:block layout:fragment="pageView">
-    <div class="z-main-header">
-        <div class="z-page-title flex-row align-items-baseline">
+    <div class="main-header">
+        <div class="page-title flex-row align-items-baseline">
             <h1 th:text="#{archive.label.archive}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{archive.msg.viewDescription}"></h6>
         </div>
     </div>
-    <div class="z-main-view">
+    <div class="main-view">
         <div class="view flex-column flex-fill">
             <div class="view-title text-wordWrap" th:text="#{${archive.archiveTitle}}"></div>
             <div class="view-sub-title flex-row justify-content-end">
@@ -38,8 +38,8 @@
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-btn-content flex-row justify-content-start">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/portals/archives/search" th:text="#{common.btn.list}"></a>
+                <div class="button-list">
+                    <a class="button secondary" href="/portals/archives/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
             document.getElementById('spanCreateDt').textContent =
                 i18n.userDateTime(document.getElementById('spanCreateDt').textContent);
             zFileUploader.init({formId: 'archiveForm', ownId: [[${archive.archiveId}]], editor: false, isView: true, defaultUrl: '/rest/portals', isHeaders : false});
-            OverlayScrollbars(document.querySelector('.z-main'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.main'), { className: 'scrollbar' });
         };
         /*]]>*/
     </script>
