@@ -5,11 +5,13 @@
 
 package co.brainz.itsm.serviceCategory.service
 
+import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.serviceCategory.dto.ServiceCategoryDto
 import co.brainz.itsm.serviceCategory.dto.ServiceCategoryReturnDto
 import co.brainz.itsm.serviceCategory.entity.ServiceCategoryEntity
 import co.brainz.itsm.serviceCategory.repository.ServiceCategoryRepo
+import javax.transaction.Transactional
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -72,5 +74,71 @@ class ServiceCategory(
      */
     fun getServiceDetail(serviceCode: String): ServiceCategoryDto {
         return serviceCategoryRepo.findService(serviceCode)
+    }
+
+    /**
+     * 서비스 카테고리 신규 등록
+     */
+    @Transactional
+    fun createService(serviceCategoryDto: ServiceCategoryDto): ZResponse {
+        val status = when {
+            (serviceCategoryRepo.existsById(serviceCategoryDto.serviceCode)) -> {
+                ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_CODE
+            }
+            (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)) -> {
+                ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
+            }
+            else -> ZResponseConstants.STATUS.SUCCESS
+        }
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
+            val serviceEntity = ServiceCategoryEntity(
+                serviceCode = serviceCategoryDto.serviceCode,
+                pServiceCode = serviceCategoryDto.pServiceCode?.let {
+                    serviceCategoryRepo.findById(it).orElse(ServiceCategoryEntity(serviceCode = serviceCategoryDto.pServiceCode))
+                },
+                serviceName = serviceCategoryDto.serviceName,
+                serviceDesc = serviceCategoryDto.serviceDesc,
+                avaGoal = serviceCategoryDto.avaGoal,
+                startDate = serviceCategoryDto.startDate,
+                endDate = serviceCategoryDto.endDate,
+                useYn = serviceCategoryDto.useYn,
+                seqNum = serviceCategoryDto.seqNum
+            )
+            if (serviceCategoryDto.pServiceCode.isNullOrEmpty()) {
+                serviceEntity.level = 0
+            } else {
+                val pServiceEntity = serviceCategoryRepo.findById(serviceCategoryDto.pServiceCode)
+                serviceEntity.level = pServiceEntity.get().level?.plus(1)
+            }
+            serviceCategoryRepo.save(serviceEntity)
+        }
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * 서비스 카테고리 수정
+     */
+    @Transactional
+    fun updateService(serviceCode: String, serviceCategoryDto: ServiceCategoryDto): ZResponse {
+        val status = if ((!serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName))) {
+            val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCode)
+            serviceEntity.serviceName = serviceCategoryDto.serviceName
+            serviceEntity.serviceDesc = serviceCategoryDto.serviceDesc
+            serviceEntity.avaGoal = serviceCategoryDto.avaGoal
+            serviceEntity.startDate = serviceCategoryDto.startDate
+            serviceEntity.endDate = serviceCategoryDto.endDate
+            serviceEntity.useYn = serviceCategoryDto.useYn
+            serviceEntity.seqNum = serviceCategoryDto.seqNum
+
+            serviceCategoryRepo.save(serviceEntity)
+            ZResponseConstants.STATUS.SUCCESS
+        } else {
+            ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
+        }
+        return ZResponse(
+            status = status.code
+        )
     }
 }
