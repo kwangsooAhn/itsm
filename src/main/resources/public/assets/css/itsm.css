@@ -3090,7 +3090,7 @@ input, button, select, optgroup, textarea {
   cursor: pointer;
 }
 .itsm-container .main-content .page-list .table {
-  position: relative;
+  position: relative !important;
   border: none;
 }
 .itsm-container .main-content .page-list .no-data-text {
@@ -3338,11 +3338,11 @@ input, button, select, optgroup, textarea {
   background-color: #FAFAFA;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group {
-  position: relative;
+  position: relative !important;
   padding-top: 0.625rem;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group .button-attribute-add {
-  position: absolute;
+  position: absolute !important;
   top: -1.875rem;
   right: 0;
 }
@@ -3356,7 +3356,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete {
-  position: absolute;
+  position: absolute !important;
   right: 0.3125rem;
 }
 .itsm-container .main .view {
@@ -3506,7 +3506,7 @@ input, button, select, optgroup, textarea {
   width: 13.75rem;
 }
 .navigation .gnb .logo {
-  position: fixed;
+  position: fixed !important;
   width: 13.75rem;
   height: 3.375rem;
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
@@ -3514,7 +3514,7 @@ input, button, select, optgroup, textarea {
   z-index: 100;
 }
 .navigation .gnb .menu {
-  position: fixed;
+  position: fixed !important;
   top: 3.375rem;
   width: 13.75rem;
   height: calc(100vh - 3.375rem);
@@ -3550,7 +3550,7 @@ input, button, select, optgroup, textarea {
   line-height: 1.3rem;
 }
 .navigation .gnb .menu .menu-area .gnb-area .gnb-link .token-count {
-  position: absolute;
+  position: absolute !important;
   top: 3.5rem;
   right: 0.8125rem;
   border-radius: 1.25rem;
@@ -3801,7 +3801,7 @@ input, button, select, optgroup, textarea {
   font-weight: 600;
 }
 .document-content .document-column .document-icon {
-  position: absolute;
+  position: absolute !important;
   top: 3rem;
   right: -1rem;
   overflow: hidden;
@@ -3869,7 +3869,7 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 .header-button-dropdown + .dropdown-content {
-  position: absolute;
+  position: absolute !important;
   right: 0;
   border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 2px 12px 0 #CFD5D9;
@@ -3936,7 +3936,7 @@ input, button, select, optgroup, textarea {
   margin: 0 auto;
 }
 .form-header, .process-header {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   width: 100%;
   left: 0;
@@ -3966,10 +3966,10 @@ input, button, select, optgroup, textarea {
 .form-header .form-button-list .header-dropdown,
 .form-header .process-button-list .header-dropdown, .process-header .form-button-list .header-dropdown,
 .process-header .process-button-list .header-dropdown {
-  position: relative;
+  position: relative !important;
 }
 .form-component-palette, .form-element-palette, .process-component-palette, .process-element-palette {
-  position: fixed;
+  position: fixed !important;
   top: 2.875rem;
   bottom: 0;
   left: 0;
@@ -3978,21 +3978,21 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
 }
 .form-main, .process-main {
-  position: fixed;
+  position: fixed !important;
   top: 2.875rem;
   right: 18.75rem;
   bottom: 0;
   left: 0;
 }
 .form-properties-panel-header, .form-properties-header, .process-properties-panel-header, .process-properties-header {
-  position: fixed;
+  position: fixed !important;
   top: 2.875rem;
   right: 0;
   height: 2.5rem;
   background-color: #FFFFFF;
 }
 .form-properties-panel, .form-properties, .process-properties-panel, .process-properties {
-  position: fixed;
+  position: fixed !important;
   top: 5.375rem;
   right: 0;
   bottom: 0;
@@ -4117,7 +4117,7 @@ input, button, select, optgroup, textarea {
   color: #ABB0B5;
 }
 .button.success--check::before {
-  position: absolute;
+  position: absolute !important;
   top: 0.313rem;
   left: -2rem;
   background-image: url("../../assets/media/icons/alert/icon_alert_success.svg");
@@ -4164,7 +4164,7 @@ input, button, select, optgroup, textarea {
 }
 
 .group-tooltip {
-  position: relative;
+  position: relative !important;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -4187,7 +4187,7 @@ input, button, select, optgroup, textarea {
 }
 
 .group-accordion-checkBox {
-  position: absolute;
+  position: absolute !important;
   opacity: 0;
   z-index: -1;
 }
@@ -4320,25 +4320,25 @@ input, button, select, optgroup, textarea {
   padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
-.component .element .input, .component .element .input:not(.select-box-label):not(:read-only) {
+.component .element .input, .component .element .input:not(.select__box__label):not(:read-only) {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
   width: 100%;
 }
-.component .element .input:hover, .component .element .input:not(.select-box-label):not(:read-only):hover {
+.component .element .input:hover, .component .element .input:not(.select__box__label):not(:read-only):hover {
   border: 0.0625rem solid #619CDB;
   outline: 0;
 }
-.component .element .input:focus, .component .element .input:not(.select-box-label):not(:read-only):focus {
+.component .element .input:focus, .component .element .input:not(.select__box__label):not(:read-only):focus {
   border: 0.0625rem solid #2559A8;
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   outline: 0;
 }
-.component .element .input:active, .component .element .input:not(.select-box-label):not(:read-only):active {
+.component .element .input:active, .component .element .input:not(.select__box__label):not(:read-only):active {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
@@ -4458,16 +4458,16 @@ input, button, select, optgroup, textarea {
 .component .element .dr-table .dr-table-row .button-icon {
   padding: 0;
 }
-.component .element .dr-table .dr-table-row .input:not(.select-box-label) {
+.component .element .dr-table .dr-table-row .input:not(.select__box__label) {
   padding: 0.4375rem 0;
   margin: 0.25rem 0;
   text-indent: 0.75rem;
 }
-.component .element .dr-table .dr-table-row .input:not(.select-box-label).picker-main {
+.component .element .dr-table .dr-table-row .input:not(.select__box__label).picker-main {
   padding-right: 2.25rem;
 }
 .component .element .dr-table .dr-table-row .input:read-only:not(:disabled):not(.tagify),
-.component .element .dr-table .dr-table-row .select .select-box.readonly {
+.component .element .dr-table .dr-table-row .select .select__box.readonly {
   border-bottom: none;
 }
 .component .element .dr-table .dr-table-row span {
@@ -4480,7 +4480,7 @@ input, button, select, optgroup, textarea {
   font-weight: inherit;
   text-align: inherit;
 }
-.component .element .dr-table .dr-table-row .select-box {
+.component .element .dr-table .dr-table-row .select__box {
   padding: 0.5rem 0.75rem;
 }
 .component .element .dr-table .no-data-found-list {
@@ -4514,7 +4514,7 @@ input, button, select, optgroup, textarea {
 }
 
 .tooltip-menu {
-  position: absolute;
+  position: absolute !important;
   right: -0.0625rem;
   bottom: 100%;
   -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
@@ -4605,7 +4605,7 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 .component-accordion-box .component-accordion input[type=radio] {
-  position: absolute;
+  position: absolute !important;
   opacity: 0;
   z-index: -1;
 }
@@ -4643,7 +4643,7 @@ input, button, select, optgroup, textarea {
   overflow: hidden;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box {
-  position: relative;
+  position: relative !important;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -4663,13 +4663,13 @@ input, button, select, optgroup, textarea {
   outline: none;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(odd) {
-  position: absolute;
+  position: absolute !important;
   top: calc(var(--data-row, 0) * 5.625rem);
   left: 0.0625rem;
   border-left-color: transparent;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(even) {
-  position: absolute;
+  position: absolute !important;
   top: calc(var(--data-row, 0) * 5.625rem);
   right: 0;
   border-left-color: transparent;
@@ -4876,23 +4876,23 @@ input, button, select, optgroup, textarea {
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .input,
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select-box {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box {
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .input::placeholder,
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select-box::placeholder {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box::placeholder {
   color: #619CDB !important;
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .input .icon,
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea .icon,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select-box .icon {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box .icon {
   background: #619CDB !important;
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .input.i-date-picker,
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.i-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select-box.i-date-picker {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.i-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -4901,7 +4901,7 @@ input, button, select, optgroup, textarea {
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .input.i-time-picker,
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.i-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select-box.i-time-picker {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.i-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -4910,7 +4910,7 @@ input, button, select, optgroup, textarea {
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .input.i-datetime-picker,
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.i-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select-box.i-datetime-picker {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.i-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -5040,7 +5040,7 @@ input, button, select, optgroup, textarea {
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
-  position: relative;
+  position: relative !important;
   color: #757575;
   font-size: 0.875rem;
 }
@@ -5100,7 +5100,7 @@ input, button, select, optgroup, textarea {
 .property .input-button .button {
   height: 2.5rem;
 }
-.property .slider .range {
+.property .slider__range {
   width: 75%;
 }
 .property .slider .input {
@@ -5136,7 +5136,7 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 .property .default-type-radio {
-  position: relative;
+  position: relative !important;
   display: block;
 }
 .property .default-type-radio .radio-property-group {
@@ -5188,7 +5188,7 @@ input, button, select, optgroup, textarea {
   mask-size: 1.2rem;
 }
 .property .tab-panel .panels .panel {
-  position: relative;
+  position: relative !important;
   border: 0.0625rem solid #CFD5D9;
   margin-top: 0.625rem;
   padding-top: 0.625rem;
@@ -5197,7 +5197,7 @@ input, button, select, optgroup, textarea {
   padding: 0 0.75rem;
 }
 .property .tab-panel .panels .panel .panel-common .panel-delete-button {
-  position: absolute;
+  position: absolute !important;
   right: 0.625rem;
 }
 .property .tab-panel .panels .panel .panel-common > .property {
@@ -5386,11 +5386,11 @@ input, button, select, optgroup, textarea {
   color: #ABB0B5;
 }
 .element-icon.connector {
-  position: absolute;
+  position: absolute !important;
   bottom: 5rem;
 }
 .element-icon.move-icon {
-  position: absolute;
+  position: absolute !important;
   bottom: 0.313rem;
 }
 .element-icon .element-icon-text {
@@ -5404,12 +5404,12 @@ input, button, select, optgroup, textarea {
 }
 
 .button-icon.button-minimap {
-  position: absolute;
+  position: absolute !important;
   right: 0.625rem;
   bottom: 0.625rem;
 }
 .button-icon.button-simulation-report {
-  position: absolute;
+  position: absolute !important;
   right: 0.625rem;
   bottom: 3.438rem;
 }
@@ -5613,7 +5613,7 @@ input, button, select, optgroup, textarea {
   overflow: hidden;
 }
 .process-main .drawing-board {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   left: 0;
   width: 100%;
@@ -5632,7 +5632,7 @@ input, button, select, optgroup, textarea {
   shape-rendering: crispEdges;
 }
 .process-main .drawing-board .minimap {
-  position: absolute;
+  position: absolute !important;
   right: 3.438rem;
   bottom: 0.625rem;
   border: 0.0625rem solid #CFD5D9;
@@ -5647,7 +5647,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
 }
 .process-main .drawing-board .minimap svg {
-  position: absolute;
+  position: absolute !important;
   top: 1.875rem;
   left: 1.875rem;
   border: 0.0625rem solid #CFD5D9;
@@ -5663,7 +5663,7 @@ input, button, select, optgroup, textarea {
   display: none;
 }
 .process-main .drawing-board .simulation-report {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -5689,7 +5689,7 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
 }
 .process-main .drawing-board .simulation-report-title .icon.i-minus {
-  position: absolute;
+  position: absolute !important;
   right: 1.125rem;
   background: #8B9094;
   cursor: pointer;
@@ -5887,7 +5887,7 @@ input, button, select, optgroup, textarea {
   pointer-events: auto;
 }
 .document-container .document-main {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   right: 33.125rem;
   bottom: 0;
@@ -5904,7 +5904,7 @@ input, button, select, optgroup, textarea {
   /* Chrome, Safari, Opera*/
 }
 .document-container .document-main .document-main-header {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   right: 33.125rem;
   left: 0;
@@ -5973,7 +5973,7 @@ input, button, select, optgroup, textarea {
   width: 0;
 }
 .document-container .token-properties {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -6498,7 +6498,7 @@ input, button, select, optgroup, textarea {
   height: 100vh;
 }
 .portal-container .header {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   width: 100%;
   align-items: center;
@@ -6518,7 +6518,7 @@ input, button, select, optgroup, textarea {
   top: 3.125rem;
 }
 .portal-container .main {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -6638,21 +6638,21 @@ input, button, select, optgroup, textarea {
   padding: 1.5rem 13.75rem 0 13.75rem;
 }
 .portal-container .main .main-content .list-content .table {
-  position: relative;
+  position: relative !important;
   border: none;
 }
 .portal-container .main .main-content .list-content + .page-paging {
   padding: 0 13.75rem 1.875rem 13.75rem;
 }
 .portal-container .main .main-content .list-content + .page-paging #spanCurrentPageNum {
-  position: absolute;
+  position: absolute !important;
   right: 13.75rem;
 }
 .portal-container .main .main-content .main-accordion {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
 .portal-container .main .main-content .main-accordion .faq-group {
-  position: relative;
+  position: relative !important;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -6672,7 +6672,7 @@ input, button, select, optgroup, textarea {
   display: none;
 }
 .portal-container .main .main-content .main-accordion .faq-group-title .icon.i-plus, .portal-container .main .main-content .main-accordion .faq-group-title .icon.i-minus {
-  position: absolute;
+  position: absolute !important;
   top: 0.9375rem;
   right: 0.9375rem;
   display: inline-block;
@@ -6768,12 +6768,12 @@ input, button, select, optgroup, textarea {
   padding: 0.625rem 0 0 0;
 }
 .portal-container .main .main-content .vertical-split-left .i-logo-white {
-  position: relative;
+  position: relative !important;
   top: 5rem;
   left: 5rem;
 }
 .portal-container .main .main-content .vertical-split-left .i-logo {
-  position: relative;
+  position: relative !important;
   top: -59.1875rem;
   margin: 5rem 0 0 5rem;
 }
@@ -6898,7 +6898,7 @@ input, button, select, optgroup, textarea {
   padding: 5.6875rem 4.0625rem 0 4.0625rem;
 }
 .portal-container .main .main-content .vertical-split-right.signup-form .signup-base-form {
-  position: relative;
+  position: relative !important;
 }
 .portal-container .main .main-content .vertical-split-right.session-form {
   border-left: 0.0625rem solid #CFD5D9;
@@ -7122,7 +7122,7 @@ input, button, select, optgroup, textarea {
   overflow: hidden !important;
 }
 .alert-wrapper {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -7135,7 +7135,7 @@ input, button, select, optgroup, textarea {
   z-index: 999999;
 }
 .alert-backdrop {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -7295,7 +7295,7 @@ input, button, select, optgroup, textarea {
   opacity: 0.5;
 }
 .avatar-edit .avatar .dz-preview {
-  position: relative;
+  position: relative !important;
   height: 100%;
   padding: 0;
   border: 0;
@@ -7330,7 +7330,7 @@ input, button, select, optgroup, textarea {
   transition: opacity 0.2s linear;
 }
 .avatar-edit .avatar .dz-preview .dz-details {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   left: 0;
   display: block;
@@ -7349,7 +7349,7 @@ input, button, select, optgroup, textarea {
   display: none;
 }
 .avatar-edit .avatar .dz-preview .dz-details .dz-remove {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: 0;
   background-image: url("../../assets/media/icons/icon_clear.svg");
@@ -9003,7 +9003,7 @@ input, button, select, optgroup, textarea {
   border-color: #2559A8;
 }
 .color-picker-wrapper .color-picker-modal {
-  position: fixed;
+  position: fixed !important;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -9071,13 +9071,13 @@ input, button, select, optgroup, textarea {
   box-shadow: inset 0 0 0 0.0625rem #3373C4;
 }
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container {
-  position: relative;
+  position: relative !important;
   border-top: 0.0625rem solid #CFD5D9;
   min-height: 4.875rem;
   padding: 0.75rem;
 }
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-edit {
-  position: absolute;
+  position: absolute !important;
   top: 0.125rem;
   right: 0.75rem;
   visibility: hidden;
@@ -9091,7 +9091,7 @@ input, button, select, optgroup, textarea {
   margin: 0 0 0 8px;
 }
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-palette-item {
-  position: relative;
+  position: relative !important;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -9112,7 +9112,7 @@ input, button, select, optgroup, textarea {
   pointer-events: none;
 }
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-palette-item .custom-color-palette-item-clear {
-  position: absolute;
+  position: absolute !important;
   top: -0.25rem;
   right: -0.25rem;
   border-radius: 50%;
@@ -9229,7 +9229,7 @@ input, button, select, optgroup, textarea {
 }
 
 .picker-modal {
-  position: fixed;
+  position: fixed !important;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -9260,12 +9260,12 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
 }
 .picker-modal-title .button-icon {
-  position: absolute;
+  position: absolute !important;
   top: 0.25rem;
   left: 0.5rem;
 }
 .picker-modal-title .icon.i-remove {
-  position: absolute;
+  position: absolute !important;
   top: 0.5rem;
   right: 0.5rem;
   background: #8B9094;
@@ -9503,7 +9503,7 @@ input, button, select, optgroup, textarea {
   padding-right: 0.625rem;
 }
 .picker-modal-content-year-period .date-text span:first-child::before {
-  position: absolute;
+  position: absolute !important;
   top: 0.438rem;
   right: 0.125rem;
   content: "";
@@ -9541,7 +9541,7 @@ input, button, select, optgroup, textarea {
   color: #3373C4;
 }
 .picker-modal-content-year-years .calendar-cell.selected:before {
-  position: absolute;
+  position: absolute !important;
   bottom: 0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -9853,7 +9853,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   border: 0.0625rem solid #76BD26 !important;
 }
 .input-button {
-  position: relative;
+  position: relative !important;
   height: 2.125rem;
 }
 .input-button .input {
@@ -9874,7 +9874,7 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
   -webkit-print-color-adjust: exact;
 }
 .input-button .button-icon-sm::before {
-  position: absolute;
+  position: absolute !important;
   bottom: -0.5rem;
   border-bottom: 0.0625rem solid #CFD5D9;
   content: "";
@@ -9963,7 +9963,7 @@ div.textarea-readonly {
 }
 
 .switch {
-  position: relative;
+  position: relative !important;
   height: 1.75rem;
   color: #424242;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -9982,7 +9982,7 @@ div.textarea-readonly {
   display: none;
 }
 .switch input[type=checkbox] + span {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -10002,7 +10002,7 @@ div.textarea-readonly {
   cursor: pointer;
 }
 .switch input[type=checkbox] + span::before {
-  position: absolute;
+  position: absolute !important;
   top: 0.1rem;
   left: 0.125rem;
   border-radius: 50%;
@@ -10022,7 +10022,7 @@ div.textarea-readonly {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  position: absolute;
+  position: absolute !important;
   right: 0.125rem;
   content: "";
   background-color: #FFFFFF;
@@ -10050,6 +10050,9 @@ div.textarea-readonly {
   background-color: #E1E6EA;
 }
 
+/*
+ * select
+ */
 select {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
@@ -10071,27 +10074,19 @@ select {
   /* Safari and Chrome */
   appearance: none;
 }
+select.readonly {
+  visibility: hidden;
+}
 
-/**
- Designed select
-   1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
-   2) select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
-   3) 내부에는 2개의 영역으로 구성되며 아래와 같은 클래스명으로 구분된다.
-     - select-box : select 태그를 대신해서 보여지는 부분
-     - select-options : select-box 클릭 시 보여지는 option 리스트 부분
-*/
 .select {
-  position: relative;
+  position: relative !important;
   display: inline-block;
   width: 100%;
   height: 2.125rem;
   vertical-align: middle;
 }
-.select select.readonly {
-  visibility: hidden;
-}
-.select .select-box {
-  position: absolute;
+.select__box {
+  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -10117,36 +10112,45 @@ select {
   line-height: 1.2;
   cursor: pointer;
 }
-.select .select-box:not(.readonly):hover {
+.select__box.readonly {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border: none;
+  background-color: transparent;
+  cursor: default;
+}
+.select__box:not(.readonly):hover {
   border: 0.0625rem solid #619CDB;
   outline: 0;
 }
-.select .select-box:not(.readonly):focus {
+.select__box:not(.readonly):focus {
   border: 0.0625rem solid #2559A8;
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   outline: 0;
 }
-.select .select-box:not(.readonly).active {
+.select__box:not(.readonly).active {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.select .select-box:not(.readonly).active .icon.i-arrow-right {
+.select__box:not(.readonly).active .icon.i-arrow-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.select .select-box:not(.readonly).active + .select-options {
+.select__box:not(.readonly).active + .select__options {
   display: block;
 }
-.select .select-box:not(.readonly) .icon {
+.select__box:not(.readonly) .icon {
   pointer-events: none;
 }
-.select .select-box:not(.readonly) .icon.i-arrow-right {
-  position: absolute;
+.select__box:not(.readonly) .icon.i-arrow-right {
+  position: absolute !important;
   right: 0.5rem;
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -10156,16 +10160,18 @@ select {
   margin-top: -0.1875rem;
   background: #8B9094;
 }
-.select .select-box.readonly {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border: none;
-  background-color: transparent;
+.select__box.disabled {
+  border: 0.0625rem solid #CFD5D9;
+  background-color: #EEEEEE;
+  color: #ABB0B5;
+  pointer-events: none;
   cursor: default;
 }
-.select .select-box .select-box-label {
+.select__box.disabled .select__box__label {
+  background-color: #EEEEEE;
+  color: #ABB0B5;
+}
+.select__box__label {
   height: auto;
   width: 100%;
   padding: 0;
@@ -10174,25 +10180,14 @@ select {
   vertical-align: unset;
   pointer-events: none;
 }
-.select .select-box .select-box-label:hover, .select .select-box .select-box-label:focus {
+.select__box__label:hover, .select__box__label:focus {
   webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   border: none;
 }
-.select .select-box.disabled-select {
-  border: 0.0625rem solid #CFD5D9;
-  background-color: #EEEEEE;
-  color: #ABB0B5;
-  pointer-events: none;
-  cursor: default;
-}
-.select .select-box.disabled-select .select-box-label {
-  background-color: #EEEEEE;
-  color: #ABB0B5;
-}
-.select .select-options {
-  position: absolute;
+.select__options {
+  position: absolute !important;
   top: calc(100% + 0.25rem);
   right: 0;
   left: 0;
@@ -10214,7 +10209,7 @@ select {
   list-style: none;
   z-index: 5000;
 }
-.select .select-options li {
+.select__options li {
   overflow: hidden;
   display: block;
   max-width: 100%;
@@ -10230,17 +10225,17 @@ select {
   text-indent: 0.4375rem;
   line-height: 1.2;
 }
-.select .select-options li:hover {
+.select__options li:hover {
   background: #D6EDFC;
 }
-.select .select-options li[rel=hide] {
+.select__options li[rel=hide] {
   display: none;
 }
-.select .select-options .selected {
+.select__options .selected {
   color: #3373C4;
 }
-.select .select-options .selected:after {
-  position: absolute;
+.select__options .selected:after {
+  position: absolute !important;
   right: 0.9375rem;
   background-image: url("../../assets/media/icons/icon_select_check.svg");
   background-size: auto;
@@ -10253,10 +10248,13 @@ select {
   padding-top: 0.9375rem;
 }
 
+/*
+ * slider
+ */
 .slider {
   min-height: 1.375rem;
 }
-.slider .range {
+.slider__range {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -10271,11 +10269,11 @@ select {
   --range-location: 100%;
   -webkit-appearance: none;
 }
-.slider .range:disabled {
+.slider__range:disabled {
   background: linear-gradient(to right, var(--range-fill-color) 0%, var(--range-fill-color) var(--range-location), #EEEEEE var(--range-location), #EEEEEE 100%);
   --range-fill-color: #CFD5D9;
 }
-.slider .range::-webkit-slider-thumb {
+.slider__range::-webkit-slider-thumb {
   -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
   -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
   box-shadow: 0 0 0.125rem 0 #8B9094;
@@ -10288,25 +10286,25 @@ select {
   -webkit-appearance: none;
   appearance: none;
 }
-.slider .range::-webkit-slider-thumb:hover {
+.slider__range::-webkit-slider-thumb:hover {
   border-color: #619CDB;
   background-color: #D6EDFC;
 }
-.slider .range::-webkit-slider-thumb:focus {
+.slider__range::-webkit-slider-thumb:focus {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
 }
-.slider .range::-webkit-slider-thumb:active {
+.slider__range::-webkit-slider-thumb:active {
   border-color: #3373C4;
   background-color: #AFD9F9;
 }
-.slider .range::-webkit-slider-thumb:disabled {
+.slider__range::-webkit-slider-thumb:disabled {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.slider .range::-moz-range-thumb {
+.slider__range::-moz-range-thumb {
   -webkit-box-shadow: 0 0 0.125rem 0 #8B9094;
   -moz-box-shadow: 0 0 0.125rem 0 #8B9094;
   box-shadow: 0 0 0.125rem 0 #8B9094;
@@ -10317,21 +10315,21 @@ select {
   background: #FFFFFF;
   cursor: pointer;
 }
-.slider .range::-moz-range-thumb:hover {
+.slider__range::-moz-range-thumb:hover {
   border-color: #619CDB;
   background-color: #D6EDFC;
 }
-.slider .range::-moz-range-thumb:focus {
+.slider__range::-moz-range-thumb:focus {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
 }
-.slider .range::-moz-range-thumb:active {
+.slider__range::-moz-range-thumb:active {
   border-color: #3373C4;
   background-color: #AFD9F9;
 }
-.slider .range::-moz-range-thumb:disabled {
+.slider__range::-moz-range-thumb:disabled {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
@@ -10402,7 +10400,7 @@ select {
   display: none;
 }
 .checkbox input[type=checkbox] + span {
-  position: relative;
+  position: relative !important;
 }
 .checkbox input[type=checkbox] + span::before {
   border: 0.0625rem solid #ABB0B5;
@@ -10418,7 +10416,7 @@ select {
   vertical-align: middle;
 }
 .checkbox input[type=checkbox]:checked + span::after {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   left: 0;
   border-bottom: 0.125rem solid #3373C4;
@@ -10479,9 +10477,6 @@ select {
   pointer-events: none;
 }
 
-.checkbox-all {
-  display: table-cell;
-}
 .checkbox-list {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
@@ -10507,7 +10502,7 @@ select {
 }
 
 .radio {
-  position: relative;
+  position: relative !important;
   margin-right: 0.5rem;
   color: #424242;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -10523,10 +10518,10 @@ select {
   display: none;
 }
 .radio input[type=radio] + span {
-  position: relative;
+  position: relative !important;
 }
 .radio input[type=radio] + span::before {
-  position: relative;
+  position: relative !important;
   top: -0.0625rem;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 50%;
@@ -10541,7 +10536,7 @@ select {
   vertical-align: middle;
 }
 .radio input[type=radio] + span::after {
-  position: absolute;
+  position: absolute !important;
   top: -0.35rem;
   left: 0;
   border-radius: 50%;
@@ -10808,7 +10803,7 @@ select {
   opacity: 0.5;
 }
 .file-uploader-edit .dropzone .dz-preview {
-  position: relative;
+  position: relative !important;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -10949,7 +10944,7 @@ select {
   height: 3.25rem;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
-  position: relative;
+  position: relative !important;
   overflow: hidden;
   display: block;
   z-index: 10;
@@ -10964,7 +10959,7 @@ select {
   border-color: #F52525;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message {
-  position: absolute;
+  position: absolute !important;
   top: 8.75rem;
   left: -0.625rem;
   border-radius: 0.5rem;
@@ -10985,7 +10980,7 @@ select {
   pointer-events: none;
 }
 .file-uploader-edit .dropzone .dz-preview.dz-error .dz-error-message:after {
-  position: absolute;
+  position: absolute !important;
   top: -0.375rem;
   left: 4rem;
   border-bottom: 0.375rem solid #be2626;
@@ -11057,7 +11052,7 @@ select {
   animation-direction: normal;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-progress {
-  position: relative;
+  position: relative !important;
   top: -1.563rem;
   left: 0.75rem;
   -webkit-transform: scale(1);
@@ -11075,7 +11070,7 @@ select {
   pointer-events: none;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-progress .dz-upload {
-  position: absolute;
+  position: absolute !important;
   top: -1.25rem;
   right: 0;
   bottom: 0;
@@ -11223,7 +11218,7 @@ body.modal-active {
   z-index: 5000;
 }
 .modal-wrapper .modal-dialog {
-  position: absolute;
+  position: absolute !important;
   top: 4em;
   right: 0;
   left: 0;
@@ -11708,7 +11703,7 @@ body.modal-active {
   padding: 0 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-update-modal .modal-content .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group, .modal-dialog.cmdb-ci-list-modal .modal-content .attribute-group .child-attribute-group {
-  position: relative;
+  position: relative !important;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-update-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-view-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row, .modal-dialog.cmdb-ci-list-modal .modal-content .attribute-group .child-attribute-group .child-attribute-row {
   border: 0.0625rem solid #CFD5D9;
@@ -11751,7 +11746,7 @@ body.modal-active {
 .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .button-attribute-add,
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .button-attribute-add,
 .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add {
-  position: absolute;
+  position: absolute !important;
   top: -1.875rem;
   right: 0;
 }
@@ -11760,7 +11755,7 @@ body.modal-active {
 .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete,
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete,
 .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete {
-  position: absolute;
+  position: absolute !important;
   right: 0.3125rem;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit .attribute-group, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit .attribute-group {
@@ -11978,7 +11973,7 @@ body.modal-active {
   cursor: pointer;
 }
 .notification-panel {
-  position: relative;
+  position: relative !important;
   bottom: 0;
   left: 70.8rem;
   border: 0.0625rem solid #EEEEEE;
@@ -12039,7 +12034,7 @@ body.modal-active {
   background-color: #FFFFFF;
 }
 .notification-content .notification-checked input[type=checkbox] {
-  position: relative;
+  position: relative !important;
   border: 0.063rem solid #3373C4;
   border-radius: 0.063rem;
   -webkit-border-radius: 0.063rem;
@@ -12058,7 +12053,7 @@ body.modal-active {
   cursor: unset;
 }
 .notification-content .notification-checked input[type=checkbox]:checked::after {
-  position: absolute;
+  position: absolute !important;
   top: -0.063rem;
   left: 0.063rem;
   content: "✔";
@@ -12167,7 +12162,7 @@ body.modal-active {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 .alice-toastify .toast-close {
-  position: absolute;
+  position: absolute !important;
   top: 0.688rem;
   right: 0.688rem;
   width: 1.5rem;
@@ -12243,7 +12238,7 @@ body.modal-active {
   border-bottom-right-radius: 0.15rem;
 }
 .page-paging #spanCurrentPageNum {
-  position: absolute;
+  position: absolute !important;
   right: 3.75rem;
   color: #757575;
   font-weight: 500;
@@ -12406,7 +12401,7 @@ body.modal-active {
   min-width: 1.875rem;
 }
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute;
+  position: absolute !important;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -12422,7 +12417,7 @@ body.modal-active {
   min-height: 1.875rem;
 }
 .scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -12509,7 +12504,7 @@ body.modal-active {
   min-width: 1.875rem;
 }
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute;
+  position: absolute !important;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -12525,7 +12520,7 @@ body.modal-active {
   min-height: 1.875rem;
 }
 .inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -12572,7 +12567,7 @@ body.modal-active {
   min-width: 1.875rem;
 }
 .inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute;
+  position: absolute !important;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -12588,7 +12583,7 @@ body.modal-active {
   min-height: 1.875rem;
 }
 .inner-scrollbar-dark > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -12763,7 +12758,7 @@ body.modal-active {
   }
 }
 .tagify {
-  position: relative;
+  position: relative !important;
   -webkit-transition: 0.1s;
   -moz-transition: 0.1s;
   -o-transition: 0.1s;
@@ -12847,7 +12842,7 @@ body.modal-active {
   display: none !important;
 }
 .tagify__tag {
-  position: relative;
+  position: relative !important;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -12912,7 +12907,7 @@ body.modal-active {
   cursor: text;
 }
 .tagify__tag > div::before {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -13044,7 +13039,7 @@ body.modal-active {
   transition: 0.2s;
 }
 .tagify__input {
-  position: relative;
+  position: relative !important;
   flex: 1;
   display: block;
   min-width: 6.875rem;
@@ -13093,7 +13088,7 @@ body.modal-active {
   transform: none;
 }
 .tagify__input::before {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   bottom: 0;
   content: attr(data-placeholder);
@@ -13126,7 +13121,7 @@ body.modal-active {
 }
 
 .tagify__dropdown {
-  position: absolute;
+  position: absolute !important;
   overflow: hidden;
   margin-top: 0.3125rem;
   background: #FFFFFF;
@@ -13163,7 +13158,7 @@ body.modal-active {
   overflow: auto;
 }
 .tagify__dropdown__item {
-  position: relative;
+  position: relative !important;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -13351,7 +13346,7 @@ body.modal-active {
   border-color: #3373C4;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats button {
-  position: relative;
+  position: relative !important;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -13527,7 +13522,7 @@ body.modal-active {
 }
 .thumbnail-main .thumbnail .thumbnail-image,
 .thumbnail-main .thumbnail .thumbnail-file {
-  position: relative;
+  position: relative !important;
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -13537,7 +13532,7 @@ body.modal-active {
 }
 .thumbnail-main .thumbnail .thumbnail-image img,
 .thumbnail-main .thumbnail .thumbnail-file img {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -13720,7 +13715,7 @@ body.modal-active {
   }
 }
 .help-tooltip {
-  position: relative;
+  position: relative !important;
   display: inline-block;
   margin-left: 0.3125rem;
   vertical-align: middle;
@@ -13730,7 +13725,7 @@ body.modal-active {
   cursor: pointer;
 }
 .help-tooltip .tooltip-contents {
-  position: absolute;
+  position: absolute !important;
   left: auto;
   border: 0.125rem solid #3373C4;
   border-radius: 0.125rem;
@@ -13755,7 +13750,7 @@ body.modal-active {
   word-break: keep-all;
 }
 .help-tooltip .tooltip-contents.top {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: auto;
   bottom: auto;
@@ -13767,7 +13762,7 @@ body.modal-active {
   transform: translate(-50%, calc(-100% - 0.625rem));
 }
 .help-tooltip .tooltip-contents.right {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: 0;
   bottom: auto;
@@ -13779,7 +13774,7 @@ body.modal-active {
   transform: translate(calc(100% + 0.625rem), -50%);
 }
 .help-tooltip .tooltip-contents.bottom {
-  position: absolute;
+  position: absolute !important;
   top: auto;
   right: auto;
   bottom: auto;
@@ -13791,7 +13786,7 @@ body.modal-active {
   transform: translate(-50%, 0);
 }
 .help-tooltip .tooltip-contents.left {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: auto;
   bottom: auto;
@@ -13840,10 +13835,10 @@ body.modal-active {
 }
 
 .header-tooltip {
-  position: relative;
+  position: relative !important;
 }
 .header-tooltip .header-tooltip-contents {
-  position: absolute;
+  position: absolute !important;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
   -moz-transform: translate(-50%, 0);
@@ -13918,7 +13913,7 @@ body.modal-active {
 }
 
 .clipboard-tooltip {
-  position: relative;
+  position: relative !important;
   display: inline-block;
   margin-left: 0.3125rem;
   cursor: pointer;
@@ -13928,7 +13923,7 @@ body.modal-active {
   opacity: 1;
 }
 .clipboard-tooltip .clipboard-tooltip-text {
-  position: absolute;
+  position: absolute !important;
   bottom: 120%;
   left: 50%;
   border: 0.125rem solid #3373C4;
@@ -13954,7 +13949,7 @@ body.modal-active {
   z-index: 500;
 }
 .clipboard-tooltip .clipboard-tooltip-text::after {
-  position: absolute;
+  position: absolute !important;
   top: 100%;
   left: 50%;
   content: "";
@@ -13962,10 +13957,10 @@ body.modal-active {
 }
 
 .palette-tooltip {
-  position: relative;
+  position: relative !important;
 }
 .palette-tooltip .palette-tooltip-contents {
-  position: absolute;
+  position: absolute !important;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
   -moz-transform: translate(-50%, 0);
@@ -14061,7 +14056,7 @@ ul.tree {
   cursor: default;
 }
 ul.tree li {
-  position: relative;
+  position: relative !important;
   overflow: hidden;
   display: block;
   padding-right: 0.125rem;
@@ -14071,7 +14066,7 @@ ul.tree li {
   word-wrap: normal;
 }
 ul.tree ul {
-  position: relative;
+  position: relative !important;
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
@@ -14082,7 +14077,7 @@ ul.tree ul {
   list-style-type: none;
 }
 ul.tree ul:before {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   bottom: 0;
   border-left: 0.0625rem solid #CFD5D9;
@@ -14092,7 +14087,7 @@ ul.tree ul li {
   padding-left: 1.6565rem;
 }
 ul.tree ul li:before {
-  position: absolute;
+  position: absolute !important;
   top: 0.9375rem;
   left: 0;
   border-top: 0.0625rem solid #CFD5D9;
@@ -14154,7 +14149,7 @@ span.modal_node_selected label {
 }
 
 .tree-container {
-  position: relative;
+  position: relative !important;
   margin: 1.875rem 2.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
