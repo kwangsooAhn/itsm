@@ -822,8 +822,6 @@ select {
 // 체크박스 목록
 // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
 .checkbox {
-  // 전체 선택
-  &-all { display: table-cell; }
   // 목록
   &-list {
     @include border(0.0625rem, solid, $gray400, all);

@@ -10477,9 +10477,6 @@ select.readonly {
   pointer-events: none;
 }
 
-.checkbox-all {
-  display: table-cell;
-}
 .checkbox-list {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
