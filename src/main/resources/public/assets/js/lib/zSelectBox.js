@@ -3,8 +3,8 @@
  *
  * 기본 동작
  * 1) html 에서 구현된 select tag 는 숨기고
- * 2) 그 위에 select-box 클래스를 가지는 div 를 구성
- * 3) select 가 가지고 있던 옵션 목록을 복사해서 select-options 클래스를 가지는 ul 리스트 구성
+ * 2) 그 위에 select__box 클래스를 가지는 div 를 구성
+ * 3) select 가 가지고 있던 옵션 목록을 복사해서 select__options 클래스를 가지는 ul 리스트 구성
  *
  * 사용법
  * 1) 대부분의 경우 aliceJs.initDesignedSelectTag()를 호출해서 사용.
@@ -21,7 +21,7 @@
 
 aliceJs.initDesignedSelectTag = function (targetDOM) {
     if (!targetDOM) targetDOM = document;
-    targetDOM.querySelectorAll('select').forEach(function (originSelectTag) {
+    targetDOM.querySelectorAll('select').forEach(function(originSelectTag) {
         if (originSelectTag.style.display !== 'none') {
             // 이미 그려진 경우 초기화.
             if (originSelectTag.parentElement.classList.contains('select')) {
@@ -45,29 +45,29 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             originSelectTag.parentElement.insertBefore(selectWrapper, originSelectTag);
             selectWrapper.append(originSelectTag);
 
-            // select-box : 디자인된 SELECT 박스 창 만들기
+            // select__box : 디자인된 SELECT 박스 창 만들기
             let designedSelectBox = document.createElement('div');
-            designedSelectBox.classList.add('select-box');
+            designedSelectBox.classList.add('select__box');
             selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
 
-            // select-box - 라벨
+            // select__box - 라벨
             let designedSelectBoxInput = document.createElement('input');
             designedSelectBoxInput.type = 'text';
-            designedSelectBoxInput.className = 'input text-ellipsis select-box-label';
+            designedSelectBoxInput.className = 'input text-ellipsis select__box__label';
             designedSelectBox.appendChild(designedSelectBoxInput);
 
-            // 인위적으로 추가되는 select-box 는 div 라서 focus 효과가 없다.
+            // 인위적으로 추가되는 select__box 는 div 라서 focus 효과가 없다.
             // 원본 select tag 의 포커스를 active 클래스를 이용해서 전파.
-            originSelectTag.addEventListener('focus', (function (e) {
+            originSelectTag.addEventListener('focus', (function(e) {
                 e.stopPropagation();
                 e.target.nextSibling.classList.add('active');
             }));
-            originSelectTag.addEventListener('focusout', (function (e) {
+            originSelectTag.addEventListener('focusout', (function(e) {
                 e.stopPropagation();
                 e.target.nextSibling.classList.remove('active');
             }));
 
-            if (originSelectTag.disabled) designedSelectBox.classList.add('disabled-select');
+            if (originSelectTag.disabled) designedSelectBox.classList.add('disabled');
 
             if (originSelectTag.classList.contains('readonly')) {
                 designedSelectBox.classList.add('readonly');
@@ -75,14 +75,14 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     designedSelectBoxInput.value = originSelectTag.options[originSelectTag.selectedIndex].text;
                 }
             } else {
-                // select-box - 아이콘
+                // select__box - 아이콘
                 let designedSelectBoxIcon = document.createElement('span');
                 designedSelectBoxIcon.className = 'ic-arrow-right';
                 designedSelectBox.appendChild(designedSelectBoxIcon);
 
                 // select-option : 옵션 리스트용 박스 만들기
                 let ulElement = document.createElement('ul');
-                ulElement.classList.add('select-options');
+                ulElement.classList.add('select__options');
                 selectWrapper.insertBefore(ulElement, designedSelectBox.nextSibling);
 
                 // option 복사
@@ -100,14 +100,14 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                 ulElement.appendChild(options);
                 OverlayScrollbars(ulElement, {className: 'inner-scrollbar'});
 
-                // select-box 클릭 이벤트
+                // select__box 클릭 이벤트
                 if (!originSelectTag.disabled && !originSelectTag.classList.contains('disabled') &&
                     !originSelectTag.classList.contains('readonly') && originSelectTag.options.length > 0) {
-                    designedSelectBox.addEventListener('click', (function (e) {
+                    designedSelectBox.addEventListener('click', (function(e) {
                         e.stopPropagation();
-                        let clickedSelect = aliceJs.clickInsideElement(e, 'select-box');
+                        let clickedSelect = aliceJs.clickInsideElement(e, 'select__box');
 
-                        document.querySelectorAll('div.select-box.active').forEach(function (selectTag) {
+                        document.querySelectorAll('div.select__box.active').forEach(function(selectTag) {
                             if (selectTag !== clickedSelect) {
                                 selectTag.classList.remove('active');
                             }
@@ -122,10 +122,10 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     }));
 
                     // option 을 선택하는 경우 이벤트
-                    ulElement.querySelectorAll('li').forEach(function (liOption) {
-                        liOption.addEventListener('click', function (clickedOption) {
+                    ulElement.querySelectorAll('li').forEach(function(liOption) {
+                        liOption.addEventListener('click', function(clickedOption) {
                             clickedOption.stopPropagation();
-                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function (li) {
+                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function(li) {
                                 li.classList.remove('selected');
                             });
                             clickedOption.target.classList.add('selected');
@@ -145,7 +145,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                         });
                     });
 
-                    document.addEventListener('click', function () {
+                    document.addEventListener('click', function() {
                         designedSelectBox.classList.remove('active');
                     });
                 }
