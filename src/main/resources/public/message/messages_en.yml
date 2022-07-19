@@ -1123,6 +1123,8 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
+  service:
+    parent: "Service Category"
   setting:
     editMyInfo: "Edit My Info"
   sla:
@@ -1444,6 +1446,27 @@ scheduler:
     • The Fourth field: Defines Day of month and has an allowable range of 1 to 31.<br/><br/>
     • The Fifth field: Defines the month and has an allowable range of 1 to 12 or JAN to DEC.<br/><br/>
     • The Sixth field: Defines the day of the week and has an allowable range of 0 to 6 or SUN to SAT."
+
+# service
+service:
+  label:
+    avaGoal: "Availability goal"
+    code: "Service code"
+    description: "Service description"
+    endDate: "Service end date"
+    name: "Service name"
+    pCode: "Parent Service code"
+    searchPlaceholder: "Service code / Service name"
+    seqNum: "The order of the output"
+    service: "Service Category"
+    startDate: "Service start date"
+    useYn: "Use enable"
+  msg:
+    duplicateServiceCode: "Duplicate Service code Exists."
+    duplicateServiceName: "Duplicate Service name Exists."
+    editDescription: "Add, view and manage Service Category."
+    enterServiceCode: "Please enter the service code."
+    enterServiceName: "Please enter the service name."
 
 # sla
 sla:
