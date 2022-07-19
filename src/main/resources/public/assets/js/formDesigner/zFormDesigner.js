@@ -273,7 +273,7 @@ class ZFormDesigner {
                     `title="${aliceJs.filterXSS(data.templateName)}">` +
                     `${aliceJs.filterXSS(data.templateName)}` +
                     `</span>` +
-                    `<button type="button" class="button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
+                    `<button type="button" class="item-remove" tabindex="-1" id="${data.templateId}" ` +
                     `onclick="zFormDesigner.deleteTemplate(this);">` +
                     `<span class="icon i-remove"></span>` +
                     `</button>` +

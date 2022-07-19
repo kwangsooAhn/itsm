@@ -1383,7 +1383,7 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
-                btnDel.className = 'button-icon-sm mt-2 mb-2';
+                btnDel.className = 'item-remove mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
                 btnIcon.className = 'icon i-remove';
@@ -1510,7 +1510,7 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
-            btnDel.className = 'button-icon-sm mt-2 mb-2';
+            btnDel.className = 'item-remove mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
             btnIcon.className = 'icon i-remove';

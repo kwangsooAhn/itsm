@@ -414,7 +414,7 @@ class UIClipboard extends UIElement {
 class UIRemoveButton extends UIElement {
     constructor() {
         super(document.createElement('button'));
-        this.domElement.className = 'button-icon-sm';
+        this.domElement.className = 'item-remove';
         this.domElement.type = 'button';
         this.domElement.addEventListener('click', function () {
             aliceJs.clearText(this);

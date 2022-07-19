@@ -115,10 +115,10 @@
             </select>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
+            <div class="btn__list">
                 <a class="btn__text--box btn--secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
                 <button type="button" class="btn__text--box btn--primary" onclick="saveCustomCode('POST')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
                 <button type="button" class="btn__text--box btn--primary" onclick="saveCustomCode('PUT')"
@@ -267,7 +267,7 @@
 
         if (!isView) {
             const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'button-icon-sm ml-2 mr-2 mt-2 mb-2';
+            deleteBtn.className = 'item-remove ml-2 mr-2 mt-2 mb-2';
             const deleteIcon = document.createElement('span');
             deleteIcon.className = 'icon i-remove';
             deleteBtn.appendChild(deleteIcon);

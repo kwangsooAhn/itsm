@@ -95,7 +95,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 if (this.isEditable) {
                     // small icon button
                     targetGroup.UIInputButton.UIIconButton = new UIButton()
-                        .setUIClass('button-icon-sm')
+                        .setUIClass('item-remove')
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     targetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
@@ -106,7 +106,7 @@ export default class ZUserSearchProperty extends ZProperty {
                     // button
                     targetGroup.UIInputButton.UIButton = new UIButton()
                         .setUIClass('btn__icon')
-                        .addUIClass('button-code')
+                        .addUIClass('btn__code')
                         // .setUIAttribute('data-value', '')
                         .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
                         .onUIClick(this.openOrganizationData.bind(this));

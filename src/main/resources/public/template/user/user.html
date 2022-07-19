@@ -96,7 +96,7 @@
                                    type="hidden"/>
                             <input class="input text-ellipsis" id="organization" name="organization" readonly
                                    th:value="${organizationDetail?.organizationName}" type="text">
-                            <button type="button" class="button-icon-sm" onclick="clearOrganization(this);"
+                            <button type="button" class="item-remove" onclick="clearOrganization(this);"
                                     th:if="!${view}" tabindex="-1">
                                 <span class="icon i-remove"></span>
                             </button>
@@ -231,7 +231,7 @@
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="input col-5" id="substituteUser" name="substituteUser"
                                    readonly>
-                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);"
                                     tabindex="-1">
                                 <span class="icon i-remove"></span>
                             </button>
@@ -261,10 +261,10 @@
             </label>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
+            <div class="btn__list">
                 <a class="btn__text--box btn--secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
                 <button type="button" class="btn__text--box btn--primary" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                         th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')"></button>
                 <button type="button" class="btn__text--box btn--primary" th:if="${users?.userKey}" th:text="#{common.btn.modify}"

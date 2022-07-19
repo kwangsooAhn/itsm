@@ -70,10 +70,10 @@
             </div>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
+            <div class="btn__list">
                 <a class="btn__text--box btn--secondary" href="/numberingRules/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
                 <button class="btn__text--box btn--primary" id="btnAdd" name="btnAdd"
                         th:if="!${rule?.numberingId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
@@ -95,7 +95,7 @@
                         th:text="${pattern.patternName}" th:value="${pattern.patternId}">
                 </option>
             </select>
-            <button class="button-icon-sm ml-2 mr-2 mt-2 mb-2" onclick="deletePattern(this)" type="button">
+            <button class="item-remove ml-2 mr-2 mt-2 mb-2" onclick="deletePattern(this)" type="button">
                 <span class="icon i-remove"></span>
             </button>
         </div>

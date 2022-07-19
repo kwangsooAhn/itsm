@@ -68,10 +68,10 @@
             </div>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
+            <div class="btn__list">
                 <a class="btn__text--box btn--secondary" href="/statistics/customReportTemplate/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
                 <button type="button" class="btn__text--box btn--primary" th:if="${template == null}"
                         onclick="saveReportTemplate('POST')" th:text="#{common.btn.register}"></button>
                 <button type="button" class="btn__text--box btn--primary" th:if="${template?.templateId}"
@@ -89,7 +89,7 @@
                 <select name="chart" th:classappend="${view}?'readonly':''"></select>
             </div>
             <div class="flex-column">
-                <button th:if="!${view}" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">
+                <button th:if="!${view}" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">
                     <span class="icon i-remove"></span>
                 </button>
             </div>

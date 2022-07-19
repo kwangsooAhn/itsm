@@ -6,7 +6,7 @@
  * @version 1.0
  */
 ////////////////////////// element //////////////////////////
-.button-icon-sm {
+.item-remove {
   .icon {
     width: 0.5rem;
     height: 0.5rem;
@@ -72,10 +72,10 @@
       z-index: 100;
 
       .action-button-top-area {
-        .button-list { width: 100%; }
+        .btn__list { width: 100%; }
       }
 
-      .button-list {
+      .btn__list {
         .primary { border-color: $white; }
         .secondary { border-color: $white;}
       }

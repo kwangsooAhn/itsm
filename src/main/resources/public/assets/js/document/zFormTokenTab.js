@@ -221,7 +221,7 @@ class ZFormTokenTab {
             `${viewer.organizationName}</td>` +
             `<td style="width: 10%;" class="align-center">` +
             (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
-                `<button type="button" class="button-icon-sm" tabindex="-1" ` +
+                `<button type="button" class="item-remove" tabindex="-1" ` +
                 `onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
                 `<span class="icon i-remove"></span>` +
                 `</button>`) +
@@ -929,7 +929,7 @@ class ZFormTokenTab {
             `<td style="width: 60%;" class="align-left" title="${rangeDateHtml.join('')}">` +
             `${rangeDateHtml.join('')}</td>` +
             `<td style="width: 10%;" class="align-center">` +
-                `<button type="button" class="button-icon-sm" tabindex="-1" ` +
+                `<button type="button" class="item-remove" tabindex="-1" ` +
                     `onclick="zFormTokenTab.removeSchedule('${schedule.id}')">` +
                     `<span class="icon i-remove"></span>` +
                 `</button>` +

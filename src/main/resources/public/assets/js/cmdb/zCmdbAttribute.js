@@ -281,7 +281,7 @@
                     `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
                 `<span class="icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
@@ -348,7 +348,7 @@
                 `</div>` +
                 `<div class="flex-column col-5"><input type="text" class="input" maxlength="50"></div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
                 `<span class="icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
@@ -418,7 +418,7 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+                `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
                 `<span class="icon i-remove"></span>` +
                 `</button>` +
                 `</div>` +
@@ -522,7 +522,7 @@
                 `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
                 `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="btn__icon button-code" type="button" id="${objectId}-default-code" ` +
+            `<button class="btn__icon btn__code" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
                 `<span class="icon i-search"></span></button>` +
             `</div>` +
@@ -687,7 +687,7 @@
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
             `<div class="flex-column">` +
-            `<button id="${rowId}_delete" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
+            `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
             `<span class="icon i-remove"></span>` +
             `</button>` +
             `</div>` +
@@ -902,7 +902,7 @@
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row input-button">
                 <input type="text" class="input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="btn__icon button-code" type="button" id="searchOrganization">` +
+                <button class="btn__icon btn__code" type="button" id="searchOrganization">` +
                 `<span class="icon i-search"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
@@ -1085,7 +1085,7 @@
                     `<input class="input" readonly data-user-id="${data.id}" value="${data.value}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                    `<button type="button" class="button-icon-sm btn--extra ml-2 mr-2 mt-2 mb-2 user-search-delete-btn"` +
+                    `<button type="button" class="item-remove btn--extra ml-2 mr-2 mt-2 mb-2 user-search-delete-btn"` +
                         ` data-user-id="${data.id}"><span class="icon i-remove"></span>` +
                     `</button>` +
                 `</div>` +
@@ -1209,7 +1209,7 @@
                         <input class="input" type="text" readonly="true" id="${id}-default-custom-text" 
                             value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
-                        <button class="btn__icon button-code" type="button" id="${id}-default-custom" 
+                        <button class="btn__icon btn__code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
                             <span class="icon i-search"></span>
                         </button>
@@ -1890,7 +1890,7 @@
                 if (parent.children.length > 1 && displayMode === 'edit') {
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
-                    removeBtn.className = 'button-icon-sm ml-2 mr-2 mt-2 mb-2 button-attribute-delete';
+                    removeBtn.className = 'item-remove ml-2 mr-2 mt-2 mb-2 button-attribute-delete';
                     removeBtn.insertAdjacentHTML('beforeend', `<span class="icon i-remove"></span>`);
                     removeBtn.addEventListener('click', removeCIAttributeChild, false);
                     elem.appendChild(removeBtn);

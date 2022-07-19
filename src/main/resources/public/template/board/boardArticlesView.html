@@ -46,12 +46,12 @@
     </div>
     <div class="horizontal-bar"></div>
     <div class="flex-row justify-content-between view-row">
-        <div class="button-list">
+        <div class="btn__list">
             <a class="btn__text--box btn--secondary"
                th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
                th:text="#{common.btn.list}"></a>
         </div>
-        <div class="button-list">
+        <div class="btn__list">
             <button type="button" class="btn__text--box btn--primary"
                     th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
@@ -75,7 +75,7 @@
                  width="32" height="32"/>
             <input type="text" class="input reply-input" id="boardComments" name="boardComments" maxlength="500"
                    th:placeholder="#{comment.msg.enterComments}"/>
-            <button class="button btn--form" onclick="saveBoardComment('POST')"
+            <button class="btn__text--box btn--form" onclick="saveBoardComment('POST')"
                     th:text="#{common.btn.save}"></button>
         </div>
         <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
@@ -193,7 +193,7 @@
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
                 document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='input' id='editComments' name='editComments' value='" + context + "'/>" +
-                    "<button class='button btn--form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
+                    "<button class='btn__text--box btn--form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }
 

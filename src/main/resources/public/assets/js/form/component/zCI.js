@@ -132,7 +132,7 @@ export const ciMixin = {
         return this._value;
     },
     makeCIButton() {
-        const buttonGroup = new UIDiv().setUIClass('button-list');
+        const buttonGroup = new UIDiv().setUIClass('btn__list');
         if (this.elementIsEditable) {
             // 등록
             const registerButton = new UIButton(i18n.msg('form.component.ci') + ' ' + i18n.msg('cmdb.ci.label.new'))

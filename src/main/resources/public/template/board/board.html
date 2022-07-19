@@ -98,7 +98,7 @@
                             <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                             <td class="col-1 align-center">
                                 <th:block th:if="${category.boardCount == 0}">
-                                    <button class="button-icon-sm mt-2 mb-2" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])" type="button">
+                                    <button class="item-remove mt-2 mb-2" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])" type="button">
                                         <span class="icon i-remove" ></span>
                                     </button>
                                 </th:block>
@@ -128,10 +128,10 @@
                th:value="${boardAdmin?.attachFileSize}" th:readonly="${view}" type="text"/>
     </div>
     <div class="flex-row justify-content-between edit-row">
-        <div class="button-list">
+        <div class="btn__list">
             <a class="btn__text--box btn--secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')">
+        <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')">
             <button type="button" class="btn__text--box btn--primary" th:unless="${boardAdmin?.boardAdminId}"
                     th:text="#{common.btn.register}" onclick="saveBoardAdmin('POST')"></button>
             <button type="button"class="btn__text--box btn--primary" th:if="${boardAdmin?.boardAdminId}"

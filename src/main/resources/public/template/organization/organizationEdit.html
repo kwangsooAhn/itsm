@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="button-list" sec:authorize="hasAuthority('system.manage')">
+            <div class="btn__list" sec:authorize="hasAuthority('system.manage')">
                 <button class="btn__text--box btn--primary" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button class="btn__text--box btn--primary" type="button" id="btnUpdate" name="btnUpdate"

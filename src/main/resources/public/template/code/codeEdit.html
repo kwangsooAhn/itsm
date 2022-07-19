@@ -90,7 +90,7 @@
             <div id="codeLang"></div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="button-list" sec:authorize="hasAuthority('system.manage')">
+            <div class="btn__list" sec:authorize="hasAuthority('system.manage')">
                 <button type="button" class="btn__text--box btn--primary" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="btn__text--box btn--primary" id="btnUpdate" name="btnUpdate"
@@ -107,7 +107,7 @@
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.name}"></label>
             <input class="input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
-            <button type="button" sec:authorize="hasAuthority('system.manage')" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">
+            <button type="button" sec:authorize="hasAuthority('system.manage')" class="item-remove ml-2 mr-2 mt-2 mb-2">
                 <span class="icon i-remove"></span>
             </button>
         </div>

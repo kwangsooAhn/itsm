@@ -279,7 +279,7 @@ $layout-header-dropdown: (
 
 .button,
 .btn__icon,
-.button-icon-sm {
+.item-remove {
   &:disabled, &.disabled { display: none; }
 }
 
@@ -287,7 +287,7 @@ $layout-header-dropdown: (
   &.button-attach-file {
     .icon.i-folder { background: $gray500; }
   }
-  &.button-code {
+  &.btn__code {
     .icon.i-search { background: $gray500; }
   }
 }
@@ -321,7 +321,7 @@ $layout-header-dropdown: (
 ////////////////////////// element //////////////////////////
 // input + button for custom code
 .input-button {
-  .button-icon-sm { -webkit-print-color-adjust:exact; }
+  .item-remove { -webkit-print-color-adjust:exact; }
 }
 
 // main
@@ -664,7 +664,7 @@ $layout-header-dropdown: (
     }
 
     // 컴포넌트 내부 버튼 리스트
-    .button-list {
+    .btn__list {
       .button {
         min-width: 3.25rem; // 52px
         padding: 0.3125rem 0.625rem; //5px 10px
@@ -1085,7 +1085,7 @@ $component-icon: (
             }
           }
           // DR 테이블 컴포넌트 , CI 컴포넌트
-          .button-list { opacity: 0; }
+          .btn__list { opacity: 0; }
           table {
             tr td { border-color: $blue400 !important; }
             .dr-table-header,
@@ -1329,7 +1329,7 @@ $component-icon: (
           & > .property { padding: 0 0.75rem; } // 12px
         }
 
-        .btn__icon:not(.button-code) {
+        .btn__icon:not(.btn__code) {
           padding: 0;
           .icon {
             display: inline-block;

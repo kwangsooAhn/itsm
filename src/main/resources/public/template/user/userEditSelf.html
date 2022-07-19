@@ -95,7 +95,7 @@
                                    th:value="${organizationDetail?.organizationId}"/>
                             <input type="text" class="input col-5" id="organization" name="organization"
                                    th:value="${organizationDetail?.organizationName}" readonly>
-                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);"
                                     tabindex="-1" th:if="!${view}">
                                 <span class="icon i-remove"></span>
                             </button>
@@ -213,7 +213,7 @@
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="input col-2" id="substituteUser" name="substituteUser"
                                     readonly>
-                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);">
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);">
                                 <span class="icon i-remove"></span>
                             </button>
                             <button type="button" class="button-search btn__text--box btn--form" onclick="openSubUserModal();"
@@ -232,7 +232,7 @@
             </div>
         </div>
         <div class="flex-row justify-content-end edit-row">
-            <div class="button-list">
+            <div class="btn__list">
                 <button class="btn__text--box btn--primary" type="button" th:text="#{common.btn.modify}"
                         th:onclick="preSubmitCheck([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>

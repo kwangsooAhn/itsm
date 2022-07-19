@@ -98,10 +98,10 @@
                 </th:block>
             </div>
             <div class="flex-row justify-content-between edit-row">
-                <div class="button-list">
+                <div class="btn__list">
                     <a class="btn__text--box btn--secondary" href="/sla/metric-pools/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
+                <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
                              class="btn__text--box btn--primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
                     </button>

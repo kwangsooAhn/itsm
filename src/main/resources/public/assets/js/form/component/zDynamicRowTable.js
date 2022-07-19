@@ -74,7 +74,7 @@ export const dynamicRowTableMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 버튼 목록
-        element.UIDiv = new UIDiv().setUIClass('button-list');
+        element.UIDiv = new UIDiv().setUIClass('btn__list');
         element.addUI(element.UIDiv);
 
         // 추가 버튼
@@ -325,7 +325,7 @@ export const dynamicRowTableMixin = {
         }
         // 삭제 버튼
         const removeButton = new UIButton()
-            .setUIClass('button-icon-sm')
+            .setUIClass('item-remove')
             .addUIClass('mt-1')
             .addUIClass('mb-1')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
