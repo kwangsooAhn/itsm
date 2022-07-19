@@ -226,7 +226,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
                 `<span class="icon i-plus"></span></button>` +
             `</div>` +
             `</div>` +
@@ -320,7 +320,7 @@
         const objectId = attributeTypeList[2].type; // radio
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
             `<span class="icon i-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -383,7 +383,7 @@
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
             `<span class="icon i-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -616,7 +616,7 @@
         const objectId = attributeTypeList[5].type; // group-list
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="button-icon extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
             `<span class="icon i-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -1085,7 +1085,7 @@
                     `<input class="input" readonly data-user-id="${data.id}" value="${data.value}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                    `<button type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2 extra user-search-delete-btn"` +
+                    `<button type="button" class="button-icon-sm btn--extra ml-2 mr-2 mt-2 mb-2 user-search-delete-btn"` +
                         ` data-user-id="${data.id}"><span class="icon i-remove"></span>` +
                     `</button>` +
                 `</div>` +

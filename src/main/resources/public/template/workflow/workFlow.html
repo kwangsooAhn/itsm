@@ -263,7 +263,7 @@
                         th:if="${documentId} and ${documentData?.documentType != 'application-form-link'}"
                         th:text="#{document.label.registerDisplay}">
                 </button>
-                <button type="button" class="button danger"
+                <button type="button" class="btn__text--box btn--danger"
                         th:onclick="deleteDocument([[${documentId}]], [[${documentData?.documentType} == 'application-form-link']])"
                         th:if="${documentId}" th:text="#{common.btn.delete}">
                 </button>

@@ -82,7 +82,7 @@
             <div class="flex-row justify-content-between">
                 <label th:text="#{code.label.codeLang}"></label>
                 <button sec:authorize="hasAuthority('system.manage')" type="button"
-                        class="button-icon extra float-right" id="btnCodeLang">
+                        class="btn__icon btn--extra float-right" id="btnCodeLang">
                     <span class="icon i-plus"></span>
                 </button>
             </div>
@@ -95,7 +95,7 @@
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="btn__text--box btn--primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="button danger" id="btnDelete" name="btnDelete"
+                <button type="button" class="btn__text--box btn--danger" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>

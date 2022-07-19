@@ -105,7 +105,7 @@ export default class ZUserSearchProperty extends ZProperty {
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIIconButton);
                     // button
                     targetGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('button-icon')
+                        .setUIClass('btn__icon')
                         .addUIClass('button-code')
                         // .setUIAttribute('data-value', '')
                         .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
@@ -119,8 +119,8 @@ export default class ZUserSearchProperty extends ZProperty {
                 targetGroup.UILabel.domElement.firstChild.classList.add('pt-2');
                 // 사용자 목록 추가 버튼
                 targetGroup.UIButton = new UIButton()
-                    .setUIClass('button-icon')
-                    .addUIClass('extra')
+                    .setUIClass('btn__icon')
+                    .addUIClass('btn--extra')
                     .addUIClass('float-right')
                     .setUIDisabled(!this.isEditable)
                     // 사용자 검색 모달
@@ -292,7 +292,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 .setUITextContent(target.value);
             const addedRemoveTD = new UICell(optionRow).setUICSSText('width: 15%;');
             addedRemoveTD.removeButton = new UIButton()
-                .setUIClass('button-icon')
+                .setUIClass('btn__icon')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.removeRow.bind(this));
             addedRemoveTD.removeButton.addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));

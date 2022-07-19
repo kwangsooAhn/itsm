@@ -117,7 +117,7 @@
         // create title > remove button
         let buttonRemove = document.createElement('button');
         buttonRemove.type = 'button';
-        buttonRemove.className = 'button-icon extra';
+        buttonRemove.className = 'btn__icon btn--extra';
         buttonRemove.insertAdjacentHTML('beforeend', `<span class="icon i-delete"></span>`);
         buttonRemove.addEventListener('click', this.removeTarget, false);
         pickerTitle.appendChild(buttonRemove);
@@ -167,7 +167,7 @@
             // create button > cancel
             let buttonCancel = document.createElement('button');
             buttonCancel.type = 'button';
-            buttonCancel.className = 'button extra';
+            buttonCancel.className = 'btn__text--box btn--extra';
             buttonCancel.innerText = i18n.msg('common.btn.cancel');
             buttonCancel.addEventListener('click', this.close, false);
             pickerButton.appendChild(buttonCancel);
@@ -191,7 +191,7 @@
             // create button > reset
             let buttonReset = document.createElement('button');
             buttonReset.type = 'button';
-            buttonReset.className = 'button extra small';
+            buttonReset.className = 'btn__text--box btn--extra btn--small';
             buttonReset.innerText = i18n.msg('datepicker.btn.reset');
             buttonReset.addEventListener('click', this.removeTarget, false);
             pickerButton.appendChild(buttonReset);

@@ -29,7 +29,7 @@
             <div class="edit-row flex-column">
                 <div class="under-bar">
                     <label th:classappend="${view} ? '' : 'required'" th:text="#{pattern.label.pattern}"></label>
-                    <button class="button-icon extra float-right" onclick="addPattern()" th:if="!${view}"
+                    <button class="btn__icon btn--extra float-right" onclick="addPattern()" th:if="!${view}"
                             type="button">
                         <span class="icon i-plus"></span>
                     </button>
@@ -43,7 +43,7 @@
                                     th:text="${pattern.patternName}" th:value="${pattern.patternId}">
                             </option>
                         </select>
-                        <button class="button-icon extra ml-1" style="visibility:hidden" th:if="!${view}"
+                        <button class="btn__icon btn--extra ml-1" style="visibility:hidden" th:if="!${view}"
                                 type="button">
                             <span class="icon i-delete"></span>
                         </button>
@@ -59,7 +59,7 @@
                                         th:value="${pattern.patternId}">
                                 </option>
                             </select>
-                            <button class="button-icon extra ml-1" onclick="deletePattern(this)"
+                            <button class="btn__icon btn--extra ml-1" onclick="deletePattern(this)"
                                     th:if="!${view}" th:style="(${iterStat.index} > 0)? '':'visibility:hidden'"
                                     type="button">
                                 <span class="icon i-delete"></span>
@@ -80,7 +80,7 @@
                 <button class="btn__text--box btn--primary" id="btnUpdate" name="btnUpdate"
                         th:if="${rule?.numberingId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
-                <button class="button danger" id="btnDelete" name="btnDelete"
+                <button class="btn__text--box btn--danger" id="btnDelete" name="btnDelete"
                         th:if="${rule?.numberingId}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"

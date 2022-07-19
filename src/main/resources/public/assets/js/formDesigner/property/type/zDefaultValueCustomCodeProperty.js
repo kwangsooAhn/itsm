@@ -147,7 +147,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                         radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                         // button
                         radioGroup.UIInputButton.UIButton = new UIButton()
-                            .setUIClass('button-icon')
+                            .setUIClass('btn__icon')
                             .addUIClass('button-code')
                             .setUIAttribute('data-value', defaultCustomCodeValues[0])
                             .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))

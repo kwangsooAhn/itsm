@@ -255,8 +255,8 @@ export const ciMixin = {
             case 'icon-edit': // CI 등록 / 수정
                 if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
-                        .setUIClass('button-icon')
-                        .addUIClass('extra')
+                        .setUIClass('btn__icon')
+                        .addUIClass('btn--extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
                         .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
@@ -266,8 +266,8 @@ export const ciMixin = {
                         .addUI(viewButton);
                 } else {
                     const editButton = new UIButton()
-                        .setUIClass('button-icon')
-                        .addUIClass('extra')
+                        .setUIClass('btn__icon')
+                        .addUIClass('btn--extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
                         .addUI(new UISpan().setUIClass('icon').addUIClass(
@@ -280,8 +280,8 @@ export const ciMixin = {
                 }
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
-                    .setUIClass('button-icon')
-                    .addUIClass('extra')
+                    .setUIClass('btn__icon')
+                    .addUIClass('btn--extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
                     .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
@@ -291,8 +291,8 @@ export const ciMixin = {
                     .addUI(searchButton);
             case 'icon-delete': // Row 삭제
                 const deleteButton = new UIButton()
-                    .setUIClass('button-icon')
-                    .addUIClass('extra')
+                    .setUIClass('btn__icon')
+                    .addUIClass('btn--extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
                     .addUI(new UISpan().setUIClass('icon').addUIClass('i-delete'));
@@ -1334,7 +1334,7 @@ export const ciMixin = {
         const deleteRel = document.createElement('td');
         deleteRel.className = 'col-1 align-center';
         const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'button-icon extra';
+        deleteBtn.className = 'btn__icon btn--extra';
         const deleteIcon = document.createElement('span');
         deleteIcon.className = 'icon i-delete';
         deleteBtn.addEventListener('click', function () {

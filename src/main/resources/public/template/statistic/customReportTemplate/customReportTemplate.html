@@ -60,7 +60,7 @@
             </div>
             <div id="details" class="template">
                 <div class="flex-row justify-content-end">
-                    <button type="button" class="button-icon extra" onclick="addChart()" th:if="!${view}">
+                    <button type="button" class="btn__icon btn--extra" onclick="addChart()" th:if="!${view}">
                         <span class="icon i-plus"></span>
                     </button>
                 </div>
@@ -78,7 +78,7 @@
                         onclick="saveReportTemplate('PUT')" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="btn__text--box btn--secondary" onclick="preview()" th:text="#{common.btn.preview}"></button>
                 <button type="button" class="btn__text--box btn--secondary" th:if="${template?.templateId}" th:onclick="makeReport([[${template.templateId}]])" th:text="#{statistic.btn.create}"></button>
-                <button type="button" class="button danger" th:if="${template?.templateId}"
+                <button type="button" class="btn__text--box btn--danger" th:if="${template?.templateId}"
                         onclick="deleteReportTemplate()" th:text="#{common.btn.delete}"></button>
             </div>
         </div>

@@ -1194,7 +1194,7 @@ Object.assign(zCalendar.prototype, {
      * 상세보기 모달에서 삭제 버튼 클릭시 처리
      */
     onClickScheduleDelete: function (e) {
-        if (aliceJs.clickInsideElement(e, 'button-icon')) {
+        if (aliceJs.clickInsideElement(e, 'btn__icon')) {
             this.deleteSchedule(this.detailModal.customOptions.schedule);
         }
     },

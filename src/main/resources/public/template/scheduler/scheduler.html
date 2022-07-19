@@ -155,7 +155,7 @@
                         th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="button danger" onclick="deleteScheduler()"
+                <button type="button" class="btn__text--box btn--danger" onclick="deleteScheduler()"
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.delete}">
                 </button>

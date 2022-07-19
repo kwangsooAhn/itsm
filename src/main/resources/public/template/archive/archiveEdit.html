@@ -48,7 +48,7 @@
                 <button th:unless="${archive?.archiveId}" onclick="saveArchive('POST')"
                         class="btn__text--box btn--primary" th:text="#{common.btn.register}"></button>
                 <button th:if="${archive?.archiveId}" onclick="deleteArchive()"
-                        class="button danger" th:text="#{common.btn.delete}"></button>
+                        class="btn__text--box btn--danger" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>

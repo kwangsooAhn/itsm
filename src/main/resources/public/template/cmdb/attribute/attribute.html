@@ -97,7 +97,7 @@
                         th:if="${attribute == null}" th:text="#{common.btn.register}"></button>
                 <button type="button" class="btn__text--box btn--primary" onclick="saveAttribute('PUT')"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="button danger" onclick="deleteAttribute()"
+                <button type="button" class="btn__text--box btn--danger" onclick="deleteAttribute()"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.delete}"></button>
             </div>
         </div>

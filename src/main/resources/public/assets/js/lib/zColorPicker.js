@@ -276,7 +276,7 @@ Object.assign(zColorPicker.prototype, {
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'button-icon extra custom-color-edit visible';
+        editButton.className = 'btn__icon btn--extra custom-color-edit visible';
         editButton.insertAdjacentHTML('beforeend', `<span class="icon i-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
@@ -391,7 +391,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 취소 버튼
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
-        cancelButton.className = 'button extra';
+        cancelButton.className = 'btn__text--box btn--extra';
         cancelButton.textContent = i18n.msg('common.btn.cancel');
         cancelButton.addEventListener('click', () => {
             // 알림창 - 사용자 색상이 아직 저장되지 않았습니다.

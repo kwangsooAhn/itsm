@@ -117,7 +117,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                     // button
                     radioGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('button-icon')
+                        .setUIClass('btn__icon')
                         .addUIClass('button-code')
                         .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
                         .onUIClick(this.openDataSelect.bind(this));

@@ -86,7 +86,7 @@
                 <button class="btn__text--box btn--primary" id="btnUpdate" name="btnUpdate"
                         th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
-                <button class="button danger" id="btnDelete"
+                <button class="btn__text--box btn--danger" id="btnDelete"
                         name="btnDelete" th:if="${pattern?.patternId}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"
