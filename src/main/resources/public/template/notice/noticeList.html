@@ -27,7 +27,7 @@
             <td style="width:20%;" class="align-left date-time" th:text="${topNotice.topNoticeStartDt} + '~' + ${topNotice.topNoticeEndDt}" th:title="${topNotice.topNoticeStartDt} + '~' + ${topNotice.topNoticeEndDt}"></td>
             <td style="width:15%;" class="align-left date-time" th:text="${topNotice.createDt}" th:title="${topNotice.createDt}"></td>
             <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
-                <button type="button" class="button-icon btn--form" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
+                <button type="button" class="btn__icon btn--form" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
                     <span class="icon i-popup"></span>
                 </button>
             </td>
@@ -48,7 +48,7 @@
             <td style="width:20%;" class="align-left date-time" th:text="${notice.topNoticeStartDt} + '~' + ${notice.topNoticeEndDt}" th:title="${notice.topNoticeStartDt} + '~' + ${notice.topNoticeEndDt}"></td>
             <td style="width:15%;" class="align-left date-time" th:text="${notice.createDt}" th:title="${notice.createDt}"></td>
             <td style="width:5%;" class="align-center" th:if="${notice.popYn}">
-                <button type="button" class="button-icon btn--form" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
+                <button type="button" class="btn__icon btn--form" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
                     <span class="icon i-popup"></span>
                 </button>
             </td>

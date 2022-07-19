@@ -1308,7 +1308,7 @@
             // button
             let btnAdd = document.createElement('button');
             btnAdd.type = 'button';
-            btnAdd.className = 'button btn--form mt-3';
+            btnAdd.className = 'btn__text--box btn--form mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
             const saveData = function() {
@@ -1473,7 +1473,7 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'button-icon btn--form button-candidate-add';
+        btnAdd.className = 'btn__icon btn--form button-candidate-add';
         btnAdd.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
 
         const saveData = function() {

@@ -7951,7 +7951,7 @@ input, button, select, optgroup, textarea {
 }
 
 .btn__toggle__switch {
-  position: relative;
+  position: relative !important;
   display: inline-block;
   width: 100%;
   margin: 0 !important;
@@ -7970,7 +7970,7 @@ input, button, select, optgroup, textarea {
   display: none;
 }
 .btn__toggle__switch input[type=checkbox] + span {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -7990,7 +7990,7 @@ input, button, select, optgroup, textarea {
   cursor: pointer;
 }
 .btn__toggle__switch input[type=checkbox] + span::before {
-  position: absolute;
+  position: absolute !important;
   top: 0.1rem;
   left: 0.125rem;
   border-radius: 50%;
@@ -8010,7 +8010,7 @@ input, button, select, optgroup, textarea {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  position: absolute;
+  position: absolute !important;
   right: 0.125rem;
   content: "";
   background-color: #FFFFFF;
