@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/itsm/pageType/treeEditLayout}">
+<head>
+    <title th:text="#{service.label.service}"></title>
+</head>
+<th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/js/lib/zPageMutationObserver.js}"></script>
+</th:block>
+<body>
+<div layout:fragment="pageTitle">
+    <h1 th:text="#{service.label.service}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{service.msg.editDescription}"></h6>
+</div>
+<div layout:fragment="pageSearching">
+    <input type="text" class="input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+           maxlength="100" th:placeholder="#{service.label.searchPlaceholder}"/>
+    <span id="totalCount" class="search-count"></span>
+    <div class="ml-auto" sec:authorize="hasAuthority('service.manage')">
+        <button type="button" class="button primary" id="btnCreate" name="btnCreate"
+                th:text="#{common.btn.add}" onclick="onCreate()"></button>
+    </div>
+</div>
+<div layout:fragment="pageTree">
+    <div id="treeList"></div>
+</div>
+<div layout:fragment="pageEdit">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="required" th:text="#{service.label.code}" for="serviceCode"></label>
+                <input id="serviceCode" name="serviceCode" class="input text-ellipsis col-pct-12" type="text"
+                       maxlength="100"/>
+                </span>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="required" th:text="#{service.label.pCode}" for="pServiceCode"></label>
+                <input id="pServiceCode" name="pServiceCode" class="input text-ellipsis col-pct-12" type="text"
+                       maxlength="100"/>
+                </span>
+            </div>
+        </div>
+        <div class="edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="required" th:text="#{service.label.name}" for="serviceName"></label>
+                <input id="serviceName" name="serviceName" class="input text-ellipsis" type="text"
+                       maxlength="100"/>
+            </div>
+            <div class="flex-column flex-fill">
+                <label class="form-title" th:text="#{service.label.seqNum}" for="seqNum"></label>
+                <input id="seqNum" name="seqNum" class="input text-ellipsis" type="text"
+                       onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
+            </div>
+        </div>
+        <div class="edit-row flex-column">
+            <label class="switch">
+                <span class="label" th:text="#{service.label.useYn}"></span>
+                <input type="checkbox" id="useYn" name="useYn">
+                <span></span>
+            </label>
+        </div>
+        <div class="edit-row flex-column">
+            <label class="form-title" th:text="#{service.label.description}" for="serviceDesc"></label>
+            <textarea id="serviceDesc" name="serviceDesc" th:maxlength="200" th:rows="5"
+                      class="textarea textarea-scroll-wrapper"></textarea>
+        </div>
+        <div class="edit-row flex-column">
+            <label class="form-title" th:text="#{service.label.avaGoal}" for="avaGoal"></label>
+            <textarea id="avaGoal" name="avaGoal" th:maxlength="200" th:rows="5"
+                      class="textarea textarea-scroll-wrapper"></textarea>
+        </div>
+        <div class="edit-row flex-row">
+            <div class="flex-column flex-fill mr-4">
+                <label class="form-title" th:text="#{service.label.startDate}" for="startDate"></label>
+                <input type="text" class="input i-date-picker search-date col-4" id="startDate" name="startDate"/>
+            </div>
+            <div class="flex-column flex-fill mr-4">
+                <label class="form-title" th:text="#{service.label.endDate}" for="endDate"></label>
+                <input type="text" class="input i-date-picker search-date col-4" id="endDate" name="endDate"/>
+            </div>
+        </div>
+        <div class="flex-row justify-content-end">
+            <div class="button-list" sec:authorize="hasAuthority('service.manage')">
+                <button type="button" class="button primary" id="btnRegist" name="btnRegist"
+                        th:onclick="onSave('POST')" th:text="#{common.btn.register}"></button>
+                <button type="button" class="button primary" id="btnUpdate" name="btnUpdate"
+                        th:onclick="onSave('PUT')" th:text="#{common.btn.modify}"></button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    /*]]>*/
+</script>
+</html>
