@@ -439,7 +439,9 @@ div.textarea-readonly { border-color: transparent !important; }
   }
 }
 
-// select
+/*
+ * select
+ */
 select {
   @include border(0.0625rem, solid, $gray400, all);
   @include borderRadius(0.0625rem);
@@ -456,26 +458,23 @@ select {
   -moz-appearance: none; /* Firefox */
   -webkit-appearance: none; /* Safari and Chrome */
   appearance: none;
+  &.readonly { visibility: hidden; }
 }
-/**
- Designed select
-   1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
-   2) select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
-   3) 내부에는 2개의 영역으로 구성되며 아래와 같은 클래스명으로 구분된다.
-     - select-box : select 태그를 대신해서 보여지는 부분
-     - select-options : select-box 클릭 시 보여지는 option 리스트 부분
-*/
+//Designed select
+//  1) select 태그를 사용하면서 initDesignedSelectTag 함수를 호출하면 아래 디자인을 적용할 수 있음.
+//  2) select 클래스를 가진 div 로 select 태그를 감싸고 디자인된 div 를 제공
+//  3) 내부에는 2개의 영역으로 구성되며 아래와 같은 클래스명으로 구분된다.
+//    - select__box : select 태그를 대신해서 보여지는 부분
+//    - select__options : select__box 클릭 시 보여지는 option 리스트 부분
 .select {
   @include relative();
   display: inline-block;
   width: 100%;
   height: 2.125rem; // 34px
   vertical-align: middle;
-
-  select.readonly { visibility: hidden; }
-
+  
   // select 태그를 대신해서 보여지는 부분
-  .select-box {
+  &__box {
     @include absolute(0, 0, 0, 0);
     @include borderRadius(0.125rem); // 2px
     @include border(0.0625rem, solid, $gray400, all);
@@ -491,6 +490,14 @@ select {
     line-height: 1.2;
     cursor: pointer;
 
+    // readonly
+    &.readonly {
+      @include border(0.0625rem, solid, $gray300, bottom);
+      @include borderRadius(0);
+      border: none;
+      background-color: transparent;
+      cursor: default;
+    }
     &:not(.readonly) {
       &:hover {
         @include border(0.0625rem, solid, $blue400, all);
@@ -508,7 +515,7 @@ select {
         outline: 0;
         // 열렸을때 출력되는 화살표 아이콘
         .icon.i-arrow-right { @include rotate(-90); }
-        + .select-options { display: block; }
+        + .select__options { display: block; }
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
@@ -523,16 +530,21 @@ select {
       }
     }
 
-    // readonly
-    &.readonly {
-      @include border(0.0625rem, solid, $gray300, bottom);
-      @include borderRadius(0);
-      border: none;
-      background-color: transparent;
+    // disabled
+    &.disabled {
+      @include border(0.0625rem, solid, $gray300, all);
+      background-color: $neutral200;
+      color: $gray400;
+      pointer-events: none;
       cursor: default;
+      
+      .select__box__label {
+        background-color: $neutral200;
+        color: $gray400;
+      }
     }
 
-    .select-box-label {
+    &__label {
       height: auto;
       width: 100%;
       padding: 0;
@@ -547,23 +559,10 @@ select {
       }
     }
 
-    // disabled
-    &.disabled-select {
-      @include border(0.0625rem, solid, $gray300, all);
-      background-color: $neutral200;
-      color: $gray400;
-      pointer-events: none;
-      cursor: default;
-
-      .select-box-label {
-        background-color: $neutral200;
-        color: $gray400;
-      }
-    }
   }
 
-  // select-box 클릭 시 보여지는 option 리스트 부분
-  .select-options {
+  // select__box 클릭 시 보여지는 option 리스트 부분
+  &__options {
     @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
     @include border(0.0625rem, solid, $gray400, all);
     @include borderRadius(0.125rem); // 2px
@@ -609,10 +608,12 @@ select {
   }
 }
 
-// slider
+/*
+ * slider
+ */
 .slider {
   min-height: 1.375rem; // 22px
-  .range {
+  &__range {
     @include borderRadius(0.25rem); // 4px
     width : 75%;
     max-width: 15rem; // 240px
@@ -795,8 +796,6 @@ select {
 // 체크박스 목록
 // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
 .checkbox {
-  // 전체 선택
-  &-all { display: table-cell; }
   // 목록
   &-list {
     @include border(0.0625rem, solid, $gray400, all);
