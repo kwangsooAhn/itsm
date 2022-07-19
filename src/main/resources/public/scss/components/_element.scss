@@ -608,10 +608,12 @@ select {
   }
 }
 
-// slider
+/*
+ * slider
+ */
 .slider {
   min-height: 1.375rem; // 22px
-  .range {
+  &__range {
     @include borderRadius(0.25rem); // 4px
     width : 75%;
     max-width: 15rem; // 240px

@@ -1229,7 +1229,7 @@ $component-icon: (
   }
   // column 너비 조정
   .slider {
-    .range { width : 75%; }
+    &__range { width : 75%; }
     .input {
       width: 23%;
       text-align: center;
