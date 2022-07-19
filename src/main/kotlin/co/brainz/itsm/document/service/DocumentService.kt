@@ -30,6 +30,7 @@ import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.role.service.RoleService
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -55,6 +56,7 @@ import org.springframework.stereotype.Service
 class DocumentService(
     private val formService: FormService,
     private val processService: ProcessService,
+    private val roleService: RoleService,
     private val wfDocumentService: WfDocumentService,
     private val currentSessionUser: CurrentSessionUser,
     private val roleRepository: RoleRepository,
@@ -84,8 +86,12 @@ class DocumentService(
                 }
             }
         }
-        val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
-        val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition)
+
+        val roleList = mutableListOf<String>()
+        roleService.getUserRoleList(aliceUserDto.userKey).forEach { roleList.add(it.roleId) }
+        val validDocumentIds = aliceDocumentRoleMapRepository.findDocumentIdsByRoles(roleList)
+        val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition, validDocumentIds)
+        val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition, validDocumentIds)
 
         val totalResult = mutableListOf<DocumentDto>() // document + documentLink 합치기
 

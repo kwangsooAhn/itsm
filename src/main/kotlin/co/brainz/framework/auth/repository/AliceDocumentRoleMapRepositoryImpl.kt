@@ -4,10 +4,12 @@ import co.brainz.framework.auth.entity.AliceDocumentRoleMapEntity
 import co.brainz.framework.auth.entity.QAliceDocumentRoleMapEntity
 import co.brainz.framework.auth.entity.QAliceRoleEntity
 import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.document.entity.QWfDocumentLinkEntity
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
@@ -53,5 +55,14 @@ class AliceDocumentRoleMapRepositoryImpl : QuerydslRepositorySupport(AliceDocume
         query.orderBy(role.roleId.asc())
 
         return query.fetch()
+    }
+
+    override fun findDocumentIdsByRoles(roleIds: MutableList<String>): List<String> {
+        val roleMap = QAliceDocumentRoleMapEntity.aliceDocumentRoleMapEntity
+
+        return from(roleMap).distinct()
+            .select(roleMap.documentId)
+            .where(roleMap.role.roleId.`in`(roleIds))
+            .fetch()
     }
 }

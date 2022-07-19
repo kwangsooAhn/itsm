@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository
 class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
-    override fun findByDocuments(documentSearchCondition: DocumentSearchCondition):
+    override fun findByDocuments(documentSearchCondition: DocumentSearchCondition, targetIds: List<String>):
         List<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
 
@@ -54,12 +54,17 @@ class WfDocumentRepositoryImpl :
             .where(
                 super.eq(document.documentGroup, documentSearchCondition.searchGroupName),
                 if (documentSearchCondition.searchDocumentType == WfDocumentConstants.DocumentViewType.SUBPROCESS.value) {
+                    // processDesigner > search subprocesses
                     document.documentType.`in`(
                         DocumentConstants.DocumentType.WORKFLOW.value,
                         DocumentConstants.DocumentType.APPLICATION_FORM_WORKFLOW.value
                     )
                 } else {
-                    super.eq(document.documentType, documentSearchCondition.searchDocumentType)
+                    // search documents
+                    document.documentType.`in`(
+                        DocumentConstants.DocumentType.APPLICATION_FORM.value,
+                        DocumentConstants.DocumentType.APPLICATION_FORM_WORKFLOW.value
+                    )
                 },
                 if (documentSearchCondition.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
                     if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
@@ -70,6 +75,7 @@ class WfDocumentRepositoryImpl :
                     } else {
                         super.eq(document.documentStatus, WfDocumentConstants.Status.USE.code)
                     }
+                    document.documentId.`in`(targetIds)
                 } else {
                     super.eq(document.documentStatus, documentSearchCondition.searchDocumentStatus)
                 },
