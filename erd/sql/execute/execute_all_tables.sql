@@ -649,8 +649,8 @@ insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE'
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
-insert into awf_menu values ('service', 'menu', '/service-category/edit', 14, 'TRUE');
+insert into awf_menu values ('config.service', 'config', '/service-category/edit', 7, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 8, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -695,6 +695,8 @@ insert into awf_menu_auth_map values ('config.product', 'system.manage');
 insert into awf_menu_auth_map values ('config.role', 'system.manage');
 insert into awf_menu_auth_map values ('config.scheduler', 'system.manage');
 insert into awf_menu_auth_map values ('config.user', 'system.manage');
+insert into awf_menu_auth_map values ('config.service', 'service.manage');
+insert into awf_menu_auth_map values ('config.service', 'service.view');
 insert into awf_menu_auth_map values ('sla', 'sla.manage');
 insert into awf_menu_auth_map values ('sla', 'sla.view');
 insert into awf_menu_auth_map values ('sla.metricStatus', 'sla.manage');
@@ -727,8 +729,6 @@ insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
 insert into awf_menu_auth_map values ('calendar', 'general');
-insert into awf_menu_auth_map values ('service', 'service.manage');
-insert into awf_menu_auth_map values ('service', 'service.view');
 
 /**
  * 알림

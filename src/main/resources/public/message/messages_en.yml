@@ -1112,6 +1112,7 @@ menu:
     product: "Product Info"
     role: "Role"
     scheduler: "Scheduler"
+    service: "Service Category"
     user: "User"
   dashboard:
     parent: "Dashboard"
@@ -1123,8 +1124,6 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
-  service:
-    parent: "Service Category"
   setting:
     editMyInfo: "Edit My Info"
   sla:

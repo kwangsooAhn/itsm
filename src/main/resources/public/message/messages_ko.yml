@@ -1112,6 +1112,7 @@ menu:
     product: "제품 정보"
     role: "역할"
     scheduler: "스케줄러"
+    service: "서비스 카테고리"
     user: "사용자"
   dashboard:
     parent: "개인 현황판"
@@ -1123,8 +1124,6 @@ menu:
     parent: "FAQ"
   notice:
     parent: "공지사항"
-  service:
-    parent: "서비스 카테고리"
   setting:
     editMyInfo: "자기정보 수정"
   sla:
