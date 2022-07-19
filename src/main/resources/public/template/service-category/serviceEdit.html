@@ -95,6 +95,7 @@
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     let observer = aliceJs.pageObserver;
+    let startDate = i18n.getDate();
 
     window.addEventListener('load', function() {
         observer.set();
@@ -226,6 +227,138 @@
             onEdit();
             observer.isChanged = false;
         });
+    }
+
+    /** service 추가 **/
+    function onCreate() {
+        if (!observer.canPageChange()) { return false; }
+
+        if (document.querySelector('#btnUpdate') != null) {
+            document.querySelector('#btnUpdate').style.display = 'none';
+        }
+        if (document.querySelector('#btnRegist') != null) {
+            document.querySelector('#btnRegist').style.display = 'block';
+        }
+        const editElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
+        editElems.forEach((elem) => {
+            elem.readOnly = false;
+            elem.value = '';
+        });
+        const editTextareaElems = document.querySelector('.page-edit').querySelectorAll('.textarea');
+        editTextareaElems.forEach((elem) => {
+            elem.classList.remove('textarea-readonly');
+            elem.value = '';
+        });
+        document.getElementById('serviceDesc').readOnly = false;
+        document.getElementById('avaGoal').readOnly = false;
+
+        // 서비스 코드
+        const serviceCode = document.getElementById('serviceCode');
+        serviceCode.disabled = false;
+        serviceCode.previousElementSibling.classList.add('required');
+        // 부모 서비스 코드
+        const pServiceCode = document.getElementById('pServiceCode');
+        pServiceCode.previousElementSibling.classList.add('required');
+        // 서비스 이름
+        const serviceName = document.getElementById('serviceName');
+        serviceName.previousElementSibling.classList.add('required');
+        // 서비스 시작일자 기본값
+        document.getElementById('startDate').value = startDate;
+
+        let selectedNode = tree.getTreeSelectNode();
+        if (selectedNode !== null) {
+            document.getElementById('pServiceCode').value = selectedNode.id;
+        }
+        observer.isChanged = false;
+    }
+
+    function onEdit() {
+        if (document.querySelector('#btnUpdate') != null) {
+            document.querySelector('#btnUpdate').style.display = 'block';
+        }
+        if (document.querySelector('#btnRegist') != null) {
+            document.querySelector('#btnRegist').style.display = 'none';
+        }
+    }
+
+    /** service 저장 **/
+    function onSave(method) {
+        const jsonData = {
+            serviceCode: document.getElementById('serviceCode').value.trim(),
+            pServiceCode: document.getElementById('pServiceCode').value.trim(),
+            serviceName: document.getElementById('serviceName').value.trim(),
+            serviceDesc: document.getElementById('serviceDesc').value.trim(),
+            avaGoal: document.getElementById('avaGoal').value.trim(),
+            startDate: document.getElementById('startDate').value,
+            endDate: document.getElementById('endDate').value,
+            useYn: document.getElementById('useYn').checked,
+            seqNum: document.getElementById('seqNum').value
+        };
+
+        if (jsonData.serviceCode === null || jsonData.serviceCode.trim() === '') {
+            zAlert.warning('[(#{service.msg.enterServiceCode})]');
+            return false;
+        }
+        if (jsonData.serviceName === null || jsonData.serviceName.trim() === '') {
+            zAlert.warning('[(#{service.msg.enterServiceName})]');
+            return false;
+        }
+
+        let url = '/rest/service-category';
+        if (method === 'PUT') {
+            url += '/' + document.getElementById('serviceCode').value;
+        }
+        const resultMsg = (method === 'POST') ? '[(#{common.msg.register})]' : '[(#{common.msg.update})]';
+        aliceJs.fetchJson(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    zAlert.success(resultMsg, function() {
+                        window.location.href = '/service-category/edit';
+                    });
+                    break;
+                case aliceJs.response.duplicateServiceCode:
+                    zAlert.warning('[(#{service.msg.duplicateServiceCode})]');
+                    break;
+                case aliceJs.response.duplicateServiceName:
+                    zAlert.warning('[(#{service.msg.duplicateServiceName})]');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger('[(#{common.msg.fail})]');
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    function setDatePicker(element, picker) {
+        if (element.id === 'startDate') {
+            const endDateValue = document.getElementById('endDate').value;
+            if (endDateValue !== '' && element.value !== '') {
+                if (i18n.systemDate(endDateValue) < i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectBeforeDate', endDateValue), function() {
+                        document.getElementById('startDate').value = startDate;
+                        picker.open();
+                    });
+                }
+            }
+        } else {
+            const startDateValue = document.getElementById('startDate').value;
+            if (startDateValue !== '' && element.value !== '') {
+                if (i18n.systemDate(startDateValue) > i18n.systemDate(element.value)) {
+                    zAlert.warning(i18n.msg('common.msg.selectAfterDate', startDateValue), function() {
+                        document.getElementById('endDate').value = '';
+                        picker.open();
+                    });
+                }
+            }
+        }
     }
     /*]]>*/
 </script>
