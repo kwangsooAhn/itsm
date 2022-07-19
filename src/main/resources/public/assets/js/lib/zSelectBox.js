@@ -21,7 +21,7 @@
 
 aliceJs.initDesignedSelectTag = function (targetDOM) {
     if (!targetDOM) targetDOM = document;
-    targetDOM.querySelectorAll('select').forEach(function (originSelectTag) {
+    targetDOM.querySelectorAll('select').forEach(function(originSelectTag) {
         if (originSelectTag.style.display !== 'none') {
             // 이미 그려진 경우 초기화.
             if (originSelectTag.parentElement.classList.contains('select')) {
@@ -58,11 +58,11 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
 
             // 인위적으로 추가되는 select__box 는 div 라서 focus 효과가 없다.
             // 원본 select tag 의 포커스를 active 클래스를 이용해서 전파.
-            originSelectTag.addEventListener('focus', (function (e) {
+            originSelectTag.addEventListener('focus', (function(e) {
                 e.stopPropagation();
                 e.target.nextSibling.classList.add('active');
             }));
-            originSelectTag.addEventListener('focusout', (function (e) {
+            originSelectTag.addEventListener('focusout', (function(e) {
                 e.stopPropagation();
                 e.target.nextSibling.classList.remove('active');
             }));
@@ -103,11 +103,11 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                 // select__box 클릭 이벤트
                 if (!originSelectTag.disabled && !originSelectTag.classList.contains('disabled') &&
                     !originSelectTag.classList.contains('readonly') && originSelectTag.options.length > 0) {
-                    designedSelectBox.addEventListener('click', (function (e) {
+                    designedSelectBox.addEventListener('click', (function(e) {
                         e.stopPropagation();
                         let clickedSelect = aliceJs.clickInsideElement(e, 'select__box');
 
-                        document.querySelectorAll('div.select__box.active').forEach(function (selectTag) {
+                        document.querySelectorAll('div.select__box.active').forEach(function(selectTag) {
                             if (selectTag !== clickedSelect) {
                                 selectTag.classList.remove('active');
                             }
@@ -122,10 +122,10 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                     }));
 
                     // option 을 선택하는 경우 이벤트
-                    ulElement.querySelectorAll('li').forEach(function (liOption) {
-                        liOption.addEventListener('click', function (clickedOption) {
+                    ulElement.querySelectorAll('li').forEach(function(liOption) {
+                        liOption.addEventListener('click', function(clickedOption) {
                             clickedOption.stopPropagation();
-                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function (li) {
+                            clickedOption.target.parentElement.querySelectorAll('li').forEach(function(li) {
                                 li.classList.remove('selected');
                             });
                             clickedOption.target.classList.add('selected');
@@ -145,7 +145,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
                         });
                     });
 
-                    document.addEventListener('click', function () {
+                    document.addEventListener('click', function() {
                         designedSelectBox.classList.remove('active');
                     });
                 }
