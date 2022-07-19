@@ -1701,7 +1701,7 @@ input, button, select, optgroup, textarea {
   -webkit-print-color-adjust: exact;
 }
 
-.ic-search {
+span.ic-search {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_search.svg");
@@ -1711,8 +1711,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-delete {
+span.ic-delete {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
@@ -1722,8 +1721,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-list-delete {
+span.ic-list-delete {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
@@ -1733,8 +1731,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-edit {
+span.ic-edit {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_edit.svg");
@@ -1744,8 +1741,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-popup {
+span.ic-popup {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_popup.svg");
@@ -1755,8 +1751,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-clipboard {
+span.ic-clipboard {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_clipboard.svg");
@@ -1766,8 +1761,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-plus {
+span.ic-plus {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_plus.svg");
@@ -1777,8 +1771,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-minus {
+span.ic-minus {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_minus.svg");
@@ -1788,8 +1781,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-check {
+span.ic-check {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_check.svg");
@@ -1799,8 +1791,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-remove {
+span.ic-remove {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
@@ -1810,8 +1801,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-copy {
+span.ic-copy {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_copy.svg");
@@ -1821,8 +1811,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-arrow-right {
+span.ic-arrow-right {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_arrow_right.svg");
@@ -1832,8 +1821,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-arrow-double {
+span.ic-arrow-double {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_arrow_double.svg");
@@ -1843,8 +1831,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-color-palette {
+span.ic-color-palette {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/colorPicker/icon_color_palette.svg");
@@ -1854,8 +1841,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-image {
+span.ic-image {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_image.svg");
@@ -1865,8 +1851,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-folder {
+span.ic-folder {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_folder.svg");
@@ -1876,8 +1861,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-download {
+span.ic-download {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_download.svg");
@@ -1887,8 +1871,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-list-download {
+span.ic-list-download {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_list-download.svg");
@@ -1898,8 +1881,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-upload {
+span.ic-upload {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_upload.svg");
@@ -1909,8 +1891,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-tooltip {
+span.ic-tooltip {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_tooltip.svg");
@@ -1920,8 +1901,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-download-as-excel {
+span.ic-download-as-excel {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_download_xls.svg");
@@ -1931,8 +1911,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-sorting {
+span.ic-sorting {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_sorting.svg");
@@ -1942,8 +1921,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-board {
+span.ic-gnb-board {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_board.svg");
@@ -1953,8 +1931,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-statistic {
+span.ic-gnb-statistic {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_statistic.svg");
@@ -1964,8 +1941,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-dashboard {
+span.ic-gnb-dashboard {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_dashboard.svg");
@@ -1975,8 +1951,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-document {
+span.ic-gnb-document {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_document.svg");
@@ -1986,8 +1961,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-archive {
+span.ic-gnb-archive {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_download.svg");
@@ -1997,8 +1971,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-faq {
+span.ic-gnb-faq {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_faq.svg");
@@ -2008,8 +1981,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-notice {
+span.ic-gnb-notice {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_notice.svg");
@@ -2019,8 +1991,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-config {
+span.ic-gnb-config {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_config.svg");
@@ -2030,8 +2001,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-workflow {
+span.ic-gnb-workflow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_workflow.svg");
@@ -2041,8 +2011,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-token {
+span.ic-gnb-token {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_token.svg");
@@ -2052,8 +2021,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-cmdb {
+span.ic-gnb-cmdb {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_cmdb.svg");
@@ -2063,8 +2031,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-calendar {
+span.ic-gnb-calendar {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_calendar.svg");
@@ -2074,8 +2041,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb-sla {
+span.ic-gnb-sla {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_sla.svg");
@@ -2085,8 +2051,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gnb_sub_dot {
+span.ic-gnb_sub_dot {
   width: 0.25rem;
   height: 0.25rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_sub_dot.svg");
@@ -2096,8 +2061,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-save {
+span.ic-save {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save.svg");
@@ -2107,8 +2071,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-save-as {
+span.ic-save-as {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save_as.svg");
@@ -2118,8 +2081,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-undo {
+span.ic-undo {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_undo.svg");
@@ -2129,8 +2091,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-redo {
+span.ic-redo {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_redo.svg");
@@ -2140,8 +2101,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-preview {
+span.ic-preview {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_preview.svg");
@@ -2151,8 +2111,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-simulation {
+span.ic-simulation {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_simulation.svg");
@@ -2162,8 +2121,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-image-download {
+span.ic-image-download {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_image_download.svg");
@@ -2173,8 +2131,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-create-template {
+span.ic-create-template {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
@@ -2184,8 +2141,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-no-image {
+span.ic-no-image {
   width: 100%;
   height: 2.813rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/form/icon_image_component.svg");
@@ -2198,8 +2154,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.813rem;
   background: #ABB0B5;
 }
-
-.ic-inputBox {
+span.ic-inputBox {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_inputbox.svg ");
@@ -2209,8 +2164,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-textArea {
+span.ic-textArea {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_textarea.svg ");
@@ -2220,8 +2174,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-textEditor {
+span.ic-textEditor {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_text_editor.svg ");
@@ -2231,8 +2184,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-dropdown {
+span.ic-dropdown {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dropdown.svg ");
@@ -2242,8 +2194,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-radio {
+span.ic-radio {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_radio.svg ");
@@ -2253,8 +2204,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-checkBox {
+span.ic-checkBox {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_checkbox.svg ");
@@ -2264,8 +2214,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-date {
+span.ic-date {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_date.svg ");
@@ -2275,8 +2224,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-time {
+span.ic-time {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_time.svg ");
@@ -2286,8 +2234,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-dateTime {
+span.ic-dateTime {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_datetime.svg ");
@@ -2297,8 +2244,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-fileUpload {
+span.ic-fileUpload {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_fileupload.svg ");
@@ -2308,8 +2254,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-customCode {
+span.ic-customCode {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_custom_code.svg ");
@@ -2319,8 +2264,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-dynamicRowTable {
+span.ic-dynamicRowTable {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dynamic_row_table.svg ");
@@ -2330,8 +2274,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-ci {
+span.ic-ci {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_ci.svg ");
@@ -2341,8 +2284,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-label {
+span.ic-label {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_label.svg ");
@@ -2352,8 +2294,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-image {
+span.ic-image {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_image.svg ");
@@ -2363,8 +2304,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-divider {
+span.ic-divider {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_divider.svg ");
@@ -2374,8 +2314,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-fileDownload {
+span.ic-fileDownload {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_filedownload.svg ");
@@ -2385,8 +2324,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-userSearch {
+span.ic-userSearch {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
@@ -2396,8 +2334,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-dropdownCode {
+span.ic-dropdownCode {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dropdownCode.svg ");
@@ -2407,8 +2344,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-userSearch {
+span.ic-userSearch {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
@@ -2418,8 +2354,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-organizationSearch {
+span.ic-organizationSearch {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_organization.svg ");
@@ -2429,8 +2364,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-historyInquiry {
+span.ic-historyInquiry {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_historyinquiry.svg ");
@@ -2440,8 +2374,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-modalButton {
+span.ic-modalButton {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
@@ -2451,8 +2384,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-componentTemplate {
+span.ic-componentTemplate {
   width: 1rem;
   height: 1rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
@@ -2462,8 +2394,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-align-left {
+span.ic-align-left {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_left.svg");
@@ -2473,8 +2404,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-align-center {
+span.ic-align-center {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_center.svg");
@@ -2484,8 +2414,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-align-right {
+span.ic-align-right {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_right.svg");
@@ -2495,8 +2424,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-position-left {
+span.ic-position-left {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_left.svg");
@@ -2506,8 +2434,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-position-top {
+span.ic-position-top {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_top.svg");
@@ -2517,8 +2444,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-position-hidden {
+span.ic-position-hidden {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_hidden.svg");
@@ -2528,8 +2454,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-display-position-left {
+span.ic-display-position-left {
   width: 20px;
   height: 20px;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_display_left.svg");
@@ -2539,8 +2464,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-display-position-right {
+span.ic-display-position-right {
   width: 20px;
   height: 20px;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_display_right.svg");
@@ -2550,8 +2474,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-bold {
+span.ic-bold {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_bold.svg");
@@ -2561,8 +2484,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-italic {
+span.ic-italic {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_italic.svg");
@@ -2572,8 +2494,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-underline {
+span.ic-underline {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_underline.svg");
@@ -2583,8 +2504,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-task {
+span.ic-task {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_task.svg");
@@ -2594,8 +2514,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-subprocess {
+span.ic-subprocess {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_subprocess.svg");
@@ -2605,8 +2524,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-gateway {
+span.ic-gateway {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_gateway.svg");
@@ -2616,8 +2534,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-group {
+span.ic-group {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_group.svg");
@@ -2627,8 +2544,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-annotation {
+span.ic-annotation {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_annotation.svg");
@@ -2638,8 +2554,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-connector {
+span.ic-connector {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_connector.svg");
@@ -2649,8 +2564,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-background {
+span.ic-background {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_background.svg");
@@ -2660,8 +2574,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-event {
+span.ic-event {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_event.svg");
@@ -2671,8 +2584,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-minimap {
+span.ic-minimap {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/editor/icon_map.svg");
@@ -2682,8 +2594,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-simulation-report {
+span.ic-simulation-report {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/editor/icon_simulation_report.svg");
@@ -2693,8 +2604,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-
-.ic-paging-start-arrow {
+span.ic-paging-start-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_start.svg");
@@ -2705,8 +2615,7 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #ABB0B5;
 }
-
-.ic-paging-prev-arrow {
+span.ic-paging-prev-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_prev.svg");
@@ -2717,8 +2626,7 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #ABB0B5;
 }
-
-.ic-paging-next-arrow {
+span.ic-paging-next-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_next.svg");
@@ -2729,8 +2637,7 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #ABB0B5;
 }
-
-.ic-paging-end-arrow {
+span.ic-paging-end-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_end.svg");
