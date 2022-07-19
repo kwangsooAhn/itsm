@@ -414,7 +414,7 @@
         }
 
         langCodeRow.querySelector('input').value = (typeof param.codeLangValue !== 'undefined') ? param.codeLangValue : '';
-        const deleteBtn = langCodeRow.querySelector('button.button-icon');
+        const deleteBtn = langCodeRow.querySelector('button.btn__icon');
         if (deleteBtn !== null) {
             deleteBtn.addEventListener('click', function() {
                 const row = deleteBtn.parentNode;

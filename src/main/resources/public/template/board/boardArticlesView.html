@@ -75,7 +75,7 @@
                  width="32" height="32"/>
             <input type="text" class="input reply-input" id="boardComments" name="boardComments" maxlength="500"
                    th:placeholder="#{comment.msg.enterComments}"/>
-            <button class="btn__text--box btn--form" onclick="saveBoardComment('POST')"
+            <button class="button btn--form" onclick="saveBoardComment('POST')"
                     th:text="#{common.btn.save}"></button>
         </div>
         <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
@@ -193,7 +193,7 @@
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
                 document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='input' id='editComments' name='editComments' value='" + context + "'/>" +
-                    "<button class='btn__text--box btn--form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
+                    "<button class='button btn--form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }
 

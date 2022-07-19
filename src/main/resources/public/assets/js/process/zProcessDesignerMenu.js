@@ -1289,7 +1289,7 @@
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
-            fileBtn.className = 'button-icon button-attach-file';
+            fileBtn.className = 'btn__icon button-attach-file';
             let fileIcon = document.createElement('span');
             fileIcon.className = 'icon i-folder';
             fileBtn.addEventListener('click', function() {

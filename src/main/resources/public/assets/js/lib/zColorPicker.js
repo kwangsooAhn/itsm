@@ -305,7 +305,7 @@ Object.assign(zColorPicker.prototype, {
         const isMaxCustomColor =  (this.savedCustomColors.length === this.options.maxCustomColor);
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'button-icon custom-color-plus' +
+        addButton.className = 'btn__icon custom-color-plus' +
             (isMaxCustomColor ? '' : ' inline-block');
         addButton.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
@@ -500,7 +500,7 @@ Object.assign(zColorPicker.prototype, {
         return `<span class="custom-color-palette-item custom-color${isSelected ? ' selected' : ''}"`+
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
             `<sapn class="custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
-            `<button type="button" class="button-icon custom-color-palette-item-clear">` +
+            `<button type="button" class="btn__icon custom-color-palette-item-clear">` +
             `<span class="icon i-remove"></span>` +
             `</button>` +
             `</span>`;

@@ -25,7 +25,7 @@ $layout-header-dropdown: (
 
 // header button
 .header-button {
-  &.button-icon {
+  &.btn__icon {
     .icon {
       pointer-events: none;
       &.i-arrow-right { @include rotate(90); }
@@ -278,12 +278,12 @@ $layout-header-dropdown: (
 }
 
 .button,
-.button-icon,
+.btn__icon,
 .button-icon-sm {
   &:disabled, &.disabled { display: none; }
 }
 
-.button-icon {
+.btn__icon {
   &.button-attach-file {
     .icon.i-folder { background: $gray500; }
   }
@@ -624,7 +624,7 @@ $layout-header-dropdown: (
       }
 
       .dr-table-row {
-        .button-icon { padding: 0; }
+        .btn__icon { padding: 0; }
 
         .input:not(.select__box__label) {
           padding: 0.4375rem 0;
@@ -660,7 +660,7 @@ $layout-header-dropdown: (
     // custom code 컴포넌트
     .custom-code {
       > .input { @include borderRadius(0.125rem); } // 2px
-      > .button-icon { margin-left: 0.5rem; }
+      > .btn__icon { margin-left: 0.5rem; }
     }
 
     // 컴포넌트 내부 버튼 리스트
@@ -1077,7 +1077,7 @@ $component-icon: (
           // 커스텀 코드 컴포넌트
           .input-button {
             .button-clear { opacity: 0; }
-            .button-icon {
+            .btn__icon {
               border-color: $blue400 !important;
               background-color: $white;
               color: $blue400 !important;
@@ -1299,7 +1299,7 @@ $component-icon: (
   // tab
   .tab-panel {
     .tabs {
-      .button-icon {
+      .btn__icon {
         height: 2rem; // 32px
         padding: 0.25rem 0.409rem; // 4px 6.5px
 
@@ -1329,7 +1329,7 @@ $component-icon: (
           & > .property { padding: 0 0.75rem; } // 12px
         }
 
-        .button-icon:not(.button-code) {
+        .btn__icon:not(.button-code) {
           padding: 0;
           .icon {
             display: inline-block;
@@ -1548,7 +1548,7 @@ $element-icon-toggle: (
   }
 }
 
-.button-icon {
+.btn__icon {
   &.button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
   &.button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
   &.button-candidate-add {

@@ -522,7 +522,7 @@
                 `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
                 `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="button-icon button-code" type="button" id="${objectId}-default-code" ` +
+            `<button class="btn__icon button-code" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
                 `<span class="icon i-search"></span></button>` +
             `</div>` +
@@ -902,7 +902,7 @@
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row input-button">
                 <input type="text" class="input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="button-icon button-code" type="button" id="searchOrganization">` +
+                <button class="btn__icon button-code" type="button" id="searchOrganization">` +
                 `<span class="icon i-search"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
@@ -1209,7 +1209,7 @@
                         <input class="input" type="text" readonly="true" id="${id}-default-custom-text" 
                             value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
-                        <button class="button-icon button-code" type="button" id="${id}-default-custom" 
+                        <button class="btn__icon button-code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
                             <span class="icon i-search"></span>
                         </button>

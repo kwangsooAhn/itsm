@@ -3025,28 +3025,28 @@ input, button, select, optgroup, textarea {
   grid-column: 1/-1;
   justify-content: center;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon {
   padding: 0;
   border-color: transparent;
   background-color: transparent;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:hover, .itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:focus, .itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:active, .itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:disabled {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:hover, .itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:focus, .itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:active, .itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon .icon {
   background-color: #63686C;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:hover .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:hover .icon {
   background-color: #ABB0B5;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:focus .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:focus .icon {
   background-color: #222529;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:active .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:active .icon {
   background-color: #222529;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:disabled .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:disabled .icon {
   background-color: #CFD5D9;
 }
 .itsm-container .main-content .page-result .component .contents__req-status .grid__body {
@@ -3170,28 +3170,28 @@ input, button, select, optgroup, textarea {
   grid-column: 1/-1;
   justify-content: center;
 }
-.itsm-container .main-content .page-list .grid .button-icon {
+.itsm-container .main-content .page-list .grid .btn__icon {
   padding: 0;
   border-color: transparent;
   background-color: transparent;
 }
-.itsm-container .main-content .page-list .grid .button-icon:hover, .itsm-container .main-content .page-list .grid .button-icon:focus, .itsm-container .main-content .page-list .grid .button-icon:active, .itsm-container .main-content .page-list .grid .button-icon:disabled {
+.itsm-container .main-content .page-list .grid .btn__icon:hover, .itsm-container .main-content .page-list .grid .btn__icon:focus, .itsm-container .main-content .page-list .grid .btn__icon:active, .itsm-container .main-content .page-list .grid .btn__icon:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.itsm-container .main-content .page-list .grid .button-icon .icon {
+.itsm-container .main-content .page-list .grid .btn__icon .icon {
   background-color: #63686C;
 }
-.itsm-container .main-content .page-list .grid .button-icon:hover .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:hover .icon {
   background-color: #ABB0B5;
 }
-.itsm-container .main-content .page-list .grid .button-icon:focus .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:focus .icon {
   background-color: #222529;
 }
-.itsm-container .main-content .page-list .grid .button-icon:active .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:active .icon {
   background-color: #222529;
 }
-.itsm-container .main-content .page-list .grid .button-icon:disabled .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:disabled .icon {
   background-color: #CFD5D9;
 }
 .itsm-container .main-content .page-column-item {
@@ -3849,10 +3849,10 @@ input, button, select, optgroup, textarea {
  * @description formDesigner + process 공통으로 사용되는 scss
  * @version 1.0
  */
-.header-button.button-icon .icon {
+.header-button.btn__icon .icon {
   pointer-events: none;
 }
-.header-button.button-icon .icon.i-arrow-right {
+.header-button.btn__icon .icon.i-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -4096,17 +4096,17 @@ input, button, select, optgroup, textarea {
 }
 
 .button:disabled, .button.disabled,
-.button-icon:disabled,
-.button-icon.disabled,
+.btn__icon:disabled,
+.btn__icon.disabled,
 .button-icon-sm:disabled,
 .button-icon-sm.disabled {
   display: none;
 }
 
-.button-icon.button-attach-file .icon.i-folder {
+.btn__icon.button-attach-file .icon.i-folder {
   background: #8B9094;
 }
-.button-icon.button-code .icon.i-search {
+.btn__icon.button-code .icon.i-search {
   background: #8B9094;
 }
 
@@ -4455,7 +4455,7 @@ input, button, select, optgroup, textarea {
   word-wrap: normal;
   padding: 0 0.5rem;
 }
-.component .element .dr-table .dr-table-row .button-icon {
+.component .element .dr-table .dr-table-row .btn__icon {
   padding: 0;
 }
 .component .element .dr-table .dr-table-row .input:not(.select__box__label) {
@@ -4497,7 +4497,7 @@ input, button, select, optgroup, textarea {
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
 }
-.component .element .custom-code > .button-icon {
+.component .element .custom-code > .btn__icon {
   margin-left: 0.5rem;
 }
 .component .element .button-list .button {
@@ -4954,12 +4954,12 @@ input, button, select, optgroup, textarea {
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .button-clear {
   opacity: 0;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .button-icon {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .btn__icon {
   border-color: #619CDB !important;
   background-color: #FFFFFF;
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .button-icon .icon {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .btn__icon .icon {
   background: #619CDB !important;
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .button-list {
@@ -5169,21 +5169,21 @@ input, button, select, optgroup, textarea {
 .property .default-type-radio .radio-property-group .picker-wrapper-date .picker-main {
   width: inherit;
 }
-.property .tab-panel .tabs .button-icon {
+.property .tab-panel .tabs .btn__icon {
   height: 2rem;
   padding: 0.25rem 0.409rem;
 }
-.property .tab-panel .tabs .button-icon:not(:first-child) {
+.property .tab-panel .tabs .btn__icon:not(:first-child) {
   margin-left: 0.3125rem;
 }
-.property .tab-panel .tabs .button-icon:last-child {
+.property .tab-panel .tabs .btn__icon:last-child {
   padding: 0.25rem 0;
 }
-.property .tab-panel .tabs .button-icon .icon {
+.property .tab-panel .tabs .btn__icon .icon {
   width: 0.82rem;
   pointer-events: none;
 }
-.property .tab-panel .tabs .button-icon .i-plus {
+.property .tab-panel .tabs .btn__icon .i-plus {
   -webkit-mask-size: 1.2rem;
   mask-size: 1.2rem;
 }
@@ -5203,15 +5203,15 @@ input, button, select, optgroup, textarea {
 .property .tab-panel .panels .panel .panel-common > .property {
   padding: 0 0.75rem;
 }
-.property .tab-panel .panels .panel .button-icon:not(.button-code) {
+.property .tab-panel .panels .panel .btn__icon:not(.button-code) {
   padding: 0;
 }
-.property .tab-panel .panels .panel .button-icon:not(.button-code) .icon {
+.property .tab-panel .panels .panel .btn__icon:not(.button-code) .icon {
   display: inline-block;
   background: #3373C4;
   pointer-events: none;
 }
-.property .tab-panel .panels .panel .button-icon:not(.button-code) .icon.prev {
+.property .tab-panel .panels .panel .btn__icon:not(.button-code) .icon.prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -5403,23 +5403,23 @@ input, button, select, optgroup, textarea {
   background: #8B9094;
 }
 
-.button-icon.button-minimap {
+.btn__icon.button-minimap {
   position: absolute !important;
   right: 0.625rem;
   bottom: 0.625rem;
 }
-.button-icon.button-simulation-report {
+.btn__icon.button-simulation-report {
   position: absolute !important;
   right: 0.625rem;
   bottom: 3.438rem;
 }
-.button-icon.button-candidate-add {
+.btn__icon.button-candidate-add {
   margin-left: 0.3125rem;
 }
-.button-icon.button-candidate-add .icon.i-plus {
+.btn__icon.button-candidate-add .icon.i-plus {
   background: #8B9094;
 }
-.button-icon.button-attach-file .icon.i-folder {
+.btn__icon.button-attach-file .icon.i-folder {
   background: #8B9094;
 }
 
@@ -6115,11 +6115,11 @@ input, button, select, optgroup, textarea {
   border: 0.0625rem solid #CFD5D9;
   background-color: #FAFAFA;
 }
-.document-container .token-properties .token-panels .token-related .document-add .button-icon {
+.document-container .token-properties .token-panels .token-related .document-add .btn__icon {
   width: 100%;
   height: 100%;
 }
-.document-container .token-properties .token-panels .token-related .document-add .button-icon .icon.i-plus {
+.document-container .token-properties .token-panels .token-related .document-add .btn__icon .icon.i-plus {
   background: #8B9094;
 }
 .document-container .token-properties .token-panels .token-comment-item {
@@ -7745,26 +7745,6 @@ input, button, select, optgroup, textarea {
 .btn--form:disabled [class*=ic-], .btn--form.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.btn--default {
-  background-color: transparent;
-  color: #ABB0B5;
-  border-color: transparent;
-}
-.btn--default [class*=ic-] {
-  display: block;
-  background: #ABB0B5;
-  pointer-events: none;
-}
-.btn--error {
-  background-color: #F52525;
-  color: #FFFFFF;
-  border-color: #F52525;
-}
-.btn--error [class*=ic-] {
-  display: block;
-  background: #FFFFFF;
-  pointer-events: none;
-}
 .btn--light-primary {
   color: #FFFFFF;
   background-color: #3373C4;
@@ -9003,7 +8983,7 @@ input, button, select, optgroup, textarea {
   font-size: 0.875rem;
   font-weight: 700;
 }
-.picker-modal-title .button-icon {
+.picker-modal-title .btn__icon {
   position: absolute !important;
   top: 0.25rem;
   left: 0.5rem;
@@ -9426,28 +9406,28 @@ table td, table th {
 .table .table-body .no-data-found-list {
   pointer-events: none;
 }
-.table .table-body .button-icon {
+.table .table-body .btn__icon {
   padding: 0;
   background-color: transparent;
   border-color: transparent;
 }
-.table .table-body .button-icon:hover, .table .table-body .button-icon:focus, .table .table-body .button-icon:active, .table .table-body .button-icon:disabled {
+.table .table-body .btn__icon:hover, .table .table-body .btn__icon:focus, .table .table-body .btn__icon:active, .table .table-body .btn__icon:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.table .table-body .button-icon .icon {
+.table .table-body .btn__icon .icon {
   background-color: #63686C;
 }
-.table .table-body .button-icon:hover .icon {
+.table .table-body .btn__icon:hover .icon {
   background-color: #ABB0B5;
 }
-.table .table-body .button-icon:focus .icon {
+.table .table-body .btn__icon:focus .icon {
   background-color: #222529;
 }
-.table .table-body .button-icon:active .icon {
+.table .table-body .btn__icon:active .icon {
   background-color: #222529;
 }
-.table .table-body .button-icon:disabled .icon {
+.table .table-body .btn__icon:disabled .icon {
   background-color: #CFD5D9;
 }
 
@@ -9490,13 +9470,13 @@ table td, table th {
 .option-table tr.option-table-row .input:not(:placeholder-shown):not(:focus) {
   border-color: transparent;
 }
-.option-table tr.option-table-row .button-icon .icon {
+.option-table tr.option-table-row .btn__icon .icon {
   display: block;
   margin: 0 auto;
   background: #ABB0B5;
   pointer-events: none;
 }
-.option-table tr.option-table-row .button-icon:hover .icon {
+.option-table tr.option-table-row .btn__icon:hover .icon {
   background: #3373C4;
 }
 
@@ -11080,28 +11060,28 @@ body.modal-active {
   grid-column: 1/-1;
   justify-content: center;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon {
   padding: 0;
   border-color: transparent;
   background-color: transparent;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:hover, .modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:focus, .modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:active, .modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:disabled {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:hover, .modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:focus, .modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:active, .modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon .icon {
   background-color: #63686C;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:hover .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:hover .icon {
   background-color: #ABB0B5;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:focus .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:focus .icon {
   background-color: #222529;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:active .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:active .icon {
   background-color: #222529;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:disabled .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:disabled .icon {
   background-color: #CFD5D9;
 }
 .modal-dialog.modal-button-search-modal .modal-content .grid {
@@ -13273,11 +13253,11 @@ body.modal-active {
   padding: 0 0.625rem 0 0.9375rem;
   line-height: 2.5rem;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom .button-icon {
+.thumbnail-main .thumbnail .thumbnail-bottom .btn__icon {
   padding: 0;
   height: 2.5rem;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom .button-icon .icon.i-delete {
+.thumbnail-main .thumbnail .thumbnail-bottom .btn__icon .icon.i-delete {
   background: #ABB0B5;
 }
 .thumbnail-main .thumbnail-upload {
