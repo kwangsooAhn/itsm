@@ -94,6 +94,139 @@
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+    let observer = aliceJs.pageObserver;
+
+    window.addEventListener('load', function() {
+        observer.set();
+        document.getElementById('searchValue').focus();
+
+        getServiceList();
+        document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getServiceList()), false);
+
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.getElementById('serviceDesc'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: 'class'
+            }
+        });
+        OverlayScrollbars(document.getElementById('avaGoal'), {
+            className: 'scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: 'class'
+            }
+        });
+    });
+
+    /** service list **/
+    function getServiceList() {
+        const searchValue = encodeURIComponent(document.getElementById('searchValue').value);
+        tree.load({
+            source: 'service',
+            dataUrl: '/rest/service-category?searchValue=' + searchValue,
+            target: 'treeList',
+            text: 'serviceName',
+            leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
+            totalCount: true,
+            onCreate: function() {
+                document.getElementById('treeList').querySelector('.node').click();
+            },
+            selectedNode: function(response) {
+                onGetDetail(response.id);
+            }
+        });
+    }
+
+    /** service 상세 정보 **/
+    function onGetDetail(serviceCode) {
+        if (!observer.canPageChange()) { return false; }
+
+        aliceJs.fetchJson('/rest/service-category/' + serviceCode, {
+            method: 'GET'
+        }).then((response) => {
+            // 서비스 코드
+            const serviceCode = document.getElementById('serviceCode');
+            serviceCode.value = response.data.serviceCode;
+            serviceCode.disabled = true;
+            // 부모 서비스 코드
+            const pServiceCode = document.getElementById('pServiceCode');
+            pServiceCode.value = response.data.pserviceCode;
+            pServiceCode.disabled = true;
+            // 서비스 이름
+            const serviceName = document.getElementById('serviceName');
+            serviceName.value = response.data.serviceName;
+            // 사용 여부
+            const useYn = document.getElementById('useYn');
+            useYn.checked = response.data.useYn;
+            // 출력 순서
+            const seqNum = document.getElementById('seqNum');
+            seqNum.value = response.data.seqNum;
+            // 서비스 설명
+            const serviceDesc = document.getElementById('serviceDesc');
+            serviceDesc.value = response.data.serviceDesc;
+            // 가용 목표
+            const avaGoal = document.getElementById('avaGoal');
+            avaGoal.value = response.data.avaGoal;
+            // 서비스 시작일자
+            const startDt = document.getElementById('startDate');
+            startDt.value = response.data.startDate;
+            // 서비스 종료일자
+            const endDt = document.getElementById('endDate');
+            endDt.value = response.data.endDate;
+            zDateTimePicker.initDatePicker(startDt, setDatePicker);
+            zDateTimePicker.initDatePicker(endDt, setDatePicker);
+
+            // 편집 가능 여부에 따른 처리
+            if (response.data.editable) {
+                if (document.querySelector('#btnUpdate') != null) {
+                    document.querySelector('#btnUpdate').removeAttribute('disabled');
+                }
+                const editInputElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
+                editInputElems.forEach((elem) => {
+                    elem.readOnly = !response.data.editable;
+                });
+                const editTextareaElems = document.querySelector('.page-edit').querySelectorAll('.textarea');
+                editTextareaElems.forEach((elem) => {
+                    elem.classList.remove('textarea-readonly');
+                });
+                serviceDesc.readOnly = false;
+                avaGoal.readOnly = false;
+                useYn.disabled = false;
+                serviceCode.previousElementSibling.classList.add('required');
+                pServiceCode.previousElementSibling.classList.add('required');
+                serviceName.previousElementSibling.classList.add('required');
+            } else {
+                if (document.querySelector('#btnUpdate') != null) {
+                    document.getElementById('btnUpdate').disabled = true;
+                }
+                const editInputElems = document.querySelector('.page-edit').querySelectorAll('input[type=text]');
+                editInputElems.forEach((elem) => {
+                    elem.readOnly = !response.data.editable;
+                });
+                const editTextareaElems = document.querySelector('.page-edit').querySelectorAll('.textarea');
+                editTextareaElems.forEach((elem) => {
+                    elem.classList.add('textarea-readonly');
+                });
+                serviceDesc.readOnly = true;
+                avaGoal.readOnly = true;
+                useYn.disabled = true;
+                serviceCode.previousElementSibling.classList.remove('required');
+                pServiceCode.previousElementSibling.classList.remove('required');
+                serviceName.previousElementSibling.classList.remove('required');
+            }
+            onEdit();
+            observer.isChanged = false;
+        });
+    }
     /*]]>*/
 </script>
 </html>

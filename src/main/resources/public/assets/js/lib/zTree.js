@@ -41,7 +41,7 @@
         nodeNameLabel: '',  // tree에 따로 nodeNameLabel 문구를 지정해주지 않으면 "데이터 을/를 선택하세요"가 출력
         buttons: [{
             content: 'Confirm',
-            classes: 'button primary',
+            classes: 'z-button primary',
             bindKey: false,
             callback: function(modal) {
                 if (saveSelectedNode()) {
@@ -50,7 +50,7 @@
             }
         }, {
             content: 'Cancel',
-            classes: 'button secondary',
+            classes: 'z-button secondary',
             bindKey: false,
             callback: function(modal) {
                 modal.hide();
@@ -127,10 +127,14 @@
                     node_id = item.organizationId;
                     node_name = item.organizationName;
                     node_value = item.organizationId;
-                } else {
+                } else if (item.classId !== '' && item.classId !== undefined) {
                     node_id = item.classId;
                     node_name = item.className;
                     node_value = item.classId;
+                } else {
+                    node_id = item.serviceCode;
+                    node_name = item.serviceName;
+                    node_value = item.serviceCode;
                 }
                 let node = {
                     id: node_id,
@@ -171,13 +175,13 @@
                             if (p_parentNode.expanded) {
                                 p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'block';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
-                                v_img.classList.add('none');
+                                v_img.classList.add('off');
                                 v_img.src = iconPath + '/icon_tree_collapse.svg';
                                 v_img.id = 'toggle_off';
                             } else {
                                 p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'none';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
-                                v_img.classList.add('inline-block');
+                                v_img.classList.add('on');
                                 v_img.src = iconPath + '/icon_tree_expand.svg';
                                 v_img.id = 'toggle_on';
                             }
@@ -241,7 +245,7 @@
                 let v_exp_col = null;
                 if (p_node.childNodes.length === 0) {
                     v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/icon_tree_collapse.svg');
-                    v_exp_col.classList.add('none');
+                    v_exp_col.classList.add('off');
                 } else {
                     if (p_node.expanded) {
                         v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/icon_tree_collapse.svg');
@@ -397,14 +401,14 @@
 
                 if (p_node.parent.childNodes.length === 0) {
                     let v_img = p_node.parent.elementLi.getElementsByTagName('img')[0];
-                    v_img.classList.add('none');
+                    v_img.classList.add('off');
                 }
             },
             removeChildNodes: function(p_node) {
                 if (p_node.childNodes.length>0) {
                     let v_ul = p_node.elementLi.getElementsByTagName('ul')[0];
                     let v_img = p_node.elementLi.getElementsByTagName('img')[0];
-                    v_img.classList.add('none');
+                    v_img.classList.add('off');
 
                     p_node.childNodes = [];
                     v_ul.innerHTML = '';
@@ -575,6 +579,9 @@
                 case 'organization':
                     p_node_id = item.porganizationId;
                     break;
+                case 'service':
+                    p_node_id = item.pserviceCode;
+                    break;
                 default:
                     p_node_id = item.pcode;
                     break;
@@ -654,7 +661,7 @@
                     {
                         id: 'saveSelectedNode',
                         content: i18n.msg('common.btn.select'),
-                        classes: 'button primary',
+                        classes: 'z-button primary',
                         bindKey: false,
                         callback: function(modal) {
                             if (saveSelectedNode()) {
@@ -663,7 +670,7 @@
                         }
                     }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: 'button secondary',
+                        classes: 'z-button secondary',
                         bindKey: false,
                         callback: function(modal) {
                             modal.hide();
