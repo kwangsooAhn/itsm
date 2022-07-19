@@ -21,7 +21,7 @@
         classes: '', // modal class
         /*buttons: [{
             content: "Accept",
-            classes: "button primary",
+            classes: "btn__text--box btn--primary",
             bindKey: 13, //Enter. See https://keycode.info/
             callback: function(modal) {
                 modal.hide();

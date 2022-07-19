@@ -103,10 +103,10 @@
                 </div>
                 <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
-                             class="button primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
+                             class="btn__text--box btn--primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="update"
-                            class="button primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
+                            class="btn__text--box btn--primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="delete"
                             class="button danger" onclick="deleteSLA()" th:text="#{common.btn.delete}">

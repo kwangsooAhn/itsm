@@ -41,7 +41,7 @@
         nodeNameLabel: '',  // tree에 따로 nodeNameLabel 문구를 지정해주지 않으면 "데이터 을/를 선택하세요"가 출력
         buttons: [{
             content: 'Confirm',
-            classes: 'button primary',
+            classes: 'btn__text--box btn--primary',
             bindKey: false,
             callback: function(modal) {
                 if (saveSelectedNode()) {
@@ -654,7 +654,7 @@
                     {
                         id: 'saveSelectedNode',
                         content: i18n.msg('common.btn.select'),
-                        classes: 'button primary',
+                        classes: 'btn__text--box btn--primary',
                         bindKey: false,
                         callback: function(modal) {
                             if (saveSelectedNode()) {

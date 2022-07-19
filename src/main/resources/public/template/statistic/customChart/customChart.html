@@ -157,10 +157,10 @@
                     <a class="button secondary" href="/statistics/customChart/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
-                    <button type="button" th:if="!${chart?.chartId}" id="insert" class="button primary"
+                    <button type="button" th:if="!${chart?.chartId}" id="insert" class="btn__text--box btn--primary"
                             onclick="saveChart('POST')" th:text="#{common.btn.register}">
                     </button>
-                    <button type="button" th:if="${chart?.chartId}" id="update" class="button primary"
+                    <button type="button" th:if="${chart?.chartId}" id="update" class="btn__text--box btn--primary"
                             onclick="saveChart('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button type="button" id="preview" class="button secondary"

@@ -160,7 +160,7 @@ $button-group: (
   // 테마
   // light
   @each $theme, $value in $button-themes-default {
-    &.btn--#{$theme} {
+    &--#{$theme} {
       background-color: map-get($value, 'default', 'background');
       color: map-get($value, 'default', 'font');
       @if map-get($value, 'default', 'border') != null {

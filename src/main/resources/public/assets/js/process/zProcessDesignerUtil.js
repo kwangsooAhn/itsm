@@ -396,7 +396,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box btn--primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {

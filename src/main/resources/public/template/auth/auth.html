@@ -72,10 +72,10 @@
             <a class="button secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.admin')">
-            <button class="button primary"
+            <button class="btn__text--box btn--primary"
                     id="btnRegist" name="btnRegist" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('post')|"
                     th:text="#{common.btn.register}" type="button"></button>
-            <button class="button primary"
+            <button class="btn__text--box btn--primary"
                     id="btnUpdate" name="btnUpdate" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
                     th:text="#{common.btn.modify}" type="button"></button>
             <button class="button secondary"

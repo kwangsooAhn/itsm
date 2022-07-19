@@ -47,10 +47,10 @@
                     <a class="button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
-                    <button type="button" class="button primary" id="btnRegist"
+                    <button type="button" class="btn__text--box btn--primary" id="btnRegist"
                             onclick="saveFaq('POST')"
                             th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
-                    <button type="button" class="button primary" id="btnUpdate"
+                    <button type="button" class="btn__text--box btn--primary" id="btnUpdate"
                             onclick="saveFaq('PUT')"
                             th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
                     <button type="button" class="button danger"

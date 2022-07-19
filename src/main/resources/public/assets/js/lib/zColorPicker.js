@@ -383,7 +383,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 저장 버튼
         const saveButton = document.createElement('button');
         saveButton.type = 'button';
-        saveButton.className = 'button primary';
+        saveButton.className = 'btn__text--box btn--primary';
         saveButton.textContent = i18n.msg('common.btn.save');
         saveButton.addEventListener('click', this.saveCustomColor.bind(this), false);
         bottomButtonList.appendChild(saveButton);

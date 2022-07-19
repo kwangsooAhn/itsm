@@ -569,7 +569,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-register-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box btn--primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -658,7 +658,7 @@ export const ciMixin = {
                 // 수정
                 modalButtons.push({
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box btn--primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -785,7 +785,7 @@ export const ciMixin = {
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 체크된 CI 출력
@@ -1052,7 +1052,7 @@ export const ciMixin = {
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 기존 연관관계 row 초기화

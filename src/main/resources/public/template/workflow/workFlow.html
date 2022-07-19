@@ -253,10 +253,10 @@
                 <a class="button secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="button primary" onclick="saveDocument('POST')"
+                <button type="button" class="btn__text--box btn--primary" onclick="saveDocument('POST')"
                         th:if="${documentId == null}" th:text="#{common.btn.register}">
                 </button>
-                <button type="button" class="button primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
+                <button type="button" class="btn__text--box btn--primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
                         th:unless="${documentId == null}" th:text="#{common.btn.modify}">
                 </button>
                 <button type="button" class="button secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
@@ -500,7 +500,7 @@
                 classes: 'document-display',
                 buttons: [{
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box btn--primary',
                     bindKey: false,
                     callback: function() {
                         saveDocumentDisplay(documentId);

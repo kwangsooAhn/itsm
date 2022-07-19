@@ -968,7 +968,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!targetArray.length) {
@@ -1240,7 +1240,7 @@
             classes: 'cmdb-class-attribute-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: function(modal) {
                     attributeMap.length = 0;
@@ -2170,7 +2170,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.

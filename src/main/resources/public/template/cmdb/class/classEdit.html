@@ -19,7 +19,7 @@
            th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
-        <button type="button" class="button primary" id="btnCreate" name="btnCreate" onclick="onCreate();"
+        <button type="button" class="btn__text--box btn--primary" id="btnCreate" name="btnCreate" onclick="onCreate();"
                 sec:authorize="hasAuthority('cmdb.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
@@ -81,9 +81,9 @@
         </div>
         <div class="flex-row justify-content-end">
             <div class="button-list" sec:authorize="hasAuthority('cmdb.manage')">
-                <button type="button" class="button primary" id="btnRegister" name="btnRegister"
+                <button type="button" class="btn__text--box btn--primary" id="btnRegister" name="btnRegister"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="button primary" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="btn__text--box btn--primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
                 <button type="button" class="button danger" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
@@ -548,7 +548,7 @@
             classes: 'cmdb-class-attribute-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: function(modal) {
                     while (attributeList.hasChildNodes()) {

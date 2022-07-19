@@ -119,9 +119,9 @@
                 <a class="button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="button primary" onclick="saveCustomCode('POST')"
+                <button type="button" class="btn__text--box btn--primary" onclick="saveCustomCode('POST')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="button primary" onclick="saveCustomCode('PUT')"
+                <button type="button" class="btn__text--box btn--primary" onclick="saveCustomCode('PUT')"
                         th:if="${customCode?.customCodeId}" th:text="#{common.btn.modify}">
                 </button>
                 <button type="button" class="button danger" onclick="deleteCustomCode('DELETE')"

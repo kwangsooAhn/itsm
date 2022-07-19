@@ -149,9 +149,9 @@
                 <a class="button secondary" href="/schedulers/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
-                <button type="button" class="button primary" onclick="actionScheduler('post')"
+                <button type="button" class="btn__text--box btn--primary" onclick="actionScheduler('post')"
                         th:if="${schedule == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="button primary" onclick="actionScheduler('put')"
+                <button type="button" class="btn__text--box btn--primary" onclick="actionScheduler('put')"
                         th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
@@ -159,7 +159,7 @@
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.delete}">
                 </button>
-                <button type="button" class="button primary" onclick="actionScheduler('execute')"
+                <button type="button" class="btn__text--box btn--primary" onclick="actionScheduler('execute')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.immediatelyExecute}"></button>
                 <button type="button" class="button secondary" onclick="openHistoryViewModal(false)"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.history}"></button>

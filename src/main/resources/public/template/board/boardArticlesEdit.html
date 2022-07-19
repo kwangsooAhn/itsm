@@ -73,10 +73,10 @@
                        th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="button-list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')">
-                    <button class="button primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
+                    <button class="btn__text--box btn--primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
                             th:text="#{common.btn.modify}" onclick ="saveBoard('PUT', 'normal')">
                     </button>
-                    <button class="button primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                    <button class="btn__text--box btn--primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                             th:text="#{common.btn.register}" onclick="saveBoard('POST', 'normal')">
                     </button>
                     <button class="button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"

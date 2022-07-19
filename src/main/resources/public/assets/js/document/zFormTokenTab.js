@@ -240,7 +240,7 @@ class ZFormTokenTab {
             classes: 'sub-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.viewerList.length) {
@@ -440,7 +440,7 @@ class ZFormTokenTab {
             classes: 'token-list',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.relatedDocList.length) {
@@ -948,7 +948,7 @@ class ZFormTokenTab {
             classes: 'calendar__modal--register document',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 필수값 체크

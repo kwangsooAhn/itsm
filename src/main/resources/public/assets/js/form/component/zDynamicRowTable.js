@@ -84,7 +84,7 @@ export const dynamicRowTableMixin = {
         // 플러그인 검증 버튼 생성
         element.UIDiv.plugInUIButton = new UIButton()
             .addUIClass('plugIn-check')
-            .addUIClass('primary')
+            .addUIClass('btn--primary')
             .addUIClass('mr-2')
             .addUIClass(this.pluginUseYn === 'none')
             .setUIAttribute('data-validation-required', this.pluginRequired)
@@ -865,11 +865,11 @@ export const dynamicRowTableMixin = {
             if (response.data.result) {
                 // success--check > 성공
                 this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
-                    .removeUIClass('primary').addUIClass('success--check');
+                    .removeUIClass('btn--primary').addUIClass('success--check');
             } else {
                 // error > 실패
                 this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
-                    .removeUIClass('primary').addUIClass('error');
+                    .removeUIClass('btn--primary').addUIClass('error');
             }
         });
     },
@@ -887,7 +887,7 @@ export const dynamicRowTableMixin = {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     const realTimeSelectedUser = target.getAttribute('data-realtime-selected-user').split('|');

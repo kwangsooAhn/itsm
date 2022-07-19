@@ -52,7 +52,7 @@
                th:text="#{common.btn.list}"></a>
         </div>
         <div class="button-list">
-            <button type="button" class="button primary"
+            <button type="button" class="btn__text--box btn--primary"
                     th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"

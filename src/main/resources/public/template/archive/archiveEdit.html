@@ -44,9 +44,9 @@
             </div>
             <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
                 <button th:if="${archive?.archiveId}" onclick="saveArchive('PUT')"
-                        class="button primary" th:text="#{common.btn.modify}"></button>
+                        class="btn__text--box btn--primary" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${archive?.archiveId}" onclick="saveArchive('POST')"
-                        class="button primary" th:text="#{common.btn.register}"></button>
+                        class="btn__text--box btn--primary" th:text="#{common.btn.register}"></button>
                 <button th:if="${archive?.archiveId}" onclick="deleteArchive()"
                         class="button danger" th:text="#{common.btn.delete}"></button>
             </div>

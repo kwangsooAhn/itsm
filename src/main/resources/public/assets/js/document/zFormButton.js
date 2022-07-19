@@ -103,7 +103,7 @@ class ZFormButton {
         actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }
             const UIActionTopButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
-                .addUIClass('primary')
+                .addUIClass('btn--primary')
                 .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
             UIButtonTopGroup.addUI(UIActionTopButton);
         });

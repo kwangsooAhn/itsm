@@ -441,7 +441,7 @@ export default class ZComponent {
             classes: 'create-template',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: function (modal) {
                     if (zValidation.isEmpty(document.getElementById('templateName').value)) {

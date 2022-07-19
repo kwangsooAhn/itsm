@@ -679,7 +679,7 @@ aliceJs.thumbnail = function(options) {
             classes: 'thumbnail-' + options.type,
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary thumbnail-save',
+                classes: 'btn__text--box btn--primary thumbnail-save',
                 bindKey: false,
                 callback: function(modal) {
                     if (saveThumbnail(options.targetId)) {

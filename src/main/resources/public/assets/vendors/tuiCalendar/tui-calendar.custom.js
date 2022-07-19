@@ -179,7 +179,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--register',
         buttons: [{
             content: i18n.msg('common.btn.register'),
-            classes: 'button primary',
+            classes: 'btn__text--box btn--primary',
             bindKey: false,
             callback: (modal) => {
                 this.saveSchedule(modal.customOptions);
@@ -269,7 +269,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--repeat',
         buttons: [{
             content: i18n.msg('common.btn.check'),
-            classes: 'button primary',
+            classes: 'btn__text--box btn--primary',
             bindKey: false,
             callback: (modal) => {
                 modal.saveData.repeatPeriod = document.querySelector('input[name="repeatPeriod"]:checked').value;

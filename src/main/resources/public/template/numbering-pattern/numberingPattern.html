@@ -80,10 +80,10 @@
                 <a class="button secondary" href="/numberingPatterns/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button class="button primary" id="btnRegist" name="btnRegist"
+                <button class="btn__text--box btn--primary" id="btnRegist" name="btnRegist"
                         th:if="!${pattern?.patternId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
-                <button class="button primary" id="btnUpdate" name="btnUpdate"
+                <button class="btn__text--box btn--primary" id="btnUpdate" name="btnUpdate"
                         th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
                 <button class="button danger" id="btnDelete"

@@ -267,7 +267,7 @@ class ZDocument {
             for (let p = 0; p < requiredPlugInElements.length; p++) {
                 const requiredElement = requiredPlugInElements[p];
                 // 미검증
-                if (requiredElement.classList.contains('primary')) {
+                if (requiredElement.classList.contains('btn--primary')) {
                     isValid = false;
                     zAlert.warning(i18n.msg('form.msg.checkPlugInButton', requiredElement.innerText));
                     break outer;

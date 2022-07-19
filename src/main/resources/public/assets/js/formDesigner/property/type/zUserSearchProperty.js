@@ -198,7 +198,7 @@ export default class ZUserSearchProperty extends ZProperty {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box btn--primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (zValidation.isEmpty(targetUserArray)) {
