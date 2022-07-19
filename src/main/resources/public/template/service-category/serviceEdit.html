@@ -33,24 +33,22 @@
                 <label class="required" th:text="#{service.label.code}" for="serviceCode"></label>
                 <input id="serviceCode" name="serviceCode" class="input text-ellipsis col-pct-12" type="text"
                        maxlength="100"/>
-                </span>
             </div>
             <div class="flex-column flex-fill">
                 <label class="required" th:text="#{service.label.pCode}" for="pServiceCode"></label>
                 <input id="pServiceCode" name="pServiceCode" class="input text-ellipsis col-pct-12" type="text"
                        maxlength="100"/>
-                </span>
             </div>
         </div>
         <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="required" th:text="#{service.label.name}" for="serviceName"></label>
-                <input id="serviceName" name="serviceName" class="input text-ellipsis" type="text"
+                <input id="serviceName" name="serviceName" class="input text-ellipsis col-pct-12" type="text"
                        maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <label class="form-title" th:text="#{service.label.seqNum}" for="seqNum"></label>
-                <input id="seqNum" name="seqNum" class="input text-ellipsis" type="text"
+                <input id="seqNum" name="seqNum" class="input text-ellipsis col-pct-12" type="text"
                        onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
             </div>
         </div>
@@ -74,11 +72,11 @@
         <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="form-title" th:text="#{service.label.startDate}" for="startDate"></label>
-                <input type="text" class="input i-date-picker search-date col-4" id="startDate" name="startDate"/>
+                <input type="text" class="input i-date-picker search-date col-pct-12" id="startDate" name="startDate"/>
             </div>
-            <div class="flex-column flex-fill mr-4">
+            <div class="flex-column flex-fill">
                 <label class="form-title" th:text="#{service.label.endDate}" for="endDate"></label>
-                <input type="text" class="input i-date-picker search-date col-4" id="endDate" name="endDate"/>
+                <input type="text" class="input i-date-picker search-date col-pct-12" id="endDate" name="endDate"/>
             </div>
         </div>
         <div class="flex-row justify-content-end">
