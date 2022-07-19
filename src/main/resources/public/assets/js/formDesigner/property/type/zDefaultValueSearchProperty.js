@@ -174,7 +174,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         }
                     }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: 'button secondary',
+                        classes: 'btn__text--box btn--secondary',
                         bindKey: false,
                         callback: (modal) => {
                             // 임시값 제거

@@ -30,7 +30,7 @@
                         onclick="javascript:onClickCalendarMenu(this);">
                     <span class="icon i-arrow-right move--next"></span>
                 </button>
-                <button type="button" class="button calendar__action secondary" th:text="#{calendar.label.today}"
+                <button type="button" class="btn__text--box btn--secondary calendar__action" th:text="#{calendar.label.today}"
                         data-action="today" onclick="onClickCalendarMenu(this);"></button>
                 <div class="button-switch-group" id="calendarViewType">
                     <button class="button-switch selected" type="button" data-action="month"
@@ -53,8 +53,8 @@
             </div>
             <h3 class="calendar__render-range-text align-center"></h3>
             <div class="ml-auto">
-                <button type="button" class="button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
-                <button type="button" class="button-icon secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
+                <button type="button" class="btn__text--box btn--secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
+                <button type="button" class="btn__icon btn--secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
                     <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
                 </button>
             </div>
@@ -279,7 +279,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

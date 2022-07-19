@@ -29,7 +29,7 @@
     <div class="ml-auto">
         <button type="button" class="btn__text--box btn--primary" onclick="openProcessRegister();"
                 sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
-        <button type="button" class="button secondary" onclick="openProcessImport();"
+        <button type="button" class="btn__text--box btn--secondary" onclick="openProcessImport();"
                 sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.import}"></button>
     </div>
 </div>
@@ -188,7 +188,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -317,7 +317,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

@@ -78,7 +78,7 @@ export const dynamicRowTableMixin = {
         element.addUI(element.UIDiv);
 
         // 추가 버튼
-        element.UIDiv.addUIButton = new UIButton(i18n.msg('form.label.addRow')).addUIClass('secondary');
+        element.UIDiv.addUIButton = new UIButton(i18n.msg('form.label.addRow')).addUIClass('btn--secondary');
         element.UIDiv.addUI(element.UIDiv.addUIButton);
 
         // 플러그인 검증 버튼 생성
@@ -906,7 +906,7 @@ export const dynamicRowTableMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

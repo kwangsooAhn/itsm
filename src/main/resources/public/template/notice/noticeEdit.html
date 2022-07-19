@@ -93,7 +93,7 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="button-list">
-                    <a class="button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+                    <a class="btn__text--box btn--secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
                     <button  th:if="!${notice?.noticeNo}" type="button" id="insert"

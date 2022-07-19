@@ -1892,7 +1892,7 @@
                 copyBtnContainer.className = 'clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
-                copyBtn.className = 'button-icon secondary btn-clipboard-tooltip';
+                copyBtn.className = 'btn__icon btn--secondary btn-clipboard-tooltip';
                 copyBtn.insertAdjacentHTML('beforeend', `<span class="icon i-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();

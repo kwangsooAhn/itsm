@@ -47,7 +47,7 @@
     <div class="horizontal-bar"></div>
     <div class="flex-row justify-content-between view-row">
         <div class="button-list">
-            <a class="button secondary"
+            <a class="btn__text--box btn--secondary"
                th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
                th:text="#{common.btn.list}"></a>
         </div>
@@ -59,7 +59,7 @@
                     th:text="#{common.btn.toModify}">
             </button>
             <button type="button" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')"
-                    class="button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                    class="btn__text--box btn--secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''" th:text="#{board.btn.reply}">
             </button>
             <button type="button" class="button danger"

@@ -136,28 +136,28 @@ export const ciMixin = {
         if (this.elementIsEditable) {
             // 등록
             const registerButton = new UIButton(i18n.msg('form.component.ci') + ' ' + i18n.msg('cmdb.ci.label.new'))
-                .addUIClass('secondary')
+                .addUIClass('btn--secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
                 .onUIClick(this.openRegisterModal.bind(this));
             buttonGroup.addUI(registerButton);
 
             // 수정
             const updateButton = new UIButton(i18n.msg('cmdb.ci.label.update'))
-                .addUIClass('secondary')
+                .addUIClass('btn--secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(updateButton);
 
             // 삭제
             const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.delete'))
-                .addUIClass('secondary')
+                .addUIClass('btn--secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(deleteButton);
         } else {
             // 조회
             const selectButton = new UIButton(i18n.msg('cmdb.ci.label.select'))
-                .addUIClass('secondary')
+                .addUIClass('btn--secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.READ)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(selectButton);
@@ -595,7 +595,7 @@ export const ciMixin = {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: (modal) => {
                         zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -683,7 +683,7 @@ export const ciMixin = {
                 // 취소
                 modalButtons.push({
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: (modal) => {
                         zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -695,7 +695,7 @@ export const ciMixin = {
                 // 닫기
                 modalButtons.push({
                     content: i18n.msg('common.btn.close'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 });
@@ -819,7 +819,7 @@ export const ciMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1079,7 +1079,7 @@ export const ciMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1204,7 +1204,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],

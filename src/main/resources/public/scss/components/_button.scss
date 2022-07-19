@@ -227,7 +227,7 @@ $button-group: (
   }
   // dark
   @each $theme, $value in $button-themes-light {
-    &.#{$theme} {
+    &--#{$theme} {
       color: map-get($value, 'default', 'font');
       background-color: map-get($value, 'default', 'background');
       border-color: map-get($value, 'default', 'border');

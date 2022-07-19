@@ -28,7 +28,7 @@
             }
         }, {
             content: "Cancel",
-            classes: "button secondary",
+            classes: "btn__text--box btn--secondary",
             bindKey: false,
             callback: function(modal) {
                 modal.hide();

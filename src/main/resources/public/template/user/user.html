@@ -262,7 +262,7 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
+                <a class="btn__text--box btn--secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
                 <button type="button" class="btn__text--box btn--primary" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
@@ -612,7 +612,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

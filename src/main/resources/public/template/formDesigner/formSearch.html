@@ -30,7 +30,7 @@
     <div class="ml-auto" sec:authorize="hasAuthority('workflow.manage')">
         <button class="btn__text--box btn--primary" onclick="openFormRegister();"
                 th:text="#{common.btn.add}" type="button"></button>
-        <button class="button secondary" onclick="openFormImport();"
+        <button class="btn__text--box btn--secondary" onclick="openFormImport();"
                 th:text="#{common.btn.import}" type="button"></button>
     </div>
 </div>
@@ -151,7 +151,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -312,7 +312,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

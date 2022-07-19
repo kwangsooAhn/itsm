@@ -76,7 +76,7 @@
                            th:readonly="${view}" type="text"/>
                 </div>
                 <div class="flex-column justify-content-end col-1">
-                    <button class="button secondary" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
+                    <button class="btn__text--box btn--secondary" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
                 </div>
             </div>
             <div class="flex-row">
@@ -129,7 +129,7 @@
     </div>
     <div class="flex-row justify-content-between edit-row">
         <div class="button-list">
-            <a class="button secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
+            <a class="btn__text--box btn--secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')">
             <button type="button" class="btn__text--box btn--primary" th:unless="${boardAdmin?.boardAdminId}"

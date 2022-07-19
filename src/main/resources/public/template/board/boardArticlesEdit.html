@@ -69,7 +69,7 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="button-list">
-                    <a class="button secondary"
+                    <a class="btn__text--box btn--secondary"
                        th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="button-list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')">
@@ -79,7 +79,7 @@
                     <button class="btn__text--box btn--primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                             th:text="#{common.btn.register}" onclick="saveBoard('POST', 'normal')">
                     </button>
-                    <button class="button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                    <button class="btn__text--box btn--secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
                             th:text="#{board.btn.reply}" onclick="saveBoard('POST', 'reply')">
                     </button>
                 </div>

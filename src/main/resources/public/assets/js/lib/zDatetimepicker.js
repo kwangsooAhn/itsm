@@ -159,7 +159,7 @@
             // create button > confirm
             let buttonConfirm = document.createElement('button');
             buttonConfirm.type = 'button';
-            buttonConfirm.className = 'button secondary';
+            buttonConfirm.className = 'btn__text--box btn--secondary';
             buttonConfirm.innerText = i18n.msg('common.btn.select');
             buttonConfirm.addEventListener('click', this.changeTarget, false);
             pickerButton.appendChild(buttonConfirm);

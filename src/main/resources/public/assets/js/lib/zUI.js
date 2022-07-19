@@ -386,7 +386,7 @@ class UIClipboard extends UIElement {
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass('button-icon').addUIClass('secondary');
+        this.UITooltip.UIButton = new UIButton().setUIClass('btn__icon').addUIClass('btn--secondary');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);

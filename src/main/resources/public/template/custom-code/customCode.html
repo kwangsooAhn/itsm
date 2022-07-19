@@ -116,7 +116,7 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+                <a class="btn__text--box btn--secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
                 <button type="button" class="btn__text--box btn--primary" onclick="saveCustomCode('POST')"

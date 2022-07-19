@@ -37,7 +37,7 @@
     <div class="ml-auto" sec:authorize="hasAuthority('workflow.manage')">
         <button type="button" class="btn__text--box btn--primary" onclick="location.href='/workflows/new'"
                 th:text="#{common.btn.add}"></button>
-        <button type="button" class="button secondary" onclick="openDocumentImport();"
+        <button type="button" class="btn__text--box btn--secondary" onclick="openDocumentImport();"
                 th:text="#{common.btn.import}"></button>
     </div>
 </div>
@@ -238,7 +238,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

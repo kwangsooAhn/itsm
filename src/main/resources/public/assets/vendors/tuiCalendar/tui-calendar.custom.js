@@ -186,7 +186,7 @@ function zCalendar(id, options) {
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'button secondary',
+            classes: 'btn__text--box btn--secondary',
             bindKey: false,
             callback: (modal) => {
                 if (modal.customOptions.guide) {
@@ -235,7 +235,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--detail',
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'button secondary',
+            classes: 'btn__text--box btn--secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -277,7 +277,7 @@ function zCalendar(id, options) {
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'button secondary',
+            classes: 'btn__text--box btn--secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -921,10 +921,10 @@ Object.assign(zCalendar.prototype, {
             <div class="flex-row">
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
                 <div class="button-list flex-row float-right align-items-end">
-                    <button type="button" class="button-icon secondary" id="scheduleEdit">
+                    <button type="button" class="btn__icon btn--secondary" id="scheduleEdit">
                         <span class="icon i-edit"></span>
                     </button>
-                    <button type="button" class="button-icon secondary" id="scheduleDelete">
+                    <button type="button" class="btn__icon btn--secondary" id="scheduleDelete">
                         <span class="icon i-delete"></span>
                     </button>
                 </div>

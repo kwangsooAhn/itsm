@@ -69,7 +69,7 @@
     </div>
     <div class="flex-row justify-content-between edit-row">
         <div class="button-list">
-            <a class="button secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
+            <a class="btn__text--box btn--secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.admin')">
             <button class="btn__text--box btn--primary"
@@ -78,7 +78,7 @@
             <button class="btn__text--box btn--primary"
                     id="btnUpdate" name="btnUpdate" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
                     th:text="#{common.btn.modify}" type="button"></button>
-            <button class="button secondary"
+            <button class="btn__text--box btn--secondary"
                     id="btnDelete" name="btnDelete" th:if="${auth?.authId}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}" type="button"></button>
         </div>

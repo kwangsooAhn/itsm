@@ -21,7 +21,7 @@
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
         <button type="button" class="btn__text--box btn--primary" id="btnCreate" name="btnCreate"
                 th:text="#{common.btn.add}" th:onclick="|javascript:onCreate()|"></button>
-        <button type="button" class="button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="btn__icon btn--secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:title="#{common.btn.export}" th:onclick="|javascript:onExcelDownload()|">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
         </button>

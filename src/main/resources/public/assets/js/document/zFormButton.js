@@ -51,19 +51,19 @@ class ZFormButton {
         const UIButtonGroup = new UIDiv().setUIClass('button-list');
 
         // 닫기 버튼
-        const UICloseButton = new UIButton(i18n.msg('common.btn.close')).addUIClass('secondary')
+        const UICloseButton = new UIButton(i18n.msg('common.btn.close')).addUIClass('btn--secondary')
             .onUIClick(this.zForm.close.bind(this.zForm));
         UIButtonGroup.addUI(UICloseButton);
 
         // 문서함에서 출력되는 경우 프로세스 맵, 인쇄 버튼도 출력
         if (this.isToken) {
             // 프로세스 맵 버튼
-            const UIProcessMapButton = new UIButton(i18n.msg('token.label.processMap')).addUIClass('secondary')
+            const UIProcessMapButton = new UIButton(i18n.msg('token.label.processMap')).addUIClass('btn--secondary')
                 .onUIClick(this.zForm.openProcessStatusModal.bind(this.zForm));
             UIButtonGroup.addUI(UIProcessMapButton);
 
             // 인쇄 버튼
-            const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('secondary')
+            const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('btn--secondary')
                 .onUIClick(this.zForm.print.bind(this.zForm));
             UIButtonGroup.addUI(UIPrintButton);
         }
@@ -79,7 +79,7 @@ class ZFormButton {
         const UIButtonGroup = new UIDiv().setUIClass('button-list');
 
         // 돌아가기 버튼
-        const UIReturnButton = new UIButton(i18n.msg('common.btn.return')).addUIClass('secondary')
+        const UIReturnButton = new UIButton(i18n.msg('common.btn.return')).addUIClass('btn--secondary')
             .onUIClick(this.zForm.back.bind(this.zForm));
         UIButtonGroup.addUI(UIReturnButton);
 

@@ -229,7 +229,7 @@ export const userSearchMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

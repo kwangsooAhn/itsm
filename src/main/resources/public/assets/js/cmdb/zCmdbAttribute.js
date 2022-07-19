@@ -911,7 +911,7 @@
             searchOrganization.addEventListener('click', openOrganizationTreeModal, false);
         } else {
             const customTemplate = `<div class="align-right">
-                <button type="button" class="button secondary" id="searchUserList">`   +
+                <button type="button" class="btn__text--box btn--secondary" id="searchUserList">`   +
                     `${i18n.msg('common.btn.add')}</button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', customTemplate);
@@ -989,7 +989,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1257,7 +1257,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -1814,7 +1814,7 @@
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'button button-icon secondary';
+                customBtnElem.className = 'btn__icon btn--secondary';
                 customBtnElem.disabled = (displayMode === 'view');
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
 
@@ -1874,7 +1874,7 @@
                     if (displayMode === 'edit') {
                         const addBtn = document.createElement('button');
                         addBtn.type = 'button';
-                        addBtn.className = 'button-icon secondary button-attribute-add';
+                        addBtn.className = 'btn__icon btn--secondary button-attribute-add';
                         addBtn.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
                         addBtn.addEventListener('click', addCIAttributeChild, false);
                         elem.appendChild(addBtn);
@@ -2188,7 +2188,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box btn--secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

@@ -360,7 +360,7 @@ Object.assign(zColorPicker.prototype, {
         // 추가 버튼
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'button secondary';
+        addButton.className = 'btn__text--box btn--secondary';
         addButton.textContent = i18n.msg('common.btn.add');
         addButton.disabled = (this.savedCustomColors.length === this.options.maxCustomColor);
         addButton.addEventListener('click', this.addCustomColor.bind(this), false);

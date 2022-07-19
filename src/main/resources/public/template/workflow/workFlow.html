@@ -250,7 +250,7 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="button-list">
-                <a class="button secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
+                <a class="btn__text--box btn--secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
                 <button type="button" class="btn__text--box btn--primary" onclick="saveDocument('POST')"
@@ -259,7 +259,7 @@
                 <button type="button" class="btn__text--box btn--primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
                         th:unless="${documentId == null}" th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="button secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
+                <button type="button" class="btn__text--box btn--secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
                         th:if="${documentId} and ${documentData?.documentType != 'application-form-link'}"
                         th:text="#{document.label.registerDisplay}">
                 </button>
@@ -507,7 +507,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

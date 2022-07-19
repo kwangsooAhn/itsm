@@ -32,7 +32,7 @@
         </div>
     </form>
     <div class="ml-auto">
-        <button type="button" class="button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="btn__icon btn--secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}"/>
         </button>
@@ -116,7 +116,7 @@
                 classes: 'sla-chart-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box btn--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         zChartManager.destroy();
