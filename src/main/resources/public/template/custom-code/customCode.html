@@ -84,7 +84,7 @@
                     <label id="conditionLabel">
                         <span th:text="#{customCode.label.condition}"></span>
                     </label>
-                    <button class="btn__ic btn--theme-extra float-right" onclick="addCondition()" th:unless="${view}"
+                    <button class="btn__ic extra float-right" onclick="addCondition()" th:unless="${view}"
                             type="button">
                         <span class="ic-plus"></span>
                     </button>
@@ -116,15 +116,15 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="btn__list">
-                <a class="btn__text--box btn--theme-secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+                <a class="btn__text--box secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="btn__text--box btn--theme-primary" onclick="saveCustomCode('POST')"
+                <button type="button" class="btn__text--box primary" onclick="saveCustomCode('POST')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="btn__text--box btn--theme-primary" onclick="saveCustomCode('PUT')"
+                <button type="button" class="btn__text--box primary" onclick="saveCustomCode('PUT')"
                         th:if="${customCode?.customCodeId}" th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="btn__text--box btn--theme-danger" onclick="deleteCustomCode('DELETE')"
+                <button type="button" class="btn__text--box danger" onclick="deleteCustomCode('DELETE')"
                         th:if="${customCode?.customCodeId}" th:text="#{common.btn.delete}">
                 </button>
             </div>

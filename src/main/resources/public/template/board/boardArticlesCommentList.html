@@ -15,10 +15,10 @@
         <div class="ml-auto align-middle btn__list"
              th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
              or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})">
-            <button type="button" class="btn__ic btn--theme-extra" th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
+            <button type="button" class="btn__ic extra" th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
                 <span class="ic-edit"></span>
             </button>
-            <button type="button" class="btn__ic btn--theme-extra" th:onclick="deleteBoardComment([[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
+            <button type="button" class="btn__ic extra" th:onclick="deleteBoardComment([[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
                 <span class="ic-delete"></span>
             </button>
         </div>

@@ -999,7 +999,7 @@ class ZFormDesigner {
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'btn__text--box btn--theme-primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         const newFormName = document.getElementById('newFormName');
@@ -1010,7 +1010,7 @@ class ZFormDesigner {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box btn--theme-secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

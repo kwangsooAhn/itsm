@@ -99,17 +99,17 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="btn__list">
-                    <a class="btn__text--box btn--theme-secondary" href="/sla/metric-pools/search" th:text="#{common.btn.list}"></a>
+                    <a class="btn__text--box secondary" href="/sla/metric-pools/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
-                             class="btn__text--box btn--theme-primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
+                             class="btn__text--box primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="update"
-                            class="btn__text--box btn--theme-primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
+                            class="btn__text--box primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="delete"
-                            class="btn__text--box btn--theme-danger" onclick="deleteSLA()" th:text="#{common.btn.delete}">
+                            class="btn__text--box danger" onclick="deleteSLA()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>

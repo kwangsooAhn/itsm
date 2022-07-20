@@ -37,7 +37,7 @@
     </form>
 
     <div class="ml-auto">
-        <button type="button" class="btn__ic btn--theme-secondary ml-4" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="btn__ic secondary ml-4" id="btnExcelDownload" name="btnExcelDownload"
                 sec:authorize="hasAuthority('general')" th:title="#{common.btn.export}"
                 th:onclick="|javascript:onExcelDownload()|">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />

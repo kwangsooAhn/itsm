@@ -19,9 +19,9 @@
            maxlength="100" th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
-        <button type="button" class="btn__text--box btn--theme-primary" id="btnCreate" name="btnCreate"
+        <button type="button" class="btn__text--box primary" id="btnCreate" name="btnCreate"
                 th:text="#{common.btn.add}" th:onclick="|javascript:onCreate()|"></button>
-        <button type="button" class="btn__ic btn--theme-secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="btn__ic secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:title="#{common.btn.export}" th:onclick="|javascript:onExcelDownload()|">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
         </button>
@@ -82,7 +82,7 @@
             <div class="flex-row justify-content-between">
                 <label th:text="#{code.label.codeLang}"></label>
                 <button sec:authorize="hasAuthority('system.manage')" type="button"
-                        class="btn__ic btn--theme-extra float-right" id="btnCodeLang">
+                        class="btn__ic extra float-right" id="btnCodeLang">
                     <span class="ic-plus"></span>
                 </button>
             </div>
@@ -91,11 +91,11 @@
         </div>
         <div class="flex-row justify-content-end">
             <div class="btn__list" sec:authorize="hasAuthority('system.manage')">
-                <button type="button" class="btn__text--box btn--theme-primary" id="btnRegist" name="btnRegist"
+                <button type="button" class="btn__text--box primary" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="btn__text--box btn--theme-primary" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="btn__text--box primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="btn__text--box btn--theme-danger" id="btnDelete" name="btnDelete"
+                <button type="button" class="btn__text--box danger" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>

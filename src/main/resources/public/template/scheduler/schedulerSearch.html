@@ -18,7 +18,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="btn__text--box btn--theme-primary" onclick="openSchedulerAdd()"
+        <button type="button" class="btn__text--box primary" onclick="openSchedulerAdd()"
                 sec:authorize="hasAuthority('system.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>

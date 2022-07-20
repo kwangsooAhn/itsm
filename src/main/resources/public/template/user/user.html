@@ -44,7 +44,7 @@
                     <div class="flex-column edit-row"
                          th:if="${users?.userKey != null && mailEnabled && users?.platform.equals('user.platform.alice') && !view}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="btn__text--box btn--theme-primary"
+                        <button class="btn__text--box primary"
                                 th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"
                                 th:text="#{user.btn.resetPassword}" type="button"></button>
                     </div>
@@ -100,7 +100,7 @@
                                     th:if="!${view}" tabindex="-1">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button class="button-search btn__text--box btn--theme-form" onclick="organizationPopUp();" th:if="!${view}"
+                            <button class="button-search btn__text--box tertiary" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
                         </div>
                     </div>
@@ -235,7 +235,7 @@
                                     tabindex="-1">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search btn__text--box btn--theme-form" onclick="openUserListPopup();"
+                            <button type="button" class="button-search btn__text--box tertiary" onclick="openUserListPopup();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -262,12 +262,12 @@
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="btn__list">
-                <a class="btn__text--box btn--theme-secondary" href="/users/search" th:text="#{common.btn.list}"></a>
+                <a class="btn__text--box secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
-                <button type="button" class="btn__text--box btn--theme-primary" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
+                <button type="button" class="btn__text--box primary" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                         th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')"></button>
-                <button type="button" class="btn__text--box btn--theme-primary" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
+                <button type="button" class="btn__text--box primary" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
                         th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
             </div>
         </div>
@@ -597,7 +597,7 @@
                 classes: 'sub-user-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'btn__text--box btn--theme-primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -612,7 +612,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box btn--theme-secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

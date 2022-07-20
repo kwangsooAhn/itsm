@@ -136,28 +136,28 @@ export const ciMixin = {
         if (this.elementIsEditable) {
             // 등록
             const registerButton = new UIButton(i18n.msg('form.component.ci') + ' ' + i18n.msg('cmdb.ci.label.new'))
-                .addUIClass('btn--theme-secondary')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.REGISTER)
                 .onUIClick(this.openRegisterModal.bind(this));
             buttonGroup.addUI(registerButton);
 
             // 수정
             const updateButton = new UIButton(i18n.msg('cmdb.ci.label.update'))
-                .addUIClass('btn--theme-secondary')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.MODIFY)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(updateButton);
 
             // 삭제
             const deleteButton = new UIButton(i18n.msg('cmdb.ci.label.delete'))
-                .addUIClass('btn--theme-secondary')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.DELETE)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(deleteButton);
         } else {
             // 조회
             const selectButton = new UIButton(i18n.msg('cmdb.ci.label.select'))
-                .addUIClass('btn--theme-secondary')
+                .addUIClass('secondary')
                 .setUIAttribute('data-actionType', CI.ACTION_TYPE.READ)
                 .onUIClick(this.openSelectModal.bind(this));
             buttonGroup.addUI(selectButton);
@@ -256,7 +256,7 @@ export const ciMixin = {
                 if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
                         .setUIClass('btn__ic')
-                        .addUIClass('btn--theme-extra')
+                        .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
                         .addUI(new UISpan().setUIClass('ic-search'));
@@ -267,7 +267,7 @@ export const ciMixin = {
                 } else {
                     const editButton = new UIButton()
                         .setUIClass('btn__ic')
-                        .addUIClass('btn--theme-extra')
+                        .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
                         .addUI(new UISpan().setUIClass(
@@ -281,7 +281,7 @@ export const ciMixin = {
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
                     .setUIClass('btn__ic')
-                    .addUIClass('btn--theme-extra')
+                    .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
                     .addUI(new UISpan().setUIClass('ic-search'));
@@ -292,7 +292,7 @@ export const ciMixin = {
             case 'icon-delete': // Row 삭제
                 const deleteButton = new UIButton()
                     .setUIClass('btn__ic')
-                    .addUIClass('btn--theme-extra')
+                    .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
                     .addUI(new UISpan().setUIClass('ic-delete'));
@@ -569,7 +569,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-register-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
-                    classes: 'btn__text--box btn--theme-primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -595,7 +595,7 @@ export const ciMixin = {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box btn--theme-secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -658,7 +658,7 @@ export const ciMixin = {
                 // 수정
                 modalButtons.push({
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'btn__text--box btn--theme-primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -683,7 +683,7 @@ export const ciMixin = {
                 // 취소
                 modalButtons.push({
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box btn--theme-secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -695,7 +695,7 @@ export const ciMixin = {
                 // 닫기
                 modalButtons.push({
                     content: i18n.msg('common.btn.close'),
-                    classes: 'btn__text--box btn--theme-secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 });
@@ -785,7 +785,7 @@ export const ciMixin = {
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: 'btn__text--box btn--theme-primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 체크된 CI 출력
@@ -819,7 +819,7 @@ export const ciMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box btn--theme-secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1052,7 +1052,7 @@ export const ciMixin = {
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: 'btn__text--box btn--theme-primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 기존 연관관계 row 초기화
@@ -1079,7 +1079,7 @@ export const ciMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box btn--theme-secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1204,7 +1204,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'btn__text--box btn--theme-secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],
@@ -1334,7 +1334,7 @@ export const ciMixin = {
         const deleteRel = document.createElement('td');
         deleteRel.className = 'col-1 align-center';
         const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'btn__ic btn--theme-extra';
+        deleteBtn.className = 'btn__ic extra';
         const deleteIcon = document.createElement('span');
         deleteIcon.className = 'ic-delete';
         deleteBtn.addEventListener('click', function () {

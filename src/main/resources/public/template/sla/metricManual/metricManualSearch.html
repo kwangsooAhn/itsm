@@ -22,7 +22,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="btn__text--box btn--theme-primary" onclick="openManualNewModal()"
+        <button type="button" class="btn__text--box primary" onclick="openManualNewModal()"
                 sec:authorize="hasAuthority('sla.manage')" th:text="#{sla.metricManual.btn.addData}"></button>
     </div>
 </div>
@@ -134,14 +134,14 @@
                 classes: 'sla-metric-manual-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.save'),
-                    classes: 'btn__text--box btn--theme-primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: function(modal) {
                         onSaveModal();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box btn--theme-secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

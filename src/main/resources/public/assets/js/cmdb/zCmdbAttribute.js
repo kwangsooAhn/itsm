@@ -226,7 +226,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__ic btn--theme-extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
                 `<span class="ic-plus"></span></button>` +
             `</div>` +
             `</div>` +
@@ -320,7 +320,7 @@
         const objectId = attributeTypeList[2].type; // radio
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__ic btn--theme-extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
             `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -383,7 +383,7 @@
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__ic btn--theme-extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
             `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -616,7 +616,7 @@
         const objectId = attributeTypeList[5].type; // group-list
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__ic btn--theme-extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
             `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -911,7 +911,7 @@
             searchOrganization.addEventListener('click', openOrganizationTreeModal, false);
         } else {
             const customTemplate = `<div class="align-right">
-                <button type="button" class="btn__text--box btn--theme-secondary" id="searchUserList">`   +
+                <button type="button" class="btn__text--box secondary" id="searchUserList">`   +
                     `${i18n.msg('common.btn.add')}</button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', customTemplate);
@@ -968,7 +968,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box btn--theme-primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!targetArray.length) {
@@ -989,7 +989,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box btn--theme-secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1085,7 +1085,7 @@
                     `<input class="input" readonly data-user-id="${data.id}" value="${data.value}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                    `<button type="button" class="item-remove btn--theme-extra ml-2 mr-2 mt-2 mb-2 user-search-delete-btn"` +
+                    `<button type="button" class="item-remove extra ml-2 mr-2 mt-2 mb-2 user-search-delete-btn"` +
                         ` data-user-id="${data.id}"><span class="ic-remove"></span>` +
                     `</button>` +
                 `</div>` +
@@ -1240,7 +1240,7 @@
             classes: 'cmdb-class-attribute-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box btn--theme-primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: function(modal) {
                     attributeMap.length = 0;
@@ -1257,7 +1257,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box btn--theme-secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -1814,7 +1814,7 @@
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'btn__ic btn--theme-secondary';
+                customBtnElem.className = 'btn__ic secondary';
                 customBtnElem.disabled = (displayMode === 'view');
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
 
@@ -1874,7 +1874,7 @@
                     if (displayMode === 'edit') {
                         const addBtn = document.createElement('button');
                         addBtn.type = 'button';
-                        addBtn.className = 'btn__ic btn--theme-secondary button-attribute-add';
+                        addBtn.className = 'btn__ic secondary button-attribute-add';
                         addBtn.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
                         addBtn.addEventListener('click', addCIAttributeChild, false);
                         elem.appendChild(addBtn);
@@ -2170,7 +2170,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box btn--theme-primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -2188,7 +2188,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box btn--theme-secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

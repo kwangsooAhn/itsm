@@ -17,9 +17,9 @@
         <span class="font-bold text-red500 pl-1" id="weightValueScore" th:text="#{sla.metricYear.msg.totalScore}"></span>
     </form>
     <div class="ml-auto">
-        <button type="button" class="btn__text--box btn--theme-secondary" id="btnCopy" name="btnCopy"
+        <button type="button" class="btn__text--box secondary" id="btnCopy" name="btnCopy"
                 th:onclick="openCopyModal()" th:text="#{sla.metricYear.btn.copy}"></button>
-        <button type="button" class="btn__text--box btn--theme-primary" onclick="location.href='/sla/metrics/new'"
+        <button type="button" class="btn__text--box primary" onclick="location.href='/sla/metrics/new'"
                 sec:authorize="hasAuthority('sla.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
@@ -104,14 +104,14 @@
                         classes: 'sla-metric-yearly-copy-modal',
                         buttons: [{
                             content: i18n.msg('common.btn.save'),
-                            classes: 'btn__text--box btn--theme-primary',
+                            classes: 'btn__text--box primary',
                             bindKey: false,
                             callback: function(modal) {
                                 onCopyModal();
                             }
                         }, {
                             content: i18n.msg('common.btn.cancel'),
-                            classes: 'btn__text--box btn--theme-secondary',
+                            classes: 'btn__text--box secondary',
                             bindKey: false,
                             callback: function(modal) {
                                 modal.hide();

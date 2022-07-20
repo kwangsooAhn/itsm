@@ -93,17 +93,17 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="btn__list">
-                    <a class="btn__text--box btn--theme-secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+                    <a class="btn__text--box secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="btn__list" sec:authorize="hasAuthority('portal.manage')">
                     <button  th:if="!${notice?.noticeNo}" type="button" id="insert"
-                            class="btn__text--box btn--theme-primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
+                            class="btn__text--box primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${notice?.noticeNo}" type="button" id="update"
-                            class="btn__text--box btn--theme-primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
+                            class="btn__text--box primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${notice?.noticeNo}" type="button" id="delete"
-                            class="btn__text--box btn--theme-danger" onclick="deleteNotice()" th:text="#{common.btn.delete}">
+                            class="btn__text--box danger" onclick="deleteNotice()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>

@@ -173,7 +173,7 @@ export default class ZColumnProperty extends ZProperty {
         // tab panel > tagGroup > addButton : 컬럼 추가 버튼
         this.UITabPanel.tabGroup.addButton = new UIButton()
             .setUIClass('btn__ic')
-            .addUIClass('btn--theme-extra')
+            .addUIClass('extra')
             .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'none' : 'on'))
             .addUI(new UISpan().addUIClass('ic-plus'))
             .setUIDisabled(!this.isEditable  || this.isFixedColumn)

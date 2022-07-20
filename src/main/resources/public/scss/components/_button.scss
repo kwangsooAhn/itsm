@@ -51,7 +51,7 @@ $button-themes-default: (
                 'active': ('font': $blue700, 'background': $blue200, 'border': $blue200),
                 'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
         ),
-        'form': (
+        'tertiary': (
                 'default': ('font': $neutral800, 'background': $neutral300, 'border': $neutral300),
                 'hover': ('font' : $neutral800, 'background': $neutral200, 'border': $neutral200),
                 'focus': ('font': $neutral800, 'background': $neutral300, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
@@ -143,21 +143,20 @@ $button-group: (
   }
   
   // 크기
-  &--size {
-    &-xsmall {}
-    &-small {
-      font-size: $font-size-xxs;
-      padding: 0.375rem 0.4375rem; // 6px 7px
-    }
-    &-medium {}
-    &-large {}
+  &--xsmall {}
+  &--small {
+    font-size: $font-size-xxs;
+    padding: 0.375rem 0.4375rem; // 6px 7px
   }
+  &--medium {}
+  &--large {}
 
   // 테마
-  &--theme {
+  &__ic,
+  &__text--box {
     // light
     @each $theme, $value in $button-themes-default {
-      &-#{$theme} {
+      &.#{$theme} {
         background-color: map-get($value, 'default', 'background');
         color: map-get($value, 'default', 'font');
         @if map-get($value, 'default', 'border') != null {
@@ -224,7 +223,7 @@ $button-group: (
     }
     // dark
     @each $theme, $value in $button-themes-light {
-      &-#{$theme} {
+      &.#{$theme} {
         color: map-get($value, 'default', 'font');
         background-color: map-get($value, 'default', 'background');
         border-color: map-get($value, 'default', 'border');
