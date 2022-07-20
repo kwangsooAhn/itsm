@@ -49,7 +49,7 @@ export default class ZToggleButtonProperty extends ZProperty {
                 .setUIClass('btn__toggle__button--multi')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass('icon').addUIClass(item.name));
+                .addUI(new UISpan().setUIClass(item.name));
 
             if (!this.isEditable) {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('disabled');

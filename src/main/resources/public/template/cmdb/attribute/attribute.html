@@ -62,13 +62,13 @@
                     <span class="required"></span>
                 </th:block>
                 <div class="help-tooltip">
-                    <span class="icon i-tooltip"></span>
+                    <span class="ic-tooltip"></span>
                     <div class="tooltip-contents right" id="tooltipContent">
                         <span th:utext="#{cmdb.attribute.msg.searchWidth}"></span>
                     </div>
                 </div>
             </label>
-            <input class="input i-px col-3" id="searchWidth" maxlength="4" th:readonly="${view}"
+            <input class="input ic-px col-3" id="searchWidth" maxlength="4" th:readonly="${view}"
                    th:value="${attribute?.searchWidth}" type="text" th:required="${attribute?.searchYn == true}"
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.searchWidth}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"/>
@@ -182,7 +182,7 @@
             detailObject.querySelectorAll('button').forEach(function (object) {
                 object.disabled = true;
             });
-            detailObject.querySelectorAll('.i-delete').forEach(function (object) {
+            detailObject.querySelectorAll('.ic-delete').forEach(function (object) {
                 object.parentElement.remove();
             });
             if (document.getElementById('button_add')) {

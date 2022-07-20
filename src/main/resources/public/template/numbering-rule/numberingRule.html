@@ -31,7 +31,7 @@
                     <label th:classappend="${view} ? '' : 'required'" th:text="#{pattern.label.pattern}"></label>
                     <button class="btn__icon btn--extra float-right" onclick="addPattern()" th:if="!${view}"
                             type="button">
-                        <span class="icon i-plus"></span>
+                        <span class="ic-plus"></span>
                     </button>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                         </select>
                         <button class="btn__icon btn--extra ml-1" style="visibility:hidden" th:if="!${view}"
                                 type="button">
-                            <span class="icon i-delete"></span>
+                            <span class="ic-delete"></span>
                         </button>
                     </div>
                 </th:block>
@@ -62,7 +62,7 @@
                             <button class="btn__icon btn--extra ml-1" onclick="deletePattern(this)"
                                     th:if="!${view}" th:style="(${iterStat.index} > 0)? '':'visibility:hidden'"
                                     type="button">
-                                <span class="icon i-delete"></span>
+                                <span class="ic-delete"></span>
                             </button>
                         </div>
                     </th:block>
@@ -96,7 +96,7 @@
                 </option>
             </select>
             <button class="item-remove ml-2 mr-2 mt-2 mb-2" onclick="deletePattern(this)" type="button">
-                <span class="icon i-remove"></span>
+                <span class="ic-remove"></span>
             </button>
         </div>
     </template>

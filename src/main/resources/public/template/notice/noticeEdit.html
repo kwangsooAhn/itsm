@@ -47,14 +47,14 @@
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label th:text="#{notice.label.height}" for="popHeight"></label>
-                        <input type="text" id="popHeight" name="popHeight" class="input i-px"
+                        <input type="text" id="popHeight" name="popHeight" class="input ic-px"
                                th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
                                onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                oninput="maxLengthCheck(this)"/>
                     </div>
                     <div class="flex-column col-6">
                         <label th:text="#{notice.label.width}" for="popWidth"></label>
-                        <input type="text" id="popWidth" name="popWidth" class="input i-px"
+                        <input type="text" id="popWidth" name="popWidth" class="input ic-px"
                                th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
                                onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                oninput="maxLengthCheck(this)" />
@@ -63,11 +63,11 @@
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label th:text="#{notice.label.startDateTime}" for="popStrtDt"></label>
-                        <input type="text" id="popStrtDt" name="popStrtDt" class="input i-date-picker date col-pct-12" />
+                        <input type="text" id="popStrtDt" name="popStrtDt" class="input ic-date-picker date col-pct-12" />
                     </div>
                     <div class="flex-column col-6">
                         <label th:text="#{notice.label.endDateTime}" for="popEndDt"></label>
-                        <input type="text" id="popEndDt" name="popEndDt" class="input i-date-picker date col-pct-12" />
+                        <input type="text" id="popEndDt" name="popEndDt" class="input ic-date-picker date col-pct-12" />
                     </div>
                 </div>
             </div>
@@ -83,11 +83,11 @@
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label th:text="#{notice.label.startDateTime}" for="popStrtDt"></label>
-                        <input type="text" id="topNoticeStrtDt" class="input i-date-picker date col-pct-12" name="topNoticeStrtDt"/>
+                        <input type="text" id="topNoticeStrtDt" class="input ic-date-picker date col-pct-12" name="topNoticeStrtDt"/>
                     </div>
                     <div class="flex-column col-6">
                         <label th:text="#{notice.label.endDateTime}" for="popEndDt"></label>
-                        <input type="text" id="topNoticeEndDt" class="input i-date-picker date col-pct-12" name="topNoticeEndDt"/>
+                        <input type="text" id="topNoticeEndDt" class="input ic-date-picker date col-pct-12" name="topNoticeEndDt"/>
                     </div>
                 </div>
             </div>

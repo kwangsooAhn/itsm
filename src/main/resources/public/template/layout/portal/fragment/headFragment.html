@@ -4,7 +4,7 @@
 <body>
 <div class="header flex-row align-items-center">
     <a href="/portals/main">
-        <img class="img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="152" height="26" alt="Alice">
+        <img class="i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="152" height="26" alt="Alice">
     </a>
     <span class="name" th:text="#{portal.label.mainPhrase}"></span>
     <a class="ml-auto btn__text--box btn--light-secondary" href="/layout" sec:authorize="isAuthenticated()" th:text="#{portal.label.main}"></a>

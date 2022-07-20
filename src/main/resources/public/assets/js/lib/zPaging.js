@@ -180,7 +180,7 @@ export default class ZPaging {
         const sortColElem = document.querySelector('.grid__cell[data-grid-column="' + orderColNameElem.value +'"]');
         if (sortColElem) {
             sortColElem.setAttribute('data-grid-sorting-type', orderDirElem.value);
-            sortColElem.insertAdjacentHTML('beforeend', `<span class="icon i-sorting"></span>`);
+            sortColElem.insertAdjacentHTML('beforeend', `<span class="ic-sorting"></span>`);
         }
     }
 }

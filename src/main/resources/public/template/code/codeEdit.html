@@ -15,7 +15,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{code.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+    <input type="text" class="input ic-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
            maxlength="100" th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
@@ -83,7 +83,7 @@
                 <label th:text="#{code.label.codeLang}"></label>
                 <button sec:authorize="hasAuthority('system.manage')" type="button"
                         class="btn__icon btn--extra float-right" id="btnCodeLang">
-                    <span class="icon i-plus"></span>
+                    <span class="ic-plus"></span>
                 </button>
             </div>
             <div class="horizontal-bar"></div>
@@ -108,7 +108,7 @@
             <label class="required" th:text="#{code.label.name}"></label>
             <input class="input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
             <button type="button" sec:authorize="hasAuthority('system.manage')" class="item-remove ml-2 mr-2 mt-2 mb-2">
-                <span class="icon i-remove"></span>
+                <span class="ic-remove"></span>
             </button>
         </div>
     </template>

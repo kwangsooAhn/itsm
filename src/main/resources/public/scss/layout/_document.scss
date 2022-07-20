@@ -7,7 +7,7 @@
  */
 ////////////////////////// element //////////////////////////
 .item-remove {
-  .icon {
+  [class*="ic-"] {
     width: 0.5rem;
     height: 0.5rem;
   }
@@ -116,11 +116,11 @@
     background-color: $gray400;
     z-index: 500;
 
-    .icon.i-arrow-double { background: $white; }
+    .ic-arrow-double { background: $white; }
 
     &.hide {
       right: 0;
-      .icon.i-arrow-double { @include rotate(180); }
+      .ic-arrow-double { @include rotate(180); }
 
       + form {
         .document-main {
@@ -174,7 +174,7 @@
         padding: 0 1.375rem; // 22px
 
         // 아이콘
-        .icon.i-delete { background: $gray500; }
+        .ic-delete { background: $gray500; }
       }
 
       .token {
@@ -291,7 +291,7 @@
             .btn__icon {
               width: 100%;
               height: 100%;
-              .icon.i-plus { background: $gray500; }
+              .ic-plus { background: $gray500; }
             }
           }
         }
@@ -345,7 +345,7 @@
               border: none;
               tr:hover { background-color: transparent; }
             }
-            .icon.i-clear { background: $gray500; }
+            .ic-clear { background: $gray500; }
           }
         }
       }
@@ -449,11 +449,7 @@
               }
             }
 
-            .icon {
-              &.i-clear {
-                background: $gray500;
-              }
-            }
+            .ic-clear { background: $gray500; }
           }
         }
       }

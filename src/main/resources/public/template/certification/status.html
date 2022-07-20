@@ -10,12 +10,12 @@
 <th:block layout:fragment="pageLeft">
     <div class="vertical-split-left email-certificate-background float-left">
         <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
-            <img class="img i-email-certificate-check" th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
+            <img th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
         </th:block>
         <th:block th:if="${validCode == 1 || validCode == 2}">
-            <img class="img i-email-certificate-complete" th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
+            <img th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
         </th:block>
-        <img class="img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+        <img class="i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
     </div>
 </th:block>
 <th:block layout:fragment="pageRight">

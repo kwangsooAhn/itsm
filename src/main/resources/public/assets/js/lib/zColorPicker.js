@@ -79,7 +79,7 @@ function zColorPicker(targetElement, options) {
 
     // 컬러 팔레트 아이콘
     const paletteIcon = document.createElement('span');
-    paletteIcon.className = 'icon i-color-palette ml-1';
+    paletteIcon.className = 'ic-color-palette ml-1';
     colorPicker.appendChild(paletteIcon);
 
     // color picker modal
@@ -277,7 +277,7 @@ Object.assign(zColorPicker.prototype, {
         const editButton = document.createElement('button');
         editButton.type = 'button';
         editButton.className = 'btn__icon btn--extra custom-color-edit visible';
-        editButton.insertAdjacentHTML('beforeend', `<span class="icon i-edit"></span>`);
+        editButton.insertAdjacentHTML('beforeend', `<span class="ic-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
         this.editButtonEl = editButton;
@@ -307,7 +307,7 @@ Object.assign(zColorPicker.prototype, {
         addButton.type = 'button';
         addButton.className = 'btn__icon custom-color-plus' +
             (isMaxCustomColor ? '' : ' inline-block');
-        addButton.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
+        addButton.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         this.addButtonEl = addButton;
         customColorList.appendChild(addButton);
@@ -329,7 +329,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 물방울
         const waterDrop = document.createElement('span');
-        waterDrop.className = 'icon i-water-drop';
+        waterDrop.className = 'ic-water-drop';
         waterDrop.style.setProperty('--data-color', '#8B9094');
         waterDrop.insertAdjacentHTML('beforeend', this.getWaterDropSvg());
         customColorControl.appendChild(waterDrop);
@@ -501,7 +501,7 @@ Object.assign(zColorPicker.prototype, {
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
             `<sapn class="custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
             `<button type="button" class="btn__icon custom-color-palette-item-clear">` +
-            `<span class="icon i-remove"></span>` +
+            `<span class="ic-remove"></span>` +
             `</button>` +
             `</span>`;
     },

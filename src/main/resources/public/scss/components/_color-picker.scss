@@ -41,7 +41,7 @@ $custom-color-plus: (
       width: 4.75rem; // 76px
       height: 1.5rem; // 24px
     }
-    .icon.i-color-palette { background: $gray500; }
+    .ic-color-palette { background: $gray500; }
 
     &:focus, &:hover { outline: 0; }
 
@@ -164,7 +164,7 @@ $custom-color-plus: (
             line-height: 0.3125rem; // 5px
             visibility: hidden;
 
-            .icon.i-remove {
+            .ic-remove {
               width: 0.5rem; // 8px
               height: 0.5rem; // 8px
               background: $white;
@@ -188,7 +188,7 @@ $custom-color-plus: (
             box-shadow: map-get($custom-color-plus, 'default', 'shadow');
           }
 
-          .icon.i-plus {
+          .ic-plus {
             width: 0.625rem; // 10px
             height: 0.625rem; // 10px
             background: map-get($custom-color-plus, 'default', 'font');
@@ -200,7 +200,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'focus', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'focus', 'shadow');
             }
-            .icon.i-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
+            .ic-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
           }
 
           &:hover {
@@ -209,7 +209,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'hover', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'hover', 'shadow');
             }
-            .icon.i-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
+            .ic-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
           }
 
           &:enabled:active,
@@ -219,7 +219,7 @@ $custom-color-plus: (
             @if map-get($custom-color-plus, 'active', 'shadow') != null {
               box-shadow: map-get($custom-color-plus, 'active', 'shadow');
             }
-            .icon.i-plus { background: map-get($custom-color-plus, 'active', 'font'); }
+            .ic-plus { background: map-get($custom-color-plus, 'active', 'font'); }
           }
         }
 
@@ -246,16 +246,14 @@ $custom-color-plus: (
           font-weight: $font-weight-medium;
 
           // 물방울 아이콘
-          .icon {
-            &.i-water-drop {
-              .water-drop-outer { fill-opacity: 1; }
-              .water-drop-inner { fill-opacity: 0; }
-              &.active {
-                .water-drop-outer { fill-opacity: 0; }
-                .water-drop-inner {
-                  fill: var(--data-color, $gray500);
-                  fill-opacity: 1;
-                }
+          .ic-water-drop {
+            .water-drop-outer { fill-opacity: 1; }
+            .water-drop-inner { fill-opacity: 0; }
+            &.active {
+              .water-drop-outer { fill-opacity: 0; }
+              .water-drop-inner {
+                fill: var(--data-color, $gray500);
+                fill-opacity: 1;
               }
             }
           }

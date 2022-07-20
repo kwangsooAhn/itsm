@@ -99,7 +99,7 @@
                             <td class="col-1 align-center">
                                 <th:block th:if="${category.boardCount == 0}">
                                     <button class="item-remove mt-2 mb-2" th:onclick="deleteBoardCategory(this, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])" type="button">
-                                        <span class="icon i-remove" ></span>
+                                        <span class="ic-remove" ></span>
                                     </button>
                                 </th:block>
                             </td>
@@ -123,7 +123,7 @@
         <label for="attachFileSize">
             <span th:classappend="${view} ? '' : 'required'" th:text="#{board.label.attachFileSize}"></span>
         </label>
-        <input class="input col-6 i-mb" id="attachFileSize" maxlength="4" name="attachFileSize"
+        <input class="input col-6 ic-mb" id="attachFileSize" maxlength="4" name="attachFileSize"
                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
                th:value="${boardAdmin?.attachFileSize}" th:readonly="${view}" type="text"/>
     </div>
@@ -345,8 +345,7 @@
             deleteBtn.classList.add('btn__icon');
             deleteBtn.classList.add('btn--extra');
             const deleteIcon = document.createElement('span');
-            deleteIcon.classList.add('icon');
-            deleteIcon.classList.add('i-delete');
+            deleteIcon.classList.add('ic-delete');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
                 deleteBoardCategory(this);

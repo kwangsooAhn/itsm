@@ -12,7 +12,7 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <input type="text" class="input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
+        <input type="text" class="input ic-date-picker search-date col-3 mr-2" id="year" name="year"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
         <span class="font-bold text-red500 pl-1" id="weightValueScore" th:text="#{sla.metricYear.msg.totalScore}"></span>
     </form>

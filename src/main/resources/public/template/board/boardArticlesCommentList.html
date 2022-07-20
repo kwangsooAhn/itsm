@@ -8,7 +8,7 @@
      th:each="boardComment: ${boardCommentList}">
     <div class="reply-info flex-row">
         <div class="profile"></div>
-        <img class="img i-profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
+        <img class="i-profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
         <h5 class="reply-user-name text-wordWrap" th:text="${boardComment.createUser.userName}"></h5>
         <span class="vertical-bar"></span>
         <h5 class="reply-create-date text-wordNoWrap" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
@@ -16,10 +16,10 @@
              th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
              or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})">
             <button type="button" class="btn__icon btn--extra" th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
-                <span class="icon i-edit"></span>
+                <span class="ic-edit"></span>
             </button>
             <button type="button" class="btn__icon btn--extra" th:onclick="deleteBoardComment([[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
-                <span class="icon i-delete"></span>
+                <span class="ic-delete"></span>
             </button>
         </div>
     </div>

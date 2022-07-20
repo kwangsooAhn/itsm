@@ -50,7 +50,7 @@ export const dataTimeMixin = {
         const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass('input i-datetime-picker text-ellipsis')
+            .setUIClass('input ic-datetime-picker text-ellipsis')
             .setUIId('dateTime' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())

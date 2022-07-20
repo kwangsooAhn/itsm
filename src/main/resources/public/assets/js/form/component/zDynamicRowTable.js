@@ -329,7 +329,7 @@ export const dynamicRowTableMixin = {
             .addUIClass('mt-1')
             .addUIClass('mb-1')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
-            .addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));
+            .addUI(new UISpan().setUIClass('ic-remove'));
         const td = new UICell(row)
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX)
@@ -397,7 +397,7 @@ export const dynamicRowTableMixin = {
     getDateForColumn(column, cellValue, index) {
         let dateWrapper = new UIDiv().setUIClass('picker-wrapper-dummy');
         let dateColumn = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('input i-date-picker text-ellipsis')
+            .setUIClass('input ic-date-picker text-ellipsis')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
@@ -415,7 +415,7 @@ export const dynamicRowTableMixin = {
         let timeWrapper = new UIDiv().setUIClass('element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('input i-time-picker text-ellipsis')
+            .setUIClass('input ic-time-picker text-ellipsis')
             .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'time' + index)
             .setUIValue(this.getDefaultValueForTime(column, cellValue))
@@ -433,7 +433,7 @@ export const dynamicRowTableMixin = {
         let dateTimeWrapper = new UIDiv().setUIClass('element');
 
         let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass('input i-datetime-picker text-ellipsis')
+            .setUIClass('input ic-datetime-picker text-ellipsis')
             .setUIId('datetime' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'datetime' + index)
             .setUIValue(this.getDefaultValueForDateTime(column, cellValue))
@@ -460,7 +460,7 @@ export const dynamicRowTableMixin = {
     // column Type - userSearch
     getUserSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('input i-user-search text-ellipsis')
+        const element = new UIInput().setUIClass('input ic-user-search text-ellipsis')
             .setUIId('userSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -484,7 +484,7 @@ export const dynamicRowTableMixin = {
     // column Type - OrganizationSearch
     getOrganizationSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('input i-organization-search text-ellipsis')
+        const element = new UIInput().setUIClass('input ic-organization-search text-ellipsis')
             .setUIId('organizationSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -815,11 +815,11 @@ export const dynamicRowTableMixin = {
             e.target.value;
 
         // 사용자 검색용 컴포넌트일 경우
-        if (e.target.classList.contains('i-user-search')) {
+        if (e.target.classList.contains('ic-user-search')) {
             const userSearchData = e.target.getAttribute('data-user-search');
             const userId = e.target.getAttribute('data-user-id');
             changeValue = `${userSearchData}|${e.target.value}|${userId}`;
-        } else if (e.target.classList.contains('i-organization-search')) { // 부서 검색용 컴포넌트일 경우
+        } else if (e.target.classList.contains('ic-organization-search')) { // 부서 검색용 컴포넌트일 경우
             const organizationSearchData = e.target.getAttribute('data-organization-search');
             changeValue = `${organizationSearchData}|${e.target.value}`;
         }
@@ -879,7 +879,7 @@ export const dynamicRowTableMixin = {
         const userSearchModal = new modal({
             title: e.target.getAttribute('data-modal-title'),
             body: `<div class="target-user-list">` +
-                `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="searchUserList"></div>` +
