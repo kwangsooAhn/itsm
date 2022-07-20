@@ -122,8 +122,15 @@ class ServiceCategory(
      */
     @Transactional
     fun updateService(serviceCode: String, serviceCategoryDto: ServiceCategoryDto): ZResponse {
-        val status = if ((!serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName))) {
-            val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCode)
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCode)
+
+        if (serviceEntity.serviceName != serviceCategoryDto.serviceName) {
+            if (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)) {
+                status = ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
+            }
+        }
+        if (status == ZResponseConstants.STATUS.SUCCESS) {
             serviceEntity.serviceName = serviceCategoryDto.serviceName
             serviceEntity.serviceDesc = serviceCategoryDto.serviceDesc
             serviceEntity.avaGoal = serviceCategoryDto.avaGoal
@@ -133,9 +140,6 @@ class ServiceCategory(
             serviceEntity.seqNum = serviceCategoryDto.seqNum
 
             serviceCategoryRepo.save(serviceEntity)
-            ZResponseConstants.STATUS.SUCCESS
-        } else {
-            ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
         }
         return ZResponse(
             status = status.code

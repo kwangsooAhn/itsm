@@ -1112,6 +1112,7 @@ menu:
     product: "제품 정보"
     role: "역할"
     scheduler: "스케줄러"
+    service: "서비스 카테고리"
     user: "사용자"
   dashboard:
     parent: "개인 현황판"
@@ -1445,6 +1446,27 @@ scheduler:
    • 네 번째 필드 : 일 (Day of month)을 정의하며 1 ~ 31의 허용범위를 가진다.<br/><br/>
    • 다섯 번째 필드 : 월 (Month)을 정의하며 1 ~ 12 또는 JAN ~ DEC의 허용범위를 가진다.<br/><br/>
    • 여섯 번째 필드 : 요일 (Week)을 정의하며 0 ~ 6 또는 SUN ~ SAT의 허용범위를 가진다."
+
+# service
+service:
+  label:
+    avaGoal: "가용 목표"
+    code: "서비스 코드"
+    description: "서비스 설명"
+    endDate: "서비스 종료일자"
+    name: "서비스 이름"
+    pCode: "부모 서비스 코드"
+    searchPlaceholder: "서비스 코드 / 서비스 이름"
+    seqNum: "출력 순서"
+    service: "서비스 카테고리"
+    startDate: "서비스 시작일자"
+    useYn: "사용 여부"
+  msg:
+    duplicateServiceCode: "중복된 서비스 코드가 존재합니다."
+    duplicateServiceName: "중복된 서비스 이름이 존재합니다."
+    editDescription: "서비스 카테고리를 조회 및 관리합니다."
+    enterServiceCode: "서비스 코드를 입력하세요."
+    enterServiceName: "서비스 이름을 입력하세요."
 
 # sla
 sla:
