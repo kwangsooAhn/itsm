@@ -432,12 +432,12 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'button-toggle-group vertical';
+                hourType.className = 'btn__toggle__button vertical';
                 pickerTime.appendChild(hourType);
 
                 // create button > am
                 let buttonAM = document.createElement('button');
-                buttonAM.className = 'button-toggle';
+                buttonAM.className = 'btn__toggle__button--multi';
                 if (curHourType === 'AM') {
                     buttonAM.classList.add('selected');
                     _this.meridiem = 'AM';
@@ -465,7 +465,7 @@
 
                 // create button > pm
                 let buttonPM = document.createElement('button');
-                buttonPM.className = 'button-toggle';
+                buttonPM.className = 'btn__toggle__button--multi';
                 if (curHourType === 'PM') {
                     buttonPM.classList.add('selected');
                     _this.meridiem = 'PM';

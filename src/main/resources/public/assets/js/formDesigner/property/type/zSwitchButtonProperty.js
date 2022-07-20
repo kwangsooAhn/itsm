@@ -37,14 +37,14 @@ export default class ZSwitchButtonProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // 버튼 그룹
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('button-switch-group');
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn__toggle__button');
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton()
                 .setUIId(this.key)
                 .setUIAttribute('data-value', item.value)
-                .setUIClass('button-switch')
+                .setUIClass('btn__toggle__button--single')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
                 .addUI(new UISpan().setUIClass('icon').addUIClass(item.name));

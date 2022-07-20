@@ -936,3 +936,18 @@ select {
 }
 
 .divider { margin: 0; }
+
+// input에서 원문자x버튼 사용할 경우
+.input--remove {
+  input { flex-basis: 100%; }
+  .item-remove {
+    position: relative;
+    &::before {
+      @include absolute($bottom: -0.5rem);
+      @include border(0.0625rem, solid, $gray300, bottom);
+      content: '';
+      width: 100%;
+      height: 1px;
+    }
+  }
+}

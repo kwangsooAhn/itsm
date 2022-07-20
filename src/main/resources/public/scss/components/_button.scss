@@ -389,8 +389,8 @@ $button-group: (
   }
 
   // button group
-  // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
-  // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
+  // (1) single : 버튼 그룹 중 하나의 버튼만 선택
+  // (2) multi : 버튼 그룹 각 버튼 토글 가능
   &__button {
     display: inline-flex;
     flex-direction: row;

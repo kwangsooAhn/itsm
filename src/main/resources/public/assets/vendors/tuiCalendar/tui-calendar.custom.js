@@ -1379,7 +1379,7 @@ Object.assign(zCalendar.prototype, {
                         }
                         // 데이터를 새로 가져옴
                         this.isReload = true;
-                        const menu = document.querySelector('#calendarViewType .button-switch.selected');
+                        const menu = document.querySelector('#calendarViewType .btn__toggle__button--single.selected');
                         if (menu) {
                             menu.dispatchEvent(new Event('click'))
                         }

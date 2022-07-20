@@ -4029,13 +4029,7 @@ input, button, select, optgroup, textarea {
  * @description 폼 디자이너에서만 사용되는 scss
  * @version 1.0
  */
-.button-switch-group .button-switch .text, .button-switch-group .button-switch .icon,
-.button-switch-group .button-toggle .text,
-.button-switch-group .button-toggle .icon,
-.button-toggle-group .button-switch .text,
-.button-toggle-group .button-switch .icon,
-.button-toggle-group .button-toggle .text,
-.button-toggle-group .button-toggle .icon {
+.btn__toggle__button--single .text, .btn__toggle__button--single .icon, .btn__toggle__button--multi .text, .btn__toggle__button--multi .icon {
   pointer-events: none;
 }
 
@@ -4095,7 +4089,7 @@ input, button, select, optgroup, textarea {
   background: #EEEEEE;
 }
 
-.button:disabled, .button.disabled,
+.btn__text--box:disabled, .btn__text--box.disabled,
 .btn__icon:disabled,
 .btn__icon.disabled,
 .item-remove:disabled,
@@ -4110,13 +4104,13 @@ input, button, select, optgroup, textarea {
   background: #8B9094;
 }
 
-.button.success--check {
+.btn__text--box.success--check {
   position: relative;
   border-color: #EEEEEE;
   background-color: #EEEEEE;
   color: #ABB0B5;
 }
-.button.success--check::before {
+.btn__text--box.success--check::before {
   position: absolute !important;
   top: 0.313rem;
   left: -2rem;
@@ -4138,7 +4132,7 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 
-.input-button .item-remove {
+.input--remove .item-remove {
   -webkit-print-color-adjust: exact;
 }
 
@@ -4500,7 +4494,7 @@ input, button, select, optgroup, textarea {
 .component .element .custom-code > .btn__icon {
   margin-left: 0.5rem;
 }
-.component .element .btn__list .button {
+.component .element .btn__list .btn__text--box {
   min-width: 3.25rem;
   padding: 0.3125rem 0.625rem;
   font-size: 0.75rem;
@@ -4951,17 +4945,6 @@ input, button, select, optgroup, textarea {
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone .icon {
   background: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .button-clear {
-  opacity: 0;
-}
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .btn__icon {
-  border-color: #619CDB !important;
-  background-color: #FFFFFF;
-  color: #619CDB !important;
-}
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .btn__icon .icon {
-  background: #619CDB !important;
-}
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .btn__list {
   opacity: 0;
 }
@@ -5097,9 +5080,6 @@ input, button, select, optgroup, textarea {
   min-height: 5.625rem;
   line-height: 1.6;
 }
-.property .input-button .button {
-  height: 2.5rem;
-}
 .property .slider__range {
   width: 75%;
 }
@@ -5157,12 +5137,6 @@ input, button, select, optgroup, textarea {
 .property .default-type-radio .radio-property-group .radio-item .input:not(:first-child) {
   margin-left: 0.3125rem;
 }
-.property .default-type-radio .radio-property-group .input-button {
-  width: 100%;
-}
-.property .default-type-radio .radio-property-group .input-button .icon.i-remove {
-  right: 2.5rem;
-}
 .property .default-type-radio .radio-property-group .picker-wrapper-date {
   flex: 1;
 }
@@ -5218,12 +5192,6 @@ input, button, select, optgroup, textarea {
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-.property .tab-panel .panels .panel .button-switch-group .button-switch,
-.property .tab-panel .panels .panel .button-switch-group .button-toggle,
-.property .tab-panel .panels .panel .button-toggle-group .button-switch,
-.property .tab-panel .panels .panel .button-toggle-group .button-toggle {
-  padding: 0.25rem 0.5625rem;
-}
 .property .tab-panel .panels .panel .panel-individual > .property-group {
   border: none;
 }
@@ -5232,6 +5200,9 @@ input, button, select, optgroup, textarea {
 }
 .property .option-table .option-table-row td {
   padding: 0;
+}
+.property .btn__toggle__button--single, .property .btn__toggle__button--multi {
+  padding: 0.25rem 0.5625rem;
 }
 
 /* process
@@ -6299,7 +6270,7 @@ input, button, select, optgroup, textarea {
   box-shadow: inset 0 0 0.9375rem 0 #ABB0B5;
 }
 
-.button.google {
+.btn__text--box.google {
   border-color: #CFD5D9;
   background-color: #FFFFFF;
   color: #222529;
@@ -6309,23 +6280,23 @@ input, button, select, optgroup, textarea {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.google:focus {
+.btn__text--box.google:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   color: #222529;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.google:hover {
+.btn__text--box.google:hover {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
   color: #222529;
 }
-.button.google:enabled:active, .button.google:enabled.active {
+.btn__text--box.google:enabled:active, .btn__text--box.google:enabled.active {
   border-color: #ABB0B5;
   background-color: #E0E0E0;
   color: #222529;
 }
-.button.google:disabled, .button.google.disabled {
+.btn__text--box.google:disabled, .btn__text--box.google.disabled {
   border-color: #EEEEEE;
   background-color: #EEEEEE;
   color: #ABB0B5;
@@ -6335,7 +6306,7 @@ input, button, select, optgroup, textarea {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.kakao {
+.btn__text--box.kakao {
   border-color: #D7BC20;
   background-color: #FADF2D;
   color: #222529;
@@ -6345,23 +6316,23 @@ input, button, select, optgroup, textarea {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.kakao:focus {
+.btn__text--box.kakao:focus {
   border-color: #2559A8;
   background-color: #FADF2D;
   color: #222529;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.kakao:hover {
+.btn__text--box.kakao:hover {
   border-color: #D7BC20;
   background-color: #FBE961;
   color: #222529;
 }
-.button.kakao:enabled:active, .button.kakao:enabled.active {
+.btn__text--box.kakao:enabled:active, .btn__text--box.kakao:enabled.active {
   border-color: #907A0E;
   background-color: #D7BC20;
   color: #222529;
 }
-.button.kakao:disabled, .button.kakao.disabled {
+.btn__text--box.kakao:disabled, .btn__text--box.kakao.disabled {
   border-color: #EEEEEE;
   background-color: #EEEEEE;
   color: #ABB0B5;
@@ -6371,10 +6342,10 @@ input, button, select, optgroup, textarea {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.signup-return {
+.btn__text--box.signup-return {
   margin-left: 2.5rem;
 }
-.button.session-return {
+.btn__text--box.session-return {
   margin-top: 6.25rem;
 }
 
@@ -6867,10 +6838,10 @@ input, button, select, optgroup, textarea {
   margin-left: 1rem;
   background: #CFD5D9;
 }
-.portal-container .main .main-content .vertical-split-right.login-form .login-platform .button {
+.portal-container .main .main-content .vertical-split-right.login-form .login-platform .btn__text--box {
   margin-bottom: 1rem;
 }
-.portal-container .main .main-content .vertical-split-right.login-form .login-platform .button:last-child {
+.portal-container .main .main-content .vertical-split-right.login-form .login-platform .btn__text--box:last-child {
   margin: 0;
 }
 .portal-container .main .main-content .vertical-split-right.login-form .login-other {
@@ -8196,7 +8167,7 @@ input, button, select, optgroup, textarea {
   --data-modal-height: 375;
 }
 
-.button-switch .text {
+.btn__toggle__button--single .text {
   display: inline-block;
   padding: 0.5625rem 0.875rem;
   pointer-events: none;
@@ -9185,7 +9156,7 @@ input, button, select, optgroup, textarea {
   -webkit-border-radius: 0 0.125rem 0.125rem 0;
   -moz-border-radius: 0 0.125rem 0.125rem 0;
 }
-.picker-modal-content-time .button-toggle-group {
+.picker-modal-content-time .btn__toggle__button {
   padding-left: 0.5rem;
 }
 .picker-modal-content-time .separator {
@@ -10311,6 +10282,21 @@ select.readonly {
 
 .divider {
   margin: 0;
+}
+
+.input--remove input {
+  flex-basis: 100%;
+}
+.input--remove .item-remove {
+  position: relative;
+}
+.input--remove .item-remove::before {
+  position: absolute !important;
+  bottom: -0.5rem;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  content: "";
+  width: 100%;
+  height: 1px;
 }
 
 /* _file-uploader.scss 

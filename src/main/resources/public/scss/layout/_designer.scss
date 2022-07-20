@@ -199,10 +199,9 @@ $layout-header-dropdown: (
 // button group
 // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
 // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
-.button-switch-group,
-.button-toggle-group {
-  .button-switch,
-  .button-toggle {
+.btn__toggle__button {
+  &--single,
+  &--multi {
     .text, .icon { pointer-events: none; }
   }
 }
@@ -277,7 +276,7 @@ $layout-header-dropdown: (
   }
 }
 
-.button,
+.btn__text--box,
 .btn__icon,
 .item-remove {
   &:disabled, &.disabled { display: none; }
@@ -292,7 +291,7 @@ $layout-header-dropdown: (
   }
 }
 
-.button.success--check {
+.btn__text--box.success--check {
   position: relative;
   border-color: $neutral200;
   background-color: $neutral200;
@@ -320,7 +319,7 @@ $layout-header-dropdown: (
 
 ////////////////////////// element //////////////////////////
 // input + button for custom code
-.input-button {
+.input--remove {
   .item-remove { -webkit-print-color-adjust:exact; }
 }
 
@@ -665,7 +664,7 @@ $layout-header-dropdown: (
 
     // 컴포넌트 내부 버튼 리스트
     .btn__list {
-      .button {
+      .btn__text--box {
         min-width: 3.25rem; // 52px
         padding: 0.3125rem 0.625rem; //5px 10px
         font-size: $font-size-xxs;
@@ -1074,16 +1073,6 @@ $component-icon: (
             .dz-message { color: $blue400 !important; }
             .icon { background: $blue400 !important; }
           }
-          // 커스텀 코드 컴포넌트
-          .input-button {
-            .button-clear { opacity: 0; }
-            .btn__icon {
-              border-color: $blue400 !important;
-              background-color: $white;
-              color: $blue400 !important;
-              .icon { background: $blue400 !important; }
-            }
-          }
           // DR 테이블 컴포넌트 , CI 컴포넌트
           .btn__list { opacity: 0; }
           table {
@@ -1223,10 +1212,6 @@ $component-icon: (
     min-height: 5.625rem; // 90px
     line-height: 1.6;
   }
-  // input + button
-  .input-button {
-    .button { height: 2.5rem; } // 40px
-  }
   // column 너비 조정
   .slider {
     &__range { width : 75%; }
@@ -1285,11 +1270,6 @@ $component-icon: (
         }
       }
 
-      .input-button {
-        width: 100%;
-        .icon.i-remove { right: 2.5rem; }
-      }
-
       .picker-wrapper-date {
         flex: 1;
         .picker-main { width:inherit; }
@@ -1339,12 +1319,6 @@ $component-icon: (
           }
         }
 
-        .button-switch-group,
-        .button-toggle-group {
-          .button-switch,
-          .button-toggle { padding: 0.25rem  0.5625rem; } // 4px 9px
-        }
-
         // individual panel 내부 중복 border 제거
         .panel-individual > .property-group {
           border: none;
@@ -1358,6 +1332,11 @@ $component-icon: (
     .option-table-row {
       td { padding: 0; }
     }
+  }
+  // toggle button
+  .btn__toggle__button {
+    &--single,
+    &--multi { padding: 0.25rem  0.5625rem; } // 4px 9px
   }
 }
 

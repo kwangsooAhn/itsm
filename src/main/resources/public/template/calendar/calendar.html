@@ -32,20 +32,20 @@
                 </button>
                 <button type="button" class="btn__text--box btn--secondary calendar__action" th:text="#{calendar.label.today}"
                         data-action="today" onclick="onClickCalendarMenu(this);"></button>
-                <div class="button-switch-group" id="calendarViewType">
-                    <button class="button-switch selected" type="button" data-action="month"
+                <div class="btn__toggle__button" id="calendarViewType">
+                    <button class="btn__toggle__button--single selected" type="button" data-action="month"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="text" th:text="#{calendar.label.month}"></span>
                     </button>
-                    <button class="button-switch" type="button" data-action="week"
+                    <button class="btn__toggle__button--single" type="button" data-action="week"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="text" th:text="#{calendar.label.week}"></span>
                     </button>
-                    <button class="button-switch" type="button" data-action="day"
+                    <button class="btn__toggle__button--single" type="button" data-action="day"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="text" th:text="#{calendar.label.day}"></span>
                     </button>
-                    <button class="button-switch" type="button" data-action="task"
+                    <button class="btn__toggle__button--single" type="button" data-action="task"
                             onclick="javascript:onClickCalendarType(this);">
                         <span class="text" th:text="#{calendar.label.task}"></span>
                     </button>
@@ -318,7 +318,7 @@
             acc.push(cur.calendarId);
             return acc;
         }, []);
-        const viewType = document.querySelector('#calendarViewType .button-switch.selected')
+        const viewType = document.querySelector('#calendarViewType .btn__toggle__button--single.selected')
             .getAttribute('data-action');
         const searchData = {
             viewType: viewType,
