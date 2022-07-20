@@ -921,10 +921,10 @@ Object.assign(zCalendar.prototype, {
             <div class="flex-row">
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
                 <div class="btn__list flex-row float-right align-items-end">
-                    <button type="button" class="btn__icon btn--secondary" id="scheduleEdit">
+                    <button type="button" class="btn__ic btn--secondary" id="scheduleEdit">
                         <span class="ic-edit"></span>
                     </button>
-                    <button type="button" class="btn__icon btn--secondary" id="scheduleDelete">
+                    <button type="button" class="btn__ic btn--secondary" id="scheduleDelete">
                         <span class="ic-delete"></span>
                     </button>
                 </div>
@@ -1194,7 +1194,7 @@ Object.assign(zCalendar.prototype, {
      * 상세보기 모달에서 삭제 버튼 클릭시 처리
      */
     onClickScheduleDelete: function (e) {
-        if (aliceJs.clickInsideElement(e, 'btn__icon')) {
+        if (aliceJs.clickInsideElement(e, 'btn__ic')) {
             this.deleteSchedule(this.detailModal.customOptions.schedule);
         }
     },

@@ -56,7 +56,7 @@
                 <span class="text-ellipsis date-time" th:text="${chart.createDt}" th:title="${chart.createDt}"></span>
             </div>
             <div class="grid__cell pr-2 pl-2">
-                <button type="button" class="btn__icon btn--form" sec:authorize="hasAuthority('report.view')"
+                <button type="button" class="btn__ic btn--form" sec:authorize="hasAuthority('report.view')"
                         th:onclick="openChartViewModal([[${chart.chartId}]], [[${chart.chartType}]], [[${chart.chartName}]])">
                     <span class="ic-popup"></span>
                 </button>

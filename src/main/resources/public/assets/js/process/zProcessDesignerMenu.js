@@ -1289,7 +1289,7 @@
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
-            fileBtn.className = 'btn__icon button-attach-file';
+            fileBtn.className = 'btn__ic button-attach-file';
             let fileIcon = document.createElement('span');
             fileIcon.className = 'ic-folder';
             fileBtn.addEventListener('click', function() {
@@ -1473,7 +1473,7 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'btn__icon btn--form button-candidate-add';
+        btnAdd.className = 'btn__ic btn--form button-candidate-add';
         btnAdd.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
 
         const saveData = function() {
@@ -1892,7 +1892,7 @@
                 copyBtnContainer.className = 'clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
-                copyBtn.className = 'btn__icon btn--secondary btn-clipboard-tooltip';
+                copyBtn.className = 'btn__ic btn--secondary btn-clipboard-tooltip';
                 copyBtn.insertAdjacentHTML('beforeend', `<span class="ic-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();

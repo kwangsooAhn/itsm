@@ -39,7 +39,7 @@
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
 
-    .btn__icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
+    .btn__ic { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
 
     .ic-remove {
       @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px

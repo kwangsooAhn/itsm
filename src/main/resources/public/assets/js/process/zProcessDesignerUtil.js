@@ -835,7 +835,7 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'btn__icon btn--secondary button-minimap palette-tooltip';
+        minimapButton.className = 'btn__ic btn--secondary button-minimap palette-tooltip';
         minimapButton.addEventListener('click', function(e) {
             const elem = aliceJs.clickInsideElement(e, 'button-minimap');
             elem.classList.toggle('active');
@@ -899,7 +899,7 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'btn__icon btn--secondary button-simulation-report palette-tooltip';
+        simulationButton.className = 'btn__ic btn--secondary button-simulation-report palette-tooltip';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');

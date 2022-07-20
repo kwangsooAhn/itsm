@@ -103,7 +103,7 @@ $button-group: (
 
 .btn {
   // 종류
-  &__icon,
+  &__ic,
   &__text--box {
     @include border(0rem, solid, transparent, all);
     @include borderRadius(0.25rem); // 4px
@@ -137,7 +137,7 @@ $button-group: (
       &:disabled, &.disabled { color: $gray300; }
     }
   }
-  &__icon {
+  &__ic {
     padding: 0.4375rem; // 7px (버튼 기본 너비 높이 : 34px 34px)
     line-height: 0;
   }
@@ -283,7 +283,7 @@ $button-group: (
     position: relative;
     vertical-align: middle;
     .btn {
-      &__icon,
+      &__ic,
       &__text--box {
         &:not(:last-child) { margin-right: 0.5rem; } // 8px
       }

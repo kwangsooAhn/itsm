@@ -117,7 +117,7 @@
         // create title > remove button
         let buttonRemove = document.createElement('button');
         buttonRemove.type = 'button';
-        buttonRemove.className = 'btn__icon btn--extra';
+        buttonRemove.className = 'btn__ic btn--extra';
         buttonRemove.insertAdjacentHTML('beforeend', `<span class="ic-delete"></span>`);
         buttonRemove.addEventListener('click', this.removeTarget, false);
         pickerTitle.appendChild(buttonRemove);

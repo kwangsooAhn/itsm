@@ -25,7 +25,7 @@ $layout-header-dropdown: (
 
 // header button
 .header-button {
-  &.btn__icon {
+  &.btn__ic {
     [class*="ic-"] { pointer-events: none; }
     .ic-arrow-right { @include rotate(90); }
   }
@@ -275,12 +275,12 @@ $layout-header-dropdown: (
 }
 
 .btn__text--box,
-.btn__icon,
+.btn__ic,
 .item-remove {
   &:disabled, &.disabled { display: none; }
 }
 
-.btn__icon {
+.btn__ic {
   &.button-attach-file {
     .ic-folder { background: $gray500; }
   }
@@ -621,7 +621,7 @@ $layout-header-dropdown: (
       }
 
       .dr-table-row {
-        .btn__icon { padding: 0; }
+        .btn__ic { padding: 0; }
 
         .input:not(.select__box__label) {
           padding: 0.4375rem 0;
@@ -657,7 +657,7 @@ $layout-header-dropdown: (
     // custom code 컴포넌트
     .custom-code {
       > .input { @include borderRadius(0.125rem); } // 2px
-      > .btn__icon { margin-left: 0.5rem; }
+      > .btn__ic { margin-left: 0.5rem; }
     }
 
     // 컴포넌트 내부 버튼 리스트
@@ -1277,7 +1277,7 @@ $component-icon: (
   // tab
   .tab-panel {
     .tabs {
-      .btn__icon {
+      .btn__ic {
         height: 2rem; // 32px
         padding: 0.25rem 0.409rem; // 4px 6.5px
 
@@ -1307,7 +1307,7 @@ $component-icon: (
           & > .property { padding: 0 0.75rem; } // 12px
         }
 
-        .btn__icon:not(.btn__code) {
+        .btn__ic:not(.btn__code) {
           padding: 0;
           [class*="ic-"] {
             display: inline-block;
@@ -1525,7 +1525,7 @@ $element-icon-toggle: (
   }
 }
 
-.btn__icon {
+.btn__ic {
   &.button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
   &.button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
   &.button-candidate-add {

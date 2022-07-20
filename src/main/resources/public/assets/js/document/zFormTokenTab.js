@@ -634,7 +634,7 @@ class ZFormTokenTab {
             `<h6>` + instance.documentNo + `</h6>` +
             `</div>` +
             `</a>` +
-            `<button type="button" class="btn__icon"` +
+            `<button type="button" class="btn__ic"` +
             `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
             `<span class="ic-delete"></span>` +
             `</button>` +
@@ -767,7 +767,7 @@ class ZFormTokenTab {
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
-                `<button class="btn__icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
+                `<button class="btn__ic" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
                 `<span class="ic-delete"></span>` +
                 `</button>`;
         }

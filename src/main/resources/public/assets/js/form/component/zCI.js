@@ -255,7 +255,7 @@ export const ciMixin = {
             case 'icon-edit': // CI 등록 / 수정
                 if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
-                        .setUIClass('btn__icon')
+                        .setUIClass('btn__ic')
                         .addUIClass('btn--extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
@@ -266,7 +266,7 @@ export const ciMixin = {
                         .addUI(viewButton);
                 } else {
                     const editButton = new UIButton()
-                        .setUIClass('btn__icon')
+                        .setUIClass('btn__ic')
                         .addUIClass('btn--extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
@@ -280,7 +280,7 @@ export const ciMixin = {
                 }
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
-                    .setUIClass('btn__icon')
+                    .setUIClass('btn__ic')
                     .addUIClass('btn--extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
@@ -291,7 +291,7 @@ export const ciMixin = {
                     .addUI(searchButton);
             case 'icon-delete': // Row 삭제
                 const deleteButton = new UIButton()
-                    .setUIClass('btn__icon')
+                    .setUIClass('btn__ic')
                     .addUIClass('btn--extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
@@ -1334,7 +1334,7 @@ export const ciMixin = {
         const deleteRel = document.createElement('td');
         deleteRel.className = 'col-1 align-center';
         const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'btn__icon btn--extra';
+        deleteBtn.className = 'btn__ic btn--extra';
         const deleteIcon = document.createElement('span');
         deleteIcon.className = 'ic-delete';
         deleteBtn.addEventListener('click', function () {

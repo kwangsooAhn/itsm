@@ -68,7 +68,7 @@ export const customCodeMixin = {
         element.UIButton = new UIButton()
             .setUIClass('button')
             .setUIClass('btn--secondary')
-            .addUIClass('btn__icon')
+            .addUIClass('btn__ic')
             .onUIClick(this.openCustomCodeModal.bind(this))
             .addUI(new UISpan().setUIClass('ic-search'));
 

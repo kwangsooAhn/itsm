@@ -29,7 +29,7 @@
             <div class="edit-row flex-column">
                 <div class="under-bar">
                     <label th:classappend="${view} ? '' : 'required'" th:text="#{pattern.label.pattern}"></label>
-                    <button class="btn__icon btn--extra float-right" onclick="addPattern()" th:if="!${view}"
+                    <button class="btn__ic btn--extra float-right" onclick="addPattern()" th:if="!${view}"
                             type="button">
                         <span class="ic-plus"></span>
                     </button>
@@ -43,7 +43,7 @@
                                     th:text="${pattern.patternName}" th:value="${pattern.patternId}">
                             </option>
                         </select>
-                        <button class="btn__icon btn--extra ml-1" style="visibility:hidden" th:if="!${view}"
+                        <button class="btn__ic btn--extra ml-1" style="visibility:hidden" th:if="!${view}"
                                 type="button">
                             <span class="ic-delete"></span>
                         </button>
@@ -59,7 +59,7 @@
                                         th:value="${pattern.patternId}">
                                 </option>
                             </select>
-                            <button class="btn__icon btn--extra ml-1" onclick="deletePattern(this)"
+                            <button class="btn__ic btn--extra ml-1" onclick="deletePattern(this)"
                                     th:if="!${view}" th:style="(${iterStat.index} > 0)? '':'visibility:hidden'"
                                     type="button">
                                 <span class="ic-delete"></span>

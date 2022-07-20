@@ -51,7 +51,7 @@
         <div class="edit-row flex-column">
             <div class="flex-row justify-content-between">
                 <label th:text="#{cmdb.class.label.alarm}"></label>
-                <button type="button" class="btn__icon btn--extra float-right" name="alarmConditionButton"
+                <button type="button" class="btn__ic btn--extra float-right" name="alarmConditionButton"
                         onclick="addAlarmCondition()" sec:authorize="hasAuthority('cmdb.manage')">
                     <span class="ic-plus"></span>
                 </button>
@@ -70,7 +70,7 @@
             <div class="flex-row justify-content-between">
                 <label class="required" th:text="#{cmdb.class.label.attributeList}"></label>
                 <button type="button" sec:authorize="hasAuthority('cmdb.manage')"
-                        class="btn__icon btn--extra float-right" id="attribute-add" name="classAttributeButton"
+                        class="btn__ic btn--extra float-right" id="attribute-add" name="classAttributeButton"
                         onclick="openClassAttributeListModal()">
                     <span class="ic-plus"></span>
                 </button>

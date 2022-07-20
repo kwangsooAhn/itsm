@@ -288,7 +288,7 @@
           .document-add {
             @include border(0.0625rem, solid, $gray300, all);
             background-color: $neutral50;
-            .btn__icon {
+            .btn__ic {
               width: 100%;
               height: 100%;
               .ic-plus { background: $gray500; }

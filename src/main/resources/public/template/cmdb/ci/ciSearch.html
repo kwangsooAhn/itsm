@@ -46,7 +46,7 @@
                     <button type="button" class="btn__text--box btn--secondary" id="btnTemplateUpload" name="btnTemplateUpload"
                             sec:authorize="hasAuthority('cmdb.manage')" th:text="#{cmdb.ci.btn.importTemplate}"
                             th:onclick="|javascript:openTemplateUploadModal()|"></button>
-                    <button type="button" class="btn__icon btn--secondary" id="btnExcelDownload" name="btnExcelDownload"
+                    <button type="button" class="btn__ic btn--secondary" id="btnExcelDownload" name="btnExcelDownload"
                             th:onclick="|javascript:onExcelDownload();|" th:title="#{common.btn.export}"
                             sec:authorize="hasAuthority('cmdb.manage') or hasAuthority('cmdb.view')">
                         <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}"/>

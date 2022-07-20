@@ -104,7 +104,7 @@ table {
     .no-data-found-list { pointer-events: none; }
 
     // icon button
-    .btn__icon {
+    .btn__ic {
       padding: 0;
       background-color: transparent;
       border-color: transparent;
@@ -158,7 +158,7 @@ table {
         &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
       }
 
-      .btn__icon {
+      .btn__ic {
         [class*="ic-"] {
           display: block;
           margin: 0 auto;

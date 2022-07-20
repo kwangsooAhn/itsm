@@ -226,7 +226,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic btn--extra">` +
                 `<span class="ic-plus"></span></button>` +
             `</div>` +
             `</div>` +
@@ -320,7 +320,7 @@
         const objectId = attributeTypeList[2].type; // radio
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic btn--extra">` +
             `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -383,7 +383,7 @@
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic btn--extra">` +
             `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -522,7 +522,7 @@
                 `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
                 `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="btn__icon btn__code" type="button" id="${objectId}-default-code" ` +
+            `<button class="btn__ic btn__code" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
                 `<span class="ic-search"></span></button>` +
             `</div>` +
@@ -616,7 +616,7 @@
         const objectId = attributeTypeList[5].type; // group-list
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="btn__icon btn--extra">` +
+            `<button id="${objectId}_add" type="button" class="btn__ic btn--extra">` +
             `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
@@ -902,7 +902,7 @@
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row input-button">
                 <input type="text" class="input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="btn__icon btn__code" type="button" id="searchOrganization">` +
+                <button class="btn__ic btn__code" type="button" id="searchOrganization">` +
                 `<span class="ic-search"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
@@ -1209,7 +1209,7 @@
                         <input class="input" type="text" readonly="true" id="${id}-default-custom-text" 
                             value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
-                        <button class="btn__icon btn__code" type="button" id="${id}-default-custom" 
+                        <button class="btn__ic btn__code" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
                             <span class="ic-search"></span>
                         </button>
@@ -1814,7 +1814,7 @@
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'btn__icon btn--secondary';
+                customBtnElem.className = 'btn__ic btn--secondary';
                 customBtnElem.disabled = (displayMode === 'view');
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
 
@@ -1874,7 +1874,7 @@
                     if (displayMode === 'edit') {
                         const addBtn = document.createElement('button');
                         addBtn.type = 'button';
-                        addBtn.className = 'btn__icon btn--secondary button-attribute-add';
+                        addBtn.className = 'btn__ic btn--secondary button-attribute-add';
                         addBtn.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
                         addBtn.addEventListener('click', addCIAttributeChild, false);
                         elem.appendChild(addBtn);

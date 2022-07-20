@@ -20,7 +20,7 @@
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
         <button th:if="${userRegisterEnabled}" type="button" class="btn__text--box btn--primary" onclick="location.href='/users/new'"
                 th:text="#{common.btn.add}"></button>
-        <button type="button" class="btn__icon btn--secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="btn__ic btn--secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
         </button>

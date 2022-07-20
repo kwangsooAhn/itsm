@@ -276,7 +276,7 @@ Object.assign(zColorPicker.prototype, {
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'btn__icon btn--extra custom-color-edit visible';
+        editButton.className = 'btn__ic btn--extra custom-color-edit visible';
         editButton.insertAdjacentHTML('beforeend', `<span class="ic-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
@@ -305,7 +305,7 @@ Object.assign(zColorPicker.prototype, {
         const isMaxCustomColor =  (this.savedCustomColors.length === this.options.maxCustomColor);
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'btn__icon custom-color-plus' +
+        addButton.className = 'btn__ic custom-color-plus' +
             (isMaxCustomColor ? '' : ' inline-block');
         addButton.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
@@ -500,7 +500,7 @@ Object.assign(zColorPicker.prototype, {
         return `<span class="custom-color-palette-item custom-color${isSelected ? ' selected' : ''}"`+
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
             `<sapn class="custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
-            `<button type="button" class="btn__icon custom-color-palette-item-clear">` +
+            `<button type="button" class="btn__ic custom-color-palette-item-clear">` +
             `<span class="ic-remove"></span>` +
             `</button>` +
             `</span>`;
