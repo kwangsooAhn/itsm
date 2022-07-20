@@ -26,7 +26,7 @@
             <option value="" th:text="#{chart.label.all}" selected></option>
             <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
         </select>
-        <input type="text" class="input i-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
+        <input type="text" class="input ic-search text-ellipsis col-4 mr-2" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{chart.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>

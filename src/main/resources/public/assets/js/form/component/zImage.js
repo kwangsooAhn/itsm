@@ -61,7 +61,7 @@ export const imageMixin = {
 
         // placeholder
         element.UIDiv = new UIDiv().setUIClass('imagebox-placeholder')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('i-no-image'))
+            .addUI(new UISpan().setUIClass('ic-no-image'))
             .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('file.label.placeholder')));
         element.addUI(element.UIDiv);
         return element;
@@ -171,9 +171,9 @@ export const imageMixin = {
 
         // label - align
         const elementAlignProperty = new ZSwitchButtonProperty('elementAlign', 'element.align', this.elementAlign, [
-            { 'name': 'i-align-left', 'value': 'left' },
-            { 'name': 'i-align-center', 'value': 'center' },
-            { 'name': 'i-align-right', 'value': 'right' }
+            { 'name': 'ic-align-left', 'value': 'left' },
+            { 'name': 'ic-align-center', 'value': 'center' },
+            { 'name': 'ic-align-right', 'value': 'right' }
         ]);
 
         return [

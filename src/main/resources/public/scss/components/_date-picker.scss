@@ -41,7 +41,7 @@
 
     .button-icon { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
 
-    .icon.i-remove {
+    .ic-remove {
       @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
       background: $gray500;
       cursor: pointer;
@@ -76,15 +76,13 @@
       vertical-align: middle;
     }
 
-    .icon {
-      &.i-arrow-right {
-        display: table-cell;
-        cursor: pointer;
-        background: $gray400;
-        &:hover { background: $blue400; }
-      }
-      &.date-prev { @include rotate(180); }
+    .ic-arrow-right {
+      display: table-cell;
+      cursor: pointer;
+      background: $gray400;
+      &:hover { background: $blue400; }
     }
+    .date-prev { @include rotate(180); }
 
     &-date {
       display: none;
@@ -165,16 +163,16 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        .icon {
-          &.i-arrow-right {
-            margin: 0;
-            background: $gray500;
-            cursor: pointer;
-            &:hover { background: $blue400; }
-          }
-          &.hour-up, &.minute-up { @include rotate(-90); }
-          &.hour-down,&.minute-down { @include rotate(90); }
+        
+        //icon
+        .ic-arrow-right {
+          margin: 0;
+          background: $gray500;
+          cursor: pointer;
+          &:hover { background: $blue400; }
         }
+        .hour-up, .minute-up { @include rotate(-90); }
+        .hour-down, .minute-down { @include rotate(90); }
 
         .digit {
           @include border(0.0625rem, solid, $gray300);

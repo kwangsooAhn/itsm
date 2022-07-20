@@ -35,7 +35,7 @@
             <label for="reportName">
                 <span th:text="#{statistic.label.reportName}"></span>
                 <div class="help-tooltip">
-                    <span class="icon i-tooltip"></span>
+                    <span class="ic-tooltip"></span>
                     <div class="tooltip-contents">
                         <span th:utext="#{statistic.tooltip.reportName}"></span>
                     </div>
@@ -61,7 +61,7 @@
             <div id="details" class="template">
                 <div class="flex-row justify-content-end">
                     <button type="button" class="button-icon extra" onclick="addChart()" th:if="!${view}">
-                        <span class="icon i-plus"></span>
+                        <span class="ic-plus"></span>
                     </button>
                 </div>
                 <div id="chartList" class="chart"></div>
@@ -90,7 +90,7 @@
             </div>
             <div class="flex-column">
                 <button th:if="!${view}" type="button" class="button-icon-sm ml-2 mr-2 mt-2 mb-2">
-                    <span class="icon i-remove"></span>
+                    <span class="ic-remove"></span>
                 </button>
             </div>
         </div>

@@ -70,7 +70,7 @@ export const customCodeMixin = {
             .setUIClass('secondary')
             .addUIClass('button-icon')
             .onUIClick(this.openCustomCodeModal.bind(this))
-            .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'));
+            .addUI(new UISpan().setUIClass('ic-search'));
 
         element.addUI(element.UIInputButton.addUI(element.UIInput).addUI(element.UIButton));
 
@@ -78,7 +78,7 @@ export const customCodeMixin = {
         element.UIRemoveButton = new UIRemoveButton()
             .addUIClass('button-icon-sm')
             .onUIClick(this.removeValue.bind(this))
-            .addUI(new UISpan().setUIClass('icon').addUIClass('i-remove'));
+            .addUI(new UISpan().setUIClass('ic-remove'));
         element.addUI(
             element.UIInputButton.addUI(element.UIInput).addUI(element.UIRemoveButton).addUI(element.UIButton));
 
