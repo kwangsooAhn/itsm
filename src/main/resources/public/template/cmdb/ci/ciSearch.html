@@ -352,7 +352,7 @@
                         zDateTimePicker.initDateTimePicker(elem, changeSearchDetail);
                     });
                     OverlayScrollbars(
-                        document.querySelector('.cmdb-ci-detailSearch-modal .modal-content'), { className: 'scrollbar' });
+                        document.querySelector('.cmdb-ci-detailSearch-modal .modal__dialog__body'), { className: 'scrollbar' });
                 }
             });
             ciDetailSearchModal.show();
@@ -543,7 +543,7 @@
                         userCallback: getImportFile
                     });
                     // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.template-import .modal-content'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.template-import .modal__dialog__body'), { className: 'scrollbar' });
                 }
             });
             importModal.show();
@@ -577,7 +577,7 @@
                         document.getElementById('ciAttributes').click();
                         const ciDetailModalContent = document.querySelector('.cmdb-ci-view-modal');
                         // 스크롤바 추가
-                        OverlayScrollbars(ciDetailModalContent.querySelector('.modal-content'), { className: 'scrollbar' });
+                        OverlayScrollbars(ciDetailModalContent.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
                         new zTag(document.querySelector('input[name=ciDetailTags]'), {
                             suggestion: false,
                             realtime: false,
@@ -646,7 +646,7 @@
                         getUserList(target, e.target.value, false);
                     }), false);
                     getUserList(target, document.getElementById('search').value, true);
-                    OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
                 }
             });
             targetUserModal.show();

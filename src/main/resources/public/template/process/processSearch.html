@@ -199,7 +199,7 @@
             },
             onCreate: function(modal) {
                 // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
                 OverlayScrollbars(document.getElementById('process_description'), {
                     className: 'inner-scrollbar',
                     resize: 'vertical',
@@ -338,7 +338,7 @@
                     userCallback: getImportFile
                 });
                 // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
                 OverlayScrollbars(document.getElementById('process_description'), {
                     className: 'inner-scrollbar',
                     resize: 'vertical',

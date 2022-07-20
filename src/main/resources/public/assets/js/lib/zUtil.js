@@ -698,7 +698,7 @@ aliceJs.thumbnail = function(options) {
                 closable: false,
             },
             onCreate: function(modal) {
-                OverlayScrollbars(document.querySelector('.thumbnail-main').closest('.modal-content'), { className: 'scrollbar' });
+                OverlayScrollbars(document.querySelector('.thumbnail-main').closest('.modal__dialog__body'), { className: 'scrollbar' });
             }
         };
 

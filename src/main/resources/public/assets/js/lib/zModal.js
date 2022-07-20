@@ -145,7 +145,7 @@
                 const modalWrapper = _this.wrapper;
                 addClass(modalWrapper, 'modal-active');
                 addClass(document.body, 'modal-active');
-                const modalDialog = modalWrapper.querySelector('.modal-dialog');
+                const modalDialog = modalWrapper.querySelector('.modal__dialog');
                 modalDialog.classList.remove('modal-active');
                 _this.animation = setTimeout(function () {
                     clearTimeout(_this.animation);
@@ -160,7 +160,7 @@
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
                 const modalWrapper = _this.wrapper;
-                modalWrapper.querySelector('.modal-dialog').classList.remove('modal-active');
+                modalWrapper.querySelector('.modal__dialog').classList.remove('modal-active');
                 setTimeout(function () {
                     removeClass(modalWrapper, 'modal-active');
                     removeClass(document.body, 'modal-active');
@@ -180,10 +180,10 @@
             this.wrapper.id = 'modal-wrapper-' + this.id;
 
             backdrop = document.createElement('div');
-            backdrop.className = 'modal-backdrop';
+            backdrop.className = 'modal__backdrop';
 
             dialog = document.createElement('div');
-            dialog.className = 'modal-dialog';
+            dialog.className = 'modal__dialog';
             if (typeof this.options.classes !== 'undefined' && this.options.classes !== '') {
                 dialog.className += ' ' + this.options.classes;
             }
@@ -228,7 +228,7 @@
             if (this.options.title instanceof Element ||
                 (typeof this.options.title === 'string' && this.options.title !== '')) {
                 let title = document.createElement('div');
-                title.className = 'modal-header';
+                title.className = 'modal__dialog__header';
                 if (this.options.title instanceof Element) {
                     title.appendChild(this.options.title);
                 } else {
@@ -238,7 +238,7 @@
             }
 
             let body = document.createElement('div');
-            body.className = 'modal-content';
+            body.className = 'modal__dialog__body';
             if (this.options.body instanceof Element || (this.options.body instanceof Object &&
                 this.options.body instanceof DocumentFragment)) {
                 body.appendChild(this.options.body);
@@ -250,7 +250,7 @@
             // 버튼
             if (this.options.buttons.length > 0) {
                 let buttons = document.createElement('div');
-                buttons.className = 'modal-bottom button-list flex-row float-right align-items-end';
+                buttons.className = 'modal__dialog__footer button-list flex-row float-right align-items-end';
 
                 for (let i = 0, len = this.options.buttons.length; i < len; i++) {
                     let button = document.createElement('button');

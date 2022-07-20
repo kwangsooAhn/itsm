@@ -233,7 +233,7 @@ export const modalButtonMixin = {
                     modalContent.style.setProperty('--default-modal-height', this.elementSizeH + UNIT.PX);
 
                     // 모달 내부 스크롤 바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
                 }
             });
             targetTableModal.show();

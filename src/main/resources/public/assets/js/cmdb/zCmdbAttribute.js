@@ -2206,7 +2206,7 @@
                     getUserList(target, e.target.value, false);
                 }), false);
                 getUserList(target, document.getElementById('search').value, true);
-                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
             }
         });
         targetUserModal.show();
