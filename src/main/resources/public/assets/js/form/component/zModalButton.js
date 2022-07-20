@@ -219,7 +219,7 @@ export const modalButtonMixin = {
                 classes: 'modal-button-search-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],

@@ -1289,7 +1289,7 @@
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
-            fileBtn.className = 'button-icon button-attach-file';
+            fileBtn.className = 'btn__ic button-attach-file';
             let fileIcon = document.createElement('span');
             fileIcon.className = 'ic-folder';
             fileBtn.addEventListener('click', function() {
@@ -1308,7 +1308,7 @@
             // button
             let btnAdd = document.createElement('button');
             btnAdd.type = 'button';
-            btnAdd.className = 'button btn--form mt-3';
+            btnAdd.className = 'btn__text--box tertiary mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
             const saveData = function() {
@@ -1383,7 +1383,7 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
-                btnDel.className = 'button-icon-sm mt-2 mb-2';
+                btnDel.className = 'item-remove mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
                 btnIcon.className = 'ic-remove';
@@ -1473,7 +1473,7 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'button-icon btn--form button-candidate-add';
+        btnAdd.className = 'btn__ic tertiary button-candidate-add';
         btnAdd.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
 
         const saveData = function() {
@@ -1510,7 +1510,7 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
-            btnDel.className = 'button-icon-sm mt-2 mb-2';
+            btnDel.className = 'item-remove mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
             btnIcon.className = 'ic-remove';
@@ -1892,7 +1892,7 @@
                 copyBtnContainer.className = 'clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
-                copyBtn.className = 'button-icon secondary btn-clipboard-tooltip';
+                copyBtn.className = 'btn__ic secondary btn-clipboard-tooltip';
                 copyBtn.insertAdjacentHTML('beforeend', `<span class="ic-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();

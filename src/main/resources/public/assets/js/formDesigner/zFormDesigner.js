@@ -273,7 +273,7 @@ class ZFormDesigner {
                     `title="${aliceJs.filterXSS(data.templateName)}">` +
                     `${aliceJs.filterXSS(data.templateName)}` +
                     `</span>` +
-                    `<button type="button" class="button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
+                    `<button type="button" class="item-remove" tabindex="-1" id="${data.templateId}" ` +
                     `onclick="zFormDesigner.deleteTemplate(this);">` +
                     `<span class="ic-remove"></span>` +
                     `</button>` +
@@ -999,7 +999,7 @@ class ZFormDesigner {
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         const newFormName = document.getElementById('newFormName');
@@ -1010,7 +1010,7 @@ class ZFormDesigner {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

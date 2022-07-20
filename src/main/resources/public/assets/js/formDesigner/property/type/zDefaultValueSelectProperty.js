@@ -53,13 +53,13 @@ export default class ZDefaultValueSelectProperty extends ZProperty {
         this.UIElement.UIGroup = new UIDiv().setUIClass('default-type');
         const defaultTypeValueArray = this.value.split('|');
         // switch button
-        this.UIElement.UIGroup.UIButtonGroup = new UIDiv().setUIClass('button-switch-group');
+        this.UIElement.UIGroup.UIButtonGroup = new UIDiv().setUIClass('btn__toggle__button');
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIGroup.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
-                .setUIClass('button-switch')
+                .setUIClass('btn__toggle__button--single')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
                 .addUI(new UISpan().setUIClass('text').setUITextContent(i18n.msg(item.name)));

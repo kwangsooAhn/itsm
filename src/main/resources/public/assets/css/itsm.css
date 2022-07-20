@@ -3021,28 +3021,28 @@ span.ic-paging-end-arrow {
   grid-column: 1/-1;
   justify-content: center;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic {
   padding: 0;
   border-color: transparent;
   background-color: transparent;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:hover, .itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:focus, .itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:active, .itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:disabled {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:hover, .itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:focus, .itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:active, .itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon [class*=ic-] {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic [class*=ic-] {
   background-color: #63686C;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:hover [class*=ic-] {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:focus [class*=ic-] {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:focus [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:active [class*=ic-] {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:active [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .button-icon:disabled [class*=ic-] {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__ic:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 .itsm-container .main-content .page-result .component .contents__req-status .grid__body {
@@ -3070,7 +3070,7 @@ span.ic-paging-end-arrow {
 .itsm-container .main-content .page-edit label {
   margin: 0.625rem 0;
 }
-.itsm-container .main-content .page-edit .button-list {
+.itsm-container .main-content .page-edit .btn__list {
   margin: 1.875rem 0;
 }
 .itsm-container .main-content .page-list {
@@ -3166,28 +3166,28 @@ span.ic-paging-end-arrow {
   grid-column: 1/-1;
   justify-content: center;
 }
-.itsm-container .main-content .page-list .grid .button-icon {
+.itsm-container .main-content .page-list .grid .btn__ic {
   padding: 0;
   border-color: transparent;
   background-color: transparent;
 }
-.itsm-container .main-content .page-list .grid .button-icon:hover, .itsm-container .main-content .page-list .grid .button-icon:focus, .itsm-container .main-content .page-list .grid .button-icon:active, .itsm-container .main-content .page-list .grid .button-icon:disabled {
+.itsm-container .main-content .page-list .grid .btn__ic:hover, .itsm-container .main-content .page-list .grid .btn__ic:focus, .itsm-container .main-content .page-list .grid .btn__ic:active, .itsm-container .main-content .page-list .grid .btn__ic:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.itsm-container .main-content .page-list .grid .button-icon [class*=ic-] {
+.itsm-container .main-content .page-list .grid .btn__ic [class*=ic-] {
   background-color: #63686C;
 }
-.itsm-container .main-content .page-list .grid .button-icon:hover [class*=ic-] {
+.itsm-container .main-content .page-list .grid .btn__ic:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.itsm-container .main-content .page-list .grid .button-icon:focus [class*=ic-] {
+.itsm-container .main-content .page-list .grid .btn__ic:focus [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-list .grid .button-icon:active [class*=ic-] {
+.itsm-container .main-content .page-list .grid .btn__ic:active [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-list .grid .button-icon:disabled [class*=ic-] {
+.itsm-container .main-content .page-list .grid .btn__ic:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 .itsm-container .main-content .page-column-item {
@@ -3235,7 +3235,7 @@ span.ic-paging-end-arrow {
 .itsm-container .main-content .page-column-item .page-edit .edit-form .edit-row .input.attribute {
   width: 100%;
 }
-.itsm-container .main-content .page-column-item .page-edit .edit-form .button-list {
+.itsm-container .main-content .page-column-item .page-edit .edit-form .btn__list {
   margin: 1.875rem 0;
 }
 .itsm-container .main-content .card-list {
@@ -3295,7 +3295,7 @@ span.ic-paging-end-arrow {
 .itsm-container .main-content .page-view .view-row label {
   margin: 0.625rem 0;
 }
-.itsm-container .main-content .page-view .button-list {
+.itsm-container .main-content .page-view .btn__list {
   margin-top: 1.875rem;
 }
 .itsm-container .main-content .page-view-sub-title {
@@ -3361,7 +3361,7 @@ span.ic-paging-end-arrow {
 .itsm-container .main .view .view-row {
   margin: 0.625rem 0 0 0;
 }
-.itsm-container .main .view .view-row .button-list {
+.itsm-container .main .view .view-row .btn__list {
   margin-top: 1.875rem;
 }
 .itsm-container .main .view-title {
@@ -3845,10 +3845,10 @@ span.ic-paging-end-arrow {
  * @description formDesigner + process 공통으로 사용되는 scss
  * @version 1.0
  */
-.header-button.button-icon [class*=ic-] {
+.header-button.btn__ic [class*=ic-] {
   pointer-events: none;
 }
-.header-button.button-icon .ic-arrow-right {
+.header-button.btn__ic .ic-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -4025,13 +4025,7 @@ span.ic-paging-end-arrow {
  * @description 폼 디자이너에서만 사용되는 scss
  * @version 1.0
  */
-.button-switch-group .button-switch .text, .button-switch-group .button-switch [class*=ic-],
-.button-switch-group .button-toggle .text,
-.button-switch-group .button-toggle [class*=ic-],
-.button-toggle-group .button-switch .text,
-.button-toggle-group .button-switch [class*=ic-],
-.button-toggle-group .button-toggle .text,
-.button-toggle-group .button-toggle [class*=ic-] {
+.btn__toggle__button--single .text, .btn__toggle__button--single [class*=ic-], .btn__toggle__button--multi .text, .btn__toggle__button--multi [class*=ic-] {
   pointer-events: none;
 }
 
@@ -4091,28 +4085,25 @@ span.ic-paging-end-arrow {
   background: #EEEEEE;
 }
 
-.button:disabled, .button.disabled,
-.button-icon:disabled,
-.button-icon.disabled,
-.button-icon-sm:disabled,
-.button-icon-sm.disabled {
+.btn__text--box:disabled, .btn__text--box.disabled,
+.btn__ic:disabled,
+.btn__ic.disabled,
+.item-remove:disabled,
+.item-remove.disabled {
   display: none;
 }
 
-.button-icon.button-attach-file .ic-folder {
-  background: #8B9094;
-}
-.button-icon.button-code .ic-search {
+.btn__ic.button-attach-file .ic-folder {
   background: #8B9094;
 }
 
-.button.success--check {
+.btn__text--box.success--check {
   position: relative;
   border-color: #EEEEEE;
   background-color: #EEEEEE;
   color: #ABB0B5;
 }
-.button.success--check::before {
+.btn__text--box.success--check::before {
   position: absolute !important;
   top: 0.313rem;
   left: -2rem;
@@ -4134,7 +4125,7 @@ span.ic-paging-end-arrow {
   width: 100%;
 }
 
-.input-button .button-icon-sm {
+.input--remove .item-remove {
   -webkit-print-color-adjust: exact;
 }
 
@@ -4451,7 +4442,7 @@ span.ic-paging-end-arrow {
   word-wrap: normal;
   padding: 0 0.5rem;
 }
-.component .element .dr-table .dr-table-row .button-icon {
+.component .element .dr-table .dr-table-row .btn__ic {
   padding: 0;
 }
 .component .element .dr-table .dr-table-row .input:not(.select__box__label) {
@@ -4493,10 +4484,10 @@ span.ic-paging-end-arrow {
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
 }
-.component .element .custom-code > .button-icon {
+.component .element .custom-code > .btn__ic {
   margin-left: 0.5rem;
 }
-.component .element .button-list .button {
+.component .element .btn__list .btn__text--box {
   min-width: 3.25rem;
   padding: 0.3125rem 0.625rem;
   font-size: 0.75rem;
@@ -4947,18 +4938,7 @@ span.ic-paging-end-arrow {
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone [class*=ic-] {
   background: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .button-clear {
-  opacity: 0;
-}
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .button-icon {
-  border-color: #619CDB !important;
-  background-color: #FFFFFF;
-  color: #619CDB !important;
-}
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input-button .button-icon [class*=ic-] {
-  background: #619CDB !important;
-}
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .button-list {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .btn__list {
   opacity: 0;
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element table tr td {
@@ -5093,9 +5073,6 @@ span.ic-paging-end-arrow {
   min-height: 5.625rem;
   line-height: 1.6;
 }
-.property .input-button .button {
-  height: 2.5rem;
-}
 .property .slider__range {
   width: 75%;
 }
@@ -5153,33 +5130,27 @@ span.ic-paging-end-arrow {
 .property .default-type-radio .radio-property-group .radio-item .input:not(:first-child) {
   margin-left: 0.3125rem;
 }
-.property .default-type-radio .radio-property-group .input-button {
-  width: 100%;
-}
-.property .default-type-radio .radio-property-group .input-button .ic-remove {
-  right: 2.5rem;
-}
 .property .default-type-radio .radio-property-group .picker-wrapper-date {
   flex: 1;
 }
 .property .default-type-radio .radio-property-group .picker-wrapper-date .picker-main {
   width: inherit;
 }
-.property .tab-panel .tabs .button-icon {
+.property .tab-panel .tabs .btn__ic {
   height: 2rem;
   padding: 0.25rem 0.409rem;
 }
-.property .tab-panel .tabs .button-icon:not(:first-child) {
+.property .tab-panel .tabs .btn__ic:not(:first-child) {
   margin-left: 0.3125rem;
 }
-.property .tab-panel .tabs .button-icon:last-child {
+.property .tab-panel .tabs .btn__ic:last-child {
   padding: 0.25rem 0;
 }
-.property .tab-panel .tabs .button-icon [class*=ic-] {
+.property .tab-panel .tabs .btn__ic [class*=ic-] {
   width: 0.82rem;
   pointer-events: none;
 }
-.property .tab-panel .tabs .button-icon .ic-plus {
+.property .tab-panel .tabs .btn__ic .ic-plus {
   -webkit-mask-size: 1.2rem;
   mask-size: 1.2rem;
 }
@@ -5199,26 +5170,20 @@ span.ic-paging-end-arrow {
 .property .tab-panel .panels .panel .panel-common > .property {
   padding: 0 0.75rem;
 }
-.property .tab-panel .panels .panel .button-icon:not(.button-code) {
+.property .tab-panel .panels .panel .btn__ic {
   padding: 0;
 }
-.property .tab-panel .panels .panel .button-icon:not(.button-code) [class*=ic-] {
+.property .tab-panel .panels .panel .btn__ic [class*=ic-] {
   display: inline-block;
   background: #3373C4;
   pointer-events: none;
 }
-.property .tab-panel .panels .panel .button-icon:not(.button-code) .prev {
+.property .tab-panel .panels .panel .btn__ic .prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
-}
-.property .tab-panel .panels .panel .button-switch-group .button-switch,
-.property .tab-panel .panels .panel .button-switch-group .button-toggle,
-.property .tab-panel .panels .panel .button-toggle-group .button-switch,
-.property .tab-panel .panels .panel .button-toggle-group .button-toggle {
-  padding: 0.25rem 0.5625rem;
 }
 .property .tab-panel .panels .panel .panel-individual > .property-group {
   border: none;
@@ -5228,6 +5193,9 @@ span.ic-paging-end-arrow {
 }
 .property .option-table .option-table-row td {
   padding: 0;
+}
+.property .btn__toggle__button--single, .property .btn__toggle__button--multi {
+  padding: 0.25rem 0.5625rem;
 }
 
 /* process
@@ -5399,23 +5367,23 @@ span.ic-paging-end-arrow {
   background: #8B9094;
 }
 
-.button-icon.button-minimap {
+.btn__ic.button-minimap {
   position: absolute !important;
   right: 0.625rem;
   bottom: 0.625rem;
 }
-.button-icon.button-simulation-report {
+.btn__ic.button-simulation-report {
   position: absolute !important;
   right: 0.625rem;
   bottom: 3.438rem;
 }
-.button-icon.button-candidate-add {
+.btn__ic.button-candidate-add {
   margin-left: 0.3125rem;
 }
-.button-icon.button-candidate-add .ic-plus {
+.btn__ic.button-candidate-add .ic-plus {
   background: #8B9094;
 }
-.button-icon.button-attach-file .ic-folder {
+.btn__ic.button-attach-file .ic-folder {
   background: #8B9094;
 }
 
@@ -5835,7 +5803,7 @@ span.ic-paging-end-arrow {
  * @description document에서 사용되는 scss
  * @version 1.0
  */
-.button-icon-sm [class*=ic-] {
+.item-remove [class*=ic-] {
   width: 0.5rem;
   height: 0.5rem;
 }
@@ -5908,13 +5876,13 @@ span.ic-paging-end-arrow {
   background: #3373C4;
   z-index: 100;
 }
-.document-container .document-main .document-main-header .action-button-top-area .button-list {
+.document-container .document-main .document-main-header .action-button-top-area .btn__list {
   width: 100%;
 }
-.document-container .document-main .document-main-header .button-list .primary {
+.document-container .document-main .document-main-header .btn__list .primary {
   border-color: #FFFFFF;
 }
-.document-container .document-main .document-main-header .button-list .secondary {
+.document-container .document-main .document-main-header .btn__list .secondary {
   border-color: #FFFFFF;
 }
 .document-container .document-main .document-main-content {
@@ -6111,11 +6079,11 @@ span.ic-paging-end-arrow {
   border: 0.0625rem solid #CFD5D9;
   background-color: #FAFAFA;
 }
-.document-container .token-properties .token-panels .token-related .document-add .button-icon {
+.document-container .token-properties .token-panels .token-related .document-add .btn__ic {
   width: 100%;
   height: 100%;
 }
-.document-container .token-properties .token-panels .token-related .document-add .button-icon .ic-plus {
+.document-container .token-properties .token-panels .token-related .document-add .btn__ic .ic-plus {
   background: #8B9094;
 }
 .document-container .token-properties .token-panels .token-comment-item {
@@ -6295,7 +6263,7 @@ span.ic-paging-end-arrow {
   box-shadow: inset 0 0 0.9375rem 0 #ABB0B5;
 }
 
-.button.google {
+.btn__text--box.google {
   border-color: #CFD5D9;
   background-color: #FFFFFF;
   color: #222529;
@@ -6305,23 +6273,23 @@ span.ic-paging-end-arrow {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.google:focus {
+.btn__text--box.google:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   color: #222529;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.google:hover {
+.btn__text--box.google:hover {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
   color: #222529;
 }
-.button.google:enabled:active, .button.google:enabled.active {
+.btn__text--box.google:enabled:active, .btn__text--box.google:enabled.active {
   border-color: #ABB0B5;
   background-color: #E0E0E0;
   color: #222529;
 }
-.button.google:disabled, .button.google.disabled {
+.btn__text--box.google:disabled, .btn__text--box.google.disabled {
   border-color: #EEEEEE;
   background-color: #EEEEEE;
   color: #ABB0B5;
@@ -6331,7 +6299,7 @@ span.ic-paging-end-arrow {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.kakao {
+.btn__text--box.kakao {
   border-color: #D7BC20;
   background-color: #FADF2D;
   color: #222529;
@@ -6341,23 +6309,23 @@ span.ic-paging-end-arrow {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.kakao:focus {
+.btn__text--box.kakao:focus {
   border-color: #2559A8;
   background-color: #FADF2D;
   color: #222529;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.kakao:hover {
+.btn__text--box.kakao:hover {
   border-color: #D7BC20;
   background-color: #FBE961;
   color: #222529;
 }
-.button.kakao:enabled:active, .button.kakao:enabled.active {
+.btn__text--box.kakao:enabled:active, .btn__text--box.kakao:enabled.active {
   border-color: #907A0E;
   background-color: #D7BC20;
   color: #222529;
 }
-.button.kakao:disabled, .button.kakao.disabled {
+.btn__text--box.kakao:disabled, .btn__text--box.kakao.disabled {
   border-color: #EEEEEE;
   background-color: #EEEEEE;
   color: #ABB0B5;
@@ -6367,10 +6335,10 @@ span.ic-paging-end-arrow {
   background-position-x: 0.875rem;
   background-position-y: center;
 }
-.button.signup-return {
+.btn__text--box.signup-return {
   margin-left: 2.5rem;
 }
-.button.session-return {
+.btn__text--box.session-return {
   margin-top: 6.25rem;
 }
 
@@ -6863,10 +6831,10 @@ span.ic-paging-end-arrow {
   margin-left: 1rem;
   background: #CFD5D9;
 }
-.portal-container .main .main-content .vertical-split-right.login-form .login-platform .button {
+.portal-container .main .main-content .vertical-split-right.login-form .login-platform .btn__text--box {
   margin-bottom: 1rem;
 }
-.portal-container .main .main-content .vertical-split-right.login-form .login-platform .button:last-child {
+.portal-container .main .main-content .vertical-split-right.login-form .login-platform .btn__text--box:last-child {
   margin: 0;
 }
 .portal-container .main .main-content .vertical-split-right.login-form .login-other {
@@ -7414,7 +7382,7 @@ span.ic-paging-end-arrow {
 
 /* _button.scss
  *
- * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
+ * 적용 규칙
  * (1) 버튼 1개인 경우 : Secondary
  * (2) 버튼 2개인 경우 : Primary + Secondary 혹은 Primary + Extra (두번째 옵션의 중요도에 따라)
  * (3) 버튼 3개 이상인 경우 : Primary + (n * Secondary)
@@ -7428,858 +7396,621 @@ span.ic-paging-end-arrow {
  * @author wdj
  * @version 1.0
  */
-.button,
-.button-icon,
-.button-text {
+.btn__ic, .btn__text--box {
   border: 0rem solid transparent;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   display: inline-block;
   overflow: visible;
-  padding: 0.625rem 1.25rem;
   background-color: transparent;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
   line-height: 1;
+  vertical-align: middle;
   opacity: 1;
   user-select: none;
   white-space: nowrap;
   cursor: pointer;
-  /*
-   * size
-   */
-  /*
-   * 테마
-   */
 }
-.button:focus, .button:hover,
-.button-icon:focus,
-.button-icon:hover,
-.button-text:focus,
-.button-text:hover {
+.btn__ic:focus, .btn__ic:hover, .btn__text--box:focus, .btn__text--box:hover {
   outline: 0;
 }
-.button:disabled, .button.disabled,
-.button-icon:disabled,
-.button-icon.disabled,
-.button-text:disabled,
-.button-text.disabled {
+.btn__ic:disabled, .btn__ic.disabled, .btn__text--box:disabled, .btn__text--box.disabled {
   cursor: default;
 }
-.button.small,
-.button-icon.small,
-.button-text.small {
+.btn__text--box, .btn__text--only {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.btn__text--box {
+  padding: 0.625rem 1.25rem;
+}
+.btn__text--only {
+  padding: 0;
+  color: #63686C;
+  line-height: 1.25rem;
+}
+.btn__text--only:hover {
+  text-decoration: underline;
+  text-underline-position: under;
+  color: #ABB0B5;
+}
+.btn__text--only:hover:hover {
+  text-decoration: underline;
+}
+.btn__text--only:active, .btn__text--only:focus {
+  color: #222529;
+}
+.btn__text--only:disabled, .btn__text--only.disabled {
+  color: #CFD5D9;
+}
+.btn__ic {
+  padding: 0.4375rem;
+  line-height: 0;
+}
+.btn--small {
   font-size: 0.75rem;
   padding: 0.375rem 0.4375rem;
 }
-.button.primary,
-.button-icon.primary,
-.button-text.primary {
+.btn__ic.primary, .btn__text--box.primary {
   background-color: #19428D;
   color: #FFFFFF;
   border-color: #19428D;
 }
-.button.primary [class*=ic-],
-.button-icon.primary [class*=ic-],
-.button-text.primary [class*=ic-] {
+.btn__ic.primary [class*=ic-], .btn__text--box.primary [class*=ic-] {
   display: block;
   background: #FFFFFF;
   pointer-events: none;
 }
-.button.primary:focus,
-.button-icon.primary:focus,
-.button-text.primary:focus {
+.btn__ic.primary:focus, .btn__text--box.primary:focus {
   background-color: #19428D;
   color: #FFFFFF;
   border-color: #19428D;
   box-shadow: 0 0 0 0.125rem #3373C4;
 }
-.button.primary:focus [class*=ic-],
-.button-icon.primary:focus [class*=ic-],
-.button-text.primary:focus [class*=ic-] {
+.btn__ic.primary:focus [class*=ic-], .btn__text--box.primary:focus [class*=ic-] {
   background: #FFFFFF;
 }
-.button.primary:hover,
-.button-icon.primary:hover,
-.button-text.primary:hover {
+.btn__ic.primary:hover, .btn__text--box.primary:hover {
   color: #FFFFFF;
   background-color: #2559A8;
   border-color: #2559A8;
 }
-.button.primary:hover [class*=ic-],
-.button-icon.primary:hover [class*=ic-],
-.button-text.primary:hover [class*=ic-] {
+.btn__ic.primary:hover [class*=ic-], .btn__text--box.primary:hover [class*=ic-] {
   background: #FFFFFF;
 }
-.button.primary:enabled:active, .button.primary:enabled.active,
-.button-icon.primary:enabled:active,
-.button-icon.primary:enabled.active,
-.button-text.primary:enabled:active,
-.button-text.primary:enabled.active {
+.btn__ic.primary:enabled:active, .btn__ic.primary:enabled.active, .btn__text--box.primary:enabled:active, .btn__text--box.primary:enabled.active {
   background-color: #102E71;
   color: #FFFFFF;
   border-color: #102E71;
 }
-.button.primary:enabled:active [class*=ic-], .button.primary:enabled.active [class*=ic-],
-.button-icon.primary:enabled:active [class*=ic-],
-.button-icon.primary:enabled.active [class*=ic-],
-.button-text.primary:enabled:active [class*=ic-],
-.button-text.primary:enabled.active [class*=ic-] {
+.btn__ic.primary:enabled:active [class*=ic-], .btn__ic.primary:enabled.active [class*=ic-], .btn__text--box.primary:enabled:active [class*=ic-], .btn__text--box.primary:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
-.button.primary:disabled, .button.primary.disabled,
-.button-icon.primary:disabled,
-.button-icon.primary.disabled,
-.button-text.primary:disabled,
-.button-text.primary.disabled {
+.btn__ic.primary:disabled, .btn__ic.primary.disabled, .btn__text--box.primary:disabled, .btn__text--box.primary.disabled {
   color: #ABB0B5;
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.button.primary:disabled [class*=ic-], .button.primary.disabled [class*=ic-],
-.button-icon.primary:disabled [class*=ic-],
-.button-icon.primary.disabled [class*=ic-],
-.button-text.primary:disabled [class*=ic-],
-.button-text.primary.disabled [class*=ic-] {
+.btn__ic.primary:disabled [class*=ic-], .btn__ic.primary.disabled [class*=ic-], .btn__text--box.primary:disabled [class*=ic-], .btn__text--box.primary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.secondary,
-.button-icon.secondary,
-.button-text.secondary {
+.btn__ic.secondary, .btn__text--box.secondary {
   background-color: #E1E6EA;
   color: #505559;
   border-color: #E1E6EA;
 }
-.button.secondary [class*=ic-],
-.button-icon.secondary [class*=ic-],
-.button-text.secondary [class*=ic-] {
+.btn__ic.secondary [class*=ic-], .btn__text--box.secondary [class*=ic-] {
   display: block;
   background: #505559;
   pointer-events: none;
 }
-.button.secondary:focus,
-.button-icon.secondary:focus,
-.button-text.secondary:focus {
+.btn__ic.secondary:focus, .btn__text--box.secondary:focus {
   background-color: #E1E6EA;
   color: #505559;
   border-color: #3373C4;
   box-shadow: 0 0 0 0.125rem #3373C4;
 }
-.button.secondary:focus [class*=ic-],
-.button-icon.secondary:focus [class*=ic-],
-.button-text.secondary:focus [class*=ic-] {
+.btn__ic.secondary:focus [class*=ic-], .btn__text--box.secondary:focus [class*=ic-] {
   background: #505559;
 }
-.button.secondary:hover,
-.button-icon.secondary:hover,
-.button-text.secondary:hover {
+.btn__ic.secondary:hover, .btn__text--box.secondary:hover {
   color: #505559;
   background-color: #EBF1F5;
   border-color: #EBF1F5;
 }
-.button.secondary:hover [class*=ic-],
-.button-icon.secondary:hover [class*=ic-],
-.button-text.secondary:hover [class*=ic-] {
+.btn__ic.secondary:hover [class*=ic-], .btn__text--box.secondary:hover [class*=ic-] {
   background: #505559;
 }
-.button.secondary:enabled:active, .button.secondary:enabled.active,
-.button-icon.secondary:enabled:active,
-.button-icon.secondary:enabled.active,
-.button-text.secondary:enabled:active,
-.button-text.secondary:enabled.active {
+.btn__ic.secondary:enabled:active, .btn__ic.secondary:enabled.active, .btn__text--box.secondary:enabled:active, .btn__text--box.secondary:enabled.active {
   background-color: #83BBED;
   color: #102E71;
   border-color: #83BBED;
 }
-.button.secondary:enabled:active [class*=ic-], .button.secondary:enabled.active [class*=ic-],
-.button-icon.secondary:enabled:active [class*=ic-],
-.button-icon.secondary:enabled.active [class*=ic-],
-.button-text.secondary:enabled:active [class*=ic-],
-.button-text.secondary:enabled.active [class*=ic-] {
+.btn__ic.secondary:enabled:active [class*=ic-], .btn__ic.secondary:enabled.active [class*=ic-], .btn__text--box.secondary:enabled:active [class*=ic-], .btn__text--box.secondary:enabled.active [class*=ic-] {
   background: #102E71;
 }
-.button.secondary:disabled, .button.secondary.disabled,
-.button-icon.secondary:disabled,
-.button-icon.secondary.disabled,
-.button-text.secondary:disabled,
-.button-text.secondary.disabled {
+.btn__ic.secondary:disabled, .btn__ic.secondary.disabled, .btn__text--box.secondary:disabled, .btn__text--box.secondary.disabled {
   color: #ABB0B5;
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.button.secondary:disabled [class*=ic-], .button.secondary.disabled [class*=ic-],
-.button-icon.secondary:disabled [class*=ic-],
-.button-icon.secondary.disabled [class*=ic-],
-.button-text.secondary:disabled [class*=ic-],
-.button-text.secondary.disabled [class*=ic-] {
+.btn__ic.secondary:disabled [class*=ic-], .btn__ic.secondary.disabled [class*=ic-], .btn__text--box.secondary:disabled [class*=ic-], .btn__text--box.secondary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.danger,
-.button-icon.danger,
-.button-text.danger {
+.btn__ic.danger, .btn__text--box.danger {
   background-color: #F52525;
   color: #FFFFFF;
   border-color: #F52525;
 }
-.button.danger [class*=ic-],
-.button-icon.danger [class*=ic-],
-.button-text.danger [class*=ic-] {
+.btn__ic.danger [class*=ic-], .btn__text--box.danger [class*=ic-] {
   display: block;
   background: #FFFFFF;
   pointer-events: none;
 }
-.button.danger:focus,
-.button-icon.danger:focus,
-.button-text.danger:focus {
+.btn__ic.danger:focus, .btn__text--box.danger:focus {
   background-color: #F52525;
   color: #FFFFFF;
   border-color: #F52525;
   box-shadow: 0 0 0.125rem #B0122D;
 }
-.button.danger:focus [class*=ic-],
-.button-icon.danger:focus [class*=ic-],
-.button-text.danger:focus [class*=ic-] {
+.btn__ic.danger:focus [class*=ic-], .btn__text--box.danger:focus [class*=ic-] {
   background: #FFFFFF;
 }
-.button.danger:hover,
-.button-icon.danger:hover,
-.button-text.danger:hover {
+.btn__ic.danger:hover, .btn__text--box.danger:hover {
   color: #FFFFFF;
   background-color: #F9685A;
   border-color: #F9685A;
 }
-.button.danger:hover [class*=ic-],
-.button-icon.danger:hover [class*=ic-],
-.button-text.danger:hover [class*=ic-] {
+.btn__ic.danger:hover [class*=ic-], .btn__text--box.danger:hover [class*=ic-] {
   background: #FFFFFF;
 }
-.button.danger:enabled:active, .button.danger:enabled.active,
-.button-icon.danger:enabled:active,
-.button-icon.danger:enabled.active,
-.button-text.danger:enabled:active,
-.button-text.danger:enabled.active {
+.btn__ic.danger:enabled:active, .btn__ic.danger:enabled.active, .btn__text--box.danger:enabled:active, .btn__text--box.danger:enabled.active {
   background-color: #D21B2A;
   color: #FFFFFF;
   border-color: #D21B2A;
 }
-.button.danger:enabled:active [class*=ic-], .button.danger:enabled.active [class*=ic-],
-.button-icon.danger:enabled:active [class*=ic-],
-.button-icon.danger:enabled.active [class*=ic-],
-.button-text.danger:enabled:active [class*=ic-],
-.button-text.danger:enabled.active [class*=ic-] {
+.btn__ic.danger:enabled:active [class*=ic-], .btn__ic.danger:enabled.active [class*=ic-], .btn__text--box.danger:enabled:active [class*=ic-], .btn__text--box.danger:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
-.button.danger:disabled, .button.danger.disabled,
-.button-icon.danger:disabled,
-.button-icon.danger.disabled,
-.button-text.danger:disabled,
-.button-text.danger.disabled {
+.btn__ic.danger:disabled, .btn__ic.danger.disabled, .btn__text--box.danger:disabled, .btn__text--box.danger.disabled {
   color: #ABB0B5;
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.button.danger:disabled [class*=ic-], .button.danger.disabled [class*=ic-],
-.button-icon.danger:disabled [class*=ic-],
-.button-icon.danger.disabled [class*=ic-],
-.button-text.danger:disabled [class*=ic-],
-.button-text.danger.disabled [class*=ic-] {
+.btn__ic.danger:disabled [class*=ic-], .btn__ic.danger.disabled [class*=ic-], .btn__text--box.danger:disabled [class*=ic-], .btn__text--box.danger.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.warning,
-.button-icon.warning,
-.button-text.warning {
+.btn__ic.warning, .btn__text--box.warning {
   background-color: #FFAC47;
   color: #102E71;
   border-color: #FFAC47;
 }
-.button.warning [class*=ic-],
-.button-icon.warning [class*=ic-],
-.button-text.warning [class*=ic-] {
+.btn__ic.warning [class*=ic-], .btn__text--box.warning [class*=ic-] {
   display: block;
   background: #102E71;
   pointer-events: none;
 }
-.button.warning:focus,
-.button-icon.warning:focus,
-.button-text.warning:focus {
+.btn__ic.warning:focus, .btn__text--box.warning:focus {
   background-color: #FFAC47;
   color: #102E71;
   border-color: #FFAC47;
   box-shadow: 0 0 0.125rem #DB6707;
 }
-.button.warning:focus [class*=ic-],
-.button-icon.warning:focus [class*=ic-],
-.button-text.warning:focus [class*=ic-] {
+.btn__ic.warning:focus [class*=ic-], .btn__text--box.warning:focus [class*=ic-] {
   background: #102E71;
 }
-.button.warning:hover,
-.button-icon.warning:hover,
-.button-text.warning:hover {
+.btn__ic.warning:hover, .btn__text--box.warning:hover {
   color: #102E71;
   background-color: #FFDC9C;
   border-color: #FFDC9C;
 }
-.button.warning:hover [class*=ic-],
-.button-icon.warning:hover [class*=ic-],
-.button-text.warning:hover [class*=ic-] {
+.btn__ic.warning:hover [class*=ic-], .btn__text--box.warning:hover [class*=ic-] {
   background: #102E71;
 }
-.button.warning:enabled:active, .button.warning:enabled.active,
-.button-icon.warning:enabled:active,
-.button-icon.warning:enabled.active,
-.button-text.warning:enabled:active,
-.button-text.warning:enabled.active {
+.btn__ic.warning:enabled:active, .btn__ic.warning:enabled.active, .btn__text--box.warning:enabled:active, .btn__text--box.warning:enabled.active {
   background-color: #FF850A;
   color: #102E71;
   border-color: #FF850A;
 }
-.button.warning:enabled:active [class*=ic-], .button.warning:enabled.active [class*=ic-],
-.button-icon.warning:enabled:active [class*=ic-],
-.button-icon.warning:enabled.active [class*=ic-],
-.button-text.warning:enabled:active [class*=ic-],
-.button-text.warning:enabled.active [class*=ic-] {
+.btn__ic.warning:enabled:active [class*=ic-], .btn__ic.warning:enabled.active [class*=ic-], .btn__text--box.warning:enabled:active [class*=ic-], .btn__text--box.warning:enabled.active [class*=ic-] {
   background: #102E71;
 }
-.button.warning:disabled, .button.warning.disabled,
-.button-icon.warning:disabled,
-.button-icon.warning.disabled,
-.button-text.warning:disabled,
-.button-text.warning.disabled {
+.btn__ic.warning:disabled, .btn__ic.warning.disabled, .btn__text--box.warning:disabled, .btn__text--box.warning.disabled {
   color: #ABB0B5;
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.button.warning:disabled [class*=ic-], .button.warning.disabled [class*=ic-],
-.button-icon.warning:disabled [class*=ic-],
-.button-icon.warning.disabled [class*=ic-],
-.button-text.warning:disabled [class*=ic-],
-.button-text.warning.disabled [class*=ic-] {
+.btn__ic.warning:disabled [class*=ic-], .btn__ic.warning.disabled [class*=ic-], .btn__text--box.warning:disabled [class*=ic-], .btn__text--box.warning.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.extra,
-.button-icon.extra,
-.button-text.extra {
+.btn__ic.extra, .btn__text--box.extra {
   background-color: #FFFFFF;
   color: #3373C4;
   border-color: #FFFFFF;
 }
-.button.extra [class*=ic-],
-.button-icon.extra [class*=ic-],
-.button-text.extra [class*=ic-] {
+.btn__ic.extra [class*=ic-], .btn__text--box.extra [class*=ic-] {
   display: block;
   background: #3373C4;
   pointer-events: none;
 }
-.button.extra:focus,
-.button-icon.extra:focus,
-.button-text.extra:focus {
+.btn__ic.extra:focus, .btn__text--box.extra:focus {
   background-color: #FFFFFF;
   color: #3373C4;
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.extra:focus [class*=ic-],
-.button-icon.extra:focus [class*=ic-],
-.button-text.extra:focus [class*=ic-] {
+.btn__ic.extra:focus [class*=ic-], .btn__text--box.extra:focus [class*=ic-] {
   background: #3373C4;
 }
-.button.extra:hover,
-.button-icon.extra:hover,
-.button-text.extra:hover {
+.btn__ic.extra:hover, .btn__text--box.extra:hover {
   color: #3373C4;
   background-color: #D6EDFC;
   border-color: #D6EDFC;
 }
-.button.extra:hover [class*=ic-],
-.button-icon.extra:hover [class*=ic-],
-.button-text.extra:hover [class*=ic-] {
+.btn__ic.extra:hover [class*=ic-], .btn__text--box.extra:hover [class*=ic-] {
   background: #3373C4;
 }
-.button.extra:enabled:active, .button.extra:enabled.active,
-.button-icon.extra:enabled:active,
-.button-icon.extra:enabled.active,
-.button-text.extra:enabled:active,
-.button-text.extra:enabled.active {
+.btn__ic.extra:enabled:active, .btn__ic.extra:enabled.active, .btn__text--box.extra:enabled:active, .btn__text--box.extra:enabled.active {
   background-color: #AFD9F9;
   color: #19428D;
   border-color: #AFD9F9;
 }
-.button.extra:enabled:active [class*=ic-], .button.extra:enabled.active [class*=ic-],
-.button-icon.extra:enabled:active [class*=ic-],
-.button-icon.extra:enabled.active [class*=ic-],
-.button-text.extra:enabled:active [class*=ic-],
-.button-text.extra:enabled.active [class*=ic-] {
+.btn__ic.extra:enabled:active [class*=ic-], .btn__ic.extra:enabled.active [class*=ic-], .btn__text--box.extra:enabled:active [class*=ic-], .btn__text--box.extra:enabled.active [class*=ic-] {
   background: #19428D;
 }
-.button.extra:disabled, .button.extra.disabled,
-.button-icon.extra:disabled,
-.button-icon.extra.disabled,
-.button-text.extra:disabled,
-.button-text.extra.disabled {
+.btn__ic.extra:disabled, .btn__ic.extra.disabled, .btn__text--box.extra:disabled, .btn__text--box.extra.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.extra:disabled [class*=ic-], .button.extra.disabled [class*=ic-],
-.button-icon.extra:disabled [class*=ic-],
-.button-icon.extra.disabled [class*=ic-],
-.button-text.extra:disabled [class*=ic-],
-.button-text.extra.disabled [class*=ic-] {
+.btn__ic.extra:disabled [class*=ic-], .btn__ic.extra.disabled [class*=ic-], .btn__text--box.extra:disabled [class*=ic-], .btn__text--box.extra.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.btn--form,
-.button-icon.btn--form,
-.button-text.btn--form {
+.btn__ic.tertiary, .btn__text--box.tertiary {
   background-color: #E0E0E0;
   color: #424242;
   border-color: #E0E0E0;
 }
-.button.btn--form [class*=ic-],
-.button-icon.btn--form [class*=ic-],
-.button-text.btn--form [class*=ic-] {
+.btn__ic.tertiary [class*=ic-], .btn__text--box.tertiary [class*=ic-] {
   display: block;
   background: #424242;
   pointer-events: none;
 }
-.button.btn--form:focus,
-.button-icon.btn--form:focus,
-.button-text.btn--form:focus {
+.btn__ic.tertiary:focus, .btn__text--box.tertiary:focus {
   background-color: #E0E0E0;
   color: #424242;
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.btn--form:focus [class*=ic-],
-.button-icon.btn--form:focus [class*=ic-],
-.button-text.btn--form:focus [class*=ic-] {
+.btn__ic.tertiary:focus [class*=ic-], .btn__text--box.tertiary:focus [class*=ic-] {
   background: #424242;
 }
-.button.btn--form:hover,
-.button-icon.btn--form:hover,
-.button-text.btn--form:hover {
+.btn__ic.tertiary:hover, .btn__text--box.tertiary:hover {
   color: #424242;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.btn--form:hover [class*=ic-],
-.button-icon.btn--form:hover [class*=ic-],
-.button-text.btn--form:hover [class*=ic-] {
+.btn__ic.tertiary:hover [class*=ic-], .btn__text--box.tertiary:hover [class*=ic-] {
   background: #424242;
 }
-.button.btn--form:enabled:active, .button.btn--form:enabled.active,
-.button-icon.btn--form:enabled:active,
-.button-icon.btn--form:enabled.active,
-.button-text.btn--form:enabled:active,
-.button-text.btn--form:enabled.active {
+.btn__ic.tertiary:enabled:active, .btn__ic.tertiary:enabled.active, .btn__text--box.tertiary:enabled:active, .btn__text--box.tertiary:enabled.active {
   background-color: #E0E0E0;
   color: #424242;
   border-color: #BDBDBD;
 }
-.button.btn--form:enabled:active [class*=ic-], .button.btn--form:enabled.active [class*=ic-],
-.button-icon.btn--form:enabled:active [class*=ic-],
-.button-icon.btn--form:enabled.active [class*=ic-],
-.button-text.btn--form:enabled:active [class*=ic-],
-.button-text.btn--form:enabled.active [class*=ic-] {
+.btn__ic.tertiary:enabled:active [class*=ic-], .btn__ic.tertiary:enabled.active [class*=ic-], .btn__text--box.tertiary:enabled:active [class*=ic-], .btn__text--box.tertiary:enabled.active [class*=ic-] {
   background: #424242;
 }
-.button.btn--form:disabled, .button.btn--form.disabled,
-.button-icon.btn--form:disabled,
-.button-icon.btn--form.disabled,
-.button-text.btn--form:disabled,
-.button-text.btn--form.disabled {
+.btn__ic.tertiary:disabled, .btn__ic.tertiary.disabled, .btn__text--box.tertiary:disabled, .btn__text--box.tertiary.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.btn--form:disabled [class*=ic-], .button.btn--form.disabled [class*=ic-],
-.button-icon.btn--form:disabled [class*=ic-],
-.button-icon.btn--form.disabled [class*=ic-],
-.button-text.btn--form:disabled [class*=ic-],
-.button-text.btn--form.disabled [class*=ic-] {
+.btn__ic.tertiary:disabled [class*=ic-], .btn__ic.tertiary.disabled [class*=ic-], .btn__text--box.tertiary:disabled [class*=ic-], .btn__text--box.tertiary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.default,
-.button-icon.default,
-.button-text.default {
-  background-color: transparent;
-  color: #ABB0B5;
-  border-color: transparent;
-}
-.button.default [class*=ic-],
-.button-icon.default [class*=ic-],
-.button-text.default [class*=ic-] {
-  display: block;
-  background: #ABB0B5;
-  pointer-events: none;
-}
-.button.error,
-.button-icon.error,
-.button-text.error {
-  background-color: #F52525;
-  color: #FFFFFF;
-  border-color: #F52525;
-}
-.button.error [class*=ic-],
-.button-icon.error [class*=ic-],
-.button-text.error [class*=ic-] {
-  display: block;
-  background: #FFFFFF;
-  pointer-events: none;
-}
-.button.light-primary,
-.button-icon.light-primary,
-.button-text.light-primary {
+.btn__ic.light-primary, .btn__text--box.light-primary {
   color: #FFFFFF;
   background-color: #3373C4;
   border-color: #3373C4;
 }
-.button.light-primary [class*=ic-],
-.button-icon.light-primary [class*=ic-],
-.button-text.light-primary [class*=ic-] {
+.btn__ic.light-primary [class*=ic-], .btn__text--box.light-primary [class*=ic-] {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
 }
-.button.light-primary:focus,
-.button-icon.light-primary:focus,
-.button-text.light-primary:focus {
+.btn__ic.light-primary:focus, .btn__text--box.light-primary:focus {
   color: #FFFFFF;
   background-color: #3373C4;
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.light-primary:focus [class*=ic-],
-.button-icon.light-primary:focus [class*=ic-],
-.button-text.light-primary:focus [class*=ic-] {
+.btn__ic.light-primary:focus [class*=ic-], .btn__text--box.light-primary:focus [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-primary:hover,
-.button-icon.light-primary:hover,
-.button-text.light-primary:hover {
+.btn__ic.light-primary:hover, .btn__text--box.light-primary:hover {
   color: #FFFFFF;
   background-color: #619CDB;
   border-color: #619CDB;
 }
-.button.light-primary:hover [class*=ic-],
-.button-icon.light-primary:hover [class*=ic-],
-.button-text.light-primary:hover [class*=ic-] {
+.btn__ic.light-primary:hover [class*=ic-], .btn__text--box.light-primary:hover [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-primary:enabled:active, .button.light-primary:enabled.active,
-.button-icon.light-primary:enabled:active,
-.button-icon.light-primary:enabled.active,
-.button-text.light-primary:enabled:active,
-.button-text.light-primary:enabled.active {
+.btn__ic.light-primary:enabled:active, .btn__ic.light-primary:enabled.active, .btn__text--box.light-primary:enabled:active, .btn__text--box.light-primary:enabled.active {
   color: #FFFFFF;
   background-color: #2559A8;
   border-color: #19428D;
 }
-.button.light-primary:enabled:active [class*=ic-], .button.light-primary:enabled.active [class*=ic-],
-.button-icon.light-primary:enabled:active [class*=ic-],
-.button-icon.light-primary:enabled.active [class*=ic-],
-.button-text.light-primary:enabled:active [class*=ic-],
-.button-text.light-primary:enabled.active [class*=ic-] {
+.btn__ic.light-primary:enabled:active [class*=ic-], .btn__ic.light-primary:enabled.active [class*=ic-], .btn__text--box.light-primary:enabled:active [class*=ic-], .btn__text--box.light-primary:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-primary:disabled, .button.light-primary.disabled,
-.button-icon.light-primary:disabled,
-.button-icon.light-primary.disabled,
-.button-text.light-primary:disabled,
-.button-text.light-primary.disabled {
+.btn__ic.light-primary:disabled, .btn__ic.light-primary.disabled, .btn__text--box.light-primary:disabled, .btn__text--box.light-primary.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.light-primary:disabled [class*=ic-], .button.light-primary.disabled [class*=ic-],
-.button-icon.light-primary:disabled [class*=ic-],
-.button-icon.light-primary.disabled [class*=ic-],
-.button-text.light-primary:disabled [class*=ic-],
-.button-text.light-primary.disabled [class*=ic-] {
+.btn__ic.light-primary:disabled [class*=ic-], .btn__ic.light-primary.disabled [class*=ic-], .btn__text--box.light-primary:disabled [class*=ic-], .btn__text--box.light-primary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.light-secondary,
-.button-icon.light-secondary,
-.button-text.light-secondary {
+.btn__ic.light-secondary, .btn__text--box.light-secondary {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.2);
   border-color: #FFFFFF;
 }
-.button.light-secondary [class*=ic-],
-.button-icon.light-secondary [class*=ic-],
-.button-text.light-secondary [class*=ic-] {
+.btn__ic.light-secondary [class*=ic-], .btn__text--box.light-secondary [class*=ic-] {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
 }
-.button.light-secondary:focus,
-.button-icon.light-secondary:focus,
-.button-text.light-secondary:focus {
+.btn__ic.light-secondary:focus, .btn__text--box.light-secondary:focus {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.light-secondary:focus [class*=ic-],
-.button-icon.light-secondary:focus [class*=ic-],
-.button-text.light-secondary:focus [class*=ic-] {
+.btn__ic.light-secondary:focus [class*=ic-], .btn__text--box.light-secondary:focus [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-secondary:hover,
-.button-icon.light-secondary:hover,
-.button-text.light-secondary:hover {
+.btn__ic.light-secondary:hover, .btn__text--box.light-secondary:hover {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #FFFFFF;
 }
-.button.light-secondary:hover [class*=ic-],
-.button-icon.light-secondary:hover [class*=ic-],
-.button-text.light-secondary:hover [class*=ic-] {
+.btn__ic.light-secondary:hover [class*=ic-], .btn__text--box.light-secondary:hover [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-secondary:enabled:active, .button.light-secondary:enabled.active,
-.button-icon.light-secondary:enabled:active,
-.button-icon.light-secondary:enabled.active,
-.button-text.light-secondary:enabled:active,
-.button-text.light-secondary:enabled.active {
+.btn__ic.light-secondary:enabled:active, .btn__ic.light-secondary:enabled.active, .btn__text--box.light-secondary:enabled:active, .btn__text--box.light-secondary:enabled.active {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.4);
   border-color: #FFFFFF;
 }
-.button.light-secondary:enabled:active [class*=ic-], .button.light-secondary:enabled.active [class*=ic-],
-.button-icon.light-secondary:enabled:active [class*=ic-],
-.button-icon.light-secondary:enabled.active [class*=ic-],
-.button-text.light-secondary:enabled:active [class*=ic-],
-.button-text.light-secondary:enabled.active [class*=ic-] {
+.btn__ic.light-secondary:enabled:active [class*=ic-], .btn__ic.light-secondary:enabled.active [class*=ic-], .btn__text--box.light-secondary:enabled:active [class*=ic-], .btn__text--box.light-secondary:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-secondary:disabled, .button.light-secondary.disabled,
-.button-icon.light-secondary:disabled,
-.button-icon.light-secondary.disabled,
-.button-text.light-secondary:disabled,
-.button-text.light-secondary.disabled {
+.btn__ic.light-secondary:disabled, .btn__ic.light-secondary.disabled, .btn__text--box.light-secondary:disabled, .btn__text--box.light-secondary.disabled {
   color: #ABB0B5;
   border-color: #EEEEEE;
 }
-.button.light-secondary:disabled [class*=ic-], .button.light-secondary.disabled [class*=ic-],
-.button-icon.light-secondary:disabled [class*=ic-],
-.button-icon.light-secondary.disabled [class*=ic-],
-.button-text.light-secondary:disabled [class*=ic-],
-.button-text.light-secondary.disabled [class*=ic-] {
+.btn__ic.light-secondary:disabled [class*=ic-], .btn__ic.light-secondary.disabled [class*=ic-], .btn__text--box.light-secondary:disabled [class*=ic-], .btn__text--box.light-secondary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.light-extra,
-.button-icon.light-extra,
-.button-text.light-extra {
+.btn__ic.light-extra, .btn__text--box.light-extra {
   color: #FFFFFF;
   background-color: transparent;
   border-color: transparent;
 }
-.button.light-extra [class*=ic-],
-.button-icon.light-extra [class*=ic-],
-.button-text.light-extra [class*=ic-] {
+.btn__ic.light-extra [class*=ic-], .btn__text--box.light-extra [class*=ic-] {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
 }
-.button.light-extra:focus,
-.button-icon.light-extra:focus,
-.button-text.light-extra:focus {
+.btn__ic.light-extra:focus, .btn__text--box.light-extra:focus {
   color: #FFFFFF;
   background-color: transparent;
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.light-extra:focus [class*=ic-],
-.button-icon.light-extra:focus [class*=ic-],
-.button-text.light-extra:focus [class*=ic-] {
+.btn__ic.light-extra:focus [class*=ic-], .btn__text--box.light-extra:focus [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-extra:hover,
-.button-icon.light-extra:hover,
-.button-text.light-extra:hover {
+.btn__ic.light-extra:hover, .btn__text--box.light-extra:hover {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.2);
 }
-.button.light-extra:hover [class*=ic-],
-.button-icon.light-extra:hover [class*=ic-],
-.button-text.light-extra:hover [class*=ic-] {
+.btn__ic.light-extra:hover [class*=ic-], .btn__text--box.light-extra:hover [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-extra:enabled:active, .button.light-extra:enabled.active,
-.button-icon.light-extra:enabled:active,
-.button-icon.light-extra:enabled.active,
-.button-text.light-extra:enabled:active,
-.button-text.light-extra:enabled.active {
+.btn__ic.light-extra:enabled:active, .btn__ic.light-extra:enabled.active, .btn__text--box.light-extra:enabled:active, .btn__text--box.light-extra:enabled.active {
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.4);
   border-color: rgba(255, 255, 255, 0.4);
 }
-.button.light-extra:enabled:active [class*=ic-], .button.light-extra:enabled.active [class*=ic-],
-.button-icon.light-extra:enabled:active [class*=ic-],
-.button-icon.light-extra:enabled.active [class*=ic-],
-.button-text.light-extra:enabled:active [class*=ic-],
-.button-text.light-extra:enabled.active [class*=ic-] {
+.btn__ic.light-extra:enabled:active [class*=ic-], .btn__ic.light-extra:enabled.active [class*=ic-], .btn__text--box.light-extra:enabled:active [class*=ic-], .btn__text--box.light-extra:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
-.button.light-extra:disabled, .button.light-extra.disabled,
-.button-icon.light-extra:disabled,
-.button-icon.light-extra.disabled,
-.button-text.light-extra:disabled,
-.button-text.light-extra.disabled {
+.btn__ic.light-extra:disabled, .btn__ic.light-extra.disabled, .btn__text--box.light-extra:disabled, .btn__text--box.light-extra.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.light-extra:disabled [class*=ic-], .button.light-extra.disabled [class*=ic-],
-.button-icon.light-extra:disabled [class*=ic-],
-.button-icon.light-extra.disabled [class*=ic-],
-.button-text.light-extra:disabled [class*=ic-],
-.button-text.light-extra.disabled [class*=ic-] {
+.btn__ic.light-extra:disabled [class*=ic-], .btn__ic.light-extra.disabled [class*=ic-], .btn__text--box.light-extra:disabled [class*=ic-], .btn__text--box.light-extra.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button.light-form,
-.button-icon.light-form,
-.button-text.light-form {
+.btn__ic.light-form, .btn__text--box.light-form {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #E0E0E0;
 }
-.button.light-form [class*=ic-],
-.button-icon.light-form [class*=ic-],
-.button-text.light-form [class*=ic-] {
+.btn__ic.light-form [class*=ic-], .btn__text--box.light-form [class*=ic-] {
   display: inline-block;
   background: #424242;
   pointer-events: none;
 }
-.button.light-form:focus,
-.button-icon.light-form:focus,
-.button-text.light-form:focus {
+.btn__ic.light-form:focus, .btn__text--box.light-form:focus {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button.light-form:focus [class*=ic-],
-.button-icon.light-form:focus [class*=ic-],
-.button-text.light-form:focus [class*=ic-] {
+.btn__ic.light-form:focus [class*=ic-], .btn__text--box.light-form:focus [class*=ic-] {
   background: #424242;
 }
-.button.light-form:hover,
-.button-icon.light-form:hover,
-.button-text.light-form:hover {
+.btn__ic.light-form:hover, .btn__text--box.light-form:hover {
   color: #424242;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.light-form:hover [class*=ic-],
-.button-icon.light-form:hover [class*=ic-],
-.button-text.light-form:hover [class*=ic-] {
+.btn__ic.light-form:hover [class*=ic-], .btn__text--box.light-form:hover [class*=ic-] {
   background: #424242;
 }
-.button.light-form:enabled:active, .button.light-form:enabled.active,
-.button-icon.light-form:enabled:active,
-.button-icon.light-form:enabled.active,
-.button-text.light-form:enabled:active,
-.button-text.light-form:enabled.active {
+.btn__ic.light-form:enabled:active, .btn__ic.light-form:enabled.active, .btn__text--box.light-form:enabled:active, .btn__text--box.light-form:enabled.active {
   color: #424242;
   background-color: #E0E0E0;
   border-color: #BDBDBD;
 }
-.button.light-form:enabled:active [class*=ic-], .button.light-form:enabled.active [class*=ic-],
-.button-icon.light-form:enabled:active [class*=ic-],
-.button-icon.light-form:enabled.active [class*=ic-],
-.button-text.light-form:enabled:active [class*=ic-],
-.button-text.light-form:enabled.active [class*=ic-] {
+.btn__ic.light-form:enabled:active [class*=ic-], .btn__ic.light-form:enabled.active [class*=ic-], .btn__text--box.light-form:enabled:active [class*=ic-], .btn__text--box.light-form:enabled.active [class*=ic-] {
   background: #424242;
 }
-.button.light-form:disabled, .button.light-form.disabled,
-.button-icon.light-form:disabled,
-.button-icon.light-form.disabled,
-.button-text.light-form:disabled,
-.button-text.light-form.disabled {
+.btn__ic.light-form:disabled, .btn__ic.light-form.disabled, .btn__text--box.light-form:disabled, .btn__text--box.light-form.disabled {
   color: #ABB0B5;
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.button.light-form:disabled [class*=ic-], .button.light-form.disabled [class*=ic-],
-.button-icon.light-form:disabled [class*=ic-],
-.button-icon.light-form.disabled [class*=ic-],
-.button-text.light-form:disabled [class*=ic-],
-.button-text.light-form.disabled [class*=ic-] {
+.btn__ic.light-form:disabled [class*=ic-], .btn__ic.light-form.disabled [class*=ic-], .btn__text--box.light-form:disabled [class*=ic-], .btn__text--box.light-form.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-
-.button-icon {
-  padding: 0.4375rem;
-  line-height: 0;
-}
-.button-icon-sm {
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
-  padding: 0;
-  border: none;
-  background-color: #E0E0E0;
-  cursor: pointer;
-}
-.button-icon-sm [class*=ic-] {
-  width: 0.5rem;
-  height: 0.5rem;
-  margin: 0.25rem;
-  background-color: #424242;
-}
-.button-icon-sm:hover {
-  background-color: #EEEEEE;
-}
-
-.button-text {
-  padding: 0;
-  color: #63686C;
-  line-height: 1.25rem;
-}
-.button-text:hover {
-  text-decoration: underline;
-  text-underline-position: under;
-  color: #ABB0B5;
-}
-.button-text:hover:hover {
-  text-decoration: underline;
-}
-.button-text:active, .button-text:focus {
-  color: #222529;
-}
-.button-text:disabled, .button-text.disabled {
-  color: #CFD5D9;
-}
-
-.button-list {
+.btn__list {
   display: inline-flex;
   position: relative;
   vertical-align: middle;
 }
-.button-list .button:not(:last-child),
-.button-list .button-icon:not(:last-child) {
+.btn__list .btn__ic:not(:last-child), .btn__list .btn__text--box:not(:last-child) {
   margin-right: 0.5rem;
 }
 
-.button-switch-group,
-.button-toggle-group {
+.btn__toggle__switch {
+  position: relative !important;
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+  height: 1.75rem;
+  color: #424242;
+  line-height: 1.2;
+  outline: none;
+}
+.btn__toggle__switch__label {
+  display: inline-block;
+  height: 1.125rem;
+  margin-left: 3rem;
+  cursor: pointer;
+}
+.btn__toggle__switch input[type=checkbox] {
+  display: none;
+}
+.btn__toggle__switch input[type=checkbox] + span {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 2.5rem;
+  -webkit-border-radius: 2.5rem;
+  -moz-border-radius: 2.5rem;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -ms-transition: 0.4s;
+  transition: 0.4s;
+  width: 2.5rem;
+  height: 1.25rem;
+  margin: 0;
+  background-color: #ABB0B5;
+  cursor: pointer;
+}
+.btn__toggle__switch input[type=checkbox] + span::before {
+  position: absolute !important;
+  top: 0.1rem;
+  left: 0.125rem;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  background-color: #FFFFFF;
+}
+.btn__toggle__switch input[type=checkbox] + span::after {
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_remove.svg");
+  mask-image: url("../../assets/media/icons/icon_remove.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  position: absolute !important;
+  right: 0.125rem;
+  content: "";
+  background-color: #FFFFFF;
+  -webkit-mask-size: 1.5rem;
+  mask-size: 1.5rem;
+}
+.btn__toggle__switch input[type=checkbox]:checked + span {
+  background-color: #2559A8;
+}
+.btn__toggle__switch input[type=checkbox]:checked + span::before {
+  -webkit-transform: translate(1.25rem, 0);
+  -moz-transform: translate(1.25rem, 0);
+  -o-transform: translate(1.25rem, 0);
+  -ms-transform: translate(1.25rem, 0);
+  transform: translate(1.25rem, 0);
+}
+.btn__toggle__switch input[type=checkbox]:checked + span::after {
+  left: 0;
+  -webkit-mask-size: 1.125rem;
+  mask-size: 1.125rem;
+  -webkit-mask-image: url("../../assets/media/icons/icon_check.svg");
+  mask-image: url("../../assets/media/icons/icon_check.svg");
+}
+.btn__toggle__switch input[type=checkbox]:disabled + span {
+  background-color: #E1E6EA;
+}
+.btn__toggle__switch__list {
+  height: 22.5rem;
+  padding: 0.5rem 0.625rem;
+}
+.btn__toggle__switch__list .right {
+  right: 0.25rem;
+}
+.btn__toggle__switch__list .padding {
+  padding: 0.1875rem 0 0.1875rem 0;
+}
+.btn__toggle__switch__list .os-content {
+  padding-top: 0 !important;
+}
+.btn__toggle__switch__list li {
+  overflow: hidden;
+  display: list-item;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  height: 2.5rem;
+  padding-right: 0.2rem;
+}
+.btn__toggle__switch__list .btn__toggle__switch__label {
+  margin-left: 0;
+}
+.btn__toggle__switch__list .btn__toggle__switch input[type=checkbox] + span {
+  left: inherit;
+}
+.btn__toggle__button {
   display: inline-flex;
   flex-direction: row;
   vertical-align: middle;
 }
-.button-switch-group .button-switch,
-.button-switch-group .button-toggle,
-.button-toggle-group .button-switch,
-.button-toggle-group .button-toggle {
+.btn__toggle__button--single, .btn__toggle__button--multi {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
@@ -8301,160 +8032,116 @@ span.ic-paging-end-arrow {
   white-space: nowrap;
   cursor: pointer;
 }
-.button-switch-group .button-switch:not(:first-child),
-.button-switch-group .button-toggle:not(:first-child),
-.button-toggle-group .button-switch:not(:first-child),
-.button-toggle-group .button-toggle:not(:first-child) {
+.btn__toggle__button--single:not(:first-child), .btn__toggle__button--multi:not(:first-child) {
   margin-left: -0.0625rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.button-switch-group .button-switch:not(:last-of-type),
-.button-switch-group .button-toggle:not(:last-of-type),
-.button-toggle-group .button-switch:not(:last-of-type),
-.button-toggle-group .button-toggle:not(:last-of-type) {
+.btn__toggle__button--single:not(:last-of-type), .btn__toggle__button--multi:not(:last-of-type) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.button-switch-group .button-switch:focus,
-.button-switch-group .button-toggle:focus,
-.button-toggle-group .button-switch:focus,
-.button-toggle-group .button-toggle:focus {
+.btn__toggle__button--single:focus, .btn__toggle__button--multi:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   color: #222529;
   outline: 0;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.button-switch-group .button-switch:focus [class*=ic-],
-.button-switch-group .button-toggle:focus [class*=ic-],
-.button-toggle-group .button-switch:focus [class*=ic-],
-.button-toggle-group .button-toggle:focus [class*=ic-] {
+.btn__toggle__button--single:focus [class*=ic-], .btn__toggle__button--multi:focus [class*=ic-] {
   background: #222529;
 }
-.button-switch-group .button-switch:hover,
-.button-switch-group .button-toggle:hover,
-.button-toggle-group .button-switch:hover,
-.button-toggle-group .button-toggle:hover {
+.btn__toggle__button--single:hover, .btn__toggle__button--multi:hover {
   border-color: #CFD5D9;
   background-color: #D6EDFC;
   color: #222529;
   outline: 0;
 }
-.button-switch-group .button-switch:hover [class*=ic-],
-.button-switch-group .button-toggle:hover [class*=ic-],
-.button-toggle-group .button-switch:hover [class*=ic-],
-.button-toggle-group .button-toggle:hover [class*=ic-] {
+.btn__toggle__button--single:hover [class*=ic-], .btn__toggle__button--multi:hover [class*=ic-] {
   background: #222529;
 }
-.button-switch-group .button-switch:enabled:active, .button-switch-group .button-switch:enabled.active,
-.button-switch-group .button-toggle:enabled:active,
-.button-switch-group .button-toggle:enabled.active,
-.button-toggle-group .button-switch:enabled:active,
-.button-toggle-group .button-switch:enabled.active,
-.button-toggle-group .button-toggle:enabled:active,
-.button-toggle-group .button-toggle:enabled.active {
+.btn__toggle__button--single:enabled:active, .btn__toggle__button--single:enabled.active, .btn__toggle__button--multi:enabled:active, .btn__toggle__button--multi:enabled.active {
   border-color: #619CDB;
   background-color: #AFD9F9;
   color: #19428D;
   z-index: 25;
 }
-.button-switch-group .button-switch:enabled:active [class*=ic-], .button-switch-group .button-switch:enabled.active [class*=ic-],
-.button-switch-group .button-toggle:enabled:active [class*=ic-],
-.button-switch-group .button-toggle:enabled.active [class*=ic-],
-.button-toggle-group .button-switch:enabled:active [class*=ic-],
-.button-toggle-group .button-switch:enabled.active [class*=ic-],
-.button-toggle-group .button-toggle:enabled:active [class*=ic-],
-.button-toggle-group .button-toggle:enabled.active [class*=ic-] {
+.btn__toggle__button--single:enabled:active [class*=ic-], .btn__toggle__button--single:enabled.active [class*=ic-], .btn__toggle__button--multi:enabled:active [class*=ic-], .btn__toggle__button--multi:enabled.active [class*=ic-] {
   background: #19428D;
 }
-.button-switch-group .button-switch:disabled, .button-switch-group .button-switch.disabled,
-.button-switch-group .button-toggle:disabled,
-.button-switch-group .button-toggle.disabled,
-.button-toggle-group .button-switch:disabled,
-.button-toggle-group .button-switch.disabled,
-.button-toggle-group .button-toggle:disabled,
-.button-toggle-group .button-toggle.disabled {
+.btn__toggle__button--single:disabled, .btn__toggle__button--single.disabled, .btn__toggle__button--multi:disabled, .btn__toggle__button--multi.disabled {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
   color: #ABB0B5;
   cursor: default;
 }
-.button-switch-group .button-switch:disabled [class*=ic-], .button-switch-group .button-switch.disabled [class*=ic-],
-.button-switch-group .button-toggle:disabled [class*=ic-],
-.button-switch-group .button-toggle.disabled [class*=ic-],
-.button-toggle-group .button-switch:disabled [class*=ic-],
-.button-toggle-group .button-switch.disabled [class*=ic-],
-.button-toggle-group .button-toggle:disabled [class*=ic-],
-.button-toggle-group .button-toggle.disabled [class*=ic-] {
+.btn__toggle__button--single:disabled [class*=ic-], .btn__toggle__button--single.disabled [class*=ic-], .btn__toggle__button--multi:disabled [class*=ic-], .btn__toggle__button--multi.disabled [class*=ic-] {
   background: #ABB0B5;
 }
-.button-switch-group .button-switch.selected:not(:disabled), .button-switch-group .button-switch.selected:not(.disabled),
-.button-switch-group .button-toggle.selected:not(:disabled),
-.button-switch-group .button-toggle.selected:not(.disabled),
-.button-toggle-group .button-switch.selected:not(:disabled),
-.button-toggle-group .button-switch.selected:not(.disabled),
-.button-toggle-group .button-toggle.selected:not(:disabled),
-.button-toggle-group .button-toggle.selected:not(.disabled) {
+.btn__toggle__button--single.selected:not(:disabled), .btn__toggle__button--single.selected:not(.disabled), .btn__toggle__button--multi.selected:not(:disabled), .btn__toggle__button--multi.selected:not(.disabled) {
   border-color: #3373C4;
   background-color: #FFFFFF;
   color: #3373C4;
   z-index: 25;
 }
-.button-switch-group .button-switch.selected:not(:disabled) [class*=ic-], .button-switch-group .button-switch.selected:not(.disabled) [class*=ic-],
-.button-switch-group .button-toggle.selected:not(:disabled) [class*=ic-],
-.button-switch-group .button-toggle.selected:not(.disabled) [class*=ic-],
-.button-toggle-group .button-switch.selected:not(:disabled) [class*=ic-],
-.button-toggle-group .button-switch.selected:not(.disabled) [class*=ic-],
-.button-toggle-group .button-toggle.selected:not(:disabled) [class*=ic-],
-.button-toggle-group .button-toggle.selected:not(.disabled) [class*=ic-] {
+.btn__toggle__button--single.selected:not(:disabled) [class*=ic-], .btn__toggle__button--single.selected:not(.disabled) [class*=ic-], .btn__toggle__button--multi.selected:not(:disabled) [class*=ic-], .btn__toggle__button--multi.selected:not(.disabled) [class*=ic-] {
   background: #3373C4;
 }
-.button-switch-group .button-switch [class*=ic-],
-.button-switch-group .button-toggle [class*=ic-],
-.button-toggle-group .button-switch [class*=ic-],
-.button-toggle-group .button-toggle [class*=ic-] {
+.btn__toggle__button--single [class*=ic-], .btn__toggle__button--multi [class*=ic-] {
   display: inline-block;
   background: #222529;
   vertical-align: middle;
   pointer-events: none;
 }
-.button-switch-group.vertical,
-.button-toggle-group.vertical {
+.btn__toggle__button.vertical {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
 }
-.button-switch-group.vertical .button-switch,
-.button-switch-group.vertical .button-toggle,
-.button-toggle-group.vertical .button-switch,
-.button-toggle-group.vertical .button-toggle {
+.btn__toggle__button.vertical .btn__toggle__button--single,
+.btn__toggle__button.vertical .btn__toggle__button--multi {
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   flex: 0 1 auto;
   width: 100%;
 }
-.button-switch-group.vertical .button-switch:not(:first-child),
-.button-switch-group.vertical .button-toggle:not(:first-child),
-.button-toggle-group.vertical .button-switch:not(:first-child),
-.button-toggle-group.vertical .button-toggle:not(:first-child) {
+.btn__toggle__button.vertical .btn__toggle__button--single:not(:first-child),
+.btn__toggle__button.vertical .btn__toggle__button--multi:not(:first-child) {
   margin-left: 0;
   margin-top: -0.0625rem;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-.button-switch-group.vertical .button-switch:not(:last-of-type),
-.button-switch-group.vertical .button-toggle:not(:last-of-type),
-.button-toggle-group.vertical .button-switch:not(:last-of-type),
-.button-toggle-group.vertical .button-toggle:not(:last-of-type) {
+.btn__toggle__button.vertical .btn__toggle__button--single:not(:last-of-type),
+.btn__toggle__button.vertical .btn__toggle__button--multi:not(:last-of-type) {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.button-code .ic-search {
-  background: #8B9094;
-  pointer-events: none;
+.item-remove {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  position: relative;
+  margin-top: 0.625rem;
+  margin-right: 1rem;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: none;
+  background-color: #E0E0E0;
+  cursor: pointer;
+  -webkit-print-color-adjust: exact;
+}
+.item-remove:hover {
+  background-color: #EEEEEE;
+}
+.item-remove [class*=ic-] {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0.25rem;
+  background-color: #424242;
 }
 
 /*
@@ -8469,7 +8156,7 @@ span.ic-paging-end-arrow {
   --data-modal-height: 375;
 }
 
-.button-switch .text {
+.btn__toggle__button--single .text {
   display: inline-block;
   padding: 0.5625rem 0.875rem;
   pointer-events: none;
@@ -8851,7 +8538,7 @@ span.ic-paging-end-arrow {
 .modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .flex-column {
   gap: 1rem;
 }
-.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .button-list {
+.modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .btn__list {
   margin-left: auto;
 }
 .modal-wrapper .modal-dialog.calendar__modal--detail .modal-content .calendar__modal--detail__main .schedule__title {
@@ -9205,7 +8892,7 @@ span.ic-paging-end-arrow {
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .color-text {
   text-align: center;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .button-list {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .btn__list {
   width: 100%;
   text-align: right;
 }
@@ -9255,7 +8942,7 @@ span.ic-paging-end-arrow {
   font-size: 0.875rem;
   font-weight: 700;
 }
-.picker-modal-title .button-icon {
+.picker-modal-title .btn__ic {
   position: absolute !important;
   top: 0.25rem;
   left: 0.5rem;
@@ -9458,7 +9145,7 @@ span.ic-paging-end-arrow {
   -webkit-border-radius: 0 0.125rem 0.125rem 0;
   -moz-border-radius: 0 0.125rem 0.125rem 0;
 }
-.picker-modal-content-time .button-toggle-group {
+.picker-modal-content-time .btn__toggle__button {
   padding-left: 0.5rem;
 }
 .picker-modal-content-time .separator {
@@ -9557,7 +9244,6 @@ span.ic-paging-end-arrow {
 }
 
 /* _element.scss
- *
  *
  * 파일 경로 : components/_element.scss
  * @description HTML element 디자인
@@ -9679,28 +9365,28 @@ table td, table th {
 .table .table-body .no-data-found-list {
   pointer-events: none;
 }
-.table .table-body .button-icon {
+.table .table-body .btn__ic {
   padding: 0;
   background-color: transparent;
   border-color: transparent;
 }
-.table .table-body .button-icon:hover, .table .table-body .button-icon:focus, .table .table-body .button-icon:active, .table .table-body .button-icon:disabled {
+.table .table-body .btn__ic:hover, .table .table-body .btn__ic:focus, .table .table-body .btn__ic:active, .table .table-body .btn__ic:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.table .table-body .button-icon [class*=ic-] {
+.table .table-body .btn__ic [class*=ic-] {
   background-color: #63686C;
 }
-.table .table-body .button-icon:hover [class*=ic-] {
+.table .table-body .btn__ic:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.table .table-body .button-icon:focus [class*=ic-] {
+.table .table-body .btn__ic:focus [class*=ic-] {
   background-color: #222529;
 }
-.table .table-body .button-icon:active [class*=ic-] {
+.table .table-body .btn__ic:active [class*=ic-] {
   background-color: #222529;
 }
-.table .table-body .button-icon:disabled [class*=ic-] {
+.table .table-body .btn__ic:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 
@@ -9743,13 +9429,13 @@ table td, table th {
 .option-table tr.option-table-row .input:not(:placeholder-shown):not(:focus) {
   border-color: transparent;
 }
-.option-table tr.option-table-row .button-icon [class*=ic-] {
+.option-table tr.option-table-row .btn__ic [class*=ic-] {
   display: block;
   margin: 0 auto;
   background: #ABB0B5;
   pointer-events: none;
 }
-.option-table tr.option-table-row .button-icon:hover [class*=ic-] {
+.option-table tr.option-table-row .btn__ic:hover [class*=ic-] {
   background: #3373C4;
 }
 
@@ -9864,22 +9550,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 }
 .input-button .button-search:focus, .input-button .button-search:hover, .input-button .button-search:active {
   z-index: 25;
-}
-.input-button .button-icon-sm {
-  position: relative;
-  margin-top: 0.625rem;
-  -webkit-print-color-adjust: exact;
-}
-.input-button .button-icon-sm::before {
-  position: absolute !important;
-  bottom: -0.5rem;
-  border-bottom: 0.0625rem solid #CFD5D9;
-  content: "";
-  width: 100%;
-  height: 1px;
-}
-.input-button .button-icon-sm:disabled {
-  visibility: hidden;
 }
 .input::-webkit-outer-spin-button, .input::-webkit-inner-spin-button {
   margin: 0;
@@ -10337,44 +10007,6 @@ select.readonly {
   width: 23%;
 }
 
-.switch {
-  display: inline-block;
-  width: 100%;
-  margin: 0 !important;
-}
-.switch .label-name {
-  width: 12.5rem;
-}
-.switch-list {
-  height: 22.5rem;
-  padding: 0.5rem 0.625rem;
-}
-.switch-list .right {
-  right: 0.25rem;
-}
-.switch-list .padding {
-  padding: 0.1875rem 0 0.1875rem 0;
-}
-.switch-list .os-content {
-  padding-top: 0 !important;
-}
-.switch-list li {
-  overflow: hidden;
-  display: list-item;
-  max-width: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  word-wrap: normal;
-  height: 2.5rem;
-  padding-right: 0.2rem;
-}
-.switch-list .switch .label {
-  margin-left: 0;
-}
-.switch-list .switch input[type=checkbox] + span {
-  left: inherit;
-}
-
 .checkbox {
   margin-right: 0.5rem;
   color: #424242;
@@ -10617,6 +10249,26 @@ select.readonly {
 
 .divider {
   margin: 0;
+}
+
+.input--remove input {
+  flex-basis: 100%;
+}
+.input--remove .item-remove {
+  position: relative;
+  margin-top: 0.625rem;
+  -webkit-print-color-adjust: exact;
+}
+.input--remove .item-remove::before {
+  position: absolute !important;
+  bottom: -0.5rem;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  content: "";
+  width: 100%;
+  height: 1px;
+}
+.input--remove .item-remove:disabled {
+  visibility: hidden;
 }
 
 /* _file-uploader.scss 
@@ -11365,28 +11017,28 @@ body.modal-active {
   grid-column: 1/-1;
   justify-content: center;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic {
   padding: 0;
   border-color: transparent;
   background-color: transparent;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:hover, .modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:focus, .modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:active, .modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:disabled {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:hover, .modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:focus, .modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:active, .modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon [class*=ic-] {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic [class*=ic-] {
   background-color: #63686C;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:hover [class*=ic-] {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:focus [class*=ic-] {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:focus [class*=ic-] {
   background-color: #222529;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:active [class*=ic-] {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:active [class*=ic-] {
   background-color: #222529;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .button-icon:disabled [class*=ic-] {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__ic:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 .modal-dialog.modal-button-search-modal .modal-content .grid {
@@ -12252,7 +11904,7 @@ body.modal-active {
 .itsm-popup .view .view-row {
   margin: 0.625rem 0 0 0;
 }
-.itsm-popup .view .view-row .button-list {
+.itsm-popup .view .view-row .btn__list {
   margin-top: 1.875rem;
 }
 .itsm-popup .view-title {
@@ -13558,11 +13210,11 @@ body.modal-active {
   padding: 0 0.625rem 0 0.9375rem;
   line-height: 2.5rem;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom .button-icon {
+.thumbnail-main .thumbnail .thumbnail-bottom .btn__ic {
   padding: 0;
   height: 2.5rem;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom .button-icon .ic-delete {
+.thumbnail-main .thumbnail .thumbnail-bottom .btn__ic .ic-delete {
   background: #ABB0B5;
 }
 .thumbnail-main .thumbnail-upload {
