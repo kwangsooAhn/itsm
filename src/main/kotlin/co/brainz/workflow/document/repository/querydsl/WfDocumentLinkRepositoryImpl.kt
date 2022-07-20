@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository
 class WfDocumentLinkRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentLinkRepositoryCustom {
 
-    override fun findByDocumentLink(documentSearchCondition: DocumentSearchCondition):
+    override fun findByDocumentLink(documentSearchCondition: DocumentSearchCondition, targetIds: List<String>):
             List<DocumentDto> {
         val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
 
@@ -55,6 +55,7 @@ class WfDocumentLinkRepositoryImpl :
                     } else {
                         super.eq(documentLink.documentStatus, WfDocumentConstants.Status.USE.code)
                     }
+                    documentLink.documentLinkId.`in`(targetIds)
                 } else {
                     super.eq(documentLink.documentStatus, documentSearchCondition.searchDocumentStatus)
                 },

@@ -4,39 +4,47 @@
 <head>
 </head>
 <body>
-<div class="card-list flex-row justify-content-start align-itmes-start">
-    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
+<div class="card-list">
+    <!-- 데이터가 없는 경우 -->
     <div class="card flex-row justify-content-center no-data-found" th:if="${#arrays.isEmpty(documentList)}">
         <img class="img ic-no-card" />
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
-    <th:block th:fragment="list">
-        <div class="card document-card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
-             sec:authorize="hasAuthority('general')">
-            <a th:if="${document.documentType == 'application-form-link'}" th:href="@{${document.documentLinkUrl}}" th:target="_blank">
-                <div class="document-column">
-                    <div class="flex-row align-items-center mb-2">
-                          <span th:if="${document.documentStatus} == 'document.status.temporary'"
-                                th:text="#{document.label.tempDocument}" class="label--document document-temp-status"></span>
+    <!-- 그룹 별 신청서 목록 -->
+    <div class="document__group flex-row justify-content-start align-items-start" name="documentGroup"
+         th:each="group: ${groupList}">
+        <label class="document__label flex-row justify-content-start">
+            <span th:classappend="#{|ic-document-${#strings.arraySplit(group.code, '.')[2]}|}"></span>
+            <span class="document__label--text pt-2 pb-2 ml-2 mr-auto" th:text="${group.codeValue}"></span>
+        </label>
+        <th:block th:fragment="list" th:unless="${#arrays.isEmpty(documentList)}" th:each="document, index: ${documentList}">
+            <div class="card card__document inline-block" th:if="${document.documentGroup} == ${group.code}">
+                <a class="card__document--item" th:if="${document.documentType == 'application-form-link'}"
+                   th:href="@{${document.documentLinkUrl}}" th:target="_blank">
+                    <div class="document__item">
+                    <span class="document__item--title text-ellipsis mr-3"
+                          th:classappend="${document.documentStatus} == 'document.status.temporary' ? 'temp' : ''"
+                          th:text="${document.documentName}" th:title="${document.documentName}"></span>
+                        <span class="label__document--temp" th:if="${document.documentStatus} == 'document.status.temporary'"
+                              th:text="#{document.label.tempDocument}"></span>
+                        <label class="document__item--desc text-ellipsis-multi mt-3"
+                               th:text="${document.documentDesc}" th:title="${document.documentDesc}"></label>
                     </div>
-                    <div class="flex-row align-items-center">
-                        <span th:text="${document.documentName}" class="text-ellipsis document-name" th:title="${document.documentName}"></span>
-                    </div>
-                    <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
+                </a>
+                <div class="document__item" th:unless="${document.documentType == 'application-form-link'}"
+                     th:onclick="zDocument.openDocumentPopup([[${document.documentId}]])">
+                <span class="document__item--title text-ellipsis mr-3"
+                      th:classappend="${document.documentStatus} == 'document.status.temporary' ? 'temp' : ''"
+                      th:text="${document.documentName}" th:title="${document.documentName}"></span>
+                    <span class="label__document--temp" th:if="${document.documentStatus} == 'document.status.temporary'"
+                          th:text="#{document.label.tempDocument}"></span>
+                    <label class="document__item--desc text-ellipsis-multi mt-3"
+                           th:text="${document.documentDesc}" th:title="${document.documentDesc}"></label>
                 </div>
-            </a>
-            <div th:unless="${document.documentType == 'application-form-link'}" class="document-column"  th:onclick="zDocument.openDocumentPopup([[${document.documentId}]])">
-                <div class="flex-row align-items-center mb-2">
-                <span th:if="${document.documentStatus} == 'document.status.temporary'"
-                      th:text="#{document.label.tempDocument}" class="label--document document-temp-status"></span>
-                </div>
-                <div class="flex-row align-items-center">
-                    <span th:text="${document.documentName}" class="text-ellipsis document-name" th:title="${document.documentName}"></span>
-                </div>
-                <label th:text="${document.documentDesc}" class="document-description text-ellipsis" th:title="${document.documentDesc}"></label>
             </div>
-        </div>
-    </th:block>
+        </th:block>
+    </div>
+    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
 </div>
 </body>
 </html>

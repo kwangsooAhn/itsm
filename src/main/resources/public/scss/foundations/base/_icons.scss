@@ -13,7 +13,7 @@
 // 2rem, 2rem         // 32px 32px
 [class*="ic-"] {
   display: inline-block;
-  -webkit-print-color-adjust: exact;  
+  -webkit-print-color-adjust: exact;
 }
 
 span {
@@ -159,6 +159,13 @@ span {
   &.ic-paging-prev-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_prev.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
   &.ic-paging-next-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_next.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
   &.ic-paging-end-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_end.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
+
+  ////////////////////////// Document //////////////////////////
+  &.ic-document-service { @include maskImage('#{$icon-folder-path}document/icon_document_service.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-pc { @include maskImage('#{$icon-folder-path}document/icon_document_pc.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-incident { @include maskImage('#{$icon-folder-path}document/icon_document_incident.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-develop { @include maskImage('#{$icon-folder-path}document/icon_document_develop.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-report { @include maskImage('#{$icon-folder-path}document/icon_document_report.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
 }
 
 ////////////////////////// UI 컴포넌트 추가 //////////////////////////

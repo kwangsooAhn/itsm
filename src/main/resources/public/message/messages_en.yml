@@ -710,7 +710,7 @@ document:
     role: "Inquiry target role"
     searchPlaceholder: "Document name / Document description"
     status: "Service Request Status"
-    tempDocument: "Temporary Application"
+    tempDocument: "Temporary"
     type: "Document Type"
     useYn: "Use enable"
     write: "WorkFlow register"
