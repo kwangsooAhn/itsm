@@ -160,6 +160,7 @@ insert into awf_code values ('form', 'root', null, '문서양식', null, false, 
 insert into awf_code values ('form.lang', 'form', null, '문서양식 언어', null, false, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.lang.ko', 'form.lang', null, '한국어', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('form.template', 'form', null, '템플릿', null, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+/* 단순문의 */
 insert into awf_code values ('form.template.serviceDesk.inquiry', 'form.template', 'form.template.serviceDesk.inquiry', '서비스데스크 - 단순문의', '', true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 /* 단순문의 - 서비스 항목*/
 insert into awf_code values ('form.template.serviceDesk.inquiry.category', 'form.template.serviceDesk.inquiry', 'form.template.serviceDesk.inquiry.category', '서비스 항목', '단순문의 서비스 항목', true, true, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -871,7 +872,8 @@ INSERT INTO awf_role VALUES ('workflow.admin', '업무흐름 관리자', '', '05
 INSERT INTO awf_role VALUES ('cmdb.admin', 'CMDB 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('portal.admin', '포털 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('sla.admin', 'SLA 관리자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
-
+INSERT INTO awf_role VALUES ('continuity.manager', '연속성 담당자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+INSERT INTO awf_role VALUES ('continuity.admin', '연속성 관리자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
 /**
  * 역할권한매핑
  */
@@ -929,6 +931,17 @@ INSERT INTO awf_role_auth_map VALUES ('portal.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'general');
 INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'document.view');
 INSERT INTO awf_role_auth_map VALUES ('sla.admin', 'sla.manage');
+INSERT INTO awf_role_auth_map VALUES ('continuity.manager', 'general');
+INSERT INTO awf_role_auth_map VALUES ('continuity.manager', 'workflow.manage');
+INSERT INTO awf_role_auth_map VALUES ('continuity.manager', 'report.manage');
+INSERT INTO awf_role_auth_map VALUES ('continuity.manager', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('continuity.manager', 'document.view');
+INSERT INTO awf_role_auth_map VALUES ('continuity.admin', 'general');
+INSERT INTO awf_role_auth_map VALUES ('continuity.admin', 'workflow.manage');
+INSERT INTO awf_role_auth_map VALUES ('continuity.admin', 'workflow.expire');
+INSERT INTO awf_role_auth_map VALUES ('continuity.admin', 'report.manage');
+INSERT INTO awf_role_auth_map VALUES ('continuity.admin', 'report.view');
+INSERT INTO awf_role_auth_map VALUES ('continuity.admin', 'document.view');
 
 /**
  * 문서번호패턴맵핑
@@ -2027,6 +2040,8 @@ insert into awf_user values ('40288ada7cfd3301017cfd3a78580000', 'user', '일반
 insert into awf_user values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin', '업무흐름 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'workflow_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
 insert into awf_user values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin', 'CMDB 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'cmdb_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
 insert into awf_user values ('2c91808e7c75dad2017c781635e22000', 'portal.admin', '포털 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'portal_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('2c91808e7c75dad2017c781635e22000', 'continuity.manager', '연속성 담당자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'continuity_manager@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('2c91808e7c75dad2017c781635e22000', 'continuity.admin', '연속성 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'continuity_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
 
 /**
  * 사용자역할매핑
@@ -2053,7 +2068,8 @@ insert into awf_user_role_map values ('40288ada7cfd3301017cfd3a78580000', 'gener
 insert into awf_user_role_map values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin');
 insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin');
 insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e22000', 'portal.admin');
-
+insert into awf_user_role_map values ('4028b21c821952af01821a1c73ef0176', 'continuity.manager');
+insert into awf_user_role_map values ('4028b21c821952af01821a1cf2630178', 'continuity.admin');
 /**
  * 게시판 관리
  */
