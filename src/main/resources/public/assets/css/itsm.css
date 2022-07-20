@@ -1695,17 +1695,13 @@ input, button, select, optgroup, textarea {
  * @description 공통으로 사용되는 아이콘
  * @author wdj
  * @version 1.0
- *
- * <선언 방법>
- * <span class="icon i-delete"></span>
- ** icon : 공통 아이콘 클래스
- ** i-delete: i는 아이콘 파일의 약자로 i- 뒤에는 이미지, svg 파일명(icon-delete.svg)과 동일하게 선언합니다.
  */
-.icon {
+[class*=ic-] {
   display: inline-block;
   -webkit-print-color-adjust: exact;
 }
-.icon.i-search {
+
+span.ic-search {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_search.svg");
@@ -1715,7 +1711,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-delete {
+span.ic-delete {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
@@ -1725,7 +1721,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-list-delete {
+span.ic-list-delete {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_delete.svg");
@@ -1735,7 +1731,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-edit {
+span.ic-edit {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_edit.svg");
@@ -1745,7 +1741,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-popup {
+span.ic-popup {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_popup.svg");
@@ -1755,7 +1751,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-clipboard {
+span.ic-clipboard {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_clipboard.svg");
@@ -1765,7 +1761,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-plus {
+span.ic-plus {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_plus.svg");
@@ -1775,7 +1771,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-minus {
+span.ic-minus {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_minus.svg");
@@ -1785,7 +1781,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-check {
+span.ic-check {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_check.svg");
@@ -1795,7 +1791,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-remove {
+span.ic-remove {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
@@ -1805,7 +1801,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-copy {
+span.ic-copy {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_copy.svg");
@@ -1815,7 +1811,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-arrow-right {
+span.ic-arrow-right {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_arrow_right.svg");
@@ -1825,7 +1821,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-arrow-double {
+span.ic-arrow-double {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_arrow_double.svg");
@@ -1835,7 +1831,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-color-palette {
+span.ic-color-palette {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/colorPicker/icon_color_palette.svg");
@@ -1845,7 +1841,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-image {
+span.ic-image {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_image.svg");
@@ -1855,7 +1851,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-folder {
+span.ic-folder {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_folder.svg");
@@ -1865,7 +1861,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-download {
+span.ic-download {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_download.svg");
@@ -1875,7 +1871,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-list-download {
+span.ic-list-download {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_list-download.svg");
@@ -1885,7 +1881,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-upload {
+span.ic-upload {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_upload.svg");
@@ -1895,7 +1891,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-tooltip {
+span.ic-tooltip {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_tooltip.svg");
@@ -1905,7 +1901,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-download-as-excel {
+span.ic-download-as-excel {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_download_xls.svg");
@@ -1915,7 +1911,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-sorting {
+span.ic-sorting {
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_sorting.svg");
@@ -1925,7 +1921,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-board {
+span.ic-gnb-board {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_board.svg");
@@ -1935,7 +1931,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-statistic {
+span.ic-gnb-statistic {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_statistic.svg");
@@ -1945,7 +1941,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-dashboard {
+span.ic-gnb-dashboard {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_dashboard.svg");
@@ -1955,7 +1951,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-document {
+span.ic-gnb-document {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_document.svg");
@@ -1965,7 +1961,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-archive {
+span.ic-gnb-archive {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_download.svg");
@@ -1975,7 +1971,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-faq {
+span.ic-gnb-faq {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_faq.svg");
@@ -1985,7 +1981,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-notice {
+span.ic-gnb-notice {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_notice.svg");
@@ -1995,7 +1991,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-config {
+span.ic-gnb-config {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_config.svg");
@@ -2005,7 +2001,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-workflow {
+span.ic-gnb-workflow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_workflow.svg");
@@ -2015,7 +2011,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-token {
+span.ic-gnb-token {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_token.svg");
@@ -2025,7 +2021,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-cmdb {
+span.ic-gnb-cmdb {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_cmdb.svg");
@@ -2035,7 +2031,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-calendar {
+span.ic-gnb-calendar {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_calendar.svg");
@@ -2045,7 +2041,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb-sla {
+span.ic-gnb-sla {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_sla.svg");
@@ -2055,7 +2051,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gnb_sub_dot {
+span.ic-gnb_sub_dot {
   width: 0.25rem;
   height: 0.25rem;
   -webkit-mask-image: url("../../assets/media/icons/gnb/icon_gnb_sub_dot.svg");
@@ -2065,7 +2061,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-save {
+span.ic-save {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save.svg");
@@ -2075,7 +2071,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-save-as {
+span.ic-save-as {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_save_as.svg");
@@ -2085,7 +2081,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-undo {
+span.ic-undo {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_undo.svg");
@@ -2095,7 +2091,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-redo {
+span.ic-redo {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_redo.svg");
@@ -2105,7 +2101,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-preview {
+span.ic-preview {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_preview.svg");
@@ -2115,7 +2111,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-simulation {
+span.ic-simulation {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_simulation.svg");
@@ -2125,7 +2121,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-image-download {
+span.ic-image-download {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/topmenu/icon_image_download.svg");
@@ -2135,7 +2131,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-create-template {
+span.ic-create-template {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/tooltip/icon_component_template.svg");
@@ -2145,7 +2141,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-no-image {
+span.ic-no-image {
   width: 100%;
   height: 2.813rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/form/icon_image_component.svg");
@@ -2158,7 +2154,7 @@ input, button, select, optgroup, textarea {
   mask-size: 2.813rem;
   background: #ABB0B5;
 }
-.icon.i-inputBox {
+span.ic-inputBox {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_inputbox.svg ");
@@ -2168,7 +2164,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-textArea {
+span.ic-textArea {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_textarea.svg ");
@@ -2178,7 +2174,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-textEditor {
+span.ic-textEditor {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_text_editor.svg ");
@@ -2188,7 +2184,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-dropdown {
+span.ic-dropdown {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dropdown.svg ");
@@ -2198,7 +2194,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-radio {
+span.ic-radio {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_radio.svg ");
@@ -2208,7 +2204,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-checkBox {
+span.ic-checkBox {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_checkbox.svg ");
@@ -2218,7 +2214,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-date {
+span.ic-date {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_date.svg ");
@@ -2228,7 +2224,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-time {
+span.ic-time {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_time.svg ");
@@ -2238,7 +2234,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-dateTime {
+span.ic-dateTime {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_datetime.svg ");
@@ -2248,7 +2244,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-fileUpload {
+span.ic-fileUpload {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_fileupload.svg ");
@@ -2258,7 +2254,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-customCode {
+span.ic-customCode {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_custom_code.svg ");
@@ -2268,7 +2264,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-dynamicRowTable {
+span.ic-dynamicRowTable {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dynamic_row_table.svg ");
@@ -2278,7 +2274,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-ci {
+span.ic-ci {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_ci.svg ");
@@ -2288,7 +2284,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-label {
+span.ic-label {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_label.svg ");
@@ -2298,7 +2294,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-image {
+span.ic-image {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_image.svg ");
@@ -2308,7 +2304,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-divider {
+span.ic-divider {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_divider.svg ");
@@ -2318,7 +2314,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-fileDownload {
+span.ic-fileDownload {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_filedownload.svg ");
@@ -2328,7 +2324,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-userSearch {
+span.ic-userSearch {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
@@ -2338,7 +2334,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-dropdownCode {
+span.ic-dropdownCode {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_dropdownCode.svg ");
@@ -2348,7 +2344,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-userSearch {
+span.ic-userSearch {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_user.svg ");
@@ -2358,7 +2354,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-organizationSearch {
+span.ic-organizationSearch {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_organization.svg ");
@@ -2368,7 +2364,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-historyInquiry {
+span.ic-historyInquiry {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_historyinquiry.svg ");
@@ -2378,7 +2374,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-modalButton {
+span.ic-modalButton {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_modalButton.svg ");
@@ -2388,7 +2384,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-componentTemplate {
+span.ic-componentTemplate {
   width: 1rem;
   height: 1rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/palette/icon_component_template.svg");
@@ -2398,7 +2394,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-align-left {
+span.ic-align-left {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_left.svg");
@@ -2408,7 +2404,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-align-center {
+span.ic-align-center {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_center.svg");
@@ -2418,7 +2414,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-align-right {
+span.ic-align-right {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_align_right.svg");
@@ -2428,7 +2424,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-position-left {
+span.ic-position-left {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_left.svg");
@@ -2438,7 +2434,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-position-top {
+span.ic-position-top {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_top.svg");
@@ -2448,7 +2444,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-position-hidden {
+span.ic-position-hidden {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_label_position_hidden.svg");
@@ -2458,7 +2454,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-display-position-left {
+span.ic-display-position-left {
   width: 20px;
   height: 20px;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_display_left.svg");
@@ -2468,7 +2464,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-display-position-right {
+span.ic-display-position-right {
   width: 20px;
   height: 20px;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_display_right.svg");
@@ -2478,7 +2474,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-bold {
+span.ic-bold {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_bold.svg");
@@ -2488,7 +2484,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-italic {
+span.ic-italic {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_italic.svg");
@@ -2498,7 +2494,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-underline {
+span.ic-underline {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/property/icon_underline.svg");
@@ -2508,7 +2504,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-task {
+span.ic-task {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_task.svg");
@@ -2518,7 +2514,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-subprocess {
+span.ic-subprocess {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_subprocess.svg");
@@ -2528,7 +2524,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-gateway {
+span.ic-gateway {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_gateway.svg");
@@ -2538,7 +2534,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-group {
+span.ic-group {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_group.svg");
@@ -2548,7 +2544,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-annotation {
+span.ic-annotation {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_annotation.svg");
@@ -2558,7 +2554,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-connector {
+span.ic-connector {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_connector.svg");
@@ -2568,7 +2564,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-background {
+span.ic-background {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_background.svg");
@@ -2578,7 +2574,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-event {
+span.ic-event {
   width: 2rem;
   height: 2rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/element-palette/icon_event.svg");
@@ -2588,7 +2584,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-minimap {
+span.ic-minimap {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/editor/icon_map.svg");
@@ -2598,7 +2594,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-simulation-report {
+span.ic-simulation-report {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/designer/editor/icon_simulation_report.svg");
@@ -2608,7 +2604,7 @@ input, button, select, optgroup, textarea {
   -webkit-mask-position: center;
   mask-position: center;
 }
-.icon.i-paging-start-arrow {
+span.ic-paging-start-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_start.svg");
@@ -2619,7 +2615,7 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #ABB0B5;
 }
-.icon.i-paging-prev-arrow {
+span.ic-paging-prev-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_prev.svg");
@@ -2630,7 +2626,7 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #ABB0B5;
 }
-.icon.i-paging-next-arrow {
+span.ic-paging-next-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_next.svg");
@@ -2641,7 +2637,7 @@ input, button, select, optgroup, textarea {
   mask-position: center;
   background: #ABB0B5;
 }
-.icon.i-paging-end-arrow {
+span.ic-paging-end-arrow {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/paging/icon_paging_arrow_end.svg");
@@ -2653,56 +2649,56 @@ input, button, select, optgroup, textarea {
   background: #ABB0B5;
 }
 
-.input.i-search {
+.input.ic-search {
   background-image: url("../../assets/media/icons/icon_search.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.input.i-date-picker {
+.input.ic-date-picker {
   background-image: url("../../assets/media/icons/dateTimePicker/icon_date_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.input.i-time-picker {
+.input.ic-time-picker {
   background-image: url("../../assets/media/icons/dateTimePicker/icon_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.input.i-datetime-picker {
+.input.ic-datetime-picker {
   background-image: url("../../assets/media/icons/dateTimePicker/icon_date_time_picker.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.input.i-user-search {
+.input.ic-user-search {
   background-image: url("../../assets/media/icons/document/icon_user.svg");
   background-size: 1.5rem 1.5rem;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.input.i-organization-search {
+.input.ic-organization-search {
   background-image: url("../../assets/media/icons/document/icon_organization.svg");
   background-size: 1.5rem 1.5rem;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.input.i-px {
+.input.ic-px {
   background-image: url("../../assets/media/icons/icon_px.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.input.i-mb {
+.input.ic-mb {
   background-image: url("../../assets/media/icons/icon_mb.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -2983,7 +2979,7 @@ input, button, select, optgroup, textarea {
 .itsm-container .main-content .page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
   pointer-events: none;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .icon.i-sorting {
+.itsm-container .main-content .page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -2991,7 +2987,7 @@ input, button, select, optgroup, textarea {
   transform: rotate(180deg);
   background: #757575;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .icon.i-sorting {
+.itsm-container .main-content .page-result .component .contents__req-status .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .ic-sorting {
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -3034,19 +3030,19 @@ input, button, select, optgroup, textarea {
   background-color: transparent;
   border-color: transparent;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon [class*=ic-] {
   background-color: #63686C;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:hover .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:focus .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:focus [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:active .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:active [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:disabled .icon {
+.itsm-container .main-content .page-result .component .contents__req-status .grid .btn__icon:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 .itsm-container .main-content .page-result .component .contents__req-status .grid__body {
@@ -3128,7 +3124,7 @@ input, button, select, optgroup, textarea {
 .itsm-container .main-content .page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
   pointer-events: none;
 }
-.itsm-container .main-content .page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .icon.i-sorting {
+.itsm-container .main-content .page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -3136,7 +3132,7 @@ input, button, select, optgroup, textarea {
   transform: rotate(180deg);
   background: #757575;
 }
-.itsm-container .main-content .page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .icon.i-sorting {
+.itsm-container .main-content .page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .ic-sorting {
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -3179,19 +3175,19 @@ input, button, select, optgroup, textarea {
   background-color: transparent;
   border-color: transparent;
 }
-.itsm-container .main-content .page-list .grid .btn__icon .icon {
+.itsm-container .main-content .page-list .grid .btn__icon [class*=ic-] {
   background-color: #63686C;
 }
-.itsm-container .main-content .page-list .grid .btn__icon:hover .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.itsm-container .main-content .page-list .grid .btn__icon:focus .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:focus [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-list .grid .btn__icon:active .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:active [class*=ic-] {
   background-color: #222529;
 }
-.itsm-container .main-content .page-list .grid .btn__icon:disabled .icon {
+.itsm-container .main-content .page-list .grid .btn__icon:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 .itsm-container .main-content .page-column-item {
@@ -3277,7 +3273,7 @@ input, button, select, optgroup, textarea {
   background-color: #FAFAFA;
   pointer-events: none;
 }
-.itsm-container .main-content .card-list .no-data-found .i-no-card {
+.itsm-container .main-content .card-list .no-data-found .ic-no-card {
   content: url("../../assets/media/icons/icon_no_card.svg");
 }
 .itsm-container .main-content .card-list .no-data-found .no-data-text {
@@ -3539,7 +3535,7 @@ input, button, select, optgroup, textarea {
   background: #505559;
   color: #E1E6EA;
 }
-.navigation .gnb .menu .menu-area .gnb-area .gnb-link:hover:not(.active, .active-parent) .icon {
+.navigation .gnb .menu .menu-area .gnb-area .gnb-link:hover:not(.active, .active-parent) [class*=ic-] {
   background: #E1E6EA;
 }
 .navigation .gnb .menu .menu-area .gnb-area .gnb-link .menu-name {
@@ -3573,10 +3569,10 @@ input, button, select, optgroup, textarea {
 .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active .menu-name {
   color: #FFFFFF;
 }
-.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active .icon {
+.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active [class*=ic-] {
   background: #3373C4;
 }
-.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active .i-arrow-right {
+.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active .ic-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -3587,10 +3583,10 @@ input, button, select, optgroup, textarea {
 .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active-parent .menu-name {
   color: #FFFFFF;
 }
-.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active-parent .icon {
+.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active-parent [class*=ic-] {
   background: #3373C4;
 }
-.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active-parent .icon.i-arrow-right {
+.navigation .gnb .menu .menu-area .gnb-area .gnb-link.active-parent .ic-arrow-right {
   background: #FFFFFF;
 }
 .navigation .gnb .menu .menu-area .gnb-area .snb-group {
@@ -3618,7 +3614,7 @@ input, button, select, optgroup, textarea {
 .navigation .gnb .menu .menu-area .gnb-area .snb-area .snb-link:hover:not(.active) {
   color: #E1E6EA;
 }
-.navigation .gnb .menu .menu-area .gnb-area .snb-area .snb-link:hover:not(.active) .icon.i-gnb_sub_dot {
+.navigation .gnb .menu .menu-area .gnb-area .snb-area .snb-link:hover:not(.active) .ic-gnb_sub_dot {
   background: #E1E6EA;
   visibility: visible;
 }
@@ -3628,22 +3624,22 @@ input, button, select, optgroup, textarea {
 .navigation .gnb .menu .menu-area .gnb-area .snb-area .snb-link.active .menu-name {
   color: #FFFFFF;
 }
-.navigation .gnb .menu .menu-area .gnb-area .snb-area .snb-link.active .icon.i-gnb_sub_dot {
+.navigation .gnb .menu .menu-area .gnb-area .snb-area .snb-link.active .ic-gnb_sub_dot {
   background: #3373C4;
   visibility: visible;
 }
 .navigation .gnb .menu .right {
   right: 0.375rem;
 }
-.navigation .gnb .icon {
+.navigation .gnb [class*=ic-] {
   background: #8B9094;
 }
-.navigation .gnb .icon.i-gnb_sub_dot {
+.navigation .gnb .ic-gnb_sub_dot {
   margin-left: 2.5rem;
   padding-left: 0.375rem;
   visibility: hidden;
 }
-.navigation .gnb .icon.i-arrow-right {
+.navigation .gnb .ic-arrow-right {
   float: right;
   margin-left: auto;
   padding: 0 0.375rem 0 0;
@@ -3691,7 +3687,7 @@ input, button, select, optgroup, textarea {
   height: 1.875rem;
   vertical-align: middle;
 }
-.main-top .user-info .i-arrow-right {
+.main-top .user-info .ic-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -3715,7 +3711,7 @@ input, button, select, optgroup, textarea {
   border-color: #CFD5D9;
   box-shadow: 0 0 0 0.125rem #102E71;
 }
-.main-top .user-info:active .i-arrow-right {
+.main-top .user-info:active .ic-arrow-right {
   background-color: #222529;
 }
 .main-top .user-info.active {
@@ -3725,7 +3721,7 @@ input, button, select, optgroup, textarea {
 .main-top .user-info.active + .dropdown-content {
   visibility: visible;
 }
-.main-top .user-info.active .i-arrow-right {
+.main-top .user-info.active .ic-arrow-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
@@ -3849,10 +3845,10 @@ input, button, select, optgroup, textarea {
  * @description formDesigner + process 공통으로 사용되는 scss
  * @version 1.0
  */
-.header-button.btn__icon .icon {
+.header-button.btn__icon [class*=ic-] {
   pointer-events: none;
 }
-.header-button.btn__icon .icon.i-arrow-right {
+.header-button.btn__icon .ic-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -3864,7 +3860,7 @@ input, button, select, optgroup, textarea {
   width: 1.25rem;
   padding: 0.5625rem 0.1875rem;
 }
-.header-button-dropdown .icon {
+.header-button-dropdown [class*=ic-] {
   margin-left: -0.1875rem;
   pointer-events: none;
 }
@@ -3911,7 +3907,7 @@ input, button, select, optgroup, textarea {
   color: #19428D;
   z-index: 25;
 }
-.header-button-dropdown.active .icon.i-arrow-right {
+.header-button-dropdown.active .ic-arrow-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
@@ -3947,9 +3943,9 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   z-index: 100;
 }
-.form-header .i-form-designer,
-.form-header .i-process-designer, .process-header .i-form-designer,
-.process-header .i-process-designer {
+.form-header .ic-form-designer,
+.form-header .ic-process-designer, .process-header .ic-form-designer,
+.process-header .ic-process-designer {
   width: 12.5rem;
   padding: 0 0.75rem;
 }
@@ -4029,7 +4025,7 @@ input, button, select, optgroup, textarea {
  * @description 폼 디자이너에서만 사용되는 scss
  * @version 1.0
  */
-.btn__toggle__button--single .text, .btn__toggle__button--single .icon, .btn__toggle__button--multi .text, .btn__toggle__button--multi .icon {
+.btn__toggle__button--single .text, .btn__toggle__button--single [class*=ic-], .btn__toggle__button--multi .text, .btn__toggle__button--multi [class*=ic-] {
   pointer-events: none;
 }
 
@@ -4039,7 +4035,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   color: #FFFFFF;
 }
-.tab .icon {
+.tab [class*=ic-] {
   background: #FFFFFF;
 }
 .tab:focus {
@@ -4049,7 +4045,7 @@ input, button, select, optgroup, textarea {
   outline: 0;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.tab:focus .icon {
+.tab:focus [class*=ic-] {
   background: #FFFFFF;
 }
 .tab:hover {
@@ -4058,7 +4054,7 @@ input, button, select, optgroup, textarea {
   color: #D6EDFC;
   outline: 0;
 }
-.tab:hover .icon {
+.tab:hover [class*=ic-] {
   ackground: #D6EDFC;
 }
 .tab:enabled:active, .tab:enabled.active {
@@ -4067,7 +4063,7 @@ input, button, select, optgroup, textarea {
   color: #AFD9F9;
   z-index: 25;
 }
-.tab:enabled:active .icon, .tab:enabled.active .icon {
+.tab:enabled:active [class*=ic-], .tab:enabled.active [class*=ic-] {
   background: #AFD9F9;
 }
 .tab.selected:not(:disabled), .tab.selected:not(.disabled) {
@@ -4076,7 +4072,7 @@ input, button, select, optgroup, textarea {
   color: #3373C4;
   z-index: 25;
 }
-.tab.selected:not(:disabled) .icon, .tab.selected:not(.disabled) .icon {
+.tab.selected:not(:disabled) [class*=ic-], .tab.selected:not(.disabled) [class*=ic-] {
   background: #3373C4;
 }
 .tab:disabled, .tab.disabled {
@@ -4085,7 +4081,7 @@ input, button, select, optgroup, textarea {
   color: #EEEEEE;
   cursor: default;
 }
-.tab:disabled .icon, .tab.disabled .icon {
+.tab:disabled [class*=ic-], .tab.disabled [class*=ic-] {
   background: #EEEEEE;
 }
 
@@ -4097,10 +4093,10 @@ input, button, select, optgroup, textarea {
   display: none;
 }
 
-.btn__icon.button-attach-file .icon.i-folder {
+.btn__icon.button-attach-file .ic-folder {
   background: #8B9094;
 }
-.btn__icon.btn__code .icon.i-search {
+.btn__icon.btn__code .ic-search {
   background: #8B9094;
 }
 
@@ -4198,7 +4194,7 @@ input, button, select, optgroup, textarea {
   vertical-align: middle;
   opacity: 1;
 }
-.group-label .icon.i-arrow-right {
+.group-label .ic-arrow-right {
   -webkit-transform: rotate(270deg);
   -moz-transform: rotate(270deg);
   -o-transform: rotate(270deg);
@@ -4208,7 +4204,7 @@ input, button, select, optgroup, textarea {
   background: #8B9094;
   opacity: 0;
 }
-.group.accordion .group-accordion-checkBox:checked + .group-label .icon.i-arrow-right {
+.group.accordion .group-accordion-checkBox:checked + .group-label .ic-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -4229,7 +4225,7 @@ input, button, select, optgroup, textarea {
 .group.accordion .group-label.table .group-label-text {
   opacity: 0;
 }
-.group.accordion .group-label .icon.i-arrow-right {
+.group.accordion .group-label .ic-arrow-right {
   opacity: 1;
 }
 .group.accordion .row-tooltip {
@@ -4386,7 +4382,7 @@ input, button, select, optgroup, textarea {
 .component .element .fileDownload {
   cursor: pointer;
 }
-.component .element .fileDownload .icon.i-download {
+.component .element .fileDownload .ic-download {
   background: #8B9094;
 }
 .component .element .fileDownload .file-text {
@@ -4529,13 +4525,13 @@ input, button, select, optgroup, textarea {
   padding: 0 0.25rem;
   cursor: pointer;
 }
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item .icon {
+.tooltip-menu .tooltip-menu-items .tooltip-menu-item [class*=ic-] {
   display: inline-block;
   background: #83BBED;
   vertical-align: middle;
   pointer-events: none;
 }
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item:hover .icon {
+.tooltip-menu .tooltip-menu-items .tooltip-menu-item:hover [class*=ic-] {
   background: #3373C4;
 }
 
@@ -4613,7 +4609,7 @@ input, button, select, optgroup, textarea {
   font-weight: 700;
   cursor: pointer;
 }
-.component-accordion-box .component-accordion .accordion-label .icon.i-arrow-right {
+.component-accordion-box .component-accordion .accordion-label .ic-arrow-right {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -4672,7 +4668,7 @@ input, button, select, optgroup, textarea {
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:hover {
   background-color: #D6EDFC;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:hover .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:hover [class*=ic-] {
   background: #63686C;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:hover .component-name {
@@ -4684,7 +4680,7 @@ input, button, select, optgroup, textarea {
   z-index: 25;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:focus .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:focus [class*=ic-] {
   background: #8B9094;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:focus .component-name {
@@ -4695,7 +4691,7 @@ input, button, select, optgroup, textarea {
   background-color: #D6EDFC;
   z-index: 25;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.active .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.active [class*=ic-] {
   background: #19428D;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.active .component-name {
@@ -4707,7 +4703,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #CFD5D9;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag [class*=ic-] {
   background: #3373C4;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag .component-name {
@@ -4721,14 +4717,14 @@ input, button, select, optgroup, textarea {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.placeholder .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.placeholder [class*=ic-] {
   background: #ABB0B5;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.placeholder .component-name {
   color: #ABB0B5;
   font-weight: 500;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon [class*=ic-] {
   background: #8B9094;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .component-name {
@@ -4752,7 +4748,7 @@ input, button, select, optgroup, textarea {
   cursor: move;
   outline: none;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon [class*=ic-] {
   background: #8B9094;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon .component-name {
@@ -4767,7 +4763,7 @@ input, button, select, optgroup, textarea {
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon:hover {
   background-color: #D6EDFC;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon:hover .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon:hover [class*=ic-] {
   background: #63686C;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon:hover .component-name {
@@ -4779,7 +4775,7 @@ input, button, select, optgroup, textarea {
   z-index: 25;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon:focus .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon:focus [class*=ic-] {
   background: #8B9094;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon:focus .component-name {
@@ -4790,7 +4786,7 @@ input, button, select, optgroup, textarea {
   background-color: #D6EDFC;
   z-index: 25;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.active .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.active [class*=ic-] {
   background: #19428D;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.active .component-name {
@@ -4802,7 +4798,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #CFD5D9;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.drag .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.drag [class*=ic-] {
   background: #3373C4;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.drag .component-name {
@@ -4816,14 +4812,14 @@ input, button, select, optgroup, textarea {
   border-color: #CFD5D9;
   background-color: #EEEEEE;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.placeholder .icon {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.placeholder [class*=ic-] {
   background: #ABB0B5;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.placeholder .component-name {
   color: #ABB0B5;
   font-weight: 500;
 }
-.component-accordion-box .component-accordion input[type=radio]:checked + .accordion-label .icon.i-arrow-right {
+.component-accordion-box .component-accordion input[type=radio]:checked + .accordion-label .ic-arrow-right {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -4856,7 +4852,7 @@ input, button, select, optgroup, textarea {
   background-color: #D6EDFC;
   opacity: 0.5;
 }
-.drawing-board .component-icon-drag-in .icon {
+.drawing-board .component-icon-drag-in [class*=ic-] {
   display: none;
 }
 .drawing-board .component-icon-drag-in .component-name {
@@ -4879,32 +4875,32 @@ input, button, select, optgroup, textarea {
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box::placeholder {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input .icon,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea .icon,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box .icon {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .input [class*=ic-],
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea [class*=ic-],
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box [class*=ic-] {
   background: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input.i-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.i-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.i-date-picker {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .input.ic-date-picker,
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-date-picker,
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input.i-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.i-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.i-time-picker {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .input.ic-time-picker,
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-time-picker,
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .input.i-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.i-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.i-datetime-picker {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .input.ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
@@ -4942,7 +4938,7 @@ input, button, select, optgroup, textarea {
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone .dz-message {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone .icon {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone [class*=ic-] {
   background: #619CDB !important;
 }
 .drawing-board .component-icon-drag-in .component-tooltip .component .element .btn__list {
@@ -4971,7 +4967,7 @@ input, button, select, optgroup, textarea {
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .imagebox-placeholder .icon {
+.drawing-board .component-icon-drag-in .component-tooltip .component .element .imagebox-placeholder [class*=ic-] {
   background: #619CDB !important;
 }
 .drawing-board.edit .group-label {
@@ -5062,18 +5058,18 @@ input, button, select, optgroup, textarea {
   width: 100%;
   font-size: 0.875rem;
 }
-.property .input:not(.tagify).i-unit-search {
+.property .input:not(.tagify).ic-unit-search {
   padding: 0 1.875rem 0 0.5rem;
   background: url("../../assets/media/icons/designer/unit/icon_unit_search.svg") no-repeat 97% 50%;
   background-color: #FFFFFF;
 }
-.property .input:not(.tagify).i-unit-px {
+.property .input:not(.tagify).ic-unit-px {
   padding: 0 1.875rem 0 0.5rem;
   background: url("../../assets/media/icons/designer/unit/icon_unit_px.svg") no-repeat calc(100% - 0.5rem) 50%;
   background-color: #FFFFFF;
   text-align: right;
 }
-.property .input:not(.tagify).i-unit-px:not(:last-child) {
+.property .input:not(.tagify).ic-unit-px:not(:last-child) {
   margin-right: 0.25rem;
 }
 .property .textarea {
@@ -5153,11 +5149,11 @@ input, button, select, optgroup, textarea {
 .property .tab-panel .tabs .btn__icon:last-child {
   padding: 0.25rem 0;
 }
-.property .tab-panel .tabs .btn__icon .icon {
+.property .tab-panel .tabs .btn__icon [class*=ic-] {
   width: 0.82rem;
   pointer-events: none;
 }
-.property .tab-panel .tabs .btn__icon .i-plus {
+.property .tab-panel .tabs .btn__icon .ic-plus {
   -webkit-mask-size: 1.2rem;
   mask-size: 1.2rem;
 }
@@ -5180,12 +5176,12 @@ input, button, select, optgroup, textarea {
 .property .tab-panel .panels .panel .btn__icon:not(.btn__code) {
   padding: 0;
 }
-.property .tab-panel .panels .panel .btn__icon:not(.btn__code) .icon {
+.property .tab-panel .panels .panel .btn__icon:not(.btn__code) [class*=ic-] {
   display: inline-block;
   background: #3373C4;
   pointer-events: none;
 }
-.property .tab-panel .panels .panel .btn__icon:not(.btn__code) .icon.prev {
+.property .tab-panel .panels .panel .btn__icon:not(.btn__code) .prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -5247,7 +5243,7 @@ input, button, select, optgroup, textarea {
 .element-icon:focus .element-icon-text {
   color: #63686C;
 }
-.element-icon:focus .icon {
+.element-icon:focus [class*=ic-] {
   background: #8B9094;
 }
 .element-icon:hover {
@@ -5258,7 +5254,7 @@ input, button, select, optgroup, textarea {
 .element-icon:hover .element-icon-text {
   color: #63686C;
 }
-.element-icon:hover .icon {
+.element-icon:hover [class*=ic-] {
   background: #63686C;
 }
 .element-icon.active {
@@ -5271,7 +5267,7 @@ input, button, select, optgroup, textarea {
   color: #222529;
   font-weight: 700;
 }
-.element-icon.active .icon {
+.element-icon.active [class*=ic-] {
   background: #3373C4;
 }
 .element-icon.placeholder {
@@ -5281,7 +5277,7 @@ input, button, select, optgroup, textarea {
 .element-icon.placeholder .element-icon-text {
   color: #ABB0B5;
 }
-.element-icon.placeholder .icon {
+.element-icon.placeholder [class*=ic-] {
   background: #ABB0B5;
 }
 .element-icon.connector, .element-icon.move-icon {
@@ -5289,7 +5285,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   color: #222529;
 }
-.element-icon.connector .icon, .element-icon.move-icon .icon {
+.element-icon.connector [class*=ic-], .element-icon.move-icon [class*=ic-] {
   background: #222529;
 }
 .element-icon.connector .element-icon-text, .element-icon.move-icon .element-icon-text {
@@ -5302,7 +5298,7 @@ input, button, select, optgroup, textarea {
   outline: 0;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.element-icon.connector:focus .icon, .element-icon.move-icon:focus .icon {
+.element-icon.connector:focus [class*=ic-], .element-icon.move-icon:focus [class*=ic-] {
   background: #222529;
 }
 .element-icon.connector:focus .element-icon-text, .element-icon.move-icon:focus .element-icon-text {
@@ -5314,7 +5310,7 @@ input, button, select, optgroup, textarea {
   color: #222529;
   outline: 0;
 }
-.element-icon.connector:hover .icon, .element-icon.move-icon:hover .icon {
+.element-icon.connector:hover [class*=ic-], .element-icon.move-icon:hover [class*=ic-] {
   background: #222529;
 }
 .element-icon.connector:hover .element-icon-text, .element-icon.move-icon:hover .element-icon-text {
@@ -5326,7 +5322,7 @@ input, button, select, optgroup, textarea {
   border-color: #619CDB;
   z-index: 25;
 }
-.element-icon.connector:enabled:active .icon, .element-icon.connector:enabled.active .icon, .element-icon.move-icon:enabled:active .icon, .element-icon.move-icon:enabled.active .icon {
+.element-icon.connector:enabled:active [class*=ic-], .element-icon.connector:enabled.active [class*=ic-], .element-icon.move-icon:enabled:active [class*=ic-], .element-icon.move-icon:enabled.active [class*=ic-] {
   background: #19428D;
 }
 .element-icon.connector:enabled:active .element-icon-text, .element-icon.connector:enabled.active .element-icon-text, .element-icon.move-icon:enabled:active .element-icon-text, .element-icon.move-icon:enabled.active .element-icon-text {
@@ -5338,7 +5334,7 @@ input, button, select, optgroup, textarea {
   color: #3373C4;
   z-index: 25;
 }
-.element-icon.connector.selected:not(:disabled) .icon, .element-icon.connector.selected:not(.disabled) .icon, .element-icon.move-icon.selected:not(:disabled) .icon, .element-icon.move-icon.selected:not(.disabled) .icon {
+.element-icon.connector.selected:not(:disabled) [class*=ic-], .element-icon.connector.selected:not(.disabled) [class*=ic-], .element-icon.move-icon.selected:not(:disabled) [class*=ic-], .element-icon.move-icon.selected:not(.disabled) [class*=ic-] {
   background: #3373C4;
 }
 .element-icon.connector.selected:not(:disabled) .element-icon-text, .element-icon.connector.selected:not(.disabled) .element-icon-text, .element-icon.move-icon.selected:not(:disabled) .element-icon-text, .element-icon.move-icon.selected:not(.disabled) .element-icon-text {
@@ -5350,7 +5346,7 @@ input, button, select, optgroup, textarea {
   color: #ABB0B5;
   cursor: default;
 }
-.element-icon.connector:disabled .icon, .element-icon.connector.disabled .icon, .element-icon.move-icon:disabled .icon, .element-icon.move-icon.disabled .icon {
+.element-icon.connector:disabled [class*=ic-], .element-icon.connector.disabled [class*=ic-], .element-icon.move-icon:disabled [class*=ic-], .element-icon.move-icon.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .element-icon.connector:disabled .element-icon-text, .element-icon.connector.disabled .element-icon-text, .element-icon.move-icon:disabled .element-icon-text, .element-icon.move-icon.disabled .element-icon-text {
@@ -5369,7 +5365,7 @@ input, button, select, optgroup, textarea {
   color: #63686C;
   font-weight: 500;
 }
-.element-icon .icon {
+.element-icon [class*=ic-] {
   display: inline-block;
   background: #8B9094;
 }
@@ -5387,10 +5383,10 @@ input, button, select, optgroup, textarea {
 .btn__icon.button-candidate-add {
   margin-left: 0.3125rem;
 }
-.btn__icon.button-candidate-add .icon.i-plus {
+.btn__icon.button-candidate-add .ic-plus {
   background: #8B9094;
 }
-.btn__icon.button-attach-file .icon.i-folder {
+.btn__icon.button-attach-file .ic-folder {
   background: #8B9094;
 }
 
@@ -5659,13 +5655,13 @@ input, button, select, optgroup, textarea {
   font-size: 1.125rem;
   font-weight: 500;
 }
-.process-main .drawing-board .simulation-report-title .icon.i-minus {
+.process-main .drawing-board .simulation-report-title .ic-minus {
   position: absolute !important;
   right: 1.125rem;
   background: #8B9094;
   cursor: pointer;
 }
-.process-main .drawing-board .simulation-report-title .icon.i-minus:hover {
+.process-main .drawing-board .simulation-report-title .ic-minus:hover {
   background: #3373C4;
 }
 .process-main .drawing-board .simulation-report-contents {
@@ -5810,7 +5806,7 @@ input, button, select, optgroup, textarea {
  * @description document에서 사용되는 scss
  * @version 1.0
  */
-.item-remove .icon {
+.item-remove [class*=ic-] {
   width: 0.5rem;
   height: 0.5rem;
 }
@@ -5921,13 +5917,13 @@ input, button, select, optgroup, textarea {
   background-color: #ABB0B5;
   z-index: 500;
 }
-.document-container .toggle--tab .icon.i-arrow-double {
+.document-container .toggle--tab .ic-arrow-double {
   background: #FFFFFF;
 }
 .document-container .toggle--tab.hide {
   right: 0;
 }
-.document-container .toggle--tab.hide .icon.i-arrow-double {
+.document-container .toggle--tab.hide .ic-arrow-double {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -5981,7 +5977,7 @@ input, button, select, optgroup, textarea {
   display: none;
   padding: 0 1.375rem;
 }
-.document-container .token-properties .token-panels .token-panel .icon.i-delete {
+.document-container .token-properties .token-panels .token-panel .ic-delete {
   background: #8B9094;
 }
 .document-container .token-properties .token-panels .token-tag {
@@ -6090,7 +6086,7 @@ input, button, select, optgroup, textarea {
   width: 100%;
   height: 100%;
 }
-.document-container .token-properties .token-panels .token-related .document-add .btn__icon .icon.i-plus {
+.document-container .token-properties .token-panels .token-related .document-add .btn__icon .ic-plus {
   background: #8B9094;
 }
 .document-container .token-properties .token-panels .token-comment-item {
@@ -6133,7 +6129,7 @@ input, button, select, optgroup, textarea {
 .document-container .token-properties .token-panels .token-viewer-table .table-body tr:hover {
   background-color: transparent;
 }
-.document-container .token-properties .token-panels .token-viewer-table .icon.i-clear {
+.document-container .token-properties .token-panels .token-viewer-table .ic-clear {
   background: #8B9094;
 }
 
@@ -6228,7 +6224,7 @@ input, button, select, optgroup, textarea {
   .print-main .drawing-board-calendar-table .table-body tr:hover {
     background-color: transparent;
   }
-  .print-main .drawing-board-calendar-table .icon.i-clear {
+  .print-main .drawing-board-calendar-table .ic-clear {
     background: #8B9094;
   }
   .print-main-footer {
@@ -6642,17 +6638,17 @@ input, button, select, optgroup, textarea {
 .portal-container .main .main-content .main-accordion .faq-group-title::-webkit-details-marker {
   display: none;
 }
-.portal-container .main .main-content .main-accordion .faq-group-title .icon.i-plus, .portal-container .main .main-content .main-accordion .faq-group-title .icon.i-minus {
+.portal-container .main .main-content .main-accordion .faq-group-title .ic-plus, .portal-container .main .main-content .main-accordion .faq-group-title .ic-minus {
   position: absolute !important;
   top: 0.9375rem;
   right: 0.9375rem;
   display: inline-block;
   background: #8B9094;
 }
-.portal-container .main .main-content .main-accordion .faq-group-title .icon.i-plus {
+.portal-container .main .main-content .main-accordion .faq-group-title .ic-plus {
   opacity: 1;
 }
-.portal-container .main .main-content .main-accordion .faq-group-title .icon.i-minus {
+.portal-container .main .main-content .main-accordion .faq-group-title .ic-minus {
   opacity: 0;
 }
 .portal-container .main .main-content .main-accordion .faq-group[open] {
@@ -6662,10 +6658,10 @@ input, button, select, optgroup, textarea {
   border-bottom-color: #3373C4;
   color: #3373C4;
 }
-.portal-container .main .main-content .main-accordion .faq-group[open] .faq-group-title .icon.i-plus {
+.portal-container .main .main-content .main-accordion .faq-group[open] .faq-group-title .ic-plus {
   opacity: 0;
 }
-.portal-container .main .main-content .main-accordion .faq-group[open] .faq-group-title .icon.i-minus {
+.portal-container .main .main-content .main-accordion .faq-group[open] .faq-group-title .ic-minus {
   background: #3373C4;
   opacity: 1;
 }
@@ -7238,7 +7234,7 @@ input, button, select, optgroup, textarea {
   font-weight: 400;
   text-align: center;
 }
-.avatar-edit .avatar .dz-default.dz-message .icon.i-avatar {
+.avatar-edit .avatar .dz-default.dz-message .ic-avatar {
   width: 100%;
   height: 5rem;
   -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_avatar.svg");
@@ -7371,7 +7367,7 @@ input, button, select, optgroup, textarea {
 .avatar-edit .avatar-sm .avatar .dz-message {
   margin-top: 1.25rem;
 }
-.avatar-edit .avatar-sm .avatar .dz-message .icon.i-avatar {
+.avatar-edit .avatar-sm .avatar .dz-message .ic-avatar {
   height: 2.813rem;
   margin-bottom: 0.9375rem;
   -webkit-mask-size: 2.813rem;
@@ -7389,7 +7385,7 @@ input, button, select, optgroup, textarea {
 
 /* _button.scss
  *
- * 적용 규칙  (자세한 건 UX팀 정승녕 팀장님과 협의)
+ * 적용 규칙
  * (1) 버튼 1개인 경우 : Secondary
  * (2) 버튼 2개인 경우 : Primary + Secondary 혹은 Primary + Extra (두번째 옵션의 중요도에 따라)
  * (3) 버튼 3개 이상인 경우 : Primary + (n * Secondary)
@@ -7463,7 +7459,7 @@ input, button, select, optgroup, textarea {
   color: #FFFFFF;
   border-color: #19428D;
 }
-.btn--primary [class*=i-] {
+.btn--primary [class*=ic-] {
   display: block;
   background: #FFFFFF;
   pointer-events: none;
@@ -7474,7 +7470,7 @@ input, button, select, optgroup, textarea {
   border-color: #19428D;
   box-shadow: 0 0 0 0.125rem #3373C4;
 }
-.btn--primary:focus [class*=i-] {
+.btn--primary:focus [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--primary:hover {
@@ -7482,7 +7478,7 @@ input, button, select, optgroup, textarea {
   background-color: #2559A8;
   border-color: #2559A8;
 }
-.btn--primary:hover [class*=i-] {
+.btn--primary:hover [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--primary:enabled:active, .btn--primary:enabled.active {
@@ -7490,7 +7486,7 @@ input, button, select, optgroup, textarea {
   color: #FFFFFF;
   border-color: #102E71;
 }
-.btn--primary:enabled:active [class*=i-], .btn--primary:enabled.active [class*=i-] {
+.btn--primary:enabled:active [class*=ic-], .btn--primary:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--primary:disabled, .btn--primary.disabled {
@@ -7498,7 +7494,7 @@ input, button, select, optgroup, textarea {
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.btn--primary:disabled [class*=i-], .btn--primary.disabled [class*=i-] {
+.btn--primary:disabled [class*=ic-], .btn--primary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--secondary {
@@ -7506,7 +7502,7 @@ input, button, select, optgroup, textarea {
   color: #505559;
   border-color: #E1E6EA;
 }
-.btn--secondary [class*=i-] {
+.btn--secondary [class*=ic-] {
   display: block;
   background: #505559;
   pointer-events: none;
@@ -7517,7 +7513,7 @@ input, button, select, optgroup, textarea {
   border-color: #3373C4;
   box-shadow: 0 0 0 0.125rem #3373C4;
 }
-.btn--secondary:focus [class*=i-] {
+.btn--secondary:focus [class*=ic-] {
   background: #505559;
 }
 .btn--secondary:hover {
@@ -7525,7 +7521,7 @@ input, button, select, optgroup, textarea {
   background-color: #EBF1F5;
   border-color: #EBF1F5;
 }
-.btn--secondary:hover [class*=i-] {
+.btn--secondary:hover [class*=ic-] {
   background: #505559;
 }
 .btn--secondary:enabled:active, .btn--secondary:enabled.active {
@@ -7533,7 +7529,7 @@ input, button, select, optgroup, textarea {
   color: #102E71;
   border-color: #83BBED;
 }
-.btn--secondary:enabled:active [class*=i-], .btn--secondary:enabled.active [class*=i-] {
+.btn--secondary:enabled:active [class*=ic-], .btn--secondary:enabled.active [class*=ic-] {
   background: #102E71;
 }
 .btn--secondary:disabled, .btn--secondary.disabled {
@@ -7541,7 +7537,7 @@ input, button, select, optgroup, textarea {
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.btn--secondary:disabled [class*=i-], .btn--secondary.disabled [class*=i-] {
+.btn--secondary:disabled [class*=ic-], .btn--secondary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--danger {
@@ -7549,7 +7545,7 @@ input, button, select, optgroup, textarea {
   color: #FFFFFF;
   border-color: #F52525;
 }
-.btn--danger [class*=i-] {
+.btn--danger [class*=ic-] {
   display: block;
   background: #FFFFFF;
   pointer-events: none;
@@ -7560,7 +7556,7 @@ input, button, select, optgroup, textarea {
   border-color: #F52525;
   box-shadow: 0 0 0.125rem #B0122D;
 }
-.btn--danger:focus [class*=i-] {
+.btn--danger:focus [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--danger:hover {
@@ -7568,7 +7564,7 @@ input, button, select, optgroup, textarea {
   background-color: #F9685A;
   border-color: #F9685A;
 }
-.btn--danger:hover [class*=i-] {
+.btn--danger:hover [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--danger:enabled:active, .btn--danger:enabled.active {
@@ -7576,7 +7572,7 @@ input, button, select, optgroup, textarea {
   color: #FFFFFF;
   border-color: #D21B2A;
 }
-.btn--danger:enabled:active [class*=i-], .btn--danger:enabled.active [class*=i-] {
+.btn--danger:enabled:active [class*=ic-], .btn--danger:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--danger:disabled, .btn--danger.disabled {
@@ -7584,7 +7580,7 @@ input, button, select, optgroup, textarea {
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.btn--danger:disabled [class*=i-], .btn--danger.disabled [class*=i-] {
+.btn--danger:disabled [class*=ic-], .btn--danger.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--warning {
@@ -7592,7 +7588,7 @@ input, button, select, optgroup, textarea {
   color: #102E71;
   border-color: #FFAC47;
 }
-.btn--warning [class*=i-] {
+.btn--warning [class*=ic-] {
   display: block;
   background: #102E71;
   pointer-events: none;
@@ -7603,7 +7599,7 @@ input, button, select, optgroup, textarea {
   border-color: #FFAC47;
   box-shadow: 0 0 0.125rem #DB6707;
 }
-.btn--warning:focus [class*=i-] {
+.btn--warning:focus [class*=ic-] {
   background: #102E71;
 }
 .btn--warning:hover {
@@ -7611,7 +7607,7 @@ input, button, select, optgroup, textarea {
   background-color: #FFDC9C;
   border-color: #FFDC9C;
 }
-.btn--warning:hover [class*=i-] {
+.btn--warning:hover [class*=ic-] {
   background: #102E71;
 }
 .btn--warning:enabled:active, .btn--warning:enabled.active {
@@ -7619,7 +7615,7 @@ input, button, select, optgroup, textarea {
   color: #102E71;
   border-color: #FF850A;
 }
-.btn--warning:enabled:active [class*=i-], .btn--warning:enabled.active [class*=i-] {
+.btn--warning:enabled:active [class*=ic-], .btn--warning:enabled.active [class*=ic-] {
   background: #102E71;
 }
 .btn--warning:disabled, .btn--warning.disabled {
@@ -7627,7 +7623,7 @@ input, button, select, optgroup, textarea {
   background-color: #F6F8FA;
   border-color: #F6F8FA;
 }
-.btn--warning:disabled [class*=i-], .btn--warning.disabled [class*=i-] {
+.btn--warning:disabled [class*=ic-], .btn--warning.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--extra {
@@ -7635,7 +7631,7 @@ input, button, select, optgroup, textarea {
   color: #3373C4;
   border-color: #FFFFFF;
 }
-.btn--extra [class*=i-] {
+.btn--extra [class*=ic-] {
   display: block;
   background: #3373C4;
   pointer-events: none;
@@ -7646,7 +7642,7 @@ input, button, select, optgroup, textarea {
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.btn--extra:focus [class*=i-] {
+.btn--extra:focus [class*=ic-] {
   background: #3373C4;
 }
 .btn--extra:hover {
@@ -7654,7 +7650,7 @@ input, button, select, optgroup, textarea {
   background-color: #D6EDFC;
   border-color: #D6EDFC;
 }
-.btn--extra:hover [class*=i-] {
+.btn--extra:hover [class*=ic-] {
   background: #3373C4;
 }
 .btn--extra:enabled:active, .btn--extra:enabled.active {
@@ -7662,7 +7658,7 @@ input, button, select, optgroup, textarea {
   color: #19428D;
   border-color: #AFD9F9;
 }
-.btn--extra:enabled:active [class*=i-], .btn--extra:enabled.active [class*=i-] {
+.btn--extra:enabled:active [class*=ic-], .btn--extra:enabled.active [class*=ic-] {
   background: #19428D;
 }
 .btn--extra:disabled, .btn--extra.disabled {
@@ -7670,7 +7666,7 @@ input, button, select, optgroup, textarea {
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.btn--extra:disabled [class*=i-], .btn--extra.disabled [class*=i-] {
+.btn--extra:disabled [class*=ic-], .btn--extra.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--form {
@@ -7678,7 +7674,7 @@ input, button, select, optgroup, textarea {
   color: #424242;
   border-color: #E0E0E0;
 }
-.btn--form [class*=i-] {
+.btn--form [class*=ic-] {
   display: block;
   background: #424242;
   pointer-events: none;
@@ -7689,7 +7685,7 @@ input, button, select, optgroup, textarea {
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.btn--form:focus [class*=i-] {
+.btn--form:focus [class*=ic-] {
   background: #424242;
 }
 .btn--form:hover {
@@ -7697,7 +7693,7 @@ input, button, select, optgroup, textarea {
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.btn--form:hover [class*=i-] {
+.btn--form:hover [class*=ic-] {
   background: #424242;
 }
 .btn--form:enabled:active, .btn--form:enabled.active {
@@ -7705,7 +7701,7 @@ input, button, select, optgroup, textarea {
   color: #424242;
   border-color: #BDBDBD;
 }
-.btn--form:enabled:active [class*=i-], .btn--form:enabled.active [class*=i-] {
+.btn--form:enabled:active [class*=ic-], .btn--form:enabled.active [class*=ic-] {
   background: #424242;
 }
 .btn--form:disabled, .btn--form.disabled {
@@ -7713,7 +7709,7 @@ input, button, select, optgroup, textarea {
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.btn--form:disabled [class*=i-], .btn--form.disabled [class*=i-] {
+.btn--form:disabled [class*=ic-], .btn--form.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--light-primary {
@@ -7721,7 +7717,7 @@ input, button, select, optgroup, textarea {
   background-color: #3373C4;
   border-color: #3373C4;
 }
-.btn--light-primary [class*=i-] {
+.btn--light-primary [class*=ic-] {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
@@ -7732,7 +7728,7 @@ input, button, select, optgroup, textarea {
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.btn--light-primary:focus [class*=i-] {
+.btn--light-primary:focus [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-primary:hover {
@@ -7740,7 +7736,7 @@ input, button, select, optgroup, textarea {
   background-color: #619CDB;
   border-color: #619CDB;
 }
-.btn--light-primary:hover [class*=i-] {
+.btn--light-primary:hover [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-primary:enabled:active, .btn--light-primary:enabled.active {
@@ -7748,7 +7744,7 @@ input, button, select, optgroup, textarea {
   background-color: #2559A8;
   border-color: #19428D;
 }
-.btn--light-primary:enabled:active [class*=i-], .btn--light-primary:enabled.active [class*=i-] {
+.btn--light-primary:enabled:active [class*=ic-], .btn--light-primary:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-primary:disabled, .btn--light-primary.disabled {
@@ -7756,7 +7752,7 @@ input, button, select, optgroup, textarea {
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.btn--light-primary:disabled [class*=i-], .btn--light-primary.disabled [class*=i-] {
+.btn--light-primary:disabled [class*=ic-], .btn--light-primary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--light-secondary {
@@ -7764,7 +7760,7 @@ input, button, select, optgroup, textarea {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: #FFFFFF;
 }
-.btn--light-secondary [class*=i-] {
+.btn--light-secondary [class*=ic-] {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
@@ -7775,7 +7771,7 @@ input, button, select, optgroup, textarea {
   border-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.btn--light-secondary:focus [class*=i-] {
+.btn--light-secondary:focus [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-secondary:hover {
@@ -7783,7 +7779,7 @@ input, button, select, optgroup, textarea {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #FFFFFF;
 }
-.btn--light-secondary:hover [class*=i-] {
+.btn--light-secondary:hover [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-secondary:enabled:active, .btn--light-secondary:enabled.active {
@@ -7791,14 +7787,14 @@ input, button, select, optgroup, textarea {
   background-color: rgba(255, 255, 255, 0.4);
   border-color: #FFFFFF;
 }
-.btn--light-secondary:enabled:active [class*=i-], .btn--light-secondary:enabled.active [class*=i-] {
+.btn--light-secondary:enabled:active [class*=ic-], .btn--light-secondary:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-secondary:disabled, .btn--light-secondary.disabled {
   color: #ABB0B5;
   border-color: #EEEEEE;
 }
-.btn--light-secondary:disabled [class*=i-], .btn--light-secondary.disabled [class*=i-] {
+.btn--light-secondary:disabled [class*=ic-], .btn--light-secondary.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--light-extra {
@@ -7806,7 +7802,7 @@ input, button, select, optgroup, textarea {
   background-color: transparent;
   border-color: transparent;
 }
-.btn--light-extra [class*=i-] {
+.btn--light-extra [class*=ic-] {
   display: inline-block;
   background: #FFFFFF;
   pointer-events: none;
@@ -7817,7 +7813,7 @@ input, button, select, optgroup, textarea {
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.btn--light-extra:focus [class*=i-] {
+.btn--light-extra:focus [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-extra:hover {
@@ -7825,7 +7821,7 @@ input, button, select, optgroup, textarea {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.2);
 }
-.btn--light-extra:hover [class*=i-] {
+.btn--light-extra:hover [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-extra:enabled:active, .btn--light-extra:enabled.active {
@@ -7833,7 +7829,7 @@ input, button, select, optgroup, textarea {
   background-color: rgba(255, 255, 255, 0.4);
   border-color: rgba(255, 255, 255, 0.4);
 }
-.btn--light-extra:enabled:active [class*=i-], .btn--light-extra:enabled.active [class*=i-] {
+.btn--light-extra:enabled:active [class*=ic-], .btn--light-extra:enabled.active [class*=ic-] {
   background: #FFFFFF;
 }
 .btn--light-extra:disabled, .btn--light-extra.disabled {
@@ -7841,7 +7837,7 @@ input, button, select, optgroup, textarea {
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.btn--light-extra:disabled [class*=i-], .btn--light-extra.disabled [class*=i-] {
+.btn--light-extra:disabled [class*=ic-], .btn--light-extra.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn--light-form {
@@ -7849,7 +7845,7 @@ input, button, select, optgroup, textarea {
   background-color: #E0E0E0;
   border-color: #E0E0E0;
 }
-.btn--light-form [class*=i-] {
+.btn--light-form [class*=ic-] {
   display: inline-block;
   background: #424242;
   pointer-events: none;
@@ -7860,7 +7856,7 @@ input, button, select, optgroup, textarea {
   border-color: #2559A8;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.btn--light-form:focus [class*=i-] {
+.btn--light-form:focus [class*=ic-] {
   background: #424242;
 }
 .btn--light-form:hover {
@@ -7868,7 +7864,7 @@ input, button, select, optgroup, textarea {
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.btn--light-form:hover [class*=i-] {
+.btn--light-form:hover [class*=ic-] {
   background: #424242;
 }
 .btn--light-form:enabled:active, .btn--light-form:enabled.active {
@@ -7876,7 +7872,7 @@ input, button, select, optgroup, textarea {
   background-color: #E0E0E0;
   border-color: #BDBDBD;
 }
-.btn--light-form:enabled:active [class*=i-], .btn--light-form:enabled.active [class*=i-] {
+.btn--light-form:enabled:active [class*=ic-], .btn--light-form:enabled.active [class*=ic-] {
   background: #424242;
 }
 .btn--light-form:disabled, .btn--light-form.disabled {
@@ -7884,7 +7880,7 @@ input, button, select, optgroup, textarea {
   background-color: #EEEEEE;
   border-color: #EEEEEE;
 }
-.btn--light-form:disabled [class*=i-], .btn--light-form.disabled [class*=i-] {
+.btn--light-form:disabled [class*=ic-], .btn--light-form.disabled [class*=ic-] {
   background: #ABB0B5;
 }
 .btn__list {
@@ -7895,7 +7891,7 @@ input, button, select, optgroup, textarea {
 .btn__list .btn__icon:not(:last-child), .btn__list .btn__text--box:not(:last-child) {
   margin-right: 0.5rem;
 }
-.btn__code .i-search {
+.btn__code .ic-search {
   background: #8B9094;
   pointer-events: none;
 }
@@ -8043,43 +8039,6 @@ input, button, select, optgroup, textarea {
   white-space: nowrap;
   cursor: pointer;
 }
-.btn__toggle__button--single:focus, .btn__toggle__button--multi:focus {
-  border-color: #2559A8;
-  background-color: #FFFFFF;
-  color: #222529;
-  outline: 0;
-  box-shadow: 0 0 0.125rem #2559A8;
-}
-.btn__toggle__button--single:focus [class*=i-], .btn__toggle__button--multi:focus [class*=i-] {
-  background: #222529;
-}
-.btn__toggle__button--single:hover, .btn__toggle__button--multi:hover {
-  border-color: #CFD5D9;
-  background-color: #D6EDFC;
-  color: #222529;
-  outline: 0;
-}
-.btn__toggle__button--single:hover [class*=i-], .btn__toggle__button--multi:hover [class*=i-] {
-  background: #222529;
-}
-.btn__toggle__button--single:enabled:active, .btn__toggle__button--single:enabled.active, .btn__toggle__button--multi:enabled:active, .btn__toggle__button--multi:enabled.active {
-  border-color: #619CDB;
-  background-color: #AFD9F9;
-  color: #19428D;
-  z-index: 25;
-}
-.btn__toggle__button--single:enabled:active [class*=i-], .btn__toggle__button--single:enabled.active [class*=i-], .btn__toggle__button--multi:enabled:active [class*=i-], .btn__toggle__button--multi:enabled.active [class*=i-] {
-  background: #19428D;
-}
-.btn__toggle__button--single:disabled, .btn__toggle__button--single.disabled, .btn__toggle__button--multi:disabled, .btn__toggle__button--multi.disabled {
-  border-color: #CFD5D9;
-  background-color: #EEEEEE;
-  color: #ABB0B5;
-  cursor: default;
-}
-.btn__toggle__button--single:disabled [class*=i-], .btn__toggle__button--single.disabled [class*=i-], .btn__toggle__button--multi:disabled [class*=i-], .btn__toggle__button--multi.disabled [class*=i-] {
-  background: #ABB0B5;
-}
 .btn__toggle__button--single:not(:first-child), .btn__toggle__button--multi:not(:first-child) {
   margin-left: -0.0625rem;
   border-top-left-radius: 0;
@@ -8089,16 +8048,53 @@ input, button, select, optgroup, textarea {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+.btn__toggle__button--single:focus, .btn__toggle__button--multi:focus {
+  border-color: #2559A8;
+  background-color: #FFFFFF;
+  color: #222529;
+  outline: 0;
+  box-shadow: 0 0 0.125rem #2559A8;
+}
+.btn__toggle__button--single:focus [class*=ic-], .btn__toggle__button--multi:focus [class*=ic-] {
+  background: #222529;
+}
+.btn__toggle__button--single:hover, .btn__toggle__button--multi:hover {
+  border-color: #CFD5D9;
+  background-color: #D6EDFC;
+  color: #222529;
+  outline: 0;
+}
+.btn__toggle__button--single:hover [class*=ic-], .btn__toggle__button--multi:hover [class*=ic-] {
+  background: #222529;
+}
+.btn__toggle__button--single:enabled:active, .btn__toggle__button--single:enabled.active, .btn__toggle__button--multi:enabled:active, .btn__toggle__button--multi:enabled.active {
+  border-color: #619CDB;
+  background-color: #AFD9F9;
+  color: #19428D;
+  z-index: 25;
+}
+.btn__toggle__button--single:enabled:active [class*=ic-], .btn__toggle__button--single:enabled.active [class*=ic-], .btn__toggle__button--multi:enabled:active [class*=ic-], .btn__toggle__button--multi:enabled.active [class*=ic-] {
+  background: #19428D;
+}
+.btn__toggle__button--single:disabled, .btn__toggle__button--single.disabled, .btn__toggle__button--multi:disabled, .btn__toggle__button--multi.disabled {
+  border-color: #CFD5D9;
+  background-color: #EEEEEE;
+  color: #ABB0B5;
+  cursor: default;
+}
+.btn__toggle__button--single:disabled [class*=ic-], .btn__toggle__button--single.disabled [class*=ic-], .btn__toggle__button--multi:disabled [class*=ic-], .btn__toggle__button--multi.disabled [class*=ic-] {
+  background: #ABB0B5;
+}
 .btn__toggle__button--single.selected:not(:disabled), .btn__toggle__button--single.selected:not(.disabled), .btn__toggle__button--multi.selected:not(:disabled), .btn__toggle__button--multi.selected:not(.disabled) {
   border-color: #3373C4;
   background-color: #FFFFFF;
   color: #3373C4;
   z-index: 25;
 }
-.btn__toggle__button--single.selected:not(:disabled) [class*=i-], .btn__toggle__button--single.selected:not(.disabled) [class*=i-], .btn__toggle__button--multi.selected:not(:disabled) [class*=i-], .btn__toggle__button--multi.selected:not(.disabled) [class*=i-] {
+.btn__toggle__button--single.selected:not(:disabled) [class*=ic-], .btn__toggle__button--single.selected:not(.disabled) [class*=ic-], .btn__toggle__button--multi.selected:not(:disabled) [class*=ic-], .btn__toggle__button--multi.selected:not(.disabled) [class*=ic-] {
   background: #3373C4;
 }
-.btn__toggle__button--single [class*=i-], .btn__toggle__button--multi [class*=i-] {
+.btn__toggle__button--single [class*=ic-], .btn__toggle__button--multi [class*=ic-] {
   display: inline-block;
   background: #222529;
   vertical-align: middle;
@@ -8188,10 +8184,10 @@ input, button, select, optgroup, textarea {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
 }
-.calendar__menu .calendar__move .i-arrow-right {
+.calendar__menu .calendar__move .ic-arrow-right {
   background: #8B9094;
 }
-.calendar__menu .calendar__move .i-arrow-right:hover {
+.calendar__menu .calendar__move .ic-arrow-right:hover {
   background: #619CDB;
 }
 .calendar__menu .calendar__move .move--prev {
@@ -8681,7 +8677,7 @@ input, button, select, optgroup, textarea {
   width: 4.75rem;
   height: 1.5rem;
 }
-.color-picker-wrapper .color-picker .icon.i-color-palette {
+.color-picker-wrapper .color-picker .ic-color-palette {
   background: #8B9094;
 }
 .color-picker-wrapper .color-picker:focus, .color-picker-wrapper .color-picker:hover {
@@ -8819,7 +8815,7 @@ input, button, select, optgroup, textarea {
   line-height: 0.3125rem;
   visibility: hidden;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-palette-item .custom-color-palette-item-clear .icon.i-remove {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-palette-item .custom-color-palette-item-clear .ic-remove {
   width: 0.5rem;
   height: 0.5rem;
   background: #FFFFFF;
@@ -8841,7 +8837,7 @@ input, button, select, optgroup, textarea {
   padding: 0 0.0625rem;
   background-color: #FFFFFF;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus .icon.i-plus {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus .ic-plus {
   width: 0.625rem;
   height: 0.625rem;
   background: #8B9094;
@@ -8851,21 +8847,21 @@ input, button, select, optgroup, textarea {
   background-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:focus .icon.i-plus {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:focus .ic-plus {
   background: #8B9094;
 }
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:hover {
   background-color: #D6EDFC;
   border-color: #CFD5D9;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:hover .icon.i-plus {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:hover .ic-plus {
   background: #8B9094;
 }
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:enabled:active, .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:enabled.active {
   background-color: #AFD9F9;
   border-color: #619CDB;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:enabled:active .icon.i-plus, .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:enabled.active .icon.i-plus {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:enabled:active .ic-plus, .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list .custom-color-plus:enabled.active .ic-plus {
   background: #19428D;
 }
 .color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-list.editable .custom-color-palette-item .custom-color-palette-item-clear {
@@ -8884,16 +8880,16 @@ input, button, select, optgroup, textarea {
   gap: 0 0.5rem;
   font-weight: 500;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .icon.i-water-drop .water-drop-outer {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .ic-water-drop .water-drop-outer {
   fill-opacity: 1;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .icon.i-water-drop .water-drop-inner {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .ic-water-drop .water-drop-inner {
   fill-opacity: 0;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .icon.i-water-drop.active .water-drop-outer {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .ic-water-drop.active .water-drop-outer {
   fill-opacity: 0;
 }
-.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .icon.i-water-drop.active .water-drop-inner {
+.color-picker-wrapper .color-picker-modal .custom-color-palette-container .custom-color-control-container .custom-color-control .ic-water-drop.active .water-drop-inner {
   fill: var(--data-color, #8B9094);
   fill-opacity: 1;
 }
@@ -8958,14 +8954,14 @@ input, button, select, optgroup, textarea {
   top: 0.25rem;
   left: 0.5rem;
 }
-.picker-modal-title .icon.i-remove {
+.picker-modal-title .ic-remove {
   position: absolute !important;
   top: 0.5rem;
   right: 0.5rem;
   background: #8B9094;
   cursor: pointer;
 }
-.picker-modal-title .icon.i-remove:hover {
+.picker-modal-title .ic-remove:hover {
   background: #619CDB;
 }
 .picker-modal-sub-title {
@@ -8992,15 +8988,15 @@ input, button, select, optgroup, textarea {
   color: #424242;
   vertical-align: middle;
 }
-.picker-modal-content .icon.i-arrow-right {
+.picker-modal-content .ic-arrow-right {
   display: table-cell;
   cursor: pointer;
   background: #ABB0B5;
 }
-.picker-modal-content .icon.i-arrow-right:hover {
+.picker-modal-content .ic-arrow-right:hover {
   background: #619CDB;
 }
-.picker-modal-content .icon.date-prev {
+.picker-modal-content .date-prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -9095,28 +9091,28 @@ input, button, select, optgroup, textarea {
   justify-content: center;
   align-items: center;
 }
-.picker-modal-content-time .hour-group .icon.i-arrow-right,
-.picker-modal-content-time .minute-group .icon.i-arrow-right {
+.picker-modal-content-time .hour-group .ic-arrow-right,
+.picker-modal-content-time .minute-group .ic-arrow-right {
   margin: 0;
   background: #8B9094;
   cursor: pointer;
 }
-.picker-modal-content-time .hour-group .icon.i-arrow-right:hover,
-.picker-modal-content-time .minute-group .icon.i-arrow-right:hover {
+.picker-modal-content-time .hour-group .ic-arrow-right:hover,
+.picker-modal-content-time .minute-group .ic-arrow-right:hover {
   background: #619CDB;
 }
-.picker-modal-content-time .hour-group .icon.hour-up, .picker-modal-content-time .hour-group .icon.minute-up,
-.picker-modal-content-time .minute-group .icon.hour-up,
-.picker-modal-content-time .minute-group .icon.minute-up {
+.picker-modal-content-time .hour-group .hour-up, .picker-modal-content-time .hour-group .minute-up,
+.picker-modal-content-time .minute-group .hour-up,
+.picker-modal-content-time .minute-group .minute-up {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.picker-modal-content-time .hour-group .icon.hour-down, .picker-modal-content-time .hour-group .icon.minute-down,
-.picker-modal-content-time .minute-group .icon.hour-down,
-.picker-modal-content-time .minute-group .icon.minute-down {
+.picker-modal-content-time .hour-group .hour-down, .picker-modal-content-time .hour-group .minute-down,
+.picker-modal-content-time .minute-group .hour-down,
+.picker-modal-content-time .minute-group .minute-down {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -9385,19 +9381,19 @@ table td, table th {
   background-color: transparent;
   border-color: transparent;
 }
-.table .table-body .btn__icon .icon {
+.table .table-body .btn__icon [class*=ic-] {
   background-color: #63686C;
 }
-.table .table-body .btn__icon:hover .icon {
+.table .table-body .btn__icon:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.table .table-body .btn__icon:focus .icon {
+.table .table-body .btn__icon:focus [class*=ic-] {
   background-color: #222529;
 }
-.table .table-body .btn__icon:active .icon {
+.table .table-body .btn__icon:active [class*=ic-] {
   background-color: #222529;
 }
-.table .table-body .btn__icon:disabled .icon {
+.table .table-body .btn__icon:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 
@@ -9440,13 +9436,13 @@ table td, table th {
 .option-table tr.option-table-row .input:not(:placeholder-shown):not(:focus) {
   border-color: transparent;
 }
-.option-table tr.option-table-row .btn__icon .icon {
+.option-table tr.option-table-row .btn__icon [class*=ic-] {
   display: block;
   margin: 0 auto;
   background: #ABB0B5;
   pointer-events: none;
 }
-.option-table tr.option-table-row .btn__icon:hover .icon {
+.option-table tr.option-table-row .btn__icon:hover [class*=ic-] {
   background: #3373C4;
 }
 
@@ -9744,9 +9740,6 @@ div.textarea-readonly {
   background-color: #E1E6EA;
 }
 
-/*
- * select
- */
 select {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
@@ -9830,7 +9823,7 @@ select.readonly {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.select__box:not(.readonly).active .icon.i-arrow-right {
+.select__box:not(.readonly).active .ic-arrow-right {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
@@ -9840,10 +9833,10 @@ select.readonly {
 .select__box:not(.readonly).active + .select__options {
   display: block;
 }
-.select__box:not(.readonly) .icon {
+.select__box:not(.readonly) [class*=ic-] {
   pointer-events: none;
 }
-.select__box:not(.readonly) .icon.i-arrow-right {
+.select__box:not(.readonly) .ic-arrow-right {
   position: absolute !important;
   right: 0.5rem;
   -webkit-transform: rotate(90deg);
@@ -9942,9 +9935,6 @@ select.readonly {
   padding-top: 0.9375rem;
 }
 
-/*
- * slider
- */
 .slider {
   min-height: 1.375rem;
 }
@@ -10424,7 +10414,7 @@ select.readonly {
   font-size: 0.875rem;
   font-weight: 400;
 }
-.file-uploader-edit .dropzone .dz-default.dz-message .icon.i-upload {
+.file-uploader-edit .dropzone .dz-default.dz-message .ic-upload {
   width: 2.5rem;
   height: 2.5rem;
   -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_upload.svg");
@@ -10461,7 +10451,7 @@ select.readonly {
   color: #19428D;
   outline: 0;
 }
-.file-uploader-edit .dropzone .dz-default.dz-message:focus .icon.i-upload, .file-uploader-edit .dropzone .dz-default.dz-message:active .icon.i-upload {
+.file-uploader-edit .dropzone .dz-default.dz-message:focus .ic-upload, .file-uploader-edit .dropzone .dz-default.dz-message:active .ic-upload {
   background-color: #19428D;
 }
 .file-uploader-edit .dropzone .dz-default.dz-message:focus .add-file-button-wrap .dz-clickable, .file-uploader-edit .dropzone .dz-default.dz-message:active .add-file-button-wrap .dz-clickable {
@@ -10587,13 +10577,13 @@ select.readonly {
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove.added {
   grid-column: 5;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .icon {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove [class*=ic-] {
   background: #8B9094;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .icon:hover {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove [class*=ic-]:hover {
   background: #3373C4;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .icon.i-delete {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-remove .ic-delete {
   height: 3.25rem;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-details .dz-download {
@@ -10605,13 +10595,13 @@ select.readonly {
   text-align: center;
   cursor: pointer;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .icon {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download [class*=ic-] {
   background: #8B9094;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .icon:hover {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download [class*=ic-]:hover {
   background: #3373C4;
 }
-.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .icon.i-download {
+.file-uploader-edit .dropzone .dz-preview .dz-details .dz-download .ic-download {
   height: 3.25rem;
 }
 .file-uploader-edit .dropzone .dz-preview .dz-image {
@@ -10663,7 +10653,7 @@ select.readonly {
   opacity: 1;
   pointer-events: auto;
 }
-.file-uploader-edit .dropzone .dz-preview.dz-error .dz-remove .icon.i-delete {
+.file-uploader-edit .dropzone .dz-preview.dz-error .dz-remove .ic-delete {
   width: 1.5rem;
   height: 1.5rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
@@ -10779,8 +10769,8 @@ select.readonly {
 .file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-file-type {
   filter: grayscale(1);
 }
-.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-download .icon,
-.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-remove .icon {
+.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-download [class*=ic-],
+.file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-remove [class*=ic-] {
   background: #ABB0B5;
 }
 .file-uploader-edit.disabled .dropzone .dz-preview .dz-details .dz-filename,
@@ -11003,7 +10993,7 @@ body.modal-active {
 .modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
   pointer-events: none;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .icon.i-sorting {
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -11011,7 +11001,7 @@ body.modal-active {
   transform: rotate(180deg);
   background: #757575;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .icon.i-sorting {
+.modal-dialog.modal-button-search-modal .modal-content .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .ic-sorting {
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -11054,19 +11044,19 @@ body.modal-active {
   background-color: transparent;
   border-color: transparent;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon [class*=ic-] {
   background-color: #63686C;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:hover .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:focus .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:focus [class*=ic-] {
   background-color: #222529;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:active .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:active [class*=ic-] {
   background-color: #222529;
 }
-.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:disabled .icon {
+.modal-dialog.modal-button-search-modal .modal-content .grid .btn__icon:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
 .modal-dialog.modal-button-search-modal .modal-content .grid {
@@ -11679,7 +11669,7 @@ body.modal-active {
 .notification-header span.message {
   margin-left: 0.625rem;
 }
-.notification-header span.icon.i-remove {
+.notification-header span.ic-remove {
   margin-left: auto;
   background: #FFFFFF;
 }
@@ -11732,7 +11722,7 @@ body.modal-active {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.notification-content .icon.i-delete {
+.notification-content .ic-delete {
   padding: 0;
   background: #8B9094;
 }
@@ -11785,7 +11775,7 @@ body.modal-active {
 .alice-toastify.toastify-right {
   right: 0.625rem;
 }
-.alice-toastify.toast-content .icon {
+.alice-toastify.toast-content [class*=ic-] {
   background-image: url("../media/images/notification/img_notification_logo.png");
   background-size: 6.25rem;
   background-repeat: no-repeat;
@@ -11873,7 +11863,7 @@ body.modal-active {
 .page-paging a.paging-arrow.active {
   cursor: pointer;
 }
-.page-paging a.paging-arrow.active span.icon {
+.page-paging a.paging-arrow.active span[class*=ic-] {
   background: #19428D;
 }
 .page-paging .paging-numbers a {
@@ -13242,7 +13232,7 @@ body.modal-active {
   padding: 0;
   height: 2.5rem;
 }
-.thumbnail-main .thumbnail .thumbnail-bottom .btn__icon .icon.i-delete {
+.thumbnail-main .thumbnail .thumbnail-bottom .btn__icon .ic-delete {
   background: #ABB0B5;
 }
 .thumbnail-main .thumbnail-upload {
@@ -13265,7 +13255,7 @@ body.modal-active {
   border: 0.0625rem solid #3373C4;
   background-color: #D6EDFC;
 }
-.thumbnail-main .icon.i-file-upload {
+.thumbnail-main .ic-file-upload {
   width: 5rem;
   height: 5rem;
   -webkit-mask-image: url("../../assets/media/icons/icon_file_upload.svg");
@@ -13391,7 +13381,7 @@ body.modal-active {
   margin-left: 0.3125rem;
   vertical-align: middle;
 }
-.help-tooltip .icon.i-tooltip {
+.help-tooltip .ic-tooltip {
   background: #8B9094;
   cursor: pointer;
 }
@@ -13501,7 +13491,7 @@ body.modal-active {
   animation-direction: normal;
   visibility: visible;
 }
-.help-tooltip:hover .icon.i-tooltip {
+.help-tooltip:hover .ic-tooltip {
   background: #3373C4;
 }
 
@@ -13888,7 +13878,7 @@ span.modal_node_selected label {
   background-color: #D6EDFC;
   color: #3373C4;
 }
-.validation.info .icon.i-remove {
+.validation.info .ic-remove {
   background: #3373C4;
 }
 .validation.error {
@@ -13901,7 +13891,7 @@ span.modal_node_selected label {
   background-color: #FEF2EB;
   color: #F52525;
 }
-.validation.error .icon.i-remove {
+.validation.error .ic-remove {
   background: #F52525;
 }
 .validation.success {
@@ -13914,10 +13904,10 @@ span.modal_node_selected label {
   background-color: #F6FCE0;
   color: #5CA21B;
 }
-.validation.success .icon.i-remove {
+.validation.success .ic-remove {
   background: #5CA21B;
 }
-.validation .icon.i-remove {
+.validation .ic-remove {
   padding-right: 0.9375rem;
   background: #8B9094;
 }
