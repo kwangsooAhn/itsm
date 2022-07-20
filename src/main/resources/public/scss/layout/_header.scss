@@ -36,7 +36,7 @@
       height: 1.875rem; // 30px
       vertical-align: middle;
     }
-    .i-arrow-right {
+    .ic-arrow-right {
       @include rotate(90);
       float: right;
       margin-left: auto;
@@ -55,13 +55,13 @@
       background-color: $white;
       border-color: $gray300;
       box-shadow: 0 0 0 0.125rem $blue800;
-      .i-arrow-right { background-color: $gray800; }
+      .ic-arrow-right { background-color: $gray800; }
     }
     &.active {
       border-color: $gray300;
       background-color: $white;
       + .dropdown-content { visibility: visible; }
-      .i-arrow-right { @include rotate(-90); }
+      .ic-arrow-right { @include rotate(-90); }
     }
   }
   .dropdown {

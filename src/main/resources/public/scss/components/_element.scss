@@ -1,5 +1,6 @@
 /* _element.scss
  *
+ *
  * 파일 경로 : components/_element.scss
  * @description HTML element 디자인
  * @author wdj
@@ -112,11 +113,11 @@ table {
         background-color: transparent;
         border-color: transparent;
       }
-      .icon { background-color: $gray600; }
-      &:hover .icon { background-color: $gray400; }
-      &:focus .icon { background-color: $gray800; }
-      &:active .icon { background-color: $gray800; }
-      &:disabled .icon { background-color: $gray300; }
+      [class*="ic-"] { background-color: $gray600; }
+      &:hover [class*="ic-"] { background-color: $gray400; }
+      &:focus [class*="ic-"] { background-color: $gray800; }
+      &:active [class*="ic-"] { background-color: $gray800; }
+      &:disabled [class*="ic-"] { background-color: $gray300; }
     }
   }
 }
@@ -159,13 +160,13 @@ table {
       }
 
       .button-icon {
-        .icon {
+        [class*="ic-"] {
           display: block;
           margin: 0 auto;
           background: $gray400;
           pointer-events: none;
         }
-        &:hover .icon { background: $blue500; }
+        &:hover [class*="ic-"] { background: $blue500; }
       }
     }
   }
@@ -439,9 +440,7 @@ div.textarea-readonly { border-color: transparent !important; }
   }
 }
 
-/*
- * select
- */
+// select
 select {
   @include border(0.0625rem, solid, $gray400, all);
   @include borderRadius(0.0625rem);
@@ -514,19 +513,17 @@ select {
         @include border(0.0625rem, solid, $blue600, all);
         outline: 0;
         // 열렸을때 출력되는 화살표 아이콘
-        .icon.i-arrow-right { @include rotate(-90); }
+        .ic-arrow-right { @include rotate(-90); }
         + .select__options { display: block; }
       }
 
       // 닫혔을때 출력되는 화살표 아이콘
-      .icon {
-        pointer-events: none;
-        &.i-arrow-right {
-          @include absolute($right: 0.5rem); // 8px
-          @include rotate(90);
-          margin-top: -0.1875rem; //3px
-          background: $gray500;
-        }
+      [class*="ic-"] { pointer-events: none; }
+      .ic-arrow-right {
+        @include absolute($right: 0.5rem); // 8px
+        @include rotate(90);
+        margin-top: -0.1875rem; //3px
+        background: $gray500;
       }
     }
 
@@ -608,9 +605,7 @@ select {
   }
 }
 
-/*
- * slider
- */
+ // slider
 .slider {
   min-height: 1.375rem; // 22px
   &__range {

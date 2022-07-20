@@ -46,7 +46,7 @@
               &:not(.active, .active-parent) {
                 background: $gray700;
                 color: $gray200;
-                .icon { background: $gray200; }
+                [class*="ic-"] { background: $gray200; }
               }
             }
 
@@ -78,18 +78,16 @@
             &.active {
               background-color: $gray900;
               .menu-name { color: $white; }
-              .icon { background: $blue500; }
-              .i-arrow-right {
+              [class*="ic-"] { background: $blue500; }
+              .ic-arrow-right {
                 @include rotate(90);
                 background: $white;
               }
             }
             &.active-parent {
               .menu-name { color: $white; }
-              .icon {
-                background: $blue500;
-                &.i-arrow-right { background: $white; }
-              }
+              [class*="ic-"] { background: $blue500; }
+              .ic-arrow-right { background: $white; }
             }
           }
 
@@ -120,7 +118,7 @@
                   &:not(.active) {
                     color: $gray200;
 
-                    .icon.i-gnb_sub_dot {
+                    .ic-gnb_sub_dot {
                       background: $gray200;
                       visibility: visible;
                     }
@@ -130,7 +128,7 @@
                 &.active {
                   background-color: $gray900;
                   .menu-name { color: $white; }
-                  .icon.i-gnb_sub_dot {
+                  .ic-gnb_sub_dot {
                     background: $blue500;
                     visibility: visible;
                   }
@@ -145,20 +143,18 @@
       .right { right: 0.375rem; } // 6px
     }
      // 아이콘
-    .icon {
-      background: $gray500;
-      //점
-      &.i-gnb_sub_dot {
-        margin-left: 2.5rem; // 40px
-        padding-left: 0.375rem; // 6px
-        visibility: hidden;
-      }
-      // 화살표
-      &.i-arrow-right {
-        float: right;
-        margin-left: auto;
-        padding: 0 0.375rem 0 0; // 0 6px 0 0
-      }
+    [class*="ic-"] { background: $gray500; }
+    //점
+    .ic-gnb_sub_dot {
+      margin-left: 2.5rem; // 40px
+      padding-left: 0.375rem; // 6px
+      visibility: hidden;
+    }
+    // 화살표
+    .ic-arrow-right {
+      float: right;
+      margin-left: auto;
+      padding: 0 0.375rem 0 0; // 0 6px 0 0
     }
   }
 }

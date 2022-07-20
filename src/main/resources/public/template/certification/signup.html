@@ -18,7 +18,7 @@
 <body>
 <th:block layout:fragment="pageLeft">
     <div class="vertical-split-left signup-background">
-        <img class="img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
+        <img class="i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
         <div class="signup-login-face float-right">
             <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
             <a class="button light-secondary signup-return" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
@@ -38,7 +38,7 @@
                             <span class="required"></span>
                         </label>
                         <div class="help-tooltip">
-                            <span class="icon i-tooltip"></span>
+                            <span class="ic-tooltip"></span>
                             <div class="tooltip-contents">
                                 <span th:utext="#{user.tooltip.idRule}"></span>
                             </div>
@@ -51,7 +51,7 @@
                             <span class="required"></span>
                         </label>
                         <div class="help-tooltip">
-                            <span class="icon i-tooltip"></span>
+                            <span class="ic-tooltip"></span>
                             <div class="tooltip-contents">
                                 <span th:utext="#{user.tooltip.pwRule}"></span>
                             </div>
