@@ -267,7 +267,7 @@ class ZDocument {
             for (let p = 0; p < requiredPlugInElements.length; p++) {
                 const requiredElement = requiredPlugInElements[p];
                 // 미검증
-                if (requiredElement.classList.contains('btn--primary')) {
+                if (requiredElement.classList.contains('theme--primary')) {
                     isValid = false;
                     zAlert.warning(i18n.msg('form.msg.checkPlugInButton', requiredElement.innerText));
                     break outer;
@@ -398,7 +398,7 @@ class ZDocument {
                 classes: 'process-status-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'btn__text--box btn--secondary',
+                    classes: 'btn__text--box theme--secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

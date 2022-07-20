@@ -69,17 +69,17 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="btn__list">
-                    <a class="btn__text--box btn--secondary"
+                    <a class="btn__text--box theme--secondary"
                        th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="btn__list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')">
-                    <button class="btn__text--box btn--primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
+                    <button class="btn__text--box theme--primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
                             th:text="#{common.btn.modify}" onclick ="saveBoard('PUT', 'normal')">
                     </button>
-                    <button class="btn__text--box btn--primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                    <button class="btn__text--box theme--primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                             th:text="#{common.btn.register}" onclick="saveBoard('POST', 'normal')">
                     </button>
-                    <button class="btn__text--box btn--secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                    <button class="btn__text--box theme--secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
                             th:text="#{board.btn.reply}" onclick="saveBoard('POST', 'reply')">
                     </button>
                 </div>

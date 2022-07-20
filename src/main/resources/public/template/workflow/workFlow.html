@@ -130,7 +130,7 @@
                     <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>
                     </button>
-                    <button type="button" class="button-search btn__text--box btn--form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                    <button type="button" class="button-search btn__text--box theme--form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
         </div>
@@ -244,26 +244,26 @@
                     <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>
                     </button>
-                    <button type="button" class="button-search btn__text--box btn--form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                    <button type="button" class="button-search btn__text--box theme--form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="btn__list">
-                <a class="btn__text--box btn--secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
+                <a class="btn__text--box theme--secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
             </div>
             <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="btn__text--box btn--primary" onclick="saveDocument('POST')"
+                <button type="button" class="btn__text--box theme--primary" onclick="saveDocument('POST')"
                         th:if="${documentId == null}" th:text="#{common.btn.register}">
                 </button>
-                <button type="button" class="btn__text--box btn--primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
+                <button type="button" class="btn__text--box theme--primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
                         th:unless="${documentId == null}" th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="btn__text--box btn--secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
+                <button type="button" class="btn__text--box theme--secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
                         th:if="${documentId} and ${documentData?.documentType != 'application-form-link'}"
                         th:text="#{document.label.registerDisplay}">
                 </button>
-                <button type="button" class="btn__text--box btn--danger"
+                <button type="button" class="btn__text--box theme--danger"
                         th:onclick="deleteDocument([[${documentId}]], [[${documentData?.documentType} == 'application-form-link']])"
                         th:if="${documentId}" th:text="#{common.btn.delete}">
                 </button>
@@ -500,14 +500,14 @@
                 classes: 'document-display',
                 buttons: [{
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'btn__text--box btn--primary',
+                    classes: 'btn__text--box theme--primary',
                     bindKey: false,
                     callback: function() {
                         saveDocumentDisplay(documentId);
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box btn--secondary',
+                    classes: 'btn__text--box theme--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

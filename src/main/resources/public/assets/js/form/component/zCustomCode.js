@@ -67,7 +67,7 @@ export const customCodeMixin = {
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIButton = new UIButton()
             .setUIClass('button')
-            .setUIClass('btn--secondary')
+            .setUIClass('theme--secondary')
             .addUIClass('btn__ic')
             .onUIClick(this.openCustomCodeModal.bind(this))
             .addUI(new UISpan().setUIClass('ic-search'));

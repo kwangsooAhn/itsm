@@ -27,9 +27,9 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="btn__text--box btn--primary" onclick="openProcessRegister();"
+        <button type="button" class="btn__text--box theme--primary" onclick="openProcessRegister();"
                 sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
-        <button type="button" class="btn__text--box btn--secondary" onclick="openProcessImport();"
+        <button type="button" class="btn__text--box theme--secondary" onclick="openProcessImport();"
                 sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.import}"></button>
     </div>
 </div>
@@ -181,14 +181,14 @@
             classes: 'process-edit',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'btn__text--box btn--primary',
+                classes: 'btn__text--box theme--primary',
                 bindKey: false,
                 callback: function(modal) {
                     saveProcess();
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box btn--secondary',
+                classes: 'btn__text--box theme--secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -310,14 +310,14 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.import'),
-                    classes: 'btn__text--box btn--primary',
+                    classes: 'btn__text--box theme--primary',
                     bindKey: false,
                     callback: function(modal) {
                         importProcess();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box btn--secondary',
+                    classes: 'btn__text--box theme--secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

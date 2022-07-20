@@ -100,58 +100,7 @@ $button-group: (
         'selected': ('font': $blue500, 'background': $white, 'border': $blue500),
         'disabled': ('font': $gray400, 'background': $neutral200, 'border': $gray300)
 );
-
-.btn {
-  // 종류
-  &__ic,
-  &__text--box {
-    @include border(0rem, solid, transparent, all);
-    @include borderRadius(0.25rem); // 4px
-    display: inline-block;
-    overflow: visible;
-    background-color: transparent;
-    line-height: 1;
-    vertical-align: middle;
-    opacity: 1;
-    user-select: none;
-    white-space: nowrap;
-    cursor: pointer;
-    &:focus, &:hover { outline: 0; }
-    &:disabled, &.disabled { cursor: default; }
-  }
-  &__text {
-    &--box, &--only {
-      font-size: 0.875rem;
-      font-weight: $font-weight-semibold;
-    }
-    &--box { padding: 0.625rem 1.25rem; } // 10px 20px
-    &--only {
-      padding: 0;
-      color: $gray600;
-      line-height: 1.25rem; // 20px
-      &:hover {
-        @include underline;
-        color: $gray400;
-      }
-      &:active, &:focus { color: $gray800; }
-      &:disabled, &.disabled { color: $gray300; }
-    }
-  }
-  &__ic {
-    padding: 0.4375rem; // 7px (버튼 기본 너비 높이 : 34px 34px)
-    line-height: 0;
-  }
-  
-  // 크기
-  &--xsmall {}
-  &--small {
-    font-size: $font-size-xxs;
-    padding: 0.375rem 0.4375rem; // 6px 7px
-  }
-  &--medium {}
-  &--large {}
-
-  // 테마
+.theme {
   // light
   @each $theme, $value in $button-themes-default {
     &--#{$theme} {
@@ -276,6 +225,57 @@ $button-group: (
       }
     }
   }
+}
+
+.btn {
+  // 종류
+  &__ic,
+  &__text--box {
+    @include border(0rem, solid, transparent, all);
+    @include borderRadius(0.25rem); // 4px
+    display: inline-block;
+    overflow: visible;
+    background-color: transparent;
+    line-height: 1;
+    vertical-align: middle;
+    opacity: 1;
+    user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+    &:focus, &:hover { outline: 0; }
+    &:disabled, &.disabled { cursor: default; }
+  }
+  &__text {
+    &--box, &--only {
+      font-size: 0.875rem;
+      font-weight: $font-weight-semibold;
+    }
+    &--box { padding: 0.625rem 1.25rem; } // 10px 20px
+    &--only {
+      padding: 0;
+      color: $gray600;
+      line-height: 1.25rem; // 20px
+      &:hover {
+        @include underline;
+        color: $gray400;
+      }
+      &:active, &:focus { color: $gray800; }
+      &:disabled, &.disabled { color: $gray300; }
+    }
+  }
+  &__ic {
+    padding: 0.4375rem; // 7px (버튼 기본 너비 높이 : 34px 34px)
+    line-height: 0;
+  }
+  
+  // 크기
+  &--xsmall {}
+  &--small {
+    font-size: $font-size-xxs;
+    padding: 0.375rem 0.4375rem; // 6px 7px
+  }
+  &--medium {}
+  &--large {}
   
   // 버튼 목록
   &__list {

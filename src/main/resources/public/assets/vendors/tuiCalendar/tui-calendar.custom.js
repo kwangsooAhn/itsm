@@ -179,14 +179,14 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--register',
         buttons: [{
             content: i18n.msg('common.btn.register'),
-            classes: 'btn__text--box btn--primary',
+            classes: 'btn__text--box theme--primary',
             bindKey: false,
             callback: (modal) => {
                 this.saveSchedule(modal.customOptions);
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'btn__text--box btn--secondary',
+            classes: 'btn__text--box theme--secondary',
             bindKey: false,
             callback: (modal) => {
                 if (modal.customOptions.guide) {
@@ -235,7 +235,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--detail',
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'btn__text--box btn--secondary',
+            classes: 'btn__text--box theme--secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -269,7 +269,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--repeat',
         buttons: [{
             content: i18n.msg('common.btn.check'),
-            classes: 'btn__text--box btn--primary',
+            classes: 'btn__text--box theme--primary',
             bindKey: false,
             callback: (modal) => {
                 modal.saveData.repeatPeriod = document.querySelector('input[name="repeatPeriod"]:checked').value;
@@ -277,7 +277,7 @@ function zCalendar(id, options) {
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'btn__text--box btn--secondary',
+            classes: 'btn__text--box theme--secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -921,10 +921,10 @@ Object.assign(zCalendar.prototype, {
             <div class="flex-row">
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
                 <div class="btn__list flex-row float-right align-items-end">
-                    <button type="button" class="btn__ic btn--secondary" id="scheduleEdit">
+                    <button type="button" class="btn__ic theme--secondary" id="scheduleEdit">
                         <span class="ic-edit"></span>
                     </button>
-                    <button type="button" class="btn__ic btn--secondary" id="scheduleDelete">
+                    <button type="button" class="btn__ic theme--secondary" id="scheduleDelete">
                         <span class="ic-delete"></span>
                     </button>
                 </div>

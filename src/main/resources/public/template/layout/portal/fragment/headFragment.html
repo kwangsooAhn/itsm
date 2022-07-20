@@ -7,8 +7,8 @@
         <img class="i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="152" height="26" alt="Alice">
     </a>
     <span class="name" th:text="#{portal.label.mainPhrase}"></span>
-    <a class="ml-auto btn__text--box btn--light-secondary" href="/layout" sec:authorize="isAuthenticated()" th:text="#{portal.label.main}"></a>
-    <a class="ml-auto btn__text--box btn--light-secondary" href="/login" sec:authorize="isAnonymous()" th:text="#{portal.label.login}"></a>
+    <a class="ml-auto btn__text--box theme--light-secondary" href="/layout" sec:authorize="isAuthenticated()" th:text="#{portal.label.main}"></a>
+    <a class="ml-auto btn__text--box theme--light-secondary" href="/login" sec:authorize="isAnonymous()" th:text="#{portal.label.login}"></a>
 </div>
 </body>
 </html>

@@ -51,19 +51,19 @@ class ZFormButton {
         const UIButtonGroup = new UIDiv().setUIClass('btn__list');
 
         // 닫기 버튼
-        const UICloseButton = new UIButton(i18n.msg('common.btn.close')).addUIClass('btn--secondary')
+        const UICloseButton = new UIButton(i18n.msg('common.btn.close')).addUIClass('theme--secondary')
             .onUIClick(this.zForm.close.bind(this.zForm));
         UIButtonGroup.addUI(UICloseButton);
 
         // 문서함에서 출력되는 경우 프로세스 맵, 인쇄 버튼도 출력
         if (this.isToken) {
             // 프로세스 맵 버튼
-            const UIProcessMapButton = new UIButton(i18n.msg('token.label.processMap')).addUIClass('btn--secondary')
+            const UIProcessMapButton = new UIButton(i18n.msg('token.label.processMap')).addUIClass('theme--secondary')
                 .onUIClick(this.zForm.openProcessStatusModal.bind(this.zForm));
             UIButtonGroup.addUI(UIProcessMapButton);
 
             // 인쇄 버튼
-            const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('btn--secondary')
+            const UIPrintButton = new UIButton(i18n.msg('common.btn.print')).addUIClass('theme--secondary')
                 .onUIClick(this.zForm.print.bind(this.zForm));
             UIButtonGroup.addUI(UIPrintButton);
         }
@@ -79,7 +79,7 @@ class ZFormButton {
         const UIButtonGroup = new UIDiv().setUIClass('btn__list');
 
         // 돌아가기 버튼
-        const UIReturnButton = new UIButton(i18n.msg('common.btn.return')).addUIClass('btn--secondary')
+        const UIReturnButton = new UIButton(i18n.msg('common.btn.return')).addUIClass('theme--secondary')
             .onUIClick(this.zForm.back.bind(this.zForm));
         UIButtonGroup.addUI(UIReturnButton);
 
@@ -103,7 +103,7 @@ class ZFormButton {
         actions.forEach( (btn) => {
             if (zValidation.isEmpty(btn.name)) { return false; }
             const UIActionTopButton = new UIButton(btn.customYn ? btn.name : i18n.msg(btn.name))
-                .addUIClass('btn--primary')
+                .addUIClass('theme--primary')
                 .onUIClick(this.zForm.processAction.bind(this.zForm, btn.value));
             UIButtonTopGroup.addUI(UIActionTopButton);
         });

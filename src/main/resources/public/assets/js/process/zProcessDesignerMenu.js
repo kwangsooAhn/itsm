@@ -1308,7 +1308,7 @@
             // button
             let btnAdd = document.createElement('button');
             btnAdd.type = 'button';
-            btnAdd.className = 'btn__text--box btn--form mt-3';
+            btnAdd.className = 'btn__text--box theme--form mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
             const saveData = function() {
@@ -1473,7 +1473,7 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'btn__ic btn--form button-candidate-add';
+        btnAdd.className = 'btn__ic theme--form button-candidate-add';
         btnAdd.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
 
         const saveData = function() {
@@ -1892,7 +1892,7 @@
                 copyBtnContainer.className = 'clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
-                copyBtn.className = 'btn__ic btn--secondary btn-clipboard-tooltip';
+                copyBtn.className = 'btn__ic theme--secondary btn-clipboard-tooltip';
                 copyBtn.insertAdjacentHTML('beforeend', `<span class="ic-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();

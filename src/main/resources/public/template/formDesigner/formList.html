@@ -35,13 +35,13 @@
             <td width="10%" class="align-left" th:text="${form.createUserName}" th:title="${form.createUserName}"></td>
             <td width="15%" class="align-left date-time" th:text="${form.createDt}" th:title="${form.createDt}"></td>
             <td width="4%" class="align-center">
-                <button type="button" class="btn__ic btn--form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${form.id}]])">
+                <button type="button" class="btn__ic theme--form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${form.id}]])">
                     <span class="ic-list-download"></span>
                 </button>
             </td>
             <td width="4%" class="align-center">
                 <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${form.editable == true}">
-                    <button type="button" class="btn__ic btn--form" th:onclick="deleteForm([[${form.id}]])">
+                    <button type="button" class="btn__ic theme--form" th:onclick="deleteForm([[${form.id}]])">
                         <span class="ic-list-delete"></span>
                     </button>
                 </th:block>

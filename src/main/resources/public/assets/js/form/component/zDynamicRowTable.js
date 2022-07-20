@@ -78,13 +78,13 @@ export const dynamicRowTableMixin = {
         element.addUI(element.UIDiv);
 
         // 추가 버튼
-        element.UIDiv.addUIButton = new UIButton(i18n.msg('form.label.addRow')).addUIClass('btn--secondary');
+        element.UIDiv.addUIButton = new UIButton(i18n.msg('form.label.addRow')).addUIClass('theme--secondary');
         element.UIDiv.addUI(element.UIDiv.addUIButton);
 
         // 플러그인 검증 버튼 생성
         element.UIDiv.plugInUIButton = new UIButton()
             .addUIClass('plugIn-check')
-            .addUIClass('btn--primary')
+            .addUIClass('theme--primary')
             .addUIClass('mr-2')
             .addUIClass(this.pluginUseYn === 'none')
             .setUIAttribute('data-validation-required', this.pluginRequired)
@@ -865,11 +865,11 @@ export const dynamicRowTableMixin = {
             if (response.data.result) {
                 // success--check > 성공
                 this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
-                    .removeUIClass('btn--primary').addUIClass('success--check');
+                    .removeUIClass('theme--primary').addUIClass('success--check');
             } else {
                 // error > 실패
                 this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton
-                    .removeUIClass('btn--primary').addUIClass('error');
+                    .removeUIClass('theme--primary').addUIClass('error');
             }
         });
     },
@@ -887,7 +887,7 @@ export const dynamicRowTableMixin = {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box btn--primary',
+                classes: 'btn__text--box theme--primary',
                 bindKey: false,
                 callback: (modal) => {
                     const realTimeSelectedUser = target.getAttribute('data-realtime-selected-user').split('|');
@@ -906,7 +906,7 @@ export const dynamicRowTableMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box btn--secondary',
+                classes: 'btn__text--box theme--secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

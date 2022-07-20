@@ -44,16 +44,16 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="btn__list">
-                    <a class="btn__text--box btn--secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
+                    <a class="btn__text--box theme--secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="btn__list" sec:authorize="hasAuthority('portal.manage')">
-                    <button type="button" class="btn__text--box btn--primary" id="btnRegist"
+                    <button type="button" class="btn__text--box theme--primary" id="btnRegist"
                             onclick="saveFaq('POST')"
                             th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
-                    <button type="button" class="btn__text--box btn--primary" id="btnUpdate"
+                    <button type="button" class="btn__text--box theme--primary" id="btnUpdate"
                             onclick="saveFaq('PUT')"
                             th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
-                    <button type="button" class="btn__text--box btn--danger"
+                    <button type="button" class="btn__text--box theme--danger"
                             onclick="deleteFaq()"
                             th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
                 </div>
