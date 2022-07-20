@@ -3365,7 +3365,7 @@ span.ic-paging-end-arrow {
   margin-top: 1.875rem;
 }
 .itsm-container .main .view-title {
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
   padding-bottom: 0.625rem;
   color: #222529;
   font-size: 1.125rem;
@@ -3749,7 +3749,7 @@ span.ic-paging-end-arrow {
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
   -moz-border-radius: 0.0625rem;
-  width: calc(100% - 0.376rem);
+  width: calc(100% - (0.188rem * 2));
   margin: 0.188rem;
   padding-left: 0.875rem;
   background-color: #FFFFFF;
@@ -3989,7 +3989,7 @@ span.ic-paging-end-arrow {
 }
 .form-properties-panel, .form-properties, .process-properties-panel, .process-properties {
   position: fixed !important;
-  top: 5.375rem;
+  top: calc(2.875rem + 2.5rem);
   right: 0;
   bottom: 0;
   -ms-overflow-style: none;
@@ -4268,8 +4268,7 @@ span.ic-paging-end-arrow {
   margin: 0.5rem;
   padding: 0.375rem 0.5rem;
   background-color: transparent;
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
 }
 .component-tooltip:first-child:nth-last-child(1) {
   border-style: solid;
@@ -4295,8 +4294,7 @@ span.ic-paging-end-arrow {
   width: 100%;
 }
 .component .component-label {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   justify-content: var(--data-align);
   padding: 0;
   font-weight: 500;
@@ -4311,8 +4309,7 @@ span.ic-paging-end-arrow {
   padding: 0.4375rem 0 0.4375rem 0;
 }
 .component .element {
-  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 0px);
+  flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 0px);
   padding: 0.4375rem 0 0.4375rem 0.938rem;
   pointer-events: none;
 }
@@ -4838,7 +4835,7 @@ span.ic-paging-end-arrow {
   scrollbar-width: none;
   /* Firefox */
   overflow-y: auto;
-  height: calc(100vh - 160px - 2.875rem);
+  height: calc(100vh - (40px * 4) - 2.875rem);
   border-bottom-color: #CFD5D9;
 }
 .component-accordion-box .component-accordion input[type=radio]:checked ~ .accordion-content::-webkit-scrollbar {
@@ -5031,8 +5028,7 @@ span.ic-paging-end-arrow {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12
-          + (var(--data-column) - 1) * 4px);
+  flex-basis: calc(((100% - 44px) * var(--data-column, 12)) / 12 + (var(--data-column) - 1) * 4px);
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
@@ -5819,7 +5815,7 @@ span.ic-paging-end-arrow {
   margin-top: 1.25rem;
 }
 .process-properties .process-info-main .process-info-dashboard .total {
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
   margin: 0;
   padding: 0 0 0.625rem 0;
   color: #8B9094;
@@ -6237,7 +6233,7 @@ span.ic-paging-end-arrow {
   }
   .print-main .drawing-board .form .row-tooltip .textarea {
     width: inherit;
-    max-width: 200mm;
+    max-width: calc(210mm - 10mm);
   }
   .print-main .drawing-board-calendar-sub-title {
     display: block;
@@ -6548,7 +6544,7 @@ span.ic-paging-end-arrow {
   background-color: #FAFAFA;
 }
 .portal-container .main .main-content .main-search.slide-up + .main-card .card-list {
-  height: 49.188rem;
+  height: calc(8.75rem + 40.438rem);
 }
 .portal-container .main .main-content .main-search.slide-down + .main-card .card-list {
   height: 40.438rem;
@@ -6726,7 +6722,7 @@ span.ic-paging-end-arrow {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
 .portal-container .main .main-content .main-view .view-title {
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
   margin-bottom: 0.625rem;
   padding-bottom: 0.625rem;
   color: #222529;
@@ -8888,7 +8884,7 @@ span.ic-paging-end-arrow {
   height: 25.625rem;
 }
 .modal-wrapper .modal-dialog.calendar__template--import .modal-content {
-  height: 16.75rem;
+  height: calc(25.625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-wrapper .modal-dialog.calendar__template--import .modal-content .field-label {
@@ -9655,7 +9651,7 @@ table td, table th {
   font-weight: 500;
 }
 .table .table-head {
-  border-bottom: 0.125rem solid #ABB0B5;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
 }
 .table .table-head tr {
   height: 2.5rem;
@@ -9723,7 +9719,7 @@ table td, table th {
 }
 .option-table tr.option-table-header {
   border-top: 0.0625rem solid #ABB0B5;
-  border-bottom: 0.125rem solid #ABB0B5;
+  border-bottom: calc(0.0625rem * 2) solid #ABB0B5;
   height: 2rem;
   background-color: #F5F5F5;
   color: #ABB0B5;
@@ -11397,7 +11393,7 @@ body.modal-active {
   height: 44.19rem;
 }
 .modal-dialog.tree .modal-content {
-  height: 35.315rem;
+  height: calc(44.19rem - 3.875rem - 5rem);
   padding: 1.125rem 0 0 1.25rem;
 }
 .modal-dialog.tree .modal-content div {
@@ -11414,7 +11410,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.token-list .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.token-list .modal-content .related-instance-list {
@@ -11443,14 +11439,14 @@ body.modal-active {
 }
 .modal-dialog.process-status-modal .modal-content {
   width: 100%;
-  height: 28.125rem;
+  height: calc(33.125rem - 5rem);
 }
 .modal-dialog.form-import, .modal-dialog.process-import {
   width: 37.5rem;
   height: 31.25rem;
 }
 .modal-dialog.form-import .modal-content, .modal-dialog.process-import .modal-content {
-  height: 22.375rem;
+  height: calc(31.25rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-import .modal-content .field-label, .modal-dialog.process-import .modal-content .field-label {
@@ -11462,7 +11458,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.form-edit .modal-content, .modal-dialog.process-edit .modal-content {
-  height: 13.625rem;
+  height: calc(22.5rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.form-edit .modal-content .field-label, .modal-dialog.process-edit .modal-content .field-label {
@@ -11474,7 +11470,7 @@ body.modal-active {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
-  height: 16.755rem;
+  height: calc(25.63rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.save-as .modal-content::-webkit-scrollbar {
@@ -11494,7 +11490,7 @@ body.modal-active {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
-  height: 16.755rem;
+  height: calc(25.63rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.create-template .modal-content::-webkit-scrollbar {
@@ -11514,7 +11510,13 @@ body.modal-active {
   height: 48.44rem;
 }
 .modal-dialog.thumbnail-image .modal-content, .modal-dialog.thumbnail-file .modal-content {
-  height: 39.565rem;
+  height: calc(48.44rem - 3.875rem - 5rem);
+}
+.modal-dialog.thumbnail-image .modal-content .input, .modal-dialog.thumbnail-file .modal-content .input {
+  margin: 0.625rem;
+}
+.modal-dialog.thumbnail-image .modal-content .search-count, .modal-dialog.thumbnail-file .modal-content .search-count {
+  visibility: hidden;
 }
 .modal-dialog.thumbnail-image .modal-content .thumbnail-main .thumbnail, .modal-dialog.thumbnail-file .modal-content .thumbnail-main .thumbnail {
   width: 14.375rem;
@@ -11524,12 +11526,12 @@ body.modal-active {
   height: 50.63rem;
 }
 .modal-dialog.document-edit .modal-content, .modal-dialog.workFlow-import .modal-content {
-  height: 41.755rem;
+  height: calc(50.63rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .workflow-content, .modal-dialog.workFlow-import .modal-content .workflow-content {
-  width: 37.5rem;
-  height: 39.255rem;
+  width: calc(40rem - 2.5rem);
+  height: calc(50.63rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
 }
 .modal-dialog.document-edit .modal-content .field-label, .modal-dialog.workFlow-import .modal-content .field-label {
@@ -11547,12 +11549,12 @@ body.modal-active {
 }
 .modal-dialog.document-display .modal-content {
   overflow: hidden;
-  height: 33.313rem;
+  height: calc(42.188rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.document-display .modal-content .document-display-content {
   overflow-y: auto;
-  height: 30.813rem;
+  height: calc(42.188rem - 3.875rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
 }
 .modal-dialog.document-display .modal-content .document-display-content .table {
@@ -11581,7 +11583,7 @@ body.modal-active {
   height: 46.875rem;
 }
 .modal-dialog.custom-code-list .modal-content {
-  height: 38rem;
+  height: calc(46.875rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 0.625rem 1.25rem;
 }
 .modal-dialog.custom-code-list .modal-content .field-label {
@@ -11599,7 +11601,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content, .modal-dialog.sub-user-modal .modal-content, .modal-dialog.target-user-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-class-attribute-modal .modal-content .cmdb-class-attribute-list,
@@ -11659,7 +11661,7 @@ body.modal-active {
   height: 43.75rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content {
-  height: 34.875rem;
+  height: calc(43.75rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-detailSearch-modal .modal-content .flex-row {
@@ -11676,7 +11678,7 @@ body.modal-active {
   height: 53.0625rem;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content, .modal-dialog.cmdb-ci-update-modal .modal-content, .modal-dialog.cmdb-ci-view-modal .modal-content, .modal-dialog.cmdb-ci-list-modal .modal-content {
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content .view-row, .modal-dialog.cmdb-ci-update-modal .modal-content .view-row, .modal-dialog.cmdb-ci-view-modal .modal-content .view-row, .modal-dialog.cmdb-ci-list-modal .modal-content .view-row {
@@ -11709,7 +11711,7 @@ body.modal-active {
 .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-view, .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-edit,
 .modal-dialog.cmdb-ci-view-modal .modal-content .cmdb-ci-content-view, .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-edit,
 .modal-dialog.cmdb-ci-list-modal .modal-content .cmdb-ci-content-view {
-  height: 41.0625rem;
+  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
 }
 .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-edit .edit-form,
 .modal-dialog.cmdb-ci-register-modal .modal-content .cmdb-ci-content-view .edit-form, .modal-dialog.cmdb-ci-update-modal .modal-content .cmdb-ci-content-edit .edit-form,
@@ -11767,7 +11769,7 @@ body.modal-active {
   height: 22.5rem;
 }
 .modal-dialog.template-import .modal-content {
-  height: 13.625rem;
+  height: calc(22.5rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.template-import .modal-content .field-label {
@@ -11780,13 +11782,13 @@ body.modal-active {
 }
 .modal-dialog.chart-edit-modal .modal-content {
   overflow: hidden;
-  height: 44.1875rem;
+  height: calc(53.0625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 2.5rem 1.25rem;
 }
 .modal-dialog.chart-edit-modal .modal-content .chart-edit-content {
   overflow-y: auto;
-  width: 60rem;
-  height: 41.0625rem;
+  width: calc(62.5rem - 2.5rem);
+  height: calc(53.0625rem - 3.875rem - 5rem - 3.125rem);
   padding: 0 1.25rem;
 }
 .modal-dialog.chart-edit-modal .modal-content .chart-edit-content label {
@@ -11844,7 +11846,7 @@ body.modal-active {
   height: 40.625rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content {
-  height: 31.75rem;
+  height: calc(40.625rem - 3.875rem - 5rem);
   padding: 1.25rem;
 }
 .modal-dialog.scheduler-list-modal .modal-content .table-set {
@@ -11876,7 +11878,7 @@ body.modal-active {
   /* Firefox */
 }
 .modal-dialog.sla-metric-manual-modal .modal-content {
-  height: 16.125rem;
+  height: calc(25rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-metric-manual-modal::-webkit-scrollbar {
@@ -11887,7 +11889,7 @@ body.modal-active {
   width: 62.5rem;
 }
 .modal-dialog.sla-metric-yearly-copy-modal .modal-content {
-  height: 9.125rem;
+  height: calc(18rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal {
@@ -11902,7 +11904,7 @@ body.modal-active {
   /* Chrome, Safari, Opera*/
 }
 .modal-dialog.sla-zql-manual-modal .modal-content {
-  height: 41.755rem;
+  height: calc(50.63rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
 .modal-dialog.sla-zql-manual-modal .modal-content div {
@@ -11931,7 +11933,7 @@ body.modal-active {
   height: 20.625rem;
 }
 .modal-dialog.password-check .modal-content {
-  height: 11.75rem;
+  height: calc(20.625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 .modal-dialog.password-check .modal-content .field-label {
@@ -11943,7 +11945,7 @@ body.modal-active {
   height: 34.5rem;
 }
 .modal-dialog.password-update-notice .modal-content {
-  height: 25.625rem;
+  height: calc(34.5rem - 3.875rem - 5rem);
   padding: 0.25rem 1.25rem 0.25rem 1.25rem;
 }
 .modal-dialog.password-update-notice .modal-content .field-label {
@@ -12256,7 +12258,7 @@ body.modal-active {
   margin-top: 1.875rem;
 }
 .itsm-popup .view-title {
-  border-bottom: 0.125rem solid #CFD5D9;
+  border-bottom: calc(0.0625rem * 2) solid #CFD5D9;
   padding-bottom: 0.625rem;
   color: #222529;
   font-size: 1.125rem;
@@ -12678,15 +12680,15 @@ body.modal-active {
   height: 0.5rem;
   fill: #F5F5F5;
   stroke-width: 0;
-  rx: 0.25rem;
-  ry: 0.25rem;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
 }
 .highcharts-scrollbar-thumb {
   height: 0.5rem;
   fill: #E0E0E0;
   stroke-width: 0;
-  rx: 0.25rem;
-  ry: 0.25rem;
+  rx: calc(0.5rem / 2);
+  ry: calc(0.5rem / 2);
 }
 .highcharts-scrollbar-thumb:hover {
   fill: #CFD5D9;
@@ -13548,7 +13550,6 @@ body.modal-active {
 }
 .thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child .input {
   display: none;
-  width: 12.19rem;
   height: 1.875rem;
   float: left;
 }
@@ -13612,7 +13613,13 @@ body.modal-active {
   height: 45rem;
 }
 .modal-dialog.thumbnail-icon .modal-content {
-  height: 36.125rem;
+  height: calc(45rem - 3.875rem - 5rem);
+}
+.modal-dialog.thumbnail-icon .modal-content .z-input {
+  margin: 0.625rem 0.4375rem;
+}
+.modal-dialog.thumbnail-icon .modal-content .z-search-count {
+  visibility: hidden;
 }
 .modal-dialog.thumbnail-icon .modal-content .thumbnail-main {
   height: auto;
@@ -14063,7 +14070,7 @@ ul.tree ul {
   -o-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  margin: 0 0 0 2.0125rem;
+  margin: 0 0 0 calc(0.875rem * 2.3);
   padding: 0;
   list-style-type: none;
 }
@@ -14075,7 +14082,7 @@ ul.tree ul:before {
   content: "";
 }
 ul.tree ul li {
-  padding-left: 1.6565rem;
+  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
 }
 ul.tree ul li:before {
   position: absolute !important;
@@ -14083,7 +14090,7 @@ ul.tree ul li:before {
   left: 0;
   border-top: 0.0625rem solid #CFD5D9;
   content: "";
-  width: 1.6565rem;
+  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
   height: 0.0625rem;
 }
 ul.tree ul li:last-child:before {
