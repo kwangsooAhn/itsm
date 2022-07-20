@@ -14,7 +14,7 @@
     <div class="document__group flex-row justify-content-start align-items-start" name="documentGroup"
          th:each="group: ${groupList}">
         <label class="document__label flex-row justify-content-start">
-            <span class="icon" th:classappend="#{|i-document-${#strings.arraySplit(group.code, '.')[2]}|}"></span>
+            <span th:classappend="#{|ic-document-${#strings.arraySplit(group.code, '.')[2]}|}"></span>
             <span class="document__label--text pt-2 pb-2 ml-2 mr-auto" th:text="${group.codeValue}"></span>
         </label>
         <th:block th:fragment="list" th:unless="${#arrays.isEmpty(documentList)}" th:each="document, index: ${documentList}">
