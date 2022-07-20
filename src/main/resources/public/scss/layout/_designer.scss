@@ -284,9 +284,6 @@ $layout-header-dropdown: (
   &.button-attach-file {
     .ic-folder { background: $gray500; }
   }
-  &.btn__code {
-    .ic-search { background: $gray500; }
-  }
 }
 
 .btn__text--box.success--check {
@@ -1307,7 +1304,7 @@ $component-icon: (
           & > .property { padding: 0 0.75rem; } // 12px
         }
 
-        .btn__ic:not(.btn__code) {
+        .btn__ic {
           padding: 0;
           [class*="ic-"] {
             display: inline-block;

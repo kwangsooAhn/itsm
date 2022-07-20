@@ -289,13 +289,6 @@ $button-group: (
       }
     }
   }
-  
-  &__code {
-    .ic-search {
-      background: $gray500;
-      pointer-events: none;
-    }
-  }
 }
 
 // toggle
@@ -537,7 +530,7 @@ $button-group: (
   cursor: pointer;
   -webkit-print-color-adjust:exact;
   &:hover { background-color: $neutral200; }
-  [class*=i-] {
+  [class*=ic-] {
     width: 0.5rem;
     height: 0.5rem;
     margin: 0.25rem;

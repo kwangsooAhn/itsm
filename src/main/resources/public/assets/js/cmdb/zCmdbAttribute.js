@@ -517,14 +517,14 @@
                 `</label></div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7">` +
-            `<div class="flex-row input-button">` +
+            `<div class="flex-row">` +
             `<input type="text" class="input" readonly="true" id="${objectId}-default-code-text" ` +
                 `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
                 `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="btn__ic btn__code" type="button" id="${objectId}-default-code" ` +
+            `<button class="btn__ic" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-                `<span class="ic-search"></span></button>` +
+                `<span class="ic-search bg-gray500"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -900,10 +900,10 @@
 
         // 신규 생성
         if (e.target.value === 'organization') {
-            const organizationTemplate = `<div class="flex-row input-button">
+            const organizationTemplate = `<div class="flex-row">
                 <input type="text" class="input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="btn__ic btn__code" type="button" id="searchOrganization">` +
-                `<span class="ic-search"></span></button>
+                <button class="btn__ic" type="button" id="searchOrganization">` +
+                `<span class="ic-search bg-gray500"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
 
@@ -1205,13 +1205,13 @@
                     </label>
                 </div>
                 <div class="flex-column col-7">
-                    <div class="flex-row input-button">
+                    <div class="flex-row">
                         <input class="input" type="text" readonly="true" id="${id}-default-custom-text" 
                             value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
-                        <button class="btn__ic btn__code" type="button" id="${id}-default-custom" 
+                        <button class="btn__ic" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
-                            <span class="ic-search"></span>
+                            <span class="ic-search bg-gray500"></span>
                         </button>
                     </div>
                 </div>
@@ -1807,7 +1807,7 @@
 
                 const customInputElem = document.createElement('input');
                 customInputElem.type = 'text';
-                customInputElem.className = 'input input-button col-pct-12 inherit';
+                customInputElem.className = 'input col-pct-12 inherit';
                 customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                 customInputElem.readOnly = true;
                 elem.appendChild(customInputElem);

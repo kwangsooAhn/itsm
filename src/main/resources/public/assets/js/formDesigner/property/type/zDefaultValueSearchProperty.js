@@ -87,7 +87,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     this.data[idx] = (this.defaultType === item.value) ? elem : '';
                 });
                 radioGroup.UIInputButton = new UIDiv()
-                    .setUIClass('flex-row input-button');
+                    .setUIClass('flex-row input--remove');
                 radioGroup.addUI(radioGroup.UIInputButton);
                 // input
                 radioGroup.UIInputButton.UIInput = new UIInput()
@@ -117,8 +117,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     // button
                     radioGroup.UIInputButton.UIButton = new UIButton()
                         .setUIClass('btn__ic')
-                        .addUIClass('btn__code')
-                        .addUI(new UISpan().setUIClass('ic-search'))
+                        .addUI(new UISpan().setUIClass('ic-search').addUIClass('bg-gray500'))
                         .onUIClick(this.openDataSelect.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                 }

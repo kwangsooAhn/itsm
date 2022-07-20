@@ -56,7 +56,7 @@
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{cmdb.type.label.icon}"></label>
-            <div class="flex-row input-button">
+            <div class="flex-row input--remove">
                 <input class="input" id="typeIcon" name="typeIcon" type="text" readonly>
                 <button type="button" class="item-remove" name="typeIconButton"
                         onclick="aliceJs.clearText(this);" tabindex="-1">
@@ -68,7 +68,7 @@
         </div>
         <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.class}"></label>
-            <div class="flex-row input-button">
+            <div class="flex-row input--remove">
                 <input class="input" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
                 <button type="button" class="item-remove" name="typeClassButton"

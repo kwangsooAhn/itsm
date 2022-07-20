@@ -125,7 +125,7 @@
             <!-- 신청서 아이콘 -->
             <div class="flex-column edit-row">
                 <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row input-button">
+                <div class="flex-row input--remove">
                     <input type="text" id="applicationDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                     <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>
@@ -239,7 +239,7 @@
             <!-- 신청서 아이콘 -->
             <div class="flex-column edit-row">
                 <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row input-button">
+                <div class="flex-row input--remove">
                     <input type="text" id="linkDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                     <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>

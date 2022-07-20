@@ -91,7 +91,7 @@
                     </div>
                     <div class="flex-column edit-row">
                         <label th:text="#{user.label.department}"></label>
-                        <div class="flex-row input-button">
+                        <div class="flex-row input--remove">
                             <input id="organizationId" name="organizationId" th:value="${organizationDetail?.organizationId}"
                                    type="hidden"/>
                             <input class="input text-ellipsis" id="organization" name="organization" readonly
@@ -227,7 +227,7 @@
                     </div>
                     <div class="flex-column col-4">
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
-                        <div class="flex-row input-button">
+                        <div class="flex-row input--remove">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="input col-5" id="substituteUser" name="substituteUser"
                                    readonly>

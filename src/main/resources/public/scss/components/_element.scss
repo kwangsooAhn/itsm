@@ -274,24 +274,6 @@ input, textarea, select {
       margin-left: 1rem; // 16px
       &:focus, &:hover, &:active { z-index: 25; }
     }
-
-    .item-remove {
-      position: relative;
-      margin-top: 0.625rem; // 10px
-      -webkit-print-color-adjust:exact;
-      &::before {
-        @include absolute($bottom: -0.5rem); //8px
-        @include border(0.0625rem, solid, $gray300, bottom);
-        content: '';
-        width: 100%;
-        height: 1px;
-      }
-
-      // 편집 불가 상태일 경우, 버튼을 숨김
-      &:disabled {
-        visibility: hidden;
-      }
-    }
   }
 
   // input type=number 증감 화살표 숨기기
@@ -936,12 +918,19 @@ select {
   input { flex-basis: 100%; }
   .item-remove {
     position: relative;
+    margin-top: 0.625rem; // 10px
+    -webkit-print-color-adjust:exact;
     &::before {
-      @include absolute($bottom: -0.5rem);
+      @include absolute($bottom: -0.5rem); //8px
       @include border(0.0625rem, solid, $gray300, bottom);
       content: '';
       width: 100%;
       height: 1px;
+    }
+
+    // 편집 불가 상태일 경우, 버튼을 숨김
+    &:disabled {
+      visibility: hidden;
     }
   }
 }

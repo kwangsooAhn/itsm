@@ -35,7 +35,7 @@ export default class ZFileProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // input box + button
-        this.UIElement.UIDiv = new UIDiv().setUIClass('input-button').addUIClass('flex-row');
+        this.UIElement.UIDiv = new UIDiv().setUIClass('input--remove').addUIClass('flex-row');
 
         // input box
         this.UIElement.UIDiv.UIInput = new UIInput()

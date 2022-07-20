@@ -78,7 +78,7 @@ export default class ZUserSearchProperty extends ZProperty {
             case 'organization':
                 targetGroup.UILabel = this.makeLabelProperty('form.properties.element.searchTarget');
                 targetGroup.addUI(targetGroup.UILabel);
-                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row input-button');
+                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row');
                 targetGroup.addUI(targetGroup.UIInputButton);
                 targetGroup.UIInputButton.UIInput = new UIInput()
                     .setUIReadOnly(true)
@@ -105,9 +105,8 @@ export default class ZUserSearchProperty extends ZProperty {
                     // button
                     targetGroup.UIInputButton.UIButton = new UIButton()
                         .setUIClass('btn__ic')
-                        .addUIClass('btn__code')
                         // .setUIAttribute('data-value', '')
-                        .addUI(new UISpan().setUIClass('ic-search'))
+                        .addUI(new UISpan().setUIClass('ic-search').addUIClass('bg-gray500'))
                         .onUIClick(this.openOrganizationData.bind(this));
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIButton);
                 }

@@ -4096,9 +4096,6 @@ span.ic-paging-end-arrow {
 .btn__ic.button-attach-file .ic-folder {
   background: #8B9094;
 }
-.btn__ic.btn__code .ic-search {
-  background: #8B9094;
-}
 
 .btn__text--box.success--check {
   position: relative;
@@ -5173,15 +5170,15 @@ span.ic-paging-end-arrow {
 .property .tab-panel .panels .panel .panel-common > .property {
   padding: 0 0.75rem;
 }
-.property .tab-panel .panels .panel .btn__ic:not(.btn__code) {
+.property .tab-panel .panels .panel .btn__ic {
   padding: 0;
 }
-.property .tab-panel .panels .panel .btn__ic:not(.btn__code) [class*=ic-] {
+.property .tab-panel .panels .panel .btn__ic [class*=ic-] {
   display: inline-block;
   background: #3373C4;
   pointer-events: none;
 }
-.property .tab-panel .panels .panel .btn__ic:not(.btn__code) .prev {
+.property .tab-panel .panels .panel .btn__ic .prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -7891,10 +7888,6 @@ span.ic-paging-end-arrow {
 .btn__list .btn__ic:not(:last-child), .btn__list .btn__text--box:not(:last-child) {
   margin-right: 0.5rem;
 }
-.btn__code .ic-search {
-  background: #8B9094;
-  pointer-events: none;
-}
 
 .btn__toggle__switch {
   position: relative !important;
@@ -8144,7 +8137,7 @@ span.ic-paging-end-arrow {
 .item-remove:hover {
   background-color: #EEEEEE;
 }
-.item-remove [class*=i-] {
+.item-remove [class*=ic-] {
   width: 0.5rem;
   height: 0.5rem;
   margin: 0.25rem;
@@ -9558,22 +9551,6 @@ input:focus, input:hover, textarea:focus, textarea:hover, select:focus, select:h
 .input-button .button-search:focus, .input-button .button-search:hover, .input-button .button-search:active {
   z-index: 25;
 }
-.input-button .item-remove {
-  position: relative;
-  margin-top: 0.625rem;
-  -webkit-print-color-adjust: exact;
-}
-.input-button .item-remove::before {
-  position: absolute !important;
-  bottom: -0.5rem;
-  border-bottom: 0.0625rem solid #CFD5D9;
-  content: "";
-  width: 100%;
-  height: 1px;
-}
-.input-button .item-remove:disabled {
-  visibility: hidden;
-}
 .input::-webkit-outer-spin-button, .input::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
@@ -10279,6 +10256,8 @@ select.readonly {
 }
 .input--remove .item-remove {
   position: relative;
+  margin-top: 0.625rem;
+  -webkit-print-color-adjust: exact;
 }
 .input--remove .item-remove::before {
   position: absolute !important;
@@ -10287,6 +10266,9 @@ select.readonly {
   content: "";
   width: 100%;
   height: 1px;
+}
+.input--remove .item-remove:disabled {
+  visibility: hidden;
 }
 
 /* _file-uploader.scss 

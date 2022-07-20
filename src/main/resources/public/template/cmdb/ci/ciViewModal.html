@@ -18,7 +18,7 @@
                     <span th:text="#{cmdb.ci.label.type}"></span>
                     <span class="required"></span>
                 </label>
-                <div class="flex-row input-button">
+                <div class="flex-row input--remove">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
                     <input type="text" id="typeName" class="input col-pct-12 inherit" th:value="${ciData?.typeName}"
                            readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
@@ -30,7 +30,7 @@
                 <label class="field-label">
                     <span th:text="#{cmdb.type.label.icon}"></span>
                 </label>
-                <div class="flex-row input-button">
+                <div class="flex-row input--remove">
                     <input type="text" id="typeIcon" class="input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
                 </div>
             </div>

@@ -1223,7 +1223,7 @@ aliceJs.clearText = function(req) {
  * @param target
  */
 aliceJs.inputButtonRemove = function(target) {
-    let xTarget = target || document.querySelector('.input-button-remove-btn');
+    let xTarget = target || document.querySelector('.input--remove-remove-btn');
     if (xTarget !== null) {
         let inputValue = xTarget.previousElementSibling.value;
         if (inputValue === null || inputValue === '') {
