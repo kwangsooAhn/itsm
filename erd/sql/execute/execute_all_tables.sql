@@ -383,6 +383,7 @@ insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0010', '서비�
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0011', '서비스데스크 - 장애신고 : 장애유형', 'code', null, null, null, 'form.template.serviceDesk.incident.category', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0012', '서비스데스크 - 서비스요청 : 요청구분', 'code', null, null, null, 'form.template.serviceDesk.request.category', null ,'', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_custom_code values ('4028b22f7c96584f017c970ef75e0035', '어플리케이션 변경관리 -관련 서비스', 'code', null, null, null, 'form.template.changeControl.app.relatedService', null, '','0509e09412534a6e98f04ca79abb6424',  now(), null, null);
+insert into awf_custom_code values ('40288a8c8218f10c018219ed0d5c00a8', '장애신고 - 관련 서비스', 'table', 'service_category', 'service_name', 'service_code', null, '[{"conditionKey":"use_yn","conditionOperator":"equal","conditionValue":"true"}]', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 사용자정의코드테이블
@@ -403,6 +404,7 @@ COMMENT ON COLUMN awf_custom_code_table.custom_code_table_name IS '테이블이�
 insert into awf_custom_code_table values ('awf_user', '사용자 정보 테이블');
 insert into awf_custom_code_table values ('awf_role', '역할 정보 테이블');
 insert into awf_custom_code_table values ('awf_organization', '조직 관리 테이블');
+insert into awf_custom_code_table values ('service_category', '서비스 카테고리 테이블');
 
 /**
  * 사용자정의코드컬럼
@@ -437,6 +439,9 @@ insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사
 insert into awf_custom_code_column values ('awf_organization', 'search', 'organization_name', '부서 이름');
 insert into awf_custom_code_column values ('awf_organization', 'search', 'use_yn', '사용여부');
 insert into awf_custom_code_column values ('awf_organization', 'value', 'organization_id', '부서 아이디');
+insert into awf_custom_code_column values ('service_category', 'search', 'service_name', '서비스 이름');
+insert into awf_custom_code_column values ('service_category', 'search', 'use_yn', '서비스 사용 여부');
+insert into awf_custom_code_column values ('service_category', 'value', 'service_code', '서비스 코드');
 
 /**
  * 자료실
