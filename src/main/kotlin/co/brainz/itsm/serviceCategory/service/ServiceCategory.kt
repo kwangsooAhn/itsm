@@ -124,8 +124,8 @@ class ServiceCategory(
     fun updateService(serviceCode: String, serviceCategoryDto: ServiceCategoryDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val serviceEntity = serviceCategoryRepo.findByServiceCode(serviceCode)
-        val isExistsServiceName = serviceEntity.serviceName == serviceCategoryDto.serviceName
-        if (!isExistsServiceName) {
+
+        if (serviceEntity.serviceName != serviceCategoryDto.serviceName) {
             if (serviceCategoryRepo.existsByServiceName(serviceCategoryDto.serviceName)) {
                 status = ZResponseConstants.STATUS.ERROR_DUPLICATE_SERVICE_NAME
             }
