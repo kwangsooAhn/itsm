@@ -30,7 +30,7 @@
                         onclick="javascript:onClickCalendarMenu(this);">
                     <span class="ic-arrow-right move--next"></span>
                 </button>
-                <button type="button" class="btn__text--box theme--secondary calendar__action" th:text="#{calendar.label.today}"
+                <button type="button" class="btn__text--box btn--theme-secondary calendar__action" th:text="#{calendar.label.today}"
                         data-action="today" onclick="onClickCalendarMenu(this);"></button>
                 <div class="btn__toggle__button" id="calendarViewType">
                     <button class="btn__toggle__button--single selected" type="button" data-action="month"
@@ -53,8 +53,8 @@
             </div>
             <h3 class="calendar__render-range-text align-center"></h3>
             <div class="ml-auto">
-                <button type="button" class="btn__text--box theme--secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
-                <button type="button" class="btn__ic theme--secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
+                <button type="button" class="btn__text--box btn--theme-secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
+                <button type="button" class="btn__ic btn--theme-secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
                     <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
                 </button>
             </div>
@@ -250,7 +250,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.import'),
-                    classes: 'btn__text--box theme--primary',
+                    classes: 'btn__text--box btn--theme-primary',
                     bindKey: false,
                     callback: function() {
                         if (document.getElementById('dropZoneFileUpload') !== null &&
@@ -279,7 +279,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box theme--secondary',
+                    classes: 'btn__text--box btn--theme-secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

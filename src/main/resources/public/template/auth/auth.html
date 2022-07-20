@@ -69,16 +69,16 @@
     </div>
     <div class="flex-row justify-content-between edit-row">
         <div class="btn__list">
-            <a class="btn__text--box theme--secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
+            <a class="btn__text--box btn--theme-secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('system.admin')">
-            <button class="btn__text--box theme--primary"
+            <button class="btn__text--box btn--theme-primary"
                     id="btnRegist" name="btnRegist" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('post')|"
                     th:text="#{common.btn.register}" type="button"></button>
-            <button class="btn__text--box theme--primary"
+            <button class="btn__text--box btn--theme-primary"
                     id="btnUpdate" name="btnUpdate" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
                     th:text="#{common.btn.modify}" type="button"></button>
-            <button class="btn__text--box theme--secondary"
+            <button class="btn__text--box btn--theme-secondary"
                     id="btnDelete" name="btnDelete" th:if="${auth?.authId}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}" type="button"></button>
         </div>

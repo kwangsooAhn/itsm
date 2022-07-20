@@ -396,7 +396,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'btn__text--box theme--primary',
+                    classes: 'btn__text--box btn--theme-primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -405,7 +405,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box theme--secondary',
+                    classes: 'btn__text--box btn--theme-secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -835,7 +835,7 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'btn__ic theme--secondary button-minimap palette-tooltip';
+        minimapButton.className = 'btn__ic btn--theme-secondary button-minimap palette-tooltip';
         minimapButton.addEventListener('click', function(e) {
             const elem = aliceJs.clickInsideElement(e, 'button-minimap');
             elem.classList.toggle('active');
@@ -899,7 +899,7 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'btn__ic theme--secondary button-simulation-report palette-tooltip';
+        simulationButton.className = 'btn__ic btn--theme-secondary button-simulation-report palette-tooltip';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');

@@ -54,7 +54,7 @@ export default class ZOptionListProperty extends ZProperty {
         // 옵션 추가 버튼
         this.UIElement.UIButton = new UIButton()
             .setUIClass('btn__ic')
-            .addUIClass('theme--extra')
+            .addUIClass('btn--theme-extra')
             .addUIClass('float-right')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.addRow.bind(this));

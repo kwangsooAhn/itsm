@@ -211,7 +211,7 @@ export const userSearchMixin = {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box theme--primary',
+                classes: 'btn__text--box btn--theme-primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -229,7 +229,7 @@ export const userSearchMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box theme--secondary',
+                classes: 'btn__text--box btn--theme-secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

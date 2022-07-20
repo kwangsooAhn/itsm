@@ -154,19 +154,19 @@
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="btn__list">
-                    <a class="btn__text--box theme--secondary" href="/statistics/customChart/search" th:text="#{common.btn.list}"></a>
+                    <a class="btn__text--box btn--theme-secondary" href="/statistics/customChart/search" th:text="#{common.btn.list}"></a>
                 </div>
                 <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('report.manage')">
-                    <button type="button" th:if="!${chart?.chartId}" id="insert" class="btn__text--box theme--primary"
+                    <button type="button" th:if="!${chart?.chartId}" id="insert" class="btn__text--box btn--theme-primary"
                             onclick="saveChart('POST')" th:text="#{common.btn.register}">
                     </button>
-                    <button type="button" th:if="${chart?.chartId}" id="update" class="btn__text--box theme--primary"
+                    <button type="button" th:if="${chart?.chartId}" id="update" class="btn__text--box btn--theme-primary"
                             onclick="saveChart('PUT')" th:text="#{common.btn.modify}">
                     </button>
-                    <button type="button" id="preview" class="btn__text--box theme--secondary"
+                    <button type="button" id="preview" class="btn__text--box btn--theme-secondary"
                             onclick="previewChart()" th:text="#{common.btn.preview}">
                     </button>
-                    <button type="button" th:if="${chart?.chartId}" id="delete" class="btn__text--box theme--danger"
+                    <button type="button" th:if="${chart?.chartId}" id="delete" class="btn__text--box btn--theme-danger"
                             onclick="deleteChart()" th:text="#{common.btn.delete}">
                     </button>
                 </div>

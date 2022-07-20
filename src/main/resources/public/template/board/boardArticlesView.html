@@ -47,22 +47,22 @@
     <div class="horizontal-bar"></div>
     <div class="flex-row justify-content-between view-row">
         <div class="btn__list">
-            <a class="btn__text--box theme--secondary"
+            <a class="btn__text--box btn--theme-secondary"
                th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
                th:text="#{common.btn.list}"></a>
         </div>
         <div class="btn__list">
-            <button type="button" class="btn__text--box theme--primary"
+            <button type="button" class="btn__text--box btn--theme-primary"
                     th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
                     th:text="#{common.btn.toModify}">
             </button>
             <button type="button" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')"
-                    class="btn__text--box theme--secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                    class="btn__text--box btn--theme-secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''" th:text="#{board.btn.reply}">
             </button>
-            <button type="button" class="btn__text--box theme--danger"
+            <button type="button" class="btn__text--box btn--theme-danger"
                     th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
                     th:onclick="deleteBoard()" th:text="#{common.btn.delete}">
@@ -75,7 +75,7 @@
                  width="32" height="32"/>
             <input type="text" class="input reply-input" id="boardComments" name="boardComments" maxlength="500"
                    th:placeholder="#{comment.msg.enterComments}"/>
-            <button class="btn__text--box theme--form" onclick="saveBoardComment('POST')"
+            <button class="btn__text--box btn--theme-form" onclick="saveBoardComment('POST')"
                     th:text="#{common.btn.save}"></button>
         </div>
         <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
@@ -193,7 +193,7 @@
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
                 document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='input' id='editComments' name='editComments' value='" + context + "'/>" +
-                    "<button class='btn__text--box theme--form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
+                    "<button class='btn__text--box btn--theme-form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }
 

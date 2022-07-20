@@ -16,7 +16,7 @@
            th:placeholder="#{auth.msg.searchPlaceholder}"/>
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     <div class="ml-auto">
-        <button type="button" class="btn__text--box theme--secondary" id="btnCreate" name="btnCreate" onclick="location.href='/auths/new'"
+        <button type="button" class="btn__text--box btn--theme-secondary" id="btnCreate" name="btnCreate" onclick="location.href='/auths/new'"
                 sec:authorize="hasAuthority('system.admin')" th:text="#{common.btn.add}"></button>
     </div>
 </div>

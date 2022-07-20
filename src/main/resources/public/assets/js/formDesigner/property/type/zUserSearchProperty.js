@@ -118,7 +118,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 // 사용자 목록 추가 버튼
                 targetGroup.UIButton = new UIButton()
                     .setUIClass('btn__ic')
-                    .addUIClass('theme--extra')
+                    .addUIClass('btn--theme-extra')
                     .addUIClass('float-right')
                     .setUIDisabled(!this.isEditable)
                     // 사용자 검색 모달
@@ -196,7 +196,7 @@ export default class ZUserSearchProperty extends ZProperty {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box theme--primary',
+                classes: 'btn__text--box btn--theme-primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (zValidation.isEmpty(targetUserArray)) {
@@ -209,7 +209,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box theme--secondary',
+                classes: 'btn__text--box btn--theme-secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

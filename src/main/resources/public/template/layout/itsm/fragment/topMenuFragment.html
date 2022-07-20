@@ -200,7 +200,7 @@
                 classes: 'password-check',
                 buttons: [{
                     content: i18n.msg('common.btn.check'),
-                    classes: 'btn__text--box theme--primary',
+                    classes: 'btn__text--box btn--theme-primary',
                     bindKey: 13,
                     callback: function(modal) {
                         passwordEncryptAndConfirm(userKey, manageAuth);
@@ -208,7 +208,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box theme--secondary',
+                    classes: 'btn__text--box btn--theme-secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

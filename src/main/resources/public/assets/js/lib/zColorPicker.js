@@ -276,7 +276,7 @@ Object.assign(zColorPicker.prototype, {
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'btn__ic theme--extra custom-color-edit visible';
+        editButton.className = 'btn__ic btn--theme-extra custom-color-edit visible';
         editButton.insertAdjacentHTML('beforeend', `<span class="ic-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
@@ -360,7 +360,7 @@ Object.assign(zColorPicker.prototype, {
         // 추가 버튼
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'btn__text--box theme--secondary';
+        addButton.className = 'btn__text--box btn--theme-secondary';
         addButton.textContent = i18n.msg('common.btn.add');
         addButton.disabled = (this.savedCustomColors.length === this.options.maxCustomColor);
         addButton.addEventListener('click', this.addCustomColor.bind(this), false);
@@ -383,7 +383,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 저장 버튼
         const saveButton = document.createElement('button');
         saveButton.type = 'button';
-        saveButton.className = 'btn__text--box theme--primary';
+        saveButton.className = 'btn__text--box btn--theme-primary';
         saveButton.textContent = i18n.msg('common.btn.save');
         saveButton.addEventListener('click', this.saveCustomColor.bind(this), false);
         bottomButtonList.appendChild(saveButton);
@@ -391,7 +391,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 취소 버튼
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
-        cancelButton.className = 'btn__text--box theme--extra';
+        cancelButton.className = 'btn__text--box btn--theme-extra';
         cancelButton.textContent = i18n.msg('common.btn.cancel');
         cancelButton.addEventListener('click', () => {
             // 알림창 - 사용자 색상이 아직 저장되지 않았습니다.

@@ -11,7 +11,7 @@ zAlert.makeAlertModal = function (alertType, message, callbackFunc) {
             + `<div class="alert-message">` + message + `</div></div></div>`,
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'alert-button btn__text--box theme--secondary',
+            classes: 'alert-button btn__text--box btn--theme-secondary',
             bindKey: 13, /* Enter */
             callback: function (modal) {
                 if (typeof callbackFunc === 'function') {
@@ -86,7 +86,7 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
         buttons: [
             {
                 content: i18n.msg('common.btn.check'),
-                classes: 'alert-button btn__text--box theme--secondary',
+                classes: 'alert-button btn__text--box btn--theme-secondary',
                 bindKey: false, /* no key! */
                 callback: function (modal) {
                     if (typeof okCallbackFunc === 'function') {
@@ -98,7 +98,7 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
             },
             {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'alert-button btn__text--box theme--secondary',
+                classes: 'alert-button btn__text--box btn--theme-secondary',
                 bindKey: false, /* no key! */
                 callback: function (modal) {
                     if (typeof cancelCallbackFunc === 'function') {

@@ -63,7 +63,7 @@ export const modalButtonMixin = {
         element.UIButton = new UIButton()
             .setUIClass('button')
             .addUIClass('modal-button')
-            .addUIClass('theme--secondary')
+            .addUIClass('btn--theme-secondary')
             .onUIClick(this.openModal.bind(this));
         element.UIButton.UIText = new UISpan()
             .setUIId('elementText')
@@ -219,7 +219,7 @@ export const modalButtonMixin = {
                 classes: 'modal-button-search-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'btn__text--box theme--secondary',
+                    classes: 'btn__text--box btn--theme-secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],

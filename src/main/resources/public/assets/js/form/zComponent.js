@@ -441,7 +441,7 @@ export default class ZComponent {
             classes: 'create-template',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'btn__text--box theme--primary',
+                classes: 'btn__text--box btn--theme-primary',
                 bindKey: false,
                 callback: function (modal) {
                     if (zValidation.isEmpty(document.getElementById('templateName').value)) {
@@ -487,7 +487,7 @@ export default class ZComponent {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box theme--secondary',
+                classes: 'btn__text--box btn--theme-secondary',
                 bindKey: false,
                 callback: function (modal) {
                     modal.hide();

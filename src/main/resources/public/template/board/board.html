@@ -76,7 +76,7 @@
                            th:readonly="${view}" type="text"/>
                 </div>
                 <div class="flex-column justify-content-end col-1">
-                    <button class="btn__text--box theme--secondary" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
+                    <button class="btn__text--box btn--theme-secondary" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
                 </div>
             </div>
             <div class="flex-row">
@@ -129,14 +129,14 @@
     </div>
     <div class="flex-row justify-content-between edit-row">
         <div class="btn__list">
-            <a class="btn__text--box theme--secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
+            <a class="btn__text--box btn--theme-secondary" href="/boards/search" th:text="#{common.btn.list}"></a>
         </div>
         <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('system.manage') or hasAuthority('portal.manage')">
-            <button type="button" class="btn__text--box theme--primary" th:unless="${boardAdmin?.boardAdminId}"
+            <button type="button" class="btn__text--box btn--theme-primary" th:unless="${boardAdmin?.boardAdminId}"
                     th:text="#{common.btn.register}" onclick="saveBoardAdmin('POST')"></button>
-            <button type="button"class="btn__text--box theme--primary" th:if="${boardAdmin?.boardAdminId}"
+            <button type="button"class="btn__text--box btn--theme-primary" th:if="${boardAdmin?.boardAdminId}"
                     th:text="#{common.btn.modify}" onclick="saveBoardAdmin('PUT')"></button>
-            <button type="button" class="btn__text--box theme--danger" th:if="${boardAdmin?.boardAdminId}"
+            <button type="button" class="btn__text--box btn--theme-danger" th:if="${boardAdmin?.boardAdminId}"
                     th:text="#{common.btn.delete}" onclick="deleteBoardAdmin()"></button>
         </div>
     </div>
@@ -343,7 +343,7 @@
             })
             const deleteBtn = document.createElement('button');
             deleteBtn.classList.add('btn__ic');
-            deleteBtn.classList.add('theme--extra');
+            deleteBtn.classList.add('btn--theme-extra');
             const deleteIcon = document.createElement('span');
             deleteIcon.classList.add('ic-delete');
             deleteBtn.appendChild(deleteIcon);

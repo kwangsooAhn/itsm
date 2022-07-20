@@ -35,9 +35,9 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto" sec:authorize="hasAuthority('workflow.manage')">
-        <button type="button" class="btn__text--box theme--primary" onclick="location.href='/workflows/new'"
+        <button type="button" class="btn__text--box btn--theme-primary" onclick="location.href='/workflows/new'"
                 th:text="#{common.btn.add}"></button>
-        <button type="button" class="btn__text--box theme--secondary" onclick="openDocumentImport();"
+        <button type="button" class="btn__text--box btn--theme-secondary" onclick="openDocumentImport();"
                 th:text="#{common.btn.import}"></button>
     </div>
 </div>
@@ -231,14 +231,14 @@
                 classes: 'workFlow-import',
                 buttons: [{
                     content: i18n.msg('common.btn.import'),
-                    classes: 'btn__text--box theme--primary',
+                    classes: 'btn__text--box btn--theme-primary',
                     bindKey: false,
                     callback: function() {
                         importWorkFlow();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box theme--secondary',
+                    classes: 'btn__text--box btn--theme-secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

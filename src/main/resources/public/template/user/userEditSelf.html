@@ -99,7 +99,7 @@
                                     tabindex="-1" th:if="!${view}">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search btn__text--box theme--form" onclick="deptPopUp();"
+                            <button type="button" class="button-search btn__text--box btn--theme-form" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                             <button type="button" class="item-remove" onclick="aliceJs.clearText(this);">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search btn__text--box theme--form" onclick="openSubUserModal();"
+                            <button type="button" class="button-search btn__text--box btn--theme-form" onclick="openSubUserModal();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -233,7 +233,7 @@
         </div>
         <div class="flex-row justify-content-end edit-row">
             <div class="btn__list">
-                <button class="btn__text--box theme--primary" type="button" th:text="#{common.btn.modify}"
+                <button class="btn__text--box btn--theme-primary" type="button" th:text="#{common.btn.modify}"
                         th:onclick="preSubmitCheck([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>
         </div>
@@ -471,7 +471,7 @@
                 classes: 'sub-user-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'btn__text--box theme--primary',
+                    classes: 'btn__text--box btn--theme-primary',
                     bindKey: false,
                     callback: (modal) => {
                         // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -486,7 +486,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'btn__text--box theme--secondary',
+                    classes: 'btn__text--box btn--theme-secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

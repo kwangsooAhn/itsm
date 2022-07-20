@@ -240,7 +240,7 @@ class ZFormTokenTab {
             classes: 'sub-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box theme--primary',
+                classes: 'btn__text--box btn--theme-primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.viewerList.length) {
@@ -301,7 +301,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box theme--secondary',
+                classes: 'btn__text--box btn--theme-secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -440,7 +440,7 @@ class ZFormTokenTab {
             classes: 'token-list',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box theme--primary',
+                classes: 'btn__text--box btn--theme-primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.relatedDocList.length) {
@@ -452,7 +452,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box theme--secondary',
+                classes: 'btn__text--box btn--theme-secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -948,7 +948,7 @@ class ZFormTokenTab {
             classes: 'calendar__modal--register document',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'btn__text--box theme--primary',
+                classes: 'btn__text--box btn--theme-primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 필수값 체크
@@ -974,7 +974,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box theme--secondary',
+                classes: 'btn__text--box btn--theme-secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
