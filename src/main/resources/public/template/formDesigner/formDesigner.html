@@ -81,13 +81,13 @@
                     const templateItem =
                         `<div class="component-template-icon list-group-item" id="templateComponent" ` +
                             `data-value="${data.templateId}">` +
-                        `<span class="icon i-componentTemplate"></span>` +
+                        `<span class="ic-componentTemplate"></span>` +
                         `<span class="component-name text-ellipsis" title="${aliceJs.filterXSS(data.templateName)}">` +
                             `${aliceJs.filterXSS(data.templateName)}` +
                         `</span>` +
                         `<button type="button" class="button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
                             `onclick="zFormDesigner.deleteTemplate(this);">` +
-                            `<span class="icon i-remove"></span>` +
+                            `<span class="ic-remove"></span>` +
                         `</button>` +
                     `</div>`;
                     templateList.insertAdjacentHTML('beforeend', templateItem);
@@ -102,7 +102,7 @@
         <div class="form-container">
             <!-- 상단 네비게이션 -->
             <div class="form-header flex-row align-items-center" id="menuBar">
-                <img class="img i-form-designer"
+                <img class="img ic-form-designer"
                      th:src="@{/assets/media/icons/designer/topmenu/icon_form_designer.svg}" width="169" height="25"
                      alt="Form Designer"/>
                 <span class="form-name ml-auto mr-auto" id="formName"></span>
@@ -114,7 +114,7 @@
                             <button type="button" class="header-button button-icon light-extra header-tooltip"
                                     data-actionType="undo" data-targetId="editCommand"
                                     onclick="zFormDesigner.onDropdownClickHandler(this);">
-                                <span class="icon i-undo"></span>
+                                <span class="ic-undo"></span>
                                 <div class="header-tooltip-contents">
                                     <span class="header-tooltip-text" th:text="#{form.label.undo}"></span>
                                 </div>
@@ -124,7 +124,7 @@
                         <div class="header-dropdown">
                             <button type="button"
                                     class="header-button button-icon header-button-dropdown light-extra">
-                                <span class="icon i-arrow-right"></span>
+                                <span class="ic-arrow-right"></span>
                             </button>
                             <ul class="dropdown-content">
                                 <li class="dropdown-item" tabindex="-1">
@@ -145,7 +145,7 @@
                     <!--미리보기-->
                     <button type="button" class="header-button button-icon light-extra header-tooltip ml-auto"
                             onclick="zFormDesigner.preview();">
-                        <span class="icon i-preview"></span>
+                        <span class="ic-preview"></span>
                         <div class="header-tooltip-contents">
                             <span class="header-tooltip-text" th:text="#{common.label.preview}"></span>
                         </div>
@@ -156,7 +156,7 @@
                             <button type="button" class="header-button button-icon light-extra header-tooltip"
                                     data-actionType="save" data-targetId="fileCommand"
                                     onclick="zFormDesigner.saveForm(false);">
-                                <span class="icon i-save"></span>
+                                <span class="ic-save"></span>
                                 <div class="header-tooltip-contents">
                                     <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
                                 </div>
@@ -166,7 +166,7 @@
                         <div class="header-dropdown">
                             <button type="button"
                                     class="header-button button-icon header-button-dropdown light-extra">
-                                <span class="icon i-arrow-right"></span>
+                                <span class="ic-arrow-right"></span>
                             </button>
                             <ul class="dropdown-content">
                                 <li class="dropdown-item" tabindex="-1">
@@ -188,7 +188,7 @@
                     <th:block th:unless="${!createdWorkFlow}" sec:authorize="hasAuthority('workflow.manage')">
                         <button type="button" class="header-button button-icon light-extra header-tooltip"
                                 onclick="zFormDesigner.openSaveAsModal();">
-                            <span class="icon i-save-as"></span>
+                            <span class="ic-save-as"></span>
                             <div class="header-tooltip-contents last">
                                 <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
                             </div>
@@ -204,99 +204,99 @@
                         <input type="radio" id="inputs" name="accordion-type" checked="true">
                         <label class="flex-row justify-content-between accordion-label" for="inputs">
                             <span class="accordion-name">Inputs</span>
-                            <span class="icon i-arrow-right"></span>
+                            <span class="ic-arrow-right"></span>
                         </label>
                         <div class="accordion-content">
                             <!-- sortablejs 라이브러리에서 사용하니 list-group, list-group-item 은 삭제하지 마세요. -->
                             <div class="component-icon-box list-group" data-type="component">
                                 <div class="component-icon inputBox flex-column align-items-center list-group-item"
                                      id="inputBox" tabindex="0" style="--data-row:0;">
-                                    <span class="icon i-inputBox"></span>
+                                    <span class="ic-inputBox"></span>
                                     <span class="component-name" th:text="#{form.component.inputBox}"></span>
                                 </div>
                                 <div class="component-icon textArea flex-column align-items-center list-group-item"
                                      id="textArea" tabindex="0" style="--data-row:0;">
-                                    <span class="icon i-textArea"></span>
+                                    <span class="ic-textArea"></span>
                                     <span class="component-name" th:text="#{form.component.textArea}"></span>
                                 </div>
                                 <div class="component-icon textEditor flex-column align-items-center list-group-item"
                                      id="textEditor" tabindex="0" style="--data-row:1;">
-                                    <span class="icon i-textEditor"></span>
+                                    <span class="ic-textEditor"></span>
                                     <span class="component-name" th:text="#{form.component.textEditor}"></span>
                                 </div>
                                 <div class="component-icon dropdown flex-column align-items-center list-group-item"
                                      id="dropdown" tabindex="0" style="--data-row:1;">
-                                    <span class="icon i-dropdown"></span>
+                                    <span class="ic-dropdown"></span>
                                     <span class="component-name" th:text="#{form.component.dropdown}"></span>
                                 </div>
                                 <div class="component-icon radio flex-column align-items-center list-group-item"
                                      id="radio" tabindex="0" style="--data-row:2;">
-                                    <span class="icon i-radio"></span>
+                                    <span class="ic-radio"></span>
                                     <span class="component-name" th:text="#{form.component.radio}"></span>
                                 </div>
                                 <div class="component-icon checkBox flex-column align-items-center list-group-item"
                                      id="checkBox" tabindex="0" style="--data-row:2;">
-                                    <span class="icon i-checkBox"></span>
+                                    <span class="ic-checkBox"></span>
                                     <span class="component-name" th:text="#{form.component.checkBox}"></span>
                                 </div>
                                 <div class="component-icon date flex-column align-items-center list-group-item"
                                      id="date" tabindex="0" style="--data-row:3;">
-                                    <span class="icon i-date"></span>
+                                    <span class="ic-date"></span>
                                     <span class="component-name" th:text="#{form.component.date}"></span>
                                 </div>
                                 <div class="component-icon time flex-column align-items-center list-group-item"
                                      id="time" tabindex="0" style="--data-row:3;">
-                                    <span class="icon i-time"></span>
+                                    <span class="ic-time"></span>
                                     <span class="component-name" th:text="#{form.component.time}"></span>
                                 </div>
                                 <div class="component-icon dateTime flex-column align-items-center list-group-item"
                                      id="dateTime" tabindex="0" style="--data-row:4;">
-                                    <span class="icon i-dateTime"></span>
+                                    <span class="ic-dateTime"></span>
                                     <span class="component-name" th:text="#{form.component.dateTime}"></span>
                                 </div>
                                 <div class="component-icon fileUpload flex-column align-items-center list-group-item"
                                      id="fileUpload" tabindex="0" style="--data-row:4;">
-                                    <span class="icon i-fileUpload"></span>
+                                    <span class="ic-fileUpload"></span>
                                     <span class="component-name" th:text="#{form.component.fileUpload}"></span>
                                 </div>
                                 <div class="component-icon customCode flex-column align-items-center list-group-item"
                                      id="customCode" tabindex="0" style="--data-row:5;">
-                                    <span class="icon i-customCode"></span>
+                                    <span class="ic-customCode"></span>
                                     <span class="component-name" th:text="#{form.component.customCode}"></span>
                                 </div>
                                 <div class="component-icon dynamicRowTable flex-column align-items-center list-group-item"
                                      id="dynamicRowTable" tabindex="0" style="--data-row:5;">
-                                    <span class="icon i-dynamicRowTable"></span>
+                                    <span class="ic-dynamicRowTable"></span>
                                     <span class="component-name" th:text="#{form.component.dynamicRowTable}"></span>
                                 </div>
                                 <div class="component-icon ci flex-column align-items-center list-group-item" id="ci"
                                      tabindex="0" style="--data-row:6;">
-                                    <span class="icon i-ci"></span>
+                                    <span class="ic-ci"></span>
                                     <span class="component-name" th:text="#{form.component.ci}"></span>
                                 </div>
                                 <div class="component-icon fileDownload flex-column align-items-center list-group-item"
                                      id="fileDownload" tabindex="0" style="--data-row:6;">
-                                    <span class="icon i-fileDownload"></span>
+                                    <span class="ic-fileDownload"></span>
                                     <span class="component-name" th:text="#{form.component.fileDownload}"></span>
                                 </div>
                                 <div class="component-icon dropdownCode flex-column align-items-center list-group-item"
                                      id="dropdownCode" tabindex="0" style="--data-row:7;">
-                                    <span class="icon i-dropdownCode"></span>
+                                    <span class="ic-dropdownCode"></span>
                                     <span class="component-name" th:text="#{form.component.dropdownCode}"></span>
                                 </div>
                                 <div class="component-icon userSearch list-group-item" id="userSearch" tabindex="0"
                                      style="--data-row:7;">
-                                    <span class="icon i-userSearch"></span>
+                                    <span class="ic-userSearch"></span>
                                     <span class="component-name" th:text="#{form.component.userSearch}"></span>
                                 </div>
                                 <div class="component-icon modalButton list-group-item" id="modalButton" tabindex="0"
                                      style="--data-row:8;">
-                                    <span class="icon i-modalButton"></span>
+                                    <span class="ic-modalButton"></span>
                                     <span class="component-name" th:text="#{form.component.modalButton}"></span>
                                 </div>
                                 <div class="component-icon fileDownload list-group-item" id="organizationSearch"
                                      tabindex="0" style="--data-row:8;">
-                                    <span class="icon i-organizationSearch"></span>
+                                    <span class="ic-organizationSearch"></span>
                                     <span class="component-name"
                                           th:text="#{form.component.organizationSearch}"></span>
                                 </div>
@@ -308,23 +308,23 @@
                         <input type="radio" id="format" name="accordion-type">
                         <label class="flex-row justify-content-between accordion-label" for="format">
                             <span class="accordion-name">Format</span>
-                            <span class="icon i-arrow-right"></span>
+                            <span class="ic-arrow-right"></span>
                         </label>
                         <div class="accordion-content">
                             <div class="component-icon-box list-group" data-type="component">
                                 <div class="component-icon label flex-column align-items-center list-group-item"
                                      id="label" tabindex="0" style="--data-row:0;">
-                                    <span class="icon i-label"></span>
+                                    <span class="ic-label"></span>
                                     <span class="component-name" th:text="#{form.component.label}"></span>
                                 </div>
                                 <div class="component-icon image flex-column align-items-center list-group-item"
                                      id="image" tabindex="0" style="--data-row:0;">
-                                    <span class="icon i-image"></span>
+                                    <span class="ic-image"></span>
                                     <span class="component-name" th:text="#{form.component.image}"></span>
                                 </div>
                                 <div class="component-icon divider flex-column align-items-center list-group-item"
                                      id="divider" tabindex="0" style="--data-row:1;">
-                                    <span class="icon i-divider"></span>
+                                    <span class="ic-divider"></span>
                                     <span class="component-name" th:text="#{form.component.divider}"></span>
                                 </div>
                             </div>
@@ -335,7 +335,7 @@
                         <input type="radio" id="visual" name="accordion-type">
                         <label class="flex-row justify-content-between accordion-label" for="visual">
                             <span class="accordion-name">Visual</span>
-                            <span class="icon i-arrow-right"></span>
+                            <span class="ic-arrow-right"></span>
                         </label>
                         <div class="accordion-content">
                             <div class="component-icon-box list-group" data-type="component">
@@ -347,7 +347,7 @@
                         <input type="radio" id="template" name="accordion-type">
                         <label class="flex-row justify-content-between accordion-label" for="template">
                             <span class="accordion-name">Template</span>
-                            <span class="icon i-arrow-right"></span>
+                            <span class="ic-arrow-right"></span>
                         </label>
                         <div class="accordion-content" id="customComponentList">
                             <div class="component-icon-box list-group" data-type="template"></div>
@@ -372,7 +372,7 @@
 <template id="undoButtonTemplate">
     <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="undo"
             data-targetId="editCommand">
-        <span class="icon i-undo"></span>
+        <span class="ic-undo"></span>
         <div class="header-tooltip-contents">
             <span class="header-tooltip-text" th:text="#{form.label.undo}"></span>
         </div>
@@ -381,7 +381,7 @@
 <template id="redoButtonTemplate">
     <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="redo"
             data-targetId="editCommand">
-        <span class="icon i-redo"></span>
+        <span class="ic-redo"></span>
         <div class="header-tooltip-contents">
             <span class="header-tooltip-text" th:text="#{form.label.redo}"></span>
         </div>
@@ -390,7 +390,7 @@
 <template id="saveButtonTemplate">
     <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="save"
             data-targetId="fileCommand">
-        <span class="icon i-save"></span>
+        <span class="ic-save"></span>
         <div class="header-tooltip-contents">
             <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
         </div>
@@ -399,7 +399,7 @@
 <template id="saveAsButtonTemplate">
     <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="saveAs"
             data-targetId="fileCommand">
-        <span class="icon i-save-as"></span>
+        <span class="ic-save-as"></span>
         <div class="header-tooltip-contents last">
             <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
         </div>

@@ -894,9 +894,9 @@ Object.assign(zCalendar.prototype, {
             <input type="text" class="input schedule__title" id="scheduleTitle" 
                 placeholder="${i18n.msg('calendar.label.titlePlaceholder')}">
             <div class="flex-row align-items-baseline" id="rangeDate">
-                <input type="text" class="input i-datetime-picker schedule__date" id="startDt"/> 
+                <input type="text" class="input ic-datetime-picker schedule__date" id="startDt"/> 
                 ~
-                <input type="text" class="input i-datetime-picker schedule__date" id="endDt"/> 
+                <input type="text" class="input ic-datetime-picker schedule__date" id="endDt"/> 
             </div>
             <div class="flex-row align-items-baseline">
                 <label class="checkbox">
@@ -922,10 +922,10 @@ Object.assign(zCalendar.prototype, {
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
                 <div class="button-list flex-row float-right align-items-end">
                     <button type="button" class="button-icon secondary" id="scheduleEdit">
-                        <span class="icon i-edit"></span>
+                        <span class="ic-edit"></span>
                     </button>
                     <button type="button" class="button-icon secondary" id="scheduleDelete">
-                        <span class="icon i-delete"></span>
+                        <span class="ic-delete"></span>
                     </button>
                 </div>
             </div>
@@ -1113,8 +1113,8 @@ Object.assign(zCalendar.prototype, {
 
         // 시작일시 , 종료일시 초기화
         rangeDate.innerHTML = '';
-        const dateTemplate = ` <input type="text" class="input i-datetime-picker schedule__date" id="startDt" 
-            value="${newStart}"/>~<input type="text" class="input i-datetime-picker schedule__date" id="endDt" 
+        const dateTemplate = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
+            value="${newStart}"/>~<input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
             value="${newEnd}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend',dateTemplate);

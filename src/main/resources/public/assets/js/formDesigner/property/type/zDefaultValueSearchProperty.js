@@ -111,15 +111,14 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                        .setUIClass('icon')
-                        .addUIClass('i-remove');
+                        .setUIClass('ic-remove');
                     radioGroup.UIInputButton.UIIconButton.addUI(radioGroup.UIInputButton.UIIconButton.UIIcon);
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                     // button
                     radioGroup.UIInputButton.UIButton = new UIButton()
                         .setUIClass('button-icon')
                         .addUIClass('button-code')
-                        .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
+                        .addUI(new UISpan().setUIClass('ic-search'))
                         .onUIClick(this.openDataSelect.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                 }
@@ -143,7 +142,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
         switch (this.targetComponent) {
             case FORM.SEARCH_COMPONENT.USER_SEARCH:
                 const userModalTemplate = `<div class="target-user-list">` +
-                    `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                    `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                     `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                     `<span id="spanTotalCount" class="search-count"></span>` +
                     `<div class="table-set" id="searchUserList"></div>` +

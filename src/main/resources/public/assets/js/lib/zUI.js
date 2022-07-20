@@ -400,7 +400,7 @@ class UIClipboard extends UIElement {
         this.UITooltip.addUI(this.UITooltip.UIButton);
 
         // copy button icon
-        const UIButtonIcon = new UISpan().setUIClass('icon').addUIClass('i-clipboard');
+        const UIButtonIcon = new UISpan().setUIClass('ic-clipboard');
         this.UITooltip.UIButton.addUI(UIButtonIcon);
 
         // tooltip text
@@ -493,7 +493,7 @@ class UISlider extends UIElement {
         super(document.createElement('div'));
         this.domElement.className = 'slider';
         // range
-        this.UIRange = new UIInput(value).setUIClass('range');
+        this.UIRange = new UIInput(value).setUIClass('slider__range');
         this.UIRange.domElement.type = 'range';
         // range thumb 위치 계산
         let thumbLocation =  parseInt((value - 1) * 100 / (max - 1)) + UNIT.PERCENT;
