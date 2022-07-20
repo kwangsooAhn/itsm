@@ -141,8 +141,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                             .setUIAttribute('tabindex', '-1')
                             .onUIClick(this.clearText.bind(this));
                         radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                            .setUIClass('icon')
-                            .addUIClass('i-remove');
+                            .setUIClass('ic-remove');
                         radioGroup.UIInputButton.UIIconButton.addUI(radioGroup.UIInputButton.UIIconButton.UIIcon);
                         radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                         // button
@@ -150,7 +149,7 @@ export default class ZDefaultValueCustomCodeProperty extends ZProperty {
                             .setUIClass('button-icon')
                             .addUIClass('button-code')
                             .setUIAttribute('data-value', defaultCustomCodeValues[0])
-                            .addUI(new UISpan().setUIClass('icon').addUIClass('i-search'))
+                            .addUI(new UISpan().setUIClass('ic-search'))
                             .onUIClick(this.openCustomCodeData.bind(this));
                         radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                     }

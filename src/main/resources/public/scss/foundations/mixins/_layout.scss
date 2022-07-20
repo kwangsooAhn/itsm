@@ -41,16 +41,12 @@
           cursor: pointer;
           > * { pointer-events: none; }
 
-          .icon {
-            &.i-sorting {
-              @include rotate(180);
-              background: $neutral600;
-            }
+          .ic-sorting {
+            @include rotate(180);
+            background: $neutral600;
           }
           &[data-grid-sorting-type='desc'] {
-            .icon {
-              &.i-sorting { @include rotate(0); }
-            }
+            .ic-sorting { @include rotate(0); }
           }
         }
         .grid__cell { color: $neutral600; }
@@ -91,18 +87,18 @@
         background-color: transparent;
         border-color: transparent;
       }
-      .icon { background-color: $gray600; }
+      [class*="ic-"] { background-color: $gray600; }
       &:hover {
-        .icon { background-color: $gray400; }
+        [class*="ic-"] { background-color: $gray400; }
       }
       &:focus {
-        .icon { background-color: $gray800; }
+        [class*="ic-"] { background-color: $gray800; }
       }
       &:active {
-        .icon { background-color: $gray800; }
+        [class*="ic-"] { background-color: $gray800; }
       }
       &:disabled {
-        .icon { background-color: $gray300; }
+        [class*="ic-"] { background-color: $gray300; }
       }
     }
   }
@@ -474,7 +470,7 @@
       background-color: $neutral50;
       pointer-events: none;
 
-      .i-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
+      .ic-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
       .no-data-text {
         margin-left: 2.5rem; // 40px
         color: $neutral400;

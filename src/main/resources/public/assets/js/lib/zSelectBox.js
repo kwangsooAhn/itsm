@@ -77,7 +77,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             } else {
                 // select__box - 아이콘
                 let designedSelectBoxIcon = document.createElement('span');
-                designedSelectBoxIcon.className = 'icon i-arrow-right';
+                designedSelectBoxIcon.className = 'ic-arrow-right';
                 designedSelectBox.appendChild(designedSelectBoxIcon);
 
                 // select-option : 옵션 리스트용 박스 만들기

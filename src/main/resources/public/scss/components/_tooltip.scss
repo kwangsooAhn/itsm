@@ -17,7 +17,7 @@
   margin-left: 0.3125rem;
   vertical-align: middle;
 
-  .icon.i-tooltip {
+  .ic-tooltip {
     background: $gray500;
     cursor: pointer;
   }
@@ -66,7 +66,7 @@
       @include animation (0s, 0.3s, fadeIn, ease-out);
       visibility: visible;
     }
-    .icon.i-tooltip { background: $blue500; }
+    .ic-tooltip { background: $blue500; }
   }
 }
 

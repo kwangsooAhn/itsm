@@ -110,7 +110,7 @@ export default class ZComponent {
         tooltipUl.UILiCreateTemplate = new UILi().setUIClass('tooltip-menu-item')
             .addUIClass('palette-tooltip')
             .setUIAttribute('data-action', 'createTemplate')
-            .addUI(new UISpan().setUIClass('icon').addUIClass('i-create-template'))
+            .addUI(new UISpan().setUIClass('ic-create-template'))
             // 컴포넌트 템플릿 등록 모달
             .onUIClick(this.openCreateTemplateModal.bind(this))
             .addUI(new UIDiv().setUIClass('palette-tooltip-contents')

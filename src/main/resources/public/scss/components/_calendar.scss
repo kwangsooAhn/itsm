@@ -33,7 +33,7 @@
     .calendar__move {
       @include borderRadius(50%);
 
-      .i-arrow-right {
+      .ic-arrow-right {
         background: $gray500;
 
         &:hover {

@@ -39,13 +39,13 @@
             <td style="width: 15%" class="align-left date-time" th:text="${process.createDt}" th:title="${process.createDt}"></td>
             <td style="width: 4%" class="align-center">
                 <button type="button" class="button-icon btn--form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${process.id}]])">
-                    <span class="icon i-list-download"></span>
+                    <span class="ic-list-download"></span>
                 </button>
             </td>
             <td style="width: 4%" class="align-center">
                 <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${process.enabled == true}">
                     <button type="button" class="button-icon btn--form" th:onclick="deleteProcess([[${process.id}]])">
-                        <span class="icon i-list-delete"></span>
+                        <span class="ic-list-delete"></span>
                     </button>
                 </th:block>
             </td>
