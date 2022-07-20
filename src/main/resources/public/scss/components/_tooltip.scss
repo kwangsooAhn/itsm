@@ -11,18 +11,18 @@
   100% { opacity: 1; }
 }
 
-.z-help-tooltip {
+.help-tooltip {
   @include relative();
   display: inline-block;
   margin-left: 0.3125rem;
   vertical-align: middle;
 
-  .z-icon.i-tooltip {
+  .ic-tooltip {
     background: $gray500;
     cursor: pointer;
   }
 
-  .z-tooltip-contents {
+  .tooltip-contents {
     // 툴팁 표시 위치 기본은 우측 하단
     @include absolute($left: auto);
     @include border(0.125rem, solid, $blue500, all);
@@ -62,18 +62,18 @@
   }
 
   &:hover {
-    .z-tooltip-contents {
+    .tooltip-contents {
       @include animation (0s, 0.3s, fadeIn, ease-out);
       visibility: visible;
     }
-    .z-icon.i-tooltip { background: $blue500; }
+    .ic-tooltip { background: $blue500; }
   }
 }
 
 // header tooltip
-.z-header-tooltip {
+.header-tooltip {
   @include relative();
-  .z-header-tooltip-contents {
+  .header-tooltip-contents {
     @include absolute($left: 50%);
     @include translate(-50%, 0);
     display: flex;
@@ -96,7 +96,7 @@
       left: 0;
     }
 
-    .z-header-tooltip-text {
+    .header-tooltip-text {
       color: $gray800;
       font-family: $font-family;
       font-size: $font-size-xs;
@@ -105,7 +105,7 @@
   }
   // 마우스 오버
   &:hover {
-    .z-header-tooltip-contents {
+    .header-tooltip-contents {
       @include animation (0s, 0.3s, fadeIn, ease-out);
       visibility: visible;
     }
@@ -113,20 +113,20 @@
 }
 
 // clipboard - 복사 용도
-.z-clipboard-tooltip {
+.clipboard-tooltip {
   @include relative();
   display: inline-block;
   margin-left: 0.3125rem; // 5px
   cursor: pointer;
 
   &:hover {
-    .z-clipboard-tooltip-text {
+    .clipboard-tooltip-text {
       visibility: visible;
       opacity: 1;
     }
   }
 
-  .z-clipboard-tooltip-text {
+  .clipboard-tooltip-text {
     @include absolute($left: 50%, $bottom: 120%);
     @include border(0.125rem, solid, $blue500, all);
     @include borderRadius(0.0625rem);
@@ -153,9 +153,9 @@
 }
 
 // drawing palette tooltip
-.z-palette-tooltip {
+.palette-tooltip {
   @include relative();
-  .z-palette-tooltip-contents {
+  .palette-tooltip-contents {
     @include absolute($left: 50%);
     @include translate(-50%, 0);
     display: flex;
@@ -177,7 +177,7 @@
       @include translate(-150%, -15%);
     }
 
-    .z-palette-tooltip-text {
+    .palette-tooltip-text {
       font-family: $font-family;
       font-size: $font-size-xs;
       color: $gray800;
@@ -186,7 +186,7 @@
   }
   // 마우스 오버
   &:hover {
-    .z-palette-tooltip-contents {
+    .palette-tooltip-contents {
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
     }

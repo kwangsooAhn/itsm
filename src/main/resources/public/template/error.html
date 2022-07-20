@@ -7,18 +7,18 @@
 </head>
 <body>
 <th:block layout:fragment="pageLeft">
-    <div class="z-vertical-split-left z-error-background float-left">
-        <img class="z-img i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
+    <div class="vertical-split-left error-background float-left">
+        <img class="i-logo"  th:src="@{/assets/media/icons/logo/icon_logo.svg}" width="234" height="40" alt="Zenius ITSM" />
     </div>
 </th:block>
 <th:block layout:fragment="pageRight">
-    <div class="z-vertical-split-right z-error-form float-right">
+    <div class="vertical-split-right error-form float-right">
         <h1 th:text="#{error.label.topPhrase}"></h1>
         <h1 th:text="#{error.label.middlePhrase}"></h1>
-        <h3 th:text="${message}" class="z-error-code-txt" id="errorMessage"></h3>
-        <h3 th:text="|#{error.label.errorCode} : ${error} (${status})|" class="z-error-code-txt" id="errorCode"></h3>
-        <h3 th:text="#{error.label.bottomPhrase}" class="z-error-bottom-txt"></h3>
-        <button th:text="#{error.btn.return}" class="z-button primary" id="errorButton"></button>
+        <h3 th:text="${message}" class="error-code-txt" id="errorMessage"></h3>
+        <h3 th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt" id="errorCode"></h3>
+        <h3 th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"></h3>
+        <button th:text="#{error.btn.return}" class="button primary" id="errorButton"></button>
     </div>
 </th:block>
 </body>

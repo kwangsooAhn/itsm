@@ -12,16 +12,16 @@
     <h6 class="description ml-2 pl-2" th:text="#{rule.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+    <input type="text" class="input ic-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
            th:placeholder="#{rule.msg.searchPlaceholder}"/>
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" id="btnSearch" name="btnSearch" onclick="location.href='/numberingRules/new'"
+        <button type="button" class="button primary" id="btnSearch" name="btnSearch" onclick="location.href='/numberingRules/new'"
                 sec:authorize="hasAuthority('workflow.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="ruleList"></div>
+    <div class="list-content flex-row" id="ruleList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">

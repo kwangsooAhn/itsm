@@ -283,13 +283,13 @@ export default class ZRow {
 export class UIRowTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-row-tooltip';
+        this.domElement.className = 'row-tooltip';
     }
 }
 
 export class UIRow extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-' + FORM.LAYOUT.ROW + ' flex-row';
+        this.domElement.className = FORM.LAYOUT.ROW + ' flex-row';
     }
 }

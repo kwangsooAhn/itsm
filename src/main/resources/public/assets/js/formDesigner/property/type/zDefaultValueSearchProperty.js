@@ -59,7 +59,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                 ZWorkflowUtil.generateUUID();
             // 라벨
             radioGroup.UILabel = new UILabel()
-                .setUIClass('z-radio')
+                .setUIClass('radio')
                 .addUIClass('mb-1')
                 .setUIFor('radioProperty' + radioId);
             radioGroup.addUI(radioGroup.UILabel);
@@ -79,7 +79,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
             }
 
             if (!zValidation.isEmpty(item.name)) {
-                radioGroup.UILabel.addUI(new UISpan().setUIClass('z-label').setUIInnerHTML(i18n.msg(item.name)));
+                radioGroup.UILabel.addUI(new UISpan().setUIClass('label').setUIInnerHTML(i18n.msg(item.name)));
             }
             // 기본값 - 지정 타입 추가 설정 (inputButton)
             if (item.value === FORM.DEFAULT_VALUE_TYPE.CUSTOM) {
@@ -87,7 +87,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     this.data[idx] = (this.defaultType === item.value) ? elem : '';
                 });
                 radioGroup.UIInputButton = new UIDiv()
-                    .setUIClass('flex-row z-input-button');
+                    .setUIClass('flex-row input-button');
                 radioGroup.addUI(radioGroup.UIInputButton);
                 // input
                 radioGroup.UIInputButton.UIInput = new UIInput()
@@ -107,19 +107,18 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                 if (this.isEditable) {
                     // small icon button
                     radioGroup.UIInputButton.UIIconButton = new UIButton()
-                        .setUIClass('z-button-icon-sm')
+                        .setUIClass('button-icon-sm')
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
-                        .setUIClass('z-icon')
-                        .addUIClass('i-remove');
+                        .setUIClass('ic-remove');
                     radioGroup.UIInputButton.UIIconButton.addUI(radioGroup.UIInputButton.UIIconButton.UIIcon);
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                     // button
                     radioGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('z-button-icon')
-                        .addUIClass('z-button-code')
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'))
+                        .setUIClass('button-icon')
+                        .addUIClass('button-code')
+                        .addUI(new UISpan().setUIClass('ic-search'))
                         .onUIClick(this.openDataSelect.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                 }
@@ -143,7 +142,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
         switch (this.targetComponent) {
             case FORM.SEARCH_COMPONENT.USER_SEARCH:
                 const userModalTemplate = `<div class="target-user-list">` +
-                    `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                    `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                     `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                     `<span id="spanTotalCount" class="search-count"></span>` +
                     `<div class="table-set" id="searchUserList"></div>` +
@@ -155,7 +154,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     classes: 'target-user-modal',
                     buttons: [{
                         content: i18n.msg('common.btn.select'),
-                        classes: 'z-button primary',
+                        classes: 'button primary',
                         bindKey: false,
                         callback: (modal) => {
                             // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -174,7 +173,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         }
                     }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: 'z-button secondary',
+                        classes: 'button secondary',
                         bindKey: false,
                         callback: (modal) => {
                             // 임시값 제거
@@ -230,9 +229,9 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
             const searchUserList = document.getElementById('searchUserList');
             // 사용자 선택 리스트 생성
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(searchUserList.querySelector('.table-body'), {className: 'scrollbar'});
             // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {

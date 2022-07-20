@@ -50,7 +50,7 @@ export const radioMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv()
-            .setUIClass('z-element')
+            .setUIClass('element')
             .addUIClass('align-left')
             .setUIAttribute('data-validation-required', this.validationRequired)
             .setUIProperty('--data-column', this.elementColumnWidth);
@@ -65,7 +65,7 @@ export const radioMixin = {
             }
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
 
         if (!zValidation.isEmpty(this.parent) && !zValidation.isEmpty(this.parent.parent) &&
@@ -128,9 +128,9 @@ export const radioMixin = {
     set validationRequired(boolean) {
         this._validation.required = boolean;
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -165,7 +165,7 @@ export const radioMixin = {
             object['UILabel' + i] = new UILabel()
                 .setUIFor(radioId)
                 .setUIClass(this.element.align)
-                .addUIClass('z-radio')
+                .addUIClass('radio')
                 .setUIAttribute('tabindex', '-1');
             object['UILabel' + i].UIRadio = new UIRadioButton(checkedYn)
                 .setUIId(radioId)
@@ -199,8 +199,8 @@ export const radioMixin = {
                     {name: i18n.msg('form.properties.align.vertical'), value: 'vertical'}
                 ]))
                 .addProperty(new ZSwitchButtonProperty('elementPosition', 'element.position', this._element.position, [
-                    {'name': 'i-display-position-left', 'value': 'left'},
-                    {'name': 'i-display-position-right', 'value': 'right'},
+                    {'name': 'ic-display-position-left', 'value': 'left'},
+                    {'name': 'ic-display-position-right', 'value': 'right'},
                 ]))
                 .addProperty(new ZOptionListProperty('elementOptions', 'element.options', this.elementOptions, false)
                     .setValidation(true, '', '', '', '', '')),

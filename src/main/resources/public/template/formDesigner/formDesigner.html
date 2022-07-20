@@ -54,7 +54,7 @@
         window.zFormDesigner = zFormDesigner;
 
         window.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.z-header-button-dropdown').forEach(function(dropdown) {
+            document.querySelectorAll('.header-button-dropdown').forEach(function(dropdown) {
                 dropdown.addEventListener('click', function(e) {
                     e.preventDefault();
 
@@ -79,15 +79,15 @@
                 const templateData = response.data;
                 templateData.forEach( (data) => {
                     const templateItem =
-                        `<div class="z-component-template-icon list-group-item" id="templateComponent" ` +
+                        `<div class="component-template-icon list-group-item" id="templateComponent" ` +
                             `data-value="${data.templateId}">` +
-                        `<span class="z-icon i-componentTemplate"></span>` +
-                        `<span class="z-component-name text-ellipsis" title="${aliceJs.filterXSS(data.templateName)}">` +
+                        `<span class="ic-componentTemplate"></span>` +
+                        `<span class="component-name text-ellipsis" title="${aliceJs.filterXSS(data.templateName)}">` +
                             `${aliceJs.filterXSS(data.templateName)}` +
                         `</span>` +
-                        `<button type="button" class="z-button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
+                        `<button type="button" class="button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
                             `onclick="zFormDesigner.deleteTemplate(this);">` +
-                            `<span class="z-icon i-remove"></span>` +
+                            `<span class="ic-remove"></span>` +
                         `</button>` +
                     `</div>`;
                     templateList.insertAdjacentHTML('beforeend', templateItem);
@@ -97,44 +97,44 @@
     </script>
 </head>
 <body>
-<div class="z-wrapper">
+<div class="wrapper">
     <form id="frm" name="frm">
-        <div class="z-form-container">
+        <div class="form-container">
             <!-- 상단 네비게이션 -->
-            <div class="z-form-header flex-row align-items-center" id="menuBar">
-                <img class="z-img i-form-designer"
+            <div class="form-header flex-row align-items-center" id="menuBar">
+                <img class="img ic-form-designer"
                      th:src="@{/assets/media/icons/designer/topmenu/icon_form_designer.svg}" width="169" height="25"
                      alt="Form Designer"/>
-                <span class="z-form-name ml-auto mr-auto" id="formName"></span>
+                <span class="form-name ml-auto mr-auto" id="formName"></span>
                 <!--버튼 영역-->
-                <div class="z-form-button-list flex-row mr-3" id="formButtonGroup">
+                <div class="form-button-list flex-row mr-3" id="formButtonGroup">
                     <!--undo-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
                         <div id="editCommand">
-                            <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip"
+                            <button type="button" class="header-button button-icon light-extra header-tooltip"
                                     data-actionType="undo" data-targetId="editCommand"
                                     onclick="zFormDesigner.onDropdownClickHandler(this);">
-                                <span class="z-icon i-undo"></span>
-                                <div class="z-header-tooltip-contents">
-                                    <span class="z-header-tooltip-text" th:text="#{form.label.undo}"></span>
+                                <span class="ic-undo"></span>
+                                <div class="header-tooltip-contents">
+                                    <span class="header-tooltip-text" th:text="#{form.label.undo}"></span>
                                 </div>
                             </button>
                         </div>
                         <!--undo, redo (드롭다운)-->
-                        <div class="z-header-dropdown">
+                        <div class="header-dropdown">
                             <button type="button"
-                                    class="z-header-button z-button-icon z-header-button-dropdown light-extra">
-                                <span class="z-icon i-arrow-right"></span>
+                                    class="header-button button-icon header-button-dropdown light-extra">
+                                <span class="ic-arrow-right"></span>
                             </button>
-                            <ul class="z-dropdown-content">
-                                <li class="z-dropdown-item" tabindex="-1">
-                                    <button type="button" class="z-button z-button-dropdown align-left"
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item" tabindex="-1">
+                                    <button type="button" class="button button-dropdown align-left"
                                             data-actionType="undo" data-targetId="editCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
                                             th:text="#{form.label.undo}" tabindex="0"></button>
                                 </li>
-                                <li class="z-dropdown-item" tabindex="-1">
-                                    <button type="button" class="z-button z-button-dropdown align-left"
+                                <li class="dropdown-item" tabindex="-1">
+                                    <button type="button" class="button button-dropdown align-left"
                                             data-actionType="redo" data-targetId="editCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
                                             th:text="#{form.label.redo}" tabindex="0"></button>
@@ -143,40 +143,40 @@
                         </div>
                     </th:block>
                     <!--미리보기-->
-                    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip ml-auto"
+                    <button type="button" class="header-button button-icon light-extra header-tooltip ml-auto"
                             onclick="zFormDesigner.preview();">
-                        <span class="z-icon i-preview"></span>
-                        <div class="z-header-tooltip-contents">
-                            <span class="z-header-tooltip-text" th:text="#{common.label.preview}"></span>
+                        <span class="ic-preview"></span>
+                        <div class="header-tooltip-contents">
+                            <span class="header-tooltip-text" th:text="#{common.label.preview}"></span>
                         </div>
                     </button>
                     <!--저장하기-->
                     <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('workflow.manage')">
                         <div id="fileCommand">
-                            <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip"
+                            <button type="button" class="header-button button-icon light-extra header-tooltip"
                                     data-actionType="save" data-targetId="fileCommand"
                                     onclick="zFormDesigner.saveForm(false);">
-                                <span class="z-icon i-save"></span>
-                                <div class="z-header-tooltip-contents">
-                                    <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+                                <span class="ic-save"></span>
+                                <div class="header-tooltip-contents">
+                                    <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
                                 </div>
                             </button>
                         </div>
                         <!--저장하기(드롭다운)-->
-                        <div class="z-header-dropdown">
+                        <div class="header-dropdown">
                             <button type="button"
-                                    class="z-header-button z-button-icon z-header-button-dropdown light-extra">
-                                <span class="z-icon i-arrow-right"></span>
+                                    class="header-button button-icon header-button-dropdown light-extra">
+                                <span class="ic-arrow-right"></span>
                             </button>
-                            <ul class="z-dropdown-content">
-                                <li class="z-dropdown-item" tabindex="-1">
-                                    <button type="button" class="z-button z-button-dropdown align-left"
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item" tabindex="-1">
+                                    <button type="button" class="button button-dropdown align-left"
                                             data-actionType="save" data-targetId="fileCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
                                             th:text="#{common.btn.save}" tabindex="0"></button>
                                 </li>
-                                <li class="z-dropdown-item align-left" tabindex="-1">
-                                    <button type="button" class="z-button z-button-dropdown align-left"
+                                <li class="dropdown-item align-left" tabindex="-1">
+                                    <button type="button" class="button button-dropdown align-left"
                                             data-actionType="saveAs" data-targetId="fileCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
                                             th:text="#{common.btn.saveAs}" tabindex="0"></button>
@@ -186,222 +186,222 @@
                     </th:block>
                     <!--문서에 연결된 업무흐름이 있을 땐 다른이름으로 저장하기 만 가능-->
                     <th:block th:unless="${!createdWorkFlow}" sec:authorize="hasAuthority('workflow.manage')">
-                        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip"
+                        <button type="button" class="header-button button-icon light-extra header-tooltip"
                                 onclick="zFormDesigner.openSaveAsModal();">
-                            <span class="z-icon i-save-as"></span>
-                            <div class="z-header-tooltip-contents last">
-                                <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+                            <span class="ic-save-as"></span>
+                            <div class="header-tooltip-contents last">
+                                <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
                             </div>
                         </button>
                     </th:block>
                 </div>
             </div>
             <!-- 컴포넌트 팔레트 -->
-            <div class="z-form-component-palette" id="componentPalette">
-                <div class="z-component-accordion-box" id="componentList">
+            <div class="form-component-palette" id="componentPalette">
+                <div class="component-accordion-box" id="componentList">
                     <!-- inputs: 일반적인 입력 항목 -->
-                    <div class="z-component-accordion">
+                    <div class="component-accordion">
                         <input type="radio" id="inputs" name="accordion-type" checked="true">
-                        <label class="flex-row justify-content-between z-accordion-label" for="inputs">
-                            <span class="z-accordion-name">Inputs</span>
-                            <span class="z-icon i-arrow-right"></span>
+                        <label class="flex-row justify-content-between accordion-label" for="inputs">
+                            <span class="accordion-name">Inputs</span>
+                            <span class="ic-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content">
+                        <div class="accordion-content">
                             <!-- sortablejs 라이브러리에서 사용하니 list-group, list-group-item 은 삭제하지 마세요. -->
-                            <div class="z-component-icon-box list-group" data-type="component">
-                                <div class="z-component-icon inputBox flex-column align-items-center list-group-item"
+                            <div class="component-icon-box list-group" data-type="component">
+                                <div class="component-icon inputBox flex-column align-items-center list-group-item"
                                      id="inputBox" tabindex="0" style="--data-row:0;">
-                                    <span class="z-icon i-inputBox"></span>
-                                    <span class="z-component-name" th:text="#{form.component.inputBox}"></span>
+                                    <span class="ic-inputBox"></span>
+                                    <span class="component-name" th:text="#{form.component.inputBox}"></span>
                                 </div>
-                                <div class="z-component-icon textArea flex-column align-items-center list-group-item"
+                                <div class="component-icon textArea flex-column align-items-center list-group-item"
                                      id="textArea" tabindex="0" style="--data-row:0;">
-                                    <span class="z-icon i-textArea"></span>
-                                    <span class="z-component-name" th:text="#{form.component.textArea}"></span>
+                                    <span class="ic-textArea"></span>
+                                    <span class="component-name" th:text="#{form.component.textArea}"></span>
                                 </div>
-                                <div class="z-component-icon textEditor flex-column align-items-center list-group-item"
+                                <div class="component-icon textEditor flex-column align-items-center list-group-item"
                                      id="textEditor" tabindex="0" style="--data-row:1;">
-                                    <span class="z-icon i-textEditor"></span>
-                                    <span class="z-component-name" th:text="#{form.component.textEditor}"></span>
+                                    <span class="ic-textEditor"></span>
+                                    <span class="component-name" th:text="#{form.component.textEditor}"></span>
                                 </div>
-                                <div class="z-component-icon dropdown flex-column align-items-center list-group-item"
+                                <div class="component-icon dropdown flex-column align-items-center list-group-item"
                                      id="dropdown" tabindex="0" style="--data-row:1;">
-                                    <span class="z-icon i-dropdown"></span>
-                                    <span class="z-component-name" th:text="#{form.component.dropdown}"></span>
+                                    <span class="ic-dropdown"></span>
+                                    <span class="component-name" th:text="#{form.component.dropdown}"></span>
                                 </div>
-                                <div class="z-component-icon radio flex-column align-items-center list-group-item"
+                                <div class="component-icon radio flex-column align-items-center list-group-item"
                                      id="radio" tabindex="0" style="--data-row:2;">
-                                    <span class="z-icon i-radio"></span>
-                                    <span class="z-component-name" th:text="#{form.component.radio}"></span>
+                                    <span class="ic-radio"></span>
+                                    <span class="component-name" th:text="#{form.component.radio}"></span>
                                 </div>
-                                <div class="z-component-icon checkBox flex-column align-items-center list-group-item"
+                                <div class="component-icon checkBox flex-column align-items-center list-group-item"
                                      id="checkBox" tabindex="0" style="--data-row:2;">
-                                    <span class="z-icon i-checkBox"></span>
-                                    <span class="z-component-name" th:text="#{form.component.checkBox}"></span>
+                                    <span class="ic-checkBox"></span>
+                                    <span class="component-name" th:text="#{form.component.checkBox}"></span>
                                 </div>
-                                <div class="z-component-icon date flex-column align-items-center list-group-item"
+                                <div class="component-icon date flex-column align-items-center list-group-item"
                                      id="date" tabindex="0" style="--data-row:3;">
-                                    <span class="z-icon i-date"></span>
-                                    <span class="z-component-name" th:text="#{form.component.date}"></span>
+                                    <span class="ic-date"></span>
+                                    <span class="component-name" th:text="#{form.component.date}"></span>
                                 </div>
-                                <div class="z-component-icon time flex-column align-items-center list-group-item"
+                                <div class="component-icon time flex-column align-items-center list-group-item"
                                      id="time" tabindex="0" style="--data-row:3;">
-                                    <span class="z-icon i-time"></span>
-                                    <span class="z-component-name" th:text="#{form.component.time}"></span>
+                                    <span class="ic-time"></span>
+                                    <span class="component-name" th:text="#{form.component.time}"></span>
                                 </div>
-                                <div class="z-component-icon dateTime flex-column align-items-center list-group-item"
+                                <div class="component-icon dateTime flex-column align-items-center list-group-item"
                                      id="dateTime" tabindex="0" style="--data-row:4;">
-                                    <span class="z-icon i-dateTime"></span>
-                                    <span class="z-component-name" th:text="#{form.component.dateTime}"></span>
+                                    <span class="ic-dateTime"></span>
+                                    <span class="component-name" th:text="#{form.component.dateTime}"></span>
                                 </div>
-                                <div class="z-component-icon fileUpload flex-column align-items-center list-group-item"
+                                <div class="component-icon fileUpload flex-column align-items-center list-group-item"
                                      id="fileUpload" tabindex="0" style="--data-row:4;">
-                                    <span class="z-icon i-fileUpload"></span>
-                                    <span class="z-component-name" th:text="#{form.component.fileUpload}"></span>
+                                    <span class="ic-fileUpload"></span>
+                                    <span class="component-name" th:text="#{form.component.fileUpload}"></span>
                                 </div>
-                                <div class="z-component-icon customCode flex-column align-items-center list-group-item"
+                                <div class="component-icon customCode flex-column align-items-center list-group-item"
                                      id="customCode" tabindex="0" style="--data-row:5;">
-                                    <span class="z-icon i-customCode"></span>
-                                    <span class="z-component-name" th:text="#{form.component.customCode}"></span>
+                                    <span class="ic-customCode"></span>
+                                    <span class="component-name" th:text="#{form.component.customCode}"></span>
                                 </div>
-                                <div class="z-component-icon dynamicRowTable flex-column align-items-center list-group-item"
+                                <div class="component-icon dynamicRowTable flex-column align-items-center list-group-item"
                                      id="dynamicRowTable" tabindex="0" style="--data-row:5;">
-                                    <span class="z-icon i-dynamicRowTable"></span>
-                                    <span class="z-component-name" th:text="#{form.component.dynamicRowTable}"></span>
+                                    <span class="ic-dynamicRowTable"></span>
+                                    <span class="component-name" th:text="#{form.component.dynamicRowTable}"></span>
                                 </div>
-                                <div class="z-component-icon ci flex-column align-items-center list-group-item" id="ci"
+                                <div class="component-icon ci flex-column align-items-center list-group-item" id="ci"
                                      tabindex="0" style="--data-row:6;">
-                                    <span class="z-icon i-ci"></span>
-                                    <span class="z-component-name" th:text="#{form.component.ci}"></span>
+                                    <span class="ic-ci"></span>
+                                    <span class="component-name" th:text="#{form.component.ci}"></span>
                                 </div>
-                                <div class="z-component-icon fileDownload flex-column align-items-center list-group-item"
+                                <div class="component-icon fileDownload flex-column align-items-center list-group-item"
                                      id="fileDownload" tabindex="0" style="--data-row:6;">
-                                    <span class="z-icon i-fileDownload"></span>
-                                    <span class="z-component-name" th:text="#{form.component.fileDownload}"></span>
+                                    <span class="ic-fileDownload"></span>
+                                    <span class="component-name" th:text="#{form.component.fileDownload}"></span>
                                 </div>
-                                <div class="z-component-icon dropdownCode flex-column align-items-center list-group-item"
+                                <div class="component-icon dropdownCode flex-column align-items-center list-group-item"
                                      id="dropdownCode" tabindex="0" style="--data-row:7;">
-                                    <span class="z-icon i-dropdownCode"></span>
-                                    <span class="z-component-name" th:text="#{form.component.dropdownCode}"></span>
+                                    <span class="ic-dropdownCode"></span>
+                                    <span class="component-name" th:text="#{form.component.dropdownCode}"></span>
                                 </div>
-                                <div class="z-component-icon userSearch list-group-item" id="userSearch" tabindex="0"
+                                <div class="component-icon userSearch list-group-item" id="userSearch" tabindex="0"
                                      style="--data-row:7;">
-                                    <span class="z-icon i-userSearch"></span>
-                                    <span class="z-component-name" th:text="#{form.component.userSearch}"></span>
+                                    <span class="ic-userSearch"></span>
+                                    <span class="component-name" th:text="#{form.component.userSearch}"></span>
                                 </div>
-                                <div class="z-component-icon modalButton list-group-item" id="modalButton" tabindex="0"
+                                <div class="component-icon modalButton list-group-item" id="modalButton" tabindex="0"
                                      style="--data-row:8;">
-                                    <span class="z-icon i-modalButton"></span>
-                                    <span class="z-component-name" th:text="#{form.component.modalButton}"></span>
+                                    <span class="ic-modalButton"></span>
+                                    <span class="component-name" th:text="#{form.component.modalButton}"></span>
                                 </div>
-                                <div class="z-component-icon fileDownload list-group-item" id="organizationSearch"
+                                <div class="component-icon fileDownload list-group-item" id="organizationSearch"
                                      tabindex="0" style="--data-row:8;">
-                                    <span class="z-icon i-organizationSearch"></span>
-                                    <span class="z-component-name"
+                                    <span class="ic-organizationSearch"></span>
+                                    <span class="component-name"
                                           th:text="#{form.component.organizationSearch}"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- format:가로선, 이미지, 라벨 등 꾸미기 항목 -->
-                    <div class="z-component-accordion">
+                    <div class="component-accordion">
                         <input type="radio" id="format" name="accordion-type">
-                        <label class="flex-row justify-content-between z-accordion-label" for="format">
-                            <span class="z-accordion-name">Format</span>
-                            <span class="z-icon i-arrow-right"></span>
+                        <label class="flex-row justify-content-between accordion-label" for="format">
+                            <span class="accordion-name">Format</span>
+                            <span class="ic-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content">
-                            <div class="z-component-icon-box list-group" data-type="component">
-                                <div class="z-component-icon label flex-column align-items-center list-group-item"
+                        <div class="accordion-content">
+                            <div class="component-icon-box list-group" data-type="component">
+                                <div class="component-icon label flex-column align-items-center list-group-item"
                                      id="label" tabindex="0" style="--data-row:0;">
-                                    <span class="z-icon i-label"></span>
-                                    <span class="z-component-name" th:text="#{form.component.label}"></span>
+                                    <span class="ic-label"></span>
+                                    <span class="component-name" th:text="#{form.component.label}"></span>
                                 </div>
-                                <div class="z-component-icon image flex-column align-items-center list-group-item"
+                                <div class="component-icon image flex-column align-items-center list-group-item"
                                      id="image" tabindex="0" style="--data-row:0;">
-                                    <span class="z-icon i-image"></span>
-                                    <span class="z-component-name" th:text="#{form.component.image}"></span>
+                                    <span class="ic-image"></span>
+                                    <span class="component-name" th:text="#{form.component.image}"></span>
                                 </div>
-                                <div class="z-component-icon divider flex-column align-items-center list-group-item"
+                                <div class="component-icon divider flex-column align-items-center list-group-item"
                                      id="divider" tabindex="0" style="--data-row:1;">
-                                    <span class="z-icon i-divider"></span>
-                                    <span class="z-component-name" th:text="#{form.component.divider}"></span>
+                                    <span class="ic-divider"></span>
+                                    <span class="component-name" th:text="#{form.component.divider}"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- visual: video, html, map, chart 등 추후 구현 -->
-                    <div class="z-component-accordion">
+                    <div class="component-accordion">
                         <input type="radio" id="visual" name="accordion-type">
-                        <label class="flex-row justify-content-between z-accordion-label" for="visual">
-                            <span class="z-accordion-name">Visual</span>
-                            <span class="z-icon i-arrow-right"></span>
+                        <label class="flex-row justify-content-between accordion-label" for="visual">
+                            <span class="accordion-name">Visual</span>
+                            <span class="ic-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content">
-                            <div class="z-component-icon-box list-group" data-type="component">
+                        <div class="accordion-content">
+                            <div class="component-icon-box list-group" data-type="component">
                             </div>
                         </div>
                     </div>
                     <!-- template: 사용자 정의 컴포넌트 -->
-                    <div class="z-component-accordion">
+                    <div class="component-accordion">
                         <input type="radio" id="template" name="accordion-type">
-                        <label class="flex-row justify-content-between z-accordion-label" for="template">
-                            <span class="z-accordion-name">Template</span>
-                            <span class="z-icon i-arrow-right"></span>
+                        <label class="flex-row justify-content-between accordion-label" for="template">
+                            <span class="accordion-name">Template</span>
+                            <span class="ic-arrow-right"></span>
                         </label>
-                        <div class="z-accordion-content" id="customComponentList">
-                            <div class="z-component-icon-box list-group" data-type="template"></div>
+                        <div class="accordion-content" id="customComponentList">
+                            <div class="component-icon-box list-group" data-type="template"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 폼 -->
-            <div class="z-form-main" id="formMain">
-                <div id="saveInfo" class="z-save-info align-center"></div>
-                <div class="z-drawing-board align-center" id="formDrawingBoard" data-display="ready"></div>
+            <div class="form-main" id="formMain">
+                <div id="saveInfo" class="save-info align-center"></div>
+                <div class="drawing-board align-center" id="formDrawingBoard" data-display="ready"></div>
             </div>
             <!-- 속성 패널 -->
-            <div class="z-form-properties-panel-header breadcrumb">
+            <div class="form-properties-panel-header breadcrumb">
                 <span id="propertyName"></span>
             </div>
-            <div class="z-form-properties-panel" id="propertyPanel"></div>
+            <div class="form-properties-panel" id="propertyPanel"></div>
         </div>
     </form>
 </div>
 <!-- dropdown button 템플릿 -->
 <template id="undoButtonTemplate">
-    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="undo"
+    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="undo"
             data-targetId="editCommand">
-        <span class="z-icon i-undo"></span>
-        <div class="z-header-tooltip-contents">
-            <span class="z-header-tooltip-text" th:text="#{form.label.undo}"></span>
+        <span class="ic-undo"></span>
+        <div class="header-tooltip-contents">
+            <span class="header-tooltip-text" th:text="#{form.label.undo}"></span>
         </div>
     </button>
 </template>
 <template id="redoButtonTemplate">
-    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="redo"
+    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="redo"
             data-targetId="editCommand">
-        <span class="z-icon i-redo"></span>
-        <div class="z-header-tooltip-contents">
-            <span class="z-header-tooltip-text" th:text="#{form.label.redo}"></span>
+        <span class="ic-redo"></span>
+        <div class="header-tooltip-contents">
+            <span class="header-tooltip-text" th:text="#{form.label.redo}"></span>
         </div>
     </button>
 </template>
 <template id="saveButtonTemplate">
-    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save"
+    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="save"
             data-targetId="fileCommand">
-        <span class="z-icon i-save"></span>
-        <div class="z-header-tooltip-contents">
-            <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+        <span class="ic-save"></span>
+        <div class="header-tooltip-contents">
+            <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
         </div>
     </button>
 </template>
 <template id="saveAsButtonTemplate">
-    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="saveAs"
+    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="saveAs"
             data-targetId="fileCommand">
-        <span class="z-icon i-save-as"></span>
-        <div class="z-header-tooltip-contents last">
-            <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+        <span class="ic-save-as"></span>
+        <div class="header-tooltip-contents last">
+            <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
         </div>
     </button>
 </template>
@@ -412,18 +412,18 @@
             <span th:text="#{form.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" class="z-input" id="newFormName" data-validation-required="true">
+        <input type="text" class="input" id="newFormName" data-validation-required="true">
         <label class="field-label" for="newFormDesc" th:text="#{form.label.description}"></label>
-        <textarea class="z-textarea textarea-scroll-wrapper" id="newFormDesc" rows="3"></textarea>
+        <textarea class="textarea textarea-scroll-wrapper" id="newFormDesc" rows="3"></textarea>
     </div>
 </template>
 <!-- 미리보기 모달 -->
 <template id="documentModalTemplate">
-    <div class="z-document-main preview flex-column align-items-center">
-        <div class="z-document-main-header flex-row justify-content-end align-items-center flex-wrap">
+    <div class="document-main preview flex-column align-items-center">
+        <div class="document-main-header flex-row justify-content-end align-items-center flex-wrap">
             <div id="returnButtonArea"></div>
         </div>
-        <div class="z-drawing-board" id="documentDrawingBoard" data-display="ready"></div>
+        <div class="drawing-board" id="documentDrawingBoard" data-display="ready"></div>
     </div>
 </template>
 </body>

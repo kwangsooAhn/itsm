@@ -37,19 +37,19 @@ class ZFormTokenTab {
         }).then((htmlData) => {
             this.propertiesElement.innerHTML = htmlData;
             // 탭 이벤트
-            document.querySelectorAll('.z-token-tab').forEach((tab) => {
+            document.querySelectorAll('.token-tab').forEach((tab) => {
                 tab.addEventListener('click', this.selectTokenTab, false);
             });
 
             const selectedTabId = sessionStorage.getItem('alice_token-tab-selected') ?
                 sessionStorage.getItem('alice_token-tab-selected') : 'tokenInformation';
-            document.querySelector('.z-token-tab[data-target-contents="' + selectedTabId + '"]').click();
+            document.querySelector('.token-tab[data-target-contents="' + selectedTabId + '"]').click();
             // 아이콘 추가
             aliceJs.loadSvg();
 
             this.reloadTab();
 
-            OverlayScrollbars(document.querySelectorAll('.z-token-panels'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.token-panels'), { className: 'scrollbar' });
             OverlayScrollbars(document.getElementById('commentValue'), {
                 className: 'scrollbar',
                 resize: 'vertical',
@@ -99,9 +99,9 @@ class ZFormTokenTab {
             Array.prototype.filter.call(selectedTab.parentNode.children, function(child) {
                 return child !== selectedTab;
             }).forEach((siblingElement) => {
-                siblingElement.classList.remove('on');
+                siblingElement.classList.remove('block');
             });
-            selectedTab.classList.add('on');
+            selectedTab.classList.add('block');
         }
 
         // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
@@ -214,16 +214,16 @@ class ZFormTokenTab {
     makeViewerFragment(viewer) {
         return `<tr class="flex-row align-items-center" id="viewer${viewer.viewerKey}">` +
             `<td style="width: 8%;" class="align-left p-0">` +
-            `<img class="z-img i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
+            `<img class="i-profile-photo" src="${viewer.avatarPath}" width="30" height="30" alt=""/>` +
             `</td>` +
             `<td style="width: 25%;" class="align-left" title="${viewer.viewerName}">${viewer.viewerName}</td>` +
             `<td style="width: 57%;" class="align-left" title="${viewer.organizationName}">` +
             `${viewer.organizationName}</td>` +
             `<td style="width: 10%;" class="align-center">` +
             (viewer.reviewYn ? `<span class="label normal">${i18n.msg('token.label.read')}</span>` :
-                `<button type="button" class="z-button-icon-sm" tabindex="-1" ` +
+                `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                 `onclick="zFormTokenTab.removeViewer('${viewer.viewerKey}')">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<span class="ic-remove"></span>` +
                 `</button>`) +
             `</td>` +
             `</tr>`;
@@ -240,7 +240,7 @@ class ZFormTokenTab {
             classes: 'sub-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.viewerList.length) {
@@ -301,7 +301,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -334,9 +334,9 @@ class ZFormTokenTab {
             const viewerList = document.getElementById('subUserList');
             viewerList.innerHTML = htmlData;
 
-            OverlayScrollbars(viewerList.querySelector('.z-table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(viewerList.querySelector('.table-body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(viewerList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(viewerList.querySelectorAll('.table-row').length);
             this.viewerList.forEach((viewer) => {
                 const checkElem = viewerList.querySelector('input[id="' + viewer.viewerKey + '"]');
                 if (checkElem) {
@@ -440,7 +440,7 @@ class ZFormTokenTab {
             classes: 'token-list',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!this.relatedDocList.length) {
@@ -452,7 +452,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -599,7 +599,7 @@ class ZFormTokenTab {
      * 관련문서 재로딩
      */
     reloadRelatedInstance() {
-        document.querySelectorAll('#related .z-token-related-item:not(.z-document-add)').forEach((aTag) => {
+        document.querySelectorAll('#related .token-related-item:not(.document-add)').forEach((aTag) => {
             aTag.remove();  // 관련문서 clear
         });
 
@@ -624,30 +624,30 @@ class ZFormTokenTab {
      */
     makeRelatedInstanceFragment(instance) {
         let htmlString =
-            `<div class="z-token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
-            `<div class="z-document-color" style="background-color: ` + instance.documentColor + `"></div>` +
-            `<div class="z-document-row flex-column">` +
-            `<div class="z-document-row-content flex-row justify-content-between">` +
+            `<div class="token-related-item flex-row" id="relatedDoc` + instance.instanceId + `">` +
+            `<div class="document-color" style="background-color: ` + instance.documentColor + `"></div>` +
+            `<div class="document-row flex-column">` +
+            `<div class="document-row-content flex-row justify-content-between">` +
             `<a onclick="zFormTokenTab.openTokenEditPop('` + instance.tokenId + `')">` +
-            `<div class="z-document-title flex-row align-items-center">` +
+            `<div class="document-title flex-row align-items-center">` +
             `<h6>` + instance.documentName + `</h6>` +
             `<h6>` + instance.documentNo + `</h6>` +
             `</div>` +
             `</a>` +
-            `<button type="button" class="z-button-icon"` +
+            `<button type="button" class="button-icon"` +
             `onclick="zFormTokenTab.removeRelatedDoc('` + instance.folderId + `', '` + instance.instanceId + `')">` +
-            `<span class="z-icon i-delete"></span>` +
+            `<span class="ic-delete"></span>` +
             `</button>` +
             `</div>` +
-            `<div class="z-document-row-topic">`;
+            `<div class="document-row-topic">`;
         if (!zValidation.isEmpty(instance.topics)) {
             htmlString += `<br><h6 class="text-ellipsis">` + instance.topics[0] + `</h6>`;
         }
         htmlString +=
             `</div>` +
-            `<div class="z-document-row-info flex-row align-items-center">` +
+            `<div class="document-row-info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
-            `<img class="z-img i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
+            `<img class="i-profile-photo mr-2" src="` + instance.avatarPath + `" width="30" height="30"/>` +
             `<h6 class="pl-2">` + instance.instanceCreateUserName + `</h6>` +
             `</div>` +
             `<span class="vertical-bar"></span>` +
@@ -733,7 +733,7 @@ class ZFormTokenTab {
      * 댓글 재로딩
      */
     reloadTokenComment() {
-        document.querySelectorAll('#tokenComments .z-token-comment-item').forEach((comment) => {
+        document.querySelectorAll('#tokenComments .token-comment-item').forEach((comment) => {
             comment.remove();  // 댓글 clear
         });
 
@@ -757,24 +757,24 @@ class ZFormTokenTab {
      */
     makeCommentsFragment(comment) {
         let htmlString =
-            `<div class="z-token-comment-item flex-column" id="comment` + comment.commentId + `">` +
-            `<div class="z-comment-row-info flex-row align-items-center">` +
+            `<div class="token-comment-item flex-column" id="comment` + comment.commentId + `">` +
+            `<div class="comment-row-info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
-            `<img class="z-img i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
-            `<h6 class="z-user-name pl-2">` + comment.createUserName + `</h6>` +
+            `<img class="i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
+            `<h6 class="user-name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
-            `<h6 class="z-comment-time date-time">` + comment.createDt + `</h6>` +
+            `<h6 class="comment-time date-time">` + comment.createDt + `</h6>` +
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
-                `<button class="z-button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
-                `<span class="z-icon i-delete"></span>` +
+                `<button class="button-icon" onclick="zFormTokenTab.removeComment('` + comment.commentId + `')">` +
+                `<span class="ic-delete"></span>` +
                 `</button>`;
         }
         htmlString +=
             `</div>` +
             `</div>` +
-            `<div class="z-comment-row-content">` +
+            `<div class="comment-row-content">` +
             `<h6 class="text-wordWrap">` +
             `${aliceJs.filterXSS(comment.content)}` +
             `</h6>` +
@@ -929,9 +929,9 @@ class ZFormTokenTab {
             `<td style="width: 60%;" class="align-left" title="${rangeDateHtml.join('')}">` +
             `${rangeDateHtml.join('')}</td>` +
             `<td style="width: 10%;" class="align-center">` +
-                `<button type="button" class="z-button-icon-sm" tabindex="-1" ` +
+                `<button type="button" class="button-icon-sm" tabindex="-1" ` +
                     `onclick="zFormTokenTab.removeSchedule('${schedule.id}')">` +
-                    `<span class="z-icon i-remove"></span>` +
+                    `<span class="ic-remove"></span>` +
                 `</button>` +
             `</td>` +
             `</tr>`;
@@ -948,7 +948,7 @@ class ZFormTokenTab {
             classes: 'calendar__modal--register document',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 필수값 체크
@@ -974,7 +974,7 @@ class ZFormTokenTab {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1037,10 +1037,10 @@ class ZFormTokenTab {
         // 시작일시 , 종료일시 초기화
         const standardDate = this.getCalendarStandardDate();
         rangeDate.innerHTML = '';
-        const template = ` <input type="text" class="z-input i-datetime-picker schedule__date" id="startDt" 
+        const template = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
             value="${standardDate.start.toFormat(format)}"/>
             ~
-            <input type="text" class="z-input i-datetime-picker schedule__date" id="endDt" 
+            <input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
             value="${standardDate.end.toFormat(format)}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend', template);

@@ -17,68 +17,68 @@
     <h6 class="description ml-2 pl-2" th:text="#{auth.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-column">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{auth.label.authId}"></label>
-            <input class="z-input" id="txtAuthId" maxlength="100" name="txtAuthId" th:readonly="${view}"
+            <input class="input" id="txtAuthId" maxlength="100" name="txtAuthId" th:readonly="${view}"
                    th:value="${auth?.authId}" type="text">
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{auth.label.authName}"></label>
-            <input class="z-input" id="txtAuthName" maxlength="100" name="txtAuthName" th:readonly="${view}"
+            <input class="input" id="txtAuthName" maxlength="100" name="txtAuthName" th:readonly="${view}"
                    th:value="${auth?.authName}" type="text">
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{auth.label.authDesc}"></label>
-            <textarea class="z-textarea textarea-scroll-wrapper" id="txtAuthDesc" maxlength="200"
-                      name="txtAuthDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'z-textarea-readonly'" th:text="${auth?.authDesc}"></textarea>
+            <textarea class="textarea textarea-scroll-wrapper" id="txtAuthDesc" maxlength="200"
+                      name="txtAuthDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'textarea-readonly'" th:text="${auth?.authDesc}"></textarea>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{auth.label.urlList}"></label>
-            <div class="z-checkbox-list">
+            <div class="checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="url : ${urlList}">
-                        <label class="z-checkbox" tabindex="0" th:for="|${url?.method}_${url?.url}|">
+                        <label class="checkbox" tabindex="0" th:for="|${url?.method}_${url?.url}|">
                             <input name="authUrl" th:disabled="${view}" th:id="|${url?.method}_${url?.url}|" th:value="${url?.url}" type="checkbox">
                             <span></span>
-                            <span class="z-label" th:text="|[${url?.method}] ${url?.url}|"></span>
+                            <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
                         </label>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="auth-list" th:text="#{auth.label.menuList}"></label>
-            <div class="z-checkbox-list">
+            <div class="checkbox-list">
                 <ul id='menuList'>
                     <li class="text-ellipsis" th:each="menu : ${menuList}">
-                        <label class="z-checkbox" tabindex="0" th:for="${'auth.'+menu?.menuId}">
+                        <label class="checkbox" tabindex="0" th:for="${'auth.'+menu?.menuId}">
                             <input name="authMenu" th:disabled="${view}" th:id="${'auth.'+menu?.menuId}" th:value="${menu?.menuId}" type="checkbox">
                             <span></span>
-                            <span class="z-label" th:text="${menu.pMenuId == 'menu'} ? #{|menu.${menu.menuId}.parent|} : #{|menu.${menu.menuId}|}"></span>
+                            <span class="label" th:text="${menu.pMenuId == 'menu'} ? #{|menu.${menu.menuId}.parent|} : #{|menu.${menu.menuId}|}"></span>
                         </label>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{auth.label.referenceCount}"></label>
-            <input class="z-input" id="roleAuthMapCount" name="roleAuthMapCount" readonly
+            <input class="input" id="roleAuthMapCount" name="roleAuthMapCount" readonly
                    th:value="${auth?.roleAuthMapCount}" type="text">
         </div>
     </div>
-    <div class="flex-row justify-content-between z-edit-row">
-        <div class="z-button-list">
-            <a class="z-button secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
+    <div class="flex-row justify-content-between edit-row">
+        <div class="button-list">
+            <a class="button secondary" href="/auths/search" th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('system.admin')">
-            <button class="z-button primary"
+        <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.admin')">
+            <button class="button primary"
                     id="btnRegist" name="btnRegist" th:if="!${auth?.authId}" th:onclick="|javascript:onSave('post')|"
                     th:text="#{common.btn.register}" type="button"></button>
-            <button class="z-button primary"
+            <button class="button primary"
                     id="btnUpdate" name="btnUpdate" th:if="${auth?.authId}" th:onclick="|javascript:onSave('put')|"
                     th:text="#{common.btn.modify}" type="button"></button>
-            <button class="z-button secondary"
+            <button class="button secondary"
                     id="btnDelete" name="btnDelete" th:if="${auth?.authId}" th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                     th:text="#{common.btn.delete}" type="button"></button>
         </div>
@@ -98,8 +98,8 @@
     let defaultUrlList = /*[[${defaultUserUrlList}]]*/null;
 
     window.onload = function() {
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), {
+        OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelectorAll('.checkbox-list'), {
             className: 'inner-scrollbar'
         });
 

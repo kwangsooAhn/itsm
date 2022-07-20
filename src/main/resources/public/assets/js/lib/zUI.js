@@ -201,7 +201,7 @@ class UIInput extends UIElement {
     constructor(text = '') {
         super(document.createElement('input'));
         this.domElement.type = 'text';
-        this.domElement.className = 'z-input';
+        this.domElement.className = 'input';
 
         this.domElement.addEventListener(
             'keydown',
@@ -245,7 +245,7 @@ class UIInput extends UIElement {
 class UITextArea extends UIElement {
     constructor() {
         super(document.createElement('textarea'));
-        this.domElement.className = 'z-textarea';
+        this.domElement.className = 'textarea';
         this.domElement.style.padding = '10px';
         this.domElement.spellcheck = false;
 
@@ -332,7 +332,7 @@ class UISelect extends UIElement {
 class UICheckbox extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className =  'z-checkbox';
+        this.domElement.className =  'checkbox';
         this.domElement.type = 'checkbox';
         this.setUIValue(boolean);
     }
@@ -353,7 +353,7 @@ class UICheckbox extends UIElement {
 class UIRadioButton extends UIElement {
     constructor(boolean) {
         super(document.createElement('input'));
-        this.domElement.className = 'z-radio';
+        this.domElement.className = 'radio';
         this.domElement.type = 'radio';
         this.setUIValue(boolean);
     }
@@ -375,18 +375,18 @@ class UIRadioButton extends UIElement {
 class UIClipboard extends UIElement {
     constructor() {
         super(document.createElement('div'));
-        this.domElement.className = 'z-clipboard';
+        this.domElement.className = 'clipboard';
         // input
         this.UIInput = new UIInput().addUIClass('copy').setUIReadOnly(true);
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass('z-clipboard-tooltip');
+        this.UITooltip = new UIDiv().setUIClass('clipboard-tooltip');
         this.addUI(this.UITooltip);
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass('z-button-icon').addUIClass('secondary');
+        this.UITooltip.UIButton = new UIButton().setUIClass('button-icon').addUIClass('secondary');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);
@@ -400,11 +400,11 @@ class UIClipboard extends UIElement {
         this.UITooltip.addUI(this.UITooltip.UIButton);
 
         // copy button icon
-        const UIButtonIcon = new UISpan().setUIClass('z-icon').addUIClass('i-clipboard');
+        const UIButtonIcon = new UISpan().setUIClass('ic-clipboard');
         this.UITooltip.UIButton.addUI(UIButtonIcon);
 
         // tooltip text
-        this.UITooltip.UITooptipText = new UISpan().setUIClass('z-clipboard-tooltip-text')
+        this.UITooltip.UITooptipText = new UISpan().setUIClass('clipboard-tooltip-text')
             .setUITextContent('Copy to clipboard');
         this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
     }
@@ -414,7 +414,7 @@ class UIClipboard extends UIElement {
 class UIRemoveButton extends UIElement {
     constructor() {
         super(document.createElement('button'));
-        this.domElement.className = 'z-button-icon-sm';
+        this.domElement.className = 'button-icon-sm';
         this.domElement.type = 'button';
         this.domElement.addEventListener('click', function () {
             aliceJs.clearText(this);
@@ -425,7 +425,7 @@ class UIRemoveButton extends UIElement {
 class UISwitch extends UIElement {
     constructor(boolean) {
         super(document.createElement('label'));
-        this.domElement.className = 'z-switch';
+        this.domElement.className = 'switch';
 
         // checkbox
         this.UICheckbox = new UICheckbox(boolean);
@@ -433,7 +433,7 @@ class UISwitch extends UIElement {
         this.addUI(new UISpan());
 
         // label
-        this.UISpan = new UISpan().setUIClass('z-label');
+        this.UISpan = new UISpan().setUIClass('label');
         this.addUI(this.UISpan);
     }
 
@@ -482,7 +482,7 @@ class UIHorizontalRule extends UIElement {
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElement.className = 'z-button';
+        this.domElement.className = 'button';
         this.domElement.type = 'button';
         this.domElement.textContent = value;
     }
@@ -491,9 +491,9 @@ class UIButton extends UIElement {
 class UISlider extends UIElement {
     constructor(value, max) {
         super(document.createElement('div'));
-        this.domElement.className = 'z-slider';
+        this.domElement.className = 'slider';
         // range
-        this.UIRange = new UIInput(value).setUIClass('z-range');
+        this.UIRange = new UIInput(value).setUIClass('slider__range');
         this.UIRange.domElement.type = 'range';
         // range thumb 위치 계산
         let thumbLocation =  parseInt((value - 1) * 100 / (max - 1)) + UNIT.PERCENT;
@@ -501,7 +501,7 @@ class UISlider extends UIElement {
         this.addUI(this.UIRange);
         // input
         this.UIInput = new UIInput(value).setUIReadOnly(true)
-            .setUIClass('z-input');
+            .setUIClass('input');
         this.addUI(this.UIInput);
 
         const scope = this;

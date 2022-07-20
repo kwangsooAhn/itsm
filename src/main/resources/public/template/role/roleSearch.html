@@ -13,20 +13,20 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm" onsubmit = "return false">
-    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
+    <input type="text" class="input ic-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{role.msg.searchPlaceholder}"/>
     <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
-        <button type="button" class="z-button primary" id="btnAdd" name="btnAdd"
+        <button type="button" class="button primary" id="btnAdd" name="btnAdd"
                 onclick="location.href='/roles/new'" th:text="#{common.btn.add}"></button>
-        <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
         </button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="roleList"></div>
+    <div class="list-content flex-row" id="roleList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">

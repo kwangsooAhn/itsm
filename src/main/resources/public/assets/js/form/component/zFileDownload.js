@@ -43,13 +43,13 @@ export const fileDownloadMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIFileDownload = new UIDiv().setUIClass('z-fileDownload').addUIClass('flex-row');
-        element.UIFileDownload.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-download').addUIClass('mr-3'));
+        element.UIFileDownload = new UIDiv().setUIClass('fileDownload').addUIClass('flex-row');
+        element.UIFileDownload.addUI(new UISpan().setUIClass('ic-download').addUIClass('mr-3'));
 
-        element.UIFileDownload.UIText = new UISpan().setUIClass('z-file-text').setUIInnerHTML(this.elementText);
+        element.UIFileDownload.UIText = new UISpan().setUIClass('file-text').setUIInnerHTML(this.elementText);
         element.UIFileDownload.addUI(element.UIFileDownload.UIText);
 
         element.addUI(element.UIFileDownload);
@@ -98,9 +98,9 @@ export const fileDownloadMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIFileUpload.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {

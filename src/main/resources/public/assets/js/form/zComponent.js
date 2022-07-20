@@ -107,14 +107,14 @@ export default class ZComponent {
 
         // 툴팁에 create template 버튼 추가
         const tooltipUl = this.UIElement.UITooltipMenu.UIUl;
-        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('z-tooltip-menu-item')
-            .addUIClass('z-palette-tooltip')
+        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('tooltip-menu-item')
+            .addUIClass('palette-tooltip')
             .setUIAttribute('data-action', 'createTemplate')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-create-template'))
+            .addUI(new UISpan().setUIClass('ic-create-template'))
             // 컴포넌트 템플릿 등록 모달
             .onUIClick(this.openCreateTemplateModal.bind(this))
-            .addUI(new UIDiv().setUIClass('z-palette-tooltip-contents')
-                .addUI(new UISpan().setUIClass('z-palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.template')))
+            .addUI(new UIDiv().setUIClass('palette-tooltip-contents')
+                .addUI(new UISpan().setUIClass('palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.template')))
             );
         tooltipUl.domElement.insertBefore(tooltipUl.UILiCreateTemplate.domElement, tooltipUl.domElement.firstChild);
 
@@ -279,9 +279,9 @@ export default class ZComponent {
     set labelPosition(value) {
         this._label.position = value;
         if (value === FORM.LABEL.POSITION.HIDDEN) {
-            this.UIElement.UIComponent.UILabel.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.removeUIClass('flex').addUIClass('none');
         } else {
-            this.UIElement.UIComponent.UILabel.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.removeUIClass('none').addUIClass('flex');
         }
         this.UIElement.UIComponent.UILabel.setUIProperty('--data-column', this.getLabelColumnWidth(value));
     }
@@ -373,8 +373,8 @@ export default class ZComponent {
      * 라벨 DOM 객체 생성
      */
     makeLabel() {
-        const label = new UILabel().setUIClass('z-component-label')
-            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'off' : 'on'))
+        const label = new UILabel().setUIClass('component-label')
+            .addUIClass((this.labelPosition === FORM.LABEL.POSITION.HIDDEN ? 'none' : 'flex'))
             .setUICSSText(`text-align: ${this.labelAlign};`)
             .setUIProperty('--data-align', this.getLabelAlign(this.labelAlign))
             .setUIProperty('--data-column', this.getLabelColumnWidth(this.labelPosition));
@@ -385,13 +385,13 @@ export default class ZComponent {
             `${this.labelFontOptionItalic ? 'font-style:italic;' : ''}` +
             `${this.labelFontOptionItalic ? 'text-decoration:underline;' : ''}`;
 
-        label.UILabelText = new UISpan().setUIClass('z-component-label-text')
+        label.UILabelText = new UISpan().setUIClass('component-label-text')
             .setUICSSText(labelCssText)
             .setUITextContent(this.labelText);
         label.addUI(label.UILabelText);
         // 필수 여부
         label.UIRequiredText = new UISpan().setUIClass('required')
-            .addUIClass((this.validationRequired ? 'on' : 'off'));
+            .addUIClass((this.validationRequired ? 'inline' : 'none'));
         label.addUI(label.UIRequiredText);
 
         return label;
@@ -436,12 +436,12 @@ export default class ZComponent {
                 `<label class="field-label" for="templateName">` +
                 `${i18n.msg('form.label.templateName')}<span class="required"></span>` +
                 `</label>` +
-                `<input type="text" id="templateName" class="z-input" maxlength="50">` +
+                `<input type="text" id="templateName" class="input" maxlength="50">` +
                 `</div>`,
             classes: 'create-template',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: function (modal) {
                     if (zValidation.isEmpty(document.getElementById('templateName').value)) {
@@ -487,7 +487,7 @@ export default class ZComponent {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: function (modal) {
                     modal.hide();
@@ -532,14 +532,14 @@ export default class ZComponent {
 export class UIComponentTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-component-tooltip';
+        this.domElement.className = 'component-tooltip';
     }
 }
 
 export class UIComponent extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'z-component';
+        this.domElement.className = 'component';
         this.domElement.tabIndex = 0;
     }
 }

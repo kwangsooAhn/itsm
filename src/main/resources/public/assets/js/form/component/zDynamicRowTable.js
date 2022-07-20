@@ -70,11 +70,11 @@ export const dynamicRowTableMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 버튼 목록
-        element.UIDiv = new UIDiv().setUIClass('z-button-list');
+        element.UIDiv = new UIDiv().setUIClass('button-list');
         element.addUI(element.UIDiv);
 
         // 추가 버튼
@@ -86,7 +86,7 @@ export const dynamicRowTableMixin = {
             .addUIClass('plugIn-check')
             .addUIClass('primary')
             .addUIClass('mr-2')
-            .addUIClass(this.pluginUseYn ? 'on' : 'off')
+            .addUIClass(this.pluginUseYn === 'none')
             .setUIAttribute('data-validation-required', this.pluginRequired)
             .setUIAttribute('data-validation-type', this.pluginScriptType)
             .onUIClick(this.pluginCheck.bind(this));
@@ -96,8 +96,8 @@ export const dynamicRowTableMixin = {
 
         // 테이블
         element.UITable = new UITable()
-            .setUIClass('z-option-table')
-            .addUIClass('z-dr-table')
+            .setUIClass('option-table')
+            .addUIClass('dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
             .setUIAttribute('tabindex', '-1')
@@ -143,7 +143,7 @@ export const dynamicRowTableMixin = {
             }
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
     },
     // set, get
@@ -179,9 +179,9 @@ export const dynamicRowTableMixin = {
     set pluginUseYn(boolean) {
         this._plugin.useYn = boolean;
         if (boolean) {
-            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UIElement.UIDiv.plugInUIButton.removeUIClass('on').addUIClass('none');
         }
     },
     get pluginUseYn() {
@@ -218,9 +218,9 @@ export const dynamicRowTableMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -234,7 +234,7 @@ export const dynamicRowTableMixin = {
     },
     makeTable(table) {
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('z-option-table-header').addUIClass('z-dr-table-header');
+        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('dr-table-header');
         table.addUIRow(row);
 
         this.elementColumns.forEach((column) => {
@@ -248,7 +248,7 @@ export const dynamicRowTableMixin = {
             const td = new UICell(row)
                 .addUIClass('align-' + column.columnHead.align)
                 .setUICSSText(tdCssText)
-                .addUI(new UISpan().addUIClass('z-dr-table-header-cell').setUIInnerHTML(column.columnName));
+                .addUI(new UISpan().addUIClass('dr-table-header-cell').setUIInnerHTML(column.columnName));
             row.addUICell(td);
         });
         // row 삭제 버튼 영역
@@ -272,7 +272,7 @@ export const dynamicRowTableMixin = {
         const row = new UIRow(targetTable).setUIClass('no-data-found-list');
         targetTable.addUIRow(row);
 
-        const td = new UICell(row).setUIClass('on align-center first-column last-column')
+        const td = new UICell(row).setUIClass('table-cell align-center first-column last-column')
             .setColspan(this.elementColumns.length + 1)
             .setUITextContent(i18n.msg('common.msg.noData'));
         row.addUICell(td);
@@ -293,7 +293,7 @@ export const dynamicRowTableMixin = {
             this.value.push(columnHeadData);
         }
         // row 추가
-        const row = new UIRow(targetTable).setUIClass('z-dr-table-row');
+        const row = new UIRow(targetTable).setUIClass('dr-table-row');
         // td 추가
         const columnData = [];
         this.elementColumns.forEach((column, index) => {
@@ -325,11 +325,11 @@ export const dynamicRowTableMixin = {
         }
         // 삭제 버튼
         const removeButton = new UIButton()
-            .setUIClass('z-button-icon-sm')
+            .setUIClass('button-icon-sm')
             .addUIClass('mt-1')
             .addUIClass('mb-1')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-remove'));
+            .addUI(new UISpan().setUIClass('ic-remove'));
         const td = new UICell(row)
             .addUIClass('align-center')
             .setUICSSText('width:35' + UNIT.PX)
@@ -395,9 +395,9 @@ export const dynamicRowTableMixin = {
         return selectbox;
     },
     getDateForColumn(column, cellValue, index) {
-        let dateWrapper = new UIDiv().setUIClass('z-picker-wrapper-dummy');
+        let dateWrapper = new UIDiv().setUIClass('picker-wrapper-dummy');
         let dateColumn = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('z-input i-date-picker text-ellipsis')
+            .setUIClass('input ic-date-picker text-ellipsis')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
@@ -412,10 +412,10 @@ export const dynamicRowTableMixin = {
         return dateWrapper;
     },
     getTimeForColumn(column, cellValue, index) {
-        let timeWrapper = new UIDiv().setUIClass('z-element');
+        let timeWrapper = new UIDiv().setUIClass('element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('z-input i-time-picker text-ellipsis')
+            .setUIClass('input ic-time-picker text-ellipsis')
             .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'time' + index)
             .setUIValue(this.getDefaultValueForTime(column, cellValue))
@@ -430,10 +430,10 @@ export const dynamicRowTableMixin = {
         return timeWrapper;
     },
     getDateTimeForColumn(column, cellValue, index) {
-        let dateTimeWrapper = new UIDiv().setUIClass('z-element');
+        let dateTimeWrapper = new UIDiv().setUIClass('element');
 
         let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass('z-input i-datetime-picker text-ellipsis')
+            .setUIClass('input ic-datetime-picker text-ellipsis')
             .setUIId('datetime' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'datetime' + index)
             .setUIValue(this.getDefaultValueForDateTime(column, cellValue))
@@ -460,7 +460,7 @@ export const dynamicRowTableMixin = {
     // column Type - userSearch
     getUserSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('z-input i-user-search text-ellipsis')
+        const element = new UIInput().setUIClass('input ic-user-search text-ellipsis')
             .setUIId('userSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -484,7 +484,7 @@ export const dynamicRowTableMixin = {
     // column Type - OrganizationSearch
     getOrganizationSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('z-input i-organization-search text-ellipsis')
+        const element = new UIInput().setUIClass('input ic-organization-search text-ellipsis')
             .setUIId('organizationSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -682,7 +682,7 @@ export const dynamicRowTableMixin = {
                 method: 'GET'
             }).then((htmlData) => {
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (!userListElem.querySelectorAll('.z-table-row').length) {
+                if (!userListElem.querySelectorAll('.table-row').length) {
                     defaultValue = '';
                 }
             });
@@ -815,11 +815,11 @@ export const dynamicRowTableMixin = {
             e.target.value;
 
         // 사용자 검색용 컴포넌트일 경우
-        if (e.target.classList.contains('i-user-search')) {
+        if (e.target.classList.contains('ic-user-search')) {
             const userSearchData = e.target.getAttribute('data-user-search');
             const userId = e.target.getAttribute('data-user-id');
             changeValue = `${userSearchData}|${e.target.value}|${userId}`;
-        } else if (e.target.classList.contains('i-organization-search')) { // 부서 검색용 컴포넌트일 경우
+        } else if (e.target.classList.contains('ic-organization-search')) { // 부서 검색용 컴포넌트일 경우
             const organizationSearchData = e.target.getAttribute('data-organization-search');
             changeValue = `${organizationSearchData}|${e.target.value}`;
         }
@@ -879,7 +879,7 @@ export const dynamicRowTableMixin = {
         const userSearchModal = new modal({
             title: e.target.getAttribute('data-modal-title'),
             body: `<div class="target-user-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="searchUserList"></div>` +
@@ -887,7 +887,7 @@ export const dynamicRowTableMixin = {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     const realTimeSelectedUser = target.getAttribute('data-realtime-selected-user').split('|');
@@ -906,7 +906,7 @@ export const dynamicRowTableMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -951,9 +951,9 @@ export const dynamicRowTableMixin = {
         }).then((htmlData) => {
             const searchUserList = document.getElementById('searchUserList');
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {

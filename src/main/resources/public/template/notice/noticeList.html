@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<table class="z-table">
-    <thead class="z-table-head">
+<table class="table">
+    <thead class="table-head">
         <tr class="flex-row align-items-center">
             <th style="width:30%;" class="align-left" th:text="#{common.label.title}"></th>
             <th style="width:10%;" class="align-center" th:text="#{common.label.createUser}"></th>
@@ -13,7 +13,7 @@
             <th style="width:5%;" class="align-center"></th>
         </tr>
     </thead>
-    <tbody class="z-table-body">
+    <tbody class="table-body">
         <tr class="flex-row align-items-center notice-pinned " th:each="topNotice: ${topNoticeList}">
             <td style="width:30%;" class="align-left underline">
                 <a sec:authorize="hasAuthority('portal.manage')" th:text="${topNotice.noticeTitle}"
@@ -27,8 +27,8 @@
             <td style="width:20%;" class="align-left date-time" th:text="${topNotice.topNoticeStartDt} + '~' + ${topNotice.topNoticeEndDt}" th:title="${topNotice.topNoticeStartDt} + '~' + ${topNotice.topNoticeEndDt}"></td>
             <td style="width:15%;" class="align-left date-time" th:text="${topNotice.createDt}" th:title="${topNotice.createDt}"></td>
             <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
-                <button type="button" class="z-button-icon form" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
-                    <span class="z-icon i-popup"></span>
+                <button type="button" class="button-icon btn--form" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
+                    <span class="ic-popup"></span>
                 </button>
             </td>
             <td style="width:5%;" class="align-center" th:unless="${topNotice.popYn}"></td>
@@ -48,8 +48,8 @@
             <td style="width:20%;" class="align-left date-time" th:text="${notice.topNoticeStartDt} + '~' + ${notice.topNoticeEndDt}" th:title="${notice.topNoticeStartDt} + '~' + ${notice.topNoticeEndDt}"></td>
             <td style="width:15%;" class="align-left date-time" th:text="${notice.createDt}" th:title="${notice.createDt}"></td>
             <td style="width:5%;" class="align-center" th:if="${notice.popYn}">
-                <button type="button" class="z-button-icon form" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
-                    <span class="z-icon i-popup"></span>
+                <button type="button" class="button-icon btn--form" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
+                    <span class="ic-popup"></span>
                 </button>
             </td>
             <td style="width:5%;" class="align-center" th:unless="${notice.popYn}"></td>

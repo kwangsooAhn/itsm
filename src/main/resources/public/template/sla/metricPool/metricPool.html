@@ -13,22 +13,22 @@
         th:text="${view} ? #{sla.metric.msg.viewDescription} : #{sla.metric.msg.description}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
+    <div class="edit-form flex-fill">
         <form id="frm" method="post">
             <input type="hidden" id="metricId" name="metricId" th:value="${metricId}"/>
-            <div class="flex-column z-edit-row">
-                <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
+                <div class="flex-column edit-row">
                     <label th:text="#{sla.metric.label.name}" th:classappend="${view} ? '' : 'required'" for="metricName"></label>
-                    <input type="text" id="metricName" name="metricName" class="z-input" maxlength="128"
+                    <input type="text" id="metricName" name="metricName" class="input" maxlength="128"
                            th:value="${metric?.metricName}" th:readonly="${view}"/>
                 </div>
             </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{sla.metric.label.description}" for="metricDesc"></label>
-                <input type="text" id="metricDesc" name="metricDesc" class="z-input" maxlength="128"
+                <input type="text" id="metricDesc" name="metricDesc" class="input" maxlength="128"
                        th:value="${metric?.metricDesc}" th:readonly="${view}"/>
             </div>
-            <div class="flex-row z-edit-row">
+            <div class="flex-row edit-row">
                 <div class="flex-column col-4">
                     <label for="metricGroup">
                         <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.group}"></span>
@@ -78,38 +78,38 @@
                         <label for="metricTypeInput">
                             <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.type}"></span>
                         </label>
-                        <input type="text" id="metricTypeInput" name="metricTypeInput" class="z-input" maxlength="128"
+                        <input type="text" id="metricTypeInput" name="metricTypeInput" class="input" maxlength="128"
                                th:value="#{|${metric.metricType}|}" readonly/>
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="metricUnitInput">
                             <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.unit}"></span>
                         </label>
-                        <input type="text" id="metricUnitInput" name="metricUnitInput" class="z-input" maxlength="128"
+                        <input type="text" id="metricUnitInput" name="metricUnitInput" class="input" maxlength="128"
                                th:value="#{|${metric.metricUnit}|}" readonly/>
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="calculationTypeInput">
                             <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.calculationType}"></span>
                         </label>
-                        <input type="text" id="calculationTypeInput" name="calculationTypeInput" class="z-input" maxlength="128"
+                        <input type="text" id="calculationTypeInput" name="calculationTypeInput" class="input" maxlength="128"
                                th:value="#{|${metric.calculationType}|}" readonly/>
                     </div>
                 </th:block>
             </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary" href="/sla/metric-pools/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-between edit-row">
+                <div class="button-list">
+                    <a class="button secondary" href="/sla/metric-pools/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
+                <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('sla.manage')">
                     <button th:if="!${metric?.metricId}" type="button" id="insert"
-                             class="z-button primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
+                             class="button primary" onclick="saveSLA('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="update"
-                            class="z-button primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
+                            class="button primary" onclick="saveSLA('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${metric?.metricId}" type="button" id="delete"
-                            class="z-button danger" onclick="deleteSLA()" th:text="#{common.btn.delete}">
+                            class="button danger" onclick="deleteSLA()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>
@@ -121,7 +121,7 @@
     /*<![CDATA[ */
     window.onload = function() {
         document.getElementById('metricName').focus();
-        OverlayScrollbars(document.querySelectorAll('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('.page-content'), { className: 'scrollbar' });
     }
 
     function saveSLA(method) {

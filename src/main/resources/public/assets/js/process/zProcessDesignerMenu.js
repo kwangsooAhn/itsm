@@ -461,7 +461,7 @@
             }
         }
 
-        const tooltipItemContainer = d3.select('.z-drawing-board').select('svg').append('g')
+        const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
@@ -970,7 +970,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.z-process-properties'),
+        const container = document.querySelector('.process-properties'),
             propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === zProcessDesigner.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(zProcessDesigner.data.process));
@@ -1112,11 +1112,11 @@
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let targetMappingTooltip = document.createElement('div');
-            targetMappingTooltip.className = 'z-help-tooltip';
+            targetMappingTooltip.className = 'help-tooltip';
             let targetMappingTooltipIcon = document.createElement('span');
-            targetMappingTooltipIcon.className = 'z-icon i-tooltip';
+            targetMappingTooltipIcon.className = 'ic-tooltip';
             let targetMappingTooltipContents = document.createElement('div');
-            targetMappingTooltipContents.className = 'z-tooltip-contents';
+            targetMappingTooltipContents.className = 'tooltip-contents';
             let targetMappingTooltipText = document.createElement('span');
             targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetFileMappingId');
             targetMappingTooltipContents.appendChild(targetMappingTooltipText);
@@ -1125,7 +1125,7 @@
             targetMappingLabel.appendChild(targetMappingTooltip);
 
             let targetMappingInput = document.createElement('input');
-            targetMappingInput.className = 'z-input';
+            targetMappingInput.className = 'input';
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
             targetMappingInput.maxLength = 150;
@@ -1142,11 +1142,11 @@
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
 
             let sourceMappingTooltip = document.createElement('div');
-            sourceMappingTooltip.className = 'z-help-tooltip';
+            sourceMappingTooltip.className = 'help-tooltip';
             let sourceMappingTooltipIcon = document.createElement('span');
-            sourceMappingTooltipIcon.className = 'z-icon i-tooltip';
+            sourceMappingTooltipIcon.className = 'ic-tooltip';
             let sourceMappingTooltipContents = document.createElement('div');
-            sourceMappingTooltipContents.className = 'z-tooltip-contents';
+            sourceMappingTooltipContents.className = 'tooltip-contents';
             let sourceMappingTooltipText = document.createElement('span');
             sourceMappingTooltipText.innerHTML = i18n.msg('process.msg.sourceMappingId');
             sourceMappingTooltipContents.appendChild(sourceMappingTooltipText);
@@ -1154,7 +1154,7 @@
             sourceMappingTooltip.appendChild(sourceMappingTooltipContents);
             sourceMappingLabel.appendChild(sourceMappingTooltip);
             let sourceMappingInput = document.createElement('input');
-            sourceMappingInput.className = 'z-input';
+            sourceMappingInput.className = 'input';
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
             sourceMappingInput.maxLength = 150;
@@ -1228,7 +1228,7 @@
 
             subContainer.appendChild(targetPlugInProperties);
         }
-        const propertiesPanel = document.querySelector('.z-process-properties');
+        const propertiesPanel = document.querySelector('.process-properties');
         if (propertiesPanel !== null) {
             let propertyContainer = propertiesPanel.querySelector('#script-type').parentNode;
             if (!propertyContainer.classList.contains('properties')) {
@@ -1260,11 +1260,11 @@
             actionContainer.appendChild(conditionLabel);
 
             let conditionTooltip = document.createElement('div');
-            conditionTooltip.className = 'z-help-tooltip';
+            conditionTooltip.className = 'help-tooltip';
             let conditionTooltipIcon = document.createElement('span');
-            conditionTooltipIcon.className = 'z-icon i-tooltip';
+            conditionTooltipIcon.className = 'ic-tooltip';
             let conditionTooltipContents = document.createElement('div');
-            conditionTooltipContents.className = 'z-tooltip-contents';
+            conditionTooltipContents.className = 'tooltip-contents';
             let conditionTooltipText = document.createElement('span');
             conditionTooltipText.innerHTML = i18n.msg('process.msg.condition');
             conditionTooltipContents.appendChild(conditionTooltipText);
@@ -1273,7 +1273,7 @@
             conditionLabel.appendChild(conditionTooltip);
 
             let conditionInput = document.createElement('input');
-            conditionInput.className = 'z-input';
+            conditionInput.className = 'input';
             conditionInput.maxLength = 150;
             actionContainer.appendChild(conditionInput);
 
@@ -1285,13 +1285,13 @@
 
             let fileInput = document.createElement('input');
             fileInput.id = 'script-file';
-            fileInput.className = 'z-input file';
+            fileInput.className = 'input file';
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
-            fileBtn.className = 'z-button-icon z-button-attach-file';
+            fileBtn.className = 'button-icon button-attach-file';
             let fileIcon = document.createElement('span');
-            fileIcon.className = 'z-icon i-folder';
+            fileIcon.className = 'ic-folder';
             fileBtn.addEventListener('click', function() {
                 aliceJs.thumbnail({
                     title: i18n.msg('common.label.attachFile'),
@@ -1308,7 +1308,7 @@
             // button
             let btnAdd = document.createElement('button');
             btnAdd.type = 'button';
-            btnAdd.className = 'z-button form mt-3';
+            btnAdd.className = 'button btn--form mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
             const saveData = function() {
@@ -1370,7 +1370,7 @@
             const addDataRow = function(conditionValue, fileValue) {
                 let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
                 let row = document.createElement('tr');
-                row.className = 'z-option-table-row';
+                row.className = 'option-table-row';
                 let conditionColumn = document.createElement('td');
                 conditionColumn.className = 'condition-txt';
                 conditionColumn.textContent = conditionValue;
@@ -1383,10 +1383,10 @@
                 // 삭제 버튼
                 let btnDel = document.createElement('button');
                 btnDel.type = 'button';
-                btnDel.className = 'z-button-icon-sm mt-2 mb-2';
+                btnDel.className = 'button-icon-sm mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
-                btnIcon.className = 'z-icon i-remove';
+                btnIcon.className = 'ic-remove';
                 btnDel.appendChild(btnIcon);
 
                 btnDel.addEventListener('click', function() {
@@ -1412,10 +1412,10 @@
 
             // table
             let dataTable = document.createElement('table');
-            dataTable.className = 'z-option-table script-data';
+            dataTable.className = 'option-table script-data';
             let thead = document.createElement('thead');
             let headRow = document.createElement('tr');
-            headRow.className = 'z-option-table-header';
+            headRow.className = 'option-table-header';
             let headValueColumn = document.createElement('th');
             headValueColumn.style.width = '40%';
             let headReturnColumn = document.createElement('th');
@@ -1473,8 +1473,8 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'z-button-icon form z-button-candidate-add';
-        btnAdd.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
+        btnAdd.className = 'button-icon btn--form button-candidate-add';
+        btnAdd.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
 
         const saveData = function() {
             let dataBody = inputObject.parentNode.querySelector('tbody');
@@ -1497,7 +1497,7 @@
         const addDataRow = function(dataVal, dataText) {
             let dataBody = inputObject.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
-            row.className = 'z-option-table-row';
+            row.className = 'option-table-row';
             let nameColumn = document.createElement('td');
             nameColumn.textContent = dataText;
             let hiddenInput = document.createElement('input');
@@ -1510,10 +1510,10 @@
             // 삭제 버튼
             let btnDel = document.createElement('button');
             btnDel.type = 'button';
-            btnDel.className = 'z-button-icon-sm mt-2 mb-2';
+            btnDel.className = 'button-icon-sm mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
-            btnIcon.className = 'z-icon i-remove';
+            btnIcon.className = 'ic-remove';
             btnDel.appendChild(btnIcon);
 
             btnDel.addEventListener('click', function() {
@@ -1555,10 +1555,10 @@
         propertiesDiv.appendChild(selectRow);
 
         let dataTable = document.createElement('table');
-        dataTable.className = 'z-option-table candidate-table';
+        dataTable.className = 'option-table candidate-table';
         let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
-        headRow.className = 'z-option-table-header';
+        headRow.className = 'option-table-header';
         let headNameColumn = document.createElement('th');
         headNameColumn.textContent = i18n.msg('common.label.name');
         headNameColumn.style.width = '82%';
@@ -1592,7 +1592,7 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const elementContainer = document.querySelector('.z-process-properties');
+        const elementContainer = document.querySelector('.process-properties');
         elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
         let propertiesPanelTitle = i18n.msg(i18nMsgPrefix + 'process');
@@ -1637,7 +1637,7 @@
                 labelObject.className = 'properties-title mb-2';
                 labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
-                    labelObject.classList.add('z-checkbox');
+                    labelObject.classList.add('checkbox');
                     labelObject.tabindex = 0;
                 }
                 labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
@@ -1672,7 +1672,7 @@
                         elementObject.readOnly = true;
                         elementObject.classList.add('readonly');
                         elementObject.parentElement.parentElement.parentElement.parentElement.classList
-                            .add('z-textarea-readonly');
+                            .add('textarea-readonly');
                     }
 
                     // change 이벤트 설정
@@ -1757,7 +1757,7 @@
      * @param elemData element data
      */
     function addSpecialProperties(id, elemData) {
-        const elementContainer = document.querySelector('.z-process-properties');
+        const elementContainer = document.querySelector('.process-properties');
         const selectedElement = d3.select(document.getElementById(id));
 
         if (selectedElement.classed('userTask')) {
@@ -1827,7 +1827,7 @@
         const legend = document.createElement('legend');
         // label
         const radioGroup = document.createElement('label');
-        radioGroup.className = 'z-radio';
+        radioGroup.className = 'radio';
         radioGroup.tabindex = 0;
         radioGroup.htmlFor = 'fieldset_' + property.id;
         // radio
@@ -1843,7 +1843,7 @@
         radioGroup.appendChild(radioSpan);
         // radio label
         const radioLabel = document.createElement('span');
-        radioLabel.className = 'z-label';
+        radioLabel.className = 'label';
         radioLabel.textContent = property.fieldset;
         radioGroup.appendChild(radioLabel);
 
@@ -1868,7 +1868,7 @@
         switch (property.type) {
             case 'inputbox': {
                 elementObject = document.createElement('input');
-                elementObject.className = 'z-input';
+                elementObject.className = 'input';
                 elementObject.maxLength = 70;
                 propertyContainer.appendChild(elementObject);
                 break;
@@ -1876,7 +1876,7 @@
             case 'inputbox-readonly': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
-                elementObject.className = 'z-input';
+                elementObject.className = 'input';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
                 break;
@@ -1884,16 +1884,16 @@
             case 'inputbox-copy': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
-                elementObject.className = 'z-input copy';
+                elementObject.className = 'input copy';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
 
                 let copyBtnContainer = document.createElement('div');
-                copyBtnContainer.className = 'z-clipboard-tooltip';
+                copyBtnContainer.className = 'clipboard-tooltip';
 
                 let copyBtn = document.createElement('button');
-                copyBtn.className = 'z-button-icon secondary btn-clipboard-tooltip';
-                copyBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-clipboard"></span>`);
+                copyBtn.className = 'button-icon secondary btn-clipboard-tooltip';
+                copyBtn.insertAdjacentHTML('beforeend', `<span class="ic-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();
                     elementObject.setSelectionRange(0, 99999);
@@ -1908,7 +1908,7 @@
                 });
                 let tooltip = document.createElement('span');
                 tooltip.id = 'clipboardTooltipText';
-                tooltip.className = 'z-clipboard-tooltip-text';
+                tooltip.className = 'clipboard-tooltip-text';
                 tooltip.textContent = 'Copy to clipboard';
                 copyBtn.appendChild(tooltip);
                 copyBtnContainer.appendChild(copyBtn);
@@ -1918,7 +1918,7 @@
             }
             case 'textarea': {
                 elementObject = document.createElement('textarea');
-                elementObject.className = 'z-textarea';
+                elementObject.className = 'textarea';
                 elementObject.style.resize = 'none';
                 elementObject.maxLength = 256;
                 propertyContainer.appendChild(elementObject);
@@ -1934,7 +1934,7 @@
                 const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
                 const labelText = labelElem.textContent;
                 labelElem.textContent = '';
-                labelElem.className = 'z-checkbox';
+                labelElem.className = 'checkbox';
                 elementObject = document.createElement('input');
                 elementObject.type = 'checkbox';
                 if (elemData[property.id] && elemData[property.id] === 'Y') {
@@ -1944,7 +1944,7 @@
                 labelElem.appendChild(document.createElement('span'));
 
                 const spanElem = document.createElement('span');
-                spanElem.className = 'z-label';
+                spanElem.className = 'label';
                 spanElem.textContent = labelText;
                 labelElem.appendChild(spanElem);
                 break;

@@ -1,48 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="z-navigation">
-    <div class="z-gnb">
-        <div class="z-logo">
-            <img class="z-img i-navigation-logo"
-                 th:src="@{/assets/media/icons/} + 'icon_navigation_logo.svg'"
+<div class="navigation">
+    <div class="gnb">
+        <div class="logo">
+            <img th:src="@{/assets/media/icons/} + 'icon_navigation_logo.svg'"
                  width="152" height="26" alt="Zenius ITSM">
         </div>
-        <div class="z-menu">
-            <div class="z-menu-area">
+        <div class="menu">
+            <div class="menu-area">
                 <ul>
-                    <li class="z-gnb-area" th:each="topMenu : ${#authentication.details.menus}"
+                    <li class="gnb-area" th:each="topMenu : ${#authentication.details.menus}"
                         th:order-data="${topMenu.sort}"
                         th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
                         <!--/* 그룹 메뉴 */-->
                         <a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);"
-                           th:data-menugroup="${topMenu.menuId}" class="z-gnb-link flex-row"
+                           th:data-menugroup="${topMenu.menuId}" class="gnb-link flex-row"
                            th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
-                            <span th:class="'z-icon i-gnb-' + ${topMenu.menuId}"></span>
-                            <span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-                            <span class="z-icon i-arrow-right"></span>
+                            <span th:class="'ic-gnb-' + ${topMenu.menuId}"></span>
+                            <span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+                            <span class="ic-arrow-right"></span>
                         </a>
-                        <ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="z-snb-group">
-                            <li th:id="${subMenu.menuId}" class="z-snb-area"
+                        <ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-group">
+                            <li th:id="${subMenu.menuId}" class="snb-area"
                                 th:each="subMenu : ${#authentication.details.menus}"
                                 th:order-data="${subMenu.sort}"
                                 th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
                                 <a th:href="${subMenu.url}"
-                                   th:class="'z-snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}"
+                                   th:class="snb-link"
                                    onclick="showProgressBar()"
                                    th:classappend="${subMenu.url} == ${session.active_url} ? active">
-                                    <span class="z-icon i-gnb_sub_dot"></span>
-                                    <span class="z-menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
+                                    <span class="ic-gnb_sub_dot"></span>
+                                    <span class="menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
                                 </a>
                             </li>
                         </ul>
                         <!--/* 연결 메뉴 */-->
                         <a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}"
-                           class="z-gnb-link flex-row"
+                           class="gnb-link flex-row"
                            th:classappend="${topMenu.url} == ${session.active_url} ? active">
-                            <span th:class="'z-icon i-gnb-' + ${topMenu.menuId}"></span>
-                            <span class="z-menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-                            <span th:if="${topMenu.menuId == 'token'}" class="z-token-count align-center"
+                            <span th:class="'ic-gnb-' + ${topMenu.menuId}"></span>
+                            <span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+                            <span th:if="${topMenu.menuId == 'token'}" class="token-count align-center"
                                   id="tokenCount">-</span>
                         </a>
                     </li>
@@ -84,13 +83,13 @@
                 document.querySelector('.active-parent').dispatchEvent(evt);
             }
 
-            OverlayScrollbars(document.querySelector('.z-menu'), {
+            OverlayScrollbars(document.querySelector('.menu'), {
                 className: 'inner-scrollbar-dark',
                 callbacks: {
                     onInitialized: function () {
                         const verticalScrollTrack = document.querySelector('.os-scrollbar-vertical').firstChild;
                         const verticalScrollHandle = verticalScrollTrack.firstChild;
-                        verticalScrollTrack.classList.add('z-right');
+                        verticalScrollTrack.classList.add('right');
                     }
                 }
             });
@@ -116,7 +115,7 @@
         function createProductModalContent(data) {
             return `<div class="flex-column">` +
                 `<div>` +
-                `<img class="z-img i-logo" src="/assets/media/icons/logo/icon_logo.svg/">` +
+                `<img class="i-logo" src="/assets/media/icons/logo/icon_logo.svg/">` +
                 `</div>` +
                 `<label class="top-line">${i18n.msg('product.label.versionSuffix') + data.version}</label>` +
                 `<br><br><br>` +

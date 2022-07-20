@@ -51,7 +51,7 @@ export const ciMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element').addUIClass('align-left')
+        const element = new UIDiv().setUIClass('element').addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
         // 버튼 목록
         element.UIButtonGroup = this.makeCIButton();
@@ -68,13 +68,13 @@ export const ciMixin = {
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             // 모든 버튼을 disabled 처리
             this.UIElement.UIComponent.UIElement.domElement.querySelectorAll('button').forEach((elem) => {
-                elem.disabled = !elem.querySelector('span.i-search');
+                elem.disabled = !elem.querySelector('span.ic-search');
             });
             // 테이블의 상단 여백 제거
             this.UIElement.UIComponent.UIElement.UITable.removeUIClass('mt-2');
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
     },
     // set, get
@@ -117,9 +117,9 @@ export const ciMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UITable.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -132,7 +132,7 @@ export const ciMixin = {
         return this._value;
     },
     makeCIButton() {
-        const buttonGroup = new UIDiv().setUIClass('z-button-list');
+        const buttonGroup = new UIDiv().setUIClass('button-list');
         if (this.elementIsEditable) {
             // 등록
             const registerButton = new UIButton(i18n.msg('form.component.ci') + ' ' + i18n.msg('cmdb.ci.label.new'))
@@ -168,20 +168,20 @@ export const ciMixin = {
     makeCITable() {
         // 테이블
         const table = new UITable()
-            .setUIClass('z-option-table')
-            .addUIClass('z-ci-table')
+            .setUIClass('option-table')
+            .addUIClass('ci-table')
             .addUIClass('mt-2')
             .setUIId('ciTable' + this.id)
             .setUIAttribute('tabindex', '-1')
             .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('z-option-table-header').addUIClass('z-ci-table-header');
+        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('ci-table-header');
         table.addUIRow(row);
 
         this.getCITableData().forEach((option) => {
             const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
-            const tdClassName = (option.type === 'hidden' ? '' : 'on') + ' ' + option.class;
+            const tdClassName = (option.type === 'hidden' ? '' : 'table-cell') + ' ' + option.class;
             const td = new UICell(row).setUIClass(tdClassName)
                 .setUICSSText(`width:${tdWidth}%;`)
                 .setUITextContent((option.name !== '' ? i18n.msg(option.name) : ''));
@@ -255,23 +255,23 @@ export const ciMixin = {
             case 'icon-edit': // CI 등록 / 수정
                 if (data.actionType === CI.ACTION_TYPE.DELETE) {
                     const viewButton = new UIButton()
-                        .setUIClass('z-button-icon')
+                        .setUIClass('button-icon')
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openViewModal.bind(this, data.ciId))
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
+                        .addUI(new UISpan().setUIClass('ic-search'));
 
                     return new UICell(row).setUIClass(tdClassName)
                         .setUICSSText(`width:${tdWidth}%;`)
                         .addUI(viewButton);
                 } else {
                     const editButton = new UIButton()
-                        .setUIClass('z-button-icon')
+                        .setUIClass('button-icon')
                         .addUIClass('extra')
                         .setUIAttribute('data-type', data.actionType)
                         .onUIClick(this.openUpdateModal.bind(this, row.getUIIndex(), data))
-                        .addUI(new UISpan().setUIClass('z-icon').addUIClass(
-                            (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) ? 'i-edit' : 'i-search')
+                        .addUI(new UISpan().setUIClass(
+                            (this.displayType === FORM.DISPLAY_TYPE.EDITABLE) ? 'ic-edit' : 'ic-search')
                         );
 
                     return new UICell(row).setUIClass(tdClassName)
@@ -280,22 +280,22 @@ export const ciMixin = {
                 }
             case 'icon-search': // CI 상세 조회
                 const searchButton = new UIButton()
-                    .setUIClass('z-button-icon')
+                    .setUIClass('button-icon')
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.openViewModal.bind(this, data.ciId))
-                    .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-search'));
+                    .addUI(new UISpan().setUIClass('ic-search'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
                     .addUI(searchButton);
             case 'icon-delete': // Row 삭제
                 const deleteButton = new UIButton()
-                    .setUIClass('z-button-icon')
+                    .setUIClass('button-icon')
                     .addUIClass('extra')
                     .setUIAttribute('data-type', data.actionType)
                     .onUIClick(this.removeCITableRow.bind(this, row.parent, -1, data))
-                    .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'));
+                    .addUI(new UISpan().setUIClass('ic-delete'));
 
                 return new UICell(row).setUIClass(tdClassName)
                     .setUICSSText(`width:${tdWidth}%;`)
@@ -313,7 +313,7 @@ export const ciMixin = {
             this.removeCITableRow(targetTable, 1);
         }
         // row 추가
-        const row = new UIRow(targetTable).setUIClass('z-ci-table-row');
+        const row = new UIRow(targetTable).setUIClass('ci-table-row');
         targetTable.addUIRow(row);
         // td 추가
         this.getCITableData().forEach((option) => {
@@ -323,7 +323,7 @@ export const ciMixin = {
     // CI 테이블 row 변경
     updateCITableRow(targetTable, rowIndex, data) {
         // row 추가
-        const row = new UIRow(targetTable).setUIClass('z-ci-table-row');
+        const row = new UIRow(targetTable).setUIClass('ci-table-row');
         targetTable.updateUIRow(rowIndex, row);
         // td 추가
         this.getCITableData().forEach((option) => {
@@ -423,7 +423,7 @@ export const ciMixin = {
                 saveData.values.ciAttributes.push(ciAttribute);
             }
         });
-        document.querySelectorAll('.z-relation-data').forEach((el) => {
+        document.querySelectorAll('.relation-data').forEach((el) => {
             let data = {};
             data.targetCIIconData = el.childNodes[0].childNodes[0].src;
             data.targetCIIcon = el.childNodes[0].childNodes[1].value;
@@ -569,7 +569,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-register-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -595,7 +595,7 @@ export const ciMixin = {
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => {
                         zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -658,7 +658,7 @@ export const ciMixin = {
                 // 수정
                 modalButtons.push({
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: (modal) => {
                         // TODO: 유효성 검증 - CI 리팩토링 후 zValidation.js 모듈 사용하도록 처리
@@ -683,7 +683,7 @@ export const ciMixin = {
                 // 취소
                 modalButtons.push({
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => {
                         zAlert.confirm(i18n.msg('cmdb.ci.msg.deleteInformation'), function () {
@@ -695,7 +695,7 @@ export const ciMixin = {
                 // 닫기
                 modalButtons.push({
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 });
@@ -769,11 +769,11 @@ export const ciMixin = {
     // 기존 CI 조회 모달 Template 조회
     getSelectModalContent(flag, ciId) {
         return `<form id="searchFrm">` +
-            `<input type="text" class="z-input i-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
-            `<input type="text" class="z-input i-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
+            `<input type="text" class="input ic-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
+            `<input type="text" class="input ic-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
             `<input type="hidden" name="flag" id="flag" value="${flag}"/>` +
             `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
-            `<span id="ciListTotalCount" class="z-search-count"></span>` +
+            `<span id="ciListTotalCount" class="search-count"></span>` +
             `</form>` +
             `<div class="table-set" id="ciList"></div>`;
     },
@@ -785,7 +785,7 @@ export const ciMixin = {
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 체크된 CI 출력
@@ -819,7 +819,7 @@ export const ciMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -902,7 +902,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;
@@ -936,7 +936,7 @@ export const ciMixin = {
 
     },
     getDataTemplate(data, index) {
-        const div = document.querySelector('.z-table-body .os-content');
+        const div = document.querySelector('.table-body .os-content');
         const tr = document.createElement('tr');
         tr.className = 'list-row ci-list';
         tr.id = 'ciRow' + data.ciId;
@@ -947,7 +947,7 @@ export const ciMixin = {
         checkbox.className = 'align-center text-clip';
         checkbox.id = 'ciId';
         const checkboxLabel = document.createElement('label');
-        checkboxLabel.className = 'z-checkbox';
+        checkboxLabel.className = 'checkbox';
         checkboxLabel.tabIndex = 0;
         checkboxLabel.htmlFor = index;
         const checkboxInput = document.createElement('input');
@@ -1052,7 +1052,7 @@ export const ciMixin = {
             classes: 'cmdb-ci-list-modal',
             buttons: [{
                 content: i18n.msg('common.btn.check'),
-                classes: 'z-button primary',
+                classes: 'button primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 기존 연관관계 row 초기화
@@ -1079,7 +1079,7 @@ export const ciMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1161,7 +1161,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .z-table-body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;
@@ -1204,7 +1204,7 @@ export const ciMixin = {
                 classes: 'cmdb-ci-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],
@@ -1301,7 +1301,7 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addCIRelation(ciRelations, isChecked) {
         const trRow = document.createElement('tr');
-        trRow.className = 'z-table-row z-relation-data';
+        trRow.className = 'table-row relation-data';
 
         const targetIcon = document.createElement('td');
         targetIcon.className = 'col-1 align-center';
@@ -1334,9 +1334,9 @@ export const ciMixin = {
         const deleteRel = document.createElement('td');
         deleteRel.className = 'col-1 align-center';
         const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'z-button-icon extra';
+        deleteBtn.className = 'button-icon extra';
         const deleteIcon = document.createElement('span');
-        deleteIcon.className = 'z-icon i-delete';
+        deleteIcon.className = 'ic-delete';
         deleteBtn.addEventListener('click', function () {
             deleteBtn.parentElement.parentElement.remove();
         });

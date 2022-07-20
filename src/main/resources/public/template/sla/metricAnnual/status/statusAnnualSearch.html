@@ -21,7 +21,7 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm">
-        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="year" name="year"/>
+        <input type="text" class="input ic-date-picker search-date col-3 mr-2" id="year" name="year"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
         <div class="mt-5">
             <p th:text="#{sla.metricYear.label.resultScore}"></p>
@@ -32,14 +32,14 @@
         </div>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
+        <button type="button" class="button-icon secondary" id="btnExcelDownload" name="btnExcelDownload"
                 th:onclick="|javascript:onExcelDownload()|" th:title="#{common.btn.export}">
             <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}"/>
         </button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="metricYearStatusList"></div>
+    <div class="list-content flex-row" id="metricYearStatusList"></div>
 </div>
 </body>
 <th:block layout:fragment="pageScript">
@@ -116,7 +116,7 @@
                 classes: 'sla-chart-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function(modal) {
                         zChartManager.destroy();
@@ -138,8 +138,8 @@
         function createModalContent() {
             return `<div class="chart-edit-content">` +
                 `<div class="flex-column" id="getChart">` +
-                `<div class="flex-column z-edit-row mt-2">` +
-                `<div id="container" class="flex-row flex-wrap z-chart-content-view"/>` +
+                `<div class="flex-column edit-row mt-2">` +
+                `<div id="container" class="flex-row flex-wrap chart-content-view"/>` +
                 `</div>` +
                 `</div>` +
                 `</div>`;

@@ -55,10 +55,10 @@ export const organizationSearchMixin = {
         // 컴포넌트에 설정된 기본 값
         const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data))
             ? this.elementDefaultValue.data.split('|') : ['', ''];
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
-            .setUIClass('z-input i-organization-search text-ellipsis')
+            .setUIClass('input ic-organization-search text-ellipsis')
             .setUIId('organizationSearch' + this.id)
             .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)
@@ -90,7 +90,7 @@ export const organizationSearchMixin = {
             this.UIElement.UIComponent.UIElement.UIInput.setUICSSText('pointer-events:none');
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
@@ -119,9 +119,9 @@ export const organizationSearchMixin = {
     set validationRequired(boolean) {
         this._validation.required = boolean;
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {

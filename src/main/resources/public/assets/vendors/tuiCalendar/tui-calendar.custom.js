@@ -179,14 +179,14 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--register',
         buttons: [{
             content: i18n.msg('common.btn.register'),
-            classes: 'z-button primary',
+            classes: 'button primary',
             bindKey: false,
             callback: (modal) => {
                 this.saveSchedule(modal.customOptions);
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'z-button secondary',
+            classes: 'button secondary',
             bindKey: false,
             callback: (modal) => {
                 if (modal.customOptions.guide) {
@@ -235,7 +235,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--detail',
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'z-button secondary',
+            classes: 'button secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -269,7 +269,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--repeat',
         buttons: [{
             content: i18n.msg('common.btn.check'),
-            classes: 'z-button primary',
+            classes: 'button primary',
             bindKey: false,
             callback: (modal) => {
                 modal.saveData.repeatPeriod = document.querySelector('input[name="repeatPeriod"]:checked').value;
@@ -277,7 +277,7 @@ function zCalendar(id, options) {
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'z-button secondary',
+            classes: 'button secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -404,7 +404,7 @@ function zCalendar(id, options) {
 
             // 삭제 버튼 위치 조정
             const closeButton = e.target.querySelector('.tui-full-calendar-month-more-close');
-            closeButton.classList.add('z-button', 'secondary');
+            closeButton.classList.add('button', 'secondary');
             closeButton.style.top = moreModalGuide.height - 47 + 'px'; // 47 = button 높이 + 하단 여백
             closeButton.style.right = 13 + 'px'; // 우측 여백
 
@@ -526,14 +526,14 @@ Object.assign(zCalendar.prototype, {
         this.options.viewType = type;
 
         if (type === 'task') {
-            this.el.classList.remove('on');
-            this.taskView.classList.add('on');
+            this.el.classList.remove('block');
+            this.taskView.classList.add('block');
             this.calendar.changeView('month', true);
             this.setTaskView();
             this.isReload = true;
         } else {
-            this.el.classList.add('on');
-            this.taskView.classList.remove('on');
+            this.el.classList.add('block');
+            this.taskView.classList.remove('block');
             this.calendar.changeView(type, true);
         }
         this.setRenderRangeText();
@@ -891,24 +891,24 @@ Object.assign(zCalendar.prototype, {
             return `<option value="${opt}" ${idx === 0 ? 'selected=\'true\'' : ''}></option>`;
         }).join('');
         return `<div class="calendar__modal--register__main flex-column">
-            <input type="text" class="z-input schedule__title" id="scheduleTitle" 
+            <input type="text" class="input schedule__title" id="scheduleTitle" 
                 placeholder="${i18n.msg('calendar.label.titlePlaceholder')}">
             <div class="flex-row align-items-baseline" id="rangeDate">
-                <input type="text" class="z-input i-datetime-picker schedule__date" id="startDt"/> 
+                <input type="text" class="input ic-datetime-picker schedule__date" id="startDt"/> 
                 ~
-                <input type="text" class="z-input i-datetime-picker schedule__date" id="endDt"/> 
+                <input type="text" class="input ic-datetime-picker schedule__date" id="endDt"/> 
             </div>
             <div class="flex-row align-items-baseline">
-                <label class="z-checkbox">
+                <label class="checkbox">
                     <input type="checkbox" id="allDayYn" name="allDayYn">
                     <span></span>
-                    <span class="z-label">${i18n.msg('calendar.label.allDay')}</span>
+                    <span class="label">${i18n.msg('calendar.label.allDay')}</span>
                 </label>
                 <div id="repeatDetail">
                     <select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>
                 </div>
             </div>
-            <textarea class="z-textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+            <textarea class="textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
                       placeholder="${i18n.msg('calendar.label.contentsPlaceholder')}"></textarea>
             <div class="flex-row" id="calendarList"></div>
         </div>`.trim();
@@ -920,12 +920,12 @@ Object.assign(zCalendar.prototype, {
         return `<div class="calendar__modal--detail__main flex-column">
             <div class="flex-row">
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
-                <div class="z-button-list flex-row float-right align-items-end">
-                    <button type="button" class="z-button-icon secondary" id="scheduleEdit">
-                        <span class="z-icon i-edit"></span>
+                <div class="button-list flex-row float-right align-items-end">
+                    <button type="button" class="button-icon secondary" id="scheduleEdit">
+                        <span class="ic-edit"></span>
                     </button>
-                    <button type="button" class="z-button-icon secondary" id="scheduleDelete">
-                        <span class="z-icon i-delete"></span>
+                    <button type="button" class="button-icon secondary" id="scheduleDelete">
+                        <span class="ic-delete"></span>
                     </button>
                 </div>
             </div>
@@ -939,20 +939,20 @@ Object.assign(zCalendar.prototype, {
      */
     getRepeatModalTemplate: function () {
         return `<div class="calendar__modal--repeat__main flex-column">
-            <label class="z-radio" for="repeatPeriodToday" tabindex="0">
+            <label class="radio" for="repeatPeriodToday" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodToday" value="today" checked="true"/>
                 <span></span>
-                <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.today')}</span>
+                <span class="label">${i18n.msg('calendar.label.repeatPeriod.today')}</span>
             </label>
-            <label class="z-radio" for="repeatPeriodAfter" tabindex="0">
+            <label class="radio" for="repeatPeriodAfter" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodAfter" value="after"/>
                 <span></span>
-                <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.after')}</span>
+                <span class="label">${i18n.msg('calendar.label.repeatPeriod.after')}</span>
             </label>
-            <label class="z-radio" for="repeatPeriodAll" tabindex="0">
+            <label class="radio" for="repeatPeriodAll" tabindex="0">
                 <input type="radio" name="repeatPeriod" id="repeatPeriodAll" value="all"/>
                 <span></span>
-                <span class="z-label">${i18n.msg('calendar.label.repeatPeriod.all')}</span>
+                <span class="label">${i18n.msg('calendar.label.repeatPeriod.all')}</span>
             </label>
         </div>`.trim();
     },
@@ -1113,8 +1113,8 @@ Object.assign(zCalendar.prototype, {
 
         // 시작일시 , 종료일시 초기화
         rangeDate.innerHTML = '';
-        const dateTemplate = ` <input type="text" class="z-input i-datetime-picker schedule__date" id="startDt" 
-            value="${newStart}"/>~<input type="text" class="z-input i-datetime-picker schedule__date" id="endDt" 
+        const dateTemplate = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
+            value="${newStart}"/>~<input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
             value="${newEnd}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend',dateTemplate);
@@ -1194,7 +1194,7 @@ Object.assign(zCalendar.prototype, {
      * 상세보기 모달에서 삭제 버튼 클릭시 처리
      */
     onClickScheduleDelete: function (e) {
-        if (aliceJs.clickInsideElement(e, 'z-button-icon')) {
+        if (aliceJs.clickInsideElement(e, 'button-icon')) {
             this.deleteSchedule(this.detailModal.customOptions.schedule);
         }
     },
@@ -1379,7 +1379,7 @@ Object.assign(zCalendar.prototype, {
                         }
                         // 데이터를 새로 가져옴
                         this.isReload = true;
-                        const menu = document.querySelector('#calendarViewType .z-button-switch.selected');
+                        const menu = document.querySelector('#calendarViewType .button-switch.selected');
                         if (menu) {
                             menu.dispatchEvent(new Event('click'))
                         }

@@ -7,44 +7,43 @@
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
 </head>
 <th:block layout:fragment="content">
-    <div class="z-document-container">
+    <div class="document-container">
         <!-- 탭 toggle 버튼 -->
-        <button type="button" class="z-button-icon toggle--tab" onclick="onToggleTabHandler(this);">
-            <span class="z-icon i-arrow-double"></span>
+        <button type="button" class="button-icon toggle--tab" onclick="onToggleTabHandler(this);">
+            <span class="ic-arrow-double"></span>
         </button>
         <form id="frm" name="frm">
-            <div class="z-document-main flex-column align-items-center">
+            <div class="document-main flex-column align-items-center">
                 <input type="hidden" id="instanceId" />
                 <input type="hidden" id="tokenId" th:value="${tokenId}"/>
                 <input type="hidden" id="folderId" th:value="${folderId}"/>
-                <div class="z-document-main-header flex-row justify-content-between align-items-center flex-wrap">
+                <div class="document-main-header flex-row justify-content-between align-items-center flex-wrap">
                     <div id="defaultButtonArea"></div>
-                    <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
+                    <div class="action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
-                <div class="z-document-main-content">
+                <div class="document-main-content">
                     <div class="flex-row justify-content-center">
-                        <p id="documentNumber" class="z-document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></p>
+                        <p id="documentNumber" class="document-numbering" th:text="|#{document.label.docNo} : ${documentNo}|"></p>
                     </div>
                     <div id="documentDrawingBoard" data-display="running"></div>
                 </div>
-                <div class="z-document-main-footer flex-row justify-content-end align-items-center flex-wrap">
-                    <div class="z-action-button-bottom-area" id="actionButtonBottomArea"></div>
+                <div class="document-main-footer flex-row justify-content-end align-items-center flex-wrap">
+                    <div class="action-button-bottom-area" id="actionButtonBottomArea"></div>
                 </div>
             </div>
         </form>
         <!-- 탭 영역 -->
-        <div class="z-token-properties flex-column" id="documentProperties"></div>
+        <div class="token-properties flex-column" id="documentProperties"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
-    <link th:href="@{/assets/css/itsm.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
     <script th:inline="javascript" type="text/javascript">
         function onToggleTabHandler(target) {
-            if (target.classList.contains('off')) {
-                target.classList.remove('off');
+            if (target.classList.contains('none')) {
+                target.classList.remove('none');
             } else {
-                target.classList.add('off');
+                target.classList.add('none');
             }
         }
     </script>

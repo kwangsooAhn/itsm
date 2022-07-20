@@ -15,11 +15,11 @@
     <h6 class="description ml-2 pl-2" th:text="#{organization.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+    <input type="text" class="input ic-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
            maxlength="100" th:placeholder="#{organization.label.searchPlaceholder}"/>
-    <span id="totalCount" class="z-search-count"></span>
+    <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" id="btnCreate" name="btnCreate"
+        <button type="button" class="button primary" id="btnCreate" name="btnCreate"
                 sec:authorize="hasAuthority('system.manage')" th:text="#{common.btn.add}"
                 th:onclick="|javascript:onCreate()|"></button>
     </div>
@@ -28,62 +28,62 @@
     <div id="treeList"></div>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-row">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <input type="hidden" id="organizationId" th:value="${data?.organizationId}"/>
                 <label class="required" th:text="#{organization.label.name}" for="organizationName"></label>
-                <input type="text" id="organizationName" class="z-input text-ellipsis"
+                <input type="text" id="organizationName" class="input text-ellipsis"
                        th:value="${data?.organizationName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <input type="hidden" id="pOrganizationId" th:value="${data?.pOrganizationId}"/>
                 <label class="required" th:text="#{organization.label.pOrganizationName}" for="pOrganizationName"></label>
-                <input type="text" id="pOrganizationName" class="z-input text-ellipsis col-pct-12"
+                <input type="text" id="pOrganizationName" class="input text-ellipsis col-pct-12"
                        th:value="${data?.pOrganizationName}" maxlength="100"/>
                 </span>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{organization.label.seqNum}" for="seqNum"></label>
-            <input type="text" id="seqNum" class="z-input text-ellipsis" th:value="${data?.seqNum}"
+            <input type="text" id="seqNum" class="input text-ellipsis" th:value="${data?.seqNum}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
-        <div class="z-edit-row flex-column">
-            <label class="z-switch">
-                <span class="z-label" th:text="#{organization.label.useYn}"></span>
+        <div class="edit-row flex-column">
+            <label class="switch">
+                <span class="label" th:text="#{organization.label.useYn}"></span>
                 <input type="checkbox" id="useYn" name="useYn"
                        th:checked="${data?.useYn == null || data?.useYn == true}">
                 <span></span>
             </label>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{organization.label.description}" for="organizationDesc"></label>
             <textarea id="organizationDesc" th:maxlength="200" th:rows="7"
-                      class="z-textarea textarea-scroll-wrapper" th:text="${data?.organizationDesc}"></textarea>
+                      class="textarea textarea-scroll-wrapper" th:text="${data?.organizationDesc}"></textarea>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{organization.label.role}"></label>
-            <div class="z-checkbox-list">
+            <div class="checkbox-list">
                 <ul>
                     <li class="text-ellipsis" th:each="role : ${roleList}">
-                        <label class="z-checkbox" tabindex="0" th:for="${role?.roleId}">
+                        <label class="checkbox" tabindex="0" th:for="${role?.roleId}">
                             <input type="checkbox" name="organizationRole"
                                    th:disabled="${view}" th:id="${role?.roleId}" th:value="${role?.roleName}">
                             <span></span>
-                            <span class="z-label" th:text="${role?.roleName}"></span>
+                            <span class="label" th:text="${role?.roleName}"></span>
                         </label>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list" sec:authorize="hasAuthority('system.manage')">
-                <button class="z-button primary" type="button" id="btnRegist" name="btnRegist"
+            <div class="button-list" sec:authorize="hasAuthority('system.manage')">
+                <button class="button primary" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button class="z-button primary" type="button" id="btnUpdate" name="btnUpdate"
+                <button class="button primary" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button class="z-button danger" type="button" id="btnDelete" name="btnDelete"
+                <button class="button danger" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
@@ -98,10 +98,10 @@
     window.onload = function () {
         observer.set();
 
-        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('organizationDesc'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelectorAll('.z-checkbox-list'), { className: 'inner-scrollbar' });
+        OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar' });
 
         document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getOrganizationList()), false);

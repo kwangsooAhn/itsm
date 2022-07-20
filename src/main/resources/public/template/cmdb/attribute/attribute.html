@@ -13,74 +13,74 @@
         th:text="${view} ? #{cmdb.attribute.msg.viewDescription} : #{cmdb.attribute.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
+    <div class="edit-form flex-fill">
         <input id="attributeId" name="attributeId" th:value="${attribute?.attributeId}" type="hidden"/>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeName">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.name}"></span>
             </label>
-            <input class="z-input" id="attributeName" maxlength="100" required="true"
+            <input class="input" id="attributeName" maxlength="100" required="true"
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
                    th:readonly="${view}" th:value="${attribute?.attributeName}" type="text"/>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeDesc">
                 <span th:text="#{cmdb.attribute.label.description}"></span>
             </label>
-            <textarea class="z-textarea textarea-scroll-wrapper" id="attributeDesc" maxlength="250"
+            <textarea class="textarea textarea-scroll-wrapper" id="attributeDesc" maxlength="250"
                       name="attributeDesc" rows="5" th:readonly="${view}"
                       th:text="${attribute?.attributeDesc}"></textarea>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeText">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.label}"></span>
             </label>
-            <input class="z-input" id="attributeText" maxlength="100" required="true"
+            <input class="input" id="attributeText" maxlength="100" required="true"
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.label}"
                    th:readonly="${view}" th:value="${attribute?.attributeText}" type="text"/>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="mappingId">
                 <span th:text="#{cmdb.attribute.label.mappingId}"></span>
             </label>
-            <input class="z-input" id="mappingId" maxlength="100" th:readonly="${view}"
+            <input class="input" id="mappingId" maxlength="100" th:readonly="${view}"
                    th:value="${attribute?.mappingId}" type="text"/>
         </div>
-        <div class="flex-column z-edit-row pt-5 pb-3" id="searchYnGroup">
-            <label class="z-switch">
+        <div class="flex-column edit-row pt-5 pb-3" id="searchYnGroup">
+            <label class="switch">
                 <input type="checkbox" id="searchYn" name="searchYn" th:disabled="${view}"
                        th:checked="${attribute?.searchYn == true}" onchange="setSearchWidthRequired(this);">
                 <span></span>
-                <span class="z-label z-label-name" th:text="#{cmdb.attribute.label.useSearch}"></span>
-                <span class="z-label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
+                <span class="label label-name" th:text="#{cmdb.attribute.label.useSearch}"></span>
+                <span class="label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
             </label>
         </div>
-        <div class="flex-column z-edit-row" id="searchWidthGroup">
+        <div class="flex-column edit-row" id="searchWidthGroup">
             <label id="searchWidthLabel" for="searchWidth">
                 <span th:text="#{cmdb.attribute.label.searchWidth}"></span>
                 <th:block th:if="${attribute?.searchYn == true}">
                     <span class="required"></span>
                 </th:block>
-                <div class="z-help-tooltip">
-                    <span class="z-icon i-tooltip"></span>
-                    <div class="z-tooltip-contents right" id="tooltipContent">
+                <div class="help-tooltip">
+                    <span class="ic-tooltip"></span>
+                    <div class="tooltip-contents right" id="tooltipContent">
                         <span th:utext="#{cmdb.attribute.msg.searchWidth}"></span>
                     </div>
                 </div>
             </label>
-            <input class="z-input i-px col-3" id="searchWidth" maxlength="4" th:readonly="${view}"
+            <input class="input ic-px col-3" id="searchWidth" maxlength="4" th:readonly="${view}"
                    th:value="${attribute?.searchWidth}" type="text" th:required="${attribute?.searchYn == true}"
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.searchWidth}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"/>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="attributeType">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.type}"></span>
             </label>
             <select id="attributeType" onchange="changeType(this)" th:classappend="${view} ? 'readonly' : ''">
             </select>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <div class="under-bar">
                 <label>
                     <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.details}"></span>
@@ -88,16 +88,16 @@
             </div>
             <div class="attribute" id="details"></div>
         </div>
-        <div class="flex-row justify-content-between z-edit-row">
-            <div class="z-button-list">
-                <a class="z-button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
+        <div class="flex-row justify-content-between edit-row">
+            <div class="button-list">
+                <a class="button secondary" href="/cmdb/attributes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('cmdb.manage')">
-                <button type="button" class="z-button primary" onclick="saveAttribute('POST')"
+            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('cmdb.manage')">
+                <button type="button" class="button primary" onclick="saveAttribute('POST')"
                         th:if="${attribute == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" onclick="saveAttribute('PUT')"
+                <button type="button" class="button primary" onclick="saveAttribute('PUT')"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="z-button danger" onclick="deleteAttribute()"
+                <button type="button" class="button danger" onclick="deleteAttribute()"
                         th:if="${attribute?.attributeId}" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
@@ -131,7 +131,7 @@
         changeType(attributeTypeObject, true);
 
         aliceJs.initDesignedSelectTag();
-        OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelectorAll('.page-content'), {className: 'scrollbar'});
         OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
             className: 'scrollbar',
             resize: 'vertical',
@@ -165,11 +165,11 @@
         const searchYnGroup = document.getElementById('searchYnGroup');
         const searchWidthGroup = document.getElementById('searchWidthGroup');
         if (SEARCH_YN_USED.includes(object.value)) {
-            searchYnGroup.classList.remove('off');
-            searchWidthGroup.classList.remove('off');
+            searchYnGroup.classList.remove('none');
+            searchWidthGroup.classList.remove('none');
         } else {
-            searchYnGroup.classList.add('off');
-            searchWidthGroup.classList.add('off');
+            searchYnGroup.classList.add('none');
+            searchWidthGroup.classList.add('none');
             document.getElementById('searchYn').checked = false;
             document.getElementById('searchWidth').value = '200';
         }
@@ -182,7 +182,7 @@
             detailObject.querySelectorAll('button').forEach(function (object) {
                 object.disabled = true;
             });
-            detailObject.querySelectorAll('.i-delete').forEach(function (object) {
+            detailObject.querySelectorAll('.ic-delete').forEach(function (object) {
                 object.parentElement.remove();
             });
             if (document.getElementById('button_add')) {

@@ -47,7 +47,7 @@
             });
             documentSearches(false);
 
-            OverlayScrollbars(document.querySelectorAll('.z-document-main'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.document-main'), { className: 'scrollbar' });
         });
         /**
          * 신청서 목록 검색
@@ -70,10 +70,10 @@
                     if (aliceJs.isEnableScrollEvent(offsetCount)) {
                         offsetCount = offsetCount + aliceJs.searchDataCount;
                     }
-                    document.querySelector('.z-document-content .card-list').insertAdjacentHTML('beforeend', htmlData);
+                    document.querySelector('.document-content .card-list').insertAdjacentHTML('beforeend', htmlData);
                 } else {
                     document.getElementById('documentList').innerHTML = htmlData;
-                    OverlayScrollbars(document.querySelector('.z-page-content'), {
+                    OverlayScrollbars(document.querySelector('.page-content'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function(e) {
@@ -101,30 +101,30 @@
 <div layout:fragment="pageSearching">
     <form id="searchDocumentsFrm">
         <input type="text" id="searchDocuments" name="searchDocuments" maxlength="100"
-               th:placeholder="#{document.label.searchPlaceholder}" class="z-input text-ellipsis i-search col-3"/>
+               th:placeholder="#{document.label.searchPlaceholder}" class="input text-ellipsis ic-search col-3"/>
         <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
-               th:placeholder="#{document.label.process}" class="z-input text-ellipsis i-search col-3"/>
+               th:placeholder="#{document.label.process}" class="input text-ellipsis ic-search col-3"/>
         <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
-               th:placeholder="#{document.label.form}" class="z-input text-ellipsis i-search col-3 mr-2"/>
+               th:placeholder="#{document.label.form}" class="input text-ellipsis ic-search col-3 mr-2"/>
         <input type="hidden" id="searchDocumentType" name="searchDocumentType"
                value="application-form"/>
     </form>
 </div>
 <div layout:fragment="pageSearchResult">
-    <div class="z-document-content flex-fill">
+    <div class="document-content flex-fill">
         <div id="documentList"></div>
     </div>
     <template id="documentModalTemplate">
-        <div class="z-document-main flex-column align-items-center">
+        <div class="document-main flex-column align-items-center">
             <input type="hidden" id="instanceId" />
-            <div class="z-document-main-header">
+            <div class="document-main-header">
                 <div class="flex-row justify-content-between align-items-center flex-wrap">
                     <div id="defaultButtonArea"></div>
-                    <div class="z-action-button-top-area" id="actionButtonTopArea"></div>
+                    <div class="action-button-top-area" id="actionButtonTopArea"></div>
                 </div>
             </div>
-            <div class="z-document-main-content">
-                <div class="z-drawing-board" id="documentDrawingBoard" data-display="running"></div>
+            <div class="document-main-content">
+                <div class="drawing-board" id="documentDrawingBoard" data-display="running"></div>
             </div>
         </div>
     </template>

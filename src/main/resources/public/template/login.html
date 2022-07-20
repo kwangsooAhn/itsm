@@ -17,15 +17,15 @@
 </head>
 <body>
 <th:block layout:fragment="pageLeft">
-    <div class="z-vertical-split-left z-login-background">
-        <img class="z-img i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
-        <span class="z-copyright"><!-- TODO: © Copyright 2020 Brainzcompany. All rights reserved. --></span>
+    <div class="vertical-split-left login-background">
+        <img class="i-logo-white" th:src="@{/assets/media/icons/logo/icon_logo_white.svg}" width="234" height="40" alt="Zenius ITSM">
+        <span class="copyright"><!-- TODO: © Copyright 2020 Brainzcompany. All rights reserved. --></span>
     </div>
 </th:block>
 <th:block layout:fragment="pageRight">
-    <div class="z-vertical-split-right z-login-form">
+    <div class="vertical-split-right login-form">
         <h1 class="align-center" th:text="#{portal.label.login}"></h1>
-        <div class="z-login-base">
+        <div class="login-base">
             <form id="loginForm" name="loginForm" method="post" th:action="@{/login}">
                 <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
                 <input type="hidden" id="password" name="password"/>
@@ -33,27 +33,27 @@
             </form>
             <div class="login-base-form flex-column">
                 <label th:text="#{user.label.id}"></label>
-                <input type="text" id="uid" name="uid" class="z-input text-ellipsis" maxlength="100" required="required">
+                <input type="text" id="uid" name="uid" class="input text-ellipsis" maxlength="100" required="required">
                 <label tabindex="-1" th:text="#{user.label.password}"></label>
-                <input type="password" id="upasswd" name="upasswd" class="z-input text-ellipsis" maxlength="100" required="required">
+                <input type="password" id="upasswd" name="upasswd" class="input text-ellipsis" maxlength="100" required="required">
             </div>
-            <button class="z-button primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
+            <button class="button primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
         </div>
         <div th:if="${isLoginPlatform}">
-            <div class="z-login-divide flex-row align-items-center" th:text="#{login.label.or}"></div>
-            <div class="z-login-platform">
-                <button class="z-button google col-pct-12" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
-                <button class="z-button kakao col-pct-12" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
+            <div class="login-divide flex-row align-items-center" th:text="#{login.label.or}"></div>
+            <div class="login-platform">
+                <button class="button google col-pct-12" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
+                <button class="button kakao col-pct-12" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
             </div>
         </div>
         <div class="pt-2"></div>
-        <a href="/portals/main" class="z-button z-button-text" th:text="'&larr; ' + #{portal.btn.main}"></a>
-        <div class="z-login-other flex-row justify-content-center align-items-center">
-            <div th:if="${createAccountEnabled}" class="z-login-other-signUp align-center"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
+        <a href="/portals/main" class="button button-text" th:text="'&larr; ' + #{portal.btn.main}"></a>
+        <div class="login-other flex-row justify-content-center align-items-center">
+            <div th:if="${createAccountEnabled}" class="login-other-signUp align-center"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
             <div th:if="${findIdEnabled}" class="vertical-bar"></div>
-            <div th:if="${findIdEnabled}" class="z-login-other-findPwd align-center"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
+            <div th:if="${findIdEnabled}" class="login-other-findPwd align-center"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
             <div th:if="${findPasswordEnabled}" class="vertical-bar"></div>
-            <div th:if="${findPasswordEnabled}" class="z-login-other-findId align-center"><a href="#N" th:text="#{login.label.findId}"></a></div>
+            <div th:if="${findPasswordEnabled}" class="login-other-findId align-center"><a href="#N" th:text="#{login.label.findId}"></a></div>
         </div>
     </div>
 </th:block>
@@ -94,7 +94,7 @@
                 classes: 'password-update-notice',
                 buttons: [{
                     content: i18n.msg('user.btn.updatePassword'),
-                    classes: 'z-button primary',
+                    classes: 'button primary',
                     bindKey: false,
                     callback: function() {
                         if(validation()) {
@@ -108,7 +108,7 @@
                     }
                 },{
                     content: i18n.msg('user.btn.nextTime', passwordExpiredPeriod),
-                    classes: 'z-button secondary',
+                    classes: 'button secondary',
                     bindKey: false,
                     callback: function() {
                         const userUpdateInfo = {
@@ -133,11 +133,11 @@
             `<label> ${i18n.msg('user.msg.updatePasswordNotice', passwordExpiredPeriod)}</label>` +
             `<label> ${i18n.msg('user.tooltip.pwRuleSummary')}</label>` +
             `<label>${i18n.msg('user.label.nowUserPassword')} </label>` +
-            `<input type="password" id="nowPassword" class="z-input text-ellipsis" maxlength="20" required="required">` +
+            `<input type="password" id="nowPassword" class="input text-ellipsis" maxlength="20" required="required">` +
             `<label>${i18n.msg('user.label.newUserPassword')} </label>` +
-            `<input type="password" id="newPassword" class="z-input text-ellipsis" maxlength="20" required="required">` +
+            `<input type="password" id="newPassword" class="input text-ellipsis" maxlength="20" required="required">` +
             `<label>${i18n.msg('user.label.newUserRePassword')} </label>` +
-            `<input type="password" id="newRePassword" class="z-input text-ellipsis" maxlength="20" required="required">` +
+            `<input type="password" id="newRePassword" class="input text-ellipsis" maxlength="20" required="required">` +
             '</div>'
     }
 
@@ -177,7 +177,8 @@
         });
     }
     window.onkeydown = function() {
-        if (event.keyCode === 13) {
+        let keyEventElementId = ['uid', 'upasswd', 'sendLogin'];
+        if ((event.keyCode === 13) && keyEventElementId.includes(document.activeElement.id)) {
             onLogin();
         }
     };

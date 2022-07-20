@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div class="z-notification-header">
-        <span class="z-title" th:text="#{notification.label.notification}"></span>
+    <div class="notification-header">
+        <span class="title" th:text="#{notification.label.notification}"></span>
         <span id="total"></span>
-        <span class="z-message" th:text="#{notification.msg.description}"></span>
-        <span class="z-icon i-remove float-right" onclick="toggleNotificationContainer();"></span>
+        <span class="message" th:text="#{notification.msg.description}"></span>
+        <span class="ic-remove float-right" onclick="toggleNotificationContainer();"></span>
     </div>
-    <div class="z-notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
-        <div class="z-noData align-center" th:if="${#arrays.isEmpty(notificationList)}">
+    <div class="notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
+        <div class="noData align-center" th:if="${#arrays.isEmpty(notificationList)}">
             <span th:text="#{notification.msg.noNotificationData}"></span>
         </div>
-        <div class="z-notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
+        <div class="notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
              th:each="notification: ${notificationList}"
              th:id="${notification.notificationId}" th:attr="token-id=${notification.tokenId}, notification-type=${notification.type}"
              th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
-            <div class="z-title">
-                <label class="z-checkbox z-notification-checked float-left"><input type="checkbox" th:checked="${notification.confirmYn}"
+            <div class="title">
+                <label class="checkbox notification-checked float-left"><input type="checkbox" th:checked="${notification.confirmYn}"
                               th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
                               th:disabled="${notification.confirmYn}"/></label>
-                <span th:if="${notification.type == 'document'}" class="z-title z-title__link text-ellipsis" th:text="${notification.title}"
+                <span th:if="${notification.type == 'document'}" class="title title__link text-ellipsis" th:text="${notification.title}"
                       th:classappend="${notification.confirmYn} ? confirm" th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.tokenId}]])"></span>
-                <span th:unless="${notification.type == 'document'}" class="z-title text-ellipsis" th:text="${notification.title}"
+                <span th:unless="${notification.type == 'document'}" class="title text-ellipsis" th:text="${notification.title}"
                       th:classappend="${notification.confirmYn} ? confirm"></span>
-                <span class="z-document-no ml-2 text-ellipsis" th:text="${notification.documentNo}"></span>
-                <button class="z-icon i-delete float-right" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
+                <span class="document-no ml-2 text-ellipsis" th:text="${notification.documentNo}"></span>
+                <button class="ic-delete float-right" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
             </div>
-            <div class="z-message">
-                <span class="z-message text-ellipsis" th:text="${notification.message}"></span>
+            <div class="message">
+                <span class="message text-ellipsis" th:text="${notification.message}"></span>
             </div>
-            <div class="z-date">
-                <span class="z-date" th:text="${notification.createDt}"></span>
+            <div class="date">
+                <span class="date" th:text="${notification.createDt}"></span>
             </div>
         </div>
     </div>

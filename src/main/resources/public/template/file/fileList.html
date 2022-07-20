@@ -12,18 +12,18 @@
 </div>
 <div layout:fragment="pageSearching">
     <div>
-        <input type="text" class="z-input i-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
-        <span id="totalCount" class="z-search-count"></span>
-        <span class="z-search-count">/</span>
-        <span id="spanTotalCountWithoutCondition" class="z-search-count"></span>
+        <input type="text" class="input ic-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100" th:placeholder="#{file.label.name}"/>
+        <span id="totalCount" class="search-count"></span>
+        <span class="search-count">/</span>
+        <span id="spanTotalCountWithoutCondition" class="search-count"></span>
     </div>
 </div>
 <div layout:fragment="pageSearchResult">
     <input type="hidden" id="creatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
     <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''workflow.manage'')')}"/>
-    <div class="z-file-content-edit flex-fill">
-        <div class="z-thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
+    <div class="file-content-edit flex-fill">
+        <div class="thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
     </div>
 </div>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
@@ -42,12 +42,12 @@
         getFiles(false);
         // 미리보기 모달 생성
         previewModal = new modal({
-            title: `<span class="z-thumbnail-preview-name text-ellipsis"></span>`,
-            body: `<div class="z-thumbnail-preview-file"></div>`,
-            classes: 'z-thumbnail-preview',
+            title: `<span class="thumbnail-preview-name text-ellipsis"></span>`,
+            body: `<div class="thumbnail-preview-file"></div>`,
+            classes: 'thumbnail-preview',
             buttons: [{
                 content: i18n.msg('common.btn.close'),
-                classes: 'z-button secondary',
+                classes: 'button secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -56,7 +56,7 @@
             close: { closable: false },
             onHide: function(modal) {
                 // 기존 선택된  클래스를 제거
-                const selectedThumbnails = document.querySelectorAll('.z-thumbnail.selected');
+                const selectedThumbnails = document.querySelectorAll('.thumbnail.selected');
                 for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
                     selectedThumbnails[i].classList.remove('selected');
                 }
@@ -71,7 +71,7 @@
             });
         });
         // 스크롤바 표시
-        OverlayScrollbars(document.querySelector('.z-page-content'), {
+        OverlayScrollbars(document.querySelector('.page-content'), {
             className: 'scrollbar',
             callbacks: {
                 onScroll: function (e) {
@@ -148,23 +148,23 @@
         // 확장자가 이미지일 경우에는 미리보기 가능, 나머지 파일은 다운로드되도록 처리
         const thumbnailContainer = document.getElementById('thumbnailMain');
         const thumbnailText = (isImageFile) ? `${image.width} X ${image.height} (${image.size})` : `${image.size}`;
-        const thumbnailTemplate = `<div class="z-thumbnail" tabindex="-1">` +
+        const thumbnailTemplate = `<div class="thumbnail" tabindex="-1">` +
             `${isImageFile ?
-                `<div class="z-thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>` :
-                `<div class="z-thumbnail-image" onclick="downLoadFile(this);"><img src="${aliceJs.getFileExtensionIcon(fileExtension)}"></div>`}` +
-                `<div class="z-thumbnail-info">` +
-                    `<p class="z-thumbnail-info-text">` +
-                        `<label name="updateLabel" class="z-thumbnail-image-name text-ellipsis" ondblclick="renameFile(this);" title="${image.name}">${image.name}</label>` +
-                        `<input type="text" class="z-input float-left" maxlength="128"/>` +
+                `<div class="thumbnail-image" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>` :
+                `<div class="thumbnail-image" onclick="downLoadFile(this);"><img src="${aliceJs.getFileExtensionIcon(fileExtension)}"></div>`}` +
+                `<div class="thumbnail-info">` +
+                    `<p class="thumbnail-info-text">` +
+                        `<label name="updateLabel" class="thumbnail-image-name text-ellipsis" ondblclick="renameFile(this);" title="${image.name}">${image.name}</label>` +
+                        `<input type="text" class="input float-left" maxlength="128"/>` +
                     `</p>` +
-                    `<p class="z-thumbnail-info-text">` +
+                    `<p class="thumbnail-info-text">` +
                         `<label class="text-ellipsis">${thumbnailText}</label>` +
                     `</p> ` +
                 `</div>` +
-                `<div class="z-thumbnail-bottom">` +
+                `<div class="thumbnail-bottom">` +
                     `<label class="file-update-dt">${i18n.userDateTime(image.updateDt)}</label>` +
-                    `<button name="deleteBtn" type="button" class="z-button-icon float-right" data-name="${image.name}" onclick="removeFile(this);">` +
-                        `<span class="z-icon i-delete"></span>` +
+                    `<button name="deleteBtn" type="button" class="button-icon float-right" data-name="${image.name}" onclick="removeFile(this);">` +
+                        `<span class="ic-delete"></span>` +
                     `</button>` +
                 `</div>` +
             `</div>`;
@@ -172,12 +172,12 @@
     }
 
     function addThumbnailUpload() {
-        const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.z-thumbnail-upload').length;
+        const thumbnailCnt = document.getElementById('thumbnailMain').querySelectorAll('.thumbnail-upload').length;
         if (thumbnailCnt === 0) {
             let thumbnailUploadTemplate = `
-                <div class="z-thumbnail-upload align-center" onclick="document.getElementById('uploadFile').click();" tabindex="-1">
-                    <span class="z-icon i-file-upload"></span>
-                    <p class="z-thumbnail-upload-text underline mt-2">${i18n.msg('file.label.upload')}</p>
+                <div class="thumbnail-upload align-center" onclick="document.getElementById('uploadFile').click();" tabindex="-1">
+                    <span class="ic-file-upload"></span>
+                    <p class="thumbnail-upload-text underline mt-2">${i18n.msg('file.label.upload')}</p>
                     <input type="file" id="uploadFile" accept="${acceptFileNameList.join()}" multiple onchange="uploadFile(this);" style="display: none;"/>
                 </div>
             `;
@@ -316,7 +316,7 @@
     }
     // 다운로드
     function downLoadFile(thumbnail) {
-        const fileName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+        const fileName = thumbnail.parentNode.querySelector('.thumbnail-image-name').textContent;
         this.fileNameSpecialCharCheck(fileName.split('.')[0]);
         aliceJs.fetchBlob('/rest/files/download?fileName=' + encodeURIComponent(fileName), {
             method: 'GET',
@@ -343,15 +343,15 @@
         thumbnail.parentNode.classList.add('selected');
 
         // 이미지 파일명 제목 표시
-        const previewModalHeader = previewModal.wrapper.querySelector('.z-thumbnail-preview-name');
+        const previewModalHeader = previewModal.wrapper.querySelector('.thumbnail-preview-name');
         if (previewModalHeader !== null) {
-            const imageName = thumbnail.parentNode.querySelector('.z-thumbnail-image-name').textContent;
+            const imageName = thumbnail.parentNode.querySelector('.thumbnail-image-name').textContent;
             previewModalHeader.textContent = imageName;
             previewModalHeader.setAttribute('title', imageName);
         }
 
         // 내부 이미지 경로 변경
-        const previewModalContent = previewModal.wrapper.querySelector('.z-thumbnail-preview-file');
+        const previewModalContent = previewModal.wrapper.querySelector('.thumbnail-preview-file');
         if (previewModalContent !== null) {
             previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
         }

@@ -1,0 +1,556 @@
+/*
+ *
+ *
+ * @description tui-calendar 라이브러리 재디자인
+ * @author wdj
+ * @version 1.0
+ */
+
+:root {
+  --data-modal-width: 450;
+  --data-modal-height: 375;
+}
+
+// TODO: 정리 필요
+.button-switch {
+  .text {
+    display: inline-block;
+    padding: 0.5625rem 0.875rem; // 9px 14px
+    pointer-events: none;
+  }
+}
+
+.calendar {
+  margin: 1.875rem 3.75rem 0 3.75rem; // 30px 60px 0 60px
+  // 메뉴
+  &__menu {
+    display: grid;
+    grid-template-columns: 25rem auto 25rem; // 400px auto 400px
+    column-gap: 0.5rem; // 8px
+    align-items: center;
+    margin-bottom: 0.75rem; // 12px
+    // <> 버튼
+    .calendar__move {
+      @include borderRadius(50%);
+
+      .ic-arrow-right {
+        background: $gray500;
+
+        &:hover {
+          background: $blue400;
+        }
+      }
+
+      .move--prev {
+        @include rotate(180);
+      }
+    }
+    // 최상단 문구 (2022-05)
+    .calendar__render-range-text {
+      font-size: 1.625rem; // 26px TODO: 폰트 사이즈 변수로 추가 필요 (현재 없음)
+      font-weight: $font-weight-semibold;
+    }
+  }
+  // 캘린더
+  &__view {
+    display: none;
+    // tui 캘린더
+    .tui-full-calendar {
+      // 월별 캘린더
+      &-month {
+        height: 48.75rem; // 780px
+      }
+
+      // 월별 캘린더 제목
+      &-month-dayname {
+        @include border(0.063rem, solid, $gray300, right); // 1px
+        @include border(0.063rem, solid, $gray300, left); // 1px
+
+        &-name {
+          color: $neutral600;
+          font-weight: $font-weight-medium;
+        }
+      }
+
+      // 월별 캘린더 Row
+      &-month-week-item {
+        @include border(0.063rem, solid, $gray300, right); // 1px
+        @include border(0.063rem, solid, $gray300, left); // 1px
+
+        &:last-of-type {
+          @include border(0.125rem, solid, $gray300, bottom); // 2px
+        }
+
+        .tui-full-calendar-weekday {
+          &-grid {
+            &-line {
+              // 현재 달력이 아닌 경우
+              &.tui-full-calendar-extra-date {
+                background-color: $neutral50 !important; // 라이브러리 강제 적용
+              }
+
+              // 1 ~ 31일
+              .tui-full-calendar-weekday-grid-header {
+                .tui-full-calendar-weekday-grid-date {
+                  font-weight: $font-weight-semibold;
+                }
+
+                // more 글자
+                .tui-full-calendar-weekday-grid-more-schedules {
+                  font-size: $font-size-xxs;
+                  font-weight: $font-weight-medium;
+                  color: $neutral600;
+                }
+              }
+
+            }
+          }
+
+          &-schedules {
+            // all day
+            .tui-full-calendar-weekday-schedule-title {
+              font-size: $font-size-xxs;
+              font-weight: $font-weight-regular;
+            }
+
+            // 시간 타입
+            .tui-full-calendar-weekday-schedule-time {
+              color: $neutral800;
+
+              &.prev {
+                color: $neutral500;
+              }
+            }
+          }
+        }
+
+        // 오늘 날짜
+        .tui-full-calendar-today {
+          .tui-full-calendar-weekday-grid-date-decorator {
+            font-weight: $font-weight-semibold;
+            background: transparent;
+            color: inherit;
+            @include borderRadius(0);
+          }
+        }
+      }
+
+      // 월별 캘린더 more 클릭시 호출되는 모달 상세 디자인
+      &-month-more {
+        width: 226px;
+        min-width: 226px;
+        margin: 40px 0 0 4px;
+        // 제목
+        &-title {
+          text-align: center;
+          // 요일
+          .tui-full-calendar-month-more-title-day-label {
+            display: inline-block;
+            font-size: $font-size-xs;
+            font-weight: $font-weight-medium;
+            color: $neutral600;
+            margin-bottom: 4px;
+          }
+
+          // 일
+          .tui-full-calendar-month-more-title-day {
+            font-size: $font-size-l;
+            font-weight: $font-weight-semibold;
+            color: $neutral800;
+          }
+        }
+
+        // 목록
+        &-list {
+          @include border(0.063rem, solid, $gray300, bottom); // 1px
+        }
+
+        // 버튼
+        &-close {
+          line-height: inherit;
+          font-weight: $font-weight-semibold;
+          padding: 0.625rem 0.875rem;
+        }
+      }
+
+      // 주별 캘린더 제목
+      &-dayname-container {
+        @include border(1px, solid, $gray300, right);
+        @include border(1px, solid, $gray300, left);
+        overflow-y: hidden;
+
+        .tui-full-calendar-dayname {
+          line-height: inherit !important;
+
+          .tui-full-calendar-dayname-date-area {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 0.5rem 0; // 8px 0
+
+            // 요일
+            .tui-full-calendar-dayname-name {
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              color: $neutral600;
+            }
+
+            // 날짜
+            .tui-full-calendar-dayname-date {
+              font-size: $font-size-l;
+              font-weight: $font-weight-semibold;
+            }
+          }
+        }
+      }
+
+      // 주별 캘린더 내용
+      &-vlayout-area {
+        @include border(0.0625rem, solid, $gray300, right);
+
+        .tui-full-calendar-daygrid-layout {
+          @include border(0.0625rem, solid, $gray300, left);
+        }
+
+        .tui-full-calendar-weekday-grid,
+        .tui-full-calendar-weekday-schedules,
+        .tui-full-calendar-timegrid-container {
+          &::-webkit-scrollbar {
+            width: 0.5rem; // 8px
+
+            &-track {
+              background-color: $neutral100;
+            }
+
+            &-thumb {
+              background-color: $neutral300;
+
+              &:hover {
+                background-color: $gray300;
+              }
+
+              &:active {
+                background-color: $gray300;
+              }
+            }
+
+            &-track,
+            &-thumb {
+              @include borderRadius(0.5rem);
+            }
+          }
+
+          // firefox
+          scrollbar-width: thin;
+          scrollbar-color: $neutral300 $neutral100;
+        }
+
+        // 종일 일정
+        .tui-full-calendar-center-content {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+          font-size: $font-size-xs;
+          font-weight: $font-weight-medium;
+          color: $neutral600;
+        }
+
+        .tui-full-calendar-weekday-schedule {
+          margin: 0 10px 0 10px;
+          // all day
+          .tui-full-calendar-weekday-schedule-title {
+            font-size: $font-size-xxs;
+            font-weight: $font-weight-regular;
+          }
+        }
+
+        // 시간 일정
+        .tui-full-calendar-time-schedule {
+          font-size: $font-size-xxs;
+          font-weight: $font-weight-regular;
+        }
+
+        .tui-full-calendar-timegrid-container {
+
+        }
+      }
+
+      // 시간 영역
+      &-timegrid-container {
+        .tui-full-calendar-timegrid-timezone {
+          @include border(0.0625rem, solid, $gray300, left);
+          @include border(0.0625rem, solid, $gray300, bottom);
+          // 시간
+          .tui-full-calendar-timegrid-hour {
+            span {
+              text-align: center;
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              color: $neutral600;
+            }
+          }
+
+          // 현재시간
+          .tui-full-calendar-timegrid-hourmarker-time {
+            text-align: center;
+            padding-right: 10px;
+            //font-size: $font-size-xs;
+            //font-weight: $font-weight-medium;
+            //color: $orange400;
+          }
+        }
+
+        .tui-full-calendar-timegrid-right {
+          @include border(0.0625rem, solid, $gray300, bottom);
+        }
+      }
+
+      // 일별 보기
+      &-time-date-schedule-block-wrap {
+        margin-left: 10px;
+      }
+
+      // resize
+      &-time-guide-resize {
+        padding: 0 0.625rem; // 0 10px
+      }
+    }
+
+    // 일정 리스트 보기
+    &--task {
+      @include border(0.0625rem, solid, $gray300, all, bottom);
+
+      .calendar__rowGroup {
+        display: grid;
+        grid-template-rows: minmax(2.5rem, auto); // 40px
+        grid-template-columns: 8.75rem auto; // 140px
+        @include border(0.0625rem, solid, $gray300, bottom);
+
+        .calendar__rowHead {
+          padding: 0.75rem 0.625rem; // 12px 10px
+          .calendar__day {
+            display: inline-block;
+            width: 2.375rem; // 38px
+            font-size: $font-size-s;
+            font-weight: $font-weight-semibold;
+          }
+
+          .calendar__weekDay {
+            font-size: $font-size-xs;
+            font-weight: $font-weight-medium;
+            color: $neutral600;
+          }
+        }
+
+        .calendar__row {
+          display: grid;
+          row-gap: 0.5rem; // 8px
+          padding: 0.75rem 0.625rem 0.75rem 0;// 12px 10px 12px 0;
+
+          .calendar__cell {
+            display: grid;
+            grid-template-columns: 0.5rem 9.063rem auto; // 8px 145px auto
+            grid-template-rows: 1rem; // 16px
+            column-gap: 0.375rem; // 6px;
+            font-weight: $font-weight-regular;
+            padding: 0 0.5rem; // 0 8px
+            @include borderRadius(1rem); // 16px
+            cursor: pointer;
+
+            &:hover {
+              background-color: $neutral200;
+            }
+          }
+        }
+
+        // 오늘
+        &.today {
+          .calendar__day {
+            color: $blue500;
+          }
+        }
+        // 이전
+        &.prev {
+          .calendar__cell {
+            color: $neutral500;
+          }
+        }
+      }
+    }
+  }
+  // 동그라미 아이콘
+  &__color--round {
+    flex-shrink: 0;
+    @include borderRadius(50%);
+    width: 0.5rem; // 8px
+    height: 0.5rem; // 8px
+  }
+}
+
+// 모달
+.modal-wrapper {
+  .modal-dialog {
+    &.calendar {
+      &__modal--register {
+        width: calc(var(--data-modal-width) * 0.063rem); // 1px
+        height: calc(var(--data-modal-height) * 0.063rem);
+        margin: 0;
+        @include border(0.188rem, solid, $blue600, top); // 3px
+
+        // 문서함 모달일 경우 자동으로 위치 조정
+        &.document {
+          margin: auto;
+          border-top-color: transparent;
+          .modal-content {
+            height: calc(var(--data-modal-height) * 0.063rem - 3.75rem - 4.375rem); // 1px - 60px - 70px
+            padding: 1.25rem; // 20px
+          }
+        }
+
+        .modal-content {
+          height: calc(var(--data-modal-height) * 0.063rem - 3.75rem); // 1px - 60px
+          padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
+          @include scrollbarHidden;
+          @include border(0.063rem, solid, $gray300, bottom); // 1px
+
+          .calendar__modal--register__main {
+            gap: 0.5rem; // 8px
+
+            .flex-row {
+              gap: 0.313rem; // 5px
+            }
+
+            .schedule {
+              // 제목
+              &__title {
+                height: 3rem; // 48px
+                font-size: $font-size-l;
+                font-weight: $font-weight-semibold;
+              }
+
+              // 날짜
+              &__date {
+                width: 12.188rem; // 195px
+              }
+
+              // 내용
+              &__contents {
+                line-height: 1.4;
+              }
+
+              // 반복
+              &__repeat {
+                width: 21.125rem; // 338px
+              }
+            }
+          }
+        }
+
+        .modal-bottom {
+          height: 3.75rem; // 60px
+          padding: 0.75rem 1.25rem; // 12px 20px
+        }
+      }
+
+      &__modal--repeat {
+        width: 26.875rem; // 430px
+        .modal-content {
+          padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
+          @include scrollbarHidden;
+
+          .calendar__modal--repeat__main {
+            gap: 0.5rem; // 8px
+          }
+        }
+      }
+
+      &__modal--detail {
+        width: calc(var(--data-modal-width) * 0.063rem); // 1px
+        height: calc(var(--data-modal-height) * 0.063rem); // 1px
+        margin: 0;
+        @include border(0.188rem, solid, $blue600, top); // 3px
+
+        .modal-content {
+          height: calc(var(--data-modal-height) * 0.063rem - 3.75rem); // 1px - 60px
+          padding: 1.25rem 1.25rem 0 1.25rem; // 20px 20px 0px 20px
+          @include scrollbarHidden;
+          @include border(1px, solid, $gray300, bottom);
+
+          .calendar__modal--detail__main {
+            gap: 0.5rem; // 8px
+
+            .flex-row {
+              gap: 0.5rem; // 8px
+            }
+
+            .flex-column {
+              gap: 1rem; // 16px
+            }
+
+            .button-list {
+              margin-left: auto;
+            }
+
+            .schedule {
+              // 제목
+              &__title {
+                font-size: $font-size-l;
+                font-weight: $font-weight-semibold;
+                color: $neutral800;
+              }
+
+              // 날짜
+              &__date {
+                font-size: $font-size-xs;
+                font-weight: $font-weight-medium;
+                color: $neutral600;
+              }
+
+              // 내용
+              &__contents {
+                font-size: $font-size-xs;
+                font-weight: $font-weight-medium;
+                color: $neutral800;
+              }
+
+              // 반복
+              &__repeat {
+                font-size: $font-size-xs;
+                font-weight: $font-weight-medium;
+                color: $neutral800;
+              }
+
+              // 작성자
+              &__owner {
+                font-size: $font-size-xxs;
+                font-weight: $font-weight-medium;
+                color: $neutral600;
+              }
+            }
+          }
+        }
+
+        .modal-bottom {
+          height: 3.75rem; // 60px
+          padding: 0.75rem 1.25rem; // 12px 20px
+        }
+      }
+    }
+    // 일정 관리 일괄 등록 모달
+    &.calendar__template--import {
+      width: 37.5rem; // 600px
+      height: 25.625rem; // 410px
+
+      .modal-content {
+        height: calc(25.625rem - 3.875rem - 5rem);
+        padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+        .field-label {
+          display: inline-block;
+          margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+        }
+
+      }
+    }
+  }
+}
