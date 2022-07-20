@@ -1117,7 +1117,7 @@
             let targetMappingTooltip = document.createElement('div');
             targetMappingTooltip.className = 'help-tooltip';
             let targetMappingTooltipIcon = document.createElement('span');
-            targetMappingTooltipIcon.className = 'icon i-tooltip';
+            targetMappingTooltipIcon.className = 'ic-tooltip';
             let targetMappingTooltipContents = document.createElement('div');
             targetMappingTooltipContents.className = 'tooltip-contents';
             let targetMappingTooltipText = document.createElement('span');
@@ -1147,7 +1147,7 @@
             let sourceMappingTooltip = document.createElement('div');
             sourceMappingTooltip.className = 'help-tooltip';
             let sourceMappingTooltipIcon = document.createElement('span');
-            sourceMappingTooltipIcon.className = 'icon i-tooltip';
+            sourceMappingTooltipIcon.className = 'ic-tooltip';
             let sourceMappingTooltipContents = document.createElement('div');
             sourceMappingTooltipContents.className = 'tooltip-contents';
             let sourceMappingTooltipText = document.createElement('span');
@@ -1265,7 +1265,7 @@
             let conditionTooltip = document.createElement('div');
             conditionTooltip.className = 'help-tooltip';
             let conditionTooltipIcon = document.createElement('span');
-            conditionTooltipIcon.className = 'icon i-tooltip';
+            conditionTooltipIcon.className = 'ic-tooltip';
             let conditionTooltipContents = document.createElement('div');
             conditionTooltipContents.className = 'tooltip-contents';
             let conditionTooltipText = document.createElement('span');
@@ -1294,7 +1294,7 @@
             let fileBtn = document.createElement('button');
             fileBtn.className = 'button-icon button-attach-file';
             let fileIcon = document.createElement('span');
-            fileIcon.className = 'icon i-folder';
+            fileIcon.className = 'ic-folder';
             fileBtn.addEventListener('click', function() {
                 aliceJs.thumbnail({
                     title: i18n.msg('common.label.attachFile'),
@@ -1311,7 +1311,7 @@
             // button
             let btnAdd = document.createElement('button');
             btnAdd.type = 'button';
-            btnAdd.className = 'button form mt-3';
+            btnAdd.className = 'button btn--form mt-3';
             btnAdd.textContent = i18n.msg('common.btn.add');
 
             const saveData = function() {
@@ -1389,7 +1389,7 @@
                 btnDel.className = 'button-icon-sm mt-2 mb-2';
 
                 let btnIcon = document.createElement('span');
-                btnIcon.className = 'icon i-remove';
+                btnIcon.className = 'ic-remove';
                 btnDel.appendChild(btnIcon);
 
                 btnDel.addEventListener('click', function() {
@@ -1476,8 +1476,8 @@
 
         let btnAdd = document.createElement('button');
         btnAdd.type = 'button';
-        btnAdd.className = 'button-icon form button-candidate-add';
-        btnAdd.insertAdjacentHTML('beforeend', `<span class="icon i-plus"></span>`);
+        btnAdd.className = 'button-icon btn--form button-candidate-add';
+        btnAdd.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
 
         const saveData = function() {
             let dataBody = inputObject.parentNode.querySelector('tbody');
@@ -1516,7 +1516,7 @@
             btnDel.className = 'button-icon-sm mt-2 mb-2';
 
             let btnIcon = document.createElement('span');
-            btnIcon.className = 'icon i-remove';
+            btnIcon.className = 'ic-remove';
             btnDel.appendChild(btnIcon);
 
             btnDel.addEventListener('click', function() {
@@ -1896,7 +1896,7 @@
 
                 let copyBtn = document.createElement('button');
                 copyBtn.className = 'button-icon secondary btn-clipboard-tooltip';
-                copyBtn.insertAdjacentHTML('beforeend', `<span class="icon i-clipboard"></span>`);
+                copyBtn.insertAdjacentHTML('beforeend', `<span class="ic-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();
                     elementObject.setSelectionRange(0, 99999);

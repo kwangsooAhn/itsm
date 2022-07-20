@@ -47,7 +47,7 @@ export const fileDownloadMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         element.UIFileDownload = new UIDiv().setUIClass('fileDownload').addUIClass('flex-row');
-        element.UIFileDownload.addUI(new UISpan().setUIClass('icon').addUIClass('i-download').addUIClass('mr-3'));
+        element.UIFileDownload.addUI(new UISpan().setUIClass('ic-download').addUIClass('mr-3'));
 
         element.UIFileDownload.UIText = new UISpan().setUIClass('file-text').setUIInnerHTML(this.elementText);
         element.UIFileDownload.addUI(element.UIFileDownload.UIText);

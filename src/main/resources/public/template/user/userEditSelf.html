@@ -32,7 +32,7 @@
                             <span th:text="#{user.label.id}"></span>
                             <span class="required"></span>
                             <div class="help-tooltip">
-                                <span class="icon i-tooltip"></span>
+                                <span class="ic-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
@@ -47,7 +47,7 @@
                             <span th:text="#{user.label.password}"></span>
                             <span class="required"></span>
                             <div class="help-tooltip">
-                                <span class="icon i-tooltip"></span>
+                                <span class="ic-tooltip"></span>
                                 <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.pwRule}"></span>
                                 </div>
@@ -97,9 +97,9 @@
                                    th:value="${organizationDetail?.organizationName}" readonly>
                             <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
                                     tabindex="-1" th:if="!${view}">
-                                <span class="icon i-remove"></span>
+                                <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search button form" onclick="deptPopUp();"
+                            <button type="button" class="button-search button btn--form" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -196,14 +196,14 @@
                     <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{common.label.startDate}"></label>
                         <div>
-                            <input type="text" class="input i-date-picker search-date"
+                            <input type="text" class="input ic-date-picker search-date"
                                    id="absenceStartDt" name="absenceStartDt" th:readonly="${view}">
                         </div>
                     </div>
                     <div class="flex-column col-3 ml-2">
                         <label class="field-label required" th:text="#{common.label.endDate}"></label>
                         <div>
-                            <input type="text" class="input i-date-picker search-date"
+                            <input type="text" class="input ic-date-picker search-date"
                                    id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
                         </div>
                     </div>
@@ -214,9 +214,9 @@
                             <input type="text" class="input col-2" id="substituteUser" name="substituteUser"
                                     readonly>
                             <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);">
-                                <span class="icon i-remove"></span>
+                                <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search button form" onclick="openSubUserModal();"
+                            <button type="button" class="button-search button btn--form" onclick="openSubUserModal();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -509,7 +509,7 @@
 
     function createModalContent() {
         return `<div class="sub-user-list">` +
-            `<input class="input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
+            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="subUserList"></div>` +
             `</div>`;

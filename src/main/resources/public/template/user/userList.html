@@ -25,7 +25,7 @@
         </tr>
         <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
             <td style="width:3.1%;" class="align-right p-0 text-clip">
-                <img class="img i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
+                <img class="i-profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
             </td>
             <td style="width:9.9%;" class="align-left underline">
                 <a sec:authorize="!hasAuthority('system.manage')" th:text="${user.userName}"

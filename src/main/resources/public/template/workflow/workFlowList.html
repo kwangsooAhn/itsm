@@ -50,9 +50,9 @@
             <td style="width: 35%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
             <td style="width: 15%;" class="align-center" th:text="#{${document.documentStatus}}" th:title="#{${document.documentStatus}}"></td>
             <td style="width: 3%;" class="align-center">
-                <button type="button" class="button-icon form" th:if="${document.documentType} != 'application-form-link'"
+                <button type="button" class="button-icon btn--form" th:if="${document.documentType} != 'application-form-link'"
                         sec:authorize="hasAuthority('workflow.manage')" th:onclick="onXMLDownload([[${document.documentId}]])">
-                    <span class="icon i-list-download"></span>
+                    <span class="ic-list-download"></span>
                 </button>
             </td>
         </tr>

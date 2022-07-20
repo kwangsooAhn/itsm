@@ -22,7 +22,7 @@
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
                     <input type="text" id="typeName" class="input col-pct-12 inherit" th:value="${ciData?.typeName}"
                            readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="button form" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
+                    <button class="button btn--form" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- 아이콘 -->
@@ -75,7 +75,7 @@
             <div class="flex-row edit-row under-bar mt-4 relation-group">
                 <h3 id="relationLabel" class="sub-title" th:text="#{cmdb.ci.label.relation}"></h3>
                 <button id="editCIRelationBtn" type="button" class="button-icon extra ml-auto" disabled>
-                    <span class="icon i-edit"></span>
+                    <span class="ic-edit"></span>
                 </button>
             </div>
             <div class="flex-column view-row relation-group">
