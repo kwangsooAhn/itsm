@@ -3009,6 +3009,7 @@ span.ic-document-report {
 }
 .itsm-container .main-content .page-result .component .contents__req-status {
   display: flex;
+  width: 100%;
   border: none;
   overflow-x: hidden;
 }

@@ -328,6 +328,7 @@
         // 요청현황
         &__req-status {
           display: flex;
+          width: 100%;
           border: none;
           overflow-x: hidden;
           @include gridTemplate();
