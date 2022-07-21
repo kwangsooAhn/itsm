@@ -41,6 +41,9 @@ import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeTableRepository
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.role.specification.RoleCustomCodeSpecification
+import co.brainz.itsm.serviceCategory.entity.ServiceCategoryEntity
+import co.brainz.itsm.serviceCategory.repository.ServiceCategoryRepo
+import co.brainz.itsm.serviceCategory.specification.ServiceCustomCodeSpecification
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.itsm.user.specification.UserCustomCodeSpecification
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
@@ -67,7 +70,8 @@ class CustomCodeService(
     private val codeRepository: CodeRepository,
     private val codeService: CodeService,
     private val currentSessionUser: CurrentSessionUser,
-    private val wfComponentPropertyRepository: WfComponentPropertyRepository
+    private val wfComponentPropertyRepository: WfComponentPropertyRepository,
+    private val serviceCategoryRepo: ServiceCategoryRepo
 ) {
 
     private val customCodeMapper: CustomCodeMapper = Mappers.getMapper(CustomCodeMapper::class.java)
@@ -305,6 +309,11 @@ class CustomCodeService(
                     organizationRepository.findAll(OrganizationCustomCodeSpecification(condition), sort).toMutableList()
                 customDataList = this.setCustomCodeTreeByOrganization(customCode, organizationList)
             }
+            CustomCodeConstants.TableName.SERVICE_CATEGORY.code -> {
+                val serviceCategoryList =
+                    serviceCategoryRepo.findAll(ServiceCustomCodeSpecification(condition), sort).toMutableList()
+                customDataList = this.setCustomCodeTreeByService(customCode, serviceCategoryList)
+            }
         }
         return CustomCodeTreeReturnDto(
             data = customDataList,
@@ -398,6 +407,36 @@ class CustomCodeService(
         }
         return customDataList
     }
+
+    private fun setCustomCodeTreeByService(
+        customCode: CustomCodeCoreDto,
+        dataList: List<ServiceCategoryEntity>
+    ): MutableList<CustomCodeTreeDto> {
+        val customDataList = mutableListOf<CustomCodeTreeDto>()
+        if (dataList.isNotEmpty()) {
+            customDataList.add(
+                CustomCodeTreeDto(
+                    code = customCode.customCodeId,
+                    codeName = customCode.customCodeName,
+                    level = 0,
+                    seqNum = 0
+                )
+            )
+            dataList.forEachIndexed { index, data ->
+                customDataList.add(
+                    CustomCodeTreeDto(
+                        code = data.serviceCode,
+                        pCode = customCode.customCodeId,
+                        codeName = data.serviceName,
+                        level = 1,
+                        seqNum = index
+                    )
+                )
+            }
+        }
+        return customDataList
+    }
+
 
     /**
      * 타입인 테이블의 데이터를 트리로 변환.
