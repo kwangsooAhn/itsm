@@ -370,17 +370,17 @@
 
             // create hour start -------------------------------------------------------------------
             const hourGroup = document.createElement('div');
-            hourGroup.className = 'hour-group';
+            hourGroup.className = 'picker__time__hour';
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.className = 'ic-arrow-right hour-up';
+            hourArrowUp.className = 'ic-arrow-right ic-hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, {hours: 1}), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
             let digitHour = document.createElement('input');
             digitHour.type = 'text';
-            digitHour.className = 'digit';
+            digitHour.className = 'picker__time__digit';
             digitHour.id = this.id + '-time-hour';
             digitHour.value = _this.selectLuxon.toFormat(_this.hourFormat);
             digitHour.maxLength = 2;
@@ -388,7 +388,7 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.className = 'ic-arrow-right hour-down';
+            hourArrowDown.className = 'ic-arrow-right ic-hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, {hours: -1}), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
@@ -401,18 +401,18 @@
 
             // create minute start -----------------------------------------------------------------
             const minuteGroup = document.createElement('div');
-            minuteGroup.className = 'minute-group';
+            minuteGroup.className = 'picker__time__minute';
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.className = 'ic-arrow-right minute-up';
+            minuteArrowUp.className = 'ic-arrow-right ic-minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? 30 : 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
             // 분
             let digitMinute = document.createElement('input');
             digitMinute.type = 'text';
-            digitMinute.className = 'digit';
+            digitMinute.className = 'picker__time__digit';
             digitMinute.id = this.id + '-time-minute';
             digitMinute.value = _this.selectLuxon.toFormat(_this.minuteFormat);
             digitMinute.maxLength = 2;
@@ -420,7 +420,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.className = 'ic-arrow-right minute-down';
+            minuteArrowDown.className = 'ic-arrow-right ic-minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? -30 : -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);

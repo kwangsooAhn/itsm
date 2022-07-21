@@ -229,8 +229,8 @@
     padding: 1rem 0 1rem 0; // 16px 0 16px 0
     justify-content: center;
 
-    .hour-group,
-    .minute-group {
+    &__hour,
+    &__minute {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -242,11 +242,12 @@
         background: $gray500;
         cursor: pointer;
         &:hover { background: $blue400; }
-      }
-      .hour-up, .minute-up { @include rotate(-90); }
-      .hour-down, .minute-down { @include rotate(90); }
 
-      .digit {
+        &.ic-hour-up, &.ic-minute-up { @include rotate(-90); }
+        &.ic-hour-down, &.ic-minute-down { @include rotate(90); }
+      }
+
+      .picker__time__digit {
         @include border(0.0625rem, solid, $gray300);
         @include borderRadius(0.125rem);
         width: 3.75rem !important; // 60px
@@ -260,16 +261,21 @@
         &:hover, &:focus, &:active { outline: 0; }
       }
     }
-    .hour-group > .digit {
+    
+    &__hour > .picker__time__digit {
       @include border(0.0625rem, solid, transparent, right);
       @include borderRadius(0.125rem 0 0 0.125rem);
     }
-    .minute-group > .digit {
+    &__minute > .picker__time__digit {
       @include border(0.0625rem, solid, transparent, left);
       @include borderRadius(0 0.125rem 0.125rem 0);
     }
+    
     // AM, PM
-    .btn__toggle__button { padding-left: 0.5rem; } // 8px
+    .btn__toggle__button {
+      padding-left: 0.5rem; // 8px
+      &--multi { padding: 0.0625rem 0.375rem; } //1px 6px
+    }
 
     // 구분자 :
     .separator {
