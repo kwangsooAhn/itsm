@@ -159,6 +159,8 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061abb00c5','component','장�
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061aed00c6','component','승인의견','5dba55dd1d57415ba28a3f1816859793');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061af300c7','component','반려의견','5dba55dd1d57415ba28a3f1816859793');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061af900c8','component','z-approve-content','5dba55dd1d57415ba28a3f1816859793');
+insert into awf_tag VALUES ('40288a8c821a141f01821a81c2e40002', 'component', '관련 서비스', 'a5bacb272c1cc7b3a8632f8c149efdbe');
+insert into awf_tag VALUES ('40288a8c821a141f01821a81c2e60003', 'component', 'z-related-service', 'a5bacb272c1cc7b3a8632f8c149efdbe');
 /* 서비스데스크 - 장애신고 - 만족도 */
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da7bf0023','component','로고','a4257952286a4e6fae6faaeaae7279fd');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da7c50024','component','z-logo','a4257952286a4e6fae6faaeaae7279fd');
@@ -814,6 +816,12 @@ INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b65172093a', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b65179093b', 'component', '장애처리반려의견', 'd76ba5477ff14033b691d6f59cc5c0a5');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b6517f093c', 'component', 'z-incident-fix-approve-content', 'd76ba5477ff14033b691d6f59cc5c0a5');
 INSERT INTO awf_tag VALUES ('4028b21c7cdffb67017ce0b65187093d', 'component', 'z-incident-approve-content', 'd76ba5477ff14033b691d6f59cc5c0a5');
+insert into awf_tag VALUES ('40288a8c821a141f01821a8dd9500005', 'component', '관련 서비스', 'ae8fa580e4be181e1d09e5761e89ca15');
+insert into awf_tag VALUES ('40288a8c821a141f01821a8dd9510006', 'component', 'z-related-service', 'ae8fa580e4be181e1d09e5761e89ca15');
+insert into awf_tag VALUES ('40288a8c821a141f01821ac2b92001cd', 'component', '서비스중단시작시간', 'ace6d79e8482e91b7f37f72afebc3f75');
+insert into awf_tag VALUES ('40288a8c821a141f01821ac2b92101ce', 'component', 'z-incident-service-shutdown-start', 'ace6d79e8482e91b7f37f72afebc3f75');
+insert into awf_tag VALUES ('40288a8c821a141f01821ac339ed01d1', 'component', '서비스중단종료시간', 'a5c9a4348d016409ba1d6bac3cd008fa');
+insert into awf_tag VALUES ('40288a8c821a141f01821ac339ef01d2', 'component', 'z-incident-service-shutdown-end', 'a5c9a4348d016409ba1d6bac3cd008fa');
 
 /* 사용자 정의 차트 */
 INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0001', 'chart', '단순문의 만족도', '4028b8817cd4629c017cd479a9890005');

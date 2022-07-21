@@ -92,6 +92,7 @@ INSERT INTO wf_component VALUES ('09f5924aeff4483daf730badbc1379d6','fileUpload'
 INSERT INTO wf_component VALUES ('5a57a673747a46b0924716a33470a723','customCode','z-sd-approver',false,'4028b21f7c9adb6a017c9b061a5600bc','4028b21f7c90d996017c91af9dcf0051');
 INSERT INTO wf_component VALUES ('39e8b33c67ad420599d9f57c6e23cbee','dateTime','z-sd-approve-date',false,'4028b21f7c9adb6a017c9b061a9f00c0','4028b21f7c90d996017c91af9dcf0051');
 INSERT INTO wf_component VALUES ('5dba55dd1d57415ba28a3f1816859793','textArea','z-sd-approve-content',false,'4028b21f7c9adb6a017c9b061ae500c5','4028b21f7c90d996017c91af9dcf0051');
+insert into wf_component VALUES ('a5bacb272c1cc7b3a8632f8c149efdbe', 'customCode', 'z-related-service', false, 'a06cd52641fccb0af606f20f422af087', '4028b21f7c90d996017c91af9dcf0051');
 /* 서비스데스크 - 장애신고 - 만족도 */
 INSERT INTO wf_component VALUES ('a4257952286a4e6fae6faaeaae7279fd','image','z-logo',false,'4028b21f7c90d996017c914da7b90022','4028b21f7c90d996017c914bce270002');
 INSERT INTO wf_component VALUES ('a19693dff90a45b889df568bbe177bcd','label','z-document-title',false,'4028b21f7c90d996017c914da7e10025','4028b21f7c90d996017c914bce270002');
@@ -384,3 +385,6 @@ INSERT INTO wf_component VALUES('a7be4fd9186347949ed7638ebd61343d', 'customCode'
 INSERT INTO wf_component VALUES('4872eda3d44e45898f36b7a001d946bc', 'dateTime', 'z-incident-approve-date', false, '4028b21c7cdffb67017ce0b651230934', '4028b21c7cdffb67017ce0b5f9920873');
 INSERT INTO wf_component VALUES('d76ba5477ff14033b691d6f59cc5c0a5', 'textArea', 'z-incident-approve-content', false, '4028b21c7cdffb67017ce0b6516a0939', '4028b21c7cdffb67017ce0b5f9920873');
 INSERT INTO wf_component VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'dropdown', 'z-perception-path', false, '4028b21c7cdffb67017ce0b64b9608f4', '4028b21c7cdffb67017ce0b5f9920873');
+insert into wf_component VALUES('ae8fa580e4be181e1d09e5761e89ca15', 'customCode', 'z-related-service', false, 'ac0773ec9d60700bb7406574eedc1b52', '4028b21c7cdffb67017ce0b5f9920873');
+insert into wf_component VALUES('ace6d79e8482e91b7f37f72afebc3f75', 'dateTime', 'z-incident-service-shutdown-start', false, 'accb9afb23c6c6d39055fb9421b2651b', '4028b21c7cdffb67017ce0b5f9920873');
+insert into wf_component VALUES('a5c9a4348d016409ba1d6bac3cd008fa', 'dateTime', 'z-incident-service-shutdown-end', false, 'accb9afb23c6c6d39055fb9421b2651b', '4028b21c7cdffb67017ce0b5f9920873');
