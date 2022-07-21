@@ -133,14 +133,14 @@
 }
 
 // 썸네일 모달
-.modal-dialog {
+.modal__dialog {
   // thumnbnail > modal(type: icon) 관련 템플릿
   &.thumbnail-icon {
     top: 7rem; // 112px
     width: 47.81rem; // 765px
     height: 45rem; // 720px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(45rem - 3.875rem - 5rem); // 720px
       // 검색창
       .z-input { margin: 0.625rem 0.4375rem; }
@@ -187,9 +187,9 @@
     width: 760px; // 760px
     height: 645px; // 645px
 
-    .modal-header .thumbnail-preview-name { line-height: 1.2; }
+    .modal__dialog__header .thumbnail-preview-name { line-height: 1.2; }
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(645px - 3.875rem - 5rem);
       padding: 30px; // 30px
 

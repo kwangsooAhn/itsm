@@ -73,7 +73,7 @@
       background-color: $white;
       color: $gray800;
       font-size: $font-size-xs;
-      z-index: 100;
+      z-index: $z-index-gnb;
       visibility: hidden;
     }
     &-item {

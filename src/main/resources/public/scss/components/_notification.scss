@@ -24,7 +24,7 @@
     width: 26.25rem; // 420px
     background-color: $white;
     color: $gray800;
-    z-index: 25;
+    z-index: $z-index-event;
   }
 
   // notification 상단 영역 
