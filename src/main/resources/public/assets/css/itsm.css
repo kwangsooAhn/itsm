@@ -7208,30 +7208,74 @@ span.ic-paging-end-arrow {
  * @author wdj
  * @version 1.0
  */
-.avatar-edit .avatar-title {
+.avatar__title {
   margin: 0.5625rem 0 0.5625rem 0;
   color: #8B9094;
   font-size: 0.875rem;
   font-weight: 500;
 }
-.avatar-edit .avatar {
+.avatar__description {
+  margin-top: 1rem;
+}
+.avatar__description__text {
+  display: block;
+  margin-bottom: 0.3125rem;
+  color: #ABB0B5;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-align: left;
+}
+.avatar--small {
+  margin-bottom: 1.25rem;
+}
+.avatar--small > div {
+  display: inline-block;
+}
+.avatar--small > div:first-child {
+  margin-right: 0.625rem;
+}
+.avatar--small .avatar__description {
+  vertical-align: top;
+}
+.avatar--small .avatar__description__text {
+  font-size: 0.8125rem;
+}
+.avatar--small .avatar {
+  width: 9.375rem;
+  height: 9.375rem;
+  padding: 0;
+}
+.avatar--small .avatar .dz-message {
+  margin-top: 1.25rem;
+}
+.avatar--small .avatar .dz-message .ic-avatar {
+  height: 2.813rem;
+  margin-bottom: 0.9375rem;
+  -webkit-mask-size: 2.813rem;
+  mask-size: 2.813rem;
+}
+.avatar--small .avatar .dz-message span {
+  font-size: 0.8125rem;
+}
+
+.avatar {
   border: 0.0625rem solid #CFD5D9;
   width: 20.63rem;
   height: 20.63rem;
   padding: 0;
   background-color: #FAFAFA;
 }
-.avatar-edit .avatar .dz-default {
+.avatar .dz-default {
   margin: 1.875rem 0;
 }
-.avatar-edit .avatar .dz-default.dz-message {
+.avatar .dz-default.dz-message {
   margin-top: 5.313rem;
   color: #ABB0B5;
   font-size: 0.875rem;
   font-weight: 400;
   text-align: center;
 }
-.avatar-edit .avatar .dz-default.dz-message .ic-avatar {
+.avatar .dz-default.dz-message .ic-avatar {
   width: 100%;
   height: 5rem;
   -webkit-mask-image: url("../../assets/media/icons/fileUploader/icon_avatar.svg");
@@ -7245,55 +7289,55 @@ span.ic-paging-end-arrow {
   background: #CFD5D9;
   margin-bottom: 1.25rem;
 }
-.avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap {
+.avatar .dz-default.dz-message .add-file-button-wrap {
   margin-top: 0.5rem;
 }
-.avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap .dz-clickable {
+.avatar .dz-default.dz-message .add-file-button-wrap .dz-clickable {
   color: #3373C4;
   cursor: pointer;
 }
-.avatar-edit .avatar .dz-default.dz-drag-hover {
+.avatar .dz-default.dz-drag-hover {
   border-style: solid;
 }
-.avatar-edit .avatar .dz-default.dz-drag-hover .dz-message {
+.avatar .dz-default.dz-drag-hover .dz-message {
   opacity: 0.5;
 }
-.avatar-edit .avatar .dz-preview {
+.avatar .dz-preview {
   position: relative !important;
   height: 100%;
   padding: 0;
   border: 0;
 }
-.avatar-edit .avatar .dz-preview .dz-image {
+.avatar .dz-preview .dz-image {
   display: contents;
   overflow: hidden;
   position: relative;
   z-index: 10;
 }
-.avatar-edit .avatar .dz-preview .dz-image img {
+.avatar .dz-preview .dz-image img {
   object-fit: cover;
 }
-.avatar-edit .avatar .dz-preview .dz-success-mark,
-.avatar-edit .avatar .dz-preview .dz-error-mark {
+.avatar .dz-preview .dz-success-mark,
+.avatar .dz-preview .dz-error-mark {
   display: none;
 }
-.avatar-edit .avatar .dz-preview:hover {
+.avatar .dz-preview:hover {
   z-index: 25;
 }
-.avatar-edit .avatar .dz-preview:hover .dz-details {
+.avatar .dz-preview:hover .dz-details {
   opacity: 1;
 }
-.avatar-edit .avatar .dz-preview.dz-image-preview {
+.avatar .dz-preview.dz-image-preview {
   background: #FFFFFF;
 }
-.avatar-edit .avatar .dz-preview.dz-image-preview .dz-details {
+.avatar .dz-preview.dz-image-preview .dz-details {
   -webkit-transition: opacity 0.2s linear;
   -moz-transition: opacity 0.2s linear;
   -o-transition: opacity 0.2s linear;
   -ms-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
-.avatar-edit .avatar .dz-preview .dz-details {
+.avatar .dz-preview .dz-details {
   position: absolute !important;
   top: 0;
   left: 0;
@@ -7307,12 +7351,12 @@ span.ic-paging-end-arrow {
   opacity: 0;
   z-index: 10;
 }
-.avatar-edit .avatar .dz-preview .dz-details .dz-file-type,
-.avatar-edit .avatar .dz-preview .dz-details .dz-filename,
-.avatar-edit .avatar .dz-preview .dz-details .dz-size {
+.avatar .dz-preview .dz-details .dz-file-type,
+.avatar .dz-preview .dz-details .dz-filename,
+.avatar .dz-preview .dz-details .dz-size {
   display: none;
 }
-.avatar-edit .avatar .dz-preview .dz-details .dz-remove {
+.avatar .dz-preview .dz-details .dz-remove {
   position: absolute !important;
   top: 0;
   right: 0;
@@ -7327,57 +7371,14 @@ span.ic-paging-end-arrow {
   height: 1.125rem;
   cursor: pointer;
 }
-.avatar-edit .avatar .dz-preview .dz-details .dz-remove:hover {
+.avatar .dz-preview .dz-details .dz-remove:hover {
   background-color: rgba(255, 255, 255, 0.9);
 }
-.avatar-edit .avatar .dz-preview .dz-progress {
+.avatar .dz-preview .dz-progress {
   display: none;
 }
-.avatar-edit .avatar.dz-started .dz-message {
+.avatar.dz-started .dz-message {
   display: none;
-}
-.avatar-edit .avatar-description {
-  margin-top: 1rem;
-}
-.avatar-edit .avatar-description .avatar-text {
-  display: block;
-  margin-bottom: 0.3125rem;
-  color: #ABB0B5;
-  font-size: 0.875rem;
-  font-weight: 400;
-  text-align: left;
-}
-.avatar-edit .avatar-sm {
-  margin-bottom: 1.25rem;
-}
-.avatar-edit .avatar-sm > div {
-  display: inline-block;
-}
-.avatar-edit .avatar-sm > div:first-child {
-  margin-right: 0.625rem;
-}
-.avatar-edit .avatar-sm .avatar {
-  width: 9.375rem;
-  height: 9.375rem;
-  padding: 0;
-}
-.avatar-edit .avatar-sm .avatar .dz-message {
-  margin-top: 1.25rem;
-}
-.avatar-edit .avatar-sm .avatar .dz-message .ic-avatar {
-  height: 2.813rem;
-  margin-bottom: 0.9375rem;
-  -webkit-mask-size: 2.813rem;
-  mask-size: 2.813rem;
-}
-.avatar-edit .avatar-sm .avatar .dz-message span {
-  font-size: 0.8125rem;
-}
-.avatar-edit .avatar-sm .avatar-description {
-  vertical-align: top;
-}
-.avatar-edit .avatar-sm .avatar-description .avatar-text {
-  font-size: 0.8125rem;
 }
 
 /* _button.scss
