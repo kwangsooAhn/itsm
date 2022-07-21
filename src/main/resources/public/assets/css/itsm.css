@@ -7144,13 +7144,6 @@ span.ic-alert-email {
   line-height: 1.7143;
   box-sizing: border-box;
 }
-.alert-button {
-  border: 0.0625rem solid #CFD5D9;
-  margin: 0 0 0 0.3125rem;
-  padding: 0.4375rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-}
 
 /* _avatar.scss 
  *
