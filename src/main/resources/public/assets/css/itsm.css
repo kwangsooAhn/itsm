@@ -10752,6 +10752,7 @@ select.readonly {
   align-items: center;
   justify-content: center;
   height: 100%;
+  text-align: left;
 }
 .file-uploader-view .file-uploader-list .text-no-file {
   color: #ABB0B5;
