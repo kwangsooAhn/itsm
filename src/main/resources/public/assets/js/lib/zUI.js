@@ -386,7 +386,7 @@ class UIClipboard extends UIElement {
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass('button-icon').addUIClass('secondary');
+        this.UITooltip.UIButton = new UIButton().setUIClass('btn__ic').addUIClass('secondary');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);
@@ -414,7 +414,7 @@ class UIClipboard extends UIElement {
 class UIRemoveButton extends UIElement {
     constructor() {
         super(document.createElement('button'));
-        this.domElement.className = 'button-icon-sm';
+        this.domElement.className = 'item-remove';
         this.domElement.type = 'button';
         this.domElement.addEventListener('click', function () {
             aliceJs.clearText(this);

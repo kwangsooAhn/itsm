@@ -34,7 +34,7 @@
         <!-- 아이콘 -->
         <div class="flex-column view-row">
             <label class="field-label" th:text="#{cmdb.type.label.icon}"></label>
-            <div class="flex-row input-button">
+            <div class="flex-row input--remove">
                 <input type="text" id="typeIcon" class="input" th:value="${ciData?.ciIcon}" readonly/>
             </div>
         </div>
@@ -131,8 +131,8 @@
         </table>
     </div>
     <div class="flex-row justify-content-start view-row">
-        <div class="button-list">
-            <a class="button secondary" href="/cmdb/cis/search" th:text="#{common.btn.list}"></a>
+        <div class="btn__list">
+            <a class="btn__text--box secondary" href="/cmdb/cis/search" th:text="#{common.btn.list}"></a>
         </div>
     </div>
 </div>

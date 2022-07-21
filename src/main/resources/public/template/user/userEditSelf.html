@@ -90,16 +90,16 @@
                     </div>
                     <div class="flex-column edit-row">
                         <label th:text="#{user.label.department}"></label>
-                        <div class="flex-row input-button">
+                        <div class="flex-row input--remove">
                             <input type="hidden" id="organizationCode" name="organizationCode"
                                    th:value="${organizationDetail?.organizationId}"/>
                             <input type="text" class="input col-5" id="organization" name="organization"
                                    th:value="${organizationDetail?.organizationName}" readonly>
-                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);"
                                     tabindex="-1" th:if="!${view}">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search button btn--form" onclick="deptPopUp();"
+                            <button type="button" class="button-search btn__text--box tertiary" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -209,14 +209,14 @@
                     </div>
                     <div class="flex-column col-4 ml-2">
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
-                        <div class="flex-row input-button">
+                        <div class="flex-row input--remove">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="input col-2" id="substituteUser" name="substituteUser"
                                     readonly>
-                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);">
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search button btn--form" onclick="openSubUserModal();"
+                            <button type="button" class="button-search btn__text--box tertiary" onclick="openSubUserModal();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -232,8 +232,8 @@
             </div>
         </div>
         <div class="flex-row justify-content-end edit-row">
-            <div class="button-list">
-                <button class="button primary" type="button" th:text="#{common.btn.modify}"
+            <div class="btn__list">
+                <button class="btn__text--box primary" type="button" th:text="#{common.btn.modify}"
                         th:onclick="preSubmitCheck([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>
         </div>
@@ -471,7 +471,7 @@
                 classes: 'sub-user-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -486,7 +486,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

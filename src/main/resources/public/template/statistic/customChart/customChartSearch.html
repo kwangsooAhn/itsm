@@ -31,7 +31,7 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="button primary" sec:authorize="hasAuthority('report.manage')"
+        <button type="button" class="btn__text--box primary" sec:authorize="hasAuthority('report.manage')"
                 th:text="#{common.btn.add}" onclick="location.href='/statistics/customChart/new'"></button>
     </div>
 </div>
@@ -89,7 +89,7 @@
                 classes: 'chart-view-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function (modal) {
                         zChartManager.destroy();
