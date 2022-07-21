@@ -107,7 +107,7 @@
           border-color: $blue500;
           background-color: $blue100;
           outline: 0;
-          z-index: 25;
+          z-index: $z-index-event;
           .dz-details { opacity: 1; }
           .dz-image {
             img {
@@ -148,7 +148,7 @@
           text-align: center;
           line-height: 150%;
           opacity: 0;
-          z-index: 10;
+          z-index: $z-index-between-event-and-default;
           // 파일 아이콘
           .dz-file-type {
             grid-column: 1;
@@ -211,7 +211,7 @@
           @include relative();
           overflow: hidden;
           display: block;
-          z-index: 10;
+          z-index: $z-index-between-event-and-default;
           img { display: block; }
         }
         // 파일업로드 성공 및 실패 메시지는 디자인상 보이지 않음
@@ -230,7 +230,7 @@
             background: linear-gradient(to bottom, #be2626, #a92222);
             color: $white;
             opacity: 0;
-            z-index: 500;
+            z-index: $z-index-tooltip;
             pointer-events: none;
 
             &:after {
@@ -277,7 +277,7 @@
           margin: 0 3rem 0 2.625rem; // 0 48px 0 42px
           background: inherit;
           opacity: 1;
-          z-index: 750;
+          z-index: $z-index-between-modal-gnb;
           pointer-events: none;
 
           .dz-upload {
