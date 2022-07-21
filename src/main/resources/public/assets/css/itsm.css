@@ -8961,7 +8961,11 @@ span.ic-paging-end-arrow {
   flex-direction: row;
   justify-content: center;
 }
-.date-picker__modal__body .date-picker__text {
+.date-picker__modal__footer {
+  float: right;
+  margin: 0.75rem 0.6875rem 0.75rem 0 !important;
+}
+.date-picker__modal__period__text {
   display: table-cell;
   width: 7.5rem;
   margin: 0;
@@ -8971,24 +8975,20 @@ span.ic-paging-end-arrow {
   color: #424242;
   vertical-align: middle;
 }
-.date-picker__modal__body .date-picker__prev {
+.date-picker__modal__period__prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-.date-picker__modal__body .date-picker__period .ic-arrow-right {
+.date-picker__modal__period .ic-arrow-right {
   display: table-cell;
   cursor: pointer;
   background: #ABB0B5;
 }
-.date-picker__modal__body .date-picker__period .ic-arrow-right:hover {
+.date-picker__modal__period .ic-arrow-right:hover {
   background: #619CDB;
-}
-.date-picker__modal__footer {
-  float: right;
-  margin: 0.75rem 0.6875rem 0.75rem 0 !important;
 }
 
 .picker__year {
@@ -9087,7 +9087,7 @@ span.ic-paging-end-arrow {
 .picker__date-months img {
   vertical-align: middle;
 }
-.picker__date-months .date-picker__text {
+.picker__date-months .date-picker__period__text {
   width: 16.5rem;
 }
 .picker__date-calendar {

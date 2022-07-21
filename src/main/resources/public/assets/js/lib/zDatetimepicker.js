@@ -277,20 +277,20 @@
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'ic-arrow-right date-picker__prev';
+            prevArrow.className = 'ic-arrow-right date-picker__period__prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
             // text
             const currentText = document.createElement('span');
-            currentText.className = 'date-picker__text';
+            currentText.className = 'date-picker__period__text';
             currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyyMMdd'));
             currentText.textContent = _this.selectLuxon.toFormat('yyyy-MM'); //  2020-06
             monthPanel.appendChild(currentText);
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'ic-arrow-right date-picker__next';
+            nextArrow.className = 'ic-arrow-right date-picker__period__next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
@@ -504,13 +504,13 @@
 
             // prev year
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'ic-arrow-right date-picker__prev';
+            prevArrow.className = 'ic-arrow-right date-picker__period__prev';
             prevArrow.addEventListener('click', _this.prevYear, false);
             periodPanel.appendChild(prevArrow);
 
             // text
             const currentText = document.createElement('div');
-            currentText.className = 'date-picker__text';
+            currentText.className = 'date-picker__period__text';
             periodPanel.appendChild(currentText);
             const textFormet = _this.selectLuxon.toFormat('yyyy');
             const changeTextType = Number(textFormet) // string -> number 변환
@@ -525,7 +525,7 @@
 
             // next year
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'ic-arrow-right date-picker__next';
+            nextArrow.className = 'ic-arrow-right date-picker__period__next';
             nextArrow.addEventListener('click', _this.nextYear, false);
             periodPanel.appendChild(nextArrow);
 
