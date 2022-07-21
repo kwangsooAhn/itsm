@@ -395,7 +395,7 @@
 
             // 구분자 :
             const separator = document.createElement('div');
-            separator.className = 'separator';
+            separator.className = 'picker__time__separator';
             separator.textContent = ':';
             pickerTime.appendChild(separator);
 

@@ -270,15 +270,9 @@
       @include border(0.0625rem, solid, transparent, left);
       @include borderRadius(0 0.125rem 0.125rem 0);
     }
-    
-    // AM, PM
-    .btn__toggle__button {
-      padding-left: 0.5rem; // 8px
-      &--multi { padding: 0.0625rem 0.375rem; } //1px 6px
-    }
 
     // 구분자 :
-    .separator {
+    &__separator {
       @include border(0.0625rem, solid, $gray400, top);
       @include border(0.0625rem, solid, $gray400, bottom);
       display: flex;
@@ -291,6 +285,12 @@
       color: $gray800;
       font-size: 1.5rem; // 24px
       font-weight: $font-weight-medium;
+    }
+    
+    // AM, PM
+    .btn__toggle__button {
+      padding-left: 0.5rem; // 8px
+      &--multi { padding: 0.0625rem 0.375rem; } //1px 6px
     }
   }
 }

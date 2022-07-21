@@ -9196,13 +9196,7 @@ span.ic-paging-end-arrow {
   -webkit-border-radius: 0 0.125rem 0.125rem 0;
   -moz-border-radius: 0 0.125rem 0.125rem 0;
 }
-.picker__time .btn__toggle__button {
-  padding-left: 0.5rem;
-}
-.picker__time .btn__toggle__button--multi {
-  padding: 0.0625rem 0.375rem;
-}
-.picker__time .separator {
+.picker__time__separator {
   border-top: 0.0625rem solid #ABB0B5;
   border-bottom: 0.0625rem solid #ABB0B5;
   display: flex;
@@ -9215,6 +9209,12 @@ span.ic-paging-end-arrow {
   color: #222529;
   font-size: 1.5rem;
   font-weight: 500;
+}
+.picker__time .btn__toggle__button {
+  padding-left: 0.5rem;
+}
+.picker__time .btn__toggle__button--multi {
+  padding: 0.0625rem 0.375rem;
 }
 
 /* _element.scss
