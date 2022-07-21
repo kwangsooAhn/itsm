@@ -62,7 +62,7 @@ export const imageMixin = {
         // placeholder
         element.UIDiv = new UIDiv().setUIClass('imagebox-placeholder')
             .addUI(new UISpan().setUIClass('ic-no-image'))
-            .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('file.label.placeholder')));
+            .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('resource.label.placeholder')));
         element.addUI(element.UIDiv);
         return element;
     },

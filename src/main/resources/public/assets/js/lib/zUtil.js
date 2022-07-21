@@ -541,7 +541,7 @@ aliceJs.thumbnail = function(options) {
         // image 미선택 시 알림창 출력
         let selectedFile = document.querySelector('.thumbnail.selected');
         if (!selectedFile) {
-            zAlert.warning(i18n.msg('file.msg.fileSelect'));
+            zAlert.warning(i18n.msg('validation.msg.fileSelect'));
             return false;
         }
         const targetElem = document.getElementById(targetId);
@@ -706,7 +706,7 @@ aliceJs.thumbnail = function(options) {
     // 모달 호출
     const thumbnailModalTemplate = `<div class="thumbnail">
         <input class="ic-search col-5" type="text" id="searchValue" maxlength="100" 
-            placeholder="${i18n.msg('file.label.name')}">
+            placeholder="${i18n.msg('resource.label.fileName')}">
         <span id="totalCount" class="search-count"></span>
         <span class="search-count">/</span>
         <span id="spanTotalCountWithoutCondition" class="search-count"></span>

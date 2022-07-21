@@ -535,7 +535,6 @@ cmdb:
     label:
       list: "CI 아이콘 관리"
       name: "아이콘 파일 이름"
-      upload: "파일 업로드"
     msg:
       maxFileSize: "첨부파일 사이즈는 10KB 이내로 등록 가능합니다."
       notFoundInTable: "파일이 이력 테이블(cmdb_ci_icon)에 존재하지 않습니다. 이력 테이블(cmdb_ci_icon)에 데이터를 주가 바랍니다."
@@ -1845,30 +1844,6 @@ project:
     sessionInvalid: "Zenius ITSM : 세션"
     signUp: "Zenius ITSM : 회원가입"
 
-# uploader
-file:
-  btn:
-    folder: "+ 폴더"
-  label:
-    folderName: "폴더 이름"
-    list: "파일 관리"
-    name: "파일 이름"
-    newFolder: "새 폴더"
-    or: "또는"
-    placeholder: "Select Your File"
-    popupTitle: "파일 선택"
-    upload: "파일 업로드"
-  msg:
-    browser: "파일을 직접 찾으세요."
-    existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
-    failedRename: "파일명 수정이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
-    fileSelect: "파일을 선택하세요."
-    noAttachFile: "첨부 파일이 없습니다."
-    unacceptableCharacters: "파일명에 허용하지 않는 특수문자(. / \ %)가 포함되어 있습니다."
-    registrationSuccess: "파일 등록에 성공하였습니다"
-    searchDescription: "문서양식에서 사용할 파일을 추가하거나 조회 및 관리합니다."
-    upload: "업로드하려면 여기로 파일을 드래그하세요."
-
 # Pattern
 pattern:
   label:
@@ -1947,14 +1922,33 @@ resource:
   btn:
     file: "파일 추가"
     folder: "폴더 추가"
+    rename: "이름 변경"
   label:
     extension: "유형"
+    fileName: "파일 이름"
+    folder: "폴더"
     folderName: "폴더 이름"
     fullPath: "경로"
+    image: "이미지"
     list: "리소스 관리"
     name: "이름"
+    newFolder: "새 폴더"
+    or: "또는"
+    placeholder: "Select Your File"
+    popupTitle: "파일 선택"
+    rename: "이름 변경"
     sharedFolder: "공유 문서함"
     searchPlaceholder: "폴더 이름 / 파일 이름"
     size: "크기"
+    upload: "파일 업로드"
   msg:
+    browser: "파일을 직접 찾으세요."
+    confirmFolderDelete: "하위 폴더 및 파일이 존재합니다. 정말 삭제하시겠습니까?"
+    duplicateFolderName: "동일한 폴더명이 존재합니다.<br>다른 이름을 입력하세요."
+    existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
+    failedRename: "파일명 수정이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
+    noAttachFile: "첨부 파일이 없습니다."
+    noFile: "파일이 존재하지 않습니다."
     searchDescription: "공유 폴더/파일을 추가하거나 삭제, 조회하는 등 관리하는 메뉴입니다."
+    unacceptableCharacters: "허용하지 않는 특수문자(: ? * \" < > |)가 포함되어 있습니다."
+    upload: "업로드하려면 여기로 파일을 드래그하세요."

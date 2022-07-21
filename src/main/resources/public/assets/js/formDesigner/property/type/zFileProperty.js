@@ -70,7 +70,7 @@ export default class ZFileProperty extends ZProperty {
 
     openThumbnailModal() {
         aliceJs.thumbnail({
-            title: i18n.msg('file.label.popupTitle'),
+            title: i18n.msg('resource.label.popupTitle'),
             targetId: this.key,
             type: this.type,
             isThumbnailInfo: true,
