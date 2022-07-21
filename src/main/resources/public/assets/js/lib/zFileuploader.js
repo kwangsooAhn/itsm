@@ -23,7 +23,7 @@
     const addFileBtnWrapClassName = 'add-file-button-wrap'; // 업로드 버튼 클릭 구역 wrapper
     const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
     const logValueDigit = 1024;
-    let isEnabledFileDrag = getEnabledFileDrag();
+    let isEnabledFileDrag = true;
 
     function generateUUID() {
         function s4() {
@@ -73,7 +73,9 @@
             extraParam.acceptedFiles = null;
         }
 
-        extraParam.type = 'dropzone ' + (extraParam.type || '');
+        if (typeof extraParam.type === 'undefined') {
+            extraParam.type = 'dropzone';
+        }
 
         // edit 모드일때
         if (typeof extraParam.editor === 'undefined') {
@@ -89,15 +91,15 @@
         }
 
         if (typeof extraParam.dictDefaultMessage === 'undefined') {
-            extraParam.dictDefaultMessage = isEnabledFileDrag ? i18n.msg('file.msg.upload') : '';
+            extraParam.dictDefaultMessage = isEnabledFileDrag ? i18n.msg('resource.msg.upload') : '';
         }
 
         if (typeof extraParam.clickableLineMessage === 'undefined') {
-            extraParam.clickableLineMessage = isEnabledFileDrag ? ' ' + i18n.msg('file.label.or') + ' ' : '';
+            extraParam.clickableLineMessage = isEnabledFileDrag ? ' ' + i18n.msg('resource.label.or') + ' ' : '';
         }
 
         if (typeof extraParam.clickableMessage === 'undefined') {
-            extraParam.clickableMessage = i18n.msg('file.msg.browser');
+            extraParam.clickableMessage = i18n.msg('resource.msg.browser');
         }
         // view 모드일때
         if (typeof extraParam.isView === 'undefined') {
@@ -185,7 +187,7 @@
      */
     function createDragAndDropZone(targetElement, options) {
         const dropZoneTemplate =
-            `<div id="${dragAndDropZoneId}" class="${options.type}">` +
+            `<div id="${dragAndDropZoneId}" class="dropzone ${options.type}">` +
             `<div class="${addFileBtnWrapClassName}">` +
             `<span>${options.dictDefaultMessage}</span>` +
             // 타입이 아바타일 경우 개행 추가
@@ -222,7 +224,7 @@
                 a.remove();
                 window.URL.revokeObjectURL(url);
             } else {
-                zAlert.warning(i18n.msg('file.msg.noAttachFile'));
+                zAlert.warning(i18n.msg('resource.msg.noAttachFile'));
             }
         }).catch(err => {
             zAlert.warning(err);
@@ -253,12 +255,9 @@
         }
     }
 
-    async function getEnabledFileDrag() {
-        aliceJs.fetchJson(
-            '/rest/files/enabledFileDrag', {
-                method: 'GET',
-            }).then((response) => {
-            isEnabledFileDrag = response;
+    function getEnabledFileDrag() {
+        return aliceJs.fetchJson('/rest/files/enabledFileDrag', {
+            method: 'GET',
         });
     }
 
@@ -366,7 +365,7 @@
                     if (!_this.isFileExist && options.isView) {
                         const noFileStr = document.createElement('span');
                         noFileStr.className = 'text-no-file text-ellipsis';
-                        noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
+                        noFileStr.textContent = i18n.msg('resource.msg.noAttachFile');
                         dropZoneUploadedFiles.appendChild(noFileStr);
                     }
 
@@ -617,7 +616,10 @@
      *
      * @param param 매개변수
      */
-    function init(param) {
+    async function init(param) {
+        await getEnabledFileDrag().then(res => {
+            isEnabledFileDrag = res;
+        });
         setExtraParam(param);
         initFileUploader(param);
     }
@@ -627,7 +629,10 @@
      *
      * @param param 매개변수
      */
-    function avatar(param) {
+    async function avatar(param) {
+        await getEnabledFileDrag().then(res => {
+            isEnabledFileDrag = res;
+        });
         setExtraParam(param);
         initAvatarUploader(param);
     }

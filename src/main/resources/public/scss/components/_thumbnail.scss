@@ -202,3 +202,79 @@
     }
   }
 }
+
+
+// 썸네일
+.grid {
+  &__thumbnail {
+    @include border(0.0625rem, solid, $gray300, all);
+    @include borderRadius(0.25rem); // 4px
+    display: inline-block;
+    width: 15.625rem; // 250px
+    height: 12.438rem; // 199px
+    box-shadow: none;
+    cursor: pointer;
+    overflow: visible;
+
+    &:hover {
+      @include border(0.0625rem, solid, $blue500, all);
+    }
+
+    &.selected {
+      @include border(0.0625rem, solid, $blue600, all);
+      @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+    }
+
+    .thumbnail__image {
+      @include relative();
+      display: inline-block;
+      width: 100%;
+      height: 6.563rem; // 105px
+      background-size: auto;
+      background-repeat: no-repeat;
+      background-position: center center;
+      img {
+        @include absolute(0, 0, 0, 0);
+        margin: auto;
+      }
+    }
+
+    .thumbnail__caption {
+      padding: 0.5rem 1rem; // 8px 16px
+
+      //파일명
+      .thumbnail__caption--title {
+        height: 1.25rem; // 20px
+        color: $neutral800;
+        font-size: $font-size-xs;
+        font-weight: $font-weight-medium;
+      }
+
+      .thumbnail__caption--description {
+        color: $neutral500;
+        font-size: $font-size-xxs;
+        font-weight: $font-weight-regular;
+      }
+
+      // 이름 변경
+      .thumbnail__caption--rename {
+        display: none;
+        width: 100%;
+        float: left;
+      }
+    }
+
+    .thumbnail__footer {
+      @include border(0.0625rem, solid, $gray300, top);
+      padding: 0 1rem; // 0 16px
+      height: 2.375rem; // 38px;
+
+      .thumbnail__footer--description {
+        color: $neutral500;
+        font-size: $font-size-xxs;
+        font-weight: $font-weight-regular;
+      }
+      [class*="ic-"] { background: $neutral500; }
+    }
+  }
+}

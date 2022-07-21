@@ -154,7 +154,7 @@ export const fileDownloadMixin = {
                     a.remove();
                     window.URL.revokeObjectURL(url);
                 } else {
-                    zAlert.warning(i18n.msg('file.msg.noAttachFile'));
+                    zAlert.warning(i18n.msg('resource.msg.noAttachFile'));
                 }
             }).catch(err => {
                 zAlert.warning(err);

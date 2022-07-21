@@ -8,7 +8,7 @@ package co.brainz.framework.fileTransaction.service
 import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
-import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.constants.ResourceConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -74,8 +74,8 @@ class AliceFileService(
     @Transactional
     fun uploadTemp(multipartFile: MultipartFile): AliceFileLocEntity {
         val fileName = super.getRandomFilename()
-        val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileName)
-        val filePath = super.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
+        val tempPath = super.getUploadFilePath(ResourceConstants.Path.TEMP.path, fileName)
+        val filePath = super.getUploadFilePath(ResourceConstants.Path.UPLOAD.path, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
 
         if (Files.notExists(tempPath.parent)) {
@@ -307,7 +307,7 @@ class AliceFileService(
      * @return AliceFileDetailDto?
      */
     fun getFile(name: String): AliceFileDetailDto? {
-        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val dir = super.getPath(ResourceConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
         val file = filePath.toFile()
         var fileDetailDto: AliceFileDetailDto? = null
@@ -349,7 +349,7 @@ class AliceFileService(
         this.fileNameSpecialCheck(fileName)
         userService.userAccessAuthCheck("", AuthConstants.AuthType.WORKFLOW_MANAGE.value)
 
-        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val dir = super.getPath(ResourceConstants.Path.FILE.path)
         val resource =
             FileSystemResource(Paths.get(dir.toString() + File.separator + fileName))
 
@@ -372,7 +372,7 @@ class AliceFileService(
      * @return ZResponse
      */
     fun uploadFiles(multipartFiles: List<MultipartFile>): ZResponse {
-        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val dir = super.getPath(ResourceConstants.Path.FILE.path)
         val extSet = mutableSetOf<String>()
 
         aliceFileProvider.getFileNameExtension().forEach {
@@ -380,8 +380,8 @@ class AliceFileService(
         }
 
         multipartFiles.forEach {
-            val filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
-            val file = filePath.toFile()
+            var filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
+            var file = filePath.toFile()
             if (extSet.contains(file.extension.toUpperCase())) {
                 val oriFileNameWithoutExtension = file.nameWithoutExtension
                 var num = 1
@@ -390,7 +390,7 @@ class AliceFileService(
                 while (file.exists()) {
                     fileName = oriFileNameWithoutExtension + "(" + num++ + ")." + file.extension
                     // 현재 올라간 파일의 파일명을 변경한다.
-                    filePath = Paths.get(dirPath.toString() + File.separator + fileName)
+                    filePath = Paths.get(dir.toString() + File.separator + fileName)
                     file = filePath.toFile()
                 }
                 it.transferTo(file)
@@ -409,7 +409,7 @@ class AliceFileService(
      */
     fun renameFile(originName: String, modifyName: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val dir = super.getPath(ResourceConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dir.toFile(), modifyName)
@@ -437,7 +437,7 @@ class AliceFileService(
      */
     fun deleteFile(name: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dir = super.getPath(FileConstants.Path.FILE.path)
+        val dir = super.getPath(ResourceConstants.Path.FILE.path)
         val filePath = Paths.get(dir.toString() + File.separator + name)
 
         try {
@@ -492,7 +492,7 @@ class AliceFileService(
      */
     private fun moveFile(fileLocEntity: AliceFileLocEntity, isRollback: Boolean) {
         val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-        val tempPath = super.getUploadFilePath(FileConstants.Path.TEMP.path, fileLocEntity.randomName)
+        val tempPath = super.getUploadFilePath(ResourceConstants.Path.TEMP.path, fileLocEntity.randomName)
 
         if (isRollback) {
             Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)

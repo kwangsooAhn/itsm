@@ -190,9 +190,10 @@ export const modalButtonMixin = {
             });
         } else {
             // noData
-            gridBodyRow = `<div class="grid__row grid--noData read-only">` +
-                `<div class="grid__cell"><span>${i18n.msg('common.msg.noData')}</span></div>` +
-                `</div>`;
+            gridBodyRow = `<div class="grid--noData" style="--data-columns-width: 100%;">` +
+                    `<div class="grid__row read-only"><div class="grid__cell">` +
+                `<span class="ic-no-data"></span><span>${i18n.msg('common.msg.noData')}</span>` +
+                `</div></div></div>`;
         }
 
         // modal template

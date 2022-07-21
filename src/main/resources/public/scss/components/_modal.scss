@@ -641,4 +641,36 @@ body.modal-active { overflow: hidden !important; }
     }
     .modal-bottom { height: 3.5rem }; //56px
   }
+
+  /*
+ * resource
+ */
+  // 폴더 추가
+  &.save-folder {
+    .modal-content {
+      @include scrollbarHidden;
+      height: calc(15.625rem - 3.875rem - 5rem); // 250px
+      padding: 0.625rem 1.25rem; // 10px 20px
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+    }
+  }
+  // 썸네일 미리보기
+  &.thumbnail-preview {
+    width: 47.5rem; // 760px
+
+    .modal-content {
+      height: calc(40.313rem - 3.875rem - 5rem);
+      padding: 0.9375rem 1.875rem; // 15px 30px
+
+      .preview__image {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    }
+  }
 }

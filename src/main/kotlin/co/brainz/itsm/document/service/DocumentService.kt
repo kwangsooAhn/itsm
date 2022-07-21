@@ -6,7 +6,7 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.constants.ResourceConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
@@ -120,7 +120,7 @@ class DocumentService(
             if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
             document.documentIcon =
                 aliceFileProvider.getDataUriSchema(
-                    FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon
+                    ResourceConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon
                 )
         }
         return documentList

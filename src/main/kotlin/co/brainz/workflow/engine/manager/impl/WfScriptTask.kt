@@ -10,7 +10,7 @@ import co.brainz.cmdb.dto.CIDataDto
 import co.brainz.cmdb.dto.CIDataForGroupListDto
 import co.brainz.cmdb.dto.CIDto
 import co.brainz.cmdb.dto.CIRelationDto
-import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.constants.ResourceConstants
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.tag.constants.AliceTagConstants
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
@@ -343,7 +343,7 @@ class WfScriptTask(
                     val processFilePath = wfTokenManagerService.getProcessFilePath(attachFileName)
                     val fileName = wfTokenManagerService.getRandomFilename()
                     val uploadFilePath =
-                        wfTokenManagerService.getUploadFilePath(FileConstants.Path.UPLOAD.path, fileName)
+                        wfTokenManagerService.getUploadFilePath(ResourceConstants.Path.UPLOAD.path, fileName)
                     try {
                         Files.copy(processFilePath, uploadFilePath, StandardCopyOption.REPLACE_EXISTING)
                         if (Files.exists(uploadFilePath)) {

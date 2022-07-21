@@ -5,7 +5,7 @@
 
 package co.brainz.itsm.cmdb.ciIcon.service
 
-import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.constants.ResourceConstants
 import co.brainz.framework.fileTransaction.provider.AliceFileProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
@@ -38,9 +38,8 @@ class CIIconService(
      * @param offset -1일 경우 전체 조회
      */
     fun getCIIcons(search: String, offset: Int): CIIconListReturnDto {
-        val type = FileConstants.Type.ICON_CI_TYPE.code
-        val dir = fileProvider.getExternalDir(type)
-        val dirPath = super.getPath(dir)
+        val type = ResourceConstants.FileType.CI_ICON.code
+        val dirPath = getExternalPath(type)
         val fileList = fileProvider.getValidFileList(type, dirPath, search)
         val iconList = ciIconRepo.findAll()
         val dataList = mutableListOf<CIIconDto>()
@@ -84,8 +83,7 @@ class CIIconService(
      */
     fun uploadCIIcons(multipartFiles: List<MultipartFile>): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dir = fileProvider.getExternalDir(FileConstants.Type.ICON_CI_TYPE.code)
-        val dirPath = super.getPath(dir)
+        val dirPath = getExternalPath(ResourceConstants.FileType.CI_ICON.code)
         val extList = fileProvider.getAllowedImageExtensions()
         try {
             multipartFiles.forEach {
@@ -129,8 +127,7 @@ class CIIconService(
      */
     fun renameCIIcon(originName: String, modifyName: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dir = fileProvider.getExternalDir(FileConstants.Type.ICON_CI_TYPE.code)
-        val dirPath = super.getPath(dir)
+        val dirPath = getExternalPath(ResourceConstants.FileType.CI_ICON.code)
         val filePath = Paths.get(dirPath.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dirPath.toFile(), modifyName)
@@ -163,8 +160,7 @@ class CIIconService(
      */
     fun deleteCIIcon(name: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dir = fileProvider.getExternalDir(FileConstants.Type.ICON_CI_TYPE.code)
-        val dirPath = super.getPath(dir)
+        val dirPath = getExternalPath(ResourceConstants.FileType.CI_ICON.code)
         val filePath = Paths.get(dirPath.toString() + File.separator + name)
         try {
             Files.delete(filePath)

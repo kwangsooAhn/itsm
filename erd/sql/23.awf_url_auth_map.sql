@@ -97,7 +97,7 @@ insert into awf_url_auth_map values ('/forms/search', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/forms/{id}/edit', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/forms/{id}/preview', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'workflow.manage');
-insert into awf_url_auth_map values ('/files', 'get', 'workflow.manage');
+insert into awf_url_auth_map values ('/resources', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/notices', 'get', 'general');
 insert into awf_url_auth_map values ('/notices', 'get', 'portal.manage');
 insert into awf_url_auth_map values ('/notices/new', 'get', 'portal.manage');

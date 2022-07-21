@@ -168,7 +168,7 @@
         return `<div class="z-thumbnail-upload align-center"
                     onclick="document.getElementById('uploadFile').click();" tabindex="-1">
                     <span class="z-icon i-file-upload"></span>
-                    <p class="z-thumbnail-upload-text underline mt-2">[(#{cmdb.icon.label.upload})]</p>
+                    <p class="z-thumbnail-upload-text underline mt-2">[(#{resource.label.upload})]</p>
                     <input type="file" id="uploadFile" accept="${acceptFileNameList.join()}"
                         multiple onchange="uploadFile(this);" style="display: none;"/>
                 </div>`.trim();
@@ -246,7 +246,7 @@
                     labelElem.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
                     break;
                 case aliceJs.response.notExist:
-                    zAlert.warning('[(#{file.msg.failedRename})]');
+                    zAlert.warning('[(#{resource.msg.failedRename})]');
                     break;
                 case aliceJs.response.error:
                     zAlert.danger('[(#{common.msg.fail})]');
@@ -289,7 +289,7 @@
         const regex = new RegExp('[./\\\\%]');
 
         if (name.match(regex)) {
-            zAlert.warning('[(#{file.msg.unacceptableCharacters})]');
+            zAlert.warning('[(#{resource.msg.unacceptableCharacters})]');
             return true;
         }
         return false;
@@ -315,7 +315,7 @@
         if (isAllowedExtensions(allowedExtensions, fileList)) {
             saveFile(fileList);
         } else {
-            zAlert.confirm('[(#{file.msg.existNotAllowedExtension})]', saveFile, () => {
+            zAlert.confirm('[(#{resource.msg.existNotAllowedExtension})]', saveFile, () => {
                 document.getElementById('uploadFile').value = '';  // 취소시 file object 값 비움 처리
             });
         }

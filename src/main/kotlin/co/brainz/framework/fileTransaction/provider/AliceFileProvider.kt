@@ -5,7 +5,7 @@
 
 package co.brainz.framework.fileTransaction.provider
 
-import co.brainz.framework.fileTransaction.constants.FileConstants
+import co.brainz.framework.fileTransaction.constants.ResourceConstants
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailDto
 import co.brainz.framework.fileTransaction.dto.AliceFileDetailListReturnDto
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
@@ -38,7 +38,7 @@ class AliceFileProvider(
      * 프로세스 상태 파일 로드
      */
     fun getProcessStatusFile(processId: String): File {
-        val dir = super.getPath(FileConstants.Path.PROCESSES.path)
+        val dir = super.getPath(ResourceConstants.Path.PROCESSES.path)
         val filePath = Paths.get(dir.toString() + File.separator + processId + ".xml")
         return filePath.toFile()
     }
@@ -152,8 +152,7 @@ class AliceFileProvider(
         searchValue: String,
         currentOffset: Int = -1
     ): AliceFileDetailListReturnDto {
-        val dir = getExternalDir(type)
-        val dirPath = super.getPath(dir)
+        val dirPath = getExternalPath(type)
         val fileList = this.getValidFileList(type, dirPath, searchValue)
         val dataList = mutableListOf<AliceFileDetailDto>()
         var startIndex = 0
@@ -203,17 +202,6 @@ class AliceFileProvider(
     }
 
     /**
-     * 외부 경로 조회
-     */
-    fun getExternalDir(type: String): String {
-        return when (type) {
-            FileConstants.Type.ICON.code -> FileConstants.Path.ICON_DOCUMENT.path
-            FileConstants.Type.ICON_CI_TYPE.code -> FileConstants.Path.ICON_CI_TYPE.path
-            else -> FileConstants.Path.FILE.path
-        }
-    }
-
-    /**
      * 외부경로의 이미지 파일을 데이터로 읽기.
      *
      * @param fileFullName 파일 경로와 파일명까지 포함된 전체 이름
@@ -235,9 +223,9 @@ class AliceFileProvider(
             fileDirMap[false]?.forEach { filePath ->
                 val file = filePath.toFile()
                 when (type) {
-                    FileConstants.Type.ICON.code,
-                    FileConstants.Type.ICON_CI_TYPE.code,
-                    FileConstants.Type.IMAGE.code -> {
+                    ResourceConstants.FileType.ICON.code,
+                    ResourceConstants.FileType.CI_ICON.code,
+                    ResourceConstants.FileType.IMAGE.code -> {
                         if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
                             if (this.searchValueValid(file, searchValue)) {
                                 fileList.add(filePath)
@@ -291,7 +279,7 @@ class AliceFileProvider(
         if (currentOffset == -1) {
             endIndex = maxSize // 전체 목록 조회인 경우
         } else {
-            endIndex = currentOffset + ItsmConstants.IMAGE_OFFSET_COUNT
+            endIndex = (currentOffset + ItsmConstants.IMAGE_OFFSET_COUNT).toInt()
             if (maxSize < endIndex) endIndex = maxSize
         }
         return endIndex

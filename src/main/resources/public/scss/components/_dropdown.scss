@@ -1,0 +1,108 @@
+/* _dropdown.scss
+ *
+ * 파일 경로 : components/_dropdown.scss
+ * @description 드롭다운 디자인
+ * @author Woo Da Jung <wdj@brainz.co.kr>
+ * @version 1.0
+ */
+
+$dropdown: (
+  'default': ('font': $gray800, 'background': $white, 'border': $white),
+  'hover': ('font' : $gray800, 'background': $blue50, 'border': $blue50),
+  'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
+  'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
+);
+
+// ... 메뉴 클릭시 드롭다운
+.dropdown-menu {
+  @include relative();
+
+  span[class*="ic-"] { pointer-events: none; }
+
+  .dropdown__toggle {
+    padding: 0.25rem; // 4px
+
+    &.on {
+      + .dropdown__content--left,
+      + .dropdown__content--right {
+        display: flex;
+      }
+    }
+  }
+
+  .dropdown__content--left {
+    @include absolute($left: 0);
+
+    .dropdown__item {
+      .btn__text--box { text-align: left; }
+    }
+  }
+
+  .dropdown__content--right {
+    @include absolute($right: 0);
+
+    .dropdown__item {
+      .btn__text--box { text-align: right; }
+    }
+  }
+
+  .dropdown__content--left,
+  .dropdown__content--right {
+    @include border(0.0625rem, solid, $gray300, all); // 1px
+    @include borderRadius(0.125rem); // 2px
+    display: none;
+    flex-direction: column;
+    min-width: 5rem; // 80px
+    margin: 0.25rem 0 0 0; // 4px
+    padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
+    background-color: $white;
+    z-index: $z-index-between-tooltip-gnb;
+
+    .dropdown__item {
+      padding: 0.25rem 0 0 0; // 4px 0 0 0
+      .btn__text--box {
+        width: 100%;
+        border-color: map-get($dropdown, 'default', 'border');
+        background-color: map-get($dropdown, 'default', 'background');
+        color: map-get($dropdown, 'default', 'font');
+        font-weight: $font-weight-medium;
+        font-size: $font-size-xs;
+        padding: 0.625rem 0.75rem; // 10px 12px
+        @if map-get($dropdown, 'default', 'shadow') != null {
+          box-shadow: map-get($dropdown, 'default', 'shadow');
+        }
+        &:focus {
+          border-color: map-get($layout-header-dropdown, 'focus', 'border');
+          background-color: map-get($layout-header-dropdown, 'focus', 'background');
+          color: map-get($layout-header-dropdown, 'focus', 'font');
+          outline: 0;
+          @if map-get($layout-header-dropdown, 'focus', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'focus', 'shadow');
+          }
+        }
+
+        &:hover {
+          border-color: map-get($layout-header-dropdown, 'hover', 'border');
+          background-color: map-get($layout-header-dropdown, 'hover', 'background');
+          color: map-get($layout-header-dropdown, 'hover', 'font');
+          outline: 0;
+          @if map-get($layout-header-dropdown, 'hover', 'shadow') != null {
+            box-shadow: map-get($layout-header-dropdown, 'hover', 'shadow');
+          }
+          text-decoration: none;
+        }
+
+        &:enabled:active,
+        &:enabled.active {
+          border-color: map-get($dropdown, 'active', 'border');
+          background-color: map-get($dropdown, 'active', 'background');
+          color: map-get($dropdown, 'active', 'font');
+          z-index: 25;
+          @if map-get($dropdown, 'active', 'shadow') != null {
+            box-shadow: map-get($dropdown, 'active', 'shadow');
+          }
+        }
+      }
+    }
+  }
+}

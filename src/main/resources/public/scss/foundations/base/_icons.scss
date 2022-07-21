@@ -48,6 +48,14 @@ span {
   &.ic-image { @include maskImage('#{$icon-folder-path}icon_image.svg', 1.25rem, 1.25rem, no-repeat, center); }
   // 폴더
   &.ic-folder { @include maskImage('#{$icon-folder-path}icon_folder.svg', 1.25rem, 1.25rem, no-repeat, center); }
+  // 리스트보기 아이콘
+  &.ic-cheeseburger { @include maskImage('#{$icon-folder-path}icon_cheeseburger.svg', 1.5rem, 1.5rem, no-repeat, center); }
+  // 목록보기 아이콘
+  &.ic-chocolate { @include maskImage('#{$icon-folder-path}icon_chocolate.svg', 1.5rem, 1.5rem, no-repeat, center); }
+  // ... 아이콘
+  &.ic-meatballs { @include maskImage('#{$icon-folder-path}icon_meatballs.svg', 1.25rem, 1.25rem, no-repeat, center); }
+  // 데이터 없을때
+  &.ic-no-data { @include maskImage('#{$icon-folder-path}icon_no_data.svg', 6.25rem, 6.25rem, no-repeat, center); }
 
   // fileUploader
   // fileUploader > 다운로드
