@@ -44,7 +44,7 @@
                     <div class="flex-column edit-row"
                          th:if="${users?.userKey != null && mailEnabled && users?.platform.equals('user.platform.alice') && !view}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="button primary"
+                        <button class="btn__text--box primary"
                                 th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"
                                 th:text="#{user.btn.resetPassword}" type="button"></button>
                     </div>
@@ -91,16 +91,16 @@
                     </div>
                     <div class="flex-column edit-row">
                         <label th:text="#{user.label.department}"></label>
-                        <div class="flex-row input-button">
+                        <div class="flex-row input--remove">
                             <input id="organizationId" name="organizationId" th:value="${organizationDetail?.organizationId}"
                                    type="hidden"/>
                             <input class="input text-ellipsis" id="organization" name="organization" readonly
                                    th:value="${organizationDetail?.organizationName}" type="text">
-                            <button type="button" class="button-icon-sm" onclick="clearOrganization(this);"
+                            <button type="button" class="item-remove" onclick="clearOrganization(this);"
                                     th:if="!${view}" tabindex="-1">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button class="button-search button btn--form" onclick="organizationPopUp();" th:if="!${view}"
+                            <button class="button-search btn__text--box tertiary" onclick="organizationPopUp();" th:if="!${view}"
                                     th:text="#{common.btn.select}" type="button"></button>
                         </div>
                     </div>
@@ -227,15 +227,15 @@
                     </div>
                     <div class="flex-column col-4">
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
-                        <div class="flex-row input-button">
+                        <div class="flex-row input--remove">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="input col-5" id="substituteUser" name="substituteUser"
                                    readonly>
-                            <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);"
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);"
                                     tabindex="-1">
                                 <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="button-search button btn--form" onclick="openUserListPopup();"
+                            <button type="button" class="button-search btn__text--box tertiary" onclick="openUserListPopup();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
@@ -261,13 +261,13 @@
             </label>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
-                <a class="button secondary" href="/users/search" th:text="#{common.btn.list}"></a>
+            <div class="btn__list">
+                <a class="btn__text--box secondary" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
-                <button type="button" class="button primary" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+                <button type="button" class="btn__text--box primary" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                         th:onclick="preSubmitCheck('post', [[@{/rest/users}]], 'true')"></button>
-                <button type="button" class="button primary" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
+                <button type="button" class="btn__text--box primary" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
                         th:onclick="preSubmitCheck('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
             </div>
         </div>
@@ -597,7 +597,7 @@
                 classes: 'sub-user-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -612,7 +612,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

@@ -74,7 +74,7 @@ export const dynamicRowTableMixin = {
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         // 버튼 목록
-        element.UIDiv = new UIDiv().setUIClass('button-list');
+        element.UIDiv = new UIDiv().setUIClass('btn__list');
         element.addUI(element.UIDiv);
 
         // 추가 버튼
@@ -325,7 +325,7 @@ export const dynamicRowTableMixin = {
         }
         // 삭제 버튼
         const removeButton = new UIButton()
-            .setUIClass('button-icon-sm')
+            .setUIClass('item-remove')
             .addUIClass('mt-1')
             .addUIClass('mb-1')
             .onUIClick(this.removeTableRow.bind(this, targetTable, row))
@@ -887,7 +887,7 @@ export const dynamicRowTableMixin = {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     const realTimeSelectedUser = target.getAttribute('data-realtime-selected-user').split('|');
@@ -906,7 +906,7 @@ export const dynamicRowTableMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();

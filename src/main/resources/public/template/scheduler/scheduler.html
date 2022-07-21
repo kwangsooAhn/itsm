@@ -145,23 +145,23 @@
                    th:value="${schedule?.executeCyclePeriod}" type="text"/>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
-                <a class="button secondary" href="/schedulers/search" th:text="#{common.btn.list}"></a>
+            <div class="btn__list">
+                <a class="btn__text--box secondary" href="/schedulers/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
-                <button type="button" class="button primary" onclick="actionScheduler('post')"
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('system.manage')">
+                <button type="button" class="btn__text--box primary" onclick="actionScheduler('post')"
                         th:if="${schedule == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="button primary" onclick="actionScheduler('put')"
+                <button type="button" class="btn__text--box primary" onclick="actionScheduler('put')"
                         th:if="${schedule != null}"
                         th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="button danger" onclick="deleteScheduler()"
+                <button type="button" class="btn__text--box danger" onclick="deleteScheduler()"
                         th:disabled="${!schedule.editable}" th:if="${schedule != null}"
                         th:text="#{common.btn.delete}">
                 </button>
-                <button type="button" class="button primary" onclick="actionScheduler('execute')"
+                <button type="button" class="btn__text--box primary" onclick="actionScheduler('execute')"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.immediatelyExecute}"></button>
-                <button type="button" class="button secondary" onclick="openHistoryViewModal(false)"
+                <button type="button" class="btn__text--box secondary" onclick="openHistoryViewModal(false)"
                         th:if="${schedule != null}" th:text="#{scheduler.btn.history}"></button>
             </div>
         </div>
@@ -261,7 +261,7 @@
                     `<div class="table-set" id="historyList"></div>`,
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function (modal) {
                         modal.hide();

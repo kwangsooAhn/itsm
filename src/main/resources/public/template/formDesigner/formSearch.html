@@ -28,9 +28,9 @@
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto" sec:authorize="hasAuthority('workflow.manage')">
-        <button class="button primary" onclick="openFormRegister();"
+        <button class="btn__text--box primary" onclick="openFormRegister();"
                 th:text="#{common.btn.add}" type="button"></button>
-        <button class="button secondary" onclick="openFormImport();"
+        <button class="btn__text--box secondary" onclick="openFormImport();"
                 th:text="#{common.btn.import}" type="button"></button>
     </div>
 </div>
@@ -144,14 +144,14 @@
             classes: 'form-edit',
             buttons: [{
                 content: i18n.msg('common.btn.register'),
-                classes: 'button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: function(modal) {
                     saveForm();
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -305,14 +305,14 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.import'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: function(modal) {
                         importForm();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

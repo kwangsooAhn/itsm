@@ -21,14 +21,14 @@
         classes: '', // modal class
         /*buttons: [{
             content: "Accept",
-            classes: "button primary",
+            classes: "btn__text--box primary",
             bindKey: 13, //Enter. See https://keycode.info/
             callback: function(modal) {
                 modal.hide();
             }
         }, {
             content: "Cancel",
-            classes: "button secondary",
+            classes: "btn__text--box secondary",
             bindKey: false,
             callback: function(modal) {
                 modal.hide();
@@ -250,7 +250,7 @@
             // 버튼
             if (this.options.buttons.length > 0) {
                 let buttons = document.createElement('div');
-                buttons.className = 'modal__dialog__footer button-list flex-row float-right align-items-end';
+                buttons.className = 'modal__dialog__footer btn__list flex-row float-right align-items-end';
 
                 for (let i = 0, len = this.options.buttons.length; i < len; i++) {
                     let button = document.createElement('button');

@@ -125,12 +125,12 @@
             <!-- 신청서 아이콘 -->
             <div class="flex-column edit-row">
                 <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row input-button">
+                <div class="flex-row input--remove">
                     <input type="text" id="applicationDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                    <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                    <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>
                     </button>
-                    <button type="button" class="button-search button btn--form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                    <button type="button" class="button-search btn__text--box tertiary" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
         </div>
@@ -239,31 +239,31 @@
             <!-- 신청서 아이콘 -->
             <div class="flex-column edit-row">
                 <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row input-button">
+                <div class="flex-row input--remove">
                     <input type="text" id="linkDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                    <button type="button" class="button-icon-sm" onclick="aliceJs.clearText(this);" tabindex="-1">
+                    <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>
                     </button>
-                    <button type="button" class="button-search button btn--form" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
+                    <button type="button" class="button-search btn__text--box tertiary" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
                 </div>
             </div>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
-                <a class="button secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
+            <div class="btn__list">
+                <a class="btn__text--box secondary" href="/workflows/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="button primary" onclick="saveDocument('POST')"
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+                <button type="button" class="btn__text--box primary" onclick="saveDocument('POST')"
                         th:if="${documentId == null}" th:text="#{common.btn.register}">
                 </button>
-                <button type="button" class="button primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
+                <button type="button" class="btn__text--box primary" th:onclick="saveDocument('PUT', [[${documentId}]])"
                         th:unless="${documentId == null}" th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="button secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
+                <button type="button" class="btn__text--box secondary" th:onclick="openDocumentDisplay([[${documentId}]])"
                         th:if="${documentId} and ${documentData?.documentType != 'application-form-link'}"
                         th:text="#{document.label.registerDisplay}">
                 </button>
-                <button type="button" class="button danger"
+                <button type="button" class="btn__text--box danger"
                         th:onclick="deleteDocument([[${documentId}]], [[${documentData?.documentType} == 'application-form-link']])"
                         th:if="${documentId}" th:text="#{common.btn.delete}">
                 </button>
@@ -500,14 +500,14 @@
                 classes: 'document-display',
                 buttons: [{
                     content: i18n.msg('common.btn.modify'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: function() {
                         saveDocumentDisplay(documentId);
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();

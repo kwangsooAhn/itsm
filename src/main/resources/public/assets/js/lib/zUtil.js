@@ -679,7 +679,7 @@ aliceJs.thumbnail = function(options) {
             classes: 'thumbnail-' + options.type,
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary thumbnail-save',
+                classes: 'btn__text--box primary thumbnail-save',
                 bindKey: false,
                 callback: function(modal) {
                     if (saveThumbnail(options.targetId)) {
@@ -688,7 +688,7 @@ aliceJs.thumbnail = function(options) {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -1223,7 +1223,7 @@ aliceJs.clearText = function(req) {
  * @param target
  */
 aliceJs.inputButtonRemove = function(target) {
-    let xTarget = target || document.querySelector('.input-button-remove-btn');
+    let xTarget = target || document.querySelector('.input--remove-remove-btn');
     if (xTarget !== null) {
         let inputValue = xTarget.previousElementSibling.value;
         if (inputValue === null || inputValue === '') {
