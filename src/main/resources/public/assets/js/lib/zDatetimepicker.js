@@ -137,7 +137,7 @@
         let pickerContentDate = document.createElement('div');
         pickerContentDate.className = 'picker__date';
         if (this.type === 'DATE' || this.type === 'DATEHOUR') {
-            pickerContentDate.classList.add('active');
+            pickerContentDate.classList.add('inline-block');
         }
         pickerContent.appendChild(pickerContentDate);
         this.drawDate();
@@ -146,7 +146,7 @@
         if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
             let pickerContentTime = document.createElement('div');
             pickerContentTime.className = 'picker__time';
-            pickerContentTime.classList.add('active');
+            pickerContentTime.classList.add('flex');
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
         }
@@ -272,7 +272,7 @@
             pickerDate.innerHTML = '';
             // create month panel
             const monthPanel = document.createElement('div');
-            monthPanel.className = 'date-picker__modal__body-date-months';
+            monthPanel.className = 'date-picker__period';
             pickerDate.appendChild(monthPanel);
 
             // prev month
@@ -296,13 +296,13 @@
 
             // create calendar
             const calendarPanel = document.createElement('div');
-            calendarPanel.className = 'date-picker__modal__body-date-calendar';
+            calendarPanel.className = 'picker__date__calendar';
             pickerDate.appendChild(calendarPanel);
 
             // Sun ~ Sat
             for (let i = 0; i < 7; i++) {
                 const calendarTitle = document.createElement('div');
-                calendarTitle.classList.add('calendar-cell', 'calendar-title');
+                calendarTitle.classList.add('picker__date__calendar__cell', 'picker__date__calendar__title');
                 calendarTitle.textContent = luxon.DateTime.local().set({ weekday: i }).setLocale(i18n.lang).toFormat('ccc');
                 calendarPanel.appendChild(calendarTitle);
             }
@@ -317,7 +317,7 @@
                 let mm = firstDayOfDate.month;
 
                 const calendarCell = document.createElement('div');
-                calendarCell.className = 'calendar-cell';
+                calendarCell.className = 'picker__date__calendar__cell';
                 calendarCell.setAttribute('data-value', firstDayOfDate.toFormat('yyyyMMdd'));
                 calendarCell.textContent = dd;
                 if (mm === current_month) { // 현재 월

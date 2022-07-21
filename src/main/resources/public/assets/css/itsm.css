@@ -9072,32 +9072,30 @@ span.ic-paging-end-arrow {
   width: 19rem;
   padding: 1rem 0 1rem 0;
 }
-.picker__date.active {
-  display: inline-block;
-}
-.picker__date.active + div.active {
+.picker__date.inline-block + div.flex {
   border-left: 0.0625rem solid #CFD5D9;
   height: 18.5rem;
 }
-.picker__date-months {
+.picker__date .date-picker__period {
   display: table;
   height: 1.563rem;
   margin: 0 2.813rem;
 }
-.picker__date-months img {
-  vertical-align: middle;
-}
-.picker__date-months .date-picker__period__text {
+.picker__date .date-picker__period__text {
   width: 16.5rem;
 }
-.picker__date-calendar {
+.picker__date__calendar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 0.9375rem 0.9375rem 0 0.9375rem;
   color: #ABB0B5;
 }
-.picker__date-calendar .calendar-cell {
+.picker__date__calendar__title {
+  color: #8B9094;
+  pointer-events: none;
+}
+.picker__date__calendar__cell {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
@@ -9106,31 +9104,27 @@ span.ic-paging-end-arrow {
   text-align: center;
   line-height: 1.7;
 }
-.picker__date-calendar .calendar-cell.calendar-title {
-  color: #8B9094;
-  pointer-events: none;
-}
-.picker__date-calendar .calendar-cell:not(.calendar-title) {
+.picker__date__calendar__cell:not(.picker__date__calendar__title) {
   border: 0.0625rem solid #FFFFFF;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   cursor: pointer;
 }
-.picker__date-calendar .calendar-cell:not(.calendar-title):hover {
+.picker__date__calendar__cell:not(.picker__date__calendar__title):hover {
   border-color: #D6EDFC;
   background-color: #D6EDFC;
 }
-.picker__date-calendar .calendar-cell:not(.calendar-title):active {
+.picker__date__calendar__cell:not(.picker__date__calendar__title):active {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
 }
-.picker__date-calendar .calendar-cell.active {
+.picker__date__calendar__cell.active {
   color: #222529;
 }
-.picker__date-calendar .calendar-cell.selected {
+.picker__date__calendar__cell.selected {
   border: 0.0625rem solid #3373C4;
   border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -9144,9 +9138,6 @@ span.ic-paging-end-arrow {
   min-height: 7.375rem;
   padding: 1rem 0 1rem 0;
   justify-content: center;
-}
-.picker__time.active {
-  display: flex;
 }
 .picker__time .hour-group,
 .picker__time .minute-group {

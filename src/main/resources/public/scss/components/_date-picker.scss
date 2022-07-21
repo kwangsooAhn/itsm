@@ -159,30 +159,37 @@
     display: none;
     width: 19rem; // 304px
     padding: 1rem 0 1rem 0; // 16px 0 16px 0
-    &.active {
-      display: inline-block;
-      + div.active {
+    &.inline-block {
+      + div.flex {
         @include border(0.0625rem, solid, $gray300, left);
         height: 18.5rem; // 296px
       }
     }
-    // < month >
-    &-months {
-      display: table;
-      height: 1.563rem; // 25px
-      margin: 0 2.813rem; // 0 45px
-      img { vertical-align: middle; }
-      .date-picker__period__text { width: 16.5rem; } // 264px
-    }
+    
+    // period
+    .date-picker {
+      &__period {
+        display: table;
+        height: 1.563rem; // 25px
+        margin: 0 2.813rem; // 0 45px
+        &__text { width: 16.5rem; } // 264px
+      }
+    }    
+    
     // calendar
-    &-calendar {
+    &__calendar {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       padding: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
       color: $gray400; // 전월, 이월
-
-      .calendar-cell {
+      
+      &__title {
+        color: $gray500;
+        pointer-events: none;
+      }
+      
+      &__cell {
         display: inline-block;
         width: 1.5rem; // 24px
         height: 1.5rem; // 24px
@@ -190,13 +197,8 @@
         padding: 0;
         text-align: center;
         line-height: 1.7;
-
-        &.calendar-title {
-          color: $gray500;
-          pointer-events: none;
-        }
-
-        &:not(.calendar-title) {
+        
+        &:not(.picker__date__calendar__title) {
           @include border(0.0625rem, solid, $white);
           @include borderRadius(50%);
           cursor: pointer;
@@ -226,7 +228,6 @@
     min-height: 7.375rem; // 118px
     padding: 1rem 0 1rem 0; // 16px 0 16px 0
     justify-content: center;
-    &.active { display: flex; }
 
     .hour-group,
     .minute-group {
