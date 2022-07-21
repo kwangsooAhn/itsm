@@ -11721,7 +11721,7 @@ body.active {
 .modal__dialog.password-update-notice .modal__dialog__footer {
   height: 3.5rem;
 }
-.modal__dialog.save-folder .modal-content {
+.modal__dialog.save-folder .modal__dialog__body {
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
@@ -11729,22 +11729,22 @@ body.active {
   height: calc(15.625rem - 3.875rem - 5rem);
   padding: 0.625rem 1.25rem;
 }
-.modal__dialog.save-folder .modal-content::-webkit-scrollbar {
+.modal__dialog.save-folder .modal__dialog__body::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
-.modal__dialog.save-folder .modal-content .field-label {
+.modal__dialog.save-folder .modal__dialog__body .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
 .modal__dialog.thumbnail-preview {
   width: 47.5rem;
 }
-.modal__dialog.thumbnail-preview .modal-content {
+.modal__dialog.thumbnail-preview .modal__dialog__body {
   height: calc(40.313rem - 3.875rem - 5rem);
   padding: 0.9375rem 1.875rem;
 }
-.modal__dialog.thumbnail-preview .modal-content .preview__image {
+.modal__dialog.thumbnail-preview .modal__dialog__body .preview__image {
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
