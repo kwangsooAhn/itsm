@@ -703,42 +703,6 @@ aliceJs.thumbnail = function(options) {
         </div>`.trim();
     };
 
-    // 이미지 파일 로드
-    aliceJs.fetchJson('/rest/files?type=' + options.type, {
-        method: 'GET'
-    }).then((response) => {
-        const modalOptions = {
-            title: options.title,
-            body: createContent(response),
-            classes: 'thumbnail-' + options.type,
-            buttons: [{
-                content: i18n.msg('common.btn.select'),
-                classes: 'btn__text--box primary thumbnail-save',
-                bindKey: false,
-                callback: function(modal) {
-                    if (saveThumbnail(options.targetId)) {
-                        modal.hide();
-                    }
-                }
-            }, {
-                content: i18n.msg('common.btn.cancel'),
-                classes: 'btn__text--box secondary',
-                bindKey: false,
-                callback: function(modal) {
-                    modal.hide();
-                }
-            }],
-            close: {
-                closable: false,
-            },
-            onCreate: function(modal) {
-                OverlayScrollbars(document.querySelector('.thumbnail-main').closest('.modal__dialog__body'), { className: 'scrollbar' });
-            }
-        };
-
-        let thumbnailModal = new modal(modalOptions);
-        thumbnailModal.show();
-    });
     // 모달 호출
     const thumbnailModalTemplate = `<div class="thumbnail">
         <input class="ic-search col-5" type="text" id="searchValue" maxlength="100" 
@@ -780,7 +744,7 @@ aliceJs.thumbnail = function(options) {
             });
             getThumbnailFiles(false);
 
-            OverlayScrollbars(document.querySelector(`.z-thumbnail-${options.type} .modal-content`), {
+            OverlayScrollbars(document.querySelector(`.z-thumbnail-${options.type} .modal__dialog__body`), {
                 className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
