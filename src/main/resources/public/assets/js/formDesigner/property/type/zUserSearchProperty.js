@@ -78,7 +78,7 @@ export default class ZUserSearchProperty extends ZProperty {
             case 'organization':
                 targetGroup.UILabel = this.makeLabelProperty('form.properties.element.searchTarget');
                 targetGroup.addUI(targetGroup.UILabel);
-                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row input-button');
+                targetGroup.UIInputButton = new UIDiv().setUIClass('flex-row');
                 targetGroup.addUI(targetGroup.UIInputButton);
                 targetGroup.UIInputButton.UIInput = new UIInput()
                     .setUIReadOnly(true)
@@ -95,7 +95,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 if (this.isEditable) {
                     // small icon button
                     targetGroup.UIInputButton.UIIconButton = new UIButton()
-                        .setUIClass('button-icon-sm')
+                        .setUIClass('item-remove')
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     targetGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
@@ -104,10 +104,9 @@ export default class ZUserSearchProperty extends ZProperty {
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIIconButton);
                     // button
                     targetGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('button-icon')
-                        .addUIClass('button-code')
+                        .setUIClass('btn__ic')
                         // .setUIAttribute('data-value', '')
-                        .addUI(new UISpan().setUIClass('ic-search'))
+                        .addUI(new UISpan().setUIClass('ic-search').addUIClass('bg-gray500'))
                         .onUIClick(this.openOrganizationData.bind(this));
                     targetGroup.UIInputButton.addUI(targetGroup.UIInputButton.UIButton);
                 }
@@ -118,7 +117,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 targetGroup.UILabel.domElement.firstChild.classList.add('pt-2');
                 // 사용자 목록 추가 버튼
                 targetGroup.UIButton = new UIButton()
-                    .setUIClass('button-icon')
+                    .setUIClass('btn__ic')
                     .addUIClass('extra')
                     .addUIClass('float-right')
                     .setUIDisabled(!this.isEditable)
@@ -197,7 +196,7 @@ export default class ZUserSearchProperty extends ZProperty {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (zValidation.isEmpty(targetUserArray)) {
@@ -210,7 +209,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -291,7 +290,7 @@ export default class ZUserSearchProperty extends ZProperty {
                 .setUITextContent(target.value);
             const addedRemoveTD = new UICell(optionRow).setUICSSText('width: 15%;');
             addedRemoveTD.removeButton = new UIButton()
-                .setUIClass('button-icon')
+                .setUIClass('btn__ic')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.removeRow.bind(this));
             addedRemoveTD.removeButton.addUI(new UISpan().setUIClass('ic-remove'));

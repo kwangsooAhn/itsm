@@ -43,7 +43,7 @@ $button-themes-social: (
                 'disabled': ('font': $gray400, 'background': $neutral200, 'border': $neutral200)
         )
 );
-.button {
+.btn__text--box {
   // 구글 로그인 버튼
   // 카카오 로그인 버튼
   @each $theme, $value in $button-themes-social {
@@ -492,7 +492,7 @@ $button-themes-social: (
           }
 
           .login-platform {
-            .button {
+            .btn__text--box {
               margin-bottom: 1rem; // 16px
               &:last-child { margin: 0; }
             }

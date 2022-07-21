@@ -705,9 +705,9 @@ aliceJs.thumbnail = function(options) {
 
     // 모달 호출
     const thumbnailModalTemplate = `<div class="thumbnail">
-        <input class="i-search col-5" type="text" id="searchValue" maxlength="100" 
+        <input class="ic-search col-5" type="text" id="searchValue" maxlength="100" 
             placeholder="${i18n.msg('file.label.name')}">
-        <span id="totalCount" class="z-search-count"></span>
+        <span id="totalCount" class="search-count"></span>
         <span class="search-count">/</span>
         <span id="spanTotalCountWithoutCondition" class="search-count"></span>
         <div class="thumbnail-main flex-row flex-wrap" id="thumbnailMain"></div>
@@ -718,7 +718,7 @@ aliceJs.thumbnail = function(options) {
         classes: `thumbnail-${options.type}`,
         buttons: [{
             content: i18n.msg('common.btn.select'),
-            classes: 'button primary thumbnail-save',
+            classes: 'btn__text--box primary thumbnail-save',
             bindKey: false,
             callback: (modal) => {
                 if (saveThumbnail(options.targetId)) {
@@ -727,7 +727,7 @@ aliceJs.thumbnail = function(options) {
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'button secondary',
+            classes: 'btn__text--box secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -1280,7 +1280,7 @@ aliceJs.clearText = function(req) {
  * @param target
  */
 aliceJs.inputButtonRemove = function(target) {
-    let xTarget = target || document.querySelector('.input-button-remove-btn');
+    let xTarget = target || document.querySelector('.input--remove-remove-btn');
     if (xTarget !== null) {
         let inputValue = xTarget.previousElementSibling.value;
         if (inputValue === null || inputValue === '') {

@@ -76,17 +76,17 @@
             </select>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="button-list">
-                <a class="button secondary" href="/numberingPatterns/search" th:text="#{common.btn.list}"></a>
+            <div class="btn__list">
+                <a class="btn__text--box secondary" href="/numberingPatterns/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button class="button primary" id="btnRegist" name="btnRegist"
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+                <button class="btn__text--box primary" id="btnRegist" name="btnRegist"
                         th:if="!${pattern?.patternId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
-                <button class="button primary" id="btnUpdate" name="btnUpdate"
+                <button class="btn__text--box primary" id="btnUpdate" name="btnUpdate"
                         th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
-                <button class="button danger" id="btnDelete"
+                <button class="btn__text--box danger" id="btnDelete"
                         name="btnDelete" th:if="${pattern?.patternId}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"

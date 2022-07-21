@@ -43,17 +43,17 @@
                           maxlength="2048" rows="7" class="textarea textarea-scroll-wrapper"></textarea>
             </div>
             <div class="flex-row justify-content-between edit-row">
-                <div class="button-list">
-                    <a class="button secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
+                <div class="btn__list">
+                    <a class="btn__text--box secondary" href="/faqs/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
-                    <button type="button" class="button primary" id="btnRegist"
+                <div class="btn__list" sec:authorize="hasAuthority('portal.manage')">
+                    <button type="button" class="btn__text--box primary" id="btnRegist"
                             onclick="saveFaq('POST')"
                             th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
-                    <button type="button" class="button primary" id="btnUpdate"
+                    <button type="button" class="btn__text--box primary" id="btnUpdate"
                             onclick="saveFaq('PUT')"
                             th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
-                    <button type="button" class="button danger"
+                    <button type="button" class="btn__text--box danger"
                             onclick="deleteFaq()"
                             th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
                 </div>

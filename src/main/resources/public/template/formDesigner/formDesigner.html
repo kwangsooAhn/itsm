@@ -85,7 +85,7 @@
                         `<span class="component-name text-ellipsis" title="${aliceJs.filterXSS(data.templateName)}">` +
                             `${aliceJs.filterXSS(data.templateName)}` +
                         `</span>` +
-                        `<button type="button" class="button-icon-sm" tabindex="-1" id="${data.templateId}" ` +
+                        `<button type="button" class="item-remove" tabindex="-1" id="${data.templateId}" ` +
                             `onclick="zFormDesigner.deleteTemplate(this);">` +
                             `<span class="ic-remove"></span>` +
                         `</button>` +
@@ -111,7 +111,7 @@
                     <!--undo-->
                     <th:block th:if="${#strings.isEmpty(isView)}">
                         <div id="editCommand">
-                            <button type="button" class="header-button button-icon light-extra header-tooltip"
+                            <button type="button" class="header-button btn__ic light-extra header-tooltip"
                                     data-actionType="undo" data-targetId="editCommand"
                                     onclick="zFormDesigner.onDropdownClickHandler(this);">
                                 <span class="ic-undo"></span>
@@ -123,7 +123,7 @@
                         <!--undo, redo (드롭다운)-->
                         <div class="header-dropdown">
                             <button type="button"
-                                    class="header-button button-icon header-button-dropdown light-extra">
+                                    class="header-button btn__ic header-button-dropdown light-extra">
                                 <span class="ic-arrow-right"></span>
                             </button>
                             <ul class="dropdown-content">
@@ -143,7 +143,7 @@
                         </div>
                     </th:block>
                     <!--미리보기-->
-                    <button type="button" class="header-button button-icon light-extra header-tooltip ml-auto"
+                    <button type="button" class="header-button btn__ic light-extra header-tooltip ml-auto"
                             onclick="zFormDesigner.preview();">
                         <span class="ic-preview"></span>
                         <div class="header-tooltip-contents">
@@ -153,7 +153,7 @@
                     <!--저장하기-->
                     <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('workflow.manage')">
                         <div id="fileCommand">
-                            <button type="button" class="header-button button-icon light-extra header-tooltip"
+                            <button type="button" class="header-button btn__ic light-extra header-tooltip"
                                     data-actionType="save" data-targetId="fileCommand"
                                     onclick="zFormDesigner.saveForm(false);">
                                 <span class="ic-save"></span>
@@ -165,7 +165,7 @@
                         <!--저장하기(드롭다운)-->
                         <div class="header-dropdown">
                             <button type="button"
-                                    class="header-button button-icon header-button-dropdown light-extra">
+                                    class="header-button btn__ic light-extra header-button-dropdown">
                                 <span class="ic-arrow-right"></span>
                             </button>
                             <ul class="dropdown-content">
@@ -186,7 +186,7 @@
                     </th:block>
                     <!--문서에 연결된 업무흐름이 있을 땐 다른이름으로 저장하기 만 가능-->
                     <th:block th:unless="${!createdWorkFlow}" sec:authorize="hasAuthority('workflow.manage')">
-                        <button type="button" class="header-button button-icon light-extra header-tooltip"
+                        <button type="button" class="header-button btn__ic light-extra header-tooltip"
                                 onclick="zFormDesigner.openSaveAsModal();">
                             <span class="ic-save-as"></span>
                             <div class="header-tooltip-contents last">
@@ -370,7 +370,7 @@
 </div>
 <!-- dropdown button 템플릿 -->
 <template id="undoButtonTemplate">
-    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="undo"
+    <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="undo"
             data-targetId="editCommand">
         <span class="ic-undo"></span>
         <div class="header-tooltip-contents">
@@ -379,7 +379,7 @@
     </button>
 </template>
 <template id="redoButtonTemplate">
-    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="redo"
+    <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="redo"
             data-targetId="editCommand">
         <span class="ic-redo"></span>
         <div class="header-tooltip-contents">
@@ -388,7 +388,7 @@
     </button>
 </template>
 <template id="saveButtonTemplate">
-    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="save"
+    <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="save"
             data-targetId="fileCommand">
         <span class="ic-save"></span>
         <div class="header-tooltip-contents">
@@ -397,7 +397,7 @@
     </button>
 </template>
 <template id="saveAsButtonTemplate">
-    <button type="button" class="header-button button-icon light-extra header-tooltip" data-actionType="saveAs"
+    <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="saveAs"
             data-targetId="fileCommand">
         <span class="ic-save-as"></span>
         <div class="header-tooltip-contents last">
