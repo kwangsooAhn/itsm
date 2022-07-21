@@ -135,7 +135,7 @@
 
         // create content > date
         let pickerContentDate = document.createElement('div');
-        pickerContentDate.className = 'date-picker__modal__body-date';
+        pickerContentDate.className = 'picker__date';
         if (this.type === 'DATE' || this.type === 'DATEHOUR') {
             pickerContentDate.classList.add('active');
         }
@@ -145,7 +145,7 @@
         // create content > time
         if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
             let pickerContentTime = document.createElement('div');
-            pickerContentTime.className = 'date-picker__modal__body-time';
+            pickerContentTime.className = 'picker__time';
             pickerContentTime.classList.add('active');
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
@@ -176,8 +176,8 @@
         // create content > year
         if (this.type === 'YEAR') {
             let pickerContentYear = document.createElement('div');
-            pickerContentYear.className = 'date-picker__modal__body-year';
-            pickerContentYear.classList.add('active');
+            pickerContentYear.className = 'picker__year';
+            pickerContentYear.classList.add('block');
             pickerContent.appendChild(pickerContentYear);
             spanClose.remove();
             buttonRemove.remove();
@@ -268,7 +268,7 @@
         // Date picker 생성 및 초기화 처리.
         drawDate: function() {
             let _this = this;
-            const pickerDate = _this.el.querySelector('.date-picker__modal__body-date');
+            const pickerDate = _this.el.querySelector('.picker__date');
             pickerDate.innerHTML = '';
             // create month panel
             const monthPanel = document.createElement('div');
@@ -360,7 +360,7 @@
         // Time picker 생성 및 초기화 처리.
         drawTime: function() {
             let _this = this;
-            const pickerTime = _this.el.querySelector('.date-picker__modal__body-time');
+            const pickerTime = _this.el.querySelector('.picker__time');
             pickerTime.innerHTML = '';
 
             const hourFormatArr = i18n.timeFormat.split(':');
@@ -495,11 +495,11 @@
         // Year picker 생성 및 초기화 처리.
         drawYear: function () {
             let _this = this;
-            const pickerYear = _this.el.querySelector('.date-picker__modal__body-year');
+            const pickerYear = _this.el.querySelector('.picker__year');
             pickerYear.innerHTML = '';
             // [create year panel]
             const periodPanel = document.createElement('div');
-            periodPanel.className = 'date-picker__modal__body-year-period';
+            periodPanel.className = 'date-picker__period';
             pickerYear.appendChild(periodPanel);
 
             // prev year
@@ -531,7 +531,7 @@
 
             // [create calendar]
             const yearPanel = document.createElement('div');
-            yearPanel.className = 'date-picker__modal__body-year-years';
+            yearPanel.className = 'picker__year__calendar';
             pickerYear.appendChild(yearPanel);
 
             let firstYearOfDate = _this.selectLuxon.set();
@@ -543,7 +543,7 @@
                 let yy = firstYearOfDate.year;
 
                 const calendarCell = document.createElement('div');
-                calendarCell.className = 'calendar-cell';
+                calendarCell.className = 'picker__year__calendar__cell';
                 calendarCell.setAttribute('data-value', firstYearOfDate.toFormat('yyyy'));
                 calendarCell.textContent = yy;
 
