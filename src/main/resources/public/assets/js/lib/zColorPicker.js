@@ -36,7 +36,7 @@ function zColorPicker(targetElement, options) {
     this.isCustomColorControlOpen = false; // 사용자 색상 편집 중인지 여부
 
     // input box
-    targetElement.classList.add('color-input');
+    targetElement.classList.add('color-picker__input');
     this.inputEl = targetElement;
     // 기존 저장된 색상 : 사용자가 색상을 변경하더라도, 사용자 색상을 저장하지 않고 color picker를 닫으면 원래 색상으로 변경되어야 한다.
     this.savedValue = targetElement.value.toUpperCase();
@@ -54,7 +54,7 @@ function zColorPicker(targetElement, options) {
 
     // wrapper
     const wrapperContainer = document.createElement('div');
-    wrapperContainer.className = 'color-picker-wrapper';
+    wrapperContainer.className = 'color-picker';
     targetElement.parentElement.insertBefore(wrapperContainer, targetElement.nextSibling);
     targetElement.parentElement.removeChild(targetElement);
     wrapperContainer.appendChild(targetElement);
@@ -62,7 +62,7 @@ function zColorPicker(targetElement, options) {
 
     // color picker
     const colorPicker = document.createElement('div');
-    colorPicker.className = 'color-picker';
+    colorPicker.className = 'color-picker__box';
     colorPicker.tabIndex = 0;
     wrapperContainer.appendChild(colorPicker);
 
@@ -73,7 +73,7 @@ function zColorPicker(targetElement, options) {
 
     // color box
     const colorBox = document.createElement('div');
-    colorBox.className = 'color-box';
+    colorBox.className = 'color-picker__box__color';
     colorPicker.appendChild(colorBox);
     this.colorEl = colorBox;
 
@@ -85,7 +85,7 @@ function zColorPicker(targetElement, options) {
     // color picker modal
     let pickerModal = document.createElement('div');
     pickerModal.id = targetElement.id + 'Picker';
-    pickerModal.className = 'color-picker-modal';
+    pickerModal.className = 'color-picker__modal';
     wrapperContainer.appendChild(pickerModal);
     this.modalEl = pickerModal;
 
@@ -138,8 +138,8 @@ function zColorPicker(targetElement, options) {
 Object.assign(zColorPicker.prototype, {
     // open
     open: function () {
-        if (!this.modalEl.classList.contains('active')) {
-            this.modalEl.classList.add('active');
+        if (!this.modalEl.classList.contains('block')) {
+            this.modalEl.classList.add('block');
             this.setPosition();
             this.isOpen = true;
 
@@ -151,14 +151,14 @@ Object.assign(zColorPicker.prototype, {
     },
     // close
     close: function () {
-        if (this.modalEl.classList.contains('active')) {
+        if (this.modalEl.classList.contains('block')) {
             // 경고창 - 색상을 선택하세요.
             if (!this.selectedEl) {
                 zAlert.warning(i18n.msg('common.msg.selectColor'));
                 return false;
             }
 
-            this.modalEl.classList.remove('active');
+            this.modalEl.classList.remove('block');
             this.isOpen = false;
 
             // remove event
@@ -173,8 +173,8 @@ Object.assign(zColorPicker.prototype, {
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
     autoClose: function (e) {
-        if (!aliceJs.clickInsideElement(e, 'color-picker-modal') &&
-            !aliceJs.clickInsideElement(e, 'color-picker') &&
+        if (!aliceJs.clickInsideElement(e, 'color-picker__modal') &&
+            !aliceJs.clickInsideElement(e, 'color-picker__box') &&
             !aliceJs.clickInsideElement(e, 'modal-active')) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
@@ -224,18 +224,18 @@ Object.assign(zColorPicker.prototype, {
     // palette draw
     drawPalette() {
         let paletteContainer = document.createElement('div');
-        paletteContainer.className = 'palette-container';
+        paletteContainer.className = 'color-picker__modal__palette';
         this.modalEl.appendChild(paletteContainer);
         this.colorListEl = paletteContainer;
 
         // point color
-        let template = `<div class="palette-row">`;
+        let template = `<div class="color-picker__modal__palette__row flex-row justify-content-between">`;
         for (let i = 0; i < this.options.colors[0].length; i++) {
             const itemColor = this.options.colors[0][i];
-            template += `<span class="palette-item point-color`+
+            template += `<span class="color-picker__modal__palette__row__item flex-row justify-content-center align-items-center point-color`+
                 `${(itemColor === '#FFFFFF') ? ' border-inset' : ''}${this.value === itemColor ? ' selected' : ''}"`+
                 ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
-                `<sapn class="palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                `<sapn class="color-picker__modal__palette__row__item__inner" style="background-color: ${itemColor}"></sapn>` +
                 `</span>`;
         }
         template += `</div>`;
@@ -244,13 +244,13 @@ Object.assign(zColorPicker.prototype, {
         // material color
         template = ``;
         for (let i = 1; i < this.options.colors.length; i++) {
-            template += `<div class="palette-row">`;
+            template += `<div class="color-picker__modal__palette__row flex-row justify-content-between">`;
             for (let j = 0; j < this.options.colors[i].length; j++) {
                 const itemColor = this.options.colors[i][j];
-                template += `<span class="palette-item material-color${(i === 1) ? ' first' : ''}`+
+                template += `<span class="color-picker__modal__palette__row__item flex-row justify-content-center align-items-center material-color${(i === 1) ? ' first' : ''}`+
                     `${(i === (this.options.colors.length - 1)) ? ' last' : ''}${this.value === itemColor ? ' selected' : ''}"`+
                     ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
-                    `<sapn class="palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                    `<sapn class="color-picker__modal__palette__row__item__inner" style="background-color: ${itemColor}"></sapn>` +
                     `</span>`;
             }
             template += `</div>`;
@@ -259,7 +259,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 이벤트 등록
         this.selectedEl = paletteContainer.querySelector('.selected');
-        paletteContainer.querySelectorAll('.palette-item').forEach((item) => {
+        paletteContainer.querySelectorAll('.color-picker__modal__palette__row__item').forEach((item) => {
             item.addEventListener('click', this.selectColor.bind(this), false);
         });
     },
@@ -444,7 +444,7 @@ Object.assign(zColorPicker.prototype, {
         this.inputEl.value = this.value;
 
         // 메인 색상 선택하거나 저장된 색상을 선택할 경우 사용자 색상이 정상적으로 저장된다.
-        if (e.target.classList.contains('palette-item') ||
+        if (e.target.classList.contains('color-picker__modal__palette__row__item') ||
             this.savedCustomColors.includes(this.value)) {
             this.savedValue = this.value;
         }
@@ -599,7 +599,7 @@ Object.assign(zColorPicker.prototype, {
         }
 
         // 기존 색상 선택
-        const colorList = this.colorListEl.querySelectorAll('.palette-item');
+        const colorList = this.colorListEl.querySelectorAll('.color-picker__modal__palette__row__item');
         for (let i = 0; i < colorList.length; i++) {
             if (colorList[i].getAttribute('data-color') === this.savedValue) {
                 colorList[i].classList.add('selected');
