@@ -7,23 +7,23 @@
 </head>
 <body>
 <th:block layout:fragment="pageSearching">
-    <div class="z-main-header">
-        <div class="z-page-title flex-row align-items-baseline">
+    <div class="main-header">
+        <div class="page-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
             <h6 class="description ml-2 pl-2" th:text="#{faq.msg.portalDescription}"></h6>
         </div>
-        <div class="z-page-search pb-4">
+        <div class="page-search pb-4">
             <select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5 mr-2">
                 <option value="" th:text="#{faq.label.all}"></option>
                 <option th:each="category:${faqs.faqCategory}"
                         th:text="${category.codeName}" th:value="${category.code}"></option>
             </select>
-            <span id="spanTotalCount" class="z-search-count"></span>
+            <span id="spanTotalCount" class="search-count"></span>
         </div>
     </div>
 </th:block>
 <th:block layout:fragment="pageAccordion">
-    <div class="z-main-accordion"></div>
+    <div class="main-accordion"></div>
 </th:block>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -45,22 +45,22 @@
         aliceJs.fetchText('/portals/faqs?' + urlParam, {
             method: 'GET'
         }).then((htmlData) => {
-            document.querySelector('.z-main-accordion').innerHTML = htmlData;
-            const faqGroup = document.getElementsByClassName('z-faq-group')[0];
+            document.querySelector('.main-accordion').innerHTML = htmlData;
+            const faqGroup = document.getElementsByClassName('faq-group')[0];
             if (typeof faqGroup !== 'undefined') {
                 faqGroup.open = true;
             }
-            const faqRow = document.getElementsByClassName('z-faq-row')[0];
+            const faqRow = document.getElementsByClassName('faq-row')[0];
             if (typeof faqRow !== 'undefined') {
                 faqRow.open = true;
             }
-            aliceJs.showTotalCount(document.getElementsByClassName('z-faq-row').length);
+            aliceJs.showTotalCount(document.getElementsByClassName('faq-row').length);
 
             let selectedGroup = document.getElementById('selected-group').value;
             let selectedId = document.getElementById('selected-id').value;
             if (selectedId !== '') {
-                let group = document.getElementsByClassName('z-faq-group');
-                let row = document.getElementsByClassName('z-faq-row');
+                let group = document.getElementsByClassName('faq-group');
+                let row = document.getElementsByClassName('faq-row');
                 for (let i = 0; i < group.length; i++) {
                     if (group[i].id === selectedGroup) {
                         faqGroup.open = false;
@@ -77,7 +77,7 @@
                     }
                 }
             }
-            OverlayScrollbars(document.querySelector('.z-main'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.main'), { className: 'scrollbar' });
         });
     }
     /* ]]> */

@@ -35,7 +35,7 @@ export default class ZFileProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // input box + button
-        this.UIElement.UIDiv = new UIDiv().setUIClass('input-button').addUIClass('flex-row');
+        this.UIElement.UIDiv = new UIDiv().setUIClass('input--remove').addUIClass('flex-row');
 
         // input box
         this.UIElement.UIDiv.UIInput = new UIInput()
@@ -45,11 +45,11 @@ export default class ZFileProperty extends ZProperty {
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIInput);
 
         // button
-        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('z-button-icon').addUIClass('z-button-attach-file')
+        this.UIElement.UIDiv.UIButton = new UIButton().setUIClass('btn__ic').addUIClass('button-attach-file')
             .setUIId('fileUploadPopUp')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.openThumbnailModal.bind(this));
-        this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('z-icon').addUIClass('i-folder'));
+        this.UIElement.UIDiv.UIButton.addUI(new UISpan().setUIClass('ic-folder'));
         this.UIElement.UIDiv.addUI(this.UIElement.UIDiv.UIButton);
 
         this.UIElement.addUI(this.UIElement.UIDiv);

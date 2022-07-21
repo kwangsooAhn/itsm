@@ -4,16 +4,16 @@
     <input type="hidden" id="selected-group" th:value="${faqs.faqSelected.faqGroup}"/>
 	<input type="hidden" id="selected-id" th:value="${faqs.faqSelected.faqId}"/>
 
-	<details class="z-faq-group" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
-		<summary class="z-faq-group-title">
+	<details class="faq-group" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
+		<summary class="faq-group-title">
 			<span th:text="${faqGroup.codeName}"></span>
-			<span class="z-icon i-plus"></span>
-			<span class="z-icon i-minus"></span>
+			<span class="ic-plus"></span>
+			<span class="ic-minus"></span>
 		</summary>
-		<details class="z-faq-row" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup.code}" th:id="${faqT.faqId}">
-			<summary class="z-faq-row-title" th:text="${faqT.faqTitle}" th:title="${faqT.faqTitle}"></summary>
+		<details class="faq-row" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup.code}" th:id="${faqT.faqId}">
+			<summary class="faq-row-title" th:text="${faqT.faqTitle}" th:title="${faqT.faqTitle}"></summary>
 			<div class="horizontal-bar"></div>
-			<div class="z-faq-row-content" th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}">
+			<div class="faq-row-content" th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}">
 				<p th:text="${faqC.faqContent}" th:title="${faqC.faqContent}"></p>
 			</div>
 		</details>

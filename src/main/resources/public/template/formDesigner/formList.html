@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<table class="z-table">
-    <thead class="z-table-head">
+<table class="table">
+    <thead class="table-head">
         <tr class="flex-row align-items-center">
             <th width="27%" class="align-left" th:text="#{form.label.name}"></th>
             <th width="10%" class="align-center" th:text="#{form.label.state}"></th>
@@ -14,7 +14,7 @@
             <th width="4%" class="align-center"></th>
         </tr>
     </thead>
-    <tbody class="z-table-body">
+    <tbody class="table-body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(formList)}">
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
@@ -35,14 +35,14 @@
             <td width="10%" class="align-left" th:text="${form.createUserName}" th:title="${form.createUserName}"></td>
             <td width="15%" class="align-left date-time" th:text="${form.createDt}" th:title="${form.createDt}"></td>
             <td width="4%" class="align-center">
-                <button type="button" class="z-button-icon form" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${form.id}]])">
-                    <span class="z-icon i-list-download"></span>
+                <button type="button" class="btn__ic tertiary" sec:authorize="hasAuthority('workflow.manage')" th:onclick="exportForm([[${form.id}]])">
+                    <span class="ic-list-download"></span>
                 </button>
             </td>
             <td width="4%" class="align-center">
                 <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${form.editable == true}">
-                    <button type="button" class="z-button-icon form" th:onclick="deleteForm([[${form.id}]])">
-                        <span class="z-icon i-list-delete"></span>
+                    <button type="button" class="btn__ic tertiary" th:onclick="deleteForm([[${form.id}]])">
+                        <span class="ic-list-delete"></span>
                     </button>
                 </th:block>
             </td>

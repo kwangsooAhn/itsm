@@ -159,9 +159,9 @@ export default class ZColumnProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // tab panel > tagGroup, panelGroup
-        this.UITabPanel = new UIDiv().setUIClass('z-tab-panel');
-        this.UITabPanel.tabGroup = new UIDiv().setUIClass('z-tabs');
-        this.UITabPanel.panelGroup = new UIDiv().setUIClass('z-panels');
+        this.UITabPanel = new UIDiv().setUIClass('tab-panel');
+        this.UITabPanel.tabGroup = new UIDiv().setUIClass('tabs');
+        this.UITabPanel.panelGroup = new UIDiv().setUIClass('panels');
         this.UITabPanel.addUI(this.UITabPanel.tabGroup).addUI(this.UITabPanel.panelGroup);
         this.UIElement.addUI(this.UITabPanel);
 
@@ -172,10 +172,10 @@ export default class ZColumnProperty extends ZProperty {
 
         // tab panel > tagGroup > addButton : 컬럼 추가 버튼
         this.UITabPanel.tabGroup.addButton = new UIButton()
-            .setUIClass('z-button-icon')
+            .setUIClass('btn__ic')
             .addUIClass('extra')
-            .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'off' : 'on'))
-            .addUI(new UISpan().addUIClass('z-icon').addUIClass('i-plus'))
+            .addUIClass((this.value.length >= FORM.MAX_COLUMN_IN_TABLE ? 'none' : 'on'))
+            .addUI(new UISpan().addUIClass('ic-plus'))
             .setUIDisabled(!this.isEditable  || this.isFixedColumn)
             .onUIClick(this.addColumn.bind(this, (this.isDefault) ? { columnType: 'input' } : '', -1));
         this.UITabPanel.tabGroup.addUI(this.UITabPanel.tabGroup.addButton);
@@ -200,8 +200,8 @@ export default class ZColumnProperty extends ZProperty {
 
         // tab 버튼
         const tab = new UIButton()
-            .setUIClass('z-button-icon')
-            .addUIClass('z-tab')
+            .setUIClass('btn__ic')
+            .addUIClass('tab')
             .setUIId('column' + index)
             .onUIClick(this.selectColumn.bind(this));
         this.UITabPanel.tabGroup.addUI(tab);
@@ -209,7 +209,7 @@ export default class ZColumnProperty extends ZProperty {
 
         // panel 추가
         const panel = new UIDiv()
-            .setUIClass('z-panel')
+            .setUIClass('panel')
             .setUIId('column' + index)
             .setUIDisplay('none');
 
@@ -232,7 +232,7 @@ export default class ZColumnProperty extends ZProperty {
             aliceJs.swapNode(this.UITabPanel.tabGroup.addButton.domElement, this.tabs[index].domElement);
             // 최대값을 넘어가는 순간 추가 버튼을 숨긴다.
             if ((index + 1 ) === FORM.MAX_COLUMN_IN_TABLE) {
-                this.UITabPanel.tabGroup.addButton.removeUIClass('on').addUIClass('off');
+                this.UITabPanel.tabGroup.addButton.removeUIClass('on').addUIClass('none');
             }
             this.panel.update.call(this.panel, this.key, JSON.parse(JSON.stringify(this.value)));
         }
@@ -240,15 +240,15 @@ export default class ZColumnProperty extends ZProperty {
         tab.domElement.dispatchEvent(new Event('click'));
     }
     addColumnForColumnCommon(option, index) {
-        const columnCommonGroup = new UIDiv().setUIClass('z-panel-common');
+        const columnCommonGroup = new UIDiv().setUIClass('panel-common');
         // 순서 변경 < > 버튼 추가
-        const arrowLeftButton = new UIButton().setUIClass('z-button-icon')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-prev'))
+        const arrowLeftButton = new UIButton().setUIClass('btn__ic')
+            .addUI(new UISpan().setUIClass('ic-arrow-right').addUIClass('prev'))
             .setUIAttribute('data-swap-direction', '-1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
-        const arrowRightButton = new UIButton().setUIClass('z-button-icon')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-arrow-right').addUIClass('z-next'))
+        const arrowRightButton = new UIButton().setUIClass('btn__ic')
+            .addUI(new UISpan().setUIClass('ic-arrow-right').addUIClass('next'))
             .setUIAttribute('data-swap-direction', '1')
             .setUIDisabled(!this.isEditable)
             .onUIClick(this.swapColumn.bind(this));
@@ -261,8 +261,8 @@ export default class ZColumnProperty extends ZProperty {
             arrowRightButton
         );
         // 패널 삭제 버튼 추가
-        const deleteButton = new UIButton().setUIClass('z-button-icon').addUIClass('panel-delete-button')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-delete'))
+        const deleteButton = new UIButton().setUIClass('btn__ic').addUIClass('panel-delete-button')
+            .addUI(new UISpan().setUIClass('ic-delete'))
             .setUIDisabled(!this.isEditable || this.isFixedColumn)
             .onUIClick(this.removeColumn.bind(this));
         columnCommonGroup.addUI(deleteButton);
@@ -274,7 +274,7 @@ export default class ZColumnProperty extends ZProperty {
         return columnCommonGroup;
     }
     addColumnForColumnType(option, index) {
-        const columnIndividualGroup = new UIDiv().setUIClass('z-panel-individual');
+        const columnIndividualGroup = new UIDiv().setUIClass('panel-individual');
         const property = this.getPropertyForColumnType(option, 'column' + index);
         this.makePropertyRecursive(columnIndividualGroup, property);
         return columnIndividualGroup;
@@ -359,8 +359,8 @@ export default class ZColumnProperty extends ZProperty {
             this.panels.splice(index, 1);
 
             this.value.splice(index, 1);
-            if (this.UITabPanel.tabGroup.addButton.hasUIClass('off')) {
-                this.UITabPanel.tabGroup.addButton.removeUIClass('off').addUIClass('on');
+            if (this.UITabPanel.tabGroup.addButton.hasUIClass('none')) {
+                this.UITabPanel.tabGroup.addButton.removeUIClass('none').addUIClass('on');
             }
             // 선택 컬럼 변경
             for (let i = index; i < this.panels.length; i++) {
@@ -437,17 +437,17 @@ export default class ZColumnProperty extends ZProperty {
 
         // head - align
         const columnHeadAlignProperty = new ZSwitchButtonProperty(id + '|columnHead.align', 'columnHead.align', option.columnHead.align, [
-            { 'name': 'i-align-left', 'value': 'left' },
-            { 'name': 'i-align-center', 'value': 'center' },
-            { 'name': 'i-align-right', 'value': 'right' }
+            { 'name': 'ic-align-left', 'value': 'left' },
+            { 'name': 'ic-align-center', 'value': 'center' },
+            { 'name': 'ic-align-right', 'value': 'right' }
         ]);
         columnHeadAlignProperty.columnWidth = '6';
 
         // head - fontOption
         const columnHeadFontOption = [
-            { 'name': 'i-bold', 'value': 'bold' },
-            { 'name': 'i-italic', 'value': 'italic' },
-            { 'name': 'i-underline', 'value': 'underline' }
+            { 'name': 'ic-bold', 'value': 'bold' },
+            { 'name': 'ic-italic', 'value': 'italic' },
+            { 'name': 'ic-underline', 'value': 'underline' }
         ];
         const columnHeadFontValue = columnHeadFontOption.map((item) => option.columnHead[item.value] ? 'Y' : 'N').join('|');
         const columnHeadFontOptionProperty = new ZToggleButtonProperty(id + '|columnHead.', 'columnHead.fontOption', columnHeadFontValue, columnHeadFontOption);
@@ -466,17 +466,17 @@ export default class ZColumnProperty extends ZProperty {
 
         // content - align
         const columnContentAlignProperty = new ZSwitchButtonProperty(id + '|columnContent.align', 'columnContent.align', option.columnContent.align, [
-            { 'name': 'i-align-left', 'value': 'left' },
-            { 'name': 'i-align-center', 'value': 'center' },
-            { 'name': 'i-align-right', 'value': 'right' }
+            { 'name': 'ic-align-left', 'value': 'left' },
+            { 'name': 'ic-align-center', 'value': 'center' },
+            { 'name': 'ic-align-right', 'value': 'right' }
         ]);
         columnContentAlignProperty.columnWidth = '6';
 
         // content - fontOption
         const columnContentFontOption = [
-            { 'name': 'i-bold', 'value': 'bold' },
-            { 'name': 'i-italic', 'value': 'italic' },
-            { 'name': 'i-underline', 'value': 'underline' }
+            { 'name': 'ic-bold', 'value': 'bold' },
+            { 'name': 'ic-italic', 'value': 'italic' },
+            { 'name': 'ic-underline', 'value': 'underline' }
         ];
         const columnContentFontValue = columnContentFontOption.map((item) => option.columnContent[item.value] ? 'Y' : 'N').join('|');
         const columnContentFontOptionProperty = new ZToggleButtonProperty(id + '|columnContent.', 'columnContent.fontOption', columnContentFontValue, columnContentFontOption);

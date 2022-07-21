@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table class="z-table">
-    <thead class="z-table-head">
+<table class="table">
+    <thead class="table-head">
         <tr class="flex-row align-items-center">
             <th width="27%" class="align-left" th:text="#{workflowAdmin.label.name}"></th>
             <th width="10%" class="align-left" th:text="#{workflowAdmin.label.type}"></th>
@@ -16,7 +16,7 @@
             <th width="3%" class="align-center"></th>
         </tr>
     </thead>
-    <tbody class="z-table-body">
+    <tbody class="table-body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(documentList)}">
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
@@ -48,9 +48,9 @@
             <td style="width: 35%;" class="align-left" th:text="${document.documentDesc}" th:title="${document.documentDesc}"></td>
             <td style="width: 15%;" class="align-center" th:text="#{${document.documentStatus}}" th:title="#{${document.documentStatus}}"></td>
             <td style="width: 3%;" class="align-center">
-                <button type="button" class="z-button-icon form" th:if="${document.documentType} != 'application-form-link'"
+                <button type="button" class="btn__ic tertiary" th:if="${document.documentType} != 'application-form-link'"
                         sec:authorize="hasAuthority('workflow.manage')" th:onclick="onXMLDownload([[${document.documentId}]])">
-                    <span class="z-icon i-list-download"></span>
+                    <span class="ic-list-download"></span>
                 </button>
             </td>
         </tr>

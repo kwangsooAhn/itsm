@@ -16,7 +16,7 @@ aliceJs.pageObserver = {
     isChanged: false,
     set: function () {
         this.isChanged = false;
-        document.querySelectorAll('.z-edit-form').forEach((element) => {
+        document.querySelectorAll('.edit-form').forEach((element) => {
             element.addEventListener('change', () => {
                 this.isChanged = true;
             });

@@ -28,7 +28,7 @@ class ZDocument {
         this.documentModal = new modal({
             title: '',
             body: documentModalTemplate.content.cloneNode(true),
-            classes: 'document-modal-dialog z-document-container',
+            classes: 'document-modal-dialog document-container',
             buttons: [],
             close: { closable: false },
             onCreate: () => {
@@ -79,7 +79,7 @@ class ZDocument {
         if (Number(formWidth) > 1400) {
             const toggleTabBtn = document.querySelector('.toggle--tab');
             if (toggleTabBtn !== null) {
-                toggleTabBtn.classList.add('off');
+                toggleTabBtn.classList.add('none');
             }
         }
     }
@@ -209,7 +209,7 @@ class ZDocument {
         let isValid = true;
         // 1. displayType 이 편집 가능일 경우
         const parentElements =
-            document.querySelectorAll('.z-group-tooltip[data-displaytype="document.displayType.editable"]');
+            document.querySelectorAll('.group-tooltip[data-displaytype="document.displayType.editable"]');
         outer : for (let i = 0; i < parentElements.length; i++) {
             // 2. 필수값 검증
             const requiredElements = parentElements[i]
@@ -237,7 +237,7 @@ class ZDocument {
             }
             // 4. 텍스트에디터 필수 체크
             const requiredTextEditorElements =
-                parentElements[i].querySelectorAll('.z-text-editor[data-validation-required="true"]');
+                parentElements[i].querySelectorAll('.text-editor[data-validation-required="true"]');
             for (let k = 0; k < requiredTextEditorElements.length; k++) {
                 // 해당 text editor 내부에 입력된 텍스트가 있는지 확인 (공백 포함)
                 if (!requiredTextEditorElements[k].querySelector('p').textContent.length) {
@@ -251,7 +251,7 @@ class ZDocument {
 
             // 5. 라디오 / 체크박스 필수 체크
             const requiredCheckedElements =
-                parentElements[i].querySelectorAll('.z-element[data-validation-required="true"]');
+                parentElements[i].querySelectorAll('.element[data-validation-required="true"]');
             for (let l = 0; l < requiredCheckedElements.length; l++) {
                 // 필수값 체크가 필요한 체크박스 또는 라디오
                 const requiredElement = requiredCheckedElements[l].querySelector('input[type=checkbox], input[type=radio]');
@@ -263,7 +263,7 @@ class ZDocument {
 
             // 6. plugin 유효성 검증 체크
             const requiredPlugInElements =
-                parentElements[i].querySelectorAll('.plugIn-check[data-validation-required="true"]:not(.off)');
+                parentElements[i].querySelectorAll('.plugIn-check[data-validation-required="true"]:not(.none)');
             for (let p = 0; p < requiredPlugInElements.length; p++) {
                 const requiredElement = requiredPlugInElements[p];
                 // 미검증
@@ -291,7 +291,7 @@ class ZDocument {
             }
             // 8. 파일업로드 유효성 검증
             const requiredFileUploads = parentElements[i].querySelectorAll(
-                '.z-fileupload[data-validation-required="true"]');
+                '.fileupload[data-validation-required="true"]');
             for (let r = 0; r < requiredFileUploads.length; r++) {
                 if (!requiredFileUploads[r].querySelectorAll('.dz-preview').length) {
                     isValid = false;
@@ -398,7 +398,7 @@ class ZDocument {
                 classes: 'process-status-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();

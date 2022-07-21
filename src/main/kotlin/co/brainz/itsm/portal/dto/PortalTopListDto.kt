@@ -12,4 +12,4 @@ data class PortalTopListDto(
     val notice: List<PortalTopDto>,
     val faq: List<PortalTopDto>,
     val archive: List<PortalTopDto>
-): Serializable
+) : Serializable

@@ -8,42 +8,42 @@
     <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
 </th:block>
 <body>
-<div class="z-main-top">
+<div class="main-top">
     <div class="flex-row justify-content-end">
-        <span class="z-notification">
-            <span class="z-icon-notification" onclick="toggleNotificationContainer();">
+        <span class="notification">
+            <span class="icon-notification" onclick="toggleNotificationContainer();">
                 <img class="load-svg"
                      th:src="@{/assets/media/icons/gnb/icon_gnb_notification.svg}"
                      width="25" height="27">
             </span>
         </span>
-        <span class="z-divide">|</span>
-        <button class="z-user z-user-info flex-row align-items-center" tabindex="0">
-            <img class="z-img i-user-profile z-user"
+        <span class="divide">|</span>
+        <button class="user user-info flex-row align-items-center" tabindex="0">
+            <img class="i-user-profile user"
                  th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
-            <span class="z-user z-user-name text-ellipsis" sec:authentication="details.userName"></span>
-            <span class="z-user z-icon i-arrow-right"></span>
+            <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
+            <span class="user ic-arrow-right"></span>
         </button>
-        <ul class="z-dropdown-content">
-            <li class="z-dropdown-item" tabindex="-1">
-                <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.editUserInfo}"
+        <ul class="dropdown-content">
+            <li class="dropdown-item" tabindex="-1">
+                <button class="dropdown-item-btn align-left" th:text="#{common.btn.editUserInfo}"
                         onclick="openPasswordConfirmModal()" tabindex="0"></button>
             </li>
-            <li class="z-dropdown-item" tabindex="-1">
-                <button class="z-dropdown-item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
+            <li class="dropdown-item" tabindex="-1">
+                <button class="dropdown-item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
                         tabindex="0"></button>
             </li>
         </ul>
     </div>
-    <div id="notification-panel" class="z-notification-panel"></div>
+    <div id="notification-panel" class="notification-panel"></div>
     <div id="toast-panel" name="toast-panel"></div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
         let notificationDiv = null;
-        window.addEventListener('DOMContentLoaded', function () {
-            const userInfo = document.querySelector('.z-user-info');
-            document.querySelector('.z-user-info').addEventListener('click', function (e) {
+        window.addEventListener('DOMContentLoaded', function() {
+            const userInfo = document.querySelector('.user-info');
+            document.querySelector('.user-info').addEventListener('click', function(e) {
                 e.preventDefault();
                 if (this.classList.contains('active')) {
                     this.classList.remove('active');
@@ -51,11 +51,11 @@
                     this.classList.add('active');
                 }
             });
-            document.addEventListener('click', function (e) {
-                if (e.target != null && !e.target.classList.contains('z-user')) {
+            document.addEventListener('click', function(e) {
+                if (e.target != null && !e.target.classList.contains('user')) {
                     userInfo.classList.remove('active');
                 }
-            })
+            });
             aliceJs.loadSvg();
             notificationDiv = document.getElementById('notification-panel');
             hiddenProgressBar();
@@ -77,22 +77,22 @@
 
         function toggleNotificationContainer() {
             if (notificationDiv !== null) {
-                if (notificationDiv.classList.contains('on')) {
-                    notificationDiv.classList.remove('on');
+                if (notificationDiv.classList.contains('block')) {
+                    notificationDiv.classList.remove('block');
                 } else {
-                    notificationDiv.classList.add('on');
+                    notificationDiv.classList.add('block');
                 }
             }
         }
 
         function notificationContainerOff(e) {
             //알림창 내부를 클릭한 경우 동작하지 않는다.
-            if (aliceJs.clickInsideElement(e, 'z-notification-panel') || aliceJs.clickInsideElement(e, 'z-notification')) {
+            if (aliceJs.clickInsideElement(e, 'notification-panel') || aliceJs.clickInsideElement(e, 'notification')) {
                 return false;
             }
 
-            if (notificationDiv && notificationDiv.classList.contains('on')) {
-                notificationDiv.classList.remove('on');
+            if (notificationDiv && notificationDiv.classList.contains('block')) {
+                notificationDiv.classList.remove('block');
             }
         }
 
@@ -103,31 +103,32 @@
             }).then((htmlData) => {
                 notificationDiv.innerHTML = htmlData;
                 const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
-                if (noConfirmNotification.length !== 0 && !document.querySelector('.z-icon-notification').classList.contains('active')) {
-                    document.querySelector('.z-icon-notification').classList.add('active');
+                if (noConfirmNotification.length !== 0 &&
+                    !document.querySelector('.icon-notification').classList.contains('active')) {
+                    document.querySelector('.icon-notification').classList.add('active');
                 }
                 document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                     notificationDiv.querySelectorAll('div[is-display=true]').length + ')';
 
-                document.querySelectorAll('span.z-date').forEach((element) => {
+                document.querySelectorAll('span.date').forEach((element) => {
                     element.textContent = i18n.userDateTime(element.textContent);
                 });
 
                 if (isShow) {
                     const noDisplayNotification = notificationDiv.querySelectorAll('div[is-display=false]');
-                    noDisplayNotification.forEach(function (element) {
+                    noDisplayNotification.forEach(function(element) {
                         showNotification({
                             notificationId: element.id,
                             notificationType: element.getAttribute('notification-type'),
                             tokenId: element.getAttribute('token-id'),
-                            title: element.querySelector('.z-title').innerHTML,
-                            date: element.querySelector('.z-date').textContent,
-                            message: element.querySelector('.z-message').innerHTML
+                            title: element.querySelector('.title').innerHTML,
+                            date: element.querySelector('.date').textContent,
+                            message: element.querySelector('.message').innerHTML
                         });
                     });
                 }
 
-                OverlayScrollbars(document.querySelectorAll('.z-notification-body'), {className: 'inner-scrollbar'});
+                OverlayScrollbars(document.querySelectorAll('.notification-body'), { className: 'inner-scrollbar' });
             });
         }
 
@@ -146,10 +147,10 @@
                 position: 'right',
                 stopOnFocus: true,
                 className: 'alice-toastify toast-content',
-                onShow: function () {
+                onShow: function() {
                     updateNotification(param.notificationId, 'display');
                 },
-                onClick: function () {
+                onClick: function() {
                     // 문서 알림일 경우만 팝업 호출
                     if (param.notificationType === 'document') {
                         openTokenPage(param.notificationId, param.tokenId);
@@ -162,8 +163,8 @@
 
         // Open token page.
         function openTokenPage(notificationId, tokenId) {
-            const url = "/tokens/" + tokenId + "/edit"
-            window.open(url, null, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150))
+            const url = '/tokens/' + tokenId + '/edit';
+            window.open(url, null, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
             updateNotification(notificationId, 'confirm');
         }
 
@@ -188,8 +189,9 @@
         // 패스워드 인증 모달 오픈
         function openPasswordConfirmModal(userKey, manageAuth) {
             const passwordAuthModalTemplate = `<div class="flex-column">` +
-                `<label class="field-label" for="password">${i18n.msg('user.label.password')}<span class="required"></span></label>` +
-                `<input type="password" id="modalPassword" name="modalPassword" class="z-input" maxlength="50" value="">` +
+                `<label class="field-label" for="password">${i18n.msg('user.label.password')}<span class="required">` +
+                `</span></label>` +
+                `<input type="password" id="modalPassword" name="modalPassword" class="input" maxlength="50" value="">` +
                 `</div>`;
 
             const passwordConfirmModal = new modal({
@@ -198,25 +200,26 @@
                 classes: 'password-check',
                 buttons: [{
                     content: i18n.msg('common.btn.check'),
-                    classes: 'z-button primary',
-                    bindKey: false,
-                    callback: function (modal) {
+                    classes: 'btn__text--box primary',
+                    bindKey: 13,
+                    callback: function(modal) {
                         passwordEncryptAndConfirm(userKey, manageAuth);
                         modal.hide();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
-                    callback: function (modal) {
+                    callback: function(modal) {
                         modal.hide();
                     }
                 }],
                 close: {
                     closable: false,
                 }
-            })
+            });
             passwordConfirmModal.show();
+            document.getElementById('modalPassword').focus();
         }
 
         // 입력받은 패스워드 암호화
@@ -236,7 +239,7 @@
                 data.password = rsa.encrypt(password);
 
                 passwordConfirm(data, userKey, manageAuth);
-            })
+            });
         }
 
         // 입력받은 패스워드 확인 처리

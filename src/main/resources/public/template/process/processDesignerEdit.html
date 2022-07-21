@@ -28,36 +28,36 @@
     <script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
 </head>
 <body>
-<div class="z-wrapper">
-    <div class="z-process-container">
-        <div class="z-process-header flex-row align-items-center">
-            <img class="z-img i-process-designer"  th:src="@{/assets/media/icons/designer/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
-            <span class="z-process-name ml-auto mr-auto" id="processName"></span>
+<div class="wrapper">
+    <div class="process-container">
+        <div class="process-header flex-row align-items-center">
+            <img class="img ic-process-designer"  th:src="@{/assets/media/icons/designer/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
+            <span class="process-name ml-auto mr-auto" id="processName"></span>
             <!-- 버튼 영역 -->
-            <div class="z-process-button-list flex-row mr-3">
+            <div class="process-button-list flex-row mr-3">
                 <!--undo-->
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <div id="editCommand">
-                        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="undo" data-targetId="editCommand"
+                        <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="undo" data-targetId="editCommand"
                                 onclick="zProcessDesigner.onDropdownClickHandler(this);">
-                            <span class="z-icon i-undo"></span>
-                            <div class="z-header-tooltip-contents">
-                                <span class="z-header-tooltip-text" th:text="#{process.label.undo}"></span>
+                            <span class="ic-undo"></span>
+                            <div class="header-tooltip-contents">
+                                <span class="header-tooltip-text" th:text="#{process.label.undo}"></span>
                             </div>
                         </button>
                     </div>
                     <!--undo, redo (드롭다운)-->
-                    <div class="z-header-dropdown">
-                        <button type="button" class="z-header-button z-button-icon z-header-button-dropdown light-extra">
-                            <span class="z-icon i-arrow-right"></span>
+                    <div class="header-dropdown">
+                        <button type="button" class="header-button btn__ic light-extra header-button-dropdown">
+                            <span class="ic-arrow-right"></span>
                         </button>
-                        <ul class="z-dropdown-content">
-                            <li class="z-dropdown-item" tabindex="-1">
-                                <button type="button" class="z-button z-button-dropdown align-left" data-actionType="undo" data-targetId="editCommand"
+                        <ul class="dropdown-content">
+                            <li class="dropdown-item" tabindex="-1">
+                                <button type="button" class="button button-dropdown align-left" data-actionType="undo" data-targetId="editCommand"
                                         onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{process.label.undo}" tabindex="0"></button>
                             </li>
-                            <li class="z-dropdown-item" tabindex="-1">
-                                <button type="button" class="z-button z-button-dropdown align-left" data-actionType="redo" data-targetId="editCommand"
+                            <li class="dropdown-item" tabindex="-1">
+                                <button type="button" class="button button-dropdown align-left" data-actionType="redo" data-targetId="editCommand"
                                         onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{process.label.redo}" tabindex="0"></button>
                             </li>
                         </ul>
@@ -65,43 +65,43 @@
                 </th:block>
                 <div class="ml-auto">
                     <!-- 시뮬레이션 -->
-                    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.simulationProcess();">
-                        <span class="z-icon i-simulation"></span>
-                        <div class="z-header-tooltip-contents">
-                            <span class="z-header-tooltip-text" th:text="#{process.label.simulation}"></span>
+                    <button type="button" class="header-button btn__ic light-extra header-tooltip" onclick="zProcessDesigner.simulationProcess();">
+                        <span class="ic-simulation"></span>
+                        <div class="header-tooltip-contents">
+                            <span class="header-tooltip-text" th:text="#{process.label.simulation}"></span>
                         </div>
                     </button>
                     <!-- 이미지로 다운로드 -->
-                    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.downloadProcessImage();">
-                        <span class="z-icon i-image-download"></span>
-                        <div class="z-header-tooltip-contents">
-                            <span class="z-header-tooltip-text" th:text="#{process.label.imageDownload}"></span>
+                    <button type="button" class="header-button btn__ic light-extra header-tooltip" onclick="zProcessDesigner.downloadProcessImage();">
+                        <span class="ic-image-download"></span>
+                        <div class="header-tooltip-contents">
+                            <span class="header-tooltip-text" th:text="#{process.label.imageDownload}"></span>
                         </div>
                     </button>
                 </div>
                 <!--저장하기-->
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <div id="fileCommand">
-                        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand"
+                        <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="save" data-targetId="fileCommand"
                                 onclick="zProcessDesigner.saveProcess();">
-                            <span class="z-icon i-save"></span>
-                            <div class="z-header-tooltip-contents">
-                                <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+                            <span class="ic-save"></span>
+                            <div class="header-tooltip-contents">
+                                <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
                             </div>
                         </button>
                     </div>
                     <!--저장하기(드롭다운)-->
-                    <div class="z-header-dropdown">
-                        <button type="button" class="z-header-button z-button-icon z-header-button-dropdown light-extra">
-                            <span class="z-icon i-arrow-right"></span>
+                    <div class="header-dropdown">
+                        <button type="button" class="header-button btn__ic light-extra header-button-dropdown">
+                            <span class="ic-arrow-right"></span>
                         </button>
-                        <ul class="z-dropdown-content">
-                            <li class="z-dropdown-item" tabindex="-1">
-                                <button type="button" class="z-button z-button-dropdown align-left" data-actionType="save" data-targetId="fileCommand"
+                        <ul class="dropdown-content">
+                            <li class="dropdown-item" tabindex="-1">
+                                <button type="button" class="button button-dropdown align-left" data-actionType="save" data-targetId="fileCommand"
                                         onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{common.btn.save}" tabindex="0"></button>
                             </li>
-                            <li class="z-dropdown-item align-left" tabindex="-1">
-                                <button type="button" class="z-button z-button-dropdown align-left"  data-actionType="saveAs" data-targetId="fileCommand"
+                            <li class="dropdown-item align-left" tabindex="-1">
+                                <button type="button" class="button button-dropdown align-left"  data-actionType="saveAs" data-targetId="fileCommand"
                                         onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{common.btn.saveAs}" tabindex="0"></button>
                             </li>
                         </ul>
@@ -109,87 +109,87 @@
                 </th:block>
                 <!--프로세스가 사용일때 다른이름으로 저장하기 만 가능-->
                 <th:block th:unless="${#strings.isEmpty(isView)}">
-                    <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" onclick="zProcessDesigner.saveAsProcess();">
-                        <span class="z-icon i-save-as"></span>
-                        <div class="z-header-tooltip-contents last">
-                            <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+                    <button type="button" class="header-button btn__ic light-extra header-tooltip" onclick="zProcessDesigner.saveAsProcess();">
+                        <span class="ic-save-as"></span>
+                        <div class="header-tooltip-contents last">
+                            <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
                         </div>
                     </button>
                 </th:block>
             </div>
         </div>
-        <div class="z-process-element-palette">
-            <button type="button" class="z-element-icon shape event">
-                <span class="z-icon i-event"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.event}"></label>
+        <div class="process-element-palette">
+            <button type="button" class="element-icon shape event">
+                <span class="ic-event"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.event}"></label>
             </button>
-            <button type="button" class="z-element-icon shape task">
-                <span class="z-icon i-task"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.task}"></label>
+            <button type="button" class="element-icon shape task">
+                <span class="ic-task"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.task}"></label>
             </button>
-            <button type="button" class="z-element-icon shape subprocess">
-                <span class="z-icon i-subprocess"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.subprocess}"></label>
+            <button type="button" class="element-icon shape subprocess">
+                <span class="ic-subprocess"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.subprocess}"></label>
             </button>
-            <button type="button" class="z-element-icon shape gateway">
-                <span class="z-icon i-gateway"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.gateway}"></label>
+            <button type="button" class="element-icon shape gateway">
+                <span class="ic-gateway"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.gateway}"></label>
             </button>
-            <button type="button" class="z-element-icon shape group">
-                <span class="z-icon i-group"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.group}"></label>
+            <button type="button" class="element-icon shape group">
+                <span class="ic-group"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.group}"></label>
             </button>
-            <button type="button" class="z-element-icon shape annotation">
-                <span class="z-icon i-annotation"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.annotation}"></label>
+            <button type="button" class="element-icon shape annotation">
+                <span class="ic-annotation"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.annotation}"></label>
             </button>
-            <button type="button" class="z-element-icon connector">
-                <span class="z-icon i-connector"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.connector}"></label>
+            <button type="button" class="element-icon connector">
+                <span class="ic-connector"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.connector}"></label>
             </button>
-            <button type="button" class="z-element-icon move-icon" id="moveDrawingboard">
-                <span class="z-icon i-background"></span>
-                <label class="z-element-icon-text" th:text="#{process.designer.element.background}"></label>
+            <button type="button" class="element-icon move-icon" id="moveDrawingboard">
+                <span class="ic-background"></span>
+                <label class="element-icon-text" th:text="#{process.designer.element.background}"></label>
             </button>
         </div>
-        <div class="z-process-main">
-            <div class="z-drawing-board" id="processDrawingBoard"></div>
+        <div class="process-main">
+            <div class="drawing-board" id="processDrawingBoard"></div>
         </div>
-        <div class="z-process-properties-header">
+        <div class="process-properties-header">
             <span id="properties-name"></span>
         </div>
-        <div class="z-process-properties"></div>
+        <div class="process-properties"></div>
     </div>
     <!-- dropdown button 템플릿 -->
     <template id="undoButtonTemplate">
-        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="undo" data-targetId="editCommand">
-            <span class="z-icon i-undo"></span>
-            <div class="z-header-tooltip-contents">
-                <span class="z-header-tooltip-text" th:text="#{process.label.undo}"></span>
+        <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="undo" data-targetId="editCommand">
+            <span class="ic-undo"></span>
+            <div class="header-tooltip-contents">
+                <span class="header-tooltip-text" th:text="#{process.label.undo}"></span>
             </div>
         </button>
     </template>
     <template id="redoButtonTemplate">
-        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="redo" data-targetId="editCommand">
-            <span class="z-icon i-redo"></span>
-            <div class="z-header-tooltip-contents">
-                <span class="z-header-tooltip-text" th:text="#{process.label.redo}"></span>
+        <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="redo" data-targetId="editCommand">
+            <span class="ic-redo"></span>
+            <div class="header-tooltip-contents">
+                <span class="header-tooltip-text" th:text="#{process.label.redo}"></span>
             </div>
         </button>
     </template>
     <template id="saveButtonTemplate">
-        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="save" data-targetId="fileCommand">
-            <span class="z-icon i-save"></span>
-            <div class="z-header-tooltip-contents">
-                <span class="z-header-tooltip-text" th:text="#{common.btn.save}"></span>
+        <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="save" data-targetId="fileCommand">
+            <span class="ic-save"></span>
+            <div class="header-tooltip-contents">
+                <span class="header-tooltip-text" th:text="#{common.btn.save}"></span>
             </div>
         </button>
     </template>
     <template id="saveAsButtonTemplate">
-        <button type="button" class="z-header-button z-button-icon light-extra z-header-tooltip" data-actionType="saveAs" data-targetId="fileCommand">
-            <span class="z-icon i-save-as"></span>
-            <div class="z-header-tooltip-contents last">
-                <span class="z-header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
+        <button type="button" class="header-button btn__ic light-extra header-tooltip" data-actionType="saveAs" data-targetId="fileCommand">
+            <span class="ic-save-as"></span>
+            <div class="header-tooltip-contents last">
+                <span class="header-tooltip-text" th:text="#{common.btn.saveAs}"></span>
             </div>
         </button>
     </template>
@@ -201,7 +201,7 @@
                 <h6 class="total align-right">
                     <span th:text="|#{process.designer.attribute.totalCount} : |">Total Count</span><span id="element-count"></span>
                 </h6>
-                <table class="z-table">
+                <table class="table">
                     <colgroup>
                         <col width="80%">
                         <col width="*">
@@ -243,9 +243,9 @@
                 <span th:text="#{process.label.name}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" class="z-input" id="newProcessName" data-validation-required="true">
+            <input type="text" class="input" id="newProcessName" data-validation-required="true">
             <label class="field-label" for="newProcessDescription" th:text="#{process.label.description}"></label>
-            <textarea class="z-textarea textarea-scroll-wrapper" id="newProcessDescription" rows="3" ></textarea>
+            <textarea class="textarea textarea-scroll-wrapper" id="newProcessDescription" rows="3" ></textarea>
         </div>
     </template>
 </div>
@@ -264,7 +264,7 @@
             zProcessDesigner.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
         // 드롭다운 이벤트 추가
-        document.querySelectorAll('.z-header-button-dropdown').forEach(function(dropdown) {
+        document.querySelectorAll('.header-button-dropdown').forEach(function(dropdown) {
             dropdown.addEventListener('click', function(e) {
                 e.preventDefault();
 

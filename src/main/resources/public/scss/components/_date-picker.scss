@@ -1,0 +1,293 @@
+/* _date-picker.scss 
+ *
+ * 파일 경로 : componenets/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @version 1.0
+ */
+// input box
+.picker-wrapper-date {
+  display: inline-block;
+  .picker-main { padding-right: 2.25rem; }
+}
+// modal
+.picker-modal {
+  @include fixed();
+  @include border(0.0625rem, solid, $gray300, all);
+  @include borderRadius(0.0625rem); // 1px
+  @include boxShadow(0, 0, 0.3125rem, 0, $gray300);
+  display: none;
+  min-width: 12.5rem; // 200px
+  background-color: $white;
+  color: $gray800;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-regular;
+  line-height: 1.2;
+  text-align: center;
+  z-index: 1000;
+  // modal open
+  &.active { 
+    display: block; 
+    z-index: 1000;
+  }
+  // modal title
+  &-title {
+    @include border(0.0625rem, solid, $gray300, bottom);
+    padding: 0.75rem 0; // 12px 0
+    color: $gray500;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+
+    .btn__ic { @include absolute($top: 0.25rem, $left: 0.5rem); } // 4px 8px
+
+    .ic-remove {
+      @include absolute($top: 0.5rem, $right: 0.5rem); // 8px 8px
+      background: $gray500;
+      cursor: pointer;
+      // mouse over
+      &:hover { background: $blue400; }
+    }
+  }
+  // YYYY-MM-DD HH:MM 표시
+  &-sub-title {
+    @include border(0.0625rem, solid, $gray300, bottom);
+    padding: 0.625rem 0; // 10px 0
+    background-color: $neutral50;
+    color: $gray800;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-regular;
+  }
+
+  &-content {
+    @include border(0.0625rem, solid, $gray300, bottom);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .date-text {
+      display: table-cell;
+      width: 7.5rem; // 120px
+      margin: 0;
+      padding: 0;
+      font-size: $font-size-xs; // 14px
+      font-weight: $font-weight-bold; // 700
+      color: $neutral800; // #424242
+      vertical-align: middle;
+    }
+
+    .ic-arrow-right {
+      display: table-cell;
+      cursor: pointer;
+      background: $gray400;
+      &:hover { background: $blue400; }
+    }
+    .date-prev { @include rotate(180); }
+
+    &-date {
+      display: none;
+      width: 19rem; // 304px
+      padding: 1rem 0 1rem 0; // 16px 0 16px 0
+      &.active {
+        display: inline-block;
+        + div.active {
+          @include border(0.0625rem, solid, $gray300, left);
+          height: 18.5rem; // 296px
+        }
+      }
+      // < month >
+      &-months {
+        display: table;
+        height: 1.563rem; // 25px
+        margin: 0 2.813rem; // 0 45px
+        img { vertical-align: middle; }
+        .date-text { width: 16.5rem; } // 264px
+      }
+      // calendar
+      &-calendar {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
+        color: $gray400; // 전월, 이월
+
+        .calendar-cell {
+          display: inline-block;
+          width: 1.5rem; // 24px
+          height: 1.5rem; // 24px
+          margin: 0.25rem 0.4375rem; // 4px 7px
+          padding: 0;
+          text-align: center;
+          line-height: 1.7;
+
+          &.calendar-title {
+            color: $gray500;
+            pointer-events: none;
+          }
+
+          &:not(.calendar-title) {
+            @include border(0.0625rem, solid, $white);
+            @include borderRadius(50%);
+            cursor: pointer;
+            &:hover {
+              border-color: $blue100;
+              background-color: $blue100;
+            }
+            &:active {
+              @include boxShadow(0, 0, 0.125rem, 0, $blue600);
+              border-color: $blue600;
+            }
+          }
+          &.active { color: $gray800; }// 현재 월
+          &.selected {
+            @include border(0.0625rem, solid, $blue500);
+            @include borderRadius(50%);
+            background-color: $white;
+            color: $blue500;
+          }
+        }
+      }
+    }
+
+    &-time {
+      display: none;
+      width: 14.6875rem; // 235px
+      min-height: 7.375rem; // 118px
+      padding: 1rem 0 1rem 0; // 16px 0 16px 0
+      justify-content: center;
+      &.active { display: flex; }
+
+      .hour-group,
+      .minute-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        //icon
+        .ic-arrow-right {
+          margin: 0;
+          background: $gray500;
+          cursor: pointer;
+          &:hover { background: $blue400; }
+        }
+        .hour-up, .minute-up { @include rotate(-90); }
+        .hour-down, .minute-down { @include rotate(90); }
+
+        .digit {
+          @include border(0.0625rem, solid, $gray300);
+          @include borderRadius(0.125rem);
+          width: 3.75rem !important; // 60px
+          height: 3.5rem; // 56px
+          margin: 0.8125rem 0; // 13px
+          padding: 0;
+          color: $gray800;
+          font-size: 1.5rem; // 24px
+          font-weight: $font-weight-medium;
+          text-align: center;
+          &:hover, &:focus, &:active { outline: 0; }
+        }
+      }
+      .hour-group > .digit {
+        @include border(0.0625rem, solid, transparent, right);
+        @include borderRadius(0.125rem 0 0 0.125rem);
+      }
+      .minute-group > .digit {
+        @include border(0.0625rem, solid, transparent, left);
+        @include borderRadius(0 0.125rem 0.125rem 0);
+      }
+      // AM, PM
+      .btn__toggle__button { padding-left: 0.5rem; } // 8px
+
+      // 구분자 :
+      .separator {
+        @include border(0.0625rem, solid, $gray400, top);
+        @include border(0.0625rem, solid, $gray400, bottom);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 0.375rem; // 6px
+        height: 3.5rem; // 56px
+        margin: auto 0;
+        color: $gray800;
+        font-size: 1.5rem; // 24px
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    &-year {
+      display: none;
+      width: 14rem;
+      padding: 1rem 0 1rem 0; // 16px 0 16px 0
+      &.active { display: block;}
+
+      // period
+      &-period {
+        display: table;
+        height: 1.563rem; // 25px
+        margin: 0 auto;
+        img { vertical-align: middle;}
+        .date-text {
+          width: 7.5rem; // 120px
+          span:first-child {
+            position: relative;
+            padding-right: 0.625rem; // 10px
+            &::before {
+              @include position(absolute, 0.438rem, 0.125rem, null, null); // 7px 2px
+              content: '';
+              width: 0.3125rem; // 5px
+              height: 0.125rem; // 2px
+              background-color: $neutral800;
+            }
+          }
+        }
+      }
+
+      // years
+      &-years {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
+        color: $neutral800;
+
+        .calendar-cell {
+          @include borderRadius(0.125rem); // 2px
+          display: inline-block;
+          width: 2.75rem; // 44px;
+          height: 1.5rem; // 24px
+          padding: 0;
+          margin: 0.25rem 0.4375rem; // 4px 7px
+          font-weight: $font-weight-medium;
+          text-align: center;
+          line-height: 1.7;
+          cursor: pointer;
+
+          &:hover, &:active { background-color: $gray200; }
+          &.selected {
+            position: relative;
+            color: $blue500;
+            &:before {
+              @include position(absolute, null, null, 0, null);
+              @include borderRadius(0.125rem); // 2px
+              content: '';
+              display: block;
+              width: 100%;
+              height: 0.125rem; // 2px
+              background-color: $blue500;
+            }
+          }
+          &:nth-child(n+4) { margin-top: 0.875rem; } // 14px
+        }
+      }
+    }
+  }
+
+  // 버튼 : .itsm-container 하위 요소와 충돌하지 않도록 !important 설정
+  &-button {
+    float: right;
+    margin: 0.75rem 0.6875rem 0.75rem 0 !important; // 12px 11px 12px 0
+  }
+}

@@ -59,10 +59,10 @@ export const userSearchMixin = {
         const defaultValues = (!zValidation.isEmpty(this.elementDefaultValue.data))
             ? this.elementDefaultValue.data.split('|') : ['', '', ''];
 
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
-            .setUIClass('z-input i-user-search text-ellipsis')
+            .setUIClass('input ic-user-search text-ellipsis')
             .setUIId('userSearch' + this.id)
             .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)
@@ -95,7 +95,7 @@ export const userSearchMixin = {
             `${ZSession.get('userName')}|${ZSession.get('userId')}`;
                 this.elementDefaultValue = newElementDefaultValue;
             }
-            if (zValidation.isEmpty(document.querySelector('.z-form-main'))) {
+            if (zValidation.isEmpty(document.querySelector('.form-main'))) {
                 this.getUserList(this.elementDefaultValue.data.split('|')[2], false);
             }
         }
@@ -106,7 +106,7 @@ export const userSearchMixin = {
             this.UIElement.UIComponent.UIElement.UIInput.setUICSSText('pointer-events:none');
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
         // 문서의 상태가 사용이 아닌 경우 = 신청서 진행 중이고
         // 신청서 양식 편집 화면에서 처리한 group 컴포넌트가 숨김이 아니며
@@ -165,9 +165,9 @@ export const userSearchMixin = {
     set validationRequired(boolean) {
         this._validation.required = boolean;
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -203,7 +203,7 @@ export const userSearchMixin = {
         this.userSearch = new modal({
             title: this.labelText,
             body: `<div class="target-user-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="searchUserList"></div>` +
@@ -211,7 +211,7 @@ export const userSearchMixin = {
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -229,7 +229,7 @@ export const userSearchMixin = {
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -274,9 +274,9 @@ export const userSearchMixin = {
             // 사용자 선택 모달 생성
             if (!zValidation.isEmpty(searchUserList)) {
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
                 // 갯수 가운트
-                aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
                 // 체크 이벤트
                 searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                     element.addEventListener('change', () => {
@@ -301,7 +301,7 @@ export const userSearchMixin = {
             } else {
                 // 기본값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (!userListElem.querySelectorAll('.z-table-row').length) {
+                if (!userListElem.querySelectorAll('.table-row').length) {
                     this.UIElement.UIComponent.UIElement.UIInput.setUIValue('')
                         .setUIAttribute('data-user-id', '')
                         .setUIAttribute('data-user-search', '');

@@ -6,32 +6,43 @@
  * @version 1.0
  */
 ////////////////////////// element //////////////////////////
-.z-button-icon-sm {
-  .z-icon {
+.item-remove {
+  [class*="ic-"] {
     width: 0.5rem;
     height: 0.5rem;
   }
 }
 
+.label--document {
+  @include borderRadius(0.125rem); // 2px
+  padding: 0.375rem; // 6px
+  border-color: $blue300;
+  background-color: $blue300;
+  color: $blue700;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  line-height: 1.0625rem; //17px
+}
+
 /* 신청서 / 처리할 문서 양식 layout */
-// z-document-container
-//                - z-document-main : 문서양식 메인
-//                             - z-document-main-header : 문서 번호, 버튼 등이 그려지는 영역
-//                             - z-drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
-//                - z-token-properties : 문서이력, 관련문서, 의견, 태그
+// document-container
+//                - document-main : 문서양식 메인
+//                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+//                             - drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > _designer.scss )
+//                - token-properties : 문서이력, 관련문서, 의견, 태그
 //
 // 신청서, 문서함 공통
-.z-document-container {
+.document-container {
   ////////////////////////// form //////////////////////////
   $tooltip-type: (group, row, component);
   @each $type in $tooltip-type {
-    .z-#{$type}-tooltip {
+    .#{$type}-tooltip {
       @include border(0.0625rem, solid, $white, all); // 1px
     }
   }
   /* form, group, row, component 디자인 - document ver. */
   // 툴팁 border 초기화
-  .z-component {
+  .component {
     padding: 0 1rem;
     &-tooltip {
       display: flex;
@@ -40,50 +51,42 @@
     }
     span { word-break: break-all; }
   }
-  .z-group {
-    &.accordion {
-      .z-group-accordion-checkBox:checked {
-        ~ .row-tooltip:not(.off):last-child {
-          @include border(0.0625rem, solid, $gray300, bottom); // 1px
-        }
-      }
-    }
-    .z-element { pointer-events: auto; }
+  .group {
+    .element { pointer-events: auto; }
   }
-  .z-dr-table-button-group { top: -0.25rem !important; }
 
   ////////////////////////// layout //////////////////////////
   @include container;
 
-  .z-document-main {
+  .document-main {
     @include fixed(0, 33.125rem, 0, 0); // 530px
     @include scrollbarHidden;
     overflow-y: auto;
     background-color: $neutral50;
 
     // 상단 영역
-    .z-document-main-header {
+    .document-main-header {
       @include fixed(0, 33.125rem, null, 0); // 530px
       padding: 0.75rem 1rem; // 12px
       background: $blue500;
       z-index: 100;
 
-      .z-action-button-top-area {
-        .z-button-list { width: 100%; }
+      .action-button-top-area {
+        .btn__list { width: 100%; }
       }
 
-      .z-button-list {
+      .btn__list {
         .primary { border-color: $white; }
         .secondary { border-color: $white;}
       }
     }
 
-    .z-document-main-content {
+    .document-main-content {
       display: inline-block;
       width: 100%;
       text-align: center;
       // 문서 번호
-      .z-document-numbering {
+      .document-numbering {
         margin: 6.25rem 0 0.625rem; // 100px 0 0 10px
         font-family: $font-family;
         font-size: $font-size-xs;
@@ -92,10 +95,10 @@
     }
 
     // board 영역
-    .z-drawing-board { margin: 6.25rem 0 3rem; } // 100px 48px
+    .drawing-board { margin: 6.25rem 0 3rem; } // 100px 48px
 
     // 하단 영역
-    .z-document-main-footer {
+    .document-main-footer {
       width: 100%;
       padding: 0.75rem 0 4rem; // 12px 0 64px
     }
@@ -113,20 +116,20 @@
     background-color: $gray400;
     z-index: 500;
 
-    .z-icon.i-arrow-double { background: $white; }
+    .ic-arrow-double { background: $white; }
 
-    &.off {
+    &.hide {
       right: 0;
-      .z-icon.i-arrow-double { @include rotate(180); }
+      .ic-arrow-double { @include rotate(180); }
 
       + form {
-        .z-document-main {
+        .document-main {
           right: 0;
-          .z-document-main-header { right: 0; }
+          .document-main-header { right: 0; }
         }
       }
 
-      ~ .z-token-properties { width: 0; }
+      ~ .token-properties { width: 0; }
     }
   }
 
@@ -134,7 +137,7 @@
   // 2021-06-26 Jung Hee Chan
   // 신청서 디자인은 되었는데 문서함쪽은 고려가 안되어 있는 것 같아 일단 붙여 놓음.
   // 디자인 적용 작업 시 신청서 + 문서함 부분과 나눠지는 부분에 대한 고려가 필요함.
-  .z-token-properties {
+  .token-properties {
     @include fixed(0, 0, 0, null);
     @include border(0.0625rem, solid, $gray300, left);
     @include transition(all 0.25s ease-out);
@@ -142,12 +145,12 @@
     width: 33.125rem; // 530px
     background-color: $white;
 
-    .z-token-tabs {
+    .token-tabs {
       display: flex;
       margin-top: 2rem; // 32px
       padding: 0 1.375rem; // 22px
 
-      .z-token-tab {
+      .token-tab {
         @include border(0.0625rem, solid, $gray300, bottom);
         flex: 1;
         padding: 0.625rem 0; // 10px 0
@@ -162,20 +165,19 @@
     }
 
     // 탭 내용
-    .z-token-panels {
+    .token-panels {
       overflow-y: auto;
       height: 100%;
 
-      .z-token-panel {
+      .token-panel {
         display: none;
         padding: 0 1.375rem; // 22px
-        &.on { display: block; }
 
         // 아이콘
-        .z-icon.i-delete { background: $gray500; }
+        .ic-delete { background: $gray500; }
       }
 
-      .z-token {
+      .token {
         // 태그
         &-tag {
           margin: 0.625rem 0 0 0; // 10px 0 0 0
@@ -185,7 +187,7 @@
         // 보관처리
         &-storage {
           margin: 1.75rem 0 0 0; // 28px 0 0 0
-          .z-icon-document-storage {
+          .icon-document-storage {
             display:contents;
             &.active {
               .document-storage-star {
@@ -194,7 +196,7 @@
               }
             }
           }
-          .z-token-storage-label { margin-left: 0.25rem; } // 4px
+          .token-storage-label { margin-left: 0.25rem; } // 4px
         }
 
         // 처리 이력
@@ -208,7 +210,7 @@
 
           &-table {
             th, td { padding: 0 0.625rem; } // 0 10px
-            .z-table-head {
+            .table-head {
               @include border(0.0625rem, solid, $gray300, top);
               background-color: $neutral100;
               tr {
@@ -217,7 +219,7 @@
               }
             }
 
-            .z-table-body {
+            .table-body {
               overflow-y: auto;
               border: none;
               tr {
@@ -240,7 +242,7 @@
             margin: 0.625rem 0 0 0; // 10px 0 0 0
 
             // 추가된 관련 문서
-            .z-document {
+            .document {
               &-color {
                 @include borderRadius(0.125rem);
                 width: 0.375rem; // 6px
@@ -258,7 +260,7 @@
                 &-content {
                   a {
                     width: 100%;
-                    .z-document-title {
+                    .document-title {
                       @include wordWrap();
                       h6 {
                         &:first-child {
@@ -283,13 +285,13 @@
           }
 
           // 관련 문서 추가
-          .z-document-add {
+          .document-add {
             @include border(0.0625rem, solid, $gray300, all);
             background-color: $neutral50;
-            .z-button-icon {
+            .btn__ic {
               width: 100%;
               height: 100%;
-              .z-icon.i-plus { background: $gray500; }
+              .ic-plus { background: $gray500; }
             }
           }
         }
@@ -302,14 +304,14 @@
             margin: 0.625rem 0 0 0; // 10px 0 0 0
             padding: 1rem; // 16px
 
-            .z-comment {
+            .comment {
               &-row {
                 &-info {
-                  .z-user-name {
+                  .user-name {
                     color: $gray800;
                     font-weight: $font-weight-bold;
                   }
-                  .z-comment-time {
+                  .comment-time {
                     margin-left: 0.5rem; //8px
                     color: $gray500;
                   }
@@ -324,7 +326,7 @@
           }
 
           // 댓글 추가
-          .z-comment-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
+          .comment-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
         }
 
         // 참조인
@@ -339,11 +341,11 @@
             td, th {
               &:nth-child(3) { color: $gray500; }
             }
-            .z-table-body {
+            .table-body {
               border: none;
               tr:hover { background-color: transparent; }
             }
-            .z-icon.i-clear { background: $gray500; }
+            .ic-clear { background: $gray500; }
           }
         }
       }
@@ -352,10 +354,10 @@
 }
 
 ////////////////////////// print //////////////////////////
-.z-print {
+.print {
   margin: 0 auto;
 
-  z-print-main > div { height: 0; }
+  print-main > div { height: 0; }
 
   &-main-footer {
     padding: 5mm 0;
@@ -366,8 +368,8 @@
   &-footer-space { height: 0; }
 
   &-main {
-    .z-drawing-board {
-      .z-form {
+    .drawing-board {
+      .form {
         box-shadow: none; // 인쇄 영역의 테두리엔 그림자 효과 제외
         border: none; // 인쇄시 테두리 제외
         // 인쇄시 폼 내의 모든 컴포넌트 동작을 막음
@@ -386,7 +388,7 @@
     width: 210mm;
     height: 297mm;
   }
-  .z-print {
+  .print {
     width: 100%;
     min-height: initial;
     margin: 0;
@@ -403,21 +405,21 @@
 
     &-main {
       margin: 0 auto;
-      .z-print-header-space { display: table-header-group; }
-      .z-drawing-board { display: table-row-group; }
-      .z-print-footer-space { display: table-footer-group; }
+      .print-header-space { display: table-header-group; }
+      .drawing-board { display: table-row-group; }
+      .print-footer-space { display: table-footer-group; }
 
       // 폼이 그려지는 영역
-      .z-drawing-board {
-        .z-form {
+      .drawing-board {
+        .form {
           display: table-row;
-          .z-group-tooltip {
+          .group-tooltip {
             page-break-after: auto;
             break-inside: avoid;
           }
-          .z-row-tooltip {
+          .row-tooltip {
             break-inside: avoid;
-            .z-textarea {
+            .textarea {
               width: inherit;
               max-width: calc(210mm - 10mm);
             }
@@ -439,7 +441,7 @@
               }
             }
 
-            .z-table-body {
+            .table-body {
               border: none;
 
               tr:hover {
@@ -447,11 +449,7 @@
               }
             }
 
-            .z-icon {
-              &.i-clear {
-                background: $gray500;
-              }
-            }
+            .ic-clear { background: $gray500; }
           }
         }
       }

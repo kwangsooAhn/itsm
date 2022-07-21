@@ -52,7 +52,7 @@ export const labelMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         return element;
@@ -83,9 +83,9 @@ export const labelMixin = {
     set validationRequired(boolean) {
         this._validation.required = boolean;
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -111,17 +111,17 @@ export const labelMixin = {
 
         // label - align
         const labelAlignProperty = new ZSwitchButtonProperty('labelAlign', 'label.align', this.labelAlign, [
-            { 'name': 'i-align-left', 'value': 'left' },
-            { 'name': 'i-align-center', 'value': 'center' },
-            { 'name': 'i-align-right', 'value': 'right' }
+            { 'name': 'ic-align-left', 'value': 'left' },
+            { 'name': 'ic-align-center', 'value': 'center' },
+            { 'name': 'ic-align-right', 'value': 'right' }
         ]);
         labelAlignProperty.columnWidth = '6';
 
         // label - fontOption
         const labelFontOption = [
-            { 'name': 'i-bold', 'value': 'bold'},
-            { 'name': 'i-italic', 'value': 'italic' },
-            { 'name': 'i-underline', 'value': 'underline' }
+            { 'name': 'ic-bold', 'value': 'bold'},
+            { 'name': 'ic-italic', 'value': 'italic' },
+            { 'name': 'ic-underline', 'value': 'underline' }
         ];
         const labelFontValue = labelFontOption.map((item) => {
             const method = item.value.substr(0, 1).toUpperCase() + item.value.substr(1, item.value.length);

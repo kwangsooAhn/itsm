@@ -30,4 +30,12 @@ class WfComponentRepositoryImpl : QuerydslRepositorySupport(WfComponentEntity::c
             .where(component.form.formId.`in`(formIds))
             .fetch()
     }
+
+    override fun findByComponentIdsAndComponentType(componentIds: Set<String>, componentType: String): List<WfComponentEntity> {
+        val component = QWfComponentEntity.wfComponentEntity
+        return from(component)
+            .where(component.componentId.`in`(componentIds))
+            .where(component.componentType.eq(componentType))
+            .fetch()
+    }
 }

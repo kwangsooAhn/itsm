@@ -45,7 +45,7 @@ export default class ZTagProperty extends ZProperty {
             .setUIReadOnly(!this.isEditable);
         this.UIElement.addUI(this.UIElement.UIInput);
 
-        // tagify 는 readonly 일때, z-input을 삭제한다.
+        // tagify 는 readonly 일때, input을 삭제한다.
         if (!this.isEditable) {
             this.UIElement.UIInput.setUIClass('');
         }

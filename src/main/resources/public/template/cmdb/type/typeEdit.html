@@ -15,11 +15,11 @@
     <h6 class="description ml-2 pl-2" th:text="#{cmdb.type.msg.searchDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="z-input i-search col-5 mr-2" id="search" name="search" maxlength="100"
+    <input type="text" class="input ic-search col-5 mr-2" id="search" name="search" maxlength="100"
            th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
-    <span id="totalCount" class="z-search-count"></span>
+    <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" id="btnCreate" name="btnCreate" onclick="onCreate();"
+        <button type="button" class="btn__text--box primary" id="btnCreate" name="btnCreate" onclick="onCreate();"
                 sec:authorize="hasAuthority('cmdb.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
@@ -27,65 +27,65 @@
     <div id="treeList"></div>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-column">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.parentType}" for="parentTypeName"></label>
-            <input class="z-input" id="parentTypeName" name="parentTypeName" type="text" maxlength="100" readonly/>
+            <input class="input" id="parentTypeName" name="parentTypeName" type="text" maxlength="100" readonly/>
             <input id="parentTypeId" name="parentTypeId" type="hidden"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.name}" for="typeName"></label>
-            <input class="z-input" id="typeName" name="typeName" type="text" maxlength="100"/>
+            <input class="input" id="typeName" name="typeName" type="text" maxlength="100"/>
             <input id="typeId" name="typeId" type="hidden"/>
             <input id="typeLevel" name="typeLevel" type="hidden"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.alias}" for="typeAlias"></label>
-            <input class="z-input" id="typeAlias" name="typeAlias" type="text" maxlength="16"
+            <input class="input" id="typeAlias" name="typeAlias" type="text" maxlength="16"
                    onkeyup="aliceJs.removeChar(event, regularCharacterReg, 'gi')"  />
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{cmdb.type.label.description}" for="typeDesc"></label>
             <textarea id="typeDesc" name="typeDesc" th:maxlength="200" th:rows="7"
-                      class="z-textarea textarea-scroll-wrapper" text=""></textarea>
+                      class="textarea textarea-scroll-wrapper" text=""></textarea>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.seq}" for="typeSeq"></label>
-            <input class="z-input" id="typeSeq" name="typeSeq" type="text"  maxlength="4"
+            <input class="input" id="typeSeq" name="typeSeq" type="text"  maxlength="4"
                    onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:text="#{cmdb.type.label.icon}"></label>
-            <div class="flex-row z-input-button">
-                <input class="z-input" id="typeIcon" name="typeIcon" type="text" readonly>
-                <button type="button" class="z-button-icon-sm" name="typeIconButton"
+            <div class="flex-row input--remove">
+                <input class="input" id="typeIcon" name="typeIcon" type="text" readonly>
+                <button type="button" class="item-remove" name="typeIconButton"
                         onclick="aliceJs.clearText(this);" tabindex="-1">
-                    <span class="z-icon i-remove"></span>
+                    <span class="ic-remove"></span>
                 </button>
-                <button sec:authorize="hasAuthority('cmdb.manage')" class="z-button-search z-button form"
+                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search btn__text--box tertiary"
                         name="typeIconButton" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.class}"></label>
-            <div class="flex-row z-input-button">
-                <input class="z-input" id="typeClass" name="typeClass" type="text" readonly>
+            <div class="flex-row input--remove">
+                <input class="input" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
-                <button type="button" class="z-button-icon-sm" name="typeClassButton"
+                <button type="button" class="item-remove" name="typeClassButton"
                         onclick="aliceJs.clearText(this);" tabindex="-1">
-                    <span class="z-icon i-remove"></span>
+                    <span class="ic-remove"></span>
                 </button>
-                <button sec:authorize="hasAuthority('cmdb.manage')" class="z-button-search z-button form"
+                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search btn__text--box tertiary"
                         name="typeClassButton" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="z-button-list" sec:authorize="hasAuthority('cmdb.manage')">
-                <button type="button" class="z-button primary" id="btnRegist" name="btnRegist"
+            <div class="btn__list" sec:authorize="hasAuthority('cmdb.manage')">
+                <button type="button" class="btn__text--box primary" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="btn__text--box primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="z-button danger" id="btnDelete" name="btnDelete"
+                <button type="button" class="btn__text--box danger" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>
@@ -105,8 +105,8 @@
         getTypeList();
         document.getElementById('search').addEventListener('keyup', aliceJs.debounce (() => getTypeList()), false);
 
-        OverlayScrollbars(document.querySelector('.z-page-tree'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelector('.z-page-edit'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('typeDesc'), {
             className: 'scrollbar',
             resize: 'vertical',
@@ -183,7 +183,7 @@
                 if (document.querySelectorAll('button[name=typeClassButton]').length > 0) {
                     document.querySelectorAll('button[name=typeClassButton]').forEach((elem) => elem.removeAttribute('disabled'));
                 }
-                document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+                document.querySelector('.textarea').classList.remove('textarea-readonly');
                 typeName.readOnly = false;
                 typeDesc.readOnly = false;
                 typeAlias.readOnly = false;
@@ -206,7 +206,7 @@
                 if (document.querySelectorAll('button[name=typeClassButton]').length > 0) {
                     document.querySelectorAll('button[name=typeClassButton]').forEach((elem) => elem.disabled = true);
                 }
-                document.querySelector('.z-textarea').classList.add('z-textarea-readonly');
+                document.querySelector('.textarea').classList.add('textarea-readonly');
                 typeName.readOnly = true;
                 typeDesc.readOnly = true;
                 typeAlias.readOnly = true;
@@ -255,7 +255,7 @@
         // 정렬 순서
         const typeSeq = document.getElementById('typeSeq');
 
-        document.querySelector('.z-textarea').classList.remove('z-textarea-readonly');
+        document.querySelector('.textarea').classList.remove('textarea-readonly');
         document.querySelector('textarea').value = '';
         typeName.readOnly = false;
         typeDesc.readOnly = false;

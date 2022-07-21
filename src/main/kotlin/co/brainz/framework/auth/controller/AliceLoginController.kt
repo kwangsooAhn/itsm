@@ -34,7 +34,7 @@ class AliceLoginController(
     private val aliceIpVerificationService: AliceIpVerificationService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val invalidSessionPage: String = "/sessionInvalid"
+    private val invalidSessionPage: String = "sessionInvalid"
     private val layoutPage: String = "/layout"
 
     @Value("\${ip.access.control}")

@@ -177,7 +177,7 @@
             `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="number" class="z-input" id="${objectId}-maxLength" max="1000" value="${maxLengthValue}">` +
+            `<input type="number" class="input" id="${objectId}-maxLength" max="1000" value="${maxLengthValue}">` +
             `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
@@ -185,7 +185,7 @@
             `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="number" class="z-input" id="${objectId}-minLength" max="1000" min="0" ` +
+            `<input type="number" class="input" id="${objectId}-minLength" max="1000" min="0" ` +
                 `value="${minLengthValue}">` +
             `</div>` +
             `</div>`;
@@ -226,8 +226,8 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<div class="inline-flex justify-content-end" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
-                `<span class="z-icon i-plus"></span></button>` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
+                `<span class="ic-plus"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -240,7 +240,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-5 mr-4">` +
-            `<input type="text" class="z-input" maxlength="50" value="선택하세요." readonly>` +
+            `<input type="text" class="input" maxlength="50" value="선택하세요." readonly>` +
             `</div>` +
             `<div class="flex-column col-1">` +
             `<label>` +
@@ -248,7 +248,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-5">` +
-            `<input type="text" class="z-input" maxlength="50" readonly>` +
+            `<input type="text" class="input" maxlength="50" readonly>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -268,7 +268,7 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                `<input type="text" class="input" maxlength="50" required="true" required ` +
                     `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
@@ -277,12 +277,12 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                `<input type="text" class="input" maxlength="50" required="true" required ` +
                     `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
+                `<span class="ic-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -320,8 +320,8 @@
         const objectId = attributeTypeList[2].type; // radio
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
-            `<span class="z-icon i-plus"></span>` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
+            `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -340,16 +340,16 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" ` +
+                `<input type="text" class="input" maxlength="50" required="true" ` +
                 `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
                 `</div>` +
-                `<div class="flex-column col-5"><input type="text" class="z-input" maxlength="50"></div>` +
+                `<div class="flex-column col-5"><input type="text" class="input" maxlength="50"></div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
+                `<span class="ic-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -383,8 +383,8 @@
         const objectId = attributeTypeList[3].type; // checkbox
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
-            `<span class="z-icon i-plus"></span>` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
+            `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -401,25 +401,25 @@
                 `<span class="required"></span></label>` +
                 `</div>` +
                 `<div class="flex-column col-4 mr-4">` +
-                `<input type="text" class="z-input" maxlength="50" required="true" required ` +
+                `<input type="text" class="input" maxlength="50" required="true" required ` +
                 `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
                 `</div>` +
-                `<div class="flex-column col-4 mr-4"><input type="text" class="z-input" maxlength="50"></div>` +
+                `<div class="flex-column col-4 mr-4"><input type="text" class="input" maxlength="50"></div>` +
                 `<div class="flex-column col-1">` +
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label>` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
-                `<label class="z-checkbox">` +
+                `<label class="checkbox">` +
                 `<input type="checkbox">` +
                 `<span></span>` +
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column">` +
-                `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-                `<span class="z-icon i-remove"></span>` +
+                `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
+                `<span class="ic-remove"></span>` +
                 `</button>` +
                 `</div>` +
                 `</div>`;
@@ -455,7 +455,7 @@
         // required
         const requiredTemplate = getRequiredAttributeTemplate(objectId, property.required);
         // custom-code
-        const customCodeOptions = customCodeList.map(function(option) {
+        const customCodeOptions = customCodeList.data.map(function(option) {
             return `<option value='${option.customCodeId}' ` +
                 `${property.customCode === option.customCodeId ? 'selected=\'true\'' : ''}>` +
                 `${aliceJs.filterXSS(option.customCodeName)}</option>`;
@@ -486,7 +486,7 @@
             `<label><span>${i18n.msg('cmdb.attribute.label.default')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-1">` +
-            `<label class="z-radio">` +
+            `<label class="radio">` +
             `<input name="${objectId}-default" id="${objectId}-none" type="radio" value="none" ` +
                 `${defaultType === 'none' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
@@ -498,7 +498,7 @@
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
             `<div class="flex-column col-1">` +
-            `<label class="z-radio">` +
+            `<label class="radio">` +
             `<input name="${objectId}-default" id="${objectId}-session" type="radio" value="session" ` +
                 `${defaultType === 'session' ? 'checked=\'true\'' : ''}>` +
             `<span></span>` +
@@ -511,20 +511,20 @@
             `</div>` +
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-2 mr-4"><label><span></span></label></div>` +
-            `<div class="flex-column col-1"><label class="z-radio"><input type="radio" name="${objectId}-default" ` +
+            `<div class="flex-column col-1"><label class="radio"><input type="radio" name="${objectId}-default" ` +
                 `id="${objectId}-code" value="code" ${defaultType === 'code' ? 'checked=\'true\'' : ''}>` +
                 `<span></span><span class="label">${i18n.msg('cmdb.attribute.label.option.code')}</span>` +
                 `</label></div>` +
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7">` +
-            `<div class="flex-row z-input-button">` +
-            `<input type="text" class="z-input" readonly="true" id="${objectId}-default-code-text" ` +
+            `<div class="flex-row">` +
+            `<input type="text" class="input" readonly="true" id="${objectId}-default-code-text" ` +
                 `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
                 `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-            `<button class="z-button-icon z-button-code" type="button" id="${objectId}-default-code" ` +
+            `<button class="btn__ic" type="button" id="${objectId}-default-code" ` +
                 `data-value="${property.customCode}" ${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
-                `<span class="z-icon i-search"></span></button>` +
+                `<span class="ic-search bg-gray500"></span></button>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -533,7 +533,7 @@
             `<label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="text" class="z-input" id="${objectId}-button" maxlength="100" value="${buttonText}">` +
+            `<input type="text" class="input" id="${objectId}-button" maxlength="100" value="${buttonText}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -616,8 +616,8 @@
         const objectId = attributeTypeList[5].type; // group-list
         this.template =
             `<div class="float-right" id="button_add">` +
-            `<button id="${objectId}_add" type="button" class="z-button-icon extra">` +
-            `<span class="z-icon i-plus"></span>` +
+            `<button id="${objectId}_add" type="button" class="btn__ic extra">` +
+            `<span class="ic-plus"></span>` +
             `</button>` +
             `</div>`;
 
@@ -666,7 +666,7 @@
         let rowElement =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-4">` +
-            `<input type="text" class="z-input" maxlength="50" readonly="readonly" ` +
+            `<input type="text" class="input" maxlength="50" readonly="readonly" ` +
             `id="${data.key}" value="${data.value}">` +
             `</div>` +
             `<div class="flex-column col-2 align-right mr-2">` +
@@ -675,7 +675,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-3">` +
-            `<input type="text" class="z-input" maxlength="50" readonly="readonly" value="${data.type}">` +
+            `<input type="text" class="input" maxlength="50" readonly="readonly" value="${data.type}">` +
             `</div>` +
             `<div class="flex-column col-2 align-right mr-2">` +
             `<label>` +
@@ -683,12 +683,12 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-3">` +
-            `<input type="text" class="z-input" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
+            `<input type="text" class="input" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
             `<div class="flex-column">` +
-            `<button id="${rowId}_delete" type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2">` +
-            `<span class="z-icon i-remove"></span>` +
+            `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
+            `<span class="ic-remove"></span>` +
             `</button>` +
             `</div>` +
             `</div>`;
@@ -733,7 +733,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-minDate" id="${objectId}-minDate" 
-                        class="z-input i-date-picker search-date col-3 mr-2" 
+                        class="input ic-date-picker search-date col-3 mr-2" 
                         value="${minDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>` +
@@ -745,7 +745,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-maxDate" id="${objectId}-maxDate" 
-                        class="z-input i-date-picker search-date col-3 mr-2" 
+                        class="input ic-date-picker search-date col-3 mr-2" 
                         value="${maxDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>`;
@@ -778,7 +778,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-minDateTime" id="${objectId}-minDateTime" 
-                        class="z-input i-datetime-picker search-datetime col-3 mr-2" 
+                        class="input ic-datetime-picker search-datetime col-3 mr-2" 
                         value="${minDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>` +
@@ -790,7 +790,7 @@
             `</div>` +
             `<div class="flex-column col-9">` +
             `<input name="${objectId}-maxDateTime" id="${objectId}-maxDateTime" 
-                        class="z-input i-datetime-picker search-datetime col-3 mr-2" 
+                        class="input ic-datetime-picker search-datetime col-3 mr-2" 
                         value="${maxDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>`;
@@ -900,10 +900,10 @@
 
         // 신규 생성
         if (e.target.value === 'organization') {
-            const organizationTemplate = `<div class="flex-row z-input-button">
-                <input type="text" class="z-input" readonly="true" id="searchTarget" required="true" data-value="">
-                <button class="z-button-icon z-button-code" type="button" id="searchOrganization">` +
-                `<span class="z-icon i-search"></span></button>
+            const organizationTemplate = `<div class="flex-row">
+                <input type="text" class="input" readonly="true" id="searchTarget" required="true" data-value="">
+                <button class="btn__ic" type="button" id="searchOrganization">` +
+                `<span class="ic-search bg-gray500"></span></button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', organizationTemplate);
 
@@ -911,7 +911,7 @@
             searchOrganization.addEventListener('click', openOrganizationTreeModal, false);
         } else {
             const customTemplate = `<div class="align-right">
-                <button type="button" class="z-button secondary" id="searchUserList">`   +
+                <button type="button" class="btn__text--box secondary" id="searchUserList">`   +
                     `${i18n.msg('common.btn.add')}</button>
             </div>`;
             targetCriteria.insertAdjacentHTML('beforeend', customTemplate);
@@ -951,7 +951,7 @@
      */
     function openUserListModal(e) {
         const targetUserModalTemplate = `<div class="target-user-list">` +
-                `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +
@@ -968,7 +968,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     if (!targetArray.length) {
@@ -989,7 +989,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -1003,7 +1003,7 @@
                     case 'searchCriteria':
                         document.getElementById('changeTargetCriteria')
                             .querySelectorAll('.user-search-item').forEach( (elem) => {
-                                const inputElem = elem.querySelector('.z-input');
+                                const inputElem = elem.querySelector('.input');
                                 if (inputElem) {
                                     targetArray.push({
                                         id: inputElem.getAttribute('data-user-id'),
@@ -1043,9 +1043,9 @@
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
             targetUserList.innerHTML = htmlData.toString();
-            OverlayScrollbars(targetUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(targetUserList.querySelector('.table-body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(targetUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
             // 기존 선택값 표시
             userArray.forEach( (target) => {
                 const targetCheckBox = targetUserList.querySelector('input[id="' + target.id + '"]');
@@ -1082,11 +1082,11 @@
         dataList.forEach( (data) => {
             listTemplate += `<div class="flex-row mt-2 user-search-item">` +
                 `<div class="flex-column col-10 mr-4">` +
-                    `<input class="z-input" readonly data-user-id="${data.id}" value="${data.value}">` +
+                    `<input class="input" readonly data-user-id="${data.id}" value="${data.value}">` +
                 `</div>` +
                 `<div class="flex-column">` +
-                    `<button type="button" class="z-button-icon-sm ml-2 mr-2 mt-2 mb-2 extra user-search-delete-btn"` +
-                        ` data-user-id="${data.id}"><span class="z-icon i-remove"></span>` +
+                    `<button type="button" class="item-remove extra ml-2 mr-2 mt-2 mb-2 user-search-delete-btn"` +
+                        ` data-user-id="${data.id}"><span class="ic-remove"></span>` +
                     `</button>` +
                 `</div>` +
             `</div>`;
@@ -1175,7 +1175,7 @@
                     </label>
                 </div>
                 <div class="flex-column col-9">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input name="${id}-default" id="${id}-none" type="radio" value="none" 
                             ${defaultType === 'none' ? 'checked=\'true\'' : ''}>
                         <span></span>
@@ -1186,7 +1186,7 @@
             <div class="flex-row mt-2">
                 <div class="flex-column col-2 mr-4"><label><span></span></label></div>
                 <div class="flex-column col-9">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input name="${id}-default" id="${id}-session" type="radio" value="session" 
                             ${defaultType === 'session' ? 'checked=\'true\'' : ''}>
                         <span></span>
@@ -1197,7 +1197,7 @@
             <div class="flex-row mt-2">
                 <div class="flex-column col-2 mr-4"><label><span></span></label></div>
                 <div class="flex-column col-2">
-                    <label class="z-radio">
+                    <label class="radio">
                         <input name="${id}-default" id="${id}-custom" type="radio" value="custom" 
                             ${defaultType === 'custom' ? 'checked=\'true\'' : ''}>
                         <span></span>
@@ -1205,13 +1205,13 @@
                     </label>
                 </div>
                 <div class="flex-column col-7">
-                    <div class="flex-row z-input-button">
-                        <input class="z-input" type="text" readonly="true" id="${id}-default-custom-text" 
+                    <div class="flex-row">
+                        <input class="input" type="text" readonly="true" id="${id}-default-custom-text" 
                             value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
-                        <button class="z-button-icon z-button-code" type="button" id="${id}-default-custom" 
+                        <button class="btn__ic" type="button" id="${id}-default-custom" 
                             data-value="${defaultData[0]}" ${defaultType === 'custom' ? '' : 'disabled=\'true\''}>
-                            <span class="z-icon i-search"></span>
+                            <span class="ic-search bg-gray500"></span>
                         </button>
                     </div>
                 </div>
@@ -1228,9 +1228,9 @@
 
         // 모달 내부 template
         const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
-            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
+            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
             `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
-            `<span id="spanTotalCount" class="z-search-count"></span>` +
+            `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
             `</div>`;
 
@@ -1240,7 +1240,7 @@
             classes: 'cmdb-class-attribute-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: function(modal) {
                     attributeMap.length = 0;
@@ -1257,7 +1257,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: function(modal) {
                     modal.hide();
@@ -1288,7 +1288,7 @@
         }).then((htmlData) => {
             document.getElementById('ciClassAttributeList').innerHTML = htmlData.toString();
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-            OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.table-body'), { className: 'scrollbar' });
 
             document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
                 checkbox.addEventListener('change', function(e) {
@@ -1650,7 +1650,7 @@
             case 'inputbox': {
                 elem = document.createElement('input');
                 elem.type = 'text';
-                elem.className = 'z-input';
+                elem.className = 'input';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.value = data.value;
@@ -1714,7 +1714,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const radioGroup = document.createElement('label');
-                        radioGroup.className = 'z-radio' + (opt > 0 ? ' mt-1' : '');
+                        radioGroup.className = 'radio' + (opt > 0 ? ' mt-1' : '');
                         radioGroup.tabindex = 0;
                         radioGroup.htmlFor = radioId + '-' + opt;
                         if (displayMode === 'view') {
@@ -1753,7 +1753,7 @@
                     for (let opt = 0, optLen = attributeValue.option.length; opt < optLen; opt++) {
                         const attributeOption = attributeValue.option[opt];
                         const chkGroup = document.createElement('label');
-                        chkGroup.className = 'z-checkbox';
+                        chkGroup.className = 'checkbox';
                         chkGroup.tabindex = 0;
                         chkGroup.htmlFor = checkboxId + '-' + opt;
                         if (displayMode === 'view') {
@@ -1781,7 +1781,7 @@
                         chkGroup.appendChild(chkSpan);
 
                         const chkLabel = document.createElement('span');
-                        chkLabel.className = 'z-label';
+                        chkLabel.className = 'label';
                         chkLabel.textContent = attributeOption.text;
                         chkGroup.appendChild(chkLabel);
                         parent.appendChild(chkGroup);
@@ -1803,23 +1803,23 @@
                 elem = document.createElement('div');
                 elem.id = customCodeId;
                 elem.setAttribute('data-attributeId', data.attributeId);
-                elem.className = 'z-custom-code flex-row';
+                elem.className = 'custom-code flex-row';
 
                 const customInputElem = document.createElement('input');
                 customInputElem.type = 'text';
-                customInputElem.className = 'z-input z-input-button col-pct-12 inherit';
+                customInputElem.className = 'input col-pct-12 inherit';
                 customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                 customInputElem.readOnly = true;
                 elem.appendChild(customInputElem);
 
                 const customBtnElem = document.createElement('button');
                 customBtnElem.type = 'button';
-                customBtnElem.className = 'z-button z-button-icon secondary';
+                customBtnElem.className = 'btn__ic secondary';
                 customBtnElem.disabled = (displayMode === 'view');
                 customBtnElem.setAttribute('data-custom-code', attributeValue.customCode);
 
                 const customSpanElem = document.createElement('span');
-                customSpanElem.className = 'z-icon i-search';
+                customSpanElem.className = 'ic-search';
                 customBtnElem.appendChild(customSpanElem);
                 elem.appendChild(customBtnElem);
 
@@ -1874,8 +1874,8 @@
                     if (displayMode === 'edit') {
                         const addBtn = document.createElement('button');
                         addBtn.type = 'button';
-                        addBtn.className = 'z-button-icon secondary z-button-attribute-add';
-                        addBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-plus"></span>`);
+                        addBtn.className = 'btn__ic secondary button-attribute-add';
+                        addBtn.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
                         addBtn.addEventListener('click', addCIAttributeChild, false);
                         elem.appendChild(addBtn);
                     }
@@ -1890,8 +1890,8 @@
                 if (parent.children.length > 1 && displayMode === 'edit') {
                     const removeBtn = document.createElement('button');
                     removeBtn.type = 'button';
-                    removeBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-2 mb-2 z-button-attribute-delete';
-                    removeBtn.insertAdjacentHTML('beforeend', `<span class="z-icon i-remove"></span>`);
+                    removeBtn.className = 'item-remove ml-2 mr-2 mt-2 mb-2 button-attribute-delete';
+                    removeBtn.insertAdjacentHTML('beforeend', `<span class="ic-remove"></span>`);
                     removeBtn.addEventListener('click', removeCIAttributeChild, false);
                     elem.appendChild(removeBtn);
                 }
@@ -1901,7 +1901,7 @@
             case 'date': {
                 elem = document.createElement('div');
                 const dateElem = document.createElement('input');
-                dateElem.className = 'z-input i-date-picker search-date col-3';
+                dateElem.className = 'input ic-date-picker search-date col-3';
                 dateElem.id = ZWorkflowUtil.generateUUID();
                 dateElem.setAttribute('data-attributeId', data.attributeId);
                 dateElem.value = i18n.userDate(data.value);
@@ -1927,7 +1927,7 @@
             case 'datetime': {
                 elem = document.createElement('div');
                 const dateTimeElem = document.createElement('input');
-                dateTimeElem.className = 'z-input i-datetime-picker search-datetime col-3';
+                dateTimeElem.className = 'input ic-datetime-picker search-datetime col-3';
                 dateTimeElem.id = ZWorkflowUtil.generateUUID();
                 dateTimeElem.setAttribute('data-attributeId', data.attributeId);
                 dateTimeElem.setAttribute('type', type);
@@ -1953,7 +1953,7 @@
             case 'userSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
-                elem.className = 'z-input i-user-search text-ellipsis';
+                elem.className = 'input ic-user-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-attributeValue', data.attributeValue);
@@ -2005,7 +2005,7 @@
             case 'organizationSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
-                elem.className = 'z-input i-organization-search text-ellipsis';
+                elem.className = 'input ic-organization-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-modalTitle', data.attributeText);
@@ -2087,7 +2087,7 @@
         e.stopPropagation();
 
         const customGroup = e.target.parentNode;
-        const customInput = customGroup.querySelector('.z-input-button');
+        const customInput = customGroup.querySelector('.input-button');
         let customCodeData = {
             componentId: customGroup.id,
             componentValue: customInput.getAttribute('data-custom-data'),
@@ -2158,7 +2158,7 @@
     function openUserSearchModal(e) {
         const target = e.target || e;
         const targetUserModalTemplate = `<div class="target-user-list">` +
-            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
             `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="searchUserList"></div>` +
@@ -2170,7 +2170,7 @@
             classes: 'target-user-modal',
             buttons: [{
                 content: i18n.msg('common.btn.select'),
-                classes: 'z-button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -2188,7 +2188,7 @@
                 }
             }, {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'z-button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => {
                     modal.hide();
@@ -2232,9 +2232,9 @@
             if (!isValidate) {
                 const searchUserList = document.getElementById('searchUserList');
                 searchUserList.innerHTML = htmlData.toString();
-                OverlayScrollbars(searchUserList.querySelector('.z-table-body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
                 // 갯수 가운트
-                aliceJs.showTotalCount(searchUserList.querySelectorAll('.z-table-row').length);
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
                 // 체크 이벤트
                 searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                     element.addEventListener('change', () => {
@@ -2253,7 +2253,7 @@
             } else {
                 // 기본 값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (userListElem.querySelectorAll('.z-table-row').length === 0) {
+                if (userListElem.querySelectorAll('.table-row').length === 0) {
                     target.value = '';
                     target.setAttribute('data-user-search', '');
                 }

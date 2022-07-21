@@ -15,44 +15,44 @@
         th:text="${view}? #{customCode.msg.viewDescription} : #{customCode.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="flex-column z-edit-row">
+    <div class="edit-form flex-fill">
+        <div class="flex-column edit-row">
             <label for="customCodeName">
                 <span th:text="#{customCode.label.name}"></span>
                 <span class="required" th:unless="${view}"></span>
             </label>
-            <input class="z-input" id="customCodeName" maxlength="110" required="required" th:readonly="${view}"
+            <input class="input" id="customCodeName" maxlength="110" required="required" th:readonly="${view}"
                    th:value="${customCode?.customCodeName}" type="text">
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label>
                 <span th:text="#{customCode.label.type}"></span>
                 <span class="required" th:unless="${view}"></span>
             </label>
             <div class="flex-row mr-auto">
-                <label class="z-radio" for="table" tabindex="0">
+                <label class="radio" for="table" tabindex="0">
                     <input id="table" name="type"
                            th:checked="${customCode?.type == null || customCode?.type == 'table'}"
                            th:classappend="${view} ? 'readonly'"
                            th:disabled="${view}"
                            th:onclick="${view} ? '' : 'changeContainer(\'table\')'" th:readonly="${view}" type="radio">
                     <span></span>
-                    <span class="z-label mr-4" th:text="#{customCode.label.table}"></span>
+                    <span class="label mr-4" th:text="#{customCode.label.table}"></span>
                 </label>
-                <label class="z-radio" for="code" tabindex="0">
+                <label class="radio" for="code" tabindex="0">
                     <input id="code" name="type" th:checked="${customCode?.type == 'code'}"
                            th:classappend="${view} ? 'readonly'"
                            th:disabled="${view}"
                            th:onclick="${view} ? '' : 'changeContainer(\'code\')'" th:readonly="${view}" type="radio">
                     <span></span>
-                    <span class="z-label" th:text="#{customCode.label.code}"></span>
+                    <span class="label" th:text="#{customCode.label.code}"></span>
                 </label>
             </div>
         </div>
         <!-- 타입: table-->
         <div id="type-table-container"
              th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label>
                     <span th:text="#{customCode.label.targetTable}"></span>
                     <span class="required" th:unless="${view}"></span>
@@ -65,28 +65,28 @@
                     </option>
                 </select>
             </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="searchColumn">
                     <span th:text="#{customCode.label.searchColumn}"></span>
                     <span class="required" th:unless="${view}"></span>
                 </label>
                 <select id="searchColumn" th:classappend="${view} ? 'readonly'"></select>
             </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="valueColumn">
                     <span th:text="#{customCode.label.valueColumn}"></span>
                     <span class="required" th:unless="${view}"></span>
                 </label>
                 <select id="valueColumn" th:classappend="${view} ? 'readonly'"></select>
             </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <div class="under-bar">
                     <label id="conditionLabel">
                         <span th:text="#{customCode.label.condition}"></span>
                     </label>
-                    <button class="z-button-icon extra float-right" onclick="addCondition()" th:unless="${view}"
+                    <button class="btn__ic extra float-right" onclick="addCondition()" th:unless="${view}"
                             type="button">
-                        <span class="z-icon i-plus"></span>
+                        <span class="ic-plus"></span>
                     </button>
                 </div>
                 <div id="condition"></div>
@@ -94,20 +94,20 @@
         </div>
         <!-- 타입: 코드 -->
         <div id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label>
                     <span th:text="#{customCode.label.pCode}"></span>
                     <span class="required" th:unless="${view}"></span>
                 </label>
-                <input class="z-input" id="pCode" maxlength="100" th:readonly="${customCode?.pCode != null || view}"
+                <input class="input" id="pCode" maxlength="100" th:readonly="${customCode?.pCode != null || view}"
                        th:value="${customCode?.pCode}" type="text">
             </div>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="sessionKey">
                 <span th:text="#{customCode.label.sessionKey}"></span>
             </label>
-            <select class="z-select" id="sessionKey" th:classappend="${view} ? 'readonly'">
+            <select class="select" id="sessionKey" th:classappend="${view} ? 'readonly'">
                 <option selected="selected" th:text="#{customCode.label.notSelect}" value=""></option>
                 <option th:each="code: ${sessionKeyList}" th:selected="${code.codeValue} == ${customCode?.sessionKey}"
                         th:text="${code.codeName}"
@@ -115,16 +115,16 @@
             </select>
         </div>
         <div class="flex-row justify-content-between edit-row">
-            <div class="z-button-list">
-                <a class="z-button secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+            <div class="btn__list">
+                <a class="btn__text--box secondary" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button type="button" class="z-button primary" onclick="saveCustomCode('POST')"
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+                <button type="button" class="btn__text--box primary" onclick="saveCustomCode('POST')"
                         th:if="${customCode == null}" th:text="#{common.btn.register}"></button>
-                <button type="button" class="z-button primary" onclick="saveCustomCode('PUT')"
+                <button type="button" class="btn__text--box primary" onclick="saveCustomCode('PUT')"
                         th:if="${customCode?.customCodeId}" th:text="#{common.btn.modify}">
                 </button>
-                <button type="button" class="z-button danger" onclick="deleteCustomCode('DELETE')"
+                <button type="button" class="btn__text--box danger" onclick="deleteCustomCode('DELETE')"
                         th:if="${customCode?.customCodeId}" th:text="#{common.btn.delete}">
                 </button>
             </div>
@@ -151,7 +151,7 @@
             document.getElementById('conditionLabel').insertAdjacentHTML('beforeend', `<span class="required"></span>`);
         }
         // 스크롤바 추가
-        OverlayScrollbars(document.querySelector('.z-page-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.page-content'), { className: 'scrollbar' });
     };
 
     //column select box 초기화
@@ -229,7 +229,7 @@
     function drawCondition(param) {
         const isView = /*[[${view}]]*/false;
         const divRow = document.createElement('div');
-        divRow.classList.add('flex-row', 'z-edit-row', 'justify-content-between');
+        divRow.classList.add('flex-row', 'edit-row', 'justify-content-between');
 
         const keySelect = document.createElement('select');
         keySelect.classList.add('condition', 'col-4');
@@ -254,7 +254,7 @@
         }
 
         const valueInput = document.createElement('input');
-        valueInput.classList.add('z-input', 'condition', 'col-5');
+        valueInput.classList.add('input', 'condition', 'col-5');
         valueInput.type = 'text';
         valueInput.name = 'conditionValue';
         valueInput.maxLength = 100;
@@ -267,9 +267,9 @@
 
         if (!isView) {
             const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'z-button-icon-sm ml-2 mr-2 mt-2 mb-2';
+            deleteBtn.className = 'item-remove ml-2 mr-2 mt-2 mb-2';
             const deleteIcon = document.createElement('span');
-            deleteIcon.className = 'z-icon i-remove';
+            deleteIcon.className = 'ic-remove';
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function() {
                 zAlert.confirm(i18n.msg('customCode.msg.confirmDeleteCondition'), () => {

@@ -27,11 +27,11 @@ class ZqlUtilTest {
     @DisplayName("Date formatting - 년,월,일,시에 따라 기준일자 포맷")
     @Order(100)
     fun changeToCategoryDTTest() {
-        val testDateTime = LocalDateTime.of(2022,5,19,9,21,37)
-        val yearDateTime = LocalDateTime.of(2022,1,1,0,0,0)
-        val monthDateTime = LocalDateTime.of(2022,5,1,0,0,0)
-        val dayDateTime = LocalDateTime.of(2022,5,19,0,0,0)
-        val hourDateTime = LocalDateTime.of(2022,5,19,9,0,0)
+        val testDateTime = LocalDateTime.of(2022, 5, 19, 9, 21, 37)
+        val yearDateTime = LocalDateTime.of(2022, 1, 1, 0, 0, 0)
+        val monthDateTime = LocalDateTime.of(2022, 5, 1, 0, 0, 0)
+        val dayDateTime = LocalDateTime.of(2022, 5, 19, 0, 0, 0)
+        val hourDateTime = LocalDateTime.of(2022, 5, 19, 9, 0, 0)
         println("원래 날짜 : $testDateTime")
 
         var changedDateTime: LocalDateTime = ZqlUtil.changeToCategoryDT(testDateTime, ZqlPeriodType.YEAR)
@@ -156,12 +156,12 @@ class ZqlUtilTest {
     @DisplayName("카테고리 만들기")
     @Order(400)
     fun makeCategoryTest() {
-        val from = LocalDateTime.of(2021,1,1,0,0,0)
-        val to = LocalDateTime.of(2023,12,31,23,59,59)
+        val from = LocalDateTime.of(2021, 1, 1, 0, 0, 0)
+        val to = LocalDateTime.of(2023, 12, 31, 23, 59, 59)
 
         Assertions.assertEquals(3, ZqlUtil.makeCategory(from, to, ZqlPeriodType.YEAR).size)
         Assertions.assertEquals(36, ZqlUtil.makeCategory(from, to, ZqlPeriodType.MONTH).size)
-        Assertions.assertEquals(365*3, ZqlUtil.makeCategory(from, to, ZqlPeriodType.DAY).size)
-        Assertions.assertEquals(365*3*24, ZqlUtil.makeCategory(from, to, ZqlPeriodType.HOUR).size)
+        Assertions.assertEquals(365 * 3, ZqlUtil.makeCategory(from, to, ZqlPeriodType.DAY).size)
+        Assertions.assertEquals(365 * 3 * 24, ZqlUtil.makeCategory(from, to, ZqlPeriodType.HOUR).size)
     }
 }

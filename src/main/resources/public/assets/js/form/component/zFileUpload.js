@@ -42,10 +42,10 @@ export const fileUploadMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIFileUpload = new UIDiv().setUIClass('z-fileupload')
+        element.UIFileUpload = new UIDiv().setUIClass('fileupload')
             .addUIClass('file-uploader-edit')
             .setUIId('fileupload' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
@@ -77,7 +77,7 @@ export const fileUploadMixin = {
         // 읽기 전용일 경우
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.clearUI();
-            const UIViewFileUpload = new UIDiv().setUIClass('z-fileupload')
+            const UIViewFileUpload = new UIDiv().setUIClass('fileupload')
                 .addUIClass('file-uploader-view')
                 .setUIId('fileupload' + this.id);
             // 파일 목록
@@ -131,9 +131,9 @@ export const fileUploadMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIFileUpload.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {

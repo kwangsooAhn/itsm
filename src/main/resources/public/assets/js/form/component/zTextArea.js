@@ -49,7 +49,7 @@ export const textAreaMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
         element.UITextArea = new UITextArea().addUIClass('textarea-scroll-wrapper')
@@ -68,10 +68,10 @@ export const textAreaMixin = {
         // 신청서 양식 편집 화면에 따른 처리
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.UITextArea.setUIReadOnly(true);
-            this.UIElement.UIComponent.UIElement.UITextArea.addUIClass('z-textarea-readonly');
+            this.UIElement.UIComponent.UIElement.UITextArea.addUIClass('textarea-readonly');
             // 필수값 표시가 된 대상에 대해 Required off 처리한다.
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
 
         }
         // 스크롤바 추가
@@ -128,9 +128,9 @@ export const textAreaMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UITextArea.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
