@@ -117,7 +117,7 @@
         // create title > remove button
         let buttonRemove = document.createElement('button');
         buttonRemove.type = 'button';
-        buttonRemove.className = 'button-icon extra';
+        buttonRemove.className = 'btn__ic extra';
         buttonRemove.insertAdjacentHTML('beforeend', `<span class="ic-delete"></span>`);
         buttonRemove.addEventListener('click', this.removeTarget, false);
         pickerTitle.appendChild(buttonRemove);
@@ -153,13 +153,13 @@
         if (this.type === 'DATEHOUR' || this.type === 'HOUR') {
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'button-list picker-modal-button';
+            pickerButton.className = 'btn__list picker-modal-button';
             this.el.appendChild(pickerButton);
 
             // create button > confirm
             let buttonConfirm = document.createElement('button');
             buttonConfirm.type = 'button';
-            buttonConfirm.className = 'button secondary';
+            buttonConfirm.className = 'btn__text--box secondary';
             buttonConfirm.innerText = i18n.msg('common.btn.select');
             buttonConfirm.addEventListener('click', this.changeTarget, false);
             pickerButton.appendChild(buttonConfirm);
@@ -167,7 +167,7 @@
             // create button > cancel
             let buttonCancel = document.createElement('button');
             buttonCancel.type = 'button';
-            buttonCancel.className = 'button extra';
+            buttonCancel.className = 'btn__text--box extra';
             buttonCancel.innerText = i18n.msg('common.btn.cancel');
             buttonCancel.addEventListener('click', this.close, false);
             pickerButton.appendChild(buttonCancel);
@@ -185,13 +185,13 @@
 
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'button-list picker-modal-button';
+            pickerButton.className = 'btn__list picker-modal-button';
             this.el.appendChild(pickerButton);
 
             // create button > reset
             let buttonReset = document.createElement('button');
             buttonReset.type = 'button';
-            buttonReset.className = 'button extra small';
+            buttonReset.className = 'btn__text--box extra btn--small';
             buttonReset.innerText = i18n.msg('datepicker.btn.reset');
             buttonReset.addEventListener('click', this.removeTarget, false);
             pickerButton.appendChild(buttonReset);
@@ -432,12 +432,12 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'button-toggle-group vertical';
+                hourType.className = 'btn__toggle__button vertical';
                 pickerTime.appendChild(hourType);
 
                 // create button > am
                 let buttonAM = document.createElement('button');
-                buttonAM.className = 'button-toggle';
+                buttonAM.className = 'btn__toggle__button--multi';
                 if (curHourType === 'AM') {
                     buttonAM.classList.add('selected');
                     _this.meridiem = 'AM';
@@ -465,7 +465,7 @@
 
                 // create button > pm
                 let buttonPM = document.createElement('button');
-                buttonPM.className = 'button-toggle';
+                buttonPM.className = 'btn__toggle__button--multi';
                 if (curHourType === 'PM') {
                     buttonPM.classList.add('selected');
                     _this.meridiem = 'PM';

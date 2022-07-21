@@ -25,7 +25,7 @@ $layout-header-dropdown: (
 
 // header button
 .header-button {
-  &.button-icon {
+  &.btn__ic {
     [class*="ic-"] { pointer-events: none; }
     .ic-arrow-right { @include rotate(90); }
   }
@@ -197,10 +197,9 @@ $layout-header-dropdown: (
 // button group
 // (1) button switch group : 버튼 그룹 중 하나의 버튼만 선택
 // (2) button toggle group : 버튼 그룹 각 버튼 토글 가능
-.button-switch-group,
-.button-toggle-group {
-  .button-switch,
-  .button-toggle {
+.btn__toggle__button {
+  &--single,
+  &--multi {
     .text, [class*="ic-"] { pointer-events: none; }
   }
 }
@@ -275,22 +274,19 @@ $layout-header-dropdown: (
   }
 }
 
-.button,
-.button-icon,
-.button-icon-sm {
+.btn__text--box,
+.btn__ic,
+.item-remove {
   &:disabled, &.disabled { display: none; }
 }
 
-.button-icon {
+.btn__ic {
   &.button-attach-file {
     .ic-folder { background: $gray500; }
   }
-  &.button-code {
-    .ic-search { background: $gray500; }
-  }
 }
 
-.button.success--check {
+.btn__text--box.success--check {
   position: relative;
   border-color: $neutral200;
   background-color: $neutral200;
@@ -318,8 +314,8 @@ $layout-header-dropdown: (
 
 ////////////////////////// element //////////////////////////
 // input + button for custom code
-.input-button {
-  .button-icon-sm { -webkit-print-color-adjust:exact; }
+.input--remove {
+  .item-remove { -webkit-print-color-adjust:exact; }
 }
 
 // main
@@ -622,7 +618,7 @@ $layout-header-dropdown: (
       }
 
       .dr-table-row {
-        .button-icon { padding: 0; }
+        .btn__ic { padding: 0; }
 
         .input:not(.select__box__label) {
           padding: 0.4375rem 0;
@@ -658,12 +654,12 @@ $layout-header-dropdown: (
     // custom code 컴포넌트
     .custom-code {
       > .input { @include borderRadius(0.125rem); } // 2px
-      > .button-icon { margin-left: 0.5rem; }
+      > .btn__ic { margin-left: 0.5rem; }
     }
 
     // 컴포넌트 내부 버튼 리스트
-    .button-list {
-      .button {
+    .btn__list {
+      .btn__text--box {
         min-width: 3.25rem; // 52px
         padding: 0.3125rem 0.625rem; //5px 10px
         font-size: $font-size-xxs;
@@ -1072,18 +1068,8 @@ $component-icon: (
             .dz-message { color: $blue400 !important; }
             [class*="ic-"] { background: $blue400 !important; }
           }
-          // 커스텀 코드 컴포넌트
-          .input-button {
-            .button-clear { opacity: 0; }
-            .button-icon {
-              border-color: $blue400 !important;
-              background-color: $white;
-              color: $blue400 !important;
-              [class*="ic-"] { background: $blue400 !important; }
-            }
-          }
           // DR 테이블 컴포넌트 , CI 컴포넌트
-          .button-list { opacity: 0; }
+          .btn__list { opacity: 0; }
           table {
             tr td { border-color: $blue400 !important; }
             .dr-table-header,
@@ -1221,10 +1207,6 @@ $component-icon: (
     min-height: 5.625rem; // 90px
     line-height: 1.6;
   }
-  // input + button
-  .input-button {
-    .button { height: 2.5rem; } // 40px
-  }
   // column 너비 조정
   .slider {
     &__range { width : 75%; }
@@ -1283,11 +1265,6 @@ $component-icon: (
         }
       }
 
-      .input-button {
-        width: 100%;
-        .ic-remove { right: 2.5rem; }
-      }
-
       .picker-wrapper-date {
         flex: 1;
         .picker-main { width:inherit; }
@@ -1297,7 +1274,7 @@ $component-icon: (
   // tab
   .tab-panel {
     .tabs {
-      .button-icon {
+      .btn__ic {
         height: 2rem; // 32px
         padding: 0.25rem 0.409rem; // 4px 6.5px
 
@@ -1327,7 +1304,7 @@ $component-icon: (
           & > .property { padding: 0 0.75rem; } // 12px
         }
 
-        .button-icon:not(.button-code) {
+        .btn__ic {
           padding: 0;
           [class*="ic-"] {
             display: inline-block;
@@ -1335,12 +1312,6 @@ $component-icon: (
             pointer-events: none;
           }
           .prev { @include rotate(180); }
-        }
-
-        .button-switch-group,
-        .button-toggle-group {
-          .button-switch,
-          .button-toggle { padding: 0.25rem  0.5625rem; } // 4px 9px
         }
 
         // individual panel 내부 중복 border 제거
@@ -1356,6 +1327,11 @@ $component-icon: (
     .option-table-row {
       td { padding: 0; }
     }
+  }
+  // toggle button
+  .btn__toggle__button {
+    &--single,
+    &--multi { padding: 0.25rem  0.5625rem; } // 4px 9px
   }
 }
 
@@ -1546,7 +1522,7 @@ $element-icon-toggle: (
   }
 }
 
-.button-icon {
+.btn__ic {
   &.button-minimap { @include absolute($right: 0.625rem, $bottom: 0.625rem); } // 10px 10px
   &.button-simulation-report { @include absolute($right: 0.625rem, $bottom: 3.438rem); } // 10px 55px
   &.button-candidate-add {
