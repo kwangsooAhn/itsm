@@ -1,9 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g transform="translate(-7649 -1698)">
-    <rect fill="none" width="40" height="40" transform="translate(7649 1698)"/>
-    <g transform="translate(6861 1405)">
-      <path fill="#339af0" fill-rule="evenodd" d="M813,295H793a1,1,0,0,0-1,1v34a1,1,0,0,0,1,1h30a1,1,0,0,0,1-1V306Zm9,34H794V297h18v9a1,1,0,0,0,1,1h9Z"/>
-      <path fill="#339af0" fill-rule="evenodd" d="M809.356,311h-2.714l-2.784,8.4-2.285-8.4H798l3.922,13H805.4l2.512-7.534,2.4,7.534H813.8l4.2-13h-3.565l-2.486,8.4Z"/>
-    </g>
-  </g>
+	<g transform="translate(-300 -231)">
+		<rect width="40" height="40" transform="translate(300 231)" fill="none" />
+		<g transform="translate(-990 -169)">
+			<path d="M1325,408.5v26a1.5,1.5,0,0,1-1.5,1.5h-30a1.5,1.5,0,0,1-1.5-1.5v-29a1.5,1.5,0,0,1,1.5-1.5h15a1.5,1.5,0,0,1,1.5,1.5,1.5,1.5,0,0,0,1.5,1.5h12A1.5,1.5,0,0,1,1325,408.5Z" fill="#d7bc20" />
+			<path d="M1322,411.5V436h-27V411.5a1.5,1.5,0,0,1,1.5-1.5h24A1.5,1.5,0,0,1,1322,411.5Z" fill="#fff" />
+			<path d="M1330,414.5l-2,20a1.5,1.5,0,0,1-1.5,1.5h-33a1.5,1.5,0,0,1-1.5-1.5l2-20a1.5,1.5,0,0,1,1.5-1.5h33A1.5,1.5,0,0,1,1330,414.5Z" fill="#fbe961" />
+		</g>
+	</g>
 </svg>
