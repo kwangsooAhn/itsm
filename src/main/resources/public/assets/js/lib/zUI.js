@@ -482,7 +482,7 @@ class UIHorizontalRule extends UIElement {
 class UIButton extends UIElement {
     constructor(value) {
         super(document.createElement('button'));
-        this.domElement.className = 'button';
+        this.domElement.className = 'btn__text--box';
         this.domElement.type = 'button';
         this.domElement.textContent = value;
     }
