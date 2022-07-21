@@ -12,12 +12,12 @@ body.active { overflow: hidden !important; }
   @include resetPosition();
   display: none;
   overflow:auto;
-  z-index: 1000;
+  z-index: $z-index-modal;
 
   &__backdrop {
     @include resetPosition();
     background-color: hexToRGBA($gray600, 0.6);
-    z-index: 5000;
+    z-index: $z-index-between-alert-modal;
   }
 
   &__dialog {
@@ -29,7 +29,7 @@ body.active { overflow: hidden !important; }
     background-color: $white;
     opacity: 0;
     transition: 0.3s;
-    z-index: 5000;
+    z-index: $z-index-between-alert-modal;
 
     &.active {
       transition: 0.3s;
