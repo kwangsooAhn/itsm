@@ -201,9 +201,9 @@
     Object.assign(Picker.prototype, {
         // Picker open.
         open: function() {
-            if (!this.target.readOnly && !this.el.classList.contains('active')) {
+            if (!this.target.readOnly && !this.el.classList.contains('block')) {
                 this.reset();
-                this.el.classList.add('active');
+                this.el.classList.add('block');
                 this.setPosition();
                 // Detects the target if it's the picker element, if not, closes the picker
                 document.addEventListener('mousedown', this.clickWindow, false);
@@ -213,8 +213,8 @@
         },
         // Picker close.
         close: function() {
-            if (this.el.classList.contains('active')) {
-                this.el.classList.remove('active');
+            if (this.el.classList.contains('block')) {
+                this.el.classList.remove('block');
                 // reset
                 this.reset();
                 // remove event

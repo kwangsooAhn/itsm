@@ -29,10 +29,8 @@
     z-index: $z-index-modal;
     
     // modal open
-    &.active {
-      display: block;
-      z-index: $z-index-modal;
-    }
+    &.blcok { z-index: $z-index-modal; }
+    
     // modal title
     &__header {
       @include border(0.0625rem, solid, $gray300, bottom);
@@ -50,15 +48,6 @@
         // mouse over
         &:hover { background: $blue400; }
       }
-    }
-    // YYYY-MM-DD HH:MM 표시
-    &-sub-title {
-      @include border(0.0625rem, solid, $gray300, bottom);
-      padding: 0.625rem 0; // 10px 0
-      background-color: $neutral50;
-      color: $gray800;
-      font-size: $font-size-xs;
-      font-weight: $font-weight-regular;
     }
 
     &__body {

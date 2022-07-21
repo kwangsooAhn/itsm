@@ -8930,8 +8930,7 @@ span.ic-paging-end-arrow {
   text-align: center;
   z-index: 1000;
 }
-.date-picker__modal.active {
-  display: block;
+.date-picker__modal.blcok {
   z-index: 1000;
 }
 .date-picker__modal__header {
@@ -8955,14 +8954,6 @@ span.ic-paging-end-arrow {
 }
 .date-picker__modal__header .ic-remove:hover {
   background: #619CDB;
-}
-.date-picker__modal-sub-title {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding: 0.625rem 0;
-  background-color: #FAFAFA;
-  color: #222529;
-  font-size: 0.875rem;
-  font-weight: 400;
 }
 .date-picker__modal__body {
   border-bottom: 0.0625rem solid #CFD5D9;
