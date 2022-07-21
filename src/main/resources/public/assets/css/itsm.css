@@ -2648,6 +2648,48 @@ span.ic-paging-end-arrow {
   mask-position: center;
   background: #ABB0B5;
 }
+span.ic-alert-success {
+  background-image: url("../../assets/media/icons/alert/icon_alert_success.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+span.ic-alert-info {
+  background-image: url("../../assets/media/icons/alert/icon_alert_info.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+span.ic-alert-warning {
+  background-image: url("../../assets/media/icons/alert/icon_alert_warning.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+span.ic-alert-danger {
+  background-image: url("../../assets/media/icons/alert/icon_alert_danger.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+span.ic-alert-confirm {
+  background-image: url("../../assets/media/icons/alert/icon_alert_confirm.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+span.ic-alert-email {
+  background-image: url("../../assets/media/icons/alert/icon_alert_email.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
 
 .input.ic-search {
   background-image: url("../../assets/media/icons/icon_search.svg");
@@ -7082,33 +7124,25 @@ span.ic-paging-end-arrow {
  * @author jy.lim
  * @version 1.0
  */
-.alert-wrapper {
-  position: fixed !important;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: none;
-  overflow: auto;
-}
-.alert-dialog {
+.alert {
   width: 100%;
   padding: 1.5625rem;
   line-height: 1;
 }
-.alert-body {
-  overflow: auto;
-  min-height: 3.4375rem;
-  padding: 0 0 0 3.875rem;
-  box-sizing: border-box;
+.alert__type {
+  width: 3.875rem;
+  height: 3.875rem;
+  margin: 0;
 }
-.alert-message {
+.alert__message {
+  overflow: auto;
   display: flex;
   align-items: center;
   min-height: 3.5rem;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.7143;
+  box-sizing: border-box;
 }
 .alert-button {
   border: 0.0625rem solid #CFD5D9;
@@ -7116,48 +7150,6 @@ span.ic-paging-end-arrow {
   padding: 0.4375rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
-}
-.alert-icon-success {
-  background-image: url("../../assets/media/icons/alert/icon_alert_success.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-.alert-icon-info {
-  background-image: url("../../assets/media/icons/alert/icon_alert_info.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-.alert-icon-warning {
-  background-image: url("../../assets/media/icons/alert/icon_alert_warning.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-.alert-icon-danger {
-  background-image: url("../../assets/media/icons/alert/icon_alert_danger.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-.alert-icon-confirm {
-  background-image: url("../../assets/media/icons/alert/icon_alert_confirm.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-.alert-icon-email {
-  background-image: url("../../assets/media/icons/alert/icon_alert_email.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
 }
 
 /* _avatar.scss 
