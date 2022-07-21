@@ -437,7 +437,6 @@ class CustomCodeService(
         return customDataList
     }
 
-
     /**
      * 타입인 테이블의 데이터를 트리로 변환.
      *
