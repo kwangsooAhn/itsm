@@ -8971,52 +8971,57 @@ span.ic-paging-end-arrow {
   color: #424242;
   vertical-align: middle;
 }
-.date-picker__modal__body .ic-arrow-right {
-  display: table-cell;
-  cursor: pointer;
-  background: #ABB0B5;
-}
-.date-picker__modal__body .ic-arrow-right:hover {
-  background: #619CDB;
-}
-.date-picker__modal__body .date-prev {
+.date-picker__modal__body .date-picker__prev {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-.date-picker__modal__body-date {
+.date-picker__modal__body .date-picker__prev.ic-arrow-right {
+  display: table-cell;
+  cursor: pointer;
+  background: #ABB0B5;
+}
+.date-picker__modal__body .date-picker__prev.ic-arrow-right:hover {
+  background: #619CDB;
+}
+.date-picker__modal__footer {
+  float: right;
+  margin: 0.75rem 0.6875rem 0.75rem 0 !important;
+}
+
+.picker-date {
   display: none;
   width: 19rem;
   padding: 1rem 0 1rem 0;
 }
-.date-picker__modal__body-date.active {
+.picker-date.active {
   display: inline-block;
 }
-.date-picker__modal__body-date.active + div.active {
+.picker-date.active + div.active {
   border-left: 0.0625rem solid #CFD5D9;
   height: 18.5rem;
 }
-.date-picker__modal__body-date-months {
+.picker-date-months {
   display: table;
   height: 1.563rem;
   margin: 0 2.813rem;
 }
-.date-picker__modal__body-date-months img {
+.picker-date-months img {
   vertical-align: middle;
 }
-.date-picker__modal__body-date-months .date-picker__text {
+.picker-date-months .date-picker__text {
   width: 16.5rem;
 }
-.date-picker__modal__body-date-calendar {
+.picker-date-calendar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 0.9375rem 0.9375rem 0 0.9375rem;
   color: #ABB0B5;
 }
-.date-picker__modal__body-date-calendar .calendar-cell {
+.picker-date-calendar .calendar-cell {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
@@ -9025,31 +9030,31 @@ span.ic-paging-end-arrow {
   text-align: center;
   line-height: 1.7;
 }
-.date-picker__modal__body-date-calendar .calendar-cell.calendar-title {
+.picker-date-calendar .calendar-cell.calendar-title {
   color: #8B9094;
   pointer-events: none;
 }
-.date-picker__modal__body-date-calendar .calendar-cell:not(.calendar-title) {
+.picker-date-calendar .calendar-cell:not(.calendar-title) {
   border: 0.0625rem solid #FFFFFF;
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   cursor: pointer;
 }
-.date-picker__modal__body-date-calendar .calendar-cell:not(.calendar-title):hover {
+.picker-date-calendar .calendar-cell:not(.calendar-title):hover {
   border-color: #D6EDFC;
   background-color: #D6EDFC;
 }
-.date-picker__modal__body-date-calendar .calendar-cell:not(.calendar-title):active {
+.picker-date-calendar .calendar-cell:not(.calendar-title):active {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
 }
-.date-picker__modal__body-date-calendar .calendar-cell.active {
+.picker-date-calendar .calendar-cell.active {
   color: #222529;
 }
-.date-picker__modal__body-date-calendar .calendar-cell.selected {
+.picker-date-calendar .calendar-cell.selected {
   border: 0.0625rem solid #3373C4;
   border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -9057,53 +9062,53 @@ span.ic-paging-end-arrow {
   background-color: #FFFFFF;
   color: #3373C4;
 }
-.date-picker__modal__body-time {
+.picker-time {
   display: none;
   width: 14.6875rem;
   min-height: 7.375rem;
   padding: 1rem 0 1rem 0;
   justify-content: center;
 }
-.date-picker__modal__body-time.active {
+.picker-time.active {
   display: flex;
 }
-.date-picker__modal__body-time .hour-group,
-.date-picker__modal__body-time .minute-group {
+.picker-time .hour-group,
+.picker-time .minute-group {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.date-picker__modal__body-time .hour-group .ic-arrow-right,
-.date-picker__modal__body-time .minute-group .ic-arrow-right {
+.picker-time .hour-group .ic-arrow-right,
+.picker-time .minute-group .ic-arrow-right {
   margin: 0;
   background: #8B9094;
   cursor: pointer;
 }
-.date-picker__modal__body-time .hour-group .ic-arrow-right:hover,
-.date-picker__modal__body-time .minute-group .ic-arrow-right:hover {
+.picker-time .hour-group .ic-arrow-right:hover,
+.picker-time .minute-group .ic-arrow-right:hover {
   background: #619CDB;
 }
-.date-picker__modal__body-time .hour-group .hour-up, .date-picker__modal__body-time .hour-group .minute-up,
-.date-picker__modal__body-time .minute-group .hour-up,
-.date-picker__modal__body-time .minute-group .minute-up {
+.picker-time .hour-group .hour-up, .picker-time .hour-group .minute-up,
+.picker-time .minute-group .hour-up,
+.picker-time .minute-group .minute-up {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.date-picker__modal__body-time .hour-group .hour-down, .date-picker__modal__body-time .hour-group .minute-down,
-.date-picker__modal__body-time .minute-group .hour-down,
-.date-picker__modal__body-time .minute-group .minute-down {
+.picker-time .hour-group .hour-down, .picker-time .hour-group .minute-down,
+.picker-time .minute-group .hour-down,
+.picker-time .minute-group .minute-down {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-.date-picker__modal__body-time .hour-group .digit,
-.date-picker__modal__body-time .minute-group .digit {
+.picker-time .hour-group .digit,
+.picker-time .minute-group .digit {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -9117,28 +9122,28 @@ span.ic-paging-end-arrow {
   font-weight: 500;
   text-align: center;
 }
-.date-picker__modal__body-time .hour-group .digit:hover, .date-picker__modal__body-time .hour-group .digit:focus, .date-picker__modal__body-time .hour-group .digit:active,
-.date-picker__modal__body-time .minute-group .digit:hover,
-.date-picker__modal__body-time .minute-group .digit:focus,
-.date-picker__modal__body-time .minute-group .digit:active {
+.picker-time .hour-group .digit:hover, .picker-time .hour-group .digit:focus, .picker-time .hour-group .digit:active,
+.picker-time .minute-group .digit:hover,
+.picker-time .minute-group .digit:focus,
+.picker-time .minute-group .digit:active {
   outline: 0;
 }
-.date-picker__modal__body-time .hour-group > .digit {
+.picker-time .hour-group > .digit {
   border-right: 0.0625rem solid transparent;
   border-radius: 0.125rem 0 0 0.125rem;
   -webkit-border-radius: 0.125rem 0 0 0.125rem;
   -moz-border-radius: 0.125rem 0 0 0.125rem;
 }
-.date-picker__modal__body-time .minute-group > .digit {
+.picker-time .minute-group > .digit {
   border-left: 0.0625rem solid transparent;
   border-radius: 0 0.125rem 0.125rem 0;
   -webkit-border-radius: 0 0.125rem 0.125rem 0;
   -moz-border-radius: 0 0.125rem 0.125rem 0;
 }
-.date-picker__modal__body-time .btn__toggle__button {
+.picker-time .btn__toggle__button {
   padding-left: 0.5rem;
 }
-.date-picker__modal__body-time .separator {
+.picker-time .separator {
   border-top: 0.0625rem solid #ABB0B5;
   border-bottom: 0.0625rem solid #ABB0B5;
   display: flex;
@@ -9152,30 +9157,30 @@ span.ic-paging-end-arrow {
   font-size: 1.5rem;
   font-weight: 500;
 }
-.date-picker__modal__body-year {
+.picker-year {
   display: none;
   width: 14rem;
   padding: 1rem 0 1rem 0;
 }
-.date-picker__modal__body-year.active {
+.picker-year.active {
   display: block;
 }
-.date-picker__modal__body-year-period {
+.picker-year-period {
   display: table;
   height: 1.563rem;
   margin: 0 auto;
 }
-.date-picker__modal__body-year-period img {
+.picker-year-period img {
   vertical-align: middle;
 }
-.date-picker__modal__body-year-period .date-picker__text {
+.picker-year-period .date-picker__text {
   width: 7.5rem;
 }
-.date-picker__modal__body-year-period .date-picker__text span:first-child {
+.picker-year-period .date-picker__text span:first-child {
   position: relative;
   padding-right: 0.625rem;
 }
-.date-picker__modal__body-year-period .date-picker__text span:first-child::before {
+.picker-year-period .date-picker__text span:first-child::before {
   position: absolute !important;
   top: 0.438rem;
   right: 0.125rem;
@@ -9184,7 +9189,7 @@ span.ic-paging-end-arrow {
   height: 0.125rem;
   background-color: #424242;
 }
-.date-picker__modal__body-year-years {
+.picker-year-years {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -9192,7 +9197,7 @@ span.ic-paging-end-arrow {
   padding: 0.9375rem 0.9375rem 0 0.9375rem;
   color: #424242;
 }
-.date-picker__modal__body-year-years .calendar-cell {
+.picker-year-years .calendar-cell {
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -9206,14 +9211,14 @@ span.ic-paging-end-arrow {
   line-height: 1.7;
   cursor: pointer;
 }
-.date-picker__modal__body-year-years .calendar-cell:hover, .date-picker__modal__body-year-years .calendar-cell:active {
+.picker-year-years .calendar-cell:hover, .picker-year-years .calendar-cell:active {
   background-color: #E1E6EA;
 }
-.date-picker__modal__body-year-years .calendar-cell.selected {
+.picker-year-years .calendar-cell.selected {
   position: relative;
   color: #3373C4;
 }
-.date-picker__modal__body-year-years .calendar-cell.selected:before {
+.picker-year-years .calendar-cell.selected:before {
   position: absolute !important;
   bottom: 0;
   border-radius: 0.125rem;
@@ -9225,12 +9230,8 @@ span.ic-paging-end-arrow {
   height: 0.125rem;
   background-color: #3373C4;
 }
-.date-picker__modal__body-year-years .calendar-cell:nth-child(n+4) {
+.picker-year-years .calendar-cell:nth-child(n+4) {
   margin-top: 0.875rem;
-}
-.date-picker__modal__footer {
-  float: right;
-  margin: 0.75rem 0.6875rem 0.75rem 0 !important;
 }
 
 /* _element.scss

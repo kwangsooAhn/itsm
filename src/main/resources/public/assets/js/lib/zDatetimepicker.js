@@ -277,7 +277,7 @@
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'ic-arrow-right date-prev';
+            prevArrow.className = 'ic-arrow-right date-picker__prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
@@ -290,7 +290,7 @@
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'ic-arrow-right date-next';
+            nextArrow.className = 'ic-arrow-right date-picker__next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
@@ -504,7 +504,7 @@
 
             // prev year
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'ic-arrow-right date-prev';
+            prevArrow.className = 'ic-arrow-right date-picker__prev';
             prevArrow.addEventListener('click', _this.prevYear, false);
             periodPanel.appendChild(prevArrow);
 
@@ -525,7 +525,7 @@
 
             // next year
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'ic-arrow-right date-next';
+            nextArrow.className = 'ic-arrow-right date-picker__next';
             nextArrow.addEventListener('click', _this.nextYear, false);
             periodPanel.appendChild(nextArrow);
 
