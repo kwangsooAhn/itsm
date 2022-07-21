@@ -3858,9 +3858,6 @@ span.ic-document-report {
 .document-content .document__group {
   width: 100%;
 }
-.document-content .document__group:not(:first-child) {
-  margin-top: 2.5rem;
-}
 .document-content .document__group .document__label {
   min-height: 2rem;
 }
