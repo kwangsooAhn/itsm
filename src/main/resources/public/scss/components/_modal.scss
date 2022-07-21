@@ -645,7 +645,7 @@ body.active { overflow: hidden !important; }
  */
   // 폴더 추가
   &.save-folder {
-    .modal-content {
+    .modal__dialog__body {
       @include scrollbarHidden;
       height: calc(15.625rem - 3.875rem - 5rem); // 250px
       padding: 0.625rem 1.25rem; // 10px 20px
@@ -659,7 +659,7 @@ body.active { overflow: hidden !important; }
   &.thumbnail-preview {
     width: 47.5rem; // 760px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(40.313rem - 3.875rem - 5rem);
       padding: 0.9375rem 1.875rem; // 15px 30px
 
