@@ -6,15 +6,13 @@
  * @version 1.0
  */
 
-body.modal-active { overflow: hidden !important; }
+body.active { overflow: hidden !important; }
 
-.modal-wrapper {
+.modal {
   @include resetPosition();
   display: none;
   overflow:auto;
   z-index: 1000;
-
-  &.modal-active { display: block; }
 
   &__backdrop {
     @include resetPosition();
@@ -33,7 +31,7 @@ body.modal-active { overflow: hidden !important; }
     transition: 0.3s;
     z-index: 5000;
 
-    &.modal-active {
+    &.active {
       transition: 0.3s;
       opacity: 1;
     }
@@ -165,7 +163,7 @@ body.modal-active { overflow: hidden !important; }
       }
     }
   }
-  // 폼, 프로세스 다른이름으로 저장하기 모달
+  // 다른이름으로 저장하기 모달
   &.save-as {
     .modal__dialog__body {
       @include scrollbarHidden;
