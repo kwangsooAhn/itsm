@@ -283,7 +283,7 @@
 
             // text
             const currentText = document.createElement('span');
-            currentText.className = 'date-text';
+            currentText.className = 'date-picker__text';
             currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyyMMdd'));
             currentText.textContent = _this.selectLuxon.toFormat('yyyy-MM'); //  2020-06
             monthPanel.appendChild(currentText);
@@ -510,7 +510,7 @@
 
             // text
             const currentText = document.createElement('div');
-            currentText.className = 'date-text';
+            currentText.className = 'date-picker__text';
             periodPanel.appendChild(currentText);
             const textFormet = _this.selectLuxon.toFormat('yyyy');
             const changeTextType = Number(textFormet) // string -> number 변환

@@ -8961,7 +8961,7 @@ span.ic-paging-end-arrow {
   flex-direction: row;
   justify-content: center;
 }
-.date-picker__modal__body .date-text {
+.date-picker__modal__body .date-picker__text {
   display: table-cell;
   width: 7.5rem;
   margin: 0;
@@ -9006,7 +9006,7 @@ span.ic-paging-end-arrow {
 .date-picker__modal__body-date-months img {
   vertical-align: middle;
 }
-.date-picker__modal__body-date-months .date-text {
+.date-picker__modal__body-date-months .date-picker__text {
   width: 16.5rem;
 }
 .date-picker__modal__body-date-calendar {
@@ -9168,14 +9168,14 @@ span.ic-paging-end-arrow {
 .date-picker__modal__body-year-period img {
   vertical-align: middle;
 }
-.date-picker__modal__body-year-period .date-text {
+.date-picker__modal__body-year-period .date-picker__text {
   width: 7.5rem;
 }
-.date-picker__modal__body-year-period .date-text span:first-child {
+.date-picker__modal__body-year-period .date-picker__text span:first-child {
   position: relative;
   padding-right: 0.625rem;
 }
-.date-picker__modal__body-year-period .date-text span:first-child::before {
+.date-picker__modal__body-year-period .date-picker__text span:first-child::before {
   position: absolute !important;
   top: 0.438rem;
   right: 0.125rem;
