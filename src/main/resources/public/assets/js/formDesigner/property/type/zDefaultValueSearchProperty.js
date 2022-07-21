@@ -191,7 +191,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         });
 
                         this.getUserList(document.getElementById('search').value, true);
-                        OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                        OverlayScrollbars(document.querySelector('.modal__dialog__body'), {className: 'scrollbar'});
                     }
                 });
 

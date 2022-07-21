@@ -200,7 +200,7 @@ function zCalendar(id, options) {
             modal.wrapper.style.setProperty('--data-modal-width', this.options.createModalSize.w);
             modal.wrapper.style.setProperty('--data-modal-height', this.options.createModalSize.h);
             // 배경 색상 제거
-            modal.wrapper.querySelector('.modal-backdrop').style.backgroundColor = 'transparent';
+            modal.wrapper.querySelector('.modal__backdrop').style.backgroundColor = 'transparent';
             // select 디자인
             aliceJs.initDesignedSelectTag(document.querySelector('.calendar__modal--register__main'));
             // 종일 여부 변경시 이벤트 추가
@@ -221,7 +221,7 @@ function zCalendar(id, options) {
                     inheritedAttrs: 'class'
                 }
             });
-            OverlayScrollbars(document.querySelector('.calendar__modal--register .modal-content'),
+            OverlayScrollbars(document.querySelector('.calendar__modal--register .modal__dialog__body'),
                 { className: 'scrollbar' });
         },
         onShow: () => {},
@@ -246,7 +246,7 @@ function zCalendar(id, options) {
             modal.wrapper.style.setProperty('--data-modal-width', this.options.detailModalSize.w);
             modal.wrapper.style.setProperty('--data-modal-height', this.options.detailModalSize.h);
             // 배경 색상 제거
-            modal.wrapper.querySelector('.modal-backdrop').style.backgroundColor = 'transparent';
+            modal.wrapper.querySelector('.modal__backdrop').style.backgroundColor = 'transparent';
         },
         onShow: (modal) => {
             // 이벤트 추가
@@ -742,7 +742,7 @@ Object.assign(zCalendar.prototype, {
      * @param {guide} 선택된 캘린더의 날짜 rect
      */
     setModalPosition: function (modal, guide) {
-        const modalDialog = modal.querySelector('.modal-dialog') || modal,
+        const modalDialog = modal.querySelector('.modal__dialog') || modal,
             guideBound = guide.getBoundingClientRect(),
             modalSize = {
                 w: Number(modal.style.getPropertyValue('--data-modal-width') || modal.offsetWidth),
