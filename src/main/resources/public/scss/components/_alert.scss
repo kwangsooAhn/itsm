@@ -6,22 +6,10 @@
  * @version 1.0
  */
 .alert {
-  &-active { overflow: hidden !important; }
-
   &-wrapper {
     @include fixed(0, 0, 0, 0);
     display: none;
     overflow: auto;
-    &.alert-active {
-      display: block;
-      z-index: 999999;
-    }
-  }
-
-  &-backdrop {
-    @include fixed(0, 0, 0, 0);
-    background: hexToRGBA($gray500, 0.5);
-    z-index: 999999;
   }
 
   &-dialog {
@@ -29,14 +17,6 @@
     padding: 1.5625rem; // 25px
     line-height: 1;
   }
-
-  &-title {
-    padding: 1em;
-    font-size: $font-size-s;
-    text-align: center;
-    box-sizing: border-box;
-  }
-
   &-body {
     overflow: auto;
     min-height: 3.4375rem;    //55px
@@ -51,11 +31,6 @@
     font-size: $font-size-s;
     font-weight: $font-weight-medium;
     line-height: 1.7143;
-  }
-
-  &-buttons {
-    text-align: right;
-    box-sizing: border-box;
   }
 
   &-button {
@@ -85,21 +60,5 @@
     &-email {
       @include backgroundImage('#{$icon-folder-path}alert/icon_alert_email.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
     }
-  }
-}
-
-@media only screen and (max-width:53em) {
-  .gmodal-dialog {
-    top: 0.3125rem;                 // 5px
-    right: 0.3125rem;               // 5px
-    left: 0.3125rem;                // 5px
-    width: auto;
-    margin: 0 auto 0.3125rem auto;  // 5px
-  }
-}
-@media only screen and (max-width:32em) {
-  .gmodal-button {
-    display: block;
-    margin: 0.5em;
   }
 }
