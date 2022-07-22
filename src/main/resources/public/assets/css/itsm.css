@@ -2909,7 +2909,7 @@ span.ic-paging-end-arrow {
   height: calc(100vh - 3.5rem);
 }
 .itsm-container .main-content {
-  height: calc(100vh - 8.5rem);
+  height: calc(100vh - 8rem);
 }
 .itsm-container .main-content .page-content {
   border-top: 0.0625rem solid #CFD5D9;
@@ -2918,6 +2918,7 @@ span.ic-paging-end-arrow {
 .itsm-container .main-content .page-search {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding: 0 3.75rem 1.25rem 3.75rem;
 }
 .itsm-container .main-content .page-search .search-count {
@@ -3181,7 +3182,7 @@ span.ic-paging-end-arrow {
 .itsm-container .main-content .page-list {
   display: flex;
   flex: 1;
-  padding: 0 3.75rem 1.25rem 3.75rem;
+  padding: 0 3.75rem 0 3.75rem;
   overflow-x: hidden;
 }
 .itsm-container .main-content .page-list .list-content {
@@ -8210,6 +8211,7 @@ span.ic-paging-end-arrow {
   background: #222529;
   vertical-align: middle;
   pointer-events: none;
+  margin: 0.25rem;
 }
 .btn__toggle__button.vertical {
   flex-direction: column;
@@ -13452,7 +13454,6 @@ body.active {
 }
 .modal__dialog.thumbnail-preview {
   width: 760px;
-  height: 645px;
 }
 .modal__dialog.thumbnail-preview .modal__dialog__header .thumbnail-preview-name {
   line-height: 1.2;
@@ -13475,7 +13476,7 @@ body.active {
   -moz-border-radius: 0.25rem;
   display: inline-block;
   width: 15.625rem;
-  height: 12.438rem;
+  height: 12.188rem;
   box-shadow: none;
   cursor: pointer;
   overflow: visible;
@@ -13493,7 +13494,7 @@ body.active {
   position: relative !important;
   display: inline-block;
   width: 100%;
-  height: 6.563rem;
+  height: 6.375rem;
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center center;

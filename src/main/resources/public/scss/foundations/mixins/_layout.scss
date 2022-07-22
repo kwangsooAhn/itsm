@@ -368,7 +368,7 @@ $z-index-hidden:                             -1;
   .page-list {
     display: flex;
     flex: 1;  // flex: 1 1 0;
-    padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
+    padding: 0 3.75rem 0 3.75rem; // 0 60px 0 60px
     overflow-x: hidden;
 
     .list-content {
