@@ -9,8 +9,8 @@ package co.brainz.itsm.board.service
 import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.fileTransaction.dto.AliceFileDto
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.resourceManager.dto.AliceFileDto
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
@@ -45,7 +45,7 @@ class BoardArticleService(
     private val boardCommentRepository: BoardCommentRepository,
     private val boardAdminRepository: BoardAdminRepository,
     private val boardCategoryRepository: BoardCategoryRepository,
-    private val aliceFileService: AliceFileService,
+    private val aliceResourceProvider: AliceResourceProvider,
     private val userDetailsService: AliceUserDetailsService,
     private val userService: UserService
 ) {
@@ -109,7 +109,7 @@ class BoardArticleService(
                 boardContents = boardArticleSaveDto.boardContents
             )
             val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
-            aliceFileService.upload(
+            aliceResourceProvider.setUploadFileLoc(
                 AliceFileDto(
                     ownId = savedPortalBoardEntity.boardId,
                     fileSeq = boardArticleSaveDto.fileSeqList,
@@ -216,9 +216,9 @@ class BoardArticleService(
             boardReadRepository.deleteById(boardId)
         }
 
-        val boardFile = aliceFileService.getList(boardId, "")
+        val boardFile = aliceResourceProvider.getFiles(boardId, "")
         if (boardFile.isNotEmpty()) {
-            aliceFileService.delete(boardId)
+            aliceResourceProvider.deleteByOwnId(boardId)
         }
         boardRepository.deleteById(boardId)
         return ZResponse()
@@ -286,7 +286,7 @@ class BoardArticleService(
             savedPortalBoardEntity.boardAdmin.boardAdminId, savedPortalBoardEntity.boardGroupId,
             savedPortalBoardEntity.boardOrderSeq, savedPortalBoardEntity.boardSeq
         )
-        aliceFileService.upload(
+        aliceResourceProvider.setUploadFileLoc(
             AliceFileDto(
                 ownId = savedPortalBoardEntity.boardId,
                 fileSeq = boardArticleSaveDto.fileSeqList,

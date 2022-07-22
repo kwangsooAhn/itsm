@@ -5,10 +5,10 @@
 
 package co.brainz.itsm.cmdb.ciIcon.controller
 
+import co.brainz.framework.resourceManager.dto.AliceResourceRenameDto
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ciIcon.service.CIIconService
-import co.brainz.itsm.file.dto.FileRenameDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -55,9 +55,9 @@ class CIIconRestController(
      * 파일명 수정
      */
     @PutMapping("")
-    fun renameCIIcon(@RequestBody fileRenameDto: FileRenameDto): ResponseEntity<ZResponse> {
+    fun renameCIIcon(@RequestBody fileRenameDto: AliceResourceRenameDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(
-            ciIconService.renameCIIcon(fileRenameDto.originName, fileRenameDto.modifyName)
+            ciIconService.renameCIIcon(fileRenameDto.originPath, fileRenameDto.modifyPath)
         )
     }
 

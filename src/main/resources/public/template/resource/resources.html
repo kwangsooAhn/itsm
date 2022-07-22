@@ -149,7 +149,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <button type="button" class="button-icon" th:unless="${resource.directoryYn}"
+                                    <button type="button" class="btn__ic" th:unless="${resource.directoryYn}"
                                             th:data-name="${resource.name}" onclick="removeFile(this);">
                                         <span class="ic-delete"></span>
                                     </button>
@@ -225,7 +225,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <button type="button" class="button-icon" th:unless="${resource.directoryYn}"
+                                    <button type="button" class="btn__ic" th:unless="${resource.directoryYn}"
                                             th:data-name="${resource.name}" onclick="removeFile(this);">
                                         <span class="ic-delete"></span>
                                     </button>
@@ -273,7 +273,7 @@
             classes: 'thumbnail-preview',
             buttons: [{
                 content: '[(#{common.btn.close})]',
-                classes: 'button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => { modal.hide(); }
             }],
@@ -294,7 +294,7 @@
     function getList(pageNum = 1) {
         const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
         const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
-        const pageType = document.querySelector('.button-switch.selected');
+        const pageType = document.querySelector('.btn__toggle__button--single.selected');
 
         let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
             + '&pageType=' + pageType.getAttribute('data-action')
@@ -424,7 +424,7 @@
             const shortBreadcrumbTemplate = pathArr.slice(1, (pathArr.length - 2)).map((item) => {
                 fullPath += (fileSeparator + item);
                 return `<li class="dropdown__item" tabindex="-1" data-path="${fullPath}">
-                    <button type="button" class="btn__text--box" onclick="goFolder('${encodeURIComponent(fullPath)}');">
+                    <button type="button" class="btn__text--only" onclick="goFolder('${encodeURIComponent(fullPath)}');">
                     ${item}</button>
                 </li>`.trim();
             }).join('');
@@ -443,7 +443,7 @@
         pathArr.slice(startIndex, pathArr.length).map((item) => {
             fullPath += (fileSeparator + item);
             breadcrumbTemplate += (`<li class="breadcrumb__item flex-row align-items-center" data-path="${fullPath}">
-                <button type="button" class="btn__text--box" onclick="goFolder('${encodeURIComponent(fullPath)}');">
+                <button type="button" class="btn__text--only" onclick="goFolder('${encodeURIComponent(fullPath)}');">
                 ${item}</button>
                 <span class="ic-arrow-right ml-1 mr-1"></span>
             </li>`).trim();
@@ -483,7 +483,7 @@
             classes: 'save-folder',
             buttons: [{
                 content: isModify ? '[(#{common.btn.toModify})]' : '[(#{common.btn.register})]',
-                classes: 'button primary',
+                classes: 'btn__text--box primary',
                 bindKey: false,
                 callback: (modal) => {
                     // 유효성 검증
@@ -509,7 +509,7 @@
                 }
             }, {
                 content: '[(#{common.btn.cancel})]',
-                classes: 'button secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false,
                 callback: (modal) => { modal.hide(); }
             }],
@@ -641,7 +641,7 @@
         };
         const path = getPath();
         const type = document.getElementById('type').value;
-        xhr.open('POST', '/rest/resources/file/upload?type=' + type + ' &path=' + encodeURIComponent(path), true);
+        xhr.open('POST', '/rest/resources/file/upload?type=' + type + '&path=' + encodeURIComponent(path), true);
         xhr.send(formData);
 
         // 성공시 file object 값 비움 처리
@@ -738,7 +738,7 @@
         const removePath = getPath() + fileSeparator + fileName;
         const type = document.getElementById('type').value;
         zAlert.confirm('[(#{common.msg.confirmDelete})]', () => {
-            aliceJs.fetchJson('/file?type=' + type + '&path=' + encodeURIComponent(removePath), {
+            aliceJs.fetchJson('/rest/resources/file?type=' + type + '&path=' + encodeURIComponent(removePath), {
                 method: 'DELETE',
                 showProgressbar: true
             }).then((response) => {
@@ -767,7 +767,7 @@
         const fileSeparator = document.getElementById('fileSeparator').value;
         const downloadPath = getPath() + fileSeparator + fileName;
         const type = document.getElementById('type').value;
-        aliceJs.fetchBlob('/file/download?type=' + type + '&path=' + encodeURIComponent(downloadPath), {
+        aliceJs.fetchBlob('/rest/resources/file/download?type=' + type + '&path=' + encodeURIComponent(downloadPath), {
             method: 'GET',
             showProgressbar: true
         }).then(blob => {

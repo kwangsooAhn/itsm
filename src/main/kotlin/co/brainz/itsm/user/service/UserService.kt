@@ -26,7 +26,8 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
-import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.resourceManager.constants.ResourceConstants
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.organization.dto.OrganizationSearchCondition
 import co.brainz.framework.organization.repository.OrganizationRepository
 import co.brainz.framework.organization.repository.OrganizationRoleMapRepository
@@ -63,7 +64,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.io.File
+import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
@@ -101,7 +105,7 @@ class UserService(
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val roleRepository: RoleRepository,
     private val userDetailsService: AliceUserDetailsService,
-    private val aliceFileAvatarService: AliceFileAvatarService,
+    private val aliceResourceProvider: AliceResourceProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val wfTokenRepository: WfTokenRepository,
     private val organizationService: OrganizationService,
@@ -280,13 +284,13 @@ class UserService(
                     }
                 }
 
-                aliceFileAvatarService.uploadAvatarFile(targetEntity, userUpdateDto.avatarUUID)
+                this.setUploadAvatar(targetEntity, userUpdateDto.avatarUUID)
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
 
                 if (targetEntity.uploaded) {
-                    aliceFileAvatarService.avatarFileNameMod(targetEntity)
+                    this.setAvatarName(targetEntity)
                 }
 
                 when (userEditType == UserConstants.UserEditType.ADMIN_USER_EDIT.code) {
@@ -948,5 +952,64 @@ class UserService(
         }
 
         return true
+    }
+
+    /**
+     * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
+     *
+     * @param userEntity
+     * @param avatarUUID
+     */
+    private fun setUploadAvatar(userEntity: AliceUserEntity, avatarUUID: String) {
+        when (avatarUUID.isNotBlank()) {
+            true -> {
+                val tempDir = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.AVATAR_TEMP.code)
+                val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
+
+                if (tempPath.toFile().exists()) {
+                    val avatarDir = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.AVATAR.code)
+                    val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
+                    Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
+                    userEntity.avatarValue = avatarUUID
+                    userEntity.uploaded = true
+                    userEntity.uploadedLocation = avatarFilePath.toString()
+                }
+            }
+            false -> {
+                val uploadedFile = Paths.get(userEntity.uploadedLocation)
+
+                if (uploadedFile.toFile().exists()) {
+                    Files.delete(uploadedFile)
+                }
+                userEntity.avatarValue = UserConstants.AVATAR_BASIC_FILE_NAME
+                userEntity.uploaded = false
+                userEntity.uploadedLocation = UserConstants.AVATAR_BASIC_FILE_PATH
+            }
+        }
+    }
+
+    /**
+     * 아바타 이미지명을 uuid 에서 ID 값으로 변경 한다.
+     * 신규 사용자 등록 시 avatar_id, user_key 를 구할 수가 없기 때문에
+     * 임시적으로 생성한 avatar_uuid 로 파일명을 만든다. avatar_uuid 가 고유 값을 보장 하지 못하기 때문에
+     * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
+     *
+     * @param userEntity
+     */
+    private fun setAvatarName(userEntity: AliceUserEntity) {
+        if (userEntity.avatarType == UserConstants.AvatarType.FILE.code &&
+            userEntity.userKey != userEntity.avatarValue
+        ) {
+            val avatarDir = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.AVATAR.code)
+            val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.avatarValue)
+            val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.userKey)
+            val avatarUploadFile = File(avatarFilePath.toString())
+            if (avatarUploadFile.exists()) {
+                Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
+                userEntity.avatarValue = userEntity.userKey
+                userEntity.uploadedLocation = avatarIdFilePath.toString()
+                userRepository.save(userEntity)
+            }
+        }
     }
 }

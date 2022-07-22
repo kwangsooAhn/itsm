@@ -6,8 +6,8 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.fileTransaction.constants.ResourceConstants
-import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.resourceManager.constants.ResourceConstants
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
@@ -54,7 +54,7 @@ class DocumentService(
     private val formService: FormService,
     private val processService: ProcessService,
     private val wfDocumentService: WfDocumentService,
-    private val aliceFileProvider: AliceFileProvider,
+    private val aliceResourceProvider: AliceResourceProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentRepository: WfDocumentRepository,
@@ -119,7 +119,7 @@ class DocumentService(
         for (document in documentList.data) {
             if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
             document.documentIcon =
-                aliceFileProvider.getDataUriSchema(
+                aliceResourceProvider.getDataUriSchema(
                     ResourceConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon
                 )
         }

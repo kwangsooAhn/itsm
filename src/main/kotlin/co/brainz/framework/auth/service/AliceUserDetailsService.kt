@@ -20,6 +20,7 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
 import co.brainz.framework.organization.repository.OrganizationRepository
+import co.brainz.framework.resourceManager.constants.ResourceConstants
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceUtil
@@ -37,8 +38,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.web.DefaultRedirectStrategy
-import org.springframework.security.web.RedirectStrategy
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -59,7 +58,6 @@ class AliceUserDetailsService(
     private val aliceEncryptionUtil: AliceEncryptionUtil
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
     val aliceUserMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     @Value("\${file.image.uri}")
@@ -122,7 +120,7 @@ class AliceUserDetailsService(
         return when (avatarType) {
             UserConstants.AvatarType.FILE.code ->
                 if (uploaded) {
-                    resourcesUriPath + "/" + UserConstants.AVATAR_IMAGE_DIR + "/" + avatarValue
+                    resourcesUriPath + "/" + ResourceConstants.Path.AVATAR.path + "/" + avatarValue
                 } else {
                     UserConstants.AVATAR_BASIC_FILE_PATH + UserConstants.AVATAR_BASIC_FILE_NAME
                 }
