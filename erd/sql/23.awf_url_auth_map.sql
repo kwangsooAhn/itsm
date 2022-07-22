@@ -213,9 +213,6 @@ insert into awf_url_auth_map values ('/rest/forms/{id}', 'get', 'workflow.manage
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/files', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/files', 'post', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/files/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/schedule/{id}', 'delete', 'general');

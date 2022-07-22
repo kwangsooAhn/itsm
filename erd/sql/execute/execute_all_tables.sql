@@ -5,7 +5,7 @@ DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
 DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
 DROP SEQUENCE IF EXISTS portal_board_seq cascade;
 DROP SEQUENCE IF EXISTS schedule_history_seq cascade;
-
+DROP SEQUENCE IF EXISTS cmdb_ci_icon_file_seq cascade;
 
 /* Create Sequences */
 CREATE SEQUENCE awf_archive_seq INCREMENT 1 MINVALUE 1 START 1;
@@ -13,7 +13,7 @@ CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
 CREATE SEQUENCE schedule_history_seq INCREMENT 1 MINVALUE 1 START 1;
-
+CREATE SEQUENCE cmdb_ci_icon_file_seq INCREMENT 1 MINVALUE 1 START 16;
 /**
  * DB (Timezone) 설정
  */
@@ -632,8 +632,9 @@ insert into awf_menu values ('workflow.numberingRule', 'workflow', '/numberingRu
 insert into awf_menu values ('cmdb', 'menu', '', 11, 'TRUE');
 insert into awf_menu values ('cmdb.attribute', 'cmdb', '/cmdb/attributes/search', 1, 'TRUE');
 insert into awf_menu values ('cmdb.class', 'cmdb', '/cmdb/class/edit', 2, 'TRUE');
-insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 3, 'TRUE');
-insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 4, 'TRUE');
+insert into awf_menu values ('cmdb.icon', 'cmdb', '/cmdb/icons', 3, 'TRUE');
+insert into awf_menu values ('cmdb.type', 'cmdb', '/cmdb/types/edit', 4, 'TRUE');
+insert into awf_menu values ('cmdb.ci', 'cmdb', '/cmdb/cis/search', 5, 'TRUE');
 insert into awf_menu values ('sla', 'menu', '', 12, 'TRUE');
 insert into awf_menu values ('sla.metricStatus', 'sla', '/sla/metric-status/search', 1, 'TRUE');
 insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/annual/search', 2, 'TRUE');
@@ -677,9 +678,10 @@ insert into awf_menu_auth_map values ('archive', 'general');
 insert into awf_menu_auth_map values ('token', 'general');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.attribute', 'cmdb.manage');
-insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.class', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.icon', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb.type', 'cmdb.manage');
+insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.manage');
 insert into awf_menu_auth_map values ('cmdb', 'cmdb.view');
 insert into awf_menu_auth_map values ('cmdb.ci', 'cmdb.view');
 insert into awf_menu_auth_map values ('config', 'system.manage');
@@ -718,7 +720,7 @@ insert into awf_menu_auth_map values ('statistic.dashboardTemplate', 'report.vie
 insert into awf_menu_auth_map values ('workflow', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.customCode', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.form', 'workflow.manage');
-insert into awf_menu_auth_map values ('workflow.file', 'workflow.manage');
+insert into awf_menu_auth_map values ('workflow.resource', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.numberingPattern', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
@@ -1184,6 +1186,7 @@ insert into awf_url values ('/cmdb/attributes/{id}/view', 'get', 'CMDB Attribute
 insert into awf_url values ('/cmdb/attributes/list-modal', 'get', 'CMDB Attribute 목록 모달 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/edit', 'get', 'CMDB Class 편집 화면', 'TRUE');
 insert into awf_url values ('/cmdb/class/view-pop/attributes', 'get', 'CMDB Class Attribute 모달 리스트 화면', 'TRUE');
+insert into awf_url values ('/cmdb/icons', 'get', 'CMDB 아이콘 관리', 'TRUE');
 insert into awf_url values ('/cmdb/types/edit', 'get', 'CMDB Type 관리 화면', 'TRUE');
 insert into awf_url values ('/cmdb/cis', 'post', 'CMDB CI 조회 목록', 'TRUE');
 insert into awf_url values ('/cmdb/cis/search', 'get', 'CMDB CI 조회 목록 화면', 'TRUE');
@@ -1304,6 +1307,10 @@ insert into awf_url values ('/rest/cmdb/classes/{id}', 'get', 'CMDB Class 단일
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'put', 'CMDB Class 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}', 'delete', 'CMDB Class 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/classes/{id}/attributes', 'get', 'CI 컴포넌트 - CI CLASS에 따른 세부 속성 조회', 'FALSE');
+insert into awf_url values ('/rest/cmdb/icons', 'get', 'CMDB 아이콘 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/cmdb/icons', 'post', 'CMDB 아이콘 파일 업로드', 'TRUE');
+insert into awf_url values ('/rest/cmdb/icons', 'put', 'CMDB 아이콘 파일명 수정', 'TRUE');
+insert into awf_url values ('/rest/cmdb/icons/{id}', 'delete', 'CMDB 아이콘 파일 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'post', 'CMDB Type 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
@@ -1350,11 +1357,6 @@ insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 �
 insert into awf_url values ('/rest/forms', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}', 'get', '폼 디자이너 기본 정보 조회', 'TRUE');
-insert into awf_url values ('/rest/files', 'post', '파일 업로드', 'TRUE');
-insert into awf_url values ('/rest/files', 'put', '파일명 수정', 'TRUE');
-insert into awf_url values ('/rest/files/{id}', 'get', '파일 조회', 'FALSE');
-insert into awf_url values ('/rest/files/{id}', 'delete', '파일 삭제', 'TRUE');
-insert into awf_url values ('/rest/files', 'get', '파일 전체 조회', 'FALSE');
 insert into awf_url values ('/rest/instances/{id}/schedule', 'get', '문서 일정 조회', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/schedule', 'post', '문서 일정 등록', 'TRUE');
 insert into awf_url values ('/rest/instances/{id}/schedule/{id}', 'delete', '문서 일정 삭제', 'TRUE');
@@ -1605,6 +1607,8 @@ insert into awf_url_auth_map values ('/cmdb/cis/{id}/view', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/class/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/cmdb/class/view-pop/attributes', 'get', 'cmdb.view');
+insert into awf_url_auth_map values ('/cmdb/icons', 'get', 'cmdb.manage');
+insert into awf_url_auth_map values ('/cmdb/icons', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/cmdb/types/edit', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'system.manage');
 insert into awf_url_auth_map values ('/custom-codes', 'get', 'system.manage');
@@ -1714,6 +1718,9 @@ insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.man
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/classes/{id}', 'delete', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons', 'post', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons', 'put', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons/{id}', 'delete', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'post', 'cmdb.manage');
@@ -1749,9 +1756,6 @@ insert into awf_url_auth_map values ('/rest/forms/{id}', 'get', 'workflow.manage
 insert into awf_url_auth_map values ('/rest/forms/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/files', 'put', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/files', 'post', 'workflow.manage');
-insert into awf_url_auth_map values ('/rest/files/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'get', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/schedule', 'post', 'general');
 insert into awf_url_auth_map values ('/rest/instances/{id}/schedule/{id}', 'delete', 'general');
@@ -9769,3 +9773,47 @@ COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
 
+/**
+ * CMDB 아이콘 관리
+ */
+DROP TABLE IF EXISTS cmdb_ci_icon cascade;
+
+CREATE TABLE cmdb_ci_icon
+(
+    file_seq bigint NOT null,
+    file_name varchar(512) NOT NULL,
+    file_name_extension varchar(128) NOT NULL,
+    editable boolean default true,
+    create_user_key varchar(128),
+    create_dt timestamp,
+    update_user_key varchar(128),
+    update_dt timestamp,
+    CONSTRAINT cmdb_ci_icon_pk PRIMARY KEY (file_seq)
+);
+
+COMMENT ON TABLE cmdb_ci_icon IS 'CMDB 아이콘 관리';
+COMMENT ON COLUMN cmdb_ci_icon.file_seq IS '아이콘파일관리번호';
+COMMENT ON COLUMN cmdb_ci_icon.file_name IS '아이콘파일명';
+COMMENT ON COLUMN cmdb_ci_icon.file_name_extension IS '아이콘파일확장자';
+COMMENT ON COLUMN cmdb_ci_icon.editable IS '수정가능여부';
+COMMENT ON COLUMN cmdb_ci_icon.create_user_key IS '등록자';
+COMMENT ON COLUMN cmdb_ci_icon.create_dt IS '등록일';
+COMMENT ON COLUMN cmdb_ci_icon.update_user_key IS '수정자';
+COMMENT ON COLUMN cmdb_ci_icon.update_dt IS '수정일';
+
+-- 기본 아이콘
+INSERT INTO cmdb_ci_icon VALUES (1, 'image_assets', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (2, 'image_icmp', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (3, 'image_l4switch', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (4, 'image_linux', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (5, 'image_maintenance', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (6, 'image_mariadb', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (7, 'image_mssql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (8, 'image_mysql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (9, 'image_oracle', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (10, 'image_postresql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (11, 'image_server', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (12, 'image_snmp', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (13, 'image_software', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (14, 'image_storage', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (15, 'image_winnt', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
