@@ -241,13 +241,23 @@ open class AliceResourceUtil(
     }
 
     /**
-     * 조건과 일치하는 파일 갯수 구하기 (자기 자신 제외)
+     * 조건과 일치하는 폴더, 파일 갯수 구하기 (자기 자신 제외)
      * @param dir 폴더
      */
     fun getExternalPathCount(dir: File, matchValue: String, depth: Int): Int {
         val count = dir.walk().maxDepth(depth)
             .filter { isMatchedInSearch(it.name, matchValue) }
-            .count() - 1
+            .count()
+        return if (count > 0) { count - 1 } else { 0 }
+    }
+
+    /**
+     * 조건과 일치하는 폴더, 이미지 파일 갯수 구하기 (자기 자신 제외)
+     */
+    fun getExternalPathImageCount(dir: File, matchValue: String, depth: Int): Int {
+        val count = dir.walk().maxDepth(depth)
+            .filter { isMatchedInSearch(it.name, matchValue) && ( it.isDirectory || isImage(it.extension)) }
+            .count()
         return if (count > 0) { count - 1 } else { 0 }
     }
 }

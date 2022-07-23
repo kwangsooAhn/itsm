@@ -115,13 +115,18 @@ class AliceResourceProvider(
         val depth = if (searchCondition.searchValue.isEmpty()) 1 else Int.MAX_VALUE // 검색어가 없으면 바로 아래 데이터만 조회
         val contentNumPerPage = ResourceConstants.OffsetCount.getOffsetCount(searchCondition.pageType)
         val pagingOffsetStart = ((searchCondition.pageNum - 1) * contentNumPerPage).toInt()
-
-        val pagingResult = when(super.isAllowedOnlyImageByType(searchCondition.type)) {
+        val condition = super.isAllowedOnlyImageByType(searchCondition.type)
+        // 페이징 데이터
+        val pagingResult = when(condition) {
             true -> this.getImageAndFolders(dir, depth, pagingOffsetStart, contentNumPerPage.toInt(), searchCondition)
             false -> this.getFileAndFolders(dir, depth, pagingOffsetStart, contentNumPerPage.toInt(), searchCondition)
         }
         // 전체 파일 갯수 카운트
-        val totalCountWithoutCondition = super.getExternalPathCount(dir, searchCondition.searchValue, depth)
+        val totalCountWithoutCondition = when(condition) {
+            true -> super.getExternalPathImageCount(dir, searchCondition.searchValue, depth)
+            false -> super.getExternalPathCount(dir, searchCondition.searchValue, depth)
+        }
+
         return AliceResourcesPagingDto(
             data = pagingResult,
             paging = AlicePagingData(

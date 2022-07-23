@@ -424,7 +424,7 @@
             const shortBreadcrumbTemplate = pathArr.slice(1, (pathArr.length - 2)).map((item) => {
                 fullPath += (fileSeparator + item);
                 return `<li class="dropdown__item" tabindex="-1" data-path="${fullPath}">
-                    <button type="button" class="btn__text--only" onclick="goFolder('${encodeURIComponent(fullPath)}');">
+                    <button type="button" class="btn__text--box" onclick="goFolder('${encodeURIComponent(fullPath)}');">
                     ${item}</button>
                 </li>`.trim();
             }).join('');

@@ -53,7 +53,7 @@ $dropdown: (
     display: none;
     flex-direction: column;
     min-width: 5rem; // 80px
-    margin: 0.25rem 0 0 0; // 4px
+    margin: 0;
     padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
     background-color: $white;
     z-index: $z-index-between-tooltip-gnb;
@@ -72,22 +72,22 @@ $dropdown: (
           box-shadow: map-get($dropdown, 'default', 'shadow');
         }
         &:focus {
-          border-color: map-get($layout-header-dropdown, 'focus', 'border');
-          background-color: map-get($layout-header-dropdown, 'focus', 'background');
-          color: map-get($layout-header-dropdown, 'focus', 'font');
+          border-color: map-get($dropdown, 'focus', 'border');
+          background-color: map-get($dropdown, 'focus', 'background');
+          color: map-get($dropdown, 'focus', 'font');
           outline: 0;
-          @if map-get($layout-header-dropdown, 'focus', 'shadow') != null {
-            box-shadow: map-get($layout-header-dropdown, 'focus', 'shadow');
+          @if map-get($dropdown, 'focus', 'shadow') != null {
+            box-shadow: map-get($dropdown, 'focus', 'shadow');
           }
         }
 
         &:hover {
-          border-color: map-get($layout-header-dropdown, 'hover', 'border');
-          background-color: map-get($layout-header-dropdown, 'hover', 'background');
-          color: map-get($layout-header-dropdown, 'hover', 'font');
+          border-color: map-get($dropdown, 'hover', 'border');
+          background-color: map-get($dropdown, 'hover', 'background');
+          color: map-get($dropdown, 'hover', 'font');
           outline: 0;
-          @if map-get($layout-header-dropdown, 'hover', 'shadow') != null {
-            box-shadow: map-get($layout-header-dropdown, 'hover', 'shadow');
+          @if map-get($dropdown, 'hover', 'shadow') != null {
+            box-shadow: map-get($dropdown, 'hover', 'shadow');
           }
           text-decoration: none;
         }
