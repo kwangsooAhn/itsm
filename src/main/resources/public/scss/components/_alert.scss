@@ -5,11 +5,7 @@
  * @author jy.lim
  * @version 1.0
  */
-.alert {
-  width: 100%;
-  padding: 1.5625rem; // 25px
-  line-height: 1;
-  
+.alert {  
   &__type {
     width: 3.875rem;  // 62px;
     height: 3.875rem;

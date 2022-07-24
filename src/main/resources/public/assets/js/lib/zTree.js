@@ -67,7 +67,7 @@
             modal.destroy();
         },
         onCreate: function(modal) {
-            OverlayScrollbars(document.querySelector('.tree .modal-content'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.tree .modal__dialog__body'), { className: 'scrollbar' });
         },
     };
 
