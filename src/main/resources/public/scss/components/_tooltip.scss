@@ -35,7 +35,7 @@
     color: $blue500;
     font-family: $font-family;
     font-size: $font-size-xs;
-    z-index: 500;
+    z-index: $z-index-tooltip;
     visibility: hidden;
     span {
       color: $blue500;
@@ -88,7 +88,7 @@
     padding: 0.4375rem; // 7px
     background-color: $white;
     text-align: center;
-    z-index: 500;
+    z-index: $z-index-tooltip;
     visibility: hidden;
 
     &.last {
@@ -142,7 +142,7 @@
     text-align: center;
     opacity: 0;
     visibility: hidden;
-    z-index: 500;
+    z-index: $z-index-tooltip;
 
     &::after {
       @include absolute($top: 100%, $left: 50%);
@@ -169,7 +169,7 @@
     @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
     padding: 0.4375rem; // 7px
     margin: 1rem 0 0 0;
-    z-index: 500;
+    z-index: $z-index-tooltip;
 
     &.right-bottom {
       right: 0;

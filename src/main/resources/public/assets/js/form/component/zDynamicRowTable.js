@@ -930,7 +930,7 @@ export const dynamicRowTableMixin = {
                     this.getUserSearchList(target, e.target.value, false);
                 }), false);
                 this.getUserSearchList(target, document.getElementById('search').value, true);
-                OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
             }
         });
         userSearchModal.show();

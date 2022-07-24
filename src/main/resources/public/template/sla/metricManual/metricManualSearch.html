@@ -154,7 +154,7 @@
                     let referenceDt = i18n.getDate();
                     document.getElementById('referenceDate').value = referenceDt;
                     zDateTimePicker.initDatePicker(document.getElementById('referenceDate'), setReferenceDatePicker);
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.modal__dialog__body'), {className: 'scrollbar'});
                     getTargetMetricList();
                 }
             });

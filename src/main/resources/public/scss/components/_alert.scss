@@ -14,14 +14,14 @@
     overflow: auto;
     &.alert-active {
       display: block;
-      z-index: 999999;
+      z-index: $z-index-alert;
     }
   }
 
   &-backdrop {
     @include fixed(0, 0, 0, 0);
     background: hexToRGBA($gray500, 0.5);
-    z-index: 999999;
+    z-index: $z-index-alert;
   }
 
   &-dialog {

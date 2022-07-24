@@ -901,7 +901,7 @@ export const ciMixin = {
                 }
             }
             // 스크롤바
-            OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
@@ -1160,7 +1160,7 @@ export const ciMixin = {
                 }
             }
             // 스크롤바
-            OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
