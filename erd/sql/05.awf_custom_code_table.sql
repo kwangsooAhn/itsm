@@ -17,3 +17,4 @@ COMMENT ON COLUMN awf_custom_code_table.custom_code_table_name IS '테이블이�
 insert into awf_custom_code_table values ('awf_user', '사용자 정보 테이블');
 insert into awf_custom_code_table values ('awf_role', '역할 정보 테이블');
 insert into awf_custom_code_table values ('awf_organization', '조직 관리 테이블');
+insert into awf_custom_code_table values ('service_category', '서비스 카테고리 테이블');

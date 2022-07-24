@@ -279,6 +279,10 @@ INSERT INTO wf_component_property VALUES('fee68572b7bb4e04b1f27d0cdfe9ad7a', 'di
 INSERT INTO wf_component_property VALUES('fee68572b7bb4e04b1f27d0cdfe9ad7a', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"신청부서"}');
 INSERT INTO wf_component_property VALUES('fee68572b7bb4e04b1f27d0cdfe9ad7a', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('5aa28e3b3e2446258a15b99267bd063c', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|none|"}');
+insert into wf_component_property VALUES('a5bacb272c1cc7b3a8632f8c149efdbe', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a8c8218f10c018219ed0d5c00a8"}');
+insert into wf_component_property VALUES('a5bacb272c1cc7b3a8632f8c149efdbe', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+insert into wf_component_property VALUES('a5bacb272c1cc7b3a8632f8c149efdbe', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"관련 서비스"}');
+insert into wf_component_property VALUES('a5bacb272c1cc7b3a8632f8c149efdbe', 'validation', '{"required":false}');
 /* 서비스데스크 - 장애신고 - 만족도 */
 INSERT INTO wf_component_property VALUES('207f974ae4654e7f8331526c504d0152', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('207f974ae4654e7f8331526c504d0152', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"평가의견"}');
@@ -1418,3 +1422,15 @@ INSERT INTO wf_component_property VALUES('a7be4fd9186347949ed7638ebd61343d', 'el
 INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'display', '{"displayOrder":1,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'element', '{"columnWidth":"8","options":[{"name":"선택 안함","value":"none","checked":true},{"name":"전화 통화","value":"phone","checked":false},{"name":"서비스 포탈 및 모바일 애플리케이션","value":"portal","checked":false},{"name":"라이브 채팅 및 챗봇","value":"chatting","checked":false},{"name":"이메일","value":"email","checked":false},{"name":"대면","value":"interview","checked":false},{"name":"소셜 미디어","value":"sns","checked":false},{"name":"모니터링툴 자동 등록","value":"automatic","checked":false}]}');
 INSERT INTO wf_component_property VALUES('d16277a918414e35b76510d8c413e38b', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
+insert into wf_component_property VALUES('ae8fa580e4be181e1d09e5761e89ca15', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a8c8218f10c018219ed0d5c00a8"}');
+insert into wf_component_property VALUES('ae8fa580e4be181e1d09e5761e89ca15', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+insert into wf_component_property VALUES('ae8fa580e4be181e1d09e5761e89ca15', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"관련 서비스"}');
+insert into wf_component_property VALUES('ae8fa580e4be181e1d09e5761e89ca15', 'validation', '{"required":false}');
+insert into wf_component_property VALUES('ace6d79e8482e91b7f37f72afebc3f75', 'display', '{"displayOrder":0,"columnWidth":"12"}');
+insert into wf_component_property VALUES('ace6d79e8482e91b7f37f72afebc3f75', 'validation', '{"required":false,"minDateTime":"","maxDateTime":""}');
+insert into wf_component_property VALUES('ace6d79e8482e91b7f37f72afebc3f75', 'element', '{"columnWidth":"8","defaultValueRadio":"now"}');
+insert into wf_component_property VALUES('ace6d79e8482e91b7f37f72afebc3f75', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"서비스 중단 시작시간"}');
+insert into wf_component_property VALUES('a5c9a4348d016409ba1d6bac3cd008fa', 'display', '{"displayOrder":1,"columnWidth":"12"}');
+insert into wf_component_property VALUES('a5c9a4348d016409ba1d6bac3cd008fa', 'validation', '{"required":false,"minDateTime":"","maxDateTime":""}');
+insert into wf_component_property VALUES('a5c9a4348d016409ba1d6bac3cd008fa', 'element', '{"columnWidth":"8","defaultValueRadio":"none"}');
+insert into wf_component_property VALUES('a5c9a4348d016409ba1d6bac3cd008fa', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"서비스 중단 종료시간"}');
