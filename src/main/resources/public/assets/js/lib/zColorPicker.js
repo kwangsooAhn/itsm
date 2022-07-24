@@ -276,7 +276,7 @@ Object.assign(zColorPicker.prototype, {
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'btn__ic extra color-picker__modal__custom__btn-edit visible';
+        editButton.className = 'btn__ic extra btn__edit visible';
         editButton.insertAdjacentHTML('beforeend', `<span class="ic-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
@@ -305,7 +305,7 @@ Object.assign(zColorPicker.prototype, {
         const isMaxCustomColor =  (this.savedCustomColors.length === this.options.maxCustomColor);
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'btn__ic custom-color-plus' +
+        addButton.className = 'btn__ic btn__plus' +
             (isMaxCustomColor ? '' : ' inline-block');
         addButton.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);

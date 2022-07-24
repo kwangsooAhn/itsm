@@ -108,13 +108,13 @@ $custom-color-plus: (
       padding:  0.75rem; // 12px
 
       // 편집 버튼
-      &__btn-edit {
+      .btn__edit {
         @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
         visibility: hidden;
       }
 
       // [+] 버튼
-      &__btn-plus {
+      .btn__plus {
         @include border(0.0625rem, solid, map-get($custom-color-plus, 'default', 'border'), all);
         @include borderRadius(0.125rem); // 2px
         display: none;

@@ -8746,13 +8746,13 @@ span.ic-paging-end-arrow {
   min-height: 4.875rem;
   padding: 0.75rem;
 }
-.color-picker__modal__custom__btn-edit {
+.color-picker__modal__custom .btn__edit {
   position: absolute !important;
   top: 0.125rem;
   right: 0.75rem;
   visibility: hidden;
 }
-.color-picker__modal__custom__btn-plus {
+.color-picker__modal__custom .btn__plus {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -8763,31 +8763,31 @@ span.ic-paging-end-arrow {
   padding: 0 0.0625rem;
   background-color: #FFFFFF;
 }
-.color-picker__modal__custom__btn-plus .ic-plus {
+.color-picker__modal__custom .btn__plus .ic-plus {
   width: 0.625rem;
   height: 0.625rem;
   background: #8B9094;
 }
-.color-picker__modal__custom__btn-plus:focus {
+.color-picker__modal__custom .btn__plus:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.color-picker__modal__custom__btn-plus:focus .ic-plus {
+.color-picker__modal__custom .btn__plus:focus .ic-plus {
   background: #8B9094;
 }
-.color-picker__modal__custom__btn-plus:hover {
+.color-picker__modal__custom .btn__plus:hover {
   background-color: #D6EDFC;
   border-color: #CFD5D9;
 }
-.color-picker__modal__custom__btn-plus:hover .ic-plus {
+.color-picker__modal__custom .btn__plus:hover .ic-plus {
   background: #8B9094;
 }
-.color-picker__modal__custom__btn-plus:enabled:active, .color-picker__modal__custom__btn-plus:enabled.active {
+.color-picker__modal__custom .btn__plus:enabled:active, .color-picker__modal__custom .btn__plus:enabled.active {
   background-color: #AFD9F9;
   border-color: #619CDB;
 }
-.color-picker__modal__custom__btn-plus:enabled:active .ic-plus, .color-picker__modal__custom__btn-plus:enabled.active .ic-plus {
+.color-picker__modal__custom .btn__plus:enabled:active .ic-plus, .color-picker__modal__custom .btn__plus:enabled.active .ic-plus {
   background: #19428D;
 }
 .color-picker__modal__custom__list {
