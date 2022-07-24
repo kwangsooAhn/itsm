@@ -60,7 +60,7 @@ $custom-color-plus: (
     display: none;
     min-width: 23.5rem; // 376px
     background-color: $white;
-    z-index: 1000;
+    z-index: $z-index-modal;
     
     // color palette
     &__palette {

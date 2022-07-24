@@ -272,7 +272,7 @@ input, textarea, select {
     .button-search {
       @include borderRadius(0.25rem);
       margin-left: 1rem; // 16px
-      &:focus, &:hover, &:active { z-index: 25; }
+      &:focus, &:hover, &:active { z-index: $z-index-event; }
     }
   }
 
@@ -554,7 +554,7 @@ select {
     color: $neutral800;
     outline: 0;
     list-style: none;
-    z-index: 5000;
+    z-index: $z-index-between-alert-modal;
     li {
       @include ellipsis(block);
       align-items: center;
