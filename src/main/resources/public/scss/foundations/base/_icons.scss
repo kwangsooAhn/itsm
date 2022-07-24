@@ -160,17 +160,13 @@ span {
   &.ic-paging-next-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_next.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
   &.ic-paging-end-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_end.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
 
-  ////////////////////////// alert //////////////////////////
-  &.ic {
-    &-alert { // 5px
-      &-success { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_success.svg', null, no-repeat, center, center, null); }
-      &-info { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_info.svg', null, no-repeat, center, center, null); }
-      &-warning { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_warning.svg', null, no-repeat, center, center, null); }
-      &-danger { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_danger.svg', null, no-repeat, center, center, null); }
-      &-confirm { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, center, center, null); }
-      &-email { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_email.svg', null, no-repeat, center, center, null); }
-    }
-  }
+  ////////////////////////// alert ////////////////////////// 5px
+  &.ic-alert-success { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_success.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-info { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_info.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-warning { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_warning.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-danger { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_danger.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-confirm { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-email { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_email.svg', null, no-repeat, center, center, null); }
 }
 
 ////////////////////////// UI 컴포넌트 추가 //////////////////////////
