@@ -7,11 +7,13 @@ const zAlert = {};
 
 zAlert.makeAlertModal = function (alertType, message, callbackFunc) {
     return new modal({
-        body: `<div class="alert-dialog"><div class="alert-body alert-icon-` + alertType + `">`
-            + `<div class="alert-message">` + message + `</div></div></div>`,
+        body: `<div class="alert flex-row">`
+            + `<span class="alert__type col-2 ic-alert-` + alertType + `"></span>`
+            + `<div class="alert__message col-10">` + message + `</div>`
+            + `</div>`,
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'alert-button btn__text--box secondary',
+            classes: 'btn__text--box secondary',
             bindKey: 13, /* Enter */
             callback: function (modal) {
                 if (typeof callbackFunc === 'function') {
@@ -81,12 +83,14 @@ zAlert.danger = function (message, callbackFunc) {
 zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new modal({
         message: message,
-        body: `<div class="alert-dialog"><div class="alert-body alert-icon-confirm">
-            <div class="alert-message">` + message + `</div></div></div>`,
+        body: `<div class="alert flex-row">
+                <span class="alert__type col-2 ic-alert-confirm"></span>
+                <div class="alert__message col-10">` + message + `</div>
+               </div>`,
         buttons: [
             {
                 content: i18n.msg('common.btn.check'),
-                classes: 'alert-button btn__text--box secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false, /* no key! */
                 callback: function (modal) {
                     if (typeof okCallbackFunc === 'function') {
@@ -98,7 +102,7 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
             },
             {
                 content: i18n.msg('common.btn.cancel'),
-                classes: 'alert-button btn__text--box secondary',
+                classes: 'btn__text--box secondary',
                 bindKey: false, /* no key! */
                 callback: function (modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -114,7 +118,7 @@ zAlert.confirm = function (message, okCallbackFunc, cancelCallbackFunc) {
         },
         onCreate: () => {
             setTimeout(function(){
-                document.querySelector('.alert-button:last-child').focus();
+                document.querySelector('.modal-button:last-child').focus();
             },100);
         }
     });

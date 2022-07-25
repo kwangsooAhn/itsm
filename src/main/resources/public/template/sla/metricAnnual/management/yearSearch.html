@@ -124,7 +124,7 @@
                             const copyTargetYear = document.getElementById('copyTargetYear').value
                             document.getElementById('copyTargetYearText').textContent = i18n.msg('sla.metricYear.msg.copy', copyTargetYear)
                             document.getElementById('copySourceYear').addEventListener('change', function() { getSourceYearList() });
-                            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                            OverlayScrollbars(document.querySelector('.modal__dialog__body'), {className: 'scrollbar'});
                             getSourceYearList();
                         }
                     });

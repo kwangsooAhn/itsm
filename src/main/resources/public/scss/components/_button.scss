@@ -452,7 +452,7 @@ $button-group: (
       border-color: map-get($button-group, 'active', 'border');
       background-color: map-get($button-group, 'active', 'background');
       color: map-get($button-group, 'active', 'font');
-      z-index: 25;
+      z-index: $z-index-event;
       @if map-get($button-group, 'active', 'shadow') != null {
         box-shadow: map-get($button-group, 'active', 'shadow');
       }
@@ -475,7 +475,7 @@ $button-group: (
       border-color: map-get($button-group, 'selected', 'border');
       background-color: map-get($button-group, 'selected', 'background');
       color: map-get($button-group, 'selected', 'font');
-      z-index: 25;
+      z-index: $z-index-event;
       @if map-get($button-group, 'selected', 'shadow') != null {
         box-shadow: map-get($button-group, 'selected', 'shadow');
       }

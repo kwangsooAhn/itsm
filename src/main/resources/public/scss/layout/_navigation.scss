@@ -19,7 +19,7 @@
       height: 3.375rem; // 54px
       padding: 0.9375rem 1.25rem 0.9375rem 1.25rem; // 15px 20px 15px 20px
       background-color: $gray800;
-      z-index: 100;
+      z-index: $z-index-gnb;
     }
 
     .menu {
@@ -27,7 +27,7 @@
       width: 13.75rem; // 220px
       height: calc(100vh - 3.375rem); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이 (54px) 를 제외
       background-color: $gray800;
-      z-index: 100;
+      z-index: $z-index-gnb;
       overflow: auto;
 
       .menu-area {
