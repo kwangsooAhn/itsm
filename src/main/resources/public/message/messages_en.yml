@@ -1411,7 +1411,7 @@ scheduler:
     schedule: "Schedule"
     scheduler: "Scheduler"
     searchPlaceholder: "Schedule Name / Execution Type / Class / Task Type"
-    src:
+    src: "SRC"
     status: "Status"
     taskType: "Task Type"
   msg:
