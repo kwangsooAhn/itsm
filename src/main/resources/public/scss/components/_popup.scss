@@ -1,7 +1,7 @@
 /** 
  * 팝업 디자인
  * components/_popup.scss
- * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
+ * 화면 : 공지사항 팝업
  */
 .popup {
   @include defaultViewTemplate();
@@ -9,20 +9,8 @@
   height: 100vh;
   padding: 1.875rem 2.5rem 0 2.5rem; // 30px 40px 0 40px
   background-color: $white;
-  
-  &__title { margin-bottom: 1.75rem; } //26px
 }
 
-
-// custom-code 대상 선택 팝업
-.custom-code-content-popup {
-  &.view { height: auto; }
-
-  .radio-list {
-    height: 34.375rem; // 550px
-    margin: 1.25rem 0 2.5rem 0; // 20px 0 40px 0
-  }
-}
 // 공지사항 팝업
 .notice-content-popup {
   &.view {

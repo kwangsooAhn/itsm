@@ -11786,7 +11786,7 @@ body.active {
 /** 
  * 팝업 디자인
  * components/_popup.scss
- * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
+ * 화면 : 공지사항 팝업
  */
 .popup {
   width: 100%;
@@ -11835,17 +11835,6 @@ body.active {
 }
 .popup .view-content .view-text {
   margin: 0;
-}
-.popup__title {
-  margin-bottom: 1.75rem;
-}
-
-.custom-code-content-popup.view {
-  height: auto;
-}
-.custom-code-content-popup .radio-list {
-  height: 34.375rem;
-  margin: 1.25rem 0 2.5rem 0;
 }
 
 .notice-content-popup.view {
