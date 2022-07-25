@@ -6,100 +6,24 @@
  * @version 1.0
  */
 .alert {
-  &-active { overflow: hidden !important; }
+  width: 100%;
+  padding: 1.5625rem; // 25px
+  line-height: 1;
 
-  &-wrapper {
-    @include fixed(0, 0, 0, 0);
-    display: none;
+  &__type {
+    width: 3.875rem;  // 62px;
+    height: 3.875rem;
+    margin: 0;
+  }
+
+  &__message {
     overflow: auto;
-    &.alert-active {
-      display: block;
-      z-index: $z-index-alert;
-    }
-  }
-
-  &-backdrop {
-    @include fixed(0, 0, 0, 0);
-    background: hexToRGBA($gray500, 0.5);
-    z-index: $z-index-alert;
-  }
-
-  &-dialog {
-    width: 100%;
-    padding: 1.5625rem; // 25px
-    line-height: 1;
-  }
-
-  &-title {
-    padding: 1em;
-    font-size: $font-size-s;
-    text-align: center;
-    box-sizing: border-box;
-  }
-
-  &-body {
-    overflow: auto;
-    min-height: 3.4375rem;    //55px
-    padding: 0 0 0 3.875rem;  // 0 0 0 62px
-    box-sizing: border-box;
-  }
-
-  &-message {
     display: flex;
     align-items: center;
     min-height: 3.5rem;       // 56px
     font-size: $font-size-s;
     font-weight: $font-weight-medium;
     line-height: 1.7143;
-  }
-
-  &-buttons {
-    text-align: right;
     box-sizing: border-box;
-  }
-
-  &-button {
-    @include border(0.0625rem, solid, $gray300, all);
-    margin: 0 0 0 0.3125rem;
-    padding: 0.4375rem 1.5rem;
-    font-size: $font-size-s;
-    font-weight: $font-weight-medium;
-  }
-
-  &-icon {
-    &-success {
-      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_success.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
-    }
-    &-info {
-      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_info.svg', null, no-repeat, 0, 0.3125rem, null);    // 5px
-    }
-    &-warning {
-      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_warning.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
-    }
-    &-danger {
-      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_danger.svg', null, no-repeat, 0, 0.3125rem, null);  // 5px
-    }
-    &-confirm {
-      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
-    }
-    &-email {
-      @include backgroundImage('#{$icon-folder-path}alert/icon_alert_email.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
-    }
-  }
-}
-
-@media only screen and (max-width:53em) {
-  .gmodal-dialog {
-    top: 0.3125rem;                 // 5px
-    right: 0.3125rem;               // 5px
-    left: 0.3125rem;                // 5px
-    width: auto;
-    margin: 0 auto 0.3125rem auto;  // 5px
-  }
-}
-@media only screen and (max-width:32em) {
-  .gmodal-button {
-    display: block;
-    margin: 0.5em;
   }
 }

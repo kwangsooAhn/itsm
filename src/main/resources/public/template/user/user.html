@@ -117,12 +117,12 @@
                                onchange="isPhoneNumberOrExtenstionNumber('mobileNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                 </div>
-                <div class="flex-column avatar-edit ml-4">
-                    <label class="avatar-title" th:text="#{user.label.avatar}"></label>
+                <div class="flex-column edit-row ml-4">
+                    <label th:text="#{user.label.avatar}"></label>
                     <div id="avatarDropZone"></div>
-                    <div class="avatar-description">
-                        <span class="avatar-text" th:text="#{user.label.FileSizeLimit}"></span>
-                        <span class="avatar-text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                    <div class="avatar__description">
+                        <span class="avatar__description__text" th:text="#{user.label.FileSizeLimit}"></span>
+                        <span class="avatar__description__text" th:text="#{user.label.FileExtensionAllowed}"></span>
                     </div>
                 </div>
             </div>
