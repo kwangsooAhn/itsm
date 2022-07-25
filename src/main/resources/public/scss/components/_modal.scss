@@ -11,7 +11,7 @@ body.active { overflow: hidden !important; }
 .modal {
   @include resetPosition();
   display: none;
-  overflow:auto;
+  overflow: auto;
   z-index: $z-index-modal;
 
   &__backdrop {
