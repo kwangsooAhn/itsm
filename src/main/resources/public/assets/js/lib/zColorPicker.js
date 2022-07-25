@@ -175,7 +175,7 @@ Object.assign(zColorPicker.prototype, {
     autoClose: function (e) {
         if (!aliceJs.clickInsideElement(e, 'color-picker__modal') &&
             !aliceJs.clickInsideElement(e, 'color-picker__box') &&
-            !aliceJs.clickInsideElement(e, 'modal-active')) {
+            !aliceJs.clickInsideElement(e, 'active')) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
                 zAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
