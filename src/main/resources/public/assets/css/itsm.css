@@ -7208,12 +7208,6 @@ span.ic-paging-end-arrow {
  * @author wdj
  * @version 1.0
  */
-.avatar__title {
-  margin: 0.5625rem 0 0.5625rem 0;
-  color: #8B9094;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
 .avatar__description {
   margin-top: 1rem;
 }

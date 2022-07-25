@@ -6,13 +6,6 @@
  * @version 1.0
  */
 .avatar {
-  // 아바타 타이틀
-  &__title {
-    margin: 0.5625rem 0 0.5625rem 0; // 9px
-    color: $gray500;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-  }
   
   // 상세 설명
   &__description {
@@ -34,10 +27,13 @@
       display: inline-block;
       &:first-child { margin-right: 0.625rem; }
     }
+    
     // 상세 설명
-    .avatar__description {
-      vertical-align: top;
-      &__text { font-size: 0.8125rem; } // 13px
+    .avatar {
+      &__description {
+        vertical-align: top;
+        &__text { font-size: 0.8125rem; } // 13px
+      }
     }
     
     // dropzone
