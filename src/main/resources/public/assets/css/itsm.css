@@ -10309,7 +10309,7 @@ select.readonly {
 .file-uploader--edit.disabled .dropzone .dz-preview .dz-details .dz-size {
   color: #ABB0B5;
 }
-.file-uploader--edit .file-uploader__title {
+.file-uploader--edit__title {
   margin: 0.5625rem 0 0.5625rem 0;
   color: #8B9094;
   font-size: 0.875rem;
@@ -10677,13 +10677,13 @@ select.readonly {
   padding: 0.125rem 1.25rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.file-uploader--view .file-uploader__title {
+.file-uploader--view__title {
   margin: auto 0;
   color: #222529;
   font-size: 0.875rem;
   font-weight: 400;
 }
-.file-uploader--view .file-uploader__list {
+.file-uploader--view__list {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10691,7 +10691,7 @@ select.readonly {
   height: 100%;
   text-align: left;
 }
-.file-uploader--view .file-uploader__list .text-no-file {
+.file-uploader--view__list .text-no-file {
   color: #ABB0B5;
   font-size: 0.875rem;
   font-weight: 400;

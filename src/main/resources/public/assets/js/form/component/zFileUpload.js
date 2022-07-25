@@ -82,7 +82,7 @@ export const fileUploadMixin = {
                 .addUIClass('file-uploader--view')
                 .setUIId('fileupload' + this.id);
             // 파일 목록
-            UIViewFileUpload.UIFileList = new UIDiv().setUIClass('file-uploader__list');
+            UIViewFileUpload.UIFileList = new UIDiv().setUIClass('file-uploader--view__list');
             UIViewFileUpload.addUI(UIViewFileUpload.UIFileList);
             // dropzone
             UIViewFileUpload.UIFileList.dropZoneFiles = new UIDiv().setUIId('dropZoneFiles-' + this.id);

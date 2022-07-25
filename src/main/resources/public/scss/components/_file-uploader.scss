@@ -58,7 +58,7 @@
     }
     
     // 제목
-    .file-uploader__title {
+    &__title {
       margin: 0.5625rem 0 0.5625rem 0; // 9px 0 9px 0
       color: $gray500;
       font-size: $font-size-xs;
@@ -335,7 +335,7 @@
     font-family: $font-family;
     
     // 제목
-    .file-uploader__title {
+    &__title {
       margin: auto 0;
       color: $gray800;
       font-size: $font-size-xs;
@@ -343,7 +343,7 @@
     }
     
     // 첨부파일 리스트
-    .file-uploader__list {
+    &__list {
       display: flex;
       flex-direction: column;
       align-items: center;
