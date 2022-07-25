@@ -78,8 +78,7 @@ export const fileUploadMixin = {
         // 읽기 전용일 경우
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UIElement.clearUI();
-            const UIViewFileUpload = new UIDiv().setUIClass('fileupload')
-                .addUIClass('file-uploader--view')
+            const UIViewFileUpload = new UIDiv().setUIClass('file-uploader--view')
                 .setUIId('fileupload' + this.id);
             // 파일 목록
             UIViewFileUpload.UIFileList = new UIDiv().setUIClass('file-uploader--view__list');
