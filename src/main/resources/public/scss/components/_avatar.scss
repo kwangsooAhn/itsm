@@ -6,7 +6,6 @@
  * @version 1.0
  */
 .avatar {
-  
   // 상세 설명
   &__description {
     margin-top: 1rem; // 16px
@@ -19,56 +18,14 @@
       text-align: left;
     }
   }
-  
-  // 회원 가입시 아바타는 기존 크기보다 작다.
-  &--small {
-    margin-bottom: 1.25rem; // 20px
-    > div {
-      display: inline-block;
-      &:first-child { margin-right: 0.625rem; }
-    }
-    
-    // 상세 설명
-    .avatar {
-      &__description {
-        vertical-align: top;
-        &__text { font-size: 0.8125rem; } // 13px
-      }
-    }
-    
-    // dropzone
-    .avatar {
-      width: 9.375rem; // 150px
-      height: 9.375rem; // 150px
-      padding: 0;
 
-      .dz-message {
-        margin-top: 1.25rem; // 20px
-        // 이미지 축소
-        .ic-avatar {
-          height: 2.813rem; // 45px
-          margin-bottom: 0.9375rem; // 15px
-          -webkit-mask-size: 2.813rem;
-          mask-size: 2.813rem;
-        }
-
-        span { font-size: 0.8125rem; } // 13px
-      }
-    }
-  }
-}
-
-
-// dropzone
-.avatar {
+  // dropzone
   @include border(0.0625rem, solid, $gray300, all); // 1px
   width: 20.63rem; // 330px
   height: 20.63rem; // 330px
   padding: 0;
   background-color: $neutral50;
-
-  // drag and drop 영역
-  .dz-default {
+  .dz-default { // drag and drop 영역
     margin: 1.875rem 0;
     // Drop files here to upload or browse 문구
     &.dz-message {
@@ -98,8 +55,7 @@
       .dz-message { opacity: 0.5; }
     }
   }
-  // 업로드된 파일 미리보기
-  .dz-preview {
+  .dz-preview { // 업로드된 파일 미리보기
     @include relative();
     height: 100%;
     padding: 0;
@@ -154,4 +110,38 @@
     .dz-progress { display: none; }
   }
   &.dz-started .dz-message { display: none; }
+
+  // 회원 가입의 아바타는 기존 크기보다 작다.
+  &--small {
+    margin-bottom: 1.25rem; // 20px
+    > div {
+      display: inline-block;
+      &:first-child { margin-right: 0.625rem; }
+    }
+    
+    .avatar {
+      // 상세 설명
+      &__description {
+        vertical-align: top;
+        &__text { font-size: 0.8125rem; } // 13px
+      }
+      
+      // dropzone
+      width: 9.375rem; // 150px
+      height: 9.375rem; // 150px
+      padding: 0;
+      .dz-message {
+        margin-top: 1.25rem; // 20px
+        // 이미지 축소
+        .ic-avatar {
+          height: 2.813rem; // 45px
+          margin-bottom: 0.9375rem; // 15px
+          -webkit-mask-size: 2.813rem;
+          mask-size: 2.813rem;
+        }
+
+        span { font-size: 0.8125rem; } // 13px
+      }
+    }
+  }
 }

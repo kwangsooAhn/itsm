@@ -7208,6 +7208,13 @@ span.ic-paging-end-arrow {
  * @author wdj
  * @version 1.0
  */
+.avatar {
+  border: 0.0625rem solid #CFD5D9;
+  width: 20.63rem;
+  height: 20.63rem;
+  padding: 0;
+  background-color: #FAFAFA;
+}
 .avatar__description {
   margin-top: 1rem;
 }
@@ -7218,46 +7225,6 @@ span.ic-paging-end-arrow {
   font-size: 0.875rem;
   font-weight: 400;
   text-align: left;
-}
-.avatar--small {
-  margin-bottom: 1.25rem;
-}
-.avatar--small > div {
-  display: inline-block;
-}
-.avatar--small > div:first-child {
-  margin-right: 0.625rem;
-}
-.avatar--small .avatar__description {
-  vertical-align: top;
-}
-.avatar--small .avatar__description__text {
-  font-size: 0.8125rem;
-}
-.avatar--small .avatar {
-  width: 9.375rem;
-  height: 9.375rem;
-  padding: 0;
-}
-.avatar--small .avatar .dz-message {
-  margin-top: 1.25rem;
-}
-.avatar--small .avatar .dz-message .ic-avatar {
-  height: 2.813rem;
-  margin-bottom: 0.9375rem;
-  -webkit-mask-size: 2.813rem;
-  mask-size: 2.813rem;
-}
-.avatar--small .avatar .dz-message span {
-  font-size: 0.8125rem;
-}
-
-.avatar {
-  border: 0.0625rem solid #CFD5D9;
-  width: 20.63rem;
-  height: 20.63rem;
-  padding: 0;
-  background-color: #FAFAFA;
 }
 .avatar .dz-default {
   margin: 1.875rem 0;
@@ -7373,6 +7340,38 @@ span.ic-paging-end-arrow {
 }
 .avatar.dz-started .dz-message {
   display: none;
+}
+.avatar--small {
+  margin-bottom: 1.25rem;
+}
+.avatar--small > div {
+  display: inline-block;
+}
+.avatar--small > div:first-child {
+  margin-right: 0.625rem;
+}
+.avatar--small .avatar {
+  width: 9.375rem;
+  height: 9.375rem;
+  padding: 0;
+}
+.avatar--small .avatar__description {
+  vertical-align: top;
+}
+.avatar--small .avatar__description__text {
+  font-size: 0.8125rem;
+}
+.avatar--small .avatar .dz-message {
+  margin-top: 1.25rem;
+}
+.avatar--small .avatar .dz-message .ic-avatar {
+  height: 2.813rem;
+  margin-bottom: 0.9375rem;
+  -webkit-mask-size: 2.813rem;
+  mask-size: 2.813rem;
+}
+.avatar--small .avatar .dz-message span {
+  font-size: 0.8125rem;
 }
 
 /* _button.scss
