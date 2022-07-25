@@ -11731,16 +11731,71 @@ body.active {
   padding: 0;
 }
 
-/* _paging.scss
+/* _pagination.scss
  *
- * 파일 경로 : components/_paging.scss
+ * 파일 경로 : components/_pagination.scss
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
+.pagination {
+  padding: 1.875rem 3.75rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
+.pagination__arrow {
+  border: 0.0625rem solid #CFD5D9;
+  cursor: text;
+}
+.pagination__arrow:not(:first-child) {
+  border-left: 0;
+}
+.pagination__arrow.active {
+  cursor: pointer;
+}
+.pagination__arrow.active span[class*=ic-] {
+  background: #19428D;
+}
+.pagination__number a {
+  border: 0.0625rem solid #CFD5D9;
+  display: inline-block;
+  min-width: 1.5625rem;
+  height: 100%;
+  border-left: 0;
+  color: #222529;
+  font-weight: 400;
+  text-align: center;
+}
+.pagination__number a:hover {
+  background-color: #D6EDFC;
+  color: #222529;
+}
+.pagination__number a:active {
+  background-color: #EBF1F5;
+  color: #19428D;
+  font-weight: 700;
+}
+.pagination__number a.selected {
+  background-color: #EBF1F5;
+  color: #19428D;
+  font-weight: 700;
+}
+.pagination #pagingStartArrow {
+  border-top-left-radius: 0.15rem;
+  border-bottom-left-radius: 0.15rem;
+}
+.pagination #pagingEndArrow {
+  border-top-right-radius: 0.15rem;
+  border-bottom-right-radius: 0.15rem;
+}
+.pagination #spanCurrentPageNum {
+  position: absolute !important;
+  right: 3.75rem;
+  color: #757575;
+  font-weight: 500;
+}
+
 .page-paging {
-  display: flex;
-  flex-direction: row !important;
-  justify-content: center;
   padding: 1.875rem 3.75rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
@@ -11773,12 +11828,12 @@ body.active {
   background-color: #D6EDFC;
   color: #222529;
 }
-.page-paging .paging-numbers a.selected-page {
+.page-paging .paging-numbers a:active {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;
 }
-.page-paging .paging-numbers a:active {
+.page-paging .paging-numbers a.selected {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;

@@ -13,7 +13,7 @@ const PAGING_DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
     pageNumSelector : 'div.paging-numbers a', // 페이지 번호 목록 셀렉터
-    selectedPage : 'selected-page' // 선택된 페이지 번호용 클래스 이름
+    selectedPage : 'selected' // 선택된 페이지 번호용 클래스 이름
 };
 export default class ZPaging {
     constructor(options) {
