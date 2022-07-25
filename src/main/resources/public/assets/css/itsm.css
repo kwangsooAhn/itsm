@@ -7124,6 +7124,11 @@ span.ic-alert-email {
  * @author jy.lim
  * @version 1.0
  */
+.alert {
+  width: 100%;
+  padding: 1.5625rem;
+  line-height: 1;
+}
 .alert__type {
   width: 3.875rem;
   height: 3.875rem;
