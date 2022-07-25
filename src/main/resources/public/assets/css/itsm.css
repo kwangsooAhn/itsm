@@ -11788,36 +11788,36 @@ body.active {
  * components/_popup.scss
  * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
  */
-.itsm-popup {
+.popup {
   width: 100%;
   height: 100vh;
   padding: 1.875rem 2.5rem 0 2.5rem;
   background-color: #FFFFFF;
 }
-.itsm-popup .view {
+.popup .view {
   height: 100vh;
 }
-.itsm-popup .view .view-row {
+.popup .view .view-row {
   margin: 0.625rem 0 0 0;
 }
-.itsm-popup .view .view-row .btn__list {
+.popup .view .view-row .btn__list {
   margin-top: 1.875rem;
 }
-.itsm-popup .view-title {
+.popup .view-title {
   border-bottom: 0.125rem solid #CFD5D9;
   padding-bottom: 0.625rem;
   color: #222529;
   font-size: 1.125rem;
   font-weight: 500;
 }
-.itsm-popup .view-sub-title {
+.popup .view-sub-title {
   padding: 0 1.25rem;
   color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
-.itsm-popup .view-content {
+.popup .view-content {
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
   color: #424242;
@@ -11825,7 +11825,7 @@ body.active {
   font-weight: 500;
   line-height: 1.6;
 }
-.itsm-popup .view-content pre {
+.popup .view-content pre {
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -11833,23 +11833,25 @@ body.active {
   white-space: -moz-pre-wrap;
   word-break: break-all;
 }
-.itsm-popup .view-content .view-text {
+.popup .view-content .view-text {
   margin: 0;
 }
-.itsm-popup .popup-title {
+.popup__title {
   margin-bottom: 1.75rem;
 }
-.itsm-popup .custom-code-content-popup.view {
+
+.custom-code-content-popup.view {
   height: auto;
 }
-.itsm-popup .custom-code-content-popup .radio-list {
+.custom-code-content-popup .radio-list {
   height: 34.375rem;
   margin: 1.25rem 0 2.5rem 0;
 }
-.itsm-popup .notice-content-popup.view {
+
+.notice-content-popup.view {
   height: auto;
 }
-.itsm-popup .notice-content-popup.view .view-row .checkbox {
+.notice-content-popup.view .view-row .checkbox {
   padding-bottom: 1.25rem;
 }
 
