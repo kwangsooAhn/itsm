@@ -352,7 +352,7 @@
       text-align: left;
       
       // 첨부 파일 미존재시
-      .text-no-file {
+      .file-uploader--noFile {
         color: $gray400;
         font-size: $font-size-xs;
         font-weight: $font-weight-regular;

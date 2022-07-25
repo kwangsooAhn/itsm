@@ -10691,7 +10691,7 @@ select.readonly {
   height: 100%;
   text-align: left;
 }
-.file-uploader--view__list .text-no-file {
+.file-uploader--view__list .file-uploader--noFile {
   color: #ABB0B5;
   font-size: 0.875rem;
   font-weight: 400;
