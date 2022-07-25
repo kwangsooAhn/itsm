@@ -314,7 +314,7 @@ $button-themes-social: (
           border: none;
         }
 
-        + .page-paging {
+        + .pagination {
           padding: 0 13.75rem 1.875rem 13.75rem; // 0 220px 30px 220px
           #spanCurrentPageNum { @include absolute($right: 13.75rem); }
         }
