@@ -11578,13 +11578,13 @@ body.active {
   height: 3.5rem;
 }
 
-.notification .icon-notification {
+.notification__ic .ic-notification {
   height: 1.5rem;
 }
-.notification .icon-notification.active .notification-round {
+.notification__ic .ic-notification.active .ic-notification__round {
   fill: #3373C4;
 }
-.notification .icon-notification:hover {
+.notification__ic .ic-notification:hover {
   cursor: pointer;
 }
 .notification-panel {
@@ -11601,37 +11601,37 @@ body.active {
   color: #222529;
   z-index: 25;
 }
-.notification-header {
+.notification__header {
   display: flex;
   align-items: baseline;
   height: 2.5rem;
   padding: 0 0.938rem;
   background-color: #3373C4;
 }
-.notification-header span {
+.notification__header span {
   display: inline-block;
   color: #FFFFFF;
   font-size: 0.875rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 400;
 }
-.notification-header span.title {
+.notification__header span__title {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
 }
-.notification-header span.message {
+.notification__header span__message {
   margin-left: 0.625rem;
 }
-.notification-header span.ic-remove {
+.notification__header span.ic-remove {
   margin-left: auto;
   background: #FFFFFF;
 }
-.notification-body {
+.notification__body {
   overflow-y: auto;
   max-height: 20.63rem;
 }
-.notification-body .noData {
+.notification__body .noData {
   height: 6.875rem;
   padding: 3rem;
 }

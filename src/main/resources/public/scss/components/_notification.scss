@@ -7,14 +7,17 @@
 // * alice-toastify
 //   - toastify를 커스텀하여 생성되며, 우측 하단에서 설정 값에 따라 n초 간 노출되는 요소
 // *********************************************************************************************************************
-
 .notification {
-  // notification icon 영역
-  .icon-notification {
-    height: 1.5rem; // 24px
-    &.active .notification-round {  fill: $blue500; }
-    &:hover { cursor: pointer; }
+  // icon
+  &__ic {
+    // notification icon 영역
+    .ic-notification {
+      height: 1.5rem; // 24px
+      &.active .ic-notification__round {  fill: $blue500; }
+      &:hover { cursor: pointer; }
+    }
   }
+  
   // .notification hover 시 노출되는 영역 전반
   &-panel {
     @include relative($left: 70.8rem, $bottom: 0); // 좌측 간격 1132.8px
@@ -28,7 +31,7 @@
   }
 
   // notification 상단 영역 
-  &-header {
+  &__header {
     display: flex;
     align-items: baseline;
     height: 2.5rem; // 40px
@@ -42,12 +45,12 @@
       font-weight: $font-weight-regular;
 
       // header 내부 컨텐츠
-      &.title {
+      &__title {
         font-size: $font-size-s;
         font-family: $font-family;
         font-weight: $font-weight-medium;
       }
-      &.message { margin-left: 0.625rem; }  // 10px
+      &__message { margin-left: 0.625rem; }  // 10px
 
       // 우측 상단 X 버튼
       &.ic-remove {
@@ -58,7 +61,7 @@
   }
 
   // notification의 contents들이 나열되는 영역
-  &-body {
+  &__body {
     overflow-y: auto;
     max-height: 20.63rem;    // 330px
     .noData {
@@ -66,6 +69,7 @@
       padding: 3rem; // 48px
     }
   }
+  
   &-content {
     @include border(0.063rem, solid, $neutral200, bottom); // 1px
     height: 6.875rem; // 110px
