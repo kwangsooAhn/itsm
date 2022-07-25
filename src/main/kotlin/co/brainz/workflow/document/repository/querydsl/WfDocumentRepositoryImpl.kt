@@ -63,7 +63,8 @@ class WfDocumentRepositoryImpl :
                     // search documents
                     document.documentType.`in`(
                         DocumentConstants.DocumentType.APPLICATION_FORM.value,
-                        DocumentConstants.DocumentType.APPLICATION_FORM_WORKFLOW.value
+                        DocumentConstants.DocumentType.APPLICATION_FORM_WORKFLOW.value,
+                        DocumentConstants.DocumentType.WORKFLOW.value
                     )
                 },
                 if (documentSearchCondition.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
