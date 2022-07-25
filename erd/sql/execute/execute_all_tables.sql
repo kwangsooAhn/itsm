@@ -106,7 +106,7 @@ insert into awf_code values ('cmdb.relation.type', 'cmdb', 'cmdb.relation.type',
 insert into awf_code values ('cmdb.relation.type.default', 'cmdb.relation.type', 'default', 'default', '기본 연관', true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind', '', null, '데이터베이스', 'cmdb 데이터데이스 종류', true, TRUE, 1, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.oracle', 'cmdb.db.kind', 'oracle', 'Oracle', 'cmdb 데이터데이스 종류', true, TRUE, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('cmdb.db.kind.postgresql', 'cmdb.db.kind', 'postgresql', 'Postresql', '', true, TRUE, 2, 2,  '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('cmdb.db.kind.postgresql', 'cmdb.db.kind', 'postgresql', 'Postgresql', '', true, TRUE, 2, 2,  '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.mssql', 'cmdb.db.kind', 'mssql','MSSQL', '', true, TRUE, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.mysql', 'cmdb.db.kind', 'mysql','MYSQL', '', true, TRUE, 2, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('cmdb.db.kind.tibero', 'cmdb.db.kind', 'tibero','TIBERO', '', true, TRUE, 2, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -9811,7 +9811,7 @@ INSERT INTO cmdb_ci_icon VALUES (6, 'image_mariadb', 'png', false, '2c91808e7c75
 INSERT INTO cmdb_ci_icon VALUES (7, 'image_mssql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (8, 'image_mysql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (9, 'image_oracle', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
-INSERT INTO cmdb_ci_icon VALUES (10, 'image_postresql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (10, 'image_postgresql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (11, 'image_server', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (12, 'image_snmp', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (13, 'image_software', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
