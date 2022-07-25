@@ -23,19 +23,48 @@
 }
 
 @include horizontalBar(0.0625rem,  0.625rem 0, $gray400);
+
 .file-uploader {
   // edit 모드
-  &-edit {
-    display: flex;
-    flex-direction: column;
+  &--edit {
     font-family: $font-family;
+    // disabled
+    &.disabled {
+      pointer-events: none;
+
+      // dropzone
+      .dropzone {
+        .dz-default {
+          @include border(0.0625rem, solid, $gray300, all);
+          background-color: $neutral200;
+          &.dz-message { color: $gray400; }
+        }
+
+        .dz-preview {
+          @include border(0.0625rem, solid, $gray300, all);
+          background-color: $neutral200;
+
+          .dz-details {
+            .dz-file-type { filter: grayscale(1); }
+            .dz-download,
+            .dz-remove {
+              [class*="ic-"] { background: $gray400; }
+            }
+            .dz-filename,
+            .dz-size { color: $gray400; }
+          }
+        }
+      }
+    }
+    
     // 제목
-    .file-uploader-title {
+    .file-uploader__title {
       margin: 0.5625rem 0 0.5625rem 0; // 9px 0 9px 0
       color: $gray500;
       font-size: $font-size-xs;
       font-weight: $font-weight-bold;
     }
+
     // dropzone
     .dropzone {
       min-height: 4.5rem; // 72px
@@ -87,7 +116,7 @@
         }
 
         &.dz-drag-hover {
-         border-style: solid;
+          border-style: solid;
           .dz-message { opacity: 0.5; }
         }
       }
@@ -295,56 +324,33 @@
         }
       }
     }
-
-    // disabled
-    &.disabled {
-      pointer-events: none;
-      .dropzone {
-        .dz-default {
-          @include border(0.0625rem, solid, $gray300, all);
-          background-color: $neutral200;
-          &.dz-message { color: $gray400; }
-        }
-
-        .dz-preview {
-          @include border(0.0625rem, solid, $gray300, all);
-          background-color: $neutral200;
-
-          .dz-details {
-            .dz-file-type { filter: grayscale(1); }
-            .dz-download,
-            .dz-remove {
-              [class*="ic-"] { background: $gray400; }
-            }
-            .dz-filename,
-            .dz-size { color: $gray400; }
-          }
-        }
-      }
-    }
   }
+  
   // view 모드
-  &-view {
+  &--view {
     display: flex;
     align-items: center;
     min-height: 3.125rem; // 50px
     padding: 0.125rem 1.25rem; // 2px 20px
     font-family: $font-family;
+    
     // 제목
-    .file-uploader-title {
+    .file-uploader__title {
       margin: auto 0;
       color: $gray800;
       font-size: $font-size-xs;
       font-weight: $font-weight-regular;
     }
+    
     // 첨부파일 리스트
-    .file-uploader-list {
+    .file-uploader__list {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100%;
       text-align: left;
+      
       // 첨부 파일 미존재시
       .text-no-file {
         color: $gray400;
@@ -352,6 +358,7 @@
         font-weight: $font-weight-regular;
       }
     }
+    
     // dropzone
     .dropzone {
       &.dz-uploaded {
