@@ -106,7 +106,7 @@ GET /rest/portals/top
 
 ### URL
 ```
-GET /rest/portals/filenameextensions
+GET /rest/portals/file/extensions
 ```
 
 ### Response Sample
@@ -126,7 +126,7 @@ GET /rest/portals/filenameextensions
 
 ### URL
 ```
-GET /rest/portals/filelist
+GET /rest/portals/files
 ```
 
 ### Parameter Sample
@@ -164,7 +164,7 @@ GET /rest/portals/filelist
 
 ### URL
 ```
-GET /rest/portals/filedownload
+GET /rest/portals/file/download
 ```
 
 ### Parameter Sample

@@ -563,7 +563,7 @@
             formData.append('file', blob, zProcessDesigner.data.process.id + '.xml');
 
             let xhr = new XMLHttpRequest();
-            xhr.open('POST', '/fileupload?target=process');
+            xhr.open('POST', '/rest/resources/file/upload?type=process');
             xhr.onerror = function() {
                 console.error('Process file upload failed!');
             };

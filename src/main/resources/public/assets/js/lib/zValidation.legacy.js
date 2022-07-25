@@ -20,6 +20,7 @@ const spcialKeyAscilCodeList = [9, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 3
 const phoneReg = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
 const extensionNumberReg = /^[0-9]{4}$/;
 const urlReg = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/;
+const fileNameReg = /^(?!\.)(?!com[0-9]$)(?!con$)(?!lpt[0-9]$)(?!nul$)(?!prn$)[^\|\*\?\\:<>/$"]*[^\.\|\*\?\\:<>/$"]+$/;
 
 /**
  * 해당 엘리먼트가 null 인지 판별한다.
@@ -828,3 +829,19 @@ function isSpecialChar(elementId, messageId, callbackFunc) {
     return false;
 }
 
+function isFileName(elementId, messageId, callbackFunc) {
+    const elem = isNullElement(elementId);
+    const callback = (typeof callbackFunc === 'function') ? callbackFunc : function() {
+        elem.focus();
+    };
+    if (elem !== null) {
+        if (!(elem.value).match(fileNameReg)) {
+            if (messageId !== undefined) {
+                zAlert.warning(i18n.msg(messageId), callback);
+            }
+            return false;
+        }
+        return true;
+    }
+    return false;
+}

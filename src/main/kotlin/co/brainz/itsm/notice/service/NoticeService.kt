@@ -8,8 +8,8 @@ package co.brainz.itsm.notice.service
 
 import co.brainz.framework.auth.constants.AuthConstants
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.fileTransaction.dto.AliceFileDto
-import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.framework.resourceManager.dto.AliceFileDto
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class NoticeService(
     private val noticeRepository: NoticeRepository,
-    private val aliceFileService: AliceFileService,
+    private val aliceResourceProvider: AliceResourceProvider,
     private val userService: UserService
 ) {
 
@@ -104,7 +104,7 @@ class NoticeService(
             )
         )
         if (savedNotice.noticeNo.isNotEmpty()) {
-            aliceFileService.upload(
+            aliceResourceProvider.setUploadFileLoc(
                 AliceFileDto(
                     ownId = savedNotice.noticeNo,
                     fileSeq = noticeDto.fileSeq,
@@ -136,7 +136,7 @@ class NoticeService(
             noticeEntity.topNoticeEndDt = noticeDto.topNoticeEndDt
             noticeEntity.topNoticeYn = noticeDto.topNoticeYn
             noticeRepository.save(noticeEntity)
-            aliceFileService.upload(
+            aliceResourceProvider.setUploadFileLoc(
                 AliceFileDto(
                     ownId = noticeEntity.noticeNo,
                     fileSeq = noticeDto.fileSeq,
@@ -158,7 +158,7 @@ class NoticeService(
         var status = ZResponseConstants.STATUS.SUCCESS
         try {
             noticeRepository.deleteById(noticeNo)
-            aliceFileService.delete(noticeNo)
+            aliceResourceProvider.deleteByOwnId(noticeNo)
         } catch (e: Exception) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
             e.printStackTrace()

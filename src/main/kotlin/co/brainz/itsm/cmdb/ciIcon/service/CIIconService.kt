@@ -5,11 +5,11 @@
 
 package co.brainz.itsm.cmdb.ciIcon.service
 
-import co.brainz.framework.fileTransaction.constants.ResourceConstants
-import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.resourceManager.constants.ResourceConstants
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.framework.util.AliceFileUtil
+import co.brainz.framework.util.AliceResourceUtil
 import co.brainz.itsm.cmdb.ciIcon.dto.CIIconDto
 import co.brainz.itsm.cmdb.ciIcon.dto.CIIconListReturnDto
 import co.brainz.itsm.cmdb.ciIcon.entity.CIIconEntity
@@ -28,9 +28,9 @@ import org.springframework.web.multipart.MultipartFile
 @Transactional
 class CIIconService(
     private val ciIconRepo: CIIconRepository,
-    private val fileProvider: AliceFileProvider,
+    private val resourceProvider: AliceResourceProvider,
     environment: Environment
-): AliceFileUtil(environment) {
+): AliceResourceUtil(environment) {
 
     /**
      * CMDB CI Icon 목록 조회
@@ -39,15 +39,15 @@ class CIIconService(
      */
     fun getCIIcons(search: String, offset: Int): CIIconListReturnDto {
         val type = ResourceConstants.FileType.CI_ICON.code
-        val dirPath = getExternalPath(type)
-        val fileList = fileProvider.getValidFileList(type, dirPath, search)
+        val dirPath = resourceProvider.getExternalPath(type)
+        val fileList = resourceProvider.getValidFileList(type, dirPath, search)
         val iconList = ciIconRepo.findAll()
         val dataList = mutableListOf<CIIconDto>()
         var startIndex = 0
         if (offset != -1) { startIndex = offset }
 
-        val extList = fileProvider.getAllowedImageExtensions()
-        for (i in startIndex until fileProvider.getImageListEndIndex(offset, fileList.size)) {
+        val extList = resourceProvider.getAllowedExtensions(type)
+        for (i in startIndex until resourceProvider.getImageListEndIndex(offset, fileList.size)) {
             val file = fileList[i].toFile()
             // 이미지 파일만 업로드
             if (extList.contains(file.extension.toLowerCase())) {
@@ -73,7 +73,7 @@ class CIIconService(
         return CIIconListReturnDto(
             data = dataList,
             totalCount = fileList.size.toLong(),
-            totalCountWithoutCondition = fileProvider.getFileTotalCount(dirPath)
+            totalCountWithoutCondition = resourceProvider.getFileTotalCount(dirPath)
         )
     }
 
@@ -82,9 +82,10 @@ class CIIconService(
      * @param multipartFiles 파일목록
      */
     fun uploadCIIcons(multipartFiles: List<MultipartFile>): ZResponse {
+        val type = ResourceConstants.FileType.CI_ICON.code
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dirPath = getExternalPath(ResourceConstants.FileType.CI_ICON.code)
-        val extList = fileProvider.getAllowedImageExtensions()
+        val dirPath = resourceProvider.getExternalPath(type)
+        val extList = resourceProvider.getAllowedExtensions(type)
         try {
             multipartFiles.forEach {
                 var filePath = Paths.get(dirPath.toString() + File.separator + it.originalFilename)
@@ -127,7 +128,7 @@ class CIIconService(
      */
     fun renameCIIcon(originName: String, modifyName: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dirPath = getExternalPath(ResourceConstants.FileType.CI_ICON.code)
+        val dirPath = resourceProvider.getExternalPath(ResourceConstants.FileType.CI_ICON.code)
         val filePath = Paths.get(dirPath.toString() + File.separator + originName)
         val file = filePath.toFile()
         val modifyFile = File(dirPath.toFile(), modifyName)
@@ -160,7 +161,7 @@ class CIIconService(
      */
     fun deleteCIIcon(name: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        val dirPath = getExternalPath(ResourceConstants.FileType.CI_ICON.code)
+        val dirPath = resourceProvider.getExternalPath(ResourceConstants.FileType.CI_ICON.code)
         val filePath = Paths.get(dirPath.toString() + File.separator + name)
         try {
             Files.delete(filePath)

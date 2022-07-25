@@ -36,7 +36,7 @@ INSERT INTO cmdb_ci_icon VALUES (6, 'image_mariadb', 'png', false, '2c91808e7c75
 INSERT INTO cmdb_ci_icon VALUES (7, 'image_mssql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (8, 'image_mysql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (9, 'image_oracle', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
-INSERT INTO cmdb_ci_icon VALUES (10, 'image_postresql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+INSERT INTO cmdb_ci_icon VALUES (10, 'image_postgresql', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (11, 'image_server', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (12, 'image_snmp', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (13, 'image_software', 'png', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);

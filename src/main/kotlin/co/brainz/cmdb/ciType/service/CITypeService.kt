@@ -16,9 +16,8 @@ import co.brainz.cmdb.dto.CITypeListDto
 import co.brainz.cmdb.dto.CITypeReturnDto
 import co.brainz.cmdb.dto.CITypeTreeListDto
 import co.brainz.cmdb.dto.SearchDto
-import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.fileTransaction.constants.ResourceConstants
-import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.resourceManager.constants.ResourceConstants
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants.Status
 import co.brainz.itsm.cmdb.ciType.dto.CITypeTreeReturnDto
 import java.io.File
@@ -29,8 +28,7 @@ import org.springframework.stereotype.Service
 class CITypeService(
     private val ciTypeRepository: CITypeRepository,
     private val ciClassRepository: CIClassRepository,
-    private val aliceUserRepository: AliceUserRepository,
-    private val aliceFileProvider: AliceFileProvider
+    private val aliceResourceProvider: AliceResourceProvider
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -218,7 +216,7 @@ class CITypeService(
     fun getCITypeImageData(ciTypeIconName: String): String {
         // todo #10536 아이콘 선택값이 없을 경우 기본 아이콘 처리
         return when (ciTypeIconName != "") {
-            true -> aliceFileProvider.getDataUriSchema(
+            true -> aliceResourceProvider.getDataUriSchema(
                 ResourceConstants.Path.ICON_CI_TYPE.path + File.separator + ciTypeIconName
             )
             false -> ""
