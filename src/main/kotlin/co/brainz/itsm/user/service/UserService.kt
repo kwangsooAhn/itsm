@@ -961,7 +961,7 @@ class UserService(
      * @param avatarUUID
      */
     private fun setUploadAvatar(userEntity: AliceUserEntity, avatarUUID: String) {
-        when (avatarUUID.isNotBlank()) {
+        when (avatarUUID.isNotEmpty()) {
             true -> {
                 val tempDir = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.AVATAR_TEMP.code)
                 val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)

@@ -16,7 +16,6 @@ import co.brainz.cmdb.dto.CITypeListDto
 import co.brainz.cmdb.dto.CITypeReturnDto
 import co.brainz.cmdb.dto.CITypeTreeListDto
 import co.brainz.cmdb.dto.SearchDto
-import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.resourceManager.constants.ResourceConstants
 import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.itsm.cmdb.ciType.constants.CITypeConstants.Status
@@ -29,7 +28,6 @@ import org.springframework.stereotype.Service
 class CITypeService(
     private val ciTypeRepository: CITypeRepository,
     private val ciClassRepository: CIClassRepository,
-    private val aliceUserRepository: AliceUserRepository,
     private val aliceResourceProvider: AliceResourceProvider
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
