@@ -5,11 +5,14 @@
 
 package co.brainz.itsm.serviceCategory.dto
 
+import co.brainz.framework.validator.CheckUnacceptableCharInUrl
 import java.io.Serializable
 import java.time.LocalDate
 
 data class ServiceCategoryDto(
+    @CheckUnacceptableCharInUrl
     val serviceCode: String = "",
+    @CheckUnacceptableCharInUrl
     val pServiceCode: String? = null,
     val serviceName: String = "",
     val serviceDesc: String? = null,

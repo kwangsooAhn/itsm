@@ -94,12 +94,15 @@
     /*<![CDATA[*/
     let observer = aliceJs.pageObserver;
     let startDate = i18n.getDate();
+    /* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
+    const specialCharInServiceCode = /[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자 포함 (. 제외)
 
     window.addEventListener('load', function() {
         observer.set();
-        document.getElementById('searchValue').focus();
-
+        onCreate();
         getServiceList();
+
+        document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getServiceList()), false);
 
         OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
@@ -124,6 +127,8 @@
                 inheritedAttrs: 'class'
             }
         });
+        zDateTimePicker.initDatePicker(document.getElementById('startDate'), setDatePicker);
+        zDateTimePicker.initDatePicker(document.getElementById('endDate'), setDatePicker);
     });
 
     /** service list **/
@@ -181,8 +186,6 @@
             // 서비스 종료일자
             const endDt = document.getElementById('endDate');
             endDt.value = response.data.endDate;
-            zDateTimePicker.initDatePicker(startDt, setDatePicker);
-            zDateTimePicker.initDatePicker(endDt, setDatePicker);
 
             // 편집 가능 여부에 따른 처리
             if (response.data.editable) {
@@ -249,6 +252,7 @@
         });
         document.getElementById('serviceDesc').readOnly = false;
         document.getElementById('avaGoal').readOnly = false;
+        document.getElementById('useYn').disabled = false;
 
         // 서비스 코드
         const serviceCode = document.getElementById('serviceCode');
@@ -292,6 +296,12 @@
             useYn: document.getElementById('useYn').checked,
             seqNum: document.getElementById('seqNum').value
         };
+
+        // 서비스 코드 특수문자 체크
+        if (specialCharInServiceCode.test(jsonData.serviceCode)) {
+            zAlert.warning('[(#{service.msg.checkPositionFormat})]');
+            return false;
+        }
 
         if (jsonData.serviceCode === null || jsonData.serviceCode.trim() === '') {
             zAlert.warning('[(#{service.msg.enterServiceCode})]');

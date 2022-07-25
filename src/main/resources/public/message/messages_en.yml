@@ -1466,6 +1466,7 @@ service:
     editDescription: "Add, view and manage Service Category."
     enterServiceCode: "Please enter the service code."
     enterServiceName: "Please enter the service name."
+    checkPositionFormat: "Service code is contains special characters that are not allowed."
 
 # sla
 sla:
