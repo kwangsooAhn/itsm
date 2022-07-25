@@ -107,58 +107,6 @@ $custom-color-plus: (
       min-height: 4.875rem; // 78px
       padding:  0.75rem; // 12px
 
-      // 편집 버튼
-      .btn__ic--edit {
-        @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
-        visibility: hidden;
-      }
-
-      // [+] 버튼
-      .btn__ic--plus {
-        @include border(0.0625rem, solid, map-get($custom-color-plus, 'default', 'border'), all);
-        @include borderRadius(0.125rem); // 2px
-        display: none;
-        width: 1.75rem; // 28px;
-        height: 1.75rem; // 28px;
-        padding: 0 0.0625rem; // 0px 1px
-        background-color: map-get($custom-color-plus, 'default', 'background');
-        @if map-get($custom-color-plus, 'default', 'shadow') != null {
-          box-shadow: map-get($custom-color-plus, 'default', 'shadow');
-        }
-
-        .ic-plus {
-          width: 0.625rem; // 10px
-          height: 0.625rem; // 10px
-          background: map-get($custom-color-plus, 'default', 'font');
-        }
-
-        &:focus {
-          border-color: map-get($custom-color-plus, 'focus', 'border');
-          background-color: map-get($custom-color-plus, 'focus', 'background');
-          @if map-get($custom-color-plus, 'focus', 'shadow') != null {
-            box-shadow: map-get($custom-color-plus, 'focus', 'shadow');
-          }
-          .ic-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
-        }
-        &:hover {
-          background-color: map-get($custom-color-plus, 'hover', 'background');
-          border-color: map-get($custom-color-plus, 'hover', 'border');
-          @if map-get($custom-color-plus, 'hover', 'shadow') != null {
-            box-shadow: map-get($custom-color-plus, 'hover', 'shadow');
-          }
-          .ic-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
-        }
-        &:enabled:active,
-        &:enabled.active {
-          background-color: map-get($custom-color-plus, 'active', 'background');
-          border-color: map-get($custom-color-plus, 'active', 'border');
-          @if map-get($custom-color-plus, 'active', 'shadow') != null {
-            box-shadow: map-get($custom-color-plus, 'active', 'shadow');
-          }
-          .ic-plus { background: map-get($custom-color-plus, 'active', 'font'); }
-        }
-      }
-
       // 사용자 색상 목록 영역
       &__list {
         margin: 0.75rem 0 0.5rem 0; // 12px 0 8px 0
@@ -244,6 +192,60 @@ $custom-color-plus: (
         .btn__list {
           width: 100%;
           text-align: right;
+        }
+      }
+      
+      // icon
+      .custom-color-btn__ic {
+        // 편집 버튼
+        &--edit {
+          @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
+          visibility: hidden;
+        }
+        // [+] 버튼
+        &--plus {
+          @include border(0.0625rem, solid, map-get($custom-color-plus, 'default', 'border'), all);
+          @include borderRadius(0.125rem); // 2px
+          display: none;
+          width: 1.75rem; // 28px;
+          height: 1.75rem; // 28px;
+          padding: 0 0.0625rem; // 0px 1px
+          background-color: map-get($custom-color-plus, 'default', 'background');
+          @if map-get($custom-color-plus, 'default', 'shadow') != null {
+            box-shadow: map-get($custom-color-plus, 'default', 'shadow');
+          }
+
+          .ic-plus {
+            width: 0.625rem; // 10px
+            height: 0.625rem; // 10px
+            background: map-get($custom-color-plus, 'default', 'font');
+          }
+
+          &:focus {
+            border-color: map-get($custom-color-plus, 'focus', 'border');
+            background-color: map-get($custom-color-plus, 'focus', 'background');
+            @if map-get($custom-color-plus, 'focus', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'focus', 'shadow');
+            }
+            .ic-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
+          }
+          &:hover {
+            background-color: map-get($custom-color-plus, 'hover', 'background');
+            border-color: map-get($custom-color-plus, 'hover', 'border');
+            @if map-get($custom-color-plus, 'hover', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'hover', 'shadow');
+            }
+            .ic-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
+          }
+          &:enabled:active,
+          &:enabled.active {
+            background-color: map-get($custom-color-plus, 'active', 'background');
+            border-color: map-get($custom-color-plus, 'active', 'border');
+            @if map-get($custom-color-plus, 'active', 'shadow') != null {
+              box-shadow: map-get($custom-color-plus, 'active', 'shadow');
+            }
+            .ic-plus { background: map-get($custom-color-plus, 'active', 'font'); }
+          }
         }
       }
     }
