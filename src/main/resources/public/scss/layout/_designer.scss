@@ -568,7 +568,7 @@ $layout-header-dropdown: (
     }
 
     // fileuploader 컴포넌트
-    .file-uploader-view { @include border(0.0625rem, solid, $gray400, left); }
+    .file-uploader--view { @include border(0.0625rem, solid, $gray400, left); }
 
     // CI 컴포넌트
     .ci-table {
