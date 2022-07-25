@@ -11540,54 +11540,84 @@ body.active {
   color: #222529;
   z-index: 25;
 }
-.notification__header {
+.notification-panel__header {
   display: flex;
   align-items: baseline;
   height: 2.5rem;
   padding: 0 0.938rem;
   background-color: #3373C4;
 }
-.notification__header span {
+.notification-panel__header span {
   display: inline-block;
   color: #FFFFFF;
   font-size: 0.875rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 400;
 }
-.notification__header span__title {
+.notification-panel__header span__title {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
 }
-.notification__header span__message {
+.notification-panel__header span__message {
   margin-left: 0.625rem;
 }
-.notification__header span.ic-remove {
+.notification-panel__header span.ic-remove {
   margin-left: auto;
   background: #FFFFFF;
 }
-.notification__body {
+.notification-panel__body {
   overflow-y: auto;
   max-height: 20.63rem;
 }
-.notification__body .noData {
+.notification-panel__body .noData {
   height: 6.875rem;
   padding: 3rem;
 }
-.notification-content {
+.notification-panel__body__list {
   border-bottom: 0.063rem solid #EEEEEE;
   height: 6.875rem;
   padding: 0.938rem;
 }
-.notification-content:hover {
+.notification-panel__body__list:hover {
   background-color: rgba(131, 187, 237, 0.1);
 }
-.notification-content .notification-checked {
+.notification-panel__body__list__title {
+  max-width: 18.13rem;
+  margin-left: 0.625rem;
+  color: #222529;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  line-height: 1.2;
+}
+.notification-panel__body__list__title__link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.notification-panel__body__list__message {
+  display: block;
+  max-width: 22.5rem;
+  min-height: 2.5rem;
+  margin-left: 1.75rem;
+  color: #222529;
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.notification-panel__body__list__date {
+  margin-left: 1.75rem;
+  color: #8B9094;
+  font-weight: 400;
+  font-size: 0.875rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.notification-panel__body__list .checked {
   display: flex;
   margin: 0;
   background-color: #FFFFFF;
 }
-.notification-content .notification-checked input[type=checkbox] {
+.notification-panel__body__list .checked input[type=checkbox] {
   position: relative !important;
   border: 0.063rem solid #3373C4;
   border-radius: 0.063rem;
@@ -11601,12 +11631,12 @@ body.active {
   cursor: pointer;
   -webkit-appearance: none;
 }
-.notification-content .notification-checked input[type=checkbox]:checked {
+.notification-panel__body__list .checked input[type=checkbox]:checked {
   border: 0.063rem solid #EEEEEE;
   color: #CFD5D9;
   cursor: unset;
 }
-.notification-content .notification-checked input[type=checkbox]:checked::after {
+.notification-panel__body__list .checked input[type=checkbox]:checked::after {
   position: absolute !important;
   top: -0.063rem;
   left: 0.063rem;
@@ -11615,43 +11645,13 @@ body.active {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.notification-content .ic-delete {
+.notification-panel__body__list .ic-delete {
   padding: 0;
   background: #8B9094;
 }
-.notification-content span.title {
-  max-width: 18.13rem;
-  margin-left: 0.625rem;
-  color: #222529;
-  font-weight: 500;
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  line-height: 1.2;
-}
-.notification-content span.title__link:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.notification-content span.document-no {
+.notification-panel__body__list .document-no {
   color: #8B9094;
   font-size: 0.875rem;
-}
-.notification-content span.message {
-  display: block;
-  max-width: 22.5rem;
-  min-height: 2.5rem;
-  margin-left: 1.75rem;
-  color: #222529;
-  font-weight: 400;
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.notification-content span.date {
-  margin-left: 1.75rem;
-  color: #8B9094;
-  font-weight: 400;
-  font-size: 0.875rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 
 .alice-toastify {
