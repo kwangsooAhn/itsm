@@ -3009,6 +3009,7 @@ span.ic-document-report {
 }
 .itsm-container .main-content .page-result .component .contents__req-status {
   display: flex;
+  width: 100%;
   border: none;
   overflow-x: hidden;
 }
@@ -3857,9 +3858,6 @@ span.ic-document-report {
 .document-content .document__group {
   width: 100%;
 }
-.document-content .document__group:not(:first-child) {
-  margin-top: 2.5rem;
-}
 .document-content .document__group .document__label {
   min-height: 2rem;
 }
@@ -3935,7 +3933,7 @@ span.ic-document-report {
   padding: 0.5625rem 0.1875rem;
 }
 .header-button-dropdown [class*=ic-] {
-  margin-left: -0.1875rem;
+  margin-left: -0.4375rem;
   pointer-events: none;
 }
 .header-button-dropdown + .dropdown-content {

@@ -71,7 +71,7 @@ export default class ZGroup {
             .setUIClass('group-accordion-checkBox');
         // 라벨
         groupTooltip.UIGroup.UILabel.setUIFor('chk-' + accordionId)
-            .addUIClass((this.labelVisibility === 'table')) // 라벨 사용여부: 라벨 숨김 또는 보임
+            .addUIClass(this.labelVisibility ? 'block' : 'none') // 라벨 사용여부: 라벨 숨김 또는 보임
             .setUICSSText(`text-align: ${this.labelAlign};`);
         // 라벨 텍스트
         const groupLabelCssText = `color:${this.labelFontColor};` +
@@ -221,9 +221,9 @@ export default class ZGroup {
     set labelVisibility(boolean) {
         this._label.visibility = boolean;
         if (boolean) {
-            this.UIElement.UIGroup.UILabel.removeUIClass('none').addUIClass('on');
+            this.UIElement.UIGroup.UILabel.removeUIClass('none').addUIClass('block');
         } else {
-            this.UIElement.UIGroup.UILabel.removeUIClass('on').addUIClass('none');
+            this.UIElement.UIGroup.UILabel.removeUIClass('block').addUIClass('none');
         }
     }
 
@@ -336,7 +336,7 @@ export default class ZGroup {
 
         // label - fontOption
         const labelFontOption = [
-            { 'name': 'ic-bold', 'value': 'bold'},
+            { 'name': 'ic-bold', 'value': 'bold' },
             { 'name': 'ic-italic', 'value': 'italic' },
             { 'name': 'ic-underline', 'value': 'underline' }
         ];

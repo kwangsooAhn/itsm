@@ -39,3 +39,4 @@ INSERT INTO wf_process VALUES ('4028b8817cc50161017cc5079e850000','구성관리'
 INSERT into wf_process VALUES ('4028b22f7cba6866017cbb63a53c08f8','어플리케이션 변경관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
 INSERT into wf_process VALUES ('4028b21c7cdffb67017ce0b33f5e07b6','문제관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
 INSERT into wf_process VALUES ('4028b21c7cdffb67017ce0b1d3af07b5','장애관리', 'process.status.use', '', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);
+INSERT into wf_process VALUES ('4028b21c821952af01821a0baf1c0175','연속성 관리','process.status.use', '', '0509e09412534a6e98f04ca79abb6424',  now(), null, null);

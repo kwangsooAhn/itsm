@@ -11,8 +11,8 @@
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <!-- 그룹 별 신청서 목록 -->
-    <div class="document__group flex-row justify-content-start align-items-start" name="documentGroup"
-         th:each="group: ${groupList}">
+    <div class="document__group" name="documentGroup" th:each="group: ${groupList}"
+         th:classappend="|${groupStat.first ? '' : 'pt-4'} ${groupStat.last ? '' : 'pb-4'}|">
         <label class="document__label flex-row justify-content-start">
             <span th:classappend="#{|ic-document-${#strings.arraySplit(group.code, '.')[2]}|}"></span>
             <span class="document__label--text pt-2 pb-2 ml-2 mr-auto" th:text="${group.codeValue}"></span>
