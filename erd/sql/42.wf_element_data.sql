@@ -1212,6 +1212,7 @@ INSERT INTO wf_element_data VALUES ('a3ebe5a26590cd82e9529f89cb62bdb5', 'assigne
 INSERT INTO wf_element_data VALUES ('a3ebe5a26590cd82e9529f89cb62bdb5', 'reject-id', 'a50a0fe0f82920b672185504704cda48', 2, false);
 INSERT INTO wf_element_data VALUES ('a3ebe5a26590cd82e9529f89cb62bdb5', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
+INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee', 'system.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee', 'continuity.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee', 'continuity.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'reject-id', '', 2, false);

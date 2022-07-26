@@ -995,7 +995,9 @@ insert into awf_rule_pattern_map values ('40288ab2808768300180881537d5001d', '8a
 insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '40288ab280876830018088105a0b001c', 0);
 insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421412', 1);
 insert into awf_rule_pattern_map values ('40288ab2808768300180881cb9f6001e', '8a112d61751fs6f325714q053c421413', 2);
-
+insert into awf_rule_pattern_map values ('4028b21c821e445f01821e4cc6d40001', '4028b21c821e445f01821e4986c20000', 0);
+insert into awf_rule_pattern_map values ('4028b21c821e445f01821e4cc6d40001', '8a112d61751fs6f325714q053c421412', 1);
+insert into awf_rule_pattern_map values ('4028b21c821e445f01821e4cc6d40001', '8a112d61751fs6f325714q053c421413', 2);
 /**
  * 스케줄작업정보
  */
@@ -5077,7 +5079,7 @@ INSERT INTO wf_component_property VALUES('55321335877f4b0c945704457845b930', 'el
 INSERT INTO wf_component_property VALUES('55321335877f4b0c945704457845b930', 'label', '{"position":"hidden","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES('36bf72d062f143f6a81d017e50f69f45', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('36bf72d062f143f6a81d017e50f69f45', 'validation', '{"required":true}');
-INSERT INTO wf_component_property VALUES('36bf72d062f143f6a81d017e50f69f45', 'element', '{"columnWidth":"8","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"}]}"}');
+INSERT INTO wf_component_property VALUES('36bf72d062f143f6a81d017e50f69f45', 'element', '{"columnWidth":"8","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"},{\"value\":\"연속성 관리자\",\"id\":\"4028b21c821952af01821a1cf2630178\"},{\"value\":\"ADMIN\",\"id\":\"0509e09412534a6e98f04ca79abb6424\"}]}"}');
 INSERT INTO wf_component_property VALUES('36bf72d062f143f6a81d017e50f69f45', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"신청자"}');
 INSERT INTO wf_component_property VALUES('59ee8404af124cf2a3857d084998f89c', 'display', '{"displayOrder":1,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('59ee8404af124cf2a3857d084998f89c', 'validation', '{"required":true}');
@@ -5121,7 +5123,7 @@ INSERT INTO wf_component_property VALUES('802d5abaf03a48a695339863f591d472', 'el
 INSERT INTO wf_component_property VALUES('802d5abaf03a48a695339863f591d472', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"첨부파일"}');
 INSERT INTO wf_component_property VALUES('c483ab173a32428983b2db03c36be6ad', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('c483ab173a32428983b2db03c36be6ad', 'validation', '{"required":true}');
-INSERT INTO wf_component_property VALUES('c483ab173a32428983b2db03c36be6ad', 'element', '{"columnWidth":"10","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"}]}"}');
+INSERT INTO wf_component_property VALUES('c483ab173a32428983b2db03c36be6ad', 'element', '{"columnWidth":"10","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 관리자\",\"id\":\"4028b21c821952af01821a1cf2630178\"},{\"value\":\"ADMIN\",\"id\":\"0509e09412534a6e98f04ca79abb6424\"}]}"}');
 INSERT INTO wf_component_property VALUES('c483ab173a32428983b2db03c36be6ad', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"승인자"}');
 INSERT INTO wf_component_property VALUES('7c4a7fc7a31341c9b7c3fac146b73705', 'display', '{"displayOrder":0,"columnWidth":"12"}');
 INSERT INTO wf_component_property VALUES('7c4a7fc7a31341c9b7c3fac146b73705', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
@@ -5169,7 +5171,7 @@ INSERT INTO wf_component_property VALUES('be1660249e9e4c8ab33c98f022bb3053', 'el
 INSERT INTO wf_component_property VALUES('be1660249e9e4c8ab33c98f022bb3053', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"훈련 시나리오"}');
 INSERT INTO wf_component_property VALUES('be1660249e9e4c8ab33c98f022bb3053', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('e0cc0eac366146f49f77b8fbd2127f71', 'display', '{"displayOrder":"0","columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('e0cc0eac366146f49f77b8fbd2127f71', 'element', '{"columnWidth":"10","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"}]}"}');
+INSERT INTO wf_component_property VALUES('e0cc0eac366146f49f77b8fbd2127f71', 'element', '{"columnWidth":"10","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 관리자\",\"id\":\"4028b21c821952af01821a1cf2630178\"},{\"value\":\"ADMIN\",\"id\":\"0509e09412534a6e98f04ca79abb6424\"}]}"}');
 INSERT INTO wf_component_property VALUES('e0cc0eac366146f49f77b8fbd2127f71', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"승인자"}');
 INSERT INTO wf_component_property VALUES('e0cc0eac366146f49f77b8fbd2127f71', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('782334d9b1384edb8fa73a4d09699219', 'display', '{"displayOrder":"0","columnWidth":"12"}');
@@ -5189,7 +5191,7 @@ INSERT INTO wf_component_property VALUES('b74dbee00c2542de8a8b1c694da6812f', 'el
 INSERT INTO wf_component_property VALUES('b74dbee00c2542de8a8b1c694da6812f', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 의견"}');
 INSERT INTO wf_component_property VALUES('b74dbee00c2542de8a8b1c694da6812f', 'validation', '{"required":false,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('0264d08e6d9d41a49f21c76a626031f2', 'display', '{"displayOrder":"0","columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('0264d08e6d9d41a49f21c76a626031f2', 'element', '{"columnWidth":"8","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"}]}"}');
+INSERT INTO wf_component_property VALUES('0264d08e6d9d41a49f21c76a626031f2', 'element', '{"columnWidth":"8","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"},{\"value\":\"연속성 관리자\",\"id\":\"4028b21c821952af01821a1cf2630178\"},{\"value\":\"ADMIN\",\"id\":\"0509e09412534a6e98f04ca79abb6424\"}]}"}');
 INSERT INTO wf_component_property VALUES('0264d08e6d9d41a49f21c76a626031f2', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"신청자"}');
 INSERT INTO wf_component_property VALUES('0264d08e6d9d41a49f21c76a626031f2', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('98f97e4b445e4338bf69b9437d854a36', 'display', '{"displayOrder":"0","columnWidth":"12"}');
@@ -5214,7 +5216,7 @@ INSERT INTO wf_component_property VALUES('c03b29d3b5ee4c0b971ea2873240e0dc', 'el
 INSERT INTO wf_component_property VALUES('c03b29d3b5ee4c0b971ea2873240e0dc', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"훈련 결과"}');
 INSERT INTO wf_component_property VALUES('c03b29d3b5ee4c0b971ea2873240e0dc', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('816ef4658dd14058bd6a633cad4b2092', 'display', '{"displayOrder":"0","columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('816ef4658dd14058bd6a633cad4b2092', 'element', '{"columnWidth":"8","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"}]}"}');
+INSERT INTO wf_component_property VALUES('816ef4658dd14058bd6a633cad4b2092', 'element', '{"columnWidth":"8","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"},{\"value\":\"연속성 관리자\",\"id\":\"4028b21c821952af01821a1cf2630178\"},{\"value\":\"ADMIN\",\"id\":\"0509e09412534a6e98f04ca79abb6424\"}]}"}');
 INSERT INTO wf_component_property VALUES('816ef4658dd14058bd6a633cad4b2092', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"신청자"}');
 INSERT INTO wf_component_property VALUES('816ef4658dd14058bd6a633cad4b2092', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('e459f5e9e7d2454b86dffd7c18c59e34', 'display', '{"displayOrder":"0","columnWidth":"12"}');
@@ -5258,7 +5260,7 @@ INSERT INTO wf_component_property VALUES('b18958fa4ddd4918909f3188b9c13b41', 'el
 INSERT INTO wf_component_property VALUES('b18958fa4ddd4918909f3188b9c13b41', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"훈련 종료일자"}');
 INSERT INTO wf_component_property VALUES('b18958fa4ddd4918909f3188b9c13b41', 'validation', '{"required":true,"minDateTime":"","maxDateTime":""}');
 INSERT INTO wf_component_property VALUES('3ff188acd84949b398f4102d30826559', 'display', '{"displayOrder":"0","columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('3ff188acd84949b398f4102d30826559', 'element', '{"columnWidth":"10","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 담당자\",\"id\":\"4028b21c821952af01821a1c73ef0176\"}]}"}');
+INSERT INTO wf_component_property VALUES('3ff188acd84949b398f4102d30826559', 'element', '{"columnWidth":"10","defaultValue":{"target":"userSearch","type":"session","data":"0509e09412534a6e98f04ca79abb6424|ADMIN|admin"},"userSearchTarget":"{\"targetCriteria\":\"custom\",\"searchKey\":[{\"value\":\"연속성 관리자\",\"id\":\"4028b21c821952af01821a1cf2630178\"},{\"value\":\"ADMIN\",\"id\":\"0509e09412534a6e98f04ca79abb6424\"}]}"}');
 INSERT INTO wf_component_property VALUES('3ff188acd84949b398f4102d30826559', 'label', '{"position":"left","fontSize":"16","fontColor":"#8d9299","bold":false,"italic":false,"underline":false,"align":"left","text":"승인자"}');
 INSERT INTO wf_component_property VALUES('3ff188acd84949b398f4102d30826559', 'validation', '{"required":true}');
 INSERT INTO wf_component_property VALUES('d73e0fa2e95041eb988a598dd21d6e7e', 'display', '{"displayOrder":"0","columnWidth":"12"}');
@@ -7232,6 +7234,7 @@ INSERT INTO wf_element_data VALUES ('a3ebe5a26590cd82e9529f89cb62bdb5', 'assigne
 INSERT INTO wf_element_data VALUES ('a3ebe5a26590cd82e9529f89cb62bdb5', 'reject-id', 'a50a0fe0f82920b672185504704cda48', 2, false);
 INSERT INTO wf_element_data VALUES ('a3ebe5a26590cd82e9529f89cb62bdb5', 'withdraw', 'Y', 3, false);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee-type', 'assignee.type.candidate.groups', 0, true);
+INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee', 'system.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee', 'continuity.admin', 1, true);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'assignee', 'continuity.manager', 1, true);
 INSERT INTO wf_element_data VALUES ('a50a0fe0f82920b672185504704cda48', 'reject-id', '', 2, false);
