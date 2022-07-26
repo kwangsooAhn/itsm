@@ -1112,11 +1112,11 @@
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let targetMappingTooltip = document.createElement('div');
-            targetMappingTooltip.className = 'help-tooltip';
+            targetMappingTooltip.className = 'tooltip--info';
             let targetMappingTooltipIcon = document.createElement('span');
             targetMappingTooltipIcon.className = 'ic-tooltip';
             let targetMappingTooltipContents = document.createElement('div');
-            targetMappingTooltipContents.className = 'tooltip__box';
+            targetMappingTooltipContents.className = 'tooltip__box--aa';
             let targetMappingTooltipText = document.createElement('span');
             targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetFileMappingId');
             targetMappingTooltipContents.appendChild(targetMappingTooltipText);
@@ -1142,11 +1142,11 @@
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
 
             let sourceMappingTooltip = document.createElement('div');
-            sourceMappingTooltip.className = 'help-tooltip';
+            sourceMappingTooltip.className = 'tooltip--info';
             let sourceMappingTooltipIcon = document.createElement('span');
             sourceMappingTooltipIcon.className = 'ic-tooltip';
             let sourceMappingTooltipContents = document.createElement('div');
-            sourceMappingTooltipContents.className = 'tooltip__box';
+            sourceMappingTooltipContents.className = 'tooltip__box--aa';
             let sourceMappingTooltipText = document.createElement('span');
             sourceMappingTooltipText.innerHTML = i18n.msg('process.msg.sourceMappingId');
             sourceMappingTooltipContents.appendChild(sourceMappingTooltipText);
@@ -1260,11 +1260,11 @@
             actionContainer.appendChild(conditionLabel);
 
             let conditionTooltip = document.createElement('div');
-            conditionTooltip.className = 'help-tooltip';
+            conditionTooltip.className = 'tooltip--info';
             let conditionTooltipIcon = document.createElement('span');
             conditionTooltipIcon.className = 'ic-tooltip';
             let conditionTooltipContents = document.createElement('div');
-            conditionTooltipContents.className = 'tooltip__box';
+            conditionTooltipContents.className = 'tooltip__box--aa';
             let conditionTooltipText = document.createElement('span');
             conditionTooltipText.innerHTML = i18n.msg('process.msg.condition');
             conditionTooltipContents.appendChild(conditionTooltipText);

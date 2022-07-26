@@ -4051,11 +4051,11 @@ span.ic-alert-email {
   padding: 0.625rem;
 }
 
-.help-tooltip {
+.tooltip--info {
   position: static;
 }
 
-.tooltip__box {
+.tooltip__box--aa {
   left: 0;
   width: 100%;
 }
@@ -13244,126 +13244,6 @@ body.active {
     opacity: 1;
   }
 }
-.help-tooltip {
-  position: relative !important;
-  display: inline-block;
-  margin-left: 0.3125rem;
-  vertical-align: middle;
-}
-.help-tooltip .ic-tooltip {
-  background: #8B9094;
-  cursor: pointer;
-}
-.help-tooltip .tooltip__box {
-  position: absolute !important;
-  left: auto;
-  border: 0.125rem solid #3373C4;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  width: 28.125rem;
-  margin: 0.25rem 0 0 0;
-  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
-  background-color: #FFFFFF;
-  color: #3373C4;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  z-index: 500;
-  visibility: hidden;
-}
-.help-tooltip .tooltip__box span {
-  color: #3373C4;
-  line-height: 1.5;
-  word-break: keep-all;
-}
-.help-tooltip .tooltip__box.top {
-  position: absolute !important;
-  top: 0;
-  right: auto;
-  bottom: auto;
-  left: 50%;
-  -webkit-transform: translate(-50%, calc(-100% - 0.625rem));
-  -moz-transform: translate(-50%, calc(-100% - 0.625rem));
-  -o-transform: translate(-50%, calc(-100% - 0.625rem));
-  -ms-transform: translate(-50%, calc(-100% - 0.625rem));
-  transform: translate(-50%, calc(-100% - 0.625rem));
-}
-.help-tooltip .tooltip__box.right {
-  position: absolute !important;
-  top: 0;
-  right: 0;
-  bottom: auto;
-  left: auto;
-  -webkit-transform: translate(calc(100% + 0.625rem), -50%);
-  -moz-transform: translate(calc(100% + 0.625rem), -50%);
-  -o-transform: translate(calc(100% + 0.625rem), -50%);
-  -ms-transform: translate(calc(100% + 0.625rem), -50%);
-  transform: translate(calc(100% + 0.625rem), -50%);
-}
-.help-tooltip .tooltip__box.bottom {
-  position: absolute !important;
-  top: auto;
-  right: auto;
-  bottom: auto;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-  -moz-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  -ms-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
-}
-.help-tooltip .tooltip__box.left {
-  position: absolute !important;
-  top: 0;
-  right: auto;
-  bottom: auto;
-  left: 0;
-  -webkit-transform: translate(calc(-100% - 0.625rem), -50%);
-  -moz-transform: translate(calc(-100% - 0.625rem), -50%);
-  -o-transform: translate(calc(-100% - 0.625rem), -50%);
-  -ms-transform: translate(calc(-100% - 0.625rem), -50%);
-  transform: translate(calc(-100% - 0.625rem), -50%);
-}
-.help-tooltip:hover .tooltip__box {
-  -webkit-animation-delay: 0s;
-  -webkit-animation-duration: 0.3s;
-  -webkit-animation-name: fadeIn;
-  -webkit-animation-timing-function: ease-out;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-direction: normal;
-  -moz-animation-delay: 0s;
-  -moz-animation-duration: 0.3s;
-  -moz-animation-name: fadeIn;
-  -moz-animation-timing-function: ease-out;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-direction: normal;
-  -o-animation-delay: 0s;
-  -o-animation-duration: 0.3s;
-  -o-animation-name: fadeIn;
-  -o-animation-timing-function: ease-out;
-  -o-animation-iteration-count: 1;
-  -o-animation-direction: normal;
-  -ms-animation-delay: 0s;
-  -ms-animation-duration: 0.3s;
-  -ms-animation-name: fadeIn;
-  -ms-animation-timing-function: ease-out;
-  -ms-animation-iteration-count: 1;
-  -ms-animation-direction: normal;
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: fadeIn;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  visibility: visible;
-}
-.help-tooltip:hover .ic-tooltip {
-  background: #3373C4;
-}
-
 .clipboard-tooltip {
   position: relative !important;
   display: inline-block;
@@ -13491,6 +13371,125 @@ body.active {
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
   animation-direction: normal;
+}
+.tooltip--info {
+  position: relative !important;
+  display: inline-block;
+  margin-left: 0.3125rem;
+  vertical-align: middle;
+}
+.tooltip--info .ic-tooltip {
+  background: #8B9094;
+  cursor: pointer;
+}
+.tooltip--info .tooltip__box--aa {
+  position: absolute !important;
+  left: auto;
+  border: 0.125rem solid #3373C4;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  width: 28.125rem;
+  margin: 0.25rem 0 0 0;
+  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
+  background-color: #FFFFFF;
+  color: #3373C4;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  z-index: 500;
+  visibility: hidden;
+}
+.tooltip--info .tooltip__box--aa span {
+  color: #3373C4;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.tooltip--info .tooltip__box--aa.top {
+  position: absolute !important;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, calc(-100% - 0.625rem));
+  -moz-transform: translate(-50%, calc(-100% - 0.625rem));
+  -o-transform: translate(-50%, calc(-100% - 0.625rem));
+  -ms-transform: translate(-50%, calc(-100% - 0.625rem));
+  transform: translate(-50%, calc(-100% - 0.625rem));
+}
+.tooltip--info .tooltip__box--aa.right {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  -webkit-transform: translate(calc(100% + 0.625rem), -50%);
+  -moz-transform: translate(calc(100% + 0.625rem), -50%);
+  -o-transform: translate(calc(100% + 0.625rem), -50%);
+  -ms-transform: translate(calc(100% + 0.625rem), -50%);
+  transform: translate(calc(100% + 0.625rem), -50%);
+}
+.tooltip--info .tooltip__box--aa.bottom {
+  position: absolute !important;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+.tooltip--info .tooltip__box--aa.left {
+  position: absolute !important;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 0;
+  -webkit-transform: translate(calc(-100% - 0.625rem), -50%);
+  -moz-transform: translate(calc(-100% - 0.625rem), -50%);
+  -o-transform: translate(calc(-100% - 0.625rem), -50%);
+  -ms-transform: translate(calc(-100% - 0.625rem), -50%);
+  transform: translate(calc(-100% - 0.625rem), -50%);
+}
+.tooltip--info:hover .tooltip__box--aa {
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: fadeIn;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: fadeIn;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: fadeIn;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: fadeIn;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  visibility: visible;
+}
+.tooltip--info:hover .ic-tooltip {
+  background: #3373C4;
 }
 
 /* _tree.scss

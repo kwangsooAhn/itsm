@@ -180,8 +180,8 @@ $layout-header-dropdown: (
 .thumbnail-main { padding: 0.625rem; } // 10px
 
 ////////////////////////// tooltip //////////////////////////
-.help-tooltip { position: static; }
-.tooltip__box {
+.tooltip--info { position: static; }
+.tooltip__box--aa {
   left: 0;
   width: 100%;
 }
