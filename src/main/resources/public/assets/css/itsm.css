@@ -1331,12 +1331,12 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 .flex-row {
-  display: flex;
+  display: flex !important;
   flex-direction: row !important;
 }
 
 .flex-column {
-  display: flex;
+  display: flex !important;
   flex-direction: column !important;
 }
 
@@ -6647,10 +6647,10 @@ span.ic-alert-email {
   position: relative !important;
   border: none;
 }
-.portal-container .main .main-content .list-content + .page-paging {
+.portal-container .main .main-content .list-content + .pagination {
   padding: 0 13.75rem 1.875rem 13.75rem;
 }
-.portal-container .main .main-content .list-content + .page-paging #spanCurrentPageNum {
+.portal-container .main .main-content .list-content + .pagination #spanCurrentPageNum {
   position: absolute !important;
   right: 13.75rem;
 }
@@ -11710,35 +11710,19 @@ body.active {
   padding: 0;
 }
 
-/* _paging.scss
+/* _pagination.scss
  *
- * 파일 경로 : components/_paging.scss
+ * 파일 경로 : components/_pagination.scss
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-.page-paging {
-  display: flex;
-  flex-direction: row !important;
-  justify-content: center;
+.pagination {
   padding: 1.875rem 3.75rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   line-height: 1.5rem;
 }
-.page-paging a.paging-arrow {
-  border: 0.0625rem solid #CFD5D9;
-  cursor: text;
-}
-.page-paging a.paging-arrow:not(:first-child) {
-  border-left: 0;
-}
-.page-paging a.paging-arrow.active {
-  cursor: pointer;
-}
-.page-paging a.paging-arrow.active span[class*=ic-] {
-  background: #19428D;
-}
-.page-paging .paging-numbers a {
+.pagination__link a {
   border: 0.0625rem solid #CFD5D9;
   display: inline-block;
   min-width: 1.5625rem;
@@ -11748,29 +11732,42 @@ body.active {
   font-weight: 400;
   text-align: center;
 }
-.page-paging .paging-numbers a:hover {
+.pagination__link a:hover {
   background-color: #D6EDFC;
   color: #222529;
 }
-.page-paging .paging-numbers a.selected-page {
+.pagination__link a:active {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;
 }
-.page-paging .paging-numbers a:active {
+.pagination__link a.selected {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;
 }
-.page-paging #pagingStartArrow {
+.pagination__btn__ic--arrow {
+  border: 0.0625rem solid #CFD5D9;
+  cursor: text;
+}
+.pagination__btn__ic--arrow:not(:first-child) {
+  border-left: 0;
+}
+.pagination__btn__ic--arrow-start {
   border-top-left-radius: 0.15rem;
   border-bottom-left-radius: 0.15rem;
 }
-.page-paging #pagingEndArrow {
+.pagination__btn__ic--arrow-end {
   border-top-right-radius: 0.15rem;
   border-bottom-right-radius: 0.15rem;
 }
-.page-paging #spanCurrentPageNum {
+.pagination__btn__ic--arrow.active {
+  cursor: pointer;
+}
+.pagination__btn__ic--arrow.active span[class*=ic-] {
+  background: #19428D;
+}
+.pagination > span {
   position: absolute !important;
   right: 3.75rem;
   color: #757575;
