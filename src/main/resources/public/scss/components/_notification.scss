@@ -39,24 +39,20 @@
       span {
         display: inline-block;
         color: $white;
-        font-size: $font-size-xs;
-        font-family: $font-family;
-        font-weight: $font-weight-regular;
-
-        // header 내부 컨텐츠
-        &__title {
-          font-size: $font-size-s;
-          font-family: $font-family;
-          font-weight: $font-weight-medium;
-        }
-        &__message { margin-left: 0.625rem; }  // 10px
-
         // 우측 상단 X 버튼
         &.ic-remove {
           margin-left: auto;
           background: $white;
         }
       }
+
+      // header 내부 컨텐츠
+      &__title {
+        font-size: $font-size-s;
+        font-family: $font-family;
+        font-weight: $font-weight-medium;
+      }
+      &__message { margin-left: 0.625rem; }  // 10px
     }
 
     // notification의 contents들이 나열되는 영역
@@ -74,15 +70,14 @@
         padding: 0.938rem;// 15px
         &:hover { background-color: hexToRGBA($blue300, 0.1); }
 
+        & > div { margin-left: 2rem; }
 
         &__title {
           max-width: 18.13rem; // 290px
-          margin-left: 0.625rem; // 10px
           color: $gray800;
           font-weight: $font-weight-medium;
           font-size: $font-size-s;
           font-family: $font-family;
-          line-height: 1.2;
           &__link:hover {
             cursor: pointer;
             text-decoration: underline;
@@ -92,14 +87,13 @@
           display: block;
           max-width: 22.5rem; // 360px
           min-height: 2.5rem; // 40px
-          margin-left: 1.75rem; // 28px
+          margin-top: 0.3125rem; // 5px
           color: $gray800;
           font-weight: $font-weight-regular;
           font-size: $font-size-s;
           font-family: $font-family;
         }
         &__date {
-          margin-left: 1.75rem; // 28px
           color: $gray500;
           font-weight: $font-weight-regular;
           font-size: $font-size-xs;

@@ -16,26 +16,21 @@
              th:attr="token-id=${notification.tokenId}, notification-type=${notification.type}"
              th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
+            <label class="checkbox checked float-left">
+                <input type="checkbox" th:checked="${notification.confirmYn}"
+                       th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
+                       th:disabled="${notification.confirmYn}"/>
+            </label>
             <div>
-                <label class="checkbox checked float-left">
-                    <input type="checkbox" th:checked="${notification.confirmYn}"
-                              th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
-                              th:disabled="${notification.confirmYn}"/>
-                </label>
                 <span th:if="${notification.type == 'document'}" th:text="${notification.title}"
-                      class="notification-panel__body__list__title notification-panel__body__list__title__link text-ellipsis"
-                      th:classappend="${notification.confirmYn} ? confirm"
-                      th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.tokenId}]])"></span>
+                          class="notification-panel__body__list__title notification-panel__body__list__title__link text-ellipsis"
+                          th:classappend="${notification.confirmYn} ? confirm"
+                          th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.tokenId}]])"></span>
                 <span th:unless="${notification.type == 'document'}"
                       class="notification-panel__body__list__title text-ellipsis" th:text="${notification.title}"
                       th:classappend="${notification.confirmYn} ? confirm"></span>
                 <span class="document-no ml-2 text-ellipsis" th:text="${notification.documentNo}"></span>
-                <button class="ic-delete float-right" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
-            </div>
-            <div>
                 <span class="notification-panel__body__list__message text-ellipsis" th:text="${notification.message}"></span>
-            </div>
-            <div>
                 <span class="notification-panel__body__list__date" th:text="${notification.createDt}"></span>
             </div>
         </div>

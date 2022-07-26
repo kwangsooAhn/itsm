@@ -3715,7 +3715,7 @@ span.ic-alert-email {
   min-width: 2.75rem;
   max-width: 12.5rem;
   height: 1.688rem;
-  padding: 0 0 0 0.5rem;
+  padding: 0 0.5rem;
   color: #222529;
   font-weight: 500;
   line-height: 1.688rem;
@@ -11529,21 +11529,18 @@ body.active {
 .notification-panel__header span {
   display: inline-block;
   color: #FFFFFF;
-  font-size: 0.875rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 400;
-}
-.notification-panel__header span__title {
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 500;
-}
-.notification-panel__header span__message {
-  margin-left: 0.625rem;
 }
 .notification-panel__header span.ic-remove {
   margin-left: auto;
   background: #FFFFFF;
+}
+.notification-panel__header__title {
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-weight: 500;
+}
+.notification-panel__header__message {
+  margin-left: 0.625rem;
 }
 .notification-panel__body {
   overflow-y: auto;
@@ -11561,14 +11558,15 @@ body.active {
 .notification-panel__body__list:hover {
   background-color: rgba(131, 187, 237, 0.1);
 }
+.notification-panel__body__list > div {
+  margin-left: 2rem;
+}
 .notification-panel__body__list__title {
   max-width: 18.13rem;
-  margin-left: 0.625rem;
   color: #222529;
   font-weight: 500;
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  line-height: 1.2;
 }
 .notification-panel__body__list__title__link:hover {
   cursor: pointer;
@@ -11578,14 +11576,13 @@ body.active {
   display: block;
   max-width: 22.5rem;
   min-height: 2.5rem;
-  margin-left: 1.75rem;
+  margin-top: 0.3125rem;
   color: #222529;
   font-weight: 400;
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 .notification-panel__body__list__date {
-  margin-left: 1.75rem;
   color: #8B9094;
   font-weight: 400;
   font-size: 0.875rem;
