@@ -1,29 +1,16 @@
-/* _paging.scss
+/* _pagination.scss
  *
- * 파일 경로 : components/_paging.scss
+ * 파일 경로 : components/_pagination.scss
  * @description 페이징 목록 디자인
  * @author Jung Hee Chan
  */
-.page-paging {
-  display: flex;
-  flex-direction: row!important;
-  justify-content:center;
+.pagination {
   padding: 1.875rem 3.75rem; // 30px 60px
   font-family: $font-family;
   font-size: $font-size-xs;
   line-height: 1.5rem;
 
-  a.paging-arrow {
-    @include border(0.0625rem, solid, $gray300, all); // 1px
-    cursor: text;
-    &:not(:first-child) { border-left: 0; }
-    &.active {
-      cursor: pointer;
-      span[class*="ic-"] { background: $blue700; }
-    }
-  }
-
-  .paging-numbers {
+  &__link {
     a {
       @include border(0.0625rem, solid, $gray300, all); // 1px
       display: inline-block;
@@ -37,12 +24,12 @@
         background-color: $blue100;
         color: $gray800;
       }
-      &.selected-page {
+      &:active {
         background-color: $gray100;
         color: $blue700;
         font-weight: $font-weight-bold;
       }
-      &:active {
+      &.selected {
         background-color: $gray100;
         color: $blue700;
         font-weight: $font-weight-bold;
@@ -50,16 +37,31 @@
     }
   }
 
-  #pagingStartArrow {
-    border-top-left-radius: 0.15rem; // 1.5px
-    border-bottom-left-radius: 0.15rem;
-  }
-  #pagingEndArrow {
-    border-top-right-radius: 0.15rem; // 1.5px
-    border-bottom-right-radius: 0.15rem;
+  &__btn__ic {
+    &--arrow {
+      @include border(0.0625rem, solid, $gray300, all);
+      cursor: text;
+      &:not(:first-child) { border-left: 0; }
+      // #pagingStartArrow
+      &-start {
+        border-top-left-radius: 0.15rem; // 1.5px
+        border-bottom-left-radius: 0.15rem;
+      }
+      // #pagingEndArrow
+      &-end {
+        border-top-right-radius: 0.15rem; // 1.5px
+        border-bottom-right-radius: 0.15rem;
+      }
+      &.active {
+        cursor: pointer;
+        span[class*="ic-"] { background: $blue700; }
+      }
+    }
   }
 
-  #spanCurrentPageNum {
+
+  // 총 페이지 수
+  & > span {
     @include absolute($right: 3.75rem);
     color: $neutral600;
     font-weight: $font-weight-medium;
