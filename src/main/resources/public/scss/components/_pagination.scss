@@ -9,18 +9,8 @@
   font-family: $font-family;
   font-size: $font-size-xs;
   line-height: 1.5rem;
-  
-  &__arrow {
-    @include border(0.0625rem, solid, $gray300, all); // 1px
-    cursor: text;
-    &:not(:first-child) { border-left: 0; }
-    &.active {
-      cursor: pointer;
-      span[class*="ic-"] { background: $blue700; }
-    }
-  }
 
-  &__number {
+  &__link {
     a {
       @include border(0.0625rem, solid, $gray300, all); // 1px
       display: inline-block;
@@ -43,6 +33,18 @@
         background-color: $gray100;
         color: $blue700;
         font-weight: $font-weight-bold;
+      }
+    }
+  }
+
+  &__btn__ic {
+    &--arrow {
+      @include border(0.0625rem, solid, $gray300, all); // 1px
+      cursor: text;
+      &:not(:first-child) { border-left: 0; }
+      &.active {
+        cursor: pointer;
+        span[class*="ic-"] { background: $blue700; }
       }
     }
   }

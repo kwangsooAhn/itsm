@@ -12,7 +12,7 @@ import { PAGING } from './zConstants.js';
 const PAGING_DEFAULT_OPTIONS = {
     numOfPageNums : 5, // 출력되는 페이징 숫자의 개수
     activeArrowClass : 'active', // 유효한 화살표용 클래스 이름
-    pageNumSelector : 'div.pagination__number a', // 페이지 번호 목록 셀렉터
+    pageNumSelector : 'div.pagination__link a', // 페이지 번호 목록 셀렉터
     selectedPage : 'selected' // 선택된 페이지 번호용 클래스 이름
 };
 export default class ZPaging {
@@ -101,7 +101,7 @@ export default class ZPaging {
             let newAnchor = document.createElement('a');
             newAnchor.setAttribute('href', 'javascript:getList(' + i + ')');
             newAnchor.innerText = '' + i;
-            document.querySelector('div.pagination__number').appendChild(newAnchor);
+            document.querySelector('div.pagination__link').appendChild(newAnchor);
             // 현재 페이지면 클래스 추가
             if (currentPageNum === i) {
                 newAnchor.classList.add(this.options.selectedPage);
@@ -109,7 +109,7 @@ export default class ZPaging {
         }
 
         // 화살표 처리
-        document.querySelectorAll('a.pagination__arrow').forEach( arrow => {
+        document.querySelectorAll('a.pagination__btn__ic--arrow').forEach( arrow => {
             arrow.classList.remove(this.options.activeArrowClass);
             arrow.removeAttribute('href');
         });

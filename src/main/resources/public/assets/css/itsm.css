@@ -11743,20 +11743,7 @@ body.active {
   font-size: 0.875rem;
   line-height: 1.5rem;
 }
-.pagination__arrow {
-  border: 0.0625rem solid #CFD5D9;
-  cursor: text;
-}
-.pagination__arrow:not(:first-child) {
-  border-left: 0;
-}
-.pagination__arrow.active {
-  cursor: pointer;
-}
-.pagination__arrow.active span[class*=ic-] {
-  background: #19428D;
-}
-.pagination__number a {
+.pagination__link a {
   border: 0.0625rem solid #CFD5D9;
   display: inline-block;
   min-width: 1.5625rem;
@@ -11766,19 +11753,32 @@ body.active {
   font-weight: 400;
   text-align: center;
 }
-.pagination__number a:hover {
+.pagination__link a:hover {
   background-color: #D6EDFC;
   color: #222529;
 }
-.pagination__number a:active {
+.pagination__link a:active {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;
 }
-.pagination__number a.selected {
+.pagination__link a.selected {
   background-color: #EBF1F5;
   color: #19428D;
   font-weight: 700;
+}
+.pagination__btn__ic--arrow {
+  border: 0.0625rem solid #CFD5D9;
+  cursor: text;
+}
+.pagination__btn__ic--arrow:not(:first-child) {
+  border-left: 0;
+}
+.pagination__btn__ic--arrow.active {
+  cursor: pointer;
+}
+.pagination__btn__ic--arrow.active span[class*=ic-] {
+  background: #19428D;
 }
 .pagination #pagingStartArrow {
   border-top-left-radius: 0.15rem;
