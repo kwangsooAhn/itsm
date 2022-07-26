@@ -4055,7 +4055,7 @@ span.ic-alert-email {
   position: static;
 }
 
-.tooltip-contents {
+.tooltip__box {
   left: 0;
   width: 100%;
 }
@@ -13254,7 +13254,7 @@ body.active {
   background: #8B9094;
   cursor: pointer;
 }
-.help-tooltip .tooltip-contents {
+.help-tooltip .tooltip__box {
   position: absolute !important;
   left: auto;
   border: 0.125rem solid #3373C4;
@@ -13274,12 +13274,12 @@ body.active {
   z-index: 500;
   visibility: hidden;
 }
-.help-tooltip .tooltip-contents span {
+.help-tooltip .tooltip__box span {
   color: #3373C4;
   line-height: 1.5;
   word-break: keep-all;
 }
-.help-tooltip .tooltip-contents.top {
+.help-tooltip .tooltip__box.top {
   position: absolute !important;
   top: 0;
   right: auto;
@@ -13291,7 +13291,7 @@ body.active {
   -ms-transform: translate(-50%, calc(-100% - 0.625rem));
   transform: translate(-50%, calc(-100% - 0.625rem));
 }
-.help-tooltip .tooltip-contents.right {
+.help-tooltip .tooltip__box.right {
   position: absolute !important;
   top: 0;
   right: 0;
@@ -13303,7 +13303,7 @@ body.active {
   -ms-transform: translate(calc(100% + 0.625rem), -50%);
   transform: translate(calc(100% + 0.625rem), -50%);
 }
-.help-tooltip .tooltip-contents.bottom {
+.help-tooltip .tooltip__box.bottom {
   position: absolute !important;
   top: auto;
   right: auto;
@@ -13315,7 +13315,7 @@ body.active {
   -ms-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
 }
-.help-tooltip .tooltip-contents.left {
+.help-tooltip .tooltip__box.left {
   position: absolute !important;
   top: 0;
   right: auto;
@@ -13327,7 +13327,7 @@ body.active {
   -ms-transform: translate(calc(-100% - 0.625rem), -50%);
   transform: translate(calc(-100% - 0.625rem), -50%);
 }
-.help-tooltip:hover .tooltip-contents {
+.help-tooltip:hover .tooltip__box {
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;
   -webkit-animation-name: fadeIn;
@@ -13362,84 +13362,6 @@ body.active {
 }
 .help-tooltip:hover .ic-tooltip {
   background: #3373C4;
-}
-
-.header-tooltip {
-  position: relative !important;
-}
-.header-tooltip .header-tooltip-contents {
-  position: absolute !important;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-  -moz-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  -ms-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
-  display: flex;
-  height: 1.875rem;
-  visibility: hidden;
-  background-color: #FFFFFF;
-  text-align: center;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  margin: 1rem 0 0 0;
-  padding: 0.4375rem;
-  background-color: #FFFFFF;
-  text-align: center;
-  z-index: 500;
-  visibility: hidden;
-}
-.header-tooltip .header-tooltip-contents.last {
-  -webkit-transform: translate(-70%, 0);
-  -moz-transform: translate(-70%, 0);
-  -o-transform: translate(-70%, 0);
-  -ms-transform: translate(-70%, 0);
-  transform: translate(-70%, 0);
-  left: 0;
-}
-.header-tooltip .header-tooltip-contents .header-tooltip-text {
-  color: #222529;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.header-tooltip:hover .header-tooltip-contents {
-  -webkit-animation-delay: 0s;
-  -webkit-animation-duration: 0.3s;
-  -webkit-animation-name: fadeIn;
-  -webkit-animation-timing-function: ease-out;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-direction: normal;
-  -moz-animation-delay: 0s;
-  -moz-animation-duration: 0.3s;
-  -moz-animation-name: fadeIn;
-  -moz-animation-timing-function: ease-out;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-direction: normal;
-  -o-animation-delay: 0s;
-  -o-animation-duration: 0.3s;
-  -o-animation-name: fadeIn;
-  -o-animation-timing-function: ease-out;
-  -o-animation-iteration-count: 1;
-  -o-animation-direction: normal;
-  -ms-animation-delay: 0s;
-  -ms-animation-duration: 0.3s;
-  -ms-animation-name: fadeIn;
-  -ms-animation-timing-function: ease-out;
-  -ms-animation-iteration-count: 1;
-  -ms-animation-direction: normal;
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: fadeIn;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  visibility: visible;
 }
 
 .clipboard-tooltip {
@@ -13486,10 +13408,10 @@ body.active {
   margin-left: -0.313rem;
 }
 
-.palette-tooltip {
+.tooltip {
   position: relative !important;
 }
-.palette-tooltip .palette-tooltip-contents {
+.tooltip__box {
   position: absolute !important;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
@@ -13514,7 +13436,15 @@ body.active {
   margin: 1rem 0 0 0;
   z-index: 500;
 }
-.palette-tooltip .palette-tooltip-contents.right-bottom {
+.tooltip__box.last {
+  -webkit-transform: translate(-70%, 0);
+  -moz-transform: translate(-70%, 0);
+  -o-transform: translate(-70%, 0);
+  -ms-transform: translate(-70%, 0);
+  transform: translate(-70%, 0);
+  left: 0;
+}
+.tooltip__box.right-bottom {
   right: 0;
   bottom: 0;
   -webkit-transform: translate(-150%, -15%);
@@ -13523,13 +13453,13 @@ body.active {
   -ms-transform: translate(-150%, -15%);
   transform: translate(-150%, -15%);
 }
-.palette-tooltip .palette-tooltip-contents .palette-tooltip-text {
+.tooltip__box__text {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #222529;
   font-weight: 500;
 }
-.palette-tooltip:hover .palette-tooltip-contents {
+.tooltip:hover .tooltip__box {
   visibility: visible;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;

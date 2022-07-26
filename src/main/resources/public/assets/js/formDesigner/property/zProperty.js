@@ -144,7 +144,7 @@ export default class ZProperty {
         if (!zValidation.isEmpty(helpText)) {
             label.UITooltip = new UIDiv().setUIClass('help-tooltip');
             label.UITooltip.addUI(new UISpan().setUIClass('ic-tooltip'));
-            label.UITooltip.UIContent = new UIDiv().setUIClass('tooltip-contents');
+            label.UITooltip.UIContent = new UIDiv().setUIClass('tooltip__box');
             label.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(helpText)));
             label.UITooltip.addUI(label.UITooltip.UIContent);
             label.addUI(label.UITooltip);

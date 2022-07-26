@@ -90,7 +90,7 @@
                             <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.duration}"></span>
                             <div class="help-tooltip">
                                 <span class="ic-tooltip"></span>
-                                <div class="tooltip-contents right">
+                                <div class="tooltip__box right">
                                     <span th:utext="#{chart.tooltip.timezoneInfo(${chartTimezone})}"></span>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                         <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.targetTags}"></span>
                         <div class="help-tooltip">
                             <span class="ic-tooltip"></span>
-                            <div class="tooltip-contents right">
+                            <div class="tooltip__box right">
                                 <span th:utext="#{chart.tooltip.targetTags}"></span>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                         <span class="field-label" th:text="#{chart.label.condition}"></span>
                         <div class="help-tooltip">
                             <span class="ic-tooltip"></span>
-                            <div class="tooltip-contents right">
+                            <div class="tooltip__box right">
                                 <span th:utext="#{chart.tooltip.condition}"></span>
                             </div>
                         </div>

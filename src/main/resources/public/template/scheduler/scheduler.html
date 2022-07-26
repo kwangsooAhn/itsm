@@ -107,7 +107,7 @@
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{scheduler.label.executeCycleType}"></span>
                 <div class="help-tooltip">
                     <span class="ic-tooltip"></span>
-                    <div class="tooltip-contents right" id="tooltipContent">
+                    <div class="tooltip__box right" id="tooltipContent">
                         <span id="fixedDelayTooltip" th:utext="#{scheduler.tooltip.fixedDelay}"></span>
                         <span id="fixedRateTooltip" th:utext="#{scheduler.tooltip.fixedRate}"></span>
                         <span id="cronTooltip" th:utext="#{scheduler.tooltip.cron}"></span>

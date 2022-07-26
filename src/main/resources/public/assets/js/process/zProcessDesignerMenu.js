@@ -1116,7 +1116,7 @@
             let targetMappingTooltipIcon = document.createElement('span');
             targetMappingTooltipIcon.className = 'ic-tooltip';
             let targetMappingTooltipContents = document.createElement('div');
-            targetMappingTooltipContents.className = 'tooltip-contents';
+            targetMappingTooltipContents.className = 'tooltip__box';
             let targetMappingTooltipText = document.createElement('span');
             targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetFileMappingId');
             targetMappingTooltipContents.appendChild(targetMappingTooltipText);
@@ -1146,7 +1146,7 @@
             let sourceMappingTooltipIcon = document.createElement('span');
             sourceMappingTooltipIcon.className = 'ic-tooltip';
             let sourceMappingTooltipContents = document.createElement('div');
-            sourceMappingTooltipContents.className = 'tooltip-contents';
+            sourceMappingTooltipContents.className = 'tooltip__box';
             let sourceMappingTooltipText = document.createElement('span');
             sourceMappingTooltipText.innerHTML = i18n.msg('process.msg.sourceMappingId');
             sourceMappingTooltipContents.appendChild(sourceMappingTooltipText);
@@ -1264,7 +1264,7 @@
             let conditionTooltipIcon = document.createElement('span');
             conditionTooltipIcon.className = 'ic-tooltip';
             let conditionTooltipContents = document.createElement('div');
-            conditionTooltipContents.className = 'tooltip-contents';
+            conditionTooltipContents.className = 'tooltip__box';
             let conditionTooltipText = document.createElement('span');
             conditionTooltipText.innerHTML = i18n.msg('process.msg.condition');
             conditionTooltipContents.appendChild(conditionTooltipText);
