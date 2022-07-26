@@ -11830,11 +11830,10 @@ body.active {
 .popup .view-content .view-text {
   margin: 0;
 }
-
-.notice-content-popup.view {
+.popup .view {
   height: auto;
 }
-.notice-content-popup.view .view-row .checkbox {
+.popup .view .view-row .checkbox {
   padding-bottom: 1.25rem;
 }
 

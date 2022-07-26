@@ -9,11 +9,7 @@
   height: 100vh;
   padding: 1.875rem 2.5rem 0 2.5rem; // 30px 40px 0 40px
   background-color: $white;
-}
-
-// 공지사항 팝업
-.notice-content-popup {
-  &.view {
+  .view {
     height: auto;
     .view-row .checkbox { padding-bottom: 1.25rem; }
   }
