@@ -4055,7 +4055,7 @@ span.ic-alert-email {
   position: static;
 }
 
-.tooltip__box--aa {
+.tooltip__box {
   left: 0;
   width: 100%;
 }
@@ -13382,7 +13382,7 @@ body.active {
   background: #8B9094;
   cursor: pointer;
 }
-.tooltip--info .tooltip__box--aa {
+.tooltip--info .tooltip__box {
   position: absolute !important;
   left: auto;
   border: 0.125rem solid #3373C4;
@@ -13393,21 +13393,19 @@ body.active {
   -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
   width: 28.125rem;
+  height: auto;
   margin: 0.25rem 0 0 0;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
-  background-color: #FFFFFF;
   color: #3373C4;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  z-index: 500;
+  text-align: left;
   visibility: hidden;
 }
-.tooltip--info .tooltip__box--aa span {
+.tooltip--info .tooltip__box span {
   color: #3373C4;
   line-height: 1.5;
   word-break: keep-all;
 }
-.tooltip--info .tooltip__box--aa.top {
+.tooltip--info .tooltip__box.top {
   position: absolute !important;
   top: 0;
   right: auto;
@@ -13419,7 +13417,7 @@ body.active {
   -ms-transform: translate(-50%, calc(-100% - 0.625rem));
   transform: translate(-50%, calc(-100% - 0.625rem));
 }
-.tooltip--info .tooltip__box--aa.right {
+.tooltip--info .tooltip__box.right {
   position: absolute !important;
   top: 0;
   right: 0;
@@ -13431,7 +13429,7 @@ body.active {
   -ms-transform: translate(calc(100% + 0.625rem), -50%);
   transform: translate(calc(100% + 0.625rem), -50%);
 }
-.tooltip--info .tooltip__box--aa.bottom {
+.tooltip--info .tooltip__box.bottom {
   position: absolute !important;
   top: auto;
   right: auto;
@@ -13443,7 +13441,7 @@ body.active {
   -ms-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
 }
-.tooltip--info .tooltip__box--aa.left {
+.tooltip--info .tooltip__box.left {
   position: absolute !important;
   top: 0;
   right: auto;
@@ -13455,7 +13453,7 @@ body.active {
   -ms-transform: translate(calc(-100% - 0.625rem), -50%);
   transform: translate(calc(-100% - 0.625rem), -50%);
 }
-.tooltip--info:hover .tooltip__box--aa {
+.tooltip--info:hover .tooltip__box {
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;
   -webkit-animation-name: fadeIn;

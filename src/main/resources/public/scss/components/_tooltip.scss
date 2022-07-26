@@ -106,20 +106,18 @@
       cursor: pointer;
     }
 
-    .tooltip__box--aa {
+    .tooltip__box {
       // 툴팁 표시 위치 기본은 우측 하단
       @include absolute($left: auto);
       @include border(0.125rem, solid, $blue500, all);
       @include borderRadius(0.125rem); // 2px
       @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
       width: 28.125rem; // 450px
+      height: auto;
       margin: 0.25rem 0 0 0;
       padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-      background-color: $white;
       color: $blue500;
-      font-family: $font-family;
-      font-size: $font-size-xs;
-      z-index: $z-index-tooltip;
+      text-align: left;
       visibility: hidden;
       span {
         color: $blue500;
@@ -146,7 +144,7 @@
     }
 
     &:hover {
-      .tooltip__box--aa {
+      .tooltip__box {
         @include animation (0s, 0.3s, fadeIn, ease-out);
         visibility: visible;
       }
