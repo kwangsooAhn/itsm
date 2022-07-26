@@ -24,7 +24,7 @@
     // 댓글이 없으면 라인 생략
     &:empty { border-color: transparent; }
 
-    &__row {
+    &__item {
       @include border(0.0625rem, solid, $gray300, bottom);
       padding-top : 1.875rem; // 30px
       padding-bottom: 1.875rem; // 30px
@@ -54,5 +54,42 @@
     flex : none;
     margin: auto 0.9376rem auto 0; // 15px
     background-color: transparent;
+  }
+  
+  // 문서함
+  &--token {
+    .reply {
+      &__list {
+        &__item {
+          @include border(0.0625rem, solid, $gray300, all);
+          @include borderRadius(0.125rem);
+          margin: 0.625rem 0 0 0; // 10px 0 0 0
+          padding: 1rem; // 16px
+          &__info {
+            &__name {
+              color: $gray800;
+              font-weight: $font-weight-bold;
+            }
+            &__date {
+              margin-left: 0.5rem; //8px
+              color: $gray500;
+            }
+          }
+          &__comment {
+            height: 100%;
+            margin: 0.625rem 0 0 0; // 10px 0 0 0
+            h6 { width: 27.5rem; }            
+          }
+        }
+      }
+      
+      // 댓글 추가
+      &__form {
+        margin: 0.625rem 0 0 0; // 10px 0 0 0
+        padding: 0;
+        border: none;
+        background-color: transparent;
+      }
+    }
   }
 }

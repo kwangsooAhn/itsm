@@ -733,7 +733,7 @@ class ZFormTokenTab {
      * 댓글 재로딩
      */
     reloadTokenComment() {
-        document.querySelectorAll('#tokenComments .token-comment-item').forEach((comment) => {
+        document.querySelectorAll('#tokenComments .reply__list__item').forEach((comment) => {
             comment.remove();  // 댓글 clear
         });
 
@@ -757,13 +757,13 @@ class ZFormTokenTab {
      */
     makeCommentsFragment(comment) {
         let htmlString =
-            `<div class="token-comment-item flex-column" id="comment` + comment.commentId + `">` +
-            `<div class="comment-row-info flex-row align-items-center">` +
+            `<div class="reply__list__item flex-column" id="comment` + comment.commentId + `">` +
+            `<div class="reply__list__item__info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
             `<img class="i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
-            `<h6 class="user-name pl-2">` + comment.createUserName + `</h6>` +
+            `<h6 class="reply__list__item__info__name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
-            `<h6 class="comment-time date-time">` + comment.createDt + `</h6>` +
+            `<h6 class="reply__list__item__info__date date-time">` + comment.createDt + `</h6>` +
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
@@ -774,7 +774,7 @@ class ZFormTokenTab {
         htmlString +=
             `</div>` +
             `</div>` +
-            `<div class="comment-row-content">` +
+            `<div class="reply__list__item__comment">` +
             `<h6 class="text-wordWrap">` +
             `${aliceJs.filterXSS(comment.content)}` +
             `</h6>` +

@@ -6128,32 +6128,6 @@ span.ic-alert-email {
 .document-container .token-properties .token-panels .token-related .document-add .btn__ic .ic-plus {
   background: #8B9094;
 }
-.document-container .token-properties .token-panels .token-comment-item {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  margin: 0.625rem 0 0 0;
-  padding: 1rem;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-info .user-name {
-  color: #222529;
-  font-weight: 700;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-info .comment-time {
-  margin-left: 0.5rem;
-  color: #8B9094;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-content {
-  height: 100%;
-  margin: 0.625rem 0 0 0;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-content h6 {
-  width: 27.5rem;
-}
-.document-container .token-properties .token-panels .token-comment .comment-add {
-  margin: 0.625rem 0 0 0;
-}
 .document-container .token-properties .token-panels .token-viewer-sub-title {
   display: block;
   margin: 2.5rem 0 0.3125rem 0;
@@ -11876,28 +11850,28 @@ body.active {
 .reply__list:empty {
   border-color: transparent;
 }
-.reply__list__row {
+.reply__list__item {
   border-bottom: 0.0625rem solid #CFD5D9;
   padding-top: 1.875rem;
   padding-bottom: 1.875rem;
 }
-.reply__list__row__info {
+.reply__list__item__info {
   align-items: center;
 }
-.reply__list__row__info__name {
+.reply__list__item__info__name {
   font-weight: 400;
 }
-.reply__list__row__info__date {
+.reply__list__item__info__date {
   color: #ABB0B5;
   font-weight: 400;
 }
-.reply__list__row__comment {
+.reply__list__item__comment {
   display: flex;
   margin-top: 0.9375rem;
   margin-left: 3rem;
   word-break: break-all;
 }
-.reply__list__row__comment input {
+.reply__list__item__comment input {
   width: 100%;
   margin: 0 0.3125rem;
 }
@@ -11907,6 +11881,35 @@ body.active {
   -moz-border-radius: 50%;
   flex: none;
   margin: auto 0.9376rem auto 0;
+  background-color: transparent;
+}
+.reply--token .reply__list__item {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  margin: 0.625rem 0 0 0;
+  padding: 1rem;
+}
+.reply--token .reply__list__item__info__name {
+  color: #222529;
+  font-weight: 700;
+}
+.reply--token .reply__list__item__info__date {
+  margin-left: 0.5rem;
+  color: #8B9094;
+}
+.reply--token .reply__list__item__comment {
+  height: 100%;
+  margin: 0.625rem 0 0 0;
+}
+.reply--token .reply__list__item__comment h6 {
+  width: 27.5rem;
+}
+.reply--token .reply__form {
+  margin: 0.625rem 0 0 0;
+  padding: 0;
+  border: none;
   background-color: transparent;
 }
 
