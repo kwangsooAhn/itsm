@@ -39,9 +39,19 @@
 
   &__btn__ic {
     &--arrow {
-      @include border(0.0625rem, solid, $gray300, all); // 1px
+      @include border(0.0625rem, solid, $gray300, all);
       cursor: text;
       &:not(:first-child) { border-left: 0; }
+      // #pagingStartArrow
+      &:first-child {
+        border-top-left-radius: 0.15rem; // 1.5px
+        border-bottom-left-radius: 0.15rem;
+      }
+      // #pagingEndArrow
+      &:nth-last-child(2) {
+        border-top-right-radius: 0.15rem; // 1.5px
+        border-bottom-right-radius: 0.15rem;
+      }
       &.active {
         cursor: pointer;
         span[class*="ic-"] { background: $blue700; }
@@ -49,15 +59,9 @@
     }
   }
 
-  #pagingStartArrow {
-    border-top-left-radius: 0.15rem; // 1.5px
-    border-bottom-left-radius: 0.15rem;
-  }
-  #pagingEndArrow {
-    border-top-right-radius: 0.15rem; // 1.5px
-    border-bottom-right-radius: 0.15rem;
-  }
-  #spanCurrentPageNum {
+
+  // 총 페이지 수
+  & > span {
     @include absolute($right: 3.75rem);
     color: $neutral600;
     font-weight: $font-weight-medium;

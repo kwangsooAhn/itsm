@@ -1331,12 +1331,12 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 .flex-row {
-  display: flex;
+  display: flex !important;
   flex-direction: row !important;
 }
 
 .flex-column {
-  display: flex;
+  display: flex !important;
   flex-direction: column !important;
 }
 
@@ -11774,21 +11774,21 @@ body.active {
 .pagination__btn__ic--arrow:not(:first-child) {
   border-left: 0;
 }
+.pagination__btn__ic--arrow:first-child {
+  border-top-left-radius: 0.15rem;
+  border-bottom-left-radius: 0.15rem;
+}
+.pagination__btn__ic--arrow:nth-last-child(2) {
+  border-top-right-radius: 0.15rem;
+  border-bottom-right-radius: 0.15rem;
+}
 .pagination__btn__ic--arrow.active {
   cursor: pointer;
 }
 .pagination__btn__ic--arrow.active span[class*=ic-] {
   background: #19428D;
 }
-.pagination #pagingStartArrow {
-  border-top-left-radius: 0.15rem;
-  border-bottom-left-radius: 0.15rem;
-}
-.pagination #pagingEndArrow {
-  border-top-right-radius: 0.15rem;
-  border-bottom-right-radius: 0.15rem;
-}
-.pagination #spanCurrentPageNum {
+.pagination > span {
   position: absolute !important;
   right: 3.75rem;
   color: #757575;
