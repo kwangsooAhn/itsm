@@ -1467,6 +1467,7 @@ service:
     editDescription: "서비스 카테고리를 조회 및 관리합니다."
     enterServiceCode: "서비스 코드를 입력하세요."
     enterServiceName: "서비스 이름을 입력하세요."
+    checkPositionFormat: "서비스 코드 항목은 특수문자 사용이 불가합니다."
 
 # sla
 sla:

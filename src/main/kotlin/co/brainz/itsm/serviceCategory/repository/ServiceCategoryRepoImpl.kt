@@ -23,7 +23,7 @@ class ServiceCategoryRepoImpl : QuerydslRepositorySupport(ServiceCategoryEntity:
                     ?.or(super.likeIgnoreCase(service.serviceName, searchValue))
             )
         }
-        query.orderBy(service.level.asc(), service.seqNum.asc())
+        query.orderBy(service.level.asc(), service.serviceCode.asc())
         return query.fetch()
     }
 

@@ -19,7 +19,7 @@
            maxlength="100" th:placeholder="#{service.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto" sec:authorize="hasAuthority('service.manage')">
-        <button type="button" class="button primary" id="btnCreate" name="btnCreate"
+        <button type="button" class="btn__text--box primary" id="btnCreate" name="btnCreate"
                 th:text="#{common.btn.add}" onclick="onCreate()"></button>
     </div>
 </div>
@@ -37,7 +37,7 @@
             <div class="flex-column flex-fill">
                 <label class="required" th:text="#{service.label.pCode}" for="pServiceCode"></label>
                 <input id="pServiceCode" name="pServiceCode" class="input text-ellipsis col-pct-12" type="text"
-                       maxlength="100"/>
+                       maxlength="100" disabled/>
             </div>
         </div>
         <div class="edit-row flex-row">
@@ -61,29 +61,29 @@
         </div>
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{service.label.description}" for="serviceDesc"></label>
-            <textarea id="serviceDesc" name="serviceDesc" th:maxlength="200" th:rows="5"
+            <textarea id="serviceDesc" name="serviceDesc" th:maxlength="200" th:rows="4"
                       class="textarea textarea-scroll-wrapper"></textarea>
         </div>
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{service.label.avaGoal}" for="avaGoal"></label>
-            <textarea id="avaGoal" name="avaGoal" th:maxlength="200" th:rows="5"
+            <textarea id="avaGoal" name="avaGoal" th:maxlength="200" th:rows="4"
                       class="textarea textarea-scroll-wrapper"></textarea>
         </div>
         <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="form-title" th:text="#{service.label.startDate}" for="startDate"></label>
-                <input type="text" class="input i-date-picker search-date col-pct-12" id="startDate" name="startDate"/>
+                <input type="text" class="input ic-date-picker search-date col-3 date-picker__input col-pct-12" id="startDate" name="startDate"/>
             </div>
             <div class="flex-column flex-fill">
                 <label class="form-title" th:text="#{service.label.endDate}" for="endDate"></label>
-                <input type="text" class="input i-date-picker search-date col-pct-12" id="endDate" name="endDate"/>
+                <input type="text" class="input ic-date-picker search-date col-3 date-picker__input col-pct-12" id="endDate" name="endDate"/>
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="button-list" sec:authorize="hasAuthority('service.manage')">
-                <button type="button" class="button primary" id="btnRegist" name="btnRegist"
+            <div class="btn__list" sec:authorize="hasAuthority('service.manage')">
+                <button type="button" class="btn__text--box primary" id="btnRegist" name="btnRegist"
                         th:onclick="onSave('POST')" th:text="#{common.btn.register}"></button>
-                <button type="button" class="button primary" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="btn__text--box primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="onSave('PUT')" th:text="#{common.btn.modify}"></button>
             </div>
         </div>
@@ -94,19 +94,22 @@
     /*<![CDATA[*/
     let observer = aliceJs.pageObserver;
     let startDate = i18n.getDate();
+    /* eslint-disable no-useless-escape */ // 정규식 ESLint 검사 제외
+    const specialCharInServiceCode = /[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/; //특수문자 포함 (. 제외)
 
     window.addEventListener('load', function() {
         observer.set();
-        document.getElementById('searchValue').focus();
-
+        onCreate();
         getServiceList();
+
+        document.getElementById('searchValue').focus();
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getServiceList()), false);
 
         OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('serviceDesc'), {
             className: 'scrollbar',
-            resize: 'vertical',
+            resize: 'none',
             sizeAutoCapable: true,
             textarea: {
                 dynHeight: false,
@@ -116,7 +119,7 @@
         });
         OverlayScrollbars(document.getElementById('avaGoal'), {
             className: 'scrollbar',
-            resize: 'vertical',
+            resize: 'none',
             sizeAutoCapable: true,
             textarea: {
                 dynHeight: false,
@@ -124,6 +127,8 @@
                 inheritedAttrs: 'class'
             }
         });
+        zDateTimePicker.initDatePicker(document.getElementById('startDate'), setDatePicker);
+        zDateTimePicker.initDatePicker(document.getElementById('endDate'), setDatePicker);
     });
 
     /** service list **/
@@ -181,8 +186,6 @@
             // 서비스 종료일자
             const endDt = document.getElementById('endDate');
             endDt.value = response.data.endDate;
-            zDateTimePicker.initDatePicker(startDt, setDatePicker);
-            zDateTimePicker.initDatePicker(endDt, setDatePicker);
 
             // 편집 가능 여부에 따른 처리
             if (response.data.editable) {
@@ -249,6 +252,7 @@
         });
         document.getElementById('serviceDesc').readOnly = false;
         document.getElementById('avaGoal').readOnly = false;
+        document.getElementById('useYn').disabled = false;
 
         // 서비스 코드
         const serviceCode = document.getElementById('serviceCode');
@@ -292,6 +296,12 @@
             useYn: document.getElementById('useYn').checked,
             seqNum: document.getElementById('seqNum').value
         };
+
+        // 서비스 코드 특수문자 체크
+        if (specialCharInServiceCode.test(jsonData.serviceCode)) {
+            zAlert.warning('[(#{service.msg.checkPositionFormat})]');
+            return false;
+        }
 
         if (jsonData.serviceCode === null || jsonData.serviceCode.trim() === '') {
             zAlert.warning('[(#{service.msg.enterServiceCode})]');
