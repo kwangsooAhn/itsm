@@ -43,12 +43,12 @@
       cursor: text;
       &:not(:first-child) { border-left: 0; }
       // #pagingStartArrow
-      &:first-child {
+      &-start {
         border-top-left-radius: 0.15rem; // 1.5px
         border-bottom-left-radius: 0.15rem;
       }
       // #pagingEndArrow
-      &:nth-last-child(2) {
+      &-end {
         border-top-right-radius: 0.15rem; // 1.5px
         border-bottom-right-radius: 0.15rem;
       }

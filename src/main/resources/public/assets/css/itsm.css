@@ -11774,11 +11774,11 @@ body.active {
 .pagination__btn__ic--arrow:not(:first-child) {
   border-left: 0;
 }
-.pagination__btn__ic--arrow:first-child {
+.pagination__btn__ic--arrow-start {
   border-top-left-radius: 0.15rem;
   border-bottom-left-radius: 0.15rem;
 }
-.pagination__btn__ic--arrow:nth-last-child(2) {
+.pagination__btn__ic--arrow-end {
   border-top-right-radius: 0.15rem;
   border-bottom-right-radius: 0.15rem;
 }
