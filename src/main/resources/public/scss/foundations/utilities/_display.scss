@@ -10,7 +10,7 @@
 $flex-align-type: (row, column);
 @each $direction in $flex-align-type {
   .flex-#{$direction} {
-    display: flex;
+    display: flex !important;
     flex-direction: #{$direction} !important;
   }
 }
