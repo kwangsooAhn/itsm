@@ -219,7 +219,7 @@
               }
             }
 
-            .table-body {
+            .table__body {
               overflow-y: auto;
               border: none;
               tr {
@@ -341,7 +341,7 @@
             td, th {
               &:nth-child(3) { color: $gray500; }
             }
-            .table-body {
+            .table__body {
               border: none;
               tr:hover { background-color: transparent; }
             }
@@ -441,7 +441,7 @@
               }
             }
 
-            .table-body {
+            .table__body {
               border: none;
 
               tr:hover {

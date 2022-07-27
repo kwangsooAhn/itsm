@@ -100,7 +100,7 @@ body.active { overflow: hidden !important; }
         .table-set {
           margin-top: 1.875rem; // 30px
           .table {
-            .table-body {
+            .table__body {
               overflow-y: auto;
               display: block;
               width: 60rem; // 960px
@@ -263,7 +263,7 @@ body.active { overflow: hidden !important; }
         .table {
           width: auto;
 
-          .table-body {
+          .table__body {
             border: none;
             tr:hover { background-color: transparent; }
           }
@@ -325,7 +325,7 @@ body.active { overflow: hidden !important; }
         .table-set {
           margin-top: 1.875rem; // 30px
           .table {
-            .table-body {
+            .table__body {
               display: block;
               overflow-y: auto;
               width: 60rem; // 960px
@@ -526,7 +526,7 @@ body.active { overflow: hidden !important; }
       .table-set {
         margin-top: 2.188rem; // 35px
         .table {
-          .table-body {
+          .table__body {
             display: block;
             overflow-y: auto;
             width: 60rem; // 960px

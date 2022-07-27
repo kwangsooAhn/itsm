@@ -274,7 +274,7 @@ export const userSearchMixin = {
             // 사용자 선택 모달 생성
             if (!zValidation.isEmpty(searchUserList)) {
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.table__body'), { className: 'scrollbar' });
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
                 // 체크 이벤트

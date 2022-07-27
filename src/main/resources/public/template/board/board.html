@@ -81,9 +81,9 @@
             </div>
             <div class="flex-row">
                 <div class="category-list mt-2">
-                    <table class="option-table">
+                    <table class="table--option">
                         <thead>
-                        <tr class="option-table-header">
+                        <tr class="table--option__head">
                             <th class="col-6 align-left" th:text="#{board.label.category}"></th>
                             <th class="col-5 align-left" th:text="#{board.label.order}"></th>
                             <th class="col-1 align-center"></th>
@@ -93,7 +93,7 @@
                         <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
                             <td colspan="5" style="width:100%" th:text="#{common.msg.noData}"></td>
                         </tr>
-                        <tr class="option-table-row" th:each="category: ${boardAdmin?.categoryList}">
+                        <tr class="table--option__row" th:each="category: ${boardAdmin?.categoryList}">
                             <td class="col-6 align-left text-wordWrap" th:text="${category.boardCategoryName}"></td>
                             <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                             <td class="col-1 align-center">
@@ -330,7 +330,7 @@
             const categoryNameColumn = document.createElement('td');
             const categorySortColumn = document.createElement('td');
             const categoryDeleteColumn = document.createElement('td');
-            categoryRow.className = 'option-table-row';
+            categoryRow.className = 'table--option__row';
             categoryNameColumn.className = 'col-6';
             categorySortColumn.className = 'col-5';
             categoryDeleteColumn.className = 'col-1 align-center';

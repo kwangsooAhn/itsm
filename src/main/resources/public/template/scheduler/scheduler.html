@@ -336,11 +336,11 @@
                     let node = tempTbody.rows[i].cloneNode(true);
                     container.appendChild(node);
                 }
-                document.querySelector('.table-body .os-content').appendChild(container);
+                document.querySelector('.table__body .os-content').appendChild(container);
             } else {
                 document.getElementById('historyList').innerHTML = formData;
                 setDateTimeFormat(document.getElementById('historyList'))
-                OverlayScrollbars(document.querySelector('.table-body'), {
+                OverlayScrollbars(document.querySelector('.table__body'), {
                     className: 'scrollbar',
                     callbacks: {
                         onScroll: function (e) {
