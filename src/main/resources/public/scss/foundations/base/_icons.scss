@@ -13,7 +13,7 @@
 // 2rem, 2rem         // 32px 32px
 [class*="ic-"] {
   display: inline-block;
-  -webkit-print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;  
 }
 
 span {
@@ -159,6 +159,14 @@ span {
   &.ic-paging-prev-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_prev.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
   &.ic-paging-next-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_next.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
   &.ic-paging-end-arrow { @include maskImage('#{$icon-folder-path}paging/icon_paging_arrow_end.svg', 1.5rem, 1.5rem, no-repeat, center, null, $gray400); }
+
+  ////////////////////////// alert ////////////////////////// 5px
+  &.ic-alert-success { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_success.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-info { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_info.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-warning { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_warning.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-danger { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_danger.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-confirm { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, center, center, null); }
+  &.ic-alert-email { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_email.svg', null, no-repeat, center, center, null); }
 
   ////////////////////////// Document //////////////////////////
   &.ic-document-service { @include maskImage('#{$icon-folder-path}document/icon_document_service.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }

@@ -17,15 +17,16 @@ $custom-color-plus: (
   'active': ('font': $blue700, 'background': $blue200, 'border': $blue400)
 );
 
-.color-picker-wrapper {
+.color-picker {
   color: $gray500;
   font-family: $font-family;
   font-size: $font-size-xs;
   font-weight: $font-weight-bold;
 
-  .color-input { display: none; }
+  &__input { display: none; }
+  
   // color picker
-  .color-picker {
+  &__box {
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include borderRadius(0.125rem); // 2px
     width: 7.5rem; // 120px
@@ -33,27 +34,25 @@ $custom-color-plus: (
     box-shadow: none;
     cursor: pointer;
     outline: none;
-
-    .color-box {
-      @include borderRadius(0.0625rem);
-      @include border(0.25rem, solid, transparent, all); // 4px
-      display: inline-block;
-      width: 4.75rem; // 76px
-      height: 1.5rem; // 24px
-    }
-    .ic-color-palette { background: $gray500; }
-
     &:focus, &:hover { outline: 0; }
-
     &:hover:not(.readonly) { border-color: $blue400; }
-
     &:focus:not(.readonly) {
       @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 0 0 2px 0
       border-color: $blue600;
     }
+
+    &__color {
+      @include borderRadius(0.0625rem);
+      @include border(0.25rem, solid, transparent, all); // 4px
+      display: inline-block;
+      width: 5rem; // 80px
+      height: 1.5rem; // 24px
+    }
+    .ic-color-palette { background: $gray500; }
   }
+  
   // 모달
-  .color-picker-modal {
+  &__modal {
     @include fixed();
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include borderRadius(0.125rem); // 2px
@@ -61,33 +60,22 @@ $custom-color-plus: (
     display: none;
     min-width: 23.5rem; // 376px
     background-color: $white;
-    z-index: 1000;
-    // modal open
-    &.active {
-      display: block;
-      z-index: 1000;
-    }
+    z-index: $z-index-modal;
+    
     // color palette
-    .palette-container {
+    &__palette {
       min-height: 12.5rem; // 200px
       padding:  0.75rem; // 12px
 
-      .palette-row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
+      &__row {
         &:first-child { margin-bottom: 0.5rem; } // 8px
         // color palette item
-        .palette-item {
+        &__item {
           @include borderRadius(0.125rem);
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
           width: 1.75rem; // 28px;
           height: 1.75rem; // 28px;
           cursor: pointer;
+          &.selected { @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); }
 
           &.material-color {
             &:not(.first) {
@@ -101,41 +89,32 @@ $custom-color-plus: (
           }
           // 하얀 색상은 테두리를 표기함
           &.border-inset { @include boxShadow(0, 0, 0, 0.0625rem, $gray300, true); }
-
-          .palette-item-inner {
+          
+          &__inner {
             @include borderRadius(0.0625rem);
             width: 1.25rem; // 20px
             height: 1.25rem; // 20px
             pointer-events: none;
           }
-
-          &.selected { @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); }
         }
       }
     }
+    
     // 사용자 색상
-    .custom-color-palette-container {
+    &__custom {
       @include relative();
       @include border(0.0625rem, solid, $gray300, top); // 1px
       min-height: 4.875rem; // 78px
       padding:  0.75rem; // 12px
 
-      // 편집 버튼
-      .custom-color-edit {
-        @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
-        visibility: hidden;
-      }
-
       // 사용자 색상 목록 영역
-      .custom-color-list {
-        display: flex;
-        flex-direction: row;
+      &__list {
         margin: 0.75rem 0 0.5rem 0; // 12px 0 8px 0
 
         > *:not(:first-child) { margin: 0 0 0 8px; } // 0 0 0 8px
 
         // custom color palette item
-        .custom-color-palette-item {
+        &__item {
           @include relative();
           @include borderRadius(0.125rem);
           display: flex;
@@ -146,7 +125,7 @@ $custom-color-plus: (
           height: 1.75rem; // 28px;
           cursor: pointer;
 
-          .custom-color-palette-item-inner {
+          &__inner {
             @include borderRadius(0.0625rem);
             width: 1.25rem; // 20px
             height: 1.25rem; // 20px
@@ -154,7 +133,7 @@ $custom-color-plus: (
           }
 
           // X 버튼
-          .custom-color-palette-item-clear {
+          .item-remove--red {
             @include absolute($top: -0.25rem,$right: -0.25rem); // -4px -4px
             @include borderRadius(50%);
             width: 1rem; // 16px
@@ -163,7 +142,6 @@ $custom-color-plus: (
             background-color: $red500;
             line-height: 0.3125rem; // 5px
             visibility: hidden;
-
             .ic-remove {
               width: 0.5rem; // 8px
               height: 0.5rem; // 8px
@@ -172,11 +150,60 @@ $custom-color-plus: (
             }
           }
 
-         &.selected { @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); }
+          &.selected { @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); }
         }
 
+        // 편집 가능시 사용자 색상 삭제 버튼 show
+        &.editable {
+          // X 버튼
+          .item-remove--red { visibility: visible; }
+        }
+      }
+
+      // 물방울, hex, rgb, 추가 버튼 영역
+      &__control {
+        display: none;
+
+        &__draw {
+          display: grid;
+          grid-template-columns:  1.75rem 5rem 3rem 3rem 3rem 3.75rem; // 28px 80px 48px 48px 48px 60px
+          grid-template-rows: 2.25rem 2.25rem; // 36px 36px
+          gap: 0 0.5rem; // 0 8px
+          font-weight: $font-weight-medium;
+
+          // 물방울 아이콘
+          .ic-water-drop {
+            .water-drop-outer { fill-opacity: 1; }
+            .water-drop-inner { fill-opacity: 0; }
+            &.active {
+              .water-drop-outer { fill-opacity: 0; }
+              .water-drop-inner {
+                fill: var(--data-color, $gray500);
+                fill-opacity: 1;
+              }
+            }
+          }
+          .input { padding: 0 0.5rem; } // 0 8px
+        }
+
+        // 문구
+        &__label { text-align: center; }
+
+        .btn__list {
+          width: 100%;
+          text-align: right;
+        }
+      }
+      
+      // icon
+      .custom-color-btn__ic {
+        // 편집 버튼
+        &--edit {
+          @include absolute($top: 0.125rem, $right: 0.75rem); // 2px 12px
+          visibility: hidden;
+        }
         // [+] 버튼
-        .custom-color-plus {
+        &--plus {
           @include border(0.0625rem, solid, map-get($custom-color-plus, 'default', 'border'), all);
           @include borderRadius(0.125rem); // 2px
           display: none;
@@ -202,7 +229,6 @@ $custom-color-plus: (
             }
             .ic-plus { background: map-get($custom-color-plus, 'focus', 'font'); }
           }
-
           &:hover {
             background-color: map-get($custom-color-plus, 'hover', 'background');
             border-color: map-get($custom-color-plus, 'hover', 'border');
@@ -211,7 +237,6 @@ $custom-color-plus: (
             }
             .ic-plus { background: map-get($custom-color-plus, 'hover', 'font'); }
           }
-
           &:enabled:active,
           &:enabled.active {
             background-color: map-get($custom-color-plus, 'active', 'background');
@@ -221,51 +246,6 @@ $custom-color-plus: (
             }
             .ic-plus { background: map-get($custom-color-plus, 'active', 'font'); }
           }
-        }
-
-        // 편집 가능시 사용자 색상 삭제 버튼 show
-        &.editable {
-          .custom-color-palette-item {
-            // X 버튼
-            .custom-color-palette-item-clear { visibility: visible; }
-          }
-        }
-      }
-
-      // 물방울, hex, rgb, 추가 버튼 영역
-      .custom-color-control-container {
-        display: none;
-        // control open
-        &.active { display: block; }
-
-        .custom-color-control {
-          display: grid;
-          grid-template-columns:  1.75rem 5rem 3rem 3rem 3rem 3.75rem; // 28px 80px 48px 48px 48px 60px
-          grid-template-rows: 2.25rem 2.25rem; // 36px 36px
-          gap: 0 0.5rem; // 0 8px
-          font-weight: $font-weight-medium;
-
-          // 물방울 아이콘
-          .ic-water-drop {
-            .water-drop-outer { fill-opacity: 1; }
-            .water-drop-inner { fill-opacity: 0; }
-            &.active {
-              .water-drop-outer { fill-opacity: 0; }
-              .water-drop-inner {
-                fill: var(--data-color, $gray500);
-                fill-opacity: 1;
-              }
-            }
-          }
-          .input { padding: 0 0.5rem; } // 0 8px
-
-          // 문구
-          .color-text { text-align: center; }
-        }
-
-       .button-list {
-          width: 100%;
-          text-align: right;
         }
       }
     }

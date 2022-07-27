@@ -37,17 +37,17 @@
                 <label tabindex="-1" th:text="#{user.label.password}"></label>
                 <input type="password" id="upasswd" name="upasswd" class="input text-ellipsis" maxlength="100" required="required">
             </div>
-            <button class="button primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
+            <button class="btn__text--box primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
         </div>
         <div th:if="${isLoginPlatform}">
             <div class="login-divide flex-row align-items-center" th:text="#{login.label.or}"></div>
             <div class="login-platform">
-                <button class="button google col-pct-12" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
-                <button class="button kakao col-pct-12" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
+                <button class="btn__text--box google col-pct-12" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
+                <button class="btn__text--box kakao col-pct-12" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
             </div>
         </div>
         <div class="pt-2"></div>
-        <a href="/portals/main" class="button button-text" th:text="'&larr; ' + #{portal.btn.main}"></a>
+        <a href="/portals/main" class="btn__text--only" th:text="'&larr; ' + #{portal.btn.main}"></a>
         <div class="login-other flex-row justify-content-center align-items-center">
             <div th:if="${createAccountEnabled}" class="login-other-signUp align-center"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
             <div th:if="${findIdEnabled}" class="vertical-bar"></div>
@@ -94,7 +94,7 @@
                 classes: 'password-update-notice',
                 buttons: [{
                     content: i18n.msg('user.btn.updatePassword'),
-                    classes: 'button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: function() {
                         if(validation()) {
@@ -108,7 +108,7 @@
                     }
                 },{
                     content: i18n.msg('user.btn.nextTime', passwordExpiredPeriod),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function() {
                         const userUpdateInfo = {
@@ -121,7 +121,7 @@
                     closable: false,
                 },
                 onCreate: function () {
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.modal__dialog__body'), {className: 'scrollbar'});
                 }
             });
             formModal.show();

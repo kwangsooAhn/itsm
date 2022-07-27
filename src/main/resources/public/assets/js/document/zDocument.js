@@ -398,7 +398,7 @@ class ZDocument {
                 classes: 'process-status-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();
@@ -408,7 +408,7 @@ class ZDocument {
                     closable: false,
                 },
                 onCreate: () => {
-                    OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
                     let statusGroup = d3.select('#elementContainer')
                         .style('background-image', 'url(' + tokenStatus.imageData + ')')
                         .style('width', tokenStatus.width)

@@ -179,14 +179,14 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--register',
         buttons: [{
             content: i18n.msg('common.btn.register'),
-            classes: 'button primary',
+            classes: 'btn__text--box primary',
             bindKey: false,
             callback: (modal) => {
                 this.saveSchedule(modal.customOptions);
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'button secondary',
+            classes: 'btn__text--box secondary',
             bindKey: false,
             callback: (modal) => {
                 if (modal.customOptions.guide) {
@@ -200,7 +200,7 @@ function zCalendar(id, options) {
             modal.wrapper.style.setProperty('--data-modal-width', this.options.createModalSize.w);
             modal.wrapper.style.setProperty('--data-modal-height', this.options.createModalSize.h);
             // 배경 색상 제거
-            modal.wrapper.querySelector('.modal-backdrop').style.backgroundColor = 'transparent';
+            modal.wrapper.querySelector('.modal__backdrop').style.backgroundColor = 'transparent';
             // select 디자인
             aliceJs.initDesignedSelectTag(document.querySelector('.calendar__modal--register__main'));
             // 종일 여부 변경시 이벤트 추가
@@ -221,7 +221,7 @@ function zCalendar(id, options) {
                     inheritedAttrs: 'class'
                 }
             });
-            OverlayScrollbars(document.querySelector('.calendar__modal--register .modal-content'),
+            OverlayScrollbars(document.querySelector('.calendar__modal--register .modal__dialog__body'),
                 { className: 'scrollbar' });
         },
         onShow: () => {},
@@ -235,7 +235,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--detail',
         buttons: [{
             content: i18n.msg('common.btn.close'),
-            classes: 'button secondary',
+            classes: 'btn__text--box secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -246,7 +246,7 @@ function zCalendar(id, options) {
             modal.wrapper.style.setProperty('--data-modal-width', this.options.detailModalSize.w);
             modal.wrapper.style.setProperty('--data-modal-height', this.options.detailModalSize.h);
             // 배경 색상 제거
-            modal.wrapper.querySelector('.modal-backdrop').style.backgroundColor = 'transparent';
+            modal.wrapper.querySelector('.modal__backdrop').style.backgroundColor = 'transparent';
         },
         onShow: (modal) => {
             // 이벤트 추가
@@ -269,7 +269,7 @@ function zCalendar(id, options) {
         classes: 'calendar__modal--repeat',
         buttons: [{
             content: i18n.msg('common.btn.check'),
-            classes: 'button primary',
+            classes: 'btn__text--box primary',
             bindKey: false,
             callback: (modal) => {
                 modal.saveData.repeatPeriod = document.querySelector('input[name="repeatPeriod"]:checked').value;
@@ -277,7 +277,7 @@ function zCalendar(id, options) {
             }
         }, {
             content: i18n.msg('common.btn.cancel'),
-            classes: 'button secondary',
+            classes: 'btn__text--box secondary',
             bindKey: false,
             callback: (modal) => {
                 modal.hide();
@@ -742,7 +742,7 @@ Object.assign(zCalendar.prototype, {
      * @param {guide} 선택된 캘린더의 날짜 rect
      */
     setModalPosition: function (modal, guide) {
-        const modalDialog = modal.querySelector('.modal-dialog') || modal,
+        const modalDialog = modal.querySelector('.modal__dialog') || modal,
             guideBound = guide.getBoundingClientRect(),
             modalSize = {
                 w: Number(modal.style.getPropertyValue('--data-modal-width') || modal.offsetWidth),
@@ -920,11 +920,11 @@ Object.assign(zCalendar.prototype, {
         return `<div class="calendar__modal--detail__main flex-column">
             <div class="flex-row">
                 <span class="schedule__title text-ellipsis" id="detailScheduleTitle"></span>
-                <div class="button-list flex-row float-right align-items-end">
-                    <button type="button" class="button-icon secondary" id="scheduleEdit">
+                <div class="btn__list flex-row float-right align-items-end">
+                    <button type="button" class="btn__ic secondary" id="scheduleEdit">
                         <span class="ic-edit"></span>
                     </button>
-                    <button type="button" class="button-icon secondary" id="scheduleDelete">
+                    <button type="button" class="btn__ic secondary" id="scheduleDelete">
                         <span class="ic-delete"></span>
                     </button>
                 </div>
@@ -1194,7 +1194,7 @@ Object.assign(zCalendar.prototype, {
      * 상세보기 모달에서 삭제 버튼 클릭시 처리
      */
     onClickScheduleDelete: function (e) {
-        if (aliceJs.clickInsideElement(e, 'button-icon')) {
+        if (aliceJs.clickInsideElement(e, 'btn__ic')) {
             this.deleteSchedule(this.detailModal.customOptions.schedule);
         }
     },
@@ -1379,7 +1379,7 @@ Object.assign(zCalendar.prototype, {
                         }
                         // 데이터를 새로 가져옴
                         this.isReload = true;
-                        const menu = document.querySelector('#calendarViewType .button-switch.selected');
+                        const menu = document.querySelector('#calendarViewType .btn__toggle__button--single.selected');
                         if (menu) {
                             menu.dispatchEvent(new Event('click'))
                         }

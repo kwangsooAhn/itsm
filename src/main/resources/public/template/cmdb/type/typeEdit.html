@@ -19,7 +19,7 @@
            th:placeholder="#{cmdb.type.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
-        <button type="button" class="button primary" id="btnCreate" name="btnCreate" onclick="onCreate();"
+        <button type="button" class="btn__text--box primary" id="btnCreate" name="btnCreate" onclick="onCreate();"
                 sec:authorize="hasAuthority('cmdb.manage')" th:text="#{common.btn.add}"></button>
     </div>
 </div>
@@ -56,36 +56,36 @@
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{cmdb.type.label.icon}"></label>
-            <div class="flex-row input-button">
+            <div class="flex-row input--remove">
                 <input class="input" id="typeIcon" name="typeIcon" type="text" readonly>
-                <button type="button" class="button-icon-sm" name="typeIconButton"
+                <button type="button" class="item-remove" name="typeIconButton"
                         onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="ic-remove"></span>
                 </button>
-                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button btn--form"
+                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search btn__text--box tertiary"
                         name="typeIconButton" type="button" onclick="iconPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.type.label.class}"></label>
-            <div class="flex-row input-button">
+            <div class="flex-row input--remove">
                 <input class="input" id="typeClass" name="typeClass" type="text" readonly>
                 <input id="typeClassId" name="typeClassId" type="hidden"/>
-                <button type="button" class="button-icon-sm" name="typeClassButton"
+                <button type="button" class="item-remove" name="typeClassButton"
                         onclick="aliceJs.clearText(this);" tabindex="-1">
                     <span class="ic-remove"></span>
                 </button>
-                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search button btn--form"
+                <button sec:authorize="hasAuthority('cmdb.manage')" class="button-search btn__text--box tertiary"
                         name="typeClassButton" type="button" onclick="classPopUp();" th:text="#{common.btn.select}"></button>
             </div>
         </div>
         <div class="flex-row justify-content-end">
-            <div class="button-list" sec:authorize="hasAuthority('cmdb.manage')">
-                <button type="button" class="button primary" id="btnRegist" name="btnRegist"
+            <div class="btn__list" sec:authorize="hasAuthority('cmdb.manage')">
+                <button type="button" class="btn__text--box primary" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('POST')|" th:text="#{common.btn.register}"></button>
-                <button type="button" class="button primary" id="btnUpdate" name="btnUpdate"
+                <button type="button" class="btn__text--box primary" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('PUT')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="button danger" id="btnDelete" name="btnDelete"
+                <button type="button" class="btn__text--box danger" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"></button>
             </div>

@@ -365,7 +365,7 @@
                     // 파일이 존재하지 않으면
                     if (!_this.isFileExist && options.isView) {
                         const noFileStr = document.createElement('span');
-                        noFileStr.className = 'text-no-file text-ellipsis';
+                        noFileStr.className = 'file-uploader--noFile text-ellipsis';
                         noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
                         dropZoneUploadedFiles.appendChild(noFileStr);
                     }

@@ -25,8 +25,8 @@
                 <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11"
                           class="textarea textarea-scroll-wrapper" th:text="${notice?.noticeContents}"></textarea>
             </div>
-            <div class="flex-column edit-row file-uploader-edit">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+            <div class="flex-column edit-row file-uploader--edit">
+                <label class="file-uploader--edit__title" th:text="#{common.label.attachFile}"></label>
                 <div id="dropZoneFiles"></div>
                 <div id="dropZoneUploadedFiles"></div>
             </div>
@@ -92,18 +92,18 @@
                 </div>
             </div>
             <div class="flex-row justify-content-between edit-row">
-                <div class="button-list">
-                    <a class="button secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
+                <div class="btn__list">
+                    <a class="btn__text--box secondary" href="/notices/search" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="button-list" sec:authorize="hasAuthority('portal.manage')">
+                <div class="btn__list" sec:authorize="hasAuthority('portal.manage')">
                     <button  th:if="!${notice?.noticeNo}" type="button" id="insert"
-                            class="button primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
+                            class="btn__text--box primary" onclick="saveNotice('POST')" th:text="#{common.btn.register}">
                     </button>
                     <button th:if="${notice?.noticeNo}" type="button" id="update"
-                            class="button primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
+                            class="btn__text--box primary" onclick="saveNotice('PUT')" th:text="#{common.btn.modify}">
                     </button>
                     <button th:if="${notice?.noticeNo}" type="button" id="delete"
-                            class="button danger" onclick="deleteNotice()" th:text="#{common.btn.delete}">
+                            class="btn__text--box danger" onclick="deleteNotice()" th:text="#{common.btn.delete}">
                     </button>
                 </div>
             </div>

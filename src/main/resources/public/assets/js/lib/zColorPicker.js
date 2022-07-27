@@ -36,7 +36,7 @@ function zColorPicker(targetElement, options) {
     this.isCustomColorControlOpen = false; // 사용자 색상 편집 중인지 여부
 
     // input box
-    targetElement.classList.add('color-input');
+    targetElement.classList.add('color-picker__input');
     this.inputEl = targetElement;
     // 기존 저장된 색상 : 사용자가 색상을 변경하더라도, 사용자 색상을 저장하지 않고 color picker를 닫으면 원래 색상으로 변경되어야 한다.
     this.savedValue = targetElement.value.toUpperCase();
@@ -54,7 +54,7 @@ function zColorPicker(targetElement, options) {
 
     // wrapper
     const wrapperContainer = document.createElement('div');
-    wrapperContainer.className = 'color-picker-wrapper';
+    wrapperContainer.className = 'color-picker';
     targetElement.parentElement.insertBefore(wrapperContainer, targetElement.nextSibling);
     targetElement.parentElement.removeChild(targetElement);
     wrapperContainer.appendChild(targetElement);
@@ -62,7 +62,7 @@ function zColorPicker(targetElement, options) {
 
     // color picker
     const colorPicker = document.createElement('div');
-    colorPicker.className = 'color-picker';
+    colorPicker.className = 'color-picker__box flex-row';
     colorPicker.tabIndex = 0;
     wrapperContainer.appendChild(colorPicker);
 
@@ -73,7 +73,7 @@ function zColorPicker(targetElement, options) {
 
     // color box
     const colorBox = document.createElement('div');
-    colorBox.className = 'color-box';
+    colorBox.className = 'color-picker__box__color';
     colorPicker.appendChild(colorBox);
     this.colorEl = colorBox;
 
@@ -85,7 +85,7 @@ function zColorPicker(targetElement, options) {
     // color picker modal
     let pickerModal = document.createElement('div');
     pickerModal.id = targetElement.id + 'Picker';
-    pickerModal.className = 'color-picker-modal';
+    pickerModal.className = 'color-picker__modal';
     wrapperContainer.appendChild(pickerModal);
     this.modalEl = pickerModal;
 
@@ -115,7 +115,7 @@ function zColorPicker(targetElement, options) {
     if (this.options.readOnly) { return false; }
     // color picker toggle event
     const self = this;
-    this.colorPicker.addEventListener('click', function (e) {
+    this.colorPicker.addEventListener('click', function(e) {
         e.preventDefault();
 
         if (self.isOpen) {
@@ -137,9 +137,9 @@ function zColorPicker(targetElement, options) {
 }
 Object.assign(zColorPicker.prototype, {
     // open
-    open: function () {
-        if (!this.modalEl.classList.contains('active')) {
-            this.modalEl.classList.add('active');
+    open: function() {
+        if (!this.modalEl.classList.contains('block')) {
+            this.modalEl.classList.add('block');
             this.setPosition();
             this.isOpen = true;
 
@@ -150,15 +150,15 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // close
-    close: function () {
-        if (this.modalEl.classList.contains('active')) {
+    close: function() {
+        if (this.modalEl.classList.contains('block')) {
             // 경고창 - 색상을 선택하세요.
             if (!this.selectedEl) {
                 zAlert.warning(i18n.msg('common.msg.selectColor'));
                 return false;
             }
 
-            this.modalEl.classList.remove('active');
+            this.modalEl.classList.remove('block');
             this.isOpen = false;
 
             // remove event
@@ -172,10 +172,10 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
-    autoClose: function (e) {
-        if (!aliceJs.clickInsideElement(e, 'color-picker-modal') &&
-            !aliceJs.clickInsideElement(e, 'color-picker') &&
-            !aliceJs.clickInsideElement(e, 'modal-active')) {
+    autoClose: function(e) {
+        if (!aliceJs.clickInsideElement(e, 'color-picker__modal') &&
+            !aliceJs.clickInsideElement(e, 'color-picker__box') &&
+            !aliceJs.clickInsideElement(e, 'active')) {
             // 사용자 색상이 저장된 색상과 다를 경우 알림창을 띄워 사용자에게 확인 요청
             if (JSON.stringify(this.savedCustomColors) !== JSON.stringify(this.customColors)) {
                 zAlert.confirm(i18n.msg('user.msg.customColorSave'), () => {
@@ -190,7 +190,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette set Position.
-    setPosition: function () {
+    setPosition: function() {
         let rect = this.modalEl.parentNode.getBoundingClientRect(),
             ow = this.modalEl.offsetWidth,
             oh = this.modalEl.offsetHeight,
@@ -214,7 +214,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // set color
-    setColor: function (color) {
+    setColor: function(color) {
         if (this.options.type === 'fill') {
             this.colorEl.style.backgroundColor = color;
         } else { // line
@@ -224,18 +224,18 @@ Object.assign(zColorPicker.prototype, {
     // palette draw
     drawPalette() {
         let paletteContainer = document.createElement('div');
-        paletteContainer.className = 'palette-container';
+        paletteContainer.className = 'color-picker__modal__palette';
         this.modalEl.appendChild(paletteContainer);
         this.colorListEl = paletteContainer;
 
         // point color
-        let template = `<div class="palette-row">`;
+        let template = `<div class="color-picker__modal__palette__row flex-row justify-content-between">`;
         for (let i = 0; i < this.options.colors[0].length; i++) {
             const itemColor = this.options.colors[0][i];
-            template += `<span class="palette-item point-color`+
+            template += `<span class="color-picker__modal__palette__row__item flex-row justify-content-center align-items-center point-color`+
                 `${(itemColor === '#FFFFFF') ? ' border-inset' : ''}${this.value === itemColor ? ' selected' : ''}"`+
                 ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
-                `<sapn class="palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                `<sapn class="color-picker__modal__palette__row__item__inner" style="background-color: ${itemColor}"></sapn>` +
                 `</span>`;
         }
         template += `</div>`;
@@ -244,13 +244,13 @@ Object.assign(zColorPicker.prototype, {
         // material color
         template = ``;
         for (let i = 1; i < this.options.colors.length; i++) {
-            template += `<div class="palette-row">`;
+            template += `<div class="color-picker__modal__palette__row flex-row justify-content-between">`;
             for (let j = 0; j < this.options.colors[i].length; j++) {
                 const itemColor = this.options.colors[i][j];
-                template += `<span class="palette-item material-color${(i === 1) ? ' first' : ''}`+
+                template += `<span class="color-picker__modal__palette__row__item flex-row justify-content-center align-items-center material-color${(i === 1) ? ' first' : ''}`+
                     `${(i === (this.options.colors.length - 1)) ? ' last' : ''}${this.value === itemColor ? ' selected' : ''}"`+
                     ` data-color="${itemColor}" style="background-color: ${this.value === itemColor ? 'transparent' : itemColor};" >`+
-                    `<sapn class="palette-item-inner" style="background-color: ${itemColor}"></sapn>` +
+                    `<sapn class="color-picker__modal__palette__row__item__inner" style="background-color: ${itemColor}"></sapn>` +
                     `</span>`;
             }
             template += `</div>`;
@@ -259,24 +259,24 @@ Object.assign(zColorPicker.prototype, {
 
         // 이벤트 등록
         this.selectedEl = paletteContainer.querySelector('.selected');
-        paletteContainer.querySelectorAll('.palette-item').forEach((item) => {
+        paletteContainer.querySelectorAll('.color-picker__modal__palette__row__item').forEach((item) => {
             item.addEventListener('click', this.selectColor.bind(this), false);
         });
     },
     // 사용자 색상 draw
     drawCustomColorPalette() {
         let paletteContainer = document.createElement('div');
-        paletteContainer.className = 'custom-color-palette-container';
+        paletteContainer.className = 'color-picker__modal__custom';
         this.modalEl.appendChild(paletteContainer);
 
         // 사용자 색상 문구
-        const textTemplate = `<span class="custom-color-text">${i18n.msg('common.label.customColor')}</span>`;
+        const textTemplate = `<span>${i18n.msg('common.label.customColor')}</span>`;
         paletteContainer.insertAdjacentHTML('beforeend', textTemplate);
 
         // 편집 아이콘
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'button-icon extra custom-color-edit visible';
+        editButton.className = 'btn__ic extra custom-color-btn__ic--edit visible';
         editButton.insertAdjacentHTML('beforeend', `<span class="ic-edit"></span>`);
         editButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
         paletteContainer.appendChild(editButton);
@@ -284,7 +284,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 사용자 색상 목록
         const customColorList = document.createElement('div');
-        customColorList.className = 'custom-color-list';
+        customColorList.className = 'color-picker__modal__custom__list flex-row';
         paletteContainer.appendChild(customColorList);
         this.customColorListEl = customColorList;
 
@@ -297,7 +297,7 @@ Object.assign(zColorPicker.prototype, {
                 this.selectedEl = colorItem;
             }
             colorItem.addEventListener('click', this.selectColor.bind(this), false);
-            colorItem.querySelector('.custom-color-palette-item-clear')
+            colorItem.querySelector('.item-remove--red')
                 .addEventListener('click', this.removeCustomColor.bind(this), false);
         });
 
@@ -305,7 +305,7 @@ Object.assign(zColorPicker.prototype, {
         const isMaxCustomColor =  (this.savedCustomColors.length === this.options.maxCustomColor);
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'button-icon custom-color-plus' +
+        addButton.className = 'btn__ic custom-color-btn__ic--plus' +
             (isMaxCustomColor ? '' : ' inline-block');
         addButton.insertAdjacentHTML('beforeend', `<span class="ic-plus"></span>`);
         addButton.addEventListener('click', this.openCustomColorControl.bind(this), false);
@@ -314,7 +314,7 @@ Object.assign(zColorPicker.prototype, {
 
         // 사용자 색상 control container
         const customColorControlContainer = document.createElement('div');
-        customColorControlContainer.className = 'custom-color-control-container';
+        customColorControlContainer.className = 'color-picker__modal__custom__control';
         paletteContainer.appendChild(customColorControlContainer);
         this.customColorControlContainerEl = customColorControlContainer;
 
@@ -324,7 +324,7 @@ Object.assign(zColorPicker.prototype, {
     // 사용자 색상 control(물방울, hex, rgb 영역) draw
     drawCustomColorControl() {
         const customColorControl = document.createElement('div');
-        customColorControl.className = 'custom-color-control';
+        customColorControl.className = 'color-picker__modal__custom__control__draw';
         this.customColorControlContainerEl.appendChild(customColorControl);
 
         // 물방울
@@ -360,7 +360,7 @@ Object.assign(zColorPicker.prototype, {
         // 추가 버튼
         const addButton = document.createElement('button');
         addButton.type = 'button';
-        addButton.className = 'button secondary';
+        addButton.className = 'btn__text--box secondary';
         addButton.textContent = i18n.msg('common.btn.add');
         addButton.disabled = (this.savedCustomColors.length === this.options.maxCustomColor);
         addButton.addEventListener('click', this.addCustomColor.bind(this), false);
@@ -370,20 +370,20 @@ Object.assign(zColorPicker.prototype, {
         // Hex, R,G,B 문구 추가
         ['', 'Hex', 'R', 'G', 'B'].forEach((str) => {
             const colorText = document.createElement('span');
-            colorText.className = 'color-text';
+            colorText.className = 'color-picker__modal__custom__control__label';
             colorText.textContent = str;
             customColorControl.appendChild(colorText);
         });
 
         // 버튼 그룹
         let bottomButtonList = document.createElement('div');
-        bottomButtonList.className = 'button-list justify-content-end';
+        bottomButtonList.className = 'btn__list justify-content-end';
         this.customColorControlContainerEl.appendChild(bottomButtonList);
 
         // 버튼 그룹 > 저장 버튼
         const saveButton = document.createElement('button');
         saveButton.type = 'button';
-        saveButton.className = 'button primary';
+        saveButton.className = 'btn__text--box primary';
         saveButton.textContent = i18n.msg('common.btn.save');
         saveButton.addEventListener('click', this.saveCustomColor.bind(this), false);
         bottomButtonList.appendChild(saveButton);
@@ -391,7 +391,7 @@ Object.assign(zColorPicker.prototype, {
         // 버튼 그룹 > 취소 버튼
         const cancelButton = document.createElement('button');
         cancelButton.type = 'button';
-        cancelButton.className = 'button extra';
+        cancelButton.className = 'btn__text--box extra';
         cancelButton.textContent = i18n.msg('common.btn.cancel');
         cancelButton.addEventListener('click', () => {
             // 알림창 - 사용자 색상이 아직 저장되지 않았습니다.
@@ -444,7 +444,7 @@ Object.assign(zColorPicker.prototype, {
         this.inputEl.value = this.value;
 
         // 메인 색상 선택하거나 저장된 색상을 선택할 경우 사용자 색상이 정상적으로 저장된다.
-        if (e.target.classList.contains('palette-item') ||
+        if (e.target.classList.contains('color-picker__modal__palette__row__item') ||
             this.savedCustomColors.includes(this.value)) {
             this.savedValue = this.value;
         }
@@ -466,8 +466,8 @@ Object.assign(zColorPicker.prototype, {
     // 사용자 색상 편집 영역 오픈
     openCustomColorControl() {
         // 사용자 색상 편집 영역 오픈
-        if (!this.customColorControlContainerEl.classList.contains('active')) {
-            this.customColorControlContainerEl.classList.add('active');
+        if (!this.customColorControlContainerEl.classList.contains('block')) {
+            this.customColorControlContainerEl.classList.add('block');
             this.setPosition();
 
             this.isCustomColorControlOpen = true;
@@ -482,8 +482,8 @@ Object.assign(zColorPicker.prototype, {
     // 사용자 색상 편집 영역 닫기
     closeCustomColorControl() {
         // 사용자 색상 편집 영역 닫기
-        if (this.customColorControlContainerEl.classList.contains('active')) {
-            this.customColorControlContainerEl.classList.remove('active');
+        if (this.customColorControlContainerEl.classList.contains('block')) {
+            this.customColorControlContainerEl.classList.remove('block');
             this.setPosition();
 
             this.isCustomColorControlOpen = false;
@@ -497,10 +497,10 @@ Object.assign(zColorPicker.prototype, {
     },
     // 커스텀 색상 아이템 템플릿
     getCustomColorTemplate(color, isSelected) {
-        return `<span class="custom-color-palette-item custom-color${isSelected ? ' selected' : ''}"`+
+        return `<span class="color-picker__modal__custom__list__item custom-color${isSelected ? ' selected' : ''}"`+
             ` data-color="${color}" style="background-color: ${isSelected ? 'transparent' : color};" >`+
-            `<sapn class="custom-color-palette-item-inner" style="background-color: ${color}"></sapn>` +
-            `<button type="button" class="button-icon custom-color-palette-item-clear">` +
+            `<sapn class="color-picker__modal__custom__list__item__inner" style="background-color: ${color}"></sapn>` +
+            `<button type="button" class="btn__ic item-remove--red">` +
             `<span class="ic-remove"></span>` +
             `</button>` +
             `</span>`;
@@ -522,7 +522,7 @@ Object.assign(zColorPicker.prototype, {
         // 이벤트 등록
         const colorItem = this.customColorListEl.lastChild;
         colorItem.addEventListener('click', this.selectColor.bind(this), false);
-        colorItem.querySelector('.custom-color-palette-item-clear')
+        colorItem.querySelector('.item-remove--red')
             .addEventListener('click', this.removeCustomColor.bind(this), false);
 
         // 순서 변경
@@ -599,7 +599,7 @@ Object.assign(zColorPicker.prototype, {
         }
 
         // 기존 색상 선택
-        const colorList = this.colorListEl.querySelectorAll('.palette-item');
+        const colorList = this.colorListEl.querySelectorAll('.color-picker__modal__palette__row__item');
         for (let i = 0; i < colorList.length; i++) {
             if (colorList[i].getAttribute('data-color') === this.savedValue) {
                 colorList[i].classList.add('selected');
@@ -610,7 +610,7 @@ Object.assign(zColorPicker.prototype, {
         }
 
         // 사용자 정의 색상 삭제
-        const customColorList = this.customColorListEl.querySelectorAll('.custom-color-palette-item');
+        const customColorList = this.customColorListEl.querySelectorAll('.color-picker__modal__custom__list__item');
         for (let i = 0; i < customColorList.length; i++) {
             this.customColorListEl.removeChild(customColorList[i]);
         }
@@ -621,7 +621,7 @@ Object.assign(zColorPicker.prototype, {
             // 이벤트 등록
             const colorItem = this.customColorListEl.lastChild;
             colorItem.addEventListener('click', this.selectColor.bind(this), false);
-            colorItem.querySelector('.custom-color-palette-item-clear')
+            colorItem.querySelector('.item-remove--red')
                 .addEventListener('click', this.removeCustomColor.bind(this), false);
             // 순서 변경
             aliceJs.swapNode(colorItem, this.addButtonEl);
@@ -718,7 +718,7 @@ Object.assign(zColorPicker.prototype, {
         // rgb로 각각 분리해서 배열에 담기
         let rgb = ( 3 === hex.length ) ? hex.match( /[a-f\d]/gi ) : hex.match( /[a-f\d]{2}/gi );
 
-        rgb.forEach(function (str, x, arr) {
+        rgb.forEach(function(str, x, arr) {
             // rgb 각각의 헥사값이 한자리일 경우, 두자리로 변경하기.
             if ( str.length == 1 ) { str = str + str; }
 

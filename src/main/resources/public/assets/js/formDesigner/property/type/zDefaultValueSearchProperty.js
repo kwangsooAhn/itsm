@@ -87,7 +87,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     this.data[idx] = (this.defaultType === item.value) ? elem : '';
                 });
                 radioGroup.UIInputButton = new UIDiv()
-                    .setUIClass('flex-row input-button');
+                    .setUIClass('flex-row input--remove');
                 radioGroup.addUI(radioGroup.UIInputButton);
                 // input
                 radioGroup.UIInputButton.UIInput = new UIInput()
@@ -107,7 +107,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                 if (this.isEditable) {
                     // small icon button
                     radioGroup.UIInputButton.UIIconButton = new UIButton()
-                        .setUIClass('button-icon-sm')
+                        .setUIClass('item-remove')
                         .setUIAttribute('tabindex', '-1')
                         .onUIClick(this.clearText.bind(this));
                     radioGroup.UIInputButton.UIIconButton.UIIcon = new UISpan()
@@ -116,9 +116,8 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIIconButton);
                     // button
                     radioGroup.UIInputButton.UIButton = new UIButton()
-                        .setUIClass('button-icon')
-                        .addUIClass('button-code')
-                        .addUI(new UISpan().setUIClass('ic-search'))
+                        .setUIClass('btn__ic')
+                        .addUI(new UISpan().setUIClass('ic-search').addUIClass('bg-gray500'))
                         .onUIClick(this.openDataSelect.bind(this));
                     radioGroup.UIInputButton.addUI(radioGroup.UIInputButton.UIButton);
                 }
@@ -154,7 +153,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     classes: 'target-user-modal',
                     buttons: [{
                         content: i18n.msg('common.btn.select'),
-                        classes: 'button primary',
+                        classes: 'btn__text--box primary',
                         bindKey: false,
                         callback: (modal) => {
                             // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -173,7 +172,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         }
                     }, {
                         content: i18n.msg('common.btn.cancel'),
-                        classes: 'button secondary',
+                        classes: 'btn__text--box secondary',
                         bindKey: false,
                         callback: (modal) => {
                             // 임시값 제거
@@ -192,7 +191,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                         });
 
                         this.getUserList(document.getElementById('search').value, true);
-                        OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                        OverlayScrollbars(document.querySelector('.modal__dialog__body'), {className: 'scrollbar'});
                     }
                 });
 

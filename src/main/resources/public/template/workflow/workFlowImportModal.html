@@ -100,8 +100,8 @@
         <label class="field-label" th:text="#{'process.label.description'}" for="processDesc"></label>
         <textarea id="processDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
         <!-- XML 파일 -->
-        <div class="file-uploader-edit">
-            <label class="file-uploader-title field-label">
+        <div class="flex-column file-uploader--edit">
+            <label class="file-uploader--edit__title field-label">
                 <span th:text="#{'common.label.importFile'}"></span>
                 <span class="required"></span>
             </label>

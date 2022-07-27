@@ -1,6 +1,5 @@
 /* _element.scss
  *
- *
  * 파일 경로 : components/_element.scss
  * @description HTML element 디자인
  * @author wdj
@@ -105,7 +104,7 @@ table {
     .no-data-found-list { pointer-events: none; }
 
     // icon button
-    .button-icon {
+    .btn__ic {
       padding: 0;
       background-color: transparent;
       border-color: transparent;
@@ -159,7 +158,7 @@ table {
         &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
       }
 
-      .button-icon {
+      .btn__ic {
         [class*="ic-"] {
           display: block;
           margin: 0 auto;
@@ -273,25 +272,7 @@ input, textarea, select {
     .button-search {
       @include borderRadius(0.25rem);
       margin-left: 1rem; // 16px
-      &:focus, &:hover, &:active { z-index: 25; }
-    }
-
-    .button-icon-sm {
-      position: relative;
-      margin-top: 0.625rem; // 10px
-      -webkit-print-color-adjust:exact;
-      &::before {
-        @include absolute($bottom: -0.5rem); //8px
-        @include border(0.0625rem, solid, $gray300, bottom);
-        content: '';
-        width: 100%;
-        height: 1px;
-      }
-
-      // 편집 불가 상태일 경우, 버튼을 숨김
-      &:disabled {
-        visibility: hidden;
-      }
+      &:focus, &:hover, &:active { z-index: $z-index-event; }
     }
   }
 
@@ -573,7 +554,7 @@ select {
     color: $neutral800;
     outline: 0;
     list-style: none;
-    z-index: 5000;
+    z-index: $z-index-between-alert-modal;
     li {
       @include ellipsis(block);
       align-items: center;
@@ -690,32 +671,6 @@ select {
       @include border(0.0625rem, solid, $gray400, all);
       @include borderRadius(0.125rem); // 2px
       width: 23%;
-    }
-  }
-}
-
-// 스위치 목록
-// ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
-.switch {
-  display: inline-block;
-  width: 100%;
-  margin: 0 !important;
-  .label-name { width: 12.5rem; } //200px
-  // 목록
-  &-list {
-    height: 22.5rem; // 360px
-    padding: 0.5rem 0.625rem; // 8px 10px
-    .right { right: 0.25rem; } // 4px
-    .padding { padding: 0.1875rem 0 0.1875rem 0; } // 3px
-    .os-content { padding-top: 0 !important; }
-    li {
-      @include ellipsis(list-item);
-      height: 2.5rem; // 40px
-      padding-right: 0.2rem;
-    }
-    .switch {
-      .label { margin-left: 0; }
-      input[type=checkbox] + span { left: inherit }
     }
   }
 }
@@ -957,3 +912,25 @@ select {
 }
 
 .divider { margin: 0; }
+
+// input에서 원문자x버튼 사용할 경우
+.input--remove {
+  input { flex-basis: 100%; }
+  .item-remove {
+    position: relative;
+    margin-top: 0.625rem; // 10px
+    -webkit-print-color-adjust:exact;
+    &::before {
+      @include absolute($bottom: -0.5rem); //8px
+      @include border(0.0625rem, solid, $gray300, bottom);
+      content: '';
+      width: 100%;
+      height: 1px;
+    }
+
+    // 편집 불가 상태일 경우, 버튼을 숨김
+    &:disabled {
+      visibility: hidden;
+    }
+  }
+}

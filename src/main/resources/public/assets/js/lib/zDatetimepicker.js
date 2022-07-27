@@ -110,14 +110,14 @@
 
         // create title
         let pickerTitle = document.createElement('div');
-        pickerTitle.className = 'picker-modal-title';
+        pickerTitle.className = 'date-picker__modal__header';
         pickerTitle.textContent = i18n.msg(options.title);
         this.el.appendChild(pickerTitle);
 
         // create title > remove button
         let buttonRemove = document.createElement('button');
         buttonRemove.type = 'button';
-        buttonRemove.className = 'button-icon extra';
+        buttonRemove.className = 'btn__ic extra';
         buttonRemove.insertAdjacentHTML('beforeend', `<span class="ic-delete"></span>`);
         buttonRemove.addEventListener('click', this.removeTarget, false);
         pickerTitle.appendChild(buttonRemove);
@@ -130,14 +130,14 @@
 
         // create content
         let pickerContent = document.createElement('div');
-        pickerContent.className = 'picker-modal-content';
+        pickerContent.className = 'date-picker__modal__body';
         this.el.appendChild(pickerContent);
 
         // create content > date
         let pickerContentDate = document.createElement('div');
-        pickerContentDate.className = 'picker-modal-content-date';
+        pickerContentDate.className = 'picker__date';
         if (this.type === 'DATE' || this.type === 'DATEHOUR') {
-            pickerContentDate.classList.add('active');
+            pickerContentDate.classList.add('inline-block');
         }
         pickerContent.appendChild(pickerContentDate);
         this.drawDate();
@@ -145,21 +145,21 @@
         // create content > time
         if (this.type === 'HOUR' || this.type === 'DATEHOUR') {
             let pickerContentTime = document.createElement('div');
-            pickerContentTime.className = 'picker-modal-content-time';
-            pickerContentTime.classList.add('active');
+            pickerContentTime.className = 'picker__time';
+            pickerContentTime.classList.add('flex');
             pickerContent.appendChild(pickerContentTime);
             this.drawTime();
         }
         if (this.type === 'DATEHOUR' || this.type === 'HOUR') {
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'button-list picker-modal-button';
+            pickerButton.className = 'btn__list date-picker__modal__footer';
             this.el.appendChild(pickerButton);
 
             // create button > confirm
             let buttonConfirm = document.createElement('button');
             buttonConfirm.type = 'button';
-            buttonConfirm.className = 'button secondary';
+            buttonConfirm.className = 'btn__text--box secondary';
             buttonConfirm.innerText = i18n.msg('common.btn.select');
             buttonConfirm.addEventListener('click', this.changeTarget, false);
             pickerButton.appendChild(buttonConfirm);
@@ -167,7 +167,7 @@
             // create button > cancel
             let buttonCancel = document.createElement('button');
             buttonCancel.type = 'button';
-            buttonCancel.className = 'button extra';
+            buttonCancel.className = 'btn__text--box extra';
             buttonCancel.innerText = i18n.msg('common.btn.cancel');
             buttonCancel.addEventListener('click', this.close, false);
             pickerButton.appendChild(buttonCancel);
@@ -176,8 +176,8 @@
         // create content > year
         if (this.type === 'YEAR') {
             let pickerContentYear = document.createElement('div');
-            pickerContentYear.className = 'picker-modal-content-year';
-            pickerContentYear.classList.add('active');
+            pickerContentYear.className = 'picker__year';
+            pickerContentYear.classList.add('block');
             pickerContent.appendChild(pickerContentYear);
             spanClose.remove();
             buttonRemove.remove();
@@ -185,13 +185,13 @@
 
             // create button
             let pickerButton = document.createElement('div');
-            pickerButton.className = 'button-list picker-modal-button';
+            pickerButton.className = 'btn__list date-picker__modal__footer';
             this.el.appendChild(pickerButton);
 
             // create button > reset
             let buttonReset = document.createElement('button');
             buttonReset.type = 'button';
-            buttonReset.className = 'button extra small';
+            buttonReset.className = 'btn__text--box extra btn--small';
             buttonReset.innerText = i18n.msg('datepicker.btn.reset');
             buttonReset.addEventListener('click', this.removeTarget, false);
             pickerButton.appendChild(buttonReset);
@@ -201,9 +201,9 @@
     Object.assign(Picker.prototype, {
         // Picker open.
         open: function() {
-            if (!this.target.readOnly && !this.el.classList.contains('active')) {
+            if (!this.target.readOnly && !this.el.classList.contains('block')) {
                 this.reset();
-                this.el.classList.add('active');
+                this.el.classList.add('block');
                 this.setPosition();
                 // Detects the target if it's the picker element, if not, closes the picker
                 document.addEventListener('mousedown', this.clickWindow, false);
@@ -213,8 +213,8 @@
         },
         // Picker close.
         close: function() {
-            if (this.el.classList.contains('active')) {
-                this.el.classList.remove('active');
+            if (this.el.classList.contains('block')) {
+                this.el.classList.remove('block');
                 // reset
                 this.reset();
                 // remove event
@@ -268,41 +268,41 @@
         // Date picker 생성 및 초기화 처리.
         drawDate: function() {
             let _this = this;
-            const pickerDate = _this.el.querySelector('.picker-modal-content-date');
+            const pickerDate = _this.el.querySelector('.picker__date');
             pickerDate.innerHTML = '';
             // create month panel
             const monthPanel = document.createElement('div');
-            monthPanel.className = 'picker-modal-content-date-months';
+            monthPanel.className = 'date-picker__period';
             pickerDate.appendChild(monthPanel);
 
             // prev month
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'ic-arrow-right date-prev';
+            prevArrow.className = 'ic-arrow-right date-picker__period__prev';
             prevArrow.addEventListener('click', _this.prevMonth, false);
             monthPanel.appendChild(prevArrow);
 
             // text
             const currentText = document.createElement('span');
-            currentText.className = 'date-text';
+            currentText.className = 'date-picker__period__text';
             currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyyMMdd'));
             currentText.textContent = _this.selectLuxon.toFormat('yyyy-MM'); //  2020-06
             monthPanel.appendChild(currentText);
 
             // next month
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'ic-arrow-right date-next';
+            nextArrow.className = 'ic-arrow-right date-picker__period__next';
             nextArrow.addEventListener('click', _this.nextMonth, false);
             monthPanel.appendChild(nextArrow);
 
             // create calendar
             const calendarPanel = document.createElement('div');
-            calendarPanel.className = 'picker-modal-content-date-calendar';
+            calendarPanel.className = 'picker__date__calendar';
             pickerDate.appendChild(calendarPanel);
 
             // Sun ~ Sat
             for (let i = 0; i < 7; i++) {
                 const calendarTitle = document.createElement('div');
-                calendarTitle.classList.add('calendar-cell', 'calendar-title');
+                calendarTitle.classList.add('picker__date__calendar__cell', 'picker__date__calendar__title');
                 calendarTitle.textContent = luxon.DateTime.local().set({ weekday: i }).setLocale(i18n.lang).toFormat('ccc');
                 calendarPanel.appendChild(calendarTitle);
             }
@@ -317,7 +317,7 @@
                 let mm = firstDayOfDate.month;
 
                 const calendarCell = document.createElement('div');
-                calendarCell.className = 'calendar-cell';
+                calendarCell.className = 'picker__date__calendar__cell';
                 calendarCell.setAttribute('data-value', firstDayOfDate.toFormat('yyyyMMdd'));
                 calendarCell.textContent = dd;
                 if (mm === current_month) { // 현재 월
@@ -360,7 +360,7 @@
         // Time picker 생성 및 초기화 처리.
         drawTime: function() {
             let _this = this;
-            const pickerTime = _this.el.querySelector('.picker-modal-content-time');
+            const pickerTime = _this.el.querySelector('.picker__time');
             pickerTime.innerHTML = '';
 
             const hourFormatArr = i18n.timeFormat.split(':');
@@ -370,17 +370,17 @@
 
             // create hour start -------------------------------------------------------------------
             const hourGroup = document.createElement('div');
-            hourGroup.className = 'hour-group';
+            hourGroup.className = 'picker__time__hour';
             pickerTime.appendChild(hourGroup);
             // △ 버튼
             const hourArrowUp = document.createElement('span');
-            hourArrowUp.className = 'ic-arrow-right hour-up';
+            hourArrowUp.className = 'ic-arrow-right ic-hour-up';
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, {hours: 1}), false);
             hourGroup.appendChild(hourArrowUp);
             // 시간
             let digitHour = document.createElement('input');
             digitHour.type = 'text';
-            digitHour.className = 'digit';
+            digitHour.className = 'picker__time__digit';
             digitHour.id = this.id + '-time-hour';
             digitHour.value = _this.selectLuxon.toFormat(_this.hourFormat);
             digitHour.maxLength = 2;
@@ -388,31 +388,31 @@
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
             const hourArrowDown = document.createElement('span');
-            hourArrowDown.className = 'ic-arrow-right hour-down';
+            hourArrowDown.className = 'ic-arrow-right ic-hour-down';
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, {hours: -1}), false);
             hourGroup.appendChild(hourArrowDown);
             // create hour end ---------------------------------------------------------------------
 
             // 구분자 :
             const separator = document.createElement('div');
-            separator.className = 'separator';
+            separator.className = 'picker__time__separator';
             separator.textContent = ':';
             pickerTime.appendChild(separator);
 
             // create minute start -----------------------------------------------------------------
             const minuteGroup = document.createElement('div');
-            minuteGroup.className = 'minute-group';
+            minuteGroup.className = 'picker__time__minute';
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
             const minuteArrowUp = document.createElement('span');
-            minuteArrowUp.className = 'ic-arrow-right minute-up';
+            minuteArrowUp.className = 'ic-arrow-right ic-minute-up';
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? 30 : 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
             // 분
             let digitMinute = document.createElement('input');
             digitMinute.type = 'text';
-            digitMinute.className = 'digit';
+            digitMinute.className = 'picker__time__digit';
             digitMinute.id = this.id + '-time-minute';
             digitMinute.value = _this.selectLuxon.toFormat(_this.minuteFormat);
             digitMinute.maxLength = 2;
@@ -420,7 +420,7 @@
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
             const minuteArrowDown = document.createElement('span');
-            minuteArrowDown.className = 'ic-arrow-right minute-down';
+            minuteArrowDown.className = 'ic-arrow-right ic-minute-down';
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this,
                 { minutes: this.isHalf ? -30 : -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);
@@ -432,12 +432,12 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'button-toggle-group vertical';
+                hourType.className = 'btn__toggle__button vertical';
                 pickerTime.appendChild(hourType);
 
                 // create button > am
                 let buttonAM = document.createElement('button');
-                buttonAM.className = 'button-toggle';
+                buttonAM.className = 'btn__toggle__button--multi';
                 if (curHourType === 'AM') {
                     buttonAM.classList.add('selected');
                     _this.meridiem = 'AM';
@@ -465,7 +465,7 @@
 
                 // create button > pm
                 let buttonPM = document.createElement('button');
-                buttonPM.className = 'button-toggle';
+                buttonPM.className = 'btn__toggle__button--multi';
                 if (curHourType === 'PM') {
                     buttonPM.classList.add('selected');
                     _this.meridiem = 'PM';
@@ -495,22 +495,22 @@
         // Year picker 생성 및 초기화 처리.
         drawYear: function () {
             let _this = this;
-            const pickerYear = _this.el.querySelector('.picker-modal-content-year');
+            const pickerYear = _this.el.querySelector('.picker__year');
             pickerYear.innerHTML = '';
             // [create year panel]
             const periodPanel = document.createElement('div');
-            periodPanel.className = 'picker-modal-content-year-period';
+            periodPanel.className = 'date-picker__period';
             pickerYear.appendChild(periodPanel);
 
             // prev year
             const prevArrow = document.createElement('span');
-            prevArrow.className = 'ic-arrow-right date-prev';
+            prevArrow.className = 'ic-arrow-right date-picker__period__prev';
             prevArrow.addEventListener('click', _this.prevYear, false);
             periodPanel.appendChild(prevArrow);
 
             // text
             const currentText = document.createElement('div');
-            currentText.className = 'date-text';
+            currentText.className = 'date-picker__period__text';
             periodPanel.appendChild(currentText);
             const textFormet = _this.selectLuxon.toFormat('yyyy');
             const changeTextType = Number(textFormet) // string -> number 변환
@@ -525,13 +525,13 @@
 
             // next year
             const nextArrow = document.createElement('span');
-            nextArrow.className = 'ic-arrow-right date-next';
+            nextArrow.className = 'ic-arrow-right date-picker__period__next';
             nextArrow.addEventListener('click', _this.nextYear, false);
             periodPanel.appendChild(nextArrow);
 
             // [create calendar]
             const yearPanel = document.createElement('div');
-            yearPanel.className = 'picker-modal-content-year-years';
+            yearPanel.className = 'picker__year__calendar';
             pickerYear.appendChild(yearPanel);
 
             let firstYearOfDate = _this.selectLuxon.set();
@@ -543,7 +543,7 @@
                 let yy = firstYearOfDate.year;
 
                 const calendarCell = document.createElement('div');
-                calendarCell.className = 'calendar-cell';
+                calendarCell.className = 'picker__year__calendar__cell';
                 calendarCell.setAttribute('data-value', firstYearOfDate.toFormat('yyyy'));
                 calendarCell.textContent = yy;
 
@@ -723,7 +723,7 @@
         },
         // Picker 가 오픈된 상태로 Picker 외부를 선택할 경우 닫음.
         clickWindow: function(e) {
-            if (!util.clickInsideElement(e, 'picker-modal')) {
+            if (!util.clickInsideElement(e, 'date-picker__modal')) {
                 this.close();
             }
         }
@@ -751,27 +751,27 @@
         // 공지사항 수정화면처럼 date-picker를 dispay:none으로 했다가 풀어야 하는 경우에
         // 보통 onload에 초기화를 하면서
         // pciker-wrapper-date가 중복으로 계속 쌓여서 동작 오류가 발생하므로 부모 wrapper도 삭제.
-        if (targetElement.parentElement.className === 'picker-wrapper-date') {
+        if (targetElement.parentElement.className === 'date-picker') {
             let wrapElement = targetElement.parentElement;
             wrapElement.parentElement.insertBefore(targetElement, wrapElement.nextSibling);
             wrapElement.parentElement.removeChild(wrapElement);
         }
 
         let targetContainer = document.createElement('div');
-        targetContainer.className = 'picker-wrapper-date';
+        targetContainer.className = 'date-picker';
         targetElement.parentElement.insertBefore(targetContainer, targetElement.nextSibling);
         targetElement.parentElement.removeChild(targetElement);
         targetContainer.appendChild(targetElement);
 
         // class add
-        targetElement.classList.add('picker-main');
+        targetElement.classList.add('date-picker__input');
 
         // create picker container
         const pickerId = 'picker-' + targetElement.id;
         options.id = pickerId;
         let pickerContainer = document.createElement('div');
         pickerContainer.id = pickerId;
-        pickerContainer.className = 'picker-modal';
+        pickerContainer.className = 'date-picker__modal';
         targetContainer.appendChild(pickerContainer);
         options.el = pickerContainer;
 

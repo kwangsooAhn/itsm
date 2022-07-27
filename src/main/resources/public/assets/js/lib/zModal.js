@@ -21,14 +21,14 @@
         classes: '', // modal class
         /*buttons: [{
             content: "Accept",
-            classes: "button primary",
+            classes: "btn__text--box primary",
             bindKey: 13, //Enter. See https://keycode.info/
             callback: function(modal) {
                 modal.hide();
             }
         }, {
             content: "Cancel",
-            classes: "button secondary",
+            classes: "btn__text--box secondary",
             bindKey: false,
             callback: function(modal) {
                 modal.hide();
@@ -143,13 +143,13 @@
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
                 const modalWrapper = _this.wrapper;
-                addClass(modalWrapper, 'modal-active');
-                addClass(document.body, 'modal-active');
-                const modalDialog = modalWrapper.querySelector('.modal-dialog');
-                modalDialog.classList.remove('modal-active');
+                addClass(modalWrapper, 'block');
+                addClass(document.body, 'active');
+                const modalDialog = modalWrapper.querySelector('.modal__dialog');
+                modalDialog.classList.remove('active');
                 _this.animation = setTimeout(function () {
                     clearTimeout(_this.animation);
-                    modalDialog.classList.add('modal-active');
+                    modalDialog.classList.add('active');
                     _this.options.onShow(_this);
                     _this.display = true;
                 }, 30);
@@ -160,10 +160,10 @@
             if (typeof this.wrapper !== 'undefined') {
                 const _this = this;
                 const modalWrapper = _this.wrapper;
-                modalWrapper.querySelector('.modal-dialog').classList.remove('modal-active');
+                modalWrapper.querySelector('.modal__dialog').classList.remove('active');
                 setTimeout(function () {
-                    removeClass(modalWrapper, 'modal-active');
-                    removeClass(document.body, 'modal-active');
+                    removeClass(modalWrapper, 'block');
+                    removeClass(document.body, 'active');
                     _this.options.onHide(_this);
                     _this.display = false;
                 }, 150);
@@ -176,19 +176,19 @@
             let backdrop, dialog;
 
             this.wrapper = document.createElement('div');
-            this.wrapper.className = 'modal-wrapper';
-            this.wrapper.id = 'modal-wrapper-' + this.id;
+            this.wrapper.className = 'modal';
+            this.wrapper.id = 'modal-' + this.id;
 
             backdrop = document.createElement('div');
-            backdrop.className = 'modal-backdrop';
+            backdrop.className = 'modal__backdrop';
 
             dialog = document.createElement('div');
-            dialog.className = 'modal-dialog';
+            dialog.className = 'modal__dialog';
             if (typeof this.options.classes !== 'undefined' && this.options.classes !== '') {
                 dialog.className += ' ' + this.options.classes;
             }
             setTimeout(function () {
-                dialog.classList.add('modal-active');
+                dialog.classList.add('active');
             }, 30);
 
             // 닫기 버튼
@@ -228,7 +228,7 @@
             if (this.options.title instanceof Element ||
                 (typeof this.options.title === 'string' && this.options.title !== '')) {
                 let title = document.createElement('div');
-                title.className = 'modal-header';
+                title.className = 'modal__dialog__header';
                 if (this.options.title instanceof Element) {
                     title.appendChild(this.options.title);
                 } else {
@@ -238,7 +238,7 @@
             }
 
             let body = document.createElement('div');
-            body.className = 'modal-content';
+            body.className = 'modal__dialog__body';
             if (this.options.body instanceof Element || (this.options.body instanceof Object &&
                 this.options.body instanceof DocumentFragment)) {
                 body.appendChild(this.options.body);
@@ -250,7 +250,7 @@
             // 버튼
             if (this.options.buttons.length > 0) {
                 let buttons = document.createElement('div');
-                buttons.className = 'modal-bottom button-list flex-row float-right align-items-end';
+                buttons.className = 'modal__dialog__footer btn__list flex-row float-right align-items-end';
 
                 for (let i = 0, len = this.options.buttons.length; i < len; i++) {
                     let button = document.createElement('button');

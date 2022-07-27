@@ -1,3 +1,15 @@
+// index
+$z-index-alert:                              9999;
+$z-index-between-alert-modal:                5000;
+$z-index-modal:                              1000;
+$z-index-between-modal-gnb:                  750;
+$z-index-tooltip:                            500;
+$z-index-between-tooltip-gnb:                250;
+$z-index-gnb:                                100;
+$z-index-event:                              25;
+$z-index-between-event-and-default:          10;
+$z-index-hidden:                             -1;
+
 // todo: layout 내 mixin 이름 refactoring
 // 메인 화면을 중앙 위치에 표시하기 위한 공통 디자인
 @mixin container {
@@ -79,7 +91,7 @@
     }
 
     // icon button
-    .button-icon {
+    .btn__ic {
       padding: 0;
       border-color: transparent;
       background-color: transparent;
@@ -158,7 +170,7 @@
       margin: 0.625rem 0 0 0; // 10px 0 0 0
       label { margin: 0.625rem 0; } // 10px 0
     }
-    .button-list { margin-top: 1.875rem; } // 30px
+    .btn__list { margin-top: 1.875rem; } // 30px
 
     &-sub-title {
       padding: 0 1.25rem; // 0 20px
@@ -189,7 +201,7 @@
     .view-row {
       margin: 0.625rem 0 0 0; // 10px 0 0 0
       // 버튼 목록
-      .button-list { margin-top: 1.875rem; } // 30px
+      .btn__list { margin-top: 1.875rem; } // 30px
     }
     // 제목
     &-title {
@@ -402,7 +414,7 @@
             &.attribute { width: 100%; }
           }
         }
-        .button-list { margin: 1.875rem 0; } // 30px
+        .btn__list { margin: 1.875rem 0; } // 30px
       }
     }
   }
@@ -429,7 +441,7 @@
       }
     }
     label { margin: 0.625rem 0; } // 10px 0
-    .button-list { margin: 1.875rem 0; } // 30px
+    .btn__list { margin: 1.875rem 0; } // 30px
   }
 }
 

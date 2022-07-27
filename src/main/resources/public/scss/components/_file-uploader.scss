@@ -23,19 +23,48 @@
 }
 
 @include horizontalBar(0.0625rem,  0.625rem 0, $gray400);
+
 .file-uploader {
   // edit 모드
-  &-edit {
-    display: flex;
-    flex-direction: column;
+  &--edit {
     font-family: $font-family;
+    // disabled
+    &.disabled {
+      pointer-events: none;
+
+      // dropzone
+      .dropzone {
+        .dz-default {
+          @include border(0.0625rem, solid, $gray300, all);
+          background-color: $neutral200;
+          &.dz-message { color: $gray400; }
+        }
+
+        .dz-preview {
+          @include border(0.0625rem, solid, $gray300, all);
+          background-color: $neutral200;
+
+          .dz-details {
+            .dz-file-type { filter: grayscale(1); }
+            .dz-download,
+            .dz-remove {
+              [class*="ic-"] { background: $gray400; }
+            }
+            .dz-filename,
+            .dz-size { color: $gray400; }
+          }
+        }
+      }
+    }
+    
     // 제목
-    .file-uploader-title {
+    &__title {
       margin: 0.5625rem 0 0.5625rem 0; // 9px 0 9px 0
       color: $gray500;
       font-size: $font-size-xs;
       font-weight: $font-weight-bold;
     }
+
     // dropzone
     .dropzone {
       min-height: 4.5rem; // 72px
@@ -87,7 +116,7 @@
         }
 
         &.dz-drag-hover {
-         border-style: solid;
+          border-style: solid;
           .dz-message { opacity: 0.5; }
         }
       }
@@ -107,7 +136,7 @@
           border-color: $blue500;
           background-color: $blue100;
           outline: 0;
-          z-index: 25;
+          z-index: $z-index-event;
           .dz-details { opacity: 1; }
           .dz-image {
             img {
@@ -148,7 +177,7 @@
           text-align: center;
           line-height: 150%;
           opacity: 0;
-          z-index: 10;
+          z-index: $z-index-between-event-and-default;
           // 파일 아이콘
           .dz-file-type {
             grid-column: 1;
@@ -211,7 +240,7 @@
           @include relative();
           overflow: hidden;
           display: block;
-          z-index: 10;
+          z-index: $z-index-between-event-and-default;
           img { display: block; }
         }
         // 파일업로드 성공 및 실패 메시지는 디자인상 보이지 않음
@@ -230,7 +259,7 @@
             background: linear-gradient(to bottom, #be2626, #a92222);
             color: $white;
             opacity: 0;
-            z-index: 500;
+            z-index: $z-index-tooltip;
             pointer-events: none;
 
             &:after {
@@ -277,7 +306,7 @@
           margin: 0 3rem 0 2.625rem; // 0 48px 0 42px
           background: inherit;
           opacity: 1;
-          z-index: 750;
+          z-index: $z-index-between-modal-gnb;
           pointer-events: none;
 
           .dz-upload {
@@ -295,62 +324,41 @@
         }
       }
     }
-
-    // disabled
-    &.disabled {
-      pointer-events: none;
-      .dropzone {
-        .dz-default {
-          @include border(0.0625rem, solid, $gray300, all);
-          background-color: $neutral200;
-          &.dz-message { color: $gray400; }
-        }
-
-        .dz-preview {
-          @include border(0.0625rem, solid, $gray300, all);
-          background-color: $neutral200;
-
-          .dz-details {
-            .dz-file-type { filter: grayscale(1); }
-            .dz-download,
-            .dz-remove {
-              [class*="ic-"] { background: $gray400; }
-            }
-            .dz-filename,
-            .dz-size { color: $gray400; }
-          }
-        }
-      }
-    }
   }
+  
   // view 모드
-  &-view {
+  &--view {
     display: flex;
     align-items: center;
     min-height: 3.125rem; // 50px
     padding: 0.125rem 1.25rem; // 2px 20px
     font-family: $font-family;
+    
     // 제목
-    .file-uploader-title {
+    &__title {
       margin: auto 0;
       color: $gray800;
       font-size: $font-size-xs;
       font-weight: $font-weight-regular;
     }
+    
     // 첨부파일 리스트
-    .file-uploader-list {
+    &__list {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100%;
+      text-align: left;
+      
       // 첨부 파일 미존재시
-      .text-no-file {
+      .file-uploader--noFile {
         color: $gray400;
         font-size: $font-size-xs;
         font-weight: $font-weight-regular;
       }
     }
+    
     // dropzone
     .dropzone {
       &.dz-uploaded {

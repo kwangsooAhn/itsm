@@ -42,13 +42,13 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // switch button
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('button-switch-group').setUICSSText(`width:30%;`);
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn__toggle__button').setUICSSText(`width:30%;`);
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
-                .setUIClass('button-switch')
+                .setUIClass('btn__toggle__button--single')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
                 .addUI(new UISpan().setUIClass('text').setUITextContent(i18n.msg(item.name)));
