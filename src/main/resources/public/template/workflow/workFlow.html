@@ -201,10 +201,10 @@
     const STATUS_DESTROY = 'document.status.destroy';
 
     // Document type.
-    const TYPE_APPLICATION = 'application-form';
-    const TYPE_WORKFLOW = 'workflow';
-    const TYPE_APPLICATION_WORKFLOW = 'application-form-workflow';
-    const TYPE_LINK = 'application-form-link';
+    const TYPE_APPLICATION = 'document.type.application-form';
+    const TYPE_WORKFLOW = 'document.type.workflow';
+    const TYPE_APPLICATION_WORKFLOW = 'document.type.application-form-workflow';
+    const TYPE_LINK = 'document.type.application-form-link';
 
     // Selected Role List.
     let documentRoles = [];
@@ -217,7 +217,7 @@
         setDocumentType(documentType);
 
         const prefix = getPrefixForId(documentType);
-        const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus').value;
+        const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus').value || '';
 
         // 신청서 상태 초기화
         switch (prevStatus) {
@@ -279,6 +279,7 @@
 
     // ID 검색을 위한 prefix 반환
     function getPrefixForId(type) {
+        console.log(type);
         switch (type) {
             case TYPE_APPLICATION:
             case TYPE_WORKFLOW:
