@@ -1030,6 +1030,7 @@ insert into awf_scheduled_task_mst values ('4028b2647aadd869017aadf4cf830000', '
 where create_dt < now() - interval ''10day''', null, 'cron', null, '0 0 18 * * ?', null, null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b21e7c286680017c2868d9600000', '보고서 자동 생성', 'jar', '보고서 템플릿의 옵션 중, "자동 생성" 옵션이 설정된 템플릿을 수집하여, 보고서에 대한 자동 생성을 진행한다.', 'TRUE', 'FALSE', null, null, 'java -jar createReport.jar', 'cron', null, '0 0 18 * * ?', null, '/createReport', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b2647fbed869039fdce4cf870321', 'IF 테이블 모니터링 - 외부시그널', 'jar', 'IF 모니터링 플러그인 연동을 통해 rest API 통신을 진행한다.(IF 테이블 설정 필요)', 'TRUE', 'FALSE', null, null, 'java -jar ifMonitoring.jar', 'cron', null, '0 0/5 * * * ?', null, '/ifMonitoring', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('40288a9d823d7ee301823d81f3b40000', 'Zenius 용량 연동', 'jar', 'Zenius EMS 7 과 연동하여 용량 정보를 수집한다.', 'TRUE', 'FALSE', null, null, 'java -jar ems-capacity.jar', 'fixedDelay', 3600000, null, null, '/capacityEms', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 타임존정보
