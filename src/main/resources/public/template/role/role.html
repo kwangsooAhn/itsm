@@ -19,12 +19,12 @@
         <div class="flex-row">
             <div class="edit-row flex-column col-6 mr-4">
                 <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.id}"></label>
-                <input class="input" id="txtRoleId" maxlength="100" name="txtRoleId" th:readonly="${view}"
+                <input id="txtRoleId" maxlength="100" name="txtRoleId" th:readonly="${view}"
                        th:value="${role?.roleId}" type="text"/>
             </div>
             <div class="edit-row flex-column col-6">
                 <label th:classappend="${view} ? '' : 'required'" th:text="#{role.label.name}"></label>
-                <input class="input" id="txtRoleName" maxlength="100" name="txtRoleName" th:readonly="${view}"
+                <input id="txtRoleName" maxlength="100" name="txtRoleName" th:readonly="${view}"
                        th:value="${role?.roleName}" type="text"/>
             </div>
         </div>
@@ -36,7 +36,7 @@
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{role.label.referenceCount}"></label>
-            <input class="input" id="userRoleMapCount" name="userRoleMapCount"
+            <input id="userRoleMapCount" name="userRoleMapCount"
                    readonly th:value="${role?.userRoleMapCount}" type="text"/>
         </div>
         <div class="edit-row flex-column">

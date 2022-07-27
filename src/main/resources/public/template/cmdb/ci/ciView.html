@@ -20,13 +20,13 @@
         <!-- CI No -->
         <div class="flex-column view-row">
             <label class="field-label" for="ciNo" th:text="#{cmdb.ci.label.seqNum}"></label>
-            <input type="text" id="ciNo" class="input" th:value="${ciData?.ciNo}" readonly/>
+            <input type="text" id="ciNo" th:value="${ciData?.ciNo}" readonly/>
         </div>
         <!-- CI 타입 -->
         <div class="flex-column view-row">
             <label class="field-label" for="typeName" th:text="#{cmdb.ci.label.type}"></label>
             <div class="flex-row">
-                <input type="text" id="typeName" class="input" th:value="${ciData?.typeName}" readonly/>
+                <input type="text" id="typeName" th:value="${ciData?.typeName}" readonly/>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
         <div class="flex-column view-row">
             <label class="field-label" th:text="#{cmdb.type.label.icon}"></label>
             <div class="flex-row input--remove">
-                <input type="text" id="typeIcon" class="input" th:value="${ciData?.ciIcon}" readonly/>
+                <input type="text" id="typeIcon" th:value="${ciData?.ciIcon}" readonly/>
             </div>
         </div>
         <!-- CI 이름 -->
@@ -44,7 +44,7 @@
                 <span th:text="#{cmdb.ci.label.name}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" id="ciName" class="input" maxlength="100" th:value="${ciData?.ciName}"
+            <input type="text" id="ciName" maxlength="100" th:value="${ciData?.ciName}"
                    th:attr="data-validation-required-name=#{cmdb.ci.label.name}" readonly required="true"/>
         </div>
     </div>
@@ -59,12 +59,12 @@
     <!--클래스 -->
     <div class="flex-column view-row">
         <label class="field-label" for="className" th:text="#{cmdb.type.label.class}"></label>
-        <input type="text" id="className" class="input" maxlength="100" th:value="${ciData?.className}" readonly />
+        <input type="text" id="className" maxlength="100" th:value="${ciData?.className}" readonly />
     </div>
     <!-- CI 태그 -->
     <div class="flex-column view-row">
         <label class="field-label" th:text="#{cmdb.ci.label.tag}"></label>
-        <input type="text" id="tags" name="ciDetailTags" class="input" th:value="|${ciData.ciTags}|" readonly />
+        <input type="text" id="tags" name="ciDetailTags" th:value="|${ciData.ciTags}|" readonly />
     </div>
     <!-- 세부속성 -->
     <div class="flex-column view-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'view');">

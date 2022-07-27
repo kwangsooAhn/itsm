@@ -483,22 +483,27 @@ $layout-header-dropdown: (
     pointer-events: none;
 
     // inputBox
-    .input, .input:not(.select__box__label):not(:read-only) {
-      @include border(0.0625rem, solid, $gray400, all); // 1px
-      @include borderRadius(0.0625rem); // 2px
-      width: 100%;
-      &:hover {
-        @include border(0.0625rem, solid, $blue400, all);
-        outline: 0;
-      }
-      &:focus {
-        @include border(0.0625rem, solid, $blue600, all);
-        @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
-        outline: 0;
-      }
-      &:active {
-        @include border(0.0625rem, solid, $blue600, all);
-        outline: 0;
+    input {
+      &[tyep=text],
+      &[type=password],
+      &[type=number],
+      &:not(.select__box__label):not(:read-only) {
+        @include border(0.0625rem, solid, $gray400, all); // 1px
+        @include borderRadius(0.0625rem); // 2px
+        width: 100%;
+        &:hover {
+          @include border(0.0625rem, solid, $blue400, all);
+          outline: 0;
+        }
+        &:focus {
+          @include border(0.0625rem, solid, $blue600, all);
+          @include boxShadow(0, 0, 0.125rem, 0, $blue600); // 2px
+          outline: 0;
+        }
+        &:active {
+          @include border(0.0625rem, solid, $blue600, all);
+          outline: 0;
+        }
       }
     }
 
@@ -592,7 +597,7 @@ $layout-header-dropdown: (
 
     // time, date, datepicker 컴포넌트
     .date-picker {
-      .input { margin-right: 2rem; }
+      input[type=text] { margin-right: 2rem; }
       .datepicker { width: 100%; }
     }
 
@@ -620,14 +625,14 @@ $layout-header-dropdown: (
       .dr-table-row {
         .btn__ic { padding: 0; }
 
-        .input:not(.select__box__label) {
+        input[type=text]:not(.select__box__label) {
           padding: 0.4375rem 0;
           margin: 0.25rem 0;
           text-indent: 0.75rem;
           &.date-picker__input { padding-right: 2.25rem; }
         }
 
-        .input:read-only:not(:disabled):not(.tagify),
+        input[type=text]:read-only:not(:disabled):not(.tagify),
         .select .select__box.readonly { border-bottom: none; }
         span { line-height: 1.6; }
 
@@ -653,7 +658,7 @@ $layout-header-dropdown: (
 
     // custom code 컴포넌트
     .custom-code {
-      > .input { @include borderRadius(0.125rem); } // 2px
+      > input[type=text] { @include borderRadius(0.125rem); } // 2px
       > .btn__ic { margin-left: 0.5rem; }
     }
 
@@ -1030,7 +1035,9 @@ $component-icon: (
           .component-label-text { color: $blue400 !important; }
         }
         .element {
-          .input,
+          input[type=text],
+          input[type=password],
+          input[type=number],
           .textarea,
           .select__box {
             border-color: $blue400 !important;
@@ -1173,17 +1180,17 @@ $component-icon: (
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .input { width: 4.375rem; } // 70px
+    input[type=text] { width: 4.375rem; } // 70px
   }
   // clipboard 엘리먼트
   .clipboard {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .input { width: 100%; }
+    input[type=text] { width: 100%; }
   }
   // input 엘리먼트
-  .input:not(.tagify) {
+  input[type=text]:not(.tagify) {
     width: 100%;
     font-size: $font-size-xs;
 
@@ -1210,7 +1217,7 @@ $component-icon: (
   // column 너비 조정
   .slider {
     &__range { width : 75%; }
-    .input {
+    input[type=text] {
       width: 23%;
       text-align: center;
       margin-left: 2%;
@@ -1224,14 +1231,14 @@ $component-icon: (
     flex-direction: row;
 
     .btn-switch { width: 3.75rem; } // 60px
-    .input {
+    input[type=text] {
       display: block;
       margin-left : 0.625rem; // 10px
     }
     .select {
       display: block;
       margin-left: 0.625rem; // 10px
-      .input {
+      input[type=text] {
         display: inline-block;
         margin-left: 0;
       }
@@ -1257,11 +1264,15 @@ $component-icon: (
       .radio { margin-right: 0; }
 
       .radio-item {
-        .input {
-          width: 2.813rem; // 45px
-          margin-right: 0.3125rem; // 5px
-          padding: 0 0.5rem; // 0 8px
-          &:not(:first-child) { margin-left: 0.3125rem; } // 5px
+        input {
+          &[type=text],
+          &[type=password],
+          &[type=number] {
+            width: 2.813rem; // 45px
+            margin-right: 0.3125rem; // 5px
+            padding: 0 0.5rem; // 0 8px
+            &:not(:first-child) { margin-left: 0.3125rem; } // 5px
+          }
         }
       }
 

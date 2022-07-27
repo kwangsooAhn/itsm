@@ -13,7 +13,7 @@
 </div>
 <div layout:fragment="pageSearching">
     <form id="searchFrm" onsubmit = "return false">
-        <input type="text" id="searchValue" name="searchValue" class="input ic-search text-ellipsis col-5 mr-2" maxlength="100"
+        <input type="text" id="searchValue" name="searchValue" class="ic-search text-ellipsis col-5 mr-2" maxlength="100"
                th:placeholder="#{statistic.label.searchPlaceholder}"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>

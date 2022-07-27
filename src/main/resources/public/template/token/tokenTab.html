@@ -81,14 +81,14 @@
     <!-- 태그 -->
     <div class="token-panel token-tag" id="tokenTag">
         <div class="tag-input">
-            <input type="text" class="input" id="tokenTags" th:value="${tagList}"/>
+            <input type="text" id="tokenTags" th:value="${tagList}"/>
         </div>
     </div>
 </div>
 <!-- 관련 문서 모달-->
 <template id="relatedTokenModalTemplate">
     <div class="related-instance-list">
-        <input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
+        <input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
                th:placeholder="#{token.label.relatedInstancePlaceholder}"/>
         <span id="spanTotalCount" class="search-count"></span>
         <div class="table-set" id="instanceList"></div>
@@ -97,7 +97,7 @@
 <!-- 사용자 모달 -->
 <template id="viewerModalTemplate">
     <div class="sub-user-list">
-        <input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
+        <input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
                th:placeholder="#{user.label.userSearchPlaceholder}">
         <span id="spanTotalCount" class="search-count"></span>
         <div class="table-set" id="subUserList"></div>
@@ -106,12 +106,12 @@
 <!-- 일정 등록 모달 -->
 <template id="calendarModalTemplate">
     <div class="calendar__modal--register__main flex-column">
-        <input type="text" class="input schedule__title" id="scheduleTitle"
+        <input type="text" class="schedule__title" id="scheduleTitle"
                th:placeholder="#{calendar.label.titlePlaceholder}">
         <div class="flex-row align-items-baseline" id="rangeDate">
-            <input type="text" class="input ic-datetime-picker schedule__date" id="startDt"/>
+            <input type="text" class="ic-datetime-picker schedule__date" id="startDt"/>
             ~
-            <input type="text" class="input ic-datetime-picker schedule__date" id="endDt"/>
+            <input type="text" class="ic-datetime-picker schedule__date" id="endDt"/>
         </div>
         <div class="flex-row align-items-baseline">
             <label class="checkbox">

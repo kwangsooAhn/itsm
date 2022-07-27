@@ -501,7 +501,6 @@ class UISlider extends UIElement {
         this.addUI(this.UIRange);
         // input
         this.UIInput = new UIInput(value).setUIReadOnly(true)
-            .setUIClass('input');
         this.addUI(this.UIInput);
 
         const scope = this;

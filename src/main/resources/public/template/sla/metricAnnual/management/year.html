@@ -20,7 +20,7 @@
                 <div class="flex-row edit-row">
                     <div class="flex-column col-2">
                         <label for="metricYear" th:text="#{sla.metricYear.label.targetYear}"></label>
-                        <input type="text" class="input ic-date-picker search-date col-3 mr-2" id="metricYear" name="metricYear"/>
+                        <input type="text" class="ic-date-picker search-date col-3 mr-2" id="metricYear" name="metricYear"/>
                     </div>
                     <div class="flex-column col-3 pl-3">
                         <label for="metricYearName" th:text="#{sla.metricYear.label.metricName}" class="required"></label>
@@ -30,25 +30,25 @@
                     </div>
                     <div class="flex-column col-2 pl-3">
                         <label for="metricYearGroup" th:text="#{sla.metricYear.label.group}"></label>
-                        <input type="text" class="input" id="metricYearGroup" name="metricYearGroup" maxlength="128" readonly>
+                        <input type="text" id="metricYearGroup" name="metricYearGroup" maxlength="128" readonly>
                     </div>
                     <div class="flex-column col-1 pl-3">
                         <label for="metricYearType" th:text="#{sla.metricYear.label.type}"></label>
-                        <input type="text" class="input" id="metricYearType" name="metricYearType" maxlength="128" readonly>
+                        <input type="text" id="metricYearType" name="metricYearType" maxlength="128" readonly>
                     </div>
                     <div class="flex-column col-1 pl-3">
                         <label for="metricYearUnit" th:text="#{sla.metricYear.label.unit}"></label>
-                        <input type="text" class="input" id="metricYearUnit" name="metricYearUnit" maxlength="128" readonly/>
+                        <input type="text" id="metricYearUnit" name="metricYearUnit" maxlength="128" readonly/>
                     </div>
                     <div class="flex-column col-1 pl-3">
                         <label for="metricYearCalcType" th:text="#{common.label.calculationType}"></label>
-                        <input type="text" class="input" id="metricYearCalcType" name="metricYearCalcType" maxlength="128" readonly>
+                        <input type="text" id="metricYearCalcType" name="metricYearCalcType" maxlength="128" readonly>
                     </div>
                 </div>
                 <div class="edit-form edit-row">
                     <div class="edit-row">
                         <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
-                        <input type="text" class="input" id="metricYearDesc" name="metricYearDesc" maxlength="128" readonly>
+                        <input type="text" id="metricYearDesc" name="metricYearDesc" maxlength="128" readonly>
                     </div>
                 </div>
             </th:block>
@@ -57,40 +57,40 @@
                 <div class="flex-row edit-row">
                     <div class="flex-column col-2">
                         <label for="metricYearInput" th:text="#{sla.metricYear.label.targetYear}"></label>
-                        <input type="text" class="input" id="metricYearInput" name="metricYearInput"
+                        <input type="text" id="metricYearInput" name="metricYearInput"
                                th:value="${metric?.metricYear}" maxlength="128" readonly />
                     </div>
                     <div class="flex-column col-2 pl-3">
                         <label for="metricYearNameInput" th:text="#{sla.metricYear.label.metricName}"></label>
-                        <input type="text" class="input" id="metricYearNameInput" name="metricYearNameInput"
+                        <input type="text" id="metricYearNameInput" name="metricYearNameInput"
                                th:value="${metric?.metricName}" maxlength="128" readonly />
                         <input type="hidden" id="metricYearIdInput" th:value="${metric?.metricId}"/>
                     </div>
                     <div class="flex-column col-2 pl-3">
                         <label for="metricYearGroupInput" th:text="#{sla.metricYear.label.group}"></label>
-                        <input type="text" class="input" id="metricYearGroupInput" name="metricYearGroupInput"
+                        <input type="text" id="metricYearGroupInput" name="metricYearGroupInput"
                                th:value="#{|${metric?.metricGroupName}|}" maxlength="128" readonly />
                     </div>
                     <div class="flex-column col-1 pl-3">
                         <label for="metricYearTypeInput" th:text="#{sla.metricYear.label.type}"></label>
-                        <input type="text" class="input" id="metricYearTypeInput" name="metricYearTypeInput"
+                        <input type="text" id="metricYearTypeInput" name="metricYearTypeInput"
                                th:value="#{|${metric?.metricType}|}" maxlength="128" readonly />
                     </div>
                     <div class="flex-column col-1 pl-3">
                         <label for="metricYearUnitInput" th:text="#{sla.metricYear.label.unit}"></label>
-                        <input type="text" class="input" id="metricYearUnitInput" name="metricYearUnitInput"
+                        <input type="text" id="metricYearUnitInput" name="metricYearUnitInput"
                                th:value="#{|${metric?.metricUnit}|}" maxlength="128" readonly />
                     </div>
                     <div class="flex-column col-1 pl-3">
                         <label for="metricYearCalcTypeInput" th:text="#{common.label.calculationType}"></label>
-                        <input type="text" class="input" id="metricYearCalcTypeInput" name="metricYearCalcTypeInput"
+                        <input type="text" id="metricYearCalcTypeInput" name="metricYearCalcTypeInput"
                                th:value="#{|${metric?.calculationType}|}" maxlength="128" readonly />
                     </div>
                 </div>
                 <div class="edit-form edit-row">
                     <div class="edit-row">
                         <label for="metricYearDesc" th:text="#{sla.metricYear.label.description}"></label>
-                        <input type="text" class="input" id="metricYearDesc" name="metricYearDesc"
+                        <input type="text" id="metricYearDesc" name="metricYearDesc"
                                th:value="${metric?.metricDesc}" maxlength="128" readonly />
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="flex-column col-2">
                     <label th:text="#{sla.metricYear.label.minValue}" th:classappend="${view} ? '' : 'required'" for="minValue"></label>
                     <div class="flex-row">
-                        <input type="text" id="minValue" name="minValue" class="input metric-value"
+                        <input type="text" id="minValue" name="minValue" class="metric-value"
                                onchange="checkDecimalValue('minValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.minValue}" th:readonly="${view}"/>
@@ -112,7 +112,7 @@
                 <div class="flex-column col-2 ml-5">
                     <label th:text="#{sla.metricYear.label.maxValue}" th:classappend="${view} ? '' : 'required'" for="maxValue"></label>
                     <div class="flex-row">
-                        <input type="text" id="maxValue" name="maxValue" class="input metric-value"
+                        <input type="text" id="maxValue" name="maxValue" class="metric-value"
                                onchange="checkDecimalValue('maxValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.maxValue}" th:readonly="${view}"/>
@@ -125,7 +125,7 @@
                 <div class="flex-column col-2 ml-5">
                     <label th:text="#{sla.metricYear.label.weightValue}" th:classappend="${view} ? '' : 'required'" for="weightValue"></label>
                     <div class="flex-row">
-                        <input type="text" id="weightValue" name="weightValue" class="input metric-value"
+                        <input type="text" id="weightValue" name="weightValue" class="metric-value"
                                onchange="checkDecimalValue('weightValue','sla.metricYear.msg.checkValue')"
                                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9.]/g,\'\');'"
                                th:value="${metric?.weightValue}" th:readonly="${view}"/>
@@ -134,7 +134,7 @@
                 </div>
                 <div class="flex-column col-3 ml-5">
                     <label th:text="#{sla.metricYear.label.owner}" for="owner"></label>
-                    <input type="text" id="owner" name="owner" class="input" maxlength="128"
+                    <input type="text" id="owner" name="owner" maxlength="128"
                            th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[0-9]/g,\'\');'"
                            th:value="${metric?.owner}" th:readonly="${view}"/>
                 </div>
@@ -142,7 +142,7 @@
             <div class="edit-form edit-row">
                 <div class="flex-column">
                     <label th:text="#{sla.metricYear.label.comment}" for="comment"></label>
-                    <input type="text" class="input" id="comment" name="comment" maxlength="128"
+                    <input type="text" id="comment" name="comment" maxlength="128"
                            th:value="${metric?.comment}" th:readonly="${view}"/>
                 </div>
             </div>
@@ -158,7 +158,7 @@
                         <a class="font-bold underline" onclick="openZqlManualModal()" th:text="#{sla.metricYear.label.zqlManual}"></a>
                         <span th:text="#{sla.metricYear.msg.zqlDescriptionCheck}"></span>
                     </p>
-                    <input type="text" id="zqlString" name="zqlString" class="input" maxlength="128"  th:readonly="${view}"
+                    <input type="text" id="zqlString" name="zqlString" maxlength="128"  th:readonly="${view}"
                            th:value="${metric?.zqlString}" th:placeholder="#{sla.metricYear.label.zqlPlaceholder}"/>
                 </div>
             </div>
@@ -322,7 +322,7 @@
             `${i18n.msg('sla.metricYear.label.zqlManual')}</a>` +
             `<span">${i18n.msg('${sla.metricYear.msg.zqlDescriptionCheck')}</span>` +
             `</p>` +
-            `<input type="text" id="zqlString" name="zqlString" class="input" maxlength="128" ` +
+            `<input type="text" id="zqlString" name="zqlString" maxlength="128" ` +
             `placeholder="${i18n.msg('${sla.metricYear.label.zqlPlaceholder')}"/>` +
             `</div>`;
     }

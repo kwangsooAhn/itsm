@@ -15,7 +15,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{cmdb.class.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="input ic-search col-5 mr-2" id="search" name="search" maxlength="100"
+    <input type="text" class="ic-search col-5 mr-2" id="search" name="search" maxlength="100"
            th:placeholder="#{cmdb.class.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto">
@@ -32,11 +32,11 @@
         <input type="hidden" id="txtPClassId" name="txtPClassId"/>
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{cmdb.class.label.pClassName}" for="txtPClassName"></label>
-            <input type="text" class="input text-ellipsis" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
+            <input type="text" class="text-ellipsis" id="txtPClassName" name="txtPClassName" maxlength="128" readonly/>
         </div>
         <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.class.label.name}" for="txtClassName"></label>
-            <input type="text" class="input" id="txtClassName" name="txtClassName" maxlength="100"/>
+            <input type="text" id="txtClassName" name="txtClassName" maxlength="100"/>
         </div>
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
@@ -45,7 +45,7 @@
         </div>
         <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.class.label.seq}" for="txtClassSeq"></label>
-            <input type="text" class="input" id="txtClassSeq" name="txtClassSeq" maxlength="4"
+            <input type="text" id="txtClassSeq" name="txtClassSeq" maxlength="4"
                    onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
         </div>
         <div class="edit-row flex-column">
@@ -97,7 +97,7 @@
                 <option selected="selected" th:text="#{common.label.notSelect}" value=""></option>
             </select>
             <div class="flex-row justify-content-between col-pct-4" id="alarmCondition">
-                <input type="text" class="input col-pct-2" id="periodValue" maxlength="3"
+                <input type="text" class="col-pct-2" id="periodValue" maxlength="3"
                        onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)">
                 <select class="col-pct-5 mr-1 ml-1" id="unitValue">
                     <option selected="selected" th:text="#{cmdb.class.label.month}" value="month"></option>
@@ -590,7 +590,7 @@
 
     function createModalContent() {
         return `<div class="cmdb-class-attribute-list">` +
-            `<input class="input ic-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
+            `<input class="ic-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
                 `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +

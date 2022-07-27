@@ -177,7 +177,7 @@
             `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.maxLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="number" class="input" id="${objectId}-maxLength" max="1000" value="${maxLengthValue}">` +
+            `<input type="number" id="${objectId}-maxLength" max="1000" value="${maxLengthValue}">` +
             `</div>` +
             `</div>` +
             `<div class="flex-row mt-2">` +
@@ -185,7 +185,7 @@
             `<label><span class="mr-1">${i18n.msg('cmdb.attribute.label.option.minLength')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="number" class="input" id="${objectId}-minLength" max="1000" min="0" ` +
+            `<input type="number" id="${objectId}-minLength" max="1000" min="0" ` +
                 `value="${minLengthValue}">` +
             `</div>` +
             `</div>`;
@@ -240,7 +240,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-5 mr-4">` +
-            `<input type="text" class="input" maxlength="50" value="선택하세요." readonly>` +
+            `<input type="text" maxlength="50" value="선택하세요." readonly>` +
             `</div>` +
             `<div class="flex-column col-1">` +
             `<label>` +
@@ -248,7 +248,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-5">` +
-            `<input type="text" class="input" maxlength="50" readonly>` +
+            `<input type="text" maxlength="50" readonly>` +
             `</div>` +
             `</div>` +
             `</div>` +
@@ -268,7 +268,7 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="input" maxlength="50" required="true" required ` +
+                `<input type="text" maxlength="50" required="true" required ` +
                     `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
@@ -277,7 +277,7 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5">` +
-                `<input type="text" class="input" maxlength="50" required="true" required ` +
+                `<input type="text" maxlength="50" required="true" required ` +
                     `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.value')}">` +
                 `</div>` +
                 `<div class="flex-column">` +
@@ -340,13 +340,13 @@
                 `</label>` +
                 `</div>` +
                 `<div class="flex-column col-5 mr-4">` +
-                `<input type="text" class="input" maxlength="50" required="true" ` +
+                `<input type="text" maxlength="50" required="true" ` +
                 `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
                 `</div>` +
-                `<div class="flex-column col-5"><input type="text" class="input" maxlength="50"></div>` +
+                `<div class="flex-column col-5"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column">` +
                 `<button id="${rowId}_delete" type="button" class="item-remove ml-2 mr-2 mt-2 mb-2">` +
                 `<span class="ic-remove"></span>` +
@@ -401,13 +401,13 @@
                 `<span class="required"></span></label>` +
                 `</div>` +
                 `<div class="flex-column col-4 mr-4">` +
-                `<input type="text" class="input" maxlength="50" required="true" required ` +
+                `<input type="text" maxlength="50" required="true" required ` +
                 `data-validation-required-name="${i18n.msg('cmdb.attribute.label.option.label')}">` +
                 `</div>` +
                 `<div class="flex-column col-1">` +
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.value')}</span></label>` +
                 `</div>` +
-                `<div class="flex-column col-4 mr-4"><input type="text" class="input" maxlength="50"></div>` +
+                `<div class="flex-column col-4 mr-4"><input type="text" maxlength="50"></div>` +
                 `<div class="flex-column col-1">` +
                 `<label><span>${i18n.msg('cmdb.attribute.label.option.check')}</span></label>` +
                 `</div>` +
@@ -518,7 +518,7 @@
             `<div class="flex-column col-1"></div>` +
             `<div class="flex-column col-7">` +
             `<div class="flex-row">` +
-            `<input type="text" class="input" readonly="true" id="${objectId}-default-code-text" ` +
+            `<input type="text" readonly="true" id="${objectId}-default-code-text" ` +
                 `value="${defaultType === 'code' ? property.default.value.split('|')[1] : ''}" ` +
                 `data-value="${defaultType === 'code' ? property.default.value.split('|')[0] : ''}" ` +
                 `${defaultType === 'code' ? '' : 'disabled=\'true\''}>` +
@@ -533,7 +533,7 @@
             `<label><span>${i18n.msg('cmdb.attribute.label.buttonText')}</span></label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input type="text" class="input" id="${objectId}-button" maxlength="100" value="${buttonText}">` +
+            `<input type="text" id="${objectId}-button" maxlength="100" value="${buttonText}">` +
             `</div>` +
             `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -666,7 +666,7 @@
         let rowElement =
             `<div class="flex-row mt-2">` +
             `<div class="flex-column col-4">` +
-            `<input type="text" class="input" maxlength="50" readonly="readonly" ` +
+            `<input type="text" maxlength="50" readonly="readonly" ` +
             `id="${data.key}" value="${data.value}">` +
             `</div>` +
             `<div class="flex-column col-2 align-right mr-2">` +
@@ -675,7 +675,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-3">` +
-            `<input type="text" class="input" maxlength="50" readonly="readonly" value="${data.type}">` +
+            `<input type="text" maxlength="50" readonly="readonly" value="${data.type}">` +
             `</div>` +
             `<div class="flex-column col-2 align-right mr-2">` +
             `<label>` +
@@ -683,7 +683,7 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-3">` +
-            `<input type="text" class="input" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
+            `<input type="text" id="${data.key}_order" value="${data.order}" maxlength="50" ` +
             `onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required="required" />` +
             `</div>` +
             `<div class="flex-column">` +
@@ -732,8 +732,8 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input name="${objectId}-minDate" id="${objectId}-minDate" 
-                        class="input ic-date-picker search-date col-3 mr-2" 
+            `<input name="${objectId}-minDate" id="${objectId}-minDate" type="text"
+                        class="ic-date-picker search-date col-3 mr-2" 
                         value="${minDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>` +
@@ -744,8 +744,8 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input name="${objectId}-maxDate" id="${objectId}-maxDate" 
-                        class="input ic-date-picker search-date col-3 mr-2" 
+            `<input name="${objectId}-maxDate" id="${objectId}-maxDate" type="text"
+                        class="ic-date-picker search-date col-3 mr-2" 
                         value="${maxDate}" placeholder="${i18n.dateFormat}">` +
             `</div>` +
             `</div>`;
@@ -777,8 +777,8 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input name="${objectId}-minDateTime" id="${objectId}-minDateTime" 
-                        class="input ic-datetime-picker search-datetime col-3 mr-2" 
+            `<input name="${objectId}-minDateTime" id="${objectId}-minDateTime" type="text"
+                        class="ic-datetime-picker search-datetime col-3 mr-2" 
                         value="${minDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>` +
@@ -789,8 +789,8 @@
             `</label>` +
             `</div>` +
             `<div class="flex-column col-9">` +
-            `<input name="${objectId}-maxDateTime" id="${objectId}-maxDateTime" 
-                        class="input ic-datetime-picker search-datetime col-3 mr-2" 
+            `<input name="${objectId}-maxDateTime" id="${objectId}-maxDateTime" type="text"
+                        class="ic-datetime-picker search-datetime col-3 mr-2" 
                         value="${maxDateTime}" placeholder="${i18n.dateTimeFormat}">` +
             `</div>` +
             `</div>`;
@@ -901,7 +901,7 @@
         // 신규 생성
         if (e.target.value === 'organization') {
             const organizationTemplate = `<div class="flex-row">
-                <input type="text" class="input" readonly="true" id="searchTarget" required="true" data-value="">
+                <input type="text" readonly="true" id="searchTarget" required="true" data-value="">
                 <button class="btn__ic" type="button" id="searchOrganization">` +
                 `<span class="ic-search bg-gray500"></span></button>
             </div>`;
@@ -951,7 +951,7 @@
      */
     function openUserListModal(e) {
         const targetUserModalTemplate = `<div class="target-user-list">` +
-                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +
@@ -1003,7 +1003,7 @@
                     case 'searchCriteria':
                         document.getElementById('changeTargetCriteria')
                             .querySelectorAll('.user-search-item').forEach( (elem) => {
-                                const inputElem = elem.querySelector('.input');
+                                const inputElem = elem.querySelector('input[type=text]');
                                 if (inputElem) {
                                     targetArray.push({
                                         id: inputElem.getAttribute('data-user-id'),
@@ -1082,7 +1082,7 @@
         dataList.forEach( (data) => {
             listTemplate += `<div class="flex-row mt-2 user-search-item">` +
                 `<div class="flex-column col-10 mr-4">` +
-                    `<input class="input" readonly data-user-id="${data.id}" value="${data.value}">` +
+                    `<input type="text" readonly data-user-id="${data.id}" value="${data.value}">` +
                 `</div>` +
                 `<div class="flex-column">` +
                     `<button type="button" class="item-remove extra ml-2 mr-2 mt-2 mb-2 user-search-delete-btn"` +
@@ -1206,7 +1206,7 @@
                 </div>
                 <div class="flex-column col-7">
                     <div class="flex-row">
-                        <input class="input" type="text" readonly="true" id="${id}-default-custom-text" 
+                        <input type="text" readonly="true" id="${id}-default-custom-text" 
                             value="${defaultData[1]}" data-search-value="${defaultData[0]}" 
                             ${defaultType === 'custom' ? '' : 'disabled=\'true\''}/>
                         <button class="btn__ic" type="button" id="${id}-default-custom" 
@@ -1228,7 +1228,7 @@
 
         // 모달 내부 template
         const attributeListModalContent = `<div class="cmdb-class-attribute-list">` +
-            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
+            `<input class="ic-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
             `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="ciClassAttributeList"></div>` +
@@ -1807,7 +1807,7 @@
 
                 const customInputElem = document.createElement('input');
                 customInputElem.type = 'text';
-                customInputElem.className = 'input col-pct-12 inherit';
+                customInputElem.className = 'col-pct-12 inherit';
                 customInputElem.value = (customValueArr.length > 0) ? customValueArr[1] : '';
                 customInputElem.readOnly = true;
                 elem.appendChild(customInputElem);
@@ -1901,7 +1901,8 @@
             case 'date': {
                 elem = document.createElement('div');
                 const dateElem = document.createElement('input');
-                dateElem.className = 'input ic-date-picker search-date col-3';
+                dateElem.type = 'text';
+                dateElem.className = 'ic-date-picker search-date col-3';
                 dateElem.id = ZWorkflowUtil.generateUUID();
                 dateElem.setAttribute('data-attributeId', data.attributeId);
                 dateElem.value = i18n.userDate(data.value);
@@ -1927,7 +1928,8 @@
             case 'datetime': {
                 elem = document.createElement('div');
                 const dateTimeElem = document.createElement('input');
-                dateTimeElem.className = 'input ic-datetime-picker search-datetime col-3';
+                dateTimeElem.type = 'text';
+                dateTimeElem.className = 'ic-datetime-picker search-datetime col-3';
                 dateTimeElem.id = ZWorkflowUtil.generateUUID();
                 dateTimeElem.setAttribute('data-attributeId', data.attributeId);
                 dateTimeElem.setAttribute('type', type);
@@ -1953,7 +1955,7 @@
             case 'userSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
-                elem.className = 'input ic-user-search text-ellipsis';
+                elem.className = 'ic-user-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-attributeValue', data.attributeValue);
@@ -2005,7 +2007,7 @@
             case 'organizationSearch': {
                 elem = document.createElement('input');
                 elem.type = 'text';
-                elem.className = 'input ic-organization-search text-ellipsis';
+                elem.className = 'ic-organization-search text-ellipsis';
                 elem.id = ZWorkflowUtil.generateUUID();
                 elem.setAttribute('data-attributeId', data.attributeId);
                 elem.setAttribute('data-modalTitle', data.attributeText);
@@ -2087,7 +2089,7 @@
         e.stopPropagation();
 
         const customGroup = e.target.parentNode;
-        const customInput = customGroup.querySelector('.input-button');
+        const customInput = customGroup.querySelector('.input--remove');
         let customCodeData = {
             componentId: customGroup.id,
             componentValue: customInput.getAttribute('data-custom-data'),
@@ -2158,7 +2160,7 @@
     function openUserSearchModal(e) {
         const target = e.target || e;
         const targetUserModalTemplate = `<div class="target-user-list">` +
-            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+            `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
             `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="searchUserList"></div>` +

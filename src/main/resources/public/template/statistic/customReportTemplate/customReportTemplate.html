@@ -20,7 +20,7 @@
             <label for="templateName">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{statistic.label.templateName}"></span>
             </label>
-            <input type="text" id="templateName" class="input text-ellipsis" required="true" maxlength="100"
+            <input type="text" id="templateName" class="text-ellipsis" required="true" maxlength="100"
                    th:attr="data-validation-required-name=#{statistic.label.templateName}"
                    th:value="${template?.templateName}" th:readonly="${view}"/>
         </div>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </label>
-            <input type="text" id="reportName" class="input text-ellipsis" maxlength="100"
+            <input type="text" id="reportName" class="text-ellipsis" maxlength="100"
                    th:value="${template?.reportName}" th:readonly="${view}"/>
         </div>
         <div class="flex-column edit-row">

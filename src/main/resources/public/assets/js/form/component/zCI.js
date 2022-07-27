@@ -769,8 +769,8 @@ export const ciMixin = {
     // 기존 CI 조회 모달 Template 조회
     getSelectModalContent(flag, ciId) {
         return `<form id="searchFrm">` +
-            `<input type="text" class="input ic-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
-            `<input type="text" class="input ic-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
+            `<input type="text" class="ic-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
+            `<input type="text" class="ic-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
             `<input type="hidden" name="flag" id="flag" value="${flag}"/>` +
             `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
             `<span id="ciListTotalCount" class="search-count"></span>` +

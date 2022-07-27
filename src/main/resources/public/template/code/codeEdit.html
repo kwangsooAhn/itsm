@@ -15,7 +15,7 @@
     <h6 class="description ml-2 pl-2" th:text="#{code.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageSearching">
-    <input type="text" class="input ic-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
+    <input type="text" class="ic-search text-ellipsis col-5 mr-2" id="searchValue" name="searchValue"
            maxlength="100" th:placeholder="#{code.label.searchPlaceholder}"/>
     <span id="totalCount" class="search-count"></span>
     <div class="ml-auto" sec:authorize="hasAuthority('system.manage')">
@@ -36,14 +36,14 @@
             <div class="flex-column flex-fill mr-4">
                 <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
                 <span id="tooltipCode" th:title="${codeDetail?.code}">
-                <input id="txtCode" name="txtCode" class="input text-ellipsis col-pct-12" type="text"
+                <input id="txtCode" name="txtCode" class="text-ellipsis col-pct-12" type="text"
                        th:value="${codeDetail?.code}" maxlength="100"/>
                 </span>
             </div>
             <div class="flex-column flex-fill">
                 <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
                 <span id="tooltipPcode" th:title="${codeDetail?.pCode}">
-                <input id="txtPCode" name="txtPCode" class="input text-ellipsis col-pct-12" type="text"
+                <input id="txtPCode" name="txtPCode" class="text-ellipsis col-pct-12" type="text"
                        th:value="${codeDetail?.pCode}" maxlength="100"/>
                 </span>
             </div>
@@ -51,18 +51,18 @@
         <div class="edit-row flex-row">
             <div class="flex-column flex-fill mr-4">
                 <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                <input id="txtCodeName" name="txtCodeName" class="input text-ellipsis" type="text"
+                <input id="txtCodeName" name="txtCodeName" class="text-ellipsis" type="text"
                        th:value="${codeDetail?.codeName}" maxlength="100"/>
             </div>
             <div class="flex-column flex-fill">
                 <label class="form-title" th:text="#{code.label.defaultCodeValue}" for="txtCodeValue"></label>
-                <input id="txtCodeValue" name="txtCodeValue" class="input text-ellipsis" type="text"
+                <input id="txtCodeValue" name="txtCodeValue" class="text-ellipsis" type="text"
                        th:value="${codeDetail?.codeValue}" maxlength="100"/>
             </div>
         </div>
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
-            <input id="txtSeqNum" name="txtSeqNum" class="input text-ellipsis" type="text" th:value="${codeDetail?.seqNum}"
+            <input id="txtSeqNum" name="txtSeqNum" class="text-ellipsis" type="text" th:value="${codeDetail?.seqNum}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)" maxlength="5"/>
         </div>
         <div class="edit-row flex-column">
@@ -106,7 +106,7 @@
             <label class="required" th:text="#{'code.label.lang'}"></label>
             <div class="col-2 ml-3 mr-5"><select></select></div>
             <label class="required" th:text="#{code.label.name}"></label>
-            <input class="input text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
+            <input class="text-ellipsis flex-fill ml-3 mr-3" type="text" name="codeLangValue" maxlength="100">
             <button type="button" sec:authorize="hasAuthority('system.manage')" class="item-remove ml-2 mr-2 mt-2 mb-2">
                 <span class="ic-remove"></span>
             </button>
