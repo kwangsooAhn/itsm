@@ -425,7 +425,7 @@ class UIRemoveButton extends UIElement {
 class UISwitch extends UIElement {
     constructor(boolean) {
         super(document.createElement('label'));
-        this.domElement.className = 'btn__toggle__switch__label';
+        this.domElement.className = 'btn__toggle__switch';
 
         // checkbox
         this.UICheckbox = new UICheckbox(boolean);
@@ -433,7 +433,7 @@ class UISwitch extends UIElement {
         this.addUI(new UISpan());
 
         // label
-        this.UISpan = new UISpan().setUIClass('label');
+        this.UISpan = new UISpan().setUIClass('btn__toggle__switch__label');
         this.addUI(this.UISpan);
     }
 
