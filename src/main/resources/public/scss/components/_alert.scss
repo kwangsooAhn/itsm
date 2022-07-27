@@ -1,0 +1,29 @@
+/* _alert.scss
+ *
+ * 파일 경로 : components/_alert.scss
+ * @description 알림 모달
+ * @author jy.lim
+ * @version 1.0
+ */
+.alert {
+  width: 100%;
+  padding: 1.5625rem; // 25px
+  line-height: 1;
+
+  &__type {
+    width: 3.875rem;  // 62px;
+    height: 3.875rem;
+    margin: 0;
+  }
+
+  &__message {
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;       // 56px
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
+    line-height: 1.7143;
+    box-sizing: border-box;
+  }
+}

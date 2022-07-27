@@ -396,7 +396,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.save'),
-                    classes: 'z-button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -405,7 +405,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -441,8 +441,8 @@
             body: JSON.stringify(zProcessDesigner.data)
         }).then((response) => {
             // 기존 데이터 삭제
-            const prevReportList = document.querySelectorAll('.z-simulation-report-contents-main .details div');
-            const prevReportResult = document.querySelector('.z-simulation-report-contents-main .result');
+            const prevReportList = document.querySelectorAll('.simulation-report-contents-main .details div');
+            const prevReportResult = document.querySelector('.simulation-report-contents-main .result');
             if (prevReportList.length > 0) {
                 prevReportList.forEach((element) => element.parentElement.removeChild(element));
                 if (prevReportResult) {
@@ -494,14 +494,14 @@
                 reportDetails.appendChild(elementInfo);
                 reportDetails.appendChild(failedMessage);
 
-                document.querySelector('.z-simulation-report-contents-main .details').appendChild(reportDetails);
+                document.querySelector('.simulation-report-contents-main .details').appendChild(reportDetails);
             }
 
-            if (document.querySelector('.z-simulation-report').classList.contains('closed')) {
-                document.querySelector('.z-button-simulation-report').click();
+            if (document.querySelector('.simulation-report').classList.contains('closed')) {
+                document.querySelector('.button-simulation-report').click();
             }
             // 스크롤바 생성
-            OverlayScrollbars(document.querySelector('.z-simulation-report-contents-main'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.simulation-report-contents-main'), { className: 'scrollbar' });
         });
     }
 
@@ -624,11 +624,11 @@
      * @return {Promise<unknown[]>}
      */
     function loadProcessImage(viewBox, svgNode) {
-        let svg = d3.select(svgNode).html(d3.select('.z-drawing-board > svg').html());
+        let svg = d3.select(svgNode).html(d3.select('.drawing-board > svg').html());
         svg.attr('width', viewBox[2])
             .attr('height', viewBox[3])
             .attr('viewBox', viewBox.join(' '))
-            .classed('z-drawing-board', true);
+            .classed('drawing-board', true);
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
@@ -735,7 +735,7 @@
      * focus properties panel.
      */
     function focusPropertiesPanel() {
-        let panel = document.querySelector('.z-process-properties');
+        let panel = document.querySelector('.process-properties');
         let items = panel.querySelectorAll('input:not([readonly]), select');
         if (!items.length) {
             return false;
@@ -747,10 +747,10 @@
      * 미니맵을 표시한다.
      */
     function setProcessMinimap() {
-        const drawingboardContainer = document.querySelector('.z-drawing-board');
+        const drawingboardContainer = document.querySelector('.drawing-board');
         let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
-        const minimapSvg = d3.select('div.z-minimap').select('svg');
+        const minimapSvg = d3.select('div.minimap').select('svg');
         minimapSvg.html(content);
         minimapSvg.attr('width', 290).attr('height', 200);
         minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
@@ -766,7 +766,7 @@
         minimapSvg.selectAll('.selected').classed('selected', false);
         minimapSvg.selectAll('.reject-element').classed('reject-element', false);
         minimapSvg.append('rect')
-            .attr('class', 'z-minimap-guide')
+            .attr('class', 'minimap-guide')
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', drawingboardContainer.offsetWidth)
@@ -778,7 +778,7 @@
             minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
         }
         minimapSvg.attr('viewBox', getSvgViewBox().join(' '));
-        minimapSvg.select('.z-minimap-guide').attr('transform', minimapTranslate);
+        minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
     }
 
     /**
@@ -787,12 +787,12 @@
      * @return {[number, number, *, *]}
      */
     function getSvgViewBox() {
-        let isMinimapClosed = d3.select('div.z-minimap').classed('closed');
+        let isMinimapClosed = d3.select('div.minimap').classed('closed');
         if (isMinimapClosed) {
-            d3.select('div.z-minimap').classed('closed', false);
+            d3.select('div.minimap').classed('closed', false);
         }
-        const drawingBoard = d3.select(document.querySelector('.z-drawing-board'));
-        const minimapSvg = d3.select('div.z-minimap').select('svg');
+        const drawingBoard = d3.select(document.querySelector('.drawing-board'));
+        const minimapSvg = d3.select('div.minimap').select('svg');
         const nodeTopArray = [],
             nodeRightArray = [],
             nodeBottomArray = [],
@@ -806,7 +806,7 @@
             nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
         });
         if (isMinimapClosed) {
-            d3.select('div.z-minimap').classed('closed', true);
+            d3.select('div.minimap').classed('closed', true);
         }
         let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
         if (nodes.length > 0) {
@@ -825,30 +825,30 @@
      * 드로잉보드 오른쪽 하단 버튼 기능 추가
      */
     function initializeButtonOnDrawingBoard() {
-        const drawingBoard = document.querySelector('.z-drawing-board');
+        const drawingBoard = document.querySelector('.drawing-board');
 
         // 미니맵 초기화 설정
         const minimapContainer = document.createElement('div');
-        minimapContainer.className = 'z-minimap closed';
+        minimapContainer.className = 'minimap closed';
         drawingBoard.appendChild(minimapContainer);
         d3.select(minimapContainer).append('svg');
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'z-button-icon secondary z-button-minimap z-palette-tooltip';
+        minimapButton.className = 'btn__ic secondary button-minimap palette-tooltip';
         minimapButton.addEventListener('click', function(e) {
-            const elem = aliceJs.clickInsideElement(e, 'z-button-minimap');
+            const elem = aliceJs.clickInsideElement(e, 'button-minimap');
             elem.classList.toggle('active');
-            document.querySelector('div.z-minimap').classList.toggle('closed');
+            document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
 
         const minimapIcon = document.createElement('span');
-        minimapIcon.className = 'z-icon i-minimap';
+        minimapIcon.className = 'ic-minimap';
 
         const minimapTooltip = document.createElement('div');
-        minimapTooltip.className = 'z-palette-tooltip-contents right-bottom'
+        minimapTooltip.className = 'palette-tooltip-contents right-bottom'
         const minimapTooltipText = document.createElement('span');
-        minimapTooltipText.className = 'z-palette-tooltip-text'
+        minimapTooltipText.className = 'palette-tooltip-text'
         minimapTooltipText.textContent = i18n.msg('tooltip.label.minimap');
 
         minimapTooltip.appendChild(minimapTooltipText);
@@ -860,29 +860,29 @@
 
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
         const simulationToggleEvent = function() {
-            document.querySelector('.z-simulation-report').classList.toggle('closed');
-            document.querySelector('.z-button-simulation-report').classList.toggle('active');
+            document.querySelector('.simulation-report').classList.toggle('closed');
+            document.querySelector('.button-simulation-report').classList.toggle('active');
         };
 
         // 시뮬레이션 레포트 초기화 설정
         const simulationContainer = document.createElement('div');
-        simulationContainer.className = 'z-simulation-report closed';
+        simulationContainer.className = 'simulation-report closed';
 
         const simulationTitle = document.createElement('div');
-        simulationTitle.className = 'z-simulation-report-title';
+        simulationTitle.className = 'simulation-report-title';
         simulationTitle.textContent = i18n.msg('process.btn.simulationCheckResult');
 
         const simulationClose = document.createElement('span');
-        simulationClose.className = 'z-icon i-minus';
+        simulationClose.className = 'ic-minus';
         simulationTitle.appendChild(simulationClose);
         simulationClose.addEventListener('click', simulationToggleEvent, false);
         simulationContainer.appendChild(simulationTitle);
 
         const simulationContent = document.createElement('div');
-        simulationContent.className = 'z-simulation-report-contents';
+        simulationContent.className = 'simulation-report-contents';
 
         const simulationMain = document.createElement('div');
-        simulationMain.className = 'z-simulation-report-contents-main';
+        simulationMain.className = 'simulation-report-contents-main';
 
         const simulationResult = document.createElement('div');
         simulationResult.className = 'result';
@@ -899,16 +899,16 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'z-button-icon secondary z-button-simulation-report z-palette-tooltip';
+        simulationButton.className = 'btn__ic secondary button-simulation-report palette-tooltip';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
-        simulationIcon.className = 'z-icon i-simulation-report';
+        simulationIcon.className = 'ic-simulation-report';
 
         const simulationTooltip = document.createElement('div');
-        simulationTooltip.className = 'z-palette-tooltip-contents'
+        simulationTooltip.className = 'palette-tooltip-contents'
         const simulationTooltipText = document.createElement('span');
-        simulationTooltipText.className = 'z-palette-tooltip-text'
+        simulationTooltipText.className = 'palette-tooltip-text'
         simulationTooltipText.textContent = i18n.msg('tooltip.label.simulation');
 
         simulationTooltip.appendChild(simulationTooltipText);
@@ -919,7 +919,7 @@
         // 시뮬레이션 레포트 화면 drag 설정
         let simulationReportX = 0;
         let simulationReportY = 0;
-        d3.select(document.querySelector('.z-simulation-report')).call(
+        d3.select(document.querySelector('.simulation-report')).call(
             d3.drag()
                 .on('start', function() {
                     simulationReportX = (d3.event.x - simulationReportX);

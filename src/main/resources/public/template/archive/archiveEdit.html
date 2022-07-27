@@ -13,8 +13,8 @@
     <h6 class="description ml-2 pl-2" th:text="#{archive.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="flex-column z-edit-row">
+    <div class="edit-form flex-fill">
+        <div class="flex-column edit-row">
             <label for="archiveCategory">
                 <span th:text="#{archive.label.category}"></span>
                 <span class="required"></span>
@@ -26,29 +26,29 @@
                         th:selected="${category.code} == ${archive?.archiveCategory}"></option>
             </select>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <label for="archiveTitle">
                 <span th:text="#{common.label.title}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" id="archiveTitle" class="z-input" maxlength="100" th:value="${archive?.archiveTitle}"></td>
+            <input type="text" id="archiveTitle" class="input" maxlength="100" th:value="${archive?.archiveTitle}"></td>
         </div>
-        <div class="flex-column z-edit-row file-uploader-edit">
-            <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
+        <div class="flex-column edit-row file-uploader--edit">
+            <label class="file-uploader--edit__title" th:text="#{common.label.attachFile}"/>
             <div id="dropZoneFiles"></div>
             <div id="dropZoneUploadedFiles"></div>
         </div>
-        <div class="flex-row justify-content-between z-edit-row">
-            <div class="z-button-list">
-                <a class="z-button secondary" href="/archives/search" th:text="#{common.btn.list}"></a>
+        <div class="flex-row justify-content-between edit-row">
+            <div class="btn__list">
+                <a class="btn__text--box secondary" href="/archives/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" sec:authorize="hasAuthority('portal.manage')">
+            <div class="btn__list" sec:authorize="hasAuthority('portal.manage')">
                 <button th:if="${archive?.archiveId}" onclick="saveArchive('PUT')"
-                        class="z-button primary" th:text="#{common.btn.modify}"></button>
+                        class="btn__text--box primary" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${archive?.archiveId}" onclick="saveArchive('POST')"
-                        class="z-button primary" th:text="#{common.btn.register}"></button>
+                        class="btn__text--box primary" th:text="#{common.btn.register}"></button>
                 <button th:if="${archive?.archiveId}" onclick="deleteArchive()"
-                        class="z-button danger" th:text="#{common.btn.delete}"></button>
+                        class="btn__text--box danger" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@
     window.onload = function() {
         document.getElementById('archiveTitle').focus();
         zFileUploader.init({formId: 'archiveForm', ownId: [[${archive?.archiveId}]]});
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
     };
 
     //Empty Check

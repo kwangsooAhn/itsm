@@ -7,22 +7,22 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="z-report-wrapper">
-        <div class="z-option-button align-right">
-            <button type="button" class="z-button secondary" th:text="#{statistic.btn.pdf}" th:onclick="download()"></button>
+    <div class="report-wrapper">
+        <div class="option-button align-right">
+            <button type="button" class="btn__text--box secondary" th:text="#{statistic.btn.pdf}" th:onclick="download()"></button>
         </div>
-        <div class="z-report">
-            <div class="z-report-main">
-                <div class="z-report-main-header align-center" th:text="${report.reportName}"></div>
-                <div class="z-report-area">
-                    <div class="z-drawing-board" id="reportContents">
+        <div class="report">
+            <div class="report-main">
+                <div class="report-main-header align-center" th:text="${report.reportName}"></div>
+                <div class="report-area">
+                    <div class="drawing-board" id="reportContents">
                     </div>
                 </div>
-                <div class="z-report-main-footer flex-row justify-content-between">
+                <div class="report-main-footer flex-row justify-content-between">
                     <div>
-                        <img class="z-img i-portal-notice pointer" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26" alt="logo" />
+                        <img class="pointer" th:src="@{/assets/media/icons/logo/icon_logo_print.svg}" width="152" height="26" alt="logo" />
                     </div>
-                    <div class="z-paging"></div>
+                    <div class="paging"></div>
                     <div class="align-right mr-4" id="report-information"></div>
                 </div>
             </div>
@@ -54,8 +54,8 @@
         function addChartContent(data) {
             let chartTarget = document.querySelector('#reportContents');
             let element =
-                `<div class="z-chart-content">` +
-                `<div class="z-chart" id="${data.chartId}_chart"></div>` +
+                `<div class="chart-content">` +
+                `<div class="chart" id="${data.chartId}_chart"></div>` +
                 `</div>`;
             chartTarget.insertAdjacentHTML('beforeend', element);
 
@@ -71,7 +71,7 @@
         }
 
         function download() {
-            html2pdf().from(document.querySelector('.z-report')).set({
+            html2pdf().from(document.querySelector('.report')).set({
                 margin: 6,
                 filename: report['reportName'] + '.pdf',
                 html2canvas: { scale: 1 },

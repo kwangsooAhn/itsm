@@ -17,119 +17,119 @@
     <h6 class="description ml-2 pl-2" th:text="#{user.msg.editSelfDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
+    <div class="edit-form flex-fill">
         <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
         <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.profile}"></h3>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <div class="flex-row">
-                <div class="z-edit-column col-6">
-                    <div class="flex-column z-edit-row"
+                <div class="edit-column col-6">
+                    <div class="flex-column edit-row"
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="userId">
                             <span th:text="#{user.label.id}"></span>
                             <span class="required"></span>
-                            <div class="z-help-tooltip">
-                                <span class="z-icon i-tooltip"></span>
-                                <div class="z-tooltip-contents">
+                            <div class="help-tooltip">
+                                <span class="ic-tooltip"></span>
+                                <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
                             </div>
                         </label>
-                        <input type="text" class="z-input" id="userId" name="userId" th:value="${users?.userId}"
+                        <input type="text" class="input" id="userId" name="userId" th:value="${users?.userId}"
                                maxlength="100" required="required"/>
                     </div>
-                    <div class="flex-column z-edit-row"
+                    <div class="flex-column edit-row"
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="password">
                             <span th:text="#{user.label.password}"></span>
                             <span class="required"></span>
-                            <div class="z-help-tooltip">
-                                <span class="z-icon i-tooltip"></span>
-                                <div class="z-tooltip-contents">
+                            <div class="help-tooltip">
+                                <span class="ic-tooltip"></span>
+                                <div class="tooltip-contents">
                                     <span th:utext="#{user.tooltip.pwRule}"></span>
                                 </div>
                             </div>
                         </label>
-                        <input type="password" class="z-input" id="password" name="password" maxlength="100"
+                        <input type="password" class="input" id="password" name="password" maxlength="100"
                                autocomplete="new-password" required="required"/>
                     </div>
-                    <div class="flex-column z-edit-row"
+                    <div class="flex-column edit-row"
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="rePassword">
                             <span th:text="#{user.label.rePassword}"></span>
                             <span class="required"></span>
                         </label>
-                        <input type="password" class="z-input" id="rePassword" name="rePassword" maxlength="100"
+                        <input type="password" class="input" id="rePassword" name="rePassword" maxlength="100"
                                autocomplete="new-password" required="required"/>
                     </div>
-                    <div class="flex-column z-edit-row">
+                    <div class="flex-column edit-row">
                         <label for="userName">
                             <span th:text="#{user.label.name}"></span>
                             <span class="required"></span>
                         </label>
-                        <input type="text" class="z-input" id="userName" name="userName" th:value="${users?.userName}"
+                        <input type="text" class="input" id="userName" name="userName" th:value="${users?.userName}"
                                maxlength="100" required="required"/>
                     </div>
-                    <div class="flex-column z-edit-row"
+                    <div class="flex-column edit-row"
                          th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <label for="email">
                             <span th:text="#{user.label.email}"></span>
                             <span class="required"></span>
                         </label>
                         <span th:text="#{user.msg.emailAlert}" hidden></span>
-                        <input type="text" class="z-input" id="email" name="email" th:value="${users?.email}"
+                        <input type="text" class="input" id="email" name="email" th:value="${users?.email}"
                                maxlength="100" required="required">
                     </div>
-                    <div class="flex-column z-edit-row">
+                    <div class="flex-column edit-row">
                         <label th:text="#{user.label.position}" for="position"></label>
-                        <input type="text" class="z-input" id="position" name="position" th:value="${users?.position}"
+                        <input type="text" class="input" id="position" name="position" th:value="${users?.position}"
                                maxlength="100" onchange="isSpecialChar('position','validation.msg.checkPositionFormat')">
                     </div>
-                    <div class="flex-column z-edit-row">
+                    <div class="flex-column edit-row">
                         <label th:text="#{user.label.department}"></label>
-                        <div class="flex-row z-input-button">
+                        <div class="flex-row input--remove">
                             <input type="hidden" id="organizationCode" name="organizationCode"
                                    th:value="${organizationDetail?.organizationId}"/>
-                            <input type="text" class="z-input col-5" id="organization" name="organization"
+                            <input type="text" class="input col-5" id="organization" name="organization"
                                    th:value="${organizationDetail?.organizationName}" readonly>
-                            <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);"
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);"
                                     tabindex="-1" th:if="!${view}">
-                                <span class="z-icon i-remove"></span>
+                                <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="z-button-search z-button form" onclick="deptPopUp();"
+                            <button type="button" class="button-search btn__text--box tertiary" onclick="deptPopUp();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
-                    <div class="flex-column z-edit-row">
+                    <div class="flex-column edit-row">
                         <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
-                        <input type="text" class="z-input" id="officeNumber" name="officeNumber"
+                        <input type="text" class="input" id="officeNumber" name="officeNumber"
                                th:value="${users?.officeNumber}" maxlength="100"
                                onchange="isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
-                    <div class="flex-column z-edit-row">
+                    <div class="flex-column edit-row">
                         <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
-                        <input type="text" class="z-input" id="mobileNumber" name="mobileNumber"
+                        <input type="text" class="input" id="mobileNumber" name="mobileNumber"
                                th:value="${users?.mobileNumber}" maxlength="100"
                                onchange="isPhoneNumberOrExtenstionNumber('mobileNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                 </div>
-                <div class="flex-column avatar-edit ml-4">
-                    <label class="avatar-title" th:text="#{user.label.avatar}"></label>
+                <div class="flex-column edit-row ml-4">
+                    <label th:text="#{user.label.avatar}"></label>
                     <div id="avatarDropZone"></div>
-                    <div class="avatar-description">
-                        <span class="avatar-text" th:text="#{user.label.FileSizeLimit}"></span>
-                        <span class="avatar-text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                    <div class="avatar__description">
+                        <span class="avatar__description__text" th:text="#{user.label.FileSizeLimit}"></span>
+                        <span class="avatar__description__text" th:text="#{user.label.FileExtensionAllowed}"></span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.customSetting}"></h3>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <div class="flex-row">
                 <div class="flex-column col-6 mr-4">
                     <label for="timezone">
@@ -158,7 +158,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <div class="flex-row">
                 <div class="flex-column col-6 mr-4">
                     <label for="lang">
@@ -183,57 +183,57 @@
                 </div>
             </div>
         </div>
-        <div class="flex-column z-edit-row">
+        <div class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.userAbsence}"></h3>
-            <label class="z-switch" for="userAbsence">
+            <label class="switch" for="userAbsence">
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
-                <span class="z-label" th:text="#{user.msg.userAbsence}"></span>
+                <span class="label" th:text="#{user.msg.userAbsence}"></span>
             </label>
-            <div id="absenceData" class="flex-column z-edit-row">
+            <div id="absenceData" class="flex-column edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{common.label.startDate}"></label>
                         <div>
-                            <input type="text" class="z-input i-date-picker search-date"
+                            <input type="text" class="input ic-date-picker search-date"
                                    id="absenceStartDt" name="absenceStartDt" th:readonly="${view}">
                         </div>
                     </div>
                     <div class="flex-column col-3 ml-2">
                         <label class="field-label required" th:text="#{common.label.endDate}"></label>
                         <div>
-                            <input type="text" class="z-input i-date-picker search-date"
+                            <input type="text" class="input ic-date-picker search-date"
                                    id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
                         </div>
                     </div>
                     <div class="flex-column col-4 ml-2">
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
-                        <div class="flex-row z-input-button">
+                        <div class="flex-row input--remove">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
-                            <input type="text" class="z-input col-2" id="substituteUser" name="substituteUser"
+                            <input type="text" class="input col-2" id="substituteUser" name="substituteUser"
                                     readonly>
-                            <button type="button" class="z-button-icon-sm" onclick="aliceJs.clearText(this);">
-                                <span class="z-icon i-remove"></span>
+                            <button type="button" class="item-remove" onclick="aliceJs.clearText(this);">
+                                <span class="ic-remove"></span>
                             </button>
-                            <button type="button" class="z-button-search z-button form" onclick="openSubUserModal();"
+                            <button type="button" class="button-search btn__text--box tertiary" onclick="openSubUserModal();"
                                     th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
                     <div class="flex-column col-2 ml-2">
                         <label class="field-label"></label>
-                        <label class="z-checkbox align-center">
+                        <label class="checkbox align-center">
                             <input type="checkbox" id="transferYN" th:checked="${users?.absence.transferYN}">
                             <span></span>
-                            <span class="z-label" th:text="#{user.label.executeCurrentAbsence}"></span>
+                            <span class="label" th:text="#{user.label.executeCurrentAbsence}"></span>
                         </label>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flex-row justify-content-end z-edit-row">
-            <div class="z-button-list">
-                <button class="z-button primary" type="button" th:text="#{common.btn.modify}"
+        <div class="flex-row justify-content-end edit-row">
+            <div class="btn__list">
+                <button class="btn__text--box primary" type="button" th:text="#{common.btn.modify}"
                         th:onclick="preSubmitCheck([[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
             </div>
         </div>
@@ -276,7 +276,7 @@
                 size: [[${users?.avatarSize}]]
             }
         });
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
 
         setAbsenceDisplay();
     };
@@ -471,7 +471,7 @@
                 classes: 'sub-user-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.select'),
-                    classes: 'z-button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: (modal) => {
                         // 최근 선택값이 있는 경우, 해당 사용자 id와 이름을 전달한다.
@@ -486,7 +486,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => {
                         modal.hide();
@@ -509,7 +509,7 @@
 
     function createModalContent() {
         return `<div class="sub-user-list">` +
-            `<input class="z-input i-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
+            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="subUserList"></div>` +
             `</div>`;
@@ -527,10 +527,10 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.z-table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.table-body'), { className: 'scrollbar' });
             //갯수 카운트
             const substituteUserList = document.getElementById('userList');
-            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.z-table-row').length);
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.table-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
                 // 체크 이벤트
                 radio.addEventListener('change', () => {

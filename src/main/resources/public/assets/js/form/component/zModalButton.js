@@ -57,17 +57,17 @@ export const modalButtonMixin = {
     // component 엘리먼트 생성
     makeElement() {
         const element = new UIDiv()
-            .setUIClass('z-element')
+            .setUIClass('element')
             .addUIClass('align-right')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIButton = new UIButton()
-            .setUIClass('z-button')
-            .addUIClass('z-modal-button')
+            .setUIClass('button')
+            .addUIClass('modal-button')
             .addUIClass('secondary')
             .onUIClick(this.openModal.bind(this));
         element.UIButton.UIText = new UISpan()
             .setUIId('elementText')
-            .addUIClass('z-modal-button-text')
+            .addUIClass('modal-button-text')
             .addUIClass('text-ellipsis')
             .setUITextContent(this.elementText);
         element.UIButton.addUI(element.UIButton.UIText);
@@ -219,7 +219,7 @@ export const modalButtonMixin = {
                 classes: 'modal-button-search-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
-                    classes: 'z-button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: (modal) => modal.hide()
                 }],
@@ -233,7 +233,7 @@ export const modalButtonMixin = {
                     modalContent.style.setProperty('--default-modal-height', this.elementSizeH + UNIT.PX);
 
                     // 모달 내부 스크롤 바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
                 }
             });
             targetTableModal.show();

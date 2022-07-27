@@ -6,23 +6,21 @@
  * @version 1.0
  */
 
-body.modal-active { overflow: hidden !important; }
+body.active { overflow: hidden !important; }
 
-.modal-wrapper {
+.modal {
   @include resetPosition();
   display: none;
-  overflow:auto;
-  z-index: 1000;
+  overflow: auto;
+  z-index: $z-index-modal;
 
-  &.modal-active { display: block; }
-
-  .modal-backdrop {
+  &__backdrop {
     @include resetPosition();
     background-color: hexToRGBA($gray600, 0.6);
-    z-index: 5000;
+    z-index: $z-index-between-alert-modal;
   }
 
-  .modal-dialog {
+  &__dialog {
     @include absolute(4em, 0, null, 0);
     @include borderRadius(0.25rem); // 4px
     @include boxShadow(0, 0.125rem, 0.75rem, 0, $gray600);
@@ -31,14 +29,14 @@ body.modal-active { overflow: hidden !important; }
     background-color: $white;
     opacity: 0;
     transition: 0.3s;
-    z-index: 5000;
+    z-index: $z-index-between-alert-modal;
 
-    &.modal-active {
+    &.active {
       transition: 0.3s;
       opacity: 1;
     }
 
-    .modal-header {
+    &__header {
       @include border(2px, solid, $gray100, bottom);
       @include borderRadius(0.25rem 0.25rem 0 0); // 4px
       min-height: 3.875rem; // 62px
@@ -48,22 +46,22 @@ body.modal-active { overflow: hidden !important; }
       font-weight: $font-weight-medium;
       line-height: 1.2;
     }
-    .modal-content { overflow: auto; }
-    .modal-bottom {
+    &__body { overflow: auto; }
+    &__footer {
       height: 5rem; // 80px
       padding: 1.25rem 1.25rem; // 20px
     }
   }
 }
 
-.modal-dialog {
+.modal__dialog {
   // 버튼 모달 컴포넌트 모달
   &.modal-button-search-modal{
     --default-modal-width: 0;
     --default-modal-height: 0;
     width: var(--default-modal-width);
     height: var(--default-modal-height);
-    .modal-content {
+    .modal__dialog__body {
       @include gridTemplate();
       height: calc(var(--default-modal-height) - 3.875rem - 5rem - 1.25rem);
       margin: 0.625rem 1.25rem 0 1.25rem; // 10px 20px 0 20px
@@ -75,7 +73,7 @@ body.modal-active { overflow: hidden !important; }
     width: 40rem; // 640px
     height: 44.19rem; // 707px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(44.19rem - 3.875rem - 5rem); // 707px
       padding: 1.125rem 0 0 1.25rem;
       div {
@@ -93,7 +91,7 @@ body.modal-active { overflow: hidden !important; }
   &.token-list {
     width: 62.5rem; // 1000px
     height: 53.0625rem; // 849px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(53.0625rem - 3.875rem - 5rem); // 849px
       padding: 0.625rem 1.25rem; // 10px 20px
       // 관련문서 목록
@@ -101,8 +99,8 @@ body.modal-active { overflow: hidden !important; }
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px
-          .z-table {
-            .z-table-body {
+          .table {
+            .table-body {
               overflow-y: auto;
               display: block;
               width: 60rem; // 960px
@@ -125,7 +123,7 @@ body.modal-active { overflow: hidden !important; }
   &.process-status-modal {
     width: 82.6rem !important;// 1320px
     height: 33.125rem; // 530px;
-    .modal-content {
+    .modal__dialog__body {
       width: 100%;
       height: calc(33.125rem - 5rem);
     }
@@ -139,7 +137,7 @@ body.modal-active { overflow: hidden !important; }
     width: 37.5rem; // 600px
     height: 31.25rem; // 500px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(31.25rem - 3.875rem - 5rem); // 500px
       padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
 
@@ -155,7 +153,7 @@ body.modal-active { overflow: hidden !important; }
     width: 34.38rem; // 550px
     height: 22.5rem; // 360px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(22.5rem - 3.875rem - 5rem); // 360px
       padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
 
@@ -165,9 +163,9 @@ body.modal-active { overflow: hidden !important; }
       }
     }
   }
-  // 폼, 프로세스 다른이름으로 저장하기 모달
+  // 다른이름으로 저장하기 모달
   &.save-as {
-    .modal-content {
+    .modal__dialog__body {
       @include scrollbarHidden;
       height: calc(25.63rem - 3.875rem - 5rem); // 410px
       padding: 0.625rem 1.25rem; // 10px 20px
@@ -183,7 +181,7 @@ body.modal-active { overflow: hidden !important; }
   }
   // 컴포넌트 템플릿 등록하기 모달
   &.create-template {
-    .modal-content {
+    .modal__dialog__body {
       @include scrollbarHidden;
       height: calc(25.63rem - 3.875rem - 5rem); // 410px
       padding: 0.625rem 1.25rem; // 10px 20px
@@ -205,13 +203,13 @@ body.modal-active { overflow: hidden !important; }
    */
   // formDesigner - 썸네일 모달
   // process - 파일 선택 모달
-  &.z-thumbnail-image,
-  &.z-thumbnail-file {
+  &.thumbnail-image,
+  &.thumbnail-file {
     width: 1040px; // 1040px
     height: 48.44rem; // 775px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(48.44rem - 3.875rem - 5rem); // 775px
-      .z-thumbnail-main .z-thumbnail { width: 14.375rem; } // 230px
+      .thumbnail-main .thumbnail { width: 14.375rem; } // 230px
     }
   }
 
@@ -225,7 +223,7 @@ body.modal-active { overflow: hidden !important; }
     width: 40rem; // 640px
     height: 50.63rem; // 810px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(50.63rem - 3.875rem - 5rem); // 810px
       padding: 1.25rem; // 20px
 
@@ -242,7 +240,6 @@ body.modal-active { overflow: hidden !important; }
 
       .hidden-control-content {
         display: none;
-        &.on { display: block; }
       }
     }
   }
@@ -253,7 +250,7 @@ body.modal-active { overflow: hidden !important; }
     min-width: 68rem; // 1088px
     height: 42.188rem; // 675px
 
-    .modal-content {
+    .modal__dialog__body {
       overflow: hidden;
       height: calc(42.188rem - 3.875rem - 5rem); // 675px
       padding: 1.25rem; // 20px
@@ -263,10 +260,10 @@ body.modal-active { overflow: hidden !important; }
         height: calc(42.188rem - 3.875rem - 5rem - 2.5rem); // 높이(675px)에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
 
-        .z-table {
+        .table {
           width: auto;
 
-          .z-table-body {
+          .table-body {
             border: none;
             tr:hover { background-color: transparent; }
           }
@@ -281,16 +278,16 @@ body.modal-active { overflow: hidden !important; }
   }
   &.document-modal-dialog {
     // 신청서일 경우 우측 properties가 존재하지 않음
-    .z-document-main,
-    .z-document-main-header,
-    .z-document-main-footer { right: 0; }
-    .z-document-main-header { width: 100%; }
+    .document-main,
+    .document-main-header,
+    .document-main-footer { right: 0; }
+    .document-main-header { width: 100%; }
   }
   &.custom-code-list {
     width: 40rem; // 640px
     height: 46.875rem; // 750px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(46.875rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem 0.625rem 1.25rem; // 10px 20px 20px 20px
 
@@ -315,7 +312,7 @@ body.modal-active { overflow: hidden !important; }
     width: 62.5rem; // 1000px
     height: 53.0625rem; // 849px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(53.0625rem - 3.875rem - 5rem); // 849px
       padding: 0.625rem 1.25rem; // 10px 20px
 
@@ -327,8 +324,8 @@ body.modal-active { overflow: hidden !important; }
         margin-top: 0.9375rem; // 15px
         .table-set {
           margin-top: 1.875rem; // 30px
-          .z-table {
-            .z-table-body {
+          .table {
+            .table-body {
               display: block;
               overflow-y: auto;
               width: 60rem; // 960px
@@ -351,7 +348,7 @@ body.modal-active { overflow: hidden !important; }
   &.cmdb-ci-detailSearch-modal {
     width: 40.125rem; //642px
     height: 43.75rem; //700px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(43.75rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem; // 10px 20px
 
@@ -369,7 +366,7 @@ body.modal-active { overflow: hidden !important; }
   &.cmdb-ci-list-modal {
     width: 62.5rem; // 1000px
     height: 53.0625rem; // 849px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(53.0625rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem; // 10px 20px
 
@@ -404,9 +401,9 @@ body.modal-active { overflow: hidden !important; }
         .attribute-group {
           // Group List일 경우, 하위 속성 존재함
           .child-attribute-group {
-            .z-button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
+            .button-attribute-add { @include absolute($top: -1.875rem, $right: 0); } //-30px 0
             .child-attribute-row {
-              .z-button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
+              .button-attribute-delete { @include absolute($right: 0.3125rem); } //5px
             }
           }
         }
@@ -422,8 +419,8 @@ body.modal-active { overflow: hidden !important; }
           }
         }
         // 연관 관계
-        .z-relation-group {
-          .z-table-row {
+        .relation-group {
+          .table-row {
             @include border(0.0625rem, solid, $gray400, bottom);
             height: 2.5rem;
           }
@@ -436,7 +433,7 @@ body.modal-active { overflow: hidden !important; }
     width: 37.5rem; // 600px
     height: 22.5rem; // 360px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(22.5rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
 
@@ -455,7 +452,7 @@ body.modal-active { overflow: hidden !important; }
   &.chart-edit-modal {
     width: 62.5rem; // 1000px
     height: 53.0625rem; // 849px
-    .modal-content {
+    .modal__dialog__body {
       overflow: hidden;
       height: calc(53.0625rem - 3.875rem - 5rem); // 849px
       padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
@@ -473,8 +470,8 @@ body.modal-active { overflow: hidden !important; }
   // 사용자 정의 차트 미리보기
   &.chart-view-modal {
     min-width: 62.5rem; // 1000px
-    .modal-header { @include border(0.0625rem, solid, transparent, bottom); } // 1px
-    .modal-content {
+    .modal__dialog__header { @include border(0.0625rem, solid, transparent, bottom); } // 1px
+    .modal__dialog__body {
       width: auto;
       height: auto;
       .chart-edit-content {
@@ -488,7 +485,7 @@ body.modal-active { overflow: hidden !important; }
   &.product-info-modal {
     width: 26.875rem; // 430px;
     height: 31.25rem; // 500px
-    .modal-content {
+    .modal__dialog__body {
       margin: 1.25rem; // 20px
       height: 30rem; // 480px
       padding: 0.625rem; // 10px
@@ -522,14 +519,14 @@ body.modal-active { overflow: hidden !important; }
   &.scheduler-list-modal {
     width: 62.5rem; // 1000px
     height: 40.625rem; // 650px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(40.625rem - 3.875rem - 5rem); // 650px
       padding: 1.25rem; // 20px
 
       .table-set {
         margin-top: 2.188rem; // 35px
-        .z-table {
-          .z-table-body {
+        .table {
+          .table-body {
             display: block;
             overflow-y: auto;
             width: 60rem; // 960px
@@ -558,7 +555,7 @@ body.modal-active { overflow: hidden !important; }
   // SLA 수동지표 데이터 추가 모달
   &.sla-metric-manual-modal {
     width: 30rem; // 480px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(25rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem; // 10px 20px
     }
@@ -567,7 +564,7 @@ body.modal-active { overflow: hidden !important; }
   // SLA 복사해오기 모달
   &.sla-metric-yearly-copy-modal {
     width: 62.5rem; // 1000px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(18rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem; // 10px 20px
     }
@@ -577,7 +574,7 @@ body.modal-active { overflow: hidden !important; }
     width: 62.5rem; // 1000px
     @include scrollbarHidden;
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(50.63rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem; // 10px 20px
       div {
@@ -589,10 +586,10 @@ body.modal-active { overflow: hidden !important; }
   // 연도별지표현황
   &.sla-chart-view-modal {
     min-width: 68.75rem; // 1100px
-    .modal-header {
+    .modal__dialog__header {
       @include border(0.0625rem, solid, transparent, bottom); // 1px
     }
-    .modal-content {
+    .modal__dialog__body {
       width: auto;
       height: auto;
       .chart-edit-content {
@@ -611,7 +608,7 @@ body.modal-active { overflow: hidden !important; }
     width: 34.38rem; // 550px
     height: 20.625rem; // 330px
 
-    .modal-content {
+    .modal__dialog__body {
       height: calc(20.625rem - 3.875rem - 5rem);
       padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
 
@@ -629,7 +626,7 @@ body.modal-active { overflow: hidden !important; }
   &.password-update-notice {
     width: 50rem; //800px
     height: 34.5rem; //552px
-    .modal-content {
+    .modal__dialog__body {
       height: calc(34.5rem - 3.875rem - 5rem); //552px
       padding: 0.25rem 1.25rem 0.25rem 1.25rem; // 10px 20px 20px 20px
       .field-label {
@@ -637,6 +634,6 @@ body.modal-active { overflow: hidden !important; }
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
     }
-    .modal-bottom { height: 3.5rem }; //56px
+    .modal__dialog__footer { height: 3.5rem }; //56px
   }
 }

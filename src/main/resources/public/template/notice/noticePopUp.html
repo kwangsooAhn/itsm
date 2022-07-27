@@ -29,20 +29,20 @@
                 </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="flex-row view-row file-uploader-view">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+            <div class="flex-row view-row file-uploader--view">
+                <label class="file-uploader--view__title" th:text="#{common.label.attachFile}"></label>
                 <div class="vertical-bar"></div>
-                <div class="file-uploader-list">
+                <div class="file-uploader--view__list">
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
                 </div>
             </div>
             <div class="horizontal-bar"></div>
             <div class="flex-row justify-content-end view-row" th:if="!${isPopUp}">
-                <label class="z-checkbox" for="close" tabindex="0">
+                <label class="checkbox" for="close" tabindex="0">
                     <input type="checkbox" id="close" name="close" value="OK" onclick="closePop(1);">
                     <span></span>
-                    <span class="z-label" th:text="#{notice.label.popUpPeriodToday}"></span>
+                    <span class="label" th:text="#{notice.label.popUpPeriodToday}"></span>
                 </label>
             </div>
         </div>

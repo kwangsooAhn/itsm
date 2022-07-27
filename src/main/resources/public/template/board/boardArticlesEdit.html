@@ -12,9 +12,9 @@
     <h6 class="description ml-2 pl-2" th:text="#{board.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
+    <div class="edit-form flex-fill">
         <form id="boardForm" method="post" onsubmit="return false">
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="boardAdminId">
                     <span th:text="#{board.label.board}"></span>
                     <span class="required"></span>
@@ -25,7 +25,7 @@
                             th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
                 </select>
             </div>
-            <div class="flex-column z-edit-row" id="divCategoryYn">
+            <div class="flex-column edit-row" id="divCategoryYn">
                 <label for="boardCategory">
                     <span th:text="#{board.label.category}"></span>
                     <span class="required"></span>
@@ -37,49 +37,49 @@
                     </option>
                 </select>
             </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label for="boardTitle">
                     <span th:text="#{board.label.title}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" id="boardTitle" class="z-input" maxlength="100" th:value="${boardInfo?.boardTitle}">
+                <input type="text" id="boardTitle" class="input" maxlength="100" th:value="${boardInfo?.boardTitle}">
             </div>
-            <div class="flex-column z-edit-row">
+            <div class="flex-column edit-row">
                 <label th:text="#{common.label.contents}" for="boardContents"/>
                 <div class="text-editor" id="boardContents"></div>
             </div>
-            <div class="flex-column z-edit-row file-uploader-edit" id="divFile" name="divFile">
-                <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
+            <div class="flex-column edit-row file-uploader--edit" id="divFile" name="divFile">
+                <label class="file-uploader--edit__title" th:text="#{common.label.attachFile}"/>
                 <div id="dropZoneFiles"></div>
                 <div id="dropZoneUploadedFiles"></div>
             </div>
-            <div id="boardUserInfo" class="flex-column z-edit-row">
+            <div id="boardUserInfo" class="flex-column edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label th:text="#{common.label.writer}"/>
-                        <input type="text" id="spanCreateUserKey" name="spanCreateUserKey" class="z-input" disabled
+                        <input type="text" id="spanCreateUserKey" name="spanCreateUserKey" class="input" disabled
                                th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
                     </div>
                     <div class="flex-column col-6">
                         <label th:text="#{common.label.createDate}"/>
-                        <input type="text" id="spanCreateDt" name="spanCreateDt" class="z-input" disabled
+                        <input type="text" id="spanCreateDt" name="spanCreateDt" class="input" disabled
                                th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
                     </div>
                 </div>
             </div>
-            <div class="flex-row justify-content-between z-edit-row">
-                <div class="z-button-list">
-                    <a class="z-button secondary"
+            <div class="flex-row justify-content-between edit-row">
+                <div class="btn__list">
+                    <a class="btn__text--box secondary"
                        th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
-                <div class="z-button-list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')">
-                    <button class="z-button primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
+                <div class="btn__list" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')">
+                    <button class="btn__text--box primary" th:if="${boardInfo?.boardId} and ${replyYn} == false"
                             th:text="#{common.btn.modify}" onclick ="saveBoard('PUT', 'normal')">
                     </button>
-                    <button class="z-button primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                    <button class="btn__text--box primary" th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                             th:text="#{common.btn.register}" onclick="saveBoard('POST', 'normal')">
                     </button>
-                    <button class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                    <button class="btn__text--box secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
                             th:text="#{board.btn.reply}" onclick="saveBoard('POST', 'reply')">
                     </button>
                 </div>
@@ -132,7 +132,7 @@
 
         document.getElementById('boardAdminId').addEventListener('change', getBoard, false);
 
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
     };
 
     // 게시판 조회

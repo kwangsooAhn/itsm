@@ -375,7 +375,7 @@ class ZqlTest {
         createTag(listOf("z-serviceDesk-incident-request-deadline"), comp2)
 
         // 2020-12-31 ~ 2021-01-03 사이에 진행된 종료문서 2개 생성.
-        createTag(listOf("z-process-date"), this.comp) // 완료일 태그.
+        createTag(listOf("process-date"), this.comp) // 완료일 태그.
         val token1 = createToken(document, InstanceStatus.FINISH, startDt.minusDays(1), endDt.minusDays(1)) // 조건을 만족하는 토큰
         val token2 = createToken(document, InstanceStatus.FINISH, startDt, endDt) // 조건에 맞지 않는 토큰
 

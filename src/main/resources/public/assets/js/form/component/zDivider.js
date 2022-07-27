@@ -46,10 +46,10 @@ export const dividerMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIHorizontalRule = new UIHorizontalRule().setUIClass('z-divider').setUIId('divider' + this.id)
+        element.UIHorizontalRule = new UIHorizontalRule().setUIClass('divider').setUIId('divider' + this.id)
             .setUIThickness(this._element.thickness + UNIT.PX)
             .setUIStyle(this._element.color, this._element.type);
         element.addUI(element.UIHorizontalRule);
@@ -101,9 +101,9 @@ export const dividerMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
 
         }
     },

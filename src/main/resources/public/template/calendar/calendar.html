@@ -16,50 +16,50 @@
     <script th:src="@{/assets/vendors/tuiCalendar/tui-calendar.custom.js}"></script>
 </th:block>
 <body>
-<div layout:fragment="pageTitle" class="z-main-title--empty">
+<div layout:fragment="pageTitle" class="main-title--empty">
 </div>
 <th:block layout:fragment="pageContent">
     <div class="calendar">
         <div class="calendar__menu" id="calendarMenu">
             <div class="calendar__button-group">
-                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="prev"
+                <button type="button" class="btn__ic calendar__action calendar__move" data-action="prev"
                         onclick="javascript:onClickCalendarMenu(this);">
-                    <span class="z-icon i-arrow-right move--prev"></span>
+                    <span class="ic-arrow-right move--prev"></span>
                 </button>
-                <button type="button" class="z-button-icon calendar__action calendar__move" data-action="next"
+                <button type="button" class="btn__ic calendar__action calendar__move" data-action="next"
                         onclick="javascript:onClickCalendarMenu(this);">
-                    <span class="z-icon i-arrow-right move--next"></span>
+                    <span class="ic-arrow-right move--next"></span>
                 </button>
-                <button type="button" class="z-button calendar__action secondary" th:text="#{calendar.label.today}"
+                <button type="button" class="btn__text--box secondary calendar__action" th:text="#{calendar.label.today}"
                         data-action="today" onclick="onClickCalendarMenu(this);"></button>
-                <div class="z-button-switch-group" id="calendarViewType">
-                    <button class="z-button-switch selected" type="button" data-action="month"
+                <div class="btn__toggle__button" id="calendarViewType">
+                    <button class="btn__toggle__button--single selected" type="button" data-action="month"
                             onclick="javascript:onClickCalendarType(this);">
-                        <span class="z-text" th:text="#{calendar.label.month}"></span>
+                        <span class="text" th:text="#{calendar.label.month}"></span>
                     </button>
-                    <button class="z-button-switch" type="button" data-action="week"
+                    <button class="btn__toggle__button--single" type="button" data-action="week"
                             onclick="javascript:onClickCalendarType(this);">
-                        <span class="z-text" th:text="#{calendar.label.week}"></span>
+                        <span class="text" th:text="#{calendar.label.week}"></span>
                     </button>
-                    <button class="z-button-switch" type="button" data-action="day"
+                    <button class="btn__toggle__button--single" type="button" data-action="day"
                             onclick="javascript:onClickCalendarType(this);">
-                        <span class="z-text" th:text="#{calendar.label.day}"></span>
+                        <span class="text" th:text="#{calendar.label.day}"></span>
                     </button>
-                    <button class="z-button-switch" type="button" data-action="task"
+                    <button class="btn__toggle__button--single" type="button" data-action="task"
                             onclick="javascript:onClickCalendarType(this);">
-                        <span class="z-text" th:text="#{calendar.label.task}"></span>
+                        <span class="text" th:text="#{calendar.label.task}"></span>
                     </button>
                 </div>
             </div>
             <h3 class="calendar__render-range-text align-center"></h3>
             <div class="ml-auto">
-                <button type="button" class="z-button secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
-                <button type="button" class="z-button-icon secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
+                <button type="button" class="btn__text--box secondary" id="calendarTemplateUpload" onclick="javascript:openTemplateUploadModal()" th:text="#{calendar.btn.importTemplate}"></button>
+                <button type="button" class="btn__ic secondary" id="excelDownload" onclick="javascript:onExcelDownload();" th:title="#{common.btn.export}">
                     <img class="load-svg" th:src="@{/assets/media/icons/icon_download_xls.svg}" />
                 </button>
             </div>
         </div>
-        <div class="calendar__view on" id="calendarView" style="height: 800px;"></div>
+        <div class="calendar__view block" id="calendarView" style="height: 800px;"></div>
         <div class="calendar__view calendar__view--task" id="taskView"></div>
     </div>
 </th:block>
@@ -79,7 +79,7 @@
         // 일정 조회
         setSchedules();
 
-        OverlayScrollbars(document.querySelector('.z-main-content'), { className: 'scrollbar' });
+        OverlayScrollbars(document.querySelector('.main-content'), { className: 'scrollbar' });
     };
 
     /**
@@ -227,12 +227,12 @@
         const templateUploadContent = function() {
             return `<div class="import-main flex-column">
                 <div class="mt-1"><select id="calendarId">${calendarOptionTemplate}</select></div>
-                <div class="file-uploader-edit">
-                <label class="file-uploader-title field-label">${i18n.msg('common.label.importFile')}
+                <div class="flex-column file-uploader--edit">
+                <label class="file-uploader--edit__title field-label">${i18n.msg('common.label.importFile')}
                     <span class="required"></span>
-                    <div class="z-help-tooltip">
-                        <span class="z-icon i-tooltip"></span>
-                        <div class="z-tooltip-contents">
+                    <div class="help-tooltip">
+                        <span class="ic-tooltip"></span>
+                        <div class="tooltip-contents">
                             <span>${i18n.msg('calendar.tooltip.templateRule')}</span>
                         </div>
                     </div>
@@ -250,7 +250,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.import'),
-                    classes: 'z-button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: function() {
                         if (document.getElementById('dropZoneFileUpload') !== null &&
@@ -279,7 +279,7 @@
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -300,7 +300,7 @@
                     userCallback: getImportFile
                 });
                 // 스크롤바 추가
-                OverlayScrollbars(document.querySelector('.calendar__template--import .modal-content'),
+                OverlayScrollbars(document.querySelector('.calendar__template--import .modal__dialog__body'),
                     { className: 'scrollbar' });
                 // selectbox 디자인
                 aliceJs.initDesignedSelectTag(document.querySelector('.calendar__template--import'));
@@ -318,7 +318,7 @@
             acc.push(cur.calendarId);
             return acc;
         }, []);
-        const viewType = document.querySelector('#calendarViewType .z-button-switch.selected')
+        const viewType = document.querySelector('#calendarViewType .btn__toggle__button--single.selected')
             .getAttribute('data-action');
         const searchData = {
             viewType: viewType,

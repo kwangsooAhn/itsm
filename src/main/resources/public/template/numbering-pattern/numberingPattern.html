@@ -12,17 +12,17 @@
     <h6 class="description ml-2 pl-2" th:text="#{pattern.msg.editDescription}"></h6>
 </div>
 <div layout:fragment="pageEdit">
-    <div class="z-edit-form flex-fill">
-        <div class="z-edit-row flex-column">
+    <div class="edit-form flex-fill">
+        <div class="edit-row flex-column">
             <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.name}"></label>
             <input id="txtPatternId" name="txtPatternId" th:value="${pattern?.patternId}" type="hidden"/>
-            <input class="z-input" id="txtPatternName" maxlength="100" name="txtPatternName"
+            <input class="input" id="txtPatternName" maxlength="100" name="txtPatternName"
                    th:readonly="${view}" th:value="${pattern?.patternName}" type="text"/>
         </div>
-        <div class="z-edit-row flex-column">
+        <div class="edit-row flex-column">
             <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.type}"></label>
             <div class="flex-row mr-auto">
-                <label class="z-radio">
+                <label class="radio">
                     <input id="numbering.pattern.text" name="patternType"
                            th:checked="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text'}"
                            th:classappend="${view} ? 'readonly'"
@@ -31,9 +31,9 @@
                            th:readonly="${view}"
                            type="radio">
                     <span></span>
-                    <span class="z-label  mr-4" th:text="#{pattern.type.text}"></span>
+                    <span class="label  mr-4" th:text="#{pattern.type.text}"></span>
                 </label>
-                <label class="z-radio">
+                <label class="radio">
                     <input id="numbering.pattern.date" name="patternType"
                            th:checked="${pattern?.patternType == 'numbering.pattern.date'}"
                            th:classappend="${view} ? 'readonly'"
@@ -42,9 +42,9 @@
                            th:readonly="${view}"
                            type="radio">
                     <span></span>
-                    <span class="z-label mr-4" th:text="#{pattern.type.date}"></span>
+                    <span class="label mr-4" th:text="#{pattern.type.date}"></span>
                 </label>
-                <label class="z-radio">
+                <label class="radio">
                     <input id="numbering.pattern.sequence" name="patternType"
                            th:checked="${pattern?.patternType == 'numbering.pattern.sequence'}"
                            th:classappend="${view} ? 'readonly'"
@@ -53,19 +53,19 @@
                            th:readonly="${view}"
                            type="radio">
                     <span></span>
-                    <span class="z-label" th:text="#{pattern.type.sequence}"></span>
+                    <span class="label" th:text="#{pattern.type.sequence}"></span>
                 </label>
             </div>
         </div>
-        <div class="z-edit-row flex-column"
+        <div class="edit-row flex-column"
              id="type-input-pattern"
              th:style="${pattern?.patternType == null || pattern?.patternType == 'numbering.pattern.text' || pattern?.patternType == 'numbering.pattern.sequence' ? '' : 'display: none'}">
             <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.value}"></label>
-            <input class="z-input" id="txtPatternValue" maxlength="100" name="txtPatternValue"
+            <input class="input" id="txtPatternValue" maxlength="100" name="txtPatternValue"
                    th:readonly="${view}"
                    th:value="${pattern?.patternValue}" type="text">
         </div>
-        <div class="z-edit-row flex-column"
+        <div class="edit-row flex-column"
              id="type-select-pattern"
              th:style="${pattern?.patternType == 'numbering.pattern.date' ? '': 'display: none'}">
             <label th:classappend="${view}? '': 'required'" th:text="#{pattern.label.value}"></label>
@@ -75,18 +75,18 @@
                         th:text="${date.codeValue}" th:value="${date.code}"></option>
             </select>
         </div>
-        <div class="flex-row justify-content-between z-edit-row">
-            <div class="z-button-list">
-                <a class="z-button secondary" href="/numberingPatterns/search" th:text="#{common.btn.list}"></a>
+        <div class="flex-row justify-content-between edit-row">
+            <div class="btn__list">
+                <a class="btn__text--box secondary" href="/numberingPatterns/search" th:text="#{common.btn.list}"></a>
             </div>
-            <div class="z-button-list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
-                <button class="z-button primary" id="btnRegist" name="btnRegist"
+            <div class="btn__list" th:if="!${view}" sec:authorize="hasAuthority('workflow.manage')">
+                <button class="btn__text--box primary" id="btnRegist" name="btnRegist"
                         th:if="!${pattern?.patternId}" th:onclick="|javascript:onSave('POST')|"
                         th:text="#{common.btn.register}" type="button"></button>
-                <button class="z-button primary" id="btnUpdate" name="btnUpdate"
+                <button class="btn__text--box primary" id="btnUpdate" name="btnUpdate"
                         th:if="${pattern?.patternId}" th:onclick="|javascript:onSave('PUT')|"
                         th:text="#{common.btn.modify}" type="button"></button>
-                <button class="z-button danger" id="btnDelete"
+                <button class="btn__text--box danger" id="btnDelete"
                         name="btnDelete" th:if="${pattern?.patternId}"
                         th:onclick="|javascript:zAlert.confirm(i18n.msg('common.msg.confirmDelete'), onDelete)|"
                         th:text="#{common.btn.delete}"
@@ -99,7 +99,7 @@
 <script layout:fragment="pageScript" th:inline="javascript" type="text/javascript">
     /*<![CDATA[*/
     window.onload = function () {
-        OverlayScrollbars(document.querySelector('.z-page-content'), {className: 'scrollbar'});
+        OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
     };
 
     /** 등록, 수정 기능 **/

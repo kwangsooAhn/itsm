@@ -10,7 +10,7 @@
                 <label class="field-label" for="ciNo">
                     <span th:text="#{cmdb.ci.label.seqNum}"></span>
                 </label>
-                <input type="text" id="ciNo" class="z-input" th:value="${ciData?.ciNo}" maxlength="100" readonly />
+                <input type="text" id="ciNo" class="input" th:value="${ciData?.ciNo}" maxlength="100" readonly />
             </div>
             <!-- CI 타입 -->
             <div class="flex-column view-row">
@@ -18,11 +18,11 @@
                     <span th:text="#{cmdb.ci.label.type}"></span>
                     <span class="required"></span>
                 </label>
-                <div class="flex-row input-button">
+                <div class="flex-row input--remove">
                     <input type="hidden" id="typeId" th:value="${ciData?.typeId}" />
-                    <input type="text" id="typeName" class="z-input col-pct-12 inherit" th:value="${ciData?.typeName}"
+                    <input type="text" id="typeName" class="input col-pct-12 inherit" th:value="${ciData?.typeName}"
                            readonly required="true" th:attr="data-validation-required-name=#{cmdb.ci.label.type}"/>
-                    <button class="z-button form" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
+                    <button class="btn__text--box tertiary" id="typeSelectBtn" type="button" disabled th:text="#{common.btn.select}"></button>
                 </div>
             </div>
             <!-- 아이콘 -->
@@ -30,8 +30,8 @@
                 <label class="field-label">
                     <span th:text="#{cmdb.type.label.icon}"></span>
                 </label>
-                <div class="flex-row input-button">
-                    <input type="text" id="typeIcon" class="z-input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
+                <div class="flex-row input--remove">
+                    <input type="text" id="typeIcon" class="input col-pct-12 inherit" th:value="${ciData?.ciIcon}" readonly>
                 </div>
             </div>
             <!-- CI 이름 -->
@@ -40,7 +40,7 @@
                     <span th:text="#{cmdb.ci.label.name}"></span>
                     <span class="required"></span>
                 </label>
-                <input type="text" id="ciName" class="z-input" maxlength="100" th:value="${ciData?.ciName}"
+                <input type="text" id="ciName" class="input" maxlength="100" th:value="${ciData?.ciName}"
                        th:attr="data-validation-required-name=#{cmdb.ci.label.name}" readonly required="true"/>
             </div>
             <!--CI 설명 -->
@@ -48,7 +48,7 @@
                 <label class="field-label" for="ciDesc">
                     <span th:text="#{cmdb.ci.label.description}"></span>
                 </label>
-                <textarea id="ciDesc" class="z-textarea textarea-scroll-wrapper" rows="7" maxlength="500"
+                <textarea id="ciDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="500"
                           th:text="${ciData?.ciDesc}" readonly></textarea>
             </div>
             <!--클래스 -->
@@ -58,7 +58,7 @@
                     <span class="required"></span>
                 </label>
                 <input type="hidden" id="classId" th:value="${ciData?.classId}"/>
-                <input type="text" id="className" class="z-input" maxlength="100" th:value="${ciData?.className}"
+                <input type="text" id="className" class="input" maxlength="100" th:value="${ciData?.className}"
                        th:attr="data-validation-required-name=#{cmdb.type.label.class}" readonly required="true"/>
             </div>
             <!-- CI 태그 -->
@@ -66,21 +66,21 @@
                 <label class="field-label">
                     <span th:text="#{cmdb.ci.label.tag}"></span>
                 </label>
-                <input type="text" id="ciTags" class="z-input col-pct-12 inherit" th:value="${ciData?.ciTags}" readonly/>
+                <input type="text" id="ciTags" class="input col-pct-12 inherit" th:value="${ciData?.ciTags}" readonly/>
             </div>
             <!-- 세부속성 -->
             <div class="flex-column view-row" id="ciAttributes" th:onclick="zCmdbAttribute.drawDetails(this, [[${ciData?.classes}]], [[${userInfo}]], 'view');">
             </div>
             <!-- 연관 관계 -->
-            <div class="flex-row z-edit-row under-bar mt-4 z-relation-group">
-                <h3 id="relationLabel" class="z-sub-title" th:text="#{cmdb.ci.label.relation}"></h3>
-                <button id="editCIRelationBtn" type="button" class="z-button-icon extra ml-auto" disabled>
-                    <span class="z-icon i-edit"></span>
+            <div class="flex-row edit-row under-bar mt-4 relation-group">
+                <h3 id="relationLabel" class="sub-title" th:text="#{cmdb.ci.label.relation}"></h3>
+                <button id="editCIRelationBtn" type="button" class="btn__ic extra ml-auto" disabled>
+                    <span class="ic-edit"></span>
                 </button>
             </div>
-            <div class="flex-column view-row z-relation-group">
-                <table class="z-table">
-                    <thead class="z-table-head">
+            <div class="flex-column view-row relation-group">
+                <table class="table">
+                    <thead class="table-head">
                     <tr class="align-items-center">
                         <th class="col-1 align-center"></th>
                         <th class="col-4 align-left" th:text="#{cmdb.ci.label.type}"></th>
@@ -88,7 +88,7 @@
                         <th class="col-1 align-center"></th>
                     </tr>
                     </thead>
-                    <tbody class="z-table-body" id="ciRelation"/></tbody>
+                    <tbody class="table-body" id="ciRelation"/></tbody>
                 </table>
             </div>
         </div>

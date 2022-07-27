@@ -49,11 +49,11 @@ export const textEditorMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .addUIClass('align-left')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UIDiv = new UIDiv().setUIClass('z-text-editor').setUIId('editorContainer')
+        element.UIDiv = new UIDiv().setUIClass('text-editor').setUIId('editorContainer')
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.addUI(element.UIDiv);
 
@@ -67,7 +67,7 @@ export const textEditorMixin = {
         // 필수값 표시가 된 대상에 대해 Required off 처리한다.
         if (this.displayType === FORM.DISPLAY_TYPE.READONLY) {
             this.UIElement.UIComponent.UILabel.UIRequiredText.hasUIClass('on') ?
-                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off') : '';
+                this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none') : '';
         }
         this.editor = new zQuill(this.UIElement.UIComponent.UIElement.UIDiv.domElement, {
             placeholder: this.elementPlaceholder,
@@ -143,9 +143,9 @@ export const textEditorMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIDiv.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {

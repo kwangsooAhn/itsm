@@ -6,14 +6,14 @@
 		<th:block layout:fragment="cssLink"></th:block>
 		<th:block layout:fragment="scriptLink"></th:block>
 	</head>
-	<body th:with="COMMON_PREFIX='z-'">
-		<div class="z-wrapper">
-			<div class="z-itsm-container flex-row">
+	<body>
+		<div class="wrapper">
+			<div class="itsm-container flex-row">
 				<!-- 네비게이션 -->
 				<th:block th:replace="layout/navigation"></th:block>
 				<!-- 메인 -->
-				<div class="z-main flex-column">
-					<div class="z-main-header">
+				<div class="main flex-column">
+					<div class="main-header">
 						<th:block th:replace="layout/topMenu">topMenu</th:block>
 						<th:block layout:fragment="head"></th:block>
 					</div>

@@ -12,14 +12,14 @@
     <h6 class="description ml-2 pl-2" th:text="#{board.msg.viewDescription}"></h6>
 </div>
 <div layout:fragment="pageView">
-    <div class="flex-column z-view-row">
+    <div class="flex-column view-row">
         <div class="view-title text-wordWrap">
             <span th:if="${boardAdminInfo.categoryYn && not #strings.isEmpty(boardInfo?.boardCategoryName)}"
                   th:text="#{common.label.bracketOpen}+${boardInfo?.boardCategoryName}+#{common.label.bracketClose}"></span>
             <span th:text="${boardInfo?.boardTitle}"></span>
         </div>
     </div>
-    <div class="flex-column z-view-row">
+    <div class="flex-column view-row">
         <div class="view-sub-title flex-row justify-content-end">
             <span class="text-wordWrap"
                   th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
@@ -28,41 +28,41 @@
         </div>
     </div>
     <div class="horizontal-bar"></div>
-    <div class="flex-column z-view-row">
+    <div class="flex-column view-row">
         <div id="boardContents" class="view-content ql-border-disabled">
             <span th:text="#{common.label.contents}"></span>
         </div>
     </div>
     <div class="horizontal-bar"></div>
-    <div class="flex-row z-view-row file-uploader-view">
-        <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+    <div class="flex-row view-row file-uploader--view">
+        <label class="file-uploader--view__title" th:text="#{common.label.attachFile}"></label>
         <div class="vertical-bar"></div>
         <form id="frm" method="post">
-            <div class="file-uploader-list">
+            <div class="file-uploader--view__list">
                 <div id="dropZoneFiles"></div>
                 <div id="dropZoneUploadedFiles"></div>
             </div>
         </form>
     </div>
     <div class="horizontal-bar"></div>
-    <div class="flex-row justify-content-between z-view-row">
-        <div class="z-button-list">
-            <a class="z-button secondary"
+    <div class="flex-row justify-content-between view-row">
+        <div class="btn__list">
+            <a class="btn__text--box secondary"
                th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}"
                th:text="#{common.btn.list}"></a>
         </div>
-        <div class="z-button-list">
-            <button type="button" class="z-button primary"
+        <div class="btn__list">
+            <button type="button" class="btn__text--box primary"
                     th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
                     th:text="#{common.btn.toModify}">
             </button>
             <button type="button" sec:authorize="hasAuthority('general') or hasAuthority('system.manage') or hasAuthority('portal.manage')"
-                    class="z-button secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                    class="btn__text--box secondary" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
                     th:onclick="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''" th:text="#{board.btn.reply}">
             </button>
-            <button type="button" class="z-button danger"
+            <button type="button" class="btn__text--box danger"
                     th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
                            or (${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})"
                     th:onclick="deleteBoard()" th:text="#{common.btn.delete}">
@@ -71,11 +71,11 @@
     </div>
     <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
         <div class="flex-row align-items-center reply-input-row">
-            <img class="z-img i-profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}"
+            <img class="i-profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}"
                  width="32" height="32"/>
-            <input type="text" class="z-input reply-input" id="boardComments" name="boardComments" maxlength="500"
+            <input type="text" class="input reply-input" id="boardComments" name="boardComments" maxlength="500"
                    th:placeholder="#{comment.msg.enterComments}"/>
-            <button class="z-button form" onclick="saveBoardComment('POST')"
+            <button class="btn__text--box tertiary" onclick="saveBoardComment('POST')"
                     th:text="#{common.btn.save}"></button>
         </div>
         <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
@@ -108,7 +108,7 @@
                 content: (boardId !== '') ? JSON.parse(/*[[${boardInfo?.boardContents}]]*/) : ''
             });
 
-            OverlayScrollbars(document.querySelectorAll('.z-page-content'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('.page-content'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelector('.view'), {className: 'scrollbar'});
         };
 
@@ -192,8 +192,8 @@
                 });
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
-                document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='z-input' id='editComments' name='editComments' value='" + context + "'/>" +
-                    "<button class='z-button form' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
+                document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' class='input' id='editComments' name='editComments' value='" + context + "'/>" +
+                    "<button class='btn__text--box tertiary' onclick=\"saveBoardComment('PUT','" + boardCommentId + "')\">" + i18n.msg('common.btn.save') + "</button>";
             }
         }
 

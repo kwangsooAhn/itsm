@@ -16,18 +16,18 @@
             <option value="" th:text="#{sla.metricManual.label.all}" selected></option>
             <option th:each="metric: ${metricList}" th:value="${metric.metricId}" th:text="${metric.metricName}"></option>
         </select>
-        <input type="text" class="z-input i-date-picker search-date col-3" id="fromDt" name="fromDt"/>
+        <input type="text" class="input ic-date-picker search-date col-3" id="fromDt" name="fromDt"/>
         <span>~</span>
-        <input type="text" class="z-input i-date-picker search-date col-3 mr-2" id="toDt" name="toDt"/>
+        <input type="text" class="input ic-date-picker search-date col-3 mr-2" id="toDt" name="toDt"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>
     <div class="ml-auto">
-        <button type="button" class="z-button primary" onclick="openManualNewModal()"
+        <button type="button" class="btn__text--box primary" onclick="openManualNewModal()"
                 sec:authorize="hasAuthority('sla.manage')" th:text="#{sla.metricManual.btn.addData}"></button>
     </div>
 </div>
 <div layout:fragment="pageList">
-    <div class="z-list-content flex-row" id="metricManualList"></div>
+    <div class="list-content flex-row" id="metricManualList"></div>
 </div>
 </body>
 <script layout:fragment="pageScript" th:inline="javascript">
@@ -134,14 +134,14 @@
                 classes: 'sla-metric-manual-modal',
                 buttons: [{
                     content: i18n.msg('common.btn.save'),
-                    classes: 'z-button primary',
+                    classes: 'btn__text--box primary',
                     bindKey: false,
                     callback: function(modal) {
                         onSaveModal();
                     }
                 }, {
                     content: i18n.msg('common.btn.cancel'),
-                    classes: 'z-button secondary',
+                    classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -154,7 +154,7 @@
                     let referenceDt = i18n.getDate();
                     document.getElementById('referenceDate').value = referenceDt;
                     zDateTimePicker.initDatePicker(document.getElementById('referenceDate'), setReferenceDatePicker);
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.modal__dialog__body'), {className: 'scrollbar'});
                     getTargetMetricList();
                 }
             });

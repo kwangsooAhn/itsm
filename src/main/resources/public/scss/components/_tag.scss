@@ -34,7 +34,7 @@
     .tagify__tag__removeBtn { display: none; }
   }
 
-  &.z-input {
+  &.input {
     @include border(0.0625rem, solid, $gray400); // 1px
     @include borderRadius(0.125rem); // 2px
     height: max-content;
@@ -136,7 +136,7 @@
         @include animation(0s, 0.3s, tags--bump, ease-out, 1);
         @include insideBorder(1.25rem, $gray100);
         content: '';
-        z-index: -1;
+        z-index: $z-index-hidden;
         pointer-events: none;
       }
     }
@@ -290,7 +290,7 @@
   overflow: hidden;
   margin-top: 0.3125rem; // 5px
   background: $white;
-  z-index: 9999;
+  z-index: $z-index-alert;
   transform: translateY(1px);
 
   &[placement=top] {

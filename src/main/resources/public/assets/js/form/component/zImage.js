@@ -49,19 +49,19 @@ export const imageMixin = {
     },
     // component 엘리먼트 생성
     makeElement() {
-        const element = new UIDiv().setUIClass('z-element')
+        const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth)
             .setUITextAlign(this.elementAlign);
 
-        element.UIImg = new UIImg().setUIClass('z-imagebox').setUIId('imagebox' + this.id)
+        element.UIImg = new UIImg().setUIClass('imagebox').setUIId('imagebox' + this.id)
             .setUIAttribute('data-path', aliceJs.filterXSS(this.elementPath))
             .setUIWidth(this.elementWidth + UNIT.PX)
             .setUIHeight(this.elementHeight + UNIT.PX);
         element.addUI(element.UIImg);
 
         // placeholder
-        element.UIDiv = new UIDiv().setUIClass('z-imagebox-placeholder')
-            .addUI(new UISpan().setUIClass('z-icon').addUIClass('i-no-image'))
+        element.UIDiv = new UIDiv().setUIClass('imagebox-placeholder')
+            .addUI(new UISpan().setUIClass('ic-no-image'))
             .addUI(new UIText().addUIClass('mt-2').setUIInnerHTML(i18n.msg('file.label.placeholder')));
         element.addUI(element.UIDiv);
         return element;
@@ -145,9 +145,9 @@ export const imageMixin = {
         this._validation.required = boolean;
         this.UIElement.UIComponent.UIElement.UIInputbox.setUIAttribute('data-validation-required', boolean);
         if (boolean) {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('off').addUIClass('on');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('none').addUIClass('on');
         } else {
-            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('off');
+            this.UIElement.UIComponent.UILabel.UIRequiredText.removeUIClass('on').addUIClass('none');
         }
     },
     get validationRequired() {
@@ -171,9 +171,9 @@ export const imageMixin = {
 
         // label - align
         const elementAlignProperty = new ZSwitchButtonProperty('elementAlign', 'element.align', this.elementAlign, [
-            { 'name': 'i-align-left', 'value': 'left' },
-            { 'name': 'i-align-center', 'value': 'center' },
-            { 'name': 'i-align-right', 'value': 'right' }
+            { 'name': 'ic-align-left', 'value': 'left' },
+            { 'name': 'ic-align-center', 'value': 'center' },
+            { 'name': 'ic-align-right', 'value': 'right' }
         ]);
 
         return [

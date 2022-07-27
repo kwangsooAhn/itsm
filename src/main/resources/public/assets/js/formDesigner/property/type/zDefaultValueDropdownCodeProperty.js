@@ -42,16 +42,16 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
         this.UIElement.addUI(this.UIElement.UILabel);
 
         // switch button
-        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('z-button-switch-group').setUICSSText(`width:30%;`);
+        this.UIElement.UIButtonGroup = new UIDiv().setUIClass('btn__toggle__button').setUICSSText(`width:30%;`);
         this.options.forEach((item) => {
             const name = item.value.substr(0, 1).toUpperCase() +
                 item.value.substr(1, item.value.length);
             this.UIElement.UIButtonGroup['UIButton' + name] = new UIButton().setUIId(this.key)
                 .setUIAttribute('data-type', item.value)
-                .setUIClass('z-button-switch')
+                .setUIClass('btn__toggle__button--single')
                 .setUIDisabled(!this.isEditable)
                 .onUIClick(this.updateProperty.bind(this))
-                .addUI(new UISpan().setUIClass('z-text').setUITextContent(i18n.msg(item.name)));
+                .addUI(new UISpan().setUIClass('text').setUITextContent(i18n.msg(item.name)));
 
             if (!this.isEditable) {
                 this.UIElement.UIButtonGroup['UIButton' + name].addUIClass('disabled');
@@ -81,13 +81,13 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
         this.UIElement.UILabel = this.makeLabelProperty('form.properties.element.defaultCodeValue')
             .addUIClass('mt-3')
             .addUIClass('default-code-label')
-            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'off'));
+            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'none'));
         this.UIElement.addUI(this.UIElement.UILabel);
         this.UIElement.UILabel.domElement.removeChild(this.UIElement.UILabel.domElement.children[1]);
 
         // 기본값 코드 input
         this.UIElement.UIInput = new UIInput().setUIId(this.key)
-            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'off'))
+            .addUIClass((this.value.hasOwnProperty(FORM.DROPDOWN_CODE.CODE) ? 'on' : 'none'))
             .setUIAttribute('data-type', FORM.DROPDOWN_CODE.DEFAULT_CODE)
             .setUIValue(this.value[FORM.DROPDOWN_CODE.DEFAULT_CODE])
             .setUIAttribute('data-validation-min-length', this.validation.minLength)
@@ -129,9 +129,9 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
     getPropertyValue(evtType, element) {
         const property = (evtType === 'click') ? element.parentNode.parentNode : element.parentNode;
         const selectedButton = property.querySelector('.selected');
-        const firstInput = property.querySelector('.z-input');
+        const firstInput = property.querySelector('.input');
         const defaultCodeLabel = property.querySelector('.default-code-label');
-        const defaultCode = property.querySelector('.z-input[data-type="'+ FORM.DROPDOWN_CODE.DEFAULT_CODE +'"]');
+        const defaultCode = property.querySelector('.input[data-type="'+ FORM.DROPDOWN_CODE.DEFAULT_CODE +'"]');
         let elementDataType = selectedButton.getAttribute('data-type');
         let tempValue = {};
         switch (evtType) {
@@ -162,15 +162,15 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
                 if (elementDataType === FORM.DROPDOWN_CODE.CODE) {
                     tempValue[FORM.DROPDOWN_CODE.DEFAULT_CODE] = ''; // 초기값 할당
                     
-                    defaultCodeLabel.classList.remove('off');
-                    defaultCode.classList.remove('off');
+                    defaultCodeLabel.classList.remove('none');
+                    defaultCode.classList.remove('none');
                     defaultCodeLabel.classList.add('on');
                     defaultCode.classList.add('on');
                 } else {
                     defaultCodeLabel.classList.remove('on');
                     defaultCode.classList.remove('on');
-                    defaultCodeLabel.classList.add('off');
-                    defaultCode.classList.add('off');
+                    defaultCodeLabel.classList.add('none');
+                    defaultCode.classList.add('none');
                 }
                 break;
             default:
