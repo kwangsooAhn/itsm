@@ -7,14 +7,17 @@
 // * alice-toastify
 //   - toastify를 커스텀하여 생성되며, 우측 하단에서 설정 값에 따라 n초 간 노출되는 요소
 // *********************************************************************************************************************
-
 .notification {
-  // notification icon 영역
-  .icon-notification {
-    height: 1.5rem; // 24px
-    &.active .notification-round {  fill: $blue500; }
-    &:hover { cursor: pointer; }
+  // icon
+  &__ic {
+    // notification icon 영역
+    .ic-notification {
+      height: 1.5rem; // 24px
+      &.active .ic-notification__round {  fill: $blue500; }
+      &:hover { cursor: pointer; }
+    }
   }
+  
   // .notification hover 시 노출되는 영역 전반
   &-panel {
     @include relative($left: 70.8rem, $bottom: 0); // 좌측 간격 1132.8px
@@ -25,121 +28,119 @@
     background-color: $white;
     color: $gray800;
     z-index: $z-index-event;
-  }
 
-  // notification 상단 영역 
-  &-header {
-    display: flex;
-    align-items: baseline;
-    height: 2.5rem; // 40px
-    padding: 0 0.938rem; // 0 15px
-    background-color: $blue500;
-    span {
-      display: inline-block;
-      color: $white;
-      font-size: $font-size-xs;
-      font-family: $font-family;
-      font-weight: $font-weight-regular;
+    // notification 상단 영역 
+    &__header {
+      display: flex;
+      align-items: baseline;
+      height: 2.5rem; // 40px
+      padding: 0 0.938rem; // 0 15px
+      background-color: $blue500;
+      span {
+        display: inline-block;
+        color: $white;
+        // 우측 상단 X 버튼
+        &.ic-remove {
+          margin-left: auto;
+          background: $white;
+        }
+      }
 
       // header 내부 컨텐츠
-      &.title {
+      &__title {
         font-size: $font-size-s;
         font-family: $font-family;
         font-weight: $font-weight-medium;
       }
-      &.message { margin-left: 0.625rem; }  // 10px
+      &__message { margin-left: 0.625rem; }  // 10px
+    }
 
-      // 우측 상단 X 버튼
-      &.ic-remove {
-        margin-left: auto;
-        background: $white;
+    // notification의 contents들이 나열되는 영역
+    &__body {
+      overflow-y: auto;
+      max-height: 20.63rem;    // 330px
+      .noData {
+        height: 6.875rem;  // 110px
+        padding: 3rem; // 48px
       }
-    }
-  }
 
-  // notification의 contents들이 나열되는 영역
-  &-body {
-    overflow-y: auto;
-    max-height: 20.63rem;    // 330px
-    .noData {
-      height: 6.875rem;  // 110px
-      padding: 3rem; // 48px
-    }
-  }
-  &-content {
-    @include border(0.063rem, solid, $neutral200, bottom); // 1px
-    height: 6.875rem; // 110px
-    padding: 0.938rem;// 15px
-    &:hover { background-color: hexToRGBA($blue300, 0.1); }
-    // 체크 박스 영역
-    .notification-checked {
-      display: flex;
-      margin: 0;
-      background-color: $white;
-      input[type="checkbox"] {
-        @include relative();
-        @include border(0.063rem, solid, $blue500, all); // 1px
-        @include borderRadius(0.063rem); // 1px
-        display: inline-block;
-        width: 1.125rem; // 18px
-        height: 1.125rem; // 18px
-        margin: 0;
-        padding: 0.313rem; // 5px
-        cursor: pointer;
-        -webkit-appearance: none;
-        &:checked {
-          @include border(0.063rem, solid, $neutral200, all); // 1px
-          color: $gray300;
-          cursor: unset;
+      &__list {
+        @include border(0.063rem, solid, $neutral200, bottom); // 1px
+        height: 6.875rem; // 110px
+        padding: 0.938rem;// 15px
+        &:hover { background-color: hexToRGBA($blue300, 0.1); }
+
+        & > div { margin-left: 2rem; }
+
+        &__title {
+          max-width: 18.13rem; // 290px
+          color: $gray800;
+          font-weight: $font-weight-medium;
+          font-size: $font-size-s;
+          font-family: $font-family;
+          &__link:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
         }
-        &:checked::after {
-          @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
-          content: '\2714';
-          color: $gray300;
+        &__message {
+          display: block;
+          max-width: 22.5rem; // 360px
+          min-height: 2.5rem; // 40px
+          margin-top: 0.3125rem; // 5px
+          color: $gray800;
+          font-weight: $font-weight-regular;
           font-size: $font-size-s;
           font-family: $font-family;
         }
-      }
-    }
-    // 제거 버튼 영역
-    .ic-delete {
-      padding: 0;
-      background: $gray500;
-    }
-    span {
-      &.title {
-        max-width: 18.13rem; // 290px
-        margin-left: 0.625rem; // 10px
-        color: $gray800;
-        font-weight: $font-weight-medium;
-        font-size: $font-size-s;
-        font-family: $font-family;
-        line-height: 1.2;
-      }
-      &.title__link:hover {
-        cursor: pointer;
-        text-decoration: underline;
-      }
-      &.document-no {
-        color: $gray500;
-        font-size: $font-size-xs;
-      }
-      &.message {
-        display: block;
-        max-width: 22.5rem; // 360px
-        min-height: 2.5rem; // 40px
-        margin-left: 1.75rem; // 28px
-        color: $gray800;
-        font-weight: $font-weight-regular;
-        font-size: $font-size-s;
-        font-family: $font-family;
-      }
-      &.date {
-        margin-left: 1.75rem; // 28px
-        color: $gray500;
-        font-weight: $font-weight-regular;
-        font-size: $font-size-xs;
-        font-family: $font-family;
+        &__date {
+          color: $gray500;
+          font-weight: $font-weight-regular;
+          font-size: $font-size-xs;
+          font-family: $font-family;
+        }
+
+        // 체크 박스 영역
+        .checked {
+          display: flex;
+          margin: 0;
+          background-color: $white;
+          input[type="checkbox"] {
+            @include relative();
+            @include border(0.063rem, solid, $blue500, all); // 1px
+            @include borderRadius(0.063rem); // 1px
+            display: inline-block;
+            width: 1.125rem; // 18px
+            height: 1.125rem; // 18px
+            margin: 0;
+            padding: 0.313rem; // 5px
+            cursor: pointer;
+            -webkit-appearance: none;
+            &:checked {
+              @include border(0.063rem, solid, $neutral200, all); // 1px
+              color: $gray300;
+              cursor: unset;
+            }
+            &:checked::after {
+              @include absolute($top: -0.063rem, $left: 0.063rem); // -1px 1px
+              content: '\2714';
+              color: $gray300;
+              font-size: $font-size-s;
+              font-family: $font-family;
+            }
+          }
+        }
+
+        // 제거 버튼 영역
+        .ic-delete {
+          padding: 0;
+          background: $gray500;
+        }
+
+        .document-no {
+          color: $gray500;
+          font-size: $font-size-xs;
+        }
       }
     }
   }
