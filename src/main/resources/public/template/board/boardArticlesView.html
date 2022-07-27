@@ -69,16 +69,16 @@
             </button>
         </div>
     </div>
-    <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
-        <div class="flex-row align-items-center reply-input-row">
+    <div class="comment" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
+        <div class="flex-row align-items-center comment__form">
             <img class="i-profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}"
                  width="32" height="32"/>
-            <input type="text" class="input reply-input" id="boardComments" name="boardComments" maxlength="500"
+            <input type="text" class="input comment__form__input" id="boardComments" name="boardComments" maxlength="500"
                    th:placeholder="#{comment.msg.enterComments}"/>
             <button class="btn__text--box tertiary" onclick="saveBoardComment('POST')"
                     th:text="#{common.btn.save}"></button>
         </div>
-        <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
+        <div class="flex-column comment__list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
     </div>
 </div>
 </body>
