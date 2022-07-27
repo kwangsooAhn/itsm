@@ -1,0 +1,95 @@
+/** 
+ * 댓글 디자인
+ * componenets/_comment.scss
+ * 화면 : 게시판
+ */
+.comment {
+  margin-top: 2.5rem; // 40px
+
+  &__form {
+    @include border(0.0625rem, solid, $gray300, top);  // 1px
+    @include border(0.0625rem, solid, $gray300, bottom);  // 1px
+    padding: 1.3125rem 1.25rem; // 21px 20px
+    background-color: $neutral50;
+    &__input {
+      width: 100%;
+      margin: 0 0.3125rem; // 5px
+    }
+  }
+
+  &__list {
+    @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $gray300, 0.0625rem 0.9375rem 0.0625rem 0);
+    padding: 0 0;
+    margin-top: 0.0625rem; // -1px
+    // 댓글이 없으면 라인 생략
+    &:empty { border-color: transparent; }
+
+    &__item {
+      @include border(0.0625rem, solid, $gray300, bottom);
+      padding-top : 1.875rem; // 30px
+      padding-bottom: 1.875rem; // 30px
+      &__info {
+        align-items: center;
+        &__name { font-weight: $font-weight-regular; }
+        &__date {
+          color: $gray400;
+          font-weight: $font-weight-regular;
+        }
+      }
+      &__text {
+        display: flex;
+        margin-top: 0.9375rem; // 5px
+        margin-left: 3rem; // 48px
+        word-break: break-all;
+        input {
+          width: 100%;
+          margin: 0 0.3125rem; // 5px
+        }
+      }
+    }
+  }
+  // 사용자 프로필 이미지
+  .i-profile-photo {
+    @include borderRadius(50%);
+    flex : none;
+    margin: auto 0.9376rem auto 0; // 15px
+    background-color: transparent;
+  }
+  
+  // 문서함
+  &--token {
+    .comment {
+      &__list {
+        &__item {
+          @include border(0.0625rem, solid, $gray300, all);
+          @include borderRadius(0.125rem);
+          margin: 0.625rem 0 0 0; // 10px 0 0 0
+          padding: 1rem; // 16px
+          &__info {
+            &__name {
+              color: $gray800;
+              font-weight: $font-weight-bold;
+            }
+            &__date {
+              margin-left: 0.5rem; //8px
+              color: $gray500;
+            }
+          }
+          &__text {
+            height: 100%;
+            margin: 0.625rem 0 0 0; // 10px 0 0 0
+            h6 { width: 27.5rem; }            
+          }
+        }
+      }
+      
+      // 댓글 추가
+      &__form {
+        margin: 0.625rem 0 0 0; // 10px 0 0 0
+        padding: 0;
+        border: none;
+        background-color: transparent;
+      }
+    }
+  }
+}
