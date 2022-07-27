@@ -47,12 +47,12 @@
                    th:value="${attribute?.mappingId}" type="text"/>
         </div>
         <div class="flex-column edit-row pt-5 pb-3" id="searchYnGroup">
-            <label class="switch">
+            <label class="btn__toggle__switch">
                 <input type="checkbox" id="searchYn" name="searchYn" th:disabled="${view}"
                        th:checked="${attribute?.searchYn == true}" onchange="setSearchWidthRequired(this);">
                 <span></span>
-                <span class="label label-name" th:text="#{cmdb.attribute.label.useSearch}"></span>
-                <span class="label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
+                <span class="btn__toggle__switch__label" th:text="#{cmdb.attribute.label.useSearch}"></span>
+                <span th:text="#{cmdb.attribute.msg.useSearch}"></span>
             </label>
         </div>
         <div class="flex-column edit-row" id="searchWidthGroup">

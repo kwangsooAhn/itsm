@@ -20,8 +20,8 @@
                th:readonly="${view}" th:value="${boardAdmin?.boardAdminTitle}" type="text"/>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.useYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.useYn}"></span>
             <input id="boardUseYn" name="boardUseYn" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
@@ -39,24 +39,24 @@
                   name="boardAdminDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'textarea-readonly'" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.replyYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.replyYn}"></span>
             <input id="replyYn" name="replyYn" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.commentYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.commentYn}"></span>
             <input id="commentYn" name="commentYn" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.category}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.category}"></span>
             <input id="categoryYn" name="categoryYn" onchange="setDisplay('category-detail', this.checked)"
                    th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}"
                    th:disabled="${view}" type="checkbox">
@@ -111,8 +111,8 @@
         </div>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.attachFileYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.attachFileYn}"></span>
             <input id="attachYn" name="attachYn" onchange="setDisplay('attachFileSize', this.checked)"
                    th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
                    th:disabled="${view}" type="checkbox">

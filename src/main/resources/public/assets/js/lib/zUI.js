@@ -425,7 +425,7 @@ class UIRemoveButton extends UIElement {
 class UISwitch extends UIElement {
     constructor(boolean) {
         super(document.createElement('label'));
-        this.domElement.className = 'switch';
+        this.domElement.className = 'btn__toggle__switch__label';
 
         // checkbox
         this.UICheckbox = new UICheckbox(boolean);

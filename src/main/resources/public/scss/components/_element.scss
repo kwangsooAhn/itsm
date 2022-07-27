@@ -46,133 +46,6 @@ a {
   }
 }
 
-// table
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0; // 테이블 요소 사이의 간격을 제거
-  table-layout: fixed;
-  line-height: 1.5;
-
-  td, th {
-    @include ellipsis(table-cell);
-    vertical-align: middle;
-  }
-}
-.table {
-  border: none;
-  background-color: transparent;
-  color: $neutral800;
-  font-family: $font-family;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-
-  td, th {
-    &:not(.p-0) {
-      padding: 0 0.9375rem;   // 0 15px
-      &:first-child { padding-left: 1.25rem; } // 20px
-    }
-    a { color: $neutral800; }
-  }
-
-  th {
-    color: $neutral600;
-    font-family: $font-family;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-  }
-
-  .table-head {
-    @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
-    tr { height: 2.5rem; } // 42px
-  }
-
-  .table-body {
-    width: 100%;
-    height: 100%;
-    tr {
-      height: 2.5625rem; // 41px
-      // 마우스 오버시 배경 색상
-      &:hover { background-color: $neutral200; }
-      // 선택된 경우
-      &.active {
-        background-color: $blue100;
-        td { color: $blue700; }
-      }
-    }
-    // 데이터 없을때
-    .no-data-found-list { pointer-events: none; }
-
-    // icon button
-    .btn__ic {
-      padding: 0;
-      background-color: transparent;
-      border-color: transparent;
-      &:hover, &:focus, &:active, &:disabled {
-        background-color: transparent;
-        border-color: transparent;
-      }
-      [class*="ic-"] { background-color: $gray600; }
-      &:hover [class*="ic-"] { background-color: $gray400; }
-      &:focus [class*="ic-"] { background-color: $gray800; }
-      &:active [class*="ic-"] { background-color: $gray800; }
-      &:disabled [class*="ic-"] { background-color: $gray300; }
-    }
-  }
-}
-.option-table {
-  border: none;
-  background-color: transparent;
-  color: $gray400;
-  font-family: $font-family;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-
-  tr {
-    @include border(0.0625rem, solid, $gray400, bottom);
-    height: 2.5rem; // 40px
-    border-left: none;
-    border-right: none;
-    th, td { padding: 0 0.5rem; }
-
-    &.option-table-header {
-      @include border(0.0625rem, solid, $gray400, top);
-      @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
-      height: 2rem; // 32px
-      background-color: $neutral100;
-      color: $gray400;
-      font-family: $font-family;
-      font-size: $font-size-xs;
-      font-weight: $font-weight-medium;
-    }
-
-    &.option-table-row {
-      .checkbox,
-      .radio { margin: 0 0 0 0.75rem; } // 12px
-
-      .input {
-        width: 85%;
-        padding: 0.75rem;
-        margin: 0.25rem; // 4px
-        // 입력된 값이 있으면
-        &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
-      }
-
-      .btn__ic {
-        [class*="ic-"] {
-          display: block;
-          margin: 0 auto;
-          background: $gray400;
-          pointer-events: none;
-        }
-        &:hover [class*="ic-"] { background: $blue500; }
-      }
-    }
-  }
-}
-
-
-
 // span
 span {
   margin: auto 0;
@@ -355,71 +228,6 @@ input, textarea, select {
 }
 // os-div 작업
 div.textarea-readonly { border-color: transparent !important; }
-
-// switch
-.switch {
-  @include relative();
-  height: 1.75rem; //26px
-  color: $neutral800;
-  font-family: $font-family;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-medium;
-  line-height: 1.2;
-  outline: none;
-
-  .label {
-    display: inline-block;
-    height: 1.125rem; // 18px
-    margin-left: 3rem; // 48px
-    cursor: pointer;
-  }
-
-  input[type=checkbox] {
-    display: none;
-    // 스위치 버튼
-    + span {
-      @include absolute(0, 0, 0, 0);
-      @include borderRadius(2.5rem); // 40px
-      @include transition(.4s);
-      width: 2.5rem; // 40px
-      height: 1.25rem; // 20px
-      margin: 0;
-      background-color: $gray400;
-      cursor: pointer;
-      // 동그라미
-      &::before {
-        @include absolute($top: 0.1rem, $left: 0.125rem); // 2px
-        @include borderRadius(50%);
-        content: '';
-        width: 1rem; // 16px
-        height: 1rem; // 16px
-        background-color: $white;
-      }
-      &::after {
-        @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.25rem, 1.25rem, no-repeat, center); // 20px 20px
-        @include absolute($right: 0.125rem); // 2px
-        content: '';
-        background-color: $white;
-        -webkit-mask-size: 1.5rem; // 24px
-        mask-size: 1.5rem; // 24px
-      }
-    }
-    &:checked {
-      + span {
-        background-color: $blue600;
-        &::before { @include translate(1.25rem, 0); } // 20px 0
-        &::after {
-          left: 0;
-          -webkit-mask-size: 1.125rem; // 18px
-          mask-size: 1.125rem; // 18px
-          -webkit-mask-image: url('#{$icon-folder-path}icon_check.svg');
-          mask-image: url('#{$icon-folder-path}icon_check.svg');
-        }
-      }
-    }
-    &:disabled + span { background-color: $gray200; }
-  }
-}
 
 // select
 select {
@@ -768,11 +576,9 @@ select {
 
   // readonly, disabled 클래스 설정시 라벨의 동작을 막음
   &.readonly, &.disabled { pointer-events: none; }
-}
-// 체크박스 목록
-// ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
-.checkbox {
-  // 목록
+  
+  // 체크박스 목록
+  // ex) 권한, 역할, 사용자 정보 수정 > 체크박스 목록
   &-list {
     @include border(0.0625rem, solid, $gray400, all);
     @include borderRadius(0.0625rem); // 1px
@@ -932,5 +738,196 @@ select {
     &:disabled {
       visibility: hidden;
     }
+  }
+}
+
+// table
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0; // 테이블 요소 사이의 간격을 제거
+  table-layout: fixed;
+  line-height: 1.5;
+
+  td, th {
+    @include ellipsis(table-cell);
+    vertical-align: middle;
+  }
+}
+.table {
+  border: none;
+  background-color: transparent;
+  color: $neutral800;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+
+  td, th {
+    &:not(.p-0) {
+      padding: 0 0.9375rem;   // 0 15px
+      &:first-child { padding-left: 1.25rem; } // 20px
+    }
+    a { color: $neutral800; }
+  }
+
+  th {
+    color: $neutral600;
+    font-family: $font-family;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+  }
+
+  .table-head {
+    @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
+    tr { height: 2.5rem; } // 42px
+  }
+
+  .table-body {
+    width: 100%;
+    height: 100%;
+    tr {
+      height: 2.5625rem; // 41px
+      // 마우스 오버시 배경 색상
+      &:hover { background-color: $neutral200; }
+      // 선택된 경우
+      &.active {
+        background-color: $blue100;
+        td { color: $blue700; }
+      }
+    }
+    // 데이터 없을때
+    .no-data-found-list { pointer-events: none; }
+
+    // icon button
+    .btn__ic {
+      padding: 0;
+      background-color: transparent;
+      border-color: transparent;
+      &:hover, &:focus, &:active, &:disabled {
+        background-color: transparent;
+        border-color: transparent;
+      }
+      [class*="ic-"] { background-color: $gray600; }
+      &:hover [class*="ic-"] { background-color: $gray400; }
+      &:focus [class*="ic-"] { background-color: $gray800; }
+      &:active [class*="ic-"] { background-color: $gray800; }
+      &:disabled [class*="ic-"] { background-color: $gray300; }
+    }
+  }
+}
+.option-table {
+  border: none;
+  background-color: transparent;
+  color: $gray400;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+
+  tr {
+    @include border(0.0625rem, solid, $gray400, bottom);
+    height: 2.5rem; // 40px
+    border-left: none;
+    border-right: none;
+    th, td { padding: 0 0.5rem; }
+
+    &.option-table-header {
+      @include border(0.0625rem, solid, $gray400, top);
+      @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
+      height: 2rem; // 32px
+      background-color: $neutral100;
+      color: $gray400;
+      font-family: $font-family;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+    }
+
+    &.option-table-row {
+      .checkbox,
+      .radio { margin: 0 0 0 0.75rem; } // 12px
+
+      .input {
+        width: 85%;
+        padding: 0.75rem;
+        margin: 0.25rem; // 4px
+        // 입력된 값이 있으면
+        &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
+      }
+
+      .btn__ic {
+        [class*="ic-"] {
+          display: block;
+          margin: 0 auto;
+          background: $gray400;
+          pointer-events: none;
+        }
+        &:hover [class*="ic-"] { background: $blue500; }
+      }
+    }
+  }
+}
+
+
+// switch
+.switch {
+  @include relative();
+  height: 1.75rem; //26px
+  color: $neutral800;
+  font-family: $font-family;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: 1.2;
+  outline: none;
+
+  .label {
+    display: inline-block;
+    height: 1.125rem; // 18px
+    margin-left: 3rem; // 48px
+    cursor: pointer;
+  }
+
+  input[type=checkbox] {
+    display: none;
+    // 스위치 버튼
+    + span {
+      @include absolute(0, 0, 0, 0);
+      @include borderRadius(2.5rem); // 40px
+      @include transition(.4s);
+      width: 2.5rem; // 40px
+      height: 1.25rem; // 20px
+      margin: 0;
+      background-color: $gray400;
+      cursor: pointer;
+      // 동그라미
+      &::before {
+        @include absolute($top: 0.1rem, $left: 0.125rem); // 2px
+        @include borderRadius(50%);
+        content: '';
+        width: 1rem; // 16px
+        height: 1rem; // 16px
+        background-color: $white;
+      }
+      &::after {
+        @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.25rem, 1.25rem, no-repeat, center); // 20px 20px
+        @include absolute($right: 0.125rem); // 2px
+        content: '';
+        background-color: $white;
+        -webkit-mask-size: 1.5rem; // 24px
+        mask-size: 1.5rem; // 24px
+      }
+    }
+    &:checked {
+      + span {
+        background-color: $blue600;
+        &::before { @include translate(1.25rem, 0); } // 20px 0
+        &::after {
+          left: 0;
+          -webkit-mask-size: 1.125rem; // 18px
+          mask-size: 1.125rem; // 18px
+          -webkit-mask-image: url('#{$icon-folder-path}icon_check.svg');
+          mask-image: url('#{$icon-folder-path}icon_check.svg');
+        }
+      }
+    }
+    &:disabled + span { background-color: $gray200; }
   }
 }
