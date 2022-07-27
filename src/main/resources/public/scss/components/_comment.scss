@@ -1,9 +1,9 @@
 /** 
  * 댓글 디자인
- * componenets/_reply.scss
+ * componenets/_comment.scss
  * 화면 : 게시판
  */
-.reply {
+.comment {
   margin-top: 2.5rem; // 40px
 
   &__form {
@@ -36,7 +36,7 @@
           font-weight: $font-weight-regular;
         }
       }
-      &__comment {
+      &__text {
         display: flex;
         margin-top: 0.9375rem; // 5px
         margin-left: 3rem; // 48px
@@ -58,7 +58,7 @@
   
   // 문서함
   &--token {
-    .reply {
+    .comment {
       &__list {
         &__item {
           @include border(0.0625rem, solid, $gray300, all);
@@ -75,7 +75,7 @@
               color: $gray500;
             }
           }
-          &__comment {
+          &__text {
             height: 100%;
             margin: 0.625rem 0 0 0; // 10px 0 0 0
             h6 { width: 27.5rem; }            

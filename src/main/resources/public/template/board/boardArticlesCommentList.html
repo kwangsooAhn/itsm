@@ -4,14 +4,14 @@
 <head>
 </head>
 <body>
-<div class="reply__list__item flex-column" th:unless="${#arrays.isEmpty(boardCommentList)}"
+<div class="comment__list__item flex-column" th:unless="${#arrays.isEmpty(boardCommentList)}"
      th:each="boardComment: ${boardCommentList}">
-    <div class="reply__list__item__info flex-row">
+    <div class="comment__list__item__info flex-row">
         <div class="profile"></div>
         <img class="i-profile-photo mr-2" th:src="${boardComment.avatarPath}" width="32" height="32"/>
-        <h5 class="reply__list__item__info__name text-wordWrap" th:text="${boardComment.createUser.userName}"></h5>
+        <h5 class="comment__list__item__info__name text-wordWrap" th:text="${boardComment.createUser.userName}"></h5>
         <span class="vertical-bar"></span>
-        <h5 class="reply__list__item__info__date text-wordNoWrap" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
+        <h5 class="comment__list__item__info__date text-wordNoWrap" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
         <div class="ml-auto align-middle btn__list"
              th:if="(${#authorization.expression('hasAuthority(''system.manage'')')}) or (${#authorization.expression('hasAuthority(''portal.manage'')')})
              or (${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '') and ${#authorization.expression('hasAuthority(''general'')')})">
@@ -23,7 +23,7 @@
             </button>
         </div>
     </div>
-    <div class="reply__list__item__comment flex-row" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
+    <div class="comment__list__item__text flex-row" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
          th:text="${boardComment.boardCommentContents}"></div>
 </div>
 </body>
