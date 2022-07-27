@@ -48,8 +48,8 @@ span {
   &.ic-image { @include maskImage('#{$icon-folder-path}icon_image.svg', 1.25rem, 1.25rem, no-repeat, center); }
   // 폴더
   &.ic-folder { @include maskImage('#{$icon-folder-path}icon_folder.svg', 1.25rem, 1.25rem, no-repeat, center); }
-
-  // fileUploader
+  
+  ////////////////////////// fileUploader //////////////////////////
   // fileUploader > 다운로드
   &.ic-download { @include maskImage('#{$icon-folder-path}fileUploader/icon_download.svg', 1.25rem, 1.25rem, no-repeat, center); }
   &.ic-list-download { @include maskImage('#{$icon-folder-path}icon_list-download.svg', 1.25rem, 1.25rem, no-repeat, center); }

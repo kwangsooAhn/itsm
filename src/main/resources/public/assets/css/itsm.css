@@ -3715,7 +3715,7 @@ input.ic-mb {
   min-width: 2.75rem;
   max-width: 12.5rem;
   height: 1.688rem;
-  padding: 0 0 0 0.5rem;
+  padding: 0 0.5rem;
   color: #222529;
   font-weight: 500;
   line-height: 1.688rem;
@@ -6139,32 +6139,6 @@ input.ic-mb {
 }
 .document-container .token-properties .token-panels .token-related .document-add .btn__ic .ic-plus {
   background: #8B9094;
-}
-.document-container .token-properties .token-panels .token-comment-item {
-  border: 0.0625rem solid #CFD5D9;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  margin: 0.625rem 0 0 0;
-  padding: 1rem;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-info .user-name {
-  color: #222529;
-  font-weight: 700;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-info .comment-time {
-  margin-left: 0.5rem;
-  color: #8B9094;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-content {
-  height: 100%;
-  margin: 0.625rem 0 0 0;
-}
-.document-container .token-properties .token-panels .token-comment-item .comment-row-content h6 {
-  width: 27.5rem;
-}
-.document-container .token-properties .token-panels .token-comment .comment-add {
-  margin: 0.625rem 0 0 0;
 }
 .document-container .token-properties .token-panels .token-viewer-sub-title {
   display: block;
@@ -8830,6 +8804,101 @@ input.ic-mb {
   background: #19428D;
 }
 
+/** 
+ * 댓글 디자인
+ * componenets/_comment.scss
+ * 화면 : 게시판
+ */
+.comment {
+  margin-top: 2.5rem;
+}
+.comment__form {
+  border-top: 0.0625rem solid #CFD5D9;
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding: 1.3125rem 1.25rem;
+  background-color: #FAFAFA;
+}
+.comment__form__input {
+  width: 100%;
+  margin: 0 0.3125rem;
+}
+.comment__list {
+  padding: 0 0;
+  margin-top: 0.0625rem;
+}
+.comment__list .vertical-bar {
+  width: 1.25rem;
+  min-height: 1.25rem;
+  margin: 0.0625rem 0.9375rem 0.0625rem 0;
+  border-right: 0.0625rem solid #CFD5D9;
+  vertical-align: middle;
+}
+.comment__list:empty {
+  border-color: transparent;
+}
+.comment__list__item {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  padding-top: 1.875rem;
+  padding-bottom: 1.875rem;
+}
+.comment__list__item__info {
+  align-items: center;
+}
+.comment__list__item__info__name {
+  font-weight: 400;
+}
+.comment__list__item__info__date {
+  color: #ABB0B5;
+  font-weight: 400;
+}
+.comment__list__item__text {
+  display: flex;
+  margin-top: 0.9375rem;
+  margin-left: 3rem;
+  word-break: break-all;
+}
+.comment__list__item__text input {
+  width: 100%;
+  margin: 0 0.3125rem;
+}
+.comment .i-profile-photo {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  flex: none;
+  margin: auto 0.9376rem auto 0;
+  background-color: transparent;
+}
+.comment--token .comment__list__item {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  margin: 0.625rem 0 0 0;
+  padding: 1rem;
+}
+.comment--token .comment__list__item__info__name {
+  color: #222529;
+  font-weight: 700;
+}
+.comment--token .comment__list__item__info__date {
+  margin-left: 0.5rem;
+  color: #8B9094;
+}
+.comment--token .comment__list__item__text {
+  height: 100%;
+  margin: 0.625rem 0 0 0;
+}
+.comment--token .comment__list__item__text h6 {
+  width: 27.5rem;
+}
+.comment--token .comment__form {
+  margin: 0.625rem 0 0 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
 /* _date-picker.scss 
  *
  * 파일 경로 : componenets/_date-picker.scss
@@ -11402,13 +11471,13 @@ body.active {
   height: 3.5rem;
 }
 
-.notification .icon-notification {
+.notification__ic .ic-notification {
   height: 1.5rem;
 }
-.notification .icon-notification.active .notification-round {
+.notification__ic .ic-notification.active .ic-notification__round {
   fill: #3373C4;
 }
-.notification .icon-notification:hover {
+.notification__ic .ic-notification:hover {
   cursor: pointer;
 }
 .notification-panel {
@@ -11425,54 +11494,81 @@ body.active {
   color: #222529;
   z-index: 25;
 }
-.notification-header {
+.notification-panel__header {
   display: flex;
   align-items: baseline;
   height: 2.5rem;
   padding: 0 0.938rem;
   background-color: #3373C4;
 }
-.notification-header span {
+.notification-panel__header span {
   display: inline-block;
   color: #FFFFFF;
-  font-size: 0.875rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-weight: 400;
 }
-.notification-header span.title {
+.notification-panel__header span.ic-remove {
+  margin-left: auto;
+  background: #FFFFFF;
+}
+.notification-panel__header__title {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-weight: 500;
 }
-.notification-header span.message {
+.notification-panel__header__message {
   margin-left: 0.625rem;
 }
-.notification-header span.ic-remove {
-  margin-left: auto;
-  background: #FFFFFF;
-}
-.notification-body {
+.notification-panel__body {
   overflow-y: auto;
   max-height: 20.63rem;
 }
-.notification-body .noData {
+.notification-panel__body .noData {
   height: 6.875rem;
   padding: 3rem;
 }
-.notification-content {
+.notification-panel__body__list {
   border-bottom: 0.063rem solid #EEEEEE;
   height: 6.875rem;
   padding: 0.938rem;
 }
-.notification-content:hover {
+.notification-panel__body__list:hover {
   background-color: rgba(131, 187, 237, 0.1);
 }
-.notification-content .notification-checked {
+.notification-panel__body__list > div {
+  margin-left: 2rem;
+}
+.notification-panel__body__list__title {
+  max-width: 18.13rem;
+  color: #222529;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.notification-panel__body__list__title__link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.notification-panel__body__list__message {
+  display: block;
+  max-width: 22.5rem;
+  min-height: 2.5rem;
+  margin-top: 0.3125rem;
+  color: #222529;
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.notification-panel__body__list__date {
+  color: #8B9094;
+  font-weight: 400;
+  font-size: 0.875rem;
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+}
+.notification-panel__body__list .checked {
   display: flex;
   margin: 0;
   background-color: #FFFFFF;
 }
-.notification-content .notification-checked input[type=checkbox] {
+.notification-panel__body__list .checked input[type=checkbox] {
   position: relative !important;
   border: 0.063rem solid #3373C4;
   border-radius: 0.063rem;
@@ -11486,12 +11582,12 @@ body.active {
   cursor: pointer;
   -webkit-appearance: none;
 }
-.notification-content .notification-checked input[type=checkbox]:checked {
+.notification-panel__body__list .checked input[type=checkbox]:checked {
   border: 0.063rem solid #EEEEEE;
   color: #CFD5D9;
   cursor: unset;
 }
-.notification-content .notification-checked input[type=checkbox]:checked::after {
+.notification-panel__body__list .checked input[type=checkbox]:checked::after {
   position: absolute !important;
   top: -0.063rem;
   left: 0.063rem;
@@ -11500,43 +11596,13 @@ body.active {
   font-size: 1rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
-.notification-content .ic-delete {
+.notification-panel__body__list .ic-delete {
   padding: 0;
   background: #8B9094;
 }
-.notification-content span.title {
-  max-width: 18.13rem;
-  margin-left: 0.625rem;
-  color: #222529;
-  font-weight: 500;
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  line-height: 1.2;
-}
-.notification-content span.title__link:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.notification-content span.document-no {
+.notification-panel__body__list .document-no {
   color: #8B9094;
   font-size: 0.875rem;
-}
-.notification-content span.message {
-  display: block;
-  max-width: 22.5rem;
-  min-height: 2.5rem;
-  margin-left: 1.75rem;
-  color: #222529;
-  font-weight: 400;
-  font-size: 1rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-}
-.notification-content span.date {
-  margin-left: 1.75rem;
-  color: #8B9094;
-  font-weight: 400;
-  font-size: 0.875rem;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 
 .alice-toastify {
@@ -11683,38 +11749,38 @@ body.active {
 /** 
  * 팝업 디자인
  * components/_popup.scss
- * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
+ * 화면 : 공지사항 팝업
  */
-.itsm-popup {
+.popup {
   width: 100%;
   height: 100vh;
   padding: 1.875rem 2.5rem 0 2.5rem;
   background-color: #FFFFFF;
 }
-.itsm-popup .view {
+.popup .view {
   height: 100vh;
 }
-.itsm-popup .view .view-row {
+.popup .view .view-row {
   margin: 0.625rem 0 0 0;
 }
-.itsm-popup .view .view-row .btn__list {
+.popup .view .view-row .btn__list {
   margin-top: 1.875rem;
 }
-.itsm-popup .view-title {
+.popup .view-title {
   border-bottom: 0.125rem solid #CFD5D9;
   padding-bottom: 0.625rem;
   color: #222529;
   font-size: 1.125rem;
   font-weight: 500;
 }
-.itsm-popup .view-sub-title {
+.popup .view-sub-title {
   padding: 0 1.25rem;
   color: #8B9094;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
 }
-.itsm-popup .view-content {
+.popup .view-content {
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
   color: #424242;
@@ -11722,7 +11788,7 @@ body.active {
   font-weight: 500;
   line-height: 1.6;
 }
-.itsm-popup .view-content pre {
+.popup .view-content pre {
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-line;
@@ -11730,96 +11796,14 @@ body.active {
   white-space: -moz-pre-wrap;
   word-break: break-all;
 }
-.itsm-popup .view-content .view-text {
+.popup .view-content .view-text {
   margin: 0;
 }
-.itsm-popup .popup-title {
-  margin-bottom: 1.75rem;
-}
-.itsm-popup .custom-code-content-popup.view {
+.popup .view {
   height: auto;
 }
-.itsm-popup .custom-code-content-popup .radio-list {
-  height: 34.375rem;
-  margin: 1.25rem 0 2.5rem 0;
-}
-.itsm-popup .notice-content-popup.view {
-  height: auto;
-}
-.itsm-popup .notice-content-popup.view .view-row .checkbox {
+.popup .view .view-row .checkbox {
   padding-bottom: 1.25rem;
-}
-
-/** 
- * 댓글 디자인
- * componenets/_reply.scss
- * 화면 : 게시판
- */
-.reply-body {
-  margin-top: 2.5rem;
-}
-.reply-input-row {
-  border-top: 0.0625rem solid #CFD5D9;
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding: 1.3125rem 1.25rem;
-  background-color: #FAFAFA;
-}
-.reply-input-row .reply-input {
-  width: 100%;
-  margin: 0 0.3125rem;
-}
-.reply-input-row .reply-button {
-  flex: none;
-}
-.reply-list {
-  padding: 0 0;
-  margin-top: 0.0625rem;
-}
-.reply-list .vertical-bar {
-  width: 1.25rem;
-  min-height: 1.25rem;
-  margin: 0.0625rem 0.9375rem 0.0625rem 0;
-  border-right: 0.0625rem solid #CFD5D9;
-  vertical-align: middle;
-}
-.reply-list:empty {
-  border-color: transparent;
-}
-.reply-list .reply-info {
-  align-items: center;
-}
-.reply-list .reply-user-name {
-  font-weight: 400;
-}
-.reply-list .reply-create-date {
-  color: #ABB0B5;
-  font-weight: 400;
-}
-.reply-list .reply-row {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  padding-top: 1.875rem;
-  padding-bottom: 1.875rem;
-}
-.reply-list .reply-edit, .reply-list .reply-delete {
-  padding: 0 1.25rem 0 0;
-}
-.reply-list .reply-comment {
-  display: flex;
-  margin-top: 0.9375rem;
-  margin-left: 3rem;
-  word-break: break-all;
-}
-.reply-list .reply-comment input {
-  width: 100%;
-  margin: 0 0.3125rem;
-}
-.reply .i-profile-photo {
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  flex: none;
-  margin: auto 0.9376rem auto 0;
-  background-color: transparent;
 }
 
 /* _scrollbars.scss 

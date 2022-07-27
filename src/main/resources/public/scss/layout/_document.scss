@@ -296,39 +296,6 @@
           }
         }
 
-        // 댓글
-        &-comment {
-          &-item {
-            @include border(0.0625rem, solid, $gray300, all);
-            @include borderRadius(0.125rem);
-            margin: 0.625rem 0 0 0; // 10px 0 0 0
-            padding: 1rem; // 16px
-
-            .comment {
-              &-row {
-                &-info {
-                  .user-name {
-                    color: $gray800;
-                    font-weight: $font-weight-bold;
-                  }
-                  .comment-time {
-                    margin-left: 0.5rem; //8px
-                    color: $gray500;
-                  }
-                }
-                &-content {
-                  height: 100%;
-                  margin: 0.625rem 0 0 0; // 10px 0 0 0
-                  h6 { width: 27.5rem; }
-                }
-              }
-            }
-          }
-
-          // 댓글 추가
-          .comment-add { margin: 0.625rem 0 0 0; } // 10px 0 0 0
-        }
-
         // 참조인
         &-viewer {
           &-sub-title {
