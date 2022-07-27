@@ -129,10 +129,10 @@ insert into awf_code values ('assignee.type.candidate.groups', 'assignee.type', 
 insert into awf_code values ('assignee.type.candidate.users', 'assignee.type', null, '담당자 후보목록', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document', 'root', null, '신청서', null, false, true, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.type', 'document', null, '업무흐름 구분', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('application-form', 'document.type', '신청서', '신청서', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('workflow', 'document.type', '업무흐름', '업무흐름', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('application-form-workflow', 'document.type', '신청서 및 업무흐름', '신청서 및 업무흐름', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('application-form-link', 'document.type', '신청서 링크', '신청서 링크', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.application-form', 'document.type', '신청서', '신청서', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.workflow', 'document.type', '업무흐름', '업무흐름', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.application-form-workflow', 'document.type', '신청서 및 업무흐름', '신청서 및 업무흐름', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.application-form-link', 'document.type', '신청서 링크', '신청서 링크', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group', 'document', null, '신청서 목록', null, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group.service', 'document.group', '서비스 요청', '서비스 요청', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.group.pc', 'document.group', 'PC 및 주변기기', 'PC 및 주변기기', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -9320,6 +9320,10 @@ insert into awf_code_lang values ('document.group.pc', 'PC and Peripherals', 'en
 insert into awf_code_lang values ('document.group.incident', 'Report Disability', 'en');
 insert into awf_code_lang values ('document.group.develop', 'Develop Request', 'en');
 insert into awf_code_lang values ('document.group.report', 'Internal Report', 'en');
+insert into awf_code_lang values ('document.type.application-form', 'Application Form Only', 'en');
+insert into awf_code_lang values ('document.type.workflow', 'Workflow', 'en');
+insert into awf_code_lang values ('document.type.application-form-workflow', 'Application Form also Workflow', 'en');
+insert into awf_code_lang values ('document.type.application-form-link', 'Application Form Link', 'en');
 insert into awf_code_lang values ('form.template', 'Template', 'en');
 /* 단순문의 */
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry', 'ServiceDesk - Simple Inquiry', 'en');

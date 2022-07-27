@@ -28,6 +28,10 @@ insert into awf_code_lang values ('document.group.pc', 'PC and Peripherals', 'en
 insert into awf_code_lang values ('document.group.incident', 'Report Disability', 'en');
 insert into awf_code_lang values ('document.group.develop', 'Develop Request', 'en');
 insert into awf_code_lang values ('document.group.report', 'Internal Report', 'en');
+insert into awf_code_lang values ('document.type.application-form', 'Application Form Only', 'en');
+insert into awf_code_lang values ('document.type.workflow', 'Workflow', 'en');
+insert into awf_code_lang values ('document.type.application-form-workflow', 'Application Form also Workflow', 'en');
+insert into awf_code_lang values ('document.type.application-form-link', 'Application Form Link', 'en');
 insert into awf_code_lang values ('form.template', 'Template', 'en');
 /* 단순문의 */
 insert into awf_code_lang values ('form.template.serviceDesk.inquiry', 'ServiceDesk - Simple Inquiry', 'en');
