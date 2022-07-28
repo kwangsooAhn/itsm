@@ -339,6 +339,34 @@ $layout-header-dropdown: (
   min-height: 56.25rem; // 900px
   background-color: $white;
   & *:focus { outline: none !important; }
+
+  .context-menu {
+    @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
+    @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); // 1px
+    height: 2.5rem; // 40px;
+    background-color: $white;
+    z-index: $z-index-tooltip;
+    visibility: hidden;
+    .context-group {
+      margin: 0 0.125rem; // 0 2px
+      padding: 0.5625rem 0 0; // 9px 0 0 0
+      .context-menu__item {
+        display: inline-block;
+        margin: 0 0.25rem; // 0 4px
+        padding: 0 0.25rem; // 0 4px
+        cursor: pointer;
+        [class*="ic-"] {
+          display: inline-block;
+          background: $blue300;
+          vertical-align: middle;
+          pointer-events: none;
+        }
+        &:hover {
+          [class*="ic-"] { background: $blue500; }
+        }
+      }
+    }
+  }
 }
 // 그룹 툴팁
 .group-area {
@@ -678,34 +706,6 @@ $layout-header-dropdown: (
     .required {
       &.off { display: none; }
       &.on { display: inline; }
-    }
-  }
-}
-// tooptip
-.context-menu {
-  @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
-  @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); // 1px
-  height: 2.5rem; // 40px;
-  background-color: $white;
-  z-index: $z-index-tooltip;
-  visibility: hidden;
-  .context-group {
-    margin: 0 0.125rem; // 0 2px
-    padding: 0.5625rem 0 0; // 9px 0 0 0
-    .context-menu__item {
-      display: inline-block;
-      margin: 0 0.25rem; // 0 4px
-      padding: 0 0.25rem; // 0 4px
-      cursor: pointer;
-      [class*="ic-"] {
-        display: inline-block;
-        background: $blue300;
-        vertical-align: middle;
-        pointer-events: none;
-      }
-      &:hover {
-        [class*="ic-"] { background: $blue500; }
-      }
     }
   }
 }
