@@ -1704,15 +1704,19 @@ $element-icon-toggle: (
 
     defs marker path { fill: $gray600; }
     // 툴팁
-    g.alice-tooltip {
-      rect.tooltip-container {
-        fill: $white;
-        stroke: $gray300;
-        stroke-width: 1;
+    g.context-menu {
+      visibility: visible;
+      rect.context-group {
+        &--action,
+        &--element {
+          fill: $white;
+          stroke: $gray300;
+          stroke-width: 1;
+        }
       }
 
-      rect.action-tooltip-item:hover,
-      rect.element-tooltip-item:hover { cursor: pointer; }
+      rect.context-group--action-item:hover,
+      rect.context-group--element-item:hover { cursor: pointer; }
     }
     // 가이드 라인
     g.guides-container {
