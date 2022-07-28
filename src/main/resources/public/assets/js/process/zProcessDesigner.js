@@ -70,7 +70,7 @@
         });
         svg.selectAll('.connector').classed('selected', false);
         svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
-        svg.selectAll('.alice-tooltip').remove();
+        svg.selectAll('.context-wrapper').remove();
     }
 
     /**
@@ -145,7 +145,7 @@
                 d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
             },
             moveDragStart: function (d, target) {
-                svg.selectAll('.alice-tooltip').remove();
+                svg.selectAll('.context-wrapper').remove();
                 d3.select(target).style('opacity', 0);
                 d3.select(target.parentNode).selectAll('.pointer:not(.move)').style('opacity', 0);
             },
@@ -337,7 +337,7 @@
             .call(d3.drag()
                 .on('drag', function (d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        svg.selectAll('.alice-tooltip').remove();
+                        svg.selectAll('.context-wrapper').remove();
                         d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                         drawConnectors();
                     }
@@ -759,7 +759,7 @@
                         mousedownElement = null;
                         selectedElement = null;
                         svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
-                        svg.selectAll('.alice-tooltip').remove();
+                        svg.selectAll('.context-wrapper').remove();
                         zProcessDesigner.setElementMenu();
                     } else {
                         removeElementSelected();
@@ -787,7 +787,7 @@
                             d3.select(selectedElement.node().parentNode).selectAll('.pointer').style('opacity', 1);
                         }
                     } else if (!selectedNodes.length) {
-                        svg.selectAll('.alice-tooltip').remove();
+                        svg.selectAll('.context-wrapper').remove();
                     }
                     elemContainer.style('cursor', 'default');
                 }
@@ -871,7 +871,7 @@
                 dragElement = null;
                 elemContainer.style('cursor', 'pointer');
 
-                if (svg.select('.alice-tooltip').node() === null && selectedNodes.length === 1) {
+                if (svg.select('.context-wrapper').node() === null && selectedNodes.length === 1) {
                     zProcessDesigner.setActionTooltipItem(elem);
                 }
                 svg.selectAll('line.guides-line').style('stroke-width', 0);
@@ -1100,7 +1100,7 @@
      * @param dy position y
      */
     function dragged(nodeElement, dx, dy) {
-        svg.selectAll('.alice-tooltip').remove();
+        svg.selectAll('.context-wrapper').remove();
         const gElement = d3.select(nodeElement.node().parentNode),
             typeElement = gElement.select('.element-type'),
             textElement = gElement.select('text');
@@ -1480,7 +1480,7 @@
                 .on('mouseout', function () { self['pointElement' + (i + 1)].style('cursor', 'default'); })
                 .call(d3.drag()
                     .on('start', function () {
-                        svg.selectAll('.alice-tooltip').remove();
+                        svg.selectAll('.context-wrapper').remove();
                     })
                     .on('drag', function () {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
