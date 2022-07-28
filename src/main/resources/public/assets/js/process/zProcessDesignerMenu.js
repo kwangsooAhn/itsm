@@ -1889,7 +1889,7 @@
                 propertyContainer.appendChild(elementObject);
 
                 let copyBtnContainer = document.createElement('div');
-                copyBtnContainer.className = 'clipboard-tooltip';
+                copyBtnContainer.className = 'tooltip';
 
                 let copyBtn = document.createElement('button');
                 copyBtn.className = 'btn__ic secondary btn-clipboard-tooltip';
@@ -1906,11 +1906,14 @@
                     let tooltip = document.getElementById('clipboardTooltipText');
                     tooltip.textContent = 'Copy to clipboard';
                 });
+                let tooltipBox = document.createElement('div');
+                tooltipBox.className = 'tooltip__box';
                 let tooltip = document.createElement('span');
                 tooltip.id = 'clipboardTooltipText';
-                tooltip.className = 'clipboard-tooltip-text';
+                tooltip.className = 'tooltip__box__text';
                 tooltip.textContent = 'Copy to clipboard';
-                copyBtn.appendChild(tooltip);
+                tooltipBox.appendChild(tooltip);
+                copyBtn.appendChild(tooltipBox);
                 copyBtnContainer.appendChild(copyBtn);
 
                 propertyContainer.appendChild(copyBtnContainer);

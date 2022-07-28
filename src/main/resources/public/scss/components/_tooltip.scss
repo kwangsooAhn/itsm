@@ -72,10 +72,18 @@
       @include translate(-70%, 0);
       left: 0;
     }
-    &.right-bottom {
-      right: 0;
-      bottom: 0;
-      @include translate(-150%, -15%);
+    &.right {
+      &-top {
+        left: auto;
+        right: 0;
+        top: 0;
+        transform: translate(0, -3rem);
+      }
+      &-bottom {
+        right: 0;
+        bottom: 0;
+        @include translate(-150%, -15%);
+      }
     }
 
     &__text {

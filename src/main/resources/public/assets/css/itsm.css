@@ -13308,6 +13308,12 @@ body.active {
   transform: translate(-70%, 0);
   left: 0;
 }
+.tooltip__box.right-top {
+  left: auto;
+  right: 0;
+  top: 0;
+  transform: translate(0, -3rem);
+}
 .tooltip__box.right-bottom {
   right: 0;
   bottom: 0;
