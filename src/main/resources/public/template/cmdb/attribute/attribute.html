@@ -19,7 +19,7 @@
             <label for="attributeName">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.name}"></span>
             </label>
-            <input class="input" id="attributeName" maxlength="100" required="true"
+            <input id="attributeName" maxlength="100" required="true"
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.name}"
                    th:readonly="${view}" th:value="${attribute?.attributeName}" type="text"/>
         </div>
@@ -27,7 +27,7 @@
             <label for="attributeDesc">
                 <span th:text="#{cmdb.attribute.label.description}"></span>
             </label>
-            <textarea class="textarea textarea-scroll-wrapper" id="attributeDesc" maxlength="250"
+            <textarea id="attributeDesc" maxlength="250"
                       name="attributeDesc" rows="5" th:readonly="${view}"
                       th:text="${attribute?.attributeDesc}"></textarea>
         </div>
@@ -35,7 +35,7 @@
             <label for="attributeText">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{cmdb.attribute.label.label}"></span>
             </label>
-            <input class="input" id="attributeText" maxlength="100" required="true"
+            <input id="attributeText" maxlength="100" required="true"
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.label}"
                    th:readonly="${view}" th:value="${attribute?.attributeText}" type="text"/>
         </div>
@@ -43,16 +43,16 @@
             <label for="mappingId">
                 <span th:text="#{cmdb.attribute.label.mappingId}"></span>
             </label>
-            <input class="input" id="mappingId" maxlength="100" th:readonly="${view}"
+            <input id="mappingId" maxlength="100" th:readonly="${view}"
                    th:value="${attribute?.mappingId}" type="text"/>
         </div>
         <div class="flex-column edit-row pt-5 pb-3" id="searchYnGroup">
-            <label class="switch">
+            <label class="btn__toggle__switch">
                 <input type="checkbox" id="searchYn" name="searchYn" th:disabled="${view}"
                        th:checked="${attribute?.searchYn == true}" onchange="setSearchWidthRequired(this);">
                 <span></span>
-                <span class="label label-name" th:text="#{cmdb.attribute.label.useSearch}"></span>
-                <span class="label" th:text="#{cmdb.attribute.msg.useSearch}"></span>
+                <span class="btn__toggle__switch__label" th:text="#{cmdb.attribute.label.useSearch}"></span>
+                <span th:text="#{cmdb.attribute.msg.useSearch}"></span>
             </label>
         </div>
         <div class="flex-column edit-row" id="searchWidthGroup">
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </label>
-            <input class="input ic-px col-3" id="searchWidth" maxlength="4" th:readonly="${view}"
+            <input class="ic-px col-3" id="searchWidth" maxlength="4" th:readonly="${view}"
                    th:value="${attribute?.searchWidth}" type="text" th:required="${attribute?.searchYn == true}"
                    th:attr="data-validation-required-name=#{cmdb.attribute.label.searchWidth}"
                    onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"/>
@@ -132,7 +132,7 @@
 
         aliceJs.initDesignedSelectTag();
         OverlayScrollbars(document.querySelectorAll('.page-content'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+        OverlayScrollbars(document.querySelectorAll('textarea'), {
             className: 'scrollbar',
             resize: 'vertical',
             sizeAutoCapable: true,

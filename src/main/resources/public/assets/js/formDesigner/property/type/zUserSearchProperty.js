@@ -128,8 +128,8 @@ export default class ZUserSearchProperty extends ZProperty {
                 targetGroup.addUI(targetGroup.UILabel);
 
                 // 사용자 목록
-                const userTable = new UITable().setUIClass('option-table');
-                const header = new UIRow(userTable).setUIClass('option-table-header');
+                const userTable = new UITable().setUIClass('table--option');
+                const header = new UIRow(userTable).setUIClass('table--option__head');
                 userTable.addUIRow(header);
 
                 const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.userName'));
@@ -188,7 +188,7 @@ export default class ZUserSearchProperty extends ZProperty {
         const targetUserModal = new modal({
             title: i18n.msg('form.properties.userList'),
             body: `<div class="target-user-list">` +
-                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="targetUserList"></div>` +
@@ -246,7 +246,7 @@ export default class ZUserSearchProperty extends ZProperty {
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
             targetUserList.innerHTML = htmlData;
-            OverlayScrollbars(targetUserList.querySelector('.table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(targetUserList.querySelector('.table__body'), {className: 'scrollbar'});
             // 갯수 가운트
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트
@@ -275,7 +275,7 @@ export default class ZUserSearchProperty extends ZProperty {
         // 테이블 초기화
         const userListTable = this.UIElement.UIGroup.userTable;
         userListTable.clearUIRow().clearUI();
-        const header = new UIRow(userListTable).setUIClass('option-table-header');
+        const header = new UIRow(userListTable).setUIClass('table--option__head');
         userListTable.addUIRow(header);
         const nameTD = new UICell(header).setUITextContent(i18n.msg('form.properties.userName'));
         const removeTD = new UICell(header).setUICSSText('width: 15%;');
@@ -283,7 +283,7 @@ export default class ZUserSearchProperty extends ZProperty {
         header.addUICell(removeTD);
 
         targetList.forEach((target) => {
-            const optionRow = new UIRow(userListTable).setUIClass('option-table-row');
+            const optionRow = new UIRow(userListTable).setUIClass('table--option__row');
             const addedNameTD = new UICell(optionRow)
                 .setUIId('targetUser')
                 .setUIAttribute('data-value', target.id)

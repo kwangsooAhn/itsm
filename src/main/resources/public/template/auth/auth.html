@@ -20,17 +20,17 @@
     <div class="edit-form flex-fill">
         <div class="edit-row flex-column">
             <label class="required" th:text="#{auth.label.authId}"></label>
-            <input class="input" id="txtAuthId" maxlength="100" name="txtAuthId" th:readonly="${view}"
+            <input id="txtAuthId" maxlength="100" name="txtAuthId" th:readonly="${view}"
                    th:value="${auth?.authId}" type="text">
         </div>
         <div class="edit-row flex-column">
             <label class="required" th:text="#{auth.label.authName}"></label>
-            <input class="input" id="txtAuthName" maxlength="100" name="txtAuthName" th:readonly="${view}"
+            <input id="txtAuthName" maxlength="100" name="txtAuthName" th:readonly="${view}"
                    th:value="${auth?.authName}" type="text">
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{auth.label.authDesc}"></label>
-            <textarea class="textarea textarea-scroll-wrapper" id="txtAuthDesc" maxlength="200"
+            <textarea id="txtAuthDesc" maxlength="200"
                       name="txtAuthDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'textarea-readonly'" th:text="${auth?.authDesc}"></textarea>
         </div>
         <div class="edit-row flex-column">
@@ -63,7 +63,7 @@
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{auth.label.referenceCount}"></label>
-            <input class="input" id="roleAuthMapCount" name="roleAuthMapCount" readonly
+            <input id="roleAuthMapCount" name="roleAuthMapCount" readonly
                    th:value="${auth?.roleAuthMapCount}" type="text">
         </div>
     </div>

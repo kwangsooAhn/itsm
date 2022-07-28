@@ -168,7 +168,7 @@ export const ciMixin = {
     makeCITable() {
         // 테이블
         const table = new UITable()
-            .setUIClass('option-table')
+            .setUIClass('table--option')
             .addUIClass('ci-table')
             .addUIClass('mt-2')
             .setUIId('ciTable' + this.id)
@@ -176,7 +176,7 @@ export const ciMixin = {
             .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('ci-table-header');
+        const row = new UIRow(table).setUIClass('table--option__head').addUIClass('ci-table-header');
         table.addUIRow(row);
 
         this.getCITableData().forEach((option) => {
@@ -769,8 +769,8 @@ export const ciMixin = {
     // 기존 CI 조회 모달 Template 조회
     getSelectModalContent(flag, ciId) {
         return `<form id="searchFrm">` +
-            `<input type="text" class="input ic-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
-            `<input type="text" class="input ic-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
+            `<input type="text" class="ic-search col-5 mr-2" name="searchValue" id="searchValue" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.searchPlaceholder')}"/>` +
+            `<input type="text" class="ic-search col-3 mr-2" name="tagSearch" id="tagSearch" maxlength="100" placeholder="${i18n.msg('cmdb.ci.label.tagPlaceholder')}"/>` +
             `<input type="hidden" name="flag" id="flag" value="${flag}"/>` +
             `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
             `<span id="ciListTotalCount" class="search-count"></span>` +
@@ -902,7 +902,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .table__body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;
@@ -936,7 +936,7 @@ export const ciMixin = {
 
     },
     getDataTemplate(data, index) {
-        const div = document.querySelector('.table-body .os-content');
+        const div = document.querySelector('.table__body .os-content');
         const tr = document.createElement('tr');
         tr.className = 'list-row ci-list';
         tr.id = 'ciRow' + data.ciId;
@@ -1161,7 +1161,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .table-body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .table__body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;

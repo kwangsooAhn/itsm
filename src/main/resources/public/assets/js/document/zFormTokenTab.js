@@ -334,7 +334,7 @@ class ZFormTokenTab {
             const viewerList = document.getElementById('subUserList');
             viewerList.innerHTML = htmlData;
 
-            OverlayScrollbars(viewerList.querySelector('.table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(viewerList.querySelector('.table__body'), { className: 'scrollbar' });
             // 갯수 가운트
             aliceJs.showTotalCount(viewerList.querySelectorAll('.table-row').length);
             this.viewerList.forEach((viewer) => {
@@ -1037,10 +1037,10 @@ class ZFormTokenTab {
         // 시작일시 , 종료일시 초기화
         const standardDate = this.getCalendarStandardDate();
         rangeDate.innerHTML = '';
-        const template = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
+        const template = ` <input type="text" class="ic-datetime-picker schedule__date" id="startDt" 
             value="${standardDate.start.toFormat(format)}"/>
             ~
-            <input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
+            <input type="text" class="ic-datetime-picker schedule__date" id="endDt" 
             value="${standardDate.end.toFormat(format)}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend', template);

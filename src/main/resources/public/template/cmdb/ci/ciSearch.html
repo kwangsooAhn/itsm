@@ -29,9 +29,9 @@
         <div class="page-column-item flex-column flex-col-9">
             <div class="page-search">
                 <form id="searchFrm" onsubmit="return false">
-                    <input type="text" class="input text-ellipsis ic-search col-5" id="searchValue" name="searchValue"
+                    <input type="text" class="text-ellipsis ic-search col-5" id="searchValue" name="searchValue"
                            maxlength="100" th:placeholder="#{cmdb.ci.label.searchDetailPlaceholder}"/>
-                    <input type="text" class="input ic-search col-3 mr-2" id="tagSearch" name="tagSearch"
+                    <input type="text" class="ic-search col-3 mr-2" id="tagSearch" name="tagSearch"
                            maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
                     <button type="button" class="btn__text--box secondary mr-1 ml-1" id="btnDetailSearch"
                             name="btnDetailSearch"
@@ -208,7 +208,7 @@
             const attributeValue = JSON.parse(data.attributeValue);
             switch (data.attributeType) {
                 case 'inputbox': {
-                    return `<input type="text" class="input field-element" ` +
+                    return `<input type="text" class="field-element" ` +
                         `id="${data.attributeId}" value="${data.searchValue}" ` +
                         `data-attributeType="${data.attributeType}" onBlur="changeSearchDetail(this);">`;
                 }
@@ -235,18 +235,18 @@
                     return `<div class="radio-group field-element">${radioTemplate}</div>`;
                 }
                 case 'date': {
-                    return `<input type="text" class="input field-element ic-date-picker search-date" ` +
+                    return `<input type="text" class="field-element ic-date-picker search-date" ` +
                         `id="${data.attributeId}" value="${i18n.userDate(data.searchValue)}" ` +
                         `data-attributeType="${data.attributeType}">`;
                 }
                 case 'datetime': {
-                    return `<input type="text" class="input field-element ic-datetime-picker search-datetime" ` +
+                    return `<input type="text" class="field-element ic-datetime-picker search-datetime" ` +
                         `id="${data.attributeId}" value="${i18n.userDateTime(data.searchValue)}" ` +
                         `data-attributeType="${data.attributeType}">`;
                 }
                 case 'userSearch': {
                     const userDefaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
-                    return `<input type="text" class="input field-element ic-user-search text-ellipsis" ` +
+                    return `<input type="text" class="field-element ic-user-search text-ellipsis" ` +
                         `id="${data.attributeId}" value="${userDefaultValues[1]}" ` +
                         `data-attributeType="${data.attributeType}" data-attributeIdx="${index}" ` +
                         `onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" ` +
@@ -256,7 +256,7 @@
                 }
                 case 'organizationSearch': {
                     const defaultValues = (data.searchValue !== '') ? data.searchValue.split('|') : ['', '', ''];
-                    return `<input type="text" class="input field-element ic-organization-search text-ellipsis" ` +
+                    return `<input type="text" class="field-element ic-organization-search text-ellipsis" ` +
                         `id="${data.attributeId}" value="${defaultValues[1]}" ` +
                         `data-attributeType="${data.attributeType}" data-attributeIdx="${index}" `+
                         `onkeydown="return false;" onkeypress="return false;" oncontextmenu="return false;" ` +
@@ -599,7 +599,7 @@
          */
         function openUserSearchModal(target) {
             const targetUserModalTemplate = `<div class="target-user-list">` +
-                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
                 `<div class="table-set" id="searchUserList"></div>` +
@@ -672,7 +672,7 @@
             }).then((htmlData) => {
                 const searchUserList = document.getElementById('searchUserList');
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.table__body'), { className: 'scrollbar' });
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
                 // 체크 이벤트
