@@ -5245,7 +5245,7 @@ input.ic-mb {
 .property .tab-panel .panels .panel .panel-individual > .property-group:last-child {
   border-top: 0.0625rem solid #CFD5D9;
 }
-.property .table--option .table--option__row td {
+.property .table--option__body__row td {
   padding: 0;
 }
 .property .btn__toggle__button--single, .property .btn__toggle__button--multi {
@@ -10135,25 +10135,25 @@ table td, table th {
   font-size: 0.875rem;
   font-weight: 500;
 }
-.table--option__row .checkbox,
-.table--option__row .radio {
+.table--option__body__row .checkbox,
+.table--option__body__row .radio {
   margin: 0 0 0 0.75rem;
 }
-.table--option__row input[type=text], .table--option__row input[type=number] {
+.table--option__body__row input[type=text], .table--option__body__row input[type=number] {
   width: 85%;
   padding: 0.75rem;
   margin: 0.25rem;
 }
-.table--option__row input[type=text]:not(:placeholder-shown):not(:focus), .table--option__row input[type=number]:not(:placeholder-shown):not(:focus) {
+.table--option__body__row input[type=text]:not(:placeholder-shown):not(:focus), .table--option__body__row input[type=number]:not(:placeholder-shown):not(:focus) {
   border-color: transparent;
 }
-.table--option__row .btn__ic [class*=ic-] {
+.table--option__body__row .btn__ic [class*=ic-] {
   display: block;
   margin: 0 auto;
   background: #ABB0B5;
   pointer-events: none;
 }
-.table--option__row .btn__ic:hover [class*=ic-] {
+.table--option__body__row .btn__ic:hover [class*=ic-] {
   background: #3373C4;
 }
 

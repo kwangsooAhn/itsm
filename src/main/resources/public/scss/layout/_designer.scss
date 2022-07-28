@@ -1335,8 +1335,10 @@ $component-icon: (
   }
   // 옵션
   .table--option {
-    .table--option__row {
-      td { padding: 0; }
+    &__body {
+      &__row {
+        td { padding: 0; }
+      }
     }
   }
   // toggle button

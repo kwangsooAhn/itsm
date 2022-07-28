@@ -833,29 +833,31 @@ table {
       font-weight: $font-weight-medium;
     }
 
-    &__row {
-      .checkbox,
-      .radio { margin: 0 0 0 0.75rem; } // 12px
+    &__body {
+      &__row {
+        .checkbox,
+        .radio { margin: 0 0 0 0.75rem; } // 12px
 
-      input {
-        &[type=text],
-        &[type=number]{
-          width: 85%;
-          padding: 0.75rem;
-          margin: 0.25rem; // 4px
-          // 입력된 값이 있으면
-          &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
+        input {
+          &[type=text],
+          &[type=number]{
+            width: 85%;
+            padding: 0.75rem;
+            margin: 0.25rem; // 4px
+            // 입력된 값이 있으면
+            &:not(:placeholder-shown):not(:focus) { border-color: transparent; }
+          }
         }
-      }
 
-      .btn__ic {
-        [class*="ic-"] {
-          display: block;
-          margin: 0 auto;
-          background: $gray400;
-          pointer-events: none;
+        .btn__ic {
+          [class*="ic-"] {
+            display: block;
+            margin: 0 auto;
+            background: $gray400;
+            pointer-events: none;
+          }
+          &:hover [class*="ic-"] { background: $blue500; }
         }
-        &:hover [class*="ic-"] { background: $blue500; }
       }
     }
   }

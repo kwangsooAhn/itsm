@@ -89,11 +89,11 @@
                             <th class="col-1 align-center"></th>
                         </tr>
                         </thead>
-                        <tbody class="edit-table-tbody" id="boardCategoryList">
+                        <tbody class="table--option__body" id="boardCategoryList">
                         <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
                             <td colspan="5" style="width:100%" th:text="#{common.msg.noData}"></td>
                         </tr>
-                        <tr class="table--option__row" th:each="category: ${boardAdmin?.categoryList}">
+                        <tr class="table--option__body__row" th:each="category: ${boardAdmin?.categoryList}">
                             <td class="col-6 align-left text-wordWrap" th:text="${category.boardCategoryName}"></td>
                             <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                             <td class="col-1 align-center">
