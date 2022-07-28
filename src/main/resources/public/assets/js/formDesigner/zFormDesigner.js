@@ -511,7 +511,7 @@ class ZFormDesigner {
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + 'tooltip-menu',
+                    filter: '.' + 'context-menu',
                     preventOnFilter: true,
                     onChoose: function() {
                         this.options.editor.deSelectObject();
@@ -548,7 +548,7 @@ class ZFormDesigner {
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + 'tooltip-menu',
+                    filter: '.' + 'context-menu',
                     preventOnFilter: true,
                     onChoose: function() {
                         this.options.editor.deSelectObject();
@@ -661,7 +661,7 @@ class ZFormDesigner {
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + 'tooltip-menu',
+                    filter: '.' + 'context-menu',
                     preventOnFilter: true,
                     onChoose: function() {
                         this.options.editor.deSelectObject();

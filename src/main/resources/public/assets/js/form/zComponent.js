@@ -107,7 +107,7 @@ export default class ZComponent {
 
         // 툴팁에 create template 버튼 추가
         const tooltipUl = this.UIElement.UITooltipMenu.UIUl;
-        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('tooltip-menu-item')
+        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('context-menu__item')
             .addUIClass('tooltip')
             .setUIAttribute('data-action', 'createTemplate')
             .addUI(new UISpan().setUIClass('ic-create-template'))

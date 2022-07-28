@@ -4205,7 +4205,7 @@ span.ic-alert-email {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.group-tooltip.selected > .tooltip-menu:not(.none) {
+.group-tooltip.selected > .context-menu:not(.none) {
   visibility: visible;
 }
 .group-tooltip.focus {
@@ -4288,7 +4288,7 @@ span.ic-alert-email {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.row-tooltip.selected > .tooltip-menu:not(.none) {
+.row-tooltip.selected > .context-menu:not(.none) {
   visibility: visible;
 }
 
@@ -4311,7 +4311,7 @@ span.ic-alert-email {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.component-tooltip.selected > .tooltip-menu:not(.none) {
+.component-tooltip.selected > .context-menu:not(.none) {
   visibility: visible;
 }
 .component-tooltip.selected .component .element .imagebox-placeholder {
@@ -4542,7 +4542,7 @@ span.ic-alert-email {
   display: inline;
 }
 
-.tooltip-menu {
+.context-menu {
   position: absolute !important;
   right: -0.0625rem;
   bottom: 100%;
@@ -4554,23 +4554,23 @@ span.ic-alert-email {
   z-index: 500;
   visibility: hidden;
 }
-.tooltip-menu .tooltip-menu-items {
+.context-menu .context-group {
   margin: 0 0.125rem;
   padding: 0.5625rem 0 0;
 }
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item {
+.context-menu .context-group .context-menu__item {
   display: inline-block;
   margin: 0 0.25rem;
   padding: 0 0.25rem;
   cursor: pointer;
 }
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item [class*=ic-] {
+.context-menu .context-group .context-menu__item [class*=ic-] {
   display: inline-block;
   background: #83BBED;
   vertical-align: middle;
   pointer-events: none;
 }
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item:hover [class*=ic-] {
+.context-menu .context-group .context-menu__item:hover [class*=ic-] {
   background: #3373C4;
 }
 

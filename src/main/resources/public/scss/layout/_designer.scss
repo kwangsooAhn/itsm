@@ -350,7 +350,7 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .tooltip-menu:not(.none) { visibility: visible; }
+    > .context-menu:not(.none) { visibility: visible; }
   }
   &.focus { background-color: $blue50; }
   // displayType이 hidden일 경우
@@ -425,7 +425,7 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .tooltip-menu:not(.none) { visibility: visible; }
+    > .context-menu:not(.none) { visibility: visible; }
   }
 }
 
@@ -444,7 +444,7 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    >.tooltip-menu:not(.none) { visibility: visible; }
+    >.context-menu:not(.none) { visibility: visible; }
 
     // component
     .component {
@@ -677,17 +677,17 @@ $layout-header-dropdown: (
   }
 }
 // tooptip
-.tooltip-menu {
+.context-menu {
   @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
   @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); // 1px
   height: 2.5rem; // 40px;
   background-color: $white;
   z-index: $z-index-tooltip;
   visibility: hidden;
-  .tooltip-menu-items {
+  .context-group {
     margin: 0 0.125rem; // 0 2px
     padding: 0.5625rem 0 0; // 9px 0 0 0
-    .tooltip-menu-item {
+    .context-menu__item {
       display: inline-block;
       margin: 0 0.25rem; // 0 4px
       padding: 0 0.25rem; // 0 4px
