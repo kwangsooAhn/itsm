@@ -7,6 +7,7 @@
 package co.brainz.itsm.cmdb.ci.service
 
 import co.brainz.api.dto.RequestCIComponentVO
+import co.brainz.cmdb.ci.repository.CICapacityRepository
 import co.brainz.cmdb.ci.repository.CIRepository
 import co.brainz.cmdb.ci.service.CIService
 import co.brainz.cmdb.ciAttribute.constants.CIAttributeConstants
@@ -36,6 +37,7 @@ import co.brainz.framework.tag.service.AliceTagManager
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
+import co.brainz.itsm.cmdb.ci.dto.CICapacityChartDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentInfo
 import co.brainz.itsm.cmdb.ci.dto.CISearch
@@ -43,6 +45,10 @@ import co.brainz.itsm.cmdb.ci.dto.CISearchCondition
 import co.brainz.itsm.cmdb.ci.entity.CIComponentDataEntity
 import co.brainz.itsm.cmdb.ci.repository.CIComponentDataRepository
 import co.brainz.itsm.cmdb.ciClass.service.CIClassService
+import co.brainz.itsm.statistic.customChart.constants.ChartConstants
+import co.brainz.itsm.statistic.customChart.dto.ChartConfig
+import co.brainz.itsm.statistic.customChart.dto.ChartData
+import co.brainz.itsm.statistic.customChart.dto.ChartRange
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.CollectionType
@@ -65,7 +71,8 @@ class CIService(
     private val excelComponent: ExcelComponent,
     private val aliceTagManager: AliceTagManager,
     private val ciSearchService: CISearchService,
-    private val ciRepository: CIRepository
+    private val ciRepository: CIRepository,
+    private val ciCapacityRepository: CICapacityRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -467,5 +474,64 @@ class CIService(
             tagStr += tag.tagValue
         }
         return tagStr
+    }
+
+    /**
+     * CI 용량 차트 데이터 조회
+     */
+    fun getCapacityChartData(ciId: String): CICapacityChartDto {
+        val capacityData = ciCapacityRepository.findCapacityChartData(ciId)
+        val tags: MutableList<AliceTagDto> = mutableListOf()
+        val chartDataList: MutableList<ChartData> = mutableListOf()
+        capacityData.forEach { capacity ->
+            var chartData = ChartData(
+                id = ciId,
+                category = capacity.referenceDt.toString(),
+                value = capacity.memAvg.toString(),
+                series = CIConstants.CapacityTag.MEMORY.code
+            )
+            chartDataList.add(chartData)
+
+            chartData = ChartData(
+                id = ciId,
+                category = capacity.referenceDt.toString(),
+                value = capacity.cpuAvg.toString(),
+                series = CIConstants.CapacityTag.CPU.code
+            )
+            chartDataList.add(chartData)
+
+            chartData = ChartData(
+                id = ciId,
+                category = capacity.referenceDt.toString(),
+                value = capacity.diskAvg.toString(),
+                series = CIConstants.CapacityTag.DISK.code
+            )
+            chartDataList.add(chartData)
+        }
+        tags.add(AliceTagDto(
+            tagValue = CIConstants.CapacityTag.MEMORY.code
+        ))
+        tags.add(AliceTagDto(
+            tagValue = CIConstants.CapacityTag.CPU.code
+        ))
+        tags.add(AliceTagDto(
+            tagValue = CIConstants.CapacityTag.DISK.code
+        ))
+
+        return CICapacityChartDto(
+            chartId = "",
+            chartType = ChartConstants.Type.BASIC_LINE.code,
+            tags = tags,
+            chartConfig = ChartConfig(
+                range = ChartRange(
+                    type = ChartConstants.Range.BETWEEN.code,
+                    fromDate = LocalDateTime.now().minusDays(7L).toLocalDate(),
+                    toDate = LocalDateTime.now().toLocalDate()
+                ),
+                operation = ChartConstants.Operation.PERCENT.code,
+                periodUnit = ChartConstants.Unit.HOUR.code
+            ),
+            chartData = chartDataList
+        )
     }
 }

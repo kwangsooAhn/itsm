@@ -22,4 +22,13 @@ object CIConstants {
         STATUS_SUCCESS("0"),
         STATUS_SUCCESS_EDIT_CLASS("1")
     }
+
+    /**
+     * CI 용량 태그 정보
+     */
+    enum class CapacityTag(val code: String) {
+        MEMORY("Memory"),
+        CPU("CPU"),
+        DISK("Disk")
+    }
 }
