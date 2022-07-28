@@ -3920,30 +3920,30 @@ span.ic-alert-email {
   z-index: 250;
   visibility: hidden;
 }
-.header-button-dropdown + .context-menu__item {
+.header-button-dropdown + .context-menu .context-menu__item {
   padding: 0.25rem 0 0 0;
 }
-.header-button-dropdown + .context-menu__item .button-dropdown {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown {
   width: 100%;
   border-color: #FFFFFF;
   background-color: #FFFFFF;
   color: #222529;
   font-weight: 500;
 }
-.header-button-dropdown + .context-menu__item .button-dropdown:focus {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   color: #222529;
   outline: 0;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.header-button-dropdown + .context-menu__item .button-dropdown:hover {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown:hover {
   border-color: #E0F3FF;
   background-color: #E0F3FF;
   color: #222529;
   outline: 0;
 }
-.header-button-dropdown + .context-menu__item .button-dropdown:enabled:active, .header-button-dropdown + .context-menu__item .button-dropdown:enabled.active {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown:enabled:active, .header-button-dropdown + .context-menu .context-menu__item .button-dropdown:enabled.active {
   border-color: #D6EDFC;
   background-color: #D6EDFC;
   color: #19428D;

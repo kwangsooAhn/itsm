@@ -51,7 +51,7 @@ $layout-header-dropdown: (
     z-index: $z-index-between-tooltip-gnb;
     visibility: hidden;
 
-    &__item {
+    .context-menu__item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0
 
       .button-dropdown {
