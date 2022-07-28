@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                         </label>
-                        <input class="input text-ellipsis" id="userId" maxlength="100" name="userId" th:readonly="${view}"
+                        <input class="text-ellipsis" id="userId" maxlength="100" name="userId" th:readonly="${view}"
                                th:required="!${view}" th:value="${users?.userId}" type="text" />
                     </div>
                     <div class="flex-column edit-row"
@@ -59,14 +59,14 @@
                                     </div>
                                 </div>
                             </label>
-                            <input class="input text-ellipsis" id="password" maxlength="100" name="password"
+                            <input class="text-ellipsis" id="password" maxlength="100" name="password"
                                    th:readonly="${view}" th:required="!${view}" type="password" />
                         </div>
                         <div class="flex-column edit-row">
                             <label for="rePassword">
                                 <span th:classappend="${users?.userKey != null} ? '':'required'" th:text="#{user.label.rePassword}"></span>
                             </label>
-                            <input class="input text-ellipsis" id="rePassword" maxlength="100" name="rePassword"
+                            <input class="text-ellipsis" id="rePassword" maxlength="100" name="rePassword"
                                    th:readonly="${view}" th:required="!${view}" type="password" />
                         </div>
                     </div>
@@ -74,19 +74,19 @@
                         <label for="userName">
                             <span th:classappend="${view} ? '':'required'" th:text="#{user.label.name}"></span>
                         </label>
-                        <input class="input text-ellipsis" id="userName" maxlength="100" name="userName" th:readonly="${view}"
+                        <input class="text-ellipsis" id="userName" maxlength="100" name="userName" th:readonly="${view}"
                                th:required="!${view}" th:value="${users?.userName}" type="text" />
                     </div>
                     <div class="flex-column edit-row">
                         <label for="email">
                             <span th:classappend="${view} ? '':'required'" th:text="#{user.label.email}"></span>
                         </label>
-                        <input class="input text-ellipsis" id="email" maxlength="100" name="email" th:readonly="${view}"
+                        <input class="text-ellipsis" id="email" maxlength="100" name="email" th:readonly="${view}"
                                th:required="!${view}" th:value="${users?.email}" type="text" />
                     </div>
                     <div class="flex-column edit-row">
                         <label for="position" th:text="#{user.label.position}"></label>
-                        <input class="input text-ellipsis" id="position" maxlength="100" name="position" th:readonly="${view}"
+                        <input class="text-ellipsis" id="position" maxlength="100" name="position" th:readonly="${view}"
                                th:value="${users?.position}" type="text" onchange="isSpecialChar('position','validation.msg.checkPositionFormat')">
                     </div>
                     <div class="flex-column edit-row">
@@ -94,7 +94,7 @@
                         <div class="flex-row input--remove">
                             <input id="organizationId" name="organizationId" th:value="${organizationDetail?.organizationId}"
                                    type="hidden"/>
-                            <input class="input text-ellipsis" id="organization" name="organization" readonly
+                            <input class="text-ellipsis" id="organization" name="organization" readonly
                                    th:value="${organizationDetail?.organizationName}" type="text">
                             <button type="button" class="item-remove" onclick="clearOrganization(this);"
                                     th:if="!${view}" tabindex="-1">
@@ -106,13 +106,13 @@
                     </div>
                     <div class="flex-column edit-row">
                         <label for="officeNumber" th:text="#{user.label.officeNumber}"></label>
-                        <input class="input" id="officeNumber" maxlength="100" name="officeNumber"
+                        <input id="officeNumber" maxlength="100" name="officeNumber"
                                th:readonly="${view}" th:value="${users?.officeNumber}" type="text"
                                onchange="isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                     <div class="flex-column edit-row">
                         <label for="mobileNumber" th:text="#{user.label.mobileNumber}"></label>
-                        <input class="input text-ellipsis" id="mobileNumber" maxlength="100" name="mobileNumber"
+                        <input class="text-ellipsis" id="mobileNumber" maxlength="100" name="mobileNumber"
                                th:readonly="${view}" th:value="${users?.mobileNumber}" type="text"
                                onchange="isPhoneNumberOrExtenstionNumber('mobileNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
@@ -203,25 +203,25 @@
         </div>
         <div th:if="${users?.userKey != null}" class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.userAbsence}"></h3>
-            <label class="switch" for="userAbsence">
+            <label class="btn__toggle__switch" for="userAbsence">
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
-                <span class="label" th:text="#{user.msg.userAbsence}"></span>
+                <span class="btn__toggle__switch__label" th:text="#{user.msg.userAbsence}"></span>
             </label>
             <div id="absenceData" class="flex-column edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{common.label.startDate}"></label>
                         <div>
-                            <input type="text" class="input ic-date-picker search-date"
+                            <input type="text" class="ic-date-picker search-date"
                                    id="absenceStartDt" name="absenceStartDt" th:readonly="${view}">
                         </div>
                     </div>
                     <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{common.label.endDate}"></label>
                         <div>
-                            <input type="text" class="input ic-date-picker search-date"
+                            <input type="text" class="ic-date-picker search-date"
                                    id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
                         </div>
                     </div>
@@ -229,7 +229,7 @@
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
                         <div class="flex-row input--remove">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
-                            <input type="text" class="input col-5" id="substituteUser" name="substituteUser"
+                            <input type="text" class="col-5" id="substituteUser" name="substituteUser"
                                    readonly>
                             <button type="button" class="item-remove" onclick="aliceJs.clearText(this);"
                                     tabindex="-1">
@@ -253,11 +253,11 @@
         </div>
         <div class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.usageStatus}"></h3>
-            <label class="switch">
+            <label class="btn__toggle__switch">
                 <input id="usageStatus" name="usageStatus" th:checked="${users?.useYn == null || users?.useYn == true}"
                        th:disabled="${view}" type="checkbox">
                 <span></span>
-                <span class="label" th:text="#{user.msg.usageStatus}"></span>
+                <span class="btn__toggle__switch__label" th:text="#{user.msg.usageStatus}"></span>
             </label>
         </div>
         <div class="flex-row justify-content-between edit-row">
@@ -635,7 +635,7 @@
 
     function createModalContent() {
         return `<div class="sub-user-list">` +
-            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+            `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
             `placeholder="${i18n.msg('user.label.userSearchPlaceholder')}">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
             `<div class="table-set" id="subUserList"></div>` +
@@ -654,7 +654,7 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.table__body'), {className: 'scrollbar'});
             // 갯수 가운트
             const substituteUserList = document.getElementById('userList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.table-row').length);

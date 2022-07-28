@@ -1125,7 +1125,7 @@
             targetMappingLabel.appendChild(targetMappingTooltip);
 
             let targetMappingInput = document.createElement('input');
-            targetMappingInput.className = 'input';
+            targetMappingInput.type = 'text'
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
             targetMappingInput.maxLength = 150;
@@ -1154,7 +1154,7 @@
             sourceMappingTooltip.appendChild(sourceMappingTooltipContents);
             sourceMappingLabel.appendChild(sourceMappingTooltip);
             let sourceMappingInput = document.createElement('input');
-            sourceMappingInput.className = 'input';
+            sourceMappingInput.type = 'text';
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
             sourceMappingInput.maxLength = 150;
@@ -1273,7 +1273,7 @@
             conditionLabel.appendChild(conditionTooltip);
 
             let conditionInput = document.createElement('input');
-            conditionInput.className = 'input';
+            conditionInput.type = 'text';
             conditionInput.maxLength = 150;
             actionContainer.appendChild(conditionInput);
 
@@ -1285,7 +1285,7 @@
 
             let fileInput = document.createElement('input');
             fileInput.id = 'script-file';
-            fileInput.className = 'input file';
+            fileInput.className = 'file';
             fileInput.readOnly = true;
 
             let fileBtn = document.createElement('button');
@@ -1370,7 +1370,7 @@
             const addDataRow = function(conditionValue, fileValue) {
                 let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
                 let row = document.createElement('tr');
-                row.className = 'option-table-row';
+                row.className = 'table--option__row';
                 let conditionColumn = document.createElement('td');
                 conditionColumn.className = 'condition-txt';
                 conditionColumn.textContent = conditionValue;
@@ -1412,10 +1412,10 @@
 
             // table
             let dataTable = document.createElement('table');
-            dataTable.className = 'option-table script-data';
+            dataTable.className = 'table--option script-data';
             let thead = document.createElement('thead');
             let headRow = document.createElement('tr');
-            headRow.className = 'option-table-header';
+            headRow.className = 'table--option__head';
             let headValueColumn = document.createElement('th');
             headValueColumn.style.width = '40%';
             let headReturnColumn = document.createElement('th');
@@ -1497,7 +1497,7 @@
         const addDataRow = function(dataVal, dataText) {
             let dataBody = inputObject.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
-            row.className = 'option-table-row';
+            row.className = 'table--option__row';
             let nameColumn = document.createElement('td');
             nameColumn.textContent = dataText;
             let hiddenInput = document.createElement('input');
@@ -1555,10 +1555,10 @@
         propertiesDiv.appendChild(selectRow);
 
         let dataTable = document.createElement('table');
-        dataTable.className = 'option-table candidate-table';
+        dataTable.className = 'table--option candidate-table';
         let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
-        headRow.className = 'option-table-header';
+        headRow.className = 'table--option__head';
         let headNameColumn = document.createElement('th');
         headNameColumn.textContent = i18n.msg('common.label.name');
         headNameColumn.style.width = '82%';
@@ -1868,7 +1868,7 @@
         switch (property.type) {
             case 'inputbox': {
                 elementObject = document.createElement('input');
-                elementObject.className = 'input';
+                elementObject.type = 'text';
                 elementObject.maxLength = 70;
                 propertyContainer.appendChild(elementObject);
                 break;
@@ -1876,7 +1876,6 @@
             case 'inputbox-readonly': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
-                elementObject.className = 'input';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
                 break;
@@ -1884,7 +1883,7 @@
             case 'inputbox-copy': {
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
-                elementObject.className = 'input copy';
+                elementObject.className = 'copy';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
 
@@ -1921,7 +1920,6 @@
             }
             case 'textarea': {
                 elementObject = document.createElement('textarea');
-                elementObject.className = 'textarea';
                 elementObject.style.resize = 'none';
                 elementObject.maxLength = 256;
                 propertyContainer.appendChild(elementObject);

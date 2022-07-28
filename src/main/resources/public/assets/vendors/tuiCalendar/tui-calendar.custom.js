@@ -211,7 +211,7 @@ function zCalendar(id, options) {
             zDateTimePicker.initDateTimePicker(document.getElementById('endDt'),
                 this.onUpdateRangeDateTime.bind(this), { isHalf: true });
             // 스크롤바
-            OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+            OverlayScrollbars(document.querySelector('textarea'), {
                 className: 'inner-scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
@@ -891,12 +891,12 @@ Object.assign(zCalendar.prototype, {
             return `<option value="${opt}" ${idx === 0 ? 'selected=\'true\'' : ''}></option>`;
         }).join('');
         return `<div class="calendar__modal--register__main flex-column">
-            <input type="text" class="input schedule__title" id="scheduleTitle" 
+            <input type="text" class="schedule__title" id="scheduleTitle" 
                 placeholder="${i18n.msg('calendar.label.titlePlaceholder')}">
             <div class="flex-row align-items-baseline" id="rangeDate">
-                <input type="text" class="input ic-datetime-picker schedule__date" id="startDt"/> 
+                <input type="text" class="ic-datetime-picker schedule__date" id="startDt"/> 
                 ~
-                <input type="text" class="input ic-datetime-picker schedule__date" id="endDt"/> 
+                <input type="text" class="ic-datetime-picker schedule__date" id="endDt"/> 
             </div>
             <div class="flex-row align-items-baseline">
                 <label class="checkbox">
@@ -908,7 +908,7 @@ Object.assign(zCalendar.prototype, {
                     <select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>
                 </div>
             </div>
-            <textarea class="textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+            <textarea class="schedule__contents" id="scheduleContents" rows="3"
                       placeholder="${i18n.msg('calendar.label.contentsPlaceholder')}"></textarea>
             <div class="flex-row" id="calendarList"></div>
         </div>`.trim();
@@ -1113,8 +1113,8 @@ Object.assign(zCalendar.prototype, {
 
         // 시작일시 , 종료일시 초기화
         rangeDate.innerHTML = '';
-        const dateTemplate = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
-            value="${newStart}"/>~<input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
+        const dateTemplate = ` <input type="text" class="ic-datetime-picker schedule__date" id="startDt" 
+            value="${newStart}"/>~<input type="text" class="ic-datetime-picker schedule__date" id="endDt" 
             value="${newEnd}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend',dateTemplate);

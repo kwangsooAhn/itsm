@@ -59,7 +59,7 @@ export const customCodeMixin = {
             .setUIId('customcode' + this.id)
             .setUIAttribute('data-validation-required', this.validationRequired);
         element.UIInput = new UIInput()
-            .setUIClass('input')
+            .setUIAttribute('type', 'text')
             .setUIReadOnly(true)
             .setUIAttribute('data-custom-data', (this.value === '${default}') ?
                 this.elementDefaultValueCustomCode : this.value)

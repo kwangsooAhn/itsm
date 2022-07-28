@@ -20,7 +20,7 @@
             <label for="templateName">
                 <span th:classappend="${view} ? '' : 'required'" th:text="#{statistic.label.templateName}"></span>
             </label>
-            <input type="text" id="templateName" class="input text-ellipsis" required="true" maxlength="100"
+            <input type="text" id="templateName" class="text-ellipsis" required="true" maxlength="100"
                    th:attr="data-validation-required-name=#{statistic.label.templateName}"
                    th:value="${template?.templateName}" th:readonly="${view}"/>
         </div>
@@ -28,7 +28,7 @@
             <label for="templateDesc">
                 <span th:text="#{statistic.label.description}"></span>
             </label>
-            <textarea id="templateDesc" name="templateDesc" class="textarea textarea-scroll-wrapper"
+            <textarea id="templateDesc" name="templateDesc"
                       maxlength="250" rows="5" th:text="${template?.templateDesc}" th:readonly="${view}"></textarea>
         </div>
         <div class="flex-column edit-row">
@@ -41,15 +41,15 @@
                     </div>
                 </div>
             </label>
-            <input type="text" id="reportName" class="input text-ellipsis" maxlength="100"
+            <input type="text" id="reportName" class="text-ellipsis" maxlength="100"
                    th:value="${template?.reportName}" th:readonly="${view}"/>
         </div>
         <div class="flex-column edit-row">
-            <label class="switch">
+            <label class="btn__toggle__switch">
                 <input type="checkbox" id="automatic" name="automatic"
                        th:checked="${template?.automatic == true}" th:disabled="${view}">
                 <span></span>
-                <span class="label" th:text="#{statistic.label.automatic}"></span>
+                <span class="btn__toggle__switch__label" th:text="#{statistic.label.automatic}"></span>
             </label>
         </div>
         <div class="flex-column edit-row">
@@ -112,7 +112,7 @@
         OverlayScrollbars(document.querySelectorAll('.page-content'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
         if (![[${view}]]) {
-            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            OverlayScrollbars(document.querySelectorAll('textarea'), {
                 className: 'scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,

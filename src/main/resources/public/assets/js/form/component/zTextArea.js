@@ -52,7 +52,7 @@ export const textAreaMixin = {
         const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
 
-        element.UITextArea = new UITextArea().addUIClass('textarea-scroll-wrapper')
+        element.UITextArea = new UITextArea()
             .addUIClass('align-left')
             .setUIPlaceholder(this.elementPlaceholder)
             .setUIProperty('--data-row', this.elementRows)

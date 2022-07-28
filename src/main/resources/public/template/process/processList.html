@@ -6,7 +6,7 @@
 </head>
 <body>
 <table class="table">
-    <thead class="table-head">
+    <thead class="table__head">
         <tr class="flex-row align-items-center">
             <th style="width: 27%" class="align-left" th:text="#{process.label.name}"></th>
             <th style="width: 10%" class="align-center" th:text="#{process.label.state}"></th>
@@ -17,7 +17,7 @@
             <th style="width: 4%" class="align-center"></th>
         </tr>
     </thead>
-    <tbody class="table-body">
+    <tbody class="table__body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(processList)}">
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>

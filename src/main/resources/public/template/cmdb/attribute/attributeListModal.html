@@ -5,7 +5,7 @@
 </head>
 <body>
 <table class="table">
-    <thead class="table-head">
+    <thead class="table__head">
     <tr>
         <th style="width: 5%;" class="align-center"></th>
         <th style="width: 25%;" class="align-left" th:text="#{cmdb.attribute.label.name}"></th>
@@ -14,7 +14,7 @@
         <th style="width: 40%;" class="align-left" th:text="#{cmdb.attribute.label.description}"></th>
     </tr>
     </thead>
-    <tbody id="ciClassAttributeList" class="table-body">
+    <tbody id="ciClassAttributeList" class="table__body">
     <tr class="no-data-found-list flex-row align-items-center" th:if="${#arrays.isEmpty(attributeList.data)}">
         <td style="width: 100%;" class="align-center" th:text="#{common.msg.noData}"></td>
     </tr>
