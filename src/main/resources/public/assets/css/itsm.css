@@ -9517,7 +9517,7 @@ select.readonly {
   word-wrap: normal;
   align-items: center;
   width: 100%;
-  padding: 0.5rem 1.75rem 0.5rem 0.75rem;
+  padding: 0 1.75rem 0 0.75rem;
   background-color: #FFFFFF;
   color: #424242;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -9565,6 +9565,7 @@ select.readonly {
 }
 .select__box:not(.readonly) .ic-arrow-right {
   position: absolute !important;
+  top: 0.5rem;
   right: 0.5rem;
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -9586,11 +9587,8 @@ select.readonly {
   color: #ABB0B5;
 }
 .select__box__label {
-  height: auto !important;
   width: 100%;
-  padding: 0 !important;
   border: none !important;
-  vertical-align: unset !important;
   pointer-events: none;
 }
 .select__box__label:hover, .select__box__label:focus {

@@ -53,7 +53,7 @@ aliceJs.initDesignedSelectTag = function (targetDOM) {
             // select__box - 라벨
             let designedSelectBoxInput = document.createElement('input');
             designedSelectBoxInput.type = 'text';
-            designedSelectBoxInput.className = 'text-ellipsis select__box__label';
+            designedSelectBoxInput.className = 'text-ellipsis select__box__label p-0';
             designedSelectBox.appendChild(designedSelectBoxInput);
 
             // 인위적으로 추가되는 select__box 는 div 라서 focus 효과가 없다.
