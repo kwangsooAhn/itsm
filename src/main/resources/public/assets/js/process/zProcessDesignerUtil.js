@@ -630,7 +630,7 @@
             .attr('viewBox', viewBox.join(' '))
             .classed('drawing-board', true);
 
-        svg.selectAll('.guides-container, .context-wrapper, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
+        svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         svg.selectAll('.node.selected').nodes().forEach(function(node) {
             zProcessDesigner.setDeselectedElement(d3.select(node));
@@ -753,7 +753,7 @@
         const minimapSvg = d3.select('div.minimap').select('svg');
         minimapSvg.html(content);
         minimapSvg.attr('width', 290).attr('height', 200);
-        minimapSvg.selectAll('.guides-container, .context-wrapper, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
+        minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
         minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') {
                 d3.select(node).remove();
