@@ -40,7 +40,7 @@ $layout-header-dropdown: (
     pointer-events: none;
   }
 
-  + .dropdown-content {
+  + .context-menu {
     @include absolute($right: 0);
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
@@ -51,7 +51,7 @@ $layout-header-dropdown: (
     z-index: $z-index-between-tooltip-gnb;
     visibility: hidden;
 
-    .dropdown-item {
+    &__item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0
 
       .button-dropdown {
@@ -99,7 +99,7 @@ $layout-header-dropdown: (
 
   &.active {
     .ic-arrow-right { @include rotate(-90); }
-    + .dropdown-content {
+    + .context-menu {
       display: block;
       visibility: visible;
     }

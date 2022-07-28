@@ -24,13 +24,13 @@
             <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
             <span class="user ic-arrow-right"></span>
         </button>
-        <ul class="dropdown-content">
-            <li class="dropdown-item" tabindex="-1">
-                <button class="dropdown-item-btn align-left" th:text="#{common.btn.editUserInfo}"
+        <ul class="context-menu">
+            <li class="context-menu__item" tabindex="-1">
+                <button class="context-menu__item-btn align-left" th:text="#{common.btn.editUserInfo}"
                         onclick="openPasswordConfirmModal()" tabindex="0"></button>
             </li>
-            <li class="dropdown-item" tabindex="-1">
-                <button class="dropdown-item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
+            <li class="context-menu__item" tabindex="-1">
+                <button class="context-menu__item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
                         tabindex="0"></button>
             </li>
         </ul>
