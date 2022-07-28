@@ -13228,50 +13228,6 @@ body.active {
     opacity: 1;
   }
 }
-.clipboard-tooltip {
-  position: relative !important;
-  display: inline-block;
-  margin-left: 0.3125rem;
-  cursor: pointer;
-}
-.clipboard-tooltip:hover .clipboard-tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-.clipboard-tooltip .clipboard-tooltip-text {
-  position: absolute !important;
-  bottom: 120%;
-  left: 50%;
-  border: 0.125rem solid #3373C4;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
-  -o-transition: opacity 0.3s;
-  -ms-transition: opacity 0.3s;
-  transition: opacity 0.3s;
-  width: 9.375rem;
-  margin-left: -8.125rem;
-  padding: 0.313rem;
-  background-color: #FFFFFF;
-  color: #3373C4;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  text-align: center;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 500;
-}
-.clipboard-tooltip .clipboard-tooltip-text::after {
-  position: absolute !important;
-  top: 100%;
-  left: 50%;
-  content: "";
-  margin-left: -0.313rem;
-}
-
 .tooltip {
   position: relative !important;
 }

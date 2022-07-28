@@ -10,45 +10,6 @@
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
-// clipboard - 복사 용도
-.clipboard-tooltip {
-  @include relative();
-  display: inline-block;
-  margin-left: 0.3125rem; // 5px
-  cursor: pointer;
-
-  &:hover {
-    .clipboard-tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  .clipboard-tooltip-text {
-    @include absolute($left: 50%, $bottom: 120%);
-    @include border(0.125rem, solid, $blue500, all);
-    @include borderRadius(0.0625rem);
-    @include transition(opacity 0.3s);
-    width: 9.375rem; //150px
-    margin-left: -8.125rem; // -130px
-    padding: 0.313rem; // 5px
-    background-color: $white;
-    color: $blue500;
-    font-family: $font-family;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-regular;
-    text-align: center;
-    opacity: 0;
-    visibility: hidden;
-    z-index: $z-index-tooltip;
-
-    &::after {
-      @include absolute($top: 100%, $left: 50%);
-      content: '';
-      margin-left: -0.313rem; // -5px
-    }
-  }
-}
 
 .tooltip {
   @include relative();

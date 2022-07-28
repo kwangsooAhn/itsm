@@ -1889,7 +1889,7 @@
                 propertyContainer.appendChild(elementObject);
 
                 let copyBtnContainer = document.createElement('div');
-                copyBtnContainer.className = 'tooltip';
+                copyBtnContainer.className = 'inline-block ml-1 tooltip';
 
                 let copyBtn = document.createElement('button');
                 copyBtn.className = 'btn__ic secondary btn-clipboard-tooltip';
@@ -1907,7 +1907,7 @@
                     tooltip.textContent = 'Copy to clipboard';
                 });
                 let tooltipBox = document.createElement('div');
-                tooltipBox.className = 'tooltip__box';
+                tooltipBox.className = 'tooltip__box right-top';
                 let tooltip = document.createElement('span');
                 tooltip.id = 'clipboardTooltipText';
                 tooltip.className = 'tooltip__box__text';

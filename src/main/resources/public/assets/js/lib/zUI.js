@@ -381,7 +381,7 @@ class UIClipboard extends UIElement {
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass('tooltip');
+        this.UITooltip = new UIDiv().setUIClass('tooltip').setUIClass('ml-1');
         this.addUI(this.UITooltip);
 
         // copy button
