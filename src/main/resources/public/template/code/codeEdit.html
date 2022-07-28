@@ -76,7 +76,7 @@
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
             <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
-                      class="textarea textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
+                      th:text="${codeDetail?.codeDesc}"></textarea>
         </div>
         <div class="edit-row flex-column flex-fill">
             <div class="flex-row justify-content-between">
@@ -131,6 +131,7 @@
         OverlayScrollbars(document.querySelector('.page-tree'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelector('.page-edit'), { className: 'scrollbar' });
         OverlayScrollbars(document.getElementById('txtCodeDesc'), { className: 'scrollbar' });
+        document.querySelector('.os-host-textarea').classList.remove('textarea-readonly');
         document.getElementById('searchValue').addEventListener('keyup', aliceJs.debounce (() => getCodeList()), false);
 
         if (document.getElementById('btnUpdate') !== null) {
@@ -208,7 +209,7 @@
                 if (CODE_DELETE) {
                     document.getElementById('btnDelete').disabled = false;
                 }
-                document.querySelector('.textarea').classList.remove('textarea-readonly');
+                document.querySelector('.os-host-textarea').classList.remove('textarea-readonly');
                 txtCodeDesc.readOnly = false;
                 document.getElementById('btnCodeLang').disabled = false;
                 txtCode.parentElement.previousElementSibling.classList.add('required');
@@ -221,7 +222,7 @@
                 if (CODE_DELETE) {
                     document.getElementById('btnDelete').disabled = true;
                 }
-                document.querySelector('.textarea').classList.add('textarea-readonly');
+                document.querySelector('.os-host-textarea').classList.add('textarea-readonly');
                 txtCodeDesc.readOnly = true;
                 document.getElementById('btnCodeLang').disabled = true;
                 txtCode.parentElement.previousElementSibling.classList.remove('required');
@@ -256,7 +257,6 @@
             elem.readOnly = false;
             elem.value = '';
         });
-        document.querySelector('.textarea').classList.remove('textarea-readonly');
         document.getElementById('txtCode').disabled = false;
         document.getElementById('codeUseYn').disabled = false;
         document.getElementById('btnCodeLang').disabled = false;

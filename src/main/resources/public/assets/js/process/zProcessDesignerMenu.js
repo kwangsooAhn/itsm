@@ -1917,7 +1917,6 @@
             }
             case 'textarea': {
                 elementObject = document.createElement('textarea');
-                elementObject.className = 'textarea';
                 elementObject.style.resize = 'none';
                 elementObject.maxLength = 256;
                 propertyContainer.appendChild(elementObject);

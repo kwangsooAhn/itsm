@@ -40,7 +40,7 @@
                     <span class="required"></span>
                 </label>
                 <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"
-                          maxlength="2048" rows="7" class="textarea textarea-scroll-wrapper"></textarea>
+                          maxlength="2048" rows="7"></textarea>
             </div>
             <div class="flex-row justify-content-between edit-row">
                 <div class="btn__list">
@@ -67,7 +67,7 @@
     window.onload = function () {
         document.getElementById('faqTitle').focus();
         OverlayScrollbars(document.querySelector('.page-content'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+        OverlayScrollbars(document.querySelectorAll('textarea'), {
             className: 'scrollbar',
             resize: 'vertical',
             sizeAutoCapable: true,

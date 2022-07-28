@@ -9380,7 +9380,8 @@ input[type=text][type=number], input[type=password][type=number], input[type=num
   -moz-appearance: textfield;
 }
 
-.textarea {
+textarea,
+.os-host-textarea {
   padding: 0.5rem 0.75rem;
   background-color: #FFFFFF;
   color: #424242;
@@ -9389,34 +9390,45 @@ input[type=text][type=number], input[type=password][type=number], input[type=num
   font-weight: 500;
   line-height: 1.6;
 }
-.textarea:not(.os-textarea) {
+textarea:not(.os-textarea),
+.os-host-textarea:not(.os-textarea) {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
 }
-.textarea::placeholder {
+textarea::placeholder,
+.os-host-textarea::placeholder {
   color: #ABB0B5;
 }
-.textarea:read-only::placeholder, .textarea:disabled::placeholder {
+textarea:read-only::placeholder, textarea:disabled::placeholder,
+.os-host-textarea:read-only::placeholder,
+.os-host-textarea:disabled::placeholder {
   color: transparent;
 }
-.textarea:not(:disabled):focus, .textarea:not(:read-only):focus {
+textarea:not(:disabled):focus, textarea:not(:read-only):focus,
+.os-host-textarea:not(:disabled):focus,
+.os-host-textarea:not(:read-only):focus {
   border: 0.0625rem solid #2559A8;
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   outline: 0;
 }
-.textarea:not(:disabled):hover, .textarea:not(:read-only):hover {
+textarea:not(:disabled):hover, textarea:not(:read-only):hover,
+.os-host-textarea:not(:disabled):hover,
+.os-host-textarea:not(:read-only):hover {
   border: 0.0625rem solid #619CDB;
   outline: 0;
 }
-.textarea:not(:disabled):active, .textarea:not(:read-only):active {
+textarea:not(:disabled):active, textarea:not(:read-only):active,
+.os-host-textarea:not(:disabled):active,
+.os-host-textarea:not(:read-only):active {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.textarea:read-only:not(:disabled):not(.os-host-textarea) {
+textarea:read-only:not(:disabled):not(.os-host-textarea),
+.os-host-textarea:read-only:not(:disabled):not(.os-host-textarea) {
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -9426,23 +9438,28 @@ input[type=text][type=number], input[type=password][type=number], input[type=num
   resize: none;
   border-left: 0.0625rem solid #CFD5D9 !important;
 }
-.textarea:read-only:not(:disabled):not(.os-host-textarea):hover, .textarea:read-only:not(:disabled):not(.os-host-textarea):focus {
+textarea:read-only:not(:disabled):not(.os-host-textarea):hover, textarea:read-only:not(:disabled):not(.os-host-textarea):focus,
+.os-host-textarea:read-only:not(:disabled):not(.os-host-textarea):hover,
+.os-host-textarea:read-only:not(:disabled):not(.os-host-textarea):focus {
   border: 0.0625rem solid #CFD5D9;
   webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-.textarea:disabled {
+textarea:disabled,
+.os-host-textarea:disabled {
   border: 0.0625rem solid #CFD5D9;
   background-color: #EEEEEE;
   color: #ABB0B5;
   pointer-events: none;
   cursor: default;
 }
-.textarea.error {
+textarea.error,
+.os-host-textarea.error {
   border: 0.0625rem solid #F52525 !important;
 }
-.textarea.success {
+textarea.success,
+.os-host-textarea.success {
   border: 0.0625rem solid #76BD26 !important;
 }
 
@@ -11002,7 +11019,7 @@ body.active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal__dialog.save-as .modal__dialog__body .textarea-scroll-wrapper {
+.modal__dialog.save-as .modal__dialog__body textarea {
   min-height: 7.5rem;
   resize: none;
 }
@@ -11022,7 +11039,7 @@ body.active {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
-.modal__dialog.create-template .modal__dialog__body .textarea-scroll-wrapper {
+.modal__dialog.create-template .modal__dialog__body textarea {
   min-height: 7.5rem;
   resize: none;
 }
@@ -11909,10 +11926,10 @@ body.active {
   left: -0.125rem;
 }
 
-.textarea-scroll-wrapper {
+.os-host-textarea {
   display: block;
 }
-.textarea-scroll-wrapper.scrollbar > .os-scrollbar-vertical {
+.os-host-textarea.scrollbar > .os-scrollbar-vertical {
   bottom: 0;
 }
 

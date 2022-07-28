@@ -27,7 +27,7 @@
             <label for="attributeDesc">
                 <span th:text="#{cmdb.attribute.label.description}"></span>
             </label>
-            <textarea class="textarea textarea-scroll-wrapper" id="attributeDesc" maxlength="250"
+            <textarea id="attributeDesc" maxlength="250"
                       name="attributeDesc" rows="5" th:readonly="${view}"
                       th:text="${attribute?.attributeDesc}"></textarea>
         </div>
@@ -132,7 +132,7 @@
 
         aliceJs.initDesignedSelectTag();
         OverlayScrollbars(document.querySelectorAll('.page-content'), {className: 'scrollbar'});
-        OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+        OverlayScrollbars(document.querySelectorAll('textarea'), {
             className: 'scrollbar',
             resize: 'vertical',
             sizeAutoCapable: true,

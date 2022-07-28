@@ -28,7 +28,7 @@
             <label for="templateDesc">
                 <span th:text="#{statistic.label.description}"></span>
             </label>
-            <textarea id="templateDesc" name="templateDesc" class="textarea textarea-scroll-wrapper"
+            <textarea id="templateDesc" name="templateDesc"
                       maxlength="250" rows="5" th:text="${template?.templateDesc}" th:readonly="${view}"></textarea>
         </div>
         <div class="flex-column edit-row">
@@ -112,7 +112,7 @@
         OverlayScrollbars(document.querySelectorAll('.page-content'), { className: 'scrollbar' });
         OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
         if (![[${view}]]) {
-            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            OverlayScrollbars(document.querySelectorAll('textarea'), {
                 className: 'scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,

@@ -41,7 +41,7 @@
         <div class="edit-row flex-column">
             <label class="form-title" th:text="#{cmdb.class.label.description}" for="txtClassDesc"></label>
             <textarea id="txtClassDesc" name="txtClassDesc" th:maxlength="500" th:rows="7"
-                      class="textarea textarea-scroll-wrapper"></textarea>
+                     ></textarea>
         </div>
         <div class="edit-row flex-column">
             <label class="required" th:text="#{cmdb.class.label.seq}" for="txtClassSeq"></label>
@@ -146,6 +146,7 @@
                 inheritedAttrs: 'class'
             }
         });
+        document.querySelector('.os-host-textarea').classList.remove('textarea-readonly');
     };
 
     /** CMDB Class 상세 정보 **/
@@ -218,7 +219,7 @@
                     document.querySelectorAll('button[name=classAttributeButton]')
                         .forEach((elem) => elem.removeAttribute('disabled'));
                 }
-                document.querySelector('.textarea').classList.remove('textarea-readonly');
+                document.querySelector('.os-host-textarea').classList.remove('textarea-readonly');
                 txtClassName.readOnly = false;
                 txtClassDesc.readOnly = false;
                 txtClassSeq.readOnly = false;
@@ -242,7 +243,7 @@
                 if (document.querySelectorAll('button[name=classAttributeButton]').length > 0) {
                     document.querySelectorAll('button[name=classAttributeButton]').forEach((elem) => elem.disabled = true);
                 }
-                document.querySelector('.textarea').classList.add('textarea-readonly');
+                document.querySelector('.os-host-textarea').classList.add('textarea-readonly');
                 txtClassName.readOnly = true;
                 txtClassDesc.readOnly = true;
                 txtClassSeq.readOnly = true;
@@ -314,7 +315,6 @@
         const txtClassDesc = document.getElementById('txtClassDesc');
         txtClassDesc.value = '';
         txtClassDesc.readOnly = false;
-        document.querySelector('.textarea').classList.remove('textarea-readonly');
         // 정렬 순서
         const txtClassSeq = document.getElementById('txtClassSeq');
         txtClassSeq.value = '';

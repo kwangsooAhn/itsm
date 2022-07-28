@@ -154,7 +154,8 @@ input {
 // textarea
 // overlay scroll로 인한 div와의 중복 디자인을 방지하기 위해
 // outer div에 대해 예외 처리
-.textarea {
+textarea,
+.os-host-textarea {
   padding: 0.5rem 0.75rem; // 들여쓰기 8px 16px
   background-color: $white;
   color: $neutral800;

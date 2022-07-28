@@ -72,7 +72,7 @@
     <!-- 댓글 -->
     <div class="token-panel commnet--token" id="tokenComments">
         <div class="comment__form flex-row align-items-start">
-            <textarea id="commentValue" class="textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200"
+            <textarea id="commentValue" class="flex-fill mr-1" maxlength="200"
                       rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
             <button class="btn__text--box secondary" th:onclick="zFormTokenTab.saveComments()"
                     th:text="#{common.btn.register}"></button>
@@ -121,7 +121,7 @@
             </label>
             <!-- 문서함 등록시 반복일정은 없음 -->
         </div>
-        <textarea class="textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+        <textarea class="schedule__contents" id="scheduleContents" rows="3"
                   th:placeholder="#{calendar.label.contentsPlaceholder}"></textarea>
     </div>
 </template>

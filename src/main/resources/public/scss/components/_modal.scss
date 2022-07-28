@@ -173,7 +173,7 @@ body.active { overflow: hidden !important; }
         display: inline-block;
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
-      .textarea-scroll-wrapper {
+      textarea {
         min-height: 7.5rem; // 120px
         resize: none;
       }
@@ -191,7 +191,7 @@ body.active { overflow: hidden !important; }
         margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
       }
 
-      .textarea-scroll-wrapper {
+      textarea {
         min-height: 7.5rem; // 120px
         resize: none;
       }

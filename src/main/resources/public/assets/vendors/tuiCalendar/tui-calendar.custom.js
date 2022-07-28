@@ -211,7 +211,7 @@ function zCalendar(id, options) {
             zDateTimePicker.initDateTimePicker(document.getElementById('endDt'),
                 this.onUpdateRangeDateTime.bind(this), { isHalf: true });
             // 스크롤바
-            OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+            OverlayScrollbars(document.querySelector('textarea'), {
                 className: 'inner-scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
@@ -908,7 +908,7 @@ Object.assign(zCalendar.prototype, {
                     <select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>
                 </div>
             </div>
-            <textarea class="textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+            <textarea class="schedule__contents" id="scheduleContents" rows="3"
                       placeholder="${i18n.msg('calendar.label.contentsPlaceholder')}"></textarea>
             <div class="flex-row" id="calendarList"></div>
         </div>`.trim();

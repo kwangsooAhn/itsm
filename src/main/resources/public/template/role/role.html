@@ -30,7 +30,7 @@
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{role.label.desc}"></label>
-            <textarea class="textarea textarea-scroll-wrapper" id="txtRoleDesc" maxlength="200" name="txtRoleDesc"
+            <textarea id="txtRoleDesc" maxlength="200" name="txtRoleDesc"
                       rows="7" th:readonly="${view}" th:classappend="${view} ? 'textarea-readonly'"
                       th:text="${role?.roleDesc}"></textarea>
         </div>

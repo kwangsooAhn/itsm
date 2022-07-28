@@ -60,7 +60,7 @@
         <div class="edit-row flex-column">
             <label th:text="#{organization.label.description}" for="organizationDesc"></label>
             <textarea id="organizationDesc" th:maxlength="200" th:rows="7"
-                      class="textarea textarea-scroll-wrapper" th:text="${data?.organizationDesc}"></textarea>
+                      th:text="${data?.organizationDesc}"></textarea>
         </div>
         <div class="edit-row flex-column">
             <label th:text="#{organization.label.role}"></label>
