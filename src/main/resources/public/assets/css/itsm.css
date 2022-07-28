@@ -5580,14 +5580,13 @@ span.ic-alert-email {
 .process-container svg defs marker path {
   fill: #63686C;
 }
-.process-container svg g.context-wrapper rect.context-menu,
-.process-container svg g.context-wrapper rect.sub-context-menu {
+.process-container svg g.alice-tooltip rect.tooltip-container {
   fill: #FFFFFF;
   stroke: #CFD5D9;
   stroke-width: 1;
 }
-.process-container svg g.context-wrapper rect.context-menu__item:hover,
-.process-container svg g.context-wrapper rect.context-menu__item:hover {
+.process-container svg g.alice-tooltip rect.action-tooltip-item:hover,
+.process-container svg g.alice-tooltip rect.element-tooltip-item:hover {
   cursor: pointer;
 }
 .process-container svg g.guides-container line.guides-line {
