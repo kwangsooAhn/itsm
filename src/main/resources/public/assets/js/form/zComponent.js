@@ -532,7 +532,7 @@ export default class ZComponent {
 export class UIComponentTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'component-tooltip';
+        this.domElement.className = 'component-area';
     }
 }
 

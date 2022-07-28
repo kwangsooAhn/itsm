@@ -341,7 +341,7 @@ $layout-header-dropdown: (
   & *:focus { outline: none !important; }
 }
 // 그룹 툴팁
-.group-tooltip {
+.group-area {
   @include relative();
   @include border(0.0625rem, solid, $gray300, all); // 1px
   @include borderRadius(0.125rem); // 2px
@@ -393,7 +393,7 @@ $layout-header-dropdown: (
       + .group-label {
         .ic-arrow-right { @include rotate(90); }
       }
-      ~ .row-tooltip:not(.none) { display: block; }
+      ~ .row-area:not(.none) { display: block; }
     }
     // 라벨
     .group-label {
@@ -410,14 +410,14 @@ $layout-header-dropdown: (
     }
 
     // row
-    .row-tooltip {
+    .row-area {
       @include transition(all 0.25s ease-out);
       display: none;
     }
   }
 }
 // row 툴팁
-.row-tooltip {
+.row-area {
   @include border(0.0625rem, solid, $gray300, all); // 1px
   @include borderRadius(0.125rem);
   position: relative;
@@ -430,7 +430,7 @@ $layout-header-dropdown: (
 }
 
 // component 툴팁
-.component-tooltip {
+.component-area {
   @include border(0.0625rem, dashed, $gray300, all); // 1px
   @include borderRadius(0.0625rem); // 2px
   position: relative;
@@ -712,9 +712,9 @@ $layout-header-dropdown: (
 
 // preview
 .preview {
-  .group-tooltip { border: 0.0625rem solid #FFFFFF; }
-  .row-tooltip { border: 0.0625rem solid #FFFFFF; }
-  .component-tooltip {
+  .group-area { border: 0.0625rem solid #FFFFFF; }
+  .row-area { border: 0.0625rem solid #FFFFFF; }
+  .component-area {
     margin: 0;
     padding: 0;
     border-color: transparent !important;
@@ -876,7 +876,7 @@ $component-icon: (
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
             }
-            .component-tooltip { display: none; }
+            .component-area { display: none; }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.placeholder {
@@ -977,7 +977,7 @@ $component-icon: (
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
             }
-            .component-tooltip { display: none; }
+            .component-area { display: none; }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.placeholder {
@@ -1027,7 +1027,7 @@ $component-icon: (
 
     [class*="ic-"] { display: none; }
     .component-name { display: none; }
-    .component-tooltip {
+    .component-area {
       border-color: transparent;
       .component {
         // 드래그시 사용자 디자인보다 우선 적용
@@ -1109,7 +1109,7 @@ $component-icon: (
   }
   // 폼 디자이너가 아닐 경우 컴포넌트 테두리 제거
   &:not([data-display="ready"]) {
-    .component-tooltip { border-color: transparent !important; }
+    .component-area { border-color: transparent !important; }
   }
 }
 

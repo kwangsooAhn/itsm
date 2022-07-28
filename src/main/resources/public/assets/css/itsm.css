@@ -4192,7 +4192,7 @@ input.ic-mb {
   outline: none !important;
 }
 
-.group-tooltip {
+.group-area {
   position: relative !important;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
@@ -4201,17 +4201,17 @@ input.ic-mb {
   padding: 0.9375rem;
   background-color: #FFFFFF;
 }
-.group-tooltip.selected {
+.group-area.selected {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.group-tooltip.selected > .context-menu:not(.none) {
+.group-area.selected > .context-menu:not(.none) {
   visibility: visible;
 }
-.group-tooltip.focus {
+.group-area.focus {
   background-color: #E0F3FF;
 }
-.group-tooltip[data-displaytype="document.displayType.hidden"] {
+.group-area[data-displaytype="document.displayType.hidden"] {
   display: none;
 }
 
@@ -4250,7 +4250,7 @@ input.ic-mb {
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-.group.accordion .group-accordion-checkBox:checked ~ .row-tooltip:not(.none) {
+.group.accordion .group-accordion-checkBox:checked ~ .row-area:not(.none) {
   display: block;
 }
 .group.accordion .group-label {
@@ -4267,7 +4267,7 @@ input.ic-mb {
 .group.accordion .group-label .ic-arrow-right {
   opacity: 1;
 }
-.group.accordion .row-tooltip {
+.group.accordion .row-area {
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   -o-transition: all 0.25s ease-out;
@@ -4276,7 +4276,7 @@ input.ic-mb {
   display: none;
 }
 
-.row-tooltip {
+.row-area {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -4284,15 +4284,15 @@ input.ic-mb {
   position: relative;
   background-color: transparent;
 }
-.row-tooltip.selected {
+.row-area.selected {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.row-tooltip.selected > .context-menu:not(.none) {
+.row-area.selected > .context-menu:not(.none) {
   visibility: visible;
 }
 
-.component-tooltip {
+.component-area {
   border: 0.0625rem dashed #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -4304,20 +4304,20 @@ input.ic-mb {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
           + (var(--data-column) - 1) * 0px);
 }
-.component-tooltip:first-child:nth-last-child(1) {
+.component-area:first-child:nth-last-child(1) {
   border-style: solid;
 }
-.component-tooltip.selected {
+.component-area.selected {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.component-tooltip.selected > .context-menu:not(.none) {
+.component-area.selected > .context-menu:not(.none) {
   visibility: visible;
 }
-.component-tooltip.selected .component .element .imagebox-placeholder {
+.component-area.selected .component .element .imagebox-placeholder {
   background-color: #FFFFFF;
 }
-.component-tooltip.sortable-ghost {
+.component-area.sortable-ghost {
   margin: 0;
 }
 
@@ -4574,13 +4574,13 @@ input.ic-mb {
   background: #3373C4;
 }
 
-.preview .group-tooltip {
+.preview .group-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.preview .row-tooltip {
+.preview .row-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.preview .component-tooltip {
+.preview .component-area {
   margin: 0;
   padding: 0;
   border-color: transparent !important;
@@ -4749,7 +4749,7 @@ input.ic-mb {
   color: #222529;
   font-weight: 700;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag .component-tooltip {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag .component-area {
   display: none;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.placeholder {
@@ -4844,7 +4844,7 @@ input.ic-mb {
   color: #222529;
   font-weight: 700;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.drag .component-tooltip {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.drag .component-area {
   display: none;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.placeholder {
@@ -4897,134 +4897,134 @@ input.ic-mb {
 .drawing-board .component-icon-drag-in .component-name {
   display: none;
 }
-.drawing-board .component-icon-drag-in .component-tooltip {
+.drawing-board .component-icon-drag-in .component-area {
   border-color: transparent;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .component-label .component-label-text {
+.drawing-board .component-icon-drag-in .component-area .component .component-label .component-label-text {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number],
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box {
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text]::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password]::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number]::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box::placeholder {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text]::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password]::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number]::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box::placeholder {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text] [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password] [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number] [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box [class*=ic-] {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text] [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password] [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number] [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box [class*=ic-] {
   background: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text].ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password].ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number].ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-date-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text].ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password].ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number].ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-time-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text].ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password].ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number].ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-datetime-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .radio,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .checkbox {
+.drawing-board .component-icon-drag-in .component-area .component .element .radio,
+.drawing-board .component-icon-drag-in .component-area .component .element .checkbox {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .radio input[type=radio] + span::before,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .radio input[type=checkbox] + span::before,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .checkbox input[type=radio] + span::before,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .checkbox input[type=checkbox] + span::before {
+.drawing-board .component-icon-drag-in .component-area .component .element .radio input[type=radio] + span::before,
+.drawing-board .component-icon-drag-in .component-area .component .element .radio input[type=checkbox] + span::before,
+.drawing-board .component-icon-drag-in .component-area .component .element .checkbox input[type=radio] + span::before,
+.drawing-board .component-icon-drag-in .component-area .component .element .checkbox input[type=checkbox] + span::before {
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow {
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow {
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-picker {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-icon, .drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-transparent, .drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-arrow,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-icon,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-transparent,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-arrow {
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-icon, .drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-transparent, .drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-arrow,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-icon,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-transparent,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-arrow {
   fill: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone {
+.drawing-board .component-icon-drag-in .component-area .component .element .dropzone {
   background-color: #FFFFFF;
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone .dz-message {
+.drawing-board .component-icon-drag-in .component-area .component .element .dropzone .dz-message {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone [class*=ic-] {
+.drawing-board .component-icon-drag-in .component-area .component .element .dropzone [class*=ic-] {
   background: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .btn__list {
+.drawing-board .component-icon-drag-in .component-area .component .element .btn__list {
   opacity: 0;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table tr td {
+.drawing-board .component-icon-drag-in .component-area .component .element table tr td {
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .dr-table-header,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .ci-table-header {
+.drawing-board .component-icon-drag-in .component-area .component .element table .dr-table-header,
+.drawing-board .component-icon-drag-in .component-area .component .element table .ci-table-header {
   background-color: #D6EDFC !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .dr-table-header td,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .ci-table-header td {
+.drawing-board .component-icon-drag-in .component-area .component .element table .dr-table-header td,
+.drawing-board .component-icon-drag-in .component-area .component .element table .ci-table-header td {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .no-data-found-list {
+.drawing-board .component-icon-drag-in .component-area .component .element table .no-data-found-list {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .divider {
+.drawing-board .component-icon-drag-in .component-area .component .element .divider {
   border-top-style: solid;
   border-top-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .imagebox-placeholder {
+.drawing-board .component-icon-drag-in .component-area .component .element .imagebox-placeholder {
   background-color: #FFFFFF;
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .imagebox-placeholder [class*=ic-] {
+.drawing-board .component-icon-drag-in .component-area .component .element .imagebox-placeholder [class*=ic-] {
   background: #619CDB !important;
 }
 .drawing-board.edit .group-label {
   pointer-events: none;
 }
-.drawing-board:not([data-display=ready]) .component-tooltip {
+.drawing-board:not([data-display=ready]) .component-area {
   border-color: transparent !important;
 }
 
@@ -5884,19 +5884,19 @@ input.ic-mb {
   max-width: 120rem;
   margin: 0 auto;
 }
-.document-container .group-tooltip {
+.document-container .group-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.document-container .row-tooltip {
+.document-container .row-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.document-container .component-tooltip {
+.document-container .component-area {
   border: 0.0625rem solid #FFFFFF;
 }
 .document-container .component {
   padding: 0 1rem;
 }
-.document-container .component-tooltip {
+.document-container .component-area {
   display: flex;
   margin: 0;
   padding: 0;
@@ -6227,14 +6227,14 @@ input.ic-mb {
   .print-main .drawing-board .form {
     display: table-row;
   }
-  .print-main .drawing-board .form .group-tooltip {
+  .print-main .drawing-board .form .group-area {
     page-break-after: auto;
     break-inside: avoid;
   }
-  .print-main .drawing-board .form .row-tooltip {
+  .print-main .drawing-board .form .row-area {
     break-inside: avoid;
   }
-  .print-main .drawing-board .form .row-tooltip .textarea {
+  .print-main .drawing-board .form .row-area .textarea {
     width: inherit;
     max-width: 200mm;
   }

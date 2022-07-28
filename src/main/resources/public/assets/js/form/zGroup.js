@@ -423,7 +423,7 @@ export default class ZGroup {
 export class UIGroupTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'group-tooltip';
+        this.domElement.className = 'group-area';
     }
 }
 

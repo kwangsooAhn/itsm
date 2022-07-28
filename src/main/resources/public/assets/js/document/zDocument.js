@@ -209,7 +209,7 @@ class ZDocument {
         let isValid = true;
         // 1. displayType 이 편집 가능일 경우
         const parentElements =
-            document.querySelectorAll('.group-tooltip[data-displaytype="document.displayType.editable"]');
+            document.querySelectorAll('.group-area[data-displaytype="document.displayType.editable"]');
         outer : for (let i = 0; i < parentElements.length; i++) {
             // 2. 필수값 검증
             const requiredElements = parentElements[i]
