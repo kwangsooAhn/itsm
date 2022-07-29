@@ -3128,7 +3128,7 @@ input.ic-mb {
   cursor: pointer;
 }
 .itsm-container .main-content .page-list .table {
-  position: relative !important;
+  position: relative;
   border: none;
 }
 .itsm-container .main-content .page-list .no-data-text {
@@ -3376,11 +3376,11 @@ input.ic-mb {
   background-color: #FAFAFA;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group {
-  position: relative !important;
+  position: relative;
   padding-top: 0.625rem;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group .button-attribute-add {
-  position: absolute !important;
+  position: absolute;
   top: -1.875rem;
   right: 0;
 }
@@ -3394,7 +3394,7 @@ input.ic-mb {
   background-color: #FFFFFF;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete {
-  position: absolute !important;
+  position: absolute;
   right: 0.3125rem;
 }
 .itsm-container .main .view {
@@ -3544,7 +3544,7 @@ input.ic-mb {
   width: 13.75rem;
 }
 .navigation .gnb .logo {
-  position: fixed !important;
+  position: fixed;
   width: 13.75rem;
   height: 3.375rem;
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
@@ -3552,7 +3552,7 @@ input.ic-mb {
   z-index: 100;
 }
 .navigation .gnb .menu {
-  position: fixed !important;
+  position: fixed;
   top: 3.375rem;
   width: 13.75rem;
   height: calc(100vh - 3.375rem);
@@ -3588,7 +3588,7 @@ input.ic-mb {
   line-height: 1.3rem;
 }
 .navigation .gnb .menu .menu-area .gnb-area .gnb-link .token-count {
-  position: absolute !important;
+  position: absolute;
   top: 3.5rem;
   right: 0.8125rem;
   border-radius: 1.25rem;
@@ -3839,7 +3839,7 @@ input.ic-mb {
   font-weight: 600;
 }
 .document-content .document-column .document-icon {
-  position: absolute !important;
+  position: absolute;
   top: 3rem;
   right: -1rem;
   overflow: hidden;
@@ -3907,7 +3907,7 @@ input.ic-mb {
   pointer-events: none;
 }
 .header-button-dropdown + .context-menu {
-  position: absolute !important;
+  position: absolute;
   right: 0;
   border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 2px 12px 0 #CFD5D9;
@@ -3974,7 +3974,7 @@ input.ic-mb {
   margin: 0 auto;
 }
 .form-header, .process-header {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   width: 100%;
   left: 0;
@@ -4004,10 +4004,10 @@ input.ic-mb {
 .form-header .form-button-list .header-dropdown,
 .form-header .process-button-list .header-dropdown, .process-header .form-button-list .header-dropdown,
 .process-header .process-button-list .header-dropdown {
-  position: relative !important;
+  position: relative;
 }
 .form-component-palette, .form-element-palette, .process-component-palette, .process-element-palette {
-  position: fixed !important;
+  position: fixed;
   top: 2.875rem;
   bottom: 0;
   left: 0;
@@ -4016,21 +4016,21 @@ input.ic-mb {
   background-color: #FFFFFF;
 }
 .form-main, .process-main {
-  position: fixed !important;
+  position: fixed;
   top: 2.875rem;
   right: 18.75rem;
   bottom: 0;
   left: 0;
 }
 .form-properties-panel-header, .form-properties-header, .process-properties-panel-header, .process-properties-header {
-  position: fixed !important;
+  position: fixed;
   top: 2.875rem;
   right: 0;
   height: 2.5rem;
   background-color: #FFFFFF;
 }
 .form-properties-panel, .form-properties, .process-properties-panel, .process-properties {
-  position: fixed !important;
+  position: fixed;
   top: 5.375rem;
   right: 0;
   bottom: 0;
@@ -4051,13 +4051,11 @@ input.ic-mb {
   padding: 0.625rem;
 }
 
-.tooltip--info {
-  position: static;
+.form-container .tooltip--info {
+  position: static !important;
 }
-
-.tooltip__box {
-  left: 0;
-  width: 100%;
+.form-container .tooltip--info .tooltip__box {
+  width: 100% !important;
 }
 
 /* FormDesigner
@@ -4146,7 +4144,7 @@ input.ic-mb {
   color: #ABB0B5;
 }
 .btn__text--box.success--check::before {
-  position: absolute !important;
+  position: absolute;
   top: 0.313rem;
   left: -2rem;
   background-image: url("../../assets/media/icons/alert/icon_alert_success.svg");
@@ -4192,7 +4190,7 @@ input.ic-mb {
   outline: none !important;
 }
 .form .context-menu {
-  position: absolute !important;
+  position: absolute;
   right: -0.0625rem;
   bottom: 100%;
   -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
@@ -4224,7 +4222,7 @@ input.ic-mb {
 }
 
 .group-area {
-  position: relative !important;
+  position: relative;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -4247,7 +4245,7 @@ input.ic-mb {
 }
 
 .group-accordion-checkBox {
-  position: absolute !important;
+  position: absolute;
   opacity: 0;
   z-index: -1;
 }
@@ -4633,7 +4631,7 @@ input.ic-mb {
   width: 100%;
 }
 .component-accordion-box .component-accordion input[type=radio] {
-  position: absolute !important;
+  position: absolute;
   opacity: 0;
   z-index: -1;
 }
@@ -4671,7 +4669,7 @@ input.ic-mb {
   overflow: hidden;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box {
-  position: relative !important;
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -4691,13 +4689,13 @@ input.ic-mb {
   outline: none;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(odd) {
-  position: absolute !important;
+  position: absolute;
   top: calc(var(--data-row, 0) * 5.625rem);
   left: 0.0625rem;
   border-left-color: transparent;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(even) {
-  position: absolute !important;
+  position: absolute;
   top: calc(var(--data-row, 0) * 5.625rem);
   right: 0;
   border-left-color: transparent;
@@ -5069,7 +5067,7 @@ input.ic-mb {
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
-  position: relative !important;
+  position: relative;
   color: #757575;
   font-size: 0.875rem;
 }
@@ -5162,7 +5160,7 @@ input.ic-mb {
   width: 100%;
 }
 .property .default-type-radio {
-  position: relative !important;
+  position: relative;
   display: block;
 }
 .property .default-type-radio .radio-property-group {
@@ -5208,7 +5206,7 @@ input.ic-mb {
   mask-size: 1.2rem;
 }
 .property .tab-panel .panels .panel {
-  position: relative !important;
+  position: relative;
   border: 0.0625rem solid #CFD5D9;
   margin-top: 0.625rem;
   padding-top: 0.625rem;
@@ -5217,7 +5215,7 @@ input.ic-mb {
   padding: 0 0.75rem;
 }
 .property .tab-panel .panels .panel .panel-common .panel-delete-button {
-  position: absolute !important;
+  position: absolute;
   right: 0.625rem;
 }
 .property .tab-panel .panels .panel .panel-common > .property {
@@ -5403,11 +5401,11 @@ input.ic-mb {
   color: #ABB0B5;
 }
 .element-icon.connector {
-  position: absolute !important;
+  position: absolute;
   bottom: 5rem;
 }
 .element-icon.move-icon {
-  position: absolute !important;
+  position: absolute;
   bottom: 0.313rem;
 }
 .element-icon .element-icon-text {
@@ -5421,12 +5419,12 @@ input.ic-mb {
 }
 
 .btn__ic.button-minimap {
-  position: absolute !important;
+  position: absolute;
   right: 0.625rem;
   bottom: 0.625rem;
 }
 .btn__ic.button-simulation-report {
-  position: absolute !important;
+  position: absolute;
   right: 0.625rem;
   bottom: 3.438rem;
 }
@@ -5633,7 +5631,7 @@ input.ic-mb {
   overflow: hidden;
 }
 .process-main .drawing-board {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -5652,7 +5650,7 @@ input.ic-mb {
   shape-rendering: crispEdges;
 }
 .process-main .drawing-board .minimap {
-  position: absolute !important;
+  position: absolute;
   right: 3.438rem;
   bottom: 0.625rem;
   border: 0.0625rem solid #CFD5D9;
@@ -5667,7 +5665,7 @@ input.ic-mb {
   background-color: #FFFFFF;
 }
 .process-main .drawing-board .minimap svg {
-  position: absolute !important;
+  position: absolute;
   top: 1.875rem;
   left: 1.875rem;
   border: 0.0625rem solid #CFD5D9;
@@ -5683,7 +5681,7 @@ input.ic-mb {
   display: none;
 }
 .process-main .drawing-board .simulation-report {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -5709,7 +5707,7 @@ input.ic-mb {
   font-weight: 500;
 }
 .process-main .drawing-board .simulation-report-title .ic-minus {
-  position: absolute !important;
+  position: absolute;
   right: 1.125rem;
   background: #8B9094;
   cursor: pointer;
@@ -5907,7 +5905,7 @@ input.ic-mb {
   pointer-events: auto;
 }
 .document-container .document-main {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 33.125rem;
   bottom: 0;
@@ -5924,7 +5922,7 @@ input.ic-mb {
   /* Chrome, Safari, Opera*/
 }
 .document-container .document-main .document-main-header {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 33.125rem;
   left: 0;
@@ -5993,7 +5991,7 @@ input.ic-mb {
   width: 0;
 }
 .document-container .token-properties {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -6492,7 +6490,7 @@ input.ic-mb {
   height: 100vh;
 }
 .portal-container .header {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   width: 100%;
   align-items: center;
@@ -6512,7 +6510,7 @@ input.ic-mb {
   top: 3.125rem;
 }
 .portal-container .main {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -6632,21 +6630,21 @@ input.ic-mb {
   padding: 1.5rem 13.75rem 0 13.75rem;
 }
 .portal-container .main .main-content .list-content .table {
-  position: relative !important;
+  position: relative;
   border: none;
 }
 .portal-container .main .main-content .list-content + .pagination {
   padding: 0 13.75rem 1.875rem 13.75rem;
 }
 .portal-container .main .main-content .list-content + .pagination #spanCurrentPageNum {
-  position: absolute !important;
+  position: absolute;
   right: 13.75rem;
 }
 .portal-container .main .main-content .main-accordion {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
 .portal-container .main .main-content .main-accordion .faq-group {
-  position: relative !important;
+  position: relative;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -6666,7 +6664,7 @@ input.ic-mb {
   display: none;
 }
 .portal-container .main .main-content .main-accordion .faq-group-title .ic-plus, .portal-container .main .main-content .main-accordion .faq-group-title .ic-minus {
-  position: absolute !important;
+  position: absolute;
   top: 0.9375rem;
   right: 0.9375rem;
   display: inline-block;
@@ -6762,12 +6760,12 @@ input.ic-mb {
   padding: 0.625rem 0 0 0;
 }
 .portal-container .main .main-content .vertical-split-left .i-logo-white {
-  position: relative !important;
+  position: relative;
   top: 5rem;
   left: 5rem;
 }
 .portal-container .main .main-content .vertical-split-left .i-logo {
-  position: relative !important;
+  position: relative;
   top: -59.1875rem;
   margin: 5rem 0 0 5rem;
 }
@@ -6892,7 +6890,7 @@ input.ic-mb {
   padding: 5.6875rem 4.0625rem 0 4.0625rem;
 }
 .portal-container .main .main-content .vertical-split-right.signup-form .signup-base-form {
-  position: relative !important;
+  position: relative;
 }
 .portal-container .main .main-content .vertical-split-right.session-form {
   border-left: 0.0625rem solid #CFD5D9;
@@ -7196,7 +7194,7 @@ input.ic-mb {
   opacity: 0.5;
 }
 .avatar .dz-preview {
-  position: relative !important;
+  position: relative;
   height: 100%;
   padding: 0;
   border: 0;
@@ -7231,7 +7229,7 @@ input.ic-mb {
   transition: opacity 0.2s linear;
 }
 .avatar .dz-preview .dz-details {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   left: 0;
   display: block;
@@ -7250,7 +7248,7 @@ input.ic-mb {
   display: none;
 }
 .avatar .dz-preview .dz-details .dz-remove {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   background-image: url("../../assets/media/icons/icon_clear.svg");
@@ -7816,7 +7814,7 @@ input.ic-mb {
 }
 
 .btn__toggle__switch {
-  position: relative !important;
+  position: relative;
   display: inline-block;
   width: 100%;
   margin: 0 !important;
@@ -7835,7 +7833,7 @@ input.ic-mb {
   display: none;
 }
 .btn__toggle__switch input[type=checkbox] + span {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -7855,7 +7853,7 @@ input.ic-mb {
   cursor: pointer;
 }
 .btn__toggle__switch input[type=checkbox] + span::before {
-  position: absolute !important;
+  position: absolute;
   top: 0.1rem;
   left: 0.125rem;
   border-radius: 50%;
@@ -7875,7 +7873,7 @@ input.ic-mb {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  position: absolute !important;
+  position: absolute;
   right: 0.125rem;
   content: "";
   background-color: #FFFFFF;
@@ -8613,7 +8611,7 @@ input.ic-mb {
   background: #8B9094;
 }
 .color-picker__modal {
-  position: fixed !important;
+  position: fixed;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -8668,7 +8666,7 @@ input.ic-mb {
   pointer-events: none;
 }
 .color-picker__modal__custom {
-  position: relative !important;
+  position: relative;
   border-top: 0.0625rem solid #CFD5D9;
   min-height: 4.875rem;
   padding: 0.75rem;
@@ -8680,7 +8678,7 @@ input.ic-mb {
   margin: 0 0 0 8px;
 }
 .color-picker__modal__custom__list__item {
-  position: relative !important;
+  position: relative;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -8701,7 +8699,7 @@ input.ic-mb {
   pointer-events: none;
 }
 .color-picker__modal__custom__list__item .item-remove--red {
-  position: absolute !important;
+  position: absolute;
   top: -0.25rem;
   right: -0.25rem;
   border-radius: 50%;
@@ -8762,7 +8760,7 @@ input.ic-mb {
   text-align: right;
 }
 .color-picker__modal__custom .custom-color-btn__ic--edit {
-  position: absolute !important;
+  position: absolute;
   top: 0.125rem;
   right: 0.75rem;
   visibility: hidden;
@@ -8915,7 +8913,7 @@ input.ic-mb {
   padding-right: 2.25rem;
 }
 .date-picker__modal {
-  position: fixed !important;
+  position: fixed;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -8945,12 +8943,12 @@ input.ic-mb {
   font-weight: 700;
 }
 .date-picker__modal__header .btn__ic {
-  position: absolute !important;
+  position: absolute;
   top: 0.25rem;
   left: 0.5rem;
 }
 .date-picker__modal__header .ic-remove {
-  position: absolute !important;
+  position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   background: #8B9094;
@@ -9019,7 +9017,7 @@ input.ic-mb {
   padding-right: 0.625rem;
 }
 .picker__year .date-picker__period__text span:first-child::before {
-  position: absolute !important;
+  position: absolute;
   top: 0.438rem;
   right: 0.125rem;
   content: "";
@@ -9057,7 +9055,7 @@ input.ic-mb {
   color: #3373C4;
 }
 .picker__year__calendar__cell.selected:before {
-  position: absolute !important;
+  position: absolute;
   bottom: 0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -9495,14 +9493,14 @@ select.readonly {
 }
 
 .select {
-  position: relative !important;
+  position: relative;
   display: inline-block;
   width: 100%;
   height: 2.125rem;
   vertical-align: middle;
 }
 .select__box {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -9566,7 +9564,7 @@ select.readonly {
   pointer-events: none;
 }
 .select__box:not(.readonly) .ic-arrow-right {
-  position: absolute !important;
+  position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   -webkit-transform: rotate(90deg);
@@ -9600,10 +9598,6 @@ select.readonly {
   border: none;
 }
 .select__options {
-  position: absolute !important;
-  top: calc(100% + 0.25rem);
-  right: 0;
-  left: 0;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -9613,6 +9607,9 @@ select.readonly {
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
   overflow: auto;
   display: none;
+  position: absolute !important;
+  top: calc(100% + 0.25rem);
+  width: 100%;
   max-height: 25rem;
   margin: 0;
   padding: 0.25rem 0;
@@ -9648,7 +9645,7 @@ select.readonly {
   color: #3373C4;
 }
 .select__options .selected:after {
-  position: absolute !important;
+  position: absolute;
   right: 0.9375rem;
   background-image: url("../../assets/media/icons/icon_select_check.svg");
   background-size: auto;
@@ -9772,7 +9769,7 @@ select.readonly {
   display: none;
 }
 .checkbox input[type=checkbox] + span {
-  position: relative !important;
+  position: relative;
 }
 .checkbox input[type=checkbox] + span::before {
   border: 0.0625rem solid #ABB0B5;
@@ -9788,7 +9785,7 @@ select.readonly {
   vertical-align: middle;
 }
 .checkbox input[type=checkbox]:checked + span::after {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   left: 0;
   border-bottom: 0.125rem solid #3373C4;
@@ -9873,7 +9870,7 @@ select.readonly {
 }
 
 .radio {
-  position: relative !important;
+  position: relative;
   margin-right: 0.5rem;
   color: #424242;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -9889,10 +9886,10 @@ select.readonly {
   display: none;
 }
 .radio input[type=radio] + span {
-  position: relative !important;
+  position: relative;
 }
 .radio input[type=radio] + span::before {
-  position: relative !important;
+  position: relative;
   top: -0.0625rem;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 50%;
@@ -9907,7 +9904,7 @@ select.readonly {
   vertical-align: middle;
 }
 .radio input[type=radio] + span::after {
-  position: absolute !important;
+  position: absolute;
   top: -0.35rem;
   left: 0;
   border-radius: 50%;
@@ -10008,7 +10005,7 @@ select.readonly {
   -webkit-print-color-adjust: exact;
 }
 .input--remove .item-remove::before {
-  position: absolute !important;
+  position: absolute;
   bottom: -0.5rem;
   border-bottom: 0.0625rem solid #CFD5D9;
   content: "";
@@ -10353,7 +10350,7 @@ table th {
   opacity: 0.5;
 }
 .file-uploader--edit .dropzone .dz-preview {
-  position: relative !important;
+  position: relative;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -10494,7 +10491,7 @@ table th {
   height: 3.25rem;
 }
 .file-uploader--edit .dropzone .dz-preview .dz-image {
-  position: relative !important;
+  position: relative;
   overflow: hidden;
   display: block;
   z-index: 10;
@@ -10509,7 +10506,7 @@ table th {
   border-color: #F52525;
 }
 .file-uploader--edit .dropzone .dz-preview.dz-error .dz-error-message {
-  position: absolute !important;
+  position: absolute;
   top: 8.75rem;
   left: -0.625rem;
   border-radius: 0.5rem;
@@ -10530,7 +10527,7 @@ table th {
   pointer-events: none;
 }
 .file-uploader--edit .dropzone .dz-preview.dz-error .dz-error-message:after {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   left: 4rem;
   border-bottom: 0.375rem solid #be2626;
@@ -10602,7 +10599,7 @@ table th {
   animation-direction: normal;
 }
 .file-uploader--edit .dropzone .dz-preview .dz-progress {
-  position: relative !important;
+  position: relative;
   top: -1.563rem;
   left: 0.75rem;
   -webkit-transform: scale(1);
@@ -10620,7 +10617,7 @@ table th {
   pointer-events: none;
 }
 .file-uploader--edit .dropzone .dz-preview .dz-progress .dz-upload {
-  position: absolute !important;
+  position: absolute;
   top: -1.25rem;
   right: 0;
   bottom: 0;
@@ -10741,7 +10738,7 @@ body.active {
   z-index: 5000;
 }
 .modal__dialog {
-  position: absolute !important;
+  position: absolute;
   top: 4em;
   right: 0;
   left: 0;
@@ -11226,7 +11223,7 @@ body.active {
   padding: 0 1.25rem 1.25rem 1.25rem;
 }
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .attribute-group .child-attribute-group, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .attribute-group .child-attribute-group, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .attribute-group .child-attribute-group, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .attribute-group .child-attribute-group {
-  position: relative !important;
+  position: relative;
 }
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row {
   border: 0.0625rem solid #CFD5D9;
@@ -11269,7 +11266,7 @@ body.active {
 .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .button-attribute-add,
 .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .button-attribute-add,
 .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add {
-  position: absolute !important;
+  position: absolute;
   top: -1.875rem;
   right: 0;
 }
@@ -11278,7 +11275,7 @@ body.active {
 .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete,
 .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete,
 .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete {
-  position: absolute !important;
+  position: absolute;
   right: 0.3125rem;
 }
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group {
@@ -11496,7 +11493,7 @@ body.active {
   cursor: pointer;
 }
 .notification-panel {
-  position: relative !important;
+  position: relative;
   bottom: 0;
   left: 70.8rem;
   border: 0.0625rem solid #EEEEEE;
@@ -11584,7 +11581,7 @@ body.active {
   background-color: #FFFFFF;
 }
 .notification-panel__body__list .checked input[type=checkbox] {
-  position: relative !important;
+  position: relative;
   border: 0.063rem solid #3373C4;
   border-radius: 0.063rem;
   -webkit-border-radius: 0.063rem;
@@ -11603,7 +11600,7 @@ body.active {
   cursor: unset;
 }
 .notification-panel__body__list .checked input[type=checkbox]:checked::after {
-  position: absolute !important;
+  position: absolute;
   top: -0.063rem;
   left: 0.063rem;
   content: "✔";
@@ -11682,7 +11679,7 @@ body.active {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 .alice-toastify .toast-close {
-  position: absolute !important;
+  position: absolute;
   top: 0.688rem;
   right: 0.688rem;
   width: 1.5rem;
@@ -11755,7 +11752,7 @@ body.active {
   background: #19428D;
 }
 .pagination > span {
-  position: absolute !important;
+  position: absolute;
   right: 3.75rem;
   color: #757575;
   font-weight: 500;
@@ -11836,7 +11833,7 @@ body.active {
   min-width: 1.875rem;
 }
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -11852,7 +11849,7 @@ body.active {
   min-height: 1.875rem;
 }
 .scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -11939,7 +11936,7 @@ body.active {
   min-width: 1.875rem;
 }
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -11955,7 +11952,7 @@ body.active {
   min-height: 1.875rem;
 }
 .inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -12002,7 +11999,7 @@ body.active {
   min-width: 1.875rem;
 }
 .inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -12018,7 +12015,7 @@ body.active {
   min-height: 1.875rem;
 }
 .inner-scrollbar-dark > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -12193,7 +12190,7 @@ body.active {
   }
 }
 .tagify {
-  position: relative !important;
+  position: relative;
   -webkit-transition: 0.1s;
   -moz-transition: 0.1s;
   -o-transition: 0.1s;
@@ -12277,7 +12274,7 @@ body.active {
   display: none !important;
 }
 .tagify__tag {
-  position: relative !important;
+  position: relative;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -12342,7 +12339,7 @@ body.active {
   cursor: text;
 }
 .tagify__tag > div::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -12474,7 +12471,7 @@ body.active {
   transition: 0.2s;
 }
 .tagify__input {
-  position: relative !important;
+  position: relative;
   flex: 1;
   display: block;
   min-width: 6.875rem;
@@ -12523,7 +12520,7 @@ body.active {
   transform: none;
 }
 .tagify__input::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   bottom: 0;
   content: attr(data-placeholder);
@@ -12556,7 +12553,7 @@ body.active {
 }
 
 .tagify__dropdown {
-  position: absolute !important;
+  position: absolute;
   overflow: hidden;
   margin-top: 0.3125rem;
   background: #FFFFFF;
@@ -12593,7 +12590,7 @@ body.active {
   overflow: auto;
 }
 .tagify__dropdown__item {
-  position: relative !important;
+  position: relative;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -12781,7 +12778,7 @@ body.active {
   border-color: #3373C4;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats button {
-  position: relative !important;
+  position: relative;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -12957,7 +12954,7 @@ body.active {
 }
 .thumbnail-main .thumbnail .thumbnail-image,
 .thumbnail-main .thumbnail .thumbnail-file {
-  position: relative !important;
+  position: relative;
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -12967,7 +12964,7 @@ body.active {
 }
 .thumbnail-main .thumbnail .thumbnail-image img,
 .thumbnail-main .thumbnail .thumbnail-file img {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -13150,10 +13147,10 @@ body.active {
   }
 }
 .tooltip {
-  position: relative !important;
+  position: relative;
 }
 .tooltip__box {
-  position: absolute !important;
+  position: absolute;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
   -moz-transform: translate(-50%, 0);
@@ -13240,7 +13237,7 @@ body.active {
   animation-direction: normal;
 }
 .tooltip--info {
-  position: relative !important;
+  position: relative;
   display: inline-block;
   margin-left: 0.3125rem;
   vertical-align: middle;
@@ -13250,8 +13247,8 @@ body.active {
   cursor: pointer;
 }
 .tooltip--info .tooltip__box {
-  position: absolute !important;
-  left: auto;
+  position: absolute;
+  left: 0;
   border: 0.125rem solid #3373C4;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -13264,6 +13261,7 @@ body.active {
   margin: 0.25rem 0 0 0;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   color: #3373C4;
+  transform: none;
   text-align: left;
   visibility: hidden;
 }
@@ -13273,7 +13271,7 @@ body.active {
   word-break: keep-all;
 }
 .tooltip--info .tooltip__box.top {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: auto;
   bottom: auto;
@@ -13285,7 +13283,7 @@ body.active {
   transform: translate(-50%, calc(-100% - 0.625rem));
 }
 .tooltip--info .tooltip__box.right {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: auto;
@@ -13297,7 +13295,7 @@ body.active {
   transform: translate(calc(100% + 0.625rem), -50%);
 }
 .tooltip--info .tooltip__box.bottom {
-  position: absolute !important;
+  position: absolute;
   top: auto;
   right: auto;
   bottom: auto;
@@ -13309,7 +13307,7 @@ body.active {
   transform: translate(-50%, 0);
 }
 .tooltip--info .tooltip__box.left {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: auto;
   bottom: auto;
@@ -13380,7 +13378,7 @@ ul.tree {
   cursor: default;
 }
 ul.tree li {
-  position: relative !important;
+  position: relative;
   overflow: hidden;
   display: block;
   padding-right: 0.125rem;
@@ -13390,7 +13388,7 @@ ul.tree li {
   word-wrap: normal;
 }
 ul.tree ul {
-  position: relative !important;
+  position: relative;
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
@@ -13401,7 +13399,7 @@ ul.tree ul {
   list-style-type: none;
 }
 ul.tree ul:before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   bottom: 0;
   border-left: 0.0625rem solid #CFD5D9;
@@ -13411,7 +13409,7 @@ ul.tree ul li {
   padding-left: 1.6565rem;
 }
 ul.tree ul li:before {
-  position: absolute !important;
+  position: absolute;
   top: 0.9375rem;
   left: 0;
   border-top: 0.0625rem solid #CFD5D9;
@@ -13473,7 +13471,7 @@ span.modal_node_selected label {
 }
 
 .tree-container {
-  position: relative !important;
+  position: relative;
   margin: 1.875rem 2.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }

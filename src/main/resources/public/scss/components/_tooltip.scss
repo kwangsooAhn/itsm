@@ -77,7 +77,7 @@
 
     .tooltip__box {
       // 툴팁 표시 위치 기본은 우측 하단
-      @include absolute($left: auto);
+      @include absolute($left: 0);
       @include border(0.125rem, solid, $blue500, all);
       @include borderRadius(0.125rem); // 2px
       @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
@@ -86,6 +86,7 @@
       margin: 0.25rem 0 0 0;
       padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
       color: $blue500;
+      transform: none;
       text-align: left;
       visibility: hidden;
       span {

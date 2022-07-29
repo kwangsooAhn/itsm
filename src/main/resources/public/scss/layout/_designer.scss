@@ -180,10 +180,15 @@ $layout-header-dropdown: (
 .thumbnail-main { padding: 0.625rem; } // 10px
 
 ////////////////////////// tooltip //////////////////////////
-.tooltip--info { position: static; }
-.tooltip__box {
-  left: 0;
-  width: 100%;
+.form-container {
+  .tooltip {
+    &--info {
+      position: static !important;
+      .tooltip__box {
+        width: 100% !important;
+      }
+    }
+  }
 }
 
 /* FormDesigner

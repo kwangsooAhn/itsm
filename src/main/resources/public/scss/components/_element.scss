@@ -337,12 +337,14 @@ select {
 
   // select__box 클릭 시 보여지는 option 리스트 부분
   &__options {
-    @include absolute(calc(100% + 0.25rem), 0, null, 0);  // 4px
     @include border(0.0625rem, solid, $gray400, all);
     @include borderRadius(0.125rem); // 2px
     @include boxShadow(0, 0, 0.125rem, 0, $gray300);
     overflow: auto;
     display: none;
+    position: absolute !important;
+    top: calc(100% + 0.25rem);
+    width: 100%;
     max-height: 25rem; // 400px
     margin: 0;
     padding: 0.25rem 0; // 4px
