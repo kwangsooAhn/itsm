@@ -183,7 +183,7 @@ $custom-color-plus: (
               }
             }
           }
-          .input { padding: 0 0.5rem; } // 0 8px
+          input[type=text] { padding: 0 0.5rem; } // 0 8px
         }
 
         // 문구

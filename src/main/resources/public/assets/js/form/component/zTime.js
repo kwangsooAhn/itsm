@@ -51,7 +51,7 @@ export const timeMixin = {
         const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIDate = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('input ic-time-picker text-ellipsis')
+            .setUIClass('ic-time-picker text-ellipsis')
             .setUIId('date' + this.id)
             .setUIRequired(this.validationRequired)
             .setUIValue(this.getDefaultValue())

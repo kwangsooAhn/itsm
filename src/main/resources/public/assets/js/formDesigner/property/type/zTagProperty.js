@@ -42,6 +42,7 @@ export default class ZTagProperty extends ZProperty {
 
         this.UIElement.UIInput = new UIInput()
             .setUIId(this.key).setUIValue(valueString)
+            .setUIClass('tag__input')
             .setUIReadOnly(!this.isEditable);
         this.UIElement.addUI(this.UIElement.UIInput);
 

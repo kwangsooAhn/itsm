@@ -5,7 +5,7 @@
     <div class="flex-row">
         <div class="flex-column col-2">
             <label for="referenceDate" class="mt-2 mb-2" th:text="#{sla.metricManual.label.referenceDate}"></label>
-            <input type="text" class="input ic-date-picker search-date col-pct-12" id="referenceDate" name="referenceDate"/>
+            <input type="text" class="ic-date-picker search-date col-pct-12" id="referenceDate" name="referenceDate"/>
         </div>
     </div>
     <div class="flex-row mt-5">
@@ -21,7 +21,7 @@
                 <span class="required"></span>
             </label>
             <div class="flex-row">
-                <input type="text" id="metricValue" class="input col-pct-13 required" name="metricValue"
+                <input type="text" id="metricValue" class="col-pct-13 required" name="metricValue"
                        onkeyup="this.value=this.value.replace(/[^0-9.]/g,'');"
                        onchange="checkDecimalValue('metricValue','sla.metricYear.msg.checkValue')"/>
                 <span class="pl-1" id="metricUnitText"></span>

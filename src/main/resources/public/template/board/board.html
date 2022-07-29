@@ -16,12 +16,12 @@
         <label for="boardAdminTitle">
             <span th:classappend="${view} ? '' : 'required'" th:text="#{board.label.name}"></span>
         </label>
-        <input class="input text-ellipsis" id="boardAdminTitle" maxlength="70" required="required"
+        <input class="text-ellipsis" id="boardAdminTitle" maxlength="70" required="required"
                th:readonly="${view}" th:value="${boardAdmin?.boardAdminTitle}" type="text"/>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.useYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.useYn}"></span>
             <input id="boardUseYn" name="boardUseYn" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
@@ -29,34 +29,34 @@
     </div>
     <div class="flex-column edit-row">
         <label for="boardAdminSort" th:text="#{board.label.order}"></label>
-        <input class="input text-ellipsis col-6" id="boardAdminSort" maxlength="2" name="boardAdminSort"
+        <input class="text-ellipsis col-6" id="boardAdminSort" maxlength="2" name="boardAdminSort"
                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'" th:readonly="${view}"
                th:value="${boardAdmin?.boardAdminSort}" type="text"/>
     </div>
     <div class="flex-column edit-row">
         <label for="boardAdminDesc" th:text="#{board.label.desc}"></label>
-        <textarea class="textarea textarea-scroll-wrapper" id="boardAdminDesc" maxlength="2048"
+        <textarea id="boardAdminDesc" maxlength="2048"
                   name="boardAdminDesc" rows="7" th:readonly="${view}" th:classappend="${view} ? 'textarea-readonly'" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.replyYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.replyYn}"></span>
             <input id="replyYn" name="replyYn" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.commentYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.commentYn}"></span>
             <input id="commentYn" name="commentYn" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}"
                    th:disabled="${view}" type="checkbox">
             <span></span>
         </label>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.category}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.category}"></span>
             <input id="categoryYn" name="categoryYn" onchange="setDisplay('category-detail', this.checked)"
                    th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}"
                    th:disabled="${view}" type="checkbox">
@@ -68,11 +68,11 @@
                     <label for="boardCategoryName">
                         <span th:classappend="${view} ? 'readonly' : ''" th:text="#{board.label.categoryName}"></span>
                     </label>
-                    <input class="input text-ellipsis" id="boardCategoryName" maxlength="100" required="required" th:readonly="${view}" type="text"/>
+                    <input class="text-ellipsis" id="boardCategoryName" maxlength="100" required="required" th:readonly="${view}" type="text"/>
                 </div>
                 <div class="flex-column col-5 mr-2">
                     <label for="boardCategorySort" th:text="#{board.label.order}"></label>
-                    <input class="input text-ellipsis" id="boardCategorySort" maxlength="2" th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
+                    <input class="text-ellipsis" id="boardCategorySort" maxlength="2" th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
                            th:readonly="${view}" type="text"/>
                 </div>
                 <div class="flex-column justify-content-end col-1">
@@ -81,19 +81,19 @@
             </div>
             <div class="flex-row">
                 <div class="category-list mt-2">
-                    <table class="option-table">
+                    <table class="tbl--option">
                         <thead>
-                        <tr class="option-table-header">
+                        <tr class="tbl__head">
                             <th class="col-6 align-left" th:text="#{board.label.category}"></th>
                             <th class="col-5 align-left" th:text="#{board.label.order}"></th>
                             <th class="col-1 align-center"></th>
                         </tr>
                         </thead>
-                        <tbody class="edit-table-tbody" id="boardCategoryList">
+                        <tbody class="tbl__body" id="boardCategoryList">
                         <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
                             <td colspan="5" style="width:100%" th:text="#{common.msg.noData}"></td>
                         </tr>
-                        <tr class="option-table-row" th:each="category: ${boardAdmin?.categoryList}">
+                        <tr class="tbl__body__row" th:each="category: ${boardAdmin?.categoryList}">
                             <td class="col-6 align-left text-wordWrap" th:text="${category.boardCategoryName}"></td>
                             <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
                             <td class="col-1 align-center">
@@ -111,8 +111,8 @@
         </div>
     </div>
     <div class="flex-column edit-row">
-        <label class="switch">
-            <span class="label" th:text="#{board.label.attachFileYn}"></span>
+        <label class="btn__toggle__switch">
+            <span class="btn__toggle__switch__label" th:text="#{board.label.attachFileYn}"></span>
             <input id="attachYn" name="attachYn" onchange="setDisplay('attachFileSize', this.checked)"
                    th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
                    th:disabled="${view}" type="checkbox">
@@ -123,7 +123,7 @@
         <label for="attachFileSize">
             <span th:classappend="${view} ? '' : 'required'" th:text="#{board.label.attachFileSize}"></span>
         </label>
-        <input class="input col-6 ic-mb" id="attachFileSize" maxlength="4" name="attachFileSize"
+        <input class="col-6 ic-mb" id="attachFileSize" maxlength="4" name="attachFileSize"
                th:onKeyup="${view} ? '' : 'this.value=this.value.replace(/[^0-9]/g,\'\');'"
                th:value="${boardAdmin?.attachFileSize}" th:readonly="${view}" type="text"/>
     </div>
@@ -167,7 +167,7 @@
             setDisplay('category-detail', document.getElementById('categoryYn').checked);
 
             OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
-            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            OverlayScrollbars(document.querySelectorAll('textarea'), {
                 className: 'scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
@@ -330,7 +330,7 @@
             const categoryNameColumn = document.createElement('td');
             const categorySortColumn = document.createElement('td');
             const categoryDeleteColumn = document.createElement('td');
-            categoryRow.className = 'option-table-row';
+            categoryRow.className = 'tbl__body__row';
             categoryNameColumn.className = 'col-6';
             categorySortColumn.className = 'col-5';
             categoryDeleteColumn.className = 'col-1 align-center';
