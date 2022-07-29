@@ -593,12 +593,11 @@
                         getChart(ciId);
                     }
                 });
-
                 ciDetailModal.show();
             });
         }
 
-        function getChart(ciId, container) {
+        function getChart(ciId) {
             aliceJs.fetchJson('/rest/cmdb/cis/' + ciId + '/chart', {
                 method: 'GET',
                 showProgressBar: true

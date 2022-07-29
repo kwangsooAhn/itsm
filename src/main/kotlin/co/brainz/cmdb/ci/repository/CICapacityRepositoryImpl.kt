@@ -10,7 +10,6 @@ import co.brainz.cmdb.ci.entity.CICapacityEntity
 import co.brainz.cmdb.ci.entity.QCICapacityEntity
 import co.brainz.itsm.cmdb.ci.dto.CICapacityDto
 import com.querydsl.core.types.Projections
-import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class CICapacityRepositoryImpl : QuerydslRepositorySupport(CICapacityEntity::class.java), CICapacityRepositoryCustom {
@@ -29,8 +28,7 @@ class CICapacityRepositoryImpl : QuerydslRepositorySupport(CICapacityEntity::cla
                     capacity.mappingId
                 )
             )
-            .where(capacity.ci.ciId.eq(ciId)
-                .and(capacity.referenceDt.loe(LocalDateTime.now()).and(capacity.referenceDt.goe(LocalDateTime.now().minusDays(7L)))))
+            .where(capacity.ci.ciId.eq(ciId))
             .fetch()
     }
 }

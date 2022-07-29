@@ -38,6 +38,7 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.dto.CICapacityChartDto
+import co.brainz.itsm.cmdb.ci.dto.CICapacityDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentInfo
 import co.brainz.itsm.cmdb.ci.dto.CISearch
@@ -59,7 +60,6 @@ import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
-import kotlin.math.round
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -484,42 +484,23 @@ class CIService(
     fun getCapacityChartData(ciId: String): CICapacityChartDto {
         val capacityData = ciCapacityRepository.findCapacityChartData(ciId)
         val tags: MutableList<AliceTagDto> = mutableListOf()
-        val chartDataList: MutableList<ChartData> = mutableListOf()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        capacityData.forEach { capacity ->
-            var chartData = ChartData(
-                id = "",
-                category = capacity.referenceDt.format(formatter),
-                value = capacity.memAvg.toString(),
-                series = CIConstants.CapacityTag.MEMORY.code
-            )
-            chartDataList.add(chartData)
+        val chartDataList = this.initDataSetting(capacityData)
 
-            chartData = ChartData(
-                id = "",
-                category = capacity.referenceDt.format(formatter),
-                value = capacity.cpuAvg.toString(),
-                series = CIConstants.CapacityTag.CPU.code
+        tags.add(
+            AliceTagDto(
+                tagValue = CIConstants.CapacityTag.MEMORY.code
             )
-            chartDataList.add(chartData)
-
-            chartData = ChartData(
-                id = "",
-                category = capacity.referenceDt.format(formatter),
-                value = capacity.diskAvg.toString(),
-                series = CIConstants.CapacityTag.DISK.code
+        )
+        tags.add(
+            AliceTagDto(
+                tagValue = CIConstants.CapacityTag.CPU.code
             )
-            chartDataList.add(chartData)
-        }
-        tags.add(AliceTagDto(
-            tagValue = CIConstants.CapacityTag.MEMORY.code
-        ))
-        tags.add(AliceTagDto(
-            tagValue = CIConstants.CapacityTag.CPU.code
-        ))
-        tags.add(AliceTagDto(
-            tagValue = CIConstants.CapacityTag.DISK.code
-        ))
+        )
+        tags.add(
+            AliceTagDto(
+                tagValue = CIConstants.CapacityTag.DISK.code
+            )
+        )
 
         return CICapacityChartDto(
             chartId = ciId,
@@ -536,5 +517,50 @@ class CIService(
             ),
             chartData = chartDataList
         )
+    }
+
+    private fun initDataSetting(capacityList: List<CICapacityDto>): MutableList<ChartData> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:00:00")
+        var from = LocalDateTime.now().plusHours(9)
+        val chartDataList = mutableListOf<ChartData>()
+        for(i in 1 .. 144) {
+
+            var cpuAvg = ""
+            var memAvg = ""
+            var diskAvg = ""
+            capacityList.forEach { it ->
+                if (it.referenceDt.format(formatter) == from.format(formatter)) {
+                    cpuAvg = it.cpuAvg.toString()
+                    memAvg = it.memAvg.toString()
+                    diskAvg = it.diskAvg.toString()
+                }
+            }
+            chartDataList.add(
+                ChartData(
+                    id = "",
+                    category = from.format(formatter),
+                    value = memAvg,
+                    series = CIConstants.CapacityTag.MEMORY.code
+                )
+            )
+            chartDataList.add(
+                ChartData(
+                    id = "",
+                    category = from.format(formatter),
+                    value = cpuAvg,
+                    series = CIConstants.CapacityTag.CPU.code
+                )
+            )
+            chartDataList.add(
+                ChartData(
+                    id = "",
+                    category = from.format(formatter),
+                    value = diskAvg,
+                    series = CIConstants.CapacityTag.DISK.code
+                )
+            )
+            from = from.minusHours(1)
+        }
+        return chartDataList
     }
 }
