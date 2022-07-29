@@ -18,7 +18,7 @@
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
                 <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr class="flex-row align-items-center table-row" th:each="user : ${userList}">
+            <tr class="flex-row align-items-center tbl-row" th:each="user : ${userList}">
                 <td style="width: 5%;" class="align-center text-clip">
                     <label class="checkbox" th:for="${user.userKey}" tabindex="0" th:if="${multiSelect}" >
                         <input type="checkbox" th:id="${user.userKey}" th:value="${user.userName}"

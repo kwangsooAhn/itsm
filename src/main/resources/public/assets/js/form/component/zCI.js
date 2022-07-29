@@ -1301,7 +1301,7 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addCIRelation(ciRelations, isChecked) {
         const trRow = document.createElement('tr');
-        trRow.className = 'table-row relation-data';
+        trRow.className = 'tbl-row relation-data';
 
         const targetIcon = document.createElement('td');
         targetIcon.className = 'col-1 align-center';

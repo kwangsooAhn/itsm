@@ -689,7 +689,7 @@ export const dynamicRowTableMixin = {
                 method: 'GET'
             }).then((htmlData) => {
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (!userListElem.querySelectorAll('.table-row').length) {
+                if (!userListElem.querySelectorAll('.tbl-row').length) {
                     defaultValue = '';
                 }
             });
@@ -960,7 +960,7 @@ export const dynamicRowTableMixin = {
             searchUserList.innerHTML = htmlData;
             OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.tbl-row').length);
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {

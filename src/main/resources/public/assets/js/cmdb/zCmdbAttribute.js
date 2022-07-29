@@ -1045,7 +1045,7 @@
             targetUserList.innerHTML = htmlData.toString();
             OverlayScrollbars(targetUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(targetUserList.querySelectorAll('.tbl-row').length);
             // 기존 선택값 표시
             userArray.forEach( (target) => {
                 const targetCheckBox = targetUserList.querySelector('input[id="' + target.id + '"]');
@@ -2236,7 +2236,7 @@
                 searchUserList.innerHTML = htmlData.toString();
                 OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
                 // 갯수 가운트
-                aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.tbl-row').length);
                 // 체크 이벤트
                 searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                     element.addEventListener('change', () => {
@@ -2255,7 +2255,7 @@
             } else {
                 // 기본 값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (userListElem.querySelectorAll('.table-row').length === 0) {
+                if (userListElem.querySelectorAll('.tbl-row').length === 0) {
                     target.value = '';
                     target.setAttribute('data-user-search', '');
                 }

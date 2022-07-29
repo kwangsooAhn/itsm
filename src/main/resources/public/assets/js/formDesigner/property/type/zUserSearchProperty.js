@@ -248,7 +248,7 @@ export default class ZUserSearchProperty extends ZProperty {
             targetUserList.innerHTML = htmlData;
             OverlayScrollbars(targetUserList.querySelector('.tbl__body'), {className: 'scrollbar'});
             // 갯수 가운트
-            aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(targetUserList.querySelectorAll('.tbl-row').length);
             // 체크 이벤트
             targetUserList.querySelectorAll('input[type=checkbox]').forEach((element) => {
                 element.addEventListener('change', () => {

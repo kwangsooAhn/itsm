@@ -11288,7 +11288,7 @@ body.active {
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row {
   margin-top: 0.625rem;
 }
-.modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row {
+.modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row {
   border-bottom: 0.0625rem solid #ABB0B5;
   height: 2.5rem;
 }

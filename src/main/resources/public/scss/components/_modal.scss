@@ -416,7 +416,7 @@ body.active { overflow: hidden !important; }
         }
         // 연관 관계
         .relation-group {
-          .table-row {
+          .tbl-row {
             @include border(0.0625rem, solid, $gray400, bottom);
             height: 2.5rem;
           }
