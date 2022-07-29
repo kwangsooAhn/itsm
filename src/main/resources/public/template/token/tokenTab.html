@@ -70,7 +70,7 @@
         </div>
     </div>
     <!-- 댓글 -->
-    <div class="token-panel commnet--token" id="tokenComments">
+    <div class="token-panel comment--token" id="tokenComments">
         <div class="comment__form flex-row align-items-start">
             <textarea id="commentValue" class="flex-fill mr-1" maxlength="200"
                       rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
@@ -81,7 +81,7 @@
     <!-- 태그 -->
     <div class="token-panel token-tag" id="tokenTag">
         <div class="tag-input">
-            <input type="text" id="tokenTags" th:value="${tagList}"/>
+            <input type="text" class="tag__input" id="tokenTags" th:value="${tagList}"/>
         </div>
     </div>
 </div>

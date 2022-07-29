@@ -214,7 +214,7 @@
         const elementData = elements.filter(function(elem) { return elem.id === elementId; });
         if (elementData.length) {
             if (elementData[0].type === type) {
-                d3.select('g.alice-tooltip').remove();
+                d3.select('g.context-menu').remove();
                 return;
             }
             const originElementData = JSON.parse(JSON.stringify(elementData[0]));
@@ -235,7 +235,7 @@
             elementData[0].data = typeData;
             elementData[0].required = getAttributeRequired(category, type);
 
-            d3.select('g.alice-tooltip').remove();
+            d3.select('g.context-menu').remove();
             changeElementType(element, type, true);
             zProcessDesigner.utils.history.saveHistory(
                 [{ 0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0])) }]
@@ -462,13 +462,13 @@
         }
 
         const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
-            .attr('class', 'alice-tooltip').style('display', 'none');
+            .attr('class', 'context-menu').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
             containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
-            .attr('class', 'tooltip-container action-tooltip')
+            .attr('class', 'context-group--action')
             .attr('width', containerWidth)
             .attr('height', containerHeight)
             .on('mousedown', function() {
@@ -476,12 +476,12 @@
                 d3.event.preventDefault();
             });
 
-        tooltipItemContainer.selectAll('action-tooltip-item')
+        tooltipItemContainer.selectAll('context-menu__item--action')
             .data(actionTooltip)
             .enter()
             .append('rect')
-            .attr('class', 'action-tooltip-item')
-            .attr('id', function(d) { return 'action-tooltip-item-' + d.type; })
+            .attr('class', 'context-menu__item--action')
+            .attr('id', function(d) { return 'context-menu__item--action-' + d.type; })
             .attr('x', function(d, i) { return  itemMargin + (i * (itemSize + itemMargin) ); })
             .attr('y', itemMargin)
             .attr('width', itemSize)
@@ -492,7 +492,7 @@
                 d3.event.preventDefault();
                 actionTooltip.forEach(function(t) {
                     if (t.focusUrl) {
-                        let item = document.getElementById('action-tooltip-item-' + t.type);
+                        let item = document.getElementById('context-menu__item--action-' + t.type);
                         d3.select(item).style('fill', 'url(#' + t.parent + '-' + t.type + ')');
                     }
                 });
@@ -666,7 +666,7 @@
      */
     function deleteElement(elem) {
         const histories = [];
-        d3.select('g.alice-tooltip').remove();
+        d3.select('g.context-menu').remove();
         const elementId = elem.node().id,
             elements = zProcessDesigner.data.elements;
 
@@ -720,7 +720,7 @@
      * @param elem 복제 대상 element
      */
     function copyElement(elem) {
-        d3.select('g.alice-tooltip').remove();
+        d3.select('g.context-menu').remove();
         const targetElementData = getElementData(elem);
         let elemData = JSON.parse(JSON.stringify(targetElementData));
         elemData.display['position-x'] = elemData.display['position-x'] + 10;
@@ -743,7 +743,7 @@
      * @param type 추가할 element 타입
      */
     function suggestElement(elem, type) {
-        d3.select('g.alice-tooltip').remove();
+        d3.select('g.context-menu').remove();
 
         const targetBbox = zProcessDesigner.utils.getBoundingBoxCenter(elem);
         let category = getElementCategory(type);
@@ -831,14 +831,14 @@
      * @param elem 선택된 element
      */
     function setElementItems(items, elem) {
-        d3.selectAll('.element-tooltip-item').remove();
-        d3.selectAll('.element-tooltip').remove();
+        d3.selectAll('.context-menu__item--element').remove();
+        d3.selectAll('.context-group--element').remove();
         if (!items.length) {
             return;
         }
 
-        const tooltipItemContainer = d3.select('g.alice-tooltip'),
-            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+        const tooltipItemContainer = d3.select('g.context-menu'),
+            actionTooltipContainer = tooltipItemContainer.select('.context-group--action'),
             containerWidth = itemSize + (itemMargin * 2),
             containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
@@ -847,18 +847,18 @@
             y = bbox.y;
 
         tooltipItemContainer.append('rect')
-            .attr('class', 'tooltip-container element-tooltip')
+            .attr('class', 'context-group--element')
             .attr('x', x)
             .attr('y', y)
             .attr('width', containerWidth)
             .attr('height', containerHeight)
             .on('mousedown', function() { d3.event.stopPropagation(); });
 
-        tooltipItemContainer.selectAll('element-tooltip-item')
+        tooltipItemContainer.selectAll('context-menu__item--element')
             .data(items)
             .enter()
             .append('rect')
-            .attr('class', 'element-tooltip-item')
+            .attr('class', 'context-menu__item--element')
             .attr('x', x + itemMargin)
             .attr('y', function(d, i) { return y + itemMargin + (i * (itemSize + itemMargin)); })
             .attr('width', itemSize)
@@ -1112,11 +1112,11 @@
             targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let targetMappingTooltip = document.createElement('div');
-            targetMappingTooltip.className = 'help-tooltip';
+            targetMappingTooltip.className = 'tooltip--info';
             let targetMappingTooltipIcon = document.createElement('span');
             targetMappingTooltipIcon.className = 'ic-tooltip';
             let targetMappingTooltipContents = document.createElement('div');
-            targetMappingTooltipContents.className = 'tooltip-contents';
+            targetMappingTooltipContents.className = 'tooltip__box';
             let targetMappingTooltipText = document.createElement('span');
             targetMappingTooltipText.innerHTML = i18n.msg('process.msg.targetFileMappingId');
             targetMappingTooltipContents.appendChild(targetMappingTooltipText);
@@ -1142,11 +1142,11 @@
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
 
             let sourceMappingTooltip = document.createElement('div');
-            sourceMappingTooltip.className = 'help-tooltip';
+            sourceMappingTooltip.className = 'tooltip--info';
             let sourceMappingTooltipIcon = document.createElement('span');
             sourceMappingTooltipIcon.className = 'ic-tooltip';
             let sourceMappingTooltipContents = document.createElement('div');
-            sourceMappingTooltipContents.className = 'tooltip-contents';
+            sourceMappingTooltipContents.className = 'tooltip__box';
             let sourceMappingTooltipText = document.createElement('span');
             sourceMappingTooltipText.innerHTML = i18n.msg('process.msg.sourceMappingId');
             sourceMappingTooltipContents.appendChild(sourceMappingTooltipText);
@@ -1260,11 +1260,11 @@
             actionContainer.appendChild(conditionLabel);
 
             let conditionTooltip = document.createElement('div');
-            conditionTooltip.className = 'help-tooltip';
+            conditionTooltip.className = 'tooltip--info';
             let conditionTooltipIcon = document.createElement('span');
             conditionTooltipIcon.className = 'ic-tooltip';
             let conditionTooltipContents = document.createElement('div');
-            conditionTooltipContents.className = 'tooltip-contents';
+            conditionTooltipContents.className = 'tooltip__box';
             let conditionTooltipText = document.createElement('span');
             conditionTooltipText.innerHTML = i18n.msg('process.msg.condition');
             conditionTooltipContents.appendChild(conditionTooltipText);
@@ -1888,7 +1888,7 @@
                 propertyContainer.appendChild(elementObject);
 
                 let copyBtnContainer = document.createElement('div');
-                copyBtnContainer.className = 'clipboard-tooltip';
+                copyBtnContainer.className = 'inline-block ml-1 tooltip';
 
                 let copyBtn = document.createElement('button');
                 copyBtn.className = 'btn__ic secondary btn-clipboard-tooltip';
@@ -1905,11 +1905,14 @@
                     let tooltip = document.getElementById('clipboardTooltipText');
                     tooltip.textContent = 'Copy to clipboard';
                 });
+                let tooltipBox = document.createElement('div');
+                tooltipBox.className = 'tooltip__box right-top';
                 let tooltip = document.createElement('span');
                 tooltip.id = 'clipboardTooltipText';
-                tooltip.className = 'clipboard-tooltip-text';
+                tooltip.className = 'tooltip__box__text';
                 tooltip.textContent = 'Copy to clipboard';
-                copyBtn.appendChild(tooltip);
+                tooltipBox.appendChild(tooltip);
+                copyBtn.appendChild(tooltipBox);
                 copyBtnContainer.appendChild(copyBtn);
 
                 propertyContainer.appendChild(copyBtnContainer);

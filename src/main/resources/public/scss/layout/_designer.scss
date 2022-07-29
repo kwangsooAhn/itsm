@@ -40,7 +40,7 @@ $layout-header-dropdown: (
     pointer-events: none;
   }
 
-  + .dropdown-content {
+  + .context-menu {
     @include absolute($right: 0);
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
@@ -51,7 +51,7 @@ $layout-header-dropdown: (
     z-index: $z-index-between-tooltip-gnb;
     visibility: hidden;
 
-    .dropdown-item {
+    .context-menu__item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0
 
       .button-dropdown {
@@ -99,7 +99,7 @@ $layout-header-dropdown: (
 
   &.active {
     .ic-arrow-right { @include rotate(-90); }
-    + .dropdown-content {
+    + .context-menu {
       display: block;
       visibility: visible;
     }
@@ -180,10 +180,15 @@ $layout-header-dropdown: (
 .thumbnail-main { padding: 0.625rem; } // 10px
 
 ////////////////////////// tooltip //////////////////////////
-.help-tooltip { position: static; }
-.tooltip-contents {
-  left: 0;
-  width: 100%;
+.form-container {
+  .tooltip {
+    &--info {
+      position: static !important;
+      .tooltip__box {
+        width: 100% !important;
+      }
+    }
+  }
 }
 
 /* FormDesigner
@@ -339,9 +344,37 @@ $layout-header-dropdown: (
   min-height: 56.25rem; // 900px
   background-color: $white;
   & *:focus { outline: none !important; }
+
+  .context-menu {
+    @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
+    @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); // 1px
+    height: 2.5rem; // 40px;
+    background-color: $white;
+    z-index: $z-index-tooltip;
+    visibility: hidden;
+    .context-group {
+      margin: 0 0.125rem; // 0 2px
+      padding: 0.5625rem 0 0; // 9px 0 0 0
+      .context-menu__item {
+        display: inline-block;
+        margin: 0 0.25rem; // 0 4px
+        padding: 0 0.25rem; // 0 4px
+        cursor: pointer;
+        [class*="ic-"] {
+          display: inline-block;
+          background: $blue300;
+          vertical-align: middle;
+          pointer-events: none;
+        }
+        &:hover {
+          [class*="ic-"] { background: $blue500; }
+        }
+      }
+    }
+  }
 }
 // 그룹 툴팁
-.group-tooltip {
+.group-area {
   @include relative();
   @include border(0.0625rem, solid, $gray300, all); // 1px
   @include borderRadius(0.125rem); // 2px
@@ -350,7 +383,7 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .tooltip-menu:not(.none) { visibility: visible; }
+    > .context-menu:not(.none) { visibility: visible; }
   }
   &.focus { background-color: $blue50; }
   // displayType이 hidden일 경우
@@ -393,7 +426,7 @@ $layout-header-dropdown: (
       + .group-label {
         .ic-arrow-right { @include rotate(90); }
       }
-      ~ .row-tooltip:not(.none) { display: block; }
+      ~ .row-area:not(.none) { display: block; }
     }
     // 라벨
     .group-label {
@@ -410,14 +443,14 @@ $layout-header-dropdown: (
     }
 
     // row
-    .row-tooltip {
+    .row-area {
       @include transition(all 0.25s ease-out);
       display: none;
     }
   }
 }
 // row 툴팁
-.row-tooltip {
+.row-area {
   @include border(0.0625rem, solid, $gray300, all); // 1px
   @include borderRadius(0.125rem);
   position: relative;
@@ -425,12 +458,12 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    > .tooltip-menu:not(.none) { visibility: visible; }
+    > .context-menu:not(.none) { visibility: visible; }
   }
 }
 
 // component 툴팁
-.component-tooltip {
+.component-area {
   @include border(0.0625rem, dashed, $gray300, all); // 1px
   @include borderRadius(0.0625rem); // 2px
   position: relative;
@@ -444,7 +477,7 @@ $layout-header-dropdown: (
   &.selected {
     @include border(0.0625rem, solid, $blue500, all); // 1px
     background-color: $blue50;
-    >.tooltip-menu:not(.none) { visibility: visible; }
+    >.context-menu:not(.none) { visibility: visible; }
 
     // component
     .component {
@@ -681,40 +714,12 @@ $layout-header-dropdown: (
     }
   }
 }
-// tooptip
-.tooltip-menu {
-  @include absolute($right: -0.0625rem, $bottom: 100%); // -1px
-  @include boxShadow(0, 0, 0, 0.0625rem, $blue500, true); // 1px
-  height: 2.5rem; // 40px;
-  background-color: $white;
-  z-index: $z-index-tooltip;
-  visibility: hidden;
-  .tooltip-menu-items {
-    margin: 0 0.125rem; // 0 2px
-    padding: 0.5625rem 0 0; // 9px 0 0 0
-    .tooltip-menu-item {
-      display: inline-block;
-      margin: 0 0.25rem; // 0 4px
-      padding: 0 0.25rem; // 0 4px
-      cursor: pointer;
-      [class*="ic-"] {
-        display: inline-block;
-        background: $blue300;
-        vertical-align: middle;
-        pointer-events: none;
-      }
-      &:hover {
-        [class*="ic-"] { background: $blue500; }
-      }
-    }
-  }
-}
 
 // preview
 .preview {
-  .group-tooltip { border: 0.0625rem solid #FFFFFF; }
-  .row-tooltip { border: 0.0625rem solid #FFFFFF; }
-  .component-tooltip {
+  .group-area { border: 0.0625rem solid #FFFFFF; }
+  .row-area { border: 0.0625rem solid #FFFFFF; }
+  .component-area {
     margin: 0;
     padding: 0;
     border-color: transparent !important;
@@ -876,7 +881,7 @@ $component-icon: (
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
             }
-            .component-tooltip { display: none; }
+            .component-area { display: none; }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.placeholder {
@@ -977,7 +982,7 @@ $component-icon: (
               color: map-get($component-icon, 'drag', 'font');
               font-weight: $font-weight-bold;
             }
-            .component-tooltip { display: none; }
+            .component-area { display: none; }
           }
           // 마우스가 drag 되는 item 영역을 벗어날 경우 컴포넌트 팔레트 item
           &.placeholder {
@@ -1027,7 +1032,7 @@ $component-icon: (
 
     [class*="ic-"] { display: none; }
     .component-name { display: none; }
-    .component-tooltip {
+    .component-area {
       border-color: transparent;
       .component {
         // 드래그시 사용자 디자인보다 우선 적용
@@ -1109,7 +1114,7 @@ $component-icon: (
   }
   // 폼 디자이너가 아닐 경우 컴포넌트 테두리 제거
   &:not([data-display="ready"]) {
-    .component-tooltip { border-color: transparent !important; }
+    .component-area { border-color: transparent !important; }
   }
 }
 
@@ -1719,15 +1724,19 @@ $element-icon-toggle: (
 
     defs marker path { fill: $gray600; }
     // 툴팁
-    g.alice-tooltip {
-      rect.tooltip-container {
-        fill: $white;
-        stroke: $gray300;
-        stroke-width: 1;
+    g.context-menu {
+      visibility: visible;
+      rect.context-group {
+        &--action,
+        &--element {
+          fill: $white;
+          stroke: $gray300;
+          stroke-width: 1;
+        }
       }
 
-      rect.action-tooltip-item:hover,
-      rect.element-tooltip-item:hover { cursor: pointer; }
+      rect.context-group--action-item:hover,
+      rect.context-group--element-item:hover { cursor: pointer; }
     }
     // 가이드 라인
     g.guides-container {

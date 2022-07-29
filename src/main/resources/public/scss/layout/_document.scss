@@ -36,7 +36,7 @@
   ////////////////////////// form //////////////////////////
   $tooltip-type: (group, row, component);
   @each $type in $tooltip-type {
-    .#{$type}-tooltip {
+    .#{$type}-area {
       @include border(0.0625rem, solid, $white, all); // 1px
     }
   }
@@ -44,7 +44,7 @@
   // 툴팁 border 초기화
   .component {
     padding: 0 1rem;
-    &-tooltip {
+    &-area {
       display: flex;
       margin: 0;
       padding: 0;
@@ -381,11 +381,11 @@
       .drawing-board {
         .form {
           display: table-row;
-          .group-tooltip {
+          .group-area {
             page-break-after: auto;
             break-inside: avoid;
           }
-          .row-tooltip {
+          .row-area {
             break-inside: avoid;
             .textarea {
               width: inherit;

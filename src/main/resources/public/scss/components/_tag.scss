@@ -34,7 +34,7 @@
     .tagify__tag__removeBtn { display: none; }
   }
 
-  &input[type=text] {
+  &.tag__input {
     @include border(0.0625rem, solid, $gray400); // 1px
     @include borderRadius(0.125rem); // 2px
     height: max-content;

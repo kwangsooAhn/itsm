@@ -3128,7 +3128,7 @@ input.ic-mb {
   cursor: pointer;
 }
 .itsm-container .main-content .page-list .table {
-  position: relative !important;
+  position: relative;
   border: none;
 }
 .itsm-container .main-content .page-list .no-data-text {
@@ -3376,11 +3376,11 @@ input.ic-mb {
   background-color: #FAFAFA;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group {
-  position: relative !important;
+  position: relative;
   padding-top: 0.625rem;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group .button-attribute-add {
-  position: absolute !important;
+  position: absolute;
   top: -1.875rem;
   right: 0;
 }
@@ -3394,7 +3394,7 @@ input.ic-mb {
   background-color: #FFFFFF;
 }
 .itsm-container .main-content .page-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete {
-  position: absolute !important;
+  position: absolute;
   right: 0.3125rem;
 }
 .itsm-container .main .view {
@@ -3544,7 +3544,7 @@ input.ic-mb {
   width: 13.75rem;
 }
 .navigation .gnb .logo {
-  position: fixed !important;
+  position: fixed;
   width: 13.75rem;
   height: 3.375rem;
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
@@ -3552,7 +3552,7 @@ input.ic-mb {
   z-index: 100;
 }
 .navigation .gnb .menu {
-  position: fixed !important;
+  position: fixed;
   top: 3.375rem;
   width: 13.75rem;
   height: calc(100vh - 3.375rem);
@@ -3588,7 +3588,7 @@ input.ic-mb {
   line-height: 1.3rem;
 }
 .navigation .gnb .menu .menu-area .gnb-area .gnb-link .token-count {
-  position: absolute !important;
+  position: absolute;
   top: 3.5rem;
   right: 0.8125rem;
   border-radius: 1.25rem;
@@ -3760,7 +3760,7 @@ input.ic-mb {
   border-color: #CFD5D9;
   background-color: #FFFFFF;
 }
-.main-top .user-info.active + .dropdown-content {
+.main-top .user-info.active + .context-menu {
   visibility: visible;
 }
 .main-top .user-info.active .ic-arrow-right {
@@ -3770,7 +3770,7 @@ input.ic-mb {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.main-top .dropdown-content {
+.main-top .context-menu {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
@@ -3783,10 +3783,10 @@ input.ic-mb {
   z-index: 100;
   visibility: hidden;
 }
-.main-top .dropdown-item {
+.main-top .context-menu__item {
   width: 118px;
 }
-.main-top .dropdown-item-btn {
+.main-top .context-menu__item-btn {
   border: 0.0625rem solid #FFFFFF;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -3798,16 +3798,16 @@ input.ic-mb {
   font-weight: 500;
   line-height: 2;
 }
-.main-top .dropdown-item-btn:hover {
+.main-top .context-menu__item-btn:hover {
   background-color: #E0F3FF;
   outline: 0;
   cursor: pointer;
 }
-.main-top .dropdown-item-btn:focus {
+.main-top .context-menu__item-btn:focus {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.main-top .dropdown-item-btn:active {
+.main-top .context-menu__item-btn:active {
   background-color: #D6EDFC;
   color: #19428D;
 }
@@ -3839,7 +3839,7 @@ input.ic-mb {
   font-weight: 600;
 }
 .document-content .document-column .document-icon {
-  position: absolute !important;
+  position: absolute;
   top: 3rem;
   right: -1rem;
   overflow: hidden;
@@ -3906,8 +3906,8 @@ input.ic-mb {
   margin-left: -0.1875rem;
   pointer-events: none;
 }
-.header-button-dropdown + .dropdown-content {
-  position: absolute !important;
+.header-button-dropdown + .context-menu {
+  position: absolute;
   right: 0;
   border: 0.0625rem solid #CFD5D9;
   -webkit-box-shadow: 0 2px 12px 0 #CFD5D9;
@@ -3920,30 +3920,30 @@ input.ic-mb {
   z-index: 250;
   visibility: hidden;
 }
-.header-button-dropdown + .dropdown-content .dropdown-item {
+.header-button-dropdown + .context-menu .context-menu__item {
   padding: 0.25rem 0 0 0;
 }
-.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown {
   width: 100%;
   border-color: #FFFFFF;
   background-color: #FFFFFF;
   color: #222529;
   font-weight: 500;
 }
-.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:focus {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown:focus {
   border-color: #2559A8;
   background-color: #FFFFFF;
   color: #222529;
   outline: 0;
   box-shadow: 0 0 0.125rem #2559A8;
 }
-.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:hover {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown:hover {
   border-color: #E0F3FF;
   background-color: #E0F3FF;
   color: #222529;
   outline: 0;
 }
-.header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:enabled:active, .header-button-dropdown + .dropdown-content .dropdown-item .button-dropdown:enabled.active {
+.header-button-dropdown + .context-menu .context-menu__item .button-dropdown:enabled:active, .header-button-dropdown + .context-menu .context-menu__item .button-dropdown:enabled.active {
   border-color: #D6EDFC;
   background-color: #D6EDFC;
   color: #19428D;
@@ -3956,7 +3956,7 @@ input.ic-mb {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.header-button-dropdown.active + .dropdown-content {
+.header-button-dropdown.active + .context-menu {
   display: block;
   visibility: visible;
 }
@@ -3974,7 +3974,7 @@ input.ic-mb {
   margin: 0 auto;
 }
 .form-header, .process-header {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   width: 100%;
   left: 0;
@@ -4004,10 +4004,10 @@ input.ic-mb {
 .form-header .form-button-list .header-dropdown,
 .form-header .process-button-list .header-dropdown, .process-header .form-button-list .header-dropdown,
 .process-header .process-button-list .header-dropdown {
-  position: relative !important;
+  position: relative;
 }
 .form-component-palette, .form-element-palette, .process-component-palette, .process-element-palette {
-  position: fixed !important;
+  position: fixed;
   top: 2.875rem;
   bottom: 0;
   left: 0;
@@ -4016,21 +4016,21 @@ input.ic-mb {
   background-color: #FFFFFF;
 }
 .form-main, .process-main {
-  position: fixed !important;
+  position: fixed;
   top: 2.875rem;
   right: 18.75rem;
   bottom: 0;
   left: 0;
 }
 .form-properties-panel-header, .form-properties-header, .process-properties-panel-header, .process-properties-header {
-  position: fixed !important;
+  position: fixed;
   top: 2.875rem;
   right: 0;
   height: 2.5rem;
   background-color: #FFFFFF;
 }
 .form-properties-panel, .form-properties, .process-properties-panel, .process-properties {
-  position: fixed !important;
+  position: fixed;
   top: 5.375rem;
   right: 0;
   bottom: 0;
@@ -4051,13 +4051,11 @@ input.ic-mb {
   padding: 0.625rem;
 }
 
-.help-tooltip {
-  position: static;
+.form-container .tooltip--info {
+  position: static !important;
 }
-
-.tooltip-contents {
-  left: 0;
-  width: 100%;
+.form-container .tooltip--info .tooltip__box {
+  width: 100% !important;
 }
 
 /* FormDesigner
@@ -4146,7 +4144,7 @@ input.ic-mb {
   color: #ABB0B5;
 }
 .btn__text--box.success--check::before {
-  position: absolute !important;
+  position: absolute;
   top: 0.313rem;
   left: -2rem;
   background-image: url("../../assets/media/icons/alert/icon_alert_success.svg");
@@ -4191,9 +4189,40 @@ input.ic-mb {
 .form *:focus {
   outline: none !important;
 }
+.form .context-menu {
+  position: absolute;
+  right: -0.0625rem;
+  bottom: 100%;
+  -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
+  -moz-box-shadow: inset 0 0 0 0.0625rem #3373C4;
+  box-shadow: inset 0 0 0 0.0625rem #3373C4;
+  height: 2.5rem;
+  background-color: #FFFFFF;
+  z-index: 500;
+  visibility: hidden;
+}
+.form .context-menu .context-group {
+  margin: 0 0.125rem;
+  padding: 0.5625rem 0 0;
+}
+.form .context-menu .context-group .context-menu__item {
+  display: inline-block;
+  margin: 0 0.25rem;
+  padding: 0 0.25rem;
+  cursor: pointer;
+}
+.form .context-menu .context-group .context-menu__item [class*=ic-] {
+  display: inline-block;
+  background: #83BBED;
+  vertical-align: middle;
+  pointer-events: none;
+}
+.form .context-menu .context-group .context-menu__item:hover [class*=ic-] {
+  background: #3373C4;
+}
 
-.group-tooltip {
-  position: relative !important;
+.group-area {
+  position: relative;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -4201,22 +4230,22 @@ input.ic-mb {
   padding: 0.9375rem;
   background-color: #FFFFFF;
 }
-.group-tooltip.selected {
+.group-area.selected {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.group-tooltip.selected > .tooltip-menu:not(.none) {
+.group-area.selected > .context-menu:not(.none) {
   visibility: visible;
 }
-.group-tooltip.focus {
+.group-area.focus {
   background-color: #E0F3FF;
 }
-.group-tooltip[data-displaytype="document.displayType.hidden"] {
+.group-area[data-displaytype="document.displayType.hidden"] {
   display: none;
 }
 
 .group-accordion-checkBox {
-  position: absolute !important;
+  position: absolute;
   opacity: 0;
   z-index: -1;
 }
@@ -4250,7 +4279,7 @@ input.ic-mb {
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-.group.accordion .group-accordion-checkBox:checked ~ .row-tooltip:not(.none) {
+.group.accordion .group-accordion-checkBox:checked ~ .row-area:not(.none) {
   display: block;
 }
 .group.accordion .group-label {
@@ -4267,7 +4296,7 @@ input.ic-mb {
 .group.accordion .group-label .ic-arrow-right {
   opacity: 1;
 }
-.group.accordion .row-tooltip {
+.group.accordion .row-area {
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   -o-transition: all 0.25s ease-out;
@@ -4276,7 +4305,7 @@ input.ic-mb {
   display: none;
 }
 
-.row-tooltip {
+.row-area {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -4284,15 +4313,15 @@ input.ic-mb {
   position: relative;
   background-color: transparent;
 }
-.row-tooltip.selected {
+.row-area.selected {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.row-tooltip.selected > .tooltip-menu:not(.none) {
+.row-area.selected > .context-menu:not(.none) {
   visibility: visible;
 }
 
-.component-tooltip {
+.component-area {
   border: 0.0625rem dashed #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -4304,20 +4333,20 @@ input.ic-mb {
   flex-basis: calc(((100% - 0px) * var(--data-column, 12)) / 12
           + (var(--data-column) - 1) * 0px);
 }
-.component-tooltip:first-child:nth-last-child(1) {
+.component-area:first-child:nth-last-child(1) {
   border-style: solid;
 }
-.component-tooltip.selected {
+.component-area.selected {
   border: 0.0625rem solid #3373C4;
   background-color: #E0F3FF;
 }
-.component-tooltip.selected > .tooltip-menu:not(.none) {
+.component-area.selected > .context-menu:not(.none) {
   visibility: visible;
 }
-.component-tooltip.selected .component .element .imagebox-placeholder {
+.component-area.selected .component .element .imagebox-placeholder {
   background-color: #FFFFFF;
 }
-.component-tooltip.sortable-ghost {
+.component-area.sortable-ghost {
   margin: 0;
 }
 
@@ -4542,45 +4571,13 @@ input.ic-mb {
   display: inline;
 }
 
-.tooltip-menu {
-  position: absolute !important;
-  right: -0.0625rem;
-  bottom: 100%;
-  -webkit-box-shadow: inset 0 0 0 0.0625rem #3373C4;
-  -moz-box-shadow: inset 0 0 0 0.0625rem #3373C4;
-  box-shadow: inset 0 0 0 0.0625rem #3373C4;
-  height: 2.5rem;
-  background-color: #FFFFFF;
-  z-index: 500;
-  visibility: hidden;
-}
-.tooltip-menu .tooltip-menu-items {
-  margin: 0 0.125rem;
-  padding: 0.5625rem 0 0;
-}
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item {
-  display: inline-block;
-  margin: 0 0.25rem;
-  padding: 0 0.25rem;
-  cursor: pointer;
-}
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item [class*=ic-] {
-  display: inline-block;
-  background: #83BBED;
-  vertical-align: middle;
-  pointer-events: none;
-}
-.tooltip-menu .tooltip-menu-items .tooltip-menu-item:hover [class*=ic-] {
-  background: #3373C4;
-}
-
-.preview .group-tooltip {
+.preview .group-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.preview .row-tooltip {
+.preview .row-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.preview .component-tooltip {
+.preview .component-area {
   margin: 0;
   padding: 0;
   border-color: transparent !important;
@@ -4634,7 +4631,7 @@ input.ic-mb {
   width: 100%;
 }
 .component-accordion-box .component-accordion input[type=radio] {
-  position: absolute !important;
+  position: absolute;
   opacity: 0;
   z-index: -1;
 }
@@ -4672,7 +4669,7 @@ input.ic-mb {
   overflow: hidden;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box {
-  position: relative !important;
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -4692,13 +4689,13 @@ input.ic-mb {
   outline: none;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(odd) {
-  position: absolute !important;
+  position: absolute;
   top: calc(var(--data-row, 0) * 5.625rem);
   left: 0.0625rem;
   border-left-color: transparent;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(even) {
-  position: absolute !important;
+  position: absolute;
   top: calc(var(--data-row, 0) * 5.625rem);
   right: 0;
   border-left-color: transparent;
@@ -4749,7 +4746,7 @@ input.ic-mb {
   color: #222529;
   font-weight: 700;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag .component-tooltip {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.drag .component-area {
   display: none;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon.placeholder {
@@ -4844,7 +4841,7 @@ input.ic-mb {
   color: #222529;
   font-weight: 700;
 }
-.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.drag .component-tooltip {
+.component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.drag .component-area {
   display: none;
 }
 .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-template-icon.placeholder {
@@ -4897,134 +4894,134 @@ input.ic-mb {
 .drawing-board .component-icon-drag-in .component-name {
   display: none;
 }
-.drawing-board .component-icon-drag-in .component-tooltip {
+.drawing-board .component-icon-drag-in .component-area {
   border-color: transparent;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .component-label .component-label-text {
+.drawing-board .component-icon-drag-in .component-area .component .component-label .component-label-text {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number],
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box {
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text]::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password]::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number]::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea::placeholder,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box::placeholder {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text]::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password]::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number]::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box::placeholder {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text] [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password] [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number] [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea [class*=ic-],
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box [class*=ic-] {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text] [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password] [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number] [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box [class*=ic-] {
   background: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text].ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password].ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number].ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-date-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-date-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text].ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password].ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number].ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-time-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-time-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=text].ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=password].ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element input[type=number].ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .textarea.ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .select__box.ic-datetime-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: calc(100% - 0.4375rem);
   background-position-y: 50%;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .radio,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .checkbox {
+.drawing-board .component-icon-drag-in .component-area .component .element .radio,
+.drawing-board .component-icon-drag-in .component-area .component .element .checkbox {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .radio input[type=radio] + span::before,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .radio input[type=checkbox] + span::before,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .checkbox input[type=radio] + span::before,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .checkbox input[type=checkbox] + span::before {
+.drawing-board .component-icon-drag-in .component-area .component .element .radio input[type=radio] + span::before,
+.drawing-board .component-icon-drag-in .component-area .component .element .radio input[type=checkbox] + span::before,
+.drawing-board .component-icon-drag-in .component-area .component .element .checkbox input[type=radio] + span::before,
+.drawing-board .component-icon-drag-in .component-area .component .element .checkbox input[type=checkbox] + span::before {
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow {
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow {
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-picker,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-picker {
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-picker {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-icon, .drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-transparent, .drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-toolbar.ql-snow .ql-arrow,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-icon,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-transparent,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .ql-container.ql-snow .ql-arrow {
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-icon, .drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-transparent, .drawing-board .component-icon-drag-in .component-area .component .element .ql-toolbar.ql-snow .ql-arrow,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-icon,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-transparent,
+.drawing-board .component-icon-drag-in .component-area .component .element .ql-container.ql-snow .ql-arrow {
   fill: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone {
+.drawing-board .component-icon-drag-in .component-area .component .element .dropzone {
   background-color: #FFFFFF;
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone .dz-message {
+.drawing-board .component-icon-drag-in .component-area .component .element .dropzone .dz-message {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .dropzone [class*=ic-] {
+.drawing-board .component-icon-drag-in .component-area .component .element .dropzone [class*=ic-] {
   background: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .btn__list {
+.drawing-board .component-icon-drag-in .component-area .component .element .btn__list {
   opacity: 0;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table tr td {
+.drawing-board .component-icon-drag-in .component-area .component .element table tr td {
   border-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .dr-table-header,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .ci-table-header {
+.drawing-board .component-icon-drag-in .component-area .component .element table .dr-table-header,
+.drawing-board .component-icon-drag-in .component-area .component .element table .ci-table-header {
   background-color: #D6EDFC !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .dr-table-header td,
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .ci-table-header td {
+.drawing-board .component-icon-drag-in .component-area .component .element table .dr-table-header td,
+.drawing-board .component-icon-drag-in .component-area .component .element table .ci-table-header td {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element table .no-data-found-list {
+.drawing-board .component-icon-drag-in .component-area .component .element table .no-data-found-list {
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .divider {
+.drawing-board .component-icon-drag-in .component-area .component .element .divider {
   border-top-style: solid;
   border-top-color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .imagebox-placeholder {
+.drawing-board .component-icon-drag-in .component-area .component .element .imagebox-placeholder {
   background-color: #FFFFFF;
   border-color: #619CDB !important;
   color: #619CDB !important;
 }
-.drawing-board .component-icon-drag-in .component-tooltip .component .element .imagebox-placeholder [class*=ic-] {
+.drawing-board .component-icon-drag-in .component-area .component .element .imagebox-placeholder [class*=ic-] {
   background: #619CDB !important;
 }
 .drawing-board.edit .group-label {
   pointer-events: none;
 }
-.drawing-board:not([data-display=ready]) .component-tooltip {
+.drawing-board:not([data-display=ready]) .component-area {
   border-color: transparent !important;
 }
 
@@ -5070,7 +5067,7 @@ input.ic-mb {
   margin: 0.9375rem 0 0 0;
 }
 .property .property-label {
-  position: relative !important;
+  position: relative;
   color: #757575;
   font-size: 0.875rem;
 }
@@ -5163,7 +5160,7 @@ input.ic-mb {
   width: 100%;
 }
 .property .default-type-radio {
-  position: relative !important;
+  position: relative;
   display: block;
 }
 .property .default-type-radio .radio-property-group {
@@ -5209,7 +5206,7 @@ input.ic-mb {
   mask-size: 1.2rem;
 }
 .property .tab-panel .panels .panel {
-  position: relative !important;
+  position: relative;
   border: 0.0625rem solid #CFD5D9;
   margin-top: 0.625rem;
   padding-top: 0.625rem;
@@ -5218,7 +5215,7 @@ input.ic-mb {
   padding: 0 0.75rem;
 }
 .property .tab-panel .panels .panel .panel-common .panel-delete-button {
-  position: absolute !important;
+  position: absolute;
   right: 0.625rem;
 }
 .property .tab-panel .panels .panel .panel-common > .property {
@@ -5404,11 +5401,11 @@ input.ic-mb {
   color: #ABB0B5;
 }
 .element-icon.connector {
-  position: absolute !important;
+  position: absolute;
   bottom: 5rem;
 }
 .element-icon.move-icon {
-  position: absolute !important;
+  position: absolute;
   bottom: 0.313rem;
 }
 .element-icon .element-icon-text {
@@ -5422,12 +5419,12 @@ input.ic-mb {
 }
 
 .btn__ic.button-minimap {
-  position: absolute !important;
+  position: absolute;
   right: 0.625rem;
   bottom: 0.625rem;
 }
 .btn__ic.button-simulation-report {
-  position: absolute !important;
+  position: absolute;
   right: 0.625rem;
   bottom: 3.438rem;
 }
@@ -5592,13 +5589,16 @@ input.ic-mb {
 .process-container svg defs marker path {
   fill: #63686C;
 }
-.process-container svg g.alice-tooltip rect.tooltip-container {
+.process-container svg g.context-menu {
+  visibility: visible;
+}
+.process-container svg g.context-menu rect.context-group--action, .process-container svg g.context-menu rect.context-group--element {
   fill: #FFFFFF;
   stroke: #CFD5D9;
   stroke-width: 1;
 }
-.process-container svg g.alice-tooltip rect.action-tooltip-item:hover,
-.process-container svg g.alice-tooltip rect.element-tooltip-item:hover {
+.process-container svg g.context-menu rect.context-group--action-item:hover,
+.process-container svg g.context-menu rect.context-group--element-item:hover {
   cursor: pointer;
 }
 .process-container svg g.guides-container line.guides-line {
@@ -5631,7 +5631,7 @@ input.ic-mb {
   overflow: hidden;
 }
 .process-main .drawing-board {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -5650,7 +5650,7 @@ input.ic-mb {
   shape-rendering: crispEdges;
 }
 .process-main .drawing-board .minimap {
-  position: absolute !important;
+  position: absolute;
   right: 3.438rem;
   bottom: 0.625rem;
   border: 0.0625rem solid #CFD5D9;
@@ -5665,7 +5665,7 @@ input.ic-mb {
   background-color: #FFFFFF;
 }
 .process-main .drawing-board .minimap svg {
-  position: absolute !important;
+  position: absolute;
   top: 1.875rem;
   left: 1.875rem;
   border: 0.0625rem solid #CFD5D9;
@@ -5681,7 +5681,7 @@ input.ic-mb {
   display: none;
 }
 .process-main .drawing-board .simulation-report {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -5707,7 +5707,7 @@ input.ic-mb {
   font-weight: 500;
 }
 .process-main .drawing-board .simulation-report-title .ic-minus {
-  position: absolute !important;
+  position: absolute;
   right: 1.125rem;
   background: #8B9094;
   cursor: pointer;
@@ -5881,19 +5881,19 @@ input.ic-mb {
   max-width: 120rem;
   margin: 0 auto;
 }
-.document-container .group-tooltip {
+.document-container .group-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.document-container .row-tooltip {
+.document-container .row-area {
   border: 0.0625rem solid #FFFFFF;
 }
-.document-container .component-tooltip {
+.document-container .component-area {
   border: 0.0625rem solid #FFFFFF;
 }
 .document-container .component {
   padding: 0 1rem;
 }
-.document-container .component-tooltip {
+.document-container .component-area {
   display: flex;
   margin: 0;
   padding: 0;
@@ -5905,7 +5905,7 @@ input.ic-mb {
   pointer-events: auto;
 }
 .document-container .document-main {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 33.125rem;
   bottom: 0;
@@ -5922,7 +5922,7 @@ input.ic-mb {
   /* Chrome, Safari, Opera*/
 }
 .document-container .document-main .document-main-header {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 33.125rem;
   left: 0;
@@ -5991,7 +5991,7 @@ input.ic-mb {
   width: 0;
 }
 .document-container .token-properties {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -6224,14 +6224,14 @@ input.ic-mb {
   .print-main .drawing-board .form {
     display: table-row;
   }
-  .print-main .drawing-board .form .group-tooltip {
+  .print-main .drawing-board .form .group-area {
     page-break-after: auto;
     break-inside: avoid;
   }
-  .print-main .drawing-board .form .row-tooltip {
+  .print-main .drawing-board .form .row-area {
     break-inside: avoid;
   }
-  .print-main .drawing-board .form .row-tooltip .textarea {
+  .print-main .drawing-board .form .row-area .textarea {
     width: inherit;
     max-width: 200mm;
   }
@@ -6490,7 +6490,7 @@ input.ic-mb {
   height: 100vh;
 }
 .portal-container .header {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   width: 100%;
   align-items: center;
@@ -6510,7 +6510,7 @@ input.ic-mb {
   top: 3.125rem;
 }
 .portal-container .main {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -6630,21 +6630,21 @@ input.ic-mb {
   padding: 1.5rem 13.75rem 0 13.75rem;
 }
 .portal-container .main .main-content .list-content .table {
-  position: relative !important;
+  position: relative;
   border: none;
 }
 .portal-container .main .main-content .list-content + .pagination {
   padding: 0 13.75rem 1.875rem 13.75rem;
 }
 .portal-container .main .main-content .list-content + .pagination #spanCurrentPageNum {
-  position: absolute !important;
+  position: absolute;
   right: 13.75rem;
 }
 .portal-container .main .main-content .main-accordion {
   margin: 3.375rem 13.75rem 0 13.75rem;
 }
 .portal-container .main .main-content .main-accordion .faq-group {
-  position: relative !important;
+  position: relative;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -6664,7 +6664,7 @@ input.ic-mb {
   display: none;
 }
 .portal-container .main .main-content .main-accordion .faq-group-title .ic-plus, .portal-container .main .main-content .main-accordion .faq-group-title .ic-minus {
-  position: absolute !important;
+  position: absolute;
   top: 0.9375rem;
   right: 0.9375rem;
   display: inline-block;
@@ -6760,12 +6760,12 @@ input.ic-mb {
   padding: 0.625rem 0 0 0;
 }
 .portal-container .main .main-content .vertical-split-left .i-logo-white {
-  position: relative !important;
+  position: relative;
   top: 5rem;
   left: 5rem;
 }
 .portal-container .main .main-content .vertical-split-left .i-logo {
-  position: relative !important;
+  position: relative;
   top: -59.1875rem;
   margin: 5rem 0 0 5rem;
 }
@@ -6890,7 +6890,7 @@ input.ic-mb {
   padding: 5.6875rem 4.0625rem 0 4.0625rem;
 }
 .portal-container .main .main-content .vertical-split-right.signup-form .signup-base-form {
-  position: relative !important;
+  position: relative;
 }
 .portal-container .main .main-content .vertical-split-right.session-form {
   border-left: 0.0625rem solid #CFD5D9;
@@ -7194,7 +7194,7 @@ input.ic-mb {
   opacity: 0.5;
 }
 .avatar .dz-preview {
-  position: relative !important;
+  position: relative;
   height: 100%;
   padding: 0;
   border: 0;
@@ -7229,7 +7229,7 @@ input.ic-mb {
   transition: opacity 0.2s linear;
 }
 .avatar .dz-preview .dz-details {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   left: 0;
   display: block;
@@ -7248,7 +7248,7 @@ input.ic-mb {
   display: none;
 }
 .avatar .dz-preview .dz-details .dz-remove {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   background-image: url("../../assets/media/icons/icon_clear.svg");
@@ -7814,7 +7814,7 @@ input.ic-mb {
 }
 
 .btn__toggle__switch {
-  position: relative !important;
+  position: relative;
   display: inline-block;
   width: 100%;
   margin: 0 !important;
@@ -7833,7 +7833,7 @@ input.ic-mb {
   display: none;
 }
 .btn__toggle__switch input[type=checkbox] + span {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -7853,7 +7853,7 @@ input.ic-mb {
   cursor: pointer;
 }
 .btn__toggle__switch input[type=checkbox] + span::before {
-  position: absolute !important;
+  position: absolute;
   top: 0.1rem;
   left: 0.125rem;
   border-radius: 50%;
@@ -7867,13 +7867,13 @@ input.ic-mb {
 .btn__toggle__switch input[type=checkbox] + span::after {
   width: 1.25rem;
   height: 1.25rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_remove.svg");
-  mask-image: url("../../assets/media/icons/icon_remove.svg");
+  -webkit-mask-image: url("../../assets/media/icons/icon_clear.svg");
+  mask-image: url("../../assets/media/icons/icon_clear.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  position: absolute !important;
+  position: absolute;
   right: 0.125rem;
   content: "";
   background-color: #FFFFFF;
@@ -8611,7 +8611,7 @@ input.ic-mb {
   background: #8B9094;
 }
 .color-picker__modal {
-  position: fixed !important;
+  position: fixed;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -8666,7 +8666,7 @@ input.ic-mb {
   pointer-events: none;
 }
 .color-picker__modal__custom {
-  position: relative !important;
+  position: relative;
   border-top: 0.0625rem solid #CFD5D9;
   min-height: 4.875rem;
   padding: 0.75rem;
@@ -8678,7 +8678,7 @@ input.ic-mb {
   margin: 0 0 0 8px;
 }
 .color-picker__modal__custom__list__item {
-  position: relative !important;
+  position: relative;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -8699,7 +8699,7 @@ input.ic-mb {
   pointer-events: none;
 }
 .color-picker__modal__custom__list__item .item-remove--red {
-  position: absolute !important;
+  position: absolute;
   top: -0.25rem;
   right: -0.25rem;
   border-radius: 50%;
@@ -8760,7 +8760,7 @@ input.ic-mb {
   text-align: right;
 }
 .color-picker__modal__custom .custom-color-btn__ic--edit {
-  position: absolute !important;
+  position: absolute;
   top: 0.125rem;
   right: 0.75rem;
   visibility: hidden;
@@ -8913,7 +8913,7 @@ input.ic-mb {
   padding-right: 2.25rem;
 }
 .date-picker__modal {
-  position: fixed !important;
+  position: fixed;
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -8943,12 +8943,12 @@ input.ic-mb {
   font-weight: 700;
 }
 .date-picker__modal__header .btn__ic {
-  position: absolute !important;
+  position: absolute;
   top: 0.25rem;
   left: 0.5rem;
 }
 .date-picker__modal__header .ic-remove {
-  position: absolute !important;
+  position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   background: #8B9094;
@@ -9017,7 +9017,7 @@ input.ic-mb {
   padding-right: 0.625rem;
 }
 .picker__year .date-picker__period__text span:first-child::before {
-  position: absolute !important;
+  position: absolute;
   top: 0.438rem;
   right: 0.125rem;
   content: "";
@@ -9055,7 +9055,7 @@ input.ic-mb {
   color: #3373C4;
 }
 .picker__year__calendar__cell.selected:before {
-  position: absolute !important;
+  position: absolute;
   bottom: 0;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -9493,14 +9493,14 @@ select.readonly {
 }
 
 .select {
-  position: relative !important;
+  position: relative;
   display: inline-block;
   width: 100%;
   height: 2.125rem;
   vertical-align: middle;
 }
 .select__box {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -9564,7 +9564,7 @@ select.readonly {
   pointer-events: none;
 }
 .select__box:not(.readonly) .ic-arrow-right {
-  position: absolute !important;
+  position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   -webkit-transform: rotate(90deg);
@@ -9598,10 +9598,6 @@ select.readonly {
   border: none;
 }
 .select__options {
-  position: absolute !important;
-  top: calc(100% + 0.25rem);
-  right: 0;
-  left: 0;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -9611,6 +9607,9 @@ select.readonly {
   box-shadow: 0 0 0.125rem 0 #CFD5D9;
   overflow: auto;
   display: none;
+  position: absolute !important;
+  top: calc(100% + 0.25rem);
+  width: 100%;
   max-height: 25rem;
   margin: 0;
   padding: 0.25rem 0;
@@ -9646,7 +9645,7 @@ select.readonly {
   color: #3373C4;
 }
 .select__options .selected:after {
-  position: absolute !important;
+  position: absolute;
   right: 0.9375rem;
   background-image: url("../../assets/media/icons/icon_select_check.svg");
   background-size: auto;
@@ -9770,7 +9769,7 @@ select.readonly {
   display: none;
 }
 .checkbox input[type=checkbox] + span {
-  position: relative !important;
+  position: relative;
 }
 .checkbox input[type=checkbox] + span::before {
   border: 0.0625rem solid #ABB0B5;
@@ -9786,7 +9785,7 @@ select.readonly {
   vertical-align: middle;
 }
 .checkbox input[type=checkbox]:checked + span::after {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   left: 0;
   border-bottom: 0.125rem solid #3373C4;
@@ -9871,7 +9870,7 @@ select.readonly {
 }
 
 .radio {
-  position: relative !important;
+  position: relative;
   margin-right: 0.5rem;
   color: #424242;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -9887,10 +9886,10 @@ select.readonly {
   display: none;
 }
 .radio input[type=radio] + span {
-  position: relative !important;
+  position: relative;
 }
 .radio input[type=radio] + span::before {
-  position: relative !important;
+  position: relative;
   top: -0.0625rem;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 50%;
@@ -9905,7 +9904,7 @@ select.readonly {
   vertical-align: middle;
 }
 .radio input[type=radio] + span::after {
-  position: absolute !important;
+  position: absolute;
   top: -0.35rem;
   left: 0;
   border-radius: 50%;
@@ -10006,7 +10005,7 @@ select.readonly {
   -webkit-print-color-adjust: exact;
 }
 .input--remove .item-remove::before {
-  position: absolute !important;
+  position: absolute;
   bottom: -0.5rem;
   border-bottom: 0.0625rem solid #CFD5D9;
   content: "";
@@ -10351,7 +10350,7 @@ table th {
   opacity: 0.5;
 }
 .file-uploader--edit .dropzone .dz-preview {
-  position: relative !important;
+  position: relative;
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.0625rem;
   -webkit-border-radius: 0.0625rem;
@@ -10492,7 +10491,7 @@ table th {
   height: 3.25rem;
 }
 .file-uploader--edit .dropzone .dz-preview .dz-image {
-  position: relative !important;
+  position: relative;
   overflow: hidden;
   display: block;
   z-index: 10;
@@ -10507,7 +10506,7 @@ table th {
   border-color: #F52525;
 }
 .file-uploader--edit .dropzone .dz-preview.dz-error .dz-error-message {
-  position: absolute !important;
+  position: absolute;
   top: 8.75rem;
   left: -0.625rem;
   border-radius: 0.5rem;
@@ -10528,7 +10527,7 @@ table th {
   pointer-events: none;
 }
 .file-uploader--edit .dropzone .dz-preview.dz-error .dz-error-message:after {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   left: 4rem;
   border-bottom: 0.375rem solid #be2626;
@@ -10600,7 +10599,7 @@ table th {
   animation-direction: normal;
 }
 .file-uploader--edit .dropzone .dz-preview .dz-progress {
-  position: relative !important;
+  position: relative;
   top: -1.563rem;
   left: 0.75rem;
   -webkit-transform: scale(1);
@@ -10618,7 +10617,7 @@ table th {
   pointer-events: none;
 }
 .file-uploader--edit .dropzone .dz-preview .dz-progress .dz-upload {
-  position: absolute !important;
+  position: absolute;
   top: -1.25rem;
   right: 0;
   bottom: 0;
@@ -10739,7 +10738,7 @@ body.active {
   z-index: 5000;
 }
 .modal__dialog {
-  position: absolute !important;
+  position: absolute;
   top: 4em;
   right: 0;
   left: 0;
@@ -11224,7 +11223,7 @@ body.active {
   padding: 0 1.25rem 1.25rem 1.25rem;
 }
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .attribute-group .child-attribute-group, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .attribute-group .child-attribute-group, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .attribute-group .child-attribute-group, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .attribute-group .child-attribute-group {
-  position: relative !important;
+  position: relative;
 }
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .attribute-group .child-attribute-group .child-attribute-row {
   border: 0.0625rem solid #CFD5D9;
@@ -11267,7 +11266,7 @@ body.active {
 .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .button-attribute-add,
 .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .button-attribute-add,
 .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .button-attribute-add {
-  position: absolute !important;
+  position: absolute;
   top: -1.875rem;
   right: 0;
 }
@@ -11276,7 +11275,7 @@ body.active {
 .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete,
 .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete,
 .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-view .attribute-group .child-attribute-group .child-attribute-row .button-attribute-delete {
-  position: absolute !important;
+  position: absolute;
   right: 0.3125rem;
 }
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group {
@@ -11494,7 +11493,7 @@ body.active {
   cursor: pointer;
 }
 .notification-panel {
-  position: relative !important;
+  position: relative;
   bottom: 0;
   left: 70.8rem;
   border: 0.0625rem solid #EEEEEE;
@@ -11582,7 +11581,7 @@ body.active {
   background-color: #FFFFFF;
 }
 .notification-panel__body__list .checked input[type=checkbox] {
-  position: relative !important;
+  position: relative;
   border: 0.063rem solid #3373C4;
   border-radius: 0.063rem;
   -webkit-border-radius: 0.063rem;
@@ -11601,7 +11600,7 @@ body.active {
   cursor: unset;
 }
 .notification-panel__body__list .checked input[type=checkbox]:checked::after {
-  position: absolute !important;
+  position: absolute;
   top: -0.063rem;
   left: 0.063rem;
   content: "✔";
@@ -11680,7 +11679,7 @@ body.active {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }
 .alice-toastify .toast-close {
-  position: absolute !important;
+  position: absolute;
   top: 0.688rem;
   right: 0.688rem;
   width: 1.5rem;
@@ -11753,7 +11752,7 @@ body.active {
   background: #19428D;
 }
 .pagination > span {
-  position: absolute !important;
+  position: absolute;
   right: 3.75rem;
   color: #757575;
   font-weight: 500;
@@ -11834,7 +11833,7 @@ body.active {
   min-width: 1.875rem;
 }
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -11850,7 +11849,7 @@ body.active {
   min-height: 1.875rem;
 }
 .scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -11937,7 +11936,7 @@ body.active {
   min-width: 1.875rem;
 }
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -11953,7 +11952,7 @@ body.active {
   min-height: 1.875rem;
 }
 .inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -12000,7 +11999,7 @@ body.active {
   min-width: 1.875rem;
 }
 .inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: -0.375rem;
   right: 0;
   bottom: -0.125rem;
@@ -12016,7 +12015,7 @@ body.active {
   min-height: 1.875rem;
 }
 .inner-scrollbar-dark > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: -0.125rem;
   bottom: 0;
@@ -12191,7 +12190,7 @@ body.active {
   }
 }
 .tagify {
-  position: relative !important;
+  position: relative;
   -webkit-transition: 0.1s;
   -moz-transition: 0.1s;
   -o-transition: 0.1s;
@@ -12218,7 +12217,7 @@ body.active {
 .tagify:read-only .tagify__tag__removeBtn {
   display: none;
 }
-.tagifyinput[type=text] {
+.tagify.tag__input {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -12226,29 +12225,29 @@ body.active {
   height: max-content;
   padding: 0;
 }
-.tagifyinput[type=text] > .tagify__input {
+.tagify.tag__input > .tagify__input {
   display: block;
   padding: 0 0.75rem;
   visibility: visible;
 }
-.tagifyinput[type=text] > .tagify__input:not(:first-child) {
+.tagify.tag__input > .tagify__input:not(:first-child) {
   padding: 0.25rem;
 }
-.tagifyinput[type=text] .tagify__tag__removeBtn {
+.tagify.tag__input .tagify__tag__removeBtn {
   display: inherit;
 }
-.tagifyinput[type=text]:hover {
+.tagify.tag__input:hover {
   border-color: #619CDB;
   outline: 0;
 }
-.tagifyinput[type=text]:focus {
+.tagify.tag__input:focus {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
   outline: 0;
 }
-.tagifyinput[type=text]:active {
+.tagify.tag__input:active {
   border-color: #2559A8;
   outline: 0;
 }
@@ -12275,7 +12274,7 @@ body.active {
   display: none !important;
 }
 .tagify__tag {
-  position: relative !important;
+  position: relative;
   border-radius: 0.25rem;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
@@ -12340,7 +12339,7 @@ body.active {
   cursor: text;
 }
 .tagify__tag > div::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -12472,7 +12471,7 @@ body.active {
   transition: 0.2s;
 }
 .tagify__input {
-  position: relative !important;
+  position: relative;
   flex: 1;
   display: block;
   min-width: 6.875rem;
@@ -12521,7 +12520,7 @@ body.active {
   transform: none;
 }
 .tagify__input::before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   bottom: 0;
   content: attr(data-placeholder);
@@ -12554,7 +12553,7 @@ body.active {
 }
 
 .tagify__dropdown {
-  position: absolute !important;
+  position: absolute;
   overflow: hidden;
   margin-top: 0.3125rem;
   background: #FFFFFF;
@@ -12591,7 +12590,7 @@ body.active {
   overflow: auto;
 }
 .tagify__dropdown__item {
-  position: relative !important;
+  position: relative;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
   -moz-border-radius: 0.125rem;
@@ -12779,7 +12778,7 @@ body.active {
   border-color: #3373C4;
 }
 .ql-wrapper-container .ql-toolbar.ql-snow .ql-formats button {
-  position: relative !important;
+  position: relative;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -12955,7 +12954,7 @@ body.active {
 }
 .thumbnail-main .thumbnail .thumbnail-image,
 .thumbnail-main .thumbnail .thumbnail-file {
-  position: relative !important;
+  position: relative;
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -12965,7 +12964,7 @@ body.active {
 }
 .thumbnail-main .thumbnail .thumbnail-image img,
 .thumbnail-main .thumbnail .thumbnail-file img {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -13147,253 +13146,11 @@ body.active {
     opacity: 1;
   }
 }
-.help-tooltip {
-  position: relative !important;
-  display: inline-block;
-  margin-left: 0.3125rem;
-  vertical-align: middle;
+.tooltip {
+  position: relative;
 }
-.help-tooltip .ic-tooltip {
-  background: #8B9094;
-  cursor: pointer;
-}
-.help-tooltip .tooltip-contents {
-  position: absolute !important;
-  left: auto;
-  border: 0.125rem solid #3373C4;
-  border-radius: 0.125rem;
-  -webkit-border-radius: 0.125rem;
-  -moz-border-radius: 0.125rem;
-  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  width: 28.125rem;
-  margin: 0.25rem 0 0 0;
-  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
-  background-color: #FFFFFF;
-  color: #3373C4;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  z-index: 500;
-  visibility: hidden;
-}
-.help-tooltip .tooltip-contents span {
-  color: #3373C4;
-  line-height: 1.5;
-  word-break: keep-all;
-}
-.help-tooltip .tooltip-contents.top {
-  position: absolute !important;
-  top: 0;
-  right: auto;
-  bottom: auto;
-  left: 50%;
-  -webkit-transform: translate(-50%, calc(-100% - 0.625rem));
-  -moz-transform: translate(-50%, calc(-100% - 0.625rem));
-  -o-transform: translate(-50%, calc(-100% - 0.625rem));
-  -ms-transform: translate(-50%, calc(-100% - 0.625rem));
-  transform: translate(-50%, calc(-100% - 0.625rem));
-}
-.help-tooltip .tooltip-contents.right {
-  position: absolute !important;
-  top: 0;
-  right: 0;
-  bottom: auto;
-  left: auto;
-  -webkit-transform: translate(calc(100% + 0.625rem), -50%);
-  -moz-transform: translate(calc(100% + 0.625rem), -50%);
-  -o-transform: translate(calc(100% + 0.625rem), -50%);
-  -ms-transform: translate(calc(100% + 0.625rem), -50%);
-  transform: translate(calc(100% + 0.625rem), -50%);
-}
-.help-tooltip .tooltip-contents.bottom {
-  position: absolute !important;
-  top: auto;
-  right: auto;
-  bottom: auto;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-  -moz-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  -ms-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
-}
-.help-tooltip .tooltip-contents.left {
-  position: absolute !important;
-  top: 0;
-  right: auto;
-  bottom: auto;
-  left: 0;
-  -webkit-transform: translate(calc(-100% - 0.625rem), -50%);
-  -moz-transform: translate(calc(-100% - 0.625rem), -50%);
-  -o-transform: translate(calc(-100% - 0.625rem), -50%);
-  -ms-transform: translate(calc(-100% - 0.625rem), -50%);
-  transform: translate(calc(-100% - 0.625rem), -50%);
-}
-.help-tooltip:hover .tooltip-contents {
-  -webkit-animation-delay: 0s;
-  -webkit-animation-duration: 0.3s;
-  -webkit-animation-name: fadeIn;
-  -webkit-animation-timing-function: ease-out;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-direction: normal;
-  -moz-animation-delay: 0s;
-  -moz-animation-duration: 0.3s;
-  -moz-animation-name: fadeIn;
-  -moz-animation-timing-function: ease-out;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-direction: normal;
-  -o-animation-delay: 0s;
-  -o-animation-duration: 0.3s;
-  -o-animation-name: fadeIn;
-  -o-animation-timing-function: ease-out;
-  -o-animation-iteration-count: 1;
-  -o-animation-direction: normal;
-  -ms-animation-delay: 0s;
-  -ms-animation-duration: 0.3s;
-  -ms-animation-name: fadeIn;
-  -ms-animation-timing-function: ease-out;
-  -ms-animation-iteration-count: 1;
-  -ms-animation-direction: normal;
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: fadeIn;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  visibility: visible;
-}
-.help-tooltip:hover .ic-tooltip {
-  background: #3373C4;
-}
-
-.header-tooltip {
-  position: relative !important;
-}
-.header-tooltip .header-tooltip-contents {
-  position: absolute !important;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-  -moz-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  -ms-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
-  display: flex;
-  height: 1.875rem;
-  visibility: hidden;
-  background-color: #FFFFFF;
-  text-align: center;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  border: 0.0625rem solid #CFD5D9;
-  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  box-shadow: 0 0 0.125rem 0 #CFD5D9;
-  margin: 1rem 0 0 0;
-  padding: 0.4375rem;
-  background-color: #FFFFFF;
-  text-align: center;
-  z-index: 500;
-  visibility: hidden;
-}
-.header-tooltip .header-tooltip-contents.last {
-  -webkit-transform: translate(-70%, 0);
-  -moz-transform: translate(-70%, 0);
-  -o-transform: translate(-70%, 0);
-  -ms-transform: translate(-70%, 0);
-  transform: translate(-70%, 0);
-  left: 0;
-}
-.header-tooltip .header-tooltip-contents .header-tooltip-text {
-  color: #222529;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.header-tooltip:hover .header-tooltip-contents {
-  -webkit-animation-delay: 0s;
-  -webkit-animation-duration: 0.3s;
-  -webkit-animation-name: fadeIn;
-  -webkit-animation-timing-function: ease-out;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-direction: normal;
-  -moz-animation-delay: 0s;
-  -moz-animation-duration: 0.3s;
-  -moz-animation-name: fadeIn;
-  -moz-animation-timing-function: ease-out;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-direction: normal;
-  -o-animation-delay: 0s;
-  -o-animation-duration: 0.3s;
-  -o-animation-name: fadeIn;
-  -o-animation-timing-function: ease-out;
-  -o-animation-iteration-count: 1;
-  -o-animation-direction: normal;
-  -ms-animation-delay: 0s;
-  -ms-animation-duration: 0.3s;
-  -ms-animation-name: fadeIn;
-  -ms-animation-timing-function: ease-out;
-  -ms-animation-iteration-count: 1;
-  -ms-animation-direction: normal;
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: fadeIn;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  visibility: visible;
-}
-
-.clipboard-tooltip {
-  position: relative !important;
-  display: inline-block;
-  margin-left: 0.3125rem;
-  cursor: pointer;
-}
-.clipboard-tooltip:hover .clipboard-tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-.clipboard-tooltip .clipboard-tooltip-text {
-  position: absolute !important;
-  bottom: 120%;
-  left: 50%;
-  border: 0.125rem solid #3373C4;
-  border-radius: 0.0625rem;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
-  -o-transition: opacity 0.3s;
-  -ms-transition: opacity 0.3s;
-  transition: opacity 0.3s;
-  width: 9.375rem;
-  margin-left: -8.125rem;
-  padding: 0.313rem;
-  background-color: #FFFFFF;
-  color: #3373C4;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  text-align: center;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 500;
-}
-.clipboard-tooltip .clipboard-tooltip-text::after {
-  position: absolute !important;
-  top: 100%;
-  left: 50%;
-  content: "";
-  margin-left: -0.313rem;
-}
-
-.palette-tooltip {
-  position: relative !important;
-}
-.palette-tooltip .palette-tooltip-contents {
-  position: absolute !important;
+.tooltip__box {
+  position: absolute;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
   -moz-transform: translate(-50%, 0);
@@ -13417,7 +13174,21 @@ body.active {
   margin: 1rem 0 0 0;
   z-index: 500;
 }
-.palette-tooltip .palette-tooltip-contents.right-bottom {
+.tooltip__box.last {
+  -webkit-transform: translate(-70%, 0);
+  -moz-transform: translate(-70%, 0);
+  -o-transform: translate(-70%, 0);
+  -ms-transform: translate(-70%, 0);
+  transform: translate(-70%, 0);
+  left: 0;
+}
+.tooltip__box.right-top {
+  left: auto;
+  right: 0;
+  top: 0;
+  transform: translate(0, -3rem);
+}
+.tooltip__box.right-bottom {
   right: 0;
   bottom: 0;
   -webkit-transform: translate(-150%, -15%);
@@ -13426,13 +13197,13 @@ body.active {
   -ms-transform: translate(-150%, -15%);
   transform: translate(-150%, -15%);
 }
-.palette-tooltip .palette-tooltip-contents .palette-tooltip-text {
+.tooltip__box__text {
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   font-size: 0.875rem;
   color: #222529;
   font-weight: 500;
 }
-.palette-tooltip:hover .palette-tooltip-contents {
+.tooltip:hover .tooltip__box {
   visibility: visible;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 0.3s;
@@ -13464,6 +13235,124 @@ body.active {
   animation-timing-function: ease-out;
   animation-iteration-count: 1;
   animation-direction: normal;
+}
+.tooltip--info {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.3125rem;
+  vertical-align: middle;
+}
+.tooltip--info .ic-tooltip {
+  background: #8B9094;
+  cursor: pointer;
+}
+.tooltip--info .tooltip__box {
+  position: absolute;
+  left: 0;
+  border: 0.125rem solid #3373C4;
+  border-radius: 0.125rem;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  -webkit-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  -moz-box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  box-shadow: 0 0 0.125rem 0 #CFD5D9;
+  width: 28.125rem;
+  height: auto;
+  margin: 0.25rem 0 0 0;
+  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
+  color: #3373C4;
+  transform: none;
+  text-align: left;
+  visibility: hidden;
+}
+.tooltip--info .tooltip__box span {
+  color: #3373C4;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.tooltip--info .tooltip__box.top {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, calc(-100% - 0.625rem));
+  -moz-transform: translate(-50%, calc(-100% - 0.625rem));
+  -o-transform: translate(-50%, calc(-100% - 0.625rem));
+  -ms-transform: translate(-50%, calc(-100% - 0.625rem));
+  transform: translate(-50%, calc(-100% - 0.625rem));
+}
+.tooltip--info .tooltip__box.right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  -webkit-transform: translate(calc(100% + 0.625rem), -50%);
+  -moz-transform: translate(calc(100% + 0.625rem), -50%);
+  -o-transform: translate(calc(100% + 0.625rem), -50%);
+  -ms-transform: translate(calc(100% + 0.625rem), -50%);
+  transform: translate(calc(100% + 0.625rem), -50%);
+}
+.tooltip--info .tooltip__box.bottom {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
+.tooltip--info .tooltip__box.left {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 0;
+  -webkit-transform: translate(calc(-100% - 0.625rem), -50%);
+  -moz-transform: translate(calc(-100% - 0.625rem), -50%);
+  -o-transform: translate(calc(-100% - 0.625rem), -50%);
+  -ms-transform: translate(calc(-100% - 0.625rem), -50%);
+  transform: translate(calc(-100% - 0.625rem), -50%);
+}
+.tooltip--info:hover .tooltip__box {
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 0.3s;
+  -moz-animation-name: fadeIn;
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-direction: normal;
+  -o-animation-delay: 0s;
+  -o-animation-duration: 0.3s;
+  -o-animation-name: fadeIn;
+  -o-animation-timing-function: ease-out;
+  -o-animation-iteration-count: 1;
+  -o-animation-direction: normal;
+  -ms-animation-delay: 0s;
+  -ms-animation-duration: 0.3s;
+  -ms-animation-name: fadeIn;
+  -ms-animation-timing-function: ease-out;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-direction: normal;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: fadeIn;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  visibility: visible;
+}
+.tooltip--info:hover .ic-tooltip {
+  background: #3373C4;
 }
 
 /* _tree.scss
@@ -13489,7 +13378,7 @@ ul.tree {
   cursor: default;
 }
 ul.tree li {
-  position: relative !important;
+  position: relative;
   overflow: hidden;
   display: block;
   padding-right: 0.125rem;
@@ -13499,7 +13388,7 @@ ul.tree li {
   word-wrap: normal;
 }
 ul.tree ul {
-  position: relative !important;
+  position: relative;
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
@@ -13510,7 +13399,7 @@ ul.tree ul {
   list-style-type: none;
 }
 ul.tree ul:before {
-  position: absolute !important;
+  position: absolute;
   top: 0;
   bottom: 0;
   border-left: 0.0625rem solid #CFD5D9;
@@ -13520,7 +13409,7 @@ ul.tree ul li {
   padding-left: 1.6565rem;
 }
 ul.tree ul li:before {
-  position: absolute !important;
+  position: absolute;
   top: 0.9375rem;
   left: 0;
   border-top: 0.0625rem solid #CFD5D9;
@@ -13582,7 +13471,7 @@ span.modal_node_selected label {
 }
 
 .tree-container {
-  position: relative !important;
+  position: relative;
   margin: 1.875rem 2.5rem;
   font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 }

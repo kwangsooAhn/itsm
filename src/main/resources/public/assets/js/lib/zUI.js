@@ -380,7 +380,7 @@ class UIClipboard extends UIElement {
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass('clipboard-tooltip');
+        this.UITooltip = new UIDiv().setUIClass('tooltip').setUIClass('ml-1');
         this.addUI(this.UITooltip);
 
         // copy button
@@ -391,21 +391,26 @@ class UIClipboard extends UIElement {
             scope.UIInput.domElement.setSelectionRange(0, 99999);
             document.execCommand('copy');
 
-            scope.UITooltip.UITooptipText.setUITextContent('Copy success');
+            scope.UITooltip.UITooltBox.UITooptipText.setUITextContent('Copy success');
         });
         this.UITooltip.UIButton.domElement.addEventListener('mouseout', function () {
-            scope.UITooltip.UITooptipText.setUITextContent('Copy to clipboard');
+            scope.UITooltip.UITooltBox.UITooptipText.setUITextContent('Copy to clipboard');
         });
         this.UITooltip.addUI(this.UITooltip.UIButton);
 
         // copy button icon
         const UIButtonIcon = new UISpan().setUIClass('ic-clipboard');
         this.UITooltip.UIButton.addUI(UIButtonIcon);
+        
+        // tooltip box
+        this.UITooltip.UITooltBox = new UIDiv().setUIClass('tooltip__box')
+            .addUIClass('right-top')
+        this.UITooltip.UIButton.addUI(this.UITooltip.UITooltBox);
 
         // tooltip text
-        this.UITooltip.UITooptipText = new UISpan().setUIClass('clipboard-tooltip-text')
+        this.UITooltip.UITooltBox.UITooptipText = new UISpan().setUIClass('tooltip__box__text')
             .setUITextContent('Copy to clipboard');
-        this.UITooltip.UIButton.addUI(this.UITooltip.UITooptipText);
+        this.UITooltip.UITooltBox.addUI(this.UITooltip.UITooltBox.UITooptipText);
     }
 }
 

@@ -336,7 +336,7 @@ $button-group: (
           background-color: $white;
         }
         &::after {
-          @include maskImage('#{$icon-folder-path}icon_remove.svg', 1.25rem, 1.25rem, no-repeat, center); // 20px 20px
+          @include maskImage('#{$icon-folder-path}icon_clear.svg', 1.25rem, 1.25rem, no-repeat, center); // 20px 20px
           @include absolute($right: 0.125rem); // 2px
           content: '';
           background-color: $white;
