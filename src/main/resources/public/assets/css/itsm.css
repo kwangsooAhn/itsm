@@ -12220,7 +12220,7 @@ body.active {
 .tagify:read-only .tagify__tag__removeBtn {
   display: none;
 }
-.tagifyinput[type=text] {
+.tagify.tag__input {
   border: 0.0625rem solid #ABB0B5;
   border-radius: 0.125rem;
   -webkit-border-radius: 0.125rem;
@@ -12228,29 +12228,29 @@ body.active {
   height: max-content;
   padding: 0;
 }
-.tagifyinput[type=text] > .tagify__input {
+.tagify.tag__input > .tagify__input {
   display: block;
   padding: 0 0.75rem;
   visibility: visible;
 }
-.tagifyinput[type=text] > .tagify__input:not(:first-child) {
+.tagify.tag__input > .tagify__input:not(:first-child) {
   padding: 0.25rem;
 }
-.tagifyinput[type=text] .tagify__tag__removeBtn {
+.tagify.tag__input .tagify__tag__removeBtn {
   display: inherit;
 }
-.tagifyinput[type=text]:hover {
+.tagify.tag__input:hover {
   border-color: #619CDB;
   outline: 0;
 }
-.tagifyinput[type=text]:focus {
+.tagify.tag__input:focus {
   -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
   -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
   box-shadow: 0 0 0.125rem 0 #2559A8;
   border-color: #2559A8;
   outline: 0;
 }
-.tagifyinput[type=text]:active {
+.tagify.tag__input:active {
   border-color: #2559A8;
   outline: 0;
 }
