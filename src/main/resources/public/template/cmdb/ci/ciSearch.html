@@ -7,6 +7,8 @@
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
 </head>
 <th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
 </th:block>
@@ -588,12 +590,24 @@
                         ciDetailModalContent.querySelectorAll('.date-time').forEach(dt => {
                             dt.textContent = i18n.userDateTime(dt.textContent.trim());
                         });
+                        getChart(ciId);
                     }
                 });
+
                 ciDetailModal.show();
             });
         }
 
+        function getChart(ciId, container) {
+            aliceJs.fetchJson('/rest/cmdb/cis/' + ciId + '/chart', {
+                method: 'GET',
+                showProgressBar: true
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success || typeof response.data.chartConfig === 'undefined') { return false; }
+                zChartManager.load(response.data);
+                zChartManager.update(response.data);
+            })
+        }
         /**
          * 사용자 검색 모달
          */
@@ -729,6 +743,28 @@
             }
         };
         window.zPagingManager = zPagingManager;
+    </script>
+    <script type="module">
+        import ZChart from '../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function(data) {
+                // 차트 초기화
+                this.zChart = new ZChart('container', data);
+            },
+            update: function (data) {
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function() {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        };
+        window.zChartManager = zChartManager;
     </script>
 </th:block>
 </html>

@@ -57,7 +57,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
+import kotlin.math.round
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -483,26 +485,27 @@ class CIService(
         val capacityData = ciCapacityRepository.findCapacityChartData(ciId)
         val tags: MutableList<AliceTagDto> = mutableListOf()
         val chartDataList: MutableList<ChartData> = mutableListOf()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         capacityData.forEach { capacity ->
             var chartData = ChartData(
-                id = ciId,
-                category = capacity.referenceDt.toString(),
+                id = "",
+                category = capacity.referenceDt.format(formatter),
                 value = capacity.memAvg.toString(),
                 series = CIConstants.CapacityTag.MEMORY.code
             )
             chartDataList.add(chartData)
 
             chartData = ChartData(
-                id = ciId,
-                category = capacity.referenceDt.toString(),
+                id = "",
+                category = capacity.referenceDt.format(formatter),
                 value = capacity.cpuAvg.toString(),
                 series = CIConstants.CapacityTag.CPU.code
             )
             chartDataList.add(chartData)
 
             chartData = ChartData(
-                id = ciId,
-                category = capacity.referenceDt.toString(),
+                id = "",
+                category = capacity.referenceDt.format(formatter),
                 value = capacity.diskAvg.toString(),
                 series = CIConstants.CapacityTag.DISK.code
             )
@@ -519,7 +522,7 @@ class CIService(
         ))
 
         return CICapacityChartDto(
-            chartId = "",
+            chartId = ciId,
             chartType = ChartConstants.Type.BASIC_LINE.code,
             tags = tags,
             chartConfig = ChartConfig(
