@@ -207,7 +207,7 @@ export const userSearchMixin = {
                 `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
-                `<div class="table-set" id="searchUserList"></div>` +
+                `<div id="searchUserList"></div>` +
                 `</div>`,
             classes: 'target-user-modal',
             buttons: [{
@@ -275,9 +275,9 @@ export const userSearchMixin = {
             // 사용자 선택 모달 생성
             if (!zValidation.isEmpty(searchUserList)) {
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.table__body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
                 // 갯수 가운트
-                aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.tbl-row').length);
                 // 체크 이벤트
                 searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                     element.addEventListener('change', () => {
@@ -302,7 +302,7 @@ export const userSearchMixin = {
             } else {
                 // 기본값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (!userListElem.querySelectorAll('.table-row').length) {
+                if (!userListElem.querySelectorAll('.tbl-row').length) {
                     this.UIElement.UIComponent.UIElement.UIInput.setUIValue('')
                         .setUIAttribute('data-user-id', '')
                         .setUIAttribute('data-user-search', '');

@@ -954,7 +954,7 @@
                 `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
-                `<div class="table-set" id="targetUserList"></div>` +
+                `<div id="targetUserList"></div>` +
             `</div>`;
 
         const isMulti = e.target.id === 'searchUserList';
@@ -1043,9 +1043,9 @@
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
             targetUserList.innerHTML = htmlData.toString();
-            OverlayScrollbars(targetUserList.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(targetUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(targetUserList.querySelectorAll('.tbl-row').length);
             // 기존 선택값 표시
             userArray.forEach( (target) => {
                 const targetCheckBox = targetUserList.querySelector('input[id="' + target.id + '"]');
@@ -1231,7 +1231,7 @@
             `<input class="ic-search col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
             `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
             `<span id="spanTotalCount" class="search-count"></span>` +
-            `<div class="table-set" id="ciClassAttributeList"></div>` +
+            `<div id="ciClassAttributeList"></div>` +
             `</div>`;
 
         const attributeListModal = new modal({
@@ -1288,7 +1288,7 @@
         }).then((htmlData) => {
             document.getElementById('ciClassAttributeList').innerHTML = htmlData.toString();
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-            OverlayScrollbars(document.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.tbl__body'), { className: 'scrollbar' });
 
             document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
                 checkbox.addEventListener('change', function(e) {
@@ -2163,7 +2163,7 @@
             `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
             `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
-            `<div class="table-set" id="searchUserList"></div>` +
+            `<div id="searchUserList"></div>` +
             `</div>`;
 
         const targetUserModal = new modal({
@@ -2234,9 +2234,9 @@
             if (!isValidate) {
                 const searchUserList = document.getElementById('searchUserList');
                 searchUserList.innerHTML = htmlData.toString();
-                OverlayScrollbars(searchUserList.querySelector('.table__body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
                 // 갯수 가운트
-                aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
+                aliceJs.showTotalCount(searchUserList.querySelectorAll('.tbl-row').length);
                 // 체크 이벤트
                 searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                     element.addEventListener('change', () => {
@@ -2255,7 +2255,7 @@
             } else {
                 // 기본 값 사용자 조회
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (userListElem.querySelectorAll('.table-row').length === 0) {
+                if (userListElem.querySelectorAll('.tbl-row').length === 0) {
                     target.value = '';
                     target.setAttribute('data-user-search', '');
                 }

@@ -210,21 +210,22 @@
 
           &-table {
             th, td { padding: 0 0.625rem; } // 0 10px
-            .table-head {
-              @include border(0.0625rem, solid, $gray300, top);
-              background-color: $neutral100;
-              tr {
-                height: 2rem; // 32px
-                th { color: $gray400; }
+            .tbl {
+              &__head {
+                @include border(0.0625rem, solid, $gray300, top);
+                background-color: $neutral100;
+                tr {
+                  height: 2rem; // 32px
+                  th { color: $gray400; }
+                }
               }
-            }
-
-            .table__body {
-              overflow-y: auto;
-              border: none;
-              tr {
-                @include border(0.0625rem, solid, $gray300, bottom);
-                width: 100%;
+              &__body {
+                overflow-y: auto;
+                border: none;
+                tr {
+                  @include border(0.0625rem, solid, $gray300, bottom);
+                  width: 100%;
+                }
               }
             }
           }
@@ -308,7 +309,7 @@
             td, th {
               &:nth-child(3) { color: $gray500; }
             }
-            .table__body {
+            .tbl__body {
               border: none;
               tr:hover { background-color: transparent; }
             }
@@ -408,7 +409,7 @@
               }
             }
 
-            .table__body {
+            .tbl__body {
               border: none;
 
               tr:hover {
