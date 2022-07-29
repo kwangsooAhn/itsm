@@ -741,6 +741,12 @@ table {
     @include ellipsis(table-cell);
     vertical-align: middle;
   }
+  
+  th {
+    font-family: $font-family;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+  }
 }
 .table {
   border: none;
@@ -758,12 +764,7 @@ table {
     a { color: $neutral800; }
   }
 
-  th {
-    color: $neutral600;
-    font-family: $font-family;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-  }
+  th { color: $neutral600; }
 
   &__head {
     @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
@@ -807,9 +808,6 @@ table {
     border: none;
     background-color: transparent;
     color: $gray400;
-    font-family: $font-family;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
 
     tr {
       @include border(0.0625rem, solid, $gray400, bottom);
@@ -825,10 +823,6 @@ table {
         @include border(calc(0.0625rem * 2), solid, $gray400, bottom);
         height: 2rem; // 32px
         background-color: $neutral100;
-        color: $gray400;
-        font-family: $font-family;
-        font-size: $font-size-xs;
-        font-weight: $font-weight-medium;
       }
 
       &__body {
