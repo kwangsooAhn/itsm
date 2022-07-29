@@ -672,7 +672,7 @@
             }).then((htmlData) => {
                 const searchUserList = document.getElementById('searchUserList');
                 searchUserList.innerHTML = htmlData;
-                OverlayScrollbars(searchUserList.querySelector('.table__body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
                 // 체크 이벤트

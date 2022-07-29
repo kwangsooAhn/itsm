@@ -748,7 +748,7 @@ table {
     font-weight: $font-weight-medium;
   }
 }
-.table {
+.tbl {
   border: none;
   background-color: transparent;
   color: $neutral800;
@@ -817,7 +817,7 @@ table {
       th, td { padding: 0 0.5rem; }
     }
     
-    .table {
+    .tbl {
       &__head {
         @include border(0.0625rem, solid, $gray400, top);
         @include border(calc(0.0625rem * 2), solid, $gray400, bottom);

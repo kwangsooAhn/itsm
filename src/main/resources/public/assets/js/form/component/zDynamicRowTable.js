@@ -96,7 +96,7 @@ export const dynamicRowTableMixin = {
 
         // 테이블
         element.UITable = new UITable()
-            .setUIClass('table--option')
+            .setUIClass('tbl--option')
             .addUIClass('dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
@@ -234,7 +234,7 @@ export const dynamicRowTableMixin = {
     },
     makeTable(table) {
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('table--option__head').addUIClass('dr-table-header');
+        const row = new UIRow(table).setUIClass('tbl__head').addUIClass('dr-table-header');
         table.addUIRow(row);
 
         this.elementColumns.forEach((column) => {
@@ -958,7 +958,7 @@ export const dynamicRowTableMixin = {
         }).then((htmlData) => {
             const searchUserList = document.getElementById('searchUserList');
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
             aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
             // 체크 이벤트

@@ -527,7 +527,7 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.tbl__body'), { className: 'scrollbar' });
             //갯수 카운트
             const substituteUserList = document.getElementById('userList');
             aliceJs.showTotalCount(substituteUserList.querySelectorAll('.table-row').length);

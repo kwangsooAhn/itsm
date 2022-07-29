@@ -1043,7 +1043,7 @@
         }).then((htmlData) => {
             const targetUserList = document.getElementById('targetUserList');
             targetUserList.innerHTML = htmlData.toString();
-            OverlayScrollbars(targetUserList.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(targetUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
             aliceJs.showTotalCount(targetUserList.querySelectorAll('.table-row').length);
             // 기존 선택값 표시
@@ -1288,7 +1288,7 @@
         }).then((htmlData) => {
             document.getElementById('ciClassAttributeList').innerHTML = htmlData.toString();
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
-            OverlayScrollbars(document.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.tbl__body'), { className: 'scrollbar' });
 
             document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
                 checkbox.addEventListener('change', function(e) {
@@ -2234,7 +2234,7 @@
             if (!isValidate) {
                 const searchUserList = document.getElementById('searchUserList');
                 searchUserList.innerHTML = htmlData.toString();
-                OverlayScrollbars(searchUserList.querySelector('.table__body'), { className: 'scrollbar' });
+                OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
                 // 갯수 가운트
                 aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
                 // 체크 이벤트

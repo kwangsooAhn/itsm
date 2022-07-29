@@ -97,9 +97,9 @@ body.active { overflow: hidden !important; }
       // 관련문서 목록
       .related-instance-list {
         margin-top: 0.9375rem; // 15px
-        .table {
+        .tbl {
           margin-top: 1.875rem; // 30px
-          .table__body {
+          &__body {
             overflow-y: auto;
             display: block;
             width: 60rem; // 960px
@@ -258,10 +258,10 @@ body.active { overflow: hidden !important; }
         height: calc(42.188rem - 3.875rem - 5rem - 2.5rem); // 높이(675px)에서 여백만큼 빼준다.
         padding: 0 1.25rem; // 0 20px
 
-        .table {
+        .tbl {
           width: auto;
 
-          .table__body {
+          &__body {
             border: none;
             tr:hover { background-color: transparent; }
           }
@@ -320,9 +320,9 @@ body.active { overflow: hidden !important; }
       .sub-user-list,
       .target-user-list {
         margin-top: 0.9375rem; // 15px
-        .table {
+        .tbl {
           margin-top: 1.875rem; // 30px
-          .table__body {
+          &__body {
             display: block;
             overflow-y: auto;
             width: 60rem; // 960px
@@ -519,9 +519,9 @@ body.active { overflow: hidden !important; }
       height: calc(40.625rem - 3.875rem - 5rem); // 650px
       padding: 1.25rem; // 20px
 
-      .table {
+      .tbl {
         margin-top: 2.188rem; // 35px
-        .table__body {
+        &__body {
           display: block;
           overflow-y: auto;
           width: 60rem; // 960px

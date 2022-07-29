@@ -334,7 +334,7 @@ class ZFormTokenTab {
             const viewerList = document.getElementById('subUserList');
             viewerList.innerHTML = htmlData;
 
-            OverlayScrollbars(viewerList.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(viewerList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
             aliceJs.showTotalCount(viewerList.querySelectorAll('.table-row').length);
             this.viewerList.forEach((viewer) => {
