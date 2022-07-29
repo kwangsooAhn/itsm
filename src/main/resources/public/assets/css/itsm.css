@@ -5244,7 +5244,7 @@ input.ic-mb {
 .property .tab-panel .panels .panel .panel-individual > .property-group:last-child {
   border-top: 0.0625rem solid #CFD5D9;
 }
-.property .table--option .table__body__row td {
+.property .tbl--option .tbl__body__row td {
   padding: 0;
 }
 .property .btn__toggle__button--single, .property .btn__toggle__button--multi {
@@ -6061,21 +6061,21 @@ input.ic-mb {
 .document-container .token-properties .token-panels .token-history-table th, .document-container .token-properties .token-panels .token-history-table td {
   padding: 0 0.625rem;
 }
-.document-container .token-properties .token-panels .token-history-table .table-head {
+.document-container .token-properties .token-panels .token-history-table .tbl__head {
   border-top: 0.0625rem solid #CFD5D9;
   background-color: #F5F5F5;
 }
-.document-container .token-properties .token-panels .token-history-table .table-head tr {
+.document-container .token-properties .token-panels .token-history-table .tbl__head tr {
   height: 2rem;
 }
-.document-container .token-properties .token-panels .token-history-table .table-head tr th {
+.document-container .token-properties .token-panels .token-history-table .tbl__head tr th {
   color: #ABB0B5;
 }
-.document-container .token-properties .token-panels .token-history-table .table__body {
+.document-container .token-properties .token-panels .token-history-table .tbl__body {
   overflow-y: auto;
   border: none;
 }
-.document-container .token-properties .token-panels .token-history-table .table__body tr {
+.document-container .token-properties .token-panels .token-history-table .tbl__body tr {
   border-bottom: 0.0625rem solid #CFD5D9;
   width: 100%;
 }
@@ -6150,10 +6150,10 @@ input.ic-mb {
 .document-container .token-properties .token-panels .token-viewer-table td:nth-child(3), .document-container .token-properties .token-panels .token-viewer-table th:nth-child(3) {
   color: #8B9094;
 }
-.document-container .token-properties .token-panels .token-viewer-table .table__body {
+.document-container .token-properties .token-panels .token-viewer-table .tbl__body {
   border: none;
 }
-.document-container .token-properties .token-panels .token-viewer-table .table__body tr:hover {
+.document-container .token-properties .token-panels .token-viewer-table .tbl__body tr:hover {
   background-color: transparent;
 }
 .document-container .token-properties .token-panels .token-viewer-table .ic-clear {
@@ -6245,10 +6245,10 @@ input.ic-mb {
   .print-main .drawing-board-calendar-table td:nth-child(2), .print-main .drawing-board-calendar-table th:nth-child(2) {
     color: #8B9094;
   }
-  .print-main .drawing-board-calendar-table .table__body {
+  .print-main .drawing-board-calendar-table .tbl__body {
     border: none;
   }
-  .print-main .drawing-board-calendar-table .table__body tr:hover {
+  .print-main .drawing-board-calendar-table .tbl__body tr:hover {
     background-color: transparent;
   }
   .print-main .drawing-board-calendar-table .ic-clear {
@@ -6382,17 +6382,17 @@ input.ic-mb {
 .portal-container summary:focus {
   outline: none;
 }
-.portal-container .table .table__body {
+.portal-container .tbl__body {
   display: block;
   height: 35rem;
 }
-.portal-container .table .table__body tr {
+.portal-container .tbl__body tr {
   display: table;
   width: 100%;
   height: 2.688rem;
   table-layout: fixed;
 }
-.portal-container .table.card-table tr {
+.portal-container .tbl.card-table tr {
   height: 2.5rem;
 }
 
@@ -10035,8 +10035,13 @@ table td, table th {
   word-wrap: normal;
   vertical-align: middle;
 }
+table th {
+  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
 
-.table {
+.tbl {
   border: none;
   background-color: transparent;
   color: #424242;
@@ -10044,119 +10049,109 @@ table td, table th {
   font-size: 0.875rem;
   font-weight: 500;
 }
-.table td:not(.p-0), .table th:not(.p-0) {
+.tbl td:not(.p-0), .tbl th:not(.p-0) {
   padding: 0 0.9375rem;
 }
-.table td:not(.p-0):first-child, .table th:not(.p-0):first-child {
+.tbl td:not(.p-0):first-child, .tbl th:not(.p-0):first-child {
   padding-left: 1.25rem;
 }
-.table td a, .table th a {
+.tbl td a, .tbl th a {
   color: #424242;
 }
-.table th {
+.tbl th {
   color: #757575;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
 }
-.table__head {
+.tbl__head {
   border-bottom: 0.125rem solid #ABB0B5;
 }
-.table__head tr {
+.tbl__head tr {
   height: 2.5rem;
 }
-.table__body {
+.tbl__body {
   width: 100%;
   height: 100%;
 }
-.table__body tr {
+.tbl__body tr {
   height: 2.5625rem;
 }
-.table__body tr:hover {
+.tbl__body tr:hover {
   background-color: #EEEEEE;
 }
-.table__body tr.active {
+.tbl__body tr.active {
   background-color: #D6EDFC;
 }
-.table__body tr.active td {
+.tbl__body tr.active td {
   color: #19428D;
 }
-.table__body .no-data-found-list {
+.tbl__body .no-data-found-list {
   pointer-events: none;
 }
-.table__body .btn__ic {
+.tbl__body .btn__ic {
   padding: 0;
   background-color: transparent;
   border-color: transparent;
 }
-.table__body .btn__ic:hover, .table__body .btn__ic:focus, .table__body .btn__ic:active, .table__body .btn__ic:disabled {
+.tbl__body .btn__ic:hover, .tbl__body .btn__ic:focus, .tbl__body .btn__ic:active, .tbl__body .btn__ic:disabled {
   background-color: transparent;
   border-color: transparent;
 }
-.table__body .btn__ic [class*=ic-] {
+.tbl__body .btn__ic [class*=ic-] {
   background-color: #63686C;
 }
-.table__body .btn__ic:hover [class*=ic-] {
+.tbl__body .btn__ic:hover [class*=ic-] {
   background-color: #ABB0B5;
 }
-.table__body .btn__ic:focus [class*=ic-] {
+.tbl__body .btn__ic:focus [class*=ic-] {
   background-color: #222529;
 }
-.table__body .btn__ic:active [class*=ic-] {
+.tbl__body .btn__ic:active [class*=ic-] {
   background-color: #222529;
 }
-.table__body .btn__ic:disabled [class*=ic-] {
+.tbl__body .btn__ic:disabled [class*=ic-] {
   background-color: #CFD5D9;
 }
-.table--option {
+.tbl--option {
   border: none;
   background-color: transparent;
   color: #ABB0B5;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
 }
-.table--option tr {
+.tbl--option tr {
   border-bottom: 0.0625rem solid #ABB0B5;
   height: 2.5rem;
   border-left: none;
   border-right: none;
 }
-.table--option tr th, .table--option tr td {
+.tbl--option tr th, .tbl--option tr td {
   padding: 0 0.5rem;
 }
-.table--option .table__head {
+.tbl--option .tbl__head {
   border-top: 0.0625rem solid #ABB0B5;
   border-bottom: 0.125rem solid #ABB0B5;
   height: 2rem;
   background-color: #F5F5F5;
-  color: #ABB0B5;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
 }
-.table--option .table__body__row:hover {
+.tbl--option .tbl__body__row:hover {
   background-color: transparent;
 }
-.table--option .table__body__row .checkbox,
-.table--option .table__body__row .radio {
+.tbl--option .tbl__body__row .checkbox,
+.tbl--option .tbl__body__row .radio {
   margin: 0 0 0 0.75rem;
 }
-.table--option .table__body__row input[type=text], .table--option .table__body__row input[type=number] {
+.tbl--option .tbl__body__row input[type=text], .tbl--option .tbl__body__row input[type=number] {
   width: 85%;
   padding: 0.75rem;
   margin: 0.25rem;
 }
-.table--option .table__body__row input[type=text]:not(:placeholder-shown):not(:focus), .table--option .table__body__row input[type=number]:not(:placeholder-shown):not(:focus) {
+.tbl--option .tbl__body__row input[type=text]:not(:placeholder-shown):not(:focus), .tbl--option .tbl__body__row input[type=number]:not(:placeholder-shown):not(:focus) {
   border-color: transparent;
 }
-.table--option .table__body__row .btn__ic [class*=ic-] {
+.tbl--option .tbl__body__row .btn__ic [class*=ic-] {
   display: block;
   margin: 0 auto;
   background: #ABB0B5;
   pointer-events: none;
 }
-.table--option .table__body__row .btn__ic:hover [class*=ic-] {
+.tbl--option .tbl__body__row .btn__ic:hover [class*=ic-] {
   background: #3373C4;
 }
 
@@ -10957,18 +10952,18 @@ body.active {
 .modal__dialog.token-list .modal__dialog__body .related-instance-list {
   margin-top: 0.9375rem;
 }
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set {
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .tbl {
   margin-top: 1.875rem;
 }
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set .table .table__body {
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .tbl__body {
   overflow-y: auto;
   display: block;
   width: 60rem;
   height: 35.313rem;
   border: none;
 }
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set .table .table__body .attribute-list,
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set .table .table__body .instance-list {
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .tbl__body .attribute-list,
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .tbl__body .instance-list {
   display: flex;
   width: 100%;
   height: 2.188rem;
@@ -11092,16 +11087,16 @@ body.active {
   height: 30.813rem;
   padding: 0 1.25rem;
 }
-.modal__dialog.document-display .modal__dialog__body .document-display-content .table {
+.modal__dialog.document-display .modal__dialog__body .document-display-content .tbl {
   width: auto;
 }
-.modal__dialog.document-display .modal__dialog__body .document-display-content .table .table__body {
+.modal__dialog.document-display .modal__dialog__body .document-display-content .tbl__body {
   border: none;
 }
-.modal__dialog.document-display .modal__dialog__body .document-display-content .table .table__body tr:hover {
+.modal__dialog.document-display .modal__dialog__body .document-display-content .tbl__body tr:hover {
   background-color: transparent;
 }
-.modal__dialog.document-display .modal__dialog__body .document-display-content .table th, .modal__dialog.document-display .modal__dialog__body .document-display-content .table td {
+.modal__dialog.document-display .modal__dialog__body .document-display-content .tbl th, .modal__dialog.document-display .modal__dialog__body .document-display-content .tbl td {
   overflow: initial;
   padding: 0 1.5rem 0.625rem 0;
 }
@@ -11148,44 +11143,44 @@ body.active {
 .modal__dialog.target-user-modal .modal__dialog__body .target-user-list {
   margin-top: 0.9375rem;
 }
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set {
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .tbl,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .tbl,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .tbl, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .tbl,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .tbl, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .tbl,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .tbl {
   margin-top: 1.875rem;
 }
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set .table .table__body,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set .table .table__body, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body {
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .tbl__body,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .tbl__body, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .tbl__body,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .tbl__body, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .tbl__body,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .tbl__body {
   display: block;
   overflow-y: auto;
   width: 60rem;
   height: 35.313rem;
   border: none;
 }
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .attribute-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .instance-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .instance-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set .table .table__body .instance-list, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .attribute-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .instance-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .instance-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .instance-list, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .attribute-list,
-.modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .instance-list,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .instance-list,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .instance-list {
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body .attribute-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body .instance-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .tbl__body .attribute-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .tbl__body .instance-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .tbl__body .attribute-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .tbl__body .instance-list, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body .attribute-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body .instance-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .tbl__body .attribute-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .tbl__body .instance-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .tbl__body .attribute-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .tbl__body .instance-list, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body .attribute-list,
+.modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .tbl__body .instance-list,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .tbl__body .attribute-list,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .tbl__body .instance-list,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .tbl__body .attribute-list,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .tbl__body .instance-list {
   display: flex;
   width: 100%;
   height: 2.188rem;
@@ -11295,7 +11290,7 @@ body.active {
 .modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .attribute-group .child-attribute-group .child-attribute-row {
   margin-top: 0.625rem;
 }
-.modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .table-row {
+.modal__dialog.cmdb-ci-register-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row, .modal__dialog.cmdb-ci-update-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row, .modal__dialog.cmdb-ci-view-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row, .modal__dialog.cmdb-ci-list-modal .modal__dialog__body .cmdb-ci-content-edit .relation-group .tbl-row {
   border-bottom: 0.0625rem solid #ABB0B5;
   height: 2.5rem;
 }
@@ -11384,23 +11379,23 @@ body.active {
   height: 31.75rem;
   padding: 1.25rem;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .tbl {
   margin-top: 2.188rem;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set .table .table__body {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .tbl__body {
   display: block;
   overflow-y: auto;
   width: 60rem;
   height: 21.75rem;
   border: none;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set .table .table__body .list-row {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .tbl__body .list-row {
   display: table;
   width: 100%;
   height: 2.125rem;
   line-height: 2.125rem;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set .table .table__body .list-row > td {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .tbl__body .list-row > td {
   display: inline-block;
   max-width: 22.5rem;
   vertical-align: middle;

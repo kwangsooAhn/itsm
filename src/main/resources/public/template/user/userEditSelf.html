@@ -511,7 +511,7 @@
         return `<div class="sub-user-list">` +
             `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
-            `<div class="table-set" id="subUserList"></div>` +
+            `<div id="subUserList"></div>` +
             `</div>`;
     }
 
@@ -527,10 +527,10 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.tbl__body'), { className: 'scrollbar' });
             //갯수 카운트
             const substituteUserList = document.getElementById('userList');
-            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.tbl-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
                 // 체크 이벤트
                 radio.addEventListener('change', () => {

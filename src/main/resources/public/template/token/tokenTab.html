@@ -21,8 +21,8 @@
         <!-- 문서이력 -->
         <div class="token-history">
             <label class="token-history-sub-title" th:text="#{token.label.history}"></label>
-            <table class="table token-history-table">
-                <thead class="table__head">
+            <table class="tbl token-history-table">
+                <thead class="tbl__head">
                 <tr class="flex-row align-items-center">
                     <th style="width: 30%;" class="align-center" th:text="#{token.label.startDt}"></th>
                     <th style="width: 32%;" class="align-center" th:text="#{token.label.elementName}"></th>
@@ -30,7 +30,7 @@
                     <th style="width: 18%;" class="align-center" th:text="#{token.label.status}"></th>
                 </tr>
                 </thead>
-                <tbody class="table__body" id="history"></tbody>
+                <tbody class="tbl__body" id="history"></tbody>
             </table>
         </div>
         <!-- 참조인 -->
@@ -42,8 +42,8 @@
                         th:onclick="zFormTokenTab.openViewerModal()">
                 </button>
             </div>
-            <table class="table token-viewer-table">
-                <tbody class="table__body" id="viewer"></tbody>
+            <table class="tbl token-viewer-table">
+                <tbody class="tbl__body" id="viewer"></tbody>
             </table>
         </div>
         <!-- 일정 등록 -->
@@ -55,8 +55,8 @@
                         th:onclick="zFormTokenTab.openCalendarModal()">
                 </button>
             </div>
-            <table class="table token-calendar-table">
-                <tbody class="table__body" id="calendar"></tbody>
+            <table class="tbl token-calendar-table">
+                <tbody class="tbl__body" id="calendar"></tbody>
             </table>
         </div>
         <!-- 관련문서 -->
@@ -91,7 +91,7 @@
         <input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
                th:placeholder="#{token.label.relatedInstancePlaceholder}"/>
         <span id="spanTotalCount" class="search-count"></span>
-        <div class="table-set" id="instanceList"></div>
+        <div id="instanceList"></div>
     </div>
 </template>
 <!-- 사용자 모달 -->
@@ -100,7 +100,7 @@
         <input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
                th:placeholder="#{user.label.userSearchPlaceholder}">
         <span id="spanTotalCount" class="search-count"></span>
-        <div class="table-set" id="subUserList"></div>
+        <div id="subUserList"></div>
     </div>
 </template>
 <!-- 일정 등록 모달 -->

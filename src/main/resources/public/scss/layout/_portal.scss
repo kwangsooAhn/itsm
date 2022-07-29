@@ -119,8 +119,8 @@ $button-themes-social: (
     &:focus { outline: none; }
   }
 
-  .table {
-    .table__body {
+  .tbl {
+    &__body {
       display: block;
       height: 35rem; // 560px
       tr {

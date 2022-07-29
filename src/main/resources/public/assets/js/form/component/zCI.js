@@ -168,7 +168,7 @@ export const ciMixin = {
     makeCITable() {
         // 테이블
         const table = new UITable()
-            .setUIClass('table--option')
+            .setUIClass('tbl--option')
             .addUIClass('ci-table')
             .addUIClass('mt-2')
             .setUIId('ciTable' + this.id)
@@ -176,7 +176,7 @@ export const ciMixin = {
             .setUIAttribute('data-validation-required', this.validationRequired);
 
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('table--option__head').addUIClass('ci-table-header');
+        const row = new UIRow(table).setUIClass('tbl__head').addUIClass('ci-table-header');
         table.addUIRow(row);
 
         this.getCITableData().forEach((option) => {
@@ -775,7 +775,7 @@ export const ciMixin = {
             `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
             `<span id="ciListTotalCount" class="search-count"></span>` +
             `</form>` +
-            `<div class="table-set" id="ciList"></div>`;
+            `<div id="ciList"></div>`;
     },
     // 기존 CI 조회 모달
     openSelectModal(e) {
@@ -902,7 +902,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .table__body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .tbl__body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;
@@ -936,7 +936,7 @@ export const ciMixin = {
 
     },
     getDataTemplate(data, index) {
-        const div = document.querySelector('.table__body .os-content');
+        const div = document.querySelector('.tbl__body .os-content');
         const tr = document.createElement('tr');
         tr.className = 'list-row ci-list';
         tr.id = 'ciRow' + data.ciId;
@@ -1161,7 +1161,7 @@ export const ciMixin = {
             }
             // 스크롤바
             OverlayScrollbars(document.querySelector('.modal__dialog__body'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('#ciList .table__body'), { className: 'scrollbar',
+            OverlayScrollbars(document.querySelector('#ciList .tbl__body'), { className: 'scrollbar',
                 callbacks: {
                     onScroll: function(e) {
                         const scrollHeight = e.target.scrollHeight;
@@ -1301,7 +1301,7 @@ export const ciMixin = {
     // 연관 관계 입력 row 추가
     addCIRelation(ciRelations, isChecked) {
         const trRow = document.createElement('tr');
-        trRow.className = 'table-row relation-data';
+        trRow.className = 'tbl-row relation-data';
 
         const targetIcon = document.createElement('td');
         targetIcon.className = 'col-1 align-center';

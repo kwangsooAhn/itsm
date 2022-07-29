@@ -593,7 +593,7 @@
             `<input class="ic-search text-ellipsis col-5 mr-2" type="text" name="search" id="attributeSearch" ` +
                 `maxlength="100" placeholder="${i18n.msg('cmdb.attribute.label.searchPlaceholder')}"/>` +
             `<span id="spanTotalCount" class="search-count"></span>` +
-            `<div class="table-set" id="ciClassAttributeList"></div>` +
+            `<div id="ciClassAttributeList"></div>` +
             `</div>`;
     }
 
@@ -606,7 +606,7 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('ciClassAttributeList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.table__body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.tbl__body'), { className: 'scrollbar' });
             aliceJs.showTotalCount(document.querySelectorAll('.attribute-list').length);
             document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
                 checkbox.addEventListener('change', function(e) {

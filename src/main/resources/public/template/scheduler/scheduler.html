@@ -258,7 +258,7 @@
                     `<input type="text" class="ic-date-picker search-date col-3" id="searchToDt" name="searchToDt" value=""/>` +
                     `<input type="hidden" class="search-date" id="toDt" name="toDt"/>` +
                     `</form>` +
-                    `<div class="table-set" id="historyList"></div>`,
+                    `<div id="historyList"></div>`,
                 buttons: [{
                     content: i18n.msg('common.btn.close'),
                     classes: 'btn__text--box secondary',
@@ -336,11 +336,11 @@
                     let node = tempTbody.rows[i].cloneNode(true);
                     container.appendChild(node);
                 }
-                document.querySelector('.table__body .os-content').appendChild(container);
+                document.querySelector('.tbl__body .os-content').appendChild(container);
             } else {
                 document.getElementById('historyList').innerHTML = formData;
                 setDateTimeFormat(document.getElementById('historyList'))
-                OverlayScrollbars(document.querySelector('.table__body'), {
+                OverlayScrollbars(document.querySelector('.tbl__body'), {
                     className: 'scrollbar',
                     callbacks: {
                         onScroll: function (e) {
