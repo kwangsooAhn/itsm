@@ -144,7 +144,7 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
                     `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                     `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                     `<span id="spanTotalCount" class="search-count"></span>` +
-                    `<div class="table-set" id="searchUserList"></div>` +
+                    `<div id="searchUserList"></div>` +
                     `</div>`;
 
                 const userSearchModal = new modal({

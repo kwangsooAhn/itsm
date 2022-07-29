@@ -775,7 +775,7 @@ export const ciMixin = {
             `<input type="hidden" name="relationSearch" id="relationSearch" value="${(ciId !== null) ? ciId :''}"/>` +
             `<span id="ciListTotalCount" class="search-count"></span>` +
             `</form>` +
-            `<div class="table-set" id="ciList"></div>`;
+            `<div id="ciList"></div>`;
     },
     // 기존 CI 조회 모달
     openSelectModal(e) {

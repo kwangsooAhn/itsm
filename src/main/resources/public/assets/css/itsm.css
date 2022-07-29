@@ -10955,18 +10955,18 @@ body.active {
 .modal__dialog.token-list .modal__dialog__body .related-instance-list {
   margin-top: 0.9375rem;
 }
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set {
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .table {
   margin-top: 1.875rem;
 }
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set .table .table__body {
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .table .table__body {
   overflow-y: auto;
   display: block;
   width: 60rem;
   height: 35.313rem;
   border: none;
 }
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set .table .table__body .attribute-list,
-.modal__dialog.token-list .modal__dialog__body .related-instance-list .table-set .table .table__body .instance-list {
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .table .table__body .attribute-list,
+.modal__dialog.token-list .modal__dialog__body .related-instance-list .table .table__body .instance-list {
   display: flex;
   width: 100%;
   height: 2.188rem;
@@ -11146,44 +11146,44 @@ body.active {
 .modal__dialog.target-user-modal .modal__dialog__body .target-user-list {
   margin-top: 0.9375rem;
 }
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set {
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table {
   margin-top: 1.875rem;
 }
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set .table .table__body,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set .table .table__body, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body {
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table .table__body,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table .table__body, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table .table__body,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table .table__body, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table .table__body,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table .table__body {
   display: block;
   overflow-y: auto;
   width: 60rem;
   height: 35.313rem;
   border: none;
 }
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .attribute-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .instance-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .instance-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table-set .table .table__body .instance-list, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .attribute-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .instance-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .instance-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .instance-list, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .attribute-list,
-.modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table-set .table .table__body .instance-list,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table-set .table .table__body .instance-list,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .attribute-list,
-.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table-set .table .table__body .instance-list {
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body .attribute-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body .instance-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table .table__body .attribute-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .sub-user-list .table .table__body .instance-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table .table__body .attribute-list,
+.modal__dialog.cmdb-class-attribute-modal .modal__dialog__body .target-user-list .table .table__body .instance-list, .modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body .attribute-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body .instance-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table .table__body .attribute-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .sub-user-list .table .table__body .instance-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table .table__body .attribute-list,
+.modal__dialog.sub-user-modal .modal__dialog__body .target-user-list .table .table__body .instance-list, .modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body .attribute-list,
+.modal__dialog.target-user-modal .modal__dialog__body .cmdb-class-attribute-list .table .table__body .instance-list,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table .table__body .attribute-list,
+.modal__dialog.target-user-modal .modal__dialog__body .sub-user-list .table .table__body .instance-list,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table .table__body .attribute-list,
+.modal__dialog.target-user-modal .modal__dialog__body .target-user-list .table .table__body .instance-list {
   display: flex;
   width: 100%;
   height: 2.188rem;
@@ -11382,23 +11382,23 @@ body.active {
   height: 31.75rem;
   padding: 1.25rem;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .table {
   margin-top: 2.188rem;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set .table .table__body {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .table .table__body {
   display: block;
   overflow-y: auto;
   width: 60rem;
   height: 21.75rem;
   border: none;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set .table .table__body .list-row {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .table .table__body .list-row {
   display: table;
   width: 100%;
   height: 2.125rem;
   line-height: 2.125rem;
 }
-.modal__dialog.scheduler-list-modal .modal__dialog__body .table-set .table .table__body .list-row > td {
+.modal__dialog.scheduler-list-modal .modal__dialog__body .table .table__body .list-row > td {
   display: inline-block;
   max-width: 22.5rem;
   vertical-align: middle;
