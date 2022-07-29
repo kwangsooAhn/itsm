@@ -121,9 +121,9 @@
                             notificationId: element.id,
                             notificationType: element.getAttribute('notification-type'),
                             tokenId: element.getAttribute('token-id'),
-                            title: element.querySelector('.title').innerHTML,
-                            date: element.querySelector('.date').textContent,
-                            message: element.querySelector('.message').innerHTML
+                            title: element.querySelector('.notification-panel__body__list__title').innerHTML,
+                            date: element.querySelector('.notification-panel__body__list__date').textContent,
+                            message: element.querySelector('.notification-panel__body__list__message').innerHTML
                         });
                     });
                 }
