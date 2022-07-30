@@ -4,13 +4,13 @@
 <body>
 <div class="main-top">
     <div class="flex-row justify-content-end">
-                <span class="notification">
-                    <span class="icon-notification" onclick="toggleNotificationContainer();">
-                        <img class="load-svg"
-                             th:src="@{/assets/media/icons/gnb/icon_gnb_notification.svg}"
-                             width="25" height="27">
-                    </span>
-                </span>
+        <span class="notification__ic">
+            <span class="ic-notification" onclick="toggleNotificationContainer();">
+                <img class="load-svg"
+                     th:src="@{/assets/media/icons/gnb/icon_gnb_notification.svg}"
+                     width="25" height="27">
+            </span>
+        </span>
         <span class="divide">|</span>
         <button class="user user-info flex-row align-items-center" tabindex="0">
             <img class="i-user-profile user"
@@ -18,13 +18,13 @@
             <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
             <span class="user ic-arrow-right"></span>
         </button>
-        <ul class="dropdown-content">
-            <li class="dropdown-item" tabindex="-1">
-                <button class="dropdown-item-btn align-left" th:text="#{common.btn.editUserInfo}"
+        <ul class="context-menu">
+            <li class="context-menu__item" tabindex="-1">
+                <button class="context-menu__item-btn align-left" th:text="#{common.btn.editUserInfo}"
                         onclick="getUserEdit()" tabindex="0"></button>
             </li>
-            <li class="dropdown-item" tabindex="-1">
-                <button class="dropdown-item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
+            <li class="context-menu__item" tabindex="-1">
+                <button class="context-menu__item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
                         tabindex="0"></button>
             </li>
         </ul>
@@ -83,7 +83,7 @@
 
     function notificationContainerOff(e) {
         //알림창 내부를 클릭한 경우 동작하지 않는다.
-        if (aliceJs.clickInsideElement(e, 'notification-panel') || aliceJs.clickInsideElement(e, 'notification')) {
+        if (aliceJs.clickInsideElement(e, 'notification-panel') || aliceJs.clickInsideElement(e, 'notification__ic')) {
             return false;
         }
 
@@ -97,8 +97,8 @@
         restSubmitNotification('get', '/notifications', function (result) {
             notificationDiv.innerHTML = result;
             const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
-            if (noConfirmNotification.length !== 0 && !document.querySelector('.icon-notification').classList.contains('active')) {
-                document.querySelector('.icon-notification').classList.add('active');
+            if (noConfirmNotification.length !== 0 && !document.querySelector('.ic-notification').classList.contains('active')) {
+                document.querySelector('.ic-notification').classList.add('active');
             }
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                 notificationDiv.querySelectorAll('div[is-display=true]').length + ')';
@@ -110,20 +110,20 @@
                         notificationId: element.id,
                         notificationType: element.getAttribute('notification-type'),
                         instanceId: element.getAttribute('instance-id'),
-                        title: element.querySelector('.title').innerHTML,
-                        date: element.querySelector('.date').innerHTML,
-                        message: element.querySelector('.message').innerHTML
+                        title: element.querySelector('.notification-panel__body__list__title').innerHTML,
+                        date: element.querySelector('.notification-panel__body__list__date').innerHTML,
+                        message: element.querySelector('.notification-panel__body__list__message').innerHTML
                     });
                 });
             }
 
-            OverlayScrollbars(document.querySelectorAll('.notification-body'), {className: 'inner-scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('.notification-panel__body'), {className: 'inner-scrollbar'});
         });
     }
 
     // show notification popup.
     function showNotification(param) {
-        let text = '<div class="icon float-left"></div>' +
+        let text = '<div class="float-left"></div>' +
             '<div class="content float-left"><div class="title">' + param.title + '</div>' +
             '<div class="message text-ellipsis">' + param.message + '</div>' +
             '<div class="date">' + param.date + '</div></div>';

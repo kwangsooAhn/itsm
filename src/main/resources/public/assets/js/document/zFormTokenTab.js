@@ -334,9 +334,9 @@ class ZFormTokenTab {
             const viewerList = document.getElementById('subUserList');
             viewerList.innerHTML = htmlData;
 
-            OverlayScrollbars(viewerList.querySelector('.table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(viewerList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(viewerList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(viewerList.querySelectorAll('.tbl-row').length);
             this.viewerList.forEach((viewer) => {
                 const checkElem = viewerList.querySelector('input[id="' + viewer.viewerKey + '"]');
                 if (checkElem) {
@@ -733,7 +733,7 @@ class ZFormTokenTab {
      * 댓글 재로딩
      */
     reloadTokenComment() {
-        document.querySelectorAll('#tokenComments .token-comment-item').forEach((comment) => {
+        document.querySelectorAll('#tokenComments .comment__list__item').forEach((comment) => {
             comment.remove();  // 댓글 clear
         });
 
@@ -757,13 +757,13 @@ class ZFormTokenTab {
      */
     makeCommentsFragment(comment) {
         let htmlString =
-            `<div class="token-comment-item flex-column" id="comment` + comment.commentId + `">` +
-            `<div class="comment-row-info flex-row align-items-center">` +
+            `<div class="comment__list__item flex-column" id="comment` + comment.commentId + `">` +
+            `<div class="comment__list__item__info flex-row align-items-center">` +
             `<div class="flex-row align-items-center">` +
             `<img class="i-profile-photo mr-2" src="` + comment.avatarPath + `" width="30" height="30"/>` +
-            `<h6 class="user-name pl-2">` + comment.createUserName + `</h6>` +
+            `<h6 class="comment__list__item__info__name pl-2">` + comment.createUserName + `</h6>` +
             `</div>` +
-            `<h6 class="comment-time date-time">` + comment.createDt + `</h6>` +
+            `<h6 class="comment__list__item__info__date date-time">` + comment.createDt + `</h6>` +
             `<div class="ml-auto">`;
         if (ZSession.get('userKey') === comment.createUserKey) {
             htmlString +=
@@ -774,7 +774,7 @@ class ZFormTokenTab {
         htmlString +=
             `</div>` +
             `</div>` +
-            `<div class="comment-row-content">` +
+            `<div class="comment__list__item__text">` +
             `<h6 class="text-wordWrap">` +
             `${aliceJs.filterXSS(comment.content)}` +
             `</h6>` +
@@ -1037,10 +1037,10 @@ class ZFormTokenTab {
         // 시작일시 , 종료일시 초기화
         const standardDate = this.getCalendarStandardDate();
         rangeDate.innerHTML = '';
-        const template = ` <input type="text" class="input ic-datetime-picker schedule__date" id="startDt" 
+        const template = ` <input type="text" class="ic-datetime-picker schedule__date" id="startDt" 
             value="${standardDate.start.toFormat(format)}"/>
             ~
-            <input type="text" class="input ic-datetime-picker schedule__date" id="endDt" 
+            <input type="text" class="ic-datetime-picker schedule__date" id="endDt" 
             value="${standardDate.end.toFormat(format)}"/>`.trim();
 
         rangeDate.insertAdjacentHTML('beforeend', template);

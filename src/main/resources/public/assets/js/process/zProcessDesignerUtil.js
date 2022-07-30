@@ -630,7 +630,7 @@
             .attr('viewBox', viewBox.join(' '))
             .classed('drawing-board', true);
 
-        svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
+        svg.selectAll('.guides-container, .context-menu, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
         svg.selectAll('.node.selected').nodes().forEach(function(node) {
             zProcessDesigner.setDeselectedElement(d3.select(node));
@@ -753,7 +753,7 @@
         const minimapSvg = d3.select('div.minimap').select('svg');
         minimapSvg.html(content);
         minimapSvg.attr('width', 290).attr('height', 200);
-        minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
+        minimapSvg.selectAll('.guides-container, .context-menu, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
         minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') {
                 d3.select(node).remove();
@@ -835,7 +835,7 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.className = 'btn__ic secondary button-minimap palette-tooltip';
+        minimapButton.className = 'btn__ic secondary button-minimap tooltip';
         minimapButton.addEventListener('click', function(e) {
             const elem = aliceJs.clickInsideElement(e, 'button-minimap');
             elem.classList.toggle('active');
@@ -846,9 +846,9 @@
         minimapIcon.className = 'ic-minimap';
 
         const minimapTooltip = document.createElement('div');
-        minimapTooltip.className = 'palette-tooltip-contents right-bottom'
+        minimapTooltip.className = 'tooltip__box right-bottom'
         const minimapTooltipText = document.createElement('span');
-        minimapTooltipText.className = 'palette-tooltip-text'
+        minimapTooltipText.className = 'tooltip__box__text'
         minimapTooltipText.textContent = i18n.msg('tooltip.label.minimap');
 
         minimapTooltip.appendChild(minimapTooltipText);
@@ -899,16 +899,16 @@
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.className = 'btn__ic secondary button-simulation-report palette-tooltip';
+        simulationButton.className = 'btn__ic secondary button-simulation-report tooltip';
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
         simulationIcon.className = 'ic-simulation-report';
 
         const simulationTooltip = document.createElement('div');
-        simulationTooltip.className = 'palette-tooltip-contents'
+        simulationTooltip.className = 'tooltip__box'
         const simulationTooltipText = document.createElement('span');
-        simulationTooltipText.className = 'palette-tooltip-text'
+        simulationTooltipText.className = 'tooltip__box__text'
         simulationTooltipText.textContent = i18n.msg('tooltip.label.simulation');
 
         simulationTooltip.appendChild(simulationTooltipText);

@@ -141,10 +141,10 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
         switch (this.targetComponent) {
             case FORM.SEARCH_COMPONENT.USER_SEARCH:
                 const userModalTemplate = `<div class="target-user-list">` +
-                    `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                    `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                     `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                     `<span id="spanTotalCount" class="search-count"></span>` +
-                    `<div class="table-set" id="searchUserList"></div>` +
+                    `<div id="searchUserList"></div>` +
                     `</div>`;
 
                 const userSearchModal = new modal({
@@ -228,9 +228,9 @@ export default class ZDefaultValueSearchProperty extends ZProperty {
             const searchUserList = document.getElementById('searchUserList');
             // 사용자 선택 리스트 생성
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.table-body'), {className: 'scrollbar'});
+            OverlayScrollbars(searchUserList.querySelector('.tbl__body'), {className: 'scrollbar'});
             // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.tbl-row').length);
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {

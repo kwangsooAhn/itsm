@@ -90,7 +90,8 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                     radioGroup.UIInput = new UIInput((
                         aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DAYS,
                             defaultValueArray[0] === item.value ? defaultValueArray[1] : '')))
-                        .setUIClass('input ic-date-picker text-ellipsis')
+                        .setUIAttribute('type', 'text')
+                        .setUIClass('ic-date-picker text-ellipsis')
                         .addUIClass('picker')
                         .setUIId('dateProperty')
                         .setUIAttribute('name', this.key)
@@ -117,7 +118,8 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.TIME_PICKER:
                     radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.HOURS,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                        .setUIClass('input ic-time-picker')
+                        .setUIAttribute('type', 'text')
+                        .setUIClass('ic-time-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
                         .setUIAttribute('name', this.key)
@@ -150,7 +152,8 @@ export default class ZDefaultValueRadioProperty extends ZProperty {
                 case FORM.DATE_TYPE.DATETIME_PICKER:
                     radioGroup.UIInput = new UIInput(aliceJs.convertDateFormat(FORM.DATE_TYPE.FORMAT.USERFORMAT, FORM.DATE_TYPE.DATETIME,
                         defaultValueArray[0] === item.value ? defaultValueArray[1] : ''))
-                        .setUIClass('input ic-datetime-picker')
+                        .setUIAttribute('type', 'text')
+                        .setUIClass('ic-datetime-picker')
                         .addUIClass('picker')
                         .setUIId('timeProperty')
                         .setUIAttribute('name', this.key)

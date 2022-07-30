@@ -43,13 +43,13 @@
                 </div>
                 <div class="flex-column edit-row col-6 pl-4">
                     <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.name}"></label>
-                    <input type="text" id="chartName" name="chartName" class="input" th:value="${chart?.chartName}"
+                    <input type="text" id="chartName" name="chartName" th:value="${chart?.chartName}"
                            maxlength="100" th:readonly="${view}" />
                 </div>
             </div>
             <div class="flex-column edit-row col-10">
                 <label class="field-label" th:text="#{chart.label.description}"></label>
-                <textarea id="chartDesc" name="chartDesc" class="textarea textarea-scroll-wrapper"
+                <textarea id="chartDesc" name="chartDesc"
                                                          rows="2" maxlength="128" th:text="${chart?.chartDesc}" th:readonly="${view}"></textarea>
             </div>
             <div class="flex-row">
@@ -88,9 +88,9 @@
                     <div class="flex-column col-3">
                         <label>
                             <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.duration}"></span>
-                            <div class="help-tooltip">
+                            <div class="tooltip--info">
                                 <span class="ic-tooltip"></span>
-                                <div class="tooltip-contents right">
+                                <div class="tooltip__box right">
                                     <span th:utext="#{chart.tooltip.timezoneInfo(${chartTimezone})}"></span>
                                 </div>
                             </div>
@@ -108,14 +108,14 @@
                         <div class="flex-column col-3 pl-4">
                             <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.startDate}"></label>
                             <div>
-                                <input type="text" class="input ic-date-picker search-date" id="rangeFromDt"
+                                <input type="text" class="ic-date-picker search-date" id="rangeFromDt"
                                        name="rangeFromDt" th:value="${chart?.chartConfig?.range?.fromDate}" th:readonly="${view}" />
                             </div>
                         </div>
                         <div class="flex-column col-3 pl-4">
                             <label class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{common.label.endDate}"></label>
                             <div>
-                                <input type="text" class="input ic-date-picker search-date" id="rangeToDt"
+                                <input type="text" class="ic-date-picker search-date" id="rangeToDt"
                                        name="rangeToDt" th:value="${chart?.chartConfig?.range?.toDate}" th:readonly="${view}" />
                             </div>
                         </div>
@@ -127,9 +127,9 @@
                 <div class="flex-column col-6">
                     <label>
                         <span class="field-label" th:classappend="${view} ? '' : 'required'" th:text="#{chart.label.targetTags}"></span>
-                        <div class="help-tooltip">
+                        <div class="tooltip--info">
                             <span class="ic-tooltip"></span>
-                            <div class="tooltip-contents right">
+                            <div class="tooltip__box right">
                                 <span th:utext="#{chart.tooltip.targetTags}"></span>
                             </div>
                         </div>
@@ -141,14 +141,14 @@
                 <div class="flex-column col-6">
                     <label>
                         <span class="field-label" th:text="#{chart.label.condition}"></span>
-                        <div class="help-tooltip">
+                        <div class="tooltip--info">
                             <span class="ic-tooltip"></span>
-                            <div class="tooltip-contents right">
+                            <div class="tooltip__box right">
                                 <span th:utext="#{chart.tooltip.condition}"></span>
                             </div>
                         </div>
                     </label>
-                    <input type="text" id="condition" name="condition" class="input col-pct-12"
+                    <input type="text" id="condition" name="condition" class="col-pct-12"
                            th:value="${chart?.chartConfig?.condition}" th:readonly="${view}">
                 </div>
             </div>

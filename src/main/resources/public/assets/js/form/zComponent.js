@@ -107,14 +107,14 @@ export default class ZComponent {
 
         // 툴팁에 create template 버튼 추가
         const tooltipUl = this.UIElement.UITooltipMenu.UIUl;
-        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('tooltip-menu-item')
-            .addUIClass('palette-tooltip')
+        tooltipUl.UILiCreateTemplate = new UILi().setUIClass('context-menu__item')
+            .addUIClass('tooltip')
             .setUIAttribute('data-action', 'createTemplate')
             .addUI(new UISpan().setUIClass('ic-create-template'))
             // 컴포넌트 템플릿 등록 모달
             .onUIClick(this.openCreateTemplateModal.bind(this))
-            .addUI(new UIDiv().setUIClass('palette-tooltip-contents')
-                .addUI(new UISpan().setUIClass('palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.template')))
+            .addUI(new UIDiv().setUIClass('tooltip__box')
+                .addUI(new UISpan().setUIClass('tooltip__box__text').setUITextContent(i18n.msg('tooltip.label.template')))
             );
         tooltipUl.domElement.insertBefore(tooltipUl.UILiCreateTemplate.domElement, tooltipUl.domElement.firstChild);
 
@@ -436,7 +436,7 @@ export default class ZComponent {
                 `<label class="field-label" for="templateName">` +
                 `${i18n.msg('form.label.templateName')}<span class="required"></span>` +
                 `</label>` +
-                `<input type="text" id="templateName" class="input" maxlength="50">` +
+                `<input type="text" id="templateName" maxlength="50">` +
                 `</div>`,
             classes: 'create-template',
             buttons: [{
@@ -532,7 +532,7 @@ export default class ZComponent {
 export class UIComponentTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'component-tooltip';
+        this.domElement.className = 'component-area';
     }
 }
 

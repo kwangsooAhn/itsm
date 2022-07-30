@@ -17,13 +17,13 @@
             <input type="hidden" id="topNoticeCount" name="topNoticeCount" th:value="${topNoticeCount}"/>
             <div class="flex-column edit-row">
                 <label th:text="#{common.label.title}" for="noticeTitle" class="required"></label>
-                <input type="text" id="noticeTitle" name="noticeTitle" class="input" maxlength="128"
+                <input type="text" id="noticeTitle" name="noticeTitle" maxlength="128"
                        th:value="${notice?.noticeTitle}"/>
             </div>
             <div class="flex-column edit-row">
                 <label th:text="#{common.label.contents}" for="noticeContents" class="required"></label>
                 <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11"
-                          class="textarea textarea-scroll-wrapper" th:text="${notice?.noticeContents}"></textarea>
+                          th:text="${notice?.noticeContents}"></textarea>
             </div>
             <div class="flex-column edit-row file-uploader--edit">
                 <label class="file-uploader--edit__title" th:text="#{common.label.attachFile}"></label>
@@ -32,29 +32,29 @@
             </div>
             <div class="flex-column edit-row">
                 <label th:text="#{common.label.createUser}"></label>
-                <input type="text" class="input" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
+                <input type="text" th:value="${notice?.createUserName} ? ${notice.createUserName} : ${#authentication.details.userName}"
                        disabled/>
             </div>
             <div class="flex-column edit-row">
-                <label class="switch">
+                <label class="btn__toggle__switch">
                     <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
                            th:checked="${notice?.popYn == true}">
                     <span></span>
-                    <span class="label" th:text="#{notice.label.popUpNoticeSettings}"></span>
+                    <span class="btn__toggle__switch__label" th:text="#{notice.label.popUpNoticeSettings}"></span>
                 </label>
             </div>
             <div id="popTab" class="flex-column edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label th:text="#{notice.label.height}" for="popHeight"></label>
-                        <input type="text" id="popHeight" name="popHeight" class="input ic-px"
+                        <input type="text" id="popHeight" name="popHeight" class="ic-px"
                                th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
                                onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                oninput="maxLengthCheck(this)"/>
                     </div>
                     <div class="flex-column col-6">
                         <label th:text="#{notice.label.width}" for="popWidth"></label>
-                        <input type="text" id="popWidth" name="popWidth" class="input ic-px"
+                        <input type="text" id="popWidth" name="popWidth" class="ic-px"
                                th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
                                onkeydown="return onlyNumber(event)" onkeyup="aliceJs.removeChar(event)"
                                oninput="maxLengthCheck(this)" />
@@ -63,31 +63,31 @@
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label th:text="#{notice.label.startDateTime}" for="popStrtDt"></label>
-                        <input type="text" id="popStrtDt" name="popStrtDt" class="input ic-date-picker date col-pct-12" />
+                        <input type="text" id="popStrtDt" name="popStrtDt" class="ic-date-picker date col-pct-12" />
                     </div>
                     <div class="flex-column col-6">
                         <label th:text="#{notice.label.endDateTime}" for="popEndDt"></label>
-                        <input type="text" id="popEndDt" name="popEndDt" class="input ic-date-picker date col-pct-12" />
+                        <input type="text" id="popEndDt" name="popEndDt" class="ic-date-picker date col-pct-12" />
                     </div>
                 </div>
             </div>
             <div class="flex-column edit-row">
-                <label class="switch">
+                <label class="btn__toggle__switch">
                     <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
                            th:checked="${notice?.topNoticeYn == true}">
                     <span></span>
-                    <span class="label" th:text="#{notice.label.topNoticeSettings}"></span>
+                    <span class="btn__toggle__switch__label" th:text="#{notice.label.topNoticeSettings}"></span>
                 </label>
             </div>
             <div id="topNoticeTab" class="flex-column edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-6 mr-4">
                         <label th:text="#{notice.label.startDateTime}" for="popStrtDt"></label>
-                        <input type="text" id="topNoticeStrtDt" class="input ic-date-picker date col-pct-12" name="topNoticeStrtDt"/>
+                        <input type="text" id="topNoticeStrtDt" class="ic-date-picker date col-pct-12" name="topNoticeStrtDt"/>
                     </div>
                     <div class="flex-column col-6">
                         <label th:text="#{notice.label.endDateTime}" for="popEndDt"></label>
-                        <input type="text" id="topNoticeEndDt" class="input ic-date-picker date col-pct-12" name="topNoticeEndDt"/>
+                        <input type="text" id="topNoticeEndDt" class="ic-date-picker date col-pct-12" name="topNoticeEndDt"/>
                     </div>
                 </div>
             </div>

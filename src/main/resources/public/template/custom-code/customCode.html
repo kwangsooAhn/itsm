@@ -21,7 +21,7 @@
                 <span th:text="#{customCode.label.name}"></span>
                 <span class="required" th:unless="${view}"></span>
             </label>
-            <input class="input" id="customCodeName" maxlength="110" required="required" th:readonly="${view}"
+            <input id="customCodeName" maxlength="110" required="required" th:readonly="${view}"
                    th:value="${customCode?.customCodeName}" type="text">
         </div>
         <div class="flex-column edit-row">
@@ -99,7 +99,7 @@
                     <span th:text="#{customCode.label.pCode}"></span>
                     <span class="required" th:unless="${view}"></span>
                 </label>
-                <input class="input" id="pCode" maxlength="100" th:readonly="${customCode?.pCode != null || view}"
+                <input id="pCode" maxlength="100" th:readonly="${customCode?.pCode != null || view}"
                        th:value="${customCode?.pCode}" type="text">
             </div>
         </div>

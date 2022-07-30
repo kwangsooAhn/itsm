@@ -21,8 +21,8 @@
         <!-- 문서이력 -->
         <div class="token-history">
             <label class="token-history-sub-title" th:text="#{token.label.history}"></label>
-            <table class="table token-history-table">
-                <thead class="table-head">
+            <table class="tbl token-history-table">
+                <thead class="tbl__head">
                 <tr class="flex-row align-items-center">
                     <th style="width: 30%;" class="align-center" th:text="#{token.label.startDt}"></th>
                     <th style="width: 32%;" class="align-center" th:text="#{token.label.elementName}"></th>
@@ -30,7 +30,7 @@
                     <th style="width: 18%;" class="align-center" th:text="#{token.label.status}"></th>
                 </tr>
                 </thead>
-                <tbody class="table-body" id="history"></tbody>
+                <tbody class="tbl__body" id="history"></tbody>
             </table>
         </div>
         <!-- 참조인 -->
@@ -42,8 +42,8 @@
                         th:onclick="zFormTokenTab.openViewerModal()">
                 </button>
             </div>
-            <table class="table token-viewer-table">
-                <tbody class="table-body" id="viewer"></tbody>
+            <table class="tbl token-viewer-table">
+                <tbody class="tbl__body" id="viewer"></tbody>
             </table>
         </div>
         <!-- 일정 등록 -->
@@ -55,8 +55,8 @@
                         th:onclick="zFormTokenTab.openCalendarModal()">
                 </button>
             </div>
-            <table class="table token-calendar-table">
-                <tbody class="table-body" id="calendar"></tbody>
+            <table class="tbl token-calendar-table">
+                <tbody class="tbl__body" id="calendar"></tbody>
             </table>
         </div>
         <!-- 관련문서 -->
@@ -70,9 +70,9 @@
         </div>
     </div>
     <!-- 댓글 -->
-    <div class="token-panel token-comment" id="tokenComments">
-        <div class="comment-add flex-row align-items-start">
-            <textarea id="commentValue" class="textarea textarea-scroll-wrapper flex-fill mr-1" maxlength="200"
+    <div class="token-panel comment--token" id="tokenComments">
+        <div class="comment__form flex-row align-items-start">
+            <textarea id="commentValue" class="flex-fill mr-1" maxlength="200"
                       rows="2" th:placeholder="#{comment.msg.enterComments}"></textarea>
             <button class="btn__text--box secondary" th:onclick="zFormTokenTab.saveComments()"
                     th:text="#{common.btn.register}"></button>
@@ -81,37 +81,37 @@
     <!-- 태그 -->
     <div class="token-panel token-tag" id="tokenTag">
         <div class="tag-input">
-            <input type="text" class="input" id="tokenTags" th:value="${tagList}"/>
+            <input type="text" class="tag__input" id="tokenTags" th:value="${tagList}"/>
         </div>
     </div>
 </div>
 <!-- 관련 문서 모달-->
 <template id="relatedTokenModalTemplate">
     <div class="related-instance-list">
-        <input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
+        <input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
                th:placeholder="#{token.label.relatedInstancePlaceholder}"/>
         <span id="spanTotalCount" class="search-count"></span>
-        <div class="table-set" id="instanceList"></div>
+        <div id="instanceList"></div>
     </div>
 </template>
 <!-- 사용자 모달 -->
 <template id="viewerModalTemplate">
     <div class="sub-user-list">
-        <input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
+        <input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100"
                th:placeholder="#{user.label.userSearchPlaceholder}">
         <span id="spanTotalCount" class="search-count"></span>
-        <div class="table-set" id="subUserList"></div>
+        <div id="subUserList"></div>
     </div>
 </template>
 <!-- 일정 등록 모달 -->
 <template id="calendarModalTemplate">
     <div class="calendar__modal--register__main flex-column">
-        <input type="text" class="input schedule__title" id="scheduleTitle"
+        <input type="text" class="schedule__title" id="scheduleTitle"
                th:placeholder="#{calendar.label.titlePlaceholder}">
         <div class="flex-row align-items-baseline" id="rangeDate">
-            <input type="text" class="input ic-datetime-picker schedule__date" id="startDt"/>
+            <input type="text" class="ic-datetime-picker schedule__date" id="startDt"/>
             ~
-            <input type="text" class="input ic-datetime-picker schedule__date" id="endDt"/>
+            <input type="text" class="ic-datetime-picker schedule__date" id="endDt"/>
         </div>
         <div class="flex-row align-items-baseline">
             <label class="checkbox">
@@ -121,7 +121,7 @@
             </label>
             <!-- 문서함 등록시 반복일정은 없음 -->
         </div>
-        <textarea class="textarea textarea-scroll-wrapper schedule__contents" id="scheduleContents" rows="3"
+        <textarea class="schedule__contents" id="scheduleContents" rows="3"
                   th:placeholder="#{calendar.label.contentsPlaceholder}"></textarea>
     </div>
 </template>

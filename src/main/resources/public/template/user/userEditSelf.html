@@ -31,14 +31,14 @@
                         <label for="userId">
                             <span th:text="#{user.label.id}"></span>
                             <span class="required"></span>
-                            <div class="help-tooltip">
+                            <div class="tooltip--info">
                                 <span class="ic-tooltip"></span>
-                                <div class="tooltip-contents">
+                                <div class="tooltip__box">
                                     <span th:utext="#{user.tooltip.idRule}"></span>
                                 </div>
                             </div>
                         </label>
-                        <input type="text" class="input" id="userId" name="userId" th:value="${users?.userId}"
+                        <input type="text" id="userId" name="userId" th:value="${users?.userId}"
                                maxlength="100" required="required"/>
                     </div>
                     <div class="flex-column edit-row"
@@ -46,14 +46,14 @@
                         <label for="password">
                             <span th:text="#{user.label.password}"></span>
                             <span class="required"></span>
-                            <div class="help-tooltip">
+                            <div class="tooltip--info">
                                 <span class="ic-tooltip"></span>
-                                <div class="tooltip-contents">
+                                <div class="tooltip__box">
                                     <span th:utext="#{user.tooltip.pwRule}"></span>
                                 </div>
                             </div>
                         </label>
-                        <input type="password" class="input" id="password" name="password" maxlength="100"
+                        <input type="password" id="password" name="password" maxlength="100"
                                autocomplete="new-password" required="required"/>
                     </div>
                     <div class="flex-column edit-row"
@@ -62,7 +62,7 @@
                             <span th:text="#{user.label.rePassword}"></span>
                             <span class="required"></span>
                         </label>
-                        <input type="password" class="input" id="rePassword" name="rePassword" maxlength="100"
+                        <input type="password" id="rePassword" name="rePassword" maxlength="100"
                                autocomplete="new-password" required="required"/>
                     </div>
                     <div class="flex-column edit-row">
@@ -70,7 +70,7 @@
                             <span th:text="#{user.label.name}"></span>
                             <span class="required"></span>
                         </label>
-                        <input type="text" class="input" id="userName" name="userName" th:value="${users?.userName}"
+                        <input type="text" id="userName" name="userName" th:value="${users?.userName}"
                                maxlength="100" required="required"/>
                     </div>
                     <div class="flex-column edit-row"
@@ -80,12 +80,12 @@
                             <span class="required"></span>
                         </label>
                         <span th:text="#{user.msg.emailAlert}" hidden></span>
-                        <input type="text" class="input" id="email" name="email" th:value="${users?.email}"
+                        <input type="text" id="email" name="email" th:value="${users?.email}"
                                maxlength="100" required="required">
                     </div>
                     <div class="flex-column edit-row">
                         <label th:text="#{user.label.position}" for="position"></label>
-                        <input type="text" class="input" id="position" name="position" th:value="${users?.position}"
+                        <input type="text" id="position" name="position" th:value="${users?.position}"
                                maxlength="100" onchange="isSpecialChar('position','validation.msg.checkPositionFormat')">
                     </div>
                     <div class="flex-column edit-row">
@@ -93,7 +93,7 @@
                         <div class="flex-row input--remove">
                             <input type="hidden" id="organizationCode" name="organizationCode"
                                    th:value="${organizationDetail?.organizationId}"/>
-                            <input type="text" class="input col-5" id="organization" name="organization"
+                            <input type="text" class="col-5" id="organization" name="organization"
                                    th:value="${organizationDetail?.organizationName}" readonly>
                             <button type="button" class="item-remove" onclick="aliceJs.clearText(this);"
                                     tabindex="-1" th:if="!${view}">
@@ -105,13 +105,13 @@
                     </div>
                     <div class="flex-column edit-row">
                         <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
-                        <input type="text" class="input" id="officeNumber" name="officeNumber"
+                        <input type="text" id="officeNumber" name="officeNumber"
                                th:value="${users?.officeNumber}" maxlength="100"
                                onchange="isPhoneNumberOrExtenstionNumber('officeNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
                     <div class="flex-column edit-row">
                         <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
-                        <input type="text" class="input" id="mobileNumber" name="mobileNumber"
+                        <input type="text" id="mobileNumber" name="mobileNumber"
                                th:value="${users?.mobileNumber}" maxlength="100"
                                onchange="isPhoneNumberOrExtenstionNumber('mobileNumber','validation.msg.checkPhoneNumberOrExtentionNumberFormat')">
                     </div>
@@ -185,25 +185,25 @@
         </div>
         <div class="flex-column edit-row">
             <h3 class="sub-title under-bar border-thick" th:text="#{user.label.userAbsence}"></h3>
-            <label class="switch" for="userAbsence">
+            <label class="btn__toggle__switch" for="userAbsence">
                 <input type="checkbox" id="userAbsence" name="userAbsence" onchange="setAbsenceDisplay()"
                        th:checked="${users?.absenceYn == true}" th:disabled="${view}" />
                 <span></span>
-                <span class="label" th:text="#{user.msg.userAbsence}"></span>
+                <span class="btn__toggle__switch__label" th:text="#{user.msg.userAbsence}"></span>
             </label>
             <div id="absenceData" class="flex-column edit-row">
                 <div class="flex-row">
                     <div class="flex-column col-3">
                         <label class="field-label required" th:text="#{common.label.startDate}"></label>
                         <div>
-                            <input type="text" class="input ic-date-picker search-date"
+                            <input type="text" class="ic-date-picker search-date"
                                    id="absenceStartDt" name="absenceStartDt" th:readonly="${view}">
                         </div>
                     </div>
                     <div class="flex-column col-3 ml-2">
                         <label class="field-label required" th:text="#{common.label.endDate}"></label>
                         <div>
-                            <input type="text" class="input ic-date-picker search-date"
+                            <input type="text" class="ic-date-picker search-date"
                                    id="absenceEndDt" name="absenceEndDt" th:readonly="${view}">
                         </div>
                     </div>
@@ -211,7 +211,7 @@
                         <label class="field-label required" th:text="#{user.label.substituteUser}"></label>
                         <div class="flex-row input--remove">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
-                            <input type="text" class="input col-2" id="substituteUser" name="substituteUser"
+                            <input type="text" class="col-2" id="substituteUser" name="substituteUser"
                                     readonly>
                             <button type="button" class="item-remove" onclick="aliceJs.clearText(this);">
                                 <span class="ic-remove"></span>
@@ -508,9 +508,9 @@
 
     function createModalContent() {
         return `<div class="sub-user-list">` +
-            `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
+            `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('user.label.searchPlaceholder')}">` +
             `<span id="spanTotalCount" class="search-count"></span>` +
-            `<div class="table-set" id="subUserList"></div>` +
+            `<div id="subUserList"></div>` +
             `</div>`;
     }
 
@@ -526,10 +526,10 @@
             showProgressbar: showProgressbar
         }).then((htmlData) => {
             document.getElementById('subUserList').innerHTML = htmlData;
-            OverlayScrollbars(document.querySelector('.table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.tbl__body'), { className: 'scrollbar' });
             //갯수 카운트
             const substituteUserList = document.getElementById('userList');
-            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(substituteUserList.querySelectorAll('.tbl-row').length);
             document.querySelectorAll('input[type=radio]').forEach(function (radio) {
                 // 체크 이벤트
                 radio.addEventListener('change', () => {
