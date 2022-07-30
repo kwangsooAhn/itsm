@@ -39,7 +39,7 @@
     const modalTemplate = `<div class="scroll-search">
             <form id="frmSearch" onsubmit="return false;">
                 <input type="hidden" id="searchPath" name="searchPath" value=""/>
-                <input class="input ic-search col-5 mr-2" type="text" id="searchValue" name="searchValue" 
+                <input class="ic-search col-5 mr-2" type="text" id="searchValue" name="searchValue" 
                     maxlength="100" placeholder="${i18n.msg('resource.label.searchPlaceholder')}">
                 <span id="spanTotalCount" class="search-count">/</span>
                 <span class="search-count">/</span>
@@ -119,7 +119,7 @@
                 const shortBreadcrumbTemplate = pathArr.slice(startIndex, (pathArr.length - 2)).map((item) => {
                     fullPath += (separator + item);
                     return (
-                        `<li class="dropdown__item" tabindex="-1">
+                        `<li class="context-menu__item" tabindex="-1">
                          <button type="button" class="btn__text--box" data-path="${fullPath}">${item}</button>
                         </li>`
                     ).trim();
@@ -127,11 +127,11 @@
 
                 breadcrumbTemplate += (
                     `<li class="breadcrumb__item flex-row align-items-center">
-                        <div class="dropdown-menu">
-                            <button type="button" class="btn__ic dropdown__toggle">
+                        <div class="context-menu">
+                            <button type="button" class="btn__ic context-menu__toggle">
                                 <span class="ic-meatballs"></span>
                             </button>
-                            <ul class="dropdown__content--left">${shortBreadcrumbTemplate}</ul>
+                            <ul class="context-menu__content--left">${shortBreadcrumbTemplate}</ul>
                         </div>
                         <span class="ic-arrow-right ml-1 mr-1"></span>
                     </li>`
@@ -161,7 +161,7 @@
                 }
             });
 
-            const shortBreadCrumb = breadcrumb.querySelector('.dropdown__toggle');
+            const shortBreadCrumb = breadcrumb.querySelector('.context-menu__toggle');
             if (shortBreadCrumb) {
                 // 이벤트 등록
                 shortBreadCrumb.addEventListener('click', this.toggleContextMenu, false);
