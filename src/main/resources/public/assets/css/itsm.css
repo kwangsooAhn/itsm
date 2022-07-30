@@ -10920,9 +10920,6 @@ body.active {
    * designer
    */
   /*
-   * thumbnail
-   */
-  /*
    * 업무 흐름 모달
    */
   /*
@@ -10944,8 +10941,8 @@ body.active {
    * portal
    */
   /*
-  * resource
-  */
+   * resource
+   */
 }
 .modal__dialog.modal-button-search-modal {
   --default-modal-width: 0;
@@ -11190,22 +11187,6 @@ body.active {
 .modal__dialog.create-template .modal__dialog__body .textarea-scroll-wrapper {
   min-height: 7.5rem;
   resize: none;
-}
-.modal__dialog.thumbnail-image, .modal__dialog.thumbnail-file {
-  width: 1040px;
-  height: 48.44rem;
-}
-.modal__dialog.thumbnail-image .modal__dialog__body, .modal__dialog.thumbnail-file .modal__dialog__body {
-  height: calc(48.44rem - 3.875rem - 5rem);
-}
-.modal__dialog.thumbnail-image .modal__dialog__body .input, .modal__dialog.thumbnail-file .modal__dialog__body .input {
-  margin: 0.625rem;
-}
-.modal__dialog.thumbnail-image .modal__dialog__body .search-count, .modal__dialog.thumbnail-file .modal__dialog__body .search-count {
-  visibility: hidden;
-}
-.modal__dialog.thumbnail-image .modal__dialog__body .thumbnail-main .thumbnail, .modal__dialog.thumbnail-file .modal__dialog__body .thumbnail-main .thumbnail {
-  width: 14.375rem;
 }
 .modal__dialog.document-edit, .modal__dialog.workFlow-import {
   width: 40rem;
@@ -11669,6 +11650,402 @@ body.active {
   height: 100%;
   background-repeat: no-repeat;
   background-position: center center;
+}
+.modal__dialog.thumbnail__modal--image, .modal__dialog.thumbnail__modal--file {
+  width: 68.13rem;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body, .modal__dialog.thumbnail__modal--file .modal__dialog__body {
+  height: calc(48.44rem - 3.875rem - 5rem);
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid {
+  display: grid;
+  flex: 1;
+  height: fit-content;
+  align-content: start;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__row, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__row {
+  display: grid;
+  grid-template-columns: var(--data-columns-width);
+  grid-template-rows: minmax(2.5rem, auto);
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #424242;
+  font-weight: 500;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell a, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell span, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell span {
+  line-height: 1.2;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic {
+  padding: 0;
+  border-color: transparent;
+  background-color: transparent;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:hover, .modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:focus, .modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:active, .modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:disabled, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:hover, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:focus, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:active, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic [class*=ic-], .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic [class*=ic-] {
+  background-color: #63686C;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:hover [class*=ic-], .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:hover [class*=ic-] {
+  background-color: #ABB0B5;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:focus [class*=ic-], .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:focus [class*=ic-] {
+  background-color: #222529;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:active [class*=ic-], .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:active [class*=ic-] {
+  background-color: #222529;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__cell .btn__ic:disabled [class*=ic-], .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__cell .btn__ic:disabled [class*=ic-] {
+  background-color: #CFD5D9;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__head .grid__row, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__head .grid__row {
+  border-bottom: 0.125rem solid #ABB0B5;
+  color: #757575;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]), .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
+  cursor: pointer;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > *, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  background: #757575;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .ic-sorting, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .ic-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__head .grid__row .grid__cell, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__body, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__body {
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--data-height, auto);
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__body .grid__row, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__body .grid__row {
+  color: #222529;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__body .grid__row.read-only, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__body .grid__row.read-only {
+  cursor: default;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__body .grid__row:not(.read-only):hover, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__body .grid__row:not(.read-only):hover {
+  background-color: #EEEEEE;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid__body .sub-text, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid__body .sub-text {
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid--noData, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid--noData {
+  display: grid;
+  flex: 1;
+  min-height: 25rem;
+  height: 100%;
+  align-content: center;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid--noData .grid__cell, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid--noData .grid__cell {
+  flex-direction: column;
+  grid-column: 1/-1;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #9E9E9E;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .grid--noData .grid__cell .ic-no-data, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid--noData .grid__cell .ic-no-data {
+  background: #9E9E9E;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .scroll-search, .modal__dialog.thumbnail__modal--file .modal__dialog__body .scroll-search {
+  padding: 1.25rem;
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .scroll-list, .modal__dialog.thumbnail__modal--file .modal__dialog__body .scroll-list {
+  padding: 0 1.25rem;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon {
+  width: 68.13rem;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body {
+  height: calc(48.44rem - 3.875rem - 5rem);
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid {
+  display: grid;
+  flex: 1;
+  height: fit-content;
+  align-content: start;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__row {
+  display: grid;
+  grid-template-columns: var(--data-columns-width);
+  grid-template-rows: minmax(2.5rem, auto);
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #424242;
+  font-weight: 500;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell span {
+  line-height: 1.2;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic {
+  padding: 0;
+  border-color: transparent;
+  background-color: transparent;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:hover, .modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:focus, .modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:active, .modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic [class*=ic-] {
+  background-color: #63686C;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:hover [class*=ic-] {
+  background-color: #ABB0B5;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:focus [class*=ic-] {
+  background-color: #222529;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:active [class*=ic-] {
+  background-color: #222529;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__cell .btn__ic:disabled [class*=ic-] {
+  background-color: #CFD5D9;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__head .grid__row {
+  border-bottom: 0.125rem solid #ABB0B5;
+  color: #757575;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
+  cursor: pointer;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  background: #757575;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .ic-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__body {
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--data-height, auto);
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__body .grid__row {
+  color: #222529;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__body .grid__row.read-only {
+  cursor: default;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__body .grid__row:not(.read-only):hover {
+  background-color: #EEEEEE;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid__body .sub-text {
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid--noData {
+  display: grid;
+  flex: 1;
+  min-height: 25rem;
+  height: 100%;
+  align-content: center;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid--noData .grid__cell {
+  flex-direction: column;
+  grid-column: 1/-1;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #9E9E9E;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid--noData .grid__cell .ic-no-data {
+  background: #9E9E9E;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .scroll-search {
+  padding: 1.25rem;
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .scroll-list {
+  padding: 0 1.25rem;
+}
+.modal__dialog.thumbnail__modal--icon {
+  top: 7rem;
+  width: 47.81rem;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body {
+  height: calc(45rem - 3.875rem - 5rem);
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid {
+  display: grid;
+  flex: 1;
+  height: fit-content;
+  align-content: start;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__row {
+  display: grid;
+  grid-template-columns: var(--data-columns-width);
+  grid-template-rows: minmax(2.5rem, auto);
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #424242;
+  font-weight: 500;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell a {
+  padding-bottom: 0.0625rem;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell span {
+  line-height: 1.2;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic {
+  padding: 0;
+  border-color: transparent;
+  background-color: transparent;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:hover, .modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:focus, .modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:active, .modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic [class*=ic-] {
+  background-color: #63686C;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:hover [class*=ic-] {
+  background-color: #ABB0B5;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:focus [class*=ic-] {
+  background-color: #222529;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:active [class*=ic-] {
+  background-color: #222529;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__cell .btn__ic:disabled [class*=ic-] {
+  background-color: #CFD5D9;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__head .grid__row {
+  border-bottom: 0.125rem solid #ABB0B5;
+  color: #757575;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) {
+  cursor: pointer;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) > * {
+  pointer-events: none;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  background: #757575;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__head .grid__row .grid__cell:not([data-grid-sortable=false])[data-grid-sorting-type=desc] .ic-sorting {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__head .grid__row .grid__cell {
+  color: #757575;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__body {
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--data-height, auto);
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__body .grid__row {
+  color: #222529;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__body .grid__row.read-only {
+  cursor: default;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__body .grid__row:not(.read-only):hover {
+  background-color: #EEEEEE;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__body .sub-text {
+  color: #757575;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid--noData {
+  display: grid;
+  flex: 1;
+  min-height: 25rem;
+  height: 100%;
+  align-content: center;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid--noData .grid__cell {
+  flex-direction: column;
+  grid-column: 1/-1;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #9E9E9E;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid--noData .grid__cell .ic-no-data {
+  background: #9E9E9E;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__row {
+  --data-columns-width: repeat(auto-fill, minmax(10.31rem, 1fr));
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .scroll-search {
+  display: none;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .scroll-list {
+  padding: 1.25rem 1.25rem 0 1.25rem;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__thumbnail {
+  display: inline-flex;
+  width: 10.31rem;
+  height: 10.31rem;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__thumbnail .thumbnail__image {
+  width: 6.25rem;
+  height: 6.25rem;
+  background-size: 100%;
+  margin: 2rem auto;
+}
+.modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid__thumbnail .thumbnail__caption {
+  display: none;
 }
 
 .notification .icon-notification {
@@ -13319,37 +13696,6 @@ body.active {
   font-weight: 700;
 }
 
-.modal__dialog.thumbnail-icon {
-  top: 7rem;
-  width: 47.81rem;
-  height: 45rem;
-}
-.modal__dialog.thumbnail-icon .modal__dialog__body {
-  height: calc(45rem - 3.875rem - 5rem);
-}
-.modal__dialog.thumbnail-icon .modal__dialog__body .z-input {
-  margin: 0.625rem 0.4375rem;
-}
-.modal__dialog.thumbnail-icon .modal__dialog__body .z-search-count {
-  visibility: hidden;
-}
-.modal__dialog.thumbnail-icon .modal__dialog__body .thumbnail-main {
-  height: auto;
-  padding: 1.375rem;
-}
-.modal__dialog.thumbnail-icon .modal__dialog__body .thumbnail-main .thumbnail {
-  -webkit-box-shadow: 0 0 0 0.0625rem #CFD5D9;
-  -moz-box-shadow: 0 0 0 0.0625rem #CFD5D9;
-  box-shadow: 0 0 0 0.0625rem #CFD5D9;
-  width: 10.31rem;
-  height: 10.31rem;
-  margin: 0.4375rem;
-}
-.modal__dialog.thumbnail-icon .modal__dialog__body .thumbnail-main .thumbnail .thumbnail-icon {
-  width: 6.25rem;
-  height: 6.25rem;
-  margin: 2rem auto;
-}
 .modal__dialog.thumbnail-cmdb-icon {
   top: 15rem;
 }
@@ -13391,7 +13737,6 @@ body.active {
   -moz-border-radius: 0.25rem;
   display: inline-block;
   width: 15.625rem;
-  height: 12.188rem;
   box-shadow: none;
   cursor: pointer;
   overflow: visible;
@@ -14045,6 +14390,9 @@ span.modal_node_selected label {
 }
 .breadcrumb__item:not(:last-child) .ic-arrow-right {
   background: #ABB0B5;
+}
+.breadcrumb__item button {
+  cursor: pointer;
 }
 .breadcrumb__item .ic-arrow-right {
   background: transparent;

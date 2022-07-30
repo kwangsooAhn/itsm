@@ -325,7 +325,7 @@
 
             // ... 아이콘 클릭시 이벤트
             container.querySelectorAll('.dropdown__toggle').forEach((dropdown) => {
-                dropdown.addEventListener('click', onToggleDropdown, false);
+                dropdown.addEventListener('click', onToggleContextMenu, false);
             });
         });
     }
@@ -421,7 +421,7 @@
         let startIndex = 1;
         let fullPath = basePath;
         if (pathArr.length > 4) {
-            const shortBreadcrumbTemplate = pathArr.slice(1, (pathArr.length - 2)).map((item) => {
+            const shortBreadcrumbTemplate = pathArr.slice(startIndex, (pathArr.length - 2)).map((item) => {
                 fullPath += (fileSeparator + item);
                 return `<li class="dropdown__item" tabindex="-1" data-path="${fullPath}">
                     <button type="button" class="btn__text--box" onclick="goFolder('${encodeURIComponent(fullPath)}');">
@@ -453,14 +453,14 @@
 
         const shortBreadCrumb = breadcrumb.querySelector('.dropdown__toggle');
         if (shortBreadCrumb) {
-            shortBreadCrumb.addEventListener('click', onToggleDropdown, false);
+            shortBreadCrumb.addEventListener('click', onToggleContextMenu, false);
         }
     }
 
     /**
      *  ... 아이콘 클릭시 dropdown 메뉴 오픈
      */
-    function onToggleDropdown(e) {
+    function onToggleContextMenu(e) {
         e.preventDefault();
         if (e.target.classList.contains('on')) {
             e.target.classList.remove('on');

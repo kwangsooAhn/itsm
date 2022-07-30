@@ -53,6 +53,10 @@
     const DOCUMENT_TYPE_LINK = 'application-form-link';
 
     let importFile;
+
+    // 기본 경로
+    const fileType = 'icon';
+
     window.onload = function() {
         document.getElementById('searchDocuments').focus();
         document.getElementById('searchGroupName').addEventListener('change', function() { getList(); });
@@ -88,14 +92,12 @@
     function openIcon() {
         const documentType = document.getElementById('documentType');
         const prefix = getPrefixForId(documentType.value);
-        aliceJs.thumbnail({
-            title: i18n.msg('document.label.icon'),
+        new zThumbnail({
+            title: 'document.label.icon',
             targetId: prefix + 'DocumentIcon',
-            type: 'icon',
-            isThumbnailInfo: false,
-            isFilePrefix: false,
-            thumbnailDoubleClickUse: true,
-            selectedPath: document.getElementById(prefix + 'DocumentIcon').value,
+            type: fileType,
+            doubleClickUse: true,
+            selected: document.getElementById(prefix + 'DocumentIcon').value
         });
     }
 

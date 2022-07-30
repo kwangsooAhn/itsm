@@ -199,24 +199,6 @@ body.active { overflow: hidden !important; }
   }
 
   /*
-   * thumbnail
-   */
-  // formDesigner - 썸네일 모달
-  // process - 파일 선택 모달
-  &.thumbnail-image,
-  &.thumbnail-file {
-    width: 1040px; // 1040px
-    height: 48.44rem; // 775px
-    .modal__dialog__body {
-      height: calc(48.44rem - 3.875rem - 5rem); // 775px
-      // 검색창
-      .input { margin: 0.625rem; }
-      .search-count { visibility: hidden; }
-      .thumbnail-main .thumbnail { width: 14.375rem; } // 230px
-    }
-  }
-
-  /*
    * 업무 흐름 모달
    */
   // 업무 흐름 등록 / 수정 모달
@@ -641,8 +623,8 @@ body.active { overflow: hidden !important; }
   }
 
   /*
- * resource
- */
+   * resource
+   */
   // 폴더 추가
   &.save-folder {
     .modal__dialog__body {
@@ -668,6 +650,59 @@ body.active { overflow: hidden !important; }
         height: 100%;
         background-repeat: no-repeat;
         background-position: center center;
+      }
+    }
+  }
+  // 썸네일 모달
+  &.thumbnail__modal--image,
+  &.thumbnail__modal--file {
+    width: 68.13rem;; // 1090px
+    .modal__dialog__body {
+      height: calc(48.44rem - 3.875rem - 5rem); // 775px
+
+      @include gridTemplate();
+
+      .scroll-search { padding: 1.25rem; } // 20px
+      .scroll-list { padding: 0 1.25rem; } // 0 20px
+    }
+  }
+  // TODO: CMDB 아이콘 작업 후 디자인 수정
+  &.thumbnail__modal--cmdb-icon {
+    width: 68.13rem;; // 1090px
+    .modal__dialog__body {
+      height: calc(48.44rem - 3.875rem - 5rem); // 775px
+
+      @include gridTemplate();
+
+      .scroll-search { padding: 1.25rem; } // 20px
+      .scroll-list { padding: 0 1.25rem; } // 0 20px
+    }
+  }
+  &.thumbnail__modal--icon {
+    top: 7rem; // 112px
+    width: 47.81rem; // 765px
+    .modal__dialog__body {
+      height: calc(45rem - 3.875rem - 5rem); // 720px
+
+      @include gridTemplate();
+      .grid__row { --data-columns-width: repeat(auto-fill, minmax(10.31rem, 1fr)); }
+
+      .scroll-search { display: none; }
+      .scroll-list { padding: 1.25rem 1.25rem 0 1.25rem; } // 20px 20px 0 20px
+
+      .grid__thumbnail {
+        display: inline-flex;
+        width: 10.31rem; // 165px
+        height: 10.31rem; // 165px
+
+        .thumbnail__image {
+          width: 6.25rem; // 100px
+          height: 6.25rem; // 100px
+          background-size: 100%;
+          margin: 2rem auto; // 32px auto
+        }
+
+        .thumbnail__caption { display: none; }
       }
     }
   }

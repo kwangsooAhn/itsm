@@ -20,7 +20,9 @@ class ResourceController(
 ) {
     private val resourcePage: String = "resource/resources"
     private val resourcePageFragment: String = "resource/resources :: list"
-    
+    private val thumbnailModal: String = "resource/thumbnailModal"
+    private val thumbnailModalFragment: String = "resource/thumbnailModal :: list"
+
     /**
      * 리소스 관리 페이지 호출.
      */
@@ -32,6 +34,7 @@ class ResourceController(
             model.addAttribute("isSearch", searchCondition.searchValue.isNotEmpty())
             // 페이지 타입
             model.addAttribute("pageType", searchCondition.pageType)
+            // 데이터
             model.addAttribute("resources", resources.data)
             model.addAttribute("paging", resources.paging)
             resourcePageFragment
@@ -44,6 +47,25 @@ class ResourceController(
             // 허용 확장자 목록
             model.addAttribute("acceptFileExtensions", aliceResourceProvider.getAllowedExtensions(searchCondition.type))
             resourcePage
+        }
+    }
+
+    /**
+     * 썸네일 모달 페이지 호출.
+     */
+    @GetMapping("/thumbnail")
+    fun getThumbnailModal(searchCondition: AliceResourceSearchDto, model: Model): String {
+        val resources = aliceResourceProvider.getResourcesScroll(searchCondition)
+        // 타입
+        model.addAttribute("type", searchCondition.type)
+        // 데이터
+        model.addAttribute("resources", resources.data)
+        model.addAttribute("scroll", resources.scroll)
+
+        return if (searchCondition.isPaging) {
+            thumbnailModalFragment
+        } else {
+            thumbnailModal
         }
     }
 }

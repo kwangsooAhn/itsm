@@ -36,7 +36,7 @@ object ResourceConstants {
     enum class Path(val path: String) {
         ICON_DOCUMENT("icons${File.separator}document"),
         ICON_CI_TYPE("icons${File.separator}ciType"),
-        IMAGE("images"),
+        IMAGE("images"), 
         FILE("shared"),
         PROCESSES("processes"),
         UPLOAD("uploadRoot"),
@@ -74,7 +74,7 @@ object ResourceConstants {
     const val OFFSET_LIST = 14L
     const val OFFSET_THUMBNAIL = 18L
     const val OFFSET_THUMBNAIL_ICON = 30L
-    const val OFFSET_MODAL = 12L
+    const val OFFSET_MODAL = 16L
 
     /**
      * limit 값

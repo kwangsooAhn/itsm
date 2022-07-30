@@ -1934,7 +1934,7 @@ resource:
     newFolder: "New Folder"
     or: "or"
     placeholder: "Select Your File"
-    popupTitle: "Select File"
+    thumbnailTitle: "Select File"
     rename: "Rename"
     sharedFolder: "Shared Folder"
     searchPlaceholder: "Folder / File Name"

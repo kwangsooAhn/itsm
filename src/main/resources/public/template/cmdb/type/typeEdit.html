@@ -97,6 +97,9 @@
     /*<![CDATA[*/
     let observer = aliceJs.pageObserver;
 
+    // 기본 경로
+    const fileType = 'cmdb-icon';
+
     window.addEventListener('load', function() {
         observer.set();
         document.getElementById('search').focus();
@@ -380,14 +383,12 @@
     /** CMDB-Icon **/
     function iconPopUp() {
         if (document.getElementById('parentTypeId').value !== '') {
-            aliceJs.thumbnail({
-                title: i18n.msg('cmdb.type.label.icon'),
+            new zThumbnail({
+                title: 'cmdb.type.label.icon',
                 targetId: 'typeIcon',
-                type: 'cmdb-icon',
-                isThumbnailInfo: false,
-                isFilePrefix: false,
-                thumbnailDoubleClickUse: true,
-                selectedPath: document.querySelector('#typeIcon').value,
+                type: fileType,
+                doubleClickUse: true,
+                selected: document.querySelector('#typeIcon').value
             });
         } else {
             zAlert.warning([[#{cmdb.type.msg.selectType}]]);

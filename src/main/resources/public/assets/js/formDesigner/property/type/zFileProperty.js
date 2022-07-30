@@ -65,18 +65,16 @@ export default class ZFileProperty extends ZProperty {
         e.stopPropagation();
         e.preventDefault();
 
+        this.value = e.target.value;
         this.panel.update.call(this.panel, e.target.id, e.target.value);
     }
 
     openThumbnailModal() {
-        aliceJs.thumbnail({
-            title: i18n.msg('resource.label.popupTitle'),
+        new zThumbnail({
             targetId: this.key,
             type: this.type,
-            isThumbnailInfo: true,
-            isFilePrefix: true,
-            thumbnailDoubleClickUse: true,
-            selectedPath: this.value
+            doubleClickUse: true,
+            selected: this.value
         });
     }
 }

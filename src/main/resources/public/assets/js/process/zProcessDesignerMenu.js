@@ -1293,14 +1293,12 @@
             let fileIcon = document.createElement('span');
             fileIcon.className = 'ic-folder';
             fileBtn.addEventListener('click', function() {
-                aliceJs.thumbnail({
-                    title: i18n.msg('common.label.attachFile'),
+                new zThumbnail({
+                    title: 'common.label.attachFile',
                     targetId: fileInput.id,
                     type: 'file',
-                    isThumbnailInfo: true,
-                    isFilePrefix: false,
-                    thumbnailDoubleClickUse: true,
-                    selectedPath: document.getElementById(fileInput.id).value
+                    doubleClickUse: true,
+                    selected: document.getElementById(fileInput.id).value
                 });
             });
             fileBtn.appendChild(fileIcon);
