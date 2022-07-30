@@ -33,12 +33,12 @@
                 <span th:text="#{document.label.name}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" class="input" id="documentName" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
+            <input type="text" id="documentName" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
         </div>
         <!-- 설명 -->
         <div class="flex-column edit-row">
             <label th:text="#{document.label.description}" for="documentDesc"></label>
-            <textarea id="documentDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"
+            <textarea id="documentDesc" rows="7" maxlength="128"
                       th:text="${documentData?.documentDesc}"></textarea>
         </div>
         <!-- 업무흐름 구분 :  신청서 -->
@@ -126,7 +126,7 @@
             <div class="flex-column edit-row">
                 <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
                 <div class="flex-row input--remove">
-                    <input type="text" id="applicationDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+                    <input type="text" id="applicationDocumentIcon" class="col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                     <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>
                     </button>
@@ -225,7 +225,7 @@
                     <span class="required"></span>
                 </label>
                 <div class="flex-column">
-                    <input type="text" class="input" id="linkUrl" th:value="${documentData?.documentLinkUrl}" maxlength="512"/>
+                    <input type="text" id="linkUrl" th:value="${documentData?.documentLinkUrl}" maxlength="512"/>
                 </div>
             </div>
             <!-- 업무 흐름 색상 -->
@@ -240,7 +240,7 @@
             <div class="flex-column edit-row">
                 <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
                 <div class="flex-row input--remove">
-                    <input type="text" id="linkDocumentIcon" class="input col-pct-11" th:value="${documentData?.documentIcon}" readonly />
+                    <input type="text" id="linkDocumentIcon" class="col-pct-11" th:value="${documentData?.documentIcon}" readonly />
                     <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
                         <span class="ic-remove"></span>
                     </button>
@@ -312,7 +312,7 @@
         }
         // 스크롤바 추가
         OverlayScrollbars(document.querySelectorAll('.page-content'), { className: 'scrollbar' });
-        OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+        OverlayScrollbars(document.querySelector('textarea'), {
             className: 'inner-scrollbar',
             resize: 'vertical',
             sizeAutoCapable: true,

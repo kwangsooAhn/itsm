@@ -57,7 +57,7 @@ span {
   // 데이터 없을때
   &.ic-no-data { @include maskImage('#{$icon-folder-path}icon_no_data.svg', 6.25rem, 6.25rem, no-repeat, center); }
 
-  // fileUploader
+  ////////////////////////// fileUploader //////////////////////////
   // fileUploader > 다운로드
   &.ic-download { @include maskImage('#{$icon-folder-path}fileUploader/icon_download.svg', 1.25rem, 1.25rem, no-repeat, center); }
   &.ic-list-download { @include maskImage('#{$icon-folder-path}icon_list-download.svg', 1.25rem, 1.25rem, no-repeat, center); }
@@ -178,7 +178,7 @@ span {
 }
 
 ////////////////////////// UI 컴포넌트 추가 //////////////////////////
-.input {
+input {
   // input with background img
   &.ic-search { @include backgroundImage($icon-folder-path + 'icon_search.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }
   &.ic-date-picker { @include backgroundImage($icon-folder-path + 'dateTimePicker/icon_date_picker.svg', null, no-repeat, calc(100% - 0.4375rem), 50%); }

@@ -96,7 +96,7 @@ export const dynamicRowTableMixin = {
 
         // 테이블
         element.UITable = new UITable()
-            .setUIClass('option-table')
+            .setUIClass('tbl--option')
             .addUIClass('dr-table')
             .addUIClass('mt-2')
             .setUIId('drTable' + this.id)
@@ -234,7 +234,7 @@ export const dynamicRowTableMixin = {
     },
     makeTable(table) {
         // 테이블 제목
-        const row = new UIRow(table).setUIClass('option-table-header').addUIClass('dr-table-header');
+        const row = new UIRow(table).setUIClass('tbl__head').addUIClass('dr-table-header');
         table.addUIRow(row);
 
         this.elementColumns.forEach((column) => {
@@ -397,11 +397,12 @@ export const dynamicRowTableMixin = {
     getDateForColumn(column, cellValue, index) {
         let dateWrapper = new UIDiv().setUIClass('picker-wrapper-dummy');
         let dateColumn = new UIInput().setUIPlaceholder(i18n.dateFormat)
-            .setUIClass('input ic-date-picker text-ellipsis')
+            .setUIAttribute('type', 'text')
+            .setUIClass('ic-date-picker text-ellipsis')
             .setUIId('date' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'date' + index)
             .setUIValue(this.getDefaultValueForDate(column, cellValue))
-            .setUIAttribute('type', FORM.DATE_TYPE.DATE_PICKER)
+            .setUIAttribute('style', FORM.DATE_TYPE.DATE_PICKER)
             .setUIAttribute('data-validation-min-date', this._element.columns[index].columnValidation.minDate)
             .setUIAttribute('data-validation-max-date', this._element.columns[index].columnValidation.maxDate);
         dateWrapper.addUI(dateColumn);
@@ -415,11 +416,12 @@ export const dynamicRowTableMixin = {
         let timeWrapper = new UIDiv().setUIClass('element');
 
         let time = new UIInput().setUIPlaceholder(i18n.timeFormat)
-            .setUIClass('input ic-time-picker text-ellipsis')
+            .setUIAttribute('type', 'text')
+            .setUIClass('ic-time-picker text-ellipsis')
             .setUIId('time' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'time' + index)
             .setUIValue(this.getDefaultValueForTime(column, cellValue))
-            .setUIAttribute('type', FORM.DATE_TYPE.TIME_PICKER)
+            .setUIAttribute('style', FORM.DATE_TYPE.TIME_PICKER)
             .setUIAttribute('data-validation-min-time', this._element.columns[index].columnValidation.minTime)
             .setUIAttribute('data-validation-max-time', this._element.columns[index].columnValidation.maxTime);
         timeWrapper.addUI(time);
@@ -433,11 +435,12 @@ export const dynamicRowTableMixin = {
         let dateTimeWrapper = new UIDiv().setUIClass('element');
 
         let dateTime = new UIInput().setUIPlaceholder(i18n.dateTimeFormat)
-            .setUIClass('input ic-datetime-picker text-ellipsis')
+            .setUIAttribute('type', 'text')
+            .setUIClass('ic-datetime-picker text-ellipsis')
             .setUIId('datetime' + index +  ZWorkflowUtil.generateUUID())
             .setUIAttribute('name', 'datetime' + index)
             .setUIValue(this.getDefaultValueForDateTime(column, cellValue))
-            .setUIAttribute('type', FORM.DATE_TYPE.DATETIME_PICKER)
+            .setUIAttribute('style', FORM.DATE_TYPE.DATETIME_PICKER)
             .setUIAttribute('data-validation-min-datetime', this._element.columns[index].columnValidation.minDateTime)
             .setUIAttribute('data-validation-max-datetime', this._element.columns[index].columnValidation.maxDateTime);
         dateTimeWrapper.addUI(dateTime);
@@ -460,7 +463,9 @@ export const dynamicRowTableMixin = {
     // column Type - userSearch
     getUserSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('input ic-user-search text-ellipsis')
+        const element = new UIInput()
+            .setUIAttribute('type', 'text')
+            .setUIClass('ic-user-search text-ellipsis')
             .setUIId('userSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -484,7 +489,9 @@ export const dynamicRowTableMixin = {
     // column Type - OrganizationSearch
     getOrganizationSearchForColumn(column, cellValue, index) {
         const defaultValues = cellValue.split('|');
-        const element = new UIInput().setUIClass('input ic-organization-search text-ellipsis')
+        const element = new UIInput()
+            .setUIAttribute('type', 'text')
+            .setUIClass('ic-organization-search text-ellipsis')
             .setUIId('organizationSearch' + index +  ZWorkflowUtil.generateUUID())
             .setUIValue((defaultValues.length > 1) ? defaultValues[1] : '')
             .setUIRequired(column.columnValidation.required)
@@ -682,7 +689,7 @@ export const dynamicRowTableMixin = {
                 method: 'GET'
             }).then((htmlData) => {
                 const userListElem = new DOMParser().parseFromString(htmlData.toString(), 'text/html');
-                if (!userListElem.querySelectorAll('.table-row').length) {
+                if (!userListElem.querySelectorAll('.tbl-row').length) {
                     defaultValue = '';
                 }
             });
@@ -879,10 +886,10 @@ export const dynamicRowTableMixin = {
         const userSearchModal = new modal({
             title: e.target.getAttribute('data-modal-title'),
             body: `<div class="target-user-list">` +
-                `<input class="input ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
+                `<input class="ic-search col-5 mr-2" type="text" name="search" id="search" maxlength="100" ` +
                 `placeholder="` + i18n.msg('user.label.userSearchPlaceholder') + `">` +
                 `<span id="spanTotalCount" class="search-count"></span>` +
-                `<div class="table-set" id="searchUserList"></div>` +
+                `<div id="searchUserList"></div>` +
                 `</div>`,
             classes: 'target-user-modal',
             buttons: [{
@@ -951,9 +958,9 @@ export const dynamicRowTableMixin = {
         }).then((htmlData) => {
             const searchUserList = document.getElementById('searchUserList');
             searchUserList.innerHTML = htmlData;
-            OverlayScrollbars(searchUserList.querySelector('.table-body'), { className: 'scrollbar' });
+            OverlayScrollbars(searchUserList.querySelector('.tbl__body'), { className: 'scrollbar' });
             // 갯수 가운트
-            aliceJs.showTotalCount(searchUserList.querySelectorAll('.table-row').length);
+            aliceJs.showTotalCount(searchUserList.querySelectorAll('.tbl-row').length);
             // 체크 이벤트
             searchUserList.querySelectorAll('input[type=radio]').forEach((element) => {
                 element.addEventListener('change', () => {

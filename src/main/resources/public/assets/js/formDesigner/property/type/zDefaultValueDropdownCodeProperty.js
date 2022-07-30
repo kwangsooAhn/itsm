@@ -129,9 +129,9 @@ export default class ZDefaultValueDropdownCodeProperty extends ZProperty {
     getPropertyValue(evtType, element) {
         const property = (evtType === 'click') ? element.parentNode.parentNode : element.parentNode;
         const selectedButton = property.querySelector('.selected');
-        const firstInput = property.querySelector('.input');
+        const firstInput = property.querySelector('input[type=text]');
         const defaultCodeLabel = property.querySelector('.default-code-label');
-        const defaultCode = property.querySelector('.input[data-type="'+ FORM.DROPDOWN_CODE.DEFAULT_CODE +'"]');
+        const defaultCode = property.querySelector('input[data-type="'+ FORM.DROPDOWN_CODE.DEFAULT_CODE +'"]');
         let elementDataType = selectedButton.getAttribute('data-type');
         let tempValue = {};
         switch (evtType) {

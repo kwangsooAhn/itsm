@@ -24,7 +24,7 @@
       min-width: 2.75rem; // 44px
       max-width: 12.5rem; // 200px
       height: 1.688rem; // 27px
-      padding: 0 0 0 0.5rem; // 0 0 0 8px
+      padding: 0 0.5rem; // 0 8px
       color: $gray800;
       font-weight: $font-weight-medium;
       line-height: 1.688rem; // 27px
@@ -60,23 +60,21 @@
     &.active {
       border-color: $gray300;
       background-color: $white;
-      + .dropdown-content { visibility: visible; }
+      + .context-menu { visibility: visible; }
       .ic-arrow-right { @include rotate(-90); }
     }
   }
-  .dropdown {
-    &-content {
-      @include border(0.0625rem, solid, $gray300, all); // 1px
-      @include borderRadius(0.25rem); // 4px
-      position: absolute;
-      margin: 3.125rem 0.5rem 0 0; // 50px 8px 0 0
-      background-color: $white;
-      color: $gray800;
-      font-size: $font-size-xs;
-      z-index: $z-index-gnb;
-      visibility: hidden;
-    }
-    &-item {
+  .context-menu {
+    @include border(0.0625rem, solid, $gray300, all); // 1px
+    @include borderRadius(0.25rem); // 4px
+    position: absolute;
+    margin: 3.125rem 0.5rem 0 0; // 50px 8px 0 0
+    background-color: $white;
+    color: $gray800;
+    font-size: $font-size-xs;
+    z-index: $z-index-gnb;
+    visibility: hidden;
+    &__item {
       width: 118px;
       &-btn {
         @include border(0.0625rem, solid, $white, all); // 1px

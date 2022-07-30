@@ -511,7 +511,7 @@ class ZFormDesigner {
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + 'tooltip-menu',
+                    filter: '.' + 'context-menu',
                     preventOnFilter: true,
                     onChoose: function() {
                         this.options.editor.deSelectObject();
@@ -548,7 +548,7 @@ class ZFormDesigner {
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + 'tooltip-menu',
+                    filter: '.' + 'context-menu',
                     preventOnFilter: true,
                     onChoose: function() {
                         this.options.editor.deSelectObject();
@@ -647,8 +647,8 @@ class ZFormDesigner {
                     },
                     direction: function(evt, target, dragEl) { // 하나의 row에 여러개 컴포넌트 추가 용도
                         if (target !== null &&
-                        target.className.includes('component-tooltip') &&
-                        (dragEl.className.includes('component-tooltip') ||
+                        target.className.includes('component-area') &&
+                        (dragEl.className.includes('component-area') ||
                             dragEl.className.includes('component-icon'))) {
                             return 'horizontal';
                         }
@@ -661,7 +661,7 @@ class ZFormDesigner {
                     draggable: '.list-group-item',
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
-                    filter: '.' + 'tooltip-menu',
+                    filter: '.' + 'context-menu',
                     preventOnFilter: true,
                     onChoose: function() {
                         this.options.editor.deSelectObject();
