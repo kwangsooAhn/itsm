@@ -11,6 +11,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.folder.constants.FolderConstants
+import co.brainz.itsm.folder.dto.FolderMappingDto
 import co.brainz.itsm.folder.dto.InstanceFolderListDto
 import co.brainz.itsm.folder.dto.InstanceInFolderDto
 import co.brainz.itsm.folder.entity.WfFolderEntity
@@ -118,22 +119,33 @@ class FolderService(
     fun insertFolderDto(instanceFolderListDto: InstanceFolderListDto): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         var isSuccess = true
-        var folderId = ""
+        var orgFolderId = ""
         if (instanceFolderListDto.instanceId.isNotEmpty()) {
             isSuccess = instanceService.setInitInstance(instanceFolderListDto.instanceId, instanceFolderListDto.documentId)
-            folderId = folderManager.findFolderOriginByInstanceId(instanceFolderListDto.instanceId).folderId
-            instanceFolderListDto.folders.forEach { it.folderId = folderId }
+            orgFolderId = folderManager.findFolderOriginByInstanceId(instanceFolderListDto.instanceId).folderId
+            instanceFolderListDto.folders.forEach {
+                it.folderId = folderManager.findFolderOriginByInstanceId(it.instanceId!!).folderId
+            }
         }
         if (isSuccess) {
             instanceFolderListDto.folders.forEach {
-                val wfFolderEntity = WfFolderEntity(
-                    folderId = it.folderId!!,
+                val wfOrgFolderEntity = WfFolderEntity(
+                    folderId = orgFolderId,
                     instance = wfInstanceRepository.findByInstanceId(it.instanceId!!)!!,
                     relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
                     createUserKey = currentSessionUser.getUserKey(),
                     createDt = LocalDateTime.now()
                 )
-                folderRepository.save(wfFolderEntity)
+                folderRepository.save(wfOrgFolderEntity)
+
+                val wfRelFolderEntity = WfFolderEntity(
+                    folderId = it.folderId!!,
+                    instance = wfInstanceRepository.findByInstanceId(instanceFolderListDto.instanceId)!!,
+                    relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
+                    createUserKey = currentSessionUser.getUserKey(),
+                    createDt = LocalDateTime.now()
+                )
+                folderRepository.save(wfRelFolderEntity)
             }
         }
 
@@ -141,7 +153,7 @@ class FolderService(
             status = ZResponseConstants.STATUS.ERROR_FAIL
         }
         val dataMap = mutableMapOf<String, String>()
-        dataMap["folderId"] = folderId
+        dataMap["folderId"] = orgFolderId
 
         return ZResponse(
             status = status.code,
@@ -153,12 +165,21 @@ class FolderService(
         return folderManager.insertInstance(originInstance, relatedInstance)
     }
 
-    fun deleteInstanceInFolder(folderId: String, instanceId: String): ZResponse {
-        val wfFolderEntity = WfFolderEntity(
-            folderId = folderId,
-            instance = wfInstanceRepository.findByInstanceId(instanceId)!!
+    fun deleteInstanceInFolder(folderMappingDto: FolderMappingDto): ZResponse {
+        // 현재 문서의 관련 문서 제거
+        val orgFolderEntity = WfFolderEntity(
+            folderId = folderMappingDto.folderId,
+            instance = wfInstanceRepository.findByInstanceId(folderMappingDto.relInstanceId)!!
         )
-        folderRepository.delete(wfFolderEntity)
+        folderRepository.delete(orgFolderEntity)
+
+        // 관련 문서에 mapping된 데이터 제거
+        val relFolderEntity = WfFolderEntity(
+            folderId = folderManager.findFolderOriginByInstanceId(folderMappingDto.relInstanceId).folderId,
+            instance = wfInstanceRepository.findByInstanceId(folderMappingDto.orgInstanceId)!!
+        )
+        folderRepository.delete(relFolderEntity)
+
         return ZResponse()
     }
 }
