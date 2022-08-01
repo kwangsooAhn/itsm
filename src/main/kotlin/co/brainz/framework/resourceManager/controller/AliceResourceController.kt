@@ -9,6 +9,7 @@ import co.brainz.framework.resourceManager.dto.AliceResourceRenameDto
 import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
+import java.io.File
 import javax.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.InputStreamResource
@@ -55,6 +56,14 @@ class AliceResourceController(
     }
 
     /**
+     * 파일 구분자
+     */
+    @GetMapping("/fileSeparator")
+    fun getFileSeperator(): String {
+        return File.separator
+    }
+
+    /**
      * 폴더 추가
      */
     @PostMapping("/folder")
@@ -83,6 +92,19 @@ class AliceResourceController(
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(
             aliceResourceProvider.deleteFolder(path)
+        )
+    }
+
+    /**
+     * 파일 조회 (단일).
+     */
+    @GetMapping("/file")
+    fun getFile(
+        @RequestParam(value = "type", defaultValue = "") type: String,
+        @RequestParam(value = "path", defaultValue = "") path: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            aliceResourceProvider.getFile(type, path)
         )
     }
 

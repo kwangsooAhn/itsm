@@ -1228,6 +1228,7 @@ insert into awf_url values ('/forms/{id}/preview', 'get', '폼 디자이너 미�
 insert into awf_url values ('/forms', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/resources', 'get', '리소스 관리 화면', 'TRUE');
+insert into awf_url values ('/resources/thumbnail', 'get', '썸네일 모달 화면', 'FALSE');
 insert into awf_url values ('/notices', 'get', '공지사항 목록', 'TRUE');
 insert into awf_url values ('/notices/new', 'get', '공지사항 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/notices/search', 'get', '공지사항 검색 화면 호출 처리', 'TRUE');

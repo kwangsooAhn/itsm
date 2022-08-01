@@ -1935,7 +1935,7 @@ resource:
     newFolder: "새 폴더"
     or: "또는"
     placeholder: "Select Your File"
-    popupTitle: "파일 선택"
+    thumbnailTitle: "파일 선택"
     rename: "이름 변경"
     sharedFolder: "공유 문서함"
     searchPlaceholder: "폴더 이름 / 파일 이름"

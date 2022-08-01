@@ -17,6 +17,7 @@ import co.brainz.framework.resourceManager.dto.AliceFileOwnMapDto
 import co.brainz.framework.resourceManager.dto.AliceResourceDto
 import co.brainz.framework.resourceManager.dto.AliceResourceSearchDto
 import co.brainz.framework.resourceManager.dto.AliceResourcesPagingDto
+import co.brainz.framework.resourceManager.dto.AliceResourcesScrollDto
 import co.brainz.framework.resourceManager.entity.AliceFileLocEntity
 import co.brainz.framework.resourceManager.entity.AliceFileOwnMapEntity
 import co.brainz.framework.resourceManager.repository.AliceFileLocRepository
@@ -26,6 +27,7 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceResourceUtil
+import co.brainz.framework.util.AliceScrollData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.constants.ItsmConstants
 import java.io.File
@@ -143,6 +145,38 @@ class AliceResourceProvider(
     }
 
     /**
+     * 리소스 전체 목록 가져오기 - 스크롤
+     */
+    fun getResourcesScroll(searchCondition: AliceResourceSearchDto): AliceResourcesScrollDto {
+        val dir = File(searchCondition.searchPath)
+        val depth = if (searchCondition.searchValue.isEmpty()) 1 else Int.MAX_VALUE // 검색어가 없으면 바로 아래 데이터만 조회
+        val contentNumPerScroll = ResourceConstants.OffsetCount.getOffsetCount(searchCondition.pageType)
+        val scrollOffsetStart = ((searchCondition.pageNum) * contentNumPerScroll).toInt()
+        val condition = super.isAllowedOnlyImageByType(searchCondition.type)
+        // 스크롤 데이터
+        val scrollResult = when(condition) {
+            true -> this.getImageAndFolders(dir, depth, scrollOffsetStart, contentNumPerScroll.toInt(), searchCondition)
+            false -> this.getFileAndFolders(dir, depth, scrollOffsetStart, contentNumPerScroll.toInt(), searchCondition)
+        }
+        // 전체 파일 갯수 카운트
+        val totalCountWithoutCondition = when(condition) {
+            true -> super.getExternalPathImageCount(dir, searchCondition.searchValue, depth)
+            false -> super.getExternalPathCount(dir, searchCondition.searchValue, depth)
+        }
+
+        return AliceResourcesScrollDto(
+            data = scrollResult,
+            scroll = AliceScrollData(
+                totalCount = scrollResult.size.toLong(),
+                totalCountWithoutCondition = totalCountWithoutCondition.toLong(),
+                currentScrollNum = searchCondition.pageNum,
+                totalScrollNum = ceil(totalCountWithoutCondition.toDouble() / contentNumPerScroll.toDouble()).toLong(),
+                contentNumPerScroll = contentNumPerScroll
+            )
+        )
+    }
+
+    /**
      * 이미지 파일만 추출
      *
      * @param dir 파일
@@ -162,17 +196,17 @@ class AliceResourceProvider(
         run loop@{
             var limit = 0
             dir.walk().maxDepth(depth)
+                .filter { it != dir && super.isMatchedInSearch(it.name, condition.searchValue) &&
+                    ( it.isDirectory || isImage(it.extension)) }
                 .sortedBy { it.isFile }
                 .forEachIndexed { index, file ->
-                    if (index > start && super.isMatchedInSearch(file.name, condition.searchValue)) {
+                    if (index >= start) {
                         if (file.isDirectory) {
                             resources.add(this.getFileDto(file))
                             limit++
                         } else {
-                            if (isImage(file.extension)) {
-                                resources.add(this.getImageDto(condition.type, file))
-                                limit++
-                            }
+                            resources.add(this.getImageDto(condition.type, file))
+                            limit++
                         }
                     }
                     if (limit >= offset) {
@@ -203,9 +237,10 @@ class AliceResourceProvider(
         run loop@{
             var limit = 0
             dir.walk().maxDepth(depth)
+                .filter { it != dir && super.isMatchedInSearch(it.name, condition.searchValue) }
                 .sortedBy { it.isFile }
                 .forEachIndexed { index, file ->
-                    if (index > start && super.isMatchedInSearch(file.name, condition.searchValue)) {
+                    if (index >= start) {
                         if (isImage(file.extension)) {
                             resources.add(this.getImageDto(condition.type, file))
                             limit++
@@ -406,6 +441,29 @@ class AliceResourceProvider(
         }
         return ZResponse(
             status = status.code
+        )
+    }
+
+    /**
+     * 파일 조회
+     */
+    fun getFile(type: String, path: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        var imageDto: AliceResourceDto? = null
+        try {
+            val dir = Paths.get(path)
+            if (Files.exists(dir)) {
+                imageDto = this.getImageDto(type, dir.toFile())
+            } else {
+                status = ZResponseConstants.STATUS.ERROR_FAIL
+            }
+        } catch (e: Exception) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+
+        return ZResponse(
+            status = status.code,
+            data = imageDto
         )
     }
 

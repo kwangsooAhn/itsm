@@ -14,7 +14,7 @@
     <form id="frmSearch" onsubmit="return false;">
         <input type="hidden" id="type" name="type" value="file"/>
         <input type="hidden" id="searchPath" name="searchPath" th:value="${basePath}"/>
-        <input type="text" class="input ic-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+        <input type="text" class="ic-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{resource.label.searchPlaceholder}"/>
         <span id="spanTotalCount" class="search-count"></span>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
@@ -51,7 +51,7 @@
                 <span th:text="#{resource.label.folderName}"></span>
                 <span class="required"></span>
             </label>
-            <input type="text" class="input" id="newFolderName" data-validation-required="true" />
+            <input type="text" id="newFolderName" data-validation-required="true" />
         </div>
     </template>
 </div>
@@ -134,16 +134,16 @@
                             </div>
                             <div class="grid__cell pl-2">
                                 <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}">
-                                    <div class="dropdown-menu" th:if="${resource.directoryYn}">
-                                        <button type="button" class="btn__ic dropdown__toggle">
+                                    <div class="context-menu" th:if="${resource.directoryYn}">
+                                        <button type="button" class="btn__ic context-menu__toggle">
                                             <span class="ic-meatballs"></span>
                                         </button>
                                         <ul class="dropdown__content--right">
-                                            <li class="dropdown__item" tabindex="-1">
+                                            <li class="context-menu__item" tabindex="-1">
                                                 <button type="button" class="btn__text--box" th:data-name="${resource.name}"
                                                         onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
                                             </li>
-                                            <li class="dropdown__item" tabindex="-1">
+                                            <li class="context-menu__item" tabindex="-1">
                                                 <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
                                                         onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
                                             </li>
@@ -192,7 +192,7 @@
                                            th:ondblclick="(${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}) ? 'changeFileName(this);': ''"
                                            th:title="${resource.name}" th:text="${resource.name}">
                                     </label>
-                                    <input type="text" id="newFileName" class="input thumbnail__caption--rename" maxlength="128"/>
+                                    <input type="text" id="newFileName" class="thumbnail__caption--rename" maxlength="128"/>
                                 </p>
                                 <p>
                                     <th:block th:if="${resource.directoryYn}">
@@ -210,16 +210,16 @@
                             <div class="thumbnail__footer flex-row justify-content-between align-items-center">
                                 <label class="thumbnail__footer--description text-ellipsis date-format" th:text="${resource.updateDt}"></label>
                                 <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}">
-                                    <div class="dropdown-menu" th:if="${resource.directoryYn}">
-                                        <button type="button" class="btn__ic dropdown__toggle">
+                                    <div class="context-menu" th:if="${resource.directoryYn}">
+                                        <button type="button" class="btn__ic context-menu__toggle">
                                             <span class="ic-meatballs"></span>
                                         </button>
-                                        <ul class="dropdown__content--left">
-                                            <li class="dropdown__item" tabindex="-1">
+                                        <ul class="context-menu__content--left">
+                                            <li class="context-menu__item" tabindex="-1">
                                                 <button type="button" class="btn__text--box" th:data-name="${resource.name}"
                                                         onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
                                             </li>
-                                            <li class="dropdown__item" tabindex="-1">
+                                            <li class="context-menu__item" tabindex="-1">
                                                 <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
                                                         onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
                                             </li>
@@ -324,8 +324,8 @@
             }
 
             // ... 아이콘 클릭시 이벤트
-            container.querySelectorAll('.dropdown__toggle').forEach((dropdown) => {
-                dropdown.addEventListener('click', onToggleDropdown, false);
+            container.querySelectorAll('.context-menu__toggle').forEach((dropdown) => {
+                dropdown.addEventListener('click', onToggleContextMenu, false);
             });
         });
     }
@@ -421,20 +421,20 @@
         let startIndex = 1;
         let fullPath = basePath;
         if (pathArr.length > 4) {
-            const shortBreadcrumbTemplate = pathArr.slice(1, (pathArr.length - 2)).map((item) => {
+            const shortBreadcrumbTemplate = pathArr.slice(startIndex, (pathArr.length - 2)).map((item) => {
                 fullPath += (fileSeparator + item);
-                return `<li class="dropdown__item" tabindex="-1" data-path="${fullPath}">
+                return `<li class="context-menu__item" tabindex="-1" data-path="${fullPath}">
                     <button type="button" class="btn__text--box" onclick="goFolder('${encodeURIComponent(fullPath)}');">
                     ${item}</button>
                 </li>`.trim();
             }).join('');
 
             breadcrumbTemplate += (`<li class="breadcrumb__item flex-row align-items-center">
-                <div class="dropdown-menu">
-                    <button type="button" class="btn__ic dropdown__toggle">
+                <div class="context-menu">
+                    <button type="button" class="btn__ic context-menu__toggle">
                         <span class="ic-meatballs"></span>
                     </button>
-                    <ul class="dropdown__content--left">${shortBreadcrumbTemplate}</ul>
+                    <ul class="context-menu__content--left">${shortBreadcrumbTemplate}</ul>
                 </div>
                 <span class="ic-arrow-right ml-1 mr-1"></span>
             </li>`).trim();
@@ -451,16 +451,16 @@
 
         breadcrumb.insertAdjacentHTML('beforeend', breadcrumbTemplate);
 
-        const shortBreadCrumb = breadcrumb.querySelector('.dropdown__toggle');
+        const shortBreadCrumb = breadcrumb.querySelector('.context-menu__toggle');
         if (shortBreadCrumb) {
-            shortBreadCrumb.addEventListener('click', onToggleDropdown, false);
+            shortBreadCrumb.addEventListener('click', onToggleContextMenu, false);
         }
     }
 
     /**
      *  ... 아이콘 클릭시 dropdown 메뉴 오픈
      */
-    function onToggleDropdown(e) {
+    function onToggleContextMenu(e) {
         e.preventDefault();
         if (e.target.classList.contains('on')) {
             e.target.classList.remove('on');
@@ -835,8 +835,8 @@
      */
     function onLeftClickHandler(e) {
         // 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
-        if (e.target !== null && !aliceJs.clickInsideElement(e, 'dropdown-menu')) {
-            document.querySelectorAll('.dropdown__toggle').forEach((dropdown) => {
+        if (e.target !== null && !aliceJs.clickInsideElement(e, 'context-menu')) {
+            document.querySelectorAll('.context-menu__toggle').forEach((dropdown) => {
                 if (dropdown.classList.contains('on')) {
                     dropdown.classList.remove('on');
                 }

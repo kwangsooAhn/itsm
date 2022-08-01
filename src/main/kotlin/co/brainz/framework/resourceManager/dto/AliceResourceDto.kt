@@ -3,6 +3,7 @@ package co.brainz.framework.resourceManager.dto
 import co.brainz.framework.resourceManager.constants.ResourceConstants
 import co.brainz.framework.querydsl.QuerydslConstants
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.framework.util.AliceScrollData
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -42,4 +43,10 @@ data class AliceResourceSearchDto(
 data class AliceResourcesPagingDto(
     val data: List<AliceResourceDto> = emptyList(),
     val paging: AlicePagingData
+) : Serializable
+
+// 스크롤용 데이터 클래스
+data class AliceResourcesScrollDto(
+    val data: List<AliceResourceDto> = emptyList(),
+    val scroll: AliceScrollData
 ) : Serializable

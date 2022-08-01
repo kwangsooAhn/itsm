@@ -134,36 +134,6 @@
 
 // 썸네일 모달
 .modal__dialog {
-  // thumnbnail > modal(type: icon) 관련 템플릿
-  &.thumbnail-icon {
-    top: 7rem; // 112px
-    width: 47.81rem; // 765px
-    height: 45rem; // 720px
-
-    .modal__dialog__body {
-      height: calc(45rem - 3.875rem - 5rem); // 720px
-      // 검색창
-      .z-input { margin: 0.625rem 0.4375rem; }
-      .z-search-count { visibility: hidden; }
-
-      .thumbnail-main {
-        height: auto;
-        padding: 1.375rem; // 22px
-        .thumbnail {
-          @include boxShadow(0, 0, 0, 0.0625rem, $gray300);
-          width: 10.31rem; // 165px
-          height: 10.31rem; // 165px
-          margin: 0.4375rem; // 7px
-
-          .thumbnail-icon {
-            width: 6.25rem; // 100px
-            height: 6.25rem; // 100px
-            margin: 2rem auto; // 32px auto
-          }
-        }
-      }
-    }
-  }
   // CMDB > Type icon modal
   &.thumbnail-cmdb-icon {
     top: 15rem; // 240px
@@ -210,7 +180,6 @@
     @include borderRadius(0.25rem); // 4px
     display: inline-block;
     width: 15.625rem; // 250px
-    height: 12.188rem; // 195px
     box-shadow: none;
     cursor: pointer;
     overflow: visible;

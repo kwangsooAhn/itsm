@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- 스크롤 검색 결과 -->
+    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${scroll?.totalCount}"/>
+    <input th:type="hidden" id="totalCountWithoutCondition" name="totalCountWithoutCondition" th:value="${scroll?.totalCountWithoutCondition}">
+    <input th:type="hidden" id="currentScrollNum" name="currentScrollNum" th:value="${scroll?.currentScrollNum}">
+    <input th:type="hidden" id="totalScrollNum" name="totalScrollNum" th:value="${scroll?.totalScrollNum}">
+    <input th:type="hidden" id="contentNumPerScroll" name="contentNumPerScroll" th:value="${scroll?.contentNumPerScroll}">
+    <div class="grid--noData" th:if="${#arrays.isEmpty(resources)}" style="--data-columns-width: 100%;">
+        <div class="grid__row read-only">
+            <div class="grid__cell">
+                <span class="ic-no-data"></span>
+                <span class="mt-3" th:text="#{common.msg.noData}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="grid" th:unless="${#arrays.isEmpty(resources)}" style="--data-columns-width: repeat(auto-fill, minmax(15.313rem, 1fr));">
+        <div class="grid__row gap-2" id="resources">
+        <!-- 스크롤시 가져오는 데이터 목록-->
+        <th:block th:fragment="list">
+            <div class="grid__thumbnail" tabindex="-1" th:each="resource: ${resources}">
+                <th:block th:if="${resource.directoryYn}">
+                    <div class="thumbnail__image" th:unless="${resource.imageFileYn}" th:data-path="${resource.fullPath}" th:data-scrollNum="${scroll?.currentScrollNum}">
+                        <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
+                    </div>
+                </th:block>
+                <th:block th:unless="${resource.directoryYn}">
+                    <div class="thumbnail__image" th:if="${resource.imageFileYn}" th:data-path="${resource.fullPath}" th:data-name="${resource.name}" th:data-scrollNum="${scroll?.currentScrollNum}"
+                         th:style="|background-image:url('data:image/${resource.extension};base64,${resource.data}');|">
+                    </div>
+                    <div class="thumbnail__image" th:unless="${resource.imageFileYn}" th:data-path="${resource.fullPath}" th:data-name="${resource.name}" th:data-scrollNum="${scroll?.currentScrollNum}">
+                        <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
+                    </div>
+                </th:block>
+                <div class="thumbnail__caption">
+                    <p>
+                        <label class="thumbnail__caption--title text-ellipsis" th:title="${resource.name}" th:text="${resource.name}"></label>
+                    </p>
+                    <p>
+                        <th:block th:if="${resource.directoryYn}">
+                            <label class="thumbnail__caption--description text-ellipsis"
+                                   th:text="|${resource.size} (${resource.count})|"></label>
+                        </th:block>
+                        <th:block th:unless="${resource.directoryYn}">
+                            <label class="thumbnail__caption--description text-ellipsis" th:if="${resource.imageFileYn}"
+                                   th:text="|${resource.size} (${resource.width} X ${resource.height})|"></label>
+                            <label class="thumbnail__caption--description text-ellipsis"
+                                   th:unless="${resource.imageFileYn}" th:text="|${resource.size}|"></label>
+                        </th:block>
+                    </p>
+                </div>
+            </div>
+        </th:block>
+        </div>
+    </div>
+</body>
+</html>
