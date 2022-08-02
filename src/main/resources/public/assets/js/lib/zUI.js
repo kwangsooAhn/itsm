@@ -380,12 +380,12 @@ class UIClipboard extends UIElement {
         this.addUI(this.UIInput);
 
         // tooptip
-        this.UITooltip = new UIDiv().setUIClass('tooltip').addUIClass('ml-1');
+        this.UITooltip = new UIDiv().setUIClass('ml-1');
         this.addUI(this.UITooltip);
 
         // copy button
         const scope = this;
-        this.UITooltip.UIButton = new UIButton().setUIClass('btn__ic').addUIClass('secondary');
+        this.UITooltip.UIButton = new UIButton().setUIClass('tooltip').addUIClass('btn__ic').addUIClass('secondary');
         this.UITooltip.UIButton.domElement.addEventListener('click', function () {
             scope.UIInput.domElement.select();
             scope.UIInput.domElement.setSelectionRange(0, 99999);
