@@ -653,30 +653,42 @@ body.active { overflow: hidden !important; }
     width: 68.13rem;; // 1090px
     .modal__dialog__body {
       height: calc(48.44rem - 3.875rem - 5rem); // 775px
+      overflow: hidden;
 
       @include gridTemplate();
 
       .scroll-search { padding: 1.25rem; } // 20px
-      .scroll-list { padding: 0 1.25rem; } // 0 20px
+      .scroll-result {
+        height: calc(48.44rem - 3.875rem - 5rem - 7.188rem); // 높이 = 전체 높이 상단, 하단 제외
+
+        .scroll-list { padding: 0 1.25rem; } // 0 20px
+      }
     }
   }
-  // TODO: CMDB 아이콘 작업 후 디자인 수정
+  // CMDB 아이콘 작업 후 디자인 수정
   &.thumbnail__modal--cmdb-icon {
     width: 68.13rem;; // 1090px
     .modal__dialog__body {
-      height: calc(48.44rem - 3.875rem - 5rem); // 775px
+      height: calc(32rem - 3.875rem - 5rem); // 512px
+      overflow: hidden;
 
       @include gridTemplate();
 
       .scroll-search { padding: 1.25rem; } // 20px
-      .scroll-list { padding: 0 1.25rem; } // 0 20px
+      .scroll-result {
+        height: calc(32rem - 3.875rem - 5rem - 7.188rem); // 높이 = 전체 높이 상단, 하단 제외
+
+        .scroll-list { padding: 0 1.25rem; } // 0 20px
+      }
     }
   }
+  // 업무흐름 - 신청서 아이콘
   &.thumbnail__modal--icon {
     top: 7rem; // 112px
     width: 47.81rem; // 765px
     .modal__dialog__body {
       height: calc(45rem - 3.875rem - 5rem); // 720px
+      overflow: hidden;
 
       @include gridTemplate();
       .grid__row { --data-columns-width: repeat(auto-fill, minmax(10.31rem, 1fr)); }

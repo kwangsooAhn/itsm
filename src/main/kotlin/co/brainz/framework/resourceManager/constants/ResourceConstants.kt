@@ -29,14 +29,14 @@ object ResourceConstants {
      */
     const val THUMBNAIL_WIDTH = 700
     const val THUMBNAIL_WIDTH_ICON = 100
-    
+
     /**
      * 경로.
      */
     enum class Path(val path: String) {
         ICON_DOCUMENT("icons${File.separator}document"),
         ICON_CI_TYPE("icons${File.separator}ciType"),
-        IMAGE("images"), 
+        IMAGE("images"),
         FILE("shared"),
         PROCESSES("processes"),
         UPLOAD("uploadRoot"),
@@ -50,9 +50,7 @@ object ResourceConstants {
      */
     enum class PageType(val code: String) {
         LIST("list"),
-        THUMBNAIL("thumbnail"),
-        THUMBNAIL_CI_ICON("thumbnail-ci-icon"),
-        THUMBNAIL_MODAL("modal")
+        THUMBNAIL("thumbnail")
     }
 
     /**
@@ -82,7 +80,7 @@ object ResourceConstants {
     enum class OffsetCount(val code: String, val value: Long) {
         LIST("list", OFFSET_LIST),
         THUMBNAIL("thumbnail", OFFSET_THUMBNAIL),
-        THUMBNAIL_CI_ICON("thumbnail-ci-icon", OFFSET_THUMBNAIL_ICON),
+        THUMBNAIL_CI_ICON("thumbnail-cmdb-icon", OFFSET_THUMBNAIL_ICON),
         THUMBNAIL_MODAL("modal", OFFSET_MODAL);
 
         companion object {

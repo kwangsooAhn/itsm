@@ -75,7 +75,7 @@ class AliceResourceProvider(
             true -> getImageExtensions()
             false -> {
                 val extensions = mutableListOf<String>()
-                aliceFileNameExtensionRepository.findAll().forEach{
+                aliceFileNameExtensionRepository.findAll().forEach {
                     extensions.add(it.fileNameExtension)
                 }
                 return extensions
@@ -119,12 +119,12 @@ class AliceResourceProvider(
         val pagingOffsetStart = ((searchCondition.pageNum - 1) * contentNumPerPage).toInt()
         val condition = super.isAllowedOnlyImageByType(searchCondition.type)
         // 페이징 데이터
-        val pagingResult = when(condition) {
-            true -> this.getImageAndFolders(dir, depth, pagingOffsetStart, contentNumPerPage.toInt(), searchCondition)
-            false -> this.getFileAndFolders(dir, depth, pagingOffsetStart, contentNumPerPage.toInt(), searchCondition)
+        val pagingResult = when (condition) {
+            true -> this.getImageAndFolders(dir, depth, pagingOffsetStart, contentNumPerPage.toInt(), searchCondition, condition)
+            false -> this.getFileAndFolders(dir, depth, pagingOffsetStart, contentNumPerPage.toInt(), searchCondition, condition)
         }
         // 전체 파일 갯수 카운트
-        val totalCountWithoutCondition = when(condition) {
+        val totalCountWithoutCondition = when (condition) {
             true -> super.getExternalPathImageCount(dir, searchCondition.searchValue, depth)
             false -> super.getExternalPathCount(dir, searchCondition.searchValue, depth)
         }
@@ -150,16 +150,16 @@ class AliceResourceProvider(
     fun getResourcesScroll(searchCondition: AliceResourceSearchDto): AliceResourcesScrollDto {
         val dir = File(searchCondition.searchPath)
         val depth = if (searchCondition.searchValue.isEmpty()) 1 else Int.MAX_VALUE // 검색어가 없으면 바로 아래 데이터만 조회
-        val contentNumPerScroll = ResourceConstants.OffsetCount.getOffsetCount(searchCondition.pageType)
+        var contentNumPerScroll = ResourceConstants.OffsetCount.getOffsetCount(searchCondition.pageType)
         val scrollOffsetStart = ((searchCondition.pageNum) * contentNumPerScroll).toInt()
         val condition = super.isAllowedOnlyImageByType(searchCondition.type)
         // 스크롤 데이터
-        val scrollResult = when(condition) {
-            true -> this.getImageAndFolders(dir, depth, scrollOffsetStart, contentNumPerScroll.toInt(), searchCondition)
-            false -> this.getFileAndFolders(dir, depth, scrollOffsetStart, contentNumPerScroll.toInt(), searchCondition)
+        val scrollResult = when (condition) {
+            true -> this.getImageAndFolders(dir, depth, scrollOffsetStart, contentNumPerScroll.toInt(), searchCondition, condition)
+            false -> this.getFileAndFolders(dir, depth, scrollOffsetStart, contentNumPerScroll.toInt(), searchCondition, condition)
         }
         // 전체 파일 갯수 카운트
-        val totalCountWithoutCondition = when(condition) {
+        val totalCountWithoutCondition = when (condition) {
             true -> super.getExternalPathImageCount(dir, searchCondition.searchValue, depth)
             false -> super.getExternalPathCount(dir, searchCondition.searchValue, depth)
         }
@@ -184,25 +184,27 @@ class AliceResourceProvider(
      * @param start offsetCount - 시작
      * @param offset offsetCount - 종료
      * @param condition 검색조건
+     * @param isImageOnly 이미지 파일만 포함할지 여부
      */
     private fun getImageAndFolders(
         dir: File,
         depth: Int,
         start: Int,
         offset: Int,
-        condition: AliceResourceSearchDto
+        condition: AliceResourceSearchDto,
+        isImageOnly: Boolean
     ): List<AliceResourceDto> {
         val resources = mutableListOf<AliceResourceDto>()
         run loop@{
             var limit = 0
             dir.walk().maxDepth(depth)
                 .filter { it != dir && super.isMatchedInSearch(it.name, condition.searchValue) &&
-                    ( it.isDirectory || isImage(it.extension)) }
+                    (it.isDirectory || isImage(it.extension)) }
                 .sortedBy { it.isFile }
                 .forEachIndexed { index, file ->
                     if (index >= start) {
                         if (file.isDirectory) {
-                            resources.add(this.getFileDto(file))
+                            resources.add(this.getFileDto(file, isImageOnly))
                             limit++
                         } else {
                             resources.add(this.getImageDto(condition.type, file))
@@ -225,13 +227,15 @@ class AliceResourceProvider(
      * @param start offsetCount - 시작
      * @param offset offsetCount - 종료
      * @param condition 검색조건
+     * @param isImageOnly 이미지 파일만 포함할지 여부
      */
     private fun getFileAndFolders(
         dir: File,
         depth: Int,
         start: Int,
         offset: Int,
-        condition: AliceResourceSearchDto
+        condition: AliceResourceSearchDto,
+        isImageOnly: Boolean
     ): List<AliceResourceDto> {
         val resources = mutableListOf<AliceResourceDto>()
         run loop@{
@@ -245,7 +249,7 @@ class AliceResourceProvider(
                             resources.add(this.getImageDto(condition.type, file))
                             limit++
                         } else {
-                            resources.add(this.getFileDto(file))
+                            resources.add(this.getFileDto(file, isImageOnly))
                             limit++
                         }
                     }
@@ -288,9 +292,24 @@ class AliceResourceProvider(
      *  파일 Dto
      *
      *  @param file 파일
+     *  @param isImageOnly 이미지 파일만 포함할지 여부
      */
-    private fun getFileDto(file: File): AliceResourceDto {
-        val totalSize = if (file.isDirectory) super.getFolderSize(file) else file.length()
+    private fun getFileDto(file: File, isImageOnly: Boolean): AliceResourceDto {
+        var totalSize = file.length()
+        var count = 0
+        if (file.isDirectory) {
+            count = if (isImageOnly) {
+                super.getExternalPathImageCount(file, "", 1)
+            } else {
+                super.getExternalPathCount(file, "", 1)
+            }
+            // 하위 파일만 조회
+            totalSize = if (isImageOnly) {
+                super.getImageFolderSize(file, 1)
+            } else {
+                super.getFolderSize(file, 1)
+            }
+        }
         return AliceResourceDto(
             name = file.name,
             fullPath = file.absolutePath,
@@ -298,7 +317,7 @@ class AliceResourceProvider(
             directoryYn = file.isDirectory,
             imageFileYn = false,
             size = super.humanReadableByteCount(totalSize),
-            count = if (file.isDirectory) super.getExternalPathCount(file, "", Int.MAX_VALUE) else 0,
+            count = count,
             updateDt = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(file.lastModified()),
                 ZoneId.systemDefault()
@@ -854,67 +873,6 @@ class AliceResourceProvider(
         )
     }
 
-    ////////////////////////////////////// TODO: CMDB 아이콘 작업 후 삭제될 예정
-    /**
-     * [type] 에 따라 파일을 조회하여 목록을 생성 (검색조건 포함)
-     *  - type: file 모든 파일
-     *  - image, icon, cmdb-icon: filter 된 이미지 파일
-     */
-    fun getValidFileList(type: String, dirPath: Path, searchValue: String): List<Path> {
-        val fileList = mutableListOf<Path>()
-        if (Files.isDirectory(dirPath)) {
-            val fileDirMap = Files.list(dirPath).collect(Collectors.partitioningBy { Files.isDirectory(it) })
-            val imageExtensions = getAllowedExtensions(ResourceConstants.FileType.IMAGE.code)
-            fileDirMap[false]?.forEach { filePath ->
-                val file = filePath.toFile()
-                when (type) {
-                    ResourceConstants.FileType.ICON.code,
-                    ResourceConstants.FileType.CI_ICON.code,
-                    ResourceConstants.FileType.IMAGE.code -> {
-                        if (imageExtensions.indexOf(file.extension.toUpperCase()) > -1) {
-                            if (this.searchValueValid(file, searchValue)) {
-                                fileList.add(filePath)
-                            }
-                        }
-                    }
-                    else -> {
-                        if (this.searchValueValid(file, searchValue)) {
-                            fileList.add(filePath)
-                        }
-                    }
-                }
-            }
-        }
-        return fileList
-    }
-
-    /**
-     * 검색 조건 필터링
-     */
-    private fun searchValueValid(file: File, searchValue: String): Boolean {
-        var isValid = false
-        val lowerValue = searchValue.toLowerCase()
-        if (searchValue.isNotEmpty()) {
-            if (file.name.toLowerCase().matches(".*$lowerValue.*".toRegex())) {
-                isValid = true
-            }
-        } else {
-            isValid = true
-        }
-        return isValid
-    }
-
-    /**
-     * 파일 전체 건수
-     */
-    fun getFileTotalCount(dirPath: Path): Long {
-        var totalCount = 0L
-        if (Files.isDirectory(dirPath)) {
-            totalCount = Files.list(dirPath).count()
-        }
-        return totalCount
-    }
-
     /**
      * 조회하는 이미지 리스트의 갯수를 계산
      */
@@ -928,5 +886,15 @@ class AliceResourceProvider(
             if (maxSize < endIndex) endIndex = maxSize
         }
         return endIndex
+    }
+    /**
+     * 썸네일 공통 모달의 사이즈를 작게 볼지 여부
+     * 현재는 CMDB CI 아이콘만 해당되나 추후 늘어날 수 있음
+     */
+    fun isThumbnailSmall(type: String): Boolean {
+        return when (type) {
+            ResourceConstants.FileType.CI_ICON.code -> true
+            else -> false
+        }
     }
 }

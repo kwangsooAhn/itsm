@@ -11643,6 +11643,7 @@ body.active {
 }
 .modal__dialog.thumbnail__modal--image .modal__dialog__body, .modal__dialog.thumbnail__modal--file .modal__dialog__body {
   height: calc(48.44rem - 3.875rem - 5rem);
+  overflow: hidden;
 }
 .modal__dialog.thumbnail__modal--image .modal__dialog__body .grid, .modal__dialog.thumbnail__modal--file .modal__dialog__body .grid {
   display: grid;
@@ -11761,14 +11762,18 @@ body.active {
 .modal__dialog.thumbnail__modal--image .modal__dialog__body .scroll-search, .modal__dialog.thumbnail__modal--file .modal__dialog__body .scroll-search {
   padding: 1.25rem;
 }
-.modal__dialog.thumbnail__modal--image .modal__dialog__body .scroll-list, .modal__dialog.thumbnail__modal--file .modal__dialog__body .scroll-list {
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .scroll-result, .modal__dialog.thumbnail__modal--file .modal__dialog__body .scroll-result {
+  height: calc(48.44rem - 3.875rem - 5rem - 7.188rem);
+}
+.modal__dialog.thumbnail__modal--image .modal__dialog__body .scroll-result .scroll-list, .modal__dialog.thumbnail__modal--file .modal__dialog__body .scroll-result .scroll-list {
   padding: 0 1.25rem;
 }
 .modal__dialog.thumbnail__modal--cmdb-icon {
   width: 68.13rem;
 }
 .modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body {
-  height: calc(48.44rem - 3.875rem - 5rem);
+  height: calc(32rem - 3.875rem - 5rem);
+  overflow: hidden;
 }
 .modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .grid {
   display: grid;
@@ -11887,7 +11892,10 @@ body.active {
 .modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .scroll-search {
   padding: 1.25rem;
 }
-.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .scroll-list {
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .scroll-result {
+  height: calc(32rem - 3.875rem - 5rem - 7.188rem);
+}
+.modal__dialog.thumbnail__modal--cmdb-icon .modal__dialog__body .scroll-result .scroll-list {
   padding: 0 1.25rem;
 }
 .modal__dialog.thumbnail__modal--icon {
@@ -11896,6 +11904,7 @@ body.active {
 }
 .modal__dialog.thumbnail__modal--icon .modal__dialog__body {
   height: calc(45rem - 3.875rem - 5rem);
+  overflow: hidden;
 }
 .modal__dialog.thumbnail__modal--icon .modal__dialog__body .grid {
   display: grid;
@@ -13475,163 +13484,6 @@ body.active {
  * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  */
-.thumbnail-main {
-  padding: 0;
-  color: #8B9094;
-  font-family: "Pretendard", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.thumbnail-main .thumbnail {
-  border: 0.0625rem solid #CFD5D9;
-  display: inline-block;
-  overflow: hidden;
-  width: 15rem;
-  height: 18.13rem;
-  margin: 0.625rem;
-  padding: 0;
-  background-color: #FFFFFF;
-  cursor: pointer;
-}
-.thumbnail-main .thumbnail:hover {
-  border: 0.0625rem solid #3373C4;
-  background-color: #FFFFFF;
-}
-.thumbnail-main .thumbnail.selected {
-  border: 0.0625rem solid #2559A8;
-  -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
-  -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
-  box-shadow: 0 0 0.125rem 0 #2559A8;
-  background-color: #FFFFFF;
-}
-.thumbnail-main .thumbnail .thumbnail-image,
-.thumbnail-main .thumbnail .thumbnail-file {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 9.063rem;
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-.thumbnail-main .thumbnail .thumbnail-image img,
-.thumbnail-main .thumbnail .thumbnail-file img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-}
-.thumbnail-main .thumbnail .thumbnail-info {
-  height: 6.563rem;
-  padding: 0.75rem 0.9375rem;
-}
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text {
-  height: 1.5rem;
-  line-height: 1.5rem;
-}
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
-  display: block;
-}
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child label {
-  color: #222529;
-  font-weight: 700;
-  cursor: pointer;
-}
-.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child input[type=text] {
-  display: none;
-  height: 1.875rem;
-  float: left;
-}
-.thumbnail-main .thumbnail .thumbnail-bottom {
-  border-top: 0.0625rem solid #CFD5D9;
-  height: 2.5rem;
-  padding: 0 0.625rem 0 0.9375rem;
-  line-height: 2.5rem;
-}
-.thumbnail-main .thumbnail .thumbnail-bottom .btn__ic {
-  padding: 0;
-  height: 2.5rem;
-}
-.thumbnail-main .thumbnail .thumbnail-bottom .btn__ic .ic-delete {
-  background: #ABB0B5;
-}
-.thumbnail-main .thumbnail-upload {
-  border: 0.0625rem solid #CFD5D9;
-  display: inline-block;
-  overflow: hidden;
-  width: 15rem;
-  height: 18.13rem;
-  margin: 0.625rem;
-  padding: 5.313rem 0 0 0;
-  background-color: #FAFAFA;
-  box-shadow: none;
-  cursor: pointer;
-}
-.thumbnail-main .thumbnail-upload .thumbnail-upload-text {
-  color: #3373C4;
-  font-weight: 700;
-}
-.thumbnail-main .thumbnail-upload:hover {
-  border: 0.0625rem solid #3373C4;
-  background-color: #D6EDFC;
-}
-.thumbnail-main .ic-file-upload {
-  width: 5rem;
-  height: 5rem;
-  -webkit-mask-image: url("../../assets/media/icons/icon_file_upload.svg");
-  mask-image: url("../../assets/media/icons/icon_file_upload.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #ABB0B5;
-}
-.thumbnail-main .thumbnail-nodata {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  color: #8B9094;
-  font-family: #3373C4;
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.modal__dialog.thumbnail-cmdb-icon {
-  top: 15rem;
-}
-.modal__dialog.thumbnail-cmdb-icon .thumbnail {
-  -webkit-box-shadow: 0 0 0 0.0625rem #CFD5D9;
-  -moz-box-shadow: 0 0 0 0.0625rem #CFD5D9;
-  box-shadow: 0 0 0 0.0625rem #CFD5D9;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin: 0.4375rem;
-}
-.modal__dialog.thumbnail-cmdb-icon .thumbnail .thumbnail-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: 0.4375rem;
-  background-repeat: no-repeat;
-}
-.modal__dialog.thumbnail-preview {
-  width: 760px;
-}
-.modal__dialog.thumbnail-preview .modal__dialog__header .thumbnail-preview-name {
-  line-height: 1.2;
-}
-.modal__dialog.thumbnail-preview .modal__dialog__body {
-  height: calc(645px - 3.875rem - 5rem);
-  padding: 30px;
-}
-.modal__dialog.thumbnail-preview .modal__dialog__body .thumbnail-preview-file {
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
 .grid__thumbnail {
   border: 0.0625rem solid #CFD5D9;
   border-radius: 0.25rem;
@@ -13699,6 +13551,80 @@ body.active {
   font-weight: 400;
 }
 .grid__thumbnail .thumbnail__footer [class*=ic-] {
+  background: #9E9E9E;
+}
+.grid__thumbnail--small {
+  border: 0.0625rem solid #CFD5D9;
+  border-radius: 0.25rem;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 15.625rem;
+  box-shadow: none;
+  cursor: pointer;
+  overflow: visible;
+}
+.grid__thumbnail--small:hover {
+  border: 0.0625rem solid #3373C4;
+}
+.grid__thumbnail--small.selected {
+  border: 0.0625rem solid #2559A8;
+  -webkit-box-shadow: 0 0 0.125rem 0 #2559A8;
+  -moz-box-shadow: 0 0 0.125rem 0 #2559A8;
+  box-shadow: 0 0 0.125rem 0 #2559A8;
+}
+.grid__thumbnail--small .thumbnail__image {
+  position: relative;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.938rem 1.125rem;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.grid__thumbnail--small .thumbnail__image img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+.grid__thumbnail--small .thumbnail__caption {
+  width: 9.375rem;
+  margin: 0.938rem 0;
+}
+.grid__thumbnail--small .thumbnail__caption .thumbnail__caption--title {
+  height: 1.25rem;
+  color: #424242;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.grid__thumbnail--small .thumbnail__caption .thumbnail__caption--description {
+  color: #9E9E9E;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.grid__thumbnail--small .thumbnail__caption .thumbnail__caption--rename {
+  display: none;
+  width: 100%;
+  float: left;
+}
+.grid__thumbnail--small .thumbnail__footer {
+  border-top: 0.0625rem solid #CFD5D9;
+  width: 100%;
+  height: 2.375rem;
+  padding: 0 1rem;
+}
+.grid__thumbnail--small .thumbnail__footer .thumbnail__footer--description {
+  color: #9E9E9E;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.grid__thumbnail--small .thumbnail__footer [class*=ic-] {
   background: #9E9E9E;
 }
 

@@ -534,7 +534,6 @@ cmdb:
   icon:
     label:
       list: "CI Icon List"
-      name: "icon file name"
     msg:
       maxFileSize: "Attachment file size can be registered within 10KB."
       notFoundInTable: "The file does not exist in the history table (cmdb_ci_icon). Add data to the history table (cmdb_ci_icon)."

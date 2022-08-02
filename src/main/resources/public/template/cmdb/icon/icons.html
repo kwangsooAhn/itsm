@@ -3,16 +3,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/itsm/pageType/pagingListLayout}">
 <head>
-    <title th:text="#{resource.label.list}"></title>
+    <title th:text="#{cmdb.icon.label.list}"></title>
 </head>
 <body>
 <div layout:fragment="pageTitle">
-    <h1 th:text="#{resource.label.list}"></h1>
-    <h6 class="description ml-2 pl-2" th:text="#{resource.msg.searchDescription}"></h6>
+    <h1 th:text="#{cmdb.icon.label.list}"></h1>
+    <h6 class="description ml-2 pl-2" th:text="#{resource.label.searchPlaceholder}"></h6>
 </div>
 <div layout:fragment="pageSearching">
     <form id="frmSearch" onsubmit="return false;">
-        <input type="hidden" id="type" name="type" value="file"/>
+        <input type="hidden" id="type" name="type" value="cmdb-icon"/>
+        <input type="hidden" id="pageType" name="pageType" value="thumbnail"/>
         <input type="hidden" id="searchPath" name="searchPath" th:value="${basePath}"/>
         <input type="text" class="ic-search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
                th:placeholder="#{resource.label.searchPlaceholder}"/>
@@ -25,14 +26,6 @@
         <button type="button" class="btn__text--box secondary" th:text="#{resource.btn.file}"
                 onclick="document.getElementById('uploadFile').click();"></button>
         <input type="file" class="none" id="uploadFile" multiple onchange="addFile(this);" />
-        <div class="btn__toggle__button" id="pageType">
-            <button class="btn__toggle__button--single selected" type="button" data-action="thumbnail" onclick="onClickPageType(this);">
-                <span class="ic-chocolate"></span>
-            </button>
-            <button class="btn__toggle__button--single" type="button" data-action="list" onclick="onClickPageType(this);">
-                <span class="ic-cheeseburger"></span>
-            </button>
-        </div>
     </div>
     <!-- 브레드 크럼 -->
     <input type="hidden" id="basePath" name="basePath" th:value="${basePath}"/>
@@ -66,175 +59,79 @@
             <input th:type="hidden" id="orderColName" th:value="${paging?.orderColName}">
             <input th:type="hidden" id="orderDir" th:value="${paging?.orderDir}">
             <input th:type="hidden" id="contentNumPerPage" th:value="${paging?.contentNumPerPage}">
-            <!-- 리스트 보기 -->
-            <th:block th:if="${pageType == 'list'}">
-                <div class="grid" th:style="|--data-columns-width:${isSearch ? '5% 22% 18% 10% 18% 22% 5%;' : '5% 34% 22% 12% 22% 5%;'} --data-height: ${paging?.contentNumPerPage * 2.5}rem;|">
-                    <div class="grid__head">
-                        <div class="grid__row">
-                            <div class="grid__cell" data-grid-sortable="false"></div>
-                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="name">
-                                <span class="text-ellipsis" th:text="#{resource.label.name}"></span>
-                            </div>
-                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="updateDt">
-                                <span class="text-ellipsis" th:text="#{common.label.updateDate}"></span>
-                            </div>
-                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="extension">
-                                <span class="text-ellipsis" th:text="#{resource.label.extension}"></span>
-                            </div>
-                            <div class="grid__cell pr-2 pl-2" data-grid-sortable="false" data-grid-column="size">
-                                <span class="text-ellipsis" th:text="#{resource.label.size}"></span>
-                            </div>
-                            <!-- 검색시, 경로 표기 -->
-                            <div th:if="${isSearch}" class="grid__cell pr-2 pl-2" data-grid-sortable="false"
-                                 data-grid-column="fullPath">
-                                <span class="text-ellipsis" th:text="#{resource.label.fullPath}"></span>
-                            </div>
-                            <div class="grid__cell" data-grid-sortable="false"></div>
-                        </div>
-                    </div>
-                    <div class="grid__body">
-                        <div class="grid--noData" th:if="${#arrays.isEmpty(resources)}" style="--data-columns-width: 100%;">
-                            <div class="grid__row read-only">
-                                <div class="grid__cell">
-                                    <span class="ic-no-data"></span>
-                                    <span class="mt-3" th:text="#{common.msg.noData}"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid__row" th:unless="${#arrays.isEmpty(resources)}" th:each="resource: ${resources}">
-                            <div class="grid__cell pr-2 pl-4">
-                                <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="24" height="24"/>
-                            </div>
-                            <div class="grid__cell pr-2 pl-2">
-                                <th:block th:if="${resource.directoryYn}">
-                                    <span class="text-ellipsis pointer" th:text="${resource.name}" th:title="${resource.name}" th:onclick="goFolder(encodeURIComponent([[${resource.fullPath}]]));" th:data-name="${resource.name}"></span>
-                                </th:block>
-                                <th:block th:unless="${resource.directoryYn}">
-                                    <span class="text-ellipsis pointer" th:text="${resource.name}" th:title="${resource.name}" onclick="downLoadFile(this);" th:data-name="${resource.name}"></span>
-                                </th:block>
-                            </div>
-                            <div class="grid__cell pr-2 pl-2">
-                                <span class="text-ellipsis date-format" th:text="${resource.updateDt}" th:title="${resource.updateDt}"></span>
-                            </div>
-                            <div class="grid__cell pr-2 pl-2">
-                                <span class="text-ellipsis extension-format" th:text="${#strings.toUpperCase(resource.extension)}" th:title="${#strings.toUpperCase(resource.extension)}"></span>
-                            </div>
-                            <div class="grid__cell pr-2 pl-2">
-                                <th:block th:if="${resource.directoryYn}">
-                                    <span class="text-ellipsis" th:text="|${resource.size} (${resource.count})|" th:title="|${resource.size} (${resource.count})|"></span>
-                                </th:block>
-                                <th:block th:unless="${resource.directoryYn}">
-                                    <span class="text-ellipsis" th:if="${resource.imageFileYn}" th:text="|${resource.size} (${resource.width} X ${resource.height})|" th:title="|${resource.size} (${resource.width} X ${resource.height})|"></span>
-                                    <span class="text-ellipsis" th:unless="${resource.imageFileYn}" th:text="|${resource.size}|" th:title="|${resource.size}|"></span>
-                                </th:block>
-                            </div>
-                            <!-- 검색시, 경로 표기 -->
-                            <div th:if="${isSearch}" class="grid__cell pr-2 pl-2">
-                                <span class="text-ellipsis path-format" th:text="${resource.fullPath}" th:title="${resource.fullPath}"></span>
-                            </div>
-                            <div class="grid__cell pl-2">
-                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}">
-                                    <div class="context-menu" th:if="${resource.directoryYn}">
-                                        <button type="button" class="btn__ic context-menu__toggle">
-                                            <span class="ic-meatballs"></span>
-                                        </button>
-                                        <ul class="dropdown__content--right">
-                                            <li class="context-menu__item" tabindex="-1">
-                                                <button type="button" class="btn__text--box" th:data-name="${resource.name}"
-                                                        onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
-                                            </li>
-                                            <li class="context-menu__item" tabindex="-1">
-                                                <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
-                                                        onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <button type="button" class="btn__ic" th:unless="${resource.directoryYn}"
-                                            th:data-name="${resource.name}" onclick="removeFile(this);">
-                                        <span class="ic-delete"></span>
-                                    </button>
-                                </th:block>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </th:block>
             <!-- 썸네일 보기 -->
-            <th:block th:if="${pageType == 'thumbnail'}">
-                <div class="grid--noData" th:if="${#arrays.isEmpty(resources)}" style="--data-columns-width: 100%;">
-                    <div class="grid__row read-only">
-                        <div class="grid__cell">
-                            <span class="ic-no-data"></span>
-                            <span class="mt-3" th:text="#{common.msg.noData}"></span>
-                        </div>
+            <div class="grid--noData" th:if="${#arrays.isEmpty(resources)}" style="--data-columns-width: 100%;">
+                <div class="grid__row read-only">
+                    <div class="grid__cell">
+                        <span class="ic-no-data"></span>
+                        <span class="mt-3" th:text="#{common.msg.noData}"></span>
                     </div>
                 </div>
-                <div class="grid" th:unless="${#arrays.isEmpty(resources)}"
-                     style="--data-columns-width: repeat(auto-fill, minmax(15.313rem, 1fr));">
-                    <div class="grid__row gap-2">
-                        <div class="grid__thumbnail" tabindex="-1" th:each="resource: ${resources}">
-                            <th:block th:if="${resource.directoryYn}">
-                                <div class="thumbnail__image" th:unless="${resource.imageFileYn}" th:onclick="goFolder(encodeURIComponent([[${resource.fullPath}]]));">
-                                    <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
-                                </div>
-                            </th:block>
-                            <th:block th:unless="${resource.directoryYn}">
-                                <div class="thumbnail__image" th:if="${resource.imageFileYn}" onclick="openPreviewModal(this);" th:data-name="${resource.name}"
-                                     th:style="|background-image:url('data:image/${resource.extension};base64,${resource.data}');|">
-                                </div>
-                                <div class="thumbnail__image" th:unless="${resource.imageFileYn}" onclick="downLoadFile(this);" th:data-name="${resource.name}">
-                                    <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
-                                </div>
-                            </th:block>
-                            <div class="thumbnail__caption">
-                                <p>
-                                    <label class="thumbnail__caption--title text-ellipsis"
-                                           th:ondblclick="(${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable} and ${!resource.directoryYn}) ? 'changeFileName(this);': ''"
-                                           th:title="${resource.name}" th:text="${resource.name}">
-                                    </label>
-                                    <input type="text" th:id="|file${resource.name}|" class="thumbnail__caption--rename" maxlength="128"/>
-                                </p>
-                                <p>
-                                    <th:block th:if="${resource.directoryYn}">
-                                        <label class="thumbnail__caption--description text-ellipsis"
-                                               th:text="|${resource.size} (${resource.count})|"></label>
-                                    </th:block>
-                                    <th:block th:unless="${resource.directoryYn}">
-                                        <label class="thumbnail__caption--description text-ellipsis" th:if="${resource.imageFileYn}"
-                                               th:text="|${resource.size} (${resource.width} X ${resource.height})|"></label>
-                                        <label class="thumbnail__caption--description text-ellipsis"
-                                               th:unless="${resource.imageFileYn}" th:text="|${resource.size}|"></label>
-                                    </th:block>
-                                </p>
+            </div>
+            <div class="grid" th:unless="${#arrays.isEmpty(resources)}"
+                 style="--data-columns-width: repeat(auto-fill, minmax(15.313rem, 1fr));">
+                <div class="grid__row gap-2">
+                    <div class="grid__thumbnail--small" tabindex="-1" th:each="resource: ${resources}">
+                        <th:block th:if="${resource.directoryYn}">
+                            <div class="thumbnail__image" th:onclick="goFolder(encodeURIComponent([[${resource.fullPath}]]));">
+                                <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="40" height="40"/>
                             </div>
-                            <div class="thumbnail__footer flex-row justify-content-between align-items-center">
-                                <label class="thumbnail__footer--description text-ellipsis date-format" th:text="${resource.updateDt}"></label>
-                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}">
-                                    <div class="context-menu" th:if="${resource.directoryYn}">
-                                        <button type="button" class="btn__ic context-menu__toggle">
-                                            <span class="ic-meatballs"></span>
-                                        </button>
-                                        <ul class="context-menu__content--left">
-                                            <li class="context-menu__item" tabindex="-1">
-                                                <button type="button" class="btn__text--box" th:data-name="${resource.name}"
-                                                        onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
-                                            </li>
-                                            <li class="context-menu__item" tabindex="-1">
-                                                <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
-                                                        onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
-                                            </li>
-                                        </ul>
-                                    </div>
+                        </th:block>
+                        <th:block th:unless="${resource.directoryYn}">
+                            <div class="thumbnail__image" onclick="openPreviewModal(this);" th:data-name="${resource.name}"
+                                 th:style="|background-image:url('data:image/${resource.extension};base64,${resource.data}');|">
+                            </div>
+                        </th:block>
+                        <div class="thumbnail__caption">
+                            <p>
+                                <label class="thumbnail__caption--title text-ellipsis"
+                                       th:ondblclick="(${#authorization.expression('hasAuthority(''cmdb.manage'')')} and ${resource.editable} and ${!resource.directoryYn}) ? 'changeFileName(this);': ''"
+                                       th:title="${resource.name}" th:text="${resource.name}">
+                                </label>
+                                <input type="text" th:id="|file${resource.name}|" class="thumbnail__caption--rename" maxlength="128"/>
+                            </p>
+                            <p>
+                                <th:block th:if="${resource.directoryYn}">
+                                    <label class="thumbnail__caption--description text-ellipsis"
+                                           th:text="|${resource.size} (${resource.count})|"></label>
+                                </th:block>
+                                <th:block th:unless="${resource.directoryYn}">
+                                    <label class="thumbnail__caption--description text-ellipsis" th:if="${resource.imageFileYn}"
+                                           th:text="|${resource.size} (${resource.width} X ${resource.height})|"></label>
+                                    <label class="thumbnail__caption--description text-ellipsis"
+                                           th:unless="${resource.imageFileYn}" th:text="|${resource.size}|"></label>
+                                </th:block>
+                            </p>
+                        </div>
+                        <div class="thumbnail__footer flex-row justify-content-between align-items-center">
+                            <label class="thumbnail__footer--description text-ellipsis date-format" th:text="${resource.updateDt}"></label>
+                            <th:block th:if="${#authorization.expression('hasAuthority(''cmdb.manage'')')}">
+                                <div class="context-menu" th:if="${resource.directoryYn}">
+                                    <button type="button" class="btn__ic context-menu__toggle">
+                                        <span class="ic-meatballs"></span>
+                                    </button>
+                                    <ul class="context-menu__content--left">
+                                        <li class="context-menu__item" tabindex="-1">
+                                            <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                    onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
+                                        </li>
+                                        <li class="context-menu__item" tabindex="-1" th:if="${resource.editable}">
+                                            <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
+                                                    onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <th:block th:if="${resource.editable}">
                                     <button type="button" class="btn__ic" th:unless="${resource.directoryYn}"
                                             th:data-name="${resource.name}" onclick="removeFile(this);">
                                         <span class="ic-delete"></span>
                                     </button>
                                 </th:block>
-                            </div>
+                            </th:block>
                         </div>
                     </div>
                 </div>
-            </th:block>
+            </div>
         </th:block>
     </div>
 </div>
@@ -242,10 +139,9 @@
     /*<![CDATA[*/
     const acceptFileExtensions = (/*[[${acceptFileExtensions}]]*/'').map((ext) => '.' + (ext).trim().toLowerCase());
     const selectedClass = 'selected';
-    const imageExtensions = ['PNG', 'GIF', 'JPEG', 'JPG'];
+    const maxFileSize = 20 * 1024; // 파일 사이즈 20KB 제한
     let previewModal = null;
     window.onload = function() {
-
         // 허용 확장자 설정
         const uploadFile =  document.getElementById('uploadFile');
         if (uploadFile) {
@@ -280,7 +176,7 @@
             close: { closable: false },
             onHide: () => {
                 // 기존 선택된 클래스를 제거
-                document.querySelectorAll('.grid__thumbnail.selected').forEach((elem) => {
+                document.querySelectorAll('.grid__thumbnail--small.selected').forEach((elem) => {
                     elem.classList.remove(selectedClass);
                 });
             }
@@ -288,19 +184,17 @@
     };
 
     /**
-     * 리소스 조회(검색 포함)
+     * 아이콘 조회(검색 포함)
      * @param pageNum
      */
     function getList(pageNum = 1) {
         const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
         const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
-        const pageType = document.querySelector('.btn__toggle__button--single.selected');
 
         let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
-            + '&pageType=' + pageType.getAttribute('data-action')
             + '&orderColName=' + orderColName
             + '&orderDir=' + orderDir;
-        aliceJs.fetchText('/resources?' + urlParam, {
+        aliceJs.fetchText('/cmdb/icons?' + urlParam, {
             method: 'GET',
             showProgressbar: true
         }).then((htmlData) => {
@@ -310,8 +204,6 @@
 
             // 포맷 변경
             setDateTimeFormat(container);
-            setFileExtensionFormat(container);
-            setPathFormat(container);
 
             // 검색시, 브레드크럼 on off
             const breadcrumb = document.getElementById('breadcrumb');
@@ -339,45 +231,6 @@
             const userDateTime = i18n.userDateTime(elem.textContent);
             elem.textContent = userDateTime;
             elem.setAttribute('title', userDateTime);
-        });
-    }
-
-    /**
-     * 서버에서 전달받은 파일 확장자 포맷을 변경한다.
-     * @param target 대상
-     */
-    function setFileExtensionFormat(target) {
-        target.querySelectorAll('.extension-format').forEach((elem) => {
-            if (imageExtensions.indexOf(elem.textContent) > -1) {
-                const ext = '[(#{resource.label.image})]';
-                elem.textContent = ext;
-                elem.setAttribute('title', ext);
-            } else if (elem.textContent === 'FOLDER') {
-                const ext = '[(#{resource.label.folder})]';
-                elem.textContent = ext;
-                elem.setAttribute('title', ext);
-            }
-        });
-    }
-
-    /**
-     * 서버에서 전달받은 전체 파일 경로의 포맷을 변경한다.
-     * 공유 문서함 > 첫 번째 폴더 > ... > 바로 이전 폴더 > 현재 폴더
-     * @param target 대상
-     */
-    function setPathFormat(target) {
-        const fileSeparator = document.getElementById('fileSeparator').value;
-        const basePath = document.getElementById('basePath').value;
-        const base = '[(#{resource.label.sharedFolder})]';
-        target.querySelectorAll('.path-format').forEach((elem) => {
-            let pathTemplate = base;
-            const pathArr = elem.textContent.replace(basePath, '').split(fileSeparator);
-            if (pathArr.length > 2) {
-                pathTemplate += ' > ';
-                pathTemplate += (pathArr.slice(1, pathArr.length - 1).join(' > '));
-            }
-            elem.textContent = pathTemplate;
-            elem.setAttribute('title', pathTemplate);
         });
     }
 
@@ -470,6 +323,15 @@
     }
 
     /**
+     * 현재 폴더 경로
+     * @return string 경로
+     */
+    function getPath() {
+        const breadcrumb = document.getElementById('breadcrumb');
+        return breadcrumb.lastElementChild.getAttribute('data-path');
+    }
+
+    /**
      * 폴더 추가|수정 모달
      */
     function openFolderModal(target) {
@@ -531,7 +393,8 @@
      */
     function addFolder(method, data, callback) {
         const resultMsg = (method === 'POST') ? '[(#{common.msg.register})]' : '[(#{common.msg.update})]';
-        aliceJs.fetchJson('/rest/resources/folder', {
+        const url = (method === 'POST') ? '/rest/resources/folder' : '/rest/cmdb/icons/folder';
+        aliceJs.fetchJson(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
@@ -573,7 +436,7 @@
         const fileSeparator = document.getElementById('fileSeparator').value;
         const removePath = getPath() + fileSeparator + folderName;
         zAlert.confirm(confirmMsg, () => {
-            aliceJs.fetchJson('/rest/resources/folder?path=' + encodeURIComponent(removePath), {
+            aliceJs.fetchJson('/rest/cmdb/icons/folder?path=' + encodeURIComponent(removePath), {
                 method: 'DELETE',
                 showProgressbar: true
             }).then((response) => {
@@ -594,21 +457,19 @@
     }
 
     /**
-     * 현재 폴더 경로
-     * @return string 경로
-     */
-    function getPath() {
-        const breadcrumb = document.getElementById('breadcrumb');
-        return breadcrumb.lastElementChild.getAttribute('data-path');
-    }
-
-    /**
      * 파일 추가
      * @param target 파일 객체
      */
     function addFile(target) {
         const files = target.files;
         if (files.length === 0) { return false; }
+
+        // 첨부파일 사이즈 제한
+        const maxSizeFile = Array.from(files).find(file => file.size > maxFileSize);
+        if (maxSizeFile) {
+            zAlert.warning(i18n.msg('cmdb.icon.msg.maxFileSize'));
+            return false;
+        }
 
         // 첨부파일 확장자 체크
         const validExtensions = acceptFileExtensions.map((ext) => ext.replace('.', ''));
@@ -641,7 +502,7 @@
         };
         const path = getPath();
         const type = document.getElementById('type').value;
-        xhr.open('POST', '/rest/resources/file/upload?type=' + type + '&path=' + encodeURIComponent(path), true);
+        xhr.open('POST', '/rest/cmdb/icons/file/upload?type=' + type + '&path=' + encodeURIComponent(path), true);
         xhr.send(formData);
 
         // 성공시 file object 값 비움 처리
@@ -703,7 +564,7 @@
             modifyPath: path + fileSeparator + modifyName
         };
 
-        aliceJs.fetchJson('/rest/resources/file', {
+        aliceJs.fetchJson('/rest/cmdb/icons/file', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -738,7 +599,7 @@
         const removePath = getPath() + fileSeparator + fileName;
         const type = document.getElementById('type').value;
         zAlert.confirm('[(#{common.msg.confirmDelete})]', () => {
-            aliceJs.fetchJson('/rest/resources/file?type=' + type + '&path=' + encodeURIComponent(removePath), {
+            aliceJs.fetchJson('/rest/cmdb/icons/file?type=' + type + '&path=' + encodeURIComponent(removePath), {
                 method: 'DELETE',
                 showProgressbar: true
             }).then((response) => {
@@ -786,24 +647,6 @@
         }).catch(err => {
             zAlert.danger(err);
         });
-    }
-
-    /**
-     * 리스트 보기 | 썸네일 보기
-     */
-    function onClickPageType(e) {
-        const buttonGroup = e.parentNode;
-        // 초기화
-        for (let i = 0, len = buttonGroup.children.length ; i< len; i++) {
-            let child = buttonGroup.children[i];
-            if (child.classList.contains('selected')) {
-                child.classList.remove('selected');
-            }
-        }
-        e.classList.add('selected');
-
-        // 조회
-        getList();
     }
 
     /**

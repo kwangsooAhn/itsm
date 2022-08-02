@@ -61,6 +61,8 @@ class ResourceController(
         // 데이터
         model.addAttribute("resources", resources.data)
         model.addAttribute("scroll", resources.scroll)
+        // 썸네일 크기를 작게할지 여부
+        model.addAttribute("small", aliceResourceProvider.isThumbnailSmall(searchCondition.type))
 
         return if (searchCondition.isPaging) {
             thumbnailModalFragment
