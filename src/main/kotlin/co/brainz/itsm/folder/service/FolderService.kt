@@ -128,25 +128,30 @@ class FolderService(
             }
         }
         if (isSuccess) {
+            val folderEntityList = mutableListOf<WfFolderEntity>()
             instanceFolderListDto.folders.forEach {
-                val wfOrgFolderEntity = WfFolderEntity(
-                    folderId = orgFolderId,
-                    instance = wfInstanceRepository.findByInstanceId(it.instanceId!!)!!,
-                    relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
-                    createUserKey = currentSessionUser.getUserKey(),
-                    createDt = LocalDateTime.now()
+                // 현재 문서 > 연관 문서 정보
+                folderEntityList.add(
+                    WfFolderEntity(
+                        folderId = orgFolderId,
+                        instance = wfInstanceRepository.findByInstanceId(it.instanceId!!)!!,
+                        relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
+                        createUserKey = currentSessionUser.getUserKey(),
+                        createDt = LocalDateTime.now()
+                    )
                 )
-                folderRepository.save(wfOrgFolderEntity)
-
-                val wfRelFolderEntity = WfFolderEntity(
-                    folderId = it.folderId!!,
-                    instance = wfInstanceRepository.findByInstanceId(instanceFolderListDto.instanceId)!!,
-                    relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
-                    createUserKey = currentSessionUser.getUserKey(),
-                    createDt = LocalDateTime.now()
+                // 연관 문서 > 현재 문서 정보
+                folderEntityList.add(
+                    WfFolderEntity(
+                        folderId = it.folderId!!,
+                        instance = wfInstanceRepository.findByInstanceId(instanceFolderListDto.instanceId)!!,
+                        relatedType = it.relatedType ?: FolderConstants.RelatedType.REFERENCE.code,
+                        createUserKey = currentSessionUser.getUserKey(),
+                        createDt = LocalDateTime.now()
+                    )
                 )
-                folderRepository.save(wfRelFolderEntity)
             }
+            folderRepository.saveAll(folderEntityList)
         }
 
         if (!isSuccess) {
@@ -166,19 +171,23 @@ class FolderService(
     }
 
     fun deleteInstanceInFolder(folderMappingDto: FolderMappingDto): ZResponse {
-        // 현재 문서의 관련 문서 제거
-        val orgFolderEntity = WfFolderEntity(
-            folderId = folderMappingDto.folderId,
-            instance = wfInstanceRepository.findByInstanceId(folderMappingDto.relInstanceId)!!
+        val folderEntityList = mutableListOf<WfFolderEntity>()
+        // 현재 문서 > 연관 문서 정보
+        folderEntityList.add(
+            WfFolderEntity(
+                folderId = folderMappingDto.folderId,
+                instance = wfInstanceRepository.findByInstanceId(folderMappingDto.relInstanceId)!!
+            )
         )
-        folderRepository.delete(orgFolderEntity)
+        // 연관 문서 > 현재 문서 정보
+        folderEntityList.add(
+            WfFolderEntity(
+                folderId = folderManager.findFolderOriginByInstanceId(folderMappingDto.relInstanceId).folderId,
+                instance = wfInstanceRepository.findByInstanceId(folderMappingDto.orgInstanceId)!!
+            )
+        )
 
-        // 관련 문서에 mapping된 데이터 제거
-        val relFolderEntity = WfFolderEntity(
-            folderId = folderManager.findFolderOriginByInstanceId(folderMappingDto.relInstanceId).folderId,
-            instance = wfInstanceRepository.findByInstanceId(folderMappingDto.orgInstanceId)!!
-        )
-        folderRepository.delete(relFolderEntity)
+        folderRepository.deleteAll(folderEntityList)
 
         return ZResponse()
     }
