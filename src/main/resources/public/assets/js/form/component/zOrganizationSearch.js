@@ -58,7 +58,8 @@ export const organizationSearchMixin = {
         const element = new UIDiv().setUIClass('element')
             .setUIProperty('--data-column', this.elementColumnWidth);
         element.UIInput = new UIInput()
-            .setUIClass('input ic-organization-search text-ellipsis')
+            .setUIAttribute('type', 'text')
+            .setUIClass('ic-organization-search text-ellipsis')
             .setUIId('organizationSearch' + this.id)
             .setUIValue((this.value === '${default}') ? defaultValues[1] : savedValues[1])
             .setUIRequired(this.validationRequired)

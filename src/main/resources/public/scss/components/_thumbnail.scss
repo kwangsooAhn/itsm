@@ -69,7 +69,7 @@
             cursor: pointer;
           }
           // 더블 클릭시 fileName 수정 가능
-          .input {
+          input[type=text] {
             display: none;
             width: 12.19rem; // 195px
             height: 1.875rem; // 30px

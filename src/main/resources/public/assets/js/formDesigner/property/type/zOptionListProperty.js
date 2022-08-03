@@ -64,9 +64,9 @@ export default class ZOptionListProperty extends ZProperty {
 
         // 옵션 리스트
         const optionTable = new UITable()
-            .setUIClass('option-table');
+            .setUIClass('tbl--option');
 
-        const header = new UIRow(optionTable).setUIClass('option-table-header');
+        const header = new UIRow(optionTable).setUIClass('tbl__head');
         optionTable.addUIRow(header);
 
         const checkedTD = new UICell(header).setUICSSText('width: 15%');
@@ -82,7 +82,7 @@ export default class ZOptionListProperty extends ZProperty {
         header.addUICell(removeTD);
 
         this.value.forEach((option) => {
-            const optionRow = new UIRow(optionTable).setUIClass('option-table-row');
+            const optionRow = new UIRow(optionTable).setUIClass('tbl__body__row');
             optionTable.addUIRow(this.makeRow(optionRow, option));
         });
 
@@ -223,7 +223,7 @@ export default class ZOptionListProperty extends ZProperty {
             optionTable.removeUIRow(optionTable.rows[1]);
         }
 
-        const optionRow = new UIRow(optionTable).setUIClass('option-table-row');
+        const optionRow = new UIRow(optionTable).setUIClass('tbl__body__row');
         optionTable.addUIRow(this.makeRow(optionRow, FORM.DEFAULT_OPTION_ROW));
 
         this.panel.update.call(this.panel, this.key, this.getPropertyValue(this.UIElement.UIOptionTable.domElement));

@@ -18,12 +18,12 @@
                     th:text="#{${boardAdmin.boardAdminTitle}}"
                     th:selected="${boardAdmin.boardAdminId == boardAdminId}"></option>
         </select>
-        <input type="text" class="input ic-search text-ellipsis col-3" id="searchValue" name="searchValue"
+        <input type="text" class="ic-search text-ellipsis col-3" id="searchValue" name="searchValue"
                maxlength="100"
                th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-        <input type="text" class="input ic-date-picker search-date col-3" id="fromDt" name="fromDt"/>
+        <input type="text" class="ic-date-picker search-date col-3" id="fromDt" name="fromDt"/>
         <span>~</span>
-        <input type="text" class="input ic-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
+        <input type="text" class="ic-date-picker search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
         <input type="hidden" class="search-date" id="toDt" name="toDt"/>
         <th:block th:replace="layout/itsm/fragment/totalCountFragment :: totalCountFragment"></th:block>
     </form>

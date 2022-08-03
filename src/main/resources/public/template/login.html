@@ -33,9 +33,9 @@
             </form>
             <div class="login-base-form flex-column">
                 <label th:text="#{user.label.id}"></label>
-                <input type="text" id="uid" name="uid" class="input text-ellipsis" maxlength="100" required="required">
+                <input type="text" id="uid" name="uid" class="text-ellipsis" maxlength="100" required="required">
                 <label tabindex="-1" th:text="#{user.label.password}"></label>
-                <input type="password" id="upasswd" name="upasswd" class="input text-ellipsis" maxlength="100" required="required">
+                <input type="password" id="upasswd" name="upasswd" class="text-ellipsis" maxlength="100" required="required">
             </div>
             <button class="btn__text--box primary col-pct-12" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
         </div>
@@ -133,11 +133,11 @@
             `<label> ${i18n.msg('user.msg.updatePasswordNotice', passwordExpiredPeriod)}</label>` +
             `<label> ${i18n.msg('user.tooltip.pwRuleSummary')}</label>` +
             `<label>${i18n.msg('user.label.nowUserPassword')} </label>` +
-            `<input type="password" id="nowPassword" class="input text-ellipsis" maxlength="20" required="required">` +
+            `<input type="password" id="nowPassword" class="text-ellipsis" maxlength="20" required="required">` +
             `<label>${i18n.msg('user.label.newUserPassword')} </label>` +
-            `<input type="password" id="newPassword" class="input text-ellipsis" maxlength="20" required="required">` +
+            `<input type="password" id="newPassword" class="text-ellipsis" maxlength="20" required="required">` +
             `<label>${i18n.msg('user.label.newUserRePassword')} </label>` +
-            `<input type="password" id="newRePassword" class="input text-ellipsis" maxlength="20" required="required">` +
+            `<input type="password" id="newRePassword" class="text-ellipsis" maxlength="20" required="required">` +
             '</div>'
     }
 

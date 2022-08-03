@@ -19,13 +19,13 @@
             <div class="flex-column edit-row">
                 <div class="flex-column edit-row">
                     <label th:text="#{sla.metric.label.name}" th:classappend="${view} ? '' : 'required'" for="metricName"></label>
-                    <input type="text" id="metricName" name="metricName" class="input" maxlength="128"
+                    <input type="text" id="metricName" name="metricName" maxlength="128"
                            th:value="${metric?.metricName}" th:readonly="${view}"/>
                 </div>
             </div>
             <div class="flex-column edit-row">
                 <label th:text="#{sla.metric.label.description}" for="metricDesc"></label>
-                <input type="text" id="metricDesc" name="metricDesc" class="input" maxlength="128"
+                <input type="text" id="metricDesc" name="metricDesc" maxlength="128"
                        th:value="${metric?.metricDesc}" th:readonly="${view}"/>
             </div>
             <div class="flex-row edit-row">
@@ -78,21 +78,21 @@
                         <label for="metricTypeInput">
                             <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.type}"></span>
                         </label>
-                        <input type="text" id="metricTypeInput" name="metricTypeInput" class="input" maxlength="128"
+                        <input type="text" id="metricTypeInput" name="metricTypeInput" maxlength="128"
                                th:value="#{|${metric.metricType}|}" readonly/>
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="metricUnitInput">
                             <span th:classappend="${view} ? '' : 'required'" th:text="#{sla.metric.label.unit}"></span>
                         </label>
-                        <input type="text" id="metricUnitInput" name="metricUnitInput" class="input" maxlength="128"
+                        <input type="text" id="metricUnitInput" name="metricUnitInput" maxlength="128"
                                th:value="#{|${metric.metricUnit}|}" readonly/>
                     </div>
                     <div class="flex-column col-2 pl-2">
                         <label for="calculationTypeInput">
                             <span th:classappend="${view} ? '' : 'required'" th:text="#{common.label.calculationType}"></span>
                         </label>
-                        <input type="text" id="calculationTypeInput" name="calculationTypeInput" class="input" maxlength="128"
+                        <input type="text" id="calculationTypeInput" name="calculationTypeInput" maxlength="128"
                                th:value="#{|${metric.calculationType}|}" readonly/>
                     </div>
                 </th:block>

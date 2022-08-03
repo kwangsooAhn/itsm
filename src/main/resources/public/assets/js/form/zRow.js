@@ -283,7 +283,7 @@ export default class ZRow {
 export class UIRowTooltip extends UIDiv {
     constructor() {
         super();
-        this.domElement.className = 'row-tooltip';
+        this.domElement.className = 'row-area';
     }
 }
 
