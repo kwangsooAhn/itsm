@@ -279,7 +279,6 @@
 
     // ID 검색을 위한 prefix 반환
     function getPrefixForId(type) {
-        console.log(type);
         switch (type) {
             case TYPE_APPLICATION:
             case TYPE_WORKFLOW:
@@ -429,7 +428,7 @@
                 break;
             default:
         }
-        if (document.querySelector('.edit-row .color-box') == null) {
+        if (document.querySelector('.edit-row .color-picker__box') == null) {
             new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
         }
     }

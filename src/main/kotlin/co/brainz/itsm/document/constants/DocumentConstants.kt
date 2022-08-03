@@ -28,10 +28,10 @@ object DocumentConstants {
      * @param value
      */
     enum class DocumentType(val value: String) {
-        APPLICATION_FORM("application-form"),
-        WORKFLOW("workflow"),
-        APPLICATION_FORM_WORKFLOW("application-form-workflow"),
-        APPLICATION_FORM_LINK("application-form-link")
+        APPLICATION_FORM("document.type.application-form"),
+        WORKFLOW("document.type.workflow"),
+        APPLICATION_FORM_WORKFLOW("document.type.application-form-workflow"),
+        APPLICATION_FORM_LINK("document.type.application-form-link")
     }
 
     /**
