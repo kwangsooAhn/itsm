@@ -16,4 +16,4 @@ data class CICapacityDto(
     val cpuAvg: Double? = 0.0,
     val diskAvg: Double? = 0.0,
     val mappingId: String? = ""
-):Serializable
+) : Serializable
