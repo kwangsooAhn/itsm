@@ -11,151 +11,9 @@
   100% { opacity: 1; }
 }
 
-.help-tooltip {
+.tooltip {
   @include relative();
-  display: inline-block;
-  margin-left: 0.3125rem;
-  vertical-align: middle;
-
-  .ic-tooltip {
-    background: $gray500;
-    cursor: pointer;
-  }
-
-  .tooltip-contents {
-    // 툴팁 표시 위치 기본은 우측 하단
-    @include absolute($left: auto);
-    @include border(0.125rem, solid, $blue500, all);
-    @include borderRadius(0.125rem); // 2px
-    @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
-    width: 28.125rem; // 450px
-    margin: 0.25rem 0 0 0;
-    padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
-    background-color: $white;
-    color: $blue500;
-    font-family: $font-family;
-    font-size: $font-size-xs;
-    z-index: $z-index-tooltip;
-    visibility: hidden;
-    span {
-      color: $blue500;
-      line-height: 1.5;
-      word-break: keep-all;
-    }
-    // 툴팁 표시 위치 조정 가능
-    &.top {
-      @include absolute(0, auto, auto, 50%);
-      @include translate(-50%, calc(-100% - 0.625rem)); // 10px
-    }
-    &.right {
-      @include absolute(0, 0, auto, auto);
-      @include translate(calc(100% + 0.625rem), -50%);
-    }
-    &.bottom {
-      @include absolute(auto, auto, auto, 50%);
-      @include translate(-50%, 0);
-    }
-    &.left {
-      @include absolute(0, auto, auto, 0);
-      @include translate(calc(-100% - 0.625rem), -50%);
-    }
-  }
-
-  &:hover {
-    .tooltip-contents {
-      @include animation (0s, 0.3s, fadeIn, ease-out);
-      visibility: visible;
-    }
-    .ic-tooltip { background: $blue500; }
-  }
-}
-
-// header tooltip
-.header-tooltip {
-  @include relative();
-  .header-tooltip-contents {
-    @include absolute($left: 50%);
-    @include translate(-50%, 0);
-    display: flex;
-    height: 1.875rem;
-    visibility: hidden;
-    background-color: $white;
-    text-align: center;
-    @include borderRadius(0.0625rem);
-    @include border(0.0625rem, solid, $gray300, all);
-    @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
-    margin: 1rem 0 0 0;
-    padding: 0.4375rem; // 7px
-    background-color: $white;
-    text-align: center;
-    z-index: $z-index-tooltip;
-    visibility: hidden;
-
-    &.last {
-      @include translate(-70%, 0);
-      left: 0;
-    }
-
-    .header-tooltip-text {
-      color: $gray800;
-      font-family: $font-family;
-      font-size: $font-size-xs;
-      font-weight: $font-weight-medium;
-    }
-  }
-  // 마우스 오버
-  &:hover {
-    .header-tooltip-contents {
-      @include animation (0s, 0.3s, fadeIn, ease-out);
-      visibility: visible;
-    }
-  }
-}
-
-// clipboard - 복사 용도
-.clipboard-tooltip {
-  @include relative();
-  display: inline-block;
-  margin-left: 0.3125rem; // 5px
-  cursor: pointer;
-
-  &:hover {
-    .clipboard-tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  .clipboard-tooltip-text {
-    @include absolute($left: 50%, $bottom: 120%);
-    @include border(0.125rem, solid, $blue500, all);
-    @include borderRadius(0.0625rem);
-    @include transition(opacity 0.3s);
-    width: 9.375rem; //150px
-    margin-left: -8.125rem; // -130px
-    padding: 0.313rem; // 5px
-    background-color: $white;
-    color: $blue500;
-    font-family: $font-family;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-regular;
-    text-align: center;
-    opacity: 0;
-    visibility: hidden;
-    z-index: $z-index-tooltip;
-
-    &::after {
-      @include absolute($top: 100%, $left: 50%);
-      content: '';
-      margin-left: -0.313rem; // -5px
-    }
-  }
-}
-
-// drawing palette tooltip
-.palette-tooltip {
-  @include relative();
-  .palette-tooltip-contents {
+  &__box {
     @include absolute($left: 50%);
     @include translate(-50%, 0);
     display: flex;
@@ -171,24 +29,96 @@
     margin: 1rem 0 0 0;
     z-index: $z-index-tooltip;
 
-    &.right-bottom {
-      right: 0;
-      bottom: 0;
-      @include translate(-150%, -15%);
+    &.last {
+      @include translate(-70%, 0);
+      left: 0;
+    }
+    &.right {
+      &-top {
+        left: auto;
+        right: 0;
+        top: 0;
+        transform: translate(0, -3rem);
+      }
+      &-bottom {
+        right: 0;
+        bottom: 0;
+        @include translate(-150%, -15%);
+      }
     }
 
-    .palette-tooltip-text {
+    &__text {
       font-family: $font-family;
       font-size: $font-size-xs;
       color: $gray800;
       font-weight: $font-weight-medium;
     }
   }
+  
   // 마우스 오버
   &:hover {
-    .palette-tooltip-contents {
+    .tooltip__box {
       visibility: visible;
       @include animation (0s, 0.3s, fadeIn, ease-out);
+    }
+  }
+  
+  // info
+  &--info {
+    @include relative();
+    display: inline-block;
+    margin-left: 0.3125rem;
+    vertical-align: middle;
+
+    .ic-tooltip {
+      background: $gray500;
+      cursor: pointer;
+    }
+
+    .tooltip__box {
+      // 툴팁 표시 위치 기본은 우측 하단
+      @include absolute($left: 0);
+      @include border(0.125rem, solid, $blue500, all);
+      @include borderRadius(0.125rem); // 2px
+      @include boxShadow(0, 0, 0.125rem, 0, $gray300); // 2px
+      width: 28.125rem; // 450px
+      height: auto;
+      margin: 0.25rem 0 0 0;
+      padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+      color: $blue500;
+      transform: none;
+      text-align: left;
+      visibility: hidden;
+      span {
+        color: $blue500;
+        line-height: 1.5;
+        word-break: keep-all;
+      }
+      // 툴팁 표시 위치 조정 가능
+      &.top {
+        @include absolute(0, auto, auto, 50%);
+        @include translate(-50%, calc(-100% - 0.625rem)); // 10px
+      }
+      &.right {
+        @include absolute(0, 0, auto, auto);
+        @include translate(calc(100% + 0.625rem), -50%);
+      }
+      &.bottom {
+        @include absolute(auto, auto, auto, 50%);
+        @include translate(-50%, 0);
+      }
+      &.left {
+        @include absolute(0, auto, auto, 0);
+        @include translate(calc(-100% - 0.625rem), -50%);
+      }
+    }
+
+    &:hover {
+      .tooltip__box {
+        @include animation (0s, 0.3s, fadeIn, ease-out);
+        visibility: visible;
+      }
+      .ic-tooltip { background: $blue500; }
     }
   }
 }

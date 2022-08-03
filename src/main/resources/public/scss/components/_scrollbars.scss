@@ -93,7 +93,7 @@
   }
 }
 // textarea scrollbar
-.textarea-scroll-wrapper {
+.os-host-textarea {
   display: block;
   &.scrollbar >.os-scrollbar-vertical { bottom: 0; }
 }

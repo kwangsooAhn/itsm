@@ -122,28 +122,28 @@ export const toolTipMenuMixin = {
      * 툴팁 DOM 객체 생성
      */
     makeTooltip() {
-        const tooltipMenu = new UIDiv().setUIClass('tooltip-menu');
-        tooltipMenu.UIUl = new UIUl().setUIClass('tooltip-menu-items');
+        const tooltipMenu = new UIDiv().setUIClass('context-menu');
+        tooltipMenu.UIUl = new UIUl().setUIClass('context-group');
 
         // copy
-        tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass('tooltip-menu-item')
-            .addUIClass('palette-tooltip')
+        tooltipMenu.UIUl.UILiCopy = new UILi().setUIClass('context-menu__item')
+            .addUIClass('tooltip')
             .setUIAttribute('data-action', 'copy')
             .addUI(new UISpan().setUIClass('ic-copy'))
             .onUIClick(this.copyObject.bind(this))
-            .addUI(new UIDiv().setUIClass('palette-tooltip-contents')
-                .addUI(new UISpan().setUIClass('palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.copy')))
+            .addUI(new UIDiv().setUIClass('tooltip__box')
+                .addUI(new UISpan().setUIClass('tooltip__box__text').setUITextContent(i18n.msg('tooltip.label.copy')))
             );
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiCopy);
 
         // remove
-        tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass('tooltip-menu-item')
-            .addUIClass('palette-tooltip')
+        tooltipMenu.UIUl.UILiRemove = new UILi().setUIClass('context-menu__item')
+            .addUIClass('tooltip')
             .setUIAttribute('data-action', 'remove')
             .addUI(new UISpan().setUIClass('ic-delete'))
             .onUIClick(this.removeObject.bind(this))
-            .addUI(new UIDiv().setUIClass('palette-tooltip-contents')
-                .addUI(new UISpan().setUIClass('palette-tooltip-text').setUITextContent(i18n.msg('tooltip.label.delete')))
+            .addUI(new UIDiv().setUIClass('tooltip__box')
+                .addUI(new UISpan().setUIClass('tooltip__box__text').setUITextContent(i18n.msg('tooltip.label.delete')))
             );
         tooltipMenu.UIUl.addUI(tooltipMenu.UIUl.UILiRemove);
 

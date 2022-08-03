@@ -36,7 +36,7 @@
   ////////////////////////// form //////////////////////////
   $tooltip-type: (group, row, component);
   @each $type in $tooltip-type {
-    .#{$type}-tooltip {
+    .#{$type}-area {
       @include border(0.0625rem, solid, $white, all); // 1px
     }
   }
@@ -44,7 +44,7 @@
   // 툴팁 border 초기화
   .component {
     padding: 0 1rem;
-    &-tooltip {
+    &-area {
       display: flex;
       margin: 0;
       padding: 0;
@@ -210,21 +210,22 @@
 
           &-table {
             th, td { padding: 0 0.625rem; } // 0 10px
-            .table-head {
-              @include border(0.0625rem, solid, $gray300, top);
-              background-color: $neutral100;
-              tr {
-                height: 2rem; // 32px
-                th { color: $gray400; }
+            .tbl {
+              &__head {
+                @include border(0.0625rem, solid, $gray300, top);
+                background-color: $neutral100;
+                tr {
+                  height: 2rem; // 32px
+                  th { color: $gray400; }
+                }
               }
-            }
-
-            .table-body {
-              overflow-y: auto;
-              border: none;
-              tr {
-                @include border(0.0625rem, solid, $gray300, bottom);
-                width: 100%;
+              &__body {
+                overflow-y: auto;
+                border: none;
+                tr {
+                  @include border(0.0625rem, solid, $gray300, bottom);
+                  width: 100%;
+                }
               }
             }
           }
@@ -308,7 +309,7 @@
             td, th {
               &:nth-child(3) { color: $gray500; }
             }
-            .table-body {
+            .tbl__body {
               border: none;
               tr:hover { background-color: transparent; }
             }
@@ -380,11 +381,11 @@
       .drawing-board {
         .form {
           display: table-row;
-          .group-tooltip {
+          .group-area {
             page-break-after: auto;
             break-inside: avoid;
           }
-          .row-tooltip {
+          .row-area {
             break-inside: avoid;
             .textarea {
               width: inherit;
@@ -408,7 +409,7 @@
               }
             }
 
-            .table-body {
+            .tbl__body {
               border: none;
 
               tr:hover {

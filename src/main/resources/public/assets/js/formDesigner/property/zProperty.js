@@ -142,9 +142,9 @@ export default class ZProperty {
         // 툴팁(도움말) 기능 추가
         const helpText = help || this.help;
         if (!zValidation.isEmpty(helpText)) {
-            label.UITooltip = new UIDiv().setUIClass('help-tooltip');
+            label.UITooltip = new UIDiv().setUIClass('tooltip--info');
             label.UITooltip.addUI(new UISpan().setUIClass('ic-tooltip'));
-            label.UITooltip.UIContent = new UIDiv().setUIClass('tooltip-contents');
+            label.UITooltip.UIContent = new UIDiv().setUIClass('tooltip__box');
             label.UITooltip.UIContent.addUI(new UISpan().setUIInnerHTML(i18n.msg(helpText)));
             label.UITooltip.addUI(label.UITooltip.UIContent);
             label.addUI(label.UITooltip);
