@@ -11,8 +11,6 @@ import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.cmdb.ciIcon.service.CIIconService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -29,43 +27,62 @@ class CIIconRestController(
 ) {
 
     /**
-     * 아이콘 파일 전체 목록 가져오기.
+     * 폴더 이름 변경
      */
-    @GetMapping("")
-    fun getCIIcons(
-        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
-        @RequestParam(value = "offset", defaultValue = "-1") offset: String
+    @PutMapping("/folder")
+    fun renameFolder(
+        @RequestBody renameDto: AliceResourceRenameDto
     ): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(
-            ciIconService.getCIIcons(searchValue, offset.toInt())
+            ciIconService.renameFolder(renameDto.originPath, renameDto.modifyPath)
+        )
+    }
+
+    /**
+     * 폴더 삭제
+     */
+    @DeleteMapping("/folder")
+    fun deleteFolder(
+        @RequestParam(value = "path", defaultValue = "") path: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            ciIconService.deleteFolder(path)
         )
     }
 
     /**
      * 파일 업로드.
      */
-    @PostMapping("")
+    @PostMapping("/file/upload")
     fun uploadCIIcons(
+        @RequestParam(value = "type", defaultValue = "") type: String,
+        @RequestParam(value = "path", defaultValue = "") path: String,
         @RequestPart("files") multipartFiles: List<MultipartFile>
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(ciIconService.uploadCIIcons(multipartFiles))
+        return ZAliceResponse.response(
+            ciIconService.uploadCIIcons(type, path, multipartFiles)
+        )
     }
 
     /**
      * 파일명 수정
      */
-    @PutMapping("")
-    fun renameCIIcon(@RequestBody fileRenameDto: AliceResourceRenameDto): ResponseEntity<ZResponse> {
+    @PutMapping("/file")
+    fun renameFile(@RequestBody fileRenameDto: AliceResourceRenameDto): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(
-            ciIconService.renameCIIcon(fileRenameDto.originPath, fileRenameDto.modifyPath)
+            ciIconService.renameFile(fileRenameDto.originPath, fileRenameDto.modifyPath)
         )
     }
 
     /**
      * 파일 삭제
      */
-    @DeleteMapping("/{name}")
-    fun deleteCIIcon(@PathVariable name: String): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(ciIconService.deleteCIIcon(name))
+    @DeleteMapping("/file")
+    fun deleteCIIcon(
+        @RequestParam(value = "path", defaultValue = "") path: String
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            ciIconService.deleteCIIcon(path)
+        )
     }
 }

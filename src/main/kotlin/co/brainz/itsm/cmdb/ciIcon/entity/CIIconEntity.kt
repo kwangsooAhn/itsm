@@ -33,6 +33,9 @@ data class CIIconEntity(
     @Column(name = "file_name_extension", length = 128)
     var fileNameExtension: String,
 
+    @Column(name = "uploaded_location", length = 512)
+    var uploadedLocation: String?,
+
     @Column(name = "editable")
     var editable: Boolean = true
 ) : Serializable, AliceMetaEntity()

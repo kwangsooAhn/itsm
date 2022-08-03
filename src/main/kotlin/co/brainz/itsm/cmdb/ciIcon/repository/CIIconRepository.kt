@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CIIconRepository : JpaRepository<CIIconEntity, Long> {
     /**
-     * 아이콘 파일명 조회
+     * 아이콘 파일 조회
      */
-    fun findByFileNameAndFileNameExtension(fileName: String, fileNameExtension: String): CIIconEntity
+    fun findByFileNameAndFileNameExtension(fileName: String, fileNameExtension: String): MutableList<CIIconEntity>
 }

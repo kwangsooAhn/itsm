@@ -19,10 +19,11 @@
         <div class="grid__row gap-2" id="resources">
         <!-- 스크롤시 가져오는 데이터 목록-->
         <th:block th:fragment="list">
-            <div class="grid__thumbnail" tabindex="-1" th:each="resource: ${resources}">
+            <div th:class="|grid__thumbnail${small ? '--small' : ''}|" tabindex="-1" th:each="resource: ${resources}">
                 <th:block th:if="${resource.directoryYn}">
                     <div class="thumbnail__image" th:unless="${resource.imageFileYn}" th:data-path="${resource.fullPath}" th:data-scrollNum="${scroll?.currentScrollNum}">
-                        <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
+                        <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}"
+                             th:attr="width=|${small ? '40' : '60'}|" width="60" th:attrappend="height=|${small ? '40' : '60'}|"/>
                     </div>
                 </th:block>
                 <th:block th:unless="${resource.directoryYn}">
@@ -30,7 +31,8 @@
                          th:style="|background-image:url('data:image/${resource.extension};base64,${resource.data}');|">
                     </div>
                     <div class="thumbnail__image" th:unless="${resource.imageFileYn}" th:data-path="${resource.fullPath}" th:data-name="${resource.name}" th:data-scrollNum="${scroll?.currentScrollNum}">
-                        <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="60" height="60"/>
+                        <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}"
+                             th:attr="width=|${small ? '40' : '60'}|" width="60" th:attrappend="height=|${small ? '40' : '60'}|"/>
                     </div>
                 </th:block>
                 <div class="thumbnail__caption">

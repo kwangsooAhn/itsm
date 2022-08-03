@@ -34,7 +34,7 @@
         pageType: 'modal',
         isAbsolutePath: false,
         doubleClickUse: false,
-        selected: '',
+        selected: ''
     };
     const modalTemplate = `<div class="scroll-search">
             <form id="frmSearch" onsubmit="return false;">
@@ -47,7 +47,9 @@
             </form>
             <ol class="breadcrumb flex-row col-pct-12 mt-4" id="breadcrumb"></ol>
         </div>
-        <div class="flex-row scroll-list"></div>`.trim();
+        <div class="scroll-result">
+            <div class="flex-row scroll-list"></div>
+        </div>`.trim();
 
     return function(options) {
         this.options = Object.assign({}, defaultOptions, options);
@@ -55,6 +57,8 @@
         this.basePath = '';
         this.fileSeparator = '/';
         this.selectedClassName = 'selected';
+        // CI 아이콘은 썸네일을 작게 표시
+        this.thumbnailClassName = this.options.type === 'cmdb-icon' ? 'grid__thumbnail--small' : 'grid__thumbnail';
 
         // 기본 경로 조회
         this.getBasePath = function(type) {
@@ -197,8 +201,9 @@
         this.selectedThumbnail = function(e) {
             const elem = aliceJs.clickInsideElement(e, 'thumbnail__image');
             if (elem === null) { return false; }
-
-            const selectedElem = this.modal.wrapper.querySelector('.grid__thumbnail.' + this.selectedClassName);
+            const selectedElem = this.modal.wrapper.querySelector(
+                `.${this.thumbnailClassName}.${this.selectedClassName}`
+            );
             if (selectedElem) {
                 selectedElem.classList.remove(this.selectedClassName);
             }
@@ -207,7 +212,9 @@
 
         // 썸네일 저장
         this.saveThumbnail = function() {
-            const selectedElem = this.modal.wrapper.querySelector('.grid__thumbnail.' + this.selectedClassName);
+            const selectedElem = this.modal.wrapper.querySelector(
+                `.${this.thumbnailClassName}.${this.selectedClassName}`
+            );
             if (selectedElem === null) {
                 zAlert.warning(i18n.msg('validation.msg.fileSelect'));
                 return false;
@@ -270,7 +277,8 @@
                     const currentScrollNum = this.modal.wrapper.querySelector('#currentScrollNum');
                     currentScrollNum.value = pageNum;
                     const totalCount = this.modal.wrapper.querySelector('#totalCount');
-                    totalCount.value = this.modal.wrapper.querySelectorAll('.grid__thumbnail').length;
+                    totalCount.value = this.modal.wrapper.querySelectorAll(
+                        `.${this.thumbnailClassName}`).length;
                 } else {
                     const scrollList = dialog.querySelector('.scroll-list');
                     scrollList.innerHTML = htmlData;
@@ -351,7 +359,7 @@
             close: { closable: false },
             onCreate: (modal) => {
                 const dialogBody = modal.wrapper.querySelector('.' + this.className + ' .modal__dialog__body');
-                OverlayScrollbars(dialogBody, {
+                OverlayScrollbars(dialogBody.querySelector('.scroll-result'), {
                     className: 'scrollbar',
                     callbacks: {
                         onScroll: (event) => {

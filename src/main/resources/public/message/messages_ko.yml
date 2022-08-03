@@ -534,7 +534,6 @@ cmdb:
   icon:
     label:
       list: "CI 아이콘 관리"
-      name: "아이콘 파일 이름"
     msg:
       maxFileSize: "첨부파일 사이즈는 10KB 이내로 등록 가능합니다."
       notFoundInTable: "파일이 이력 테이블(cmdb_ci_icon)에 존재하지 않습니다. 이력 테이블(cmdb_ci_icon)에 데이터를 주가 바랍니다."

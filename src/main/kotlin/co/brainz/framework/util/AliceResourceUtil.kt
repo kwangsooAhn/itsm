@@ -203,7 +203,7 @@ open class AliceResourceUtil(
      * @param type 타입
      */
     fun isAllowedOnlyImageByType(type: String): Boolean {
-        return when(type) {
+        return when (type) {
             ResourceConstants.FileType.ICON.code,
             ResourceConstants.FileType.CI_ICON.code,
             ResourceConstants.FileType.IMAGE.code,
@@ -227,7 +227,7 @@ open class AliceResourceUtil(
      * @param matchValue 검색어
      */
     fun isMatchedInSearch(name: String, matchValue: String): Boolean {
-        if (matchValue.isEmpty())  { return true }
+        if (matchValue.isEmpty()) { return true }
 
         return name.toLowerCase().matches(".*${matchValue.toLowerCase()}.*".toRegex())
     }
@@ -236,8 +236,15 @@ open class AliceResourceUtil(
      * 폴더 사이즈 구하기
      * @param dir 폴더
      */
-    fun getFolderSize(dir: File): Long {
-        return dir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+    fun getFolderSize(dir: File, depth: Int): Long {
+        return dir.walkTopDown().maxDepth(depth).filter { it.isFile }.map { it.length() }.sum()
+    }
+    /**
+     * 폴더 사이즈 구하기
+     * @param dir 폴더
+     */
+    fun getImageFolderSize(dir: File, depth: Int): Long {
+        return dir.walkTopDown().maxDepth(depth).filter { it.isFile && isImage(it.extension) }.map { it.length() }.sum()
     }
 
     /**
@@ -256,7 +263,7 @@ open class AliceResourceUtil(
      */
     fun getExternalPathImageCount(dir: File, matchValue: String, depth: Int): Int {
         val count = dir.walk().maxDepth(depth)
-            .filter { isMatchedInSearch(it.name, matchValue) && ( it.isDirectory || isImage(it.extension)) }
+            .filter { isMatchedInSearch(it.name, matchValue) && (it.isDirectory || isImage(it.extension)) }
             .count()
         return if (count > 0) { count - 1 } else { 0 }
     }
