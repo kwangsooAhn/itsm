@@ -597,16 +597,38 @@
             });
         }
 
+        /**
+         * 용량차트 데이터 조회
+         * @param ciId
+         */
         function getChart(ciId) {
             aliceJs.fetchJson('/rest/cmdb/cis/' + ciId + '/chart', {
                 method: 'GET',
                 showProgressBar: true
             }).then((response) => {
-                if (response.status !== aliceJs.response.success || typeof response.data.chartConfig === 'undefined') { return false; }
-                zChartManager.load(response.data);
-                zChartManager.update(response.data);
-            })
+                if (response.status !== aliceJs.response.success || response.data === null) {
+                    return false;
+                }
+                response.data.forEach(it => {
+                    addChartContent(it);
+                    zChartManager.update(it);
+                });
+            });
         }
+
+        function addChartContent(data) {
+            let chartTarget = document.querySelector('#reportContents');
+            let tagValue = data.tags[0].value;
+            let element =
+                `<div class="chart-content">` +
+                `<div class="chart" id="${tagValue}_chart"></div>` +
+                `</div>`;
+            chartTarget.insertAdjacentHTML('beforeend', element);
+
+            // 차트 초기화
+            zChartManager.load(tagValue + '_chart', data);
+        }
+
         /**
          * 사용자 검색 모달
          */
@@ -747,9 +769,21 @@
         import ZChart from '../../../assets/js/chart/zChart.js';
 
         const zChartManager = {
-            load: function(data) {
+            load: function (id, data) {
+                const customOptions = {
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function () {
+                                    return this.y !== 0.00 ? Highcharts.numberFormat(this.y, 2, '.', '') + '%': null;
+                                }
+                            }
+                        }
+                    }
+                };
                 // 차트 초기화
-                this.zChart = new ZChart('container', data);
+                this.zChart = new ZChart(id, data, customOptions);
             },
             update: function (data) {
                 // 데이터 업데이트

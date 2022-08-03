@@ -38,7 +38,6 @@ import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.cmdb.ci.constants.CIConstants
 import co.brainz.itsm.cmdb.ci.dto.CICapacityChartDto
-import co.brainz.itsm.cmdb.ci.dto.CICapacityDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentDataDto
 import co.brainz.itsm.cmdb.ci.dto.CIComponentInfo
 import co.brainz.itsm.cmdb.ci.dto.CISearch
@@ -57,7 +56,9 @@ import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.File
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
 import org.slf4j.LoggerFactory
@@ -481,86 +482,111 @@ class CIService(
     /**
      * CI 용량 차트 데이터 조회
      */
-    fun getCapacityChartData(ciId: String): CICapacityChartDto {
+    fun getCapacityChartData(ciId: String): List<CICapacityChartDto>? {
         val capacityData = ciCapacityRepository.findCapacityChartData(ciId)
-        val tags: MutableList<AliceTagDto> = mutableListOf()
-        val chartDataList = this.initDataSetting(capacityData)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:00:00")
+        var from = LocalDateTime.now(ZoneId.of(currentSessionUser.getTimezone()))
+        val memDataList = mutableListOf<ChartData>()
+        val cpuDataList = mutableListOf<ChartData>()
+        val diskDataList = mutableListOf<ChartData>()
+        if (capacityData.isNotEmpty()) {
+            for (i in 1..144) {
+                var cpuAvg = ""
+                var memAvg = ""
+                var diskAvg = ""
+                capacityData.forEach {
+                    if (it.referenceDt.format(formatter) == from.format(formatter)) {
+                        cpuAvg = it.cpuAvg.toString()
+                        memAvg = it.memAvg.toString()
+                        diskAvg = it.diskAvg.toString()
+                    }
+                }
+                memDataList.add(
+                    ChartData(
+                        id = "",
+                        category = from.format(formatter),
+                        value = memAvg,
+                        series = CIConstants.CapacityTag.MEMORY.code
+                    )
+                )
+                cpuDataList.add(
+                    ChartData(
+                        id = "",
+                        category = from.format(formatter),
+                        value = cpuAvg,
+                        series = CIConstants.CapacityTag.CPU.code
+                    )
+                )
+                diskDataList.add(
+                    ChartData(
+                        id = "",
+                        category = from.format(formatter),
+                        value = diskAvg,
+                        series = CIConstants.CapacityTag.DISK.code
+                    )
+                )
+                from = from.minusHours(1)
+            }
 
-        tags.add(
-            AliceTagDto(
-                tagValue = CIConstants.CapacityTag.MEMORY.code
+            val returnDataList = mutableListOf<CICapacityChartDto>()
+            val chartConfig = this.initChartConfig()
+            returnDataList.add(
+                CICapacityChartDto(
+                    chartId = ciId,
+                    chartType = ChartConstants.Type.BASIC_LINE.code,
+                    tags = mutableListOf(
+                        AliceTagDto(
+                            tagValue = CIConstants.CapacityTag.MEMORY.code
+                        )
+                    ),
+                    chartConfig = chartConfig,
+                    chartData = memDataList
+                )
             )
-        )
-        tags.add(
-            AliceTagDto(
-                tagValue = CIConstants.CapacityTag.CPU.code
+            returnDataList.add(
+                CICapacityChartDto(
+                    chartId = ciId,
+                    chartType = ChartConstants.Type.BASIC_LINE.code,
+                    tags = mutableListOf(
+                        AliceTagDto(
+                            tagValue = CIConstants.CapacityTag.CPU.code
+                        )
+                    ),
+                    chartConfig = chartConfig,
+                    chartData = cpuDataList
+                )
             )
-        )
-        tags.add(
-            AliceTagDto(
-                tagValue = CIConstants.CapacityTag.DISK.code
+            returnDataList.add(
+                CICapacityChartDto(
+                    chartId = ciId,
+                    chartType = ChartConstants.Type.BASIC_LINE.code,
+                    tags = mutableListOf(
+                        AliceTagDto(
+                            tagValue = CIConstants.CapacityTag.DISK.code
+                        )
+                    ),
+                    chartConfig = chartConfig,
+                    chartData = diskDataList
+                )
             )
-        )
-
-        return CICapacityChartDto(
-            chartId = ciId,
-            chartType = ChartConstants.Type.BASIC_LINE.code,
-            tags = tags,
-            chartConfig = ChartConfig(
-                range = ChartRange(
-                    type = ChartConstants.Range.BETWEEN.code,
-                    fromDate = LocalDateTime.now().minusDays(7L).toLocalDate(),
-                    toDate = LocalDateTime.now().toLocalDate()
-                ),
-                operation = ChartConstants.Operation.PERCENT.code,
-                periodUnit = ChartConstants.Unit.HOUR.code
-            ),
-            chartData = chartDataList
-        )
+            return returnDataList
+        }
+        return null
     }
 
-    private fun initDataSetting(capacityList: List<CICapacityDto>): MutableList<ChartData> {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:00:00")
-        var from = LocalDateTime.now().plusHours(9)
-        val chartDataList = mutableListOf<ChartData>()
-        for(i in 1 .. 144) {
-
-            var cpuAvg = ""
-            var memAvg = ""
-            var diskAvg = ""
-            capacityList.forEach { it ->
-                if (it.referenceDt.format(formatter) == from.format(formatter)) {
-                    cpuAvg = it.cpuAvg.toString()
-                    memAvg = it.memAvg.toString()
-                    diskAvg = it.diskAvg.toString()
-                }
-            }
-            chartDataList.add(
-                ChartData(
-                    id = "",
-                    category = from.format(formatter),
-                    value = memAvg,
-                    series = CIConstants.CapacityTag.MEMORY.code
-                )
-            )
-            chartDataList.add(
-                ChartData(
-                    id = "",
-                    category = from.format(formatter),
-                    value = cpuAvg,
-                    series = CIConstants.CapacityTag.CPU.code
-                )
-            )
-            chartDataList.add(
-                ChartData(
-                    id = "",
-                    category = from.format(formatter),
-                    value = diskAvg,
-                    series = CIConstants.CapacityTag.DISK.code
-                )
-            )
-            from = from.minusHours(1)
-        }
-        return chartDataList
+    /**
+     * 차트 구성 세팅
+     */
+    private fun initChartConfig(): ChartConfig {
+        val range = ChartRange(
+            type = ChartConstants.Range.BETWEEN.code,
+            fromDate = LocalDate.now().minusDays(7L),
+            toDate = LocalDate.now()
+        )
+        return ChartConfig(
+            range = range,
+            operation = ChartConstants.Operation.PERCENT.code,
+            periodUnit = ChartConstants.Unit.HOUR.code
+        )
     }
 }
