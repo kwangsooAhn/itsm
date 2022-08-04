@@ -6,44 +6,48 @@
  * @version 1.0
  */
 // font 설정 variables
-$font-folder-path:                            '../../assets/fonts';
+$font-folder-path: '../../assets/fonts';
 
 // font family
 $font-face-map: (
-        'Pretendard-Thin.woff2':                    100,
-        'Pretendard-ExtraLight.woff2':              200,
-        'Pretendard-Light.woff2':                   300,
-        'Pretendard-Regular.woff2':                 400,
-        'Pretendard-Medium.woff2':                  500,
-        'Pretendard-SemiBold.woff2':                600,
-        'Pretendard-Bold.woff2':                    700,
-        'Pretendard-ExtraBold.woff2':               800,
-        'Pretendard-Black.woff2':                   900
+        'Pretendard-Thin.woff2': 100,
+        'Pretendard-ExtraLight.woff2': 200,
+        'Pretendard-Light.woff2': 300,
+        'Pretendard-Regular.woff2': 400,
+        'Pretendard-Medium.woff2': 500,
+        'Pretendard-SemiBold.woff2': 600,
+        'Pretendard-Bold.woff2': 700,
+        'Pretendard-ExtraBold.woff2': 800,
+        'Pretendard-Black.woff2': 900
 );
 
 // 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (") 사용
-$font-family:                                 'Pretendard', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
+$font-family: 'Pretendard', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
 
 // font size
-$font-size-xxl:                               2.5rem !default;   // 45px
-$font-size-xl:                                2rem !default;     // 32px
-$font-size-l:                                 1.25rem !default;   // 20px
-$font-size-m:                                 1.125rem !default; // 18px
-$font-size-s:                                 1rem !default;     // 16px
-$font-size-xs:                                0.875rem !default; // 14px
-$font-size-xxs:                               0.75rem !default;  // 12px
+$font-size-xxl: 2.5rem !default; // 45px
+$font-size-xl: 2rem !default; // 32px
+$font-size-l: 1.25rem !default; // 20px
+$font-size-m: 1.125rem !default; // 18px
+$font-size-s: 1rem !default; // 16px
+$font-size-xs: 0.875rem !default; // 14px
+$font-size-xxs: 0.75rem !default; // 12px
 
 // font weight
-// 맑은 고딕은 300 = semilight , 500 = reqular, 700 = bold
-$font-weight-thin:                            100 !default;
-$font-weight-extralight:                      200 !default;
-$font-weight-light:                           300 !default;
-$font-weight-regular:                         400 !default;
-$font-weight-medium:                          500 !default;
-$font-weight-semibold:                        600 !default;
-$font-weight-bold:                            700 !default;
-$font-weight-extrabold:                       800 !default;
-$font-weight-black:                           900 !default;
+// 맑은 고딕은 300 = semilight , 500 = regular, 700 = bold
+$font-weight-thin: 100 !default;
+$font-weight-extralight: 200 !default;
+$font-weight-light: 300 !default;
+$font-weight-regular: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-extrabold: 800 !default;
+$font-weight-black: 900 !default;
 
 // font style
-.font-bold { font-weight: $font-weight-bold; } // 700
+.font-bold {
+  font-weight: $font-weight-bold;
+}
+
+// 700
