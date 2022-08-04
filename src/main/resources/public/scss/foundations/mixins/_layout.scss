@@ -493,7 +493,7 @@ $z-index-hidden:                             -1;
       background-color: $neutral50;
       pointer-events: none;
 
-      .ic-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
+      .i-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
       .no-data-text {
         margin-left: 2.5rem; // 40px
         color: $neutral400;

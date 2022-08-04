@@ -7,7 +7,7 @@
 <div class="card-list">
     <!-- 데이터가 없는 경우 -->
     <div class="card flex-row justify-content-center no-data-found" th:if="${#arrays.isEmpty(documentList)}">
-        <img class="img ic-no-card" />
+        <img class="i-no-card"/>
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <!-- 그룹 별 신청서 목록 -->
