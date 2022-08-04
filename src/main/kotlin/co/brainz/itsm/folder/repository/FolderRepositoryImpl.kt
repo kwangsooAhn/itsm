@@ -10,7 +10,10 @@ import co.brainz.itsm.folder.constants.FolderConstants
 import co.brainz.itsm.folder.entity.QWfFolderEntity
 import co.brainz.itsm.folder.entity.WfFolderEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
+import co.brainz.workflow.instance.constants.InstanceStatus
+import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
+import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -20,13 +23,15 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java), FolderRepositoryCustom {
+    val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
+    val user: QAliceUserEntity = QAliceUserEntity.aliceUserEntity
+    val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
+    val token: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
+    val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
+    val startDtSubToken: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
+
 
     override fun findRelatedDocumentListByFolderId(folderId: String): List<RestTemplateRelatedInstanceDto> {
-        val folder = QWfFolderEntity.wfFolderEntity
-        val user = QAliceUserEntity.aliceUserEntity
-        val token = QWfTokenEntity.wfTokenEntity
-        val document = QWfDocumentEntity.wfDocumentEntity
-        val startDtSubToken = QWfTokenEntity.wfTokenEntity
 
         return from(folder)
             .select(
@@ -66,12 +71,22 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
                 folder.folderId.eq(folderId)
             )
             .where(folder.relatedType.eq("reference").or(folder.relatedType.eq("related")))
+            .where(
+                folder.instance.instanceId.notIn(
+                    JPAExpressions.select(instance.instanceId)
+                        .from(instance)
+                        .innerJoin(token).on(instance.instanceId.eq(token.instance.instanceId))
+                        .where(
+                            token.tokenAction.eq(WfTokenConstants.FinishAction.CANCEL.code)
+                                .and(instance.instanceStatus.eq(InstanceStatus.FINISH.code))
+                        )
+                )
+            )
             .orderBy(folder.instance.instanceStartDt.asc())
             .fetch()
     }
 
     override fun findFolderOriginByInstanceId(instanceId: String): WfFolderEntity {
-        val folder = QWfFolderEntity.wfFolderEntity
         return from(folder)
             .where(folder.instance.instanceId.eq(instanceId)
                 .and(folder.relatedType.eq(FolderConstants.RelatedType.ORIGIN.code))
