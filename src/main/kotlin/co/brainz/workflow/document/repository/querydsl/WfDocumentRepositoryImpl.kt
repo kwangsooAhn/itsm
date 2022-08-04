@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository
 class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentRepositoryCustom {
 
-    override fun findByDocuments(documentSearchCondition: DocumentSearchCondition, targetIds: List<String>):
+    override fun findByDocuments(documentSearchCondition: DocumentSearchCondition, targetIds: List<String>?):
         List<DocumentDto> {
         val document = QWfDocumentEntity.wfDocumentEntity
 
