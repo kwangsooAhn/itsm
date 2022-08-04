@@ -489,93 +489,65 @@ class CIService(
         val memDataList = mutableListOf<ChartData>()
         val cpuDataList = mutableListOf<ChartData>()
         val diskDataList = mutableListOf<ChartData>()
+        val returnDataList = mutableListOf<CICapacityChartDto>()
         if (capacityData.isNotEmpty()) {
-            for (i in 1..144) {
+            for (i in 1..CIConstants.period) {
+                val formFormat = from.format(formatter)
                 var cpuAvg = ""
                 var memAvg = ""
                 var diskAvg = ""
-                capacityData.forEach {
-                    if (it.referenceDt.format(formatter) == from.format(formatter)) {
-                        cpuAvg = it.cpuAvg.toString()
-                        memAvg = it.memAvg.toString()
-                        diskAvg = it.diskAvg.toString()
+
+                loop@ for (capacity in capacityData) {
+                    if (capacity.referenceDt.format(formatter) == formFormat) {
+                        cpuAvg = capacity.cpuAvg.toString()
+                        memAvg = capacity.memAvg.toString()
+                        diskAvg = capacity.diskAvg.toString()
+                        break@loop
                     }
                 }
-                memDataList.add(
-                    ChartData(
-                        id = "",
-                        category = from.format(formatter),
-                        value = memAvg,
-                        series = CIConstants.CapacityTag.MEMORY.code
-                    )
-                )
-                cpuDataList.add(
-                    ChartData(
-                        id = "",
-                        category = from.format(formatter),
-                        value = cpuAvg,
-                        series = CIConstants.CapacityTag.CPU.code
-                    )
-                )
-                diskDataList.add(
-                    ChartData(
-                        id = "",
-                        category = from.format(formatter),
-                        value = diskAvg,
-                        series = CIConstants.CapacityTag.DISK.code
-                    )
-                )
+                memDataList.add(this.setChartData(formFormat, memAvg, CIConstants.CapacityTag.MEMORY.code))
+                cpuDataList.add(this.setChartData(formFormat, cpuAvg, CIConstants.CapacityTag.CPU.code))
+                diskDataList.add(this.setChartData(formFormat, diskAvg, CIConstants.CapacityTag.DISK.code))
                 from = from.minusHours(1)
             }
 
-            val returnDataList = mutableListOf<CICapacityChartDto>()
-            val chartConfig = this.initChartConfig()
-            returnDataList.add(
-                CICapacityChartDto(
-                    chartId = ciId,
-                    chartType = ChartConstants.Type.BASIC_LINE.code,
-                    tags = mutableListOf(
-                        AliceTagDto(
-                            tagValue = CIConstants.CapacityTag.MEMORY.code
-                        )
-                    ),
-                    chartConfig = chartConfig,
-                    chartData = memDataList
-                )
-            )
-            returnDataList.add(
-                CICapacityChartDto(
-                    chartId = ciId,
-                    chartType = ChartConstants.Type.BASIC_LINE.code,
-                    tags = mutableListOf(
-                        AliceTagDto(
-                            tagValue = CIConstants.CapacityTag.CPU.code
-                        )
-                    ),
-                    chartConfig = chartConfig,
-                    chartData = cpuDataList
-                )
-            )
-            returnDataList.add(
-                CICapacityChartDto(
-                    chartId = ciId,
-                    chartType = ChartConstants.Type.BASIC_LINE.code,
-                    tags = mutableListOf(
-                        AliceTagDto(
-                            tagValue = CIConstants.CapacityTag.DISK.code
-                        )
-                    ),
-                    chartConfig = chartConfig,
-                    chartData = diskDataList
-                )
-            )
-            return returnDataList
+            returnDataList.add(this.setCapacityChartData(ciId, memDataList, CIConstants.CapacityTag.MEMORY.code))
+            returnDataList.add(this.setCapacityChartData(ciId, cpuDataList, CIConstants.CapacityTag.CPU.code))
+            returnDataList.add(this.setCapacityChartData(ciId, diskDataList, CIConstants.CapacityTag.DISK.code))
+
         }
-        return null
+        return returnDataList
     }
 
     /**
-     * 차트 구성 세팅
+     * 용량 데이터 Setting
+     */
+    private fun setChartData(category: String, chartValue: String, series: String): ChartData {
+        return ChartData(
+            id = "",
+            category = category,
+            value = chartValue,
+            series = series
+        )
+    }
+
+    /**
+     * 화면에 반환 할 용량 차트 데이터 Setting
+     */
+    private fun setCapacityChartData(ciId: String, dataList: MutableList<ChartData>, tag: String): CICapacityChartDto {
+        return CICapacityChartDto(
+            chartId = ciId,
+            chartType = ChartConstants.Type.BASIC_LINE.code,
+            tags = mutableListOf(
+                AliceTagDto(tagValue = tag)
+            ),
+            chartConfig = this.initChartConfig(),
+            chartData = dataList
+        )
+    }
+
+    /**
+     * 차트 구성 Setting
      */
     private fun initChartConfig(): ChartConfig {
         val range = ChartRange(

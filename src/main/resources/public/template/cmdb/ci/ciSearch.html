@@ -606,7 +606,7 @@
                 method: 'GET',
                 showProgressBar: true
             }).then((response) => {
-                if (response.status !== aliceJs.response.success || response.data === null) {
+                if (response.status !== aliceJs.response.success || response.data.length === 0) {
                     return false;
                 }
                 response.data.forEach(it => {
