@@ -36,7 +36,6 @@ export default class ZTextAreaProperty extends ZProperty {
         // textarea
         this.UIElement.UITextArea = new UITextArea()
             .setUIId(this.key)
-            .addUIClass('textarea-scroll-wrapper')
             .setUIValue(this.value)
             .setUIAttribute('data-validation-required', this.validation.required)
             .setUIAttribute('data-validation-required-name', i18n.msg(this.name))

@@ -19,7 +19,7 @@
             <span th:text="#{document.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" class="input" id="documentName" maxlength="50" required="required"/>
+        <input type="text" id="documentName" maxlength="50" required="required"/>
         <!-- 설명 -->
         <label class="field-label" th:text="#{document.label.description}" for="documentDesc"></label>
         <textarea id="documentDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
@@ -87,19 +87,19 @@
             <span th:text="#{form.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="formName" class="input" maxlength="50" required="required">
+        <input type="text" id="formName" maxlength="50" required="required">
         <!-- 문서양식 설명 -->
         <label class="field-label" th:text="#{'form.label.description'}" for="formDesc"></label>
-        <textarea id="formDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="formDesc" rows="7" maxlength="128"></textarea>
         <!-- 프로세스 이름 -->
         <label class="field-label" for="processName">
             <span th:text="#{process.label.name}"></span>
             <span class="required"></span>
         </label>
-        <input type="text" id="processName" class="input" maxlength="50" required="required">
+        <input type="text" id="processName" maxlength="50" required="required">
         <!-- 프로세스 설명 -->
         <label class="field-label" th:text="#{'process.label.description'}" for="processDesc"></label>
-        <textarea id="processDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <textarea id="processDesc" rows="7" maxlength="128"></textarea>
         <!-- XML 파일 -->
         <div class="flex-column file-uploader--edit">
             <label class="file-uploader--edit__title field-label">

@@ -409,9 +409,13 @@ $z-index-hidden:                             -1;
         .edit-row {
           margin-top: 0.625rem; // 10px
           label { margin: 0.625rem 0; } // 10px 0
-          .input {
-            &:read-only { width: auto; }
-            &.attribute { width: 100%; }
+          input {
+            &[type=text],
+            &[type=password],
+            &[type=number] {
+              &:read-only { width: auto; }
+              &.attribute { width: 100%; }
+            }
           }
         }
         .btn__list { margin: 1.875rem 0; } // 30px

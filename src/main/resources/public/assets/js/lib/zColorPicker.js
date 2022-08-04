@@ -338,7 +338,7 @@ Object.assign(zColorPicker.prototype, {
         // hex
         const hexInput = document.createElement('input');
         hexInput.type = 'text';
-        hexInput.className = 'input color-hex';
+        hexInput.className = 'color-hex';
         hexInput.placeholder = '#FFFFFF';
         hexInput.setAttribute('maxlength', '7');
         hexInput.addEventListener('keyup', this.setHex.bind(this), false);
@@ -349,7 +349,7 @@ Object.assign(zColorPicker.prototype, {
         ['r', 'g', 'b'].forEach((str) => {
             const rgbInput = document.createElement('input');
             rgbInput.type = 'text';
-            rgbInput.className = 'input color-' + str;
+            rgbInput.className = 'color-' + str;
             rgbInput.placeholder = '255';
             rgbInput.setAttribute('maxlength', '3');
             rgbInput.addEventListener('keyup', this.setRgb.bind(this), false);

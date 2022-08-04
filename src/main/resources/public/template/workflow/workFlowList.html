@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table class="table">
-    <thead class="table-head">
+<table class="tbl">
+    <thead class="tbl__head">
         <tr class="flex-row align-items-center">
             <th width="27%" class="align-left" th:text="#{workflowAdmin.label.name}"></th>
             <th width="10%" class="align-left" th:text="#{workflowAdmin.label.type}"></th>
@@ -16,7 +16,7 @@
             <th width="3%" class="align-center"></th>
         </tr>
     </thead>
-    <tbody class="table-body">
+    <tbody class="tbl__body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(documentList)}">
             <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
