@@ -10,8 +10,9 @@
             <span class="required"></span>
         </label>
         <select id="documentType">
-            <option th:each="type:${typeList}" th:if="${type.code} != 'application-form-link'" th:value="${type.code}"
-                    th:text="${type.codeValue}" th:selected="${documentData?.documentType} == ${type.code}"></option>
+            <option th:each="type:${typeList}" th:if="${type.code} != 'document.type.application-form-link'"
+                    th:value="${type.code}" th:text="${type.codeValue}"
+                    th:selected="${documentData?.documentType} == ${type.code}"></option>
         </select>
         <!-- 신청서 이름 -->
         <label class="field-label" for="documentName">

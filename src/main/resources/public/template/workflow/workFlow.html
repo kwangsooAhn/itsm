@@ -23,7 +23,7 @@
             </label>
             <select id="documentType" onchange="setDocumentType(this.value)" th:disabled="${documentData?.documentId != undefined}">
                 <option th:each="type:${typeList}" th:value="${type.code}"
-                        th:text="${type.codeValue}" th:selected="${documentData?.documentType} == ${type.code}"></option>
+                        th:text="${type.codeName}" th:selected="${documentData?.documentType} == ${type.code}"></option>
             </select>
         </div>
         <!-- 신청서 이름 -->
@@ -49,7 +49,7 @@
             <select id="documentGroup">
                 <option value="" th:text="#{document.label.notSelect}" selected></option>
                 <option th:each="group:${groupList}" th:value="${group.code}"
-                        th:text="${group.codeValue}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
+                        th:text="${group.codeName}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
             </select>
         </div>
         <!-- 역할 -->

@@ -21,7 +21,7 @@
     <form id="searchDocumentsFrm">
         <select id="searchGroupName" name="searchGroupName" class="col-3">
             <option value="" th:text="#{document.label.all}" selected></option>
-            <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
+            <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeName}"></option>
         </select>
         <label for="searchDocuments"></label>
         <input type="text" class="input ic-search text-ellipsis" maxlength="100" id="searchDocuments"
