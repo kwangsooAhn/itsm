@@ -55,7 +55,6 @@ class WfDocumentLinkRepositoryImpl :
                     } else {
                         super.eq(documentLink.documentStatus, WfDocumentConstants.Status.USE.code)
                     }
-                    documentLink.documentLinkId.`in`(targetIds)
                 } else {
                     super.eq(documentLink.documentStatus, documentSearchCondition.searchDocumentStatus)
                 },
@@ -66,7 +65,11 @@ class WfDocumentLinkRepositoryImpl :
                             documentSearchCondition.searchDocuments
                         )
                     )
-            ).orderBy(documentLink.documentName.asc())
+            )
+            if (targetIds!!.isNotEmpty()) {
+                query.where(documentLink.documentLinkId.`in`(targetIds))
+            }
+            query.orderBy(documentLink.documentName.asc())
 
         return query.fetch()
     }

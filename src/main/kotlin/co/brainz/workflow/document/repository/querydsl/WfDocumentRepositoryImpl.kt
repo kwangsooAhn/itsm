@@ -76,7 +76,6 @@ class WfDocumentRepositoryImpl :
                     } else {
                         super.eq(document.documentStatus, WfDocumentConstants.Status.USE.code)
                     }
-                    document.documentId.`in`(targetIds)
                 } else {
                     super.eq(document.documentStatus, documentSearchCondition.searchDocumentStatus)
                 },
@@ -93,6 +92,9 @@ class WfDocumentRepositoryImpl :
                 ),
                 super.likeIgnoreCase(document.form.formName, documentSearchCondition.searchFormName)
             )
+            if (targetIds!!.isNotEmpty()) {
+                documentQuery.where(document.documentId.`in`(targetIds))
+            }
             documentQuery.orderBy(document.documentName.asc())
 
         return documentQuery.fetch()
