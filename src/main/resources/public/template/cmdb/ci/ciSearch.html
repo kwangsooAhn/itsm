@@ -780,6 +780,15 @@
                                 }
                             }
                         }
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        labels: {
+                            formatter: function() {
+                                console.log(this.value)
+                                return Highcharts.dateFormat('%m-%d', this.value);
+                            }
+                        }
                     }
                 };
                 // 차트 초기화
