@@ -209,7 +209,7 @@ insert into awf_url values ('/rest/faqs/{id}', 'put', 'FAQ 수정 처리', 'TRUE
 insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'TRUE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
-insert into awf_url values ('/rest/folders/{folderId}/instances/{instanceId}', 'delete', '폴더 삭제', 'FALSE');
+insert into awf_url values ('/rest/folders', 'delete', '폴더 삭제', 'FALSE');
 insert into awf_url values ('/rest/folders/{folderId}', 'get', '폴더조회', 'FALSE');
 insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');

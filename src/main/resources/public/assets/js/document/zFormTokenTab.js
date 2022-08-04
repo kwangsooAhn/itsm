@@ -562,9 +562,18 @@ class ZFormTokenTab {
      * @param instanceId 삭제 대상 인스턴스
      */
     removeRelatedDoc(folderId, instanceId) {
+        const relatedData = {
+            'folderId': folderId,
+            'orgInstanceId': this.instanceId,
+            'relInstanceId': instanceId
+        };
         zAlert.confirm(i18n.msg('common.msg.confirmDelete'), () => {
-            aliceJs.fetchJson('/rest/folders/' + folderId + '/instances/' + instanceId, {
-                method: 'DELETE'
+            aliceJs.fetchJson('/rest/folders', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(relatedData)
             }).then((response) => {
                 switch (response.status) {
                     case aliceJs.response.success:

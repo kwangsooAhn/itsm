@@ -902,7 +902,7 @@ Object.assign(zCalendar.prototype, {
                 <label class="checkbox">
                     <input type="checkbox" id="allDayYn" name="allDayYn">
                     <span></span>
-                    <span class="label">${i18n.msg('calendar.label.allDay')}</span>
+                    <span class="label p-0">${i18n.msg('calendar.label.allDay')}</span>
                 </label>
                 <div id="repeatDetail">
                     <select class="schedule__repeat" id="repeatType">${repeatTypeOptionTemplate}</select>
