@@ -485,7 +485,6 @@ class WfInstanceRepositoryImpl(
                         document.process,
                         document.form,
                         document.numberingRule,
-                        document.documentIcon,
                         code.codeName
                     ),
                     Projections.constructor(

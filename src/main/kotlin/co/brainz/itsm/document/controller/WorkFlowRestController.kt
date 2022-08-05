@@ -7,7 +7,7 @@ package co.brainz.itsm.document.controller
 
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
-import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentEditDto
 import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
@@ -35,21 +35,21 @@ class WorkFlowRestController(
     /**
      * 업무흐름 등록.
      *
-     * @param documentDto
+     * @param documentEditDto
      * */
     @PostMapping("")
-    fun workFlowDocument(@RequestBody documentDto: DocumentDto): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(documentService.createDocument(documentDto))
+    fun workFlowDocument(@RequestBody documentEditDto: DocumentEditDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.createDocument(documentEditDto))
     }
 
     /**
      * 업무흐름링크 등록.
      *
-     * @param documentDto
+     * @param documentEditDto
      * */
     @PostMapping("/workflowLink")
-    fun workFlowLink(@RequestBody documentDto: DocumentDto): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(documentService.createDocumentLink(documentDto))
+    fun workFlowLink(@RequestBody documentEditDto: DocumentEditDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(documentService.createDocumentLink(documentEditDto))
     }
 
     /**
@@ -91,12 +91,12 @@ class WorkFlowRestController(
     @PutMapping("/{documentId}")
     fun updateWorkFlow(
         @PathVariable documentId: String,
-        @RequestBody documentDto: DocumentDto,
+        @RequestBody documentEditDto: DocumentEditDto,
         @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
     ): ResponseEntity<ZResponse> {
         val params = LinkedHashMap<String, Any>()
         params["isDeleteData"] = isDeleteData
-        return ZAliceResponse.response(documentService.updateDocument(documentDto, params))
+        return ZAliceResponse.response(documentService.updateDocument(documentEditDto, params))
     }
 
     /**
@@ -108,9 +108,9 @@ class WorkFlowRestController(
     @PutMapping("/workflowLink/{documentId}")
     fun updateWorkFlowLink(
         @PathVariable documentId: String,
-        @RequestBody documentDto: DocumentDto
+        @RequestBody documentEditDto: DocumentEditDto
     ): ResponseEntity<ZResponse> {
-        return ZAliceResponse.response(documentService.updateDocumentLink(documentDto))
+        return ZAliceResponse.response(documentService.updateDocumentLink(documentEditDto))
     }
 
     /**

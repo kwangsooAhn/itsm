@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository
 class WfDocumentLinkRepositoryImpl :
     QuerydslRepositorySupport(DocumentSearchCondition::class.java), WfDocumentLinkRepositoryCustom {
 
-    override fun findByDocumentLink(documentSearchCondition: DocumentSearchCondition):
+    override fun findByDocumentLink(documentSearchCondition: DocumentSearchCondition, targetIds: List<String>):
             List<DocumentDto> {
         val documentLink = QWfDocumentLinkEntity.wfDocumentLinkEntity
 
@@ -36,16 +36,16 @@ class WfDocumentLinkRepositoryImpl :
                     constant(""),
                     constant(""),
                     documentLink.documentColor,
-                    constant(""),
+                    documentLink.documentGroup,
                     constant(false),
                     documentLink.documentLinkUrl,
                     documentLink.createUserKey,
                     documentLink.createDt,
                     documentLink.updateUserKey,
-                    documentLink.updateDt,
-                    documentLink.documentIcon
+                    documentLink.updateDt
                 )
             ).where(
+                super.eq(documentLink.documentGroup, documentSearchCondition.searchGroupName),
                 if (documentSearchCondition.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
                     if (documentSearchCondition.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
                         documentLink.documentStatus.`in`(
@@ -65,7 +65,11 @@ class WfDocumentLinkRepositoryImpl :
                             documentSearchCondition.searchDocuments
                         )
                     )
-            ).orderBy(documentLink.documentName.asc())
+            )
+            if (targetIds!!.isNotEmpty()) {
+                query.where(documentLink.documentLinkId.`in`(targetIds))
+            }
+            query.orderBy(documentLink.documentName.asc())
 
         return query.fetch()
     }

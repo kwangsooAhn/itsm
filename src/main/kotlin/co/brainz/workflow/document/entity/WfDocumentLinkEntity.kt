@@ -28,6 +28,9 @@ data class WfDocumentLinkEntity(
     @Column(name = "document_desc", length = 256)
     var documentDesc: String? = null,
 
+    @Column(name = "document_group", length = 100)
+    var documentGroup: String? = null,
+
     @Column(name = "document_status", length = 100)
     var documentStatus: String? = null,
 
@@ -36,9 +39,6 @@ data class WfDocumentLinkEntity(
 
     @Column(name = "document_color", length = 128)
     var documentColor: String?,
-
-    @Column(name = "document_icon", length = 100)
-    var documentIcon: String? = null,
 
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime? = null,

@@ -167,6 +167,13 @@ span {
   &.ic-alert-danger { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_danger.svg', null, no-repeat, center, center, null); }
   &.ic-alert-confirm { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, center, center, null); }
   &.ic-alert-email { @include backgroundImage('#{$icon-folder-path}alert/icon_alert_email.svg', null, no-repeat, center, center, null); }
+
+  ////////////////////////// Document //////////////////////////
+  &.ic-document-service { @include maskImage('#{$icon-folder-path}document/icon_document_service.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-pc { @include maskImage('#{$icon-folder-path}document/icon_document_pc.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-incident { @include maskImage('#{$icon-folder-path}document/icon_document_incident.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-develop { @include maskImage('#{$icon-folder-path}document/icon_document_develop.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
+  &.ic-document-report { @include maskImage('#{$icon-folder-path}document/icon_document_report.svg', 2rem, 2rem, no-repeat, center, null, $blue500); }
 }
 
 ////////////////////////// UI 컴포넌트 추가 //////////////////////////

@@ -128,15 +128,22 @@ insert into awf_code values ('assignee.type.assignee', 'assignee.type', null, '�
 insert into awf_code values ('assignee.type.candidate.groups', 'assignee.type', null, '담당자 후보그룹', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('assignee.type.candidate.users', 'assignee.type', null, '담당자 후보목록', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document', 'root', null, '신청서', null, false, true, 1, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.group', 'document', null, '신청서 목록', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.group.incident', 'document.group', '장애문의', '장애문의', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.group.inquiry', 'document.group', '단순문의', '단순문의', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.group.request', 'document.group', '서비스요청', '서비스요청', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.status', 'document', null, '신청서 상태', null, false, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type', 'document', null, '업무흐름 구분', null, true, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.application-form', 'document.type', '신청서', '신청서', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.workflow', 'document.type', '업무흐름', '업무흐름', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.application-form-workflow', 'document.type', '신청서 및 업무흐름', '신청서 및 업무흐름', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.type.application-form-link', 'document.type', '신청서 링크', '신청서 링크', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group', 'document', null, '신청서 목록', null, true, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.service', 'document.group', '서비스 요청', '서비스 요청', null, true, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.pc', 'document.group', 'PC 및 주변기기', 'PC 및 주변기기', null, true, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.incident', 'document.group', '장애 신고', '장애 신고', null, true, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.develop', 'document.group', '개발 요청', '개발 요청', null, true, true, 3, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.report', 'document.group', '내부 보고', '내부 보고', null, true, true, 3, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.status', 'document', null, '신청서 상태', null, false, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', '임시', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', '폐기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.use', 'document.status', '사용', '사용', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, true, 2, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.displayType', 'document', null, '신청서 프로세스별 그룹 출력 타입', null, false, true, 2, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.editable', 'document.displayType', '수정 ', '수정 ', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.readonly', 'document.displayType', '읽기', '읽기', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.displayType.hidden', 'document.displayType', '숨김', '숨김', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -1030,7 +1037,6 @@ insert into awf_scheduled_task_mst values ('4028b2647aadd869017aadf4cf830000', '
 where create_dt < now() - interval ''10day''', null, 'cron', null, '0 0 18 * * ?', null, null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b21e7c286680017c2868d9600000', '보고서 자동 생성', 'jar', '보고서 템플릿의 옵션 중, "자동 생성" 옵션이 설정된 템플릿을 수집하여, 보고서에 대한 자동 생성을 진행한다.', 'TRUE', 'FALSE', null, null, 'java -jar createReport.jar', 'cron', null, '0 0 18 * * ?', null, '/createReport', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b2647fbed869039fdce4cf870321', 'IF 테이블 모니터링 - 외부시그널', 'jar', 'IF 모니터링 플러그인 연동을 통해 rest API 통신을 진행한다.(IF 테이블 설정 필요)', 'TRUE', 'FALSE', null, null, 'java -jar ifMonitoring.jar', 'cron', null, '0 0/5 * * * ?', null, '/ifMonitoring', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_scheduled_task_mst values ('40288a9d823d7ee301823d81f3b40000', 'Zenius 용량 연동', 'jar', 'Zenius EMS 7 과 연동하여 용량 정보를 수집한다.', 'TRUE', 'FALSE', null, null, 'java -jar ems-capacity.jar', 'fixedDelay', 3600000, null, null, '/capacityEms', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 타임존정보
@@ -1293,7 +1299,6 @@ insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/cis/component/list', 'get', 'CI 모달 스크롤 조회', 'FALSE');
-insert into awf_url values ('/rest/cmdb/cis/{id}/chart', 'get', 'CMDB CI 차트 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 - CI 컴포넌트 세부 정보 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
@@ -9773,28 +9778,4 @@ COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.all_day_yn IS '종일여�
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
-
--- 용량관리 저장 테이블 생성
-DROP TABLE if EXISTS cmdb_ci_capacity_data;
-
-CREATE TABLE cmdb_ci_capacity_data (
-    ci_id           VARCHAR (128) NOT NULL,
-    reference_dt    TIMESTAMP NOT NULL,
-    cpu_avg         FLOAT,
-    memory_avg      FLOAT,
-    disk_avg        FLOAT,
-    mapping_id      VARCHAR (128),
-    CONSTRAINT cmdb_ci_capacity_data_pk PRIMARY KEY (ci_id, reference_dt),
-    CONSTRAINT cmdb_ci_capacity_data_fk FOREIGN KEY (ci_id)
-    REFERENCES cmdb_ci(ci_id)
-    ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-
-COMMENT ON TABLE cmdb_ci_capacity_data IS '용량관리 정보';
-COMMENT ON COLUMN cmdb_ci_capacity_data.ci_id IS 'CI아이디';
-COMMENT ON COLUMN cmdb_ci_capacity_data.reference_dt IS '저장일시';
-COMMENT ON COLUMN cmdb_ci_capacity_data.cpu_avg IS 'CPU사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.memory_avg IS '메모리사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.disk_avg IS '디스크사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.mapping_id IS '매핑아이디';
 
