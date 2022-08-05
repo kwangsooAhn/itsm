@@ -1940,6 +1940,7 @@ resource:
   btn:
     file: "New File"
     folder: "New Folder"
+    moveParentFolder: "Move Parent Folder"
     rename: "Rename"
   label:
     extension: "Type"

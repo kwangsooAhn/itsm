@@ -733,7 +733,7 @@ class AliceResourceProvider(
                     fileLocEntity = aliceFileLocRepository.getOne(fileSeq)
                     val originPath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
                     val modifyPath = super.getUploadFilePathWithNow(ResourceConstants.Path.TEMP.path, fileLocEntity.randomName)
-                    this.moveFile(originPath, modifyPath, false)
+                    this.moveFileLoc(originPath, modifyPath, false)
                     fileLocEntity.uploaded = true
 
                     try {
@@ -741,7 +741,7 @@ class AliceResourceProvider(
                         aliceFileOwnMapRepository.save(fileOwnMapEntity)
                     } catch (e: Exception) {
                         logger.error("{}", e.message)
-                        this.moveFile(originPath, modifyPath, true)
+                        this.moveFileLoc(originPath, modifyPath, true)
                         throw AliceException(AliceErrorConstants.ERR, e.message)
                     }
                 }
@@ -756,14 +756,14 @@ class AliceResourceProvider(
                     fileLocEntity = aliceFileLocRepository.getOne(fileDataId.toLong())
                     val originPath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
                     val modifyPath = super.getUploadFilePathWithNow(ResourceConstants.Path.TEMP.path, fileLocEntity.randomName)
-                    this.moveFile(originPath, modifyPath, false)
+                    this.moveFileLoc(originPath, modifyPath, false)
                     fileLocEntity.uploaded = true
 
                     try {
                         aliceFileLocRepository.save(fileLocEntity)
                     } catch (e: Exception) {
                         logger.error("{}", e.message)
-                        this.moveFile(originPath, modifyPath, true)
+                        this.moveFileLoc(originPath, modifyPath, true)
                         throw AliceException(AliceErrorConstants.ERR, e.message)
                     }
                 }
@@ -778,7 +778,7 @@ class AliceResourceProvider(
      * @param modify
      * @param isRollback
      */
-    private fun moveFile(origin: Path, modify: Path, isRollback: Boolean) {
+    private fun moveFileLoc(origin: Path, modify: Path, isRollback: Boolean) {
         if (isRollback) {
             Files.move(origin, modify, StandardCopyOption.REPLACE_EXISTING)
         } else {
@@ -887,6 +887,7 @@ class AliceResourceProvider(
         }
         return endIndex
     }
+
     /**
      * 썸네일 공통 모달의 사이즈를 작게 볼지 여부
      * 현재는 CMDB CI 아이콘만 해당되나 추후 늘어날 수 있음
@@ -896,5 +897,34 @@ class AliceResourceProvider(
             ResourceConstants.FileType.CI_ICON.code -> true
             else -> false
         }
+    }
+
+    /**
+     * 파일 및 폴더명 수정
+     *
+     * @param originPath 기존 폴더 경로
+     * @param modifyPath 수정 폴더 경로
+     */
+    fun moveFile(originPath: String, modifyPath: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val originFile = Paths.get(originPath).toFile()
+        var modifyFile = Paths.get(modifyPath).toFile()
+
+        // 원본 파일를 찾을 수 없을 경우
+        if (!originFile.exists()) {
+            return ZResponse(
+                status = ZResponseConstants.STATUS.ERROR_FAIL.code
+            )
+        }
+
+        try {
+            Files.move(originFile.toPath(), modifyFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: IOException) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
+        }
+
+        return ZResponse(
+            status = status.code
+        )
     }
 }

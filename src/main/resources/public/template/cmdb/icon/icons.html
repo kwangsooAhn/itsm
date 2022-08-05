@@ -70,10 +70,11 @@
             </div>
             <div class="grid" th:unless="${#arrays.isEmpty(resources)}"
                  style="--data-columns-width: repeat(auto-fill, minmax(15.313rem, 1fr));">
-                <div class="grid__row gap-2">
-                    <div class="grid__thumbnail--small" tabindex="-1" th:each="resource: ${resources}">
+                <div class="grid__row gap-2 list-group">
+                    <div class="grid__thumbnail--small list-group-item" tabindex="-1" th:each="resource: ${resources}"
+                         th:classappend="${resource.directoryYn}? 'grid__item--folder': ''">
                         <th:block th:if="${resource.directoryYn}">
-                            <div class="thumbnail__image" th:onclick="goFolder(encodeURIComponent([[${resource.fullPath}]]));">
+                            <div class="thumbnail__image" th:onclick="goFolder(encodeURIComponent([[${resource.fullPath}]]));" th:data-name="${resource.name}">
                                 <img th:src="@{/assets/media/icons/fileUploader/icon_document_{name}.svg(name=${resource.extension})}" width="40" height="40"/>
                             </div>
                         </th:block>
@@ -106,26 +107,47 @@
                         <div class="thumbnail__footer flex-row justify-content-between align-items-center">
                             <label class="thumbnail__footer--description text-ellipsis date-format" th:text="${resource.updateDt}"></label>
                             <th:block th:if="${#authorization.expression('hasAuthority(''cmdb.manage'')')}">
-                                <div class="context-menu" th:if="${resource.directoryYn}">
-                                    <button type="button" class="btn__ic context-menu__toggle">
-                                        <span class="ic-meatballs"></span>
-                                    </button>
-                                    <ul class="context-menu__content--left">
-                                        <li class="context-menu__item" tabindex="-1">
-                                            <button type="button" class="btn__text--box" th:data-name="${resource.name}"
-                                                    onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
-                                        </li>
-                                        <li class="context-menu__item" tabindex="-1" th:if="${resource.editable}">
-                                            <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
-                                                    onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <th:block th:if="${resource.editable}">
-                                    <button type="button" class="btn__ic" th:unless="${resource.directoryYn}"
-                                            th:data-name="${resource.name}" onclick="removeFile(this);">
-                                        <span class="ic-delete"></span>
-                                    </button>
+                                <th:block th:if="${resource.directoryYn}">
+                                    <div class="context-menu">
+                                        <button type="button" class="btn__ic context-menu__toggle">
+                                            <span class="ic-meatballs"></span>
+                                        </button>
+                                        <ul class="context-menu__content left-bottom">
+                                            <th:block th:if="${resource.directoryYn}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="openFolderModal(this);" th:text="#{resource.btn.rename}"></button>
+                                                </li>
+                                                <li class="context-menu__item" tabindex="-1" th:if="${resource.editable}">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}" th:data-count="${resource.count}"
+                                                            onclick="removeFolder(this);" th:text="#{common.btn.delete}"></button>
+                                                </li>
+                                            </th:block>
+                                            <th:block th:if="!${isRoot}">
+                                                <li class="context-menu__item" tabindex="-1">
+                                                    <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                            onclick="moveParentFolder(this);" th:text="#{resource.btn.moveParentFolder}"></button>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                    </div>
+                                </th:block>
+                                <th:block th:unless="${resource.directoryYn}">
+                                    <div class="context-menu" th:if="${resource.editable || !isRoot}">
+                                        <button type="button" class="btn__ic context-menu__toggle">
+                                            <span class="ic-meatballs"></span>
+                                        </button>
+                                        <ul class="context-menu__content left-bottom">
+                                            <li class="context-menu__item" tabindex="-1" th:if="${resource.editable}">
+                                                <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                        onclick="removeFile(this);" th:text="#{common.btn.delete}"></button>
+                                            </li>
+                                            <li class="context-menu__item" tabindex="-1" th:if="!${isRoot}">
+                                                <button type="button" class="btn__text--box" th:data-name="${resource.name}"
+                                                        onclick="moveParentFolder(this);" th:text="#{resource.btn.moveParentFolder}"></button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </th:block>
                             </th:block>
                         </div>
@@ -176,12 +198,19 @@
             close: { closable: false },
             onHide: () => {
                 // 기존 선택된 클래스를 제거
-                document.querySelectorAll('.grid__thumbnail--small.selected').forEach((elem) => {
-                    elem.classList.remove(selectedClass);
-                });
+                deSelectThumbnail();
             }
         });
     };
+
+    /**
+     * 선택된 썸네일 선택 해제
+     */
+    function deSelectThumbnail() {
+        document.querySelectorAll('.grid__thumbnail--small.selected').forEach((elem) => {
+            elem.classList.remove(selectedClass);
+        });
+    }
 
     /**
      * 아이콘 조회(검색 포함)
@@ -190,10 +219,10 @@
     function getList(pageNum = 1) {
         const orderColName = document.getElementById('orderColName') ? document.getElementById('orderColName').value : '';
         const orderDir = document.getElementById('orderDir') ? document.getElementById('orderDir').value : '';
-
         let urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&pageNum=' + pageNum
             + '&orderColName=' + orderColName
             + '&orderDir=' + orderDir;
+
         aliceJs.fetchText('/cmdb/icons?' + urlParam, {
             method: 'GET',
             showProgressbar: true
@@ -219,6 +248,80 @@
             container.querySelectorAll('.context-menu__toggle').forEach((dropdown) => {
                 dropdown.addEventListener('click', onToggleContextMenu, false);
             });
+
+            // 컨텍스트 메뉴 위치 조정
+            setContextMenuPosition();
+
+            // Drag & Drop 설정
+            setDraggable();
+        });
+    }
+
+    /**
+     * 컨텍스트 메뉴 위치 조정
+     */
+    function setContextMenuPosition() {
+        const start = 24; // 30번째 부터 컨텍스트 메뉴가 위로 표시되어야 함
+        const items = document.querySelectorAll('.grid__thumbnail--small');
+        if (items.length > start) {
+            const tempItems = Array.from(items).slice(start, items.length);
+            tempItems.forEach((item) => {
+                const contextMenu = item.querySelector('.context-menu__content');
+                if (contextMenu !== null && contextMenu.classList.contains('left-bottom')) {
+                    contextMenu.classList.remove('left-bottom');
+                    contextMenu.classList.add('left-top');
+                }
+            });
+        }
+    }
+
+    /**
+     * 드래그 & 드롭 이벤트 추가
+     */
+    function setDraggable() {
+        const target = document.querySelector('.list-group');
+        if (target === null) { return false; }
+
+        new Sortable(target, {
+            group: 'thumbnail',
+            swap: true,
+            swapClass: 'swap-highlight',
+            animation: 150,
+            draggable: '.list-group-item',
+            fallbackOnBody: true,
+            swapThreshold: 0.65,
+            onChoose: function() {
+                // 선택된 썸네일 선택 해제
+                deSelectThumbnail();
+            },
+            onClone: function(evt) {
+                evt.clone.classList.add(selectedClass);
+            },
+            onEnd: function(evt) {
+                evt.clone.classList.remove(selectedClass);
+                // 폴더로 이동한 경우
+                if (evt.swapItem.classList.contains('grid__item--folder') && evt.swapItem !== evt.item) {
+                    evt.swapItem.classList.add('hidden');
+                    evt.item.classList.add('hidden');
+                    const modName = evt.swapItem.children[0].getAttribute('data-name');
+                    const oriName = evt.item.children[0].getAttribute('data-name');
+                    const path = getPath();
+                    const fileSeparator = document.getElementById('fileSeparator').value;
+                    const saveData = {
+                        originPath: path + fileSeparator + oriName,
+                        modifyPath: path + fileSeparator + modName + fileSeparator + oriName
+                    };
+                    moveFile(saveData);
+                } else {
+                    // swap 롤백
+                    aliceJs.swapNode(evt.swapItem, evt.item);
+
+                    if (evt.swapItem.classList.contains('hidden')) {
+                        evt.swapItem.classList.remove('hidden');
+                        evt.item.classList.remove('hidden');
+                    }
+                }
+            }
         });
     }
 
@@ -287,7 +390,7 @@
                     <button type="button" class="btn__ic context-menu__toggle">
                         <span class="ic-meatballs"></span>
                     </button>
-                    <ul class="context-menu__content--left">${shortBreadcrumbTemplate}</ul>
+                    <ul class="context-menu__content left-bottom">${shortBreadcrumbTemplate}</ul>
                 </div>
                 <span class="ic-arrow-right ml-1 mr-1"></span>
             </li>`).trim();
@@ -414,6 +517,48 @@
                     break;
                 case aliceJs.response.duplicate:
                     zAlert.warning('[(#{resource.msg.duplicateFolderName})]');
+                    break;
+                case aliceJs.response.error:
+                    zAlert.danger('[(#{common.msg.fail})]');
+                    break;
+                default :
+                    break;
+            }
+        });
+    }
+
+    /**
+     * 상위 폴더로 이동
+     */
+    function moveParentFolder(target) {
+        const fileName = target.getAttribute('data-name');
+        const fileSeparator = document.getElementById('fileSeparator').value;
+        const path = getPath();
+        const pathArr = path.split(fileSeparator);
+        const tempArr = pathArr.slice(0, pathArr.length - 1);
+        const saveData = {
+            originPath: path + fileSeparator + fileName,
+            modifyPath: tempArr.join(fileSeparator) + fileSeparator + fileName
+        };
+        moveFile(saveData);
+    }
+
+    /**
+     * 폴더 이동
+     * @param method data 데이터
+     */
+    function moveFile(data) {
+        aliceJs.fetchJson('/rest/cmdb/icons/file/move', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+            showProgressbar: true
+        }).then((response) => {
+            switch (response.status) {
+                case aliceJs.response.success:
+                    getList();
                     break;
                 case aliceJs.response.error:
                     zAlert.danger('[(#{common.msg.fail})]');

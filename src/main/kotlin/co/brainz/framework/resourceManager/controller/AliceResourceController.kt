@@ -181,4 +181,14 @@ class AliceResourceController(
             aliceResourceProvider.getFiles(ownId, fileDataId)
         )
     }
+
+    /**
+     * 파일 이동
+     */
+    @PutMapping("/file/move")
+    fun moveFile(@RequestBody renameDto: AliceResourceRenameDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            aliceResourceProvider.moveFile(renameDto.originPath, renameDto.modifyPath)
+        )
+    }
 }

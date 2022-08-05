@@ -28,6 +28,8 @@ class ResourceController(
      */
     @GetMapping("")
     fun getResourcePage(searchCondition: AliceResourceSearchDto, model: Model): String {
+        // 기본 경로
+        val basePath = aliceResourceProvider.getExternalPath(searchCondition.type).toAbsolutePath().toString()
         return if (searchCondition.isPaging) {
             val resources = aliceResourceProvider.getResourcesPaging(searchCondition)
             // 검색어 사용여부
@@ -37,13 +39,14 @@ class ResourceController(
             // 데이터
             model.addAttribute("resources", resources.data)
             model.addAttribute("paging", resources.paging)
+            // 최 상위일 경우
+            model.addAttribute("isRoot", basePath == searchCondition.searchPath)
             resourcePageFragment
         } else {
             // 구분자
             model.addAttribute("fileSeparator", File.separator)
             // 기본 경로
-            model.addAttribute("basePath", aliceResourceProvider.getExternalPath(searchCondition.type)
-                .toAbsolutePath().toString())
+            model.addAttribute("basePath", basePath)
             // 허용 확장자 목록
             model.addAttribute("acceptFileExtensions", aliceResourceProvider.getAllowedExtensions(searchCondition.type))
             resourcePage
