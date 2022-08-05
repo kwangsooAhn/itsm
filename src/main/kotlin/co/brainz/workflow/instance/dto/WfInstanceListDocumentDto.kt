@@ -15,6 +15,5 @@ data class WfInstanceListDocumentDto(
     var process: WfProcessEntity,
     var form: WfFormEntity,
     var numberingRule: NumberingRuleEntity,
-    var documentIcon: String? = null,
     var documentGroupName: String? = ""
 ) : Serializable

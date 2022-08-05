@@ -211,8 +211,7 @@ class ZqlTestDataInit {
                 apiEnable = true,
                 numberingRule = numberingRuleRepository.findAll()[0],
                 documentColor = "",
-                documentGroup = "",
-                documentIcon = ""
+                documentGroup = ""
             )
         )
     }

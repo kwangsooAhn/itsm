@@ -157,7 +157,7 @@
   background: $white !important;
   &.toastify-right { right: 0.625rem; } // 10px
   &.toast-content {
-    [class*="ic-"] {
+    > div:first-child {
       @include backgroundImage('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem, null, null, null, null); // 100px
       width: 6.25rem; // 100px
       height: 6.25rem; // 100px
@@ -169,32 +169,27 @@
       padding: 0.938rem; // 15px
       div {
         &.title {
+          max-width: 18.13rem; // 290px
           padding-bottom: 0.625rem; // 10px
+          color: $gray800;
+          font-size: $font-size-s;
+          font-weight: $font-weight-medium;
+          font-family: $font-family;
           label, button { display: none; }
         }
-        &.message { padding-bottom: 0.625rem; } // 10px
-        &.date { color: $gray500; }
-        span {
-          &.title {
-            max-width: 18.13rem; // 290px
-            color: $gray800;
-            font-size: $font-size-s;
-            font-weight: $font-weight-medium;
-            font-family: $font-family;
-          }
-          &.message {
-            max-width: 22.5rem; // 360px
-            color: $gray800;
-            font-size: $font-size-s;
-            font-weight: $font-weight-regular;
-            font-family: $font-family;
-          }
-          &.date {
-            color: $gray500;
-            font-size: $font-size-xs;
-            font-weight: $font-weight-regular;
-            font-family: $font-family;
-          }
+        &.message {
+          max-width: 22.5rem; // 360px
+          padding-bottom: 0.625rem; // 10px
+          color: $gray800;
+          font-size: $font-size-s;
+          font-weight: $font-weight-regular;
+          font-family: $font-family;
+        }
+        &.date {
+          color: $gray500;
+          font-size: $font-size-xs;
+          font-weight: $font-weight-regular;
+          font-family: $font-family;
         }
       }
     }

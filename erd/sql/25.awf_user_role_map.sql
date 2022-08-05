@@ -23,3 +23,5 @@ insert into awf_user_role_map values ('40288ada7cfd3301017cfd3a78580000', 'gener
 insert into awf_user_role_map values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin');
 insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin');
 insert into awf_user_role_map values ('2c91808e7c75dad2017c781635e22000', 'portal.admin');
+insert into awf_user_role_map values ('4028b21c821952af01821a1c73ef0176', 'continuity.manager');
+insert into awf_user_role_map values ('4028b21c821952af01821a1cf2630178', 'continuity.admin');

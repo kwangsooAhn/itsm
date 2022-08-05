@@ -62,7 +62,7 @@ function zColorPicker(targetElement, options) {
 
     // color picker
     const colorPicker = document.createElement('div');
-    colorPicker.className = 'color-picker__box';
+    colorPicker.className = 'color-picker__box flex-row';
     colorPicker.tabIndex = 0;
     wrapperContainer.appendChild(colorPicker);
 
@@ -115,7 +115,7 @@ function zColorPicker(targetElement, options) {
     if (this.options.readOnly) { return false; }
     // color picker toggle event
     const self = this;
-    this.colorPicker.addEventListener('click', function (e) {
+    this.colorPicker.addEventListener('click', function(e) {
         e.preventDefault();
 
         if (self.isOpen) {
@@ -137,7 +137,7 @@ function zColorPicker(targetElement, options) {
 }
 Object.assign(zColorPicker.prototype, {
     // open
-    open: function () {
+    open: function() {
         if (!this.modalEl.classList.contains('block')) {
             this.modalEl.classList.add('block');
             this.setPosition();
@@ -150,7 +150,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // close
-    close: function () {
+    close: function() {
         if (this.modalEl.classList.contains('block')) {
             // 경고창 - 색상을 선택하세요.
             if (!this.selectedEl) {
@@ -172,7 +172,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette 가 오픈된 상태로 modal 외부를 선택할 경우 닫음.
-    autoClose: function (e) {
+    autoClose: function(e) {
         if (!aliceJs.clickInsideElement(e, 'color-picker__modal') &&
             !aliceJs.clickInsideElement(e, 'color-picker__box') &&
             !aliceJs.clickInsideElement(e, 'active')) {
@@ -190,7 +190,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // Palette set Position.
-    setPosition: function () {
+    setPosition: function() {
         let rect = this.modalEl.parentNode.getBoundingClientRect(),
             ow = this.modalEl.offsetWidth,
             oh = this.modalEl.offsetHeight,
@@ -214,7 +214,7 @@ Object.assign(zColorPicker.prototype, {
         }
     },
     // set color
-    setColor: function (color) {
+    setColor: function(color) {
         if (this.options.type === 'fill') {
             this.colorEl.style.backgroundColor = color;
         } else { // line
@@ -718,7 +718,7 @@ Object.assign(zColorPicker.prototype, {
         // rgb로 각각 분리해서 배열에 담기
         let rgb = ( 3 === hex.length ) ? hex.match( /[a-f\d]/gi ) : hex.match( /[a-f\d]{2}/gi );
 
-        rgb.forEach(function (str, x, arr) {
+        rgb.forEach(function(str, x, arr) {
             // rgb 각각의 헥사값이 한자리일 경우, 두자리로 변경하기.
             if ( str.length == 1 ) { str = str + str; }
 

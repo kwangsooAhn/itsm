@@ -104,3 +104,15 @@ INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b64a0a08e3', '신청내
 INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b64d9f090b', '접수내역', '4028b21c7cdffb67017ce0b5f9920873');
 INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b64ea60917', '처리내역', '4028b21c7cdffb67017ce0b5f9920873');
 INSERT INTO wf_form_group VALUES ('4028b21c7cdffb67017ce0b6510d0933', '승인 / 반려 내역', '4028b21c7cdffb67017ce0b5f9920873');
+/* 서비스 연속성 관리 계획서 */
+INSERT INTO wf_form_group VALUES ('9c8cceb77a20423984bfa4ef7e73d4d1', '제목', '4028b21c8233ff430182340690a20000');
+INSERT INTO wf_form_group VALUES ('99ddaf58c42d4d259213b83120714e8e', '신청내역', '4028b21c8233ff430182340690a20000');
+INSERT INTO wf_form_group VALUES ('ca60cc72983c4b62beebb4fa22f03402', '승인 / 반려 내역', '4028b21c8233ff430182340690a20000');
+/* 복구 훈련 계획서 */
+INSERT INTO wf_form_group VALUES ('b9b860237b0e44758d6c28a37d028c4a', '제목', '4028b21c8233ff43018234224021004d');
+INSERT INTO wf_form_group VALUES ('22ebaf5b292242219be3999d3fefa23f', '신청내역', '4028b21c8233ff43018234224021004d');
+INSERT INTO wf_form_group VALUES ('def5b9a0a7a34b238cbc45d2fe6578b1', '승인 / 반려 내역', '4028b21c8233ff43018234224021004d');
+/* 복구 훈련 결과서 */
+INSERT INTO wf_form_group VALUES ('bdc95719b39949809fbf2aaa5052224e', '제목', '4028b21c82343bfb018234420f630000');
+INSERT INTO wf_form_group VALUES ('03c0b58eeda64bcdb7598b853e0e27f9', '신청내역', '4028b21c82343bfb018234420f630000');
+INSERT INTO wf_form_group VALUES ('3cd16ba4f27547a4afaed9e28faeac10', '승인 / 반려 내역', '4028b21c82343bfb018234420f630000');

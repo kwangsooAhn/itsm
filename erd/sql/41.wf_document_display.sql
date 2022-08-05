@@ -438,3 +438,24 @@ INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b70509093e', '402
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b70509093e', '4028b21c7cdffb67017ce0b6510d0933', '9bea485756784ff3b4d5eb4411e72bb8', 'document.displayType.hidden');
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b70509093e', '4028b21c7cdffb67017ce0b6510d0933', '517a87a7b8dc458ca75beec5e0e1889a', 'document.displayType.hidden');
 INSERT INTO wf_document_display VALUES ('4028b21c7cdffb67017ce0b70509093e', '4028b21c7cdffb67017ce0b6510d0933', '1d8f887174f647739b5a9f15057cadb7', 'document.displayType.editable');
+/* 서비스 연속성 관리 계획서 */
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823453b1bf0029', '99ddaf58c42d4d259213b83120714e8e', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823453b1bf0029', '99ddaf58c42d4d259213b83120714e8e', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823453b1bf0029', '9c8cceb77a20423984bfa4ef7e73d4d1', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823453b1bf0029', '9c8cceb77a20423984bfa4ef7e73d4d1', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823453b1bf0029', 'ca60cc72983c4b62beebb4fa22f03402', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823453b1bf0029', 'ca60cc72983c4b62beebb4fa22f03402', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.hidden');
+/* 복구 훈련 계획서 */
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb0182345ad3bf002a', '22ebaf5b292242219be3999d3fefa23f', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb0182345ad3bf002a', '22ebaf5b292242219be3999d3fefa23f', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb0182345ad3bf002a', 'b9b860237b0e44758d6c28a37d028c4a', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb0182345ad3bf002a', 'b9b860237b0e44758d6c28a37d028c4a', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb0182345ad3bf002a', 'def5b9a0a7a34b238cbc45d2fe6578b1', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb0182345ad3bf002a', 'def5b9a0a7a34b238cbc45d2fe6578b1', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.hidden');
+/* 복구 훈련 결과서 */
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823466bff5002b', '03c0b58eeda64bcdb7598b853e0e27f9', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823466bff5002b', '03c0b58eeda64bcdb7598b853e0e27f9', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823466bff5002b', '3cd16ba4f27547a4afaed9e28faeac10', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.editable');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823466bff5002b', '3cd16ba4f27547a4afaed9e28faeac10', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.hidden');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823466bff5002b', 'bdc95719b39949809fbf2aaa5052224e', 'a3ebe5a26590cd82e9529f89cb62bdb5', 'document.displayType.readonly');
+INSERT INTO wf_document_display VALUES ('4028b21c82343bfb01823466bff5002b', 'bdc95719b39949809fbf2aaa5052224e', 'a50a0fe0f82920b672185504704cda48', 'document.displayType.readonly');

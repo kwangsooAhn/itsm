@@ -11,6 +11,7 @@ import co.brainz.framework.auth.entity.AliceRoleAuthMapPk
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.repository.AliceAuthRepository
+import co.brainz.framework.auth.repository.AliceDocumentRoleMapRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceConstants
@@ -26,6 +27,8 @@ import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AlicePagingData
+import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.itsm.document.dto.DocumentDto
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.dto.RoleListReturnDto
@@ -46,6 +49,7 @@ class RoleService(
     private val aliceMessageSource: AliceMessageSource,
     private val roleRepository: RoleRepository,
     private val authRepository: AliceAuthRepository,
+    private val documentRoleMapRepository: AliceDocumentRoleMapRepository,
     private val roleAuthMapRepository: AliceRoleAuthMapRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
     private val excelComponent: ExcelComponent,
@@ -205,6 +209,20 @@ class RoleService(
      */
     fun getUserRoleList(userKey: String): MutableList<RoleListDto> {
         return userRoleMapRepository.findUserRoleByUserKey(userKey)
+    }
+
+    /**
+     * 신청서의 역할 조회
+     */
+    fun getDocumentRoleList(document: DocumentDto): MutableList<RoleListDto> {
+        return documentRoleMapRepository.findRoleByDocumentId(document.documentId, document.documentType)
+    }
+
+    /**
+     * 신청서 링크의 역할 조회
+     */
+    fun getDocumentLinkRoleList(documentId: String): MutableList<RoleListDto> {
+        return documentRoleMapRepository.findRoleByDocumentId(documentId, DocumentConstants.DocumentType.APPLICATION_FORM_LINK.value)
     }
 
     /**

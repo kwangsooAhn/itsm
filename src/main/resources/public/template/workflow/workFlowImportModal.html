@@ -9,9 +9,10 @@
             <span th:text="#{document.label.type}"></span>
             <span class="required"></span>
         </label>
-        <select id="documentType" onchange="setDocumentType(this.value)">
-            <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
-            <option value="workflow" th:text="#{document.type.workflow}"></option>
+        <select id="documentType">
+            <option th:each="type:${typeList}" th:if="${type.code} != 'document.type.application-form-link'"
+                    th:value="${type.code}" th:text="${type.codeValue}"
+                    th:selected="${documentData?.documentType} == ${type.code}"></option>
         </select>
         <!-- 신청서 이름 -->
         <label class="field-label" for="documentName">
@@ -21,91 +22,66 @@
         <input type="text" id="documentName" maxlength="50" required="required"/>
         <!-- 설명 -->
         <label class="field-label" th:text="#{document.label.description}" for="documentDesc"></label>
-        <textarea id="documentDesc" rows="7" maxlength="128"></textarea>
-        <!-- 업무흐름 구분 :  신청서 -->
-        <div id= "applicationFormGroup" class="hidden-control-content">
-            <!-- 그룹 -->
-            <label class="field-label" th:text="#{common.label.group}" for="applicationDocumentGroup"></label>
-            <select id="applicationDocumentGroup">
-                <option value="" th:text="#{document.label.notSelect}" selected></option>
-                <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
-            </select>
-            <!-- 문서번호 규칙 -->
-            <label class="field-label" for="applicationNumberingRule">
-                <span th:text="#{document.label.numberingRule}"></span>
-                <span class="required"></span>
-            </label>
-            <select id="applicationNumberingRule">
-                <option value="" th:text="#{common.msg.select}" selected></option>
-                <option th:each="numberingRule:${numberingRuleList}"
-                        th:id="${numberingRule.numberingId}"
-                        th:value="${numberingRule.numberingId}"
-                        th:text="${numberingRule.numberingName}"></option>
-            </select>
-            <!-- 신청서 상태 -->
-            <label class="field-label" th:text="#{document.label.status}" for="applicationDocumentStatus"></label>
-            <select id="applicationDocumentStatus">
-                <option th:each="status:${statusList}" th:value="${status.code}"
-                        th:text="${status.codeName}" th:selected="${status.code} == 'document.status.temporary'"></option>
-            </select>
-            <!-- API 활성화 -->
-            <label class="field-label" th:text="#{document.label.apiEnable}" for="applicationApiEnable"></label>
-            <select id="applicationApiEnable" required="required">
-                <option value="true" th:text="#{document.label.enable}"></option>
-                <option value="false" th:text="#{document.label.disable}" selected></option>
-            </select>
-            <!-- 업무 흐름 색상 -->
-            <label class="field-label" for="applicationDocumentColor">
-                <span th:text="#{document.label.workFlowColor}"></span>
-                <span class="required"></span>
-            </label>
-            <input type="text" id="applicationDocumentColor"/>
-            <!-- 신청서 아이콘 -->
-            <label class="field-label" for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
-            <div class="flex-row input--remove">
-                <input type="text" id="applicationDocumentIcon" class="col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
-                    <span class="ic-remove"></span>
-                </button>
-                <button type="button" class="button-search btn__text--box tertiary" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
-            </div>
+        <textarea id="documentDesc" class="textarea textarea-scroll-wrapper" rows="7" maxlength="128"></textarea>
+        <!-- 그룹 -->
+        <label class="field-label" for="documentGroup">
+            <span th:text="#{common.label.group}"></span>
+            <span class="required"></span>
+        </label>
+        <select id="documentGroup">
+            <option value="" th:text="#{document.label.notSelect}" selected></option>
+            <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
+        </select>
+        <!-- 역할 -->
+        <label class="field-label" for="documentRole">
+            <span th:text="#{document.label.role}"></span>
+            <span class="required"></span>
+        </label>
+        <div class="checkbox-list" id="documentRole">
+            <ul>
+                <li class="document-role-checkbox-wrap" th:each="allRole : ${allRoles}">
+                    <label class="checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
+                           th:title="*{allRole.roleName}">
+                        <input class="document-role-checkbox" name="roles"
+                               th:disabled="${view}"
+                               th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox"
+                               th:onclick="checkDocumentRole(this)">
+                        <span></span>
+                        <span class="label" th:text="*{allRole.roleName}"></span>
+                    </label>
+                </li>
+            </ul>
         </div>
-        <!-- 업무흐름 구분 :  업무흐름 -->
-        <div id="workflowGroup" class="hidden-control-content">
-            <!-- 문서번호 규칙 -->
-            <label class="field-label" for="workflowNumberingRule">
-                <span th:text="#{document.label.numberingRule}"></span>
-                <span class="required"></span>
-            </label>
-            <select id="workflowNumberingRule">
-                <option value="" th:text="#{common.msg.select}" selected></option>
-                <option th:each="numberingRule:${numberingRuleList}"
-                        th:id="${numberingRule.numberingId}"
-                        th:value="${numberingRule.numberingId}"
-                        th:text="${numberingRule.numberingName}"></option>
-            </select>
-            <!-- 신청서 상태 -->
-            <label class="field-label" th:text="#{document.label.status}" for="workflowDocumentStatus"></label>
-            <input type="hidden" id="workflowPrevDocumentStatus"/>
-            <select id="workflowDocumentStatus">
-                <option th:each="status:${statusList}" th:value="${status.code}"
-                        th:text="${status.codeName}" th:selected="${status.code} == 'document.status.temporary'"></option>
-            </select>
-            <!-- API 활성화 -->
-            <label class="field-label" th:text="#{document.label.apiEnable}" for="workflowApiEnable"></label>
-            <select id="workflowApiEnable" required="required">
-                <option value="true" th:text="#{document.label.enable}"></option>
-                <option value="false" th:text="#{document.label.disable}" selected></option>
-            </select>
-            <!-- 업무 흐름 색상 -->
-            <label class="field-label" for="workflowDocumentColor">
-                <span th:text="#{document.label.workFlowColor}"></span>
-                <span class="required"></span>
-            </label>
-            <input type="text" id="workflowDocumentColor"/>
-        </div>
-        <!-- 업무흐름 구분 :  링크 (사용되지 않음) -->
-        <div id="applicationFormLinkGroup" class="hidden-control-content"></div>
+        <!-- 문서번호 규칙 -->
+        <label class="field-label" for="numberingRule">
+            <span th:text="#{document.label.numberingRule}"></span>
+            <span class="required"></span>
+        </label>
+        <select id="numberingRule">
+            <option value="" th:text="#{common.msg.select}" selected></option>
+            <option th:each="numberingRule:${numberingRuleList}"
+                    th:id="${numberingRule.numberingId}"
+                    th:value="${numberingRule.numberingId}"
+                    th:text="${numberingRule.numberingName}"></option>
+        </select>
+        <!-- 신청서 상태 -->
+        <label class="field-label" th:text="#{document.label.status}" for="documentStatus"></label>
+        <select id="documentStatus">
+            <option th:each="status:${statusList}" th:value="${status.code}"
+                    th:text="${status.codeName}" th:selected="${status.code} == 'document.status.temporary'"></option>
+        </select>
+        <!-- API 활성화 -->
+        <label class="field-label" th:text="#{document.label.apiEnable}" for="apiEnable"></label>
+        <select id="apiEnable" required="required">
+            <option value="true" th:text="#{document.label.enable}"></option>
+            <option value="false" th:text="#{document.label.disable}" selected></option>
+        </select>
+        <!-- 업무 흐름 색상 -->
+        <label class="field-label" for="documentColor">
+            <span th:text="#{document.label.workFlowColor}"></span>
+            <span class="required"></span>
+        </label>
+        <input type="text" id="documentColor"/>
         <!-- 문서양식 이름 -->
         <label class="field-label" for="formName">
             <span th:text="#{form.label.name}"></span>
