@@ -647,7 +647,9 @@ insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE'
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.product', 'config', '', 7, 'TRUE');
+insert into awf_menu values ('config.notifications', 'config', '/notification/edit', 7, 'TRUE');
+insert into awf_menu values ('config.notificationsRecord', 'config', '/notification/search', 8, 'TRUE');
+insert into awf_menu values ('config.product', 'config', '', 9, 'TRUE');
 
 /**
  * 권한별메뉴매핑
@@ -724,43 +726,8 @@ insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
 insert into awf_menu_auth_map values ('calendar', 'general');
-/**
- * 알림
- */
-DROP TABLE IF EXISTS awf_notification cascade;
-
-CREATE TABLE awf_notification
-(
-	notification_id varchar(128) NOT NULL,
-	received_user varchar(128) NOT NULL,
-	title varchar(128) NOT NULL,
-	message varchar(1024),
-	notification_type varchar(128) DEFAULT 'document',
-	instance_id varchar(128),
-	confirm_yn boolean DEFAULT 'false',
-	display_yn boolean DEFAULT 'false',
-	target varchar(100) DEFAULT 'zitsm',
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT awf_notification_pk PRIMARY KEY (notification_id)
-);
-
-COMMENT ON TABLE awf_notification IS '알림';
-COMMENT ON COLUMN awf_notification.notification_id IS '알림아이디';
-COMMENT ON COLUMN awf_notification.received_user IS '수신사용자';
-COMMENT ON COLUMN awf_notification.title IS '제목';
-COMMENT ON COLUMN awf_notification.message IS '메시지';
-COMMENT ON COLUMN awf_notification.notification_type IS '알림타입';
-COMMENT ON COLUMN awf_notification.instance_id IS '인스턴스아이디';
-COMMENT ON COLUMN awf_notification.confirm_yn IS '확인여부';
-COMMENT ON COLUMN awf_notification.display_yn IS '표시여부';
-COMMENT ON COLUMN awf_notification.target IS '대상 시스템';
-COMMENT ON COLUMN awf_notification.create_user_key IS '등록자';
-COMMENT ON COLUMN awf_notification.create_dt IS '등록일';
-COMMENT ON COLUMN awf_notification.update_user_key IS '수정자';
-COMMENT ON COLUMN awf_notification.update_dt IS '수정일';
+insert into awf_menu_auth_map values ('config.notifications', 'system.manage');
+insert into awf_menu_auth_map values ('config.notificationsRecord', 'system.manage');
 
 /**
  * 넘버링정보
@@ -1541,6 +1508,8 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
+insert into awf_url values('/notifications/edit', 'get', '알람 발송 관리 편집', 'TRUE');
+insert into awf_url values('/notifications/search', 'get', '알람 이력 조회', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1941,6 +1910,8 @@ insert into awf_url_auth_map values ('/workflows/workflowLink/{id}/edit', 'get',
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delete', 'workflow.manage');
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
+insert into awf_url_auth_map  values ('/notifications/edit', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/notifications/search', 'get', 'system.manage');
 
 /**
  * 사용자정보
@@ -1978,6 +1949,9 @@ CREATE TABLE awf_user
 	uploaded boolean DEFAULT 'false',
 	uploaded_location varchar(512),
     user_absence boolean DEFAULT 'false',
+    toast_yn boolean,
+    sms_yn boolean,
+    mail_yn boolean,
 	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
 	CONSTRAINT awf_user_uk UNIQUE (user_id )
 );
@@ -2011,16 +1985,18 @@ COMMENT ON COLUMN awf_user.avatar_type IS '아바타 종류';
 COMMENT ON COLUMN awf_user.avatar_value IS '아바타 value';
 COMMENT ON COLUMN awf_user.uploaded IS '업로드 여부';
 COMMENT ON COLUMN awf_user.uploaded_location IS '업로드 경로';
-COMMENT ON COLUMN awf_user.user_absence IS '부재 여부';
+COMMENT ON COLUMN awf_user.toast_yn IS '토스트 사용 여부';
+COMMENT ON COLUMN awf_user.sms_yn IS '문자 사용 여부';
+COMMENT ON COLUMN awf_user.mail_yn IS '메일 사용 여부';
 
-insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
-insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
-insert into awf_user values ('4028b21c7c4df297017c4e595fd90000', 'service.admin', '서비스 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'service_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
-insert into awf_user values ('40288ad27c729b34017c729c2e370000', 'service.manager', '서비스 담당자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'service_manager@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
-insert into awf_user values ('40288ada7cfd3301017cfd3a78580000', 'user', '일반 사용자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'general_user@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
-insert into awf_user values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin', '업무흐름 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'workflow_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
-insert into awf_user values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin', 'CMDB 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'cmdb_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
-insert into awf_user values ('2c91808e7c75dad2017c781635e22000', 'portal.admin', '포털 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'portal_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE);
+insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
+insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
+insert into awf_user values ('4028b21c7c4df297017c4e595fd90000', 'service.admin', '서비스 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'service_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
+insert into awf_user values ('40288ad27c729b34017c729c2e370000', 'service.manager', '서비스 담당자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'service_manager@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
+insert into awf_user values ('40288ada7cfd3301017cfd3a78580000', 'user', '일반 사용자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'general_user@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
+insert into awf_user values ('2c9180867d0b3336017d0de8bf480001', 'workflow.admin', '업무흐름 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'workflow_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
+insert into awf_user values ('2c91808e7c75dad2017c781635e20000', 'cmdb.admin', 'CMDB 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'cmdb_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
+insert into awf_user values ('2c91808e7c75dad2017c781635e22000', 'portal.admin', '포털 관리자', '$2a$10$BG5U2Mmk1pkbQSzv8p8sY.guCC10C/hfutcH/0XGLDIIWxutMHT46', 'portal_admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '', FALSE, TRUE, FALSE, FALSE);
 
 /**
  * 사용자역할매핑
@@ -9771,4 +9747,102 @@ COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.all_day_yn IS '종일여�
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.start_dt IS '시작일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.end_dt IS '종료일';
 COMMENT ON COLUMN awf_calendar_user_repeat_custom_data.create_dt IS '등록일';
+
+/**
+ * 알람 발송 정보
+ */
+
+DROP TABLE IF EXISTS notification_data cascade;
+
+CREATE TABLE notification_data
+(
+    notification_id   varchar(128) NOT NULL,
+    receiver_user_key varchar(128) NOT NULL,
+    title             varchar(512) NOT NULL,
+    message           text NOT NULL,
+    send_dt           timestamp NOT NULL,
+    channel           varchar(128) NOT NULL,
+    display_dt        timestamp,
+    confirm_dt        timestamp,
+    list_yn           boolean,
+    url               varchar(512),
+    CONSTRAINT notification_data_pk PRIMARY KEY (notification_id)
+);
+
+COMMENT ON TABLE notification_data IS '알람 발송 정보';
+COMMENT ON COLUMN notification_data.notification_id IS '알람 발송 아이디';
+COMMENT ON COLUMN notification_data.receiver_user_key IS '수신자';
+COMMENT ON COLUMN notification_data.title IS '제목';
+COMMENT ON COLUMN notification_data.message IS '메세지';
+COMMENT ON COLUMN notification_data.send_dt IS '발송일시';
+COMMENT ON COLUMN notification_data.channel IS '발송채널';
+COMMENT ON COLUMN notification_data.display_dt IS '디스플레이 일시';
+COMMENT ON COLUMN notification_data.confirm_dt IS '확인 일시';
+COMMENT ON COLUMN notification_data.list_yn IS '리스트 대상 유무';
+COMMENT ON COLUMN notification_data.url IS '링크 URL';
+
+
+/**
+ * 알람 발송관리 설정
+ */
+
+DROP TABLE IF EXISTS notification_config cascade;
+
+CREATE TABLE notification_config
+(
+    notification_code varchar(128) NOT NULL,
+    notification_name varchar(128) NOT NULL,
+    CONSTRAINT notification_config_pk PRIMARY KEY (notification_code)
+);
+
+COMMENT ON TABLE notification_config IS '알람 발송관리 설정';
+COMMENT ON COLUMN notification_config.notification_code IS '알람 발송관리 코드';
+COMMENT ON COLUMN notification_config.notification_name IS '알람 발송관리 명';
+
+INSERT INTO notification_config VALUES('document', '신청서');
+INSERT INTO notification_config VALUES('cmdbLicense', 'CMDB 라이센스');
+
+/**
+ * 알람 발송관리 설정
+ */
+
+DROP TABLE IF EXISTS notification_config_detail cascade;
+
+CREATE TABLE notification_config_detail
+(
+    channel             varchar(128) NOT NULL,
+    use_yn              boolean NOT NULL,
+    title_format        varchar(512) NOT NULL,
+    message_format      text NOT NULL,
+    template            varchar(128),
+    url                 varchar(256),
+    notification_code   varchar(128) NOT NULL,
+    create_user_key     varchar(128),
+    create_dt           timestamp,
+    update_user_key     varchar(128),
+    update_dt           timestamp,
+
+    CONSTRAINT notification_config_detail_pk PRIMARY KEY (notification_code, channel),
+    CONSTRAINT notification_config_detail_fk FOREIGN KEY (notification_code) REFERENCES notification_config (notification_code)
+);
+
+COMMENT ON TABLE notification_config_detail IS 'notification_config_detail';
+COMMENT ON COLUMN notification_config_detail.channel IS '발송 채널';
+COMMENT ON COLUMN notification_config_detail.use_yn IS '사용 여부';
+COMMENT ON COLUMN notification_config_detail.title_format IS '제목 양식';
+COMMENT ON COLUMN notification_config_detail.message_format IS '메세지 양식';
+COMMENT ON COLUMN notification_config_detail.template IS '템플릿 파일명';
+COMMENT ON COLUMN notification_config_detail.url IS '링크 URL';
+COMMENT ON COLUMN notification_config_detail.notification_code IS '알람 발송관리 코드';
+COMMENT ON COLUMN notification_config_detail.create_user_key IS '생성자';
+COMMENT ON COLUMN notification_config_detail.create_dt IS '생성 일시';
+COMMENT ON COLUMN notification_config_detail.update_user_key IS '수정자';
+COMMENT ON COLUMN notification_config_detail.update_dt IS '수정 일시';
+
+INSERT INTO notification_config_detail VALUES('toast', true, '${doc_type} ${doc_no}', '${doc_step}', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM] ${doc_type} ${doc_no} 처리안내', '${doc_no} 처리바랍니다', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM] ${doc_type} ${doc_no} 처리안내', '${doc_no} 처리바랍니다', 'document_mail_template.html', null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('toast', true, '${ci_name} ${doc_no}', '${ci_name} ${monitoring_field}가 ${due_date}', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM]  ${ci_no} ${ci_name} 만료 안내', '${ci_no} ${ci_name}가 ${due_date}', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM]  ${ci_no} ${ci_name} 만료 안내', '${ci_no} ${ci_name}가 ${due_date}', 'cmdb_mail_template.html', null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
 
