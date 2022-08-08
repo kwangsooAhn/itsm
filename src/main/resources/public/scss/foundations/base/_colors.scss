@@ -1,11 +1,9 @@
-// 1. Colors
-// ==========================================================================
-//브랜드 컬러
-$brand-color-brainz: #0066FF;
-$brand-color-zenius: #FF850A;
-$brand-color-itsm : #0014c3;
+/*
+ * @file : _colors.scss
+ * @description : 애플리케이션 전체에서 사용되는 색상 리스트
+ */
 
-//Blue
+// Blue
 $blue900: #091F5E;
 $blue800: #102E71;
 $blue700: #19428D;
@@ -17,7 +15,7 @@ $blue200: #AFD9F9;
 $blue100: #D6EDFC;
 $blue50: #E0F3FF;
 
-//Green
+// Green
 $green900: #235A07;
 $green800: #316D0C;
 $green700: #468813;
@@ -29,7 +27,7 @@ $green200: #DBF8A9;
 $green100: #F6FCE0;
 $green50: #F8FDF1;
 
-//Yellow
+// Yellow
 $yellow900: #776308;
 $yellow800: #907A0E;
 $yellow700: #B39A16;
@@ -41,7 +39,7 @@ $yellow200: #FEF6AB;
 $yellow100: #FEFBD4;
 $yellow50: #FEFDEB;
 
-//Orange
+// Orange
 $orange900: #7A2601;
 $orange800: #933603;
 $orange700: #B74C05;
@@ -53,7 +51,7 @@ $orange200: #FFDC9C;
 $orange100: #FFEDD1;
 $orange50: #FFF8E9;
 
-//Red
+// Red
 $red900: #75072D;
 $red800: #8E0B2D;
 $red700: #B0122D;
@@ -65,7 +63,7 @@ $red200: #FEBEA7;
 $red100: #FEE2D3;
 $red50: #FEF2EB;
 
-//Violet
+// Violet
 $violet900: #301270;
 $violet800: #451D88;
 $violet700: #632FA9;
@@ -77,7 +75,7 @@ $violet200: #EAC0FD;
 $violet100: #F6DFFE;
 $violet50: #FBF0FE;
 
-//Gray
+// Gray
 $gray900: #171D21;
 $gray800: #222529;
 $gray700: #505559;
@@ -89,7 +87,7 @@ $gray200: #E1E6EA;
 $gray100: #EBF1F5;
 $gray50: #F6F8FA;
 
-//Neutral Gray
+// Neutral Gray
 $neutral900: #212121;
 $neutral800: #424242;
 $neutral700: #616161;
@@ -101,13 +99,13 @@ $neutral200: #EEEEEE;
 $neutral100: #F5F5F5;
 $neutral50: #FAFAFA;
 
-//Black
+// Black
 $black: #000000;
 
-//White
+// White
 $white: #FFFFFF;
 
-//Pink
+// Pink
 $pink900: #731376;
 $pink800: #8F1F87;
 $pink700: #B1319C;
@@ -119,7 +117,7 @@ $pink200: #FEC1D5;
 $pink100: #FEE0E7;
 $pink50: #FEF1F4;
 
-//Cyan
+// Cyan
 $cyan900: #0C446B;
 $cyan800: #155E81;
 $cyan700: #2181A1;
@@ -131,7 +129,7 @@ $cyan200: #B8F5F3;
 $cyan100: #DCFAFA;
 $cyan50: #E8F9FA;
 
-//Indigo
+// Indigo
 $indigo900: #131F76;
 $indigo800: #21308F;
 $indigo700: #3448B1;
@@ -144,11 +142,6 @@ $indigo100: #E1E9FE;
 $indigo50: #F1F5FE;
 
 // Color Pallet
-$brand-color: (
-        "brainz": $brand-color-brainz,
-        "zenius": $brand-color-zenius,
-        "itsm": $brand-color-itsm
-);
 $blue: (
         'blue900': $blue900,
         'blue800': $blue800,
@@ -283,11 +276,10 @@ $indigo: (
 );
 $shades: (
         'black': $black,
-        'white': $white ,
+        'white': $white,
         'transparent': transparent
 );
 $colors: (
-        'brand': $brand-color,
         'blue': $blue,
         'green': $green,
         'yellow': $yellow,
