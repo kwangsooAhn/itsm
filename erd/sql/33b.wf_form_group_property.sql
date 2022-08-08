@@ -177,3 +177,24 @@ INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b64ea60917', 'l
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b64ea60917', 'display', '{"displayOrder":3,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b6510d0933', 'display', '{"displayOrder":4,"isAccordionUsed":true,"margin":"10 0 10 0"}');
 INSERT INTO wf_form_group_property VALUES('4028b21c7cdffb67017ce0b6510d0933', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');
+/* 서비스 연속성 관리 계획서 */
+INSERT INTO wf_form_group_property VALUES('9c8cceb77a20423984bfa4ef7e73d4d1', 'display', '{"displayOrder":0,"isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('9c8cceb77a20423984bfa4ef7e73d4d1', 'label', '{"visibility":false,"fontColor":"#8d9299","fontSize":"14","bold":true,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES('99ddaf58c42d4d259213b83120714e8e', 'display', '{"displayOrder":1,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('99ddaf58c42d4d259213b83120714e8e', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"신청내역"}');
+INSERT INTO wf_form_group_property VALUES('ca60cc72983c4b62beebb4fa22f03402', 'display', '{"displayOrder":2,"isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('ca60cc72983c4b62beebb4fa22f03402', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');
+/* 복구 훈련 계획서 */
+INSERT INTO wf_form_group_property VALUES('b9b860237b0e44758d6c28a37d028c4a', 'display', '{"displayOrder":"0","isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('b9b860237b0e44758d6c28a37d028c4a', 'label', '{"visibility":false,"fontColor":"#8d9299","fontSize":"14","bold":true,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES('22ebaf5b292242219be3999d3fefa23f', 'display', '{"displayOrder":"1","isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('22ebaf5b292242219be3999d3fefa23f', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"신청내역"}');
+INSERT INTO wf_form_group_property VALUES('def5b9a0a7a34b238cbc45d2fe6578b1', 'display', '{"displayOrder":"2","isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('def5b9a0a7a34b238cbc45d2fe6578b1', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');
+/* 복구 훈련 결과서 */
+INSERT INTO wf_form_group_property VALUES('bdc95719b39949809fbf2aaa5052224e', 'display', '{"displayOrder":"0","isAccordionUsed":false,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('bdc95719b39949809fbf2aaa5052224e', 'label', '{"visibility":false,"fontColor":"#8d9299","fontSize":"14","bold":true,"italic":false,"underline":false,"align":"center","text":""}');
+INSERT INTO wf_form_group_property VALUES('03c0b58eeda64bcdb7598b853e0e27f9', 'display', '{"displayOrder":"1","isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('03c0b58eeda64bcdb7598b853e0e27f9', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"신청내역"}');
+INSERT INTO wf_form_group_property VALUES('3cd16ba4f27547a4afaed9e28faeac10', 'display', '{"displayOrder":"2","isAccordionUsed":true,"margin":"10 0 10 0"}');
+INSERT INTO wf_form_group_property VALUES('3cd16ba4f27547a4afaed9e28faeac10', 'label', '{"visibility":true,"fontColor":"#6D6D6D","fontSize":"22","bold":true,"italic":false,"underline":false,"align":"left","text":"승인 / 반려 내역"}');

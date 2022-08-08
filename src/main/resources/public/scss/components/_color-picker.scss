@@ -45,7 +45,7 @@ $custom-color-plus: (
       @include borderRadius(0.0625rem);
       @include border(0.25rem, solid, transparent, all); // 4px
       display: inline-block;
-      width: 4.75rem; // 76px
+      width: 5rem; // 80px
       height: 1.5rem; // 24px
     }
     .ic-color-palette { background: $gray500; }

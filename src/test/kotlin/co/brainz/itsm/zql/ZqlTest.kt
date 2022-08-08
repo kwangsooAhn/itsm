@@ -426,8 +426,7 @@ class ZqlTest {
                 apiEnable = true,
                 numberingRule = this.numbering,
                 documentColor = "",
-                documentGroup = "",
-                documentIcon = ""
+                documentGroup = ""
             )
         )
     }

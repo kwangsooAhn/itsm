@@ -353,6 +353,7 @@ $z-index-hidden:                             -1;
         // 요청현황
         &__req-status {
           display: flex;
+          width: 100%;
           border: none;
           overflow-x: hidden;
           @include gridTemplate();
@@ -465,11 +466,10 @@ $z-index-hidden:                             -1;
 @mixin defaultCardTemplate() {
   .card-list {
     flex-wrap: wrap;
-    padding-bottom: 0.625rem; // 10px
 
     .card {
-      @include border(0.0625rem, solid, $gray300, all); // 1px
-      @include borderRadius(0.0625rem); // 1px
+      @include border(0.0625rem, solid, $gray300, all);
+      @include borderRadius(0.125rem); // 2px
       overflow: hidden;
       position: relative;
       min-width: 32.0625rem; // 513px
@@ -478,19 +478,26 @@ $z-index-hidden:                             -1;
       margin: 1.25rem 1.25rem 0 0; // 20px 20px 0 0
       padding: 0;
       cursor: pointer;
-      // 마우스 오버시
-      &:hover { box-shadow: 0 0 0.625rem 0 $gray200; }
-      .document-column {
-        h3 { width: 28rem; } // 448px
+      &:hover {
+        color: $blue500;
+        border-color: $blue500;
+        background-color: $blue100;
+      }
+      &:active {
+        color: $blue600;
+        border-color: $blue500;
+        background-color: $blue200;
       }
     }
 
-    //신청서 > 카드
-    .document-card {
+    .card__document {
       min-width: auto;
-      width: 28.5rem; //456px
-      min-height: 11.5625rem; //185px
-      margin-right: 2.8125rem; //45px
+      width: 23.75rem; // 381px
+      min-height: 6.5625rem; // 105px
+      margin: 0.9375rem 0.9375rem 0 0; // 15px 15px 0 0
+      &:nth-child(4n+1) {
+        margin-right: 0;
+      }
     }
 
     // 데이터 없을 때
@@ -499,7 +506,7 @@ $z-index-hidden:                             -1;
       background-color: $neutral50;
       pointer-events: none;
 
-      .ic-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
+      .i-no-card { content: url('#{$icon-folder-path}icon_no_card.svg'); }
       .no-data-text {
         margin-left: 2.5rem; // 40px
         color: $neutral400;

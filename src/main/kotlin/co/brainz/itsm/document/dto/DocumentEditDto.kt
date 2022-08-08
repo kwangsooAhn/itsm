@@ -8,9 +8,9 @@ package co.brainz.itsm.document.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class DocumentDto(
-    val documentId: String = "",
-    val documentType: String = "",
+data class DocumentEditDto(
+    var documentId: String = "",
+    var documentType: String = "",
     val documentName: String = "",
     val documentDesc: String? = null,
     var documentStatus: String? = null,
@@ -18,7 +18,8 @@ data class DocumentDto(
     var formId: String = "",
     val documentNumberingRuleId: String = "",
     val documentColor: String? = "",
-    var documentGroup: String? = null,
+    var documentGroup: String = "",
+    var documentRoles: MutableSet<String>? = null,
     var apiEnable: Boolean = false,
     var documentLinkUrl: String? = "",
     var createUserKey: String? = null,
