@@ -296,15 +296,15 @@ class ZFormDesigner {
                 draggable: '.list-group-item',
                 fallbackOnBody: true,
                 swapThreshold: 0.65,
-                onChoose: function () {
+                onChoose: function() {
                     // drag 시작 시, 기존 선택된 객체 선택 해제
                     this.options.editor.deSelectObject();
                 },
-                onClone: function (evt) {
+                onClone: function(evt) {
                     // drag & drop 시 디자인 추가
                     evt.clone.classList.add('placeholder');
                 },
-                onMove: function (evt) {
+                onMove: function(evt) {
                     if (evt.from !== evt.to && evt.dragged.classList.contains('component-template-icon')) {
                         // drag시 컴포넌트 표시
                         evt.dragged.classList.add('component-icon-drag-in');
@@ -317,7 +317,7 @@ class ZFormDesigner {
                         }
                     }
                 },
-                onEnd: function (evt) {
+                onEnd: function(evt) {
                     zFormDesigner.setComponentTemplateOnEnd(this, evt);
                 }
             });
@@ -1165,8 +1165,8 @@ class ZFormDesigner {
      */
     onLeftClickHandler(e) {
         // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
-        if (e.target != null && !e.target.classList.contains('header-button-dropdown')) {
-            document.querySelectorAll('.' + 'header-button-dropdown').forEach(function(dropdown) {
+        if (e.target != null && !e.target.classList.contains('context-menu__toggle')) {
+            document.querySelectorAll('.' + 'context-menu__toggle').forEach(function(dropdown) {
                 if (dropdown.classList.contains('active')) {
                     dropdown.classList.remove('active');
                 }

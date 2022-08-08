@@ -418,10 +418,10 @@
      */
     function onToggleContextMenu(e) {
         e.preventDefault();
-        if (e.target.classList.contains('on')) {
-            e.target.classList.remove('on');
+        if (e.target.classList.contains('active')) {
+            e.target.classList.remove('active');
         } else {
-            e.target.classList.add('on');
+            e.target.classList.add('active');
         }
     }
 
@@ -825,8 +825,8 @@
         // 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
         if (e.target !== null && !aliceJs.clickInsideElement(e, 'context-menu')) {
             document.querySelectorAll('.context-menu__toggle').forEach((dropdown) => {
-                if (dropdown.classList.contains('on')) {
-                    dropdown.classList.remove('on');
+                if (dropdown.classList.contains('active')) {
+                    dropdown.classList.remove('active');
                 }
             });
         }

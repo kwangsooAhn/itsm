@@ -128,13 +128,6 @@ class DocumentService(
             )
         )
 
-        for (document in documentList.data) {
-            if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
-            document.documentIcon =
-                aliceResourceProvider.getDataUriSchema(
-                    ResourceConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon
-                )
-        }
         return documentList
     }
 
@@ -157,6 +150,7 @@ class DocumentService(
 
     /**
      * 업무흐름 조회.
+     * .
      */
     fun getDocumentAdmin(documentId: String): DocumentDto {
         return wfDocumentService.getDocument(documentId)

@@ -12,22 +12,25 @@
             </span>
         </span>
         <span class="divide">|</span>
-        <button class="user user-info flex-row align-items-center" tabindex="0">
-            <img class="i-user-profile user"
-                 th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
-            <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
-            <span class="user ic-arrow-right"></span>
-        </button>
-        <ul class="context-menu">
-            <li class="context-menu__item" tabindex="-1">
-                <button class="context-menu__item-btn align-left" th:text="#{common.btn.editUserInfo}"
-                        onclick="getUserEdit()" tabindex="0"></button>
-            </li>
-            <li class="context-menu__item" tabindex="-1">
-                <button class="context-menu__item-btn align-left" th:text="#{common.btn.logout}" onclick="logout()"
-                        tabindex="0"></button>
-            </li>
-        </ul>
+
+        <div class="context-menu user-info">
+            <button type="button" class="btn__ic context-menu__toggle flex-row align-items-center">
+                <img class="user i-user-profile"
+                     th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
+                <span class="user user-name text-ellipsis" sec:authentication="details.userName"></span>
+                <span class="user ic-arrow-right"></span>
+            </button>
+            <ul class="context-menu__content right-bottom mt-1 mr-1">
+                <li class="context-menu__item" tabindex="-1">
+                    <button type="button" class="btn__text--box"  th:text="#{common.btn.editUserInfo}"
+                            onclick="getUserEdit()"></button>
+                </li>
+                <li class="context-menu__item" tabindex="-1">
+                    <button type="button" class="btn__text--box"  th:text="#{common.btn.logout}"
+                            onclick="logout()" tabindex="0"></button>
+                </li>
+            </ul>
+        </div>
     </div>
     <div id="notification-panel" class="notification-panel"></div>
     <div id="toast-panel" name="toast-panel"></div>
@@ -37,9 +40,9 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     let notificationDiv = null;
-    window.addEventListener('DOMContentLoaded', function () {
-        const userInfo = document.querySelector('.user-info');
-        document.querySelector('.user-info').addEventListener('click', function (e) {
+    window.addEventListener('DOMContentLoaded', function() {
+        const userInfo = document.querySelector('.user-info .context-menu__toggle');
+        userInfo.addEventListener('click', function(e) {
             e.preventDefault();
             if (this.classList.contains('active')) {
                 this.classList.remove('active');
@@ -47,11 +50,11 @@
                 this.classList.add('active');
             }
         });
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             if (e.target != null && !e.target.classList.contains('user')) {
-                userInfo.classList.remove('active');
+                userInfo.classList.remove('on');
             }
-        })
+        });
         aliceJs.loadSvg();
         notificationDiv = document.getElementById('notification-panel');
         hiddenProgressBar();
@@ -94,7 +97,7 @@
 
     // Get notification list.
     function getNotificationList(isShow) {
-        restSubmitNotification('get', '/notifications', function (result) {
+        restSubmitNotification('get', '/notifications', function(result) {
             notificationDiv.innerHTML = result;
             const noConfirmNotification = notificationDiv.querySelectorAll('div[isnot-confirm=false]'); // 확인 안된 알림
             if (noConfirmNotification.length !== 0 && !document.querySelector('.ic-notification').classList.contains('active')) {
@@ -105,7 +108,7 @@
 
             if (isShow) {
                 const noDisplayNotification = notificationDiv.querySelectorAll('div[is-display=false]');
-                noDisplayNotification.forEach(function (element) {
+                noDisplayNotification.forEach(function(element) {
                     showNotification({
                         notificationId: element.id,
                         notificationType: element.getAttribute('notification-type'),
@@ -117,7 +120,7 @@
                 });
             }
 
-            OverlayScrollbars(document.querySelectorAll('.notification-panel__body'), {className: 'inner-scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('.notification-panel__body'), { className: 'inner-scrollbar' });
         });
     }
 
@@ -136,10 +139,10 @@
             position: 'right',
             stopOnFocus: true,
             className: 'alice-toastify toast-content',
-            onShow: function () {
+            onShow: function() {
                 updateNotification(param.notificationId, 'display');
             },
-            onClick: function () {
+            onClick: function() {
                 // 문서 알림일 경우만 팝업 호출
                 if (param.notificationType === 'document') {
                     openTokenPage(param.notificationId, param.tokenId);
@@ -159,14 +162,14 @@
 
     // Update notification.
     function updateNotification(notificationId, target) {
-        restSubmitNotification('put', '/rest/notifications/' + notificationId + '/' + target, function () {
+        restSubmitNotification('put', '/rest/notifications/' + notificationId + '/' + target, function() {
             getNotificationList(false);
         });
     }
 
     // Delete notification.
     function deleteNotification(notificationId) {
-        restSubmitNotification('delete', '/rest/notifications/' + notificationId, function () {
+        restSubmitNotification('delete', '/rest/notifications/' + notificationId, function() {
             getNotificationList(false);
         });
     }

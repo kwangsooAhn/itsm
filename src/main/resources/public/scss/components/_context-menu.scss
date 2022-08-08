@@ -13,16 +13,14 @@ $contextMenu: (
   'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
 );
 
-// ... 메뉴 클릭시 드롭다운
 .context-menu {
   @include relative();
 
   span[class*="ic-"] { pointer-events: none; }
 
   .context-menu__toggle {
-    padding: 0.25rem; // 4px
 
-    &.on {
+    &.active {
       + .context-menu__content {
         display: flex;
       }
