@@ -19,7 +19,9 @@ import co.brainz.itsm.cmdb.ciIcon.entity.CIIconEntity
 import co.brainz.itsm.cmdb.ciIcon.repository.CIIconRepository
 import java.io.File
 import java.io.IOException
+import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -386,6 +388,59 @@ class CIIconService(
         } catch (e: IOException) {
             status = ZResponseConstants.STATUS.ERROR_FAIL
             e.printStackTrace()
+        }
+
+        return ZResponse(
+            status = status.code
+        )
+    }
+
+    /**
+     * CMDB CI Icon 파일 이동
+     */
+    fun moveCIIcon(originPath: String, modifyPath: String): ZResponse {
+        var status = ZResponseConstants.STATUS.SUCCESS
+        val originFile = Paths.get(originPath).toFile()
+        var modifyFile = Paths.get(modifyPath).toFile()
+        val icons = ciIconRepo.findAll()
+
+        // 원본 파일를 찾을 수 없을 경우
+        if (!originFile.exists()) {
+            return ZResponse(
+                status = ZResponseConstants.STATUS.ERROR_FAIL.code
+            )
+        }
+
+        val iconEntities = mutableListOf<CIIconEntity>()
+        try {
+            // 해당 폴더에 속한 아이콘 파일들의 경로 변경
+            if (originFile.isDirectory) {
+                originFile.walk()
+                    .filter { it.isDirectory }
+                    .forEach { file ->
+                        icons.forEach { icon ->
+                            if (icon.uploadedLocation == file.path) {
+                                val modifyLocation = icon.uploadedLocation?.replace(originFile.path, "")
+                                icon.uploadedLocation = modifyFile.path + modifyLocation
+                                iconEntities.add(icon)
+                            }
+                        }
+                    }
+            } else {
+                val icon = icons.firstOrNull {
+                    val path = Paths.get(it.uploadedLocation + File.separator + it.fileName + "." + it.fileNameExtension)
+                    originFile.absolutePath == path.toAbsolutePath().toString()
+                }
+                if (icon !== null) {
+                    icon.uploadedLocation = modifyFile.parent.toString()
+                    iconEntities.add(icon)
+                }
+            }
+            ciIconRepo.saveAll(iconEntities)
+
+            Files.move(originFile.toPath(), modifyFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: IOException) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
 
         return ZResponse(

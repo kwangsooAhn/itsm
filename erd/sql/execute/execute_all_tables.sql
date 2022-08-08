@@ -1313,6 +1313,7 @@ insert into awf_url values ('/rest/cmdb/icons/folder', 'delete', 'CMDB 아이콘
 insert into awf_url values ('/rest/cmdb/icons/file/upload', 'post', 'CMDB 아이콘 파일 업로드', 'TRUE');
 insert into awf_url values ('/rest/cmdb/icons/file', 'put', 'CMDB 아이콘 파일명 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/icons/file', 'delete', 'CMDB 아이콘 파일 삭제', 'TRUE');
+insert into awf_url values ('/rest/cmdb/icons/file/move', 'put', 'CMDB 아이콘 파일 이동', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'get', 'CMDB Type 조회', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types', 'post', 'CMDB Type 등록', 'TRUE');
 insert into awf_url values ('/rest/cmdb/types/{id}', 'get', 'CMDB Type 단일 조회', 'TRUE');
@@ -1725,6 +1726,7 @@ insert into awf_url_auth_map values ('/rest/cmdb/icons/folder', 'delete', 'cmdb.
 insert into awf_url_auth_map values ('/rest/cmdb/icons/file/upload', 'post', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/icons/file', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/icons/file', 'delete', 'cmdb.manage');
+insert into awf_url_auth_map values ('/rest/cmdb/icons/file/move', 'put', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.manage');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'get', 'cmdb.view');
 insert into awf_url_auth_map values ('/rest/cmdb/types', 'post', 'cmdb.manage');

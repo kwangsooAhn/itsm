@@ -5,7 +5,6 @@
  * @author Woo Da Jung <wdj@brainz.co.kr>
  * @version 1.0
  */
-// 썸네일
 .grid {
   &__thumbnail {
     @include border(0.0625rem, solid, $gray300, all);
@@ -153,5 +152,10 @@
       }
       [class*="ic-"] { background: $neutral500; }
     }
+  }
+
+  // 드래그시 디자인
+  .swap-highlight {
+    opacity: 0.5;
   }
 }
