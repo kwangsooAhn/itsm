@@ -299,12 +299,14 @@ class WfInstanceService(
         )
         val instance = wfInstanceRepository.save(instanceEntity)
         instance.let {
-            val folders = folderManager.createFolder(instance)
-            instance.folders = mutableListOf(folders)
-            instance.pTokenId?.let { id ->
-                val parentToken = wfTokenRepository.getOne(id)
-                folderManager.insertInstance(parentToken.instance, instance)
-                folderManager.insertInstance(instance, parentToken.instance)
+            if (!folderManager.existsOriginFolder(instance.instanceId)) {
+                val folders = folderManager.createFolder(instance)
+                instance.folders = mutableListOf(folders)
+                instance.pTokenId?.let { id ->
+                    val parentToken = wfTokenRepository.getOne(id)
+                    folderManager.insertInstance(parentToken.instance, instance)
+                    folderManager.insertInstance(instance, parentToken.instance)
+                }
             }
         }
 
