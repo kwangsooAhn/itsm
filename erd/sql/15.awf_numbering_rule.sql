@@ -29,5 +29,6 @@ insert into awf_numbering_rule values ('4028b25d7886e2d801788704dd8e0002', 'RFC-
 insert into awf_numbering_rule values ('4028b88178c0fcc60178c10dbb5b0003', 'INC-yyyyMMdd-000', '장애관리 문서번호');
 insert into awf_numbering_rule values ('4028b88178c01b660178c0cc91310004', 'PBM-yyyyMMdd-000', '문제관리 문서번호');
 insert into awf_numbering_rule values ('4028b21c821e445f01821e4cc6d40001', 'SCM-yyyyMMdd-000', '연속성관리 문서번호');
+insert into awf_numbering_rule values ('40288a9d827ace2901827b1ba1220020', 'CAP-yyyyMMdd-000', '용량관리 문서번호');
 insert into awf_numbering_rule values ('40288ab2808768300180881537d5001d', 'SMS', 'SMS 번호');
 insert into awf_numbering_rule values ('40288ab2808768300180881cb9f6001e', 'NMS', 'NMS 번호');
