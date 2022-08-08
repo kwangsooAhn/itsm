@@ -1,10 +1,8 @@
-/* _font.scss
- *
- * 파일 경로 : foundations/base/_font.scss
+/*
+ * @file _font.scss
  * @description 글꼴 관련 설정
- * @author jy.lim
- * @version 1.0
  */
+
 // font 설정 variables
 $font-folder-path: '../../assets/fonts';
 
@@ -21,7 +19,6 @@ $font-face-map: (
         'Pretendard-Black.woff2': 900
 );
 
-// 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (") 사용
 $font-family: 'Pretendard', '맑은고딕', 'Malgun Gothic', dotum, gulim, sans-serif;
 
 // font size
@@ -48,4 +45,17 @@ $font-weight-black: 900 !default;
 // font style
 .font-bold {
   font-weight: $font-weight-bold;
+}
+
+@mixin fontFace($name, $path, $format, $style, $weight) {
+  @font-face {
+    src: local($name), url($path) format($format);
+    font-family: $name;
+    font-style: if($style == null, normal, $style);
+    font-weight: $weight;
+  }
+}
+
+@each $name, $weight in $font-face-map {
+  @include fontFace("Pretendard", $font-folder-path + "/" + $name , "woff2", normal, $weight);
 }
