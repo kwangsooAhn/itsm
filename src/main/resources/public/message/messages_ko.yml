@@ -1925,6 +1925,7 @@ resource:
   btn:
     file: "파일 추가"
     folder: "폴더 추가"
+    moveParentFolder: "상위 폴더 이동"
     rename: "이름 변경"
   label:
     extension: "유형"

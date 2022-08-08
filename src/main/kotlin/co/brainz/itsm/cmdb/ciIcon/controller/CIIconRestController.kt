@@ -85,4 +85,14 @@ class CIIconRestController(
             ciIconService.deleteCIIcon(path)
         )
     }
+
+    /**
+     * 파일명 수정
+     */
+    @PutMapping("/file/move")
+    fun moveCIIcon(@RequestBody fileRenameDto: AliceResourceRenameDto): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(
+            ciIconService.moveCIIcon(fileRenameDto.originPath, fileRenameDto.modifyPath)
+        )
+    }
 }

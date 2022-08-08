@@ -23,31 +23,13 @@ $contextMenu: (
     padding: 0.25rem; // 4px
 
     &.on {
-      + .context-menu__content--left,
-      + .context-menu__content--right {
+      + .context-menu__content {
         display: flex;
       }
     }
   }
 
-  .context-menu__content--left {
-    @include absolute($left: 0);
-
-    .context-menu__item {
-      .btn__text--box { text-align: left; }
-    }
-  }
-
-  .context-menu__content--right {
-    @include absolute($right: 0);
-
-    .context-menu__item {
-      .btn__text--box { text-align: right; }
-    }
-  }
-
-  .context-menu__content--left,
-  .context-menu__content--right {
+  .context-menu__content {
     @include border(0.0625rem, solid, $gray300, all); // 1px
     @include borderRadius(0.125rem); // 2px
     display: none;
@@ -57,6 +39,40 @@ $contextMenu: (
     padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
     background-color: $white;
     z-index: $z-index-between-tooltip-gnb;
+
+    &.left-top {
+      @include absolute(0, auto, auto, 0);
+      @include translate(0, calc(-100%)); // 10px
+
+      .context-menu__item {
+        .btn__text--box { text-align: left; }
+      }
+    }
+
+    &.left-bottom {
+      @include absolute(auto, auto, auto, 0);
+
+      .context-menu__item {
+        .btn__text--box { text-align: left; }
+      }
+    }
+
+    &.right-top {
+      @include absolute(0, 0, auto, auto);
+      @include translate(0, calc(-100%)); // 10px
+
+      .context-menu__item {
+        .btn__text--box { text-align: right; }
+      }
+    }
+
+    &.right-bottom {
+      @include absolute(auto, 0, auto, auto);
+
+      .context-menu__item {
+        .btn__text--box { text-align: right; }
+      }
+    }
 
     .context-menu__item {
       padding: 0.25rem 0 0 0; // 4px 0 0 0

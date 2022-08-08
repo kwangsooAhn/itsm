@@ -26,6 +26,9 @@ class CIIconController(
 
     @GetMapping("")
     fun getIconPage(searchCondition: AliceResourceSearchDto, model: Model): String {
+        // 기본 경로
+        val type = ResourceConstants.FileType.CI_ICON.code
+        val basePath = aliceResourceProvider.getExternalPath(type).toAbsolutePath().toString()
         return if (searchCondition.isPaging) {
             val resources = ciIconService.getCIIconsPaging(searchCondition)
             // 검색어 사용여부
@@ -35,14 +38,14 @@ class CIIconController(
             // 데이터
             model.addAttribute("resources", resources.data)
             model.addAttribute("paging", resources.paging)
+            // 최 상위일 경우
+            model.addAttribute("isRoot", basePath == searchCondition.searchPath)
             iconPageFragment
         } else {
-            val type = ResourceConstants.FileType.CI_ICON.code
             // 구분자
             model.addAttribute("fileSeparator", File.separator)
             // 기본 경로
-            model.addAttribute("basePath", aliceResourceProvider.getExternalPath(type)
-                .toAbsolutePath().toString())
+            model.addAttribute("basePath", basePath)
             // 허용 확장자 목록 (이미지 파일만 허용)
             model.addAttribute("acceptFileExtensions", aliceResourceProvider.getAllowedExtensions(type))
             iconPage

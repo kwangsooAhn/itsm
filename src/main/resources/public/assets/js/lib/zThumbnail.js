@@ -135,7 +135,7 @@
                             <button type="button" class="btn__ic context-menu__toggle">
                                 <span class="ic-meatballs"></span>
                             </button>
-                            <ul class="context-menu__content--left">${shortBreadcrumbTemplate}</ul>
+                            <ul class="context-menu__content left-bottom">${shortBreadcrumbTemplate}</ul>
                         </div>
                         <span class="ic-arrow-right ml-1 mr-1"></span>
                     </li>`
