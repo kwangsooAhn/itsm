@@ -8,6 +8,17 @@
   white-space: nowrap;
   word-wrap: normal;
 }
+// 여러줄 말줄임
+// @include ellipsisMulti(2);
+@mixin ellipsisMulti($clamps: 2, $width: 100%) {
+  overflow: hidden;
+  display: -webkit-box !important;
+  max-width: $width;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $clamps;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
 // 줄바꿈
 @mixin wordWrap($wrap: break-word) {
   overflow-wrap: $wrap;
@@ -72,6 +83,8 @@
 .text-clip { text-overflow: clip; }
 // 말줄임
 .text-ellipsis { @include ellipsis(); }
+// 여러줄 말줄임
+.text-ellipsis-multi { @include ellipsisMulti(); }
 //줄바꿈
 .text-wordWrap { @include wordWrap(); }
 //줄바꿈제거

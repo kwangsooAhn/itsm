@@ -707,9 +707,10 @@ document:
     register: "Service Request Registration"
     registerDisplay: "Service Request Display"
     registerEdit: "Service Request Edit"
+    role: "Inquiry target role"
     searchPlaceholder: "Document name / Document description"
     status: "Service Request Status"
-    tempDocument: "Temporary Application"
+    tempDocument: "Temporary"
     type: "Document Type"
     useYn: "Use enable"
     write: "WorkFlow register"
@@ -733,6 +734,8 @@ document:
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
     searchDescription: "Inquire and apply for a document"
+    selectGroup: "Please select group."
+    selectRole: "Please select role."
     selectForm: "Please select form."
     selectProcess: "Please select process."
     selectNumberingRule: "Please select numbering rule"
@@ -748,9 +751,9 @@ document:
     temporary: "Temporary"
     use: "Use"
   type:
-    applicationForm: "Application Form"
+    applicationForm: "Application Form Only"
     applicationFormLink: "Application Form - Link"
-    workflow: "WorkFlow"
+    workflow: "Application Form and WorkFlow"
   btn:
     draftSave: "Draft save"
 

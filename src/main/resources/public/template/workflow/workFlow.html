@@ -22,9 +22,8 @@
                 <span class="required"></span>
             </label>
             <select id="documentType" onchange="setDocumentType(this.value)" th:disabled="${documentData?.documentId != undefined}">
-                <option value="application-form" th:text="#{document.type.applicationForm}" th:selected="${documentData?.documentType == 'application-form'}"></option>
-                <option value="workflow" th:text="#{document.type.workflow}" th:selected="${documentData?.documentType == 'workflow'}"></option>
-                <option value="application-form-link" th:text="#{document.type.applicationFormLink}" th:selected="${documentData?.documentType == 'application-form-link'}"></option>
+                <option th:each="type:${typeList}" th:value="${type.code}"
+                        th:text="${type.codeName}" th:selected="${documentData?.documentType} == ${type.code}"></option>
             </select>
         </div>
         <!-- 신청서 이름 -->
@@ -41,17 +40,42 @@
             <textarea id="documentDesc" rows="7" maxlength="128"
                       th:text="${documentData?.documentDesc}"></textarea>
         </div>
+        <!-- 그룹 -->
+        <div class="flex-column edit-row">
+            <label for="documentGroup">
+                <span th:text="#{common.label.group}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="documentGroup">
+                <option value="" th:text="#{document.label.notSelect}" selected></option>
+                <option th:each="group:${groupList}" th:value="${group.code}"
+                        th:text="${group.codeName}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
+            </select>
+        </div>
+        <!-- 역할 -->
+        <div class="flex-column edit-row">
+            <label for="documentRole">
+                <span th:text="#{document.label.role}"></span>
+                <span class="required"></span>
+            </label>
+            <div class="checkbox-list" id="documentRole">
+                <ul>
+                    <li class="document-role-checkbox-wrap" th:each="allRole : ${allRoles}">
+                        <label class="checkbox" tabindex="0" th:for="|allRoles*{allRoleStat.index}|"
+                               th:title="*{allRole.roleName}">
+                            <input class="document-role-checkbox" name="roles"
+                                   th:disabled="${view}"
+                                   th:id="|allRoles*{allRoleStat.index}|" th:value="*{allRole.roleId}" type="checkbox"
+                                   th:onclick="checkDocumentRole(this)">
+                            <span></span>
+                            <span class="label" th:text="*{allRole.roleName}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <!-- 업무흐름 구분 :  신청서 -->
         <div id= "applicationFormGroup" class="hidden-control-content">
-            <!-- 그룹 -->
-            <div class="flex-column edit-row">
-                <label th:text="#{common.label.group}" for="applicationDocumentGroup"></label>
-                <select id="applicationDocumentGroup">
-                    <option value="" th:text="#{document.label.notSelect}" selected></option>
-                    <option th:each="group:${groupList}" th:value="${group.code}"
-                            th:text="${group.codeValue}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
-                </select>
-            </div>
             <!-- 문서양식 -->
             <div class="flex-column edit-row">
                 <label for="applicationDocumentForm">
@@ -114,98 +138,6 @@
                     <option value="false" th:text="#{document.label.disable}" th:selected="${documentData?.apiEnable == false}"></option>
                 </select>
             </div>
-            <!-- 업무 흐름 색상 -->
-            <div class="flex-column edit-row">
-                <label for="applicationDocumentColor">
-                    <span th:text="#{document.label.workFlowColor}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" id="applicationDocumentColor" th:value="${documentData?.documentColor}"/>
-            </div>
-            <!-- 신청서 아이콘 -->
-            <div class="flex-column edit-row">
-                <label for="applicationDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row input--remove">
-                    <input type="text" id="applicationDocumentIcon" class="col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                    <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
-                        <span class="ic-remove"></span>
-                    </button>
-                    <button type="button" class="button-search btn__text--box tertiary" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
-                </div>
-            </div>
-        </div>
-        <!-- 업무흐름 구분 :  업무흐름 -->
-        <div id="workflowGroup" class="hidden-control-content">
-            <!-- 문서양식 -->
-            <div class="flex-column edit-row">
-                <label for="workflowDocumentForm">
-                    <span th:text="#{document.label.form}"></span>
-                    <span class="required"></span>
-                </label>
-                <select id="workflowDocumentForm" th:disabled="${documentId}">
-                    <option value="" th:text="#{common.msg.select}" selected></option>
-                    <option th:each="form:${formList}"
-                            th:id="${form?.id}"
-                            th:value="${form?.id}"
-                            th:text="${form?.name}"
-                            th:selected="${documentData?.formId} == ${form?.id}"></option>
-                </select>
-            </div>
-            <!-- 프로세스 -->
-            <div class="flex-column edit-row">
-                <label for="workflowDocumentProcess">
-                    <span th:text="#{document.label.process}"></span>
-                    <span class="required"></span>
-                </label>
-                <select id="workflowDocumentProcess" th:disabled="${documentId}">
-                    <option value="" th:text="#{common.msg.select}" selected></option>
-                    <option th:each="process:${processList}"
-                            th:id="${process?.id}"
-                            th:value="${process?.id}"
-                            th:text="${process?.name}"
-                            th:selected="${documentData?.processId} == ${process?.id}"></option>
-                </select>
-            </div>
-            <!-- 문서번호 규칙 -->
-            <div class="flex-column edit-row">
-                <label for="workflowNumberingRule">
-                    <span th:text="#{document.label.numberingRule}"></span>
-                    <span class="required"></span>
-                </label>
-                <select id="workflowNumberingRule"th:disabled="${documentId}">
-                    <option value="" th:text="#{common.msg.select}" selected></option>
-                    <option th:each="numberingRule:${numberingRuleList}"
-                            th:id="${numberingRule.numberingId}"
-                            th:value="${numberingRule.numberingId}"
-                            th:text="${numberingRule.numberingName}"
-                            th:selected="${documentData?.documentNumberingRuleId} == ${numberingRule.numberingId}"></option>
-                </select>
-            </div>
-            <!-- 신청서 상태 -->
-            <div class="flex-column edit-row">
-                <label th:text="#{document.label.status}" for="workflowDocumentStatus"></label>
-                <input type="hidden" id="workflowPrevDocumentStatus" th:value="${documentData?.documentStatus}"/>
-                <select id="workflowDocumentStatus">
-                    <option th:each="status:${statusList}" th:value="${status.code}"
-                            th:text="${status.codeName}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
-                </select>
-            </div>
-            <!-- API 활성화 -->
-            <div class="flex-column edit-row">
-                <label th:text="#{document.label.apiEnable}" for="workflowApiEnable"></label>
-                <select id="workflowApiEnable" required="required">
-                    <option value="true" th:text="#{document.label.enable}" th:selected="${documentData?.apiEnable == true}"></option>
-                    <option value="false" th:text="#{document.label.disable}" th:selected="${documentData?.apiEnable == false}"></option>
-                </select>
-            </div>
-            <!-- 업무 흐름 색상 -->
-            <div class="flex-column edit-row">
-                <label for="workflowDocumentColor">
-                    <span th:text="#{document.label.workFlowColor}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" id="workflowDocumentColor" th:value="${documentData?.documentColor}"/>
-            </div>
         </div>
         <!-- 업무흐름 구분 :  링크 -->
         <div id="applicationFormLinkGroup" class="hidden-control-content">
@@ -228,25 +160,14 @@
                     <input type="text" id="linkUrl" th:value="${documentData?.documentLinkUrl}" maxlength="512"/>
                 </div>
             </div>
-            <!-- 업무 흐름 색상 -->
-            <div class="flex-column edit-row">
-                <label for="linkDocumentColor">
-                    <span th:text="#{document.label.workFlowColor}"></span>
-                    <span class="required"></span>
-                </label>
-                <input type="text" id="linkDocumentColor" th:value="${documentData?.documentColor}"/>
-            </div>
-            <!-- 신청서 아이콘 -->
-            <div class="flex-column edit-row">
-                <label for="linkDocumentIcon" th:text="#{document.label.icon}"></label>
-                <div class="flex-row input--remove">
-                    <input type="text" id="linkDocumentIcon" class="col-pct-11" th:value="${documentData?.documentIcon}" readonly />
-                    <button type="button" class="item-remove" onclick="aliceJs.clearText(this);" tabindex="-1">
-                        <span class="ic-remove"></span>
-                    </button>
-                    <button type="button" class="button-search btn__text--box tertiary" th:onclick="openIcon()" th:text="#{common.btn.select}"></button>
-                </div>
-            </div>
+        </div>
+        <!-- 업무 흐름 색상 -->
+        <div class="flex-column edit-row">
+            <label for="documentColor">
+                <span th:text="#{document.label.workFlowColor}"></span>
+                <span class="required"></span>
+            </label>
+            <input type="text" id="documentColor" th:value="${documentData?.documentColor}"/>
         </div>
         <div class="flex-row justify-content-between edit-row">
             <div class="btn__list">
@@ -280,29 +201,39 @@
     const STATUS_DESTROY = 'document.status.destroy';
 
     // Document type.
-    const DOCUMENT_TYPE_FORM = 'application-form';
-    const DOCUMENT_TYPE_WORKFLOW = 'workflow';
-    const DOCUMENT_TYPE_LINK = 'application-form-link';
+    const TYPE_APPLICATION = 'document.type.application-form';
+    const TYPE_WORKFLOW = 'document.type.workflow';
+    const TYPE_APPLICATION_WORKFLOW = 'document.type.application-form-workflow';
+    const TYPE_LINK = 'document.type.application-form-link';
+
+    // Selected Role List.
+    let documentRoles = [];
+    /*[# th:each="documentRole : ${documentRoles}"]*/
+    documentRoles.push(/*[[${documentRole.roleId}]]*/);
+    /*[/]*/
 
     window.onload = function() {
         const documentType = document.getElementById('documentType').value;
         setDocumentType(documentType);
 
         const prefix = getPrefixForId(documentType);
-        const statusElem = document.getElementById(prefix + 'DocumentStatus');
-        const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus').value;
+        const prevStatus = document.getElementById(prefix + 'PrevDocumentStatus').value || '';
 
         // 신청서 상태 초기화
         switch (prevStatus) {
             case STATUS_TEMPORARY:
-                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                document.querySelectorAll('option[value="' + STATUS_DESTROY + '"], li[rel="' + STATUS_DESTROY + '"]')
+                    .forEach(elem => elem.remove());
                 break;
             case STATUS_USE:
-                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                document.querySelectorAll('option[value="' + STATUS_TEMPORARY + '"], li[rel="' + STATUS_TEMPORARY + '"]')
+                    .forEach(elem => elem.remove());
                 break;
             case STATUS_DESTROY:
-                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                document.querySelectorAll('option[value="' + STATUS_TEMPORARY + '"], li[rel="' + STATUS_TEMPORARY + '"]')
+                    .forEach(elem => elem.remove());
+                document.querySelectorAll('option[value="' + STATUS_USE + '"], li[rel="' + STATUS_USE + '"]')
+                    .forEach(elem => elem.remove());
                 break;
             default: // 신규 등록
         }
@@ -318,16 +249,42 @@
                 inheritedAttrs: 'class'
             }
         });
+        OverlayScrollbars(document.querySelector('.checkbox-list'), { className: 'inner-scrollbar' });
+
+        setDocumentRole();
     };
+
+    // Role 선택 event
+    function checkDocumentRole(roleObject) {
+        if (roleObject.checked) {
+            if (!documentRoles.includes(roleObject.value)) {
+                documentRoles.push(roleObject.value);
+            }
+        } else {
+            documentRoles = documentRoles.filter((element) => element !== roleObject.value);
+        }
+    }
+
+    // 기존 Role 설정
+    function setDocumentRole() {
+        const allRoles = document.querySelectorAll('input[name=roles]');
+        documentRoles.forEach(function(documentRole) {
+            allRoles.forEach(function(allRole) {
+                if (documentRole === allRole.value) {
+                    allRole.checked = true;
+                }
+            });
+        });
+    }
 
     // ID 검색을 위한 prefix 반환
     function getPrefixForId(type) {
         switch (type) {
-            case DOCUMENT_TYPE_FORM:
+            case TYPE_APPLICATION:
+            case TYPE_WORKFLOW:
+            case TYPE_APPLICATION_WORKFLOW:
                 return 'application';
-            case DOCUMENT_TYPE_WORKFLOW:
-                return 'workflow';
-            case DOCUMENT_TYPE_LINK:
+            case TYPE_LINK:
                 return 'link';
         }
     }
@@ -335,19 +292,23 @@
     // 신청서, 업무흐름 유효성 검증
     function emptyValidationForDocumentOrWorkflow(prefix) { // 신청서/ 업무흐름일 경우 유효성 체크
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
+        if (isEmpty('documentGroup', 'document.msg.selectGroup')) { return false; }
+        if (!isChecked('roles', 'document.msg.selectRole')) { return false; }
         if (isEmpty(prefix + 'DocumentForm', 'document.msg.selectForm')) { return false; }
         if (isEmpty(prefix + 'DocumentProcess', 'document.msg.selectProcess')) { return false; }
         if (isEmpty(prefix + 'NumberingRule', 'document.msg.selectNumberingRule')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
+        if (isEmpty('documentColor', 'document.msg.enterWorkFlowColor')) { return false; }
 
         return true;
     }
     // 신청서 링크 전용 유효성검사
     function emptyValidationForDocumentLink(prefix) {
         if (isEmpty('documentName', 'document.msg.enterDocumentName')) { return false; }
-        if (isEmpty(prefix + 'DocumentColor', 'document.msg.enterWorkFlowColor')) { return false; }
+        if (isEmpty('documentGroup', 'document.msg.selectGroup')) { return false; }
+        if (!isChecked('roles', 'document.msg.selectRole')) { return false; }
         if (isEmpty(prefix + 'Url', 'document.msg.enterDocumentLink')) { return false; }
         if (!isUrl(prefix + 'Url', 'document.msg.checkUrlLink')) { return false; }
+        if (isEmpty('documentColor', 'document.msg.enterWorkFlowColor')) { return false; }
 
         return true;
     }
@@ -357,12 +318,12 @@
         const documentType = document.getElementById('documentType').value;
         // 유효성 검증
         const prefix = getPrefixForId(documentType);
-        if ((documentType === DOCUMENT_TYPE_LINK && !emptyValidationForDocumentLink(prefix)) ||
-            (documentType !== DOCUMENT_TYPE_LINK && !emptyValidationForDocumentOrWorkflow(prefix))) {
+        if ((documentType === TYPE_LINK && !emptyValidationForDocumentLink(prefix)) ||
+            (documentType !== TYPE_LINK && !emptyValidationForDocumentOrWorkflow(prefix))) {
             return false;
         }
 
-        const documentGroup = document.getElementById(prefix + 'DocumentGroup');
+        const documentGroup = document.getElementById('documentGroup');
         const documentForm = document.getElementById(prefix + 'DocumentForm');
         const documentProcess = document.getElementById(prefix + 'DocumentProcess');
         const documentNumberingRule = document.getElementById(prefix + 'NumberingRule');
@@ -370,31 +331,36 @@
         const documentStatus = document.getElementById(prefix + 'DocumentStatus');
         const apiEnable = document.getElementById(prefix + 'ApiEnable');
         const documentLinkUrl = document.getElementById(prefix + 'Url');
-        const documentColor = document.getElementById(prefix + 'DocumentColor');
-        const documentIcon = document.getElementById(prefix + 'DocumentIcon');
+        const documentColor = document.getElementById('documentColor');
+
+        const checkedRoles = document.querySelectorAll('input[name=roles]:checked');
+        let arrRoleValue = [];
+        checkedRoles.forEach(function(item) {
+            arrRoleValue.push(item.value);
+        });
 
         let documentInfo = {
             documentType: documentType,
             documentName: document.getElementById('documentName').value,
             documentDesc: document.getElementById('documentDesc').value,
-            formId: documentType === DOCUMENT_TYPE_LINK ? '' : documentForm.value,
-            processId: documentType === DOCUMENT_TYPE_LINK ? '' : documentProcess.value,
-            documentNumberingRuleId: documentType === DOCUMENT_TYPE_LINK ? '' : documentNumberingRule.value,
+            documentGroup: documentGroup.value,
+            documentRoles: arrRoleValue,
+            formId: documentType === TYPE_LINK ? '' : documentForm.value,
+            processId: documentType === TYPE_LINK ? '' : documentProcess.value,
+            documentNumberingRuleId: documentType === TYPE_LINK ? '' : documentNumberingRule.value,
             documentStatus: documentStatus.value,
-            apiEnable: documentType === DOCUMENT_TYPE_LINK ? 'false' : apiEnable.value,
-            documentLinkUrl: documentType === DOCUMENT_TYPE_LINK ? documentLinkUrl.value : null,
+            apiEnable: documentType === TYPE_LINK ? 'false' : apiEnable.value,
+            documentLinkUrl: documentType === TYPE_LINK ? documentLinkUrl.value : null,
             documentColor: documentColor.value,
-            documentGroup: documentType === DOCUMENT_TYPE_FORM ? documentGroup.value : null,
-            documentIcon: (documentIcon !== null && documentType !== DOCUMENT_TYPE_WORKFLOW) ?  documentIcon.value : null
         };
 
-        let url = (documentType === DOCUMENT_TYPE_LINK) ? '/rest/workflows/workflowLink' : '/rest/workflows';
+        let url = (documentType === TYPE_LINK) ? '/rest/workflows/workflowLink' : '/rest/workflows';
         if (method === 'PUT' && documentId !== undefined) {
             documentInfo.documentId = documentId;
             url += '/' + documentId;
         }
 
-        if (documentType !== DOCUMENT_TYPE_LINK && prevStatus.value === STATUS_TEMPORARY &&
+        if (documentType !== TYPE_LINK && prevStatus.value === STATUS_TEMPORARY &&
             documentInfo.documentStatus === STATUS_USE) { // 신청서/업무흐름 수정(신청서 링크 제외)
             zAlert.confirm(i18n.msg('document.msg.changeStatusEnabled'), () => {
                 restSubmit(method, url + '?isDeleteData=true', documentInfo, (response) => {
@@ -405,7 +371,7 @@
                             });
                             break;
                         case aliceJs.response.duplicate:
-                            zAlert.warning(i18n.msg('document.msg.nameDuplication'));
+                            zAlert.warning(i18n.msg('document.msg.duplicateName'));
                             break;
                         case aliceJs.response.error:
                             zAlert.danger(i18n.msg('common.msg.fail'));
@@ -420,7 +386,7 @@
                 switch (response.status) {
                     case aliceJs.response.success:
                         zAlert.success(i18n.msg('common.msg.save'), function() {
-                            if (documentId === undefined && documentType !== DOCUMENT_TYPE_LINK) {
+                            if (documentId === undefined && documentType !== TYPE_LINK) {
                                 // 신청서/업무흐름 신규 등록일 경우에만 팝업 호출한다.(신청서 링크 제외)
                                 openDocumentDisplay(response.data);
                             } else {
@@ -429,7 +395,7 @@
                         });
                         break;
                     case aliceJs.response.duplicate:
-                        zAlert.warning(i18n.msg('document.msg.nameDuplication'));
+                        zAlert.warning(i18n.msg('document.msg.duplicateName'));
                         break;
                     case aliceJs.response.error:
                         zAlert.danger(i18n.msg('common.msg.fail'));
@@ -444,48 +410,26 @@
         }
     }
 
-    // 신청서 아이콘 선택 팝업
-    function openIcon() {
-        const documentType = document.getElementById('documentType');
-        const prefix = getPrefixForId(documentType.value);
-        aliceJs.thumbnail({
-            title: i18n.msg('document.label.icon'),
-            targetId: prefix + 'DocumentIcon',
-            type: 'icon',
-            isThumbnailInfo: false,
-            isFilePrefix: false,
-            thumbnailDoubleClickUse: true,
-            selectedPath: document.getElementById(prefix + 'DocumentIcon').value,
-        });
-    }
-
     // 업무흐름 구분 변경
     function setDocumentType(type) {
-        const applicationForm = document.getElementById('applicationFormGroup');
-        const workflow = document.getElementById('workflowGroup');
-        const applicationFormLink = document.getElementById('applicationFormLinkGroup');
-        const prefix = getPrefixForId(type);
+        const formGroup = document.getElementById('applicationFormGroup');
+        const linkGroup = document.getElementById('applicationFormLinkGroup');
 
         switch (type) {
-            case DOCUMENT_TYPE_FORM:
-                applicationForm.classList.add('block');
-                workflow.classList.remove('block');
-                applicationFormLink.classList.remove('block');
+            case TYPE_APPLICATION:
+            case TYPE_WORKFLOW:
+            case TYPE_APPLICATION_WORKFLOW:
+                formGroup.classList.add('block');
+                linkGroup.classList.remove('block');
                 break;
-            case DOCUMENT_TYPE_WORKFLOW:
-                workflow.classList.add('block');
-                applicationForm.classList.remove('block');
-                applicationFormLink.classList.remove('block');
-                break;
-            case DOCUMENT_TYPE_LINK:
-                applicationFormLink.classList.add('block');
-                workflow.classList.remove('block');
-                applicationForm.classList.remove('block');
+            case TYPE_LINK:
+                linkGroup.classList.add('block');
+                formGroup.classList.remove('block');
                 break;
             default:
         }
-        if (document.querySelector('.hidden-control-content.on .color-picker__box__color') == null) {
-            new zColorPicker(document.getElementById(prefix + 'DocumentColor'), { type: 'fill' });
+        if (document.querySelector('.edit-row .color-picker__box') == null) {
+            new zColorPicker(document.getElementById('documentColor'), { type: 'fill' });
         }
     }
 
@@ -510,6 +454,7 @@
                     classes: 'btn__text--box secondary',
                     bindKey: false,
                     callback: function(modal) {
+                        window.location.href = '/workflows/search';
                         modal.hide();
                     }
                 }],
@@ -554,7 +499,7 @@
             switch (response.status) {
                 case aliceJs.response.success:
                     zAlert.success(i18n.msg('common.msg.save'), function() {
-                        location.reload();
+                        window.location.href = '/workflows/search';
                     });
                     break;
                 case aliceJs.response.error:

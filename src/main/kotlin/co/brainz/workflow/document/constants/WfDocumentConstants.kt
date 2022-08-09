@@ -13,6 +13,13 @@ class WfDocumentConstants {
     }
 
     /**
+     * Subprocess Search type.
+     */
+    enum class DocumentViewType(val value: String) {
+        SUBPROCESS("subProcess")
+    }
+
+    /**
      * Display Type.
      *
      */

@@ -237,7 +237,7 @@ export const ciMixin = {
     // CI 테이블 각 cell 반환
     getCITableDataToCell(row, option, data) {
         const tdWidth = (Number(option.columnWidth) / FORM.COLUMN) * 100;
-        const tdClassName = (option.type === 'hidden' ? '' : 'on ') + option.class;
+        const tdClassName = (option.type === 'hidden' ? '' : 'table-cell ') + option.class;
 
         switch (option.type) {
             case 'editable':
@@ -387,7 +387,7 @@ export const ciMixin = {
         const row = new UIRow(targetTable).setUIClass('no-data-found-list');
         targetTable.addUIRow(row);
 
-        const td = new UICell(row).setUIClass('on align-center first-column last-column')
+        const td = new UICell(row).setUIClass('table-cell align-center first-column last-column')
             .setColspan(12)
             .setUITextContent(i18n.msg('common.msg.noData'));
         row.addUICell(td);

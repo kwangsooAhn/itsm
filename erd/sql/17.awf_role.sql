@@ -33,3 +33,5 @@ INSERT INTO awf_role VALUES ('workflow.admin', '업무흐름 관리자', '', '05
 INSERT INTO awf_role VALUES ('cmdb.admin', 'CMDB 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('portal.admin', '포털 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 INSERT INTO awf_role VALUES ('sla.admin', 'SLA 관리자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+INSERT INTO awf_role VALUES ('continuity.manager', '연속성 담당자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
+INSERT INTO awf_role VALUES ('continuity.admin', '연속성 관리자', ' ', '0509e09412534a6e98f04ca79abb6424', now(), NULL, NULL);
