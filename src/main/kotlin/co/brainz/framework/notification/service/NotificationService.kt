@@ -1,11 +1,22 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.notification.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.notification.dto.NotificationConfigDetailDto
+import co.brainz.framework.notification.dto.NotificationConfigDto
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.entity.NotificationEntity
 import co.brainz.framework.notification.mapper.NotificationMapper
+import co.brainz.framework.notification.repository.NotificationConfigDetailRepository
+import co.brainz.framework.notification.repository.NotificationConfigRepository
 import co.brainz.framework.notification.repository.NotificationRepository
+import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.response.dto.ZResponse
 import org.mapstruct.factory.Mappers
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
@@ -14,8 +25,10 @@ import org.springframework.stereotype.Service
 @Service
 class NotificationService(
     private val notificationRepository: NotificationRepository,
-    private val userRepository: AliceUserRepository
-) {
+    private val userRepository: AliceUserRepository,
+    private val notificationConfigRepository: NotificationConfigRepository,
+    private val notificationConfigDetailRepository: NotificationConfigDetailRepository
+    ) {
     @Value("\${notification.toast.enabled}")
     lateinit var toast: String
 
@@ -89,5 +102,73 @@ class NotificationService(
      */
     fun deleteNotification(notificationId: String) {
         notificationRepository.deleteById(notificationId)
+    }
+
+    /**
+     *  알람 발송 관리 설정정보 조회
+     */
+    fun getNotificationConfig(): List<NotificationConfigDto> {
+        val notificationConfigs = mutableListOf<NotificationConfigDto>()
+
+        // 알람 설정 분류 조회 ex> 신청서/ CMDB 라이센스
+        notificationConfigRepository.findAll().forEach { notificationConfig ->
+            notificationConfigs.add(NotificationConfigDto(
+                notificationCode = notificationConfig.notificationCode,
+                notificationName = notificationConfig.notificationName
+            ))
+        }
+
+        // 알람설정 분류 별 상세 조회 ex>  신청서내 toast/sms/mail
+        notificationConfigs.forEachIndexed { index, config ->
+            notificationConfigDetailRepository.findByNotificationConfig(
+                notificationConfigRepository.findByNotificationCode(config.notificationCode)
+            ).forEach { configDetail ->
+                notificationConfigs[index].notificationConfigDetails?.add(
+                    NotificationConfigDetailDto(
+                        channel = configDetail.channel,
+                        useYn = configDetail.useYn,
+                        titleFormat = configDetail.titleFormat,
+                        messageFormat = configDetail.messageFormat,
+                        template = configDetail.template,
+                        url = if (configDetail.url.isNullOrEmpty()) emptyList() else configDetail.url?.split("|")
+                    )
+                )
+            }
+            // toast -> sms -> mail 순으로 정렬
+            notificationConfigs[index].notificationConfigDetails?.sortByDescending { it.channel }
+        }
+        return notificationConfigs
+    }
+
+    /**
+     *  알람 발송 관리 설정정보 업데이트
+     */
+    fun updateNotificationConfig(configs: List<NotificationConfigDto>): ZResponse {
+        var result = ZResponseConstants.STATUS.SUCCESS
+        try {
+            // 알람 설정 분류 조회 ex> 신청서/ CMDB 라이센스
+            configs.forEachIndexed { configIndex, config ->
+                // 알람설정 분류 별 상세 조회 ex>  신청서내 toast/sms/mail
+                notificationConfigDetailRepository.findByNotificationConfig(
+                    notificationConfigRepository.findByNotificationCode(config.notificationCode)
+                ).sortedByDescending { it.channel }.forEachIndexed { configDetailIndex, configDetail ->
+                    // 알람설정 분류 별 상세 정보 업데이트
+                    configDetail.useYn = configs[configIndex].notificationConfigDetails!![configDetailIndex].useYn
+                    configDetail.titleFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].titleFormat
+                    configDetail.messageFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].messageFormat
+                    configDetail.template = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.template
+                    configDetail.url = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.url?.joinToString("|")
+
+                    notificationConfigDetailRepository.save(configDetail)
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            result = ZResponseConstants.STATUS.ERROR_FAIL
+        } finally {
+            return ZResponse(
+                status = result.code
+            )
+        }
     }
 }
