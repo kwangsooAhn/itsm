@@ -12,5 +12,4 @@ import org.springframework.stereotype.Repository
 @Repository
 interface NotificationConfigRepository : JpaRepository<NotificationConfigEntity, String>, NotificationConfigRepositoryCustom {
     fun findByNotificationCode(notificationCode: String): NotificationConfigEntity
-
 }

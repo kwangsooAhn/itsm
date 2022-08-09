@@ -28,7 +28,7 @@ class NotificationService(
     private val userRepository: AliceUserRepository,
     private val notificationConfigRepository: NotificationConfigRepository,
     private val notificationConfigDetailRepository: NotificationConfigDetailRepository
-    ) {
+) {
     @Value("\${notification.toast.enabled}")
     lateinit var toast: String
 
@@ -151,7 +151,8 @@ class NotificationService(
                 // 알람설정 분류 별 상세 조회 ex>  신청서내 toast/sms/mail
                 notificationConfigDetailRepository.findByNotificationConfig(
                     notificationConfigRepository.findByNotificationCode(config.notificationCode)
-                ).sortedByDescending { it.channel }.forEachIndexed { configDetailIndex, configDetail ->
+                ).sortedByDescending { it.channel }
+                    .forEachIndexed { configDetailIndex, configDetail ->
                     // 알람설정 분류 별 상세 정보 업데이트
                     configDetail.useYn = configs[configIndex].notificationConfigDetails!![configDetailIndex].useYn
                     configDetail.titleFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].titleFormat

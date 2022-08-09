@@ -5,5 +5,4 @@
 
 package co.brainz.framework.notification.repository
 
-interface NotificationConfigDetailRepositoryCustom {
-}
+interface NotificationConfigDetailRepositoryCustom

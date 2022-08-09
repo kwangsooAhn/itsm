@@ -36,7 +36,7 @@ class NotificationRestController(private val notificationService: NotificationSe
      *  알람 발송 관리 설정 정보 변경
      */
     @PutMapping("/notificationConfig")
-    fun updateNotificationConfig(@RequestBody configs:List<NotificationConfigDto>): ResponseEntity<ZResponse> {
+    fun updateNotificationConfig(@RequestBody configs: List<NotificationConfigDto>): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(notificationService.updateNotificationConfig(configs))
     }
 }

@@ -6,7 +6,6 @@
 package co.brainz.framework.notification.entity
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -17,6 +16,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "notification_data")
