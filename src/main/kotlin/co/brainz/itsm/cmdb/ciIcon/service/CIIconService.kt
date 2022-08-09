@@ -215,6 +215,7 @@ class CIIconService(
      * @param originPath 기존 폴더 경로
      * @param modifyPath 수정 폴더 경로
      */
+    @Transactional
     fun renameFolder(originPath: String, modifyPath: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val originFile = Paths.get(originPath).toFile()
@@ -264,6 +265,7 @@ class CIIconService(
      *
      * @param path 경로
      */
+    @Transactional
     fun deleteFolder(path: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val deleteFile = Paths.get(path).toFile()
@@ -292,6 +294,7 @@ class CIIconService(
      * @param path 경로
      * @param multipartFiles 파일목록
      */
+    @Transactional
     fun uploadCIIcons(type: String, path: String, multipartFiles: List<MultipartFile>): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val extensions = aliceResourceProvider.getAllowedExtensions(type)
@@ -325,6 +328,7 @@ class CIIconService(
     /**
      * CMDB CI Icon 파일명 수정
      */
+    @Transactional
     fun renameFile(originPath: String, modifyPath: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val originFile = Paths.get(originPath).toFile()
@@ -370,6 +374,7 @@ class CIIconService(
     /**
      * CMDB CI Icon 파일 삭제
      */
+    @Transactional
     fun deleteCIIcon(path: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val deleteFile = Paths.get(path).toFile()
@@ -398,6 +403,7 @@ class CIIconService(
     /**
      * CMDB CI Icon 파일 이동
      */
+    @Transactional
     fun moveCIIcon(originPath: String, modifyPath: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val originFile = Paths.get(originPath).toFile()

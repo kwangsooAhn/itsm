@@ -489,6 +489,7 @@ class AliceResourceProvider(
     /**
      * 파일 업로드
      */
+    @Transactional
     fun uploadFiles(type: String, path: String, multipartFiles: List<MultipartFile>, fileName: String?): ZResponse {
         return when (type) {
             ResourceConstants.FileType.AVATAR.code -> {
@@ -643,15 +644,8 @@ class AliceResourceProvider(
      */
     fun deleteFile(type: String, path: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
-        when (type) {
-            ResourceConstants.FileType.FILE.code -> {
-                if (!this.deleteDirect(path)) {
-                    status = ZResponseConstants.STATUS.ERROR_FAIL
-                }
-            }
-            else -> {
-                // TODO: CMDB 아이콘
-            }
+        if (!this.deleteDirect(path)) {
+            status = ZResponseConstants.STATUS.ERROR_FAIL
         }
 
         return ZResponse(
@@ -725,6 +719,7 @@ class AliceResourceProvider(
      * 첨부 파일 및 파일 컴포넌트에서 사용
      * @param data
      */
+    @Transactional
     fun setUploadFileLoc(data: Any) {
         var fileLocEntity: AliceFileLocEntity
         when (data) {
@@ -908,7 +903,7 @@ class AliceResourceProvider(
     fun moveFile(originPath: String, modifyPath: String): ZResponse {
         var status = ZResponseConstants.STATUS.SUCCESS
         val originFile = Paths.get(originPath).toFile()
-        var modifyFile = Paths.get(modifyPath).toFile()
+        val modifyFile = Paths.get(modifyPath).toFile()
 
         // 원본 파일를 찾을 수 없을 경우
         if (!originFile.exists()) {
