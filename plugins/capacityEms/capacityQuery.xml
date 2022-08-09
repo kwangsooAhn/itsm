@@ -51,6 +51,13 @@
             FROM rt_sms_mondisk
             WHERE z_indexid = 0)
     </node>
+    <node id="selectCapacityData">
+        SELECT ci_id,
+            reference_dt
+        FROM cmdb_ci_capacity_data
+        WHERE reference_dt = '??'
+        AND ci_id in (?)
+    </node>
     <node id="insertCapacityData">
         INSERT INTO cmdb_ci_capacity_data (
           ci_id

@@ -609,6 +609,11 @@
                 if (response.status !== aliceJs.response.success || response.data.length === 0) {
                     return false;
                 }
+                let contentTarget = document.querySelector('#chartDivContent');
+                let element =
+                    `<h3 class="sub-title under-bar border-thick mt-4">`+ i18n.msg('cmdb.ci.label.chart') +`</h3>` +
+                    `<div id="chartContents" class="flex-column view-row content"></div>`;
+                contentTarget.insertAdjacentHTML('beforeend', element);
                 response.data.forEach(it => {
                     addChartContent(it);
                     zChartManager.update(it);
@@ -617,9 +622,12 @@
         }
 
         function addChartContent(data) {
-            let chartTarget = document.querySelector('#reportContents');
+            let chartTarget = document.querySelector('#chartContents');
             let tagValue = data.tags[0].value;
             let element =
+                `<label class="field-label">` +
+                `<span>${tagValue} `+ i18n.msg('cmdb.ci.label.information') +`</span>` +
+                `</label>` +
                 `<div class="chart-content">` +
                 `<div class="chart" id="${tagValue}_chart"></div>` +
                 `</div>`;

@@ -445,6 +445,7 @@ cmdb:
     label:
       all: "전체"
       applyDate: "반영 일시"
+      chart: "성능 차트"
       ciDesc: "자산 설명"
       ciName: "자산명"
       ciNo: "자산 번호"
@@ -459,6 +460,7 @@ cmdb:
       existing: "기존"
       export: "내보내기"
       history: "수정 이력"
+      information: "정보"
       name: "자산명"
       new: "신규"
       relatedDocument: "관련 문서"

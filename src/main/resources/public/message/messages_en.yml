@@ -445,6 +445,7 @@ cmdb:
     label:
       all: "All"
       applyDate: "Apply Date"
+      chart: "Performance Chart"
       ciDesc: "CI Description"
       ciName: "CI Name"
       ciNo: "CI No."
@@ -459,6 +460,7 @@ cmdb:
       existing: "Existing"
       export: "Export"
       history: "History"
+      information: "Information"
       name: "CI Name"
       new: "New"
       relatedDocument: "Related document"
