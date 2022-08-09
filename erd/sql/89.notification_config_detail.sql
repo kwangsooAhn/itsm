@@ -35,9 +35,9 @@ COMMENT ON COLUMN notification_config_detail.create_dt IS '생성 일시';
 COMMENT ON COLUMN notification_config_detail.update_user_key IS '수정자';
 COMMENT ON COLUMN notification_config_detail.update_dt IS '수정 일시';
 
-INSERT INTO notification_config_detail VALUES('toast', true, '${doc_type} ${doc_no}', '${doc_step}', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM] ${doc_type} ${doc_no} 처리안내', '${doc_no} 처리바랍니다', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM] ${doc_type} ${doc_no} 처리안내', '${doc_no} 처리바랍니다', 'document_mail_template.html', null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('toast', true, '${ci_name} ${doc_no}', '${ci_name} ${monitoring_field}가 ${due_date}', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM]  ${ci_no} ${ci_name} 만료 안내', '${ci_no} ${ci_name}가 ${due_date}', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM]  ${ci_no} ${ci_name} 만료 안내', '${ci_no} ${ci_name}가 ${due_date}', 'cmdb_mail_template.html', null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('toast', true, '$[doc_type] $[doc_no]', '$[doc_step]', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', 'document_mail_template.html', null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('toast', true, '$[ci_name] $[doc_no]', '$[ci_name] $[monitoring_field]가 $[due_date]', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', 'cmdb_mail_template.html', null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);

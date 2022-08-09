@@ -403,3 +403,4 @@ insert into awf_url values ('/rest/forms/component/template/{templateId}', 'dele
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
 insert into awf_url values('/notifications/edit', 'get', '알람 발송 관리 편집', 'TRUE');
 insert into awf_url values('/notifications/search', 'get', '알람 이력 조회', 'TRUE');
+insert into awf_url values('/rest/notifications/notificationConfig', 'put', '알람 발송 설정 정보 변경', 'TRUE');

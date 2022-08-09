@@ -647,8 +647,8 @@ insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE'
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.notifications', 'config', '/notification/edit', 7, 'TRUE');
-insert into awf_menu values ('config.notificationsRecord', 'config', '/notification/search', 8, 'TRUE');
+insert into awf_menu values ('config.notifications', 'config', '/notifications/edit', 7, 'TRUE');
+insert into awf_menu values ('config.notificationsRecord', 'config', '/notifications/search', 8, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 9, 'TRUE');
 
 /**
@@ -1510,6 +1510,7 @@ insert into awf_url values ('/rest/forms/component/template/{templateId}', 'dele
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
 insert into awf_url values('/notifications/edit', 'get', '알람 발송 관리 편집', 'TRUE');
 insert into awf_url values('/notifications/search', 'get', '알람 이력 조회', 'TRUE');
+insert into awf_url values('/rest/notifications/notificationConfig', 'put', '알람 발송 설정 정보 변경', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1912,6 +1913,7 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put',
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
 insert into awf_url_auth_map  values ('/notifications/edit', 'get', 'system.manage');
 insert into awf_url_auth_map  values ('/notifications/search', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/rest/notifications/notificationConfig', 'put', 'system.manage');
 
 /**
  * 사용자정보
@@ -9839,10 +9841,10 @@ COMMENT ON COLUMN notification_config_detail.create_dt IS '생성 일시';
 COMMENT ON COLUMN notification_config_detail.update_user_key IS '수정자';
 COMMENT ON COLUMN notification_config_detail.update_dt IS '수정 일시';
 
-INSERT INTO notification_config_detail VALUES('toast', true, '${doc_type} ${doc_no}', '${doc_step}', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM] ${doc_type} ${doc_no} 처리안내', '${doc_no} 처리바랍니다', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM] ${doc_type} ${doc_no} 처리안내', '${doc_no} 처리바랍니다', 'document_mail_template.html', null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('toast', true, '${ci_name} ${doc_no}', '${ci_name} ${monitoring_field}가 ${due_date}', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM]  ${ci_no} ${ci_name} 만료 안내', '${ci_no} ${ci_name}가 ${due_date}', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM]  ${ci_no} ${ci_name} 만료 안내', '${ci_no} ${ci_name}가 ${due_date}', 'cmdb_mail_template.html', null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('toast', true, '$[doc_type] $[doc_no]', '$[doc_step]', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', 'document_mail_template.html', null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('toast', true, '$[ci_name] $[doc_no]', '$[ci_name] $[monitoring_field]가 $[due_date]', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', 'cmdb_mail_template.html', null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
 
