@@ -55,4 +55,11 @@ class FolderManager(
     fun findFolderOriginByInstanceId(instanceId: String): WfFolderEntity {
         return folderRepository.findFolderOriginByInstanceId(instanceId)
     }
+
+    fun existsOriginFolder(instanceId: String): Boolean {
+        return folderRepository.existsByInstance_InstanceIdAndRelatedType(
+            instanceId,
+            FolderConstants.RelatedType.ORIGIN.code
+        )
+    }
 }

@@ -5,15 +5,17 @@
 
 package co.brainz.itsm.document.service
 
+import co.brainz.framework.auth.entity.AliceDocumentRoleMapEntity
+import co.brainz.framework.auth.repository.AliceDocumentRoleMapRepository
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.fileTransaction.constants.FileConstants
-import co.brainz.framework.fileTransaction.provider.AliceFileProvider
+import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.util.CurrentSessionUser
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.dto.DocumentDto
+import co.brainz.itsm.document.dto.DocumentEditDto
 import co.brainz.itsm.document.dto.DocumentExportDto
 import co.brainz.itsm.document.dto.DocumentImportDto
 import co.brainz.itsm.document.dto.DocumentListReturnDto
@@ -27,6 +29,8 @@ import co.brainz.itsm.form.dto.FormSearchCondition
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.dto.ProcessSearchCondition
 import co.brainz.itsm.process.service.ProcessService
+import co.brainz.itsm.role.repository.RoleRepository
+import co.brainz.itsm.role.service.RoleService
 import co.brainz.workflow.component.repository.WfComponentPropertyRepository
 import co.brainz.workflow.document.repository.WfDocumentLinkRepository
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -43,7 +47,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.io.File
 import java.time.LocalDateTime
 import kotlin.math.ceil
 import org.slf4j.LoggerFactory
@@ -53,9 +56,11 @@ import org.springframework.stereotype.Service
 class DocumentService(
     private val formService: FormService,
     private val processService: ProcessService,
+    private val roleService: RoleService,
     private val wfDocumentService: WfDocumentService,
-    private val aliceFileProvider: AliceFileProvider,
     private val currentSessionUser: CurrentSessionUser,
+    private val roleRepository: RoleRepository,
+    private val aliceDocumentRoleMapRepository: AliceDocumentRoleMapRepository,
     private val wfDocumentLinkRepository: WfDocumentLinkRepository,
     private val wfDocumentRepository: WfDocumentRepository,
     private val wfComponentPropertyRepository: WfComponentPropertyRepository,
@@ -81,8 +86,12 @@ class DocumentService(
                 }
             }
         }
-        val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition)
-        val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition)
+
+        val roleList = mutableListOf<String>()
+        roleService.getUserRoleList(aliceUserDto.userKey).forEach { roleList.add(it.roleId) }
+        val validDocumentIds = aliceDocumentRoleMapRepository.findDocumentIdsByRoles(roleList)
+        val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition, validDocumentIds)
+        val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition, validDocumentIds)
 
         val totalResult = mutableListOf<DocumentDto>() // document + documentLink 합치기
 
@@ -116,13 +125,6 @@ class DocumentService(
             )
         )
 
-        for (document in documentList.data) {
-            if (document.documentIcon.isNullOrEmpty()) document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
-            document.documentIcon =
-                aliceFileProvider.getDataUriSchema(
-                    FileConstants.Path.ICON_DOCUMENT.path + File.separator + document.documentIcon
-                )
-        }
         return documentList
     }
 
@@ -169,23 +171,37 @@ class DocumentService(
     /**
      * 신청서 생성.
      *
-     * @param documentDto
+     * @param documentEditDto
      */
-    fun createDocument(documentDto: DocumentDto): ZResponse {
-        documentDto.createUserKey = currentSessionUser.getUserKey()
-        documentDto.createDt = LocalDateTime.now()
-        return wfDocumentService.createDocument(documentDto)
+    fun createDocument(documentEditDto: DocumentEditDto): ZResponse {
+        documentEditDto.createUserKey = currentSessionUser.getUserKey()
+        documentEditDto.createDt = LocalDateTime.now()
+
+        val result = wfDocumentService.createDocument(documentEditDto)
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
+            documentEditDto.documentId = result.data.toString()
+            updateDocumentRoleMapping(documentEditDto)
+        }
+
+        return result
     }
 
     /**
      * 신청서 링크 생성.
      *
-     * @param documentDto
+     * @param documentEditDto
      */
-    fun createDocumentLink(documentDto: DocumentDto): ZResponse {
-        documentDto.createUserKey = currentSessionUser.getUserKey()
-        documentDto.createDt = LocalDateTime.now()
-        return wfDocumentService.createDocumentLink(documentDto)
+    fun createDocumentLink(documentEditDto: DocumentEditDto): ZResponse {
+        documentEditDto.createUserKey = currentSessionUser.getUserKey()
+        documentEditDto.createDt = LocalDateTime.now()
+
+        val result = wfDocumentService.createDocumentLink(documentEditDto)
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
+            documentEditDto.documentId = result.data.toString()
+            documentEditDto.documentType = DocumentConstants.DocumentType.APPLICATION_FORM_LINK.value
+            updateDocumentRoleMapping(documentEditDto)
+        }
+        return result
     }
 
     /**
@@ -195,26 +211,39 @@ class DocumentService(
      * @return Boolean
      */
     fun updateDocument(
-        documentDto: DocumentDto,
+        documentEditDto: DocumentEditDto,
         params: LinkedHashMap<String, Any>
     ): ZResponse {
-        documentDto.updateUserKey = currentSessionUser.getUserKey()
-        documentDto.updateDt = LocalDateTime.now()
-        return wfDocumentService.updateDocument(documentDto, params)
+        documentEditDto.updateUserKey = currentSessionUser.getUserKey()
+        documentEditDto.updateDt = LocalDateTime.now()
+
+        val result = wfDocumentService.updateDocument(documentEditDto, params)
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
+            updateDocumentRoleMapping(documentEditDto)
+        }
+
+        return result
     }
 
     /**
      * Update DocumentLink.
      *
-     * @param documentDto
+     * @param documentEditDto
      * @return String
      */
     fun updateDocumentLink(
-        documentDto: DocumentDto
+        documentEditDto: DocumentEditDto
     ): ZResponse {
-        documentDto.updateUserKey = currentSessionUser.getUserKey()
-        documentDto.updateDt = LocalDateTime.now()
-        return wfDocumentService.updateDocumentLink(documentDto)
+        documentEditDto.updateUserKey = currentSessionUser.getUserKey()
+        documentEditDto.updateDt = LocalDateTime.now()
+
+        val result = wfDocumentService.updateDocumentLink(documentEditDto)
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
+            documentEditDto.documentType = DocumentConstants.DocumentType.APPLICATION_FORM_LINK.value
+            updateDocumentRoleMapping(documentEditDto)
+        }
+
+        return result
     }
 
     /**
@@ -223,6 +252,7 @@ class DocumentService(
      * @param documentId
      */
     fun deleteDocument(documentId: String): ZResponse {
+        aliceDocumentRoleMapRepository.deleteByDocumentId(documentId)
         return wfDocumentService.deleteDocument(documentId)
     }
 
@@ -232,6 +262,7 @@ class DocumentService(
      * @param documentId
      */
     fun deleteDocumentLink(documentId: String): ZResponse {
+        aliceDocumentRoleMapRepository.deleteByDocumentId(documentId)
         return wfDocumentService.deleteDocumentLink(documentId)
     }
 
@@ -323,7 +354,15 @@ class DocumentService(
      * 신청서 Import.
      */
     fun importDocumentData(documentImportDto: DocumentImportDto): ZResponse {
-        return wfDocumentService.importDocument(documentImportDto)
+        val result = wfDocumentService.importDocument(documentImportDto)
+        val documentEditDto = documentImportDto.documentData
+
+        if (result.status == ZResponseConstants.STATUS.SUCCESS.code) {
+            documentEditDto.documentId = result.data.toString()
+            updateDocumentRoleMapping(documentEditDto)
+        }
+
+        return result
     }
 
     /**
@@ -375,5 +414,22 @@ class DocumentService(
                 data = data
             )
         )
+    }
+
+    /**
+     * 신청서 양식 데이터 update
+     *
+     * @param documentEditDto
+     */
+    fun updateDocumentRoleMapping(documentEditDto: DocumentEditDto) {
+        documentEditDto.documentRoles!!.forEach {
+            aliceDocumentRoleMapRepository.save(
+                AliceDocumentRoleMapEntity(
+                    documentEditDto.documentId,
+                    documentEditDto.documentType,
+                    roleRepository.findByRoleId(it)
+                )
+            )
+        }
     }
 }
