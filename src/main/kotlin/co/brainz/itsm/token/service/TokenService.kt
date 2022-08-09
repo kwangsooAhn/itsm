@@ -41,6 +41,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.Gson
 import java.time.format.DateTimeFormatter
+import javax.transaction.Transactional
 import javax.xml.parsers.DocumentBuilderFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -71,6 +72,7 @@ class TokenService(
      * @param restTemplateTokenDataUpdateDto
      * @return Boolean
      */
+    @Transactional
     fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): ZResponse {
         restTemplateTokenDataUpdateDto.assigneeId = currentSessionUser.getUserKey()
 

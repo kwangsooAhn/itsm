@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface FolderRepository : JpaRepository<WfFolderEntity, String>, FolderRepositoryCustom
+interface FolderRepository : JpaRepository<WfFolderEntity, String>, FolderRepositoryCustom {
+    fun existsByInstance_InstanceIdAndRelatedType(instanceId: String, relatedType: String): Boolean
+}
