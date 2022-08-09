@@ -13332,6 +13332,18 @@ body.active {
   -ms-transform: translate(calc(100% + 0.625rem), -50%);
   transform: translate(calc(100% + 0.625rem), -50%);
 }
+.tooltip--info .tooltip__box.right-bottom {
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
 .tooltip--info .tooltip__box.bottom {
   position: absolute;
   top: auto;

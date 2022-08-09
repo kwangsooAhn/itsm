@@ -103,7 +103,7 @@
         @include absolute(0, 0, auto, auto);
         @include translate(calc(100% + 0.625rem), -50%);
         &-bottom {
-          @include absolute(2rem, 0, auto, auto);  
+          @include absolute(2rem, 0, auto, auto);
           @include translate(0, 0);
         }
       }
