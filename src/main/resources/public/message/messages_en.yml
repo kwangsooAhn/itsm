@@ -1107,6 +1107,8 @@ menu:
     auth: "Auth"
     boardAdmin: "Board config"
     code: "Code management"
+    notifications: "Notification Management"
+    notificationsRecord: "Notification Records"
     organization: "Department"
     parent: "System config"
     product: "Product Info"
@@ -1199,11 +1201,22 @@ notice:
 # Notification
 notification:
   label:
+    aliasInfo: "Alias list info"
     notification: "Notification"
+    notificationManagement: "Notification Management"
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."
-
+  tooltip:
+    aliasList: "<h6>Document Alias<h6><br>
+     Document Type: ${doc_type}<br>
+     Document No: ${doc_no}<br>
+     Docuemt Step: ${doc_step}<br><br>
+     <h6>CMDB  License Alias<h6><br>
+     CI Name: ${ci_name}
+     CI No: ${ci_no}
+     CI Attribute: ${monitoring_field}
+     Condition: ${duedate}
 # Organization
 organization:
   label:

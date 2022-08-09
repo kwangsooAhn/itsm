@@ -1107,6 +1107,8 @@ menu:
     auth: "권한"
     boardAdmin: "게시판"
     code: "코드"
+    notifications: "알람 발송 관리"
+    notificationsRecord: "알람 이력 조회"
     organization: "부서"
     parent: "시스템 관리"
     product: "제품 정보"
@@ -1199,10 +1201,22 @@ notice:
 # Notification
 notification:
   label:
+    aliasInfo: "예약어 안내"
     notification: "알림"
+    notificationManagement: "알람 발송 관리"
   msg:
     description: "최대 50개까지 표시됩니다."
     noNotificationData: "알림이 없습니다."
+  tooltip:
+    aliasList: "<h6>신청서 예약어</h6>
+     &nbsp;&nbsp;&nbsp;신청서 종류: $[doc_type]<br>
+     &nbsp;&nbsp;&nbsp;신청서 번호: $[doc_no]<br>
+     &nbsp;&nbsp;&nbsp;신청서 단계: $[doc_step]<br><br>
+     <h6>CMDB 라이센스 예약어</h6>
+     &nbsp;&nbsp;&nbsp;CI 명: $[ci_name]<br>
+     &nbsp;&nbsp;&nbsp;CI 번호: $[ci_no]<br>
+     &nbsp;&nbsp;&nbsp;CI 속성명: $[monitoring_field]<br>
+     &nbsp;&nbsp;&nbsp;조건: $[due_date]"
 
 # Organization
 organization:
