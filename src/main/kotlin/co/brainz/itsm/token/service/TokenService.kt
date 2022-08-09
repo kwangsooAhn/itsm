@@ -43,6 +43,7 @@ import com.google.gson.Gson
 import java.io.File
 import java.nio.file.Paths
 import java.time.format.DateTimeFormatter
+import javax.transaction.Transactional
 import javax.xml.parsers.DocumentBuilderFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -72,6 +73,7 @@ class TokenService(
      * @param restTemplateTokenDataUpdateDto
      * @return Boolean
      */
+    @Transactional
     fun postToken(restTemplateTokenDataUpdateDto: RestTemplateTokenDataUpdateDto): ZResponse {
         restTemplateTokenDataUpdateDto.assigneeId = currentSessionUser.getUserKey()
 

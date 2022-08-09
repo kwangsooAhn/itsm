@@ -1,3 +1,4 @@
+@charset "utf-8";
 /*
  * itsm.scss
  *
@@ -5,7 +6,6 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-@charset "utf-8";
 
 // 최상위 선언
 @import 'foundations/base/_reset.scss';
@@ -17,7 +17,6 @@
 @import 'foundations/mixins/_animation.scss';
 @import 'foundations/mixins/_border.scss';
 @import 'foundations/mixins/_divider.scss';
-@import 'foundations/mixins/_font.scss';
 @import 'foundations/mixins/_image.scss';
 @import 'foundations/mixins/_layout.scss';
 @import 'foundations/mixins/_position.scss';
