@@ -3869,9 +3869,6 @@ input.ic-mb {
   font-size: 2rem;
 }
 
-.document-content {
-  background-color: #FFFFFF;
-}
 .document-content .document__group {
   width: 100%;
 }
@@ -13613,274 +13610,277 @@ span.modal_node_selected label {
 }
 
 html[data-theme=dark] h1 {
-  color: fuchsia;
+  color: yellow;
 }
 html[data-theme=dark] label {
   color: white;
+}
+html[data-theme=dark] input, html[data-theme=dark] button, html[data-theme=dark] select, html[data-theme=dark] optgroup, html[data-theme=dark] textarea, html[data-theme=dark] .select__box {
+  background-color: lightgray;
 }
 html[data-theme=dark] .description {
   color: yellow;
 }
 html[data-theme=dark] .btn__ic.primary, html[data-theme=dark] .btn__text--box.primary {
   background-color: red;
-  color: red;
-  border-color: red;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.primary [class*=ic-], html[data-theme=dark] .btn__text--box.primary [class*=ic-] {
   display: block;
-  background: red;
+  background: white;
   pointer-events: none;
 }
 html[data-theme=dark] .btn__ic.primary:focus, html[data-theme=dark] .btn__text--box.primary:focus {
   background-color: red;
-  color: red;
-  border-color: red;
-  box-shadow: 0 0 0 0.125rem red;
+  color: white;
+  border-color: white;
+  box-shadow: 0 0 0 0.125rem white;
 }
 html[data-theme=dark] .btn__ic.primary:focus [class*=ic-], html[data-theme=dark] .btn__text--box.primary:focus [class*=ic-] {
-  background: red;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.primary:hover, html[data-theme=dark] .btn__text--box.primary:hover {
-  color: red;
+  color: white;
   background-color: red;
-  border-color: red;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.primary:hover [class*=ic-], html[data-theme=dark] .btn__text--box.primary:hover [class*=ic-] {
-  background: red;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.primary:enabled:active, html[data-theme=dark] .btn__ic.primary:enabled.active, html[data-theme=dark] .btn__text--box.primary:enabled:active, html[data-theme=dark] .btn__text--box.primary:enabled.active {
   background-color: red;
-  color: red;
-  border-color: red;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.primary:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.primary:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.primary:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.primary:enabled.active [class*=ic-] {
-  background: red;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.primary:disabled, html[data-theme=dark] .btn__ic.primary.disabled, html[data-theme=dark] .btn__text--box.primary:disabled, html[data-theme=dark] .btn__text--box.primary.disabled {
-  color: red;
+  color: white;
   background-color: red;
-  border-color: red;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.primary:disabled [class*=ic-], html[data-theme=dark] .btn__ic.primary.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.primary:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.primary.disabled [class*=ic-] {
-  background: red;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.secondary, html[data-theme=dark] .btn__text--box.secondary {
   background-color: orange;
-  color: orange;
-  border-color: orange;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.secondary [class*=ic-], html[data-theme=dark] .btn__text--box.secondary [class*=ic-] {
   display: block;
-  background: orange;
+  background: white;
   pointer-events: none;
 }
 html[data-theme=dark] .btn__ic.secondary:focus, html[data-theme=dark] .btn__text--box.secondary:focus {
   background-color: orange;
-  color: orange;
-  border-color: orange;
-  box-shadow: 0 0 0 0.125rem orange;
+  color: white;
+  border-color: white;
+  box-shadow: 0 0 0 0.125rem white;
 }
 html[data-theme=dark] .btn__ic.secondary:focus [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:focus [class*=ic-] {
-  background: orange;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.secondary:hover, html[data-theme=dark] .btn__text--box.secondary:hover {
-  color: orange;
+  color: white;
   background-color: orange;
-  border-color: orange;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.secondary:hover [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:hover [class*=ic-] {
-  background: orange;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.secondary:enabled:active, html[data-theme=dark] .btn__ic.secondary:enabled.active, html[data-theme=dark] .btn__text--box.secondary:enabled:active, html[data-theme=dark] .btn__text--box.secondary:enabled.active {
   background-color: orange;
-  color: orange;
-  border-color: orange;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.secondary:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.secondary:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:enabled.active [class*=ic-] {
-  background: orange;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.secondary:disabled, html[data-theme=dark] .btn__ic.secondary.disabled, html[data-theme=dark] .btn__text--box.secondary:disabled, html[data-theme=dark] .btn__text--box.secondary.disabled {
-  color: orange;
+  color: white;
   background-color: orange;
-  border-color: orange;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.secondary:disabled [class*=ic-], html[data-theme=dark] .btn__ic.secondary.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.secondary.disabled [class*=ic-] {
-  background: orange;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.extra, html[data-theme=dark] .btn__text--box.extra {
   background-color: purple;
-  color: purple;
-  border-color: purple;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.extra [class*=ic-], html[data-theme=dark] .btn__text--box.extra [class*=ic-] {
   display: block;
-  background: purple;
+  background: white;
   pointer-events: none;
 }
 html[data-theme=dark] .btn__ic.extra:focus, html[data-theme=dark] .btn__text--box.extra:focus {
   background-color: purple;
-  color: purple;
-  border-color: purple;
-  box-shadow: 0 0 0.125rem purple;
+  color: white;
+  border-color: white;
+  box-shadow: 0 0 0.125rem white;
 }
 html[data-theme=dark] .btn__ic.extra:focus [class*=ic-], html[data-theme=dark] .btn__text--box.extra:focus [class*=ic-] {
-  background: purple;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.extra:hover, html[data-theme=dark] .btn__text--box.extra:hover {
-  color: purple;
+  color: white;
   background-color: purple;
-  border-color: purple;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.extra:hover [class*=ic-], html[data-theme=dark] .btn__text--box.extra:hover [class*=ic-] {
-  background: purple;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.extra:enabled:active, html[data-theme=dark] .btn__ic.extra:enabled.active, html[data-theme=dark] .btn__text--box.extra:enabled:active, html[data-theme=dark] .btn__text--box.extra:enabled.active {
   background-color: purple;
-  color: purple;
-  border-color: purple;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.extra:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.extra:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.extra:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.extra:enabled.active [class*=ic-] {
-  background: purple;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.extra:disabled, html[data-theme=dark] .btn__ic.extra.disabled, html[data-theme=dark] .btn__text--box.extra:disabled, html[data-theme=dark] .btn__text--box.extra.disabled {
-  color: purple;
+  color: white;
   background-color: purple;
-  border-color: purple;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.extra:disabled [class*=ic-], html[data-theme=dark] .btn__ic.extra.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.extra:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.extra.disabled [class*=ic-] {
-  background: purple;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.tertiary, html[data-theme=dark] .btn__text--box.tertiary {
   background-color: black;
-  color: black;
-  border-color: black;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.tertiary [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary [class*=ic-] {
   display: block;
-  background: black;
+  background: white;
   pointer-events: none;
 }
 html[data-theme=dark] .btn__ic.tertiary:focus, html[data-theme=dark] .btn__text--box.tertiary:focus {
   background-color: black;
-  color: black;
-  border-color: black;
-  box-shadow: 0 0 0.125rem black;
+  color: white;
+  border-color: white;
+  box-shadow: 0 0 0.125rem white;
 }
 html[data-theme=dark] .btn__ic.tertiary:focus [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:focus [class*=ic-] {
-  background: black;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.tertiary:hover, html[data-theme=dark] .btn__text--box.tertiary:hover {
-  color: black;
+  color: white;
   background-color: black;
-  border-color: black;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.tertiary:hover [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:hover [class*=ic-] {
-  background: black;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.tertiary:enabled:active, html[data-theme=dark] .btn__ic.tertiary:enabled.active, html[data-theme=dark] .btn__text--box.tertiary:enabled:active, html[data-theme=dark] .btn__text--box.tertiary:enabled.active {
   background-color: black;
-  color: black;
-  border-color: black;
+  color: white;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.tertiary:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.tertiary:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:enabled.active [class*=ic-] {
-  background: black;
+  background: white;
 }
 html[data-theme=dark] .btn__ic.tertiary:disabled, html[data-theme=dark] .btn__ic.tertiary.disabled, html[data-theme=dark] .btn__text--box.tertiary:disabled, html[data-theme=dark] .btn__text--box.tertiary.disabled {
-  color: black;
+  color: white;
   background-color: black;
-  border-color: black;
+  border-color: white;
 }
 html[data-theme=dark] .btn__ic.tertiary:disabled [class*=ic-], html[data-theme=dark] .btn__ic.tertiary.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary.disabled [class*=ic-] {
-  background: black;
+  background: white;
 }
 html[data-theme=dark] .tbl {
   color: white;
 }
 html[data-theme=dark] .tbl__head {
-  border-color: red;
+  border-color: black;
 }
 html[data-theme=dark] .tbl__body tr:hover {
   background-color: green;
 }
 html[data-theme=dark] .tbl th {
-  color: red;
+  color: black;
 }
 html[data-theme=dark] .tbl td a {
   color: white;
 }
 html[data-theme=dark] .tbl .btn__ic [class*=ic-] {
-  background-color: orange;
+  background-color: black;
 }
 html[data-theme=dark] .tbl .btn__ic:hover [class*=ic-] {
-  background-color: green;
+  background-color: white;
 }
 html[data-theme=dark] .tbl .btn__ic:focus [class*=ic-] {
-  background-color: yellow;
+  background-color: white;
 }
 html[data-theme=dark] .tbl .btn__ic:active [class*=ic-] {
-  background-color: yellow;
+  background-color: white;
 }
 html[data-theme=dark] .tbl .btn__ic:disabled [class*=ic-] {
-  background-color: purple;
+  background-color: tan;
 }
 html[data-theme=dark] .pagination > span {
   color: white;
 }
 html[data-theme=dark] .navigation .gnb [class*=ic-] {
-  background: yellow;
+  background: white;
 }
 html[data-theme=dark] .navigation .gnb .menu, html[data-theme=dark] .navigation .gnb .logo {
-  background-color: red;
+  background-color: orange;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link {
-  color: yellow;
+  color: white;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active {
-  background-color: blue;
+  background-color: greenyellow;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active .menu-name {
-  color: purple;
+  color: green;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active [class*=ic-] {
-  background: red;
+  background: orange;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link:hover:not(.active, .active-parent) {
-  background: purple;
-  color: cyan;
+  background: greenyellow;
+  color: green;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link:hover:not(.active, .active-parent) [class*=ic-] {
-  background: cyan;
+  background: orange;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link .token-count.active {
   background-color: green;
-  color: yellow;
+  color: greenyellow;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-area:hover {
-  background-color: orange;
+  background-color: yellow;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group {
-  background-color: green;
+  background-color: greenyellow;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link {
-  color: yellow;
+  color: darkgreen;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link.active {
-  background-color: blue;
+  background-color: yellow;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link.active .menu-name {
-  color: purple;
+  color: darkgreen;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link.active .ic-gnb_sub_dot {
-  background: blue;
+  background: darkgreen;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link:hover:not(.active) {
-  color: blue;
+  color: darkgreen;
 }
 html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link:hover:not(.active) .ic-gnb_sub_dot {
-  background: blue;
+  background: darkgreen;
 }
 html[data-theme=dark] .itsm-container .main {
-  background-color: blue;
+  background-color: gray;
 }
 html[data-theme=dark] .itsm-container .main-content .page-result .component .contents {
   border: 0.0625rem solid black;
@@ -13892,23 +13892,22 @@ html[data-theme=dark] .itsm-container .main-content .page-list .grid__cell {
   color: white;
 }
 html[data-theme=dark] .itsm-container .main-content .page-list .grid__head .grid__row {
-  border-color: red;
-  color: red;
+  border-color: black;
 }
 html[data-theme=dark] .itsm-container .main-content .page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
-  background: red;
+  background: black;
 }
 html[data-theme=dark] .itsm-container .main-content .page-list .grid__head .grid__row .grid__cell {
-  color: red;
+  color: black;
 }
 html[data-theme=dark] .itsm-container .main-content .page-list .grid__body .grid__row {
-  border-color: red;
+  border-color: black;
 }
 html[data-theme=dark] .itsm-container .main-content .page-list .grid__body .grid__row:hover {
   background-color: green;
 }
 html[data-theme=dark] .itsm-container .main-content .page-list .grid__body .sub-text {
-  color: black;
+  color: white;
 }
 html[data-theme=dark] .itsm-container .main-content .page-search .search-count {
   color: white;
@@ -13916,12 +13915,24 @@ html[data-theme=dark] .itsm-container .main-content .page-search .search-count {
 html[data-theme=dark] .document-content .document-column .document-name {
   color: white;
 }
+html[data-theme=dark] .document-content .document__group .document__item--title {
+  color: white;
+}
+html[data-theme=dark] span[class*=ic-document-] {
+  background: white;
+}
 html[data-theme=dark] .itsm-container .main-content .card-list .card {
-  border-color: black;
+  border-color: white;
+}
+html[data-theme=dark] .itsm-container .main-content .card-list .card:hover {
+  background-color: black;
 }
 html[data-theme=dark] .component-title {
   color: white;
 }
 html[data-theme=dark] .scrollbar > .os-scrollbar > .os-scrollbar-track {
+  background: darkgreen;
+}
+html[data-theme=dark] .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
   background: yellow;
 }

@@ -1,37 +1,38 @@
 html[data-theme=dark] {
-  h1 { color: fuchsia; }
+  h1 { color: yellow; }
   label { color: white; }
+  input, button, select, optgroup, textarea, .select__box { background-color: lightgray; }
   .description { color: yellow; }
 
   // button
   $theme-dark: (
           'primary': (
-                  'default': ('font': red, 'background': red, 'border' : red),
-                  'hover': ('font' : red, 'background': red, 'border' : red),
-                  'focus': ('font': red, 'background': red, 'border' : red, 'shadow': 0 0 0 0.125rem red),
-                  'active': ('font': red, 'background': red, 'border' : red),
-                  'disabled': ('font': red, 'background': red, 'border' : red)
+                  'default': ('font': white, 'background': red, 'border' : white),
+                  'hover': ('font' : white, 'background': red, 'border' : white),
+                  'focus': ('font': white, 'background': red, 'border' : white, 'shadow': 0 0 0 0.125rem white),
+                  'active': ('font': white, 'background': red, 'border' : white),
+                  'disabled': ('font': white, 'background': red, 'border' : white)
           ),
           'secondary': (
-                  'default': ('font': orange, 'background': orange, 'border': orange),
-                  'hover': ('font' : orange, 'background': orange, 'border': orange),
-                  'focus': ('font': orange, 'background': orange, 'border': orange, 'shadow': 0 0 0 0.125rem orange),
-                  'active': ('font': orange, 'background': orange, 'border': orange),
-                  'disabled': ('font': orange, 'background': orange, 'border': orange)
+                  'default': ('font': white, 'background': orange, 'border': white),
+                  'hover': ('font' : white, 'background': orange, 'border': white),
+                  'focus': ('font': white, 'background': orange, 'border': white, 'shadow': 0 0 0 0.125rem white),
+                  'active': ('font': white, 'background': orange, 'border': white),
+                  'disabled': ('font': white, 'background': orange, 'border': white)
           ),
           'extra': (
-                  'default': ('font': purple, 'background': purple, 'border': purple),
-                  'hover': ('font' : purple, 'background': purple, 'border': purple),
-                  'focus': ('font': purple, 'background': purple, 'border': purple, 'shadow': 0 0 0.125rem purple),
-                  'active': ('font': purple, 'background': purple, 'border': purple),
-                  'disabled': ('font': purple, 'background': purple, 'border': purple)
+                  'default': ('font': white, 'background': purple, 'border': white),
+                  'hover': ('font' : white, 'background': purple, 'border': white),
+                  'focus': ('font': white, 'background': purple, 'border': white, 'shadow': 0 0 0.125rem white),
+                  'active': ('font': white, 'background': purple, 'border': white),
+                  'disabled': ('font': white, 'background': purple, 'border': white)
           ),
           'tertiary': (
-                  'default': ('font': black, 'background': black, 'border': black),
-                  'hover': ('font' : black, 'background': black, 'border': black),
-                  'focus': ('font': black, 'background': black, 'border': black, 'shadow': 0 0 0.125rem black),
-                  'active': ('font': black, 'background': black, 'border': black),
-                  'disabled': ('font': black, 'background': black, 'border': black)
+                  'default': ('font': white, 'background': black, 'border': white),
+                  'hover': ('font' : white, 'background': black, 'border': white),
+                  'focus': ('font': white, 'background': black, 'border': white, 'shadow': 0 0 0.125rem white),
+                  'active': ('font': white, 'background': black, 'border': white),
+                  'disabled': ('font': white, 'background': black, 'border': white)
           )
   );
   .btn {
@@ -110,29 +111,29 @@ html[data-theme=dark] {
   // tbl
   .tbl {
     color: white;
-    &__head { border-color: red; }
+    &__head { border-color: black; }
     &__body {
       tr:hover { background-color: green; }
     }
-    th { color: red; }
+    th { color: black; }
     td {
       a { color: white; }
     }
 
     // icon button
     .btn__ic {
-      [class*="ic-"] { background-color: orange; }
+      [class*="ic-"] { background-color: black; }
       &:hover {
-        [class*="ic-"] { background-color: green; }
+        [class*="ic-"] { background-color: white; }
       }
       &:focus {
-        [class*="ic-"] { background-color: yellow; }
+        [class*="ic-"] { background-color: white; }
       }
       &:active {
-        [class*="ic-"] { background-color: yellow; }
+        [class*="ic-"] { background-color: white; }
       }
       &:disabled {
-        [class*="ic-"] { background-color: purple; }
+        [class*="ic-"] { background-color: tan; }
       }
     }
   }
@@ -145,48 +146,48 @@ html[data-theme=dark] {
   ////////////////////////// navigation //////////////////////////
   .navigation {
     .gnb {
-      [class*=ic-] { background: yellow; }
-      .menu, .logo { background-color: red; }
+      [class*=ic-] { background: white; }
+      .menu, .logo { background-color: orange; }
       .menu {
         .menu-area {
           .gnb-area {
             .gnb-link {
-              color: yellow;
+              color: white;
               &.active {
-                background-color: blue;
-                .menu-name { color: purple; }
+                background-color: greenyellow;
+                .menu-name { color: green; }
                 [class*=ic-] {
-                  background: red;
+                  background: orange;
                 }
               }
               &:hover:not(.active, .active-parent) {
-                background: purple;
-                color: cyan;
-                [class*=ic-] { background: cyan; }
+                background: greenyellow;
+                color: green;
+                [class*=ic-] { background: orange; }
               }
 
               .token-count {
                 &.active {
                   background-color: green;
-                  color: yellow;
+                  color: greenyellow;
                 }
               }
             }
 
-            .snb-area:hover { background-color: orange; }
+            .snb-area:hover { background-color: yellow; }
 
             .snb-group {
-              background-color: green;
+              background-color: greenyellow;
               .snb-link {
-                color: yellow;
+                color: darkgreen;
                 &.active {
-                  background-color: blue;
-                  .menu-name { color: purple; }
-                  .ic-gnb_sub_dot { background: blue; }
+                  background-color: yellow;
+                  .menu-name { color: darkgreen; }
+                  .ic-gnb_sub_dot { background: darkgreen; }
                 }
                 &:hover:not(.active) {
-                  color: blue;
-                  .ic-gnb_sub_dot { background: blue; }
+                  color: darkgreen;
+                  .ic-gnb_sub_dot { background: darkgreen; }
                 }
               }
             }
@@ -196,10 +197,10 @@ html[data-theme=dark] {
     }
   }
 
-  ////////////////////////// main //////////////////////////
+  //////////////////////////    main    //////////////////////////
   .itsm-container {
     .main {
-      background-color: blue;
+      background-color: gray;
       &-content {
         .page {
           &-result {
@@ -215,20 +216,19 @@ html[data-theme=dark] {
               &__cell { color: white; }
               &__head {
                 .grid__row {
-                  border-color: red;
-                  color: red;
+                  border-color: black;
                   .grid__cell:not([data-grid-sortable='false']) {
-                    .ic-sorting { background: red; }
+                    .ic-sorting { background: black; }
                   }
-                  .grid__cell { color: red; }
+                  .grid__cell { color: black; }
                 }
               }
               &__body {
                 .grid__row {
-                  border-color: red;
+                  border-color: black;
                   &:hover { background-color: green; }
                 }
-                .sub-text { color: black; }
+                .sub-text { color: white; }
               }
             }
           }
@@ -240,29 +240,48 @@ html[data-theme=dark] {
     }
   }
 
-  ////////////////////////// document //////////////////////////
+  //////////////////////////  document  //////////////////////////
   .document-content {
     .document-column {
       .document-name { color: white; }
     }
+    .document__group {
+      .document__item {
+        &--title {
+          color: white;
+        }
+      }
+    }
+  }
+  span {
+    &[class*=ic-document-] { background: white; }
   }
 
   .itsm-container {
     .main-content {
       .card-list {
-        .card { border-color: black; }
+        .card {
+          border-color: white;
+          &:hover { background-color: black; }
+        }
       }
     }
   }
-
-  //////////////////////////   //////////////////////////
+  
   .component-title { color: white; }
 
+  ////////////////////////// scrollbar  //////////////////////////
   .scrollbar {
     > .os-scrollbar {
       > .os-scrollbar-track {
-        background: yellow;
+        background: darkgreen;
+        > .os-scrollbar-handle {
+          background: yellow;
+        }
       }
     }
   }
+  
+  ///////////////////////// notification /////////////////////////
+  
 }

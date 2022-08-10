@@ -45,7 +45,10 @@
             i18n.init();
         })();
 
-        aliceJs.initTheme('[[${#authentication.details.theme}]]');
+        const osThemeMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let initTheme = osThemeMode ? 'dark' : 'light';
+        let themeDataset = document.querySelector('html').setAttribute('data-theme', initTheme);
+        themeDataset; // os 설정과 사용자 지정이 같을 경우
 
         window.addEventListener('load', () => {
             aliceJs.initDesignedSelectTag();
