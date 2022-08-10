@@ -950,3 +950,23 @@ INSERT INTO awf_tag VALUES ('4028b21c82343bfb0182344213920025', 'component', '�
 INSERT INTO awf_tag VALUES ('4028b21c82343bfb0182344213c10026', 'component', '승인의견', 'd73e0fa2e95041eb988a598dd21d6e7e');
 INSERT INTO awf_tag VALUES ('4028b21c82343bfb0182344213c80027', 'component', '반려의견', 'd73e0fa2e95041eb988a598dd21d6e7e');
 INSERT INTO awf_tag VALUES ('4028b21c82343bfb0182344213cf0028', 'component', 'z-approve-content', 'd73e0fa2e95041eb988a598dd21d6e7e');
+/* 용량 검토 보고서 */
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7ded940009', 'component', 'z-logo', '6e575d2e983d466f83d60a10156d1d31');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7deda4000a', 'component', 'z-sd-title', '3d14009ad4994c58828586fe991c5cb1');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7dedc6000b', 'component', 'z-sd-writer', 'f52a893539054119beb3fa6df8419389');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7dedcc000c', 'component', 'z-sd-write-date', '9962f441fc624b88aa06fbaa78877849');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7deddd000d', 'component', 'z-sd-write-content', '52d4cbeed2bc42199162d014690e0bba');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7dede6000e', 'component', 'z-sd-writer-file', '173ffe49582e4365b9a0a25c101da167');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7dedf0000f', 'component', 'z-sd-approver', 'ac99823cc9ef458ab434287494c68bc1');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7dee690010', 'component', 'z-sd-approve-date', 'b50e5921cc04438f9837029c167b0166');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b7dee710011', 'component', 'z-sd-approve-content', '3d78a64656fb4eaba998afb5e8ae7396');
+/* 용량 조치 보고서 */
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b918889001d', 'component', 'z-logo', '49e14b1d679f47698ff7be53bb1482c3');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b918896001e', 'component', 'z-sd-title', '93fc9c8ec5404cdfb3ba03fc9c6f6227');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b9188b4001f', 'component', 'z-sd-writer', 'beca25856b3c401999376338b9028bed');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b9188b80020', 'component', 'z-sd-write-date', '89e188815f76452bb9990174788cf1fa');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b9188cc0021', 'component', 'z-sd-write-content', '8f43b70e011c429a87ce0e1b19eedd71');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b9188d90022', 'component', 'z-sd-writer-file', '20c7c1dbc0094179a2edbbcf4a2aa167');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b9188e40023', 'component', 'z-sd-approver', '5c4221a3a9d44ebe90d9b8fcea01eb20');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b9189550024', 'component', 'z-sd-approve-date', '3a5679a02ed24315a6796e17948b165d');
+INSERT INTO awf_tag VALUES ('40288a9d827b4bf001827b91895e0025', 'component', 'z-sd-approve-content', '87abb11df1d5413eb5fc7512a6858408');

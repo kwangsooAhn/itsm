@@ -362,3 +362,23 @@ INSERT INTO wf_form_row VALUES('8b93dc01ea284e3a9dac446f7d462ea9', '03c0b58eeda6
 INSERT INTO wf_form_row VALUES('749b70e7b3e441d68eb36624f6f6a523', '03c0b58eeda64bcdb7598b853e0e27f9', '{"displayOrder":"9","margin":"2 0 2 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES('d78895c16c8041499586c1601c817fa4', '3cd16ba4f27547a4afaed9e28faeac10', '{"displayOrder":"0","margin":"4 0 4 0","padding":"0 0 0 0"}');
 INSERT INTO wf_form_row VALUES('b0cdf009158a44069f7c22c096cc1aa9', '3cd16ba4f27547a4afaed9e28faeac10', '{"displayOrder":"1","margin":"4 0 4 0","padding":"0 0 0 0"}');
+/* 용량 검토 보고서 */
+INSERT INTO wf_form_row VALUES ('3d693428d3f34df6ab473d0f40032fa6', '12be8c4ab2ea42049c3c9d49c5eadb37', '{"displayOrder":0,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('ca7feebcc97142de90360ce749ea85ce', '12be8c4ab2ea42049c3c9d49c5eadb37', '{"displayOrder":1,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('18c06416e50c4100b715ccc242568270', '12be8c4ab2ea42049c3c9d49c5eadb37', '{"displayOrder":2,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('01d15a1723594afebaf0263b439597b4', '71f00c59f9cc4a06ac370f7d9470ad95', '{"displayOrder":0,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('d649b22795424b6497ea48932ae67bde', '71f00c59f9cc4a06ac370f7d9470ad95', '{"displayOrder":1,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('f23bb03578a442848620ee0b8bf5deff', '71f00c59f9cc4a06ac370f7d9470ad95', '{"displayOrder":2,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('8b5471db2da74f15bfa22adeca53e85a', '71f00c59f9cc4a06ac370f7d9470ad95', '{"displayOrder":3,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('4ab704e455954e2aa7f7c4945501cf48', 'a25f03ce1c814208a4991667d1d53636', '{"displayOrder":0,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('9884fc5fd85146639fc33b68c7b5dfff', 'a25f03ce1c814208a4991667d1d53636', '{"displayOrder":1,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+/* 옹량 조치 보고서 */
+INSERT INTO wf_form_row VALUES ('f8fcea8573f1448ca4dd65072c260de2', 'a33304346f2c45ddb202de50cce4efb3', '{"displayOrder":0,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('a0ec2435cf1046a581a1df089b7f0183', 'a33304346f2c45ddb202de50cce4efb3', '{"displayOrder":1,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('1c6c5f13b3e54f699f13a3b77b8c410e', 'a33304346f2c45ddb202de50cce4efb3', '{"displayOrder":2,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('d21b41e91cc04163be80e2e0876af53a', 'a534780c74fc465fbe18383216b0e66b', '{"displayOrder":0,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('e27d655fe8e24514907bbf0c82457103', 'a534780c74fc465fbe18383216b0e66b', '{"displayOrder":1,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('112991a6e8ac497a967e653d2ec13932', 'a534780c74fc465fbe18383216b0e66b', '{"displayOrder":2,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('391718c939944fa1b9829b578fa0b489', 'a534780c74fc465fbe18383216b0e66b', '{"displayOrder":3,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('2f295a5999f74a3d85cbc5440b4ca121', '6a763bba33e64614a83a37afdc54d711', '{"displayOrder":0,"margin":"2 0 2 0","padding":"0 0 0 0"}');
+INSERT INTO wf_form_row VALUES ('7291db71357749e4b396a790440d755a', '6a763bba33e64614a83a37afdc54d711', '{"displayOrder":1,"margin":"2 0 2 0","padding":"0 0 0 0"}');

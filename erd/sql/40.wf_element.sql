@@ -276,3 +276,11 @@ INSERT INTO wf_element VALUES('a50a0fe0f82920b672185504704cda48', '4028b21c82195
 INSERT INTO wf_element VALUES('a6074eb31819d374e6636074ccea3a9b', '4028b21c821952af01821a0baf1c0175', 'arrowConnector', '승인요청', '', false, '', '{}');
 INSERT INTO wf_element VALUES('ae929deea8492ec9686f9cb65225d10a', '4028b21c821952af01821a0baf1c0175', 'commonEnd', '종료', '', false, '', '{"width":40,"height":40,"position-x":780,"position-y":200}');
 INSERT INTO wf_element VALUES('aed084c299f7c96aaa6ce265ab0e7121', '4028b21c821952af01821a0baf1c0175', 'arrowConnector', '', '', false, '', '{}');
+/* 용량 관리 */
+INSERT INTO wf_element VALUES('147fe7a7419f419790b752895f5a77d8', '40288a9d826b8fbf01826cd178780053', 'userTask', '승인', '', true, '', '{"width":160,"height":40,"position-x":580,"position-y":200}');
+INSERT INTO wf_element VALUES('2fac4761b6df4a1daf98112d9590189f', '40288a9d826b8fbf01826cd178780053', 'arrowConnector', '', '', false, '', '{}');
+INSERT INTO wf_element VALUES('44fe59341b854ff787cb4381e521de1b', '40288a9d826b8fbf01826cd178780053', 'arrowConnector', '승인요청', '', false, '', '{}');
+INSERT INTO wf_element VALUES('4a9bb34d33624a7cbe18d5fb32b95b41', '40288a9d826b8fbf01826cd178780053', 'arrowConnector', '', '', false, '', '{}');
+INSERT INTO wf_element VALUES('5f40d6bf7d22400ab35f1d3ab00c6098', '40288a9d826b8fbf01826cd178780053', 'commonStart', 'Start', '', false, '', '{"width":40,"height":40,"position-x":120,"position-y":200}');
+INSERT INTO wf_element VALUES('7825dd7f3dbc47ccbaa6d31efc6c74d2', '40288a9d826b8fbf01826cd178780053', 'userTask', '보고서 작성', '', false, '', '{"width":160,"height":40,"position-x":320,"position-y":200}');
+INSERT INTO wf_element VALUES('eae57beed7ac40d19f2ffc26bcf5432c', '40288a9d826b8fbf01826cd178780053', 'commonEnd', 'End', '', false, '', '{"position-x":780,"position-y":200,"width":40,"height":40}');

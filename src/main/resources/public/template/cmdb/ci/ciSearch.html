@@ -7,6 +7,8 @@
     <title th:text="#{cmdb.ci.label.ciInquiry}"></title>
 </head>
 <th:block layout:fragment="pageHead">
+    <script th:src="@{/assets/vendors/highCharts/highcharts.js}"></script>
+    <script th:src="@{/assets/vendors/highCharts/highcharts-more.js}"></script>
     <script th:src="@{/assets/js/workflow/zWorkflowUtil.js}"></script>
     <script th:src="@{/assets/js/cmdb/zCmdbAttribute.js}"></script>
 </th:block>
@@ -588,10 +590,51 @@
                         ciDetailModalContent.querySelectorAll('.date-time').forEach(dt => {
                             dt.textContent = i18n.userDateTime(dt.textContent.trim());
                         });
+                        getChart(ciId);
                     }
                 });
                 ciDetailModal.show();
             });
+        }
+
+        /**
+         * 용량차트 데이터 조회
+         * @param ciId
+         */
+        function getChart(ciId) {
+            aliceJs.fetchJson('/rest/cmdb/cis/' + ciId + '/chart', {
+                method: 'GET',
+                showProgressBar: true
+            }).then((response) => {
+                if (response.status !== aliceJs.response.success || response.data.length === 0) {
+                    return false;
+                }
+                let contentTarget = document.querySelector('#chartDivContent');
+                let element =
+                    `<h3 class="sub-title under-bar border-thick mt-4">`+ i18n.msg('cmdb.ci.label.chart') +`</h3>` +
+                    `<div id="chartContents" class="flex-column view-row content"></div>`;
+                contentTarget.insertAdjacentHTML('beforeend', element);
+                response.data.forEach(it => {
+                    addChartContent(it);
+                    zChartManager.update(it);
+                });
+            });
+        }
+
+        function addChartContent(data) {
+            let chartTarget = document.querySelector('#chartContents');
+            let tagValue = data.tags[0].value;
+            let element =
+                `<label class="field-label">` +
+                `<span>${tagValue} `+ i18n.msg('cmdb.ci.label.usage') +`</span>` +
+                `</label>` +
+                `<div class="chart-content">` +
+                `<div class="chart" id="${tagValue}_chart"></div>` +
+                `</div>`;
+            chartTarget.insertAdjacentHTML('beforeend', element);
+
+            // 차트 초기화
+            zChartManager.load(tagValue + '_chart', data);
         }
 
         /**
@@ -729,6 +772,49 @@
             }
         };
         window.zPagingManager = zPagingManager;
+    </script>
+    <script type="module">
+        import ZChart from '../../../assets/js/chart/zChart.js';
+
+        const zChartManager = {
+            load: function (id, data) {
+                const customOptions = {
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function () {
+                                    return this.y !== 0.00 ? Highcharts.numberFormat(this.y, 2, '.', '') + '%': null;
+                                }
+                            }
+                        }
+                    },
+                    xAxis: {
+                        labels: {
+                            rotation: 0,
+                            step: 2,
+                            formatter: function() {
+                                return Highcharts.dateFormat('%m-%d', this.value);
+                            }
+                        }
+                    }
+                };
+                // 차트 초기화
+                this.zChart = new ZChart(id, data, customOptions);
+            },
+            update: function (data) {
+                // 데이터 업데이트
+                this.zChart.update(data.chartData);
+            },
+            destroy: function() {
+                if (this.zChart) {
+                    this.zChart.destroy();
+                    this.zChart = null;
+                    delete this.zChart;
+                }
+            }
+        };
+        window.zChartManager = zChartManager;
     </script>
 </th:block>
 </html>
