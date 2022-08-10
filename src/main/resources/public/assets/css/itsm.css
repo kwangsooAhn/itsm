@@ -13611,3 +13611,317 @@ span.modal_node_selected label {
   padding-right: 0.9375rem;
   background: #8B9094;
 }
+
+html[data-theme=dark] h1 {
+  color: fuchsia;
+}
+html[data-theme=dark] label {
+  color: white;
+}
+html[data-theme=dark] .description {
+  color: yellow;
+}
+html[data-theme=dark] .btn__ic.primary, html[data-theme=dark] .btn__text--box.primary {
+  background-color: red;
+  color: red;
+  border-color: red;
+}
+html[data-theme=dark] .btn__ic.primary [class*=ic-], html[data-theme=dark] .btn__text--box.primary [class*=ic-] {
+  display: block;
+  background: red;
+  pointer-events: none;
+}
+html[data-theme=dark] .btn__ic.primary:focus, html[data-theme=dark] .btn__text--box.primary:focus {
+  background-color: red;
+  color: red;
+  border-color: red;
+  box-shadow: 0 0 0 0.125rem red;
+}
+html[data-theme=dark] .btn__ic.primary:focus [class*=ic-], html[data-theme=dark] .btn__text--box.primary:focus [class*=ic-] {
+  background: red;
+}
+html[data-theme=dark] .btn__ic.primary:hover, html[data-theme=dark] .btn__text--box.primary:hover {
+  color: red;
+  background-color: red;
+  border-color: red;
+}
+html[data-theme=dark] .btn__ic.primary:hover [class*=ic-], html[data-theme=dark] .btn__text--box.primary:hover [class*=ic-] {
+  background: red;
+}
+html[data-theme=dark] .btn__ic.primary:enabled:active, html[data-theme=dark] .btn__ic.primary:enabled.active, html[data-theme=dark] .btn__text--box.primary:enabled:active, html[data-theme=dark] .btn__text--box.primary:enabled.active {
+  background-color: red;
+  color: red;
+  border-color: red;
+}
+html[data-theme=dark] .btn__ic.primary:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.primary:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.primary:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.primary:enabled.active [class*=ic-] {
+  background: red;
+}
+html[data-theme=dark] .btn__ic.primary:disabled, html[data-theme=dark] .btn__ic.primary.disabled, html[data-theme=dark] .btn__text--box.primary:disabled, html[data-theme=dark] .btn__text--box.primary.disabled {
+  color: red;
+  background-color: red;
+  border-color: red;
+}
+html[data-theme=dark] .btn__ic.primary:disabled [class*=ic-], html[data-theme=dark] .btn__ic.primary.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.primary:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.primary.disabled [class*=ic-] {
+  background: red;
+}
+html[data-theme=dark] .btn__ic.secondary, html[data-theme=dark] .btn__text--box.secondary {
+  background-color: orange;
+  color: orange;
+  border-color: orange;
+}
+html[data-theme=dark] .btn__ic.secondary [class*=ic-], html[data-theme=dark] .btn__text--box.secondary [class*=ic-] {
+  display: block;
+  background: orange;
+  pointer-events: none;
+}
+html[data-theme=dark] .btn__ic.secondary:focus, html[data-theme=dark] .btn__text--box.secondary:focus {
+  background-color: orange;
+  color: orange;
+  border-color: orange;
+  box-shadow: 0 0 0 0.125rem orange;
+}
+html[data-theme=dark] .btn__ic.secondary:focus [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:focus [class*=ic-] {
+  background: orange;
+}
+html[data-theme=dark] .btn__ic.secondary:hover, html[data-theme=dark] .btn__text--box.secondary:hover {
+  color: orange;
+  background-color: orange;
+  border-color: orange;
+}
+html[data-theme=dark] .btn__ic.secondary:hover [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:hover [class*=ic-] {
+  background: orange;
+}
+html[data-theme=dark] .btn__ic.secondary:enabled:active, html[data-theme=dark] .btn__ic.secondary:enabled.active, html[data-theme=dark] .btn__text--box.secondary:enabled:active, html[data-theme=dark] .btn__text--box.secondary:enabled.active {
+  background-color: orange;
+  color: orange;
+  border-color: orange;
+}
+html[data-theme=dark] .btn__ic.secondary:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.secondary:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:enabled.active [class*=ic-] {
+  background: orange;
+}
+html[data-theme=dark] .btn__ic.secondary:disabled, html[data-theme=dark] .btn__ic.secondary.disabled, html[data-theme=dark] .btn__text--box.secondary:disabled, html[data-theme=dark] .btn__text--box.secondary.disabled {
+  color: orange;
+  background-color: orange;
+  border-color: orange;
+}
+html[data-theme=dark] .btn__ic.secondary:disabled [class*=ic-], html[data-theme=dark] .btn__ic.secondary.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.secondary:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.secondary.disabled [class*=ic-] {
+  background: orange;
+}
+html[data-theme=dark] .btn__ic.extra, html[data-theme=dark] .btn__text--box.extra {
+  background-color: purple;
+  color: purple;
+  border-color: purple;
+}
+html[data-theme=dark] .btn__ic.extra [class*=ic-], html[data-theme=dark] .btn__text--box.extra [class*=ic-] {
+  display: block;
+  background: purple;
+  pointer-events: none;
+}
+html[data-theme=dark] .btn__ic.extra:focus, html[data-theme=dark] .btn__text--box.extra:focus {
+  background-color: purple;
+  color: purple;
+  border-color: purple;
+  box-shadow: 0 0 0.125rem purple;
+}
+html[data-theme=dark] .btn__ic.extra:focus [class*=ic-], html[data-theme=dark] .btn__text--box.extra:focus [class*=ic-] {
+  background: purple;
+}
+html[data-theme=dark] .btn__ic.extra:hover, html[data-theme=dark] .btn__text--box.extra:hover {
+  color: purple;
+  background-color: purple;
+  border-color: purple;
+}
+html[data-theme=dark] .btn__ic.extra:hover [class*=ic-], html[data-theme=dark] .btn__text--box.extra:hover [class*=ic-] {
+  background: purple;
+}
+html[data-theme=dark] .btn__ic.extra:enabled:active, html[data-theme=dark] .btn__ic.extra:enabled.active, html[data-theme=dark] .btn__text--box.extra:enabled:active, html[data-theme=dark] .btn__text--box.extra:enabled.active {
+  background-color: purple;
+  color: purple;
+  border-color: purple;
+}
+html[data-theme=dark] .btn__ic.extra:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.extra:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.extra:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.extra:enabled.active [class*=ic-] {
+  background: purple;
+}
+html[data-theme=dark] .btn__ic.extra:disabled, html[data-theme=dark] .btn__ic.extra.disabled, html[data-theme=dark] .btn__text--box.extra:disabled, html[data-theme=dark] .btn__text--box.extra.disabled {
+  color: purple;
+  background-color: purple;
+  border-color: purple;
+}
+html[data-theme=dark] .btn__ic.extra:disabled [class*=ic-], html[data-theme=dark] .btn__ic.extra.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.extra:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.extra.disabled [class*=ic-] {
+  background: purple;
+}
+html[data-theme=dark] .btn__ic.tertiary, html[data-theme=dark] .btn__text--box.tertiary {
+  background-color: black;
+  color: black;
+  border-color: black;
+}
+html[data-theme=dark] .btn__ic.tertiary [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary [class*=ic-] {
+  display: block;
+  background: black;
+  pointer-events: none;
+}
+html[data-theme=dark] .btn__ic.tertiary:focus, html[data-theme=dark] .btn__text--box.tertiary:focus {
+  background-color: black;
+  color: black;
+  border-color: black;
+  box-shadow: 0 0 0.125rem black;
+}
+html[data-theme=dark] .btn__ic.tertiary:focus [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:focus [class*=ic-] {
+  background: black;
+}
+html[data-theme=dark] .btn__ic.tertiary:hover, html[data-theme=dark] .btn__text--box.tertiary:hover {
+  color: black;
+  background-color: black;
+  border-color: black;
+}
+html[data-theme=dark] .btn__ic.tertiary:hover [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:hover [class*=ic-] {
+  background: black;
+}
+html[data-theme=dark] .btn__ic.tertiary:enabled:active, html[data-theme=dark] .btn__ic.tertiary:enabled.active, html[data-theme=dark] .btn__text--box.tertiary:enabled:active, html[data-theme=dark] .btn__text--box.tertiary:enabled.active {
+  background-color: black;
+  color: black;
+  border-color: black;
+}
+html[data-theme=dark] .btn__ic.tertiary:enabled:active [class*=ic-], html[data-theme=dark] .btn__ic.tertiary:enabled.active [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:enabled:active [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:enabled.active [class*=ic-] {
+  background: black;
+}
+html[data-theme=dark] .btn__ic.tertiary:disabled, html[data-theme=dark] .btn__ic.tertiary.disabled, html[data-theme=dark] .btn__text--box.tertiary:disabled, html[data-theme=dark] .btn__text--box.tertiary.disabled {
+  color: black;
+  background-color: black;
+  border-color: black;
+}
+html[data-theme=dark] .btn__ic.tertiary:disabled [class*=ic-], html[data-theme=dark] .btn__ic.tertiary.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary.disabled [class*=ic-] {
+  background: black;
+}
+html[data-theme=dark] .tbl {
+  color: white;
+}
+html[data-theme=dark] .tbl__head {
+  border-color: red;
+}
+html[data-theme=dark] .tbl__body tr:hover {
+  background-color: green;
+}
+html[data-theme=dark] .tbl th {
+  color: red;
+}
+html[data-theme=dark] .tbl td a {
+  color: white;
+}
+html[data-theme=dark] .tbl .btn__ic [class*=ic-] {
+  background-color: orange;
+}
+html[data-theme=dark] .tbl .btn__ic:hover [class*=ic-] {
+  background-color: green;
+}
+html[data-theme=dark] .tbl .btn__ic:focus [class*=ic-] {
+  background-color: yellow;
+}
+html[data-theme=dark] .tbl .btn__ic:active [class*=ic-] {
+  background-color: yellow;
+}
+html[data-theme=dark] .tbl .btn__ic:disabled [class*=ic-] {
+  background-color: purple;
+}
+html[data-theme=dark] .pagination > span {
+  color: white;
+}
+html[data-theme=dark] .navigation .gnb [class*=ic-] {
+  background: yellow;
+}
+html[data-theme=dark] .navigation .gnb .menu, html[data-theme=dark] .navigation .gnb .logo {
+  background-color: red;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link {
+  color: yellow;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active {
+  background-color: blue;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active .menu-name {
+  color: purple;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link.active [class*=ic-] {
+  background: red;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link:hover:not(.active, .active-parent) {
+  background: purple;
+  color: cyan;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link:hover:not(.active, .active-parent) [class*=ic-] {
+  background: cyan;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .gnb-link .token-count.active {
+  background-color: green;
+  color: yellow;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-area:hover {
+  background-color: orange;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group {
+  background-color: green;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link {
+  color: yellow;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link.active {
+  background-color: blue;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link.active .menu-name {
+  color: purple;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link.active .ic-gnb_sub_dot {
+  background: blue;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link:hover:not(.active) {
+  color: blue;
+}
+html[data-theme=dark] .navigation .gnb .menu .menu-area .gnb-area .snb-group .snb-link:hover:not(.active) .ic-gnb_sub_dot {
+  background: blue;
+}
+html[data-theme=dark] .itsm-container .main {
+  background-color: blue;
+}
+html[data-theme=dark] .itsm-container .main-content .page-result .component .contents {
+  border: 0.0625rem solid black;
+}
+html[data-theme=dark] .itsm-container .main-content .page-content {
+  border-top: 0.0625rem solid black;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__cell {
+  color: white;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__head .grid__row {
+  border-color: red;
+  color: red;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__head .grid__row .grid__cell:not([data-grid-sortable=false]) .ic-sorting {
+  background: red;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__head .grid__row .grid__cell {
+  color: red;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__body .grid__row {
+  border-color: red;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__body .grid__row:hover {
+  background-color: green;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__body .sub-text {
+  color: black;
+}
+html[data-theme=dark] .itsm-container .main-content .page-search .search-count {
+  color: white;
+}
+html[data-theme=dark] .document-content .document-column .document-name {
+  color: white;
+}
+html[data-theme=dark] .itsm-container .main-content .card-list .card {
+  border-color: black;
+}
+html[data-theme=dark] .component-title {
+  color: white;
+}
+html[data-theme=dark] .scrollbar > .os-scrollbar > .os-scrollbar-track {
+  background: yellow;
+}

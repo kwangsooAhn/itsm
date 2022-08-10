@@ -45,6 +45,8 @@
             i18n.init();
         })();
 
+        aliceJs.initTheme('[[${#authentication.details.theme}]]');
+
         window.addEventListener('load', () => {
             aliceJs.initDesignedSelectTag();
         });

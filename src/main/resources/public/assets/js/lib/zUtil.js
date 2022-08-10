@@ -1382,3 +1382,24 @@ aliceJs.fetchDownload = function(option) {
         zAlert.warning(err);
     });
 };
+
+/**
+ * 테마 설정
+ *
+ * @param theme 테마
+ */
+aliceJs.initTheme = function (theme) {
+    const osThemeMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let initTheme = osThemeMode ? 'dark' : 'light';
+    let userSettingTheme = theme;
+    let themeDataset = document.querySelector('html').setAttribute('data-theme', userSettingTheme);
+    themeDataset; // os 설정과 사용자 지정이 같을 경우
+
+    if (userSettingTheme === 'default') { // os 기본 설정
+        userSettingTheme = initTheme;
+        themeDataset;
+    } else if (initTheme !== userSettingTheme) { // os 설정과 사용자 지정이 다를 경우
+        initTheme = userSettingTheme;
+        themeDataset;
+    }
+};

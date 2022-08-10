@@ -8,12 +8,9 @@
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
-<link th:href="@{/assets/css/itsm.css}" rel="stylesheet"/>
 <link th:href="@{/assets/vendors/toastify/toastify.css}" rel="stylesheet"/>
 <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
 <link th:href="@{/assets/css/itsm.css}" rel="stylesheet"/>
-<link th:if="${#authentication.details.theme} == 'dark'"
-      th:href="@{/assets/css/{theme}.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
 <script th:src="@{/assets/js/lib/zI18n.js}"></script>
 <script th:src="@{/assets/js/lib/zModal.js}"></script>
 <script th:src="@{/assets/js/lib/zAlert.js}"></script>
@@ -65,6 +62,8 @@
             timezone: '[[${#authentication.details.timezone}]]'
         }));
     })();
+    
+    aliceJs.initTheme('[[${#authentication.details.theme}]]');
 
     window.addEventListener('load', () => {
         aliceJs.initDesignedSelectTag();
