@@ -445,6 +445,7 @@ cmdb:
     label:
       all: "전체"
       applyDate: "반영 일시"
+      chart: "모니터링 차트"
       ciDesc: "자산 설명"
       ciName: "자산명"
       ciNo: "자산 번호"
@@ -476,6 +477,7 @@ cmdb:
       type: "자산 유형"
       register: "자산 등록"
       update: "자산 수정"
+      usage: "사용량"
       view: "자산 상세 조회"
       relation: "연관 관계"
       targetCiName: "대상 자산명"

@@ -445,6 +445,7 @@ cmdb:
     label:
       all: "All"
       applyDate: "Apply Date"
+      chart: "Monitoring Chart"
       ciDesc: "CI Description"
       ciName: "CI Name"
       ciNo: "CI No."
@@ -476,6 +477,7 @@ cmdb:
       type: "CI Type"
       register: "CI Register"
       update: "CI Update"
+      usage: "Usage"
       view: "CI View"
       relation: "CI Relation"
       targetCiName: "Target CI Name"
