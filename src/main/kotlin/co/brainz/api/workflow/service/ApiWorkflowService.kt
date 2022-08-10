@@ -8,6 +8,7 @@ package co.brainz.api.workflow.service
 
 import co.brainz.api.dto.RequestCmdbDto
 import co.brainz.api.dto.RequestDto
+import co.brainz.api.dto.RequestEventDto
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.response.ZResponseConstants
@@ -200,5 +201,26 @@ class ApiWorkflowService(
         val numberingMap = mutableMapOf<String, String>()
         numberingMap["value"] = numberingRuleService.getNewNumbering(numberingId)
         return numberingMap
+    }
+
+    @Transactional
+    fun callEventDocument(requestEventList: List<RequestEventDto>): Boolean {
+        requestEventList.forEach { requestEvent ->
+            val instanceId = AliceUtil().getUUID()
+
+            // 컴포넌트별 값 설정
+            val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
+            tokenDataList.addAll(requestEvent.default)
+
+            // 신청서 등록 (WfEngine)
+            val requestDto = RequestDto(
+                documentId = requestEvent.documentId,
+                instanceId = instanceId,
+                assigneeId = requestEvent.assigneeId,
+                componentData = tokenDataList
+            )
+            this.callDocument(requestEvent.documentId, requestDto)
+        }
+        return true
     }
 }
