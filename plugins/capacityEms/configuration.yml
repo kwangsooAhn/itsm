@@ -5,7 +5,7 @@ connections:
     database: itsm
     host: "10.0.10.175"
     password: 64TAJlkjjxtS6FXzG0tTNA==
-    port: 32848
+    port: 32784
     username: 97iU8ckIQyNKR+jJF7xz/w==
   -
     id: ems
