@@ -114,3 +114,9 @@ INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb0182345ad3bf002a','ap
 INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb01823466bff5002b','application-form', 'continuity.manager');
 INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb01823466bff5002b','application-form', 'system.admin');
 INSERT INTO awf_document_role_map VALUES ('4028b21c82343bfb01823466bff5002b','application-form', 'continuity.admin');
+/* 용량 검토 보고서 */
+INSERT INTO awf_document_role_map VALUES ('40288a9d826b8fbf01826cdf77130082', 'document.type.application-form', 'system.admin');
+INSERT INTO awf_document_role_map VALUES ('40288a9d826b8fbf01826cdf77130082', 'document.type.application-form', 'cmdb.admin');
+/* 용량 조치 보고서 */
+INSERT INTO awf_document_role_map VALUES('40288a9d827b4bf001827b9206bb0026', 'document.type.application-form', 'system.admin');
+INSERT INTO awf_document_role_map VALUES('40288a9d827b4bf001827b9206bb0026', 'document.type.application-form', 'cmdb.admin');

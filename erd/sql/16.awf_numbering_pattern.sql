@@ -31,5 +31,6 @@ insert into awf_numbering_pattern values ('4028b25d7886e2d801788703c8a00001', '�
 insert into awf_numbering_pattern values ('4028b88178c01b660178c0cbe02d0003', '문제관리 Prefix', 'numbering.pattern.text', '{"value":"PBM"}');
 insert into awf_numbering_pattern values ('4028b88178c0fcc60178c10d270c0002', '장애관리 PreFix', 'numbering.pattern.text', '{"value":"INC"}');
 insert into awf_numbering_pattern values ('4028b21c821e445f01821e4986c20000', '연속성관리  Prefix', 'numbering.pattern.text', '{"value":"SCM"}');
+insert into awf_numbering_pattern values ('40288a9d827ace2901827b1afd07001f', '용량관리 Prefix', 'numbering.pattern.text', '{"value":"CAP"}');
 insert into awf_numbering_pattern values ('40288ab280876830018088101fab001b', 'SMS', 'numbering.pattern.text', '{"value":"SMS"}');
 insert into awf_numbering_pattern values ('40288ab280876830018088105a0b001c', 'NMS', 'numbering.pattern.text', '{"value":"NMS"}');
