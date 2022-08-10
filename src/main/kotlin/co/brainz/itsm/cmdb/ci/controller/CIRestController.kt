@@ -142,4 +142,12 @@ class CIRestController(
     fun getCIComponentList(ciSearchCondition: CISearchCondition): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(ciService.getCIs(ciSearchCondition))
     }
+
+    /**
+     * CI 용량 차트 데이터 조회
+     */
+    @GetMapping("/{ciId}/chart")
+    fun getCapacityChartData(@PathVariable ciId: String): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(ciService.getCapacityChartData(ciId))
+    }
 }

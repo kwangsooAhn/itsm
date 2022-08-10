@@ -444,3 +444,25 @@ INSERT INTO wf_component VALUES('4cbe44b5f2f54dfda6c23fefbdf9abb3', 'fileUpload'
 INSERT INTO wf_component VALUES('3ff188acd84949b398f4102d30826559', 'userSearch', 'z-continuity-approver', false, '749b70e7b3e441d68eb36624f6f6a523', '4028b21c82343bfb018234420f630000');
 INSERT INTO wf_component VALUES('0d0aa5855c5349f88d63fe36fcb9ecc7', 'dateTime', 'z-sd-approve-date', false, 'd78895c16c8041499586c1601c817fa4', '4028b21c82343bfb018234420f630000');
 INSERT INTO wf_component VALUES('d73e0fa2e95041eb988a598dd21d6e7e', 'textArea', 'z-sd-approve-content', false, 'b0cdf009158a44069f7c22c096cc1aa9', '4028b21c82343bfb018234420f630000');
+/* 용량 검토 보고서 */
+INSERT INTO wf_component VALUES('6e575d2e983d466f83d60a10156d1d31', 'image', 'z-logo', false, '3d693428d3f34df6ab473d0f40032fa6', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('3d14009ad4994c58828586fe991c5cb1', 'label', 'z-sd-title', false, 'ca7feebcc97142de90360ce749ea85ce', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('1040430dc19c4de3bf05beef288f6f01', 'divider', '', false, '18c06416e50c4100b715ccc242568270', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('f52a893539054119beb3fa6df8419389', 'userSearch', 'z-sd-writer', false, '01d15a1723594afebaf0263b439597b4', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('9962f441fc624b88aa06fbaa78877849', 'dateTime', 'z-sd-write-date', false, '01d15a1723594afebaf0263b439597b4', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('52d4cbeed2bc42199162d014690e0bba', 'textEditor', 'z-sd-write-content', true, 'd649b22795424b6497ea48932ae67bde', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('173ffe49582e4365b9a0a25c101da167', 'fileUpload', 'z-sd-write-file', false, 'f23bb03578a442848620ee0b8bf5deff', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('ac99823cc9ef458ab434287494c68bc1', 'userSearch', 'z-sd-approver', false, '8b5471db2da74f15bfa22adeca53e85a', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('b50e5921cc04438f9837029c167b0166', 'dateTime', 'z-sd-approve-date', false, '4ab704e455954e2aa7f7c4945501cf48', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_component VALUES('3d78a64656fb4eaba998afb5e8ae7396', 'textArea', 'z-sd-approve-content', false, '9884fc5fd85146639fc33b68c7b5dfff', '40288a9d826b8fbf01826cd3ff160054');
+/* 용량 조치 보고서 */
+INSERT INTO wf_component VALUES('49e14b1d679f47698ff7be53bb1482c3', 'image', 'z-logo', false, 'f8fcea8573f1448ca4dd65072c260de2', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('93fc9c8ec5404cdfb3ba03fc9c6f6227', 'label', 'z-sd-title', false, 'a0ec2435cf1046a581a1df089b7f0183', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('c094c30b5fe047c5897a44b2b614a800', 'divider', '', false, '1c6c5f13b3e54f699f13a3b77b8c410e', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('beca25856b3c401999376338b9028bed', 'userSearch', 'z-sd-writer', false, 'd21b41e91cc04163be80e2e0876af53a', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('89e188815f76452bb9990174788cf1fa', 'dateTime', 'z-sd-write-date', false, 'd21b41e91cc04163be80e2e0876af53a', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('8f43b70e011c429a87ce0e1b19eedd71', 'textEditor', 'z-sd-write-content', true, 'e27d655fe8e24514907bbf0c82457103', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('20c7c1dbc0094179a2edbbcf4a2aa167', 'fileUpload', 'z-sd-write-file', false, '112991a6e8ac497a967e653d2ec13932', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('5c4221a3a9d44ebe90d9b8fcea01eb20', 'userSearch', 'z-sd-approver', false, '391718c939944fa1b9829b578fa0b489', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('3a5679a02ed24315a6796e17948b165d', 'dateTime', 'z-sd-approve-date', false, '2f295a5999f74a3d85cbc5440b4ca121', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_component VALUES('87abb11df1d5413eb5fc7512a6858408', 'textArea', 'z-sd-approve-content', false, '7291db71357749e4b396a790440d755a', '40288a9d827b4bf001827b8ede710013');

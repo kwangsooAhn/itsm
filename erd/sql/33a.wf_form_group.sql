@@ -116,3 +116,11 @@ INSERT INTO wf_form_group VALUES ('def5b9a0a7a34b238cbc45d2fe6578b1', '승인 / 
 INSERT INTO wf_form_group VALUES ('bdc95719b39949809fbf2aaa5052224e', '제목', '4028b21c82343bfb018234420f630000');
 INSERT INTO wf_form_group VALUES ('03c0b58eeda64bcdb7598b853e0e27f9', '신청내역', '4028b21c82343bfb018234420f630000');
 INSERT INTO wf_form_group VALUES ('3cd16ba4f27547a4afaed9e28faeac10', '승인 / 반려 내역', '4028b21c82343bfb018234420f630000');
+/* 용량 검토 보고서*/
+INSERT INTO wf_form_group VALUES ('12be8c4ab2ea42049c3c9d49c5eadb37', '제목', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_form_group VALUES ('71f00c59f9cc4a06ac370f7d9470ad95', '작성내역', '40288a9d826b8fbf01826cd3ff160054');
+INSERT INTO wf_form_group VALUES ('a25f03ce1c814208a4991667d1d53636', '승인 / 반려 내역', '40288a9d826b8fbf01826cd3ff160054');
+/* 용량 조치 보고서 */
+INSERT INTO wf_form_group VALUES ('a33304346f2c45ddb202de50cce4efb3', '제목', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_form_group VALUES ('a534780c74fc465fbe18383216b0e66b', '조치 내역', '40288a9d827b4bf001827b8ede710013');
+INSERT INTO wf_form_group VALUES ('6a763bba33e64614a83a37afdc54d711', '승인 / 반려 내역', '40288a9d827b4bf001827b8ede710013');

@@ -152,6 +152,7 @@ insert into awf_url values ('/rest/cmdb/attributes', 'post', 'CMDB Attribute 등
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'put', 'CMDB Attribute 수정', 'TRUE');
 insert into awf_url values ('/rest/cmdb/attributes/{id}', 'delete', 'CMDB Attribute 삭제', 'TRUE');
 insert into awf_url values ('/rest/cmdb/cis/component/list', 'get', 'CI 모달 스크롤 조회', 'FALSE');
+insert into awf_url values ('/rest/cmdb/cis/{id}/chart', 'get', 'CMDB CI 차트 데이터 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'post', 'CI 컴포넌트 - CI 세부 정보 등록', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/data', 'get', 'CI 컴포넌트 - CI 컴포넌트 세부 정보 조회', 'FALSE');
 insert into awf_url values ('/rest/cmdb/cis/{id}/relation', 'get', 'CI 연관 관계 데이터 조회', 'FALSE');
