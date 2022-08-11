@@ -10153,8 +10153,8 @@ table th {
 }
 .tbl__body .btn__ic {
   padding: 0;
-  background-color: transparent !important;
-  border-color: transparent !important;
+  background-color: transparent;
+  border-color: transparent;
 }
 .tbl__body .btn__ic:hover, .tbl__body .btn__ic:focus, .tbl__body .btn__ic:active, .tbl__body .btn__ic:disabled {
   background-color: transparent;
