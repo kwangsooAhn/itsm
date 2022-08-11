@@ -229,7 +229,8 @@ open class AliceResourceUtil(
     fun isMatchedInSearch(name: String, matchValue: String): Boolean {
         if (matchValue.isEmpty()) { return true }
 
-        return name.toLowerCase().matches(".*${matchValue.toLowerCase()}.*".toRegex())
+        return name.replace(" ", "").toLowerCase()
+            .matches(".*${matchValue.replace(" ", "").toLowerCase()}.*".toRegex())
     }
 
     /**
