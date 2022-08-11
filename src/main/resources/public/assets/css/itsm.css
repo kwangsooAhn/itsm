@@ -13609,13 +13609,19 @@ span.modal_node_selected label {
   background: #8B9094;
 }
 
+html[data-theme=dark] h1, html[data-theme=dark] h2, html[data-theme=dark] h3, html[data-theme=dark] h4, html[data-theme=dark] h5, html[data-theme=dark] h6 {
+  color: white;
+}
 html[data-theme=dark] h1 {
   color: yellow;
 }
 html[data-theme=dark] label {
   color: white;
 }
-html[data-theme=dark] input, html[data-theme=dark] button, html[data-theme=dark] select, html[data-theme=dark] optgroup, html[data-theme=dark] textarea, html[data-theme=dark] .select__box {
+html[data-theme=dark] input, html[data-theme=dark] button, html[data-theme=dark] select, html[data-theme=dark] optgroup, html[data-theme=dark] textarea, html[data-theme=dark] .select__box,
+html[data-theme=dark] .property input[type=text]:not(.tagify).ic-unit-px,
+html[data-theme=dark] .slider input[type=text]:read-only:not(:disabled) {
+  border-color: white;
   background-color: lightgray;
 }
 html[data-theme=dark] .description {
@@ -13793,6 +13799,12 @@ html[data-theme=dark] .btn__ic.tertiary:disabled, html[data-theme=dark] .btn__ic
 html[data-theme=dark] .btn__ic.tertiary:disabled [class*=ic-], html[data-theme=dark] .btn__ic.tertiary.disabled [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary:disabled [class*=ic-], html[data-theme=dark] .btn__text--box.tertiary.disabled [class*=ic-] {
   background: white;
 }
+html[data-theme=dark] .btn__text--only {
+  background-color: transparent;
+}
+html[data-theme=dark] .btn__toggle__button--single, html[data-theme=dark] .btn__toggle__button--multi {
+  border-color: black;
+}
 html[data-theme=dark] .tbl {
   color: white;
 }
@@ -13823,8 +13835,37 @@ html[data-theme=dark] .tbl .btn__ic:active [class*=ic-] {
 html[data-theme=dark] .tbl .btn__ic:disabled [class*=ic-] {
   background-color: tan;
 }
-html[data-theme=dark] .pagination > span {
+html[data-theme=dark] .itsm-container .main-content .page-result .component .contents__req-status .grid__head .grid__row {
+  border-color: black;
+}
+html[data-theme=dark] .itsm-container .main-content .page-result .component .contents__req-status .grid__head .grid__row .grid__cell {
+  color: black;
+}
+html[data-theme=dark] .itsm-container .main-content .page-result .component .contents__req-status .grid__cell {
   color: white;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid .btn__ic [class*=ic-] {
+  background-color: black;
+}
+html[data-theme=dark] .itsm-container .main-content .page-list .grid__cell a {
+  color: white;
+}
+html[data-theme=dark] input[type=text], html[data-theme=dark] input[type=password], html[data-theme=dark] input[type=number] {
+  border-color: white;
+  color: white;
+}
+html[data-theme=dark] .portal-container {
+  background-color: lightgray;
+}
+html[data-theme=dark] .portal-container .main .main-content .main-header {
+  border-color: black;
+  background-color: darkgray;
+}
+html[data-theme=dark] .portal-container .main .main-content .main-banner, html[data-theme=dark] .portal-container .main .main-content .main-search {
+  background-color: darkgray;
+}
+html[data-theme=dark] .portal-container .main .main-content .main-card .card-group .card {
+  border-color: black;
 }
 html[data-theme=dark] .navigation .gnb [class*=ic-] {
   background: white;
@@ -13912,6 +13953,79 @@ html[data-theme=dark] .itsm-container .main-content .page-list .grid__body .sub-
 html[data-theme=dark] .itsm-container .main-content .page-search .search-count {
   color: white;
 }
+html[data-theme=dark] .form-properties-panel-header,
+html[data-theme=dark] .form-properties-header,
+html[data-theme=dark] .process-properties-panel-header,
+html[data-theme=dark] .process-properties-header,
+html[data-theme=dark] .form-properties-panel,
+html[data-theme=dark] .form-properties,
+html[data-theme=dark] .process-properties-panel,
+html[data-theme=dark] .process-properties,
+html[data-theme=dark] .form-component-palette,
+html[data-theme=dark] .form-element-palette,
+html[data-theme=dark] .process-component-palette,
+html[data-theme=dark] .process-element-palette {
+  background-color: darkgray;
+}
+html[data-theme=dark] .form-properties-panel-header,
+html[data-theme=dark] .process-properties-header,
+html[data-theme=dark] .property-group .property-group-label,
+html[data-theme=dark] .process-properties .process-info-main .process-info-title {
+  color: white;
+}
+html[data-theme=dark] .component-accordion-box .component-accordion .accordion-label {
+  color: white;
+}
+html[data-theme=dark] .component-accordion-box .component-accordion .accordion-label .ic-arrow-right {
+  background-color: white;
+}
+html[data-theme=dark] .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon {
+  border-color: black;
+  border-top-color: transparent;
+  background-color: lightgray;
+}
+html[data-theme=dark] .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(even) {
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+html[data-theme=dark] .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:nth-child(odd) {
+  border-left-color: transparent;
+}
+html[data-theme=dark] .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon:hover .component-name, html[data-theme=dark] .component-accordion-box .component-accordion .accordion-content .component-icon-box .component-icon .component-name {
+  color: black;
+}
+html[data-theme=dark] .property .property-label {
+  color: white;
+}
+html[data-theme=dark] .form-main {
+  background-color: #eeeeee;
+}
+html[data-theme=dark] .process-main .drawing-board svg {
+  background-color: #cecece;
+}
+html[data-theme=dark] .process-properties .properties-title {
+  color: white;
+}
+html[data-theme=dark] .process-properties .process-info-main .process-info-dashboard .total {
+  color: white;
+}
+html[data-theme=dark] .element-icon.connector, html[data-theme=dark] .element-icon.move-icon {
+  background-color: lightgray;
+}
+html[data-theme=dark] .element-icon:hover .element-icon-text, html[data-theme=dark] .element-icon .element-icon-text {
+  color: black;
+}
+html[data-theme=dark] .document-container .token-properties {
+  background-color: darkgray;
+}
+html[data-theme=dark] .document-container .token-properties .token-tabs .token-tab {
+  color: white;
+}
+html[data-theme=dark] .document-container .token-properties .token-panels .token-viewer-sub-title,
+html[data-theme=dark] .document-container .token-properties .token-panels .token-history-sub-title,
+html[data-theme=dark] .document-container .token-properties .token-panels .token-related-sub-title {
+  color: white;
+}
 html[data-theme=dark] .document-content .document-column .document-name {
   color: white;
 }
@@ -13930,9 +14044,31 @@ html[data-theme=dark] .itsm-container .main-content .card-list .card:hover {
 html[data-theme=dark] .component-title {
   color: white;
 }
+html[data-theme=dark] .notification-panel {
+  border-color: tan;
+  background-color: lightgray;
+  color: black;
+  box-shadow: 0 0 0.3125rem 0 tan;
+}
+html[data-theme=dark] .modal__dialog {
+  background-color: darkgray;
+}
+html[data-theme=dark] .modal__dialog.product-info-modal .modal__dialog__body label {
+  color: white;
+}
+html[data-theme=dark] .tagify.tag__input {
+  border-color: white;
+}
+html[data-theme=dark] .pagination > span {
+  color: white;
+}
 html[data-theme=dark] .scrollbar > .os-scrollbar > .os-scrollbar-track {
   background: darkgreen;
 }
 html[data-theme=dark] .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
   background: yellow;
+}
+html[data-theme=dark] .color-picker__box {
+  border-color: white;
+  background-color: lightgray;
 }

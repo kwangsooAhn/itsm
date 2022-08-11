@@ -1,9 +1,17 @@
 html[data-theme=dark] {
+  h1, h2, h3, h4, h5, h6 { color: white; }
   h1 { color: yellow; }
   label { color: white; }
-  input, button, select, optgroup, textarea, .select__box { background-color: lightgray; }
+  input, button, select, optgroup, textarea, .select__box,
+  .property input[type=text]:not(.tagify).ic-unit-px,
+  .slider input[type=text]:read-only:not(:disabled) {
+    border-color: white;
+    background-color: lightgray;
+  }
   .description { color: yellow; }
 
+  //////////////////////////   element   //////////////////////////
+  
   // button
   $theme-dark: (
           'primary': (
@@ -106,6 +114,14 @@ html[data-theme=dark] {
         }
       }
     }
+    
+    &__text--only { background-color: transparent; }
+    
+    &__toggle {
+      &__button{
+        &--single, &--multi { border-color: black; }
+      }
+    }
   }
 
   // tbl
@@ -137,10 +153,61 @@ html[data-theme=dark] {
       }
     }
   }
+  
+  // grid
+  .itsm-container {
+    .main-content {
+      .page {
+        &-result {
+          .component {
+            .contents__req-status {
+              .grid {
+                &__head {
+                  .grid__row {
+                    border-color: black;
+                    .grid__cell { color: black; }
+                  }
+                }
+                &__cell { color: white; }
+              }
+            }
+          }
+        }
+        &-list {
+          .grid {
+            .btn__ic [class*=ic-] { background-color: black; }
+            &__cell {
+              a { color: white; }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // input
+  input {
+    &[type=text],
+    &[type=password],
+    &[type=number] {
+      border-color: white;
+      color: white;
+    }
+  }
 
-  // pagination
-  .pagination {
-    > span { color: white; }
+  //////////////////////////   portal   //////////////////////////
+  .portal-container {
+    background-color: lightgray;
+    .main {
+      .main-content {
+        .main-header {
+          border-color: black;
+          background-color: darkgray;
+        }
+        .main-banner, .main-search { background-color: darkgray; }
+        .main-card .card-group .card { border-color: black; }
+      }
+    }
   }
 
   ////////////////////////// navigation //////////////////////////
@@ -239,8 +306,86 @@ html[data-theme=dark] {
       }
     }
   }
+  
+  //////////////////////////  designer  //////////////////////////
+  // header
+  .form-properties-panel-header,
+  .form-properties-header,
+  .process-properties-panel-header,
+  .process-properties-header,
+  // panel
+  .form-properties-panel,
+  .form-properties,
+  .process-properties-panel,
+  .process-properties,
+  // palette
+  .form-component-palette,
+  .form-element-palette,
+  .process-component-palette,
+  .process-element-palette { background-color: darkgray; }
+
+  .form-properties-panel-header,
+  .process-properties-header,
+  .property-group .property-group-label,
+  .process-properties .process-info-main .process-info-title { color: white; }
+
+  ///////////////////////// formDesigner /////////////////////////
+  .component-accordion-box {
+    .component-accordion {
+      .accordion-label {
+        color: white;
+        .ic-arrow-right { background-color: white; }
+      }
+      .accordion-content {
+        .component-icon-box {
+          .component-icon {
+            border-color: black;
+            border-top-color: transparent;
+            background-color: lightgray;
+            &:nth-child(even) {
+              border-left-color: transparent;
+              border-right-color: transparent;
+            }
+            &:nth-child(odd) {
+              border-left-color: transparent;
+            }
+            &:hover .component-name, .component-name { color: black; }
+          }
+        }
+      }
+    }
+  }
+  .property .property-label { color: white; }
+
+  .form-main { background-color: #eeeeee; }
+
+  //////////////////////////   process  //////////////////////////
+  .process-main {
+    .drawing-board svg { background-color: #cecece; }
+  }
+  .process-properties {
+    .properties-title { color: white; }
+    .process-info-main .process-info-dashboard .total { color: white; }
+  }
+
+  .element-icon {
+    &.connector, &.move-icon { background-color: lightgray; }
+    &:hover .element-icon-text, .element-icon-text { color: black; }
+  }
 
   //////////////////////////  document  //////////////////////////
+  .document-container {
+    .token-properties {
+      background-color: darkgray;
+      .token-tabs .token-tab { color: white; }
+      .token-panels {
+        .token-viewer-sub-title,
+        .token-history-sub-title,
+        .token-related-sub-title { color: white; }
+      }
+    }
+  }
+  
   .document-content {
     .document-column {
       .document-name { color: white; }
@@ -269,8 +414,31 @@ html[data-theme=dark] {
   }
   
   .component-title { color: white; }
-
-  ////////////////////////// scrollbar  //////////////////////////
+  
+  ////////////////////////   components   ///////////////////////
+  // notification
+  .notification-panel {
+    border-color: tan;
+    background-color: lightgray;
+    color: black;
+    box-shadow: 0 0 0.3125rem 0 tan;
+  }
+  
+  // modal
+  .modal__dialog {
+    background-color: darkgray;
+    &.product-info-modal .modal__dialog__body label { color: white; }
+  }
+  
+  // tag
+  .tagify.tag__input { border-color: white; }
+  
+  // pagination
+  .pagination {
+    > span { color: white; }
+  }
+  
+  // scrollbar
   .scrollbar {
     > .os-scrollbar {
       > .os-scrollbar-track {
@@ -282,6 +450,9 @@ html[data-theme=dark] {
     }
   }
   
-  ///////////////////////// notification /////////////////////////
-  
+  // colorpicker
+  .color-picker__box {
+    border-color: white;
+    background-color: lightgray;
+  }
 }
