@@ -21,9 +21,9 @@
     </form>
     <div class="ml-auto">
         <button type="button" class="btn__text--box secondary" th:text="#{resource.btn.folder}"
-                onclick="openFolderModal(this)"></button>
+                id="addFolderBtn" onclick="openFolderModal(this)"></button>
         <button type="button" class="btn__text--box secondary" th:text="#{resource.btn.file}"
-                onclick="document.getElementById('uploadFile').click();"></button>
+                id="uploadFileBtn" onclick="document.getElementById('uploadFile').click();"></button>
         <input type="file" class="none" id="uploadFile" multiple onchange="addFile(this);" />
         <div class="btn__toggle__button" id="pageType">
             <button class="btn__toggle__button--single selected" type="button" data-action="thumbnail" onclick="onClickPageType(this);">
@@ -134,7 +134,7 @@
                                 <span class="text-ellipsis path-format" th:text="${resource.fullPath}" th:title="${resource.fullPath}"></span>
                             </div>
                             <div class="grid__cell pl-2">
-                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}">
+                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable} and ${!isSearch}">
                                     <div class="context-menu">
                                         <button type="button" class="btn__ic context-menu__toggle">
                                             <span class="ic-meatballs"></span>
@@ -221,7 +221,7 @@
                             </div>
                             <div class="thumbnail__footer flex-row justify-content-between align-items-center">
                                 <label class="thumbnail__footer--description text-ellipsis date-format" th:text="${resource.updateDt}"></label>
-                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable}">
+                                <th:block th:if="${#authorization.expression('hasAuthority(''workflow.manage'')')} and ${resource.editable} and ${!isSearch}">
                                     <div class="context-menu">
                                         <button type="button" class="btn__ic context-menu__toggle">
                                             <span class="ic-meatballs"></span>
@@ -348,15 +348,9 @@
             setFileExtensionFormat(container);
             setPathFormat(container);
 
-            // 검색시, 브레드크럼 on off
-            const breadcrumb = document.getElementById('breadcrumb');
-            if (document.getElementById('searchValue').value === '') {
-                breadcrumb.classList.remove('hidden');
-                breadcrumb.classList.add('visible');
-            } else {
-                breadcrumb.classList.remove('visible');
-                breadcrumb.classList.add('hidden');
-            }
+            // 검색어 입력시, 동작 비활성화
+            const keyword = document.getElementById('searchValue').value;
+            setSearchCondition(keyword);
 
             // ... 아이콘 클릭시 이벤트
             container.querySelectorAll('.context-menu__toggle').forEach((dropdown) => {
@@ -365,10 +359,30 @@
 
             // 컨텍스트 메뉴 위치 조정
             setContextMenuPosition(pageType);
+        });
+    }
+
+    /**
+     * 검색어 입력시, 동작 비활성화
+     * 브레트 크럼 및 버튼 비활성화
+     */
+    function setSearchCondition(keyword) {
+        const breadcrumb = document.getElementById('breadcrumb');
+        const addFolderBtn = document.getElementById('addFolderBtn');
+        const uploadFileBtn = document.getElementById('uploadFileBtn');
+
+        if (keyword === '') {
+            breadcrumb.classList.remove('hidden');
+            addFolderBtn.classList.remove('hidden');
+            uploadFileBtn.classList.remove('hidden');
 
             // Drag & Drop 설정
             setDraggable(pageType);
-        });
+        } else {
+            breadcrumb.classList.add('hidden');
+            addFolderBtn.classList.add('hidden');
+            uploadFileBtn.classList.add('hidden');
+        }
     }
 
     /**
@@ -383,12 +397,14 @@
             const tempItems = Array.from(items).slice(start, items.length);
             tempItems.forEach((item) => {
                 const contextMenu = item.querySelector('.context-menu__content');
-                if (contextMenu.classList.contains('left-bottom')) {
-                    contextMenu.classList.remove('left-bottom');
-                    contextMenu.classList.add('left-top');
-                } else if (contextMenu.classList.contains('right-bottom')) {
-                    contextMenu.classList.remove('right-bottom');
-                    contextMenu.classList.add('right-top');
+                if (contextMenu !== null) {
+                    if (contextMenu.classList.contains('left-bottom')) {
+                        contextMenu.classList.remove('left-bottom');
+                        contextMenu.classList.add('left-top');
+                    } else if (contextMenu.classList.contains('right-bottom')) {
+                        contextMenu.classList.remove('right-bottom');
+                        contextMenu.classList.add('right-top');
+                    }
                 }
             });
         }
