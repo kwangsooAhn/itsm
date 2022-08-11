@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <node id = "ciMappingIdNotNullList">
+        SELECT ci_id
+            , ci_no
+            , ci_name
+            , ci_status
+            , type_id
+            , ci_desc
+            , mapping_id
+        FROM cmdb_ci
+        WHERE mapping_id is NOT NULL
+    </node>
+    <node id="smsMemoryData">
+        SELECT z_dt
+            , z_listid
+            , avg_xpct
+        FROM mu_sms_monmem_01h
+        WHERE (z_listid, z_dt) in (
+            SELECT z_listid
+                , max(z_dt)
+            FROM mu_sms_monmem_01h
+            GROUP BY z_listid)
+    </node>
+    <node id="smsCPUData">
+        SELECT z_dt
+            , z_listid
+            , z_mindx
+            , avg_xpct
+        FROM mu_sms_moncpu_01h
+        WHERE (z_listid, z_dt) in (
+        SELECT z_listid
+        , max(z_dt)
+        FROM mu_sms_moncpu_01h
+        GROUP BY z_listid)
+        AND z_mindx = 0
+    </node>
+    <node id="smsDiskData">
+        SELECT z_dt
+            , z_listid
+            , z_mindx
+            , avg_xbusyrate
+        FROM mu_sms_mondisk_01h
+        WHERE (z_listid, z_dt) in (
+        SELECT z_listid
+        , max(z_dt)
+        FROM mu_sms_mondisk_01h
+        GROUP BY z_listid)
+        AND z_mindx in (
+            SELECT z_myid
+            FROM rt_sms_mondisk
+            WHERE z_indexid = 0)
+    </node>
+    <node id="selectCapacityData">
+        SELECT ci_id,
+            reference_dt
+        FROM cmdb_ci_capacity_data
+        WHERE reference_dt = '??'
+        AND ci_id in (?)
+    </node>
+    <node id="insertCapacityData">
+        INSERT INTO cmdb_ci_capacity_data (
+          ci_id
+        , reference_dt
+        , cpu_avg
+        , memory_avg
+        , disk_avg
+        , mapping_id
+        ) VALUES (?, ?, ?, ?, ?, ?)
+    </node>
+    <node id="deleteOldCapacityData">
+        DELETE FROM cmdb_ci_capacity_data
+        WHERE reference_dt <![CDATA[<= (?) ]]>
+    </node>
+</query>
