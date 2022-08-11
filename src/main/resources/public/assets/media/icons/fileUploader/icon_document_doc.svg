@@ -1,9 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g transform="translate(-7649 -1698)">
-    <rect fill="none" width="40" height="40" transform="translate(7649 1698)"/>
-    <g transform="translate(6861 1405)">
-      <path fill="#339af0" fill-rule="evenodd" d="M813,295H793a1,1,0,0,0-1,1v34a1,1,0,0,0,1,1h30a1,1,0,0,0,1-1V306Zm9,34H794V297h18v9a1,1,0,0,0,1,1h9Z"/>
-      <path fill="#339af0" fill-rule="evenodd" d="M809.356,311h-2.714l-2.784,8.4-2.285-8.4H798l3.922,13H805.4l2.512-7.534,2.4,7.534H813.8l4.2-13h-3.565l-2.486,8.4Z"/>
-    </g>
-  </g>
+	<g transform="translate(-300 -231)">
+		<rect width="40" height="40" transform="translate(300 231)" fill="none" />
+		<g transform="translate(-990 131)">
+			<path d="M1326,112.58V136.5a1.5,1.5,0,0,1-1.5,1.5h-29a1.5,1.5,0,0,1-1.5-1.5v-33a1.5,1.5,0,0,1,1.5-1.5h19.92Z" fill="#3373c4" />
+			<path d="M1326,112.58V113h-9.5a1.5,1.5,0,0,1-1.5-1.5V102h.42Z" fill="#83bbed" />
+			<path d="M1311.354,119h-2.712l-2.785,9.049L1303.572,119H1300l3.923,14h3.478l2.513-8.112,2.4,8.112h3.486l4.2-14h-3.564l-2.486,9.049Z" fill="#fff" fill-rule="evenodd" />
+		</g>
+	</g>
 </svg>

@@ -9,6 +9,8 @@ import co.brainz.framework.auth.entity.AliceDocumentRoleMapEntity
 import co.brainz.framework.auth.repository.AliceDocumentRoleMapRepository
 import co.brainz.framework.constants.PagingConstants
 import co.brainz.framework.response.ZResponseConstants
+import co.brainz.framework.resourceManager.constants.ResourceConstants
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil
@@ -58,6 +60,7 @@ class DocumentService(
     private val processService: ProcessService,
     private val roleService: RoleService,
     private val wfDocumentService: WfDocumentService,
+    private val aliceResourceProvider: AliceResourceProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val roleRepository: RoleRepository,
     private val aliceDocumentRoleMapRepository: AliceDocumentRoleMapRepository,
@@ -147,6 +150,7 @@ class DocumentService(
 
     /**
      * 업무흐름 조회.
+     * .
      */
     fun getDocumentAdmin(documentId: String): DocumentDto {
         return wfDocumentService.getDocument(documentId)

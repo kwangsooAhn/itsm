@@ -1,0 +1,37 @@
+/* _breadcrumb.scss
+ *
+ * 파일 경로 : components/_breadcrumb.scss
+ * @description 브레드크럼 디자인
+ * @author Woo Da Jung <wdj@brainz.co.kr>
+ * @version 1.0
+ */
+
+.breadcrumb {
+  &__item {
+    color: $gray700;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+
+    &:not(:last-child) {
+      .ic-arrow-right {
+        background: $gray400;
+      }
+    }
+
+    button { cursor: pointer; }
+
+    // > 아이콘
+    .ic-arrow-right {
+      background: transparent;
+      -webkit-mask-size: 1rem 1rem; // 16px 16px
+      mask-size: 1rem 1rem; // 16px 16px
+    }
+
+    // ... 아이콘
+    .ic-meatballs {
+      background: $gray400;
+      -webkit-mask-size: 1rem 1rem; // 16px 16px
+      mask-size: 1rem 1rem; // 16px 16px
+    }
+  }
+}

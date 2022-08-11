@@ -7,8 +7,8 @@
 package co.brainz.itsm.archive.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
-import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
-import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
+import co.brainz.framework.resourceManager.entity.QAliceFileLocEntity
+import co.brainz.framework.resourceManager.entity.QAliceFileOwnMapEntity
 import co.brainz.framework.querydsl.dto.PagingReturnDto
 import co.brainz.itsm.archive.dto.ArchiveListDto
 import co.brainz.itsm.archive.dto.ArchiveSearchCondition
