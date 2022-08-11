@@ -1110,8 +1110,6 @@ menu:
     auth: "권한"
     boardAdmin: "게시판"
     code: "코드"
-    notifications: "알람 발송 관리"
-    notificationsRecord: "알람 이력 조회"
     organization: "부서"
     parent: "시스템 관리"
     product: "제품 정보"
@@ -1128,6 +1126,10 @@ menu:
     parent: "FAQ"
   notice:
     parent: "공지사항"
+  notification:
+    config: "알람 발송 설정"
+    parent: "알람 발송 관리"
+    record: "알람 발송 이력조회"
   setting:
     editMyInfo: "자기정보 수정"
   sla:
@@ -1206,9 +1208,10 @@ notification:
   label:
     aliasInfo: "예약어 안내"
     notification: "알림"
-    notificationManagement: "알람 발송 관리"
+    notificationManagement: "알람 발송 설정"
   msg:
     description: "최대 50개까지 표시됩니다."
+    notJsonType: "{0} 약속된 JSON형식이 아닙니다."
     noNotificationData: "알림이 없습니다."
   tooltip:
     aliasList: "<h6>신청서 예약어</h6>

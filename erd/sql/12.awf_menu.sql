@@ -55,13 +55,14 @@ insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/annual/searc
 insert into awf_menu values ('sla.manualMetric', 'sla', '/sla/metric-manuals/search', 3, 'TRUE');
 insert into awf_menu values ('sla.year', 'sla', '/sla/metrics/search', 4, 'TRUE');
 insert into awf_menu values ('sla.pool', 'sla', '/sla/metric-pools/search', 5, 'TRUE');
-insert into awf_menu values ('config', 'menu', '', 13, 'TRUE');
+insert into awf_menu values('notification', 'menu', '', 13);
+insert into awf_menu values('notification.config', 'notification', '/notifications/edit', 1);
+insert into awf_menu values('notification.record', 'notification', '/notifications/record', 2);
+insert into awf_menu values ('config', 'menu', '', 14, 'TRUE');
 insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
 insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.notifications', 'config', '/notifications/edit', 7, 'TRUE');
-insert into awf_menu values ('config.notificationsRecord', 'config', '/notifications/search', 8, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 9, 'TRUE');

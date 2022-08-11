@@ -1110,8 +1110,6 @@ menu:
     auth: "Auth"
     boardAdmin: "Board config"
     code: "Code management"
-    notifications: "Notification Management"
-    notificationsRecord: "Notification Records"
     organization: "Department"
     parent: "System config"
     product: "Product Info"
@@ -1128,6 +1126,10 @@ menu:
     parent: "FAQ"
   notice:
     parent: "Notice"
+  notification:
+    config: "Notification Configure"
+    parent: "Notification Management"
+    record: "Notification Records"
   setting:
     editMyInfo: "Edit My Info"
   sla:
@@ -1209,6 +1211,7 @@ notification:
     notificationManagement: "Notification Management"
   msg:
     description: "Up to 50 displays."
+    notJsonType: "{0} is not defined JSON type."
     noNotificationData: "No notifications."
   tooltip:
     aliasList: "<h6>Document Alias<h6><br>

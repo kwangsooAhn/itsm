@@ -398,5 +398,5 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delet
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
 insert into awf_url_auth_map  values ('/notifications/edit', 'get', 'system.manage');
-insert into awf_url_auth_map  values ('/notifications/search', 'get', 'system.manage');
-insert into awf_url_auth_map  values ('/rest/notifications/notificationConfig', 'put', 'system.manage');
+insert into awf_url_auth_map  values ('/notifications/record', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/rest/notifications/config', 'put', 'system.manage');

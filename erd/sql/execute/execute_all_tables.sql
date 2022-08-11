@@ -647,15 +647,16 @@ insert into awf_menu values ('sla.yearStatus', 'sla', '/sla/metrics/annual/searc
 insert into awf_menu values ('sla.manualMetric', 'sla', '/sla/metric-manuals/search', 3, 'TRUE');
 insert into awf_menu values ('sla.year', 'sla', '/sla/metrics/search', 4, 'TRUE');
 insert into awf_menu values ('sla.pool', 'sla', '/sla/metric-pools/search', 5, 'TRUE');
-insert into awf_menu values ('config', 'menu', '', 13, 'TRUE');
+insert into awf_menu values('notification', 'menu', '', 13);
+insert into awf_menu values('notification.config', 'notification', '/notifications/edit', 1);
+insert into awf_menu values('notification.record', 'notification', '/notifications/record', 2);
+insert into awf_menu values ('config', 'menu', '', 14, 'TRUE');
 insert into awf_menu values ('config.organization', 'config', '/organizations/edit', 1, 'TRUE');
 insert into awf_menu values ('config.user', 'config', '/users/search', 2, 'TRUE');
 insert into awf_menu values ('config.role', 'config', '/roles/search', 3, 'TRUE');
 insert into awf_menu values ('config.boardAdmin', 'config', '/boards/search', 4, 'TRUE');
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5, 'TRUE');
 insert into awf_menu values ('config.scheduler', 'config', '/schedulers/search', 6, 'TRUE');
-insert into awf_menu values ('config.notifications', 'config', '/notifications/edit', 7, 'TRUE');
-insert into awf_menu values ('config.notificationsRecord', 'config', '/notifications/search', 8, 'TRUE');
 insert into awf_menu values ('config.product', 'config', '', 9, 'TRUE');
 
 /**
@@ -733,8 +734,9 @@ insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
 insert into awf_menu_auth_map values ('calendar', 'general');
-insert into awf_menu_auth_map values ('config.notifications', 'system.manage');
-insert into awf_menu_auth_map values ('config.notificationsRecord', 'system.manage');
+insert into awf_menu_auth_map values ('notification', 'system.manage');
+insert into awf_menu_auth_map values ('notification.config', 'system.manage');
+insert into awf_menu_auth_map values ('notification.record', 'system.manage');
 
 /**
  * 넘버링정보
@@ -1532,8 +1534,8 @@ insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
 insert into awf_url values('/notifications/edit', 'get', '알람 발송 관리 편집', 'TRUE');
-insert into awf_url values('/notifications/search', 'get', '알람 이력 조회', 'TRUE');
-insert into awf_url values('/rest/notifications/notificationConfig', 'put', '알람 발송 설정 정보 변경', 'TRUE');
+insert into awf_url values('/notifications/record', 'get', '알람 이력 조회', 'TRUE');
+insert into awf_url values('/rest/notifications/config', 'put', '알람 발송 설정 정보 변경', 'TRUE');
 
 /**
  * URL별권한매핑
@@ -1935,8 +1937,8 @@ insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'delet
 insert into awf_url_auth_map values ('/rest/workflows/workflowLink/{id}', 'put', 'workflow.manage');
 insert into awf_url_auth_map values ('/calendars', 'get', 'general');
 insert into awf_url_auth_map  values ('/notifications/edit', 'get', 'system.manage');
-insert into awf_url_auth_map  values ('/notifications/search', 'get', 'system.manage');
-insert into awf_url_auth_map  values ('/rest/notifications/notificationConfig', 'put', 'system.manage');
+insert into awf_url_auth_map  values ('/notifications/record', 'get', 'system.manage');
+insert into awf_url_auth_map  values ('/rest/notifications/config', 'put', 'system.manage');
 
 /**
  * 사용자정보
@@ -10491,13 +10493,13 @@ DROP TABLE IF EXISTS notification_config_detail cascade;
 
 CREATE TABLE notification_config_detail
 (
+    notification_code   varchar(128) NOT NULL,
     channel             varchar(128) NOT NULL,
     use_yn              boolean NOT NULL,
     title_format        varchar(512) NOT NULL,
     message_format      text NOT NULL,
     template            varchar(128),
     url                 varchar(256),
-    notification_code   varchar(128) NOT NULL,
     create_user_key     varchar(128),
     create_dt           timestamp,
     update_user_key     varchar(128),
@@ -10508,22 +10510,22 @@ CREATE TABLE notification_config_detail
 );
 
 COMMENT ON TABLE notification_config_detail IS 'notification_config_detail';
+COMMENT ON COLUMN notification_config_detail.notification_code IS '알람 발송관리 코드';
 COMMENT ON COLUMN notification_config_detail.channel IS '발송 채널';
 COMMENT ON COLUMN notification_config_detail.use_yn IS '사용 여부';
 COMMENT ON COLUMN notification_config_detail.title_format IS '제목 양식';
 COMMENT ON COLUMN notification_config_detail.message_format IS '메세지 양식';
 COMMENT ON COLUMN notification_config_detail.template IS '템플릿 파일명';
 COMMENT ON COLUMN notification_config_detail.url IS '링크 URL';
-COMMENT ON COLUMN notification_config_detail.notification_code IS '알람 발송관리 코드';
 COMMENT ON COLUMN notification_config_detail.create_user_key IS '생성자';
 COMMENT ON COLUMN notification_config_detail.create_dt IS '생성 일시';
 COMMENT ON COLUMN notification_config_detail.update_user_key IS '수정자';
 COMMENT ON COLUMN notification_config_detail.update_dt IS '수정 일시';
 
-INSERT INTO notification_config_detail VALUES('toast', true, '$[doc_type] $[doc_no]', '$[doc_step]', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', null, null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', 'document_mail_template.html', null, 'document', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('toast', true, '$[ci_name] $[doc_no]', '$[ci_name] $[monitoring_field]가 $[due_date]', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('sms', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', null, null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
-INSERT INTO notification_config_detail VALUES('mail', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', 'cmdb_mail_template.html', null, 'cmdbLicense', '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('document', 'toast', true, '$[doc_type] $[doc_no]', '$[doc_step]', null, null, '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('document', 'sms', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', null, null, '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('document', 'mail', true, '[ITSM] $[doc_type] $[doc_no] 처리안내', '$[doc_no] 처리바랍니다', 'document_mail_template.html', null, '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('cmdbLicense', 'toast', true, '$[ci_name] $[doc_no]', '$[ci_name] $[monitoring_field]가 $[due_date]', null, null, '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('cmdbLicense', 'sms', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', null, null, '0509e09412534a6e98f04ca79abb6424',now(),null,null);
+INSERT INTO notification_config_detail VALUES('cmdbLicense', 'mail', true, '[ITSM]  $[ci_no] $[ci_name] 만료 안내', '$[ci_no] $[ci_name]가 $[due_date]', 'cmdb_mail_template.html', null, '0509e09412534a6e98f04ca79abb6424',now(),null,null);
 

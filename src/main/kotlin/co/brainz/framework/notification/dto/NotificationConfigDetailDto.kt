@@ -8,10 +8,10 @@ package co.brainz.framework.notification.dto
 import java.io.Serializable
 
 data class NotificationConfigDetailDto(
-    var channel: String,
-    var useYn: Boolean,
-    var titleFormat: String,
-    var messageFormat: String,
-    var template: String?,
-    var url: List<String>?
+    val channel: String,
+    val useYn: Boolean,
+    val titleFormat: String,
+    val messageFormat: String,
+    val template: String?,
+    val url: List<String>?
 ) : Serializable

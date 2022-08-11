@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout/itsm/pageType/commonEditLayout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{notification.label.notificationManagement}"></title>
@@ -40,14 +39,14 @@
 </div>
 </body>
 <script layout:fragment="pageScript" type="text/javascript" th:inline="javascript">
-    let notificationConfigs = [[${notificationConfigs}]];
+    const notificationConfigs = [[${notificationConfigs}]];
 
     window.onload = function () {
         setNotificationConfigJson();
         OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
     }
 
-    // 알람 유형별 채널 textarea 데이터 셋팅
+    // 알람 유형별 채널 textarea Json 데이터 셋팅
     function setNotificationConfigJson() {
         // 알람 유형 리스트 가져오기 ex> 신청서
         notificationConfigs.forEach(config => {
@@ -77,7 +76,8 @@
 
     function notificationConfigSave() {
         // Controller에 전달할 데이터
-        let updateList = [];
+        const updateList = [];
+        let validationResult = true;
 
         // 알람 유형 리스트 가져오기 ex> 신청서, CMDB 라이센스
         notificationConfigs.forEach(config => {
@@ -87,15 +87,23 @@
                 notificationName: config.notificationName,
                 notificationConfigDetails: []
             };
-
+            // 알람 유형 별 상세(채널) 정보 가져오기 ex> mail
             config.notificationConfigDetails.forEach(configDetail => {
-                // 알람 유형 Div ex> 신청서내 mail, sms , toast 포함
+                // 알람 유형 Div ex> 신청서의 mail, sms , toast 전체 Div
                 let notificationConfigDiv = document.getElementById(config.notificationCode);
 
-                // 알람 유형 별 상세(채널) 정보 가져오기 ex> mail
-                let configDetailJson = JSON.parse(notificationConfigDiv
+                // 채널별 상세정보 데이터
+                let notificationDetail = notificationConfigDiv
                     .querySelector('div[name="' + configDetail.channel + '"] > div > textarea ')
-                    .value);
+                    .value;
+                // Texarea내 json 유효성 검사
+                if (!validationCheck(configDetail.channel, notificationDetail)) {
+                    zAlert.danger(i18n.msg('notification.msg.notJsonType', configData.notificationName + '-' + configDetail.channel));
+                    validationResult = false;
+                }
+
+                // 알람 유형 별 상세(채널) 정보 가져오기 ex> mail
+                let configDetailJson = JSON.parse(notificationDetail);
 
                 let useYn = notificationConfigDiv
                     .querySelector('div[name="' + configDetail.channel + '"] > input[type=checkbox]')
@@ -110,12 +118,17 @@
                     template: configDetail.channel === 'mail' ? configDetailJson.template : null, // 메일일 경우에만 template 설정
                     url: configDetail.channel === 'mail' ? configDetailJson.url : null // 메일일 경우에만 url 설정
                 };
+
                 configData.notificationConfigDetails.push(configDetailData);
-            })
+            });
             updateList.push(configData);
         });
 
-        aliceJs.fetchJson('/rest/notifications/notificationConfig', {
+        if (!validationResult) {
+            return false;
+        }
+
+        aliceJs.fetchJson('/rest/notifications/config', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -130,6 +143,13 @@
                 zAlert.danger([[#{common.msg.fail}]]);
             }
         });
+    }
+
+    function validationCheck(channel, data) {
+        let jsonKeyList = channel === 'mail' ?
+            ['message', 'title', 'template', 'url'] : ['message', 'title'];
+
+        return isJson(data, jsonKeyList);
     }
 </script>
 </html>
