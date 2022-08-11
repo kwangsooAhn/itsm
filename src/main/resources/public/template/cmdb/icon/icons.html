@@ -109,7 +109,7 @@
                             <th:block th:if="${#authorization.expression('hasAuthority(''cmdb.manage'')')} and ${!isSearch}">
                                 <th:block th:if="${resource.directoryYn}">
                                     <div class="context-menu">
-                                        <button type="button" class="btn__ic context-menu__toggle">
+                                        <button type="button" class="btn__ic context-menu__toggle p-0">
                                             <span class="ic-meatballs"></span>
                                         </button>
                                         <ul class="context-menu__content left-bottom">
@@ -134,7 +134,7 @@
                                 </th:block>
                                 <th:block th:unless="${resource.directoryYn}">
                                     <div class="context-menu" th:if="${resource.editable || !isRoot}">
-                                        <button type="button" class="btn__ic context-menu__toggle">
+                                        <button type="button" class="btn__ic context-menu__toggle p-0">
                                             <span class="ic-meatballs"></span>
                                         </button>
                                         <ul class="context-menu__content left-bottom">
@@ -407,7 +407,7 @@
 
             breadcrumbTemplate += (`<li class="breadcrumb__item flex-row align-items-center">
                 <div class="context-menu">
-                    <button type="button" class="btn__ic context-menu__toggle">
+                    <button type="button" class="btn__ic context-menu__toggle p-0">
                         <span class="ic-meatballs"></span>
                     </button>
                     <ul class="context-menu__content left-bottom">${shortBreadcrumbTemplate}</ul>

@@ -132,7 +132,7 @@
                 breadcrumbTemplate += (
                     `<li class="breadcrumb__item flex-row align-items-center">
                         <div class="context-menu">
-                            <button type="button" class="btn__ic context-menu__toggle">
+                            <button type="button" class="btn__ic context-menu__toggle p-0">
                                 <span class="ic-meatballs"></span>
                             </button>
                             <ul class="context-menu__content left-bottom">${shortBreadcrumbTemplate}</ul>
