@@ -211,7 +211,7 @@
                         <div class="flex-row input--remove">
                             <input type="hidden" id="substituteUserKey" name="substituteUserKey">
                             <input type="text" class="col-2" id="substituteUser" name="substituteUser"
-                                    readonly>
+                                    readonly />
                             <button type="button" class="item-remove" onclick="aliceJs.clearText(this);">
                                 <span class="ic-remove"></span>
                             </button>
@@ -333,12 +333,12 @@
             switch (response.status) {
                 case aliceJs.response.success: // 수정 성공
                     zAlert.success([[#{common.msg.modify}]], function () {
-                        history.back();
+                        window.location.href = document.referrer;
                     });
                     break;
                 case aliceJs.response.successEditEmail: // 이메일 업데이트 성공
                     zAlert.success([[#{user.msg.emailWithUpdate}]], function () {
-                        history.back();
+                        window.location.href = document.referrer;
                     });
                     break;
                 case aliceJs.response.duplicate: // ID 중복

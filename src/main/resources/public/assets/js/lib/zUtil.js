@@ -1388,17 +1388,15 @@ aliceJs.fetchDownload = function(option) {
  *
  * @param theme 테마
  */
-aliceJs.initTheme = function (theme) {
+aliceJs.initTheme = function (theme = 'OS Setup Mode') {
     const osThemeMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     let initTheme = osThemeMode ? 'dark' : 'light';
     let userSettingTheme = theme;
-    document.querySelector('html').setAttribute('data-theme', userSettingTheme); // os 설정과 사용자 지정이 같을 경우
 
-    if (userSettingTheme === 'default') { // os 기본 설정
+    if (userSettingTheme === 'OS Setup Mode') { // os 기본 설정
         userSettingTheme = initTheme;
-        document.querySelector('html').setAttribute('data-theme', userSettingTheme);
     } else if (initTheme !== userSettingTheme) { // os 설정과 사용자 지정이 다를 경우
         initTheme = userSettingTheme;
-        document.querySelector('html').setAttribute('data-theme', userSettingTheme);
     }
+    document.querySelector('html').setAttribute('data-theme', userSettingTheme);
 };

@@ -31,14 +31,16 @@
 <div class="wrapper">
     <div class="process-container">
         <div class="process-header flex-row align-items-center">
-            <img class="img ic-process-designer"  th:src="@{/assets/media/icons/designer/topmenu/icon_process_designer.svg}" width="196" height="25" alt="Process Designer" />
+            <img class="img ic-process-designer"   width="196" height="25" alt="Process Designer"
+                 th:src="@{/assets/media/icons/designer/topmenu/icon_process_designer.svg}"/>
             <span class="process-name ml-auto mr-auto" id="processName"></span>
             <!-- 버튼 영역 -->
             <div class="process-button-list flex-row mr-3">
                 <!--undo-->
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <div id="editCommand">
-                        <button type="button" class="header-button btn__ic light-extra tooltip" data-actionType="undo" data-targetId="editCommand"
+                        <button type="button" class="header-button btn__ic light-extra tooltip"
+                                data-actionType="undo" data-targetId="editCommand"
                                 onclick="zProcessDesigner.onDropdownClickHandler(this);">
                             <span class="ic-undo"></span>
                             <div class="tooltip__box">
@@ -53,26 +55,32 @@
                         </button>
                         <ul class="context-menu">
                             <li class="context-menu__item" tabindex="-1">
-                                <button type="button" class="btn__text--box button-dropdown align-left" data-actionType="undo" data-targetId="editCommand"
-                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{process.label.undo}" tabindex="0"></button>
+                                <button type="button" tabindex="0" class="btn__text--box button-dropdown align-left"
+                                        data-actionType="undo" data-targetId="editCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);"
+                                        th:text="#{process.label.undo}"></button>
                             </li>
                             <li class="context-menu__item" tabindex="-1">
-                                <button type="button" class="btn__text--box button-dropdown align-left" data-actionType="redo" data-targetId="editCommand"
-                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{process.label.redo}" tabindex="0"></button>
+                                <button type="button" tabindex="0" class="btn__text--box button-dropdown align-left"
+                                        data-actionType="redo" data-targetId="editCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);"
+                                        th:text="#{process.label.redo}"></button>
                             </li>
                         </ul>
                     </div>
                 </th:block>
                 <div class="ml-auto">
                     <!-- 시뮬레이션 -->
-                    <button type="button" class="header-button btn__ic light-extra tooltip" onclick="zProcessDesigner.simulationProcess();">
+                    <button type="button" class="header-button btn__ic light-extra tooltip"
+                            onclick="zProcessDesigner.simulationProcess();">
                         <span class="ic-simulation"></span>
                         <div class="tooltip__box">
                             <span class="tooltip__box__text" th:text="#{process.label.simulation}"></span>
                         </div>
                     </button>
                     <!-- 이미지로 다운로드 -->
-                    <button type="button" class="header-button btn__ic light-extra tooltip" onclick="zProcessDesigner.downloadProcessImage();">
+                    <button type="button" class="header-button btn__ic light-extra tooltip"
+                            onclick="zProcessDesigner.downloadProcessImage();">
                         <span class="ic-image-download"></span>
                         <div class="tooltip__box">
                             <span class="tooltip__box__text" th:text="#{process.label.imageDownload}"></span>
@@ -82,7 +90,8 @@
                 <!--저장하기-->
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <div id="fileCommand">
-                        <button type="button" class="header-button btn__ic light-extra tooltip" data-actionType="save" data-targetId="fileCommand"
+                        <button type="button" class="header-button btn__ic light-extra tooltip"
+                                data-actionType="save" data-targetId="fileCommand"
                                 onclick="zProcessDesigner.saveProcess();">
                             <span class="ic-save"></span>
                             <div class="tooltip__box">
@@ -97,19 +106,24 @@
                         </button>
                         <ul class="context-menu">
                             <li class="context-menu__item" tabindex="-1">
-                                <button type="button" class="btn__text--box button-dropdown align-left" data-actionType="save" data-targetId="fileCommand"
-                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{common.btn.save}" tabindex="0"></button>
+                                <button type="button" tabindex="0" class="btn__text--box button-dropdown align-left"
+                                        data-actionType="save" data-targetId="fileCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);"
+                                        th:text="#{common.btn.save}"></button>
                             </li>
                             <li class="context-menu__item align-left" tabindex="-1">
-                                <button type="button" class="btn__text--box button-dropdown align-left"  data-actionType="saveAs" data-targetId="fileCommand"
-                                        onclick="zProcessDesigner.onDropdownClickHandler(this);" th:text="#{common.btn.saveAs}" tabindex="0"></button>
+                                <button type="button" tabindex="0" class="btn__text--box button-dropdown align-left"
+                                        data-actionType="saveAs" data-targetId="fileCommand"
+                                        onclick="zProcessDesigner.onDropdownClickHandler(this);"
+                                        th:text="#{common.btn.saveAs}"></button>
                             </li>
                         </ul>
                     </div>
                 </th:block>
                 <!--프로세스가 사용일때 다른이름으로 저장하기 만 가능-->
                 <th:block th:unless="${#strings.isEmpty(isView)}">
-                    <button type="button" class="header-button btn__ic light-extra tooltip" onclick="zProcessDesigner.saveAsProcess();">
+                    <button type="button" class="header-button btn__ic light-extra tooltip"
+                            onclick="zProcessDesigner.saveAsProcess();">
                         <span class="ic-save-as"></span>
                         <div class="tooltip__box last">
                             <span class="tooltip__box__text" th:text="#{common.btn.saveAs}"></span>
@@ -162,7 +176,8 @@
     </div>
     <!-- dropdown button 템플릿 -->
     <template id="undoButtonTemplate">
-        <button type="button" class="header-button btn__ic light-extra tooltip" data-actionType="undo" data-targetId="editCommand">
+        <button type="button" class="header-button btn__ic light-extra tooltip"
+                data-actionType="undo" data-targetId="editCommand">
             <span class="ic-undo"></span>
             <div class="tooltip__box">
                 <span class="tooltip__box__text" th:text="#{process.label.undo}"></span>
@@ -170,7 +185,8 @@
         </button>
     </template>
     <template id="redoButtonTemplate">
-        <button type="button" class="header-button btn__ic light-extra tooltip" data-actionType="redo" data-targetId="editCommand">
+        <button type="button" class="header-button btn__ic light-extra tooltip"
+                data-actionType="redo" data-targetId="editCommand">
             <span class="ic-redo"></span>
             <div class="tooltip__box">
                 <span class="tooltip__box__text" th:text="#{process.label.redo}"></span>
@@ -178,7 +194,8 @@
         </button>
     </template>
     <template id="saveButtonTemplate">
-        <button type="button" class="header-button btn__ic light-extra tooltip" data-actionType="save" data-targetId="fileCommand">
+        <button type="button" class="header-button btn__ic light-extra tooltip"
+                data-actionType="save" data-targetId="fileCommand">
             <span class="ic-save"></span>
             <div class="tooltip__box">
                 <span class="tooltip__box__text" th:text="#{common.btn.save}"></span>
@@ -186,7 +203,8 @@
         </button>
     </template>
     <template id="saveAsButtonTemplate">
-        <button type="button" class="header-button btn__ic light-extra tooltip" data-actionType="saveAs" data-targetId="fileCommand">
+        <button type="button" class="header-button btn__ic light-extra tooltip"
+                data-actionType="saveAs" data-targetId="fileCommand">
             <span class="ic-save-as"></span>
             <div class="tooltip__box last">
                 <span class="tooltip__box__text" th:text="#{common.btn.saveAs}"></span>
@@ -199,7 +217,8 @@
             <h5 class="process-info-title" th:text="#{process.designer.attribute.processInformation}"></h5>
             <div class="process-info-dashboard">
                 <h6 class="total align-right">
-                    <span th:text="|#{process.designer.attribute.totalCount} : |">Total Count</span><span id="element-count"></span>
+                    <span th:text="|#{process.designer.attribute.totalCount} : |">Total Count</span>
+                    <span id="element-count"></span>
                 </h6>
                 <table class="tbl">
                     <colgroup>
@@ -256,7 +275,8 @@
         i18n.init(JSON.stringify({
             dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
             dateFormat: parsedDateTimeFormat[0],
-            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
+            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1]
+                + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
             lang: '[[${#authentication.details.lang}]]',
             timezone: '[[${#authentication.details.timezone}]]'
         }));
