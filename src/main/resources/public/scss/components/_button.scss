@@ -491,6 +491,7 @@ $button-group: (
       background: map-get($button-group, 'default', 'font');
       vertical-align: middle;
       pointer-events: none;
+      margin: 0.25rem;
     }
   }
 

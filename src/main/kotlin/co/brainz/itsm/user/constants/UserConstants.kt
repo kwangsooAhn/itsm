@@ -42,16 +42,6 @@ object UserConstants {
     const val ADMIN_ID: String = "admin"
 
     /**
-     * 사용자 아바타 URL
-     */
-    const val AVATAR_ID: String = "avatar"
-
-    /**
-     * 사용자 프로세스 URL
-     */
-    const val PROCESS_ID: String = "process"
-
-    /**
      * 사용자 아바타 기본 디렉터리
      */
     const val AVATAR_BASIC_FILE_PATH: String = "/assets/media/images/avatar/"
@@ -60,16 +50,6 @@ object UserConstants {
      * 사용자 아바타 기본 파일명
      */
     const val AVATAR_BASIC_FILE_NAME: String = "img_avatar_01.png"
-
-    /**
-     * 사용자 아바타 이미지 임시 경로
-     */
-    const val AVATAR_IMAGE_TEMP_DIR: String = "avatar/temp/"
-
-    /**
-     * 사용자 아바타 이미지 경로
-     */
-    const val AVATAR_IMAGE_DIR: String = "avatar"
 
     /**
      * 사용자 타임존 기본값

@@ -19,85 +19,52 @@
     height: 2.5rem; // 40px
     margin: 0.313rem 0.5rem 0.313rem 0; // 5px 8px 5px 0
     padding: 0 0.5rem 0 0.5rem; // 0 8px 0 8px
-    .user-name {
-      display: inline-block;
-      min-width: 2.75rem; // 44px
-      max-width: 12.5rem; // 200px
-      height: 1.688rem; // 27px
-      padding: 0 0.5rem; // 0 8px
-      color: $gray800;
-      font-weight: $font-weight-medium;
-      line-height: 1.688rem; // 27px
-    }
-    .i-user-profile {
-      @include borderRadius(50%);
-      display: inline-block;
-      width: 1.875rem; // 30px
-      height: 1.875rem; // 30px
-      vertical-align: middle;
-    }
-    .ic-arrow-right {
-      @include rotate(90);
-      float: right;
-      margin-left: auto;
-      background-color: $gray500;
-    }
-    &:hover {
-      background-color: $gray100;
-      outline: 0;
-      cursor: pointer;
-    }
-    &:focus {
-      box-shadow: 0 0 0 0.125rem $blue800;
-      outline: 0;
-    }
-    &:active {
-      background-color: $white;
-      border-color: $gray300;
-      box-shadow: 0 0 0 0.125rem $blue800;
-      .ic-arrow-right { background-color: $gray800; }
-    }
-    &.active {
-      border-color: $gray300;
-      background-color: $white;
-      + .context-menu { visibility: visible; }
-      .ic-arrow-right { @include rotate(-90); }
-    }
-  }
-  .context-menu {
-    @include border(0.0625rem, solid, $gray300, all); // 1px
-    @include borderRadius(0.25rem); // 4px
-    position: absolute;
-    margin: 3.125rem 0.5rem 0 0; // 50px 8px 0 0
-    background-color: $white;
-    color: $gray800;
-    font-size: $font-size-xs;
     z-index: $z-index-gnb;
-    visibility: hidden;
-    &__item {
-      width: 118px;
-      &-btn {
-        @include border(0.0625rem, solid, $white, all); // 1px
-        @include borderRadius(0.0625rem); // 1px
-        width: calc(100% - (0.188rem * 2)); // 3px
-        margin: 0.188rem; // 3px
-        padding-left: 0.875rem; // 14px
-        background-color: $white;
+
+    .context-menu__toggle {
+      .user-name {
+        display: inline-block;
+        min-width: 2.75rem; // 44px
+        max-width: 12.5rem; // 200px
+        height: 1.688rem; // 27px
+        padding: 0 0.5rem; // 0 8px
+        color: $gray800;
         font-weight: $font-weight-medium;
-        line-height: 2.0;
-        &:hover {
-          background-color: $blue50;
-          outline: 0;
-          cursor: pointer;
-        }
-        &:focus {
-          border: 0.0625rem solid $blue600;
-          outline: 0;
-        }
-        &:active {
-          background-color: $blue100;
-          color: $blue700;
-        }
+        line-height: 1.688rem; // 27px
+      }
+      .i-user-profile {
+        @include borderRadius(50%);
+        display: inline-block;
+        width: 1.875rem; // 30px
+        height: 1.875rem; // 30px
+        vertical-align: middle;
+      }
+      .ic-arrow-right {
+        @include rotate(90);
+        float: right;
+        margin-left: auto;
+        background-color: $gray500;
+        pointer-events: none;
+      }
+
+      &:hover {
+        background-color: $gray100;
+        outline: 0;
+        cursor: pointer;
+      }
+      &:focus {
+        box-shadow: 0 0 0 0.125rem $blue800;
+        outline: 0;
+      }
+      &:active {
+        background-color: $white;
+        border-color: $gray300;
+        box-shadow: 0 0 0 0.125rem $blue800;
+        .ic-arrow-right { background-color: $gray800; }
+      }
+
+      &.active {
+        .ic-arrow-right { @include rotate(-90); }
       }
     }
   }

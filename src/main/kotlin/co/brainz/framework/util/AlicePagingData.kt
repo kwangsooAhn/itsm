@@ -10,6 +10,7 @@
  */
 package co.brainz.framework.util
 
+import co.brainz.framework.constants.PagingConstants
 import java.io.Serializable
 
 /**
@@ -26,5 +27,6 @@ data class AlicePagingData(
     var totalPageNum: Long = 0L,
     var orderType: String?,
     var orderColName: String? = "",
-    var orderDir: String? = ""
+    var orderDir: String? = "",
+    var contentNumPerPage: Long = PagingConstants.COUNT_PER_PAGE
 ) : Serializable

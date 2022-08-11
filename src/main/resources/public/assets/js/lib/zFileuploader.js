@@ -10,11 +10,11 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-(function (global, factory) {
+(function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.zFileUploader = global.zFileUploader || {})));
-}(this, (function (exports) {
+}(this, (function(exports) {
     'use strict';
 
     const fileAttrName = 'fileSeq'; // 서버로 전달하여 업로드 할 fileSeq input hidden 의 속성 이름
@@ -23,7 +23,7 @@
     const addFileBtnWrapClassName = 'add-file-button-wrap'; // 업로드 버튼 클릭 구역 wrapper
     const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
     const logValueDigit = 1024;
-    let isEnabledFileDrag = getEnabledFileDrag();
+    let isEnabledFileDrag = true;
 
     function generateUUID() {
         function s4() {
@@ -57,10 +57,6 @@
             extraParam.dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
         }
 
-        if (typeof extraParam.dropZoneUrl === 'undefined') {
-            extraParam.dropZoneUrl = '/fileupload';
-        }
-
         if (typeof extraParam.dropZoneMaxFiles === 'undefined') {
             extraParam.dropZoneMaxFiles = null;
         }
@@ -73,7 +69,9 @@
             extraParam.acceptedFiles = null;
         }
 
-        extraParam.type = 'dropzone ' + (extraParam.type || '');
+        if (typeof extraParam.type === 'undefined') {
+            extraParam.type = 'dropzone';
+        }
 
         // edit 모드일때
         if (typeof extraParam.editor === 'undefined') {
@@ -89,15 +87,15 @@
         }
 
         if (typeof extraParam.dictDefaultMessage === 'undefined') {
-            extraParam.dictDefaultMessage = isEnabledFileDrag ? i18n.msg('file.msg.upload') : '';
+            extraParam.dictDefaultMessage = isEnabledFileDrag ? i18n.msg('resource.msg.upload') : '';
         }
 
         if (typeof extraParam.clickableLineMessage === 'undefined') {
-            extraParam.clickableLineMessage = isEnabledFileDrag ? ' ' + i18n.msg('file.label.or') + ' ' : '';
+            extraParam.clickableLineMessage = isEnabledFileDrag ? ' ' + i18n.msg('resource.label.or') + ' ' : '';
         }
 
         if (typeof extraParam.clickableMessage === 'undefined') {
-            extraParam.clickableMessage = i18n.msg('file.msg.browser');
+            extraParam.clickableMessage = i18n.msg('resource.msg.browser');
         }
         // view 모드일때
         if (typeof extraParam.isView === 'undefined') {
@@ -109,8 +107,13 @@
         }
 
         if (typeof extraParam.defaultUrl === 'undefined') {
-            extraParam.defaultUrl = '';
+            extraParam.defaultUrl = '/rest/resources';
         }
+
+        if (typeof extraParam.dropZoneUrl === 'undefined') {
+            extraParam.dropZoneUrl = (extraParam.defaultUrl + '/file/upload');
+        }
+
         // 헤더 추가 여부
         if (typeof extraParam.isHeaders === 'undefined') {
             extraParam.isHeaders = true;
@@ -185,7 +188,7 @@
      */
     function createDragAndDropZone(targetElement, options) {
         const dropZoneTemplate =
-            `<div id="${dragAndDropZoneId}" class="${options.type}">` +
+            `<div id="${dragAndDropZoneId}" class="dropzone ${options.type}">` +
             `<div class="${addFileBtnWrapClassName}">` +
             `<span>${options.dictDefaultMessage}</span>` +
             // 타입이 아바타일 경우 개행 추가
@@ -207,8 +210,9 @@
      */
     function fileDownloadHandler(e) {
         const target = (e.target.parentElement.classList.contains('dz-details')) ? e.target : e.target.parentElement;
-        const fileSeq = Number(target.parentElement.querySelector('input[name=loadedFileSeq]').value);
-        aliceJs.fetchBlob(this.options.params.defaultUrl + '/filedownload?seq=' + fileSeq, {
+        const fileSeq = target.parentElement.querySelector('input[name=loadedFileSeq]').value;
+        const urlParam = '?type=' + this.options.params.type + '&path=' + fileSeq;
+        aliceJs.fetchBlob(this.options.params.defaultUrl + '/file/download' + urlParam, {
             method: 'GET',
             showProgressbar: true,
         }).then(blob => {
@@ -222,7 +226,7 @@
                 a.remove();
                 window.URL.revokeObjectURL(url);
             } else {
-                zAlert.warning(i18n.msg('file.msg.noAttachFile'));
+                zAlert.warning(i18n.msg('resource.msg.noAttachFile'));
             }
         }).catch(err => {
             zAlert.warning(err);
@@ -244,7 +248,6 @@
         const previewList = delFilePreview.parentNode.querySelectorAll(
             '.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
         if (!previewList.length) {
-            delFilePreview.parentNode.querySelector('.ic-document-txt').style.display = 'block';
             this.isFileExist = false;
         }
 
@@ -253,12 +256,9 @@
         }
     }
 
-    async function getEnabledFileDrag() {
-        aliceJs.fetchJson(
-            '/rest/files/enabledFileDrag', {
-                method: 'GET',
-            }).then((response) => {
-            isEnabledFileDrag = response;
+    function getEnabledFileDrag() {
+        return aliceJs.fetchJson('/rest/resources/enabledFileDrag', {
+            method: 'GET',
         });
     }
 
@@ -267,13 +267,11 @@
         let extensionValueArr = [];
         // 수용 파일 확장자가 없다면 기본 파일 확장자 제한(DB)에서 확인 한다.
         if (options.acceptedFiles === null) {
-            const url = (options.defaultUrl === '' ? '/rest' : options.defaultUrl) + '/filenameextensions';
+            const url = options.defaultUrl + '/file/extensions?type=' + options.type;
             const fileNameExtensionList = await aliceJs.fetchJson(url, {
                 method: 'GET',
             });
-            for (let i = 0; i < fileNameExtensionList.length; i++) {
-                extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
-            }
+            extensionValueArr = fileNameExtensionList;
         } else {
             const acceptedFiles = options.acceptedFiles.split('.');
             for (let i = 0; i < acceptedFiles.length; i++) {
@@ -323,12 +321,12 @@
         // 드랍존 영역 가져오기.
         const dropZoneFiles = document.getElementById(options.dropZoneFilesId);
         const dropZoneUploadedFiles = document.getElementById(options.dropZoneUploadedFilesId);
-
         createDragAndDropZone(dropZoneFiles, options);
+
         // 파일 업로드 기능 정의
         const dropzoneId = '#' + options.dropZoneFilesId + ' #' + dragAndDropZoneId;
         new Dropzone(dropzoneId, {
-            paramName: 'file', // file 매개변수명
+            paramName: 'files', // file 매개변수명
             params: options || null, // 추가 매개변수
             maxFilesize: options.dropZoneMaxFileSize, // 첨부파일 용량 제한
             url: options.dropZoneUrl,
@@ -347,13 +345,13 @@
                     'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content'),
                 }
                 : null,
-            init: function () {
+            init: function() {
                 // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
                 // 등록된 파일이 있으면 조회.
                 aliceJs.fetchJson(
                     options.defaultUrl +
-                    '/filelist?ownId=' +
+                    '/files?ownId=' +
                     (typeof options.ownId !== 'undefined' ? options.ownId : '') +
                     '&fileDataId=' +
                     (typeof options.fileDataIds !== 'undefined' ? options.fileDataIds : ''),
@@ -366,11 +364,11 @@
                     if (!_this.isFileExist && options.isView) {
                         const noFileStr = document.createElement('span');
                         noFileStr.className = 'file-uploader--noFile text-ellipsis';
-                        noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
+                        noFileStr.textContent = i18n.msg('resource.msg.noAttachFile');
                         dropZoneUploadedFiles.appendChild(noFileStr);
                     }
 
-                    files.data.forEach(function (fileMap, idx) {
+                    files.data.forEach(function(fileMap, idx) {
                         const fileTemplate = getPreviewUploadedTemplate(fileMap.fileLocDto, options);
 
                         if (options.isView) {
@@ -405,13 +403,20 @@
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
                     dropzoneMessage.appendChild(addFileBtn);
 
-                    _this.on('addedfile', function (file) {
+                    _this.on('sending', function(data, xhr, formData) {
+                        Array.from(data).forEach((file) => {
+                            formData.append('files', file);
+                        });
+                    });
+
+                    _this.on('addedfile', function(file) {
                         const dropzoneMessage = _this.element.querySelector('.dz-message');
                         if (options.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
                         }
 
-                        file.previewElement.querySelector('.dz-file-type').src = aliceJs.getFileExtensionIcon(getExtension(file.name));
+                        file.previewElement.querySelector('.dz-file-type').src =
+                            aliceJs.getFileExtensionIcon(getExtension(file.name));
                         // 삭제 아이콘 추가
                         const removeIcon = document.createElement('span');
                         removeIcon.className = 'ic-delete';
@@ -422,7 +427,7 @@
                         fileUploadValidationCheck(_this, file, options);
                     });
 
-                    _this.on('removedfile', function () {
+                    _this.on('removedfile', function() {
                         const previewList = _this.element.querySelectorAll(
                             '.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
                         if (!_this.files.length && !previewList.length) {
@@ -433,34 +438,41 @@
                         }
                     });
 
-                    _this.on('success', function (file, response) {
-                        const seq = document.createElement('input');
-                        seq.setAttribute('type', 'hidden');
-                        seq.setAttribute('name', fileAttrName);
-                        if (response.file !== undefined) {
-                            seq.value = response.file.fileSeq;
-                            file.previewElement.appendChild(seq);
-                        }
-                        if (typeof _this.options.params.userCallback === 'function') {
-                            _this.options.params.userCallback(file);
+                    _this.on('success', function(file, response) {
+
+                        if (response.status === aliceJs.response.success) {
+                            if (response.data !== null) {
+                                const seq = document.createElement('input');
+                                seq.setAttribute('type', 'hidden');
+                                seq.setAttribute('name', fileAttrName);
+                                seq.value = response.data[0];
+                                file.previewElement.appendChild(seq);
+                            }
+                            if (typeof _this.options.params.userCallback === 'function') {
+                                _this.options.params.userCallback(file);
+                            }
+                        } else {
+                            file.previewElement.querySelector('.dz-error-message').innerText =
+                                i18n.msg('common.msg.fail');
                         }
                     });
 
-                    _this.on('error', function (file, errorMsg, xhr) {
+                    _this.on('error', function(file, errorMsg, xhr) {
                         if (xhr !== undefined) {
                             const res = JSON.parse(xhr.response);
                             file.previewElement.querySelector('.dz-error-message').innerText = res.message;
                         }
                     });
 
-                    _this.on('complete', function () {
+                    _this.on('complete', function() {
                         if (options.isDropzoneUnder) {
                             const dropzoneMessage = _this.element.querySelector('.dz-message');
                             document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
                             dropzoneMessage.style.display = 'block';
                         }
                     });
-                    _this.on('dragover', function (e) {
+
+                    _this.on('dragover', function(e) {
                         if (!options.isEnabledDropAndDrag) {
                             e.stopPropagation();
                             e.preventDefault();
@@ -475,7 +487,7 @@
                     });
                 }
             },
-            accept: function (file, done) {
+            accept: function(file, done) {
                 // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
                 done();
             },
@@ -494,7 +506,7 @@
         // 파일 업로드 기능 정의
         const dropzoneId = '#' + options.dropZoneFilesId + ' #' + dragAndDropZoneId;
         new Dropzone(dropzoneId, {
-            paramName: 'file', // file 매개변수명
+            paramName: 'files', // file 매개변수명
             params: options || null, // 추가 매개변수
             maxFilesize: options.dropZoneMaxFileSize, // 첨부파일 용량 제한
             url: options.dropZoneUrl,
@@ -515,7 +527,7 @@
                     'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute('content'),
                 }
                 : null,
-            init: function () {
+            init: function() {
                 // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
                 const dropzoneMessage = _this.element.querySelector('.dz-message');
@@ -547,40 +559,53 @@
                         _this.options.thumbnailHeight,
                         _this.options.thumbnailMethod,
                         true,
-                        function (thumbnail) {
+                        function(thumbnail) {
                             _this.emit('thumbnail', mockFile, thumbnail);
                         }
                     );
                     _this.emit('complete', mockFile);
                 }
 
-                _this.on('addedfile', function (file) {
+                _this.on('sending', function(data, xhr, formData) {
+                    Array.from(data).forEach((file) => {
+                        formData.append('files', file);
+                    });
+                });
+
+                _this.on('addedfile', function(file) {
                     options.fileName = generateUUID();
                     document.getElementById('avatarUUID').value = options.fileName;
                     fileUploadValidationCheck(_this, file, options);
                 });
 
-                _this.on('removedfile', function () {
+                _this.on('removedfile', function() {
                     options.fileName = '';
                     document.getElementById('avatarUUID').value = options.fileName;
                 });
 
-                _this.on('success', function (file, response) {
-                    const seq = document.createElement('input');
-                    seq.setAttribute('type', 'hidden');
-                    seq.setAttribute('name', fileAttrName);
-                    seq.value = response.file.fileSeq;
-                    file.previewElement.appendChild(seq);
+                _this.on('success', function(file, response) {
+                    if (response.status === aliceJs.response.success) {
+                        if (response.data !== null) {
+                            const seq = document.createElement('input');
+                            seq.setAttribute('type', 'hidden');
+                            seq.setAttribute('name', fileAttrName);
+                            seq.value = response.data[0];
+                            file.previewElement.appendChild(seq);
+                        }
 
-                    const thumbs = document.querySelectorAll('.dz-image');
-                    [].forEach.call(thumbs, function (thumb) {
-                        thumb.style = 'width: 100%; height: 100%;';
-                    });
+                        const thumbs = document.querySelectorAll('.dz-image');
+                        [].forEach.call(thumbs, function(thumb) {
+                            thumb.style = 'width: 100%; height: 100%;';
+                        });
+                    } else {
+                        file.previewElement.querySelector('.dz-error-message').innerText =
+                            i18n.msg('common.msg.fail');
+                    }
                 });
 
-                _this.on('thumbnail', function () {
+                _this.on('thumbnail', function() {
                     let thumbs = document.querySelectorAll('.dz-image');
-                    [].forEach.call(thumbs, function (thumb) {
+                    [].forEach.call(thumbs, function(thumb) {
                         let img = thumb.querySelector('img');
                         if (img) {
                             img.setAttribute('width', '100%');
@@ -589,14 +614,14 @@
                     });
                 });
 
-                _this.on('error', function (file, errorMsg, xhr) {
+                _this.on('error', function(file, errorMsg, xhr) {
                     if (xhr !== undefined) {
                         const res = JSON.parse(xhr.response);
                         file.previewElement.querySelector('.dz-error-message').innerText = res.message;
                     }
                 });
 
-                _this.on('dragover', function (e) {
+                _this.on('dragover', function(e) {
                     if (!options.isEnabledDropAndDrag) {
                         e.stopPropagation();
                         e.preventDefault();
@@ -605,7 +630,7 @@
                     }
                 });
             },
-            accept: function (file, done) {
+            accept: function(file, done) {
                 // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
                 done();
             },
@@ -617,7 +642,10 @@
      *
      * @param param 매개변수
      */
-    function init(param) {
+    async function init(param) {
+        await getEnabledFileDrag().then(res => {
+            isEnabledFileDrag = res;
+        });
         setExtraParam(param);
         initFileUploader(param);
     }
@@ -627,7 +655,10 @@
      *
      * @param param 매개변수
      */
-    function avatar(param) {
+    async function avatar(param) {
+        await getEnabledFileDrag().then(res => {
+            isEnabledFileDrag = res;
+        });
         setExtraParam(param);
         initAvatarUploader(param);
     }
@@ -635,5 +666,5 @@
     exports.init = init;
     exports.avatar = avatar;
 
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
