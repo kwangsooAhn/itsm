@@ -150,19 +150,18 @@ class NotificationService(
             // 알람 설정 분류 조회 ex> 신청서/ CMDB 라이센스
             configs.forEachIndexed { configIndex, config ->
                 // 알람설정 분류 별 상세 조회 ex>  신청서내 toast/sms/mail
-                notificationConfigDetailRepository.findByNotificationConfig(
-                    notificationConfigRepository.findByNotificationCode(config.notificationCode)
-                ).sortedByDescending { it.channel } // toast -> sms -> mail 순서로 정렬
+                notificationConfigRepository.findByNotificationCode(config.notificationCode)
+                    .notificationConfigDetail
+                    .sortedByDescending { it.channel }
+                    // 알람설정 분류 별 상세정보 업데이트
                     .forEachIndexed { configDetailIndex, configDetail ->
-                    // 알람설정 분류 별 상세 정보 업데이트
-                    configDetail.useYn = configs[configIndex].notificationConfigDetails!![configDetailIndex].useYn
-                    configDetail.titleFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].titleFormat
-                    configDetail.messageFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].messageFormat
-                    configDetail.template = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.template
-                    configDetail.url = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.url?.joinToString("|")
-
-                    notificationConfigDetailRepository.save(configDetail)
-                }
+                        configDetail.useYn = configs[configIndex].notificationConfigDetails!![configDetailIndex].useYn
+                        configDetail.titleFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].titleFormat
+                        configDetail.messageFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].messageFormat
+                        configDetail.template = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.template
+                        configDetail.url = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.url?.joinToString("|")
+                        notificationConfigDetailRepository.save(configDetail)
+                    }
             }
         } catch (e: Exception) {
             e.printStackTrace()
