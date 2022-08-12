@@ -89,7 +89,11 @@ class DocumentService(
 
         val roleList = mutableListOf<String>()
         roleService.getUserRoleList(aliceUserDto.userKey).forEach { roleList.add(it.roleId) }
-        val validDocumentIds = aliceDocumentRoleMapRepository.findDocumentIdsByRoles(roleList)
+        val validDocumentIds
+            = when (documentSearchCondition.searchDocumentType?.equals(DocumentConstants.DocumentType.DOCUMENT_SEARCH)) {
+                true -> aliceDocumentRoleMapRepository.findDocumentIdsByRoles(roleList)
+                else -> mutableListOf()
+            }
         val documentQueryResult = wfDocumentRepository.findByDocuments(documentSearchCondition, validDocumentIds)
         val documentLinkQueryResult = wfDocumentLinkRepository.findByDocumentLink(documentSearchCondition, validDocumentIds)
 
