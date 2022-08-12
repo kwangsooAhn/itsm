@@ -8,7 +8,6 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.auth.entity.AliceDocumentRoleMapEntity
 import co.brainz.framework.auth.repository.AliceDocumentRoleMapRepository
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
@@ -59,7 +58,6 @@ class DocumentService(
     private val processService: ProcessService,
     private val roleService: RoleService,
     private val wfDocumentService: WfDocumentService,
-    private val aliceResourceProvider: AliceResourceProvider,
     private val currentSessionUser: CurrentSessionUser,
     private val roleRepository: RoleRepository,
     private val aliceDocumentRoleMapRepository: AliceDocumentRoleMapRepository,
@@ -116,7 +114,7 @@ class DocumentService(
             }
         }
 
-        val documentList = DocumentListReturnDto(
+        return DocumentListReturnDto(
             data = if (totalResult.isNotEmpty()) totalResult.subList(fromIndex, toIndex) else totalResult,
             paging = AlicePagingData(
                 totalCount = totalResult.size.toLong(),
@@ -126,8 +124,6 @@ class DocumentService(
                 orderType = PagingConstants.ListOrderTypeCode.CREATE_DESC.code
             )
         )
-
-        return documentList
     }
 
     /**
@@ -210,7 +206,7 @@ class DocumentService(
     /**
      * Update Document.
      *
-     * @param documentDto
+     * @param documentEditDto
      * @return Boolean
      */
     fun updateDocument(
