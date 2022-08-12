@@ -6,8 +6,8 @@
 
 package co.brainz.framework.resourceManager.dto
 
-import java.time.LocalDateTime
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class AliceFileDetailDto(
     var name: String,

@@ -30,7 +30,6 @@ class FolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.jav
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val startDtSubToken: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
 
-
     override fun findRelatedDocumentListByFolderId(folderId: String): List<RestTemplateRelatedInstanceDto> {
 
         return from(folder)
