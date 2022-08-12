@@ -31,7 +31,8 @@ object DocumentConstants {
         APPLICATION_FORM("document.type.application-form"),
         WORKFLOW("document.type.workflow"),
         APPLICATION_FORM_WORKFLOW("document.type.application-form-workflow"),
-        APPLICATION_FORM_LINK("document.type.application-form-link")
+        APPLICATION_FORM_LINK("document.type.application-form-link"),
+        DOCUMENT_SEARCH("document.type.search")
     }
 
     /**
