@@ -8,9 +8,8 @@ package co.brainz.itsm.document.service
 import co.brainz.framework.auth.entity.AliceDocumentRoleMapEntity
 import co.brainz.framework.auth.repository.AliceDocumentRoleMapRepository
 import co.brainz.framework.constants.PagingConstants
-import co.brainz.framework.response.ZResponseConstants
-import co.brainz.framework.resourceManager.constants.ResourceConstants
 import co.brainz.framework.resourceManager.provider.AliceResourceProvider
+import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceUtil

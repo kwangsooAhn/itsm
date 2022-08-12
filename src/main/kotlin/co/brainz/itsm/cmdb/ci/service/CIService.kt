@@ -514,7 +514,6 @@ class CIService(
             returnDataList.add(this.setCapacityChartData(ciId, memDataList, CIConstants.CapacityTag.MEMORY.code))
             returnDataList.add(this.setCapacityChartData(ciId, cpuDataList, CIConstants.CapacityTag.CPU.code))
             returnDataList.add(this.setCapacityChartData(ciId, diskDataList, CIConstants.CapacityTag.DISK.code))
-
         }
         return returnDataList
     }

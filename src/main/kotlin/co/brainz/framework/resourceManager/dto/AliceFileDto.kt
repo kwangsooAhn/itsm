@@ -23,4 +23,3 @@ data class AliceFileOwnMapDto(
     var ownId: String,
     var fileLocDto: AliceFileLocDto
 ) : Serializable
-
