@@ -1,8 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g transform="translate(-7649 -1578)">
-    <rect fill="none" width="40" height="40" transform="translate(7649 1578)"/>
-    <g transform="translate(6752 1395)">
-      <path fill="#8b9094" d="M922,185H902a1,1,0,0,0-1,1v34a1,1,0,0,0,1,1h30a1,1,0,0,0,1-1V196Zm9,34H903V187h18v9a1,1,0,0,0,1,1h9Z"/>
-    </g>
-  </g>
+	<rect width="40" height="40" fill="none" />
+	<g transform="translate(-1480 -750)">
+		<path d="M1516,762.58V786.5a1.5,1.5,0,0,1-1.5,1.5h-29a1.5,1.5,0,0,1-1.5-1.5v-33a1.5,1.5,0,0,1,1.5-1.5h19.92Z" fill="#eee" />
+		<path d="M1510,767a1,1,0,0,1-1,1h-18a1,1,0,0,1,0-2h18A1,1,0,0,1,1510,767Z" fill="#9e9e9e" />
+		<path d="M1510,772a1,1,0,0,1-1,1h-18a1,1,0,0,1,0-2h18A1,1,0,0,1,1510,772Z" fill="#9e9e9e" />
+		<path d="M1510,777a1,1,0,0,1-1,1h-18a1,1,0,0,1,0-2h18A1,1,0,0,1,1510,777Z" fill="#9e9e9e" />
+		<path d="M1510,782a1,1,0,0,1-1,1h-18a1,1,0,0,1,0-2h18A1,1,0,0,1,1510,782Z" fill="#9e9e9e" />
+		<path d="M1516,762.58V763h-9.5a1.5,1.5,0,0,1-1.5-1.5V752h.42Z" fill="#bdbdbd" />
+	</g>
 </svg>

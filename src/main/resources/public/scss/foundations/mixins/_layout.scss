@@ -33,7 +33,7 @@ $z-index-hidden:                             -1;
     &__row {
       display: grid;
       grid-template-columns: var(--data-columns-width);
-      grid-template-rows: 2.5rem;
+      grid-template-rows: minmax(2.5rem, auto);
     }
 
     &__cell {
@@ -43,6 +43,31 @@ $z-index-hidden:                             -1;
       color: $neutral800;
       font-weight: $font-weight-medium;
       a { padding-bottom: 0.0625rem; }
+      span { line-height: 1.2; }
+
+      // icon button
+      .btn__ic {
+        padding: 0;
+        border-color: transparent;
+        background-color: transparent;
+        &:hover, &:focus, &:active, &:disabled {
+          background-color: transparent;
+          border-color: transparent;
+        }
+        [class*="ic-"] { background-color: $gray600; }
+        &:hover {
+          [class*="ic-"] { background-color: $gray400; }
+        }
+        &:focus {
+          [class*="ic-"] { background-color: $gray800; }
+        }
+        &:active {
+          [class*="ic-"] { background-color: $gray800; }
+        }
+        &:disabled {
+          [class*="ic-"] { background-color: $gray300; }
+        }
+      }
     }
 
     &__head {
@@ -69,11 +94,11 @@ $z-index-hidden:                             -1;
       overflow: hidden !important;
       display: flex;
       flex-direction: column;
+      min-height: var(--data-height, auto);
       .grid__row {
-        @include border(0.0625rem, solid, $gray300, bottom);
         color: $gray800;
         &.read-only { cursor: default; }
-        &:hover { background-color: $neutral200; }
+        &:not(.read-only):hover { background-color: $neutral200; }
       }
       .sub-text {
         color: $neutral600;
@@ -84,33 +109,21 @@ $z-index-hidden:                             -1;
 
     // 데이터가 없을때
     &--noData {
+      display: grid;
+      flex: 1;
+      min-height: 25rem; // 400px
+      height: 100%;
+      align-content: center;
+
       .grid__cell {
+        flex-direction: column;
         grid-column: 1 / -1;
         justify-content: center;
-      }
-    }
+        font-size: $font-size-l;
+        font-weight: $font-weight-semibold;
+        color: $neutral500;
 
-    // icon button
-    .btn__ic {
-      padding: 0;
-      border-color: transparent;
-      background-color: transparent;
-      &:hover, &:focus, &:active, &:disabled {
-        background-color: transparent;
-        border-color: transparent;
-      }
-      [class*="ic-"] { background-color: $gray600; }
-      &:hover {
-        [class*="ic-"] { background-color: $gray400; }
-      }
-      &:focus {
-        [class*="ic-"] { background-color: $gray800; }
-      }
-      &:active {
-        [class*="ic-"] { background-color: $gray800; }
-      }
-      &:disabled {
-        [class*="ic-"] { background-color: $gray300; }
+        .ic-no-data { background: $neutral500; }
       }
     }
   }
@@ -356,7 +369,7 @@ $z-index-hidden:                             -1;
   .page-list {
     display: flex;
     flex: 1;  // flex: 1 1 0;
-    padding: 0 3.75rem 1.25rem 3.75rem; // 0 60px 20px 60px
+    padding: 0 3.75rem 0 3.75rem; // 0 60px 0 60px
     overflow-x: hidden;
 
     .list-content {

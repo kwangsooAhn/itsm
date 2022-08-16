@@ -8,6 +8,7 @@ package co.brainz.framework.certification.service
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.dto.AliceSignUpDto
@@ -15,13 +16,18 @@ import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.encryption.AliceEncryptionUtil
-import co.brainz.framework.fileTransaction.service.AliceFileAvatarService
+import co.brainz.framework.resourceManager.constants.ResourceConstants
+import co.brainz.framework.resourceManager.provider.AliceResourceProvider
 import co.brainz.framework.response.ZResponseConstants
 import co.brainz.framework.response.dto.ZResponse
 import co.brainz.itsm.calendar.service.CalendarService
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.constants.UserConstants
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.security.PrivateKey
 import java.time.LocalDateTime
 import java.util.TimeZone
@@ -36,11 +42,12 @@ import org.springframework.web.context.request.ServletRequestAttributes
 @Service
 class AliceCertificationService(
     private val aliceCertificationRepository: AliceCertificationRepository,
+    private val userRepository: AliceUserRepository,
     private val roleRepository: RoleRepository,
     private val codeService: CodeService,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
+    private val aliceResourceProvider: AliceResourceProvider,
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceFileAvatarService: AliceFileAvatarService,
     private val aliceEncryptionUtil: AliceEncryptionUtil,
     private val calendarService: CalendarService
 ) {
@@ -74,7 +81,7 @@ class AliceCertificationService(
             UserConstants.ResponseStatus.STATUS_VALID_SUCCESS.code -> {
                 val user = aliceCertificationRepository.save(this.setUserEntity(aliceSignUpDto, target))
                 if (user.uploaded) {
-                    this.avatarFileNameMod(user)
+                    this.setAvatarName(user)
                 }
                 this.setUserDetail(aliceSignUpDto, user, target)
                 // 캘린더 생성
@@ -203,7 +210,7 @@ class AliceCertificationService(
                 user.timeFormat = aliceSignUpDto.timeFormat!!
             }
         }
-        aliceFileAvatarService.uploadAvatarFile(user, aliceSignUpDto.avatarUUID)
+        this.setUploadAvatar(user, aliceSignUpDto.avatarUUID)
 
         return user
     }
@@ -228,9 +235,61 @@ class AliceCertificationService(
     }
 
     /**
-     * 사용자 아바타 정보[avatarEntity]를 받아서 이미지명을 avatar_id로 변경한다.
+     * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
+     *
+     * @param userEntity
+     * @param avatarUUID
      */
-    private fun avatarFileNameMod(userEntity: AliceUserEntity) {
-        aliceFileAvatarService.avatarFileNameMod(userEntity)
+    private fun setUploadAvatar(userEntity: AliceUserEntity, avatarUUID: String) {
+        when (avatarUUID.isNotBlank()) {
+            true -> {
+                val tempDir = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.AVATAR_TEMP.code)
+                val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
+
+                if (tempPath.toFile().exists()) {
+                    val avatarDir = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.AVATAR.code)
+                    val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
+                    Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
+                    userEntity.avatarValue = avatarUUID
+                    userEntity.uploaded = true
+                    userEntity.uploadedLocation = avatarFilePath.toString()
+                }
+            }
+            false -> {
+                val uploadedFile = Paths.get(userEntity.uploadedLocation)
+
+                if (uploadedFile.toFile().exists()) {
+                    Files.delete(uploadedFile)
+                }
+                userEntity.avatarValue = UserConstants.AVATAR_BASIC_FILE_NAME
+                userEntity.uploaded = false
+                userEntity.uploadedLocation = UserConstants.AVATAR_BASIC_FILE_PATH
+            }
+        }
+    }
+
+    /**
+     * 아바타 이미지명을 uuid 에서 ID 값으로 변경 한다.
+     * 신규 사용자 등록 시 avatar_id, user_key 를 구할 수가 없기 때문에
+     * 임시적으로 생성한 avatar_uuid 로 파일명을 만든다. avatar_uuid 가 고유 값을 보장 하지 못하기 때문에
+     * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
+     *
+     * @param userEntity
+     */
+    private fun setAvatarName(userEntity: AliceUserEntity) {
+        if (userEntity.avatarType == UserConstants.AvatarType.FILE.code &&
+            userEntity.userKey != userEntity.avatarValue
+        ) {
+            val avatarDir = aliceResourceProvider.getExternalPath(ResourceConstants.FileType.AVATAR.code)
+            val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.avatarValue)
+            val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.userKey)
+            val avatarUploadFile = File(avatarFilePath.toString())
+            if (avatarUploadFile.exists()) {
+                Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
+                userEntity.avatarValue = userEntity.userKey
+                userEntity.uploadedLocation = avatarIdFilePath.toString()
+                userRepository.save(userEntity)
+            }
+        }
     }
 }

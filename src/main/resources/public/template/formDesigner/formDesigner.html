@@ -54,7 +54,7 @@
         window.zFormDesigner = zFormDesigner;
 
         window.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.header-button-dropdown').forEach(function(dropdown) {
+            document.querySelectorAll('.context-menu__toggle').forEach(function(dropdown) {
                 dropdown.addEventListener('click', function(e) {
                     e.preventDefault();
 
@@ -121,23 +121,23 @@
                             </button>
                         </div>
                         <!--undo, redo (드롭다운)-->
-                        <div class="header-dropdown">
+                        <div class="context-menu header-button">
                             <button type="button"
-                                    class="header-button btn__ic header-button-dropdown light-extra">
+                                    class="btn__ic light-extra context-menu__toggle">
                                 <span class="ic-arrow-right"></span>
                             </button>
-                            <ul class="context-menu">
+                            <ul class="context-menu__content right-bottom mt-1">
                                 <li class="context-menu__item" tabindex="-1">
-                                    <button type="button" class="btn__text--box button-dropdown align-left"
+                                    <button type="button" class="btn__text--box"
                                             data-actionType="undo" data-targetId="editCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
-                                            th:text="#{form.label.undo}" tabindex="0"></button>
+                                            th:text="#{form.label.undo}"></button>
                                 </li>
                                 <li class="context-menu__item" tabindex="-1">
-                                    <button type="button" class="btn__text--box button-dropdown align-left"
+                                    <button type="button" class="btn__text--box"
                                             data-actionType="redo" data-targetId="editCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
-                                            th:text="#{form.label.redo}" tabindex="0"></button>
+                                            th:text="#{form.label.redo}"></button>
                                 </li>
                             </ul>
                         </div>
@@ -163,23 +163,23 @@
                             </button>
                         </div>
                         <!--저장하기(드롭다운)-->
-                        <div class="header-dropdown">
+                        <div class="context-menu header-button">
                             <button type="button"
-                                    class="header-button btn__ic light-extra header-button-dropdown">
+                                    class="btn__ic light-extra context-menu__toggle">
                                 <span class="ic-arrow-right"></span>
                             </button>
-                            <ul class="context-menu">
+                            <ul class="context-menu__content right-bottom mt-1">
                                 <li class="context-menu__item" tabindex="-1">
-                                    <button type="button" class="btn__text--box button-dropdown align-left"
+                                    <button type="button" class="btn__text--box"
                                             data-actionType="save" data-targetId="fileCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
-                                            th:text="#{common.btn.save}" tabindex="0"></button>
+                                            th:text="#{common.btn.save}"></button>
                                 </li>
-                                <li class="context-menu__item align-left" tabindex="-1">
-                                    <button type="button" class="btn__text--box button-dropdown align-left"
+                                <li class="context-menu__item" tabindex="-1">
+                                    <button type="button" class="btn__text--box"
                                             data-actionType="saveAs" data-targetId="fileCommand"
                                             onclick="zFormDesigner.onDropdownClickHandler(this);"
-                                            th:text="#{common.btn.saveAs}" tabindex="0"></button>
+                                            th:text="#{common.btn.saveAs}"></button>
                                 </li>
                             </ul>
                         </div>

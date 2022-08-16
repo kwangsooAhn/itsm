@@ -533,6 +533,13 @@ cmdb:
     btn:
       import: "Import"
       export: "Export"
+  icon:
+    label:
+      list: "CI Icon List"
+    msg:
+      maxFileSize: "Attachment file size can be registered within 10KB."
+      notFoundInTable: "The file does not exist in the history table (cmdb_ci_icon). Add data to the history table (cmdb_ci_icon)."
+      searchDescription: "This is a menu to manage, such as adding, deleting, or inquiring icons used for each CI type."
   type:
     label:
       alias: "Alias"
@@ -1955,3 +1962,40 @@ tooltip:
     userTask: "User Task"
     manualTask: "Manual Task"
     scriptTask: "Script Task"
+
+# Resource
+resource:
+  btn:
+    file: "New File"
+    folder: "New Folder"
+    moveParentFolder: "Move Parent Folder"
+    rename: "Rename"
+  label:
+    extension: "Type"
+    fileName: "File Name"
+    folder: "Folder"
+    folderName: "Folder Name"
+    fullPath: "Path"
+    list: "Resource Management"
+    image: "IMAGE"
+    name: "Name"
+    newFolder: "New Folder"
+    or: "or"
+    placeholder: "Select Your File"
+    thumbnailTitle: "Select File"
+    rename: "Rename"
+    sharedFolder: "Shared Folder"
+    searchPlaceholder: "Folder / File Name"
+    size: "Size"
+    upload: "Upload Your File"
+  msg:
+    browser: "Find the file yourself."
+    confirmFolderDelete: "Internal folder and files exist. Are you sure you want to delete?"
+    duplicateFolderName: "The same folder name exists.<br>Please enter a different name."
+    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    noAttachFile: "There are no attachments."
+    noFile: "There are no file."
+    searchDescription: "This is a menu to manage, such as adding, deleting, or viewing shared folders/files."
+    unacceptableCharacters: "contains special characters(: ? * \" < > |) that are not allowed."
+    upload: "Drop files here to upload."

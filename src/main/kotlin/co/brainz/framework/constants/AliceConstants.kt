@@ -59,12 +59,7 @@ object AliceConstants {
         PATTEN13("/login"),
         PATTEN14("/sessionInValid"),
         PATTEN15("/token/tokenSearch"),
-        PATTEN94("/files"),
-        PATTEN95("/fileupload"),
-        PATTEN96("/filedownload"),
-        PATTEN97("/filelist"),
-        PATTEN98("/filedel"),
-        PATTEN99("/fileSubmit"),
+        PATTEN20("/rest/resources/**"),
         PATTEN100("/i18n/**"),
         PATTEN101("/fileImages/**"),
         PATTEN102("/rest/login")

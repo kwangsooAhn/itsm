@@ -15,97 +15,24 @@ $button-tab: (
         'selected': ('font': $blue500, 'background': $blue500, 'border': $blue500),
         'disabled': ('font': $neutral200, 'background': $neutral200, 'border': $neutral200)
 );
-// header > dropdown
-$layout-header-dropdown: (
-        'default': ('font': $gray800, 'background': $white, 'border': $white),
-        'hover': ('font' : $gray800, 'background': $blue50, 'border': $blue50),
-        'focus': ('font': $gray800, 'background': $white, 'border': $blue600, 'shadow': 0 0 0.125rem $blue600),
-        'active': ('font': $blue700, 'background': $blue100, 'border': $blue100)
-);
 
-// header button
+// 상단 컨텍스트 메뉴
 .header-button {
-  &.btn__ic {
-    [class*="ic-"] { pointer-events: none; }
-    .ic-arrow-right { @include rotate(90); }
-  }
-}
-// header dropdown button
-.header-button-dropdown {
-  width: 1.25rem; // 20px
-  padding: 0.5625rem 0.1875rem; // 9px 3px
+  z-index: $z-index-between-tooltip-gnb;
 
-  [class*="ic-"] {
-    margin-left: -0.4375rem; // -7px
-    pointer-events: none;
-  }
+  .ic-arrow-right { @include rotate(90); }
 
-  + .context-menu {
-    @include absolute($right: 0);
-    @include border(0.0625rem, solid, $gray300, all); // 1px
-    @include boxShadow(0, 2px, 12px, 0, $gray300); // 0, 2px, 12px, 0
-    min-width: 9.625rem; // 154px
-    margin: 0.6875rem 0 0 0; // 11px
-    padding: 0 0.25rem 0.25rem 0.25rem; // 0 4px 4px 4px
-    background-color: $white;
-    z-index: $z-index-between-tooltip-gnb;
-    visibility: hidden;
+  .context-menu__toggle {
+    width: 1.25rem; // 20px
+    padding: 0.5625rem 0.1875rem; // 9px 3px
 
-    .context-menu__item {
-      padding: 0.25rem 0 0 0; // 4px 0 0 0
+    [class*="ic-"] { margin-left: -0.188rem; }  // -3px
 
-      .button-dropdown {
-        width: 100%;
-        border-color: map-get($layout-header-dropdown, 'default', 'border');
-        background-color: map-get($layout-header-dropdown, 'default', 'background');
-        color: map-get($layout-header-dropdown, 'default', 'font');
-        font-weight: $font-weight-medium;
-        @if map-get($layout-header-dropdown, 'default', 'shadow') != null {
-          box-shadow: map-get($layout-header-dropdown, 'default', 'shadow');
-        }
-        &:focus {
-          border-color: map-get($layout-header-dropdown, 'focus', 'border');
-          background-color: map-get($layout-header-dropdown, 'focus', 'background');
-          color: map-get($layout-header-dropdown, 'focus', 'font');
-          outline: 0;
-          @if map-get($layout-header-dropdown, 'focus', 'shadow') != null {
-            box-shadow: map-get($layout-header-dropdown, 'focus', 'shadow');
-          }
-        }
-
-        &:hover {
-          border-color: map-get($layout-header-dropdown, 'hover', 'border');
-          background-color: map-get($layout-header-dropdown, 'hover', 'background');
-          color: map-get($layout-header-dropdown, 'hover', 'font');
-          outline: 0;
-          @if map-get($layout-header-dropdown, 'hover', 'shadow') != null {
-            box-shadow: map-get($layout-header-dropdown, 'hover', 'shadow');
-          }
-        }
-
-        &:enabled:active,
-        &:enabled.active {
-          border-color: map-get($layout-header-dropdown, 'active', 'border');
-          background-color: map-get($layout-header-dropdown, 'active', 'background');
-          color: map-get($layout-header-dropdown, 'active', 'font');
-          z-index: $z-index-event;
-          @if map-get($layout-header-dropdown, 'active', 'shadow') != null {
-            box-shadow: map-get($layout-header-dropdown, 'active', 'shadow');
-          }
-        }
-      }
-    }
-  }
-
-  &.active {
-    .ic-arrow-right { @include rotate(-90); }
-    + .context-menu {
-      display: block;
-      visibility: visible;
+    &.active {
+      .ic-arrow-right { @include rotate(-90); }
     }
   }
 }
-
 ////////////////////////// layout //////////////////////////
 /* 폼 디자이너 & 프로세스 팝업 layout
  * container - header : 상단
@@ -142,7 +69,6 @@ $layout-header-dropdown: (
     .form-button-list,
     .process-button-list {
       width: 19.06rem; // 305px
-      .header-dropdown { @include relative(); }
     }
   }
 

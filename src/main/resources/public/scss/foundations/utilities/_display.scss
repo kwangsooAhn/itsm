@@ -57,3 +57,11 @@ $i: 1;
 ////////////////////////// visibility //////////////////////////
 .visible { visibility: visible !important; }
 .hidden { visibility: hidden !important; }
+////////////////////////// grid //////////////////////////
+
+// gap-1 ~ gap-12
+@for $i from 1 through 12 {
+  .gap-#{$i} {
+    gap: 0.5rem * $i !important;// 8px
+  }
+}

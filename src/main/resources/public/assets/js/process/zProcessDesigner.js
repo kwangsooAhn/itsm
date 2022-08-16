@@ -1,8 +1,8 @@
-(function (global, factory) {
+(function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.zProcessDesigner = global.zProcessDesigner || {})));
-}(this, (function (exports) {
+}(this, (function(exports) {
     'use strict';
 
     const displayOptions = {
@@ -65,7 +65,7 @@
      */
     function removeElementSelected() {
         selectedElement = null;
-        svg.selectAll('.node').nodes().forEach(function (node) {
+        svg.selectAll('.node').nodes().forEach(function(node) {
             setDeselectedElement(d3.select(node));
         });
         svg.selectAll('.connector').classed('selected', false);
@@ -91,10 +91,10 @@
         // add new links
         enter.append('path')
             .attr('class', 'connector')
-            .classed('is-default', function (d) { return d.isDefault === 'Y'; })
-            .attr('id', function (d) { return d.id; })
+            .classed('is-default', function(d) { return d.isDefault === 'Y'; })
+            .attr('id', function(d) { return d.id; })
             .style('marker-end', 'url(#end-arrow)')
-            .on('mousedown', function (d) {
+            .on('mousedown', function(d) {
                 d3.event.stopPropagation();
                 d3.event.preventDefault();
                 if (isDrawConnector) {
@@ -121,7 +121,7 @@
          * @type {{mouseover: mouseover, mouseout: mouseout, mousedown: mousedown}}
          */
         const connectorMouseEventHandler = {
-            mouseover: function () {
+            mouseover: function() {
                 if (isDrawConnector) {
                     return;
                 }
@@ -129,12 +129,12 @@
                     d3.select(this).style('cursor', 'pointer');
                 }
             },
-            mouseout: function () {
+            mouseout: function() {
                 if (!dragElement) {
                     d3.select(this).style('cursor', 'default');
                 }
             },
-            mousedown: function (d) {
+            mousedown: function(d) {
                 d3.event.stopPropagation();
                 d3.event.preventDefault();
                 if (isDrawConnector) {
@@ -144,12 +144,12 @@
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                 d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
             },
-            moveDragStart: function (d, target) {
+            moveDragStart: function(d, target) {
                 svg.selectAll('.context-menu').remove();
                 d3.select(target).style('opacity', 0);
                 d3.select(target.parentNode).selectAll('.pointer:not(.move)').style('opacity', 0);
             },
-            moveDragEnd: function (d, target) {
+            moveDragEnd: function(d, target) {
                 dragLine.classed('hidden', true);
                 d3.select(document.getElementById(d.id)).classed('hidden', false);
                 d3.select(target).style('opacity', 1);
@@ -166,17 +166,17 @@
         enter.append('text')
             .on('mouseout', connectorMouseEventHandler.mouseout)
             .on('mouseover', connectorMouseEventHandler.mouseover)
-            .text(function (d) {
+            .text(function(d) {
                 let name = '';
                 const elements = zProcessDesigner.data.elements;
-                elements.forEach(function (elem) {
+                elements.forEach(function(elem) {
                     if (elem.id === d.id) { name = elem.name; }
                 });
                 return name;
             })
             .call(
                 d3.drag()
-                    .on('start', function () {
+                    .on('start', function() {
                         if (isDrawConnector) {
                             return;
                         }
@@ -184,7 +184,7 @@
                             .classed('selected', true)
                             .style('cursor', 'move');
                     })
-                    .on('drag', function (d) {
+                    .on('drag', function(d) {
                         const textElem = d3.select(this);
                         let mouseX = d3.event.dx,
                             mouseY = d3.event.dy;
@@ -197,7 +197,7 @@
                         }
                         d.textPoint = [mouseX, mouseY];
                     })
-                    .on('end', function (d) {
+                    .on('end', function(d) {
                         d3.select(this)
                             .classed('selected', false)
                             .style('cursor', 'pointer');
@@ -207,14 +207,14 @@
 
         enter.append('circle')
             .attr('class', 'pointer move')
-            .attr('id', function (d) { return d.id + '_startPoint'; })
+            .attr('id', function(d) { return d.id + '_startPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
             .call(d3.drag()
-                .on('start', function (d) {
+                .on('start', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         connectorMouseEventHandler.moveDragStart(d, this);
-                        elements.links.forEach(function (l) {
+                        elements.links.forEach(function(l) {
                             if (l.id === d.id) {
                                 mousedownElement = d3.select(document.getElementById(d.targetId));
                                 l.movable = true;
@@ -224,7 +224,7 @@
                         isEndMoveConnector = true;
                     }
                 })
-                .on('drag', function (d) {
+                .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         d3.select(document.getElementById(d.id)).classed('hidden', true);
                         let targetElement = d3.select(document.getElementById(d.id + '_endPoint'));
@@ -235,14 +235,14 @@
                             .attr('d', `M${d3.event.x + gTransform.x},${d3.event.y + gTransform.y} L${Number(targetElement.attr('cx')) + gTransform.x},${Number(targetElement.attr('cy')) + gTransform.y}`);
                     }
                 })
-                .on('end', function (d) {
+                .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         connectorMouseEventHandler.moveDragEnd(d, this);
 
                         if (mouseoverElement && mousedownElement.node().id !== mouseoverElement.node().id) {
                             setDeselectedElement(mouseoverElement);
                             if (checkAvailableLink(mouseoverElement, mousedownElement)) {
-                                elements.links.forEach(function (l) {
+                                elements.links.forEach(function(l) {
                                     delete l.movable;
                                     if (l.id === d.id && l.sourceId !== mouseoverElement.node().id) {
                                         l.sourceId = mouseoverElement.node().id;
@@ -268,14 +268,14 @@
             );
         enter.append('circle')
             .attr('class', 'pointer move')
-            .attr('id', function (d) { return d.id + '_endPoint'; })
+            .attr('id', function(d) { return d.id + '_endPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
             .call(d3.drag()
-                .on('start', function (d) {
+                .on('start', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         connectorMouseEventHandler.moveDragStart(d, this);
-                        elements.links.forEach(function (l) {
+                        elements.links.forEach(function(l) {
                             if (l.id === d.id) {
                                 mousedownElement = d3.select(document.getElementById(d.sourceId));
                                 l.movable = true;
@@ -284,7 +284,7 @@
                         isMoveConnector = true;
                     }
                 })
-                .on('drag', function (d) {
+                .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         d3.select(document.getElementById(d.id)).classed('hidden', true);
                         let sourceElement = d3.select(document.getElementById(d.id + '_startPoint'));
@@ -295,14 +295,14 @@
                             .attr('d', `M${Number(sourceElement.attr('cx')) + gTransform.x},${Number(sourceElement.attr('cy')) + gTransform.y} L${d3.event.x + gTransform.x},${d3.event.y + gTransform.y}`);
                     }
                 })
-                .on('end', function (d) {
+                .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         connectorMouseEventHandler.moveDragEnd(d, this);
 
                         if (mouseoverElement && mousedownElement.node().id !== mouseoverElement.node().id) {
                             setDeselectedElement(mouseoverElement);
                             if (checkAvailableLink(mousedownElement, mouseoverElement)) {
-                                elements.links.forEach(function (l) {
+                                elements.links.forEach(function(l) {
                                     delete l.movable;
                                     if (l.id === d.id && l.targetId !== mouseoverElement.node().id) {
                                         l.targetId = mouseoverElement.node().id;
@@ -328,23 +328,23 @@
 
         enter.append('circle')
             .attr('class', 'pointer')
-            .attr('id', function (d) { return d.id + '_midPoint'; })
+            .attr('id', function(d) { return d.id + '_midPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
             .on('mouseout', connectorMouseEventHandler.mouseout)
             .on('mouseover', connectorMouseEventHandler.mouseover)
             .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
-                .on('drag', function (d) {
+                .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         svg.selectAll('.context-menu').remove();
                         d.midPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                         drawConnectors();
                     }
                 })
-                .on('end', function (d) {
+                .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        svg.selectAll('.node').nodes().forEach(function (node) {
+                        svg.selectAll('.node').nodes().forEach(function(node) {
                             if (checkDuplicatePosition(node, d.midPoint)) {
                                 delete d.midPoint;
                                 delete d.sourcePoint;
@@ -360,22 +360,22 @@
 
         enter.append('circle')
             .attr('class', 'pointer')
-            .attr('id', function (d) { return d.id + '_sourcePoint'; })
+            .attr('id', function(d) { return d.id + '_sourcePoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
             .on('mouseout', connectorMouseEventHandler.mouseout)
             .on('mouseover', connectorMouseEventHandler.mouseover)
             .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
-                .on('drag', function (d) {
+                .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         d.sourcePoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                         drawConnectors();
                     }
                 })
-                .on('end', function (d) {
+                .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        svg.selectAll('.node').nodes().forEach(function (node) {
+                        svg.selectAll('.node').nodes().forEach(function(node) {
                             if (checkDuplicatePosition(node, d.sourcePoint)) {
                                 delete d.sourcePoint;
                                 drawConnectors();
@@ -388,22 +388,22 @@
 
         enter.append('circle')
             .attr('class', 'pointer')
-            .attr('id', function (d) { return d.id + '_targetPoint'; })
+            .attr('id', function(d) { return d.id + '_targetPoint'; })
             .attr('r', displayOptions.pointerRadius)
             .style('opacity', 0)
             .on('mouseout', connectorMouseEventHandler.mouseout)
             .on('mouseover', connectorMouseEventHandler.mouseover)
             .on('mousedown', connectorMouseEventHandler.mousedown)
             .call(d3.drag()
-                .on('drag', function (d) {
+                .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
                         d.targetPoint = [snapToGrid(d3.event.x), snapToGrid(d3.event.y)];
                         drawConnectors();
                     }
                 })
-                .on('end', function (d) {
+                .on('end', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
-                        svg.selectAll('.node').nodes().forEach(function (node) {
+                        svg.selectAll('.node').nodes().forEach(function(node) {
                             if (checkDuplicatePosition(node, d.targetPoint)) {
                                 delete d.targetPoint;
                                 drawConnectors();
@@ -419,7 +419,7 @@
         // draw links
         drawConnectors();
 
-        enter.select('path.connector').call(function (d) { zProcessDesigner.addElementProperty(d); });
+        enter.select('path.connector').call(function(d) { zProcessDesigner.addElementProperty(d); });
     }
 
     /**
@@ -434,8 +434,8 @@
     function getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray) {
         let best = [];
         let min = Number.MAX_SAFE_INTEGER || 9007199254740991;
-        sourcePointArray.forEach(function (s) {
-            targetPointArray.forEach(function (t) {
+        sourcePointArray.forEach(function(s) {
+            targetPointArray.forEach(function(t) {
                 let dist = Math.hypot(
                     (targetBBox.cx + t[0]) - (sourceBBox.cx + s[0]),
                     (targetBBox.cy + t[1]) - (sourceBBox.cy + s[1])
@@ -489,7 +489,7 @@
          * @param distance 거리
          * @return {[*, *]} 좌표
          */
-        const calcDistancePointCoordinate = function (sourceCoords, targetCoords, distance) {
+        const calcDistancePointCoordinate = function(sourceCoords, targetCoords, distance) {
             if (typeof distance === 'undefined') {
                 distance = displayOptions.connectorRadius;
             }
@@ -513,7 +513,7 @@
          * @param endPoint 종료좌표
          * @return {string} path
          */
-        const calcCirclePath = function (startPoint, midPoint, endPoint) {
+        const calcCirclePath = function(startPoint, midPoint, endPoint) {
             let distA = zProcessDesigner.utils.calcDist(endPoint, midPoint);
             let distB = zProcessDesigner.utils.calcDist(midPoint, startPoint);
             let distC = zProcessDesigner.utils.calcDist(startPoint, endPoint);
@@ -542,7 +542,7 @@
          * @param d line data
          * @return {string} line path
          */
-        const getLinePath = function (d) {
+        const getLinePath = function(d) {
             const targetNode = document.getElementById(d.targetId),
                 sourceNode = document.getElementById(d.sourceId);
             if (!targetNode || !sourceNode) {
@@ -589,8 +589,8 @@
                 let bestLine1,
                     bestLine2;
                 if (typeof d.sourcePoint === 'undefined' && typeof d.targetPoint === 'undefined') {
-                    bestLine1 = getBestLine(sourceBBox, {cx: d.midPoint[0], cy: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({cx: d.midPoint[0], cy: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, { cx: d.midPoint[0], cy: d.midPoint[1] }, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({ cx: d.midPoint[0], cy: d.midPoint[1] }, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcDistancePointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcDistancePointCoordinate(bestLine2[1], d.midPoint)]
                     );
@@ -600,8 +600,8 @@
                     let targetPointCoords = getMidPointCoords(bestLine2);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else if (typeof d.sourcePoint === 'undefined') {
-                    bestLine1 = getBestLine(sourceBBox, {cx: d.midPoint[0], cy: d.midPoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({cx: d.targetPoint[0], cy: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, { cx: d.midPoint[0], cy: d.midPoint[1] }, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({ cx: d.targetPoint[0], cy: d.targetPoint[1] }, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcDistancePointCoordinate(bestLine1[0], d.midPoint), d.midPoint, calcDistancePointCoordinate(d.targetPoint, d.midPoint)],
                         [calcDistancePointCoordinate(d.midPoint, d.targetPoint), d.targetPoint, calcDistancePointCoordinate(bestLine2[1], d.targetPoint)]
@@ -611,8 +611,8 @@
                     sourcePoint.attr('cx', sourcePointCoords[0]).attr('cy', sourcePointCoords[1]);
                     targetPoint.attr('cx', d.targetPoint[0]).attr('cy', d.targetPoint[1]);
                 } else if (typeof d.targetPoint === 'undefined') {
-                    bestLine1 = getBestLine(sourceBBox, {cx: d.sourcePoint[0], cy: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({cx: d.midPoint[0], cy: d.midPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, { cx: d.sourcePoint[0], cy: d.sourcePoint[1] }, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({ cx: d.midPoint[0], cy: d.midPoint[1] }, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcDistancePointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcDistancePointCoordinate(d.midPoint, d.sourcePoint)],
                         [calcDistancePointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcDistancePointCoordinate(bestLine2[1], d.midPoint)]
@@ -622,8 +622,8 @@
                     sourcePoint.attr('cx', d.sourcePoint[0]).attr('cy', d.sourcePoint[1]);
                     targetPoint.attr('cx', targetPointCoords[0]).attr('cy', targetPointCoords[1]);
                 } else {
-                    bestLine1 = getBestLine(sourceBBox, {cx: d.sourcePoint[0], cy: d.sourcePoint[1]}, sourcePointArray, [[0, 0]]);
-                    bestLine2 = getBestLine({cx: d.targetPoint[0], cy: d.targetPoint[1]}, targetBBox, [[0, 0]], targetPointArray);
+                    bestLine1 = getBestLine(sourceBBox, { cx: d.sourcePoint[0], cy: d.sourcePoint[1] }, sourcePointArray, [[0, 0]]);
+                    bestLine2 = getBestLine({ cx: d.targetPoint[0], cy: d.targetPoint[1] }, targetBBox, [[0, 0]], targetPointArray);
                     roundedCoords.push(
                         [calcDistancePointCoordinate(bestLine1[0], d.sourcePoint), d.sourcePoint, calcDistancePointCoordinate(d.midPoint, d.sourcePoint)],
                         [calcDistancePointCoordinate(d.sourcePoint, d.midPoint), d.midPoint, calcDistancePointCoordinate(d.targetPoint, d.midPoint)],
@@ -635,7 +635,7 @@
                 }
 
                 linePath  = ['M', bestLine1[0]].join(' ');
-                roundedCoords.forEach(function (coords) {
+                roundedCoords.forEach(function(coords) {
                     linePath += calcCirclePath(coords[0], coords[1], coords[2]);
                 });
                 linePath += [' L', bestLine2[1]].join(' ');
@@ -654,7 +654,7 @@
             return linePath;
         };
 
-        connectors.select('path.connector').attr('d', function (d) {
+        connectors.select('path.connector').attr('d', function(d) {
             let linePath = getLinePath(d);
             let paths = linePath.split(' ');
             let startCoords = paths[1].split(','),
@@ -683,7 +683,7 @@
      * @type {{mouseover: mouseover, mouseout: mouseout, mouseup: mouseup, mousedown: mousedown}}
      */
     const elementMouseEventHandler = {
-        mouseover: function () {
+        mouseover: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
             mouseoverElement = null;
@@ -711,7 +711,7 @@
             }
             elem.classed('selected', checkAvailableLink(source, target));
         },
-        mouseout: function () {
+        mouseout: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
             if (!(isDrawConnector || isMoveConnector) || !mousedownElement || elem.node().id === mousedownElement.node().id) {
@@ -723,7 +723,7 @@
             mouseoverElement = null;
             setDeselectedElement(elem);
         },
-        mousedown: function () {
+        mousedown: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
 
@@ -746,7 +746,7 @@
             } else {
                 let selectedNodes = d3.selectAll('.node.selected').nodes();
                 let isSelectedElem = false;
-                selectedNodes.forEach(function (node) {
+                selectedNodes.forEach(function(node) {
                     if (node.id === elem.node().id) {
                         isSelectedElem = true;
                     }
@@ -769,7 +769,7 @@
                         setSelectedElement(selectedElement);
 
                         if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
-                            d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function (elem) {
+                            d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
                                 elem.style.opacity = '1';
                             });
                         }
@@ -793,7 +793,7 @@
                 }
             }
         },
-        mouseup: function () {
+        mouseup: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
             if (isDrawConnector) {
@@ -809,7 +809,7 @@
                 if (mousedownElement.node().id !== mouseoverElement.node().id) {
                     setDeselectedElement(mouseoverElement);
                     if (checkAvailableLink(mousedownElement, mouseoverElement)) {
-                        elements.links.push({id: ZWorkflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
+                        elements.links.push({ id: ZWorkflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N' });
                         selectedElement = null;
                         setConnectors();
                     }
@@ -818,7 +818,7 @@
             } else {
                 let histories = [];
                 const selectedNodes = d3.selectAll('.node.selected').nodes();
-                selectedNodes.forEach(function (node) {
+                selectedNodes.forEach(function(node) {
                     let targetElement = d3.select(node);
                     const bbox = zProcessDesigner.utils.getBoundingBoxCenter(targetElement);
                     dragged(targetElement, snapToGrid(bbox.cx) - bbox.cx, snapToGrid(bbox.cy) - bbox.cy);
@@ -827,11 +827,11 @@
                     histories.push(history);
                 });
 
-                elements.links.forEach(function (l) {
+                elements.links.forEach(function(l) {
                     let isExistSource = false,
                         isExistTarget = false,
                         isDeletedPoint = false;
-                    selectedNodes.forEach(function (node) {
+                    selectedNodes.forEach(function(node) {
                         if (l.sourceId === node.id) {
                             isExistSource = true;
                         } else if (l.targetId === node.id) {
@@ -877,7 +877,7 @@
                 svg.selectAll('line.guides-line').style('stroke-width', 0);
             }
         },
-        mousedrag: function () {
+        mousedrag: function() {
             if (mousedownElement.classed('commonEnd')) {
                 return false;
             }
@@ -896,7 +896,7 @@
      * @return {null} 엘리먼트 데이터
      */
     function getElementDataById(id) {
-        const elementDataList = zProcessDesigner.data.elements.filter(function (e) { return e.id === id; });
+        const elementDataList = zProcessDesigner.data.elements.filter(function(e) { return e.id === id; });
         let elementData = null;
         if (elementDataList) {
             elementData = elementDataList[0];
@@ -951,7 +951,7 @@
      */
     function checkAvailableLink(source, target) {
         let availableLink = true;
-        elements.links.forEach(function (l) {
+        elements.links.forEach(function(l) {
             if (!l.movable) {
                 // it's not a gateway, but several starts
                 if (!source.classed('gateway') && l.sourceId === source.node().id) {
@@ -1006,7 +1006,7 @@
             isDrawTop = false,
             isDrawBottom = false;
 
-        svg.selectAll('.node:not(.selected)').nodes().forEach(function (node) {
+        svg.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
             const element = getElementDataById(node.id);
             if (element) {
                 let left = element.display['position-x'] - (element.display.width / 2),
@@ -1148,13 +1148,13 @@
                 .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', mouseY + 10);
             let rectData = [
-                {x: Number(nodeElement.attr('x')), y: Number(nodeElement.attr('y'))},
-                {x: Number(nodeElement.attr('x')) + Number(nodeElement.attr('width')), y: Number(nodeElement.attr('y')) + Number(nodeElement.attr('height'))}
+                { x: Number(nodeElement.attr('x')), y: Number(nodeElement.attr('y')) },
+                { x: Number(nodeElement.attr('x')) + Number(nodeElement.attr('width')), y: Number(nodeElement.attr('y')) + Number(nodeElement.attr('height')) }
             ];
             let pointArray =
                 [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
                     [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
-            pointArray.forEach(function (point, i) {
+            pointArray.forEach(function(point, i) {
                 d3.select(gElement.selectAll('circle').nodes()[i])
                     .attr('cx', point[0])
                     .attr('cy', point[1]);
@@ -1164,7 +1164,7 @@
                 .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', mouseY + 15);
             if (textElement.selectAll('tspan').nodes().length > 0) {
-                textElement.selectAll('tspan').nodes().forEach(function (tspan) {
+                textElement.selectAll('tspan').nodes().forEach(function(tspan) {
                     d3.select(tspan).attr('x', textElement.attr('x'))
                         .attr('y', textElement.attr('y'));
                 });
@@ -1172,10 +1172,10 @@
         }
 
         if (dragElement && dragElement.node().id === nodeElement.node().id) {
-            elements.links.forEach(function (l) {
+            elements.links.forEach(function(l) {
                 let isExistSource = false,
                     isExistTarget = false;
-                d3.selectAll('.node.selected').each(function () {
+                d3.selectAll('.node.selected').each(function() {
                     let nodeId =  d3.select(this).node().id;
                     if (l.sourceId === nodeId) {
                         isExistSource = true;
@@ -1211,9 +1211,9 @@
      * @type {EventEmitter}
      */
     const drag = d3.drag()
-        .filter(function () { return d3.event.button === 0 || d3.event.button === 2; })
+        .filter(function() { return d3.event.button === 0 || d3.event.button === 2; })
         .on('start', elementMouseEventHandler.mousedown)
-        .on('drag', function () {
+        .on('drag', function() {
             if (isDrawConnector) {
                 elementMouseEventHandler.mousedrag();
             } else {
@@ -1232,7 +1232,7 @@
                 if (dragElement.node().classList && dragElement.classed('selected')) {
                     const dx = d3.event.dx,
                         dy = d3.event.dy;
-                    d3.selectAll('.node.selected').each(function () {
+                    d3.selectAll('.node.selected').each(function() {
                         dragged(d3.select(this), dx, dy);
                     });
                 }
@@ -1468,27 +1468,27 @@
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
-        [{x: calcX, y: calcY, cursor: 'nw-resize'}, {x: calcX + self.width, y: calcY + self.height, cursor: 'se-resize'},
-            {x: calcX + self.width, y: calcY, cursor: 'ne-resize'}, {x: calcX, y: calcY + self.height, cursor: 'sw-resize'}].forEach(function (p, i) {
+        [{ x: calcX, y: calcY, cursor: 'nw-resize' }, { x: calcX + self.width, y: calcY + self.height, cursor: 'se-resize' },
+            { x: calcX + self.width, y: calcY, cursor: 'ne-resize' }, { x: calcX, y: calcY + self.height, cursor: 'sw-resize' }].forEach(function(p, i) {
             self['pointElement' + (i + 1)] = elementContainer.append('circle')
                 .attr('class', 'pointer')
                 .attr('r', displayOptions.pointerRadius)
                 .attr('cx', p.x)
                 .attr('cy', p.y)
                 .style('opacity', 0)
-                .on('mouseover', function () { self['pointElement' + (i + 1)].style('cursor', p.cursor); })
-                .on('mouseout', function () { self['pointElement' + (i + 1)].style('cursor', 'default'); })
+                .on('mouseover', function() { self['pointElement' + (i + 1)].style('cursor', p.cursor); })
+                .on('mouseout', function() { self['pointElement' + (i + 1)].style('cursor', 'default'); })
                 .call(d3.drag()
-                    .on('start', function () {
+                    .on('start', function() {
                         svg.selectAll('.context-menu').remove();
                     })
-                    .on('drag', function () {
+                    .on('drag', function() {
                         if (selectedElement && selectedElement.node().id === self.nodeElement.node().id) {
                             const mouseX = d3.event.dx,
                                 mouseY = d3.event.dy;
                             let rectData = [
-                                {x: Number(self.nodeElement.attr('x')), y: Number(self.nodeElement.attr('y'))},
-                                {x: Number(self.nodeElement.attr('x')) + Number(self.nodeElement.attr('width')), y: Number(self.nodeElement.attr('y')) + Number(self.nodeElement.attr('height'))}
+                                { x: Number(self.nodeElement.attr('x')), y: Number(self.nodeElement.attr('y')) },
+                                { x: Number(self.nodeElement.attr('x')) + Number(self.nodeElement.attr('width')), y: Number(self.nodeElement.attr('y')) + Number(self.nodeElement.attr('height')) }
                             ];
                             switch (i + 1) {
                                 case 1:
@@ -1538,14 +1538,14 @@
                             let pointArray =
                                 [[rectData[0].x, rectData[0].y], [rectData[1].x, rectData[1].y],
                                     [rectData[1].x, rectData[0].y], [rectData[0].x, rectData[1].y]];
-                            pointArray.forEach(function (point, i) {
+                            pointArray.forEach(function(point, i) {
                                 self['pointElement' + (i + 1)]
                                     .attr('cx', point[0])
                                     .attr('cy', point[1]);
                             });
                         }
                     })
-                    .on('end', function () {
+                    .on('end', function() {
                         zProcessDesigner.setElementMenu(self.nodeElement);
                         zProcessDesigner.changeDisplayValue(self.nodeElement.node().id);
                     })
@@ -1596,10 +1596,10 @@
      */
     function addElementsEvent() {
         d3.selectAll('.process-element-palette, .drawing-board')
-            .on('dragover', function () {d3.event.preventDefault();});
+            .on('dragover', function() {d3.event.preventDefault();});
 
         d3.select('.process-element-palette').select('.connector')
-            .on('click', function () {
+            .on('click', function() {
                 isDrawConnector = !d3.select(this).classed('selected');
                 d3.select(this).classed('selected', isDrawConnector);
                 // clear
@@ -1610,20 +1610,20 @@
 
         d3.select('.process-element-palette').selectAll('button.shape')
             .attr('draggable', 'true')
-            .on('mousedown', function () {
+            .on('mousedown', function() {
                 let _this = d3.select(this);
                 _this.classed('active', true);
 
             })
-            .on('mouseup', function () {
+            .on('mouseup', function() {
                 let _this = d3.select(this);
                 _this.classed('active', false);
             })
-            .on('drag', function () {
+            .on('drag', function() {
                 let _this = d3.select(this);
                 _this.classed('placeholder', true);
             })
-            .on('dragend', function () {
+            .on('dragend', function() {
                 let _this = d3.select(this);
                 _this.classed('active', false);
                 _this.classed('placeholder', false);
@@ -1669,7 +1669,7 @@
         const elementNode = document.getElementById(elementId);
         if (typeof text === 'undefined') {
             const elements = zProcessDesigner.data.elements;
-            elements.forEach(function (elem) {
+            elements.forEach(function(elem) {
                 if (elem.id === elementId) { text = elem.name; }
             });
         }
@@ -1688,8 +1688,8 @@
                         .append('tspan')
                         .attr('x', textElement.attr('x'))
                         .attr('y', textElement.attr('y'))
-                        .attr('dy', function (d, i) { return (i * 1.2) + 'rem'; })
-                        .text(function (d) { return d; });
+                        .attr('dy', function(d, i) { return (i * 1.2) + 'rem'; })
+                        .text(function(d) { return d; });
 
                     if (d3.select(elementNode).classed('annotation')) {
                         let textElementHeight = annotationDefaultPadding + annotationLineHeight * textArr.length;
@@ -1743,10 +1743,10 @@
      * svg 추가 및 필요한 element 추가.
      */
     function initProcessEdit() {
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             // 상단 드롭 다운 메뉴가 오픈되어 있으면 닫는다.
-            if (e.target != null && !e.target.classList.contains('header-button-dropdown')) {
-                document.querySelectorAll('.header-button-dropdown').forEach(function (dropdown) {
+            if (e.target != null && !e.target.classList.contains('context-menu__toggle')) {
+                document.querySelectorAll('.context-menu__toggle').forEach(function(dropdown) {
                     if (dropdown.classList.contains('active')) {
                         dropdown.classList.remove('active');
                     }
@@ -1754,7 +1754,7 @@
             }
         });
 
-        document.addEventListener('contextmenu', function (e) {
+        document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
 
@@ -1764,13 +1764,13 @@
         svg = d3.select('.drawing-board').append('svg')
             .attr('width', drawingBoard.offsetWidth)
             .attr('height', drawingBoard.offsetHeight)
-            .on('mousedown', function () {
+            .on('mousedown', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector) { return; }
                 removeElementSelected();
                 zProcessDesigner.setElementMenu();
             })
-            .on('mouseup', function () {
+            .on('mouseup', function() {
                 d3.event.stopPropagation();
                 if (isDrawConnector && mousedownElement) {
                     dragLine
@@ -1788,7 +1788,7 @@
         let verticalGrid = svg.append('g').attr('class', 'grid vertical-grid');
         let horizontalGrid = svg.append('g').attr('class', 'grid horizontal-grid');
 
-        const setDrawingBoardGrid = function () {
+        const setDrawingBoardGrid = function() {
             let drawingBoardWidth = drawingBoard.offsetWidth,
                 drawingBoardHeight = drawingBoard.offsetHeight;
 
@@ -1821,12 +1821,12 @@
                 .attr('transform', minimapTranslate);
         };
         window.onresize = setDrawingBoardGrid;
-        window.onkeydown = function (e) {
+        window.onkeydown = function(e) {
             let keyCode = e.keyCode ? e.keyCode : e.which;
             isMovableDrawingboard = keyCode === 32;
             d3.select(document.getElementById('moveDrawingboard')).classed('selected', isMovableDrawingboard);
         };
-        window.onkeyup = function () {
+        window.onkeyup = function() {
             if (isMovableDrawingboard) {
                 isMovableDrawingboard = false;
             }
@@ -1836,7 +1836,7 @@
 
         // add zoom
         const zoom = d3.zoom()
-            .on('start', function () {
+            .on('start', function() {
                 if (!isMovableDrawingboard) {
                     dismovableDrawingboard();
                 } else {
@@ -1846,7 +1846,7 @@
                         nodeBottomArray = [],
                         nodeLeftArray = [];
                     const nodes = svg.selectAll('.node').nodes();
-                    nodes.forEach(function (node) {
+                    nodes.forEach(function(node) {
                         let nodeBBox = zProcessDesigner.utils.getBoundingBoxCenter(d3.select(node));
                         nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
                         nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
@@ -1870,7 +1870,7 @@
                     ]);
                 }
             })
-            .on('zoom', function () {
+            .on('zoom', function() {
                 if (!isMovableDrawingboard) {
                     dismovableDrawingboard();
                     svg.style('cursor', 'default');
@@ -1895,7 +1895,7 @@
                 }
                 d3.select('rect.minimap-guide').attr('transform', minimapTranslate);
             })
-            .on('end', function () {
+            .on('end', function() {
                 svg.style('cursor', 'default');
             });
 
@@ -1926,7 +1926,7 @@
             .data(['center-x', 'center-y', 'left', 'right', 'top', 'bottom'])
             .enter()
             .append('line')
-            .attr('id', function (d) { return 'guides-' + d; })
+            .attr('id', function(d) { return 'guides-' + d; })
             .attr('class', 'guides-line');
 
         // define arrow markers for links
@@ -1945,7 +1945,7 @@
             .attr('class', 'connector drag-line hidden')
             .attr('d', 'M0,0L0,0');
 
-        document.getElementById('moveDrawingboard').addEventListener('click', function () {
+        document.getElementById('moveDrawingboard').addEventListener('click', function() {
             let isSelected = d3.select(this).classed('selected');
             d3.select(this).classed('selected', !isSelected);
             isMovableDrawingboard = !isSelected;
@@ -2009,7 +2009,7 @@
      */
     function drawProcess(processId, elementList) {
         // add element
-        elementList.forEach(function (element) {
+        elementList.forEach(function(element) {
             if (element.type === 'arrowConnector') {
                 return;
             }
@@ -2020,7 +2020,7 @@
         });
 
         // add connector
-        elementList.forEach(function (element) {
+        elementList.forEach(function(element) {
             if (element.type !== 'arrowConnector') {
                 return;
             }
@@ -2029,11 +2029,11 @@
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                let linkData = {id: element.id, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
+                let linkData = { id: element.id, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default'] };
                 if (element.display) {
-                    Object.keys(element.display).forEach(function (key) {
+                    Object.keys(element.display).forEach(function(key) {
                         if (typeof element.display[key] !== 'undefined') {
-                            let keyCamelCased = key.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+                            let keyCamelCased = key.replace(/-([a-z])/g, function(g) { return g[1].toUpperCase(); });
                             linkData[keyCamelCased] = element.display[key];
                         }
                     });
@@ -2082,5 +2082,5 @@
     exports.setConnectors = setConnectors;
     exports.setDeselectedElement = setDeselectedElement;
     exports.setSelectedElement = setSelectedElement;
-    Object.defineProperty(exports, '__esModule', {value: true});
+    Object.defineProperty(exports, '__esModule', { value: true });
 })));
