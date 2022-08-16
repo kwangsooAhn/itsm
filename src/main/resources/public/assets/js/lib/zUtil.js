@@ -33,7 +33,9 @@ aliceJs.response = {
     duplicateLogin: 'E-0011',
     invalidUser: 'E-0012',
     disabledUser: 'E-0013',
-    processedToken:'E-0014'
+    processedToken:'E-0014',
+    duplicateServiceCode: 'E-0015',
+    duplicateServiceName: 'E-0016'
 };
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출

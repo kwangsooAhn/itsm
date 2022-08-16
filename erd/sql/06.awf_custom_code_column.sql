@@ -31,3 +31,6 @@ insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사
 insert into awf_custom_code_column values ('awf_organization', 'search', 'organization_name', '부서 이름');
 insert into awf_custom_code_column values ('awf_organization', 'search', 'use_yn', '사용여부');
 insert into awf_custom_code_column values ('awf_organization', 'value', 'organization_id', '부서 아이디');
+insert into awf_custom_code_column values ('service_category', 'search', 'service_name', '서비스 이름');
+insert into awf_custom_code_column values ('service_category', 'search', 'use_yn', '서비스 사용 여부');
+insert into awf_custom_code_column values ('service_category', 'value', 'service_code', '서비스 코드');

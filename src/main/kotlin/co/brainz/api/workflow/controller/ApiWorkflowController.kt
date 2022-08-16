@@ -9,6 +9,7 @@ package co.brainz.api.workflow.controller
 import co.brainz.api.ApiUtil
 import co.brainz.api.dto.RequestCmdbDto
 import co.brainz.api.dto.RequestDto
+import co.brainz.api.dto.RequestEventDto
 import co.brainz.api.workflow.service.ApiWorkflowService
 import co.brainz.framework.response.ZAliceResponse
 import co.brainz.framework.response.dto.ZResponse
@@ -79,5 +80,13 @@ class ApiWorkflowController(
     @GetMapping("/numbering/{numberingId}/ticket")
     fun getNumberingTicketing(@PathVariable numberingId: String): ResponseEntity<ZResponse> {
         return ZAliceResponse.response(apiWorkflowService.getNumberingTicketing(numberingId))
+    }
+
+    @PostMapping("/event")
+    fun callEventDocument(
+        request: HttpServletRequest,
+        @RequestBody requestEventList: List<RequestEventDto>
+    ): ResponseEntity<ZResponse> {
+        return ZAliceResponse.response(apiWorkflowService.callEventDocument(requestEventList))
     }
 }

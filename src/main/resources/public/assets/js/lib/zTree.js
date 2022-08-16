@@ -127,10 +127,14 @@
                     node_id = item.organizationId;
                     node_name = item.organizationName;
                     node_value = item.organizationId;
-                } else {
+                } else if (item.classId !== '' && item.classId !== undefined) {
                     node_id = item.classId;
                     node_name = item.className;
                     node_value = item.classId;
+                } else {
+                    node_id = item.serviceCode;
+                    node_name = item.serviceName;
+                    node_value = item.serviceCode;
                 }
                 let node = {
                     id: node_id,
@@ -579,6 +583,9 @@
                     break;
                 case 'organization':
                     p_node_id = item.porganizationId;
+                    break;
+                case 'service':
+                    p_node_id = item.pserviceCode;
                     break;
                 default:
                     p_node_id = item.pcode;

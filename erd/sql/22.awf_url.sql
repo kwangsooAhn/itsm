@@ -402,3 +402,8 @@ insert into awf_url values ('/rest/forms/component/template', 'get', '컴포넌�
 insert into awf_url values ('/rest/forms/component/template', 'post', '컴포넌트 템플릿 저장', 'FALSE');
 insert into awf_url values ('/rest/forms/component/template/{templateId}', 'delete', '컴포넌트 템플릿 삭제', 'FALSE');
 insert into awf_url values ('/calendars', 'get', '일정 관리', 'TRUE');
+insert into awf_url values ('/service-category/edit', 'get', '서비스 카테고리 편집 화면', 'TRUE');
+insert into awf_url values ('/rest/service-category', 'get', '서비스 카테고리 전체 조회', 'TRUE');
+insert into awf_url values ('/rest/service-category/{id}', 'get', '서비스 카테고리 상세 조회', 'TRUE');
+insert into awf_url values ('/rest/service-category', 'post', '서비스 카테고리 등록', 'TRUE');
+insert into awf_url values ('/rest/service-category/{id}', 'put', '서비스 카테고리 수정', 'TRUE');
