@@ -5180,7 +5180,7 @@ INSERT INTO wf_component_property VALUES('f4229a8f389c452e9bedde010074bfbb', 'el
 INSERT INTO wf_component_property VALUES('f4229a8f389c452e9bedde010074bfbb', 'label', '{"position":"hidden","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":""}');
 INSERT INTO wf_component_property VALUES('fb4d5175e84940b9b7b6081bf25703a1', 'validation', '{"required":true,"minLength":"0","maxLength":"512"}');
 INSERT INTO wf_component_property VALUES('fb4d5175e84940b9b7b6081bf25703a1', 'display', '{"displayOrder":0,"columnWidth":"12"}');
-INSERT INTO wf_component_property VALUES('fb4d5175e84940b9b7b6081bf25703a1', 'element', '{"columnWidth":"10","rows":"3","placeholder":"내용을 입력하세요."}');
+INSERT INTO wf_component_property VALUES('fb4d5175e84940b9b7b6081bf25703a1', 'element', '{"columnWidth":"10","rows":"6","placeholder":"내용을 입력하세요."}');
 INSERT INTO wf_component_property VALUES('fb4d5175e84940b9b7b6081bf25703a1', 'label', '{"position":"left","fontSize":"16","fontColor":"#8D9299","bold":false,"italic":false,"underline":false,"align":"left","text":"내용"}');
 INSERT INTO wf_component_property VALUES('a7be4fd9186347949ed7638ebd61343d', 'element', '{"columnWidth":"10","defaultValueCustomCode":"40288a19736b46fb01736b89e46c0008|none|"}');
 INSERT INTO wf_component_property VALUES('008e4d65bbff4e64ad652161dfe67a6b', 'display', '{"displayOrder":1,"columnWidth":"12"}');
