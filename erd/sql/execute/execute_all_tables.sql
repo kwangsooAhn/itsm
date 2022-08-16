@@ -743,6 +743,7 @@ insert into awf_menu_auth_map values ('workflow.numberingRule', 'workflow.manage
 insert into awf_menu_auth_map values ('workflow.process', 'workflow.manage');
 insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'workflow.manage');
 insert into awf_menu_auth_map values ('calendar', 'general');
+
 /**
  * 알림
  */
@@ -1067,12 +1068,13 @@ COMMENT ON COLUMN awf_scheduled_task_mst.update_dt IS '수정일';
 
 insert into awf_scheduled_task_mst values ('4028b2647aada23c017aadd37b0c0001', '임시 첨부 파일 삭제', 'jar', '첨부된 파일 중 임시 저장된 파일을 삭제합니다.', 'TRUE', 'FALSE', null, null, 'java -jar deleteTempFile.jar', 'cron', null, '0 0 18 * * ?', null, '/deleteTempFile', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b2647aada23c017aadcceabf0000', 'CMDB CI 임시데이터 삭제', 'jar', 'CMDB CI 등록시 저장된 임시 데이터 중 사용되지 않은 데이터를 삭제한다.', 'TRUE', 'FALSE', null, null, 'java -jar deleteTempCIData.jar', 'cron', null, '0 0 18 * * ?', null, '/deleteTempCIData', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_scheduled_task_mst values ('4028b2647a9890d5017a98a94efb0000', 'Zenius EMS 연동', 'jar', 'Zenius EMS 7 과 연동하여 자산 정보를 수집한다.', 'TRUE', 'FALSE', null, null, 'java -jar alice-ems.jar', 'cron', null, '0 0 18 * * ?', null, '/zeniusEms', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('4028b2647a9890d5017a98a94efb0000', 'Zenius EMS 자산 연동', 'jar', 'Zenius EMS 7 과 연동하여 자산 정보를 수집한다.', 'TRUE', 'FALSE', null, null, 'java -jar alice-ems.jar', 'cron', null, '0 0 18 * * ?', null, '/zeniusEms', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b2647aadd869017aadf4cf830000', 'Access Token 삭제', 'query', '기간이 초과된 access token 을 삭제한다.', 'TRUE', 'FALSE', null, 'delete from awf_api_token
 where create_dt < now() - interval ''10day''', null, 'cron', null, '0 0 18 * * ?', null, null, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b21e7c286680017c2868d9600000', '보고서 자동 생성', 'jar', '보고서 템플릿의 옵션 중, "자동 생성" 옵션이 설정된 템플릿을 수집하여, 보고서에 대한 자동 생성을 진행한다.', 'TRUE', 'FALSE', null, null, 'java -jar createReport.jar', 'cron', null, '0 0 18 * * ?', null, '/createReport', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_scheduled_task_mst values ('4028b2647fbed869039fdce4cf870321', 'IF 테이블 모니터링 - 외부시그널', 'jar', 'IF 모니터링 플러그인 연동을 통해 rest API 통신을 진행한다.(IF 테이블 설정 필요)', 'TRUE', 'FALSE', null, null, 'java -jar ifMonitoring.jar', 'cron', null, '0 0/5 * * * ?', null, '/ifMonitoring', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_scheduled_task_mst values ('40288a9d823d7ee301823d81f3b40000', 'Zenius 용량 연동', 'jar', 'Zenius EMS 7 과 연동하여 용량 정보를 수집한다.', 'TRUE', 'FALSE', null, null, 'java -jar ems-capacity.jar', 'fixedDelay', 3600000, null, null, '/capacityEms', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('40288a9d823d7ee301823d81f3b40000', 'Zenius EMS 용량 연동', 'jar', 'Zenius EMS 7 과 연동하여 용량 정보를 수집한다.', 'TRUE', 'FALSE', null, null, 'java -jar ems-capacity.jar', 'fixedDelay', 3600000, null, null, '/capacityEms', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_scheduled_task_mst values ('40288a8c828a3a5801828b7564e80018', 'Zenius EMS 이벤트 연동', 'jar', 'Zenius EMS 7 과 연동하여 이벤트 정보를 수집한다.', 'TRUE', 'FALSE', null, null, 'java -jar ems-event.jar', 'cron', null, '0 0/5 * * * ?', null, '/eventEms', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 타임존정보
@@ -7743,6 +7745,8 @@ INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061abb00c5','component','장�
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061aed00c6','component','승인의견','5dba55dd1d57415ba28a3f1816859793');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061af300c7','component','반려의견','5dba55dd1d57415ba28a3f1816859793');
 INSERT INTO awf_tag VALUES ('4028b21f7c9adb6a017c9b061af900c8','component','z-approve-content','5dba55dd1d57415ba28a3f1816859793');
+insert into awf_tag VALUES ('40288a8c821a141f01821a81c2e40002', 'component', '관련 서비스', 'a5bacb272c1cc7b3a8632f8c149efdbe');
+insert into awf_tag VALUES ('40288a8c821a141f01821a81c2e60003', 'component', 'z-related-service', 'a5bacb272c1cc7b3a8632f8c149efdbe');
 /* 서비스데스크 - 장애신고 - 만족도 */
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da7bf0023','component','로고','a4257952286a4e6fae6faaeaae7279fd');
 INSERT INTO awf_tag VALUES ('4028b21f7c90d996017c914da7c50024','component','z-logo','a4257952286a4e6fae6faaeaae7279fd');
@@ -8404,6 +8408,7 @@ insert into awf_tag VALUES ('40288a8c821a141f01821ac2b92001cd', 'component', '�
 insert into awf_tag VALUES ('40288a8c821a141f01821ac2b92101ce', 'component', 'z-incident-service-shutdown-start', 'ace6d79e8482e91b7f37f72afebc3f75');
 insert into awf_tag VALUES ('40288a8c821a141f01821ac339ed01d1', 'component', '서비스중단종료시간', 'a5c9a4348d016409ba1d6bac3cd008fa');
 insert into awf_tag VALUES ('40288a8c821a141f01821ac339ef01d2', 'component', 'z-incident-service-shutdown-end', 'a5c9a4348d016409ba1d6bac3cd008fa');
+
 /* 사용자 정의 차트 */
 INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0001', 'chart', '단순문의 만족도', '4028b8817cd4629c017cd479a9890005');
 INSERT INTO awf_tag VALUES ('4028b21f7dbcb982017dbcc0b25f0002', 'chart', '장애관리 만족도', '4028b8817cd4629c017cd479a9890005');
@@ -10768,30 +10773,6 @@ INSERT INTO awf_document_role_map VALUES ('40288a9d826b8fbf01826cdf77130082', 'd
 INSERT INTO awf_document_role_map VALUES('40288a9d827b4bf001827b9206bb0026', 'document.type.application-form', 'system.admin');
 INSERT INTO awf_document_role_map VALUES('40288a9d827b4bf001827b9206bb0026', 'document.type.application-form', 'cmdb.admin');
 
--- 용량관리 저장 테이블 생성
-DROP TABLE if EXISTS cmdb_ci_capacity_data;
-
-CREATE TABLE cmdb_ci_capacity_data (
-    ci_id           VARCHAR (128) NOT NULL,
-    reference_dt    TIMESTAMP NOT NULL,
-    cpu_avg         FLOAT,
-    memory_avg      FLOAT,
-    disk_avg        FLOAT,
-    mapping_id      VARCHAR (128),
-    CONSTRAINT cmdb_ci_capacity_data_pk PRIMARY KEY (ci_id, reference_dt),
-    CONSTRAINT cmdb_ci_capacity_data_fk FOREIGN KEY (ci_id)
-    REFERENCES cmdb_ci(ci_id)
-    ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-
-COMMENT ON TABLE cmdb_ci_capacity_data IS '용량관리 정보';
-COMMENT ON COLUMN cmdb_ci_capacity_data.ci_id IS 'CI아이디';
-COMMENT ON COLUMN cmdb_ci_capacity_data.reference_dt IS '저장일시';
-COMMENT ON COLUMN cmdb_ci_capacity_data.cpu_avg IS 'CPU사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.memory_avg IS '메모리사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.disk_avg IS '디스크사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.mapping_id IS '매핑아이디';
-
 /**
  * CMDB 아이콘 관리
  */
@@ -10882,3 +10863,60 @@ COMMENT ON COLUMN service_category.update_user_key IS '수정자';
 COMMENT ON COLUMN service_category.update_dt IS '수정일';
 
 insert into service_category values ('service', null, 'IT서비스', null, null, null, null, false, true, 0, 0, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+-- 용량관리 저장 테이블 생성
+DROP TABLE if EXISTS cmdb_ci_capacity_data;
+
+CREATE TABLE cmdb_ci_capacity_data (
+    ci_id           VARCHAR (128) NOT NULL,
+    reference_dt    TIMESTAMP NOT NULL,
+    cpu_avg         FLOAT,
+    memory_avg      FLOAT,
+    disk_avg        FLOAT,
+    mapping_id      VARCHAR (128),
+    CONSTRAINT cmdb_ci_capacity_data_pk PRIMARY KEY (ci_id, reference_dt),
+    CONSTRAINT cmdb_ci_capacity_data_fk FOREIGN KEY (ci_id)
+    REFERENCES cmdb_ci(ci_id)
+    ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE cmdb_ci_capacity_data IS '용량관리 정보';
+COMMENT ON COLUMN cmdb_ci_capacity_data.ci_id IS 'CI아이디';
+COMMENT ON COLUMN cmdb_ci_capacity_data.reference_dt IS '저장일시';
+COMMENT ON COLUMN cmdb_ci_capacity_data.cpu_avg IS 'CPU사용량';
+COMMENT ON COLUMN cmdb_ci_capacity_data.memory_avg IS '메모리사용량';
+COMMENT ON COLUMN cmdb_ci_capacity_data.disk_avg IS '디스크사용량';
+COMMENT ON COLUMN cmdb_ci_capacity_data.mapping_id IS '매핑아이디';
+
+/**
+ * IF EMS 연동 - 이벤트
+ */
+DROP TABLE IF EXISTS if_ems_event cascade;
+
+CREATE TABLE if_ems_event
+(
+    z_myid bigint NOT NULL,
+    z_evttime timestamp NULL,
+    z_infraid int NOT NULL,
+    z_infraName varchar(32) NULL,
+    z_itname varchar(64) NULL,
+    z_myhost varchar(255) NULL,
+    z_myname varchar(255) NULL,
+    z_mymsg varchar(512) NULL,
+    z_alert int NOT NULL,
+    z_status int NULL DEFAULT 0,
+    CONSTRAINT if_ems_event_pk PRIMARY KEY (z_myid)
+);
+
+COMMENT ON TABLE if_ems_event IS 'EMS 이벤트 정보';
+COMMENT ON COLUMN if_ems_event.z_myid IS '이벤트아이디';
+COMMENT ON COLUMN if_ems_event.z_evttime IS '이벤트발생일시';
+COMMENT ON COLUMN if_ems_event.z_infraid IS '인프라아이디';
+COMMENT ON COLUMN if_ems_event.z_infraName IS '인프라명';
+COMMENT ON COLUMN if_ems_event.z_itname IS '이벤트항목명';
+COMMENT ON COLUMN if_ems_event.z_myhost IS '이벤트호스트명';
+COMMENT ON COLUMN if_ems_event.z_myname IS '이벤트명';
+COMMENT ON COLUMN if_ems_event.z_mymsg IS '이벤트메시지';
+COMMENT ON COLUMN if_ems_event.z_alert IS '심각도';
+COMMENT ON COLUMN if_ems_event.z_status IS '상태';
+
