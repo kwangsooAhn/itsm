@@ -177,7 +177,7 @@
                     </label>
                     <select name="theme" id="theme">
                         <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
-                                th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"></option>
+                                th:text="${theme.codeName}" th:selected="${theme.codeValue} == ${users?.theme}"></option>
                     </select>
                 </div>
             </div>
