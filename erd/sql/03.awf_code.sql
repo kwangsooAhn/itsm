@@ -196,6 +196,7 @@ insert into awf_code values ('user.status.signup', 'user.status', null, '가입'
 insert into awf_code values ('user.theme', 'user', null, '테마', null, false, true, 2, 12, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.theme.default', 'user.theme', 'default', '기본 테마', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.theme.dark', 'user.theme', 'dark', '어두운 테마', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.theme.light', 'user.theme', 'light', '밝은 테마', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.time', 'user', null, '사용자 시간 포맷', null, false, true, 2, 13, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('24', 'user.time', 'HH:mm', null, null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('12', 'user.time', 'hh:mm a', null, null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
