@@ -6,8 +6,8 @@
 
 package co.brainz.framework.resourceManager.repository
 
-import co.brainz.framework.resourceManager.entity.AliceFileOwnMapEntity
 import co.brainz.framework.querydsl.AliceRepositoryCustom
+import co.brainz.framework.resourceManager.entity.AliceFileOwnMapEntity
 
 interface AliceFileOwnMapRepositoryCustom : AliceRepositoryCustom {
 

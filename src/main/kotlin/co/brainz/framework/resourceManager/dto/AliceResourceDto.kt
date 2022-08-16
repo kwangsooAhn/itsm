@@ -1,7 +1,7 @@
 package co.brainz.framework.resourceManager.dto
 
-import co.brainz.framework.resourceManager.constants.ResourceConstants
 import co.brainz.framework.querydsl.QuerydslConstants
+import co.brainz.framework.resourceManager.constants.ResourceConstants
 import co.brainz.framework.util.AlicePagingData
 import co.brainz.framework.util.AliceScrollData
 import java.io.Serializable
@@ -20,7 +20,7 @@ data class AliceResourceDto(
     val count: Int = 0,
     val updateDt: LocalDateTime?,
     val editable: Boolean = true
-): Serializable
+) : Serializable
 
 data class AliceResourceRenameDto(
     var originPath: String = "",
