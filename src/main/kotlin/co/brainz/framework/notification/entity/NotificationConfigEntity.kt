@@ -19,5 +19,5 @@ data class NotificationConfigEntity(
     var notificationName: String
 ) : Serializable {
     @OneToMany(mappedBy = "notificationConfig", fetch = FetchType.LAZY)
-    val notificationConfigDetail = mutableListOf<NotificationConfigDetailEntity>()
+    val notificationConfigDetails = mutableListOf<NotificationConfigDetailEntity>()
 }

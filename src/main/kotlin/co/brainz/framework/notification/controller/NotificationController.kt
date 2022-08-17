@@ -17,6 +17,7 @@ class NotificationController(private val notificationService: NotificationServic
 
     private val notificationListPage: String = "notification/notificationList"
     private val notificationEditPage: String = "notification/notificationEdit"
+    private val notificationRecordSearch: String = "notification/notificationRecordSearch"
 
     @GetMapping("")
     fun getNotificationList(model: Model): String {
@@ -29,5 +30,11 @@ class NotificationController(private val notificationService: NotificationServic
     fun getNotificationEdit(model: Model): String {
         model.addAttribute("notificationConfigs", notificationService.getNotificationConfig())
         return notificationEditPage
+    }
+
+    // 알람 발송 이력 화면 이동
+    @GetMapping("/record")
+    fun getNotificationRecord(model: Model): String {
+        return notificationRecordSearch
     }
 }

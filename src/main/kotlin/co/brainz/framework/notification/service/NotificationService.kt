@@ -119,15 +119,12 @@ class NotificationService(
             )
             // 알람 타입별 채널 상세정보 DTO에 담기
             val notificationConfigDetails =  mutableListOf<NotificationConfigDetailDto>()
-            notificationConfig.notificationConfigDetail.forEach { configDetail ->
+            notificationConfig.notificationConfigDetails.forEach { configDetail ->
                 notificationConfigDetails.add(
                     NotificationConfigDetailDto(
                         channel = configDetail.channel,
                         useYn = configDetail.useYn,
-                        titleFormat = configDetail.titleFormat,
-                        messageFormat = configDetail.messageFormat,
-                        template = configDetail.template,
-                        url = if (configDetail.url.isNullOrEmpty()) emptyList() else configDetail.url?.split("|")
+                        configDetail = configDetail.configDetail
                     )
                 )
             }
@@ -144,25 +141,16 @@ class NotificationService(
      *  알람 발송 관리 설정정보 업데이트
      */
     @Transactional
-    fun updateNotificationConfig(configs: List<NotificationConfigDto>): ZResponse {
+    fun updateNotificationConfig(config: NotificationConfigDto): ZResponse {
         var result = ZResponseConstants.STATUS.SUCCESS
         try {
-            // 알람 설정 분류 조회 ex> 신청서/ CMDB 라이센스
-            configs.forEachIndexed { configIndex, config ->
-                // 알람설정 분류 별 상세 조회 ex>  신청서내 toast/sms/mail
-                notificationConfigRepository.findByNotificationCode(config.notificationCode)
-                    .notificationConfigDetail
-                    .sortedByDescending { it.channel }
-                    // 알람설정 분류 별 상세정보 업데이트
-                    .forEachIndexed { configDetailIndex, configDetail ->
-                        configDetail.useYn = configs[configIndex].notificationConfigDetails!![configDetailIndex].useYn
-                        configDetail.titleFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].titleFormat
-                        configDetail.messageFormat = configs[configIndex].notificationConfigDetails!![configDetailIndex].messageFormat
-                        configDetail.template = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.template
-                        configDetail.url = configs[configIndex].notificationConfigDetails?.get(configDetailIndex)?.url?.joinToString("|")
-                        notificationConfigDetailRepository.save(configDetail)
-                    }
-            }
+            notificationConfigRepository.findByNotificationCode(config.notificationCode)
+                .notificationConfigDetails
+                .sortedByDescending { it.channel } // toast -> sms -> mail 순서로 정렬
+                .forEachIndexed { index, configDetail ->
+                    configDetail.useYn = config.notificationConfigDetails!![index].useYn
+                    configDetail.configDetail = config.notificationConfigDetails!![index].configDetail
+                }
         } catch (e: Exception) {
             e.printStackTrace()
             result = ZResponseConstants.STATUS.ERROR_FAIL

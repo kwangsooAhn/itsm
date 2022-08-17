@@ -22,17 +22,8 @@ data class NotificationConfigDetailEntity(
     @Column(name = "use_yn")
     var useYn: Boolean,
 
-    @Column(name = "title_format", length = 512)
-    var titleFormat: String,
-
-    @Column(name = "message_format")
-    var messageFormat: String,
-
-    @Column(name = "template")
-    var template: String?,
-
-    @Column(name = "url", length = 512)
-    var url: String?,
+    @Column(name = "config_detail", length = 512)
+    var configDetail: String,
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
