@@ -16,4 +16,4 @@ COMMENT ON COLUMN notification_config.notification_code IS '알람 발송관리 
 COMMENT ON COLUMN notification_config.notification_name IS '알람 발송관리 명';
 
 INSERT INTO notification_config VALUES('document', '신청서');
-INSERT INTO notification_config VALUES('cmdbLicense', 'CMDB 라이센스');
+INSERT INTO notification_config VALUES('cmdbLicense', 'CMDB');

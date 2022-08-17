@@ -34,6 +34,9 @@ CREATE TABLE awf_user
 	uploaded boolean DEFAULT 'false',
 	uploaded_location varchar(512),
     user_absence boolean DEFAULT 'false',
+    notification_toast boolean DEFAULT 'true',
+    notification_sms boolean DEFAULT 'true',
+    notification_mail boolean DEFAULT 'false',
 	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
 	CONSTRAINT awf_user_uk UNIQUE (user_id )
 );
