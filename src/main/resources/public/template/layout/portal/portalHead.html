@@ -5,10 +5,10 @@
     <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link th:href="@{/assets/css/itsm.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/toastify/toastify.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/itsm.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/lib/zI18n.js}"></script>
     <script th:src="@{/assets/js/lib/zAlert.js}"></script>
     <script th:src="@{/assets/js/lib/zUtil.js}"></script>
@@ -44,6 +44,8 @@
         (function() {
             i18n.init();
         })();
+
+        aliceJs.initTheme();
 
         window.addEventListener('load', () => {
             aliceJs.initDesignedSelectTag();

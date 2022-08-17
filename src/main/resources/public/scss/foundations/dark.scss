@@ -1,0 +1,458 @@
+html[data-theme=dark] {
+  h1, h2, h3, h4, h5, h6 { color: white; }
+  h1 { color: yellow; }
+  label { color: white; }
+  input, button, select, optgroup, textarea, .select__box,
+  .property input[type=text]:not(.tagify).ic-unit-px,
+  .slider input[type=text]:read-only:not(:disabled) {
+    border-color: white;
+    background-color: lightgray;
+  }
+  .description { color: yellow; }
+
+  //////////////////////////   element   //////////////////////////
+  
+  // button
+  $theme-dark: (
+          'primary': (
+                  'default': ('font': white, 'background': red, 'border' : white),
+                  'hover': ('font' : white, 'background': red, 'border' : white),
+                  'focus': ('font': white, 'background': red, 'border' : white, 'shadow': 0 0 0 0.125rem white),
+                  'active': ('font': white, 'background': red, 'border' : white),
+                  'disabled': ('font': white, 'background': red, 'border' : white)
+          ),
+          'secondary': (
+                  'default': ('font': white, 'background': orange, 'border': white),
+                  'hover': ('font' : white, 'background': orange, 'border': white),
+                  'focus': ('font': white, 'background': orange, 'border': white, 'shadow': 0 0 0 0.125rem white),
+                  'active': ('font': white, 'background': orange, 'border': white),
+                  'disabled': ('font': white, 'background': orange, 'border': white)
+          ),
+          'extra': (
+                  'default': ('font': white, 'background': purple, 'border': white),
+                  'hover': ('font' : white, 'background': purple, 'border': white),
+                  'focus': ('font': white, 'background': purple, 'border': white, 'shadow': 0 0 0.125rem white),
+                  'active': ('font': white, 'background': purple, 'border': white),
+                  'disabled': ('font': white, 'background': purple, 'border': white)
+          ),
+          'tertiary': (
+                  'default': ('font': white, 'background': black, 'border': white),
+                  'hover': ('font' : white, 'background': black, 'border': white),
+                  'focus': ('font': white, 'background': black, 'border': white, 'shadow': 0 0 0.125rem white),
+                  'active': ('font': white, 'background': black, 'border': white),
+                  'disabled': ('font': white, 'background': black, 'border': white)
+          )
+  );
+  .btn {
+    &__ic,
+    &__text--box {
+      // light
+      @each $theme, $value in $theme-dark {
+        &.#{$theme} {
+          background-color: map-get($value, 'default', 'background');
+          color: map-get($value, 'default', 'font');
+          @if map-get($value, 'default', 'border') != null {
+            border-color: map-get($value, 'default', 'border');
+          }
+          @if map-get($value, 'default', 'shadow') != null {
+            box-shadow: map-get($value, 'default', 'shadow');
+          }
+          // 아이콘이 존재한다면
+          [class*="ic-"] {
+            display: block;
+            background: map-get($value, 'default', 'font');
+            pointer-events: none;
+          }
+
+          &:focus {
+            background-color: map-get($value, 'focus', 'background');
+            color: map-get($value, 'focus', 'font');
+            @if map-get($value, 'focus', 'border') != null {
+              border-color: map-get($value, 'focus', 'border');
+            };
+            @if map-get($value, 'focus', 'shadow') != null {
+              box-shadow: map-get($value, 'focus', 'shadow');
+            }
+            [class*="ic-"] { background: map-get($value, 'focus', 'font'); }
+          }
+
+          &:hover {
+            color: map-get($value, 'hover', 'font');
+            background-color: map-get($value, 'hover', 'background');
+            @if map-get($value, 'hover', 'border') != null {
+              border-color: map-get($value, 'hover', 'border');
+            };
+            @if map-get($value, 'hover', 'shadow') != null {
+              box-shadow: map-get($value, 'hover', 'shadow');
+            }
+            [class*="ic-"] { background: map-get($value, 'hover', 'font'); }
+          }
+
+          &:enabled:active, &:enabled.active {
+            background-color: map-get($value, 'active', 'background');
+            color: map-get($value, 'active', 'font');
+            @if map-get($value, 'active', 'border') != null {
+              border-color: map-get($value, 'active', 'border');
+            }
+            @if map-get($value, 'active', 'shadow') != null {
+              box-shadow: map-get($value, 'active', 'shadow');
+            }
+            [class*="ic-"] { background: map-get($value, 'active', 'font'); }
+          }
+
+          &:disabled, &.disabled {
+            color: map-get($value, 'disabled', 'font');
+            background-color: map-get($value, 'disabled', 'background');
+            @if map-get($value, 'disabled', 'border') != null {
+              border-color: map-get($value, 'disabled', 'border');
+            }
+            @if map-get($value, 'disabled', 'shadow') != null {
+              box-shadow: map-get($value, 'disabled', 'shadow');
+            }
+            [class*="ic-"] { background: map-get($value, 'disabled', 'font'); }
+          }
+        }
+      }
+    }
+    
+    &__text--only { background-color: transparent; }
+    
+    &__toggle {
+      &__button{
+        &--single, &--multi { border-color: black; }
+      }
+    }
+  }
+
+  // tbl
+  .tbl {
+    color: white;
+    &__head { border-color: black; }
+    &__body {
+      tr:hover { background-color: green; }
+    }
+    th { color: black; }
+    td {
+      a { color: white; }
+    }
+
+    // icon button
+    .btn__ic {
+      [class*="ic-"] { background-color: black; }
+      &:hover {
+        [class*="ic-"] { background-color: white; }
+      }
+      &:focus {
+        [class*="ic-"] { background-color: white; }
+      }
+      &:active {
+        [class*="ic-"] { background-color: white; }
+      }
+      &:disabled {
+        [class*="ic-"] { background-color: tan; }
+      }
+    }
+  }
+  
+  // grid
+  .itsm-container {
+    .main-content {
+      .page {
+        &-result {
+          .component {
+            .contents__req-status {
+              .grid {
+                &__head {
+                  .grid__row {
+                    border-color: black;
+                    .grid__cell { color: black; }
+                  }
+                }
+                &__cell { color: white; }
+              }
+            }
+          }
+        }
+        &-list {
+          .grid {
+            .btn__ic [class*=ic-] { background-color: black; }
+            &__cell {
+              a { color: white; }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // input
+  input {
+    &[type=text],
+    &[type=password],
+    &[type=number] {
+      border-color: white;
+      color: white;
+    }
+  }
+
+  //////////////////////////   portal   //////////////////////////
+  .portal-container {
+    background-color: lightgray;
+    .main {
+      .main-content {
+        .main-header {
+          border-color: black;
+          background-color: darkgray;
+        }
+        .main-banner, .main-search { background-color: darkgray; }
+        .main-card .card-group .card { border-color: black; }
+      }
+    }
+  }
+
+  ////////////////////////// navigation //////////////////////////
+  .navigation {
+    .gnb {
+      [class*=ic-] { background: white; }
+      .menu, .logo { background-color: orange; }
+      .menu {
+        .menu-area {
+          .gnb-area {
+            .gnb-link {
+              color: white;
+              &.active {
+                background-color: greenyellow;
+                .menu-name { color: green; }
+                [class*=ic-] {
+                  background: orange;
+                }
+              }
+              &:hover:not(.active, .active-parent) {
+                background: greenyellow;
+                color: green;
+                [class*=ic-] { background: orange; }
+              }
+
+              .token-count {
+                &.active {
+                  background-color: green;
+                  color: greenyellow;
+                }
+              }
+            }
+
+            .snb-area:hover { background-color: yellow; }
+
+            .snb-group {
+              background-color: greenyellow;
+              .snb-link {
+                color: darkgreen;
+                &.active {
+                  background-color: yellow;
+                  .menu-name { color: darkgreen; }
+                  .ic-gnb_sub_dot { background: darkgreen; }
+                }
+                &:hover:not(.active) {
+                  color: darkgreen;
+                  .ic-gnb_sub_dot { background: darkgreen; }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //////////////////////////    main    //////////////////////////
+  .itsm-container {
+    .main {
+      background-color: gray;
+      &-content {
+        .page {
+          &-result {
+            .component {
+              .contents { border: 0.0625rem solid black; }
+            }
+          }
+          &-content {
+            border-top: 0.0625rem solid black;
+          }
+          &-list {
+            .grid {
+              &__cell { color: white; }
+              &__head {
+                .grid__row {
+                  border-color: black;
+                  .grid__cell:not([data-grid-sortable='false']) {
+                    .ic-sorting { background: black; }
+                  }
+                  .grid__cell { color: black; }
+                }
+              }
+              &__body {
+                .grid__row {
+                  border-color: black;
+                  &:hover { background-color: green; }
+                }
+                .sub-text { color: white; }
+              }
+            }
+          }
+          &-search {
+            .search-count { color: white; }
+          }
+        }
+      }
+    }
+  }
+  
+  //////////////////////////  designer  //////////////////////////
+  // header
+  .form-properties-panel-header,
+  .form-properties-header,
+  .process-properties-panel-header,
+  .process-properties-header,
+  // panel
+  .form-properties-panel,
+  .form-properties,
+  .process-properties-panel,
+  .process-properties,
+  // palette
+  .form-component-palette,
+  .form-element-palette,
+  .process-component-palette,
+  .process-element-palette { background-color: darkgray; }
+
+  .form-properties-panel-header,
+  .process-properties-header,
+  .property-group .property-group-label,
+  .process-properties .process-info-main .process-info-title { color: white; }
+
+  ///////////////////////// formDesigner /////////////////////////
+  .component-accordion-box {
+    .component-accordion {
+      .accordion-label {
+        color: white;
+        .ic-arrow-right { background-color: white; }
+      }
+      .accordion-content {
+        .component-icon-box {
+          .component-icon {
+            border-color: black;
+            border-top-color: transparent;
+            background-color: lightgray;
+            &:nth-child(even) {
+              border-left-color: transparent;
+              border-right-color: transparent;
+            }
+            &:nth-child(odd) {
+              border-left-color: transparent;
+            }
+            &:hover .component-name, .component-name { color: black; }
+          }
+        }
+      }
+    }
+  }
+  .property .property-label { color: white; }
+
+  .form-main { background-color: #eeeeee; }
+
+  //////////////////////////   process  //////////////////////////
+  .process-main {
+    .drawing-board svg { background-color: #cecece; }
+  }
+  .process-properties {
+    .properties-title { color: white; }
+    .process-info-main .process-info-dashboard .total { color: white; }
+  }
+
+  .element-icon {
+    &.connector, &.move-icon { background-color: lightgray; }
+    &:hover .element-icon-text, .element-icon-text { color: black; }
+  }
+
+  //////////////////////////  document  //////////////////////////
+  .document-container {
+    .token-properties {
+      background-color: darkgray;
+      .token-tabs .token-tab { color: white; }
+      .token-panels {
+        .token-viewer-sub-title,
+        .token-history-sub-title,
+        .token-related-sub-title { color: white; }
+      }
+    }
+  }
+  
+  .document-content {
+    .document-column {
+      .document-name { color: white; }
+    }
+    .document__group {
+      .document__item {
+        &--title {
+          color: white;
+        }
+      }
+    }
+  }
+  span {
+    &[class*=ic-document-] { background: white; }
+  }
+
+  .itsm-container {
+    .main-content {
+      .card-list {
+        .card {
+          border-color: white;
+          &:hover { background-color: black; }
+        }
+      }
+    }
+  }
+  
+  .component-title { color: white; }
+  
+  ////////////////////////   components   ///////////////////////
+  // notification
+  .notification-panel {
+    border-color: tan;
+    background-color: lightgray;
+    color: black;
+    box-shadow: 0 0 0.3125rem 0 tan;
+  }
+  
+  // modal
+  .modal__dialog {
+    background-color: darkgray;
+    &.product-info-modal .modal__dialog__body label { color: white; }
+  }
+  
+  // tag
+  .tagify.tag__input { border-color: white; }
+  
+  // pagination
+  .pagination {
+    > span { color: white; }
+  }
+  
+  // scrollbar
+  .scrollbar {
+    > .os-scrollbar {
+      > .os-scrollbar-track {
+        background: darkgreen;
+        > .os-scrollbar-handle {
+          background: yellow;
+        }
+      }
+    }
+  }
+  
+  // color picker
+  .color-picker__box {
+    border-color: white;
+    background-color: lightgray;
+  }
+}

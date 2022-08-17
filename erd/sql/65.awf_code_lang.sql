@@ -114,4 +114,7 @@ insert into awf_code_lang values ('sla.calculationType.percentage', 'percentage'
 insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
 insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
 insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
-
+/* Theme */
+insert into awf_code_lang values ('user.theme.default', 'OS setup mode', 'en');
+insert into awf_code_lang values ('user.theme.dark', 'Dark', 'en');
+insert into awf_code_lang values ('user.theme.light', 'Light', 'en');

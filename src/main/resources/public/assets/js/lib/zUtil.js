@@ -234,7 +234,8 @@ aliceJs.sendXhr = function(option) {
     let callbackFunc = option.callbackFunc;
     let params = option.params;
     let async = (option.async === undefined || option.async === null) ? true : option.async;
-    let showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? true : option.showProgressbar;
+    let showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null)
+        ? true : option.showProgressbar;
 
     let xhr;
     try {
@@ -498,7 +499,9 @@ function dateFormatFromNow(date) {
         const durationMilliseconds = luxon.Interval.fromDateTimes(new Date(i18n.userDateTime(date)), new Date())
             .toDuration()
             .valueOf();
-        const humanizedString = humanizeDuration(durationMilliseconds, { largest : 1, floor : true, units : ['y', 'mo', 'd', 'h', 'm', 's'] }).split(' ');
+        const humanizedString = humanizeDuration(durationMilliseconds, {
+            largest : 1, floor : true, units : ['y', 'mo', 'd', 'h', 'm', 's']
+        }).split(' ');
 
         switch (true) {
             case humanizedString[1].includes('year') : return i18n.msg('date.label.yearsAgo', humanizedString[0]);
@@ -629,7 +632,8 @@ aliceJs.hexToRgba = function(value, opacity) {
                 hexValue = [hexValue[0], hexValue[0], hexValue[1], hexValue[1], hexValue[2], hexValue[2]];
             }
             hexValue = '0x' + hexValue.join('');
-            return 'rgba(' + [(hexValue >> 16) & 255, (hexValue >> 8) & 255, hexValue & 255].join(',') + ',' + opacity + ')';
+            return 'rgba(' + [(hexValue >> 16) & 255, (hexValue >> 8) & 255, hexValue & 255].join(',')
+                + ',' + opacity + ')';
         } else {
             throw new Error('Bad Hex');
         }
@@ -876,7 +880,8 @@ aliceJs.swapNode = function(node1, node2) {
  */
 aliceJs.doFetch = async function(url, option) {
     // Progressbar 추가
-    const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null) ? false : option.showProgressbar;
+    const showProgressbar = (option.showProgressbar === undefined || option.showProgressbar === null)
+        ? false : option.showProgressbar;
     if (showProgressbar) {
         showProgressBar();
     }
@@ -1128,7 +1133,9 @@ aliceJs.openNoticePopup = function(noticePopupData) {
         const targetId = data.noticeNo;
         const targetUrl = '/notices/' + targetId + '/view-pop';
         if (aliceJs.getCookie(targetId) !== 'done') {
-            window.open(targetUrl, targetId, 'width=' + data.popWidth + ',height=' + data.popHeight + ',top=' + 150 + ',left=' + 150);
+            window.open(targetUrl, targetId,
+                'width=' + data.popWidth + ',height=' + data.popHeight + ',top=' + 150 + ',left=' + 150);
+
         }
     });
 };
@@ -1195,4 +1202,17 @@ aliceJs.fetchDownload = function(option) {
     }).catch(err => {
         zAlert.warning(err);
     });
+};
+
+/**
+ * os 테마 설정에 따른 테마 적용
+ *
+ * @param theme
+ */
+aliceJs.initTheme = function(theme = 'default') {
+    if (theme === 'default') {
+        const osThemeMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let osTheme = osThemeMode ? 'dark' : 'light';
+        document.querySelector('html').setAttribute('data-theme', osTheme);
+    }
 };

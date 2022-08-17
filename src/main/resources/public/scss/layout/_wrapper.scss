@@ -46,6 +46,7 @@
     flex-direction: column;
     width: calc(100% - 13.75rem); // 220px
     height: 100vh;
+    background-color: $white;
 
     &-title {
       display: flex;
