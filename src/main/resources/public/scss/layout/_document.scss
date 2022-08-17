@@ -145,24 +145,6 @@
     width: 33.125rem; // 530px
     background-color: $white;
 
-    .token-tabs {
-      display: flex;
-      margin-top: 2rem; // 32px
-      padding: 0 1.375rem; // 22px
-
-      .token-tab {
-        @include border(0.0625rem, solid, $gray300, bottom);
-        flex: 1;
-        padding: 0.625rem 0; // 10px 0
-        color: $gray400;
-
-        // 선택된 탭일 경우
-        &.active {
-          @include border(0.188rem, solid, $blue500, bottom); // 3px
-          color: $gray800;
-        }
-      }
-    }
 
     // 탭 내용
     .token-panels {
@@ -317,6 +299,25 @@
           }
         }
       }
+    }
+  }
+}
+
+.token-tabs {
+  display: flex;
+  margin-top: 2rem; // 32px
+  padding: 0 1.375rem; // 22px
+
+  .token-tab {
+    @include border(0.0625rem, solid, $gray300, bottom);
+    flex: 1;
+    padding: 0.625rem 0; // 10px 0
+    color: $gray400;
+
+    // 선택된 탭일 경우
+    &.active {
+      @include border(0.188rem, solid, $blue500, bottom); // 3px
+      color: $gray800;
     }
   }
 }

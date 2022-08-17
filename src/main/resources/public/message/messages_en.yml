@@ -26,6 +26,7 @@ common:
     search: "SEARCH"
     select: "SELECT"
     terminate: "TERMINATE"
+    test: "TEST"
     toModify: "MODIFY"
     withdraw: "WITHDRAW"
   label:
@@ -1207,22 +1208,30 @@ notice:
 notification:
   label:
     aliasInfo: "Alias list info"
+    channelList: "Notification Channel List"
+    ciAlias: "CMDB Alias"
+    ciAttribute: "CI Attribute: $[monitoring_field]"
+    ciCondition: "Condition: $[duedate]"
+    ciName: "CI Name: $[ci_no]"
+    ciNumber: "CI Number: $[ci_no]"
+    documentAlias: "Document Alias"
+    documentNumber: "Document Number: $[doc_no]"
+    documentStep: "Document Step: $[doc_step]"
+    documentType: "Document Type: $[doc_type]"
+    mail: "Mail"
     notification: "Notification"
     notificationManagement: "Notification Management"
+    sms: "SMS"
+    toast: "ITSM Notification"
   msg:
     description: "Up to 50 displays."
+    emailPlaceholder: "E-mail*"
+    notificationManagementDescription: "Set up and manage application and CMDB related event notifications."
     notJsonType: "{0} is not defined JSON type."
     noNotificationData: "No notifications."
-  tooltip:
-    aliasList: "<h6>Document Alias<h6><br>
-     Document Type: ${doc_type}<br>
-     Document No: ${doc_no}<br>
-     Docuemt Step: ${doc_step}<br><br>
-     <h6>CMDB  License Alias<h6><br>
-     CI Name: ${ci_name}
-     CI No: ${ci_no}
-     CI Attribute: ${monitoring_field}
-     Condition: ${duedate}
+    smsPlaceholder: "Phone number*"
+    toastPlaceholder: "User ID*"
+
 # Organization
 organization:
   label:
@@ -1732,6 +1741,7 @@ user:
     newUserPassword: "New Password"
     newUserRePassword: "New Password Confirm"
     nowUserPassword: "Current Password"
+    notificationChannel: "User Notification Channel"
     officeNumber: "officeNumber"
     password: "Password"
     passwordCheck: "Password Check"

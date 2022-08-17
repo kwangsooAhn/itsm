@@ -6050,21 +6050,6 @@ input.ic-mb {
   width: 33.125rem;
   background-color: #FFFFFF;
 }
-.document-container .token-properties .token-tabs {
-  display: flex;
-  margin-top: 2rem;
-  padding: 0 1.375rem;
-}
-.document-container .token-properties .token-tabs .token-tab {
-  border-bottom: 0.0625rem solid #CFD5D9;
-  flex: 1;
-  padding: 0.625rem 0;
-  color: #ABB0B5;
-}
-.document-container .token-properties .token-tabs .token-tab.active {
-  border-bottom: 0.188rem solid #3373C4;
-  color: #222529;
-}
 .document-container .token-properties .token-panels {
   overflow-y: auto;
   height: 100%;
@@ -6201,6 +6186,22 @@ input.ic-mb {
 }
 .document-container .token-properties .token-panels .token-viewer-table .ic-clear {
   background: #8B9094;
+}
+
+.token-tabs {
+  display: flex;
+  margin-top: 2rem;
+  padding: 0 1.375rem;
+}
+.token-tabs .token-tab {
+  border-bottom: 0.0625rem solid #CFD5D9;
+  flex: 1;
+  padding: 0.625rem 0;
+  color: #ABB0B5;
+}
+.token-tabs .token-tab.active {
+  border-bottom: 0.188rem solid #3373C4;
+  color: #222529;
 }
 
 .print {
@@ -11660,6 +11661,54 @@ body.active {
 .notification-panel__body__list .document-no {
   color: #8B9094;
   font-size: 0.875rem;
+}
+.notification__content textarea {
+  width: 100%;
+}
+.notification__content__form {
+  width: 76.875rem;
+  padding-left: 29.375rem;
+}
+.notification__content__form__tab {
+  padding: 0;
+  border-bottom: 0.063rem solid;
+  border-color: #CFD5D9;
+  font-size: 1.125rem;
+}
+.notification__content__form__tab .token-tab {
+  flex: inherit;
+  justify-content: center;
+  padding: 0.625rem 2rem;
+  border-bottom: 0rem;
+}
+.notification__content__form__tab--label {
+  font-size: 1.125rem;
+  color: #9E9E9E;
+}
+.notification__content__form__tab .active {
+  border-bottom-width: 0.188rem;
+  border-color: #3373C4;
+  color: #000000;
+  font-weight: 600;
+}
+.notification__content__info {
+  width: 29.375rem;
+  padding-left: 3.75rem;
+}
+.notification__content__info__title {
+  margin-top: 2.625rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+.notification__content__info__type {
+  margin-top: 0.813rem;
+  font-size: 0.875rem;
+  color: #424242;
+}
+.notification__content__info--list {
+  margin-top: 0.625rem;
+  font-size: 0.75rem;
+  color: #757575;
 }
 
 .alice-toastify {
