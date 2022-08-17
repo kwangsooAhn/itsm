@@ -262,6 +262,7 @@ insert into awf_code values ('user.status.signup', 'user.status', null, '가입'
 insert into awf_code values ('user.theme', 'user', null, '테마', null, false, true, 2, 12, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.theme.default', 'user.theme', 'default', '기본 테마', null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.theme.dark', 'user.theme', 'dark', '어두운 테마', null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
+insert into awf_code values ('user.theme.light', 'user.theme', 'light', '밝은 테마', null, false, true, 3, 3, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('user.time', 'user', null, '사용자 시간 포맷', null, false, true, 2, 13, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('24', 'user.time', 'HH:mm', null, null, false, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null);
 insert into awf_code values ('12', 'user.time', 'hh:mm a', null, null, false, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null);
@@ -9659,8 +9660,10 @@ insert into awf_code_lang values ('sla.calculationType.percentage', 'percentage'
 insert into awf_code_lang values ('sla.calculationType.average', 'average', 'en');
 insert into awf_code_lang values ('sla.metricGroup', 'Metric Group', 'en');
 insert into awf_code_lang values ('sla.metricGroup.default', 'Default Group', 'en');
-
-
+/* Theme */
+insert into awf_code_lang values ('user.theme.default', 'OS setup mode', 'en');
+insert into awf_code_lang values ('user.theme.dark', 'Dark', 'en');
+insert into awf_code_lang values ('user.theme.light', 'Light', 'en');
 /**
  * 사용자 지정 테이블
  */
@@ -10715,30 +10718,6 @@ INSERT INTO awf_document_role_map VALUES ('40288a9d826b8fbf01826cdf77130082', 'd
 INSERT INTO awf_document_role_map VALUES('40288a9d827b4bf001827b9206bb0026', 'document.type.application-form', 'system.admin');
 INSERT INTO awf_document_role_map VALUES('40288a9d827b4bf001827b9206bb0026', 'document.type.application-form', 'cmdb.admin');
 
--- 용량관리 저장 테이블 생성
-DROP TABLE if EXISTS cmdb_ci_capacity_data;
-
-CREATE TABLE cmdb_ci_capacity_data (
-    ci_id           VARCHAR (128) NOT NULL,
-    reference_dt    TIMESTAMP NOT NULL,
-    cpu_avg         FLOAT,
-    memory_avg      FLOAT,
-    disk_avg        FLOAT,
-    mapping_id      VARCHAR (128),
-    CONSTRAINT cmdb_ci_capacity_data_pk PRIMARY KEY (ci_id, reference_dt),
-    CONSTRAINT cmdb_ci_capacity_data_fk FOREIGN KEY (ci_id)
-    REFERENCES cmdb_ci(ci_id)
-    ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-
-COMMENT ON TABLE cmdb_ci_capacity_data IS '용량관리 정보';
-COMMENT ON COLUMN cmdb_ci_capacity_data.ci_id IS 'CI아이디';
-COMMENT ON COLUMN cmdb_ci_capacity_data.reference_dt IS '저장일시';
-COMMENT ON COLUMN cmdb_ci_capacity_data.cpu_avg IS 'CPU사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.memory_avg IS '메모리사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.disk_avg IS '디스크사용량';
-COMMENT ON COLUMN cmdb_ci_capacity_data.mapping_id IS '매핑아이디';
-
 /**
  * CMDB 아이콘 관리
  */
@@ -10785,3 +10764,27 @@ INSERT INTO cmdb_ci_icon VALUES (12, 'image_snmp', 'png', 'C:\files\icons\ciType
 INSERT INTO cmdb_ci_icon VALUES (13, 'image_software', 'png', 'C:\files\icons\ciType', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (14, 'image_storage', 'png', 'C:\files\icons\ciType', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
 INSERT INTO cmdb_ci_icon VALUES (15, 'image_winnt', 'png', 'C:\files\icons\ciType', false, '2c91808e7c75dad2017c781635e20000', now(), null, null);
+-- 용량관리 저장 테이블 생성
+DROP TABLE if EXISTS cmdb_ci_capacity_data;
+
+CREATE TABLE cmdb_ci_capacity_data (
+    ci_id           VARCHAR (128) NOT NULL,
+    reference_dt    TIMESTAMP NOT NULL,
+    cpu_avg         FLOAT,
+    memory_avg      FLOAT,
+    disk_avg        FLOAT,
+    mapping_id      VARCHAR (128),
+    CONSTRAINT cmdb_ci_capacity_data_pk PRIMARY KEY (ci_id, reference_dt),
+    CONSTRAINT cmdb_ci_capacity_data_fk FOREIGN KEY (ci_id)
+    REFERENCES cmdb_ci(ci_id)
+    ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+COMMENT ON TABLE cmdb_ci_capacity_data IS '용량관리 정보';
+COMMENT ON COLUMN cmdb_ci_capacity_data.ci_id IS 'CI아이디';
+COMMENT ON COLUMN cmdb_ci_capacity_data.reference_dt IS '저장일시';
+COMMENT ON COLUMN cmdb_ci_capacity_data.cpu_avg IS 'CPU사용량';
+COMMENT ON COLUMN cmdb_ci_capacity_data.memory_avg IS '메모리사용량';
+COMMENT ON COLUMN cmdb_ci_capacity_data.disk_avg IS '디스크사용량';
+COMMENT ON COLUMN cmdb_ci_capacity_data.mapping_id IS '매핑아이디';
+
