@@ -4467,7 +4467,8 @@ input.ic-mb {
   border: 0.0625rem solid #2559A8;
   outline: 0;
 }
-.component .element .textArea, .component .element .textarea {
+.component .element .textArea, .component .element textarea,
+.component .element .os-host-textarea {
   width: 100%;
   height: calc(2.5rem * var(--data-row));
 }
@@ -4970,7 +4971,8 @@ input.ic-mb {
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=text],
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=password],
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=number],
-.drawing-board .component-icon-drag-in .component-area .component .element .textarea,
+.drawing-board .component-icon-drag-in .component-area .component .element textarea,
+.drawing-board .component-icon-drag-in .component-area .component .element .os-host-textarea,
 .drawing-board .component-icon-drag-in .component-area .component .element .select__box {
   border-color: #619CDB !important;
   color: #619CDB !important;
@@ -4978,21 +4980,24 @@ input.ic-mb {
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=text]::placeholder,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=password]::placeholder,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=number]::placeholder,
-.drawing-board .component-icon-drag-in .component-area .component .element .textarea::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element textarea::placeholder,
+.drawing-board .component-icon-drag-in .component-area .component .element .os-host-textarea::placeholder,
 .drawing-board .component-icon-drag-in .component-area .component .element .select__box::placeholder {
   color: #619CDB !important;
 }
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=text] [class*=ic-],
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=password] [class*=ic-],
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=number] [class*=ic-],
-.drawing-board .component-icon-drag-in .component-area .component .element .textarea [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element textarea [class*=ic-],
+.drawing-board .component-icon-drag-in .component-area .component .element .os-host-textarea [class*=ic-],
 .drawing-board .component-icon-drag-in .component-area .component .element .select__box [class*=ic-] {
   background: #619CDB !important;
 }
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-date-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-date-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-date-picker,
-.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element textarea.ic-date-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .os-host-textarea.ic-date-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-date-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_picker_drag.svg");
   background-size: auto;
@@ -5003,7 +5008,8 @@ input.ic-mb {
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-time-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-time-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-time-picker,
-.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element textarea.ic-time-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .os-host-textarea.ic-time-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-time-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_time_picker_drag.svg");
   background-size: auto;
@@ -5014,7 +5020,8 @@ input.ic-mb {
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=text].ic-datetime-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=password].ic-datetime-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element input[type=number].ic-datetime-picker,
-.drawing-board .component-icon-drag-in .component-area .component .element .textarea.ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element textarea.ic-datetime-picker,
+.drawing-board .component-icon-drag-in .component-area .component .element .os-host-textarea.ic-datetime-picker,
 .drawing-board .component-icon-drag-in .component-area .component .element .select__box.ic-datetime-picker {
   background-image: url("../../assets/media/icons/designer/palette/icon_date_time_picker_drag.svg");
   background-size: auto;
@@ -5187,7 +5194,8 @@ input.ic-mb {
 .property input[type=text]:not(.tagify).ic-unit-px:not(:last-child) {
   margin-right: 0.25rem;
 }
-.property .textarea {
+.property textarea,
+.property .os-host-textarea {
   min-height: 5.625rem;
   line-height: 1.6;
 }
@@ -6298,7 +6306,8 @@ input.ic-mb {
   .print-main .drawing-board .form .row-area {
     break-inside: avoid;
   }
-  .print-main .drawing-board .form .row-area .textarea {
+  .print-main .drawing-board .form .row-area textarea,
+.print-main .drawing-board .form .row-area .os-host-textarea {
     width: inherit;
     max-width: 200mm;
   }

@@ -467,7 +467,8 @@ $button-tab: (
     }
 
     // textArea
-    .textArea, .textarea {
+    .textArea, textarea,
+    .os-host-textarea {
       width: 100%;
       height: calc(2.5rem * var(--data-row));
     }
@@ -969,7 +970,8 @@ $component-icon: (
           input[type=text],
           input[type=password],
           input[type=number],
-          .textarea,
+          textarea,
+          .os-host-textarea,
           .select__box {
             border-color: $blue400 !important;
             color: $blue400 !important;
@@ -1141,7 +1143,8 @@ $component-icon: (
     }
   }
   // textarea 엘리먼트
-  .textarea {
+  textarea,
+  .os-host-textarea {
     min-height: 5.625rem; // 90px
     line-height: 1.6;
   }
