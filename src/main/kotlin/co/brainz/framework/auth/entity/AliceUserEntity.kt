@@ -105,6 +105,9 @@ data class AliceUserEntity(
     @Column(name = "user_absence")
     var absenceYn: Boolean = false,
 
+    @Column(name = "notification_channel")
+    var notificationChannel: String = "{\"toast\": true, \"sms\": false, \"email\": false}",
+
     @CreatedBy
     @Column(name = "create_user_key", nullable = false, updatable = false)
     var createUser: String? = null,

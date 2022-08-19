@@ -8,7 +8,7 @@ package co.brainz.itsm.user.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-class UserDto(
+class   UserDto(
     var userKey: String = "",
     var userId: String = "",
     var userName: String = "",
@@ -34,6 +34,7 @@ class UserDto(
     var avatarSize: Long = 0L,
     var absenceYn: Boolean = false,
     var absence: UserAbsenceDto = UserAbsenceDto(),
+    var notificationChannel: UserNotificationChannelDto = UserNotificationChannelDto(),
     var createDt: LocalDateTime? = null,
     var updateDt: LocalDateTime? = null,
     var totalCount: Long = 0L

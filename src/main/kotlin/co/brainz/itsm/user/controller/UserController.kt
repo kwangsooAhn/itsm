@@ -20,7 +20,6 @@ import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.service.UserService
-import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,6 +29,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import javax.servlet.http.HttpServletRequest
 
 /**
  * 사용자 관리 클래스
@@ -96,6 +96,7 @@ class UserController(
         val users = userMapper.toUserDto(userEntity)
         users.avatarPath = userDetailsService.makeAvatarPath(userEntity)
         users.avatarSize = userService.getUserAvatarSize(userEntity)
+        users.notificationChannel = userService.getNotificationChannelInfo(userEntity)
         if (users.absenceYn) {
             users.absence = userService.getUserAbsenceInfo(users.userKey)
         }

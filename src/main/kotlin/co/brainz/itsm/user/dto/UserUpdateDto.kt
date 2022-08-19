@@ -32,5 +32,6 @@ data class UserUpdateDto(
     var useYn: Boolean?,
     var avatarUUID: String,
     var absenceYn: Boolean,
-    var absence: UserAbsenceDto?
+    var absence: UserAbsenceDto?,
+    val notificationChannel: UserNotificationChannelDto?
 ) : Serializable

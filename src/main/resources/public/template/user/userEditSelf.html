@@ -229,6 +229,26 @@
                     </div>
                 </div>
             </div>
+            <div class="flex-column edit-row">
+                <h3 class="sub-title under-bar border-thick mb-5" th:text="#{user.label.notificationChannel}"></h3>
+                <div>
+                    <label class="checkbox mr-3">
+                        <input type="checkbox" class="mr-2" id="notification_toast">
+                        <span></span>
+                        <span class="label" th:text="#{notification.label.toast}"></span>
+                    </label>
+                    <label class="checkbox mr-3">
+                        <input type="checkbox" class="mr-2" id="notification_sms">
+                        <span></span>
+                        <span class="label" th:text="#{notification.label.sms}"></span>
+                    </label>
+                    <label class="checkbox mr-3">
+                        <input type="checkbox" class="mr-2" id="notification_email">
+                        <span></span>
+                        <span class="label" th:text="#{notification.label.email}"></span>
+                    </label>
+                </div>
+            </div>
         </div>
         <div class="flex-row justify-content-end edit-row">
             <div class="btn__list">
@@ -254,6 +274,7 @@
         </pre>
 </div>
 </body>
+</html>
 <script layout:fragment="pageScript" th:inline="javascript">
     /*<![CDATA[*/
     const alicePlatform = 'user.platform.alice';
@@ -277,6 +298,7 @@
         OverlayScrollbars(document.querySelector('.page-content'), {className: 'scrollbar'});
 
         setAbsenceDisplay();
+        setNotificationChannel();
     };
 
     function preSubmitCheck(url) {
@@ -288,13 +310,20 @@
 
     function restSubmit(url) {
         // 사용자 부재 설정
-            const absenceInfo = {
-                startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
-                endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
-                substituteUserKey: document.getElementById('substituteUserKey').value,
-                userKey: document.getElementById('userKey').value,
-                transferYN: document.getElementById('transferYN').checked
-            }
+        const absenceInfo = {
+            startDt: i18n.systemDateTime(document.getElementById('absenceStartDt').value),
+            endDt: i18n.systemDateTime(document.getElementById('absenceEndDt').value),
+            substituteUserKey: document.getElementById('substituteUserKey').value,
+            userKey: document.getElementById('userKey').value,
+            transferYN: document.getElementById('transferYN').checked
+        }
+
+        const notificationChannelInfo = {
+            toast: document.getElementById('notification_toast').checked,
+            sms: document.getElementById('notification_sms').checked,
+            email: document.getElementById('notification_email').checked
+        }
+
         const data = {
             userKey: document.getElementById('userKey').value,
             userId: document.getElementById('userId').value,
@@ -311,8 +340,10 @@
             timeFormat: document.getElementById('date').value + ' ' + document.getElementById('time').value,
             fileSeq: document.getElementsByName('fileSeq').value,
             avatarUUID: document.getElementById('avatarUUID').value,
-            absence: absenceInfo
+            absence: absenceInfo,
+            notificationChannel: notificationChannelInfo
         };
+
         const password = document.getElementById('password').value;
         if (password !== '') {
             const rsa = new RSAKey();
@@ -549,6 +580,13 @@
             }
         });
     }
+
+    function setNotificationChannel() {
+        const notificationChannel = /*[[${users?.notificationChannel}]]*/'';
+
+        document.getElementById('notification_toast').checked = notificationChannel.toast;
+        document.getElementById('notification_sms').checked = notificationChannel.sms;
+        document.getElementById('notification_email').checked = notificationChannel.email;
+    }
     /*]]>*/
 </script>
-</html>

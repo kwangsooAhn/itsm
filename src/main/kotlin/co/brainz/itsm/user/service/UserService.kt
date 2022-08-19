@@ -50,6 +50,7 @@ import co.brainz.itsm.user.dto.UserAbsenceDto
 import co.brainz.itsm.user.dto.UserCustomDto
 import co.brainz.itsm.user.dto.UserListDataDto
 import co.brainz.itsm.user.dto.UserListReturnDto
+import co.brainz.itsm.user.dto.UserNotificationChannelDto
 import co.brainz.itsm.user.dto.UserSearchCompCondition
 import co.brainz.itsm.user.dto.UserSearchCondition
 import co.brainz.itsm.user.dto.UserSelectListDto
@@ -64,18 +65,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
-import java.security.PrivateKey
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Optional
-import javax.servlet.http.HttpServletRequest
-import kotlin.math.ceil
-import kotlin.random.Random
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -87,6 +76,20 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.security.PrivateKey
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import javax.servlet.http.HttpServletRequest
+import kotlin.collections.LinkedHashMap
+import kotlin.collections.set
+import kotlin.math.ceil
+import kotlin.random.Random
 
 /**
  * 사용자 관리 서비스
@@ -423,6 +426,10 @@ class UserService(
         userUpdateDto.theme?.let { targetEntity.theme = userUpdateDto.theme!! }
         userUpdateDto.useYn?.let { targetEntity.useYn = userUpdateDto.useYn!! }
         userUpdateDto.absence.let { targetEntity.absenceYn = userUpdateDto.absenceYn }
+        userUpdateDto.notificationChannel?.let {
+            targetEntity.notificationChannel =
+                mapper.writeValueAsString(userUpdateDto.notificationChannel)
+        }
 
         return targetEntity
     }
@@ -572,6 +579,13 @@ class UserService(
             absenceDto.transferYN = mapper.convertValue(absenceMap["transferYN"], Boolean::class.java)
         }
         return absenceDto
+    }
+
+    /**
+     * 사용자 알림 채널 정보 조회
+     */
+    fun getNotificationChannelInfo(userEntity: AliceUserEntity): UserNotificationChannelDto {
+        return mapper.readValue(userEntity.notificationChannel, UserNotificationChannelDto::class.java)
     }
 
     /**
